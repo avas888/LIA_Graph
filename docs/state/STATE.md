@@ -12,9 +12,10 @@
 - [x] Create GitHub repo `avas888/LIA_Graph`
 - [x] Define fork boundary (what to copy vs. build new)
 - [x] Create state management docs
-- [ ] Copy shared modules from Lia_contadores
-- [ ] Create dependency manifest
-- [ ] Initial commit with skeleton
+- [x] Copy shared modules from Lia_contadores (55 Python files, 298 frontend files, 45 migrations)
+- [x] Create dependency manifest
+- [x] Initial commit with skeleton (434 files, 94,437 lines)
+- [x] Pushed to https://github.com/avas888/LIA_Graph
 
 ### Phase 1: Corpus Ingestion & Graph Build (NOT STARTED)
 - [ ] Parse ET articles from 24 Markdown files → individual ArticleNodes
