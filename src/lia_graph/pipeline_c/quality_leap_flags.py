@@ -5,7 +5,7 @@ is exposed here as a tri-state flag: ``off`` (default), ``shadow`` or ``on``.
 
 The master kill switch ``LIA_QUALITY_LEAP`` also gates the whole feature family:
 when it is ``off`` (default), every workstream is forced to ``off`` regardless of
-the per-W flag, so the pipeline is guaranteed to behave identically to ``main``.
+the per-W flag, keeping these compatibility experiments disabled by default.
 
 All reads happen lazily from ``os.environ`` so tests can monkey-patch the
 environment between cases. For structured in-process overrides use

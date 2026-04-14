@@ -1,4 +1,7 @@
-.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status test-batched
+.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts
+
+PHASE2_CORPUS_DIR ?= knowledge_base
+PHASE2_ARTIFACTS_DIR ?= artifacts
 
 reset-c:
 	./scripts/reset_pipeline_c_state.sh
@@ -26,9 +29,15 @@ supabase-reset:
 supabase-status:
 	supabase status
 
+smoke-deps:
+	PYTHONPATH=src:. uv run python -m lia_graph.dependency_smoke
+
 # Run full test suite in batches to avoid OOM.
 # Stall detection: if a batch takes >6× the median of previous batches,
 # the runner kills it and re-runs each file individually to isolate the culprit.
 BATCH_COUNT ?= 120
 test-batched:
 	PYTHONPATH=src:. uv run python scripts/run_tests_batched.py --batches $(BATCH_COUNT) --cov --fail-under 90
+
+phase2-graph-artifacts:
+	PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) --json

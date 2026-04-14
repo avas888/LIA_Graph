@@ -1,7 +1,7 @@
 # TASK-04: Deploy & Shadow Mode
 
 > **Status**: NOT STARTED
-> **Depends on**: TASK-03 complete (eval shows Pipeline D ≥ Pipeline C)
+> **Depends on**: TASK-03 complete (eval shows Pipeline D is ready for controlled rollout)
 > **Produces**: Production deployment with shadow mode
 
 ---
@@ -26,21 +26,21 @@ artifacts_produced: none
 
 ### Step 2: Shadow Mode
 - `X-Lia-Pipeline: dual` runs both pipelines
-- Pipeline C response served to user
+- Baseline response path served to user
 - Pipeline D response logged to `shadow_responses` table
 - Async comparison job scores both responses
 
 ### Step 3: Per-Tenant Beta
 - Feature flag: `pipeline_d_enabled` on tenant row
 - Selected tenants see Pipeline D responses
-- Others continue with Pipeline C
+- Others continue with the baseline path
 - Rollback: flip flag back
 
 ### Step 4: Default Flip
-- When Pipeline D metrics ≥ Pipeline C across all tenants:
+- When Pipeline D metrics prove production readiness across all tenants:
   - Default changes to Pipeline D
-  - Pipeline C becomes fallback
-  - `X-Lia-Pipeline: c` header for explicit Pipeline C access
+  - Baseline path becomes fallback
+  - Compatibility header can preserve explicit baseline access if still needed
 
 ---
 

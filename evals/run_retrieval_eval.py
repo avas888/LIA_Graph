@@ -225,7 +225,9 @@ def run(
 
 
 def parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(description="Evaluacion IR de retrieval para RAG LIA")
+    p = argparse.ArgumentParser(
+        description="Evaluacion de recuperacion graph-first para LIA Graph"
+    )
     p.add_argument("--dataset", default="evals/rag_retrieval_benchmark.jsonl")
     p.add_argument("--index", default="artifacts/document_index.jsonl")
     p.add_argument(

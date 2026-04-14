@@ -37,6 +37,7 @@ from .pipeline_c import get_timeline as get_pipeline_c_timeline
 from .pipeline_c import list_runs as list_pipeline_c_runs
 from .pipeline_c import run_pipeline_c
 from .pipeline_c.contracts import PipelineCRequest
+from .pipeline_d import run_pipeline_d
 from .pipeline_c.errors import (
     LLMOutputQualityError,
     PipelineCInternalError,
@@ -45,6 +46,7 @@ from .pipeline_c.errors import (
 )
 from .pipeline_c.orchestrator import generate_llm_strict
 from .pipeline_c.output_cleaning import strip_inline_evidence_annotations
+from .pipeline_router import DEFAULT_PIPELINE_VARIANT, execute_routed_pipeline, resolve_pipeline_route
 from .chat_run_runtime import get_chat_run_coordinator
 from .chat_runs_store import get_chat_run_events, load_chat_run, record_chat_run_event_once, summarize_chat_run_metrics
 from .chat_session_metrics import get_chat_session_metrics, update_chat_session_metrics
@@ -685,6 +687,15 @@ def _chat_controller_deps() -> dict[str, Any]:
         "pipeline_c_internal_error_cls": PipelineCInternalError,
         "pipeline_c_request_cls": PipelineCRequest,
         "pipeline_c_strict_error_cls": PipelineCStrictError,
+        "default_pipeline_variant": str(
+            os.getenv("LIA_PIPELINE_VARIANT", DEFAULT_PIPELINE_VARIANT)
+        ).strip() or DEFAULT_PIPELINE_VARIANT,
+        "execute_routed_pipeline": lambda request, **kwargs: execute_routed_pipeline(
+            request,
+            pipeline_c_runner=run_pipeline_c,
+            pipeline_d_runner=run_pipeline_d,
+            **kwargs,
+        ),
         "platform_auth_error_cls": PlatformAuthError,
         "public_visitor_role": PUBLIC_VISITOR_ROLE,
         "public_tenant_id": PUBLIC_TENANT_ID,
@@ -694,8 +705,8 @@ def _chat_controller_deps() -> dict[str, Any]:
         "refresh_state_from_semantic_error": refresh_state_from_semantic_error,
         "register_citation_gaps": register_citation_gaps,
         "resolve_chat_topic": resolve_chat_topic,
+        "resolve_pipeline_route": resolve_pipeline_route,
         "resolve_guided_clarification_requirements": _resolve_guided_clarification_requirements,
-        "run_pipeline_c": run_pipeline_c,
         "save_usage_event": save_usage_event,
         "should_intercept_clarification_state": should_intercept_clarification_state,
         "stored_conversation_turn_cls": StoredConversationTurn,
@@ -1662,6 +1673,14 @@ class LiaUIHandler(BaseHTTPRequestHandler):
                 if self._check_rate_limit("eval_runs", 120, 60):
                     return
 
+        if path == "/api/chat/stream":
+            handle_api_chat_stream_post(self, deps=_chat_controller_deps())
+            return
+
+        if path == "/api/chat":
+            handle_api_chat_post(self, deps=_chat_controller_deps())
+            return
+
         write_deps = _write_controller_deps()
 
         # User management admin endpoints
@@ -1704,14 +1723,6 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             from .ui_eval_controllers import handle_eval_post
             if handle_eval_post(self, path, deps=_chat_controller_deps()):
                 return
-
-        if path == "/api/chat/stream":
-            handle_api_chat_stream_post(self, deps=_chat_controller_deps())
-            return
-
-        if path == "/api/chat":
-            handle_api_chat_post(self, deps=_chat_controller_deps())
-            return
 
         self._send_json(HTTPStatus.NOT_FOUND, {"error": "Endpoint no encontrado."})
 

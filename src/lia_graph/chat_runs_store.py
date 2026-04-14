@@ -13,6 +13,8 @@ from pathlib import Path
 from typing import Any, Callable, TypeVar
 from uuid import uuid4
 
+from .pipeline_router import DEFAULT_PIPELINE_VARIANT
+
 DEFAULT_CHAT_RUNS_DIR = Path("artifacts/runtime/chat_runs")
 
 _LOCK = threading.RLock()
@@ -614,6 +616,20 @@ def _first_event_elapsed_ms(
     return _duration_ms(request_received_at, str(matching_event.get("at") or ""))
 
 
+def _record_pipeline_variant(row: ChatRunRecord) -> str:
+    response_payload = dict(row.response_payload or {})
+    request_payload = dict(row.request_payload or {})
+    for candidate in (
+        response_payload.get("pipeline_variant"),
+        ((response_payload.get("metrics") or {}).get("pipeline_variant") if isinstance(response_payload.get("metrics"), dict) else None),
+        request_payload.get("pipeline_variant"),
+    ):
+        value = _coerce_text(candidate)
+        if value:
+            return value
+    return DEFAULT_PIPELINE_VARIANT
+
+
 def summarize_chat_run_metrics(
     *,
     base_dir: Path = DEFAULT_CHAT_RUNS_DIR,
@@ -664,6 +680,7 @@ def summarize_chat_run_metrics(
     first_visible_ms: list[float] = []
     response_bubble_highlighted_ms: list[float] = []
     final_sent_ms: list[float] = []
+    pipeline_variants: dict[str, int] = {}
     for row in rows:
         events = get_chat_run_events(row.chat_run_id, base_dir=base_dir)
         bubble_ms = _first_event_elapsed_ms(
@@ -673,6 +690,8 @@ def summarize_chat_run_metrics(
         )
         first_ms = _duration_ms(row.request_received_at, row.first_visible_answer_at)
         final_ms = _duration_ms(row.request_received_at, row.response_sent_at)
+        pipeline_variant = _record_pipeline_variant(row)
+        pipeline_variants[pipeline_variant] = pipeline_variants.get(pipeline_variant, 0) + 1
         if bubble_ms is not None:
             response_bubble_highlighted_ms.append(bubble_ms)
         if first_ms is not None:
@@ -681,6 +700,7 @@ def summarize_chat_run_metrics(
             final_sent_ms.append(final_ms)
     return {
         "sample_size": len(rows),
+        "pipeline_variants": dict(sorted(pipeline_variants.items())),
         "response_bubble_highlighted_ms": _percentiles(response_bubble_highlighted_ms),
         "first_visible_answer_ms": _percentiles(first_visible_ms),
         "final_answer_sent_ms": _percentiles(final_sent_ms),

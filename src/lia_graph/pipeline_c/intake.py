@@ -89,18 +89,17 @@ _FOLLOW_UP_CONTINUITY_MARKERS = (
 
 
 # ---------------------------------------------------------------------------
-# vigencia v1.1 Phase 6 — historical intent detection
+# Historical intent detection for compatibility-aware routing.
 # ---------------------------------------------------------------------------
 #
 # Detects queries like "qué decía el Art. 188 antes de Ley 2277/2022" so that:
-#  1. The intake flow can infer a heuristic `consulta_date` to propagate to
-#     the retriever BEFORE it filters by `max_effective_date`.
+#  1. Intake can infer a heuristic `consulta_date` temporal hint.
 #  2. The legal planner can set `historical_query_intent=True` on the plan,
-#     which the composer reads to render a "historical narrative" block.
+#     which downstream composition can use to render a historical narrative.
 #
 # Detection is belt-and-suspenders: intake detects first, then the planner
-# re-evaluates independently in case intake missed (e.g. if the planner is
-# called directly from tests or a non-intake path).
+# re-evaluates independently in case intake missed (for example when the
+# planner is called directly from tests or a non-intake path).
 
 _HISTORICAL_PHRASE_RE = re.compile(
     r"\b(antes de|previo a|antes del?|originalmente|en su versión original|"
@@ -811,13 +810,13 @@ class IntakeContext:
     cross_domain_reason: str = ""
     requested_period: RequestedPeriodContext | None = None
     message: str = ""
-    # vigencia v1.1 Phase 6 — historical intent signal. The planner re-reads
-    # the same regex so both sides agree even if intake is bypassed.
+    # Historical intent signal. The planner re-reads the same regex so both
+    # sides agree even if intake is bypassed.
     historical_query_intent: bool = False
-    # vigencia v1.1 Phase 6 — heuristic ISO date inferred from "antes de YYYY",
-    # "antes de Ley NNNN/YYYY" or "reforma YYYY". The orchestrator threads this
-    # into `PipelineCRequest.consulta_date` if the caller did not already set
-    # one, so the retriever filters docs by `max_effective_date`.
+    # Heuristic ISO date inferred from "antes de YYYY", "antes de Ley
+    # NNNN/YYYY" or "reforma YYYY". The orchestrator threads this into
+    # `PipelineCRequest.consulta_date` if the caller did not already set one,
+    # giving downstream routing a temporal hint for historical handling.
     inferred_consulta_date: str | None = None
 
 

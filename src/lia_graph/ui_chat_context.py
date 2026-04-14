@@ -59,6 +59,12 @@ class ChatRequestContext(TypedDict, total=False):
     first_response_mode: str
     pipeline_message: str
     pipeline_response_route: str
+    pipeline_route_override: str | None
+    pipeline_route_source: str
+    requested_pipeline_variant: str
+    pipeline_variant: str
+    shadow_pipeline_variant: str | None
+    resolved_pipeline_route: Any
     debug_mode: bool
     operation_date: Any
     company_context_payload: Any

@@ -1,204 +1,94 @@
 # Fork Boundary: Lia_contadores → LIA_Graph
 
-> This document defines exactly what is shared between the two repos
-> and where Pipeline D diverges from Pipeline C.
+> Active steering doc for what we inherit and what we must rethink.
 
 ---
 
-## Codebase Scale (Lia_contadores)
+## Steering Kernel
 
-| Metric | Count |
-|--------|-------|
-| Total Python files | 204 |
-| Pipeline C specific files | 62 |
-| Total Python LoC | 83,218 |
-| Frontend files (TS/CSS/HTML) | 276 |
-| SQL migrations | 45 |
-| Eval files | 20 |
+LIA_Graph is meant to be "Lia Contador's product shell with a graph-native tax reasoning engine underneath."
 
-## Fork Strategy: Selective Copy, Not Git Fork
+We are not to let the old RAG influence us. Our duty is to think different and RAG with graph.
 
-**Why not `git fork`**: A git fork carries the full commit history and all
-Pipeline C code. We want a clean repo that only contains what Pipeline D
-needs, making it easier to reason about, test, and deploy independently.
-
-**Strategy**: Copy shared modules verbatim. Build Pipeline D modules fresh.
+This repo exists to preserve the mature shell from `Lia_contadores` while building a fundamentally different retrieval and reasoning engine.
 
 ---
 
-## Layer-by-Layer Analysis
+## What We Reuse
 
-### Layer 1: HTTP Server + Routing (COPY)
+Reuse these as shared product shell layers:
+- frontend UX and page surfaces
+- auth, tenancy, and RBAC
+- HTTP routes and streaming contract
+- request/response contracts
+- safety and policy boundary checks
+- operational shell and general product behavior
+- corpus research already gathered
 
-```
-ui_server.py              → COPY (modify _chat_controller_deps to inject pipeline_d)
-ui_chat_controller.py     → COPY (already uses deps["run_pipeline_c"] — change key name)
-ui_chat_payload.py        → COPY
-ui_chat_persistence.py    → COPY
-ui_chat_context.py        → COPY
-ui_route_controllers.py   → COPY
-```
-
-**Key modification**: In `ui_server.py`, line 698:
-```python
-# Before (Pipeline C):
-"run_pipeline_c": run_pipeline_c,
-
-# After (Pipeline D):
-"run_pipeline": run_pipeline_d,  # or router based on header
-```
-
-### Layer 2: Auth + Tenancy (COPY)
-
-```
-platform_auth.py          → COPY (JWT issuance, verification)
-service_account_auth.py   → COPY
-access_guardrails.py      → COPY
-user_management.py        → COPY
-turnstile.py              → COPY
-```
-
-Zero modifications needed. Auth is pipeline-agnostic.
-
-### Layer 3: Contracts + Streaming (COPY)
-
-```
-pipeline_c/contracts.py   → COPY (PipelineCRequest, PipelineCResponse)
-pipeline_c/streaming.py   → COPY (SSE, StructuredMarkdownStreamAssembler)
-pipeline_c/safety.py      → COPY
-pipeline_c/telemetry.py   → COPY
-```
-
-Pipeline D outputs a `PipelineCResponse`. The frontend doesn't know
-which pipeline generated it.
-
-### Layer 4: Intake + Topic Routing (COPY)
-
-```
-pipeline_c/intake.py      → COPY (query classification, language, safety pre-screen)
-topic_router.py           → COPY (topic classification)
-scope_guardrails.py       → COPY
-topic_guardrails.py       → COPY
-```
-
-Query understanding is shared. Pipeline D diverges at retrieval.
-
-### Layer 5: Infrastructure (COPY)
-
-```
-supabase_client.py        → COPY
-env_loader.py             → COPY
-runtime_env.py            → COPY
-rate_limiter.py           → COPY
-adapters/llm.py           → COPY
-llm_runtime.py            → COPY
-embeddings.py             → COPY (still need vector similarity for initial concept matching)
-instrumentation.py        → COPY
-```
-
-### Layer 6: Retrieval (REPLACE — this is the core difference)
-
-**Pipeline C** (NOT copied):
-```
-pipeline_c/retriever.py           → REPLACE with graph_retriever.py
-pipeline_c/retrieval_scoring.py   → REPLACE with graph traversal scoring
-pipeline_c/retrieval_filters.py   → REPLACE with graph edge filters
-pipeline_c/reranker.py            → REPLACE (graph scoring replaces reranking)
-pipeline_c/supabase_fetch.py      → REPLACE (FalkorDB queries replace Supabase vector queries)
-pipeline_c/knowledge_bundle.py    → REPLACE with subgraph extraction
-pipeline_c/retrieval_session_cache.py → REPLACE with compiled cache
-pipeline_c/semantic_cache.py      → REPLACE with compiled answer cache
-pipeline_c/graph_walk_service.py  → REPLACE (this was a prototype; Pipeline D is the full version)
-pipeline_c/normative_edge_builder.py → REPLACE (edges pre-built in FalkorDB, not runtime-computed)
-pipeline_c/norm_topic_index.py    → REPLACE with FalkorDB concept index
-```
-
-**Pipeline D** (NEW):
-```
-pipeline_d/retriever.py           → Graph-first retrieval via FalkorDB
-pipeline_d/planner.py             → Graph-aware query planning
-pipeline_d/composer.py            → Subgraph-grounded answer generation
-pipeline_d/compiled_cache.py      → Pre-computed answers with graph-linked invalidation
-graph/client.py                   → FalkorDB connection wrapper
-graph/schema.py                   → Node/edge type definitions
-graph/validators.py               → Graph integrity checks
-```
-
-### Layer 7: Planning + Composition (REPLACE)
-
-**Pipeline C** (NOT copied):
-```
-pipeline_c/planner.py              → REPLACE with graph-aware planner
-pipeline_c/composer.py             → REPLACE with subgraph composer
-pipeline_c/compose_evidence.py     → REPLACE
-pipeline_c/compose_quality.py      → REPLACE
-pipeline_c/compose_ranking.py      → REPLACE
-pipeline_c/composer_prompts.py     → REPLACE (new prompts for graph-grounded answers)
-pipeline_c/composer_normalization.py → REPLACE
-pipeline_c/quality_checks.py       → ADAPT (reuse quality criteria, change input format)
-pipeline_c/quality_critic.py       → ADAPT
-pipeline_c/verifier.py             → ADAPT (verify against graph subgraph, not flat chunks)
-```
-
-### Layer 8: Ingestion (ALL NEW)
-
-Pipeline C's ingestion pipeline (20+ files) is designed for flat chunk + embed.
-Pipeline D needs a completely different ingestion pipeline:
-
-```
-ingestion/parser.py       → Parse ET Markdown → ArticleNodes
-ingestion/linker.py       → Extract cross-references → edge candidates
-ingestion/classifier.py   → LLM-assisted edge typing
-ingestion/loader.py       → FalkorDB bulk load
-```
-
-### Layer 9: Frontend (COPY ENTIRE)
-
-```
-frontend/                 → COPY (entire directory)
-```
-
-Zero modifications. The frontend talks to the same API endpoints.
-The only difference is the response quality.
-
-### Layer 10: Database + Migrations (COPY + EXTEND)
-
-```
-supabase/migrations/      → COPY all 45 existing migrations
-```
-
-New migrations for Pipeline D:
-- `graph_compiled_answers` table
-- `graph_ingestion_state` table
-- `shadow_responses` table (for dual eval)
+These are inheritance targets because they are product infrastructure, not retrieval ideology.
 
 ---
 
-## Dependency Injection Point (The "One-Line Swap")
+## What We Must Rethink
 
-File: `ui_server.py`, function `_chat_controller_deps()`, line ~698
+Rethink these from first principles for graph-native RAG:
+- indexing model
+- tagging strategy
+- vocabulary and concept ontology
+- node and edge schema
+- graph construction and ingestion flow
+- retrieval planning
+- traversal heuristics
+- evidence assembly
+- answer composition
+- cache and invalidation strategy
 
-```python
-def _chat_controller_deps() -> dict[str, Any]:
-    return {
-        # Pipeline C (original):
-        # "run_pipeline_c": run_pipeline_c,
-        
-        # Pipeline D (graph-based):
-        "run_pipeline_c": run_pipeline_d,  # same key, different function
-    }
-```
+The old chunk-first Pipeline C architecture is not the default mental model here.
 
-The key stays `"run_pipeline_c"` because `ui_chat_controller.py` reads
-`deps["run_pipeline_c"]`. We inject a different implementation.
+The old label-first narrowing model is not the default mental model either. In `LIA_Graph`, `topic`, `subtopic`, and vocabulary labels are supportive metadata. They may help naming, compatibility, and entry-point hints, but they must not become the main substitute for legal structure, provenance, vigencia, reform chains, exceptions, or dependency paths.
 
-For header-based routing (A/B testing):
+---
 
-```python
-def _chat_controller_deps() -> dict[str, Any]:
-    return {
-        "run_pipeline_c": run_pipeline_c,  # original
-        "run_pipeline_d": run_pipeline_d,  # new
-        # ui_chat_controller reads header to choose
-    }
-```
+## Infra Boundary
+
+LIA_Graph keeps its own runtime infrastructure:
+- its own Railway deployment
+- its own FalkorDB instance
+- its own Supabase project
+
+We inherit code shape from `Lia_contadores`, not production coupling.
+
+---
+
+## Practical Rule
+
+When making a design choice, ask:
+
+1. Is this product-shell reuse?
+2. Or is this an old-RAG assumption sneaking back in?
+
+If it is about retrieval, indexing, tagging, vocab, orchestration, reranking, or evidence assembly, default to fresh graph-first design.
+
+## Ingestion Boundary
+
+When touching corpus ingestion, assume these rules unless the active Build V1 docs explicitly revise them:
+
+- audit the whole source-asset surface before corpus admission
+- classify every scanned file as `include_corpus`, `revision_candidate`, or `exclude_internal`
+- separate source assets, canonical corpus documents, and reasoning inputs instead of collapsing them into one layer
+- keep `normativa`, `interpretacion`, and `practica` visible as sibling corpus families
+- keep revision candidates attached to base documents in the canonical layer instead of letting them float as standalone corpus docs
+- graphize the graph-shaped normative layer first without demoting the other two families
+- allow non-markdown or non-parse-ready assets to be inventoried without pretending they are graph-parseable yet
+- treat the ratified vocabulary as naming authority, not as a hard gate that forces every valid document into the current canonical buckets
+- derive reform, exception, dependency, definition, and vigencia semantics from graph structure rather than from flat labels
+
+---
+
+## Deprecated Guidance
+
+Old-RAG-oriented architecture notes have been quarantined under:
+
+`docs/deprecated/old-RAG/`
+
+Those files may still help as historical context, migration archaeology, or rollback reference, but they are not active steering for implementation.

@@ -17,13 +17,21 @@ artifacts_produced: none
 
 ---
 
+## Design Rule
+
+Comparison with Pipeline C is for regression protection and rollout confidence only.
+
+It is not design authority for Pipeline D internals. We may compare outcomes, latency, and user trust, but we should not let old-RAG mechanics dictate graph indexing, traversal, or composition choices.
+
+---
+
 ## Steps
 
 ### Step 1: Header-Based Routing
 - Modify `ui_server.py` to read `X-Lia-Pipeline` header
 - Default: Pipeline C (existing behavior)
 - `X-Lia-Pipeline: d` → inject `run_pipeline_d` into deps
-- `X-Lia-Pipeline: dual` → run both, log both, serve Pipeline C response
+- `X-Lia-Pipeline: dual` → run both, log both, serve the baseline path response
 
 ### Step 2: Dual Eval Harness
 - Adapt `eval_pipeline_c_gold.py` to run both pipelines against golden set

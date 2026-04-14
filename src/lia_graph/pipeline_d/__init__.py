@@ -1,5 +1,9 @@
-"""Pipeline D — Graph-based RAG for Colombian accounting.
+"""Pipeline D — graph-native tax reasoning for Colombian accounting.
 
-Replaces Pipeline C's flat-chunk retrieval with typed knowledge graph
-traversal over the Estatuto Tributario.
+Builds answers from typed knowledge-graph traversal over the Estatuto
+Tributario while preserving the shared product shell contracts.
 """
+
+from .orchestrator import run_pipeline_d
+
+__all__ = ["run_pipeline_d"]

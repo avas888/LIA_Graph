@@ -6,21 +6,20 @@
 
 ## Required Before Phase 1
 
-### 1. Supabase Project (2nd instance)
-- **What**: A separate Supabase project for LIA_Graph dev
-- **Why**: Isolation from production Lia_contadores data
+### 1. Supabase Project
+- **What**: A dedicated Supabase project for LIA_Graph
+- **Why**: LIA_Graph has its own backend environment and must not share production state with Lia_contadores
 - **Free tier**: Yes (500 MB DB, 1 GB storage — plenty for dev)
 - **What I need from you**:
   - `SUPABASE_URL` (e.g., `https://xxxx.supabase.co`)
   - `SUPABASE_ANON_KEY`
   - `SUPABASE_SERVICE_ROLE_KEY`
 - **Setup**: https://supabase.com/dashboard → New Project
-- **Alternative**: If you prefer, I can reuse the existing Supabase project
-  and create new tables with a `graph_` prefix. Less isolation but zero setup.
+- **Rule**: Do not fall back to the old Lia_contadores Supabase project.
 
 ### 2. FalkorDB Cloud
 - **What**: Managed graph database instance
-- **Why**: Stores the ET knowledge graph (nodes + edges)
+- **Why**: Stores the shared regulatory graph (nodes + edges)
 - **Free tier**: Yes (1 graph, 1 GB, 100 ops/sec — sufficient for dev/eval)
 - **What I need from you**:
   - `FALKORDB_URL` (e.g., `redis://default:xxx@xxx.falkordb.io:6379`)
@@ -29,29 +28,30 @@
   I can configure this myself if you add a Redis-compatible service to Railway.
 
 ### 3. OpenAI API Key
-- **What**: Same key used by Lia_contadores
+- **What**: OpenAI API key available to the LIA_Graph environment
 - **Why**: Embeddings (text-embedding-3-small) + LLM (gpt-4o) for edge classification and composition
-- **What I need from you**: Confirm I should use the same `OPENAI_API_KEY`
+- **What I need from you**: The key or confirmation that the existing key should be installed into LIA_Graph's own env
 - **Estimated cost for Phase 1**: ~$3-8 (edge classification: ~1.25M tokens)
 - **Estimated cost for Phase 2**: ~$5-15 (composer testing with graph context)
 
 ### 4. Corpus Files Access
-- **What**: The 24 ET Markdown files + supporting files from Dropbox
-- **Why**: Source material for graph ingestion
+- **What**: The shared accountant corpus source files from Dropbox, with normativa, interpretacion and practica all present in the materialized root
+- **Why**: Source material for shared corpus inventory, graph ingestion, and later shared retrieval across normative, interpretative, and practical layers
+- **Note**: Older ET-specific references in this repo describe an early bootstrap slice, not the full corpus model used by Build V1.
 - **Options** (pick one):
   - **(A) Connect Dropbox** — I pull files directly
-  - **(B) Upload to workspace** — You zip the `Normativa/` folder and share it here
-  - **(C) Commit to repo** — You push the corpus files to `corpus/et/` in LIA_Graph
-- **Recommendation**: Option C (corpus versioned in repo, always available)
+  - **(B) Upload to workspace** — You zip the `knowledge_base/` families and share them here
+  - **(C) Commit to repo** — You push the corpus files under `knowledge_base/` in LIA_Graph
+- **Recommendation**: Option C (shared corpus versioned in repo, always available)
 
 ---
 
 ## Required Before Phase 3
 
 ### 5. Eval Golden Set
-- **What**: `evals/pipeline_c_golden.jsonl` from Lia_contadores
+- **What**: `evals/pipeline_c_golden.jsonl` baseline dataset
 - **Why**: Baseline for Pipeline D comparison
-- **Status**: Already in the Lia_contadores repo; will copy during Phase 0
+- **Status**: Already present in this repo
 
 ---
 
@@ -69,9 +69,9 @@
 
 | Item | Action | Time |
 |------|--------|------|
-| Supabase 2nd project | Create at supabase.com | 2 min |
+| Dedicated Supabase project | Create at supabase.com | 2 min |
 | FalkorDB Cloud | Sign up at falkordb.cloud | 3 min |
-| OpenAI key | Confirm reuse | 0 min |
+| OpenAI key | Install into LIA_Graph env | 0 min |
 | Corpus files | Choose option A, B, or C above | 5-10 min |
 
 **Total setup time: ~10 minutes.** After that, I can run Phases 1-3 with high autonomy.

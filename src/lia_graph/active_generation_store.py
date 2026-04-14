@@ -1,6 +1,6 @@
 """Active corpus generation persistence.
 
-Supabase is the authoritative backend for Pipeline C runtime.
+Supabase is the authoritative backend for active corpus/runtime state.
 Filesystem storage remains only for non-product local tests/dev flows.
 """
 

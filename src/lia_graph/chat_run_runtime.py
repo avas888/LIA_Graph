@@ -124,7 +124,13 @@ class ChatRunCoordinator:
         record_chat_run_event(
             record.chat_run_id,
             event_type="chat_run.created",
-            payload={"endpoint": endpoint, "session_id": session_id},
+            payload={
+                "endpoint": endpoint,
+                "session_id": session_id,
+                "pipeline_route": (request_payload or {}).get("pipeline_route"),
+                "pipeline_variant": (request_payload or {}).get("pipeline_variant"),
+                "shadow_pipeline_variant": (request_payload or {}).get("shadow_pipeline_variant"),
+            },
             base_dir=base_dir,
         )
         self._register_active(record.chat_run_id, request_fingerprint)
@@ -183,13 +189,23 @@ class ChatRunCoordinator:
         chat_run_id: str,
         pipeline_run_id: str,
         *,
+        pipeline_variant: str | None = None,
+        pipeline_route: str | None = None,
+        shadow_pipeline_variant: str | None = None,
         base_dir: Path = DEFAULT_CHAT_RUNS_DIR,
     ) -> None:
         update_chat_run(chat_run_id, base_dir=base_dir, pipeline_run_id=str(pipeline_run_id or "").strip() or None)
+        payload = {"pipeline_run_id": pipeline_run_id}
+        if str(pipeline_variant or "").strip():
+            payload["pipeline_variant"] = str(pipeline_variant).strip()
+        if str(pipeline_route or "").strip():
+            payload["pipeline_route"] = str(pipeline_route).strip()
+        if str(shadow_pipeline_variant or "").strip():
+            payload["shadow_pipeline_variant"] = str(shadow_pipeline_variant).strip()
         record_chat_run_event(
             chat_run_id,
             event_type="chat_run.pipeline_linked",
-            payload={"pipeline_run_id": pipeline_run_id},
+            payload=payload,
             base_dir=base_dir,
         )
 

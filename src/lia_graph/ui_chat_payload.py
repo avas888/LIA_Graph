@@ -258,6 +258,11 @@ def parse_api_chat_request(handler: Any, *, t_api_chat: float, deps: dict[str, A
     trace_id = str(payload.get("trace_id", "")).strip() or str(uuid_factory())
     client_turn_id = str(payload.get("client_turn_id", "")).strip() or str(uuid_factory())
     chat_run_id = str(payload.get("chat_run_id", "")).strip() or None
+    pipeline_route_override = (
+        str(handler.headers.get("X-LIA-Pipeline-Route", "")).strip()
+        or str(handler.headers.get("X-LIA-Pipeline-Variant", "")).strip()
+        or None
+    )
     raw_session_id = str(payload.get("session_id", "")).strip()
     if raw_session_id:
         session_id = raw_session_id
@@ -326,6 +331,7 @@ def parse_api_chat_request(handler: Any, *, t_api_chat: float, deps: dict[str, A
                 "response_depth": response_depth,
                 "first_response_mode": first_response_mode,
                 "debug": debug_mode,
+                "pipeline_route_override": pipeline_route_override,
                 "client_turn_id": client_turn_id,
                 "chat_run_id": chat_run_id,
                 "operation_date": str(operation_date).strip() if operation_date else None,
@@ -357,6 +363,7 @@ def parse_api_chat_request(handler: Any, *, t_api_chat: float, deps: dict[str, A
         "first_response_mode": first_response_mode,
         "pipeline_message": message,
         "pipeline_response_route": response_route,
+        "pipeline_route_override": pipeline_route_override,
         "debug_mode": debug_mode,
         "operation_date": operation_date,
         "company_context_payload": company_context_payload,
@@ -685,6 +692,21 @@ def build_api_chat_success_payload(
     trace_id = str(request_context["trace_id"])
     clarification_session_id = str(request_context.get("clarification_session_id") or session_id)
     auth_context = request_context.get("auth_context")
+    pipeline_variant = str(
+        getattr(response, "pipeline_variant", None)
+        or request_context.get("pipeline_variant")
+        or "pipeline_c"
+    ).strip() or "pipeline_c"
+    pipeline_route = str(
+        getattr(response, "pipeline_route", None)
+        or request_context.get("requested_pipeline_variant")
+        or pipeline_variant
+    ).strip() or pipeline_variant
+    shadow_pipeline_variant = str(
+        getattr(response, "shadow_pipeline_variant", None)
+        or request_context.get("shadow_pipeline_variant")
+        or ""
+    ).strip() or None
 
     if bool(request_context["clear_clarification_on_success"]):
         deps["clear_clarification_session_state"](
@@ -705,6 +727,9 @@ def build_api_chat_success_payload(
     response_payload["topic_adjusted"] = topic_adjusted
     response_payload["topic_notice"] = topic_notice
     response_payload["topic_adjustment_reason"] = topic_adjustment_reason
+    response_payload["pipeline_variant"] = pipeline_variant
+    response_payload["pipeline_route"] = pipeline_route
+    response_payload["shadow_pipeline_variant"] = shadow_pipeline_variant
     payload_diagnostics = (
         dict(response_payload.get("diagnostics") or {})
         if isinstance(response_payload.get("diagnostics"), dict)
@@ -808,6 +833,12 @@ def build_api_chat_success_payload(
             "reason": topic_adjustment_reason,
             "confidence": round(topic_router_confidence, 4),
             "mode": topic_router_mode,
+        }
+        diagnostics_payload["pipeline"] = {
+            "route": pipeline_route,
+            "variant": pipeline_variant,
+            "shadow_variant": shadow_pipeline_variant,
+            "source": str(request_context.get("pipeline_route_source") or "unknown"),
         }
         response_payload["diagnostics"] = diagnostics_payload
     else:
@@ -941,6 +972,9 @@ def build_api_chat_success_payload(
         "answer_mode": str(response_payload.get("answer_mode") or ""),
         "compose_quality": response_payload.get("compose_quality"),
         "fallback_reason": response_payload.get("fallback_reason"),
+        "pipeline_variant": pipeline_variant,
+        "pipeline_route": pipeline_route,
+        "shadow_pipeline_variant": shadow_pipeline_variant,
         "conversation": dict(session_metrics),
         "mention_resolution": dict(mention_resolution_metrics),
         "primary_scope_mode": primary_scope_mode,
@@ -972,7 +1006,7 @@ def build_api_chat_success_payload(
         phase="api",
         category="api_reply",
         step="ui_server.api_chat.pipeline_c.reply",
-        message="Request /api/chat completado en Pipeline C.",
+        message="Request /api/chat completado en la ruta de respuesta activa.",
         dependency="/api/chat",
         duration_ms=latency_ms,
         token_usage=dict(payload_token_usage.get("turn") or {}),
@@ -986,6 +1020,9 @@ def build_api_chat_success_payload(
             "answer_mode": str(response_payload.get("answer_mode") or ""),
             "compose_quality": response_payload.get("compose_quality"),
             "fallback_reason": response_payload.get("fallback_reason"),
+            "pipeline_variant": pipeline_variant,
+            "pipeline_route": pipeline_route,
+            "shadow_pipeline_variant": shadow_pipeline_variant,
             "llm_runtime": dict(response_payload.get("llm_runtime") or {}),
             "timing": dict(response_payload.get("timing") or {}),
         },
@@ -1011,6 +1048,9 @@ def build_api_chat_success_payload(
             "answer_mode": str(response_payload.get("answer_mode") or ""),
             "compose_quality": response_payload.get("compose_quality"),
             "fallback_reason": response_payload.get("fallback_reason"),
+            "pipeline_variant": pipeline_variant,
+            "pipeline_route": pipeline_route,
+            "shadow_pipeline_variant": shadow_pipeline_variant,
             "run_id": response_payload.get("run_id"),
             "answer_preview": answer_text[:800],
             "citations_count": len(response_payload.get("citations") or []),

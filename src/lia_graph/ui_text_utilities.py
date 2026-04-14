@@ -262,7 +262,7 @@ def _prefer_normograma_mintic_mirror(url: str | None) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Supabase chunk → markdown reassembler
+# Supabase document-segment -> markdown reassembler
 # ---------------------------------------------------------------------------
 #
 # The citation-profile modal needs the original document text to extract the
@@ -272,13 +272,13 @@ def _prefer_normograma_mintic_mirror(url: str | None) -> str:
 # only on the ingestion host, not on the serving host. The read path therefore
 # has to reconstruct document markdown from the `document_chunks` table.
 #
-# Two non-obvious gotchas in the chunk storage format (see ingestion_chunker.py):
-#   1. Each chunk has a context-prefix header line prepended by the chunker:
+# Two non-obvious gotchas in the stored segment format (see ingestion_chunker.py):
+#   1. Each segment has a context-prefix header line prepended by ingestion:
 #        [{authority} | {topic} | {relative_path}]
 #      That decoration must be stripped before reassembly.
-#   2. The chunker's _semantic_segments strips `##` markdown headings and
+#   2. The ingestion segmenter strips `##` markdown headings and
 #      inlines the bare heading text as a prefix before every following
-#      segment. Reassembled chunks look like:
+#      segment. Reassembled document segments look like:
 #        Texto normativo vigente
 #        <paragraph 1>
 #        Texto normativo vigente
@@ -287,10 +287,11 @@ def _prefer_normograma_mintic_mirror(url: str | None) -> str:
 #      (`_parse_markdown_sections`) see proper sections.
 #
 # Follow-up (tracked in docs/next/citation_modal_read_path_followups.md):
-# stop stripping `##` in the chunker so future chunks are self-describing;
+# stop stripping `##` during ingestion so future document segments are
+# self-describing;
 # this helper can then become a passthrough.
 
-# Line-anchored regex for the chunker's context-prefix decoration.
+# Line-anchored regex for the ingestion context-prefix decoration.
 _CHUNK_CONTEXT_PREFIX_RE = re.compile(r"^\[[^\]]*\|[^\]]*\|[^\]]*\]\s*$")
 
 
@@ -972,7 +973,7 @@ def _filter_article_metadata_lines(text: str) -> str:
         # Filter practica document metadata lines (> **Serie:** ..., **Audiencia:** ...)
         if _PRACTICA_METADATA_LINE_RE.match(stripped):
             continue
-        # Filter top-level ingestion headings (# Ingesta RAG - ...)
+        # Filter legacy top-level ingestion headings (# Ingesta RAG - ...)
         if re.match(r"^\s*#\s+Ingesta RAG\b", stripped, re.IGNORECASE):
             continue
         result.append(line)

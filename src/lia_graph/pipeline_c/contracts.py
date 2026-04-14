@@ -57,13 +57,10 @@ class PipelineCRequest:
     # output tokens via `LIA_PUBLIC_MAX_OUTPUT_TOKENS` to keep cost bounded.
     is_public_visitor: bool = False
     public_max_output_tokens: int | None = None
-    # vigencia v1.1 Phase 4 — optional caller-supplied consulta date.
-    # When None (default), downstream `_build_hybrid_search_plan` keeps its
-    # existing behavior (auto-populates `max_effective_date = date.today()`)
-    # and the SQL RPC wrapper omits the `filter_effective_date_max` kwarg —
-    # i.e. bit-for-bit identical to pre-Phase-4 behavior. When set to an ISO
-    # date string, both the JSONL and SQL retrieval paths use that date as
-    # the `max_effective_date` / `filter_effective_date_max` filter.
+    # Optional caller-supplied consultation date kept for compatibility.
+    # When present, downstream compatibility retrieval can use the ISO date
+    # as a temporal hint. Graph-native retrieval may interpret the same hint
+    # as one input among others rather than as a fixed filtering contract.
     consulta_date: str | None = None
 
     def __post_init__(self) -> None:
@@ -109,6 +106,9 @@ class RunTelemetry:
     started_at: str
     ended_at: str | None = None
     status: str = "running"
+    pipeline_variant: str = "pipeline_c"
+    pipeline_route: str = "pipeline_c"
+    shadow_pipeline_variant: str | None = None
     request_snapshot: dict[str, Any] = field(default_factory=dict)
     stage_timeline: tuple[dict[str, Any], ...] = ()
     summary: dict[str, Any] = field(default_factory=dict)
@@ -139,6 +139,9 @@ class PipelineCResponse:
     topic_notice: str | None = None
     topic_adjustment_reason: str | None = None
     coverage_notice: str | None = None
+    pipeline_variant: str = "pipeline_c"
+    pipeline_route: str = "pipeline_c"
+    shadow_pipeline_variant: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {

@@ -840,13 +840,12 @@ def _build_rule_result(
     confidence = min(0.99, 0.62 + score * 0.06)
     adjusted = effective_topic != requested_topic
     # Labor topic: never preserve renta (or any other requested topic) as a
-    # secondary. The cross-domain fan-out in pipeline_c/retriever.py:882-915
-    # would otherwise re-pull ET docs (e.g. art 385 "períodos inferiores a
-    # treinta días") into a labor bundle and re-introduce the very leakage
-    # this rule is closing. Surgical laboral↔renta bridging still happens
-    # via _CROSS_DOMAIN_RELATIONS R-02 inside pipeline_c/intake.py for
-    # explicit phrases like "costos laborales" / "nómina electrónica" /
-    # "art. 108". Applies to both override and keyword-scoring paths.
+    # secondary. Broad cross-domain fan-out would otherwise pull ET material
+    # (for example art. 385 "periodos inferiores a treinta dias") back into a
+    # labor bundle and re-introduce the leakage this rule is closing. Targeted
+    # laboral<->renta bridging still happens only for explicit cross-domain
+    # phrases such as "costos laborales", "nomina electronica", or "art. 108".
+    # Applies to both override and keyword-scoring paths.
     preserve_secondary = (
         preserve_requested_topic_as_secondary and effective_topic != "laboral"
     )
@@ -873,7 +872,7 @@ def _build_rule_result(
 # the broad `declaracion_renta` parent even when queries mention "renta".
 _SUBTOPIC_OVERRIDE_PATTERNS: tuple[tuple[re.Pattern[str], str, tuple[str, ...]], ...] = (
     # Each tuple: (compiled_regex, topic_key, search_keywords_tuple)
-    # Keywords bias FTS ranking toward relevant chunks within the candidate pool.
+    # Keywords bias lexical ranking toward relevant documents within the candidate pool.
     # ── More-specific patterns first (GMF, consumo, patrimonio) ──
 
     # GMF (4x1000) — triggers on GMF-specific terms

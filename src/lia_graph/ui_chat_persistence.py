@@ -30,6 +30,25 @@ def ensure_chat_run_context(*, request_context: ChatRequestContext, deps: dict[s
     client_turn_id = str(payload.get("client_turn_id", "")).strip()
     if not client_turn_id:
         client_turn_id = str(deps["uuid4"]())
+    resolved_pipeline_route = request_context.get("resolved_pipeline_route")
+    if resolved_pipeline_route is None:
+        resolved_pipeline_route = deps["resolve_pipeline_route"](
+            request_override=request_context.get("pipeline_route_override"),
+            default_variant=deps.get("default_pipeline_variant"),
+        )
+        request_context["resolved_pipeline_route"] = resolved_pipeline_route
+        request_context["requested_pipeline_variant"] = str(
+            getattr(resolved_pipeline_route, "route", "") or "pipeline_c"
+        )
+        request_context["pipeline_variant"] = str(
+            getattr(resolved_pipeline_route, "pipeline_variant", "") or "pipeline_c"
+        )
+        request_context["shadow_pipeline_variant"] = (
+            str(getattr(resolved_pipeline_route, "shadow_pipeline_variant", "")).strip() or None
+        )
+        request_context["pipeline_route_source"] = str(
+            getattr(resolved_pipeline_route, "source", "") or "config_default"
+        )
     request_fingerprint = build_chat_run_fingerprint(
         session_id=str(request_context["session_id"]),
         client_turn_id=client_turn_id,
@@ -41,7 +60,7 @@ def ensure_chat_run_context(*, request_context: ChatRequestContext, deps: dict[s
         retrieval_profile=str(request_context.get("retrieval_profile") or "hybrid_rerank"),
         response_depth=str(request_context.get("response_depth") or "auto"),
         first_response_mode=str(request_context.get("first_response_mode") or "fast_action"),
-        engine_version="pipeline_c",
+        engine_version=str(request_context.get("pipeline_variant") or "pipeline_c"),
     )
     payload["client_turn_id"] = client_turn_id
     request_context["payload"] = payload
@@ -68,6 +87,12 @@ def ensure_chat_run_context(*, request_context: ChatRequestContext, deps: dict[s
             "retrieval_profile": str(request_context.get("retrieval_profile") or "hybrid_rerank"),
             "response_depth": str(request_context.get("response_depth") or "auto"),
             "first_response_mode": str(request_context.get("first_response_mode") or "fast_action"),
+            "pipeline_route": str(request_context.get("requested_pipeline_variant") or "pipeline_c"),
+            "pipeline_variant": str(request_context.get("pipeline_variant") or "pipeline_c"),
+            "shadow_pipeline_variant": (
+                str(request_context.get("shadow_pipeline_variant") or "").strip() or None
+            ),
+            "pipeline_route_source": str(request_context.get("pipeline_route_source") or "config_default"),
             "debug": bool(request_context["debug_mode"]),
         },
         tenant_id=str(request_context.get("tenant_id") or ""),

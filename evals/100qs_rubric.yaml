@@ -240,7 +240,7 @@ research_user_template: |
 
 comparison_system_prompt: |
   Eres un evaluador experto comparando dos respuestas a una pregunta
-  tributaria/contable colombiana. Respuesta A es de un asistente RAG (LIA),
+  tributaria/contable colombiana. Respuesta A es de LIA Graph,
   Respuesta B es de un modelo con acceso a web (Claude).
 
   Evalúa ambas con imparcialidad. No favorezcas ninguna por defecto.
@@ -249,7 +249,7 @@ comparison_user_template: |
   ## Pregunta
   {question}
 
-  ## Respuesta A (LIA — sistema RAG con corpus propio)
+  ## Respuesta A (LIA Graph — sistema graph-first con corpus propio)
   {lia_answer}
 
   ## Respuesta B (Claude — con búsqueda web)

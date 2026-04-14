@@ -20,10 +20,31 @@ from .ui_chat_payload import (
 )
 from .ui_chat_persistence import (
     _build_pipeline_request,
-    _ensure_conversation_session_loaded,
     ensure_chat_run_context,
     initialize_chat_request_context,
 )
+
+
+def _pipeline_runtime_metadata(request_context: dict[str, Any]) -> dict[str, Any]:
+    pipeline_variant = str(request_context.get("pipeline_variant") or "pipeline_c").strip() or "pipeline_c"
+    pipeline_route = (
+        str(request_context.get("requested_pipeline_variant") or pipeline_variant).strip()
+        or pipeline_variant
+    )
+    shadow_pipeline_variant = str(request_context.get("shadow_pipeline_variant") or "").strip() or None
+    return {
+        "pipeline_variant": pipeline_variant,
+        "pipeline_route": pipeline_route,
+        "shadow_pipeline_variant": shadow_pipeline_variant,
+    }
+
+
+def _apply_pipeline_metadata(payload: dict[str, Any], request_context: dict[str, Any]) -> dict[str, Any]:
+    metadata = _pipeline_runtime_metadata(request_context)
+    payload["pipeline_variant"] = metadata["pipeline_variant"]
+    payload["pipeline_route"] = metadata["pipeline_route"]
+    payload["shadow_pipeline_variant"] = metadata["shadow_pipeline_variant"]
+    return payload
 
 
 def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
@@ -85,13 +106,14 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
     primary_scope_mode = str(request_context["primary_scope_mode"])
     pipeline_response_route = str(request_context["pipeline_response_route"])
     clarification_state = request_context.get("clarification_state")
+    pipeline_metadata = _pipeline_runtime_metadata(request_context)
 
     deps["emit_reasoning_event"](
         trace_id=trace_id,
         phase="api",
         category="api_call",
         step="ui_server.api_chat.pipeline_c.inbound",
-        message="Request /api/chat recibido en Pipeline C.",
+        message="Request /api/chat recibido en la ruta de respuesta activa.",
         dependency="/api/chat",
         token_usage=deps["estimate_token_usage_from_text"](input_text=message),
         details={
@@ -100,21 +122,35 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
             "pais": normalized_pais,
             "primary_scope_mode": primary_scope_mode,
             "response_route": pipeline_response_route,
+            "pipeline_variant": pipeline_metadata["pipeline_variant"],
+            "pipeline_route": pipeline_metadata["pipeline_route"],
+            "shadow_pipeline_variant": pipeline_metadata["shadow_pipeline_variant"],
             "debug": bool(request_context["debug_mode"]),
         },
     )
     deps["chat_run_coordinator"].mark_pipeline_started(chat_run_id, base_dir=deps["chat_runs_path"])
 
     try:
-        response = deps["run_pipeline_c"](
+        execution = deps["execute_routed_pipeline"](
             _build_pipeline_request(request_context, deps),
+            route=request_context["resolved_pipeline_route"],
             index_file=deps["index_file_path"],
             policy_path=deps["credibility_policy_path"],
             runtime_config_path=deps["llm_runtime_config_path"],
         )
+        response = execution.response
+        request_context["resolved_pipeline_route"] = execution.route
+        request_context["requested_pipeline_variant"] = execution.route.route
+        request_context["pipeline_variant"] = execution.route.pipeline_variant
+        request_context["shadow_pipeline_variant"] = execution.route.shadow_pipeline_variant
+        request_context["pipeline_route_source"] = execution.route.source
+        pipeline_metadata = _pipeline_runtime_metadata(request_context)
         deps["chat_run_coordinator"].set_pipeline_run_id(
             chat_run_id,
             str(getattr(response, "run_id", "") or ""),
+            pipeline_variant=pipeline_metadata["pipeline_variant"],
+            pipeline_route=pipeline_metadata["pipeline_route"],
+            shadow_pipeline_variant=pipeline_metadata["shadow_pipeline_variant"],
             base_dir=deps["chat_runs_path"],
         )
         deps["chat_run_coordinator"].mark_pipeline_completed(chat_run_id, base_dir=deps["chat_runs_path"])
@@ -128,6 +164,7 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
         diagnostics = {
             "endpoint": "/api/chat",
             "error_details": dict(exc.details or {}),
+            "pipeline": dict(pipeline_metadata),
             "request": {
                 "topic": topic,
                 "requested_topic": requested_topic,
@@ -146,6 +183,9 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
         )
         if isinstance(public_error, dict):
             public_error["chat_run_id"] = chat_run_id
+            public_error["pipeline_variant"] = pipeline_metadata["pipeline_variant"]
+            public_error["pipeline_route"] = pipeline_metadata["pipeline_route"]
+            public_error["shadow_pipeline_variant"] = pipeline_metadata["shadow_pipeline_variant"]
         if deps["is_semantic_422_error"](exc.code):
             payload_out, public_error, interaction = _build_semantic_clarification_payload(
                 exc=exc,
@@ -160,6 +200,7 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
                 deps=deps,
             )
             payload_out["chat_run_id"] = chat_run_id
+            _apply_pipeline_metadata(payload_out, request_context)
             deps["emit_reasoning_event"](
                 trace_id=trace_id,
                 phase="api",
@@ -176,6 +217,8 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
                     "route": str(((payload_out.get("interaction") or {}).get("route") or "")),
                     "clarification_state_version": deps["clarification_state_version"],
                     "duration_ms": duration_ms,
+                    "pipeline_variant": pipeline_metadata["pipeline_variant"],
+                    "pipeline_route": pipeline_metadata["pipeline_route"],
                 },
             )
             deps["emit_chat_verbose_event"](
@@ -203,7 +246,7 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
             phase="api",
             category="api_reply",
             step="ui_server.api_chat.pipeline_c.reply",
-            message="Request /api/chat finalizó con error estricto Pipeline C.",
+            message="Request /api/chat finalizo con un error estricto de ejecucion.",
             status="error",
             dependency="/api/chat",
             token_usage=deps["estimate_token_usage_from_text"](input_text=message),
@@ -240,7 +283,10 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
             "question_preview": (message or "")[:200],
             "llm_provider": (public_error.get("llm") or {}).get("selected_provider"),
         })
-        error_payload = {"ok": False, "error": public_error, "session_id": session_id, "chat_run_id": chat_run_id}
+        error_payload = _apply_pipeline_metadata(
+            {"ok": False, "error": public_error, "session_id": session_id, "chat_run_id": chat_run_id},
+            request_context,
+        )
         handler._send_json(
             HTTPStatus(int(exc.http_status)),
             error_payload,
@@ -252,11 +298,12 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
     except Exception as exc:  # noqa: BLE001
         duration_ms = round((time.monotonic() - t_api_chat) * 1000, 2)
         wrapped = deps["pipeline_c_internal_error_cls"](
-            message="Error interno al ejecutar Pipeline C.",
+            message="Error interno al ejecutar la ruta de respuesta activa.",
             details={
                 "endpoint": "/api/chat",
                 "error": str(exc),
                 "error_type": exc.__class__.__name__,
+                "pipeline": dict(pipeline_metadata),
             },
         )
         public_error = deps["as_public_error"](
@@ -269,12 +316,15 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
         )
         if isinstance(public_error, dict):
             public_error["chat_run_id"] = chat_run_id
+            public_error["pipeline_variant"] = pipeline_metadata["pipeline_variant"]
+            public_error["pipeline_route"] = pipeline_metadata["pipeline_route"]
+            public_error["shadow_pipeline_variant"] = pipeline_metadata["shadow_pipeline_variant"]
         deps["emit_reasoning_event"](
             trace_id=trace_id,
             phase="api",
             category="api_reply",
             step="ui_server.api_chat.pipeline_c.reply",
-            message="Request /api/chat fallo por error interno en Pipeline C.",
+            message="Request /api/chat fallo por un error interno de ejecucion.",
             status="error",
             dependency="/api/chat",
             token_usage=deps["estimate_token_usage_from_text"](input_text=message),
@@ -310,7 +360,10 @@ def handle_api_chat_post(handler: Any, *, deps: dict[str, Any]) -> None:
             "question_preview": (message or "")[:200],
             "llm_provider": (public_error.get("llm") or {}).get("selected_provider"),
         })
-        error_payload = {"ok": False, "error": public_error, "session_id": session_id, "chat_run_id": chat_run_id}
+        error_payload = _apply_pipeline_metadata(
+            {"ok": False, "error": public_error, "session_id": session_id, "chat_run_id": chat_run_id},
+            request_context,
+        )
         handler._send_json(
             HTTPStatus.INTERNAL_SERVER_ERROR,
             error_payload,
@@ -368,6 +421,7 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
     stream_sink: _ChatStreamSink | None = None
     keepalive_stop = threading.Event()
     stream_client_connected = True
+    pipeline_metadata = _pipeline_runtime_metadata(request_context)
 
     def _safe_write_event(event_name: str, payload: dict[str, Any]) -> bool:
         nonlocal stream_client_connected
@@ -406,6 +460,9 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
                 "response_route": pipeline_response_route,
                 "topic": topic,
                 "requested_topic": requested_topic,
+                "pipeline_variant": pipeline_metadata["pipeline_variant"],
+                "pipeline_route": pipeline_metadata["pipeline_route"],
+                "shadow_pipeline_variant": pipeline_metadata["shadow_pipeline_variant"],
                 "resume_supported": True,
             },
         )
@@ -432,12 +489,15 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
             else:
                 _safe_write_event(
                     "error",
-                    {
+                    _apply_pipeline_metadata(
+                        {
                         "ok": False,
                         "chat_run_id": chat_run_id,
                         "session_id": session_id,
                         "error": {"code": "CHAT_RUN_TIMEOUT", "message": "La ejecución sigue en curso. Usa el endpoint de resume."},
-                    },
+                        },
+                        request_context,
+                    ),
                 )
             _mark_response_sent_if_connected()
             return
@@ -447,7 +507,7 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
             phase="api",
             category="api_call",
             step="ui_server.api_chat_stream.pipeline_c.inbound",
-            message="Request /api/chat/stream recibido en Pipeline C.",
+            message="Request /api/chat/stream recibido en la ruta de respuesta activa.",
             dependency="/api/chat/stream",
             token_usage=deps["estimate_token_usage_from_text"](input_text=message),
             details={
@@ -456,20 +516,34 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
                 "pais": normalized_pais,
                 "primary_scope_mode": primary_scope_mode,
                 "response_route": pipeline_response_route,
+                "pipeline_variant": pipeline_metadata["pipeline_variant"],
+                "pipeline_route": pipeline_metadata["pipeline_route"],
+                "shadow_pipeline_variant": pipeline_metadata["shadow_pipeline_variant"],
                 "debug": bool(request_context["debug_mode"]),
             },
         )
         deps["chat_run_coordinator"].mark_pipeline_started(chat_run_id, base_dir=deps["chat_runs_path"])
-        response = deps["run_pipeline_c"](
+        execution = deps["execute_routed_pipeline"](
             _build_pipeline_request(request_context, deps),
+            route=request_context["resolved_pipeline_route"],
             index_file=deps["index_file_path"],
             policy_path=deps["credibility_policy_path"],
             runtime_config_path=deps["llm_runtime_config_path"],
             stream_sink=stream_sink,
         )
+        response = execution.response
+        request_context["resolved_pipeline_route"] = execution.route
+        request_context["requested_pipeline_variant"] = execution.route.route
+        request_context["pipeline_variant"] = execution.route.pipeline_variant
+        request_context["shadow_pipeline_variant"] = execution.route.shadow_pipeline_variant
+        request_context["pipeline_route_source"] = execution.route.source
+        pipeline_metadata = _pipeline_runtime_metadata(request_context)
         deps["chat_run_coordinator"].set_pipeline_run_id(
             chat_run_id,
             str(getattr(response, "run_id", "") or ""),
+            pipeline_variant=pipeline_metadata["pipeline_variant"],
+            pipeline_route=pipeline_metadata["pipeline_route"],
+            shadow_pipeline_variant=pipeline_metadata["shadow_pipeline_variant"],
             base_dir=deps["chat_runs_path"],
         )
         deps["chat_run_coordinator"].mark_pipeline_completed(chat_run_id, base_dir=deps["chat_runs_path"])
@@ -504,6 +578,7 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
         diagnostics = {
             "endpoint": "/api/chat/stream",
             "error_details": dict(exc.details or {}),
+            "pipeline": dict(pipeline_metadata),
             "request": {
                 "topic": topic,
                 "pais": normalized_pais,
@@ -521,6 +596,9 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
         )
         if isinstance(public_error, dict):
             public_error["chat_run_id"] = chat_run_id
+            public_error["pipeline_variant"] = pipeline_metadata["pipeline_variant"]
+            public_error["pipeline_route"] = pipeline_metadata["pipeline_route"]
+            public_error["shadow_pipeline_variant"] = pipeline_metadata["shadow_pipeline_variant"]
         if deps["is_semantic_422_error"](exc.code):
             payload_out, _public_error, _interaction = _build_semantic_clarification_payload(
                 exc=exc,
@@ -535,6 +613,7 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
                 deps=deps,
             )
             payload_out["chat_run_id"] = chat_run_id
+            _apply_pipeline_metadata(payload_out, request_context)
             deps["chat_run_coordinator"].fail(chat_run_id, payload_out, base_dir=deps["chat_runs_path"])
             _safe_write_event("error", payload_out)
             _mark_response_sent_if_connected()
@@ -552,20 +631,26 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
             "question_preview": (message or "")[:200],
             "llm_provider": (public_error.get("llm") or {}).get("selected_provider"),
         })
-        error_payload = {"ok": False, "error": public_error, "session_id": session_id, "chat_run_id": chat_run_id}
+        error_payload = _apply_pipeline_metadata(
+            {"ok": False, "error": public_error, "session_id": session_id, "chat_run_id": chat_run_id},
+            request_context,
+        )
         deps["chat_run_coordinator"].fail(chat_run_id, error_payload, base_dir=deps["chat_runs_path"])
         _safe_write_event("error", error_payload)
         _mark_response_sent_if_connected()
     except (BrokenPipeError, ConnectionResetError, OSError) as exc:
-        _conn_error_payload = {
-            "ok": False,
-            "error": {
-                "code": "PC_CLIENT_DISCONNECTED",
-                "message": "La conexion del cliente se cerro durante el procesamiento.",
+        _conn_error_payload = _apply_pipeline_metadata(
+            {
+                "ok": False,
+                "error": {
+                    "code": "PC_CLIENT_DISCONNECTED",
+                    "message": "La conexion del cliente se cerro durante el procesamiento.",
+                },
+                "session_id": session_id,
+                "chat_run_id": chat_run_id,
             },
-            "session_id": session_id,
-            "chat_run_id": chat_run_id,
-        }
+            request_context,
+        )
         try:
             deps["chat_run_coordinator"].fail(chat_run_id, _conn_error_payload, base_dir=deps["chat_runs_path"])
         except Exception:  # noqa: BLE001
@@ -574,11 +659,12 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
     except Exception as exc:  # noqa: BLE001
         duration_ms = round((time.monotonic() - t_api_chat) * 1000, 2)
         wrapped = deps["pipeline_c_internal_error_cls"](
-            message="Error interno al ejecutar Pipeline C.",
+            message="Error interno al ejecutar la ruta de respuesta activa.",
             details={
                 "endpoint": "/api/chat/stream",
                 "error": str(exc),
                 "error_type": exc.__class__.__name__,
+                "pipeline": dict(pipeline_metadata),
             },
         )
         public_error = deps["as_public_error"](
@@ -591,6 +677,9 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
         )
         if isinstance(public_error, dict):
             public_error["chat_run_id"] = chat_run_id
+            public_error["pipeline_variant"] = pipeline_metadata["pipeline_variant"]
+            public_error["pipeline_route"] = pipeline_metadata["pipeline_route"]
+            public_error["shadow_pipeline_variant"] = pipeline_metadata["shadow_pipeline_variant"]
         deps["emit_user_error_event"]({
             "trace_id": trace_id,
             "session_id": session_id,
@@ -604,7 +693,10 @@ def handle_api_chat_stream_post(handler: Any, *, deps: dict[str, Any]) -> None:
             "question_preview": (message or "")[:200],
             "llm_provider": (public_error.get("llm") or {}).get("selected_provider"),
         })
-        error_payload = {"ok": False, "error": public_error, "session_id": session_id, "chat_run_id": chat_run_id}
+        error_payload = _apply_pipeline_metadata(
+            {"ok": False, "error": public_error, "session_id": session_id, "chat_run_id": chat_run_id},
+            request_context,
+        )
         deps["chat_run_coordinator"].fail(chat_run_id, error_payload, base_dir=deps["chat_runs_path"])
         _safe_write_event("error", error_payload)
         _mark_response_sent_if_connected()

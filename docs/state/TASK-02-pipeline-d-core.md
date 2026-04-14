@@ -24,9 +24,24 @@ Query → Intake (shared) → Topic Router (shared) → Graph Planner → Graph 
   → Subgraph Extraction → Composer → Verifier → Safety (shared) → Response
 ```
 
+## Design Rule
+
+Pipeline D is not a port of the old RAG.
+
+Reuse the shell and the response contract, but rethink:
+- graph schema
+- indexing strategy
+- concept vocabulary
+- edge taxonomy
+- traversal and scoring
+- retrieval assembly
+- answer composition
+
+Do not copy old chunk-first or rerank-first assumptions into this phase unless they survive fresh graph-first scrutiny.
+
 ### What's Shared with Pipeline C
 - Intake (query classification, language detection, safety pre-screen)
-- Topic Router (map query to ET domain concepts)
+- Topic Router (map query to accountant-domain concepts without collapsing the corpus to ET)
 - Safety (content safety post-check)
 - Streaming (SSE, StructuredMarkdownStreamAssembler)
 - Contracts (PipelineCRequest, PipelineCResponse)
@@ -54,8 +69,8 @@ Query → Intake (shared) → Topic Router (shared) → Graph Planner → Graph 
   1. Find matching ArticleNodes by keyword/concept
   2. BFS walk (depth 2-3) following typed edges
   3. Score nodes by relevance (edge type weight × distance decay)
-  4. Return top-K ArticleNodes with their connecting edges
-- Output: Subgraph (nodes + edges + scores)
+  4. Attach complementary interpretative/practical evidence lanes when the graph backbone alone is insufficient
+- Output: Subgraph (nodes + edges + scores) plus non-graph support evidence when relevant
 
 ### Step 3: Graph Planner
 - Input: PipelineCRequest (message, topic, company_context)
@@ -83,7 +98,7 @@ Query → Intake (shared) → Topic Router (shared) → Graph Planner → Graph 
 - Wire steps 1-4 together
 - Conform to `run_pipeline_c()` signature
 - Inject into `_chat_controller_deps()` via header routing
-- Handle errors gracefully (fallback to Pipeline C if graph unavailable)
+- Handle errors gracefully at the API boundary without letting old-RAG internals dictate Pipeline D design
 
 ### Step 6: Compiled Answer Cache
 - Pre-compute answers for top-100 query patterns (from eval golden set)

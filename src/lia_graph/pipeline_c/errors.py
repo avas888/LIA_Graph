@@ -64,7 +64,7 @@ class SupabaseRequiredError(PipelineCStrictError):
     def __init__(
         self,
         *,
-        message: str = "Pipeline C requiere Supabase activo con la generación vigente indexada.",
+        message: str = "La ruta de respuesta activa requiere Supabase con la generacion vigente indexada.",
         details: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(
@@ -197,7 +197,7 @@ class PipelineCInternalError(PipelineCStrictError):
     def __init__(
         self,
         *,
-        message: str = "Error interno en Pipeline C.",
+        message: str = "Error interno en la ruta de respuesta activa.",
         details: dict[str, Any] | None = None,
     ) -> None:
         super().__init__(
@@ -207,7 +207,7 @@ class PipelineCInternalError(PipelineCStrictError):
             http_status=500,
             remediation=(
                 "Reintentar la operación.",
-                "Revisar trazas del run_id y timeline de Pipeline C.",
+                "Revisar trazas del run_id y timeline de ejecucion.",
                 "Escalar con trace_id y diagnostics completos si persiste.",
             ),
             details=dict(details or {}),

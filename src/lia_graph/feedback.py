@@ -1,6 +1,6 @@
 """User feedback collection and storage.
 
-Supabase is the production backend for Pipeline C.
+Supabase is the production backend for feedback and product telemetry.
 Filesystem remains only for explicit test/dev path overrides.
 """
 

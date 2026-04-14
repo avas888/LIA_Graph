@@ -1,6 +1,6 @@
 """Conversation session persistence.
 
-Supabase is the production backend for Pipeline C.
+Supabase is the authoritative backend for chat session state in LIA_Graph.
 Filesystem remains only for explicit test/dev path overrides.
 """
 

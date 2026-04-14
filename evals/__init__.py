@@ -1,1 +1,1 @@
-"""Herramientas de evaluacion para LIA Contador."""
+"""Herramientas de evaluacion graph-first para LIA Graph."""
