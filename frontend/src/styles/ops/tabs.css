@@ -1,0 +1,66 @@
+.ops-subtabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.ops-subtab {
+  padding: 0.86rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--border-strong), transparent 8%);
+  border-radius: 1rem;
+  background:
+    var(--panel-highlight),
+    var(--ops-card-bg);
+  color: var(--ink);
+  box-shadow: none;
+  text-align: left;
+  display: grid;
+  gap: 0.18rem;
+}
+
+.ops-subtab span,
+.ops-subtab small {
+  display: block;
+}
+
+.ops-subtab span {
+  font-weight: 800;
+}
+
+.ops-subtab small {
+  font-size: 0.77rem;
+  color: var(--ink-soft);
+}
+
+.ops-subtab:hover:not(:disabled),
+.ops-subtab.is-active {
+  transform: none;
+  border-color: color-mix(in srgb, var(--interactive-primary), transparent 56%);
+  box-shadow: var(--shadow-sm);
+}
+
+.ops-subtab.is-active {
+  background:
+    var(--panel-highlight-soft),
+    var(--surface-tint);
+}
+
+.ops-tab-panel {
+  min-height: 0;
+  display: grid;
+  gap: 1rem;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+}
+
+.ops-tab-panel[hidden] {
+  display: none;
+}
+
+.ops-tab-panel-monitor {
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+}
+
+.ops-tab-panel-ingestion {
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 0.78fr) minmax(0, 1.22fr);
+}

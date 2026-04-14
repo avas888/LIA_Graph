@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#0b1321" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>LIA — Acceso público</title>
+
+    <!-- Public-mode runtime hints injected by `_serve_public_page` (ui_server.py) -->
+    <meta name="lia-public-token" content="__LIA_PUBLIC_TOKEN__" />
+    <meta name="lia-public-expires-at" content="__LIA_PUBLIC_EXPIRES_AT__" />
+    <meta name="lia-public-captcha-required" content="__LIA_PUBLIC_CAPTCHA_REQUIRED__" />
+    <meta name="lia-public-turnstile-site-key" content="__LIA_PUBLIC_TURNSTILE_SITE_KEY__" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/app/public/main.ts"></script>
+  </body>
+</html>

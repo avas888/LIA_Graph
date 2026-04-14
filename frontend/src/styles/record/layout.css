@@ -1,0 +1,62 @@
+/* ── Record tab: shell layout ─────────────────────────────── */
+
+.record-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.record-filters {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--panel-header-bg);
+  padding: 1rem 1.5rem 0.75rem;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.record-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.5rem;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.record-footer {
+  flex-shrink: 0;
+  padding: 0.75rem 1.5rem 1rem;
+  text-align: center;
+}
+
+.record-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-tertiary);
+  font-size: 0.92rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 980px) {
+  .record-filters {
+    padding: 0.75rem 1rem 0.6rem;
+  }
+
+  .record-list {
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .record-filters {
+    padding: 0.6rem 0.75rem 0.5rem;
+  }
+
+  .record-list {
+    padding: 0.5rem 0.75rem;
+  }
+}

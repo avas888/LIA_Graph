@@ -1,0 +1,51 @@
+.composer-input-shell {
+  position: relative;
+  min-height: 1.5rem;
+  min-width: 0;
+}
+
+.composer-idle-cursor {
+  position: absolute;
+  left: 0.08rem;
+  top: 0.14rem;
+  width: 0.7rem;
+  height: 1.085rem;
+  border-radius: 0.12rem;
+  background:
+    linear-gradient(180deg, var(--input-caret) 0%, var(--input-caret-strong) 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.82),
+    0 0 24px var(--input-caret-glow);
+  opacity: 0;
+  transform: translateY(0.05rem);
+  pointer-events: none;
+}
+
+/* Blinking cursor only when textarea is focused AND empty.
+   The placeholder text itself is rendered via the textarea's native
+   `placeholder` attribute (see shell.ts + catalogs `chat.composer.placeholder`),
+   so we only need to paint the custom caret block over the top-left of
+   the input while the user has focus but hasn't typed yet. */
+[data-turn-state="ready-empty"] .composer-input-shell textarea:focus ~ .composer-idle-cursor {
+  opacity: 1;
+  animation: lia-cursor-blink 0.95s steps(1, end) infinite;
+}
+
+/* Hide native caret while custom cursor is active. We intentionally do
+   NOT set `color: transparent` here so that the browser still paints the
+   native placeholder text underneath the blinking block. */
+[data-turn-state="ready-empty"] .composer-input-shell textarea:focus {
+  caret-color: transparent;
+}
+
+.composer-input-shell textarea:disabled {
+  cursor: wait;
+  opacity: 0.92;
+}
+
+.ops-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: center;
+}

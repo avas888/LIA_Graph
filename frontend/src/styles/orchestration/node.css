@@ -1,0 +1,193 @@
+/* ── Node Cards ──────────────────────────────────────────── */
+
+.orch-node {
+  position: absolute;
+  z-index: 1;
+  border-radius: 6px;
+  border: 1px solid var(--card-border);
+  background: var(--orch-node-stage-bg);
+  padding: 10px 12px;
+  font-family: "IBM Plex Sans", sans-serif;
+  cursor: default;
+  transition: box-shadow 0.15s;
+}
+
+.orch-node:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Node kind variants */
+.orch-node[data-kind="store"] {
+  background: var(--orch-node-store-bg);
+}
+
+.orch-node[data-kind="model"] {
+  background: var(--orch-node-model-bg);
+  border-color: var(--orch-node-model-border);
+}
+
+.orch-node[data-kind="config"] {
+  background: var(--orch-node-config-bg);
+  border-style: dashed;
+  border-color: var(--orch-node-config-border);
+}
+
+/* ── Node Head ──────────────────────────────────────────── */
+
+.orch-node-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.orch-node-badges {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.orch-node-title {
+  flex: 1;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--text-primary);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.orch-node-toggle {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.orch-node-toggle:hover {
+  background: var(--surface-tint);
+  color: var(--text-primary);
+}
+
+.orch-node-toggle:focus-visible {
+  outline: 2px solid var(--focus-ring);
+}
+
+/* ── Node Summary ───────────────────────────────────────── */
+
+.orch-node-summary {
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Node Metrics ───────────────────────────────────────── */
+
+.orch-node-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.orch-metric {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.625rem;
+  font-weight: 500;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--pill-bg);
+  color: var(--text-secondary);
+  border: 1px solid var(--pill-border);
+}
+
+/* ── Node Detail (expandable) ───────────────────────────── */
+
+.orch-node-detail {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-default);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+.orch-node-detail p {
+  margin: 0 0 6px;
+}
+
+.orch-node-detail ul,
+.orch-node-detail ol {
+  margin: 0 0 6px;
+  padding-left: 18px;
+}
+
+.orch-node-detail li {
+  margin-bottom: 3px;
+}
+
+.orch-node-detail code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6875rem;
+  background: var(--chat-code-bg);
+  border: 1px solid var(--chat-code-border);
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+.orch-node-detail strong {
+  font-weight: 600;
+}
+
+/* ── Detail Table ───────────────────────────────────────── */
+
+.orch-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.6875rem;
+  margin: 6px 0;
+}
+
+.orch-detail-table td {
+  padding: 3px 8px 3px 0;
+  border-bottom: 1px solid var(--p-neutral-150);
+  vertical-align: top;
+}
+
+.orch-detail-table td:first-child {
+  white-space: nowrap;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.orch-detail-table td:last-child {
+  color: var(--text-secondary);
+}
+
+/* ── Detail Code Block ──────────────────────────────────── */
+
+.orch-detail-code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6875rem;
+  background: var(--chat-pre-bg);
+  border: 1px solid var(--chat-pre-border);
+  border-radius: 4px;
+  padding: 6px 10px;
+  margin: 6px 0;
+  overflow-x: auto;
+  white-space: pre;
+}

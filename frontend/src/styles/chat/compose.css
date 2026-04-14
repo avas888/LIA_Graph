@@ -1,0 +1,104 @@
+
+.chat-form {
+  border-top: 1px solid var(--border-default);
+  padding: 0.42rem 0.82rem 0.48rem;
+  display: grid;
+  gap: 0.26rem;
+  background: var(--panel-section-bg);
+  position: relative;
+  z-index: 1;
+}
+
+.composer-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.composer-label {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.composer-shortcut {
+  margin: 0;
+  color: var(--ink-faint);
+  font-size: 0.74rem;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.composer-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: 0.5rem;
+  row-gap: 0.2rem;
+  padding: 0.3rem 0.36rem 0.34rem;
+  border: 1px solid var(--field-border);
+  border-radius: 0.92rem;
+  background: var(--field-bg);
+  box-shadow: none;
+}
+
+.composer-shell textarea {
+  min-height: 1.35rem;
+  max-height: 8rem;
+  resize: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  caret-color: var(--input-caret);
+  line-height: 1.38;
+}
+
+.composer-shell textarea:focus {
+  outline: none;
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#send-btn {
+  padding: 0.58rem 0.92rem;
+  border-radius: 0.88rem;
+}
+
+.backstage-controls {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.backstage-control {
+  display: grid;
+  gap: 0.34rem;
+}
+
+.control-label {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.inline-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  width: fit-content;
+  border: 1px solid var(--field-border);
+  border-radius: 0.8rem;
+  background: var(--field-bg-soft);
+  padding: 0.7rem 0.8rem;
+}

@@ -1,0 +1,154 @@
+/* 1-5 satisfaction rating widget inside assistant bubbles */
+
+.bubble-rating-widget {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.bubble-rating-btn {
+  border: 1px solid var(--p-neutral-300);
+  border-radius: 0.3rem;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.bubble-rating-btn:hover:not(:disabled) {
+  background: var(--p-neutral-100, #f3f4f6);
+  color: var(--text-secondary, #6b7280);
+  border-color: var(--p-neutral-400, #9ca3af);
+}
+
+.bubble-rating-btn.is-active {
+  background: var(--p-navy-500);
+  color: var(--text-inverse);
+  border-color: var(--p-navy-500);
+}
+
+.bubble-rating-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.bubble-rating-hint {
+  font-size: 0.64rem;
+  color: var(--text-tertiary, #9ca3af);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.bubble-rating-hint--low {
+  margin-right: 0.25rem;
+}
+
+.bubble-rating-hint--high {
+  margin-left: 0.25rem;
+}
+
+/* Prompt label + row wrappers (visible on mobile, inline on desktop) */
+
+.bubble-rating-prompt {
+  display: none;
+}
+
+.bubble-rating-row {
+  display: contents;
+}
+
+.bubble-copy-row {
+  display: contents;
+}
+
+/* Comment popup after rating */
+
+.bubble-comment-popup {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+  padding: 0.45rem;
+  border: 1px solid var(--p-neutral-200, #e5e7eb);
+  border-radius: 0.55rem;
+  background: var(--p-neutral-50, #f9fafb);
+  max-width: 100%;
+}
+
+textarea.bubble-comment-textarea {
+  flex: 1;
+  min-height: 2.2rem;
+  max-height: 5rem;
+  resize: vertical;
+  border: 1px solid var(--p-neutral-300, #d1d5db);
+  border-radius: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.82rem;
+  font-family: inherit;
+  color: var(--text-primary, #111827);
+  background: var(--panel-bg-strong);
+  line-height: 1.4;
+}
+
+textarea.bubble-comment-textarea::placeholder {
+  color: var(--text-tertiary, #9ca3af);
+  font-style: italic;
+  font-size: 0.74rem;
+}
+
+.bubble-comment-textarea:focus {
+  outline: none;
+  border-color: var(--p-navy-400, #4a6fa5);
+}
+
+.bubble-comment-send {
+  border: none;
+  border-radius: 0.35rem;
+  background: var(--p-navy-500);
+  color: var(--text-inverse);
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  transition: background 0.12s ease;
+  flex-shrink: 0;
+}
+
+.bubble-comment-send:hover:not(:disabled) {
+  background: var(--p-navy-600, #2d4a7c);
+}
+
+.bubble-comment-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bubble-comment-send svg {
+  display: block;
+}
+
+/* Thank-you banner after feedback is submitted ("burned") */
+
+.bubble-feedback-thanks {
+  font-size: 0.75rem;
+  color: var(--chat-feedback-thanks-fg);
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.bubble-feedback-thanks.is-fading {
+  opacity: 0;
+}

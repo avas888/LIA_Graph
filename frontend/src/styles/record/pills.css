@@ -1,0 +1,129 @@
+/* ── Record: filter pills + topic pills ───────────────────── */
+
+.record-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.record-filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.record-filter-pill {
+  padding: 0.38rem 0.72rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid var(--border-default);
+  background: var(--panel-bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.record-filter-pill:hover:not(.is-active) {
+  background: var(--panel-header-bg);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.record-filter-pill.is-active {
+  background: var(--p-navy-200);
+  color: var(--p-navy-700);
+  border-color: var(--p-navy-400);
+  box-shadow: inset 0 -2.5px 0 var(--p-navy-500);
+}
+
+/* ── Topic pills on cards ────────────────────────────────── */
+
+.record-topic-pill {
+  display: inline-flex;
+  padding: 0.14rem 0.48rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Topic color variants */
+.topic-renta {
+  background: var(--topic-renta-bg);
+  color: var(--topic-renta-fg);
+}
+
+.topic-iva {
+  background: var(--topic-iva-bg);
+  color: var(--topic-iva-fg);
+}
+
+.topic-niif {
+  background: var(--topic-niif-bg);
+  color: var(--topic-niif-fg);
+}
+
+.topic-laboral {
+  background: var(--topic-laboral-bg);
+  color: var(--topic-laboral-fg);
+}
+
+.topic-facturacion {
+  background: var(--topic-facturacion-bg);
+  color: var(--topic-facturacion-fg);
+}
+
+.topic-retencion {
+  background: var(--topic-retencion-bg);
+  color: var(--topic-retencion-fg);
+}
+
+.topic-calendario {
+  background: var(--topic-calendario-bg);
+  color: var(--topic-calendario-fg);
+}
+
+.topic-default {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+
+/* ── Tenant filter (admin view) ───────────────────────────── */
+
+.record-tenant-filter {
+  padding: 0.38rem 0.62rem;
+  border-radius: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid var(--border-default);
+  background: var(--panel-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  max-width: 280px;
+}
+
+.record-tenant-filter:focus {
+  outline: 2px solid var(--hero-tagline-fg);
+  outline-offset: 1px;
+}
+
+/* ── User badge (admin view) ─────────────────────────────── */
+
+.record-user-badge {
+  display: inline-flex;
+  padding: 0.14rem 0.48rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background: var(--p-neutral-100, #f3f4f6);
+  color: var(--text-tertiary, #6b7280);
+}

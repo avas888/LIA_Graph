@@ -1,0 +1,206 @@
+.ops-progress {
+  display: grid;
+  gap: 0.28rem;
+  min-width: 112px;
+}
+
+.ops-progress-bar {
+  height: 0.44rem;
+  border-radius: 999px;
+  background: var(--ops-progress-track);
+  overflow: hidden;
+}
+
+.ops-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--ops-progress-fill) 0%, var(--p-green-400) 100%);
+  transition: width 0.6s ease;
+}
+
+.ops-progress-fill.ops-progress-active {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      var(--ops-progress-stripe) 6px,
+      var(--ops-progress-stripe) 12px
+    ),
+    linear-gradient(90deg, var(--ops-progress-fill) 0%, var(--p-green-400) 100%);
+  background-size: 24px 24px, 100% 100%;
+  animation: ops-progress-stripes 0.8s linear infinite;
+}
+
+@keyframes ops-progress-stripes {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 24px 0, 0 0; }
+}
+
+.ops-progress-label {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+/* ── Liveness indicator ─────────────────────────────────── */
+
+.ops-liveness {
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+  flex-wrap: wrap;
+}
+
+.ops-liveness-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ops-liveness-dot.ops-liveness-alive {
+  background: var(--status-success);
+  animation: ops-pulse 1.6s ease-in-out infinite;
+}
+
+.ops-liveness-dot.ops-liveness-slow {
+  background: var(--status-warning);
+  animation: ops-pulse 2.4s ease-in-out infinite;
+}
+
+.ops-liveness-dot.ops-liveness-stalled {
+  background: var(--status-error);
+  animation: none;
+}
+
+.ops-liveness-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ops-liveness-label.ops-liveness-alive {
+  color: var(--status-success);
+}
+
+.ops-liveness-label.ops-liveness-slow {
+  color: var(--status-warning);
+}
+
+.ops-liveness-label.ops-liveness-stalled {
+  color: var(--status-error);
+}
+
+.ops-liveness-sub {
+  width: 100%;
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+@keyframes ops-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ── Folder upload progress ───────────────────────────── */
+
+.ops-upload-progress {
+  margin: 0.6rem 0;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-sm, 8px);
+  background: var(--surface-secondary, #f5f7fa);
+  border: 1px solid var(--border-muted, #e0e4ea);
+}
+
+.ops-upload-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.ops-upload-progress-bar {
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--ops-progress-track, #e0e4ea);
+  overflow: hidden;
+}
+
+.ops-upload-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--ops-progress-fill, #3b82f6) 0%, var(--p-green-400, #34d399) 100%);
+  transition: width 0.4s ease;
+}
+
+.ops-upload-progress-detail {
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--ink-soft, #6b7280);
+}
+
+/* ── Log accordion ────────────────────────────────────── */
+
+.ops-log-accordion {
+  margin-top: 1rem;
+  border: 1px solid var(--border-muted, #e0e4ea);
+  border-radius: var(--radius-sm, 8px);
+  background: var(--surface-secondary, #f8f9fb);
+}
+
+.ops-log-accordion-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-body, #374151);
+  user-select: none;
+}
+
+.ops-log-accordion-summary .ops-log-copy-btn {
+  margin-left: auto;
+}
+
+.ops-log-accordion-marker {
+  font-size: 0.72rem;
+  transition: transform 0.15s ease;
+}
+
+.ops-log-copy-btn {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--border-muted, #d1d5db);
+  border-radius: var(--radius-xs, 4px);
+  background: var(--surface-primary, #fff);
+  color: var(--ink-soft, #6b7280);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ops-log-copy-btn:hover {
+  background: var(--p-blue-50, #eff6ff);
+  color: var(--p-blue-600, #2563eb);
+}
+
+.ops-log-body {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: var(--ink-body, #374151);
+  background: var(--surface-code, #f1f3f5);
+  border-top: 1px solid var(--border-muted, #e0e4ea);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 28rem;
+  overflow-y: auto;
+}
+

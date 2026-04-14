@@ -1,0 +1,759 @@
+/* ── Tier 1: Primitive Scales ──────────────────────────────── */
+
+:root {
+  /* Neutral */
+  --p-neutral-50:  #f8fbff;
+  --p-neutral-100: #edf4fd;
+  --p-neutral-150: #e0eaf6;
+  --p-neutral-200: #d1deeb;
+  --p-neutral-300: #b6c8d8;
+  --p-neutral-400: #8ea2b7;
+  --p-neutral-500: #667a91;
+  --p-neutral-600: #4c6178;
+  --p-neutral-700: #32475f;
+  --p-neutral-800: #203348;
+  --p-neutral-900: #132235;
+
+  /* Legacy brand scale (name kept for compatibility, hue shifted cooler) */
+  --p-green-50:  #edf8ff;
+  --p-green-100: #d7ebfb;
+  --p-green-200: #b9dbf3;
+  --p-green-300: #91c3e6;
+  --p-green-400: #5aa3cf;
+  --p-green-500: #2f84b2;
+  --p-green-600: #226b93;
+  --p-green-700: #1b5272;
+  --p-green-800: #123a51;
+
+  /* Navy (primary actions / chrome) */
+  --p-navy-50:  #eef2f7;
+  --p-navy-100: #dde5f0;
+  --p-navy-200: #bccadc;
+  --p-navy-400: #607591;
+  --p-navy-500: #334760;
+  --p-navy-600: #26384f;
+  --p-navy-700: #1c2c40;
+  --p-navy-800: #131f31;
+  --p-navy-900: #0b1321;
+
+  /* Success (muted sage — status indicators) */
+  --p-success-50:  #eff9f4;
+  --p-success-100: #d7eee1;
+  --p-success-200: #afd9bf;
+  --p-success-400: #50986d;
+  --p-success-600: #2f6d4d;
+  --p-success-700: #24533b;
+
+  /* Action green (vibrant — primary positive actions) */
+  --p-action-green-500: #16a34a;
+  --p-action-green-600: #15803d;
+  --p-action-green-700: #166534;
+
+  /* Amber (accent/warning) */
+  --p-amber-50:  #fff8ee;
+  --p-amber-100: #ffe7c8;
+  --p-amber-200: #efcca0;
+  --p-amber-400: #c98a4a;
+  --p-amber-600: #915c1e;
+
+  /* Red (danger/error) */
+  --p-red-50:  #fff3f5;
+  --p-red-100: #ffd9de;
+  --p-red-200: #ebb3bb;
+  --p-red-400: #be6170;
+  --p-red-600: #8c3d49;
+  --p-red-700: #6f2e38;
+
+  /* Blue (links, DIAN official) */
+  --p-blue-500: #2d6fa4;
+  --p-blue-600: #245985;
+  --p-blue-800: #173d62;
+}
+
+/* ── Tier 2: Semantic Aliases ─────────────────────────────── */
+
+:root {
+  /* Surface */
+  --surface-base:    color-mix(in srgb, var(--p-neutral-100) 40%, white 60%);
+  --surface-raised:  var(--p-neutral-50);
+  --surface-tint:    var(--p-green-50);
+  --surface-tint-strong: var(--p-green-100);
+  --surface-glass: #f7fbff;
+  --surface-glass-strong: #fcfeff;
+  --surface-glass-soft: #f1f8ff;
+
+  /* Translucent surfaces (white-based, alpha) */
+  --surface-translucent:        rgba(255, 255, 255, 0.72);
+  --surface-translucent-md:     rgba(255, 255, 255, 0.9);
+  --surface-translucent-strong: rgba(255, 255, 255, 0.95);
+
+  /* Text — all levels ≥ 4.5:1 on surface-raised */
+  --text-primary:    var(--p-neutral-800);   /* ~14.5:1 */
+  --text-secondary:  var(--p-neutral-600);   /* ~6.9:1  */
+  --text-tertiary:   var(--p-neutral-500);   /* ~4.87:1 */
+  --text-inverse:    #ffffff;
+
+  /* Border */
+  --border-default:  var(--p-neutral-200);
+  --border-strong:   var(--p-neutral-300);
+  --border-focus:    var(--p-green-500);
+  --glass-border: var(--p-neutral-200);
+  --glass-border-strong: var(--p-neutral-300);
+
+  /* Interactive */
+  --interactive-primary:       var(--p-navy-800);
+  --interactive-primary-hover: var(--p-navy-700);
+  --interactive-secondary:     var(--p-green-50);
+  --interactive-secondary-text: var(--p-neutral-700);
+
+  /* Status (brand ≠ success — same value today, separable later) */
+  --status-success:       var(--p-success-600);
+  --status-success-soft:  var(--p-success-50);
+  --status-warning:       var(--p-amber-400);
+  --status-warning-soft:  var(--p-amber-50);
+  --status-error:         var(--p-red-600);
+  --status-error-soft:    var(--p-red-50);
+
+  /* Shadow — blue-tinted layers tuned for #dfe7f0 background */
+  --shadow-sm: 0 1px 3px rgba(15, 25, 45, 0.06),
+               0 1px 2px rgba(15, 25, 45, 0.08);
+  --shadow-md: 0 1px 2px rgba(15, 25, 45, 0.07),
+               0 4px 8px rgba(15, 25, 45, 0.08),
+               0 12px 24px rgba(15, 25, 45, 0.06);
+  --shadow-lg: 0 1px 3px rgba(15, 25, 45, 0.08),
+               0 8px 16px rgba(15, 25, 45, 0.10),
+               0 24px 48px rgba(15, 25, 45, 0.08);
+
+  /* Shared atmosphere — flat, blue-tinted */
+  --page-background: #dfe7f0;
+  --page-grid-line: transparent;
+  --hero-bg: var(--p-neutral-50);
+  --hero-orb: transparent;
+  --panel-bg: #ffffff;
+  --panel-bg-strong: #ffffff;
+  --panel-bg-soft: var(--p-neutral-50);
+  --panel-highlight: transparent;
+  --panel-highlight-soft: transparent;
+  --panel-header-bg: #f6f5f3;
+  --panel-section-bg: #f6f5f3;
+  --accent-bar: var(--p-blue-500);
+  --card-bg: #ffffff;
+  --card-hover-bg: var(--p-neutral-50);
+  --card-active-bg: var(--p-neutral-100);
+  --card-border: var(--p-neutral-200);
+  --card-border-strong: var(--p-neutral-300);
+  --interactive-chip-bg: var(--card-bg);
+  --interactive-chip-bg-hover: var(--card-hover-bg);
+  --interactive-chip-bg-active: var(--card-active-bg);
+  --interactive-chip-border: var(--card-border);
+  --interactive-chip-border-active: var(--card-border-strong);
+  --interactive-chip-fg: var(--p-green-700);
+  --interactive-chip-fg-active: var(--p-navy-700);
+  --interactive-chip-cookie-bg: var(--p-neutral-50);
+  --interactive-chip-cookie-border: var(--p-neutral-200);
+  --interactive-chip-card-bg: #ffffff;
+  --interactive-chip-card-bg-active: var(--p-neutral-50);
+  --pill-bg: var(--p-neutral-150);
+  --pill-border: var(--p-neutral-200);
+  --pill-fg: var(--p-green-700);
+  --nav-chip-bg: #ffffff;
+  --nav-chip-shadow: 0 1px 3px rgba(20, 35, 56, 0.06);
+  --chrome-bg: var(--p-navy-900);
+  --chrome-tab-fg: #b8c5d6;
+  --chrome-tab-hover-bg: rgba(255, 255, 255, 0.08);
+  --chrome-tab-hover-fg: var(--p-neutral-100);
+  --chrome-tab-active-bg: var(--p-neutral-50);
+  /* Tab category differentiation */
+  --chrome-tab-user-active-bg: var(--surface-tint-strong);
+  --chrome-tab-user-active-fg: var(--p-green-800);
+  --chrome-tab-user-accent: var(--p-green-600);
+  --chrome-tab-admin-active-bg: var(--p-neutral-50);
+  --chrome-tab-admin-active-fg: var(--text-primary);
+  --chrome-tab-admin-accent: var(--p-neutral-400);
+  --chrome-tab-divider: rgba(255, 255, 255, 0.12);
+  --overlay-scrim: rgba(14, 24, 41, 0.44);
+  --overlay-backdrop: rgba(0, 0, 0, 0.35);
+  --overlay-backdrop-strong: rgba(0, 0, 0, 0.45);
+  /* Chrome white overlays (on dark backgrounds) */
+  --chrome-white-10: rgba(255, 255, 255, 0.1);
+  --chrome-white-22: rgba(255, 255, 255, 0.22);
+  --chrome-white-38: rgba(255, 255, 255, 0.38);
+  --action-gradient: #E8611A;
+  --action-shadow: 0 1px 3px rgba(12, 20, 33, 0.12);
+  --action-shadow-hover: 0 2px 6px rgba(12, 20, 33, 0.16);
+  --focus-ring: rgba(90, 160, 206, 0.4);
+  --field-border: var(--p-neutral-200);
+  --field-bg: #ffffff;
+  --field-bg-soft: var(--p-neutral-50);
+  --field-placeholder: #8193a8;
+  --input-caret: var(--p-blue-500);
+  --input-caret-strong: var(--p-blue-600);
+  --input-caret-glow: rgba(45, 111, 164, 0.2);
+  --mini-btn-hover: var(--p-neutral-150);
+  --placeholder-bg: var(--p-neutral-50);
+  --placeholder-border: var(--p-neutral-200);
+  --citation-bg: var(--p-neutral-50);
+  --citation-hover-bg: var(--p-neutral-100);
+  --diagnostic-bg: var(--p-neutral-50);
+  --subtle-control-bg: var(--p-neutral-150);
+  --subtle-control-bg-hover: var(--p-neutral-200);
+  --subtle-control-border: var(--p-neutral-400);
+  --subtle-control-shadow: 0 1px 2px rgba(49, 68, 88, 0.06);
+  --subtle-control-focus: var(--p-neutral-400);
+  --modal-bg: #ffffff;
+  --modal-loader-bg: var(--p-neutral-50);
+  --modal-loader-border: var(--p-neutral-200);
+  --modal-loader-error-bg: var(--p-red-50);
+  --modal-loader-done-bg: var(--p-success-50);
+}
+
+/* ── Tier 3: Ops Component Tokens ─────────────────────────── */
+
+:root {
+  --ops-table-border:     var(--border-default);
+  --ops-table-header-fg:  var(--text-secondary);
+  --ops-table-row-border: var(--p-neutral-150);
+
+  --ops-card-bg:          var(--panel-bg-strong);
+  --ops-card-border:      var(--glass-border);
+
+  --ops-flash-success-bg:     var(--status-success-soft);
+  --ops-flash-success-border: var(--p-success-200);
+  --ops-flash-success-fg:     var(--p-success-700);
+  --ops-flash-error-bg:       var(--status-error-soft);
+  --ops-flash-error-border:   var(--p-red-200);
+  --ops-flash-error-fg:       var(--status-error);
+
+  --ops-progress-track:   var(--p-neutral-200);
+  --ops-progress-fill:    var(--interactive-primary);
+
+  --ops-dropzone-border:  var(--p-amber-200);
+  --ops-dropzone-bg:      var(--p-amber-50);
+
+  --ops-guidance-border:  var(--p-amber-200);
+  --ops-guidance-bg:      var(--status-warning-soft);
+
+  --chip-default-fg:  var(--p-green-700);
+  --chip-default-bg:  var(--pill-bg);
+  --chip-default-border: var(--border-strong);
+  --chip-ok-fg:       var(--status-success);
+  --chip-ok-bg:       var(--status-success-soft);
+  --chip-warn-fg:     var(--status-warning);
+  --chip-warn-bg:     var(--status-warning-soft);
+  --chip-error-fg:    var(--status-error);
+  --chip-error-bg:    var(--status-error-soft);
+}
+
+/* ── Tier 3: Chat Component Tokens ─────────────────────────── */
+
+:root {
+  --chat-bubble-link:       var(--p-blue-500);
+  --chat-bubble-link-user:  var(--p-blue-600);
+  --chat-bubble-border:     var(--p-neutral-200);
+  --chat-bubble-shadow:     0 1px 3px rgba(19, 31, 49, 0.05);
+  --chat-bubble-user-bg:    var(--p-neutral-100);
+  --chat-bubble-user-border: var(--p-neutral-200);
+  --chat-bubble-user-role:   var(--p-blue-600);
+  --chat-bubble-assistant-bg: #ffffff;
+  --chat-bubble-assistant-border: var(--p-neutral-200);
+  --chat-bubble-blockquote-border: var(--p-neutral-300);
+
+  --chat-code-bg:           #f4f8fc;
+  --chat-code-border:       #d5e0ec;
+  --chat-pre-bg:            #f8fbff;
+  --chat-pre-border:        #deebf6;
+
+  --chat-followup-fg:       var(--p-green-700);
+  --chat-followup-bg:       var(--pill-bg);
+
+  --chat-reset-border:      var(--p-red-200);
+  --chat-reset-bg:          var(--status-error-soft);
+  --chat-reset-fg:          var(--p-red-700);
+  --chat-reset-focus:       var(--p-red-400);
+
+  --chat-mini-btn-border:   var(--p-green-200);
+}
+
+/* ── Tier 3: Toast Component Tokens ──────────────────────── */
+
+:root {
+  --toast-bg:              var(--panel-bg-strong);
+  --toast-border:          var(--border-default);
+  --toast-shadow:          0 18px 42px rgba(19, 31, 49, 0.16);
+  --toast-title-fg:        var(--text-tertiary);
+  --toast-message-fg:      var(--text-primary);
+  --toast-dismiss-fg:      var(--text-secondary);
+
+  --toast-info-border:     var(--p-neutral-300);
+  --toast-info-bg:         var(--panel-bg-strong);
+
+  --toast-success-border:  var(--p-success-200);
+  --toast-success-bg:      var(--status-success-soft);
+
+  --toast-error-border:    var(--p-red-200);
+  --toast-error-bg:        var(--status-error-soft);
+
+  --toast-caution-border:  var(--p-amber-200);
+  --toast-caution-bg:      var(--status-warning-soft);
+
+  --toast-action-secondary-bg:      #ffffff;
+  --toast-action-secondary-border:  var(--border-default);
+  --toast-action-secondary-fg:      var(--text-primary);
+  --toast-action-secondary-hover:   var(--p-neutral-50);
+
+  --toast-action-primary-bg:        var(--p-amber-400);
+  --toast-action-primary-border:    var(--p-amber-400);
+  --toast-action-primary-fg:        var(--text-inverse);
+  --toast-action-primary-hover:     var(--p-amber-600);
+}
+
+/* ── Tier 3: Norma / Summary Tokens ───────────────────────── */
+
+:root {
+  --norma-link-fg:          var(--interactive-primary);
+  --norma-card-border:      var(--p-neutral-200);
+  --norma-companion-border: var(--p-neutral-300);
+}
+
+/* ── Tier 3: Orchestration Tokens ────────────────────────── */
+
+:root {
+  /* Canvas */
+  --orch-canvas-bg: color-mix(in srgb, #f4f8fc 40%, white 60%);
+  --orch-grid-line: rgba(182, 200, 216, 0.25);
+
+  /* Lanes */
+  --orch-lane-bg: rgba(255, 255, 255, 0.6);
+  --orch-lane-border: var(--p-neutral-200);
+  --orch-lane-ingesta: var(--p-amber-400);
+  --orch-lane-parsing: var(--p-success-400);
+  --orch-lane-almacenamiento: var(--p-blue-500);
+  --orch-lane-retrieval: var(--p-navy-500);
+  --orch-lane-surfaces: var(--p-green-600);
+  --orch-lane-plataforma: #6b7280;
+  --orch-lane-mobile: #7b1fa2;
+
+  /* Node variants */
+  --orch-node-stage-bg: #ffffff;
+  --orch-node-store-bg: var(--p-neutral-100);
+  --orch-node-model-bg: var(--p-red-50);
+  --orch-node-model-border: var(--p-red-200);
+  --orch-node-config-bg: #ffffff;
+  --orch-node-config-border: var(--p-neutral-400);
+
+  /* Edges */
+  --orch-edge-color: var(--p-neutral-400);
+  --orch-edge-cross-color: var(--p-blue-500);
+
+  /* Actor badges */
+  --orch-actor-curator-bg: var(--p-amber-100);
+  --orch-actor-curator-fg: var(--p-amber-600);
+  --orch-actor-python-bg: var(--p-success-100);
+  --orch-actor-python-fg: var(--p-success-700);
+  --orch-actor-sql-bg: var(--p-blue-500);
+  --orch-actor-sql-fg: #ffffff;
+  --orch-actor-llm-bg: var(--p-red-100);
+  --orch-actor-llm-fg: var(--p-red-600);
+  --orch-actor-embedding-bg: var(--p-navy-100);
+  --orch-actor-embedding-fg: var(--p-navy-600);
+}
+
+/* ── Tier 3: Admin Component Tokens ──────────────────────── */
+
+:root {
+  --admin-table-border:       var(--border-default);
+  --admin-table-header-fg:    var(--text-secondary);
+  --admin-table-row-hover:    var(--surface-raised);
+  --admin-btn-border:         var(--border-strong);
+  --admin-btn-bg:             var(--panel-bg-strong);
+  --admin-btn-hover-bg:       var(--surface-raised);
+  --admin-btn-suspend-fg:     var(--p-amber-600);
+  --admin-btn-suspend-hover:  var(--p-amber-50);
+  --admin-btn-reactivate-fg:  var(--status-success);
+  --admin-btn-reactivate-hover: var(--status-success-soft);
+  --admin-btn-delete-fg:      var(--status-error);
+  --admin-btn-delete-hover:   var(--status-error-soft);
+  --admin-form-title-fg:      var(--text-primary);
+  --admin-form-label-fg:      var(--text-secondary);
+  --admin-form-field-border:  var(--border-strong);
+  --admin-form-focus-border:  var(--status-success);
+  --admin-submit-bg:          var(--status-success);
+  --admin-submit-hover-bg:    var(--p-success-700);
+  --admin-submit-disabled-bg: var(--p-neutral-400);
+  --admin-result-bg:          var(--surface-raised);
+  --admin-copy-fg:            var(--status-success);
+  --admin-copy-border:        var(--status-success);
+  --admin-copy-hover-bg:      var(--status-success-soft);
+
+  /* API tab */
+  --admin-api-key-bg:         var(--surface-raised, #f5f5f5);
+  --admin-api-key-border:     var(--border-strong, #d0d0d0);
+  --admin-api-key-font:       "SF Mono", "Fira Code", "Cascadia Code", monospace;
+}
+
+/* ── Tier 3: Topic Pill Tokens ──────────────────────────── */
+
+:root {
+  --topic-renta-bg:        var(--p-success-50);
+  --topic-renta-fg:        var(--p-success-700);
+  --topic-iva-bg:          var(--p-green-50);
+  --topic-iva-fg:          var(--p-green-800);
+  --topic-niif-bg:         var(--p-amber-50);
+  --topic-niif-fg:         var(--p-amber-600);
+  --topic-laboral-bg:      var(--p-success-50);
+  --topic-laboral-fg:      var(--p-success-700);
+  --topic-facturacion-bg:  var(--p-green-50);
+  --topic-facturacion-fg:  var(--p-green-800);
+  --topic-retencion-bg:    var(--p-success-50);
+  --topic-retencion-fg:    var(--p-success-700);
+  --topic-calendario-bg:   var(--p-navy-50);
+  --topic-calendario-fg:   var(--p-navy-600);
+}
+
+/* ── Tier 3: Status Pill Tokens ─────────────────────────── */
+
+:root {
+  --status-pill-ready-fg:      var(--p-success-700);
+  --status-pill-ready-bg:      var(--p-success-50);
+  --status-pill-ready-border:  var(--p-success-200);
+  --status-pill-live-fg:       var(--p-green-800);
+  --status-pill-live-bg:       var(--p-green-50);
+  --status-pill-live-border:   var(--p-green-200);
+}
+
+/* ── Tier 3: Hero Tokens ────────────────────────────────── */
+
+:root {
+  --hero-tagline-fg:  #E8611A;
+}
+
+/* ── Tier 3: Form Guide Tokens ────────────────────────────── */
+
+:root {
+  --fg-dian-accent:         var(--p-blue-800);
+}
+
+/* ── Tier 3: Expert Panel Tokens ─────────────────────────── */
+
+:root {
+  /* Verdict chips */
+  --expert-concordancia-bg:     rgba(74, 143, 106, 0.14);
+  --expert-concordancia-fg:     var(--p-success-600);
+  --expert-divergencia-bg:      rgba(196, 136, 58, 0.15);
+  --expert-divergencia-fg:      var(--p-amber-600);
+  --expert-complementario-bg:   rgba(62, 96, 140, 0.12);
+  --expert-complementario-fg:   var(--p-blue-600);
+  --expert-individual-bg:       rgba(102, 112, 122, 0.14);
+  --expert-individual-fg:       var(--p-neutral-500);
+
+  /* Signal chips */
+  --expert-signal-permite-bg:   rgba(53, 130, 92, 0.14);
+  --expert-signal-permite-fg:   var(--p-success-700);
+  --expert-signal-restringe-bg: rgba(174, 73, 54, 0.14);
+  --expert-signal-restringe-fg: var(--p-red-600);
+  --expert-signal-condiciona-bg: rgba(198, 150, 49, 0.14);
+  --expert-signal-condiciona-fg: var(--p-amber-600);
+
+  /* Authority badges */
+  --expert-authority-dian-bg:        rgba(34, 87, 54, 0.15);
+  --expert-authority-dian-fg:        var(--p-success-700);
+  --expert-authority-big4-bg:        rgba(42, 78, 130, 0.15);
+  --expert-authority-big4-fg:        var(--p-blue-600);
+  --expert-authority-actualicese-bg: rgba(196, 120, 40, 0.15);
+  --expert-authority-actualicese-fg: var(--p-amber-600);
+
+  /* Links & actions */
+  --expert-link-fg:     var(--p-blue-600);
+  --expert-open-fg:     var(--p-success-600);
+  --expert-more-btn-fg: var(--p-success-600);
+  --expert-deep-fg:     var(--p-blue-600);
+}
+
+/* ── Tier 3: Corpus Lifecycle Tokens ────────────────────── */
+
+:root {
+  /* Status chip tones */
+  --corpus-tone-green-fg:   var(--p-success-700);
+  --corpus-tone-yellow-fg:  var(--p-amber-600);
+  --corpus-tone-red-fg:     var(--status-error);
+
+  /* Stage state colors */
+  --corpus-stage-active-fg:    var(--p-amber-600);
+  --corpus-stage-completed-fg: var(--p-success-700);
+  --corpus-stage-failed-fg:    var(--status-error);
+
+  /* Status dots */
+  --corpus-dot-ok:      var(--p-success-400);
+  --corpus-dot-error:   var(--p-red-400);
+  --corpus-dot-unknown: var(--p-neutral-400);
+
+  /* Buttons */
+  --corpus-btn-audit-bg:       var(--p-amber-400);
+  --corpus-btn-audit-hover-bg: var(--p-amber-600);
+  --corpus-btn-sync-bg:        var(--p-green-600);
+  --corpus-btn-sync-hover-bg:  var(--p-green-700);
+
+  /* Log panel */
+  --corpus-log-bg:     var(--p-navy-900);
+  --corpus-log-fg:     var(--p-neutral-150);
+
+  /* Badges */
+  --corpus-rate-bg:    var(--p-green-50);
+  --corpus-rate-fg:    var(--p-blue-500);
+  --corpus-resume-bg:  var(--p-amber-50);
+  --corpus-resume-fg:  var(--p-amber-600);
+
+  /* Health badges */
+  --corpus-hb-healthy-bg: var(--status-success-soft);
+  --corpus-hb-healthy-fg: var(--p-success-700);
+  --corpus-hb-slow-bg:    var(--p-amber-50);
+  --corpus-hb-slow-fg:    var(--p-amber-600);
+  --corpus-hb-stale-bg:   var(--status-error-soft);
+  --corpus-hb-stale-fg:   var(--p-red-600);
+
+  /* Report deltas */
+  --corpus-delta-positive: var(--p-success-400);
+  --corpus-delta-negative: var(--status-error);
+}
+
+/* ── Tier 3: Chat Panel Extras ──────────────────────────── */
+
+:root {
+  --chat-new-thread-border: transparent;
+  --chat-new-thread-bg:     var(--p-action-green-500);
+  --chat-new-thread-fg:     #ffffff;
+  --chat-new-thread-hover-bg: var(--p-action-green-600);
+  --chat-new-thread-hover-border: transparent;
+  --chat-reset-bg:          var(--p-navy-400);
+  --chat-reset-fg:          #ffffff;
+  --chat-reset-hover-bg:    var(--p-navy-500);
+  --chat-bubble-select-border: var(--p-blue-500);
+  --chat-feedback-thanks-fg: var(--status-success);
+}
+
+/* ── Tier 3: Norma Caution Tokens ───────────────────────── */
+
+:root {
+  --norma-caution-fg: var(--p-amber-600);
+}
+
+/* ── Tier 3: Mobile Shell Tokens ────────────────────────── */
+
+:root {
+  --mobile-tab-bg: var(--p-blue-800);
+}
+
+/* ── Tier 3: Googly Loader Tokens ───────────────────────── */
+
+:root {
+  --googly-loader-bg:    var(--panel-bg-strong);
+  --googly-pupil-bg:     var(--p-navy-800);
+  --googly-core-inner:   rgba(255, 255, 255, 0.92);
+  --googly-core-outer:   rgba(223, 236, 250, 0.82);
+}
+
+/* ── Tier 3: Expert Panel Alpha Tokens ──────────────────── */
+
+:root {
+  /* Card border per verdict */
+  --expert-card-concordancia-border: rgba(74, 143, 106, 0.28);
+  --expert-card-divergencia-border:  rgba(196, 136, 58, 0.34);
+  --expert-card-complementario-border: rgba(62, 96, 140, 0.24);
+  --expert-card-individual-border:   rgba(102, 112, 122, 0.24);
+
+  /* Banner border per verdict */
+  --expert-banner-concordancia-border: rgba(74, 143, 106, 0.26);
+  --expert-banner-divergencia-border:  rgba(196, 136, 58, 0.3);
+  --expert-banner-complementario-border: rgba(62, 96, 140, 0.24);
+  --expert-banner-individual-border:   rgba(102, 112, 122, 0.24);
+
+  /* Chip neutral tint */
+  --expert-chip-neutral-bg: rgba(17, 24, 39, 0.06);
+  --expert-authority-generic-bg: rgba(128, 128, 128, 0.12);
+
+  /* Relevancia accent */
+  --expert-relevancia-bg:     rgba(46, 107, 79, 0.05);
+  --expert-relevancia-border: rgba(46, 107, 79, 0.22);
+  --expert-nutshell-border:   rgba(46, 107, 79, 0.3);
+
+  /* Card gradients */
+  --expert-card-gradient-top:    rgba(255, 255, 255, 0.94);
+  --expert-card-gradient-bottom: rgba(244, 247, 248, 0.98);
+  --expert-banner-gradient-top:    rgba(252, 253, 252, 0.98);
+  --expert-banner-gradient-bottom: rgba(245, 248, 247, 0.98);
+
+  /* Focus / hover accents */
+  --expert-focus-ring:       rgba(46, 107, 79, 0.38);
+  --expert-more-border:      rgba(46, 107, 79, 0.32);
+  --expert-more-hover-border: rgba(46, 107, 79, 0.5);
+  --expert-deep-border:      rgba(47, 91, 140, 0.35);
+  --expert-deep-hover-border: rgba(47, 91, 140, 0.5);
+}
+
+/* ── Tier 3: Corpus Lifecycle Alpha Tokens ──────────────── */
+
+:root {
+  /* Status chip bg per tone */
+  --corpus-chip-green-bg:  rgba(21, 128, 61, 0.12);
+  --corpus-chip-yellow-bg: rgba(217, 119, 6, 0.14);
+  --corpus-chip-red-bg:    rgba(220, 38, 38, 0.12);
+
+  /* Stage item bg */
+  --corpus-stage-active-bg:    rgba(245, 158, 11, 0.12);
+  --corpus-stage-completed-bg: rgba(16, 185, 129, 0.1);
+  --corpus-stage-failed-bg:    rgba(239, 68, 68, 0.1);
+
+  /* Callout bg */
+  --corpus-callout-red-bg:   rgba(239, 68, 68, 0.08);
+  --corpus-callout-green-bg: rgba(16, 185, 129, 0.1);
+
+  /* Check borders */
+  --corpus-check-ok-border:   rgba(22, 163, 74, 0.16);
+  --corpus-check-fail-border: rgba(220, 38, 38, 0.18);
+
+  /* Meta code bg */
+  --corpus-meta-code-bg: rgba(241, 245, 249, 0.9);
+
+  /* Meta/check cell border */
+  --corpus-meta-border: rgba(226, 232, 240, 0.8);
+  --corpus-report-row-border: rgba(226, 232, 240, 0.5);
+
+  /* Operation panel severity borders */
+  --corpus-severity-yellow-border: rgba(217, 119, 6, 0.3);
+  --corpus-severity-green-border:  rgba(21, 128, 61, 0.25);
+  --corpus-severity-red-border:    rgba(185, 28, 28, 0.24);
+
+  /* Chip pulse animation */
+  --corpus-pulse-color: rgba(217, 119, 6, 0.08);
+}
+
+/* ── Tier 3: Chat Action Tokens ─────────────────────────── */
+
+:root {
+  --chat-action-hover-bg:  rgba(128, 136, 131, 0.08);
+  --chat-action-active-bg: rgba(128, 136, 131, 0.12);
+}
+
+/* ── Tier 3: Chat Code Tokens ───────────────────────────── */
+
+:root {
+  --chat-code-user-bg:     rgba(15, 90, 71, 0.06);
+  --chat-code-user-border: rgba(86, 134, 113, 0.18);
+}
+
+/* ── Tier 3: Chat Pills Alpha Tokens ────────────────────── */
+
+:root {
+  --status-pill-busy-bg:     rgba(255, 243, 219, 0.98);
+  --status-pill-busy-border: rgba(232, 202, 143, 0.95);
+  --session-pill-bg:         rgba(255, 255, 255, 0.74);
+  --session-pill-border:     rgba(195, 205, 199, 0.95);
+}
+
+/* ── Tier 3: Chat Sidebar Tokens ────────────────────────── */
+
+:root {
+  --sidebar-tooltip-bg: rgba(247, 249, 248, 0.98);
+}
+
+/* ── Tier 3: Thinking Overlay Tokens ────────────────────── */
+
+:root {
+  --thinking-overlay-bg:      rgba(13, 24, 20, 0.38);
+  --thinking-animation-bg:    rgba(11, 19, 33, 0.26);
+  --thinking-card-bg:         #fbfdfb;
+  --thinking-card-gradient:   rgba(255, 255, 255, 0.96);
+}
+
+/* ── Tier 3: Form Guide Tokens (extended) ───────────────── */
+
+:root {
+  /* Warm cream tints */
+  --fg-warm-bg:          rgba(255, 249, 240, 0.6);
+  --fg-warm-bg-strong:   rgba(255, 249, 240, 0.74);
+  --fg-warm-bg-pill:     rgba(255, 250, 240, 0.98);
+  --fg-warm-bg-chip:     rgba(255, 252, 244, 0.98);
+
+  /* Teal/green tints */
+  --fg-teal-bg:          rgba(241, 250, 246, 0.9);
+  --fg-teal-bg-strong:   rgba(241, 250, 246, 0.95);
+  --fg-teal-bg-pill:     rgba(241, 250, 246, 0.98);
+  --fg-teal-bg-chip:     rgba(235, 247, 241, 0.98);
+  --fg-teal-border:      rgba(220, 238, 232, 0.28);
+  --fg-teal-border-hover: rgba(220, 238, 232, 0.55);
+  --fg-teal-active-border: rgba(20, 115, 83, 0.72);
+  --fg-teal-pill-active-border: rgba(20, 115, 83, 0.85);
+
+  /* DIAN-specific card colors */
+  --fg-dian-card-bg:     var(--p-green-50);
+  --fg-dian-card-strong: var(--p-neutral-100);
+  --fg-source-badge-bg:  var(--p-blue-500);
+
+  /* Danger/warning card tints */
+  --fg-card-danger-border: rgba(163, 35, 35, 0.18);
+  --fg-card-danger-bg:     rgba(255, 246, 246, 0.98);
+  --fg-card-warning-border: rgba(162, 119, 22, 0.2);
+  --fg-card-warning-bg:    rgba(255, 251, 242, 0.98);
+
+  /* Dialog backdrop */
+  --fg-dialog-backdrop:    rgba(18, 26, 24, 0.54);
+
+  /* Chat handoff gradient */
+  --fg-chat-handoff:       rgba(248, 252, 250, 0.98);
+  --fg-chat-form-bg:       rgba(255, 249, 240, 0.5);
+
+  /* Section active gradient */
+  --fg-section-active-gradient: rgba(252, 255, 253, 0.98);
+}
+
+/* ── Tier 3: Normative Analysis Alpha Tokens ────────────── */
+
+:root {
+  --na-card-bg:         var(--surface-translucent-strong);
+  --na-card-border:     var(--card-border);
+  --na-card-shadow:     0 8px 22px rgba(11, 19, 33, 0.05);
+  --na-lead-tint:       rgba(215, 238, 225, 0.52);
+  --na-lead-warm:       var(--fg-warm-bg-pill);
+  --na-lead-shadow:     0 10px 24px rgba(11, 19, 33, 0.06);
+  --na-chip-bg:         var(--fg-teal-bg-pill);
+  --na-chip-border:     var(--fg-teal-border);
+  --na-header-glow:     rgba(215, 238, 225, 0.42);
+  --na-source-bg:       var(--surface-translucent-md);
+  --na-dialog-backdrop: rgba(18, 26, 24, 0.52);
+}
+
+/* ── Tier 3: Orchestration Minimap Token ────────────────── */
+
+:root {
+  --orch-minimap-lens-bg: rgba(45, 111, 164, 0.1);
+}
+
+/* ── Tier 3: Ops Progress Token ─────────────────────────── */
+
+:root {
+  --ops-progress-stripe: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Legacy Aliases (backward compat) ─────────────────────── */
+
+:root {
+  --bg-main:         var(--surface-base);
+  --bg-panel:        var(--surface-glass);
+  --bg-panel-strong: var(--surface-glass-strong);
+  --bg-tint:         var(--surface-tint);
+  --bg-tint-strong:  var(--surface-tint-strong);
+  --ink:             var(--text-primary);
+  --ink-soft:        var(--text-secondary);
+  --ink-faint:       var(--text-tertiary);
+  --line:            var(--border-default);
+  --line-strong:     var(--border-strong);
+  --brand:           var(--p-green-500);
+  --brand-strong:    var(--p-green-700);
+  --brand-soft:      var(--p-green-100);
+  --accent:          var(--p-green-300);
+  --danger:          var(--status-error);
+  --shadow-soft:     0 1px 2px rgba(15, 25, 45, 0.06),
+                     0 4px 12px rgba(15, 25, 45, 0.08),
+                     0 16px 32px rgba(15, 25, 45, 0.06);
+  --shadow-strong:   var(--shadow-lg);
+}

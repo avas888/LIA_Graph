@@ -1,0 +1,301 @@
+# ────────────────────────────────────────────────────────────────────────────
+# 100-Question Accountant Evaluation Rubric
+# Target persona: Colombian PYME accountant (contador público titulado)
+# ────────────────────────────────────────────────────────────────────────────
+
+global:
+  pass_threshold_percent: 75.0        # overall macro-average to pass
+  weak_dimension_threshold: 0.4       # flag dimension if avg < this
+  weak_question_threshold: 50.0       # flag question if total < this %
+  corpus_gap_min_cluster_size: 3      # min weak questions to flag a gap cluster
+  comparison_sample_size: 30          # how many questions get Claude web-research baseline
+  comparison_seed: 42                 # reproducible random selection
+
+# ── Seven evaluation dimensions ──────────────────────────────────────────────
+# Each scored 1–5 by Claude-as-judge, then weighted → 0–100%
+
+dimensions:
+  exactitud_normativa:
+    weight: 0.25
+    description: >
+      ¿Las normas, artículos, leyes y decretos citados son correctos?
+      ¿Los umbrales en UVT, porcentajes y fechas son exactos para AG 2025?
+      Penalizar fuertemente si cita normas derogadas, confunde artículos,
+      o inventa referencias que no existen.
+    scale:
+      5: "Todas las referencias normativas son correctas y verificables"
+      4: "Normas correctas con alguna imprecisión menor (e.g. falta año de ley)"
+      3: "Mayoría correcta pero con 1-2 errores de artículo o umbral"
+      2: "Múltiples errores normativos o mezcla de normas derogadas/vigentes"
+      1: "Normas incorrectas, inventadas o gravemente confundidas"
+
+  aplicabilidad_operativa:
+    weight: 0.20
+    description: >
+      ¿El contador puede actuar inmediatamente con esta respuesta?
+      ¿Menciona formularios específicos, plataforma MUISCA, pasos concretos?
+      Un contador de PYME necesita pasos ejecutables, no teoría.
+    scale:
+      5: "Respuesta completamente accionable — pasos, formularios, plazos claros"
+      4: "Mayormente accionable con algún paso implícito"
+      3: "Parcialmente accionable — falta algún dato clave para ejecutar"
+      2: "Demasiado teórico — el contador necesita buscar información adicional"
+      1: "No accionable — solo definiciones sin guía práctica"
+
+  completitud:
+    weight: 0.15
+    description: >
+      ¿Cubre todos los aspectos que un contador PYME necesitaría para actuar
+      con confianza total? ¿Explica contexto práctico, implicaciones entre
+      normas, casos especiales, excepciones y tarifas diferenciales?
+      La reference_answer es solo un ancla factual mínima — si LIA
+      simplemente repite lo de la referencia, eso es un 3, no un 5.
+      Para puntuar 5 debe ir mucho más allá en profundidad y utilidad.
+    scale:
+      5: "Profunda y exhaustiva — contexto, implicaciones, excepciones, interacción entre normas"
+      4: "Cubre lo esencial con buena profundidad — omite 1 aspecto secundario"
+      3: "Adecuada pero superficial — repite la norma sin contexto práctico profundo"
+      2: "Omite aspectos importantes que podrían causar errores"
+      1: "Respuesta superficial que deja al contador sin información clave"
+
+  actualizacion:
+    weight: 0.12
+    description: >
+      ¿La información es vigente para AG 2025 / declaraciones 2026?
+      ¿Usa la UVT correcta ($49.799 para 2026)? ¿Cita leyes vigentes
+      (Ley 2277 de 2022, decretos de calendario 2025)?
+      Penalizar si cita normas derogadas sin advertir.
+    scale:
+      5: "Totalmente actualizado — UVT, tarifas y normas vigentes 2025-2026"
+      4: "Actualizado con algún valor que podría ser del año anterior"
+      3: "Mezcla información vigente con alguna desactualizada"
+      2: "Varios datos desactualizados que podrían causar errores"
+      1: "Información de años anteriores sin advertencia"
+
+  claridad_profesional:
+    weight: 0.10
+    description: >
+      ¿Está escrita al nivel correcto para un contador público?
+      No debe ser ni demasiado académica/abstracta ni demasiado simplista.
+      Debe usar terminología contable colombiana correcta.
+    scale:
+      5: "Nivel perfecto — lenguaje profesional contable colombiano"
+      4: "Buen nivel con alguna expresión innecesariamente compleja"
+      3: "Aceptable pero con lenguaje genérico o no-colombiano"
+      2: "Demasiado básico o demasiado académico para un contador practicante"
+      1: "Lenguaje inapropiado — confuso, vago o con errores terminológicos"
+
+  prudencia_fiscal:
+    weight: 0.10
+    description: >
+      ¿Advierte sobre riesgos, sanciones y zonas grises?
+      Un buen consejo contable señala dónde hay riesgo de sanción,
+      dónde la DIAN ha cambiado de criterio, o dónde la norma es ambigua.
+      ¿Sería confiable para un contador cauteloso?
+    scale:
+      5: "Excelente — señala riesgos, sanciones aplicables y precauciones"
+      4: "Buena prudencia — menciona riesgos principales"
+      3: "Aceptable — no advierte sobre riesgos no obvios"
+      2: "Poca prudencia — podría inducir a error por omisión de riesgos"
+      1: "Imprudente — afirma certezas donde hay ambigüedad normativa"
+
+  soporte_documental:
+    weight: 0.08
+    description: >
+      ¿Las citas son trazables? ¿El contador podría verificar la respuesta
+      contra la fuente original? ¿Incluye artículos específicos del ET,
+      resoluciones DIAN con número, decretos con año?
+    scale:
+      5: "Citas completas y verificables (artículo + cuerpo normativo + año)"
+      4: "Citas mayormente trazables con alguna incompleta"
+      3: "Cita normas pero sin suficiente detalle para verificar"
+      2: "Pocas citas — el contador no puede verificar"
+      1: "Sin soporte documental o con citas inventadas"
+
+# ── Evaluation profiles (weight adjustments by question type) ────────────────
+
+profile_overrides:
+  procedural:
+    aplicabilidad_operativa: 0.25   # higher — steps matter most
+    completitud: 0.12
+  comparative_decision:
+    aplicabilidad_operativa: 0.22
+    prudencia_fiscal: 0.14          # higher — risk comparison matters
+    completitud: 0.12
+  calculative:
+    exactitud_normativa: 0.28       # higher — numbers must be right
+    aplicabilidad_operativa: 0.22
+    completitud: 0.12
+
+# ── Claude-as-judge system prompt ────────────────────────────────────────────
+
+judge_system_prompt: |
+  Eres un contador público colombiano senior con 20 años de experiencia
+  asesorando PYMEs. Evalúas respuestas de un asistente de IA sobre temas
+  tributarios, contables y laborales colombianos.
+
+  Tu evaluación debe ser ESTRICTA y PROFESIONAL:
+  - Verificas exactitud de artículos del ET, leyes, decretos y resoluciones DIAN
+  - Verificas que las cifras en UVT usen el valor vigente ($49.799 para 2026)
+  - Evalúas si un contador podría actuar directamente con la respuesta
+  - Detectas normas derogadas, confusión de artículos, o invenciones
+  - Señalas información faltante que un profesional esperaría
+  - Valoras la prudencia fiscal — ¿advierte riesgos y sanciones?
+
+  IMPORTANTE SOBRE LA RESPUESTA DE REFERENCIA:
+  La "respuesta de referencia" que se te proporciona es SOLO un ancla factual
+  mínima — contiene las normas, artículos y cifras correctas. NO es un modelo
+  de calidad. Una buena respuesta de LIA debe ser MUCHO más profunda, detallada
+  y operativamente útil que la referencia. Usa la referencia únicamente para
+  verificar exactitud normativa (¿citó los artículos correctos? ¿las cifras
+  son precisas?), pero juzga la PROFUNDIDAD y UTILIDAD de la respuesta de LIA
+  con un estándar alto e independiente: lo que un contador de PYME necesita
+  para actuar con confianza — contexto práctico, implicaciones, riesgos,
+  pasos operativos, interacción entre normas, y advertencias profesionales.
+
+  IMPORTANTE: No seas indulgente. Un error normativo que cause una sanción
+  a un contribuyente es grave. Puntúa con honestidad profesional.
+
+judge_user_template: |
+  ## Pregunta del contador
+  {question}
+
+  ## Respuesta del asistente (LIA)
+  {lia_answer}
+
+  ## Ancla factual de referencia (SOLO para verificar exactitud normativa — NO es un modelo de calidad)
+  {reference_answer}
+
+  ## Fuentes normativas que debería cubrir (mínimo)
+  {reference_sources}
+
+  ## Citaciones que proporcionó LIA
+  {lia_citations}
+
+  ---
+
+  Evalúa la respuesta de LIA en las siguientes 7 dimensiones.
+  RECUERDA: la referencia es solo un ancla factual mínima. Una respuesta de
+  LIA que meramente repite lo de la referencia merece un 3 en completitud, NO
+  un 5. Para puntuar alto, LIA debe ir MUCHO más allá: explicar contexto
+  práctico, implicaciones, riesgos, pasos operativos, interacción entre normas,
+  advertencias profesionales, y todo lo que un contador de PYME necesita para
+  actuar con confianza sin tener que buscar en otra parte.
+
+  Para cada dimensión, asigna un puntaje de 1 a 5 y justifica brevemente.
+  Luego identifica:
+  - **fuentes_faltantes**: normas o fuentes que LIA debería haber citado pero no citó
+  - **errores_normativos**: cualquier error factual en la respuesta
+  - **informacion_omitida**: aspectos importantes que faltaron
+  - **corpus_gaps**: temas o fuentes legales que el sistema parece no tener en su base de conocimiento
+
+  Responde en JSON con esta estructura exacta:
+  {{
+    "scores": {{
+      "exactitud_normativa": {{"score": N, "justification": "..."}},
+      "aplicabilidad_operativa": {{"score": N, "justification": "..."}},
+      "completitud": {{"score": N, "justification": "..."}},
+      "actualizacion": {{"score": N, "justification": "..."}},
+      "claridad_profesional": {{"score": N, "justification": "..."}},
+      "prudencia_fiscal": {{"score": N, "justification": "..."}},
+      "soporte_documental": {{"score": N, "justification": "..."}}
+    }},
+    "fuentes_faltantes": ["..."],
+    "errores_normativos": ["..."],
+    "informacion_omitida": ["..."],
+    "corpus_gaps": ["..."],
+    "overall_assessment": "..."
+  }}
+
+# ── Web research prompt (for 30-question Claude baseline) ────────────────────
+
+research_system_prompt: |
+  Eres un contador público colombiano senior investigando la respuesta
+  correcta y completa a una pregunta tributaria/contable. Usa las fuentes
+  web para verificar la información más actualizada.
+
+  Tu respuesta debe ser:
+  - Precisa normativamente (artículos exactos del ET, leyes con año)
+  - Actualizada a AG 2025 / declaraciones 2026 (UVT 2026 = $49.799)
+  - Práctica para un contador de PYME
+  - Con fuentes verificables
+
+  Responde en JSON:
+  {{
+    "answer": "tu respuesta completa en español",
+    "sources": ["lista de fuentes normativas citadas"],
+    "confidence": "high|medium|low",
+    "notes": "observaciones sobre disponibilidad/calidad de fuentes encontradas"
+  }}
+
+research_user_template: |
+  Investiga y responde esta pregunta como contador colombiano experto:
+
+  {question}
+
+  Busca en fuentes oficiales colombianas (DIAN, Secretaría del Senado,
+  normograma, actualicese.com, gerencie.com) para verificar tu respuesta.
+
+# ── Head-to-head comparison prompt ───────────────────────────────────────────
+
+comparison_system_prompt: |
+  Eres un evaluador experto comparando dos respuestas a una pregunta
+  tributaria/contable colombiana. Respuesta A es de un asistente RAG (LIA),
+  Respuesta B es de un modelo con acceso a web (Claude).
+
+  Evalúa ambas con imparcialidad. No favorezcas ninguna por defecto.
+
+comparison_user_template: |
+  ## Pregunta
+  {question}
+
+  ## Respuesta A (LIA — sistema RAG con corpus propio)
+  {lia_answer}
+
+  ## Respuesta B (Claude — con búsqueda web)
+  {claude_answer}
+
+  ## Ancla factual (solo para verificar exactitud — NO es el estándar de calidad)
+  {reference_answer}
+
+  ---
+
+  Compara ambas respuestas en profundidad, utilidad práctica y rigor normativo.
+  La referencia es solo un mínimo factual — el estándar de calidad es lo que
+  un contador de PYME necesita para actuar con confianza total.
+  Para cada una, puntúa de 1-5 en:
+  exactitud_normativa, completitud, aplicabilidad_operativa, actualizacion.
+
+  Luego determina:
+  - **winner**: "lia" | "claude" | "tie"
+  - **lia_advantages**: qué hace mejor LIA
+  - **claude_advantages**: qué hace mejor Claude
+  - **lia_missing_from_corpus**: fuentes/temas que LIA parece no tener
+
+  Responde en JSON:
+  {{
+    "lia_scores": {{"exactitud_normativa": N, "completitud": N, "aplicabilidad_operativa": N, "actualizacion": N}},
+    "claude_scores": {{"exactitud_normativa": N, "completitud": N, "aplicabilidad_operativa": N, "actualizacion": N}},
+    "winner": "...",
+    "margin": "decisive|narrow|negligible",
+    "lia_advantages": ["..."],
+    "claude_advantages": ["..."],
+    "lia_missing_from_corpus": ["..."],
+    "analysis": "..."
+  }}
+
+# ── Corpus gap analysis aggregation ──────────────────────────────────────────
+
+gap_analysis:
+  # Group corpus gaps by these taxonomy buckets
+  taxonomy:
+    - "normas_derogadas_o_actualizadas"      # LIA cites old/repealed norms
+    - "articulos_et_faltantes"               # ET articles not in corpus
+    - "resoluciones_dian_faltantes"          # DIAN resolutions missing
+    - "decretos_faltantes"                   # Decrees not indexed
+    - "doctrina_dian_faltante"               # DIAN concepts/opinions missing
+    - "jurisprudencia_faltante"              # Court rulings missing
+    - "leyes_recientes_faltantes"            # Recent laws not yet ingested
+    - "temas_sin_cobertura"                  # Entire topics with no corpus
+    - "cifras_desactualizadas"               # UVT/thresholds out of date
+    - "formatos_formularios_faltantes"       # DIAN forms/formats not covered

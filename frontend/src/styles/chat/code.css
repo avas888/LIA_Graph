@@ -1,0 +1,31 @@
+
+.bubble-text code,
+.runtime-value,
+.diagnostics,
+.summary-body,
+.session-pill {
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.bubble-text code {
+  font-size: 0.9em;
+  background: var(--chat-code-bg);
+  border: 1px solid var(--chat-code-border);
+  border-radius: 0.4rem;
+  padding: 0.08rem 0.28rem;
+  overflow-wrap: anywhere;
+}
+
+.bubble-user .bubble-text code {
+  background: var(--chat-code-user-bg);
+  border-color: var(--chat-code-user-border);
+}
+
+.bubble-text pre {
+  overflow-x: auto;
+  background: var(--chat-pre-bg);
+  border: 1px solid var(--chat-pre-border);
+  border-radius: 0.7rem;
+  padding: 0.62rem 0.68rem;
+  margin: 0.52rem 0 0.65rem;
+}

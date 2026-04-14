@@ -1,0 +1,129 @@
+.ops-window {
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto auto auto;
+}
+
+.ops-window::before {
+  content: "";
+  display: block;
+  height: 4px;
+  background: var(--p-neutral-300);
+  transition: background 0.2s ease;
+}
+
+.ops-window-head {
+  padding: 0.5rem 0.85rem 0.45rem;
+  border-bottom: 1px solid var(--border-default);
+  background: var(--panel-header-bg);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.ops-window-head h2,
+.ops-window-head p {
+  margin: 0;
+}
+
+.ops-window-body {
+  min-height: 0;
+  overflow: auto;
+  padding: 0.65rem 0.85rem 0.75rem;
+}
+
+.ops-window-body-selected {
+  display: grid;
+  grid-template-rows: auto minmax(0, auto);
+  gap: 0.85rem;
+}
+
+.ops-window-body-selected:has(> .ops-empty:only-child),
+.ops-window-body-selected:has(> .kanban-board:empty) {
+  min-height: 0;
+}
+
+.ops-window-body-table {
+  overflow: hidden;
+}
+
+.ops-table-wrap,
+.ops-doc-table-wrap {
+  min-height: 0;
+  height: 100%;
+  overflow: auto;
+}
+
+.ops-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.ops-card {
+  padding: 1rem;
+}
+
+.ops-card.ops-window {
+  padding: 0;
+}
+
+.ops-card > button {
+  margin: 0 0 0.95rem;
+}
+
+/* ── Collapsible window (details/summary variant) ───────── */
+
+.ops-window--collapsible {
+  grid-template-rows: auto auto;
+}
+
+.ops-window--collapsible > summary {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.ops-window--collapsible > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ops-window--collapsible > summary > h2 {
+  flex: 1;
+}
+
+.ops-window--collapsible > summary::after {
+  content: "▾";
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.ops-window--collapsible:not([open]) > summary::after {
+  transform: rotate(-90deg);
+}
+
+.ops-window--collapsible > summary button {
+  /* Prevent summary from swallowing button click area visually */
+  pointer-events: auto;
+}
+
+.ops-window--collapsible:not([open]) > .ops-window-body {
+  display: none;
+}
+
+/* ── Browser chrome flex overrides ────────────────────────── */
+
+.browser-viewport .ops-window {
+  flex-shrink: 0;
+}
+
+.browser-viewport .ops-window-body-table,
+.browser-viewport .ops-window-body-selected {
+  max-height: 45vh;
+  overflow: auto;
+}
+

@@ -1,0 +1,222 @@
+
+.bubble {
+  position: relative;
+  z-index: 0;
+  max-width: min(94%, 72ch);
+  border-radius: 1.08rem;
+  padding: 0.92rem 1.02rem 0.94rem;
+  border: 1px solid var(--chat-bubble-border);
+  box-shadow: var(--chat-bubble-shadow);
+  contain: layout;
+}
+
+.bubble-user {
+  align-self: flex-end;
+  background: var(--chat-bubble-user-bg);
+  border-color: var(--chat-bubble-user-border);
+  color: var(--ink);
+  border-top-right-radius: 0.35rem;
+}
+
+.bubble-assistant {
+  align-self: flex-start;
+  max-width: min(96%, 84ch);
+  background: var(--chat-bubble-assistant-bg);
+  border-color: var(--chat-bubble-assistant-border);
+  border-top-left-radius: 0.35rem;
+}
+
+.bubble-role {
+  margin: 0 0 0.45rem;
+  font-weight: 700;
+  font-size: 0.73rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.bubble-user .bubble-role {
+  color: var(--chat-bubble-user-role);
+}
+
+.bubble-timestamp {
+  position: absolute;
+  top: 0.92rem;
+  right: 1.02rem;
+  font-size: 0.66rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.7;
+}
+
+.bubble-coverage-notice {
+  margin: 0 0 0.72rem;
+  padding: 0.58rem 0.72rem;
+  border-radius: 0.78rem;
+  border: 1px solid color-mix(in srgb, var(--chat-bubble-assistant-border) 82%, white 18%);
+  background: color-mix(in srgb, var(--chat-bubble-assistant-bg) 72%, #fff5d8 28%);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.bubble-text {
+  line-height: 1.68;
+  font-size: 0.98rem;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.bubble-user .bubble-text {
+  white-space: pre-wrap;
+}
+
+.bubble-text > :first-child {
+  margin-top: 0;
+}
+
+.bubble-text > :last-child {
+  margin-bottom: 0;
+}
+
+.bubble-text p {
+  margin: 0 0 0.82rem;
+}
+
+.bubble-text ul,
+.bubble-text ol {
+  margin: 0.4rem 0 1rem 0;
+  padding: 0 0 0 1.4em;
+  list-style-position: outside;
+}
+
+.bubble-text ul {
+  list-style-type: disc;
+}
+
+.bubble-text ol {
+  list-style-type: decimal;
+}
+
+.bubble-text li {
+  margin: 0.34rem 0;
+  padding-left: 0.25em;
+  overflow-wrap: break-word;
+}
+
+/* Keep the same bullet marker across nested lists, whether the parent is ul or ol. */
+.bubble-text li > ul,
+.bubble-text li > ol {
+  margin: 0.2rem 0 0.4rem 0;
+  padding-left: 1.55em;
+}
+
+.bubble-text li > ul {
+  list-style-type: disc;
+}
+
+.bubble-text li > ol {
+  list-style-type: decimal;
+}
+
+.bubble-text h1,
+.bubble-text h2,
+.bubble-text h3,
+.bubble-text h4 {
+  margin: 1rem 0 0.72rem;
+  font-size: 1.04rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.bubble-text h1:first-child,
+.bubble-text h2:first-child,
+.bubble-text h3:first-child,
+.bubble-text h4:first-child {
+  margin-top: 0.15rem;
+}
+
+.bubble-text blockquote {
+  margin: 0.7rem 0;
+  padding: 0.2rem 0 0.2rem 0.9rem;
+  border-left: 3px solid var(--chat-bubble-blockquote-border);
+  color: var(--text-secondary);
+}
+
+.bubble-text a {
+  color: var(--chat-bubble-link);
+  text-decoration: underline;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.bubble-user .bubble-text a {
+  color: var(--chat-bubble-link-user);
+}
+
+/* ── Streaming status text (visible during pipeline processing) ── */
+
+.bubble-stream-status {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  font-size: 0.88rem;
+  color: var(--ink-faint, #6b7280);
+  line-height: 1.5;
+  animation: status-pulse 1.8s ease-in-out infinite;
+}
+
+.bubble-stream-status::before {
+  content: "";
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  background: var(--brand, #3b82f6);
+  vertical-align: middle;
+  animation: status-dot-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes status-dot-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50%      { opacity: 1;   transform: scale(1); }
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1; }
+}
+
+/* ── Streaming / completion lifecycle indicators ────────── */
+
+.bubble-assistant.is-streaming {
+  border-left: 3px solid var(--brand, #3b82f6);
+  animation: streaming-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes streaming-pulse {
+  0%, 100% { border-left-color: color-mix(in srgb, var(--brand, #3b82f6) 40%, transparent 60%); }
+  50%      { border-left-color: var(--brand, #3b82f6); }
+}
+
+.bubble-assistant.is-complete {
+  border-left: 3px solid var(--success, #22c55e);
+  animation: none;
+  transition: border-left-color 0.3s ease;
+}
+
+.bubble-assistant.is-complete .bubble-actions {
+  animation: actions-fade-in 0.3s ease forwards;
+}
+
+@keyframes actions-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble-assistant.is-streaming { animation: none; }
+  .bubble-assistant.is-complete .bubble-actions { animation: none; }
+}

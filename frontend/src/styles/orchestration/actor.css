@@ -1,0 +1,40 @@
+/* ── Actor Badges ────────────────────────────────────────── */
+
+.orch-actor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.orch-actor[data-actor="curator"] {
+  background: var(--orch-actor-curator-bg);
+  color: var(--orch-actor-curator-fg);
+}
+
+.orch-actor[data-actor="python"] {
+  background: var(--orch-actor-python-bg);
+  color: var(--orch-actor-python-fg);
+}
+
+.orch-actor[data-actor="sql"] {
+  background: var(--orch-actor-sql-bg);
+  color: var(--orch-actor-sql-fg);
+}
+
+.orch-actor[data-actor="llm"] {
+  background: var(--orch-actor-llm-bg);
+  color: var(--orch-actor-llm-fg);
+}
+
+.orch-actor[data-actor="embedding"] {
+  background: var(--orch-actor-embedding-bg);
+  color: var(--orch-actor-embedding-fg);
+}
+
+.orch-actor svg {
+  display: block;
+}

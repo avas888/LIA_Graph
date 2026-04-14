@@ -1,0 +1,46 @@
+/* ── LIA thinking overlay ─────────────────────────────────
+ * Scoped to .chat-panel — does NOT block tab navigation,
+ * the side panel, or any other surface outside chat.
+ * ───────────────────────────────────────────────────────── */
+
+.lia-thinking-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  padding: 1rem;
+  background: var(--thinking-overlay-bg);
+  backdrop-filter: blur(3px);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.lia-thinking-overlay[hidden] {
+  display: none !important;
+}
+
+.lia-thinking-overlay.is-visible {
+  opacity: 1;
+}
+
+.lia-thinking-card {
+  width: 220px;
+  height: 220px;
+  pointer-events: none;
+  border: 1px solid #c7d9d2;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(208, 234, 225, 0.9) 0%, transparent 50%),
+    radial-gradient(circle at 75% 80%, rgba(249, 236, 208, 0.45) 0%, transparent 45%),
+    var(--thinking-card-bg);
+  box-shadow: 0 20px 48px rgba(10, 20, 18, 0.30);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

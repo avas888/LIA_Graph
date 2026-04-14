@@ -1,0 +1,23 @@
+/* ── SVG Edges ───────────────────────────────────────────── */
+
+.orch-edge {
+  fill: none;
+  stroke: var(--orch-edge-color);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.orch-edge--cross {
+  stroke: var(--orch-edge-cross-color);
+  stroke-dasharray: 6 4;
+  stroke-width: 1.2;
+}
+
+.orch-edge-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  fill: var(--text-tertiary);
+  text-anchor: middle;
+}

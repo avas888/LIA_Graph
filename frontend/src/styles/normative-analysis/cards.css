@@ -1,0 +1,170 @@
+
+.normative-analysis-lead {
+  margin: 0;
+  padding: 1rem 1.08rem;
+  border: 1px solid var(--na-card-border);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top left, var(--na-lead-tint), transparent 34%),
+    linear-gradient(180deg, var(--surface-translucent-strong), var(--na-lead-warm));
+  box-shadow: var(--na-lead-shadow);
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+
+.normative-analysis-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.8rem;
+}
+
+.normative-analysis-fact,
+.lia-fact-card,
+.normative-analysis-section,
+.lia-normative-section,
+.normative-analysis-timeline-item,
+.lia-timeline-item,
+.normative-analysis-relation,
+.lia-relation-link,
+.normative-analysis-action {
+  border: 1px solid var(--na-card-border);
+  border-radius: 0.95rem;
+  background: var(--na-card-bg);
+  box-shadow: var(--na-card-shadow);
+}
+
+.normative-analysis-fact,
+.lia-fact-card,
+.normative-analysis-timeline-item,
+.lia-timeline-item,
+.normative-analysis-relation,
+.lia-relation-link,
+.normative-analysis-action {
+  padding: 0.95rem 1rem;
+}
+
+.normative-analysis-sections,
+.normative-analysis-timeline,
+.normative-analysis-relations,
+.normative-analysis-actions {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.normative-analysis-section,
+.lia-normative-section {
+  padding: 1rem 1.05rem;
+}
+
+.normative-analysis-timeline-item h3,
+.lia-timeline-item__label,
+.normative-analysis-link,
+.lia-relation-link__title {
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.normative-analysis-meta,
+.lia-timeline-item__meta,
+.lia-relation-link__meta {
+  margin: 0 0 0.28rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.normative-analysis-link,
+.lia-relation-link__title {
+  color: var(--brand-strong);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.normative-analysis-link:hover,
+.lia-relation-link__title:hover {
+  text-decoration: underline;
+}
+
+.normative-analysis-overlays {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.normative-analysis-overlay-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid var(--na-chip-border);
+  background: var(--na-chip-bg);
+  color: var(--brand-strong);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.normative-analysis-action {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.normative-analysis-action .primary-btn,
+.normative-analysis-action .secondary-btn,
+.normative-analysis-action .lia-btn {
+  justify-self: flex-start;
+  text-decoration: none;
+}
+
+/* ── Molecule: fact-card ─────────────────────────────────── */
+
+.lia-fact-card__label {
+  margin: 0 0 0.28rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.lia-fact-card__value {
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── Molecule: normative-section ─────────────────────────── */
+
+.lia-normative-section__title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.lia-normative-section__body {
+  line-height: 1.6;
+}
+
+/* ── Molecule: timeline-item ─────────────────────────────── */
+
+.lia-timeline-item__detail {
+  margin: 0.25rem 0 0;
+  line-height: 1.55;
+}
+
+/* ── Molecule: relation-link ─────────────────────────────── */
+
+.lia-relation-link__helper {
+  margin: 0.25rem 0 0;
+  line-height: 1.55;
+}
+
+/* ── Action helper text ──────────────────────────────────── */
+
+.normative-analysis-action__helper {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+

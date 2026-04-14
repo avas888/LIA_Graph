@@ -1,0 +1,151 @@
+/* ── Record: date groups + conversation cards ────────────── */
+
+.record-date-group {
+  margin-bottom: 1.5rem;
+}
+
+.record-date-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin: 0 0 0.7rem;
+  padding: 0 0 0.4rem;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.record-date-header::before {
+  content: "";
+  width: 3px;
+  height: 0.85em;
+  border-radius: 2px;
+  background: var(--hero-tagline-fg);
+  flex-shrink: 0;
+}
+
+/* ── Conversation card ───────────────────────────────────── */
+
+.record-card {
+  background: var(--panel-bg);
+  border: 1px solid color-mix(in srgb, var(--glass-border) 50%, transparent);
+  border-left: 3px solid var(--border-default);
+  border-radius: 0.85rem;
+  padding: 0.92rem 1.02rem 0.92rem 0.92rem;
+  margin-bottom: 0.5rem;
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow 0.2s ease,
+    border-left-color 0.2s ease;
+}
+
+.record-card:hover {
+  box-shadow: var(--shadow-md);
+  border-left-color: var(--hero-tagline-fg);
+}
+
+.record-card-question {
+  margin: 0 0 0.5rem;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.record-card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+.record-card-separator {
+  color: var(--border-strong);
+}
+
+.record-card-time,
+.record-card-turns {
+  white-space: nowrap;
+}
+
+/* ── Resume button ───────────────────────────────────────── */
+
+.record-resume-btn {
+  margin-left: auto;
+  padding: 0.32rem 0.78rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--hero-tagline-fg);
+  background: transparent;
+  color: var(--hero-tagline-fg);
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.record-resume-btn:hover:not(:disabled) {
+  background: var(--hero-tagline-fg);
+  color: #ffffff;
+}
+
+/* ── Expire badge ────────────────────────────────────────── */
+
+.record-expire-badge {
+  font-size: 0.68rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  background: var(--status-warning-soft);
+  color: var(--p-amber-600);
+  white-space: nowrap;
+}
+
+/* ── Load more ───────────────────────────────────────────── */
+
+.record-load-more {
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  border: 1px dashed var(--border-strong);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.record-load-more:hover:not(:disabled) {
+  border-color: var(--hero-tagline-fg);
+  color: var(--text-primary);
+}
+
+.record-load-more:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .record-card {
+    border-radius: 0.7rem;
+    padding: 0.75rem 0.85rem 0.75rem 0.78rem;
+  }
+
+  .record-card-meta {
+    font-size: 0.74rem;
+  }
+
+  .record-resume-btn {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.6rem;
+  }
+}

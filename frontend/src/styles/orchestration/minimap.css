@@ -1,0 +1,26 @@
+/* ── Minimap ─────────────────────────────────────────────── */
+
+.orch-minimap {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 20;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--panel-bg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.orch-minimap canvas {
+  display: block;
+}
+
+.orch-minimap-lens {
+  position: absolute;
+  border: 2px solid var(--p-blue-500);
+  border-radius: 2px;
+  background: var(--orch-minimap-lens-bg);
+  pointer-events: none;
+}

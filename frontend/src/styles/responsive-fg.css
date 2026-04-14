@@ -1,0 +1,125 @@
+@media (max-width: 900px) {
+  .form-guide-shell,
+  .normative-analysis-shell {
+    height: 100vh;
+    height: 100dvh;
+    overflow: auto;
+  }
+
+  .form-guide-layout,
+  .normative-analysis-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    flex: none;
+  }
+
+  .form-guide-view {
+    overflow-y: visible;
+    max-height: none;
+  }
+
+  .form-guide-chat {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    min-height: 360px;
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-guide-header,
+  .normative-analysis-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    flex-direction: column;
+    padding: 0.75rem 1rem;
+  }
+
+  .form-guide-header-actions,
+  .normative-analysis-header-actions {
+    width: 100%;
+  }
+
+  .form-guide-header-actions .primary-btn,
+  .form-guide-header-actions .secondary-btn,
+  .normative-analysis-action .primary-btn,
+  .normative-analysis-action .secondary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .normative-analysis-layout {
+    padding: 1rem;
+  }
+
+  /* Hide tab toggle on mobile — text guide shown by default */
+  .form-guide-view-toggle { display: none !important; }
+
+  /* Hide interactive view — accessible only via button at bottom */
+  #form-guide-interactive-view { display: none; }
+
+  /* Show text guide before graphic guide */
+  .form-guide-main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #form-guide-structured-view { order: 1; }
+  #mobile-show-graphic-btn { order: 2; }
+  #form-guide-interactive-view { order: 3; }
+
+  .form-guide-view {
+    padding: 1rem;
+  }
+
+  /* "Ver guía gráfica" button at bottom of text guide */
+  .mobile-show-graphic-btn {
+    display: block !important;
+    margin: 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--brand, #0f5a47);
+    border-radius: 0.85rem;
+    background: var(--surface-glass-strong, #fcfeff);
+    color: var(--brand, #0f5a47);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .mobile-show-graphic-btn:active {
+    background: var(--p-neutral-100, #edf4fd);
+  }
+
+  .profile-option-btn {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .guide-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .guide-hotspot-pill {
+    min-width: 1.04rem;
+    height: 1.02rem;
+    font-size: 0.58rem;
+    padding: 0 0.22rem;
+  }
+
+  .field-dialog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-dialog-footer {
+    flex-direction: column-reverse;
+  }
+
+  .field-dialog-footer .primary-btn,
+  .field-dialog-footer .secondary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

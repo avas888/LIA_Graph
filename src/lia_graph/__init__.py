@@ -1,0 +1,26 @@
+"""Paquete scaffold de LIA Contador."""
+
+__all__ = [
+    "advisor",
+    "adapters",
+    "access_guardrails",
+    "answer",
+    "clarification_policy",
+    "contracts",
+    "erp_context",
+    "governance",
+    "ingest",
+    "instrumentation",
+    "knowledge_runtime",
+    "llm_runtime",
+    "mandamientos",
+    "operations",
+    "renta_reasoning",
+    "renta_parameters",
+    "refresh",
+    "retrieve",
+    "source_jobs",
+    "scope_guardrails",
+    "topic_guardrails",
+    "terms",
+]

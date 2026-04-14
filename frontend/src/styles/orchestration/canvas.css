@@ -1,0 +1,53 @@
+/* ── Canvas ──────────────────────────────────────────────── */
+
+.orch-canvas {
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
+  /* Grid paper background */
+  background-color: var(--orch-canvas-bg);
+  background-image:
+    linear-gradient(var(--orch-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--orch-grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── SVG Overlay ────────────────────────────────────────── */
+
+.orch-svg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Lane Backgrounds ───────────────────────────────────── */
+
+.orch-lane {
+  position: absolute;
+  border-radius: 8px;
+  border: 1px solid var(--orch-lane-border);
+  background: var(--orch-lane-bg);
+  z-index: 0;
+}
+
+.orch-lane[data-lane="ingesta"]       { border-left: 3px solid var(--orch-lane-ingesta); }
+.orch-lane[data-lane="parsing"]       { border-left: 3px solid var(--orch-lane-parsing); }
+.orch-lane[data-lane="almacenamiento"]{ border-left: 3px solid var(--orch-lane-almacenamiento); }
+.orch-lane[data-lane="retrieval"]     { border-left: 3px solid var(--orch-lane-retrieval); }
+.orch-lane[data-lane="plataforma"]   { border-left: 3px solid var(--orch-lane-plataforma); }
+.orch-lane[data-lane="mobile"]      { border-left: 3px solid var(--orch-lane-mobile); }
+
+.orch-lane-label {
+  position: sticky;
+  left: 0;
+  padding: 10px 16px 6px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  z-index: 3;
+}

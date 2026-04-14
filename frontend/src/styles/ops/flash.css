@@ -1,0 +1,28 @@
+.ops-flash {
+  margin-top: 0.75rem;
+  border: 1px solid var(--ops-flash-success-border);
+  border-radius: 0.95rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--ops-flash-success-bg);
+  color: var(--ops-flash-success-fg);
+  font-size: 0.82rem;
+  line-height: 1.42;
+}
+
+.ops-flash[data-tone="error"] {
+  border-color: var(--ops-flash-error-border);
+  background: var(--ops-flash-error-bg);
+  color: var(--ops-flash-error-fg);
+}
+
+.ops-subsection {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ops-card-border);
+}
+
+.ops-subsection h3 {
+  margin: 0;
+  font-size: 0.92rem;
+}
+

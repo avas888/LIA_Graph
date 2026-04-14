@@ -1,0 +1,227 @@
+.lia-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-default);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  cursor: pointer;
+  font: inherit;
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.1s ease;
+}
+
+.lia-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.lia-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+  box-shadow: none;
+}
+
+.lia-btn--primary {
+  background: var(--interactive-primary);
+  border-color: var(--interactive-primary);
+  color: var(--text-inverse);
+}
+
+.lia-btn--primary:hover:not(:disabled) {
+  background: var(--interactive-primary-hover);
+  border-color: var(--interactive-primary-hover);
+}
+
+.lia-btn--secondary {
+  background: var(--surface-tint);
+  border-color: var(--border-focus);
+  color: var(--p-green-800);
+}
+
+.lia-btn--ghost {
+  background: transparent;
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+
+.lia-btn--icon {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding-inline: 0.55rem;
+}
+
+.lia-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lia-btn__icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.lia-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.lia-chip--soft {
+  border: 1px solid transparent;
+}
+
+.lia-chip--solid {
+  color: var(--text-inverse);
+}
+
+.lia-chip--neutral.lia-chip--soft {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+
+.lia-chip--brand.lia-chip--soft {
+  background: var(--surface-tint-strong);
+  color: var(--p-green-800);
+}
+
+.lia-chip--success.lia-chip--soft {
+  background: var(--status-success-soft);
+  color: var(--status-success);
+}
+
+.lia-chip--warning.lia-chip--soft {
+  background: var(--status-warning-soft);
+  color: var(--p-amber-600);
+}
+
+.lia-chip--error.lia-chip--soft {
+  background: var(--status-error-soft);
+  color: var(--status-error);
+}
+
+.lia-chip--info.lia-chip--soft {
+  background: var(--surface-glass-soft);
+  color: var(--p-blue-600);
+}
+
+.lia-chip--brand.lia-chip--solid {
+  background: var(--interactive-primary);
+}
+
+.lia-chip-button {
+  border: 1px solid transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.lia-badge {
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.lia-state-block {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border-radius: 0.9rem;
+  border: 1px dashed var(--border-default);
+  background: var(--surface-raised);
+  color: var(--text-secondary);
+  padding: 0.75rem 0.85rem;
+  line-height: 1.4;
+}
+
+.lia-state-block--compact {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.lia-state-block__copy {
+  min-width: 0;
+}
+
+.lia-state-block__title,
+.lia-state-block__message {
+  display: block;
+  margin: 0;
+}
+
+.lia-state-block__title {
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.lia-state-block__message {
+  font-size: 0.82rem;
+}
+
+.lia-state-block__spinner {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-default);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: lia-state-spin 0.8s linear infinite;
+}
+
+@keyframes lia-state-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lia-list-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.lia-list-section-heading__label {
+  min-width: 0;
+}
+
+.lia-list-section-heading__count {
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+}
+
+.lia-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.lia-filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-user-status-pill {
+  text-transform: none;
+}
+
+.admin-users-feedback {
+  justify-content: center;
+}

@@ -1,0 +1,119 @@
+.chat-page-shell h1 {
+  font-size: clamp(1.14rem, 1.78vw, 1.56rem);
+}
+
+.chat-page-shell .chat-panel-header h2,
+.chat-page-shell .bubble-text h1,
+.chat-page-shell .bubble-text h2,
+.chat-page-shell .bubble-text h3,
+.chat-page-shell .bubble-text h4 {
+  font-size: 1rem;
+}
+
+.chat-page-shell .side-panel h2 {
+  font-size: 0.98rem;
+}
+
+.chat-page-shell .panel-note,
+.chat-page-shell .workspace-summary-value,
+.chat-page-shell .chat-log-empty-message,
+.chat-page-shell .citation-trigger,
+.chat-page-shell .expert-detail-lead {
+  font-size: 0.94rem;
+}
+
+.chat-page-shell .bubble-text {
+  font-size: 0.92rem;
+}
+
+.chat-page-shell .expert-detail-panel-body,
+.chat-page-shell .expert-detail-source-title,
+.chat-page-shell .inline-toggle {
+  font-size: 0.84rem;
+}
+
+.chat-page-shell .composer-shell textarea {
+  font-size: 0.96rem;
+}
+
+.chat-page-shell .section-kicker,
+.chat-page-shell .chat-session-drawer-title,
+.chat-page-shell .composer-label,
+.chat-page-shell .control-label,
+.chat-page-shell .bubble-role,
+.chat-page-shell .followup-suggestions-title,
+.chat-page-shell .workspace-summary-label {
+  font-size: 0.68rem;
+}
+
+.chat-page-shell .composer-shortcut,
+.chat-page-shell .section-tooltip-popover p,
+.chat-page-shell .expert-detail-evidence,
+.chat-page-shell .expert-panel-loading {
+  font-size: 0.7rem;
+}
+
+.chat-page-shell #send-btn,
+.chat-page-shell .citation-meta,
+.chat-page-shell .runtime-label,
+.chat-page-shell .expert-detail-link {
+  font-size: 0.72rem;
+}
+
+.chat-page-shell .secondary-mini-btn,
+.chat-page-shell .section-note,
+.chat-page-shell .status-pill,
+.chat-page-shell .session-pill,
+.chat-page-shell .chat-session-count,
+.chat-page-shell .chat-session-chip,
+.chat-page-shell .diagnostics,
+.chat-page-shell .followup-pill,
+.chat-page-shell .expert-detail-question,
+.chat-page-shell .expert-detail-summary,
+.chat-page-shell .expert-detail-panel-title,
+.chat-page-shell .expert-detail-section-title {
+  font-size: 0.76rem;
+}
+
+.chat-page-shell .citation-placeholder,
+.chat-page-shell .citation-mention-title,
+.chat-page-shell .runtime-value,
+.chat-page-shell .expert-detail-checklist {
+  font-size: 0.79rem;
+}
+
+.chat-page-shell .citation-mention-hint,
+.chat-page-shell .expert-card-note,
+.chat-page-shell .expert-card-action,
+.chat-page-shell .workspace-summary-card .section-note {
+  font-size: 0.69rem;
+}
+
+.chat-page-shell .expert-card-title {
+  font-size: 0.82rem;
+}
+
+.chat-page-shell .expert-card-chip {
+  font-size: 0.61rem;
+}
+
+.chat-page-shell .expert-card-footer-meta,
+.chat-page-shell .expert-card-open {
+  font-size: 0.64rem;
+}
+
+.chat-page-shell .expert-authority-badge,
+.chat-page-shell .expert-trust,
+.chat-page-shell .chat-session-chip-cookie {
+  font-size: 0.58rem;
+}
+
+.chat-page-shell .section-tooltip-trigger {
+  font-size: 0.68rem;
+}
+
+@media (max-width: 640px) {
+  .chat-page-shell h1 {
+    font-size: 1.24rem;
+  }
+}

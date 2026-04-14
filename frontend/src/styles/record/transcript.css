@@ -1,0 +1,128 @@
+/* ── Record: transcript detail dialog ───────────────────── */
+
+.record-transcript-dialog {
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0;
+  max-width: 860px;
+  width: 92vw;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.record-transcript-dialog::backdrop {
+  background: var(--overlay-backdrop);
+}
+
+.record-transcript {
+  padding: 1.25rem 1.5rem;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+
+.record-transcript-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.record-transcript-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+}
+
+.record-transcript-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.record-transcript-copy.lia-btn {
+  color: var(--text-tertiary, #9ca3af);
+  padding: 0.2rem;
+}
+
+.record-transcript-copy.lia-btn:hover {
+  color: var(--text-primary, #111827);
+}
+
+.record-transcript-close.lia-btn {
+  color: var(--text-tertiary, #9ca3af);
+  padding: 0.2rem;
+}
+
+.record-transcript-close.lia-btn:hover {
+  color: var(--text-primary, #111827);
+}
+
+/* ── Turn pair ───────────────────────────────────────────── */
+
+.record-transcript-pair {
+  position: relative;
+}
+
+.record-transcript-pair-copy.lia-btn {
+  float: right;
+  color: var(--text-tertiary, #9ca3af);
+  padding: 0.15rem;
+  margin-left: 0.5rem;
+}
+
+.record-transcript-pair-copy.lia-btn:hover {
+  color: var(--text-primary, #111827);
+}
+
+.record-transcript-question,
+.record-transcript-answer {
+  margin-bottom: 0.75rem;
+}
+
+.record-transcript-question h3,
+.record-transcript-answer h3 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--hero-tagline-fg, var(--text-tertiary, #9ca3af));
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.4rem;
+  border-bottom: 1px solid var(--p-neutral-100, #f3f4f6);
+  padding-bottom: 0.25rem;
+}
+
+.record-transcript-question p {
+  font-size: 0.9rem;
+  color: var(--text-primary, #111827);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.record-transcript-answer-content {
+  font-size: 0.88rem;
+  color: var(--text-primary, #111827);
+  line-height: 1.6;
+}
+
+.record-transcript-separator {
+  border: none;
+  border-top: 1px solid var(--p-neutral-100, #f3f4f6);
+  margin: 1rem 0;
+}
+
+/* ── Loading state ───────────────────────────────────────── */
+
+.record-transcript-loading {
+  color: var(--text-tertiary, #9ca3af);
+  font-size: 0.88rem;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+/* ── Card pointer cursor ─────────────────────────────────── */
+
+.record-card {
+  cursor: pointer;
+}

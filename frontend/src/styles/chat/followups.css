@@ -1,0 +1,51 @@
+
+.followup-suggestions {
+  margin-top: 0.76rem;
+  padding-top: 0.68rem;
+}
+
+.followup-suggestions-title {
+  margin: 0 0 0.52rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.followup-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.followup-pill {
+  appearance: none;
+  border: 1px solid var(--pill-border);
+  border-radius: 999px;
+  background: var(--chat-followup-bg);
+  color: var(--chat-followup-fg);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.32;
+  padding: 0.42rem 0.74rem;
+  max-width: 100%;
+  white-space: normal;
+  box-shadow: none;
+}
+
+.followup-pill:hover:not(:disabled) {
+  background: var(--mini-btn-hover);
+  box-shadow: none;
+}
+
+.followup-pill:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 2px;
+}
+
+.followup-pill:disabled {
+  cursor: default;
+  opacity: 0.7;
+}

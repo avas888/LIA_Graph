@@ -1,0 +1,202 @@
+
+.citation-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.citation-list li {
+  margin: 0;
+}
+
+.citation-placeholder {
+  border: 1px dashed var(--placeholder-border);
+  border-radius: 0.9rem;
+  background: var(--placeholder-bg);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  padding: 0.72rem 0.78rem;
+}
+
+.citation-placeholder[data-loading="true"] {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.citation-trigger {
+  width: 100%;
+  border: 1px solid var(--pill-border);
+  border-radius: 0.95rem;
+  padding: 0.72rem 0.76rem;
+  background: var(--citation-bg);
+  color: var(--brand);
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.citation-trigger:hover:not(:disabled) {
+  background: var(--citation-hover-bg);
+  border-color: var(--border-strong, var(--pill-border));
+  box-shadow: none;
+}
+
+.citation-trigger__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.citation-trigger__title {
+  display: block;
+}
+
+.citation-trigger__cta {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--p-blue-500, var(--brand));
+  opacity: 0.55;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s, color 0.15s;
+  padding: 0.2rem 0.3rem;
+  border-radius: 0.35rem;
+}
+
+.citation-trigger:hover:not(:disabled) .citation-trigger__cta {
+  opacity: 1;
+  color: var(--p-blue-600, var(--brand));
+  background: var(--surface-tint, rgba(45, 111, 164, 0.06));
+}
+
+.citation-meta {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.citation-mention-item {
+  border: 1px dashed var(--border-default);
+  border-radius: 0.9rem;
+  background: var(--surface-raised);
+  padding: 0.64rem 0.7rem;
+}
+
+/* W2 Phase 8 — normativa preview (pre-populated placeholders shown while LIA
+ * is still thinking). Uses the same .citation-trigger button structure as
+ * the final tabs so the layout is identical between preview and final (no
+ * jitter/bounce). The button is disabled + faded to signal non-authority.
+ * pointer-events: none on the li as a belt-and-suspenders guard. */
+.citation-preview {
+  pointer-events: none;
+  user-select: none;
+}
+
+.citation-preview .citation-trigger {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.citation-preview .citation-meta {
+  color: var(--text-tertiary);
+}
+
+.citation-mention-title {
+  margin: 0;
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.citation-mention-hint {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.73rem;
+  color: var(--text-tertiary);
+}
+
+.citation-external-link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  color: var(--brand);
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.83rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.citation-external-link:hover {
+  text-decoration: underline;
+}
+
+.citation-has-external {
+  border-color: var(--brand-muted, var(--pill-border));
+}
+
+.citation-has-external .citation-mention-hint {
+  color: var(--brand);
+  opacity: 0.72;
+}
+
+.citation-has-external .citation-mention-hint strong {
+  font-weight: 600;
+}
+
+.citation-external-secondary {
+  color: var(--brand);
+  opacity: 0.72;
+  text-decoration: none;
+  font-size: inherit;
+}
+
+.citation-fallback-link {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.citation-fallback-link:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+.citation-external-secondary:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+.citation-external-secondary strong {
+  font-weight: 600;
+}
+
+.diagnostics {
+  margin: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: 0.95rem;
+  background: var(--diagnostic-bg);
+  padding: 0.82rem;
+  min-height: 200px;
+  max-height: 320px;
+  overflow: auto;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  line-height: 1.48;
+  white-space: pre-wrap;
+}

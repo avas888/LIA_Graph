@@ -1,0 +1,224 @@
+/* ── Mobile Chat Overrides ────────────────────────────────── */
+
+.mobile-shell .chat-form {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-top: 1px solid var(--border-default);
+  background: var(--surface-raised);
+  margin: 0;
+}
+
+.mobile-shell .composer-topline {
+  display: none;
+}
+
+.mobile-shell .composer-shell {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.mobile-shell .composer-input-shell {
+  flex: 1;
+}
+
+.mobile-shell .composer-input-shell textarea {
+  width: 100%;
+  max-height: 120px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  background: var(--field-bg);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  resize: none;
+  outline: none;
+}
+
+.mobile-shell .composer-input-shell textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+/* ── Cursor position fix for mobile input padding ────────── */
+
+.mobile-shell .composer-idle-cursor {
+  left: 14px;
+  top: 12px;
+}
+
+/* ── Send button: paper airplane icon ────────────────────── */
+
+.mobile-shell .composer-actions {
+  flex-shrink: 0;
+}
+
+.mobile-shell .composer-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: var(--action-gradient);
+  color: var(--text-inverse);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-shell .composer-actions button:active {
+  filter: brightness(0.88);
+}
+
+/* ── Bubble Overrides ─────────────────────────────────────── */
+
+.mobile-shell .bubble {
+  max-width: 85%;
+  margin: 4px 0;
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.mobile-shell .bubble-user {
+  align-self: flex-end;
+  margin-left: auto;
+  max-width: 85%;
+  background: var(--chat-bubble-user-bg);
+  border: 1px solid var(--chat-bubble-user-border);
+}
+
+.mobile-shell .bubble-assistant {
+  align-self: flex-start;
+  margin-right: auto;
+  max-width: 100%;
+  background: var(--chat-bubble-assistant-bg);
+  border: 1px solid var(--chat-bubble-assistant-border);
+}
+
+.mobile-shell .bubble-role {
+  font-size: 0.7rem;
+  margin-bottom: 2px;
+}
+
+.mobile-shell .bubble-timestamp {
+  font-size: 0.6375rem;
+  color: var(--text-tertiary);
+}
+
+.mobile-shell .bubble-actions {
+  margin-top: 6px;
+  justify-content: flex-start;
+}
+
+.mobile-shell .bubble-normativa-indicator {
+  display: none;
+}
+
+/* ── Rating encuesta: 3-row layout on mobile ───────────── */
+
+.mobile-shell .bubble-actions {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.mobile-shell .bubble-rating-prompt {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.mobile-shell .bubble-rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.mobile-shell .bubble-rating-btn {
+  min-height: 1.5rem;
+  min-width: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.65rem;
+}
+
+.mobile-shell .bubble-rating-widget {
+  gap: 0.15rem;
+}
+
+.mobile-shell .bubble-rating-hint {
+  font-size: 0.6rem;
+}
+
+.mobile-shell .bubble-rating-hint--low {
+  margin-right: 0.1rem;
+}
+
+.mobile-shell .bubble-rating-hint--high {
+  margin-left: 0.1rem;
+}
+
+.mobile-shell .bubble-copy-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+}
+
+.mobile-shell .bubble-action-btn {
+  min-height: 1.85rem;
+  min-width: 1.85rem;
+  padding: 0.25rem;
+}
+
+.mobile-shell .bubble-action-btn svg {
+  width: 1.06rem;
+  height: 1.06rem;
+}
+
+/* ── Chat Log Empty State (desktop "hello" message) ──────── */
+
+.mobile-shell .chat-log-empty {
+  align-self: center;
+  text-align: center;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  padding: 32px 20px;
+  max-width: none;
+  border-radius: 0;
+}
+
+.mobile-shell .chat-log-empty-message {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+/* ── Thinking overlay: cover full mobile viewport ────────── */
+
+.mobile-shell .lia-thinking-overlay {
+  position: fixed;
+  z-index: 90;
+}
+
+/* ── Bubble entrance animation ────────────────────────────── */
+
+@keyframes mobile-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-shell .bubble {
+  animation: mobile-bubble-in 0.2s ease-out;
+}

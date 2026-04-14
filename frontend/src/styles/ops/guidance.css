@@ -1,0 +1,28 @@
+.ops-guidance {
+  margin: 0 0 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--ops-guidance-border), transparent 75%);
+  border-left: 3px solid color-mix(in srgb, var(--ops-guidance-border), transparent 28%);
+  border-radius: 0.95rem;
+  padding: 0.88rem 0.95rem;
+  background: var(--ops-guidance-bg);
+}
+
+.ops-guidance strong,
+.ops-guidance p {
+  margin: 0;
+}
+
+.ops-guidance p + p {
+  margin-top: 0.32rem;
+}
+
+.ops-doc-table-wrap {
+  border: 1px solid rgba(226, 220, 208, 0.96);
+  border-radius: 0.95rem;
+  overflow: auto;
+}
+
+.ops-doc-table td {
+  min-width: 94px;
+}
+

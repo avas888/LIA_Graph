@@ -1,0 +1,60 @@
+{
+  "global": {
+    "target_case_id": "C_GOLD_002",
+    "target_threshold_percent": 88.0,
+    "holdout_threshold_percent": 80.0,
+    "fallback_rate_threshold": 0.0,
+    "max_target_holdout_gap": 12.0
+  },
+  "profiles": {
+    "procedural": {
+      "dimensions": {
+        "relevance": 0.26,
+        "actionability": 0.24,
+        "normative_grounding": 0.20,
+        "clarity": 0.14,
+        "non_template_quality": 0.08,
+        "assumption_hygiene": 0.08
+      },
+      "required_markers_any": [
+        ["paso", "verifique", "prepare", "calcule", "presente"],
+        ["plazo", "vencimiento", "nit", "calendario"],
+        ["formulario", "muisca", "anticipo"]
+      ]
+    },
+    "comparative_decision": {
+      "dimensions": {
+        "relevance": 0.28,
+        "actionability": 0.26,
+        "normative_grounding": 0.18,
+        "clarity": 0.10,
+        "non_template_quality": 0.08,
+        "assumption_hygiene": 0.10
+      },
+      "required_markers_any": [
+        ["conviene", "recomiendo", "depende", "migrar", "quedarse"],
+        ["rst", "ordinario"],
+        ["ingres", "cost", "margen", "tarifa", "impuesto"],
+        ["datos faltantes", "variables faltantes", "falta informacion", "error"]
+      ]
+    }
+  },
+  "anti_overfit": {
+    "min_holdout_cases": 2,
+    "hardcode_template_markers": [
+      "1. pasos en orden",
+      "2. plazos clave",
+      "3. soportes y formularios"
+    ],
+    "unsupported_numeric_imputation_markers": [
+      "supuesto costos bajos",
+      "supuesto costos medios",
+      "supuesto costos altos",
+      "15% de ingresos",
+      "35% de ingresos",
+      "65% de ingresos",
+      "5,9% sobre ingreso bruto",
+      "35% sobre renta liquida estimada"
+    ]
+  }
+}

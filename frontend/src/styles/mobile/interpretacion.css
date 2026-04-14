@@ -1,0 +1,133 @@
+/* ── Mobile Interpretación Cards ──────────────────────────── */
+
+.mobile-interp-group-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-tertiary);
+  padding: 12px 4px 4px;
+  margin: 0;
+}
+
+.mobile-interp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s;
+  min-height: 44px;
+}
+
+.mobile-interp-card:active {
+  background: var(--card-hover-bg);
+}
+
+/* Classification border accent */
+.mobile-interp-card[data-classification="concordancia"] {
+  border-left: 3px solid var(--p-success-400);
+}
+
+.mobile-interp-card[data-classification="divergencia"] {
+  border-left: 3px solid var(--p-red-400);
+}
+
+.mobile-interp-card[data-classification="complementario"] {
+  border-left: 3px solid var(--p-amber-400);
+}
+
+.mobile-interp-card[data-classification="individual"] {
+  border-left: 3px solid var(--p-neutral-400);
+}
+
+/* Card header row */
+.mobile-interp-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mobile-interp-card-ref {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.mobile-interp-card-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.mobile-interp-card-signal[data-signal="permite"] {
+  background: var(--status-success-soft);
+  color: var(--status-success);
+}
+
+.mobile-interp-card-signal[data-signal="restringe"] {
+  background: var(--status-error-soft);
+  color: var(--status-error);
+}
+
+.mobile-interp-card-signal[data-signal="condiciona"] {
+  background: var(--status-warning-soft);
+  color: var(--p-amber-600);
+}
+
+/* Description (relevancia phrase — why this interpretation is relevant) */
+.mobile-interp-card-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Summary (nutshell — interpretation summary and conclusion) */
+.mobile-interp-card-summary {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Extended content (card_summary shown below relevancia + nutshell) */
+.mobile-interp-card-extended {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+  border-top: 1px solid var(--card-border);
+  padding-top: 8px;
+}
+
+/* Footer */
+.mobile-interp-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-interp-card-sources {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.mobile-interp-card-arrow {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+}
+
+/* Signal badge in sheet detail view — needs spacing below */
+.mobile-interp-card-signal--sheet {
+  margin-bottom: 12px;
+}

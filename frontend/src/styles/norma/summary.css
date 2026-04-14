@@ -1,0 +1,32 @@
+.summary-body {
+  margin: 0;
+  min-height: 34vh;
+  border: 1px solid #d5ded9;
+  border-radius: 0.7rem;
+  background: var(--surface-raised);
+  padding: 0.75rem;
+  white-space: pre-wrap;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.summary-link {
+  color: var(--norma-link-fg);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.summary-grounding {
+  margin-top: 0.6rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.summary-grounding a {
+  color: var(--norma-link-fg);
+  text-decoration: none;
+  font-weight: 600;
+}
+

@@ -1,0 +1,72 @@
+/* Admin Activity — login audit + user stats tables */
+
+.activity-panel-shell {
+  padding: 1rem 1.5rem;
+}
+
+.activity-panel-header {
+  margin-bottom: 1.25rem;
+}
+
+.activity-panel-header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.activity-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.activity-section {
+  margin-bottom: 1.5rem;
+}
+
+.activity-section h2 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.activity-table-wrap {
+  overflow-x: auto;
+}
+
+.activity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.activity-table th,
+.activity-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--admin-table-border);
+}
+
+.activity-table th {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.activity-table tbody tr:hover {
+  background: var(--card-hover-bg);
+}
+
+.activity-numeric-cell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.activity-ip-cell {
+  font-family: monospace;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}

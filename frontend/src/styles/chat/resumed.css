@@ -1,0 +1,19 @@
+/* ── Resumed conversation divider ─────────────────────────── */
+
+.resumed-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.2rem 0;
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.resumed-divider::before,
+.resumed-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-default);
+}

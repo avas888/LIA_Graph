@@ -1,0 +1,79 @@
+/* Chat sidebar disabled — change to "1fr 360px" to re-enable */
+.form-guide-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  gap: 0;
+}
+
+.normative-analysis-layout {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr);
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.form-guide-main {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 1.5rem;
+}
+
+.normative-analysis-main,
+.normative-analysis-sidebar {
+  min-width: 0;
+}
+
+.normative-analysis-main {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.normative-analysis-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 0.95rem;
+}
+
+.form-guide-view-toggle {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  width: fit-content;
+  max-width: calc(100% - 3rem);
+  margin: 1rem 1.5rem 0;
+  padding: 0.4rem;
+  min-height: 3rem;
+  border: 1px solid rgba(22, 49, 41, 0.1);
+  border-radius: 1.1rem;
+  box-shadow: 0 12px 30px rgba(22, 49, 41, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.98) 0%, rgba(249, 244, 236, 0.94) 100%);
+}
+
+.form-guide-view {
+  min-height: auto;
+  overflow: visible;
+  padding: 1rem 1.5rem 0;
+  scroll-behavior: smooth;
+  scroll-margin-top: 5.25rem;
+}
+
+.form-guide-panel {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}

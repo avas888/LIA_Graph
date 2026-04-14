@@ -1,0 +1,41 @@
+.lia-thinking-overlay {
+  background: var(--thinking-animation-bg);
+  backdrop-filter: blur(4px);
+}
+
+.lia-thinking-card {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(216, 233, 247, 0.96) 0%, transparent 50%),
+    radial-gradient(circle at 75% 80%, rgba(228, 238, 248, 0.68) 0%, transparent 45%),
+    var(--thinking-card-gradient);
+  border: 1px solid rgba(187, 205, 224, 0.96);
+  box-shadow: 0 20px 44px rgba(11, 19, 33, 0.22);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes lia-cursor-blink {
+  0%, 48% {
+    opacity: 1;
+  }
+  49%, 100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .composer-idle-cursor {
+    animation: none !important;
+  }
+
+  [data-turn-state="ready-empty"] .composer-idle-cursor {
+    opacity: 1;
+  }
+}

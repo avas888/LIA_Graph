@@ -1,0 +1,560 @@
+/* ── Bottom Sheet ─────────────────────────────────────────── */
+
+.mobile-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.mobile-sheet-overlay[hidden] {
+  display: none;
+}
+
+.mobile-sheet-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-scrim);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.mobile-sheet-overlay.is-open .mobile-sheet-scrim {
+  opacity: 1;
+}
+
+.mobile-sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+  max-height: 100dvh;
+  background: var(--modal-bg);
+  border-radius: 16px 16px 0 0;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 1;
+}
+
+.mobile-sheet-overlay.is-open .mobile-sheet {
+  transform: translateY(0);
+}
+
+/* Drag handle */
+.mobile-sheet-handle {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 4px;
+  flex-shrink: 0;
+  cursor: grab;
+}
+
+.mobile-sheet-handle::after {
+  content: "";
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--p-neutral-300);
+}
+
+/* Header */
+.mobile-sheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 4px 16px 12px;
+  flex-shrink: 0;
+}
+
+.mobile-sheet-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.mobile-sheet-subtitle {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin: 2px 0 0;
+}
+
+.mobile-sheet-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: var(--p-neutral-100);
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.mobile-sheet-close:active {
+  background: var(--p-neutral-200);
+}
+
+/* Content area */
+.mobile-sheet-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px 24px;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0));
+}
+
+/* ── Sheet Content Blocks ─────────────────────────────────── */
+
+.mobile-sheet-section {
+  margin-bottom: 16px;
+}
+
+.mobile-sheet-section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-tertiary);
+  margin: 0 0 8px;
+}
+
+.mobile-sheet-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.mobile-sheet-badge[data-tone="alta"] {
+  background: var(--status-success-soft);
+  color: var(--status-success);
+}
+
+.mobile-sheet-badge[data-tone="media"] {
+  background: var(--status-warning-soft);
+  color: var(--p-amber-600);
+}
+
+.mobile-sheet-badge[data-tone="baja"] {
+  background: var(--status-error-soft);
+  color: var(--status-error);
+}
+
+.mobile-sheet-excerpt {
+  padding: 12px;
+  background: var(--p-neutral-50);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.mobile-sheet-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobile-sheet-fact {
+  display: flex;
+  gap: 8px;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.mobile-sheet-fact-label {
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+  min-width: 80px;
+}
+
+.mobile-sheet-fact-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Action buttons */
+.mobile-sheet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.mobile-sheet-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+
+.mobile-sheet-action-btn:active {
+  background: var(--card-hover-bg);
+}
+
+.mobile-sheet-action-icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+.mobile-sheet-fallback-link {
+  display: block;
+  margin-top: 6px;
+  padding-left: 16px;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.mobile-sheet-fallback-link:active {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+/* ── Loader (googly eyes) ─────────────────────────────────── */
+
+.mobile-sheet-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 0;
+}
+
+/* Eye token rules (shape, 3D, animation) live in googly-loader.css.
+ * Only scale override for the mobile sheet context. */
+
+.mobile-sheet-loader .lia-thinking-eye-pair {
+  transform: scale(1.2);
+}
+
+.mobile-sheet-loader-text {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+/* ── Depth list (related content with badges) ───────────── */
+
+.mobile-depth-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.mobile-depth-list .lia-badge {
+  flex-shrink: 0;
+  font-size: 0.6rem;
+  padding: 0.08rem 0.3rem;
+}
+
+.mobile-depth-item-link {
+  color: var(--text-link);
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.mobile-depth-item-link:active {
+  opacity: 0.7;
+}
+
+/* ── Caution banner ──────────────────────────────────────── */
+
+.mobile-sheet-caution {
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  background: var(--status-warning-soft, #fef3c7);
+  border-left: 3px solid var(--p-amber-600, #d97706);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.mobile-sheet-caution strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.mobile-sheet-caution p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+/* ── Badge tone mapping (binding force) ─────────────────── */
+
+.mobile-sheet-badge[data-tone="success"] {
+  background: var(--status-success-soft);
+  color: var(--status-success);
+}
+
+.mobile-sheet-badge[data-tone="warning"] {
+  background: var(--status-warning-soft);
+  color: var(--p-amber-600);
+}
+
+.mobile-sheet-badge[data-tone="neutral"] {
+  background: var(--p-neutral-100);
+  color: var(--text-secondary);
+}
+
+/* ── Caution tone variants ──────────────────────────────── */
+
+.mobile-sheet-caution[data-tone="warning"] {
+  background: var(--status-warning-soft, #fef3c7);
+  border-left-color: var(--p-amber-600, #d97706);
+}
+
+.mobile-sheet-caution[data-tone="danger"] {
+  background: var(--status-error-soft, #fee2e2);
+  border-left-color: var(--status-error, #dc2626);
+}
+
+/* ── Original Text / Quote Block ────────────────────────── */
+
+.mobile-sheet-original-text {
+  margin-bottom: 16px;
+}
+
+.mobile-sheet-intro {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0 0 8px;
+}
+
+.mobile-sheet-quote {
+  margin: 8px 0;
+  padding: 12px 16px;
+  background: var(--p-neutral-50);
+  border-left: 3px solid var(--p-blue-400, #60a5fa);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.mobile-sheet-quote p {
+  margin: 0 0 8px;
+}
+
+.mobile-sheet-quote p:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-sheet-source-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  color: var(--p-blue-600, #2563eb);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.mobile-sheet-source-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Section Cards ──────────────────────────────────────── */
+
+.mobile-sheet-section-card {
+  padding: 12px;
+  background: var(--p-neutral-50);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.mobile-sheet-section-card:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-sheet-section-body {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.mobile-sheet-section-body p {
+  margin: 0 0 8px;
+}
+
+.mobile-sheet-section-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Accordion / Details ────────────────────────────────── */
+
+.mobile-sheet-accordion details {
+  border: none;
+}
+
+.mobile-sheet-accordion-summary {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 4px 0;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+
+.mobile-sheet-accordion-summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-sheet-accordion-summary::before {
+  content: "▸";
+  margin-right: 8px;
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.mobile-sheet-accordion details[open] > .mobile-sheet-accordion-summary::before {
+  transform: rotate(90deg);
+}
+
+.mobile-sheet-bullet-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.mobile-sheet-bullet-list li {
+  margin-bottom: 4px;
+}
+
+.mobile-sheet-bullet-list a {
+  color: var(--p-blue-600, #2563eb);
+  text-decoration: none;
+}
+
+.mobile-sheet-bullet-list a:hover {
+  text-decoration: underline;
+}
+
+/* ── Expert Comment ─────────────────────────────────────── */
+
+.mobile-sheet-expert-source {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin: 8px 0 0;
+  font-style: italic;
+}
+
+/* ── Fact value paragraphs ──────────────────────────────── */
+
+.mobile-sheet-fact-value p {
+  margin: 0 0 4px;
+}
+
+.mobile-sheet-fact-value p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Scrollable content: overscroll containment ──────────── */
+
+.mobile-sheet-content {
+  overscroll-behavior: contain;
+}
+
+/* ── Article reader body inside bottom sheet ─────────────── */
+
+.mobile-sheet-content .article-reader-body {
+  padding: 0;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--text-primary, #1e293b);
+}
+
+.mobile-sheet-content .article-reader-body h1 {
+  font-size: 1.05rem;
+  margin: 1.1em 0 0.4em;
+}
+
+.mobile-sheet-content .article-reader-body h2 {
+  font-size: 0.95rem;
+  margin: 1em 0 0.35em;
+}
+
+.mobile-sheet-content .article-reader-body h3 {
+  font-size: 0.88rem;
+  margin: 0.9em 0 0.3em;
+}
+
+.mobile-sheet-content .article-reader-body p {
+  margin: 0.6em 0;
+}
+
+.mobile-sheet-content .article-reader-body ul,
+.mobile-sheet-content .article-reader-body ol {
+  padding-left: 1.2rem;
+  margin: 0.5em 0;
+}
+
+.mobile-sheet-content .article-reader-body li {
+  margin: 0.3em 0;
+}
+
+.mobile-sheet-content .article-reader-body hr {
+  margin: 1em 0;
+  border: none;
+  border-top: 1px solid var(--border-default);
+}
+
+.mobile-sheet-content .article-reader-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.6em 0;
+  font-size: 0.78rem;
+}
+
+.mobile-sheet-content .article-reader-body th,
+.mobile-sheet-content .article-reader-body td {
+  border: 1px solid var(--border-secondary, #e5e7eb);
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+}
+
+.mobile-sheet-content .article-reader-body th {
+  background: var(--surface-secondary, #f8fafc);
+  font-weight: 600;
+}
+
+.mobile-sheet-content .article-reader-body blockquote {
+  margin: 0.6em 0;
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid var(--p-blue-400, #60a5fa);
+  background: var(--p-neutral-50);
+  font-size: 0.82rem;
+}

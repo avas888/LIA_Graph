@@ -1,0 +1,43 @@
+/* ── Per-bubble normativa selection ──────────────────────────── */
+
+.bubble-assistant.has-normativa {
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bubble-assistant.has-normativa:hover:not(.is-bubble-active) {
+  border-color: color-mix(in srgb, var(--brand, #3b82f6) 40%, var(--chat-bubble-assistant-border) 60%);
+}
+
+.bubble-assistant.is-bubble-active {
+  border-color: var(--chat-bubble-select-border);
+  box-shadow: inset 0 0 0 2px var(--chat-bubble-select-border), 0 0 0 0 transparent;
+}
+
+/* Small dot indicator showing the bubble has normativa data */
+.bubble-normativa-indicator {
+  position: absolute;
+  top: 0.62rem;
+  left: -0.38rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--brand, #3b82f6);
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.bubble-assistant.is-bubble-active .bubble-normativa-indicator {
+  opacity: 0.85;
+}
+
+.bubble-normativa-indicator[hidden] {
+  display: none;
+}
+
+/* Prevent bubble-actions clicks from triggering bubble selection */
+.bubble-actions {
+  position: relative;
+  z-index: 1;
+}

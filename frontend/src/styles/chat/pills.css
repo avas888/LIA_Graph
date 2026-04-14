@@ -1,0 +1,41 @@
+
+.panel-status-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.status-pill {
+  border: 1px solid transparent;
+  padding: 0.42rem 0.74rem;
+  font-size: 0.77rem;
+}
+
+.status-pill-ready {
+  color: var(--status-pill-ready-fg);
+  background: var(--status-pill-ready-bg);
+  border-color: var(--status-pill-ready-border);
+}
+
+.status-pill-live {
+  color: var(--status-pill-live-fg);
+  background: var(--status-pill-live-bg);
+  border-color: var(--status-pill-live-border);
+}
+
+.status-pill-busy {
+  color: var(--p-amber-600);
+  background: var(--status-pill-busy-bg);
+  border-color: var(--status-pill-busy-border);
+}
+
+.session-pill {
+  border: 1px solid var(--session-pill-border);
+  background: var(--session-pill-bg);
+  color: var(--text-primary);
+  padding: 0.42rem 0.74rem;
+  font-size: 0.77rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+

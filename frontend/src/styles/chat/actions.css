@@ -1,0 +1,107 @@
+
+.bubble-actions {
+  margin-top: 0.8rem;
+  padding-top: 0.72rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.bubble-actions[hidden] {
+  display: none;
+}
+
+.bubble-action-btn {
+  border: 0;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: var(--text-tertiary);
+  padding: 0.34rem;
+  line-height: 1;
+  min-height: 2rem;
+  min-width: 2rem;
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bubble-action-btn:hover:not(:disabled) {
+  background: var(--chat-action-hover-bg);
+  color: var(--text-secondary);
+  box-shadow: none;
+  transform: none;
+}
+
+.bubble-action-btn:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 1px;
+}
+
+.bubble-action-btn.is-active {
+  background: var(--chat-action-active-bg);
+  color: var(--text-primary);
+}
+
+.bubble-action-btn.is-copy-done {
+  background: var(--chat-action-active-bg);
+  color: var(--text-primary);
+}
+
+.bubble-action-btn svg {
+  width: 1.08rem;
+  height: 1.08rem;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.bubble-action-status {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  min-height: 1em;
+  margin-left: 0.08rem;
+}
+
+.bubble-action-status.is-error {
+  color: var(--danger);
+}
+
+.bubble-retry-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  border: 1px solid var(--interactive-primary);
+  border-radius: 0.55rem;
+  background: transparent;
+  color: var(--interactive-primary);
+  padding: 0.32rem 0.72rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.3;
+  cursor: pointer;
+  min-height: 2rem;
+}
+
+.bubble-retry-btn:hover:not(:disabled) {
+  background: var(--interactive-primary);
+  color: #fff;
+}
+
+.bubble-retry-btn:focus-visible {
+  outline: 2px solid var(--interactive-primary);
+  outline-offset: 1px;
+}
+
+.bubble-retry-btn:disabled,
+.bubble-retry-btn.is-retrying {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
+
+.bubble-retry-btn svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: 0 0 auto;
+}

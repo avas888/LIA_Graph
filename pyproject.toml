@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lia-contador"
+version = "0.1.0"
+description = "Scaffold de pipeline de conocimiento para asesoria contable colombiana"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "LIA" }]
+dependencies = [
+  "pypdf>=4.0.0",
+  "python-docx>=1.1.0",
+  "pyyaml>=6.0.3",
+  "reportlab>=4.0",
+  "supabase>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=7.0",
+  "supabase>=2.0",
+  "psycopg[binary]>=3.1",
+]
+
+[project.scripts]
+lia-cli = "lia_contador.cli:main"
+lia-ui = "lia_contador.ui_server:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+# OOM WARNING: never run the full suite in one process — use `make test-batched`.
+# A conftest guard will abort if >20 test files are collected without
+# LIA_BATCHED_RUNNER=1.  See tests/conftest.py for details.
+addopts = "--tb=short -q"
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.408",
+]

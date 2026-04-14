@@ -1,0 +1,172 @@
+
+.timeline {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.timeline li {
+  border: 1px solid var(--ops-card-border);
+  border-radius: 0.9rem;
+  padding: 0.72rem 0.78rem;
+  background: var(--ops-card-bg);
+}
+
+.timeline li pre {
+  margin: 0.6rem 0 0;
+  padding: 0.68rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--ops-card-border);
+  background: var(--surface-raised);
+  overflow: auto;
+}
+
+.status-ok {
+  color: var(--chip-ok-fg);
+}
+
+.status-warn {
+  color: var(--chip-warn-fg);
+}
+
+.status-error {
+  color: var(--chip-error-fg);
+}
+
+.ops-subcopy {
+  margin: 0 0 0.85rem;
+  color: var(--text-secondary);
+}
+
+.ops-cascade-group {
+  border: 1px solid var(--ops-card-border);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--ops-card-bg) 88%, var(--surface-glass) 12%);
+  padding: 0.9rem;
+}
+
+.ops-cascade-group + .ops-cascade-group {
+  margin-top: 0.9rem;
+}
+
+.ops-cascade-group-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.ops-cascade-group-head h3,
+.ops-cascade-group-head p {
+  margin: 0;
+}
+
+.ops-cascade-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.ops-cascade-total {
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.ops-cascade-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.ops-cascade-step {
+  border: 1px solid var(--ops-card-border);
+  border-radius: 0.9rem;
+  background: var(--ops-card-bg);
+  padding: 0.78rem 0.82rem;
+}
+
+.ops-cascade-step.is-empty {
+  color: var(--text-secondary);
+}
+
+.ops-cascade-step.is-missing {
+  background: color-mix(in srgb, var(--status-warning-soft) 58%, white 42%);
+}
+
+.ops-cascade-step-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+}
+
+.ops-cascade-step-head strong,
+.ops-cascade-step-head small,
+.ops-cascade-step-detail {
+  display: block;
+}
+
+.ops-cascade-step-meta {
+  margin-top: 0.15rem;
+  color: var(--text-secondary);
+}
+
+.ops-cascade-step-detail {
+  margin: 0.5rem 0 0;
+  color: var(--text-secondary);
+}
+
+.ops-cascade-track {
+  position: relative;
+  height: 1.1rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--ops-card-border) 70%, transparent 30%) 0,
+      color-mix(in srgb, var(--ops-card-border) 70%, transparent 30%) 1px,
+      transparent 1px,
+      transparent 25%
+    ),
+    color-mix(in srgb, var(--surface-raised) 86%, var(--p-neutral-100) 14%);
+  background-size: 25% 100%, auto;
+  border: 1px solid var(--ops-card-border);
+  overflow: hidden;
+}
+
+.ops-cascade-segment {
+  position: absolute;
+  top: 0.12rem;
+  bottom: 0.12rem;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(19, 31, 49, 0.12);
+}
+
+.ops-cascade-step--user .ops-cascade-segment {
+  background: linear-gradient(90deg, var(--p-amber-400), var(--p-amber-600));
+}
+
+.ops-cascade-step--technical .ops-cascade-segment {
+  background: linear-gradient(90deg, var(--p-blue-500), var(--p-navy-700));
+}
+
+.ops-timeline-raw {
+  margin-top: 0.95rem;
+  border-top: 1px solid color-mix(in srgb, var(--border-default), white 16%);
+  padding-top: 0.8rem;
+}
+
+.ops-timeline-raw summary {
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
