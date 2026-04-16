@@ -6,7 +6,7 @@ from typing import Any, Protocol
 
 from .pipeline_c.contracts import PipelineCRequest, PipelineCResponse
 
-DEFAULT_PIPELINE_VARIANT = "pipeline_c"
+DEFAULT_PIPELINE_VARIANT = "pipeline_d"
 _PIPELINE_VARIANT_ENV = "LIA_PIPELINE_VARIANT"
 _DUAL_RUN_PRIMARY_ENV = "LIA_PIPELINE_DUAL_RUN_PRIMARY"
 

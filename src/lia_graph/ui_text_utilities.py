@@ -19,7 +19,7 @@ from .pipeline_c.retrieval_scoring import load_index
 
 
 def _ui() -> Any:
-    """Lazy accessor for lia_contador.ui_server (avoids circular import)."""
+    """Lazy accessor for lia_graph.ui_server (avoids circular import)."""
     from . import ui_server as _mod
     return _mod
 
@@ -190,7 +190,7 @@ def _find_document_index_row(doc_id: str, index_file: Path | None = None) -> dic
 def _sb_find_document_row(doc_id: str) -> dict[str, Any] | None:
     """Look up a document by doc_id in Supabase (production primary)."""
     try:
-        from lia_contador.supabase_client import get_supabase_client
+        from .supabase_client import get_supabase_client
         client = get_supabase_client()
         res = client.table("documents").select("*").eq("doc_id", doc_id).limit(1).execute()
         if res.data:
@@ -424,7 +424,7 @@ def _reconstruct_chunk_markdown(chunk_bodies: list[str]) -> str:
 
 def _sb_query_document_chunks(doc_id: str) -> list[dict[str, Any]]:
     """Query all chunk rows for a doc_id from Supabase, ordered by chunk_id."""
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     result = (

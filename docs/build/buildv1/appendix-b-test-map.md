@@ -12,6 +12,8 @@
 - corpus audit tests for `include_corpus`, `revision_candidate`, and `exclude_internal`
 - all-file audit tests across markdown and non-markdown assets
 - exclusion tests for `state.md`, working `README.md`, `.DS_Store`, crawler helpers, deprecated mirrors, and roadmap notes
+- reconnaissance quality-gate tests for `ready_for_canonical_blessing`, `review_required`, and `blocked`
+- manual-review queue tests across archetype, authority, family, ambiguity, and revision linkage
 - revision-candidate tests for `PATCH` and `UPSERT` markdown files
 - corpus inventory tests across `normativa`, `interpretacion`, and `practica`
 - labeling tests for `family`, `knowledge_class`, `source_type`, and `vocabulary_status`

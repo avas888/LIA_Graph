@@ -1,7 +1,9 @@
+// @vitest-environment jsdom
+
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // thinkingOverlay is a singleton — force a fresh module for each test
-let getThinkingOverlay: typeof import("@/shared/async/thinkingOverlay").getThinkingOverlay;
+let getThinkingOverlay: typeof import("../src/shared/async/thinkingOverlay").getThinkingOverlay;
 
 describe("thinking overlay", () => {
   beforeEach(async () => {
@@ -21,7 +23,7 @@ describe("thinking overlay", () => {
         dispatchEvent: vi.fn(),
       })),
     });
-    const mod = await import("@/shared/async/thinkingOverlay");
+    const mod = await import("../src/shared/async/thinkingOverlay");
     getThinkingOverlay = mod.getThinkingOverlay;
   });
 
@@ -32,6 +34,9 @@ describe("thinking overlay", () => {
     document.body.appendChild(chatPanel);
 
     const overlay = getThinkingOverlay();
+    const primedNode = document.getElementById("lia-thinking-overlay");
+    expect(primedNode).not.toBeNull();
+    expect(primedNode?.hidden).toBe(true);
 
     overlay.start();
     await vi.advanceTimersByTimeAsync(150);

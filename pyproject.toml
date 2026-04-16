@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lia-contador"
+name = "lia-graph"
 version = "0.1.0"
-description = "Scaffold de pipeline de conocimiento para asesoria contable colombiana"
+description = "Graph-first knowledge pipeline for Colombian accounting"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "LIA" }]
@@ -26,8 +26,9 @@ dev = [
 ]
 
 [project.scripts]
-lia-cli = "lia_contador.cli:main"
-lia-ui = "lia_contador.ui_server:main"
+lia-ui = "lia_graph.ui_server:main"
+lia-graph-artifacts = "lia_graph.ingest:main"
+lia-deps-check = "lia_graph.dependency_smoke:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

@@ -26,7 +26,7 @@ def run_pipeline_c(
 ) -> PipelineCResponse:
     answer = (
         "La capa compartida de LIA_Graph fue restaurada parcialmente y el "
-        "orquestador heredado de Lia_contadores todavia no se ha reincorporado "
+        "orquestador heredado de la aplicacion previa todavia no se ha reincorporado "
         "completo en este repo."
     )
     sink = stream_sink

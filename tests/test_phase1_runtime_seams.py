@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from lia_graph.chat_runs_store import create_chat_run, summarize_chat_run_metrics
 from lia_graph.pipeline_c.contracts import PipelineCRequest, PipelineCResponse
 from lia_graph.pipeline_c.orchestrator import run_pipeline_c
-from lia_graph.pipeline_router import execute_routed_pipeline, resolve_pipeline_route
+from lia_graph.pipeline_router import DEFAULT_PIPELINE_VARIANT, execute_routed_pipeline, resolve_pipeline_route
 
 
 @dataclass
@@ -20,10 +20,10 @@ class _StreamProbe:
         self.deltas.append(delta)
 
 
-def test_resolve_pipeline_route_defaults_to_pipeline_c() -> None:
-    route = resolve_pipeline_route(default_variant="pipeline_c")
-    assert route.route == "pipeline_c"
-    assert route.pipeline_variant == "pipeline_c"
+def test_resolve_pipeline_route_defaults_to_pipeline_d() -> None:
+    route = resolve_pipeline_route(default_variant=DEFAULT_PIPELINE_VARIANT)
+    assert route.route == "pipeline_d"
+    assert route.pipeline_variant == "pipeline_d"
     assert route.shadow_pipeline_variant is None
     assert route.source == "config_default"
 
@@ -45,8 +45,8 @@ def test_resolve_pipeline_route_maps_dual_run_to_primary_and_shadow() -> None:
         default_variant="pipeline_c",
     )
     assert route.route == "dual_run"
-    assert route.pipeline_variant == "pipeline_c"
-    assert route.shadow_pipeline_variant == "pipeline_d"
+    assert route.pipeline_variant == "pipeline_d"
+    assert route.shadow_pipeline_variant == "pipeline_c"
 
 
 def test_execute_routed_pipeline_uses_selected_runner_and_keeps_contract_shape() -> None:

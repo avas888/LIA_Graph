@@ -4,6 +4,13 @@ from dataclasses import dataclass, replace
 from typing import Any, Mapping
 
 from .scope_guardrails import build_country_scope_prompt_block, is_document_in_country_scope
+from .topic_taxonomy import (
+    get_child_topic_keys,
+    get_parent_topic_key,
+    get_topic_taxonomy_entry,
+    iter_topic_taxonomy_entries,
+    normalize_topic_key as normalize_taxonomy_topic_key,
+)
 
 
 @dataclass(frozen=True)
@@ -14,109 +21,71 @@ class TopicScope:
     allowed_path_prefixes: tuple[str, ...]
 
 
-_TOPIC_SCOPES: dict[str, TopicScope] = {
-    "declaracion_renta": TopicScope(
-        key="declaracion_renta",
-        label="Declaración de Renta",
-        allowed_topics=frozenset({"renta", "renta_parametros"}),
-        allowed_path_prefixes=(
-            "normativa/renta/",
-            "templates/renta_case_intake_template.md",
-        ),
-    ),
-    "iva": TopicScope(
-        key="iva",
-        label="IVA (incluyendo bimestral)",
-        allowed_topics=frozenset({"iva"}),
-        allowed_path_prefixes=(
-            "normativa/iva/",
-            "industry_guidance/iva/",
-            "templates/iva/",
-        ),
-    ),
-    "ica": TopicScope(
-        key="ica",
-        label="ICA",
-        allowed_topics=frozenset({"ica"}),
-        allowed_path_prefixes=(
-            "normativa/ica/",
-            "templates/ica/",
-        ),
-    ),
-    "estados_financieros_niif": TopicScope(
-        key="estados_financieros_niif",
-        label="Estados financieros bajo NIIF",
-        allowed_topics=frozenset({"niif"}),
-        allowed_path_prefixes=(
-            "normativa/niif/",
-            "industry_guidance/niif/",
-            "templates/niif/",
-        ),
-    ),
-    "laboral": TopicScope(
-        key="laboral",
-        label="Laboral y nómina",
-        allowed_topics=frozenset({"laboral"}),
-        allowed_path_prefixes=(
-            "normativa/laboral/",
-            "industry_guidance/laboral/",
-            "templates/laboral/",
-            "laboral/",
-        ),
-    ),
-    "calendario_obligaciones": TopicScope(
-        key="calendario_obligaciones",
-        label="Calendario y obligaciones recurrentes",
-        allowed_topics=frozenset({"calendarios", "renta", "renta_parametros"}),
-        allowed_path_prefixes=("calendarios/",),
-    ),
-    "facturacion_electronica": TopicScope(
-        key="facturacion_electronica",
-        label="Facturación Electrónica",
-        allowed_topics=frozenset({"facturacion_electronica"}),
-        allowed_path_prefixes=(
-            "normativa/facturacion_electronica/",
-            "industry_guidance/facturacion_electronica/",
-            "templates/facturacion_electronica/",
-        ),
-    ),
-}
+def _build_seed_topic_scopes() -> dict[str, TopicScope]:
+    seeded: dict[str, TopicScope] = {}
+    entries = {entry.key: entry for entry in iter_topic_taxonomy_entries()}
+    for entry in entries.values():
+        allowed_topics = {entry.key, *entry.legacy_document_topics}
+        allowed_path_prefixes = list(entry.allowed_path_prefixes)
+        parent_key = get_parent_topic_key(entry.key)
+        if parent_key:
+            parent_entry = entries.get(parent_key)
+            allowed_topics.add(parent_key)
+            if parent_entry is not None:
+                allowed_topics.update(parent_entry.legacy_document_topics)
+                allowed_path_prefixes.extend(parent_entry.allowed_path_prefixes)
+        else:
+            for child_key in get_child_topic_keys(entry.key):
+                child_entry = entries.get(child_key)
+                if child_entry is None:
+                    continue
+                allowed_topics.add(child_entry.key)
+                allowed_topics.update(child_entry.legacy_document_topics)
+        seeded[entry.key] = TopicScope(
+            key=entry.key,
+            label=entry.label,
+            allowed_topics=frozenset(topic for topic in allowed_topics if topic),
+            allowed_path_prefixes=tuple(dict.fromkeys(prefix for prefix in allowed_path_prefixes if prefix)),
+        )
+    return seeded
 
-_TOPIC_ALIASES = {
-    "declaracion_renta": "declaracion_renta",
-    "renta": "declaracion_renta",
-    "iva": "iva",
-    "iva_bimestral": "iva",
-    "ica": "ica",
-    "estados_financieros_niif": "estados_financieros_niif",
-    "niif": "estados_financieros_niif",
-    "ifrs": "estados_financieros_niif",
-    "estados_financieros": "estados_financieros_niif",
-    "laboral": "laboral",
-    "nomina": "laboral",
-    "nómina": "laboral",
-    "calendario_obligaciones": "calendario_obligaciones",
-    "obligaciones_recurrentes": "calendario_obligaciones",
-    "calendario": "calendario_obligaciones",
-    "calendario_tributario": "calendario_obligaciones",
-    "facturacion_electronica": "facturacion_electronica",
-    "facturacion": "facturacion_electronica",
-    # --- aliases for new custom corpora (bootstrap adds topic→topic, these add shorthands) ---
-    "reforma_laboral": "reforma_laboral_2466",
-    "ley_2466": "reforma_laboral_2466",
-    "ibua": "impuestos_saludables",
-    "icui": "impuestos_saludables",
-    "impuestos_saludables": "impuestos_saludables",
-    "prestaciones_niif": "prestaciones_sociales_niif_fiscal",
-    "prestaciones_fiscal": "prestaciones_sociales_niif_fiscal",
-    "depreciacion_niif": "depreciacion_fiscal_niif",
-    "depreciacion_fiscal": "depreciacion_fiscal_niif",
-    "amortizacion_fiscal": "depreciacion_fiscal_niif",
-    "amortizacion_niif": "depreciacion_fiscal_niif",
-    "cambio_doctrinal": "cambio_doctrinal_dian",
-    "dsno": "cambio_doctrinal_dian",
-    "nomina_electronica": "laboral",
-}
+
+def _build_seed_topic_aliases() -> dict[str, str]:
+    aliases: dict[str, str] = {}
+    for entry in iter_topic_taxonomy_entries():
+        aliases[entry.key] = entry.key
+        for alias in entry.aliases:
+            aliases[alias] = entry.key
+        for alias in entry.ingestion_aliases:
+            aliases[alias] = entry.key
+    aliases.update(
+        {
+            "iva_bimestral": "iva",
+            "estados_financieros": "estados_financieros_niif",
+            "nómina": "laboral",
+            "obligaciones_recurrentes": "calendario_obligaciones",
+            "calendario": "calendario_obligaciones",
+            "facturacion": "facturacion_electronica",
+            "reforma_laboral": "reforma_laboral_2466",
+            "ley_2466": "reforma_laboral_2466",
+            "ibua": "impuestos_saludables",
+            "icui": "impuestos_saludables",
+            "impuestos_saludables": "impuestos_saludables",
+            "prestaciones_niif": "prestaciones_sociales_niif_fiscal",
+            "prestaciones_fiscal": "prestaciones_sociales_niif_fiscal",
+            "depreciacion_niif": "depreciacion_fiscal_niif",
+            "depreciacion_fiscal": "depreciacion_fiscal_niif",
+            "amortizacion_fiscal": "depreciacion_fiscal_niif",
+            "amortizacion_niif": "depreciacion_fiscal_niif",
+            "cambio_doctrinal": "cambio_doctrinal_dian",
+            "dsno": "cambio_doctrinal_dian",
+        }
+    )
+    return aliases
+
+
+_TOPIC_SCOPES: dict[str, TopicScope] = _build_seed_topic_scopes()
+_TOPIC_ALIASES = _build_seed_topic_aliases()
 
 
 def register_topic_scope(scope: TopicScope) -> None:
@@ -145,7 +114,10 @@ def normalize_topic_key(topic: str | None) -> str | None:
     candidate = topic.strip().lower()
     if not candidate:
         return None
-    return _TOPIC_ALIASES.get(candidate)
+    normalized = _TOPIC_ALIASES.get(candidate)
+    if normalized is not None:
+        return normalized
+    return normalize_taxonomy_topic_key(candidate)
 
 
 def get_topic_scope(topic: str | None) -> TopicScope | None:
@@ -261,5 +233,3 @@ def build_topic_scope_refusal(topic: str | None, reason: str, pais: str | None =
         "3) Siguiente paso\n"
         "Reformular o ampliar la consulta manteniendola dentro de los repositorios del tema seleccionado."
     )
-
-

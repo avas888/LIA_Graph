@@ -37,7 +37,7 @@ def _coerce_text(value: Any) -> str:
 
 
 def _use_supabase(base_dir: Path) -> bool:
-    from lia_contador.supabase_client import is_supabase_enabled, matches_default_storage_path
+    from .supabase_client import is_supabase_enabled, matches_default_storage_path
 
     if not matches_default_storage_path(base_dir, DEFAULT_CHAT_RUNS_DIR):
         return False
@@ -254,14 +254,14 @@ def _fs_get_events(chat_run_id: str, *, base_dir: Path) -> list[dict[str, Any]]:
 
 
 def _sb_upsert_record(record: ChatRunRecord) -> None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     client.table("chat_runs").upsert(record.to_dict(), on_conflict="chat_run_id").execute()
 
 
 def _sb_load_record(chat_run_id: str) -> ChatRunRecord | None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     result = client.table("chat_runs").select("*").eq("chat_run_id", chat_run_id).limit(1).execute()
@@ -271,7 +271,7 @@ def _sb_load_record(chat_run_id: str) -> ChatRunRecord | None:
 
 
 def _sb_find_by_fingerprint(request_fingerprint: str) -> ChatRunRecord | None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     result = (
@@ -288,7 +288,7 @@ def _sb_find_by_fingerprint(request_fingerprint: str) -> ChatRunRecord | None:
 
 
 def _sb_append_event(chat_run_id: str, event: dict[str, Any]) -> None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     result = (
@@ -312,7 +312,7 @@ def _sb_append_event(chat_run_id: str, event: dict[str, Any]) -> None:
 
 
 def _sb_get_events(chat_run_id: str) -> list[dict[str, Any]]:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     result = (
@@ -637,7 +637,7 @@ def summarize_chat_run_metrics(
 ) -> dict[str, Any]:
     rows: list[ChatRunRecord] = []
     if _use_supabase(base_dir):
-        from lia_contador.supabase_client import get_supabase_client
+        from .supabase_client import get_supabase_client
 
         try:
             client = get_supabase_client()

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from ..graph.schema import EdgeKind, GraphEdgeRecord
+from ..graph.schema import EdgeKind, GraphEdgeRecord, default_graph_schema
 from .linker import RawEdgeCandidate
 
 
@@ -68,19 +68,27 @@ def _classify_candidate(candidate: RawEdgeCandidate) -> ClassifiedEdge:
     if hint == EdgeKind.MODIFIES.value or any(
         keyword in lowered for keyword in ("modific", "adicion", "subrog", "sustituy")
     ):
-        return _build_edge(candidate, EdgeKind.MODIFIES, 0.95, "keyword_modifies")
+        edge = _build_edge(candidate, EdgeKind.MODIFIES, 0.95, "keyword_modifies")
+        if _edge_is_schema_valid(edge):
+            return edge
     if hint == EdgeKind.SUPERSEDES.value or any(
         keyword in lowered for keyword in ("derog", "reemplaz")
     ):
-        return _build_edge(candidate, EdgeKind.SUPERSEDES, 0.92, "keyword_supersedes")
+        edge = _build_edge(candidate, EdgeKind.SUPERSEDES, 0.92, "keyword_supersedes")
+        if _edge_is_schema_valid(edge):
+            return edge
     if hint == EdgeKind.REQUIRES.value or any(
         keyword in lowered for keyword in ("requiere", "debe", "condicion", "acreditar")
     ):
-        return _build_edge(candidate, EdgeKind.REQUIRES, 0.75, "keyword_requirement")
+        edge = _build_edge(candidate, EdgeKind.REQUIRES, 0.75, "keyword_requirement")
+        if _edge_is_schema_valid(edge):
+            return edge
     if hint == EdgeKind.DEFINES.value or any(
         keyword in lowered for keyword in ("se entiende por", "define", "definicion")
     ):
-        return _build_edge(candidate, EdgeKind.DEFINES, 0.72, "keyword_definition")
+        edge = _build_edge(candidate, EdgeKind.DEFINES, 0.72, "keyword_definition")
+        if _edge_is_schema_valid(edge):
+            return edge
     return _build_edge(candidate, EdgeKind.REFERENCES, 0.6, "fallback_reference")
 
 
@@ -107,3 +115,12 @@ def _build_edge(
         confidence=confidence,
         rule=rule,
     )
+
+
+def _edge_is_schema_valid(edge: ClassifiedEdge) -> bool:
+    schema = default_graph_schema()
+    try:
+        schema.validate_edge_record(edge.record)
+    except ValueError:
+        return False
+    return True

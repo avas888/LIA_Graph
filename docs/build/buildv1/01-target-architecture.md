@@ -23,6 +23,8 @@ This is not a value hierarchy. Accountants need all three families. Phase 2 grap
 
 Before any graph build or retrieval-support materialization, the system must execute a corpus audit gate over the whole shared corpus root. The audit gate exists to distinguish accountant-facing corpus documents from working files, patch instructions, roadmap notes, crawler utilities, and deprecated mirrors. Phase 2 only graphizes or inventories documents that survive that gate.
 
+After audit admission, the system must execute a reconnaissance quality gate before treating the canonical manifest as durable truth. Admitted documents can still remain `review_required` or `blocked` when authority shape is unclear, revisions are unresolved, or the asset is valuable but not yet trustworthy as reasoning input.
+
 Topic and subtopic naming should follow the ratified vocabulary canon when it fits, while backward aliases remain available for runtime compatibility. If a valid corpus domain falls outside the current ratified vocabulary version, the document may still enter as a custom pending-vocabulary topic rather than being force-fit into the wrong canonical bucket.
 
 ## Knowledge Layers
@@ -31,6 +33,7 @@ The ingestion and retrieval architecture must distinguish three layers:
 
 - `source_asset_layer`: every scanned file that the audit gate sees
 - `canonical_corpus_layer`: accountant-facing documents admitted by the audit gate, with revision candidates attached to their base documents
+- `canonical_blessing_state`: review signal over the canonical layer indicating whether documents are ready, require manual review, or are blocked before durable ingestion
 - `reasoning_layer`: graph-parse-ready normative text plus complementary retrieval support drawn from the canonical layer
 
 This separation is critical. The audit surface is wider than the parse surface, and the parse surface is wider than the graph surface.
@@ -77,6 +80,7 @@ Internal execution should add a graph-native evidence object carrying:
 - graph structure is the primary normative truth model; topic and subtopic labels are supportive metadata
 - mandatory admission metadata is small and operational: file identity, audit decision, family, knowledge class, source type, graph-target status, and vocabulary status
 - admitted assets also need file-shape metadata such as extension, text extractability, parse strategy, and document archetype so the system knows what is inventory-only versus graph-parse-ready
+- canonical manifests need reconnaissance metadata such as authority level, source tier, ambiguity flags, revision linkage, and blessing status before they are trusted as durable reasoning inputs
 - topic and subtopic labels remain useful but optional at admission time when the domain is valid and the vocabulary fit is still pending
 - reform chains, exceptions, requirements, computation dependencies, legal definitions, concept grounding, and vigencia must be derived from graph structure rather than asserted as flat labels
 - revision candidates live in the canonical layer as attachments to base docs rather than standalone corpus evidence

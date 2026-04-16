@@ -1,4 +1,4 @@
-# Deprecated Fork Boundary: Lia_contadores → LIA_Graph
+# Deprecated Fork Boundary: Prior Shell → LIA_Graph
 
 > Historical copy of the earlier boundary analysis. Kept for archaeology only.
 > This file is not active steering for LIA_Graph.
@@ -15,7 +15,7 @@ not drive graph-first design decisions now.
 
 # Historical Content
 
-## Codebase Scale (Lia_contadores)
+## Codebase Scale (Prior Shell)
 
 | Metric | Count |
 |--------|-------|

@@ -5,7 +5,7 @@ from .retriever import RetrieverAdapter
 # adapters -> pipeline_c -> orchestrator -> llm_runtime -> adapters
 def __getattr__(name: str):
     if name == "SupabaseRetriever":
-        from lia_contador.pipeline_c.supabase_fetch import SupabaseRetriever
+        from ..pipeline_c.supabase_fetch import SupabaseRetriever
         globals()["SupabaseRetriever"] = SupabaseRetriever
         return SupabaseRetriever
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

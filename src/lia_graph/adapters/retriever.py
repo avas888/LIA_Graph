@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Protocol
 
-from lia_contador.contracts import DocumentRecord
+from ..contracts import DocumentRecord
 
 
 class RetrieverAdapter(Protocol):

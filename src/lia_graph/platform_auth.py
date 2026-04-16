@@ -306,13 +306,21 @@ def load_host_integrations(
 
 def resolve_platform_signing_secret() -> str:
     secret = str(os.getenv("LIA_PLATFORM_SIGNING_SECRET", "")).strip()
-    if not secret:
-        raise PlatformAuthError(
-            "Configurar `LIA_PLATFORM_SIGNING_SECRET`.",
-            code="auth_secret_missing",
-            http_status=500,
-        )
-    return secret
+    if secret:
+        return secret
+
+    from .runtime_env import is_production_like_env
+
+    if not is_production_like_env():
+        # Local/dev fallback so public-mode and host-auth flows can run without
+        # requiring secrets in every personal checkout.
+        return "lia-dev-signing-secret"
+
+    raise PlatformAuthError(
+        "Configurar `LIA_PLATFORM_SIGNING_SECRET`.",
+        code="auth_secret_missing",
+        http_status=500,
+    )
 
 
 def exchange_host_grant(

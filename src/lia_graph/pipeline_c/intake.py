@@ -9,6 +9,7 @@ from ..legal_query_planner import plan_legal_query
 from ..procedural_query_planner import plan_procedural_query
 from .norm_topic_index import resolve_secondary_topics_from_norms
 from .requested_period import RequestedPeriodContext
+from .temporal_intent import detect_historical_intent
 
 
 _HIGH_RISK_KEYWORDS = {
@@ -87,105 +88,6 @@ _FOLLOW_UP_CONTINUITY_MARKERS = (
     "qué pasa si",
 )
 
-
-# ---------------------------------------------------------------------------
-# Historical intent detection for compatibility-aware routing.
-# ---------------------------------------------------------------------------
-#
-# Detects queries like "qué decía el Art. 188 antes de Ley 2277/2022" so that:
-#  1. Intake can infer a heuristic `consulta_date` temporal hint.
-#  2. The legal planner can set `historical_query_intent=True` on the plan,
-#     which downstream composition can use to render a historical narrative.
-#
-# Detection is belt-and-suspenders: intake detects first, then the planner
-# re-evaluates independently in case intake missed (for example when the
-# planner is called directly from tests or a non-intake path).
-
-_HISTORICAL_PHRASE_RE = re.compile(
-    r"\b(antes de|previo a|antes del?|originalmente|en su versión original|"
-    r"en su version original|versión anterior|version anterior|"
-    r"qué decía|que decia|cómo era|como era|"
-    r"hace cuánto|hace cuanto|antes que|histórico|historico)\b",
-    re.IGNORECASE,
-)
-_YEAR_ANCHOR_RE = re.compile(r"\b(19[89]\d|20[0-3]\d)\b")
-_LEY_REFORMA_RE = re.compile(
-    r"\bley\s*(\d{3,4})(?:\s*de\s*(\d{4}))?",
-    re.IGNORECASE,
-)
-_REFORMA_YEAR_RE = re.compile(
-    r"\breforma\s*(?:tributaria\s*)?(?:de\s*)?(\d{4})",
-    re.IGNORECASE,
-)
-
-
-def _detect_historical_intent(query: str) -> tuple[bool, str | None]:
-    """Detect whether the query carries historical temporal intent.
-
-    Returns a tuple ``(detected, inferred_consulta_date_iso)``:
-      * ``detected`` — True when any historical phrase matches. Year anchors
-        alone do NOT trigger the flag (too ambiguous — could be the date of
-        an ongoing transaction, not a backward-looking request).
-      * ``inferred_consulta_date_iso`` — a heuristic ISO-8601 date (YYYY-12-31
-        of the prior year) when both a historical phrase AND a year anchor
-        are present. None otherwise.
-
-    Heuristics:
-      * "antes de YYYY" / "previo a YYYY"     → (YYYY-1)-12-31
-      * "antes de Ley NNNN de YYYY"           → (YYYY-1)-12-31 (coarse)
-      * "antes de la reforma YYYY"            → (YYYY-1)-12-31
-      * phrase only (no year)                 → (True, None)
-      * year only (no phrase)                 → (False, None)
-
-    TODO (v2): when only a "Ley NNNN/YYYY" anchor is present, look up the
-    law's actual `effective_date` in the `documents` table and subtract one
-    day. For v1 we use the coarse `YYYY-1-12-31` heuristic.
-    """
-    text = str(query or "")
-    if not text:
-        return False, None
-
-    has_phrase = bool(_HISTORICAL_PHRASE_RE.search(text))
-    if not has_phrase:
-        return False, None
-
-    # Look for explicit reforma year first (most specific), then Ley N de YYYY,
-    # then a bare year anchor inside the query. All produce a YYYY-1-12-31 cut.
-    year: int | None = None
-
-    reforma_match = _REFORMA_YEAR_RE.search(text)
-    if reforma_match:
-        try:
-            year = int(reforma_match.group(1))
-        except (TypeError, ValueError):
-            year = None
-
-    if year is None:
-        ley_match = _LEY_REFORMA_RE.search(text)
-        if ley_match:
-            # Prefer the "de YYYY" group; if absent, treat the first number as
-            # the law number and skip (too ambiguous on its own).
-            year_group = ley_match.group(2)
-            if year_group:
-                try:
-                    year = int(year_group)
-                except (TypeError, ValueError):
-                    year = None
-
-    if year is None:
-        year_match = _YEAR_ANCHOR_RE.search(text)
-        if year_match:
-            try:
-                year = int(year_match.group(1))
-            except (TypeError, ValueError):
-                year = None
-
-    if year is None or year < 1990 or year > 2039:
-        return True, None
-
-    # Coarse heuristic: "antes de 2022" → 2021-12-31
-    inferred = f"{year - 1:04d}-12-31"
-    return True, inferred
 
 _CROSS_DOMAIN_RELATIONS: tuple[tuple[str, str, frozenset[str]], ...] = (
     # ── From declaracion_renta ──────────────────────────────────────────
@@ -972,7 +874,7 @@ def analyze_intake(
     # inferred_date) pair; both are additive fields on IntakeContext. The
     # orchestrator promotes `inferred_consulta_date` into the request's
     # `consulta_date` only when the caller did not already supply one.
-    historical_intent, inferred_consulta = _detect_historical_intent(message)
+    historical_intent, inferred_consulta = detect_historical_intent(message)
 
     return IntakeContext(
         risk_level=risk_level,

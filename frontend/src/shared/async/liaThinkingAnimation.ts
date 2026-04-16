@@ -16,6 +16,18 @@ const LIA_POSES: PoseEntry[] = [
   { src: "/assets/poses/lia-pose-sopesando.png", phrase: "Sopesando..." },
 ];
 
+let posesPreloaded = false;
+
+function preloadLiaPoses(): void {
+  if (posesPreloaded || typeof Image === "undefined") return;
+  posesPreloaded = true;
+  for (const entry of LIA_POSES) {
+    const img = new Image();
+    img.decoding = "async";
+    img.src = entry.src;
+  }
+}
+
 export class LiaThinkingAnimation {
   private container: HTMLElement;
   private phraseNode: HTMLParagraphElement | null = null;
@@ -51,6 +63,7 @@ export class LiaThinkingAnimation {
   }
 
   public init(): void {
+    preloadLiaPoses();
     this.container.innerHTML = "";
     this.container.classList.add("lia-thinking-container");
     this.currentIndex = Math.floor(Math.random() * LIA_POSES.length);
@@ -62,6 +75,8 @@ export class LiaThinkingAnimation {
     LIA_POSES.forEach((entry, index) => {
       const img = document.createElement("img");
       img.src = entry.src;
+      img.decoding = "async";
+      img.loading = "eager";
       img.className = "lia-pose";
       img.alt = "";
       if (index === this.currentIndex) img.classList.add("active");

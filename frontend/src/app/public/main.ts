@@ -189,15 +189,15 @@ function mountDesktopPublicShell(): MountedPublicShell {
 
   const captcha = attachCaptchaOverlay();
 
-  const chatPanel = page.root.querySelector<HTMLElement>(".chat-panel");
-  if (!chatPanel) {
-    throw new Error("Missing .chat-panel inside public shell.");
+  const chatShell = page.root.querySelector<HTMLElement>(".public-shell");
+  if (!chatShell) {
+    throw new Error("Missing .public-shell root for public desktop chat.");
   }
 
   let chatMounted = false;
   async function wireChat(): Promise<void> {
     if (chatMounted) return;
-    mountChatApp(chatPanel, { i18n: page.i18n, mode: "public" });
+    mountChatApp(chatShell, { i18n: page.i18n, mode: "public" });
     chatMounted = true;
   }
 

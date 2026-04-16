@@ -280,9 +280,12 @@ def _env_truthy(name: str, default: str = "0") -> bool:
 # Master kill switch + supporting config for the no-login `/public` chat URL.
 # When `PUBLIC_MODE_ENABLED` is False, every public surface returns 503 and
 # `_resolve_auth_context` actively rejects public_visitor JWTs even if signed.
-PUBLIC_MODE_ENABLED = _env_truthy("LIA_PUBLIC_MODE_ENABLED", "0")
+_PUBLIC_RUNTIME_IS_PRODUCTION = is_production_like_env()
+PUBLIC_MODE_ENABLED = _env_truthy("LIA_PUBLIC_MODE_ENABLED", "0" if _PUBLIC_RUNTIME_IS_PRODUCTION else "1")
 PUBLIC_TRUST_PROXY = _env_truthy("LIA_TRUST_PROXY", "0")
 PUBLIC_USER_SALT = str(os.getenv("LIA_PUBLIC_USER_SALT", "")).strip()
+if PUBLIC_MODE_ENABLED and not PUBLIC_USER_SALT and not _PUBLIC_RUNTIME_IS_PRODUCTION:
+    PUBLIC_USER_SALT = "lia-public-dev-salt"
 PUBLIC_CHAT_BURST_RPM = int(str(os.getenv("LIA_PUBLIC_CHAT_BURST_RPM", "10")).strip() or "10")
 PUBLIC_CHAT_DAILY_CAP = int(str(os.getenv("LIA_PUBLIC_CHAT_DAILY_CAP", "100")).strip() or "100")
 PUBLIC_TOKEN_TTL_SECONDS = int(
@@ -291,13 +294,18 @@ PUBLIC_TOKEN_TTL_SECONDS = int(
 )
 PUBLIC_TURNSTILE_SITE_KEY = str(os.getenv("LIA_PUBLIC_TURNSTILE_SITE_KEY", "")).strip()
 PUBLIC_TURNSTILE_SECRET = str(os.getenv("LIA_PUBLIC_TURNSTILE_SECRET_KEY", "")).strip()
+PUBLIC_CAPTCHA_ENABLED = PUBLIC_MODE_ENABLED and _PUBLIC_RUNTIME_IS_PRODUCTION
 
 if PUBLIC_MODE_ENABLED:
     if not PUBLIC_USER_SALT:
         raise RuntimeError(
             "LIA_PUBLIC_MODE_ENABLED=true requires LIA_PUBLIC_USER_SALT (32+ byte secret)."
         )
-    if not PUBLIC_TURNSTILE_SECRET:
+    if PUBLIC_CAPTCHA_ENABLED and not PUBLIC_TURNSTILE_SITE_KEY:
+        raise RuntimeError(
+            "LIA_PUBLIC_MODE_ENABLED=true in production-like env requires LIA_PUBLIC_TURNSTILE_SITE_KEY."
+        )
+    if PUBLIC_CAPTCHA_ENABLED and not PUBLIC_TURNSTILE_SECRET:
         raise RuntimeError(
             "LIA_PUBLIC_MODE_ENABLED=true requires LIA_PUBLIC_TURNSTILE_SECRET_KEY."
         )
@@ -1141,6 +1149,8 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         Mirrors the contract of `_check_rate_limit`: True means the response
         has already been sent (429) and the caller should `return`.
         """
+        if not is_production_like_env():
+            return False
         try:
             from .supabase_client import get_supabase_client
             client = get_supabase_client()
@@ -1192,14 +1202,30 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             )
             return
 
+        client_ip = self._get_trusted_client_ip()
+        pub_user_id = self._hash_public_user_id(client_ip)
+
+        if not PUBLIC_CAPTCHA_ENABLED:
+            token, expires_at = issue_public_visitor_token(
+                pub_user_id=pub_user_id,
+                ttl_seconds=PUBLIC_TOKEN_TTL_SECONDS,
+            )
+            self._send_json(
+                HTTPStatus.OK,
+                {
+                    "ok": True,
+                    "token": token,
+                    "expires_at": expires_at,
+                    "captcha_required": False,
+                },
+            )
+            return
+
         from .conversation_store import (
             public_captcha_pass_exists,
             public_captcha_pass_record,
         )
         from .turnstile import verify_turnstile
-
-        client_ip = self._get_trusted_client_ip()
-        pub_user_id = self._hash_public_user_id(client_ip)
 
         body_raw = b""
         try:
@@ -1289,15 +1315,13 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             )
             return
 
-        from .conversation_store import public_captcha_pass_exists
-
         client_ip = self._get_trusted_client_ip()
         pub_user_id = self._hash_public_user_id(client_ip)
 
         token_value = ""
         expires_value = ""
         captcha_required = "true"
-        if public_captcha_pass_exists(pub_user_id):
+        if not PUBLIC_CAPTCHA_ENABLED:
             token, expires_at = issue_public_visitor_token(
                 pub_user_id=pub_user_id,
                 ttl_seconds=PUBLIC_TOKEN_TTL_SECONDS,
@@ -1305,6 +1329,17 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             token_value = token
             expires_value = str(int(expires_at or 0))
             captcha_required = "false"
+        else:
+            from .conversation_store import public_captcha_pass_exists
+
+            if public_captcha_pass_exists(pub_user_id):
+                token, expires_at = issue_public_visitor_token(
+                    pub_user_id=pub_user_id,
+                    ttl_seconds=PUBLIC_TOKEN_TTL_SECONDS,
+                )
+                token_value = token
+                expires_value = str(int(expires_at or 0))
+                captcha_required = "false"
 
         try:
             html_text = public_html_path.read_text(encoding="utf-8")
@@ -1379,6 +1414,10 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             self._serve_public_page()
             return
 
+        if self._resolve_ui_asset_path(path) is not None:
+            self._serve_ui_asset(path)
+            return
+
         # User management admin + invite acceptance
         from .ui_user_management_controllers import handle_user_management_get
         if handle_user_management_get(self, path, parsed, deps={}):
@@ -1451,18 +1490,18 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         )
 
     def _handle_reasoning_get(self, path: str, parsed: Any) -> bool:
-        from lia_contador.ui_reasoning_controllers import handle_reasoning_get
+        from .ui_reasoning_controllers import handle_reasoning_get
         return handle_reasoning_get(self, path, parsed, deps={
             "list_reasoning_events": list_reasoning_events,
             "wait_reasoning_events": wait_reasoning_events,
         })
 
     def _handle_ingestion_get(self, path: str, parsed: Any) -> bool:
-        from lia_contador.ui_ingestion_controllers import handle_ingestion_get
+        from .ui_ingestion_controllers import handle_ingestion_get
         return handle_ingestion_get(self, path, parsed, deps={"ingestion_runtime": INGESTION_RUNTIME})
 
     def _handle_runtime_terms_get(self, path: str) -> bool:
-        from lia_contador.ui_runtime_controllers import handle_runtime_terms_get
+        from .ui_runtime_controllers import handle_runtime_terms_get
         return handle_runtime_terms_get(self, path, deps={
             "resolve_llm_adapter": resolve_llm_adapter,
             "LLMRuntimeConfigInvalidError": LLMRuntimeConfigInvalidError,
@@ -1475,7 +1514,7 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         })
 
     def _handle_citation_get(self, path: str, parsed: Any) -> bool:
-        from lia_contador.ui_citation_controllers import handle_citation_get
+        from .ui_citation_controllers import handle_citation_get
         return handle_citation_get(self, path, parsed, deps={
             "collect_citation_profile_context": _collect_citation_profile_context,
             "collect_citation_profile_context_by_reference_key": _collect_citation_profile_context_by_reference_key,
@@ -1519,8 +1558,8 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         )
 
     def _handle_platform_get(self, path: str, parsed: Any) -> bool:
-        from lia_contador.conversation_store import summarize_public_usage
-        from lia_contador.ui_admin_controllers import handle_platform_get
+        from .conversation_store import summarize_public_usage
+        from .ui_admin_controllers import handle_platform_get
         return handle_platform_get(self, path, parsed, deps={
             "summarize_usage": summarize_usage,
             "summarize_public_usage": summarize_public_usage,
@@ -1535,7 +1574,7 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         })
 
     def _handle_history_get(self, path: str, parsed: Any) -> bool:
-        from lia_contador.ui_conversation_controllers import handle_history_get
+        from .ui_conversation_controllers import handle_history_get
         return handle_history_get(self, path, parsed, deps={
             "load_feedback": load_feedback,
             "load_session": load_session,
@@ -1565,9 +1604,13 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             },
         )
 
-    def _serve_ui_asset(self, path: str) -> None:
+    def _resolve_ui_asset_path(self, path: str) -> Path | None:
         if path in {"/", "/index.html"}:
             file_path = UI_DIR / "index.html"
+        elif path in {"/login", "/login.html"}:
+            file_path = UI_DIR / "login.html"
+        elif path in {"/invite", "/invite.html"}:
+            file_path = UI_DIR / "invite.html"
         elif path in {"/ops", "/ops.html"}:
             file_path = UI_DIR / "ops.html"
         elif path in {"/embed", "/embed.html"}:
@@ -1584,7 +1627,18 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             rel = path.lstrip("/")
             file_path = UI_DIR / rel
 
-        if not file_path.exists() or not file_path.is_file() or UI_DIR not in file_path.parents:
+        ui_root = UI_DIR.resolve()
+        try:
+            resolved_path = file_path.resolve()
+        except OSError:
+            return None
+        if not resolved_path.exists() or not resolved_path.is_file() or ui_root not in resolved_path.parents:
+            return None
+        return resolved_path
+
+    def _serve_ui_asset(self, path: str) -> None:
+        file_path = self._resolve_ui_asset_path(path)
+        if file_path is None:
             self._send_json(HTTPStatus.NOT_FOUND, {"error": "Recurso no encontrado."})
             return
 
@@ -1612,7 +1666,7 @@ class LiaUIHandler(BaseHTTPRequestHandler):
 
     def do_PUT(self) -> None:  # noqa: N802
         self._start_api_request_log("PUT")
-        from lia_contador.ui_runtime_controllers import handle_orchestration_settings_put
+        from .ui_runtime_controllers import handle_orchestration_settings_put
         handle_orchestration_settings_put(self, deps={
             "update_orchestration_settings": update_orchestration_settings,
             "orchestration_settings_path": ORCHESTRATION_SETTINGS_PATH,
@@ -1754,7 +1808,7 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             if handle_eval_delete(self, path, deps={}):
                 return
 
-        from lia_contador.ui_ingestion_controllers import handle_ingestion_delete
+        from .ui_ingestion_controllers import handle_ingestion_delete
         if handle_ingestion_delete(self, path, deps={"ingestion_runtime": INGESTION_RUNTIME}):
             return
 
@@ -1854,7 +1908,7 @@ def run_server(
     watcher: threading.Thread | None = None
     if reload:
         watch_roots = (
-            WORKSPACE_ROOT / "src" / "lia_contador",
+            WORKSPACE_ROOT / "src" / "lia_graph",
             WORKSPACE_ROOT / "ui",
         )
         stop_event, reload_event, watcher = _start_reload_watcher(

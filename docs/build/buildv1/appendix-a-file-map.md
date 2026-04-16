@@ -53,6 +53,7 @@ This appendix lists implementation targets in the real project tree. It does not
 ## Artifact Families
 
 - `artifacts/corpus_audit_report.json`
+- `artifacts/corpus_reconnaissance_report.json`
 - `artifacts/revision_candidates.json`
 - `artifacts/excluded_files.json`
 - `artifacts/canonical_corpus_manifest.json`

@@ -1,0 +1,24 @@
+{
+  "event_id": "859807207a3940c7a6f7723b5af2de2b",
+  "event_type": "llm_usage",
+  "endpoint": "/api/chat",
+  "tenant_id": "public",
+  "user_id": "",
+  "company_id": "",
+  "session_id": "smoke-persist-1",
+  "trace_id": "trace-persist-1",
+  "run_id": "d3385d2ea0a3490dbc0017b506a2fba6",
+  "integration_id": "",
+  "provider": "",
+  "model": "",
+  "usage_source": "none",
+  "billable": false,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "total_tokens": 0,
+  "metadata": {
+    "response_route": "decision",
+    "primary_scope_mode": "global_overlay"
+  },
+  "created_at": "2026-04-14T14:58:47Z"
+}

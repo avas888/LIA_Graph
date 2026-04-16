@@ -32,6 +32,18 @@ Phase 2 does not ingest files directly from the source trees without review. Eve
 
 `to upload` is in scope for the same audit gate. It is not auto-admitted and it is not auto-ignored.
 
+## Reconnaissance Gate
+
+Audit alone is not enough. Before the canonical manifest is treated as durably blessed, Phase 2 must materialize a reconnaissance report that reviews the corpus by:
+
+- file archetype
+- authority level
+- family
+- ambiguity flags
+- revision linkage
+
+This reconnaissance layer exists to stop the old label-first RAG habit of admitting documents too quickly just because they look routable.
+
 ## Family And Knowledge-Class Mapping
 
 The corpus is not ET-only and not normativa-only. The shared accountant corpus must keep these sibling families visible:
@@ -77,6 +89,8 @@ These fields are the minimum needed to reopen the source, explain admission, and
 `revision_candidate` material does not become standalone corpus evidence. It belongs in the canonical layer as an attachment to a base document when the target is resolvable, or as an unresolved revision queue item when the target is still ambiguous.
 
 This canonical layer exists so the system can keep valuable delta material visible without pretending it has already been merged into clean final text.
+
+The canonical manifest should therefore expose blessing state, not just inclusion state. A document can be admitted to the corpus and still remain `review_required` or `blocked` for canonical blessing.
 
 ## Optional Or Supportive Labels
 
@@ -137,12 +151,19 @@ Patch-style markdown such as `PATCH` or `UPSERT` is not standalone corpus. It be
 Before graph interpretation begins, the ingestion pipeline should be able to materialize:
 
 - `artifacts/corpus_audit_report.json`
+- `artifacts/corpus_reconnaissance_report.json`
 - `artifacts/revision_candidates.json`
 - `artifacts/excluded_files.json`
 - `artifacts/canonical_corpus_manifest.json`
 - `artifacts/corpus_inventory.json`
 
 Graph artifacts build on top of those audit outputs rather than replacing them.
+
+`corpus_reconnaissance_report.json` is the quality gate that tells us whether the canonical manifest is:
+
+- `ready_for_canonical_blessing`
+- `review_required`
+- `blocked`
 
 Non-markdown or otherwise non-parse-ready assets may still appear in the audit report and canonical manifest. They should remain visible there until a dedicated extractor exists, rather than being forced through the markdown parser path.
 

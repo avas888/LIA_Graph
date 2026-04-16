@@ -4,6 +4,7 @@ export interface ThinkingOverlayController {
   start: () => void;
   stop: () => void;
   reset: () => void;
+  prime: () => void;
   withTask: <T>(task: () => Promise<T>) => Promise<T>;
 }
 
@@ -115,6 +116,9 @@ export function getThinkingOverlay(): ThinkingOverlayController {
   singleton = {
     start,
     stop,
+    prime() {
+      ensureOverlay();
+    },
     withTask,
     reset() {
       activeRequests = 0;
@@ -125,6 +129,10 @@ export function getThinkingOverlay(): ThinkingOverlayController {
       hideNow();
     },
   };
+
+  // Build the hidden overlay immediately so the mascot assets begin loading
+  // before the user's first request finishes.
+  ensureOverlay();
 
   return singleton;
 }

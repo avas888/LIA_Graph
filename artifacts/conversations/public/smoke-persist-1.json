@@ -1,0 +1,34 @@
+{
+  "session_id": "smoke-persist-1",
+  "tenant_id": "public",
+  "accountant_id": "ui_user",
+  "topic": null,
+  "pais": "colombia",
+  "user_id": "",
+  "company_id": "",
+  "integration_id": "",
+  "host_session_id": "",
+  "channel": "chat",
+  "status": "active",
+  "memory_summary": "U: Prueba de persistencia | A: La capa compartida de LIA_Graph fue restaurada parcialmente y el orquestador heredado de Lia_contadores todavia no se ha reincorporado completo en este repo.",
+  "turns": [
+    {
+      "role": "user",
+      "content": "Prueba de persistencia",
+      "layer_contributions": null,
+      "trace_id": "trace-persist-1",
+      "timestamp": "2026-04-14T14:58:47Z",
+      "turn_metadata": null
+    },
+    {
+      "role": "assistant",
+      "content": "La capa compartida de LIA_Graph fue restaurada parcialmente y el orquestador heredado de Lia_contadores todavia no se ha reincorporado completo en este repo.",
+      "layer_contributions": null,
+      "trace_id": "trace-persist-1",
+      "timestamp": "2026-04-14T14:58:47Z",
+      "turn_metadata": null
+    }
+  ],
+  "created_at": "2026-04-14T14:58:47Z",
+  "updated_at": "2026-04-14T14:58:47Z"
+}

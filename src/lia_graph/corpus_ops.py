@@ -38,9 +38,10 @@ def build_corpus_status(*args: Any, **kwargs: Any) -> dict[str, Any]:
             "Phase 2 scaffolding is present. The runner is now audit-first: it "
             "classifies candidate files as include_corpus, revision_candidate, or "
             "exclude_internal, audits the whole source-asset surface, materializes "
-            "a canonical corpus manifest for admitted docs and pending revisions, "
-            "inventories normativa, interpretacion, and practica from admitted docs, "
-            "then graphizes normativa first."
+            "a reconnaissance quality gate before blessing the canonical manifest, "
+            "materializes a canonical corpus manifest for admitted docs and pending "
+            "revisions, inventories normativa, interpretacion, and practica from "
+            "admitted docs, then graphizes normativa first."
         ),
         "corpus_families": ["normativa", "interpretacion", "practica"],
         "audit_decisions": [
@@ -50,6 +51,7 @@ def build_corpus_status(*args: Any, **kwargs: Any) -> dict[str, Any]:
         ],
         "audit_artifacts": [
             "artifacts/corpus_audit_report.json",
+            "artifacts/corpus_reconnaissance_report.json",
             "artifacts/revision_candidates.json",
             "artifacts/excluded_files.json",
             "artifacts/canonical_corpus_manifest.json",

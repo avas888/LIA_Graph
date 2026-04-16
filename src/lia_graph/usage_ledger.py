@@ -27,7 +27,7 @@ def _year_month() -> str:
 
 
 def _use_supabase(base_dir: Path) -> bool:
-    from lia_contador.supabase_client import is_supabase_enabled, matches_default_storage_path
+    from .supabase_client import is_supabase_enabled, matches_default_storage_path
 
     if not matches_default_storage_path(base_dir, DEFAULT_USAGE_DIR):
         return False
@@ -159,7 +159,7 @@ def _iter_fs_events(*, base_dir: Path) -> list[dict[str, Any]]:
 
 
 def _sb_save_event(event: UsageEvent) -> None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     client.table("usage_events").insert(event.to_dict()).execute()
@@ -172,7 +172,7 @@ def _sb_list_events(
     company_id: str | None,
     limit: int,
 ) -> list[dict[str, Any]]:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     query = client.table("usage_events").select("*").order("created_at", desc=True).limit(limit)

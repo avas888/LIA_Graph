@@ -32,7 +32,7 @@ def _sanitize_session_id(session_id: str) -> str:
 
 
 def _use_supabase(path: Path) -> bool:
-    from lia_contador.supabase_client import is_supabase_enabled, matches_default_storage_path
+    from .supabase_client import is_supabase_enabled, matches_default_storage_path
 
     if not matches_default_storage_path(path, DEFAULT_CHAT_SESSION_METRICS_PATH):
         return False
@@ -118,7 +118,7 @@ def _normalize_db_row(row: dict[str, Any], session_id: str) -> dict[str, Any]:
 
 
 def _sb_get_or_create_session_metrics(session_id: str) -> dict[str, Any]:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     result = (
@@ -154,7 +154,7 @@ def _sb_update_session_metrics(
     trace_id: str | None,
     run_id: str | None,
 ) -> dict[str, Any]:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     current = _sb_get_or_create_session_metrics(session_id)
     turn = _coerce_usage(turn_usage)

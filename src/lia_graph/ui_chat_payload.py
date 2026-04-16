@@ -28,7 +28,7 @@ _log = logging.getLogger(__name__)
 
 
 def _ui() -> Any:
-    """Lazy accessor for lia_contador.ui_server (avoids circular import)."""
+    """Lazy accessor for lia_graph.ui_server (avoids circular import)."""
     from . import ui_server as _mod
     return _mod
 

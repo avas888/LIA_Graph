@@ -1,0 +1,24 @@
+{
+  "event_id": "d5f714cec91442979ec7e9bf491f674d",
+  "event_type": "turn_usage",
+  "endpoint": "/api/chat/stream",
+  "tenant_id": "public",
+  "user_id": "",
+  "company_id": "",
+  "session_id": "chat_c8a04a62422c",
+  "trace_id": "379bcfd2-7bb4-4f53-b078-8fbcb67cfd36",
+  "run_id": "4fa3328e8f6e43ccb02af65c170b9388",
+  "integration_id": "",
+  "provider": "",
+  "model": "",
+  "usage_source": "estimated",
+  "billable": false,
+  "input_tokens": 9,
+  "output_tokens": 23,
+  "total_tokens": 32,
+  "metadata": {
+    "response_route": "decision",
+    "primary_scope_mode": "global_overlay"
+  },
+  "created_at": "2026-04-14T14:51:06Z"
+}

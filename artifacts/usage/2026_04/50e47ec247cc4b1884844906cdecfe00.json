@@ -1,0 +1,24 @@
+{
+  "event_id": "50e47ec247cc4b1884844906cdecfe00",
+  "event_type": "turn_usage",
+  "endpoint": "/api/chat",
+  "tenant_id": "public",
+  "user_id": "",
+  "company_id": "",
+  "session_id": "smoke-persist-1",
+  "trace_id": "trace-persist-1",
+  "run_id": "d3385d2ea0a3490dbc0017b506a2fba6",
+  "integration_id": "",
+  "provider": "",
+  "model": "",
+  "usage_source": "estimated",
+  "billable": false,
+  "input_tokens": 3,
+  "output_tokens": 23,
+  "total_tokens": 26,
+  "metadata": {
+    "response_route": "decision",
+    "primary_scope_mode": "global_overlay"
+  },
+  "created_at": "2026-04-14T14:58:47Z"
+}

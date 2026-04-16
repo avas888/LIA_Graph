@@ -26,7 +26,7 @@ def _utc_now_iso() -> str:
 
 
 def _use_supabase(path: Path) -> bool:
-    from lia_contador.supabase_client import is_supabase_enabled, matches_default_storage_path
+    from .supabase_client import is_supabase_enabled, matches_default_storage_path
 
     if not matches_default_storage_path(path, DEFAULT_ACTIVE_GENERATION_PATH):
         return False
@@ -115,7 +115,7 @@ def _fs_save_active_generation(record: ActiveGenerationRecord, *, path: Path) ->
 
 
 def _sb_load_active_generation(*, supabase_target: str = "production") -> ActiveGenerationRecord | None:
-    from lia_contador.supabase_client import create_supabase_client_for_target
+    from .supabase_client import create_supabase_client_for_target
 
     client = create_supabase_client_for_target(supabase_target)
     result = (
@@ -136,7 +136,7 @@ def _sb_save_active_generation(
     *,
     supabase_target: str = "production",
 ) -> None:
-    from lia_contador.supabase_client import create_supabase_client_for_target
+    from .supabase_client import create_supabase_client_for_target
 
     client = create_supabase_client_for_target(supabase_target)
     activated_at = str(record.activated_at or "").strip()

@@ -34,6 +34,8 @@ Patch files, upsert files, implementation notes, `state.md`, crawler helpers, de
 
 The audit surface should include all source assets. The parser may still be narrower than that.
 
+Before treating a run as canonically trustworthy, review `artifacts/corpus_reconnaissance_report.json`. The canonical manifest is not the first quality gate; it is downstream of reconnaissance.
+
 ### 3. All Three Corpus Families Are First-Class
 
 The shared accountant corpus has at least three sibling families:
@@ -80,6 +82,8 @@ Optional or supportive metadata:
 Do not block corpus admission just because a document lacks a clean canonical topic/subtopic assignment on day one.
 
 Revision candidates belong in the canonical layer as attachments to base documents. They do not become standalone corpus evidence.
+
+The reconnaissance layer must review the corpus by file archetype, authority level, family, ambiguity flags, and revision linkage before any canonical manifest is treated as durably blessed.
 
 ### 6. What Must Be Derived From Graph Structure
 

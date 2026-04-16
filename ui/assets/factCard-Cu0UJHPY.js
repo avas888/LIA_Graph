@@ -1,0 +1,1 @@
+function n({label:c,value:l}){const t=document.createElement("article");t.className="lia-fact-card",t.setAttribute("data-lia-component","fact-card");const e=document.createElement("p");e.className="lia-fact-card__label",e.textContent=c;const a=document.createElement("p");return a.className="lia-fact-card__value",a.textContent=l,t.append(e,a),t}export{n as c};

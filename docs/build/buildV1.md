@@ -24,6 +24,8 @@ Tambien obliga a distinguir tres capas que antes se confundian con facilidad:
 
 La parse surface es mas angosta que la audit surface. La graph surface es mas angosta que la parse surface.
 
+Y ahora hay una compuerta mas: que un documento haya sido admitido a la capa canonica no significa automaticamente que ya sea confiable como input durable. Antes de bendecir el manifiesto canonico, Build V1 exige una reconnaissance quality gate que haga visible autoridad, ambiguedad, shape documental y linkage de revisiones.
+
 ## Que Problema De Negocio Resuelve El Nuevo RAG
 
 El problema no es solo "recuperar documentos". El problema real es ayudar a un contador a responder preguntas como:
@@ -62,6 +64,7 @@ Build V1 cierra estas decisiones:
 - Phase 2 materializa el corpus compartido completo en un solo pass y graphiza primero la familia normativa/oficial porque es la que mejor encaja en estructura de grafo; interpretacion y practica no desaparecen ni esperan a una fase lejana para existir en el sistema.
 - Antes de inventariar o graphizar, Phase 2 debe ejecutar una compuerta de auditoria de corpus para separar documentos accountant-facing de working files, patches y notas internas.
 - Esa compuerta audit-first recorre la superficie total de archivos y luego materializa una capa canonica antes de cualquier parse normativo.
+- La capa canonica no se trata como verdad durable solo por admision: una reconnaissance quality gate puede dejar documentos en `review_required` o `blocked` antes de bendecir el manifiesto.
 - Los `revision_candidate` no son corpus standalone; viven adjuntos a su base doc dentro del manifiesto canonico hasta que exista merge confiable.
 - Un activo no-markdown o no-parse-ready puede seguir siendo valioso en la capa canonica o de inventory sin ser enviado al parser ni al grafo.
 - El vocabulario ratificado es autoridad de nombres para topic y subtopic, pero no la unica puerta de admision del corpus ni el sustituto de relaciones legales.
@@ -125,18 +128,21 @@ Los documentos por fase describen archivos de codigo a crear o modificar, pero e
 
 El paquete Build V1 es state aware. El flujo operativo esperado es:
 
-1. Leer `docs/build/buildv1/STATE.md`
-2. Identificar la fase activa y su `next_action`
-3. Abrir el documento de esa fase
-4. Retomar desde `Checkpoint Log.current_step`
-5. Verificar `blocked_by`, `artifacts_created` y `Failure Recovery`
-6. Actualizar `Decision Log` y `Checkpoint Log` al cerrar cada sesion
+1. Leer `docs/build/buildv1/NEXT.md`
+2. Leer `docs/build/buildv1/STATE.md`
+3. Identificar la fase activa y su `next_action`
+4. Abrir el documento de esa fase
+5. Retomar desde `Checkpoint Log.current_step`
+6. Verificar `blocked_by`, `artifacts_created` y `Failure Recovery`
+7. Actualizar `NEXT.md` con la mejor siguiente accion al cerrar cada sesion
+8. Actualizar `Decision Log` y `Checkpoint Log` al cerrar cada sesion
 
 Regla de oro: el estado debe registrar progreso operativo real, no solo intencion.
 
 ## Indice De Documentos Detallados
 
 - `docs/build/buildv1/README.md`
+- `docs/build/buildv1/NEXT.md`
 - `docs/build/buildv1/STATE.md`
 - `docs/build/buildv1/00-business-purpose-and-success-metrics.md`
 - `docs/build/buildv1/01-target-architecture.md`

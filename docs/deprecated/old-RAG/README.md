@@ -10,7 +10,7 @@ Why they were moved:
 Use them only for:
 - migration archaeology
 - compatibility work
-- understanding what was copied from `Lia_contadores`
+- understanding what was copied from the prior shell
 
 Do not use them as primary guidance for:
 - indexing

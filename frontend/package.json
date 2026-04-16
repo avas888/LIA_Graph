@@ -1,0 +1,23 @@
+{
+  "name": "lia-graph-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:public": "node ./scripts/build-public.mjs",
+    "test": "npm run test:health",
+    "test:all": "vitest run --config ./vitest.config.ts",
+    "test:health": "vitest run --config ./vitest.config.ts tests/chatSurfaceController.test.ts tests/thinkingOverlay.test.ts tests/orchestrationApp.test.ts",
+    "test:e2e": "playwright test --config ./playwright.config.ts",
+    "test:e2e:install": "playwright install chromium"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.7",
+    "marked": "^15.0.12"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "jsdom": "^26.1.0",
+    "vite": "^6.3.5",
+    "vitest": "^4.1.4"
+  }
+}

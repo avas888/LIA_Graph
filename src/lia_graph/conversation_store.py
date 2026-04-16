@@ -27,7 +27,7 @@ def _utc_now_iso() -> str:
 
 
 def _use_supabase(base_dir: Path) -> bool:
-    from lia_contador.supabase_client import is_supabase_enabled, matches_default_storage_path
+    from .supabase_client import is_supabase_enabled, matches_default_storage_path
 
     if not matches_default_storage_path(base_dir, DEFAULT_CONVERSATIONS_DIR):
         return False
@@ -228,7 +228,7 @@ def _fs_list_sessions(
 # ---------------------------------------------------------------------------
 
 def _sb_create_session(session: ConversationSession) -> None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     client.table("conversations").insert({
         "session_id": session.session_id,
@@ -247,7 +247,7 @@ def _sb_create_session(session: ConversationSession) -> None:
 
 
 def _sb_upsert_session_shell(session: ConversationSession) -> None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     client.table("conversations").upsert(
@@ -270,7 +270,7 @@ def _sb_upsert_session_shell(session: ConversationSession) -> None:
 
 
 def _sb_save_turn(conversation_id: str, turn: ConversationTurn) -> None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     client.table("conversation_turns").insert({
         "conversation_id": conversation_id,
@@ -289,7 +289,7 @@ def _sb_load_session(
     user_id: str | None = None,
     company_id: str | None = None,
 ) -> ConversationSession | None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     query = client.table("conversations").select("*").eq("session_id", session_id).eq("tenant_id", tenant_id)
     if user_id:
@@ -335,7 +335,7 @@ def _sb_load_session(
 
 
 def _sb_get_conversation_id(session_id: str, tenant_id: str = "") -> str | None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     query = client.table("conversations").select("id").eq("session_id", session_id)
     if tenant_id:
@@ -357,7 +357,7 @@ def _sb_list_sessions_via_view(
     status: str | None = None,
 ) -> list[dict[str, Any]]:
     """Single-query path using the ``conversation_summaries`` view."""
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     query = client.table("conversation_summaries").select(
         "session_id, tenant_id, topic, pais, created_at, updated_at,"
@@ -407,7 +407,7 @@ def _sb_list_sessions_legacy(
     status: str | None = None,
 ) -> list[dict[str, Any]]:
     """N+1 fallback used when the ``conversation_summaries`` view is missing."""
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     query = client.table("conversations").select(
         "session_id, tenant_id, topic, pais, created_at, updated_at, id, user_id, company_id, integration_id, channel, status, memory_summary"
@@ -636,7 +636,7 @@ def append_turn(
             return None
         _sb_save_turn(conv_id, turn)
         # Update conversation updated_at
-        from lia_contador.supabase_client import get_supabase_client
+        from .supabase_client import get_supabase_client
         client = get_supabase_client()
         client.table("conversations").update(
             {"updated_at": _utc_now_iso()}
@@ -685,7 +685,7 @@ def update_session_metadata(
         session.channel = str(channel or "").strip() or session.channel
     session.updated_at = _utc_now_iso()
     if _use_supabase(base_dir):
-        from lia_contador.supabase_client import get_supabase_client
+        from .supabase_client import get_supabase_client
 
         client = get_supabase_client()
         client.table("conversations").update(
@@ -711,7 +711,7 @@ def list_distinct_topics(
 ) -> list[str]:
     """Return sorted list of distinct non-null topics across all conversations."""
     if _use_supabase(base_dir):
-        from lia_contador.supabase_client import get_supabase_client
+        from .supabase_client import get_supabase_client
         client = get_supabase_client()
         query = client.table("conversations").select("topic").not_.is_("topic", "null")
         if tenant_id:
@@ -774,7 +774,7 @@ def public_captcha_pass_exists(pub_user_id: str) -> bool:
     if not user_id:
         return False
     try:
-        from lia_contador.supabase_client import get_supabase_client
+        from .supabase_client import get_supabase_client
         client = get_supabase_client()
         if client is None:
             return False
@@ -800,7 +800,7 @@ def public_captcha_pass_record(pub_user_id: str) -> None:
     if not user_id:
         return
     try:
-        from lia_contador.supabase_client import get_supabase_client
+        from .supabase_client import get_supabase_client
         client = get_supabase_client()
         if client is None:
             return
@@ -822,7 +822,7 @@ def summarize_public_usage(*, days: int = 30) -> list[dict[str, Any]]:
     never appear; `user_id` is the synthetic `pub_<hash>` identifier.
     """
     try:
-        from lia_contador.supabase_client import get_supabase_client
+        from .supabase_client import get_supabase_client
         client = get_supabase_client()
         if client is None:
             return []

@@ -1,0 +1,218 @@
+{
+  "chat_run_id": "cr_20260414_145044_9e82e370",
+  "trace_id": "104e0ab8-cca7-46a2-a30f-7511c9fc4732",
+  "session_id": "chat_168b125e3ffe",
+  "client_turn_id": "bf8db9fa-43bc-4b0f-b353-f309f3bd56bf",
+  "request_fingerprint": "9ac5041583365f8ef4c22c82e6a4850261e60cd98978ee415d45c2bebea04369",
+  "endpoint": "/api/chat",
+  "tenant_id": "public",
+  "user_id": null,
+  "company_id": null,
+  "status": "completed",
+  "pipeline_run_id": "3785b4effbc84246ad399833444e66f0",
+  "request_payload": {
+    "message": "Que dice el articulo 771-2 sobre soporte de costos?",
+    "topic": "declaracion_renta",
+    "requested_topic": "declaracion_renta",
+    "effective_topic": "declaracion_renta",
+    "secondary_topics": [
+      "declaracion_renta"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": null,
+    "topic_adjustment_reason": "rule:costos_deducciones_renta matched subtopic_override:costos_deducciones_renta",
+    "pais": "colombia",
+    "primary_scope_mode": "global_overlay",
+    "response_route": "decision",
+    "retrieval_profile": "hybrid_rerank",
+    "response_depth": "auto",
+    "first_response_mode": "fast_action",
+    "pipeline_route": "pipeline_c",
+    "pipeline_variant": "pipeline_c",
+    "shadow_pipeline_variant": "None",
+    "pipeline_route_source": "config_default",
+    "debug": false
+  },
+  "response_payload": {
+    "trace_id": "104e0ab8-cca7-46a2-a30f-7511c9fc4732",
+    "run_id": "3785b4effbc84246ad399833444e66f0",
+    "answer_markdown": "La capa compartida de LIA_Graph fue restaurada parcialmente y el orquestador heredado de Lia_contadores todavia no se ha reincorporado completo en este repo.",
+    "answer_concise": "La capa compartida de LIA_Graph fue restaurada parcialmente y el orquestador heredado de Lia_contadores todavia no se ha reincorporado completo en este repo.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "compat_stub"
+    },
+    "answer_mode": "compat_stub",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_c_orchestrator_not_restored",
+    "evidence_snippets": [],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 9,
+        "output_tokens": 23,
+        "total_tokens": 32,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": "declaracion_renta",
+    "effective_topic": "declaracion_renta",
+    "secondary_topics": [
+      "declaracion_renta"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": null,
+    "topic_adjustment_reason": "rule:costos_deducciones_renta matched subtopic_override:costos_deducciones_renta",
+    "coverage_notice": "Compatibilidad temporal mientras se restaura la capa compartida.",
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_c",
+    "pipeline_route": "pipeline_c",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_168b125e3ffe",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 9,
+        "output_tokens": 23,
+        "total_tokens": 32
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "104e0ab8-cca7-46a2-a30f-7511c9fc4732",
+      "last_run_id": "3785b4effbc84246ad399833444e66f0",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_168b125e3ffe",
+    "chat_run_id": "cr_20260414_145044_9e82e370",
+    "metrics": {
+      "latency_ms": 5.74,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 9,
+          "output_tokens": 23,
+          "total_tokens": 32,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "compat_stub",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_c_orchestrator_not_restored",
+      "pipeline_variant": "pipeline_c",
+      "pipeline_route": "pipeline_c",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_168b125e3ffe",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 9,
+          "output_tokens": 23,
+          "total_tokens": 32
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "104e0ab8-cca7-46a2-a30f-7511c9fc4732",
+        "last_run_id": "3785b4effbc84246ad399833444e66f0",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.0
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": "declaracion_renta",
+        "effective_topic": "declaracion_renta",
+        "secondary_topics": [
+          "declaracion_renta"
+        ],
+        "topic_adjusted": true
+      }
+    }
+  },
+  "error_payload": {},
+  "request_received_at": "2026-04-14T14:50:44Z",
+  "pipeline_started_at": "2026-04-14T14:50:44Z",
+  "first_model_delta_at": null,
+  "first_visible_answer_at": null,
+  "pipeline_completed_at": "2026-04-14T14:50:44Z",
+  "final_payload_ready_at": "2026-04-14T14:50:44Z",
+  "response_sent_at": "2026-04-14T14:50:44Z",
+  "async_persistence_done_at": "2026-04-14T14:50:44Z",
+  "completed_at": "2026-04-14T14:50:44Z",
+  "created_at": "2026-04-14T14:50:44Z",
+  "updated_at": "2026-04-14T14:50:44Z"
+}

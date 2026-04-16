@@ -1,0 +1,23 @@
+{
+  "job_id": "382d700a5f864c72b33d05c07cb0667b",
+  "job_type": "chat_persistence",
+  "status": "completed",
+  "tenant_id": "public",
+  "user_id": "",
+  "company_id": "",
+  "request_payload": {
+    "chat_run_id": "cr_20260414_145847_c83a0000",
+    "session_id": "smoke-persist-1",
+    "trace_id": "trace-persist-1"
+  },
+  "result_payload": {
+    "session_id": "smoke-persist-1",
+    "turn_count": 1,
+    "chat_run_id": "cr_20260414_145847_c83a0000"
+  },
+  "error": "",
+  "attempts": 1,
+  "created_at": "2026-04-14T14:58:47Z",
+  "updated_at": "2026-04-14T14:58:47Z",
+  "completed_at": "2026-04-14T14:58:47Z"
+}

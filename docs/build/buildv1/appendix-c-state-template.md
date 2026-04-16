@@ -79,5 +79,12 @@ Use this template inside every phase file and for ad-hoc execution notes.
 When the phase touches ingestion or corpus admission, also record:
 
 - whether a corpus audit gate exists
+- whether a corpus reconnaissance gate exists
 - which audit artifacts are expected
 - whether labels are mandatory, optional, or graph-derived for that phase
+
+Every active build package should also keep a short `NEXT.md` companion:
+
+- erase completed items there
+- rewrite only the best current next actions there
+- keep durable history in `STATE.md`, not in `NEXT.md`

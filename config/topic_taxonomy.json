@@ -1,0 +1,1062 @@
+{
+  "version": "draft_v1_2026_04_15c",
+  "topics": [
+    {
+      "key": "declaracion_renta",
+      "label": "Declaración de renta",
+      "aliases": [
+        "declaracion_renta",
+        "renta",
+        "impuesto_de_renta",
+        "declaracion_anual",
+        "formulario_110",
+        "formulario_210",
+        "renta_pj",
+        "renta_pn",
+        "ag2025"
+      ],
+      "ingestion_aliases": [
+        "declaracion_renta",
+        "impuesto_de_renta",
+        "formulario_110",
+        "formulario_210",
+        "renta_pj",
+        "renta_pn"
+      ],
+      "legacy_document_topics": [
+        "declaracion_renta",
+        "renta",
+        "renta_parametros"
+      ],
+      "allowed_path_prefixes": [
+        "normativa/renta/",
+        "templates/renta_case_intake_template.md"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "patrimonio_fiscal_renta",
+      "label": "Patrimonio fiscal",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "patrimonio_fiscal_renta",
+        "patrimonio_fiscal"
+      ],
+      "ingestion_aliases": [
+        "patrimonio_fiscal",
+        "patrimonio_bruto",
+        "patrimonio_liquido",
+        "renta_presuntiva",
+        "base_presuntiva",
+        "patrimonio_neto",
+        "neto_fiscal"
+      ],
+      "legacy_document_topics": [
+        "patrimonio_fiscal_renta"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "ingresos_fiscales_renta",
+      "label": "Ingresos fiscales",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "ingresos_fiscales_renta",
+        "ingresos_fiscales"
+      ],
+      "ingestion_aliases": [
+        "ingresos_ordinarios",
+        "incrngo",
+        "ingresos_no_constitutivos",
+        "renta_bruta",
+        "ingresos_gravados",
+        "ingresos_exentos",
+        "cedulas",
+        "clasificacion_ingresos"
+      ],
+      "legacy_document_topics": [
+        "ingresos_fiscales_renta"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "costos_deducciones_renta",
+      "label": "Costos y deducciones",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "costos_deducciones_renta",
+        "costos_y_deducciones"
+      ],
+      "ingestion_aliases": [
+        "costos_y_deducciones",
+        "gasto_deducible",
+        "gastos_deducibles",
+        "expensas_necesarias",
+        "procedencia_fiscal",
+        "medios_de_pago",
+        "bancarizacion",
+        "art_107",
+        "art_771_2",
+        "deduccion_nomina",
+        "deduccion_salarios"
+      ],
+      "legacy_document_topics": [
+        "costos_deducciones_renta"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "rentas_exentas",
+      "label": "Rentas exentas",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "rentas_exentas"
+      ],
+      "ingestion_aliases": [
+        "rentas_exentas",
+        "renta_exenta",
+        "art_206",
+        "25_exento",
+        "cedulares_exentas",
+        "dividendos_exentos"
+      ],
+      "legacy_document_topics": [
+        "rentas_exentas"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "renta_liquida_gravable",
+      "label": "Determinación de renta líquida gravable",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "renta_liquida_gravable"
+      ],
+      "ingestion_aliases": [
+        "renta_liquida",
+        "rlg",
+        "depuracion_renta",
+        "base_gravable_renta",
+        "renta_liquida_cedular",
+        "comparacion_presuntiva",
+        "limitacion_perdidas"
+      ],
+      "legacy_document_topics": [
+        "renta_liquida_gravable"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "tarifas_tasa_minima_renta",
+      "label": "Tarifas e impuesto a cargo",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "tarifas_tasa_minima_renta",
+        "tarifas_y_tasa_minima"
+      ],
+      "ingestion_aliases": [
+        "tarifa_renta",
+        "tarifa_35",
+        "tasa_minima_tributacion",
+        "ttd",
+        "art_240",
+        "art_240_1",
+        "impuesto_a_cargo"
+      ],
+      "legacy_document_topics": [
+        "tarifas_tasa_minima_renta"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "descuentos_tributarios_renta",
+      "label": "Descuentos tributarios",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "descuentos_tributarios_renta",
+        "descuentos_tributarios"
+      ],
+      "ingestion_aliases": [
+        "descuento_tributario",
+        "zomac",
+        "art_254",
+        "art_258_1",
+        "descuento_donaciones",
+        "descuento_iva_activos"
+      ],
+      "legacy_document_topics": [
+        "descuentos_tributarios_renta"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "anticipos_retenciones_a_favor",
+      "label": "Anticipo y retenciones a favor",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "anticipos_retenciones_a_favor",
+        "anticipos_y_retenciones_a_favor"
+      ],
+      "ingestion_aliases": [
+        "anticipo_renta",
+        "art_807",
+        "retenciones_a_favor",
+        "retefte_a_favor",
+        "autorretenciones",
+        "saldo_a_favor"
+      ],
+      "legacy_document_topics": [
+        "anticipos_retenciones_a_favor"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "ganancia_ocasional",
+      "label": "Ganancia ocasional",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "ganancia_ocasional"
+      ],
+      "ingestion_aliases": [
+        "ganancias_ocasionales",
+        "art_299",
+        "venta_activos_fijos",
+        "herencia",
+        "rifas",
+        "loteria"
+      ],
+      "legacy_document_topics": [
+        "ganancia_ocasional"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "conciliacion_fiscal",
+      "label": "Conciliación fiscal",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "conciliacion_fiscal"
+      ],
+      "ingestion_aliases": [
+        "conciliacion_fiscal",
+        "f2516",
+        "formulario_2516",
+        "formulario_2517",
+        "diferencias_niif_fiscal",
+        "conciliacion_contable_tributaria"
+      ],
+      "legacy_document_topics": [
+        "conciliacion_fiscal"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "beneficio_auditoria",
+      "label": "Beneficio de auditoría",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "beneficio_auditoria"
+      ],
+      "ingestion_aliases": [
+        "beneficio_auditoria",
+        "firmeza_auditoria",
+        "art_689_1",
+        "firmeza_anticipada"
+      ],
+      "legacy_document_topics": [
+        "beneficio_auditoria"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "gravamen_movimiento_financiero_4x1000",
+      "label": "GMF 4x1000",
+      "aliases": [
+        "gravamen_movimiento_financiero_4x1000",
+        "gmf",
+        "gmf_4x1000",
+        "cuatro_por_mil"
+      ],
+      "ingestion_aliases": [
+        "gmf_4x1000",
+        "gravamen_movimiento_financiero",
+        "4x1000",
+        "cuatro_por_mil",
+        "cuenta_exenta_gmf"
+      ],
+      "legacy_document_topics": [
+        "gravamen_movimiento_financiero_4x1000"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "iva",
+      "label": "Impuesto al valor agregado",
+      "aliases": [
+        "iva",
+        "impuesto_al_valor_agregado",
+        "impuesto_a_las_ventas",
+        "formulario_300"
+      ],
+      "ingestion_aliases": [
+        "iva",
+        "impuesto_a_las_ventas",
+        "formulario_300",
+        "iva_descontable",
+        "iva_generado"
+      ],
+      "legacy_document_topics": [
+        "iva"
+      ],
+      "allowed_path_prefixes": [
+        "normativa/iva/",
+        "industry_guidance/iva/",
+        "templates/iva/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "retencion_en_la_fuente",
+      "label": "Retención en la fuente",
+      "aliases": [
+        "retencion_en_la_fuente",
+        "retefuente",
+        "retefte",
+        "retencion"
+      ],
+      "ingestion_aliases": [
+        "retencion_en_la_fuente",
+        "retefuente",
+        "agente_retenedor",
+        "formulario_350",
+        "retencion_salarios",
+        "reteiva"
+      ],
+      "legacy_document_topics": [
+        "retencion_en_la_fuente"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "laboral",
+      "label": "Nómina y laboral",
+      "aliases": [
+        "laboral",
+        "nomina",
+        "nomina_y_laboral",
+        "nomina_electronica"
+      ],
+      "ingestion_aliases": [
+        "nomina_y_laboral",
+        "seguridad_social",
+        "parafiscales",
+        "nomina_electronica",
+        "prestaciones_sociales"
+      ],
+      "legacy_document_topics": [
+        "laboral",
+        "nomina_y_laboral"
+      ],
+      "allowed_path_prefixes": [
+        "normativa/laboral/",
+        "industry_guidance/laboral/",
+        "templates/laboral/",
+        "laboral/",
+        "CORE ya Arriba/TRABAJO_TIEMPO_PARCIAL/",
+        "CORE ya Arriba/REFORMA_LABORAL_LEY_2466/",
+        "CORE ya Arriba/Documents to branch and improve/Reforma_Laboral_Ley_2466/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "procedimiento_tributario",
+      "label": "Procedimiento tributario",
+      "aliases": [
+        "procedimiento_tributario",
+        "procedimiento_fiscal"
+      ],
+      "ingestion_aliases": [
+        "procedimiento_tributario",
+        "procedimiento_fiscal",
+        "obligaciones_formales",
+        "fiscalizacion_dian",
+        "devolucion_saldo_a_favor",
+        "rut",
+        "correccion_declaraciones"
+      ],
+      "legacy_document_topics": [
+        "procedimiento_tributario"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/PROCEDIMIENTO_FISCAL/",
+        "CORE ya Arriba/DEVOLUCIONES_SALDOS_FAVOR/",
+        "CORE ya Arriba/Documents to branch and improve/Devoluciones_Saldos_Favor/",
+        "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/07-DEVOLUCIONES-SALDOS-A-FAVOR/",
+        "CORE ya Arriba/EXPERTOS_LEYES/PF-",
+        "CORE ya Arriba/LOGGRO_LEYES/PF-",
+        "to upload/URLS-PIPELINE-DIAN/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "estados_financieros_niif",
+      "label": "NIIF y estados financieros",
+      "aliases": [
+        "estados_financieros_niif",
+        "niif",
+        "ifrs",
+        "niif_y_estados_financieros"
+      ],
+      "ingestion_aliases": [
+        "niif_y_estados_financieros",
+        "dur_2420",
+        "diferencias_niif_fiscal",
+        "impuesto_diferido",
+        "estados_financieros"
+      ],
+      "legacy_document_topics": [
+        "estados_financieros_niif",
+        "niif_y_estados_financieros",
+        "niif"
+      ],
+      "allowed_path_prefixes": [
+        "normativa/niif/",
+        "industry_guidance/niif/",
+        "templates/niif/",
+        "CORE ya Arriba/EXPERTOS_LEYES/NC-",
+        "CORE ya Arriba/LOGGRO_LEYES/NC-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "ica",
+      "label": "ICA",
+      "aliases": [
+        "ica",
+        "ica_y_municipales",
+        "reteica"
+      ],
+      "ingestion_aliases": [
+        "ica_y_municipales",
+        "ica_industria_comercio",
+        "reteica",
+        "predial"
+      ],
+      "legacy_document_topics": [
+        "ica",
+        "ica_y_municipales"
+      ],
+      "allowed_path_prefixes": [
+        "normativa/ica/",
+        "templates/ica/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "calendario_obligaciones",
+      "label": "Calendario y obligaciones recurrentes",
+      "aliases": [
+        "calendario_obligaciones",
+        "calendario_tributario"
+      ],
+      "ingestion_aliases": [
+        "calendario_tributario",
+        "plazos_y_calendarios",
+        "vencimientos"
+      ],
+      "legacy_document_topics": [
+        "calendario_obligaciones",
+        "calendarios"
+      ],
+      "allowed_path_prefixes": [
+        "calendarios/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "facturacion_electronica",
+      "label": "Facturación electrónica",
+      "aliases": [
+        "facturacion_electronica",
+        "factura_electronica",
+        "radian"
+      ],
+      "ingestion_aliases": [
+        "facturacion_electronica",
+        "factura_electronica",
+        "documento_soporte",
+        "radian",
+        "cufe",
+        "cude"
+      ],
+      "legacy_document_topics": [
+        "facturacion_electronica"
+      ],
+      "allowed_path_prefixes": [
+        "normativa/facturacion_electronica/",
+        "industry_guidance/facturacion_electronica/",
+        "templates/facturacion_electronica/",
+        "CORE ya Arriba/FACTURACION_ELECTRONICA_OPERATIVA/",
+        "CORE ya Arriba/to update/FE-ROADMAP-NUEVOS-DOCS-2026/FASE-1-CONTENIDO/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "regimen_simple",
+      "label": "Régimen simple",
+      "aliases": [
+        "regimen_simple",
+        "simple",
+        "rst"
+      ],
+      "ingestion_aliases": [
+        "regimen_simple",
+        "rst",
+        "simple"
+      ],
+      "legacy_document_topics": [
+        "regimen_simple"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "regimen_sancionatorio",
+      "label": "Régimen sancionatorio",
+      "aliases": [
+        "regimen_sancionatorio"
+      ],
+      "ingestion_aliases": [
+        "regimen_sancionatorio",
+        "sanciones",
+        "sancion_extemporaneidad",
+        "sancion_inexactitud",
+        "art_641",
+        "art_644",
+        "art_648"
+      ],
+      "legacy_document_topics": [
+        "regimen_sancionatorio"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "informacion_exogena",
+      "label": "Información exógena",
+      "aliases": [
+        "informacion_exogena",
+        "exogena",
+        "medios_magneticos"
+      ],
+      "ingestion_aliases": [
+        "informacion_exogena",
+        "medios_magneticos",
+        "formato_1001",
+        "formato_1003",
+        "formato_1005"
+      ],
+      "legacy_document_topics": [
+        "informacion_exogena"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "precios_de_transferencia",
+      "label": "Precios de transferencia",
+      "aliases": [
+        "precios_de_transferencia",
+        "transfer_pricing"
+      ],
+      "ingestion_aliases": [
+        "precios_de_transferencia",
+        "transfer_pricing"
+      ],
+      "legacy_document_topics": [
+        "precios_de_transferencia"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/PRECIOS_TRANSFERENCIA_SIMPLIFICADO/",
+        "CORE ya Arriba/Documents to branch and improve/Precios_Transferencia/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "cambiario",
+      "label": "Régimen cambiario",
+      "aliases": [
+        "cambiario"
+      ],
+      "ingestion_aliases": [
+        "cambiario",
+        "banrep",
+        "inversion_extranjera"
+      ],
+      "legacy_document_topics": [
+        "cambiario"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/REGIMEN_CAMBIARIO_PYME/",
+        "CORE ya Arriba/Documents to branch and improve/Regimen_Cambiario/",
+        "to upload/BRECHAS-SEMANA2-ABRIL-2026/CAM_DECLARACION_CAMBIO/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "impuesto_patrimonio_personas_naturales",
+      "label": "Impuesto al patrimonio personas naturales",
+      "aliases": [
+        "impuesto_patrimonio_personas_naturales",
+        "impuesto_patrimonio"
+      ],
+      "ingestion_aliases": [
+        "impuesto_patrimonio_pn",
+        "impuesto_patrimonio_personas_naturales",
+        "impuesto_patrimonio"
+      ],
+      "legacy_document_topics": [
+        "impuesto_patrimonio_personas_naturales"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "comercial_societario",
+      "label": "Comercial y societario",
+      "aliases": [
+        "comercial_societario",
+        "societario"
+      ],
+      "ingestion_aliases": [
+        "comercial_societario",
+        "obligaciones_societarias",
+        "obligaciones_mercantiles"
+      ],
+      "legacy_document_topics": [
+        "comercial_societario"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/COMERCIAL_SOCIETARIO/",
+        "CORE ya Arriba/COMERCIAL_SOCIETARIO/",
+        "CORE ya Arriba/OBLIGACIONES_MERCANTILES/",
+        "CORE ya Arriba/Documents to branch and improve/Revisoria_Fiscal/",
+        "to upload/AGGRANDIZEMENT-ABRIL-2026/OBLIGACIONES_SOCIETARIAS/",
+        "to upload/BRECHAS-SEMANA2-ABRIL-2026/SOC_OBLIGACIONES_ANUALES/",
+        "to upload/BRECHAS-SEMANA2-ABRIL-2026/SOC_REFORMA_ESTATUTOS/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "datos_tecnologia",
+      "label": "Datos y tecnología",
+      "aliases": [
+        "datos_tecnologia"
+      ],
+      "ingestion_aliases": [
+        "datos_tecnologia",
+        "proteccion_datos",
+        "teletrabajo",
+        "tic"
+      ],
+      "legacy_document_topics": [
+        "datos_tecnologia"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/DATOS_TECNOLOGIA/",
+        "CORE ya Arriba/EXPERTOS_LEYES/DT-",
+        "CORE ya Arriba/LOGGRO_LEYES/DT-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "inversiones_incentivos",
+      "label": "Inversiones e incentivos",
+      "aliases": [
+        "inversiones_incentivos"
+      ],
+      "ingestion_aliases": [
+        "inversiones_incentivos",
+        "incentivos_inversion"
+      ],
+      "legacy_document_topics": [
+        "inversiones_incentivos"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/INVERSIONES_INCENTIVOS/",
+        "CORE ya Arriba/EXPERTOS_LEYES/II-",
+        "CORE ya Arriba/LOGGRO_LEYES/II-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "presupuesto_hacienda",
+      "label": "Presupuesto y hacienda pública",
+      "aliases": [
+        "presupuesto_hacienda"
+      ],
+      "ingestion_aliases": [
+        "presupuesto_hacienda",
+        "hacienda_publica"
+      ],
+      "legacy_document_topics": [
+        "presupuesto_hacienda"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/PRESUPUESTO_HACIENDA/",
+        "CORE ya Arriba/EXPERTOS_LEYES/PH-",
+        "CORE ya Arriba/LOGGRO_LEYES/PH-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "reformas_tributarias",
+      "label": "Reformas tributarias",
+      "aliases": [
+        "reformas_tributarias"
+      ],
+      "ingestion_aliases": [
+        "reformas_tributarias",
+        "reforma_tributaria"
+      ],
+      "legacy_document_topics": [
+        "reformas_tributarias"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/REFORMAS_TRIBUTARIAS/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "otros_sectoriales",
+      "label": "Otras leyes sectoriales",
+      "aliases": [
+        "otros_sectoriales"
+      ],
+      "ingestion_aliases": [
+        "otros_sectoriales"
+      ],
+      "legacy_document_topics": [
+        "otros_sectoriales"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/OTROS_SECTORIALES/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "leyes_derogadas",
+      "label": "Leyes derogadas",
+      "aliases": [
+        "leyes_derogadas",
+        "derogadas"
+      ],
+      "ingestion_aliases": [
+        "leyes_derogadas",
+        "derogadas"
+      ],
+      "legacy_document_topics": [
+        "leyes_derogadas"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/DEROGADAS/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "beneficiario_final_rub",
+      "label": "Beneficiario final y RUB",
+      "aliases": [
+        "beneficiario_final_rub",
+        "rub"
+      ],
+      "ingestion_aliases": [
+        "beneficiario_final_rub",
+        "beneficiarios_finales"
+      ],
+      "legacy_document_topics": [
+        "beneficiario_final_rub"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/BENEFICIARIO_FINAL_RUB/",
+        "to upload/BRECHAS-SEMANA2-ABRIL-2026/BEN_BENEFICIARIOS_FINALES/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "contratacion_estatal",
+      "label": "Contratación estatal",
+      "aliases": [
+        "contratacion_estatal"
+      ],
+      "ingestion_aliases": [
+        "contratacion_estatal"
+      ],
+      "legacy_document_topics": [
+        "contratacion_estatal"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/CONTRATACION_ESTATAL/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "dividendos_utilidades",
+      "label": "Dividendos y utilidades",
+      "aliases": [
+        "dividendos_utilidades"
+      ],
+      "ingestion_aliases": [
+        "dividendos_utilidades"
+      ],
+      "legacy_document_topics": [
+        "dividendos_utilidades"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/DIVIDENDOS_UTILIDADES/",
+        "CORE ya Arriba/Documents to branch and improve/Tributacion_Dividendos/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "economia_digital_criptoactivos",
+      "label": "Economía digital y criptoactivos",
+      "aliases": [
+        "economia_digital_criptoactivos",
+        "economia_digital_pes_cripto"
+      ],
+      "ingestion_aliases": [
+        "economia_digital_criptoactivos",
+        "criptoactivos",
+        "activos_digitales"
+      ],
+      "legacy_document_topics": [
+        "economia_digital_criptoactivos"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/ECONOMIA_DIGITAL_PES_CRIPTO/",
+        "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/06-CRIPTOACTIVOS-ACTIVOS-DIGITALES/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "obligaciones_profesionales_contador",
+      "label": "Obligaciones profesionales del contador",
+      "aliases": [
+        "obligaciones_profesionales_contador"
+      ],
+      "ingestion_aliases": [
+        "obligaciones_profesionales_contador",
+        "jcc"
+      ],
+      "legacy_document_topics": [
+        "obligaciones_profesionales_contador"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/OBLIGACIONES_PROFESIONALES_CONTADOR/",
+        "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/09-OBLIGACIONES-PROFESIONALES-JCC/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "perdidas_fiscales_art147",
+      "label": "Pérdidas fiscales art. 147",
+      "aliases": [
+        "perdidas_fiscales_art147",
+        "perdidas_fiscales"
+      ],
+      "ingestion_aliases": [
+        "perdidas_fiscales_art147",
+        "perdidas_fiscales"
+      ],
+      "legacy_document_topics": [
+        "perdidas_fiscales_art147"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/PERDIDAS_FISCALES_ART147/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "reforma_pensional",
+      "label": "Reforma pensional",
+      "aliases": [
+        "reforma_pensional"
+      ],
+      "ingestion_aliases": [
+        "reforma_pensional",
+        "pensional"
+      ],
+      "legacy_document_topics": [
+        "reforma_pensional"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/REFORMA_PENSIONAL/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "sagrilaft_ptee",
+      "label": "SAGRILAFT y PTEE",
+      "aliases": [
+        "sagrilaft_ptee",
+        "sagrilaft"
+      ],
+      "ingestion_aliases": [
+        "sagrilaft_ptee",
+        "sagrilaft",
+        "ptee"
+      ],
+      "legacy_document_topics": [
+        "sagrilaft_ptee"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/SAGRILAFT_PTEE/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "emergencia_tributaria",
+      "label": "Emergencia tributaria",
+      "aliases": [
+        "emergencia_tributaria",
+        "emergencia_tributaria_2026"
+      ],
+      "ingestion_aliases": [
+        "emergencia_tributaria",
+        "decreto_0240"
+      ],
+      "legacy_document_topics": [
+        "emergencia_tributaria"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/EMERGENCIA_TRIBUTARIA_2026/",
+        "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/01-DECRETO-0240-EMERGENCIA-TRIBUTARIA/",
+        "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/02-MAPA-EMERGENCIA-CONSOLIDADO/",
+        "CORE ya Arriba/Documents to branch and improve/Emergencia_Tributaria_Decreto_0240/",
+        "CORE ya Arriba/RENTA/EXPERTOS/T03-",
+        "CORE ya Arriba/RENTA/LOGGRO/seccion-21-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "impuestos_saludables",
+      "label": "Impuestos saludables",
+      "aliases": [
+        "impuestos_saludables"
+      ],
+      "ingestion_aliases": [
+        "impuestos_saludables",
+        "ibua",
+        "icui"
+      ],
+      "legacy_document_topics": [
+        "impuestos_saludables"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/11-IMPUESTOS-SALUDABLES-IBUA-ICUI/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "regimen_tributario_especial",
+      "label": "Régimen tributario especial",
+      "aliases": [
+        "regimen_tributario_especial"
+      ],
+      "ingestion_aliases": [
+        "regimen_tributario_especial",
+        "esal"
+      ],
+      "legacy_document_topics": [
+        "regimen_tributario_especial"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-ESAL-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "impuesto_nacional_consumo",
+      "label": "Impuesto nacional al consumo",
+      "aliases": [
+        "impuesto_nacional_consumo"
+      ],
+      "ingestion_aliases": [
+        "impuesto_nacional_consumo"
+      ],
+      "legacy_document_topics": [
+        "impuesto_nacional_consumo"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-INC-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "normas_internacionales_auditoria",
+      "label": "Normas internacionales de auditoría",
+      "aliases": [
+        "normas_internacionales_auditoria"
+      ],
+      "ingestion_aliases": [
+        "normas_internacionales_auditoria"
+      ],
+      "legacy_document_topics": [
+        "normas_internacionales_auditoria"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-NIA-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "zonas_francas",
+      "label": "Zonas francas",
+      "aliases": [
+        "zonas_francas"
+      ],
+      "ingestion_aliases": [
+        "zonas_francas"
+      ],
+      "legacy_document_topics": [
+        "zonas_francas"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-ZF-"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "activos_exterior",
+      "label": "Activos en el exterior",
+      "aliases": [
+        "activos_exterior"
+      ],
+      "ingestion_aliases": [
+        "activos_exterior",
+        "activos_en_el_exterior"
+      ],
+      "legacy_document_topics": [
+        "activos_exterior"
+      ],
+      "allowed_path_prefixes": [
+        "to upload/AGGRANDIZEMENT-ABRIL-2026/ACTIVOS_EXTERIOR_F160/"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "estatuto_tributario",
+      "label": "Estatuto tributario",
+      "aliases": [
+        "estatuto_tributario"
+      ],
+      "ingestion_aliases": [
+        "estatuto_tributario"
+      ],
+      "legacy_document_topics": [
+        "estatuto_tributario"
+      ],
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/LEYES/CATALOGO-LEYES-ET.md"
+      ],
+      "vocabulary_status": "ratified_v1_2"
+    }
+  ]
+}

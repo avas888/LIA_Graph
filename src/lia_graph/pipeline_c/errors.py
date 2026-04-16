@@ -117,7 +117,7 @@ class LLMProviderUnavailableError(PipelineCStrictError):
             remediation=(
                 "Configurar un único proveedor activo en config/llm_runtime.json.",
                 "Verificar API key y variables de entorno requeridas.",
-                "Probar conectividad del proveedor con `lia-cli llm-check`.",
+                "Probar conectividad del proveedor con `uv run python -m lia_graph.dependency_smoke --only gemini`.",
             ),
             details=dict(details or {}),
         )

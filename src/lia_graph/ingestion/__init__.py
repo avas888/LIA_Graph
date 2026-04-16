@@ -7,6 +7,7 @@ from .loader import (
     GraphLoadPlan,
     build_graph_load_plan,
     load_graph_plan,
+    normalize_classified_edges,
 )
 from .parser import ParsedArticle, parse_article_documents, parse_articles
 
@@ -20,6 +21,7 @@ __all__ = [
     "classify_edge_candidates",
     "extract_edge_candidates",
     "load_graph_plan",
+    "normalize_classified_edges",
     "parse_article_documents",
     "parse_articles",
 ]

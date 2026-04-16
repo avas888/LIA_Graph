@@ -55,7 +55,7 @@ def _nonce_key(nonce_id: str, nonce_type: str) -> str:
 
 
 def _use_supabase(path: Path) -> bool:
-    from lia_contador.supabase_client import is_supabase_enabled, matches_default_storage_path
+    from .supabase_client import is_supabase_enabled, matches_default_storage_path
 
     if not matches_default_storage_path(path, DEFAULT_AUTH_NONCES_PATH):
         return False
@@ -115,7 +115,7 @@ def _purge_expired_locked(store: dict[str, Any], *, now: datetime) -> int:
 
 
 def _sb_purge_expired() -> int:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     result = client.table("auth_nonces").delete().lt("expires_at", _utc_now_iso()).execute()
@@ -128,7 +128,7 @@ def _sb_consume_nonce(
     nonce_type: str,
     expires_at: str,
 ) -> bool:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     key = _nonce_key(nonce_id, nonce_type)

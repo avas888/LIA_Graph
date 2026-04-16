@@ -42,7 +42,7 @@ def load_terms_policy(path: Path = DEFAULT_TERMS_POLICY_PATH) -> dict[str, Any]:
 
 
 def _use_supabase(state_path: Path) -> bool:
-    from lia_contador.supabase_client import is_supabase_enabled, matches_default_storage_path
+    from .supabase_client import is_supabase_enabled, matches_default_storage_path
 
     if not matches_default_storage_path(state_path, DEFAULT_TERMS_STATE_PATH):
         return False
@@ -73,7 +73,7 @@ def _normalize_terms_state_row(row: dict[str, Any]) -> dict[str, Any]:
 
 
 def _sb_load_terms_state() -> dict[str, Any] | None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     result = (
@@ -89,7 +89,7 @@ def _sb_load_terms_state() -> dict[str, Any] | None:
 
 
 def _sb_save_terms_state(state: dict[str, Any]) -> None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
 
     client = get_supabase_client()
     accepted_at = str(state.get("accepted_at_utc", "") or "").strip() or None

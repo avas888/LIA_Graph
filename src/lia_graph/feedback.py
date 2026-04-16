@@ -30,7 +30,7 @@ def _year_month() -> str:
 
 
 def _use_supabase(base_dir: Path) -> bool:
-    from lia_contador.supabase_client import is_supabase_enabled, matches_default_storage_path
+    from .supabase_client import is_supabase_enabled, matches_default_storage_path
 
     if not matches_default_storage_path(base_dir, DEFAULT_FEEDBACK_DIR):
         return False
@@ -184,7 +184,7 @@ def _fs_list_feedback(*, base_dir: Path, limit: int) -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 def _sb_save_feedback(record: FeedbackRecord) -> None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     client.table("feedback").upsert({
         "trace_id": record.trace_id,
@@ -211,7 +211,7 @@ def _sb_save_feedback(record: FeedbackRecord) -> None:
 
 
 def _sb_load_feedback(trace_id: str) -> FeedbackRecord | None:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     res = client.table("feedback").select("*").eq("trace_id", trace_id).limit(1).execute()
     if not res.data:
@@ -248,7 +248,7 @@ def _sb_list_feedback(
     user_id: str | None = None,
     company_id: str | None = None,
 ) -> list[dict[str, Any]]:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     query = client.table("feedback").select("*")
     if tenant_id:
@@ -290,7 +290,7 @@ def _row_to_dict(row: dict[str, Any]) -> dict[str, Any]:
 
 
 def _sb_update_feedback_comment(trace_id: str, comment: str, *, tenant_id: str) -> bool:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     query = client.table("feedback").update({
         "comment": comment[:500],
@@ -312,7 +312,7 @@ def _sb_list_feedback_for_admin(
     offset: int = 0,
     since: str | None = None,
 ) -> list[dict[str, Any]]:
-    from lia_contador.supabase_client import get_supabase_client
+    from .supabase_client import get_supabase_client
     client = get_supabase_client()
     query = client.table("feedback").select("*")
     if tenant_id:

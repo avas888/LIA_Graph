@@ -99,7 +99,7 @@ export function mountChatApp(root, options) {
     sessionStateBadgeNode, sessionIdBadgeNode, debugInput, debugSummaryNode,
   });
   const {
-    applyComposerPrefillFromUrl, deriveReadyState, focusComposer, getActiveSessionId,
+    consumeComposerPrefillFromUrl, deriveReadyState, focusComposer, getActiveSessionId,
     initializeSurface, isTurnInFlight, resizeComposer,
     setActiveSessionId: setSurfaceActiveSessionId,
     setTurnState, syncReadyState, updateChatLogEmptyState, updateWorkspaceControlsSummary,
@@ -576,9 +576,16 @@ export function mountChatApp(root, options) {
     } else {
       sessionController.renderSessionSwitcher();
     }
-    applyComposerPrefillFromUrl();
+    const prefillState = consumeComposerPrefillFromUrl();
     syncReadyState();
     focusComposer();
+    if (prefillState?.shouldSubmit) {
+      requestAnimationFrame(() => {
+        if (isTurnInFlight()) return;
+        if (!String(messageInput.value || "").trim()) return;
+        chatForm.requestSubmit();
+      });
+    }
   })();
 
   return {

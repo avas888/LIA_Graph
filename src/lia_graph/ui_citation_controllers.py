@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from ._compat import send_not_implemented
+
 
 def _build_citation_usage_payload(*args: Any, **kwargs: Any) -> dict[str, Any]:
     return {}
@@ -48,3 +50,13 @@ def _load_doc_corpus_text(*args: Any, **kwargs: Any) -> str:
 
 def _load_doc_index_row(*args: Any, **kwargs: Any) -> dict[str, Any] | None:
     return None
+
+
+def handle_citation_get(handler: Any, path: str, *args: Any, **kwargs: Any) -> bool:
+    if not (
+        path.startswith("/api/citation")
+        or path.startswith("/api/normative-")
+    ):
+        return False
+    send_not_implemented(handler, feature="Citation GET")
+    return True

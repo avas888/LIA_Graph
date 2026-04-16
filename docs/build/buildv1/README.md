@@ -6,25 +6,27 @@ Este directorio contiene el paquete operativo para construir el nuevo RAG con Gr
 
 ## Reading Order
 
-1. `STATE.md`
-2. `00-business-purpose-and-success-metrics.md`
-3. `01-target-architecture.md`
-4. `02-phase-1-runtime-seams-and-contracts.md`
-5. `03-phase-2-shared-regulatory-graph.md`
-6. `04-phase-3-graph-planner-and-retrieval.md`
-7. `05-phase-4-tenant-runtime-context-history-and-access.md`
-8. `06-phase-5-composer-verifier-and-cache.md`
-9. `07-phase-6-routing-evals-and-shadow-mode.md`
-10. `08-phase-7-rollout-ops-and-governance.md`
-11. `appendix-a-file-map.md`
-12. `appendix-b-test-map.md`
-13. `appendix-c-state-template.md`
-14. `appendix-d-corpus-audit-and-labeling-policy.md`
+1. `NEXT.md`
+2. `STATE.md`
+3. `00-business-purpose-and-success-metrics.md`
+4. `01-target-architecture.md`
+5. `02-phase-1-runtime-seams-and-contracts.md`
+6. `03-phase-2-shared-regulatory-graph.md`
+7. `04-phase-3-graph-planner-and-retrieval.md`
+8. `05-phase-4-tenant-runtime-context-history-and-access.md`
+9. `06-phase-5-composer-verifier-and-cache.md`
+10. `07-phase-6-routing-evals-and-shadow-mode.md`
+11. `08-phase-7-rollout-ops-and-governance.md`
+12. `appendix-a-file-map.md`
+13. `appendix-b-test-map.md`
+14. `appendix-c-state-template.md`
+15. `appendix-d-corpus-audit-and-labeling-policy.md`
 
 ## Working Rule
 
 Antes de tocar codigo:
 
+- leer `NEXT.md`
 - leer `STATE.md`
 - abrir la fase activa
 - retomar desde `Checkpoint Log.current_step`
@@ -33,5 +35,6 @@ Antes de tocar codigo:
 Regla operativa nueva para ingestion:
 
 - pensar siempre en tres capas: source assets, canonical corpus y reasoning inputs graph-parse-ready
+- tratar `NEXT.md` como hoja corta y mutable de "que hacemos ahora", mientras `STATE.md` conserva el ledger mas durable y explicativo
 
 Si una sesion falla, este paquete debe ser suficiente para continuar sin reconstruir contexto externo.

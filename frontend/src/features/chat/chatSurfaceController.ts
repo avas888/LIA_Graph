@@ -4,6 +4,12 @@ interface ChatSurfaceState {
   activeSessionId: string;
 }
 
+interface ComposerPrefillState {
+  text: string;
+  shouldSubmit: boolean;
+  source: "message" | "prefill";
+}
+
 interface CreateChatSurfaceControllerOptions {
   i18n: I18nRuntime;
   state: ChatSurfaceState;
@@ -132,20 +138,35 @@ export function createChatSurfaceController({
     });
   }
 
-  function applyComposerPrefillFromUrl(): boolean {
+  function consumeComposerPrefillFromUrl(): ComposerPrefillState | null {
     try {
       const params = new URLSearchParams(window.location.search);
+      const rawMessage = String(params.get("message") || "").trim();
       const rawPrefill = String(params.get("prefill") || "").trim();
-      if (!rawPrefill) return false;
-      messageInput.value = rawPrefill.slice(0, 600);
+      const source = rawMessage ? "message" : rawPrefill ? "prefill" : "";
+      const rawValue = rawMessage || rawPrefill;
+      if (!rawValue || !source) return null;
+      messageInput.value = rawValue.slice(0, 600);
       resizeComposer();
+      const autoSendParam = String(
+        params.get("auto_send") || params.get("autosend") || params.get("submit") || "",
+      ).trim().toLowerCase();
+      const shouldSubmit = source === "message" || ["1", "true", "yes"].includes(autoSendParam);
+      params.delete("message");
       params.delete("prefill");
+      params.delete("auto_send");
+      params.delete("autosend");
+      params.delete("submit");
       const nextQuery = params.toString();
       const nextUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ""}${window.location.hash || ""}`;
       window.history.replaceState({}, "", nextUrl);
-      return true;
+      return {
+        text: messageInput.value,
+        shouldSubmit,
+        source: source as ComposerPrefillState["source"],
+      };
     } catch (_error) {
-      return false;
+      return null;
     }
   }
 
@@ -157,7 +178,7 @@ export function createChatSurfaceController({
   }
 
   return {
-    applyComposerPrefillFromUrl,
+    consumeComposerPrefillFromUrl,
     deriveReadyState,
     focusComposer,
     getActiveSessionId,

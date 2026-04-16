@@ -9,18 +9,24 @@ from pathlib import Path
 import re
 from typing import Any
 
+from .graph import GraphClient, GraphClientError, GraphQueryResult
 from .ingestion import (
+    GraphLoadExecution,
     build_graph_load_plan,
     classify_edge_candidates,
     extract_edge_candidates,
     load_graph_plan,
+    normalize_classified_edges,
     parse_article_documents,
 )
+from .source_tiers import source_tier_key_for_row
+from .topic_taxonomy import iter_ingestion_topic_entries, topic_taxonomy_version
 
 
 DEFAULT_CORPUS_DIR = Path("knowledge_base")
 DEFAULT_ARTIFACTS_DIR = Path("artifacts")
 DEFAULT_PATTERN = "*"
+DEFAULT_REVIEW_SUMMARY_LIMIT = 10
 
 INGESTION_DECISION_INCLUDE = "include_corpus"
 INGESTION_DECISION_REVISION = "revision_candidate"
@@ -33,9 +39,40 @@ TEXT_INVENTORY_EXTENSIONS = frozenset({".txt", ".csv", ".json", ".yaml", ".yml",
 BINARY_DOCUMENT_EXTENSIONS = frozenset({".pdf", ".doc", ".docx"})
 HELPER_CODE_EXTENSIONS = frozenset({".py", ".js", ".ts", ".pyc"})
 
+REVIEW_PRIORITY_ORDER = {
+    "critical": 0,
+    "high": 1,
+    "medium": 2,
+    "low": 3,
+    "none": 4,
+}
+
+CRITICAL_RECON_FLAGS = frozenset(
+    {
+        "family_unknown",
+        "knowledge_class_unknown",
+        "revision_target_missing",
+        "revision_target_not_found",
+    }
+)
+HIGH_RECON_FLAGS = frozenset(
+    {
+        "source_type_unknown",
+        "graph_target_not_parse_ready",
+    }
+)
+MEDIUM_RECON_FLAGS = frozenset(
+    {
+        "custom_topic_pending_vocab",
+        "vocabulary_unassigned",
+        "pending_revision_attachment",
+    }
+)
+
 CORPUS_FAMILY_ALIASES = {
     "normativa": "normativa",
     "normative_base": "normativa",
+    "normativa_base": "normativa",
     "doctrina_oficial": "normativa",
     "doctrinaoficial": "normativa",
     "ley": "normativa",
@@ -53,12 +90,14 @@ CORPUS_FAMILY_ALIASES = {
     "sentencia": "normativa",
     "sentencias": "normativa",
     "interpretacion": "interpretacion",
+    "interpretacion_expertos": "interpretacion",
     "interpretative_guidance": "interpretacion",
     "expertos": "interpretacion",
     "experts": "interpretacion",
     "industry_guidance": "interpretacion",
     "analisis": "interpretacion",
     "practica": "practica",
+    "practica_loggro": "practica",
     "practical": "practica",
     "practica_erp": "practica",
     "loggro": "practica",
@@ -71,122 +110,18 @@ KNOWLEDGE_CLASS_BY_FAMILY = {
     "unknown": "unknown",
 }
 
-CANONICAL_TOPIC_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
-    (
-        "retencion_en_la_fuente",
-        (
-            "retencion_en_la_fuente",
-            "retencion",
-            "retenciones",
-            "retefuente",
-            "retefte",
-            "reteiva",
-            "autoretencion",
-            "autoretenciones",
-            "agente_retenedor",
-        ),
+REVISION_FILENAME_MARKERS = ("patch", "upsert", "errata")
+REVISION_DIRECTIVE_PATTERNS = (
+    re.compile(
+        r"(?im)^\s*(?:\*\*?)?(?:insertar en|base doc|documento base|target)(?:\*\*?)?\s*:\s*(.+?)\s*$"
     ),
-    (
-        "nomina_y_laboral",
-        (
-            "nomina_y_laboral",
-            "nomina",
-            "laboral",
-            "seguridad_social",
-            "parafiscales",
-            "nomina_electronica",
-            "prestaciones",
-            "contrato_laboral",
-        ),
+    re.compile(r"(?im)^\s*(?:aplicar sobre|mergear en)\s+(.+?)\s*$"),
+    re.compile(
+        r"(?im)^\s*(?:\*\*?)?tipo de documento(?:\*\*?)?\s*:\s*.*?\binserci[oó]n en\s+(.+?)\s*$"
     ),
-    (
-        "procedimiento_tributario",
-        (
-            "procedimiento_tributario",
-            "rut",
-            "sancion",
-            "sanciones",
-            "devolucion",
-            "devoluciones",
-            "compensacion",
-            "fiscalizacion",
-            "plazos",
-            "calendario_tributario",
-            "correccion",
-            "firmeza",
-            "recurso",
-        ),
-    ),
-    (
-        "niif_y_estados_financieros",
-        (
-            "niif_y_estados_financieros",
-            "niif",
-            "ifrs",
-            "estados_financieros",
-            "contabilidad",
-            "ctcp",
-            "impuesto_diferido",
-            "marco_tecnico",
-        ),
-    ),
-    (
-        "declaracion_renta",
-        (
-            "declaracion_renta",
-            "renta",
-            "rentas_exentas",
-            "ganancia_ocasional",
-            "conciliacion_fiscal",
-            "beneficio_auditoria",
-            "costos_y_deducciones",
-            "patrimonio",
-        ),
-    ),
-    (
-        "iva",
-        (
-            "iva",
-            "impuesto_a_las_ventas",
-            "impuesto_ventas",
-            "reteiva",
-        ),
-    ),
+    re.compile(r"(?im)^\s*#\s*errata\s+[—-]\s+(.+?)\s*$"),
 )
-
-CUSTOM_TOPIC_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("regimen_simple", ("regimen_simple", "simple", "rst")),
-    (
-        "facturacion_electronica",
-        ("facturacion_electronica", "factura_electronica", "radian"),
-    ),
-    (
-        "informacion_exogena",
-        ("informacion_exogena", "exogena", "medios_magneticos"),
-    ),
-    ("ica_y_municipales", ("ica_y_municipales", "ica", "reteica", "predial")),
-    (
-        "precios_de_transferencia",
-        ("precios_de_transferencia", "transferencia", "transfer_pricing"),
-    ),
-    ("cambiario", ("cambiario", "banrep", "inversion_extranjera")),
-    (
-        "impuesto_patrimonio_personas_naturales",
-        ("impuesto_patrimonio", "patrimonio_personas_naturales"),
-    ),
-)
-
-REVISION_FILENAME_MARKERS = ("patch", "upsert")
-REVISION_TEXT_MARKERS = (
-    "insertar en",
-    "base doc",
-    "documento base",
-    "aplicar sobre",
-    "mergear en",
-    "actualizar este documento",
-    "upsert",
-    "patch",
-)
+REVISION_HEADING_RE = re.compile(r"(?im)^\s*#\s*.+\b(?:patch|upsert|errata)\b")
 INTERNAL_README_MARKERS = (
     "next action",
     "checkpoint log",
@@ -225,21 +160,28 @@ class CorpusAuditRecord:
     source_origin: str
     source_path: str
     relative_path: str
+    title_hint: str
     extension: str
     text_extractable: bool
     parse_strategy: str
     document_archetype: str
     ingestion_decision: str
     decision_reason: str
+    taxonomy_version: str
     family: str | None = None
     knowledge_class: str | None = None
     source_type: str | None = None
+    source_tier: str | None = None
+    authority_level: str | None = None
     graph_target: bool = False
     graph_parse_ready: bool = False
     topic_key: str | None = None
     subtopic_key: str | None = None
     vocabulary_status: str | None = None
     base_doc_target: str | None = None
+    ambiguity_flags: tuple[str, ...] = ()
+    review_priority: str = "none"
+    needs_manual_review: bool = False
     markdown: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
@@ -247,21 +189,28 @@ class CorpusAuditRecord:
             "source_origin": self.source_origin,
             "source_path": self.source_path,
             "relative_path": self.relative_path,
+            "title_hint": self.title_hint,
             "extension": self.extension,
             "text_extractable": self.text_extractable,
             "parse_strategy": self.parse_strategy,
             "document_archetype": self.document_archetype,
             "ingestion_decision": self.ingestion_decision,
             "decision_reason": self.decision_reason,
+            "taxonomy_version": self.taxonomy_version,
             "family": self.family,
             "knowledge_class": self.knowledge_class,
             "source_type": self.source_type,
+            "source_tier": self.source_tier,
+            "authority_level": self.authority_level,
             "graph_target": self.graph_target,
             "graph_parse_ready": self.graph_parse_ready,
             "topic_key": self.topic_key,
             "subtopic_key": self.subtopic_key,
             "vocabulary_status": self.vocabulary_status,
             "base_doc_target": self.base_doc_target,
+            "ambiguity_flags": list(self.ambiguity_flags),
+            "review_priority": self.review_priority,
+            "needs_manual_review": self.needs_manual_review,
         }
 
 
@@ -270,18 +219,25 @@ class CorpusDocument:
     source_origin: str
     source_path: str
     relative_path: str
+    title_hint: str
     extension: str
     text_extractable: bool
     parse_strategy: str
     document_archetype: str
+    taxonomy_version: str
     family: str
     knowledge_class: str
     source_type: str
+    source_tier: str
+    authority_level: str
     graph_target: bool
     graph_parse_ready: bool
     topic_key: str | None
     subtopic_key: str | None
     vocabulary_status: str
+    ambiguity_flags: tuple[str, ...]
+    review_priority: str
+    needs_manual_review: bool
     markdown: str
 
     @classmethod
@@ -290,18 +246,25 @@ class CorpusDocument:
             source_origin=record.source_origin,
             source_path=record.source_path,
             relative_path=record.relative_path,
+            title_hint=record.title_hint,
             extension=record.extension,
             text_extractable=record.text_extractable,
             parse_strategy=record.parse_strategy,
             document_archetype=record.document_archetype,
+            taxonomy_version=record.taxonomy_version,
             family=record.family or "unknown",
             knowledge_class=record.knowledge_class or "unknown",
             source_type=record.source_type or "unknown",
+            source_tier=record.source_tier or "unknown",
+            authority_level=record.authority_level or "unknown",
             graph_target=record.graph_target,
             graph_parse_ready=record.graph_parse_ready,
             topic_key=record.topic_key,
             subtopic_key=record.subtopic_key,
             vocabulary_status=record.vocabulary_status or "unassigned",
+            ambiguity_flags=record.ambiguity_flags,
+            review_priority=record.review_priority,
+            needs_manual_review=record.needs_manual_review,
             markdown=record.markdown or "",
         )
 
@@ -313,18 +276,25 @@ class CorpusDocument:
             "source_origin": self.source_origin,
             "source_path": self.source_path,
             "relative_path": self.relative_path,
+            "title_hint": self.title_hint,
             "extension": self.extension,
             "text_extractable": self.text_extractable,
             "parse_strategy": self.parse_strategy,
             "document_archetype": self.document_archetype,
+            "taxonomy_version": self.taxonomy_version,
             "family": self.family,
             "knowledge_class": self.knowledge_class,
             "source_type": self.source_type,
+            "source_tier": self.source_tier,
+            "authority_level": self.authority_level,
             "graph_target": self.graph_target,
             "graph_parse_ready": self.graph_parse_ready,
             "topic_key": self.topic_key,
             "subtopic_key": self.subtopic_key,
             "vocabulary_status": self.vocabulary_status,
+            "ambiguity_flags": list(self.ambiguity_flags),
+            "review_priority": self.review_priority,
+            "needs_manual_review": self.needs_manual_review,
         }
 
 
@@ -337,8 +307,9 @@ def scaffold_graph_build(
 ) -> dict[str, Any]:
     articles = parse_article_documents(markdown_documents)
     raw_edges = extract_edge_candidates(articles)
-    typed_edges = classify_edge_candidates(raw_edges)
-    load_plan = build_graph_load_plan(articles, typed_edges)
+    classified_edges = classify_edge_candidates(raw_edges)
+    typed_edges = normalize_classified_edges(articles, classified_edges)
+    load_plan = build_graph_load_plan(articles, classified_edges)
     return {
         "articles": [article.to_dict() for article in articles],
         "raw_edges": [candidate.to_dict() for candidate in raw_edges],
@@ -414,6 +385,11 @@ def materialize_graph_artifacts(
     corpus_dir: Path | str = DEFAULT_CORPUS_DIR,
     artifacts_dir: Path | str = DEFAULT_ARTIFACTS_DIR,
     pattern: str = DEFAULT_PATTERN,
+    execute_load: bool = False,
+    strict_falkordb: bool = False,
+    allow_unblessed_load: bool = False,
+    review_summary_limit: int = DEFAULT_REVIEW_SUMMARY_LIMIT,
+    graph_client: GraphClient | None = None,
 ) -> dict[str, Any]:
     root = Path(corpus_dir)
     artifacts_root = Path(artifacts_dir)
@@ -427,14 +403,24 @@ def materialize_graph_artifacts(
     )
 
     corpus_audit_report_path = artifacts_root / "corpus_audit_report.json"
+    corpus_reconnaissance_report_path = artifacts_root / "corpus_reconnaissance_report.json"
     revision_candidates_path = artifacts_root / "revision_candidates.json"
     excluded_files_path = artifacts_root / "excluded_files.json"
     canonical_manifest_path = artifacts_root / "canonical_corpus_manifest.json"
     corpus_inventory_path = artifacts_root / "corpus_inventory.json"
+    reconnaissance_report = _build_corpus_reconnaissance_report(
+        corpus_dir=root,
+        documents=corpus_documents,
+        rows=audit_rows,
+    )
 
     _write_json(
         corpus_audit_report_path,
         _build_corpus_audit_report(corpus_dir=root, rows=audit_rows),
+    )
+    _write_json(
+        corpus_reconnaissance_report_path,
+        reconnaissance_report,
     )
     _write_json(
         revision_candidates_path,
@@ -460,6 +446,7 @@ def materialize_graph_artifacts(
         corpus_inventory_path,
         _build_corpus_inventory(corpus_dir=root, documents=corpus_documents, rows=audit_rows),
     )
+    manual_review_queue = reconnaissance_report["manual_review_queue"]
 
     graph_documents = tuple(
         document.markdown_document()
@@ -474,9 +461,40 @@ def materialize_graph_artifacts(
 
     articles = parse_article_documents(graph_documents)
     raw_edges = extract_edge_candidates(articles)
-    typed_edges = classify_edge_candidates(raw_edges)
-    load_plan = build_graph_load_plan(articles, typed_edges)
-    load_execution = load_graph_plan(load_plan).to_dict()
+    classified_edges = classify_edge_candidates(raw_edges)
+    typed_edges = normalize_classified_edges(articles, classified_edges)
+    plan_graph_client = graph_client or (GraphClient.from_env() if execute_load else None)
+    load_plan = build_graph_load_plan(
+        articles,
+        classified_edges,
+        graph_client=plan_graph_client,
+    )
+    runtime_graph_client = plan_graph_client or (
+        GraphClient.from_env(schema=load_plan.schema)
+        if execute_load
+        else GraphClient(schema=load_plan.schema)
+    )
+
+    gate = reconnaissance_report["quality_gate"]
+    if execute_load and gate["status"] != "ready_for_canonical_blessing" and not allow_unblessed_load:
+        load_execution_model = _skip_graph_load_execution(
+            plan=load_plan,
+            graph_client=runtime_graph_client,
+            reason="reconnaissance_gate_not_ready",
+            diagnostics={
+                "reconnaissance_gate_status": gate["status"],
+                "blockers": list(gate["blockers"]),
+                "manual_review_count": gate["manual_review_count"],
+            },
+        )
+    else:
+        load_execution_model = load_graph_plan(
+            load_plan,
+            graph_client=runtime_graph_client,
+            execute=execute_load,
+            strict=strict_falkordb,
+        )
+    load_execution = load_execution_model.to_dict()
 
     parsed_articles_path = artifacts_root / "parsed_articles.jsonl"
     raw_edges_path = artifacts_root / "raw_edges.jsonl"
@@ -495,6 +513,7 @@ def materialize_graph_artifacts(
         "corpus_dir": str(root),
         "artifacts_dir": str(artifacts_root),
         "pattern": pattern,
+        "taxonomy_version": topic_taxonomy_version(),
         "scanned_file_count": len(audit_rows),
         "decision_counts": _decision_counts(audit_rows),
         "document_count": len(corpus_documents),
@@ -504,6 +523,19 @@ def materialize_graph_artifacts(
         "extension_counts": _extension_counts(audit_rows),
         "parse_strategy_counts": _parse_strategy_counts(audit_rows),
         "document_archetype_counts": _document_archetype_counts(audit_rows),
+        "source_tier_counts": _source_tier_counts(audit_rows),
+        "authority_level_counts": _authority_level_counts(audit_rows),
+        "review_priority_counts": _review_priority_counts(audit_rows),
+        "ambiguity_flag_counts": _ambiguity_flag_counts(audit_rows),
+        "topic_key_counts": _topic_key_counts(corpus_documents),
+        "subtopic_key_counts": _subtopic_key_counts(corpus_documents),
+        "topic_subtopic_coverage": _topic_subtopic_coverage(corpus_documents),
+        "reconnaissance_quality_gate": reconnaissance_report["quality_gate"],
+        "manual_review_queue_count": reconnaissance_report["manual_review_queue_count"],
+        "manual_review_queue_preview": _manual_review_preview(
+            manual_review_queue,
+            limit=review_summary_limit,
+        ),
         "graph_target_families": sorted(GRAPH_TARGET_FAMILIES),
         "graph_target_document_count": sum(1 for doc in corpus_documents if doc.graph_target),
         "graph_parse_ready_document_count": len(graph_documents),
@@ -512,6 +544,7 @@ def materialize_graph_artifacts(
         "typed_edge_count": len(typed_edges),
         "files": {
             "corpus_audit_report": str(corpus_audit_report_path),
+            "corpus_reconnaissance_report": str(corpus_reconnaissance_report_path),
             "revision_candidates": str(revision_candidates_path),
             "excluded_files": str(excluded_files_path),
             "canonical_corpus_manifest": str(canonical_manifest_path),
@@ -542,6 +575,27 @@ def parser() -> argparse.ArgumentParser:
         default=DEFAULT_PATTERN,
         help="Glob pattern used when scanning corpus files.",
     )
+    cli.add_argument(
+        "--execute-load",
+        action="store_true",
+        help="Execute the staged graph load against FalkorDB after the reconnaissance gate clears.",
+    )
+    cli.add_argument(
+        "--strict-falkordb",
+        action="store_true",
+        help="Fail instead of skipping when live FalkorDB execution is unavailable or a statement errors.",
+    )
+    cli.add_argument(
+        "--allow-unblessed-load",
+        action="store_true",
+        help="Allow live FalkorDB execution even when the reconnaissance gate is not ready_for_canonical_blessing.",
+    )
+    cli.add_argument(
+        "--review-summary-limit",
+        type=int,
+        default=DEFAULT_REVIEW_SUMMARY_LIMIT,
+        help="Maximum number of manual-review queue rows to surface in the run summary.",
+    )
     cli.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
     return cli
 
@@ -553,6 +607,10 @@ def main(argv: list[str] | None = None) -> int:
             corpus_dir=Path(args.corpus_dir),
             artifacts_dir=Path(args.artifacts_dir),
             pattern=args.pattern,
+            execute_load=args.execute_load,
+            strict_falkordb=args.strict_falkordb,
+            allow_unblessed_load=args.allow_unblessed_load,
+            review_summary_limit=max(args.review_summary_limit, 0),
         )
     except (FileNotFoundError, NotADirectoryError) as exc:
         payload = {"ok": False, "error": "corpus_unavailable", "message": str(exc)}
@@ -561,6 +619,13 @@ def main(argv: list[str] | None = None) -> int:
         else:
             print(f"Phase 2 graph artifact materialization failed: {exc}")
         return 2
+    except GraphClientError as exc:
+        payload = {"ok": False, "error": "graph_load_failed", "message": str(exc)}
+        if args.json:
+            print(json.dumps(payload, ensure_ascii=False, indent=2))
+        else:
+            print(f"Phase 2 graph load failed: {exc}")
+        return 3
 
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
@@ -575,18 +640,20 @@ def _audit_single_file(path: Path, *, corpus_root: Path) -> CorpusAuditRecord:
     extension = path.suffix.lower()
     text_extractable = _is_text_extractable(path, extension=extension)
     markdown = _read_asset_text(path) if text_extractable else ""
+    title_hint = _infer_title_hint(path, markdown=markdown)
     ingestion_decision, decision_reason, base_doc_target, document_archetype = _classify_ingestion_decision(
         path=path,
         relative_path=relative_path,
         markdown=markdown,
         extension=extension,
         text_extractable=text_extractable,
+        corpus_root=corpus_root,
     )
 
     family = _infer_corpus_family(path, markdown=markdown, corpus_root=corpus_root)
     knowledge_class = KNOWLEDGE_CLASS_BY_FAMILY.get(family, "unknown")
     source_type = _infer_source_type(path, markdown=markdown, family=family)
-    topic_key, subtopic_key, vocabulary_status = _infer_vocabulary_labels(
+    topic_key, subtopic_key, vocabulary_status, taxonomy_version = _infer_vocabulary_labels(
         path,
         markdown=markdown,
     )
@@ -601,7 +668,32 @@ def _audit_single_file(path: Path, *, corpus_root: Path) -> CorpusAuditRecord:
         text_extractable=text_extractable,
         document_archetype=document_archetype,
     )
+    source_tier = _infer_source_tier(
+        decision=ingestion_decision,
+        knowledge_class=knowledge_class,
+        source_type=source_type,
+    )
+    authority_level = _infer_authority_level(
+        decision=ingestion_decision,
+        family=family,
+        source_type=source_type,
+    )
     graph_parse_ready = graph_target and parse_strategy in GRAPH_PARSE_STRATEGIES
+    ambiguity_flags = _infer_ambiguity_flags(
+        decision=ingestion_decision,
+        family=family,
+        knowledge_class=knowledge_class,
+        source_type=source_type,
+        graph_target=graph_target,
+        graph_parse_ready=graph_parse_ready,
+        vocabulary_status=vocabulary_status,
+        base_doc_target=base_doc_target,
+    )
+    review_priority = _infer_review_priority(
+        decision=ingestion_decision,
+        ambiguity_flags=ambiguity_flags,
+    )
+    needs_manual_review = review_priority != "none"
 
     if ingestion_decision != INGESTION_DECISION_INCLUDE:
         source_type = None
@@ -616,21 +708,28 @@ def _audit_single_file(path: Path, *, corpus_root: Path) -> CorpusAuditRecord:
         source_origin=source_origin,
         source_path=str(path),
         relative_path=relative_path,
+        title_hint=title_hint,
         extension=extension,
         text_extractable=text_extractable,
         parse_strategy=parse_strategy,
         document_archetype=document_archetype,
         ingestion_decision=ingestion_decision,
         decision_reason=decision_reason,
+        taxonomy_version=taxonomy_version,
         family=family,
         knowledge_class=knowledge_class,
         source_type=source_type,
+        source_tier=source_tier,
+        authority_level=authority_level,
         graph_target=graph_target,
         graph_parse_ready=graph_parse_ready,
         topic_key=topic_key,
         subtopic_key=subtopic_key,
         vocabulary_status=vocabulary_status,
         base_doc_target=base_doc_target,
+        ambiguity_flags=ambiguity_flags,
+        review_priority=review_priority,
+        needs_manual_review=needs_manual_review,
         markdown=markdown,
     )
 
@@ -642,22 +741,48 @@ def _classify_ingestion_decision(
     markdown: str,
     extension: str,
     text_extractable: bool,
+    corpus_root: Path,
 ) -> tuple[str, str, str | None, str]:
     file_name_norm = _normalize_token(path.name)
+    stem_norm = _normalize_token(path.stem)
     content_norm = _normalize_search_blob(markdown)
     path_parts = tuple(_normalize_token(part) for part in Path(relative_path).parts)
 
-    if path.name.lower() == "state.md":
+    if path.name.lower() == "state.md" or stem_norm.endswith("_state"):
         return (
             INGESTION_DECISION_EXCLUDE,
             "Excluded working state file.",
             None,
             "working_note",
         )
-    if path.name.lower() == "readme.md":
+    if path.name.lower() in {"claude.md", "updator.md"}:
+        return (
+            INGESTION_DECISION_EXCLUDE,
+            "Excluded implementation-control or operator instruction file.",
+            None,
+            "governance_doc",
+        )
+    if path.name.lower() == "readme.md" or (
+        file_name_norm.startswith("readme_")
+        and _contains_any(content_norm, INTERNAL_README_MARKERS)
+    ):
         return (
             INGESTION_DECISION_EXCLUDE,
             "Excluded working README or implementation note.",
+            None,
+            "working_note",
+        )
+    if any(part in {"self_improvement", "improvement_corpus"} for part in path_parts):
+        return (
+            INGESTION_DECISION_EXCLUDE,
+            "Excluded evaluation, self-improvement, or corpus-improvement working material.",
+            None,
+            "working_note",
+        )
+    if "documents_to_branch_and_improve" in path_parts and "to_upload" in path_parts:
+        return (
+            INGESTION_DECISION_EXCLUDE,
+            "Excluded branch-staging fragment pending consolidation into accountant-facing documents.",
             None,
             "working_note",
         )
@@ -668,12 +793,36 @@ def _classify_ingestion_decision(
             None,
             "deprecated_copy",
         )
+    if file_name_norm.startswith(("review_", "plan_")) or "wisdom_pills" in file_name_norm:
+        return (
+            INGESTION_DECISION_EXCLUDE,
+            "Excluded review, roadmap, or ideation working material.",
+            None,
+            "working_note",
+        )
+    if "analisis_gap" in stem_norm or "gap_analysis" in stem_norm:
+        return (
+            INGESTION_DECISION_EXCLUDE,
+            "Excluded gap-analysis or audit-analysis working material.",
+            None,
+            "gap_analysis",
+        )
     if _contains_any(content_norm, ("gap", "audit gap", "gap analysis", "analisis gap")):
         return (
             INGESTION_DECISION_EXCLUDE,
             "Excluded gap-analysis or audit-analysis working material.",
             None,
             "gap_analysis",
+        )
+    if stem_norm.endswith("_fuente") and _contains_any(
+        content_norm,
+        ("gestor normativo", "mapa completo de decretos referenciados"),
+    ):
+        return (
+            INGESTION_DECISION_EXCLUDE,
+            "Excluded generated source-map or reference-catalog helper document.",
+            None,
+            "helper_asset",
         )
     if _contains_any(content_norm, INTERNAL_GOVERNANCE_MARKERS):
         return (
@@ -683,20 +832,27 @@ def _classify_ingestion_decision(
             "governance_doc",
         )
     if "errata" in file_name_norm:
+        revision_hint = _infer_revision_base_doc_target(
+            path=path,
+            markdown=markdown,
+            corpus_root=corpus_root,
+        )
         return (
             INGESTION_DECISION_REVISION,
             "Classified as errata or correction material that should merge into a base document first.",
-            _extract_base_doc_target(markdown),
+            revision_hint,
             "errata",
         )
-    if any(marker in file_name_norm for marker in REVISION_FILENAME_MARKERS) or _contains_any(
-        content_norm,
-        REVISION_TEXT_MARKERS,
-    ):
+    if _is_revision_candidate(path=path, markdown=markdown):
+        revision_hint = _infer_revision_base_doc_target(
+            path=path,
+            markdown=markdown,
+            corpus_root=corpus_root,
+        )
         return (
             INGESTION_DECISION_REVISION,
             "Classified as patch/update material that should merge into a base document first.",
-            _extract_base_doc_target(markdown),
+            revision_hint,
             "revision_patch",
         )
     if extension in HELPER_CODE_EXTENSIONS or any(
@@ -742,6 +898,51 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def _skip_graph_load_execution(
+    *,
+    plan: Any,
+    graph_client: GraphClient,
+    reason: str,
+    diagnostics: dict[str, object],
+) -> GraphLoadExecution:
+    results = tuple(
+        GraphQueryResult(
+            description=statement.description,
+            query=statement.query,
+            parameters=statement.parameters,
+            skipped=True,
+            diagnostics={"reason": reason, **diagnostics},
+        )
+        for statement in plan.statements
+    )
+    return GraphLoadExecution(
+        requested_execution=True,
+        executed=False,
+        results=results,
+        plan=plan,
+        connection=graph_client.config.to_dict(),
+    )
+
+
+def _manual_review_preview(
+    rows: list[dict[str, Any]],
+    *,
+    limit: int,
+) -> list[dict[str, Any]]:
+    if limit <= 0:
+        return []
+    return [
+        {
+            "relative_path": row["relative_path"],
+            "review_priority": row["review_priority"],
+            "canonical_blessing_status": row["canonical_blessing_status"],
+            "revision_linkage_status": row["revision_linkage_status"],
+            "review_reasons": list(row["review_reasons"]),
+        }
+        for row in rows[:limit]
+    ]
+
+
 def _print_human(result: dict[str, Any]) -> None:
     print("Phase 2 audit-first shared-corpus inventory + shared-graph scaffold artifacts")
     print(f"- corpus_dir: {result['corpus_dir']}")
@@ -754,12 +955,27 @@ def _print_human(result: dict[str, Any]) -> None:
     print(f"- extensions: {result['extension_counts']}")
     print(f"- parse_strategies: {result['parse_strategy_counts']}")
     print(f"- document_archetypes: {result['document_archetype_counts']}")
+    print(f"- reconnaissance_gate: {result['reconnaissance_quality_gate']}")
+    print(f"- manual_review_queue_count: {result['manual_review_queue_count']}")
+    for row in result["manual_review_queue_preview"]:
+        reasons = ", ".join(row["review_reasons"]) if row["review_reasons"] else "none"
+        print(
+            f"- manual_review_preview: {row['review_priority']} {row['relative_path']} "
+            f"({row['canonical_blessing_status']}; {row['revision_linkage_status']}; {reasons})"
+        )
     print(f"- graph_target_families: {', '.join(result['graph_target_families'])}")
     print(f"- graph_target_documents: {result['graph_target_document_count']}")
     print(f"- graph_parse_ready_documents: {result['graph_parse_ready_document_count']}")
     print(f"- articles: {result['article_count']}")
     print(f"- raw_edges: {result['raw_edge_count']}")
     print(f"- typed_edges: {result['typed_edge_count']}")
+    load_report = result["graph_load_report"]
+    print(f"- load_requested: {load_report['requested_execution']}")
+    print(f"- load_executed: {load_report['executed']}")
+    print(f"- load_success_count: {load_report['success_count']}")
+    print(f"- load_failure_count: {load_report['failure_count']}")
+    print(f"- load_skipped_count: {load_report['skipped_count']}")
+    print(f"- load_connection: {load_report['connection']}")
     for label, path in result["files"].items():
         print(f"- {label}: {path}")
 
@@ -806,6 +1022,14 @@ def _read_asset_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="ignore")
 
 
+def _infer_title_hint(path: Path, *, markdown: str) -> str:
+    for raw_line in markdown.splitlines():
+        line = raw_line.strip().lstrip("#>").strip()
+        if line:
+            return line[:160]
+    return path.stem.replace("_", " ").strip()[:160] or path.name
+
+
 def _contains_any(text: str, markers: Iterable[str]) -> bool:
     return any(_normalize_search_blob(marker) in text for marker in markers)
 
@@ -833,6 +1057,104 @@ def _infer_parse_strategy(
     if text_extractable:
         return "text_inventory_only"
     return "binary_inventory_only"
+
+
+def _infer_source_tier(
+    *,
+    decision: str,
+    knowledge_class: str,
+    source_type: str | None,
+) -> str:
+    if decision == INGESTION_DECISION_EXCLUDE or knowledge_class in {"", "unknown"}:
+        return "unknown"
+    return source_tier_key_for_row(
+        knowledge_class=knowledge_class,
+        source_type=source_type,
+    )
+
+
+def _infer_authority_level(
+    *,
+    decision: str,
+    family: str,
+    source_type: str | None,
+) -> str:
+    source_type_key = str(source_type or "").strip().lower()
+    if decision == INGESTION_DECISION_EXCLUDE:
+        return "not_applicable"
+    if decision == INGESTION_DECISION_REVISION:
+        return "revision_instruction"
+    if family == "normativa":
+        if source_type_key in {
+            "ley",
+            "decreto",
+            "resolucion",
+            "concepto",
+            "sentencia",
+            "formulario_oficial",
+            "formulario_oficial_pdf",
+            "official_primary",
+        }:
+            return "primary_legal_authority"
+        return "normative_authority_unknown_shape"
+    if family == "interpretacion":
+        if source_type_key == "official_secondary":
+            return "secondary_official_authority"
+        if source_type_key in {"analysis", "commentary"}:
+            return "expert_interpretive_authority"
+        return "interpretive_authority_unknown_shape"
+    if family == "practica":
+        return "operational_practice_authority"
+    return "authority_unknown"
+
+
+def _infer_ambiguity_flags(
+    *,
+    decision: str,
+    family: str,
+    knowledge_class: str,
+    source_type: str | None,
+    graph_target: bool,
+    graph_parse_ready: bool,
+    vocabulary_status: str | None,
+    base_doc_target: str | None,
+) -> tuple[str, ...]:
+    flags: list[str] = []
+    if decision == INGESTION_DECISION_INCLUDE:
+        if family == "unknown":
+            flags.append("family_unknown")
+        if knowledge_class == "unknown":
+            flags.append("knowledge_class_unknown")
+        if str(source_type or "").strip().lower() in {"", "unknown"}:
+            flags.append("source_type_unknown")
+        if vocabulary_status == "custom_topic_pending_vocab":
+            flags.append("custom_topic_pending_vocab")
+        elif vocabulary_status == "unassigned":
+            flags.append("vocabulary_unassigned")
+        if graph_target and not graph_parse_ready:
+            flags.append("graph_target_not_parse_ready")
+    elif decision == INGESTION_DECISION_REVISION:
+        flags.append("revision_candidate_requires_merge_review")
+        if not (base_doc_target or "").strip():
+            flags.append("revision_target_missing")
+    return tuple(flags)
+
+
+def _infer_review_priority(
+    *,
+    decision: str,
+    ambiguity_flags: Iterable[str],
+) -> str:
+    if decision == INGESTION_DECISION_EXCLUDE:
+        return "none"
+    flags = set(ambiguity_flags)
+    if flags & CRITICAL_RECON_FLAGS:
+        return "critical"
+    if decision == INGESTION_DECISION_REVISION or flags & HIGH_RECON_FLAGS:
+        return "high"
+    if flags & MEDIUM_RECON_FLAGS:
+        return "medium"
+    return "none"
 
 
 def _infer_source_origin(path: Path, corpus_root: Path) -> str:
@@ -900,50 +1222,234 @@ def _infer_source_type(path: Path, *, markdown: str, family: str) -> str:
     return "unknown"
 
 
-def _infer_vocabulary_labels(path: Path, *, markdown: str) -> tuple[str | None, str | None, str]:
+def _infer_vocabulary_labels(
+    path: Path,
+    *,
+    markdown: str,
+) -> tuple[str | None, str | None, str, str]:
+    taxonomy_version = topic_taxonomy_version()
     normalized_path = _normalize_token(str(path))
-    normalized_title = _normalize_token(markdown.splitlines()[0] if markdown.splitlines() else "")
+    normalized_stem = _normalize_token(path.stem)
+    normalized_title = _normalize_token(_infer_title_hint(path, markdown=markdown))
     token_set = {
         token
         for token in (normalized_path + "_" + normalized_title).split("_")
         if token
     }
 
-    for topic_key, aliases in CANONICAL_TOPIC_ALIASES:
-        if any(_matches_vocabulary_alias(alias, token_set, normalized_path, normalized_title) for alias in aliases):
-            return topic_key, None, "ratified_v1_2"
+    best_match = None
+    best_score = 0
+    for entry in iter_ingestion_topic_entries():
+        alias_score = max(
+            _score_vocabulary_alias_match(
+                alias,
+                token_set=token_set,
+                normalized_path=normalized_path,
+                normalized_stem=normalized_stem,
+                normalized_title=normalized_title,
+            )
+            for alias in entry.all_ingestion_aliases()
+        )
+        path_prefix_score = max(
+            (
+                _score_vocabulary_path_prefix_match(
+                    prefix,
+                    normalized_path=normalized_path,
+                )
+                for prefix in entry.allowed_path_prefixes
+            ),
+            default=0,
+        )
+        score = max(alias_score, path_prefix_score)
+        if score > best_score:
+            best_match = entry
+            best_score = score
 
-    for topic_key, aliases in CUSTOM_TOPIC_ALIASES:
-        if any(_matches_vocabulary_alias(alias, token_set, normalized_path, normalized_title) for alias in aliases):
-            return topic_key, None, "custom_topic_pending_vocab"
+    if best_match is None:
+        return None, None, "unassigned", taxonomy_version
+    if best_match.parent_key:
+        return (
+            best_match.parent_key,
+            best_match.key,
+            best_match.vocabulary_status,
+            taxonomy_version,
+        )
+    return best_match.key, None, best_match.vocabulary_status, taxonomy_version
 
-    return None, None, "unassigned"
+
+def _is_revision_candidate(*, path: Path, markdown: str) -> bool:
+    file_name_norm = _normalize_token(path.name)
+    if any(marker in file_name_norm for marker in REVISION_FILENAME_MARKERS):
+        return True
+    header = "\n".join(markdown.splitlines()[:40])
+    if REVISION_HEADING_RE.search(header):
+        return True
+    return any(pattern.search(header) for pattern in REVISION_DIRECTIVE_PATTERNS)
 
 
-def _extract_base_doc_target(markdown: str) -> str | None:
-    for pattern in (
-        r"(?im)^\s*(?:insertar en|base doc|documento base|target)\s*:\s*(.+?)\s*$",
-        r"(?im)^\s*(?:aplicar sobre)\s+(.+?)\s*$",
-    ):
-        match = re.search(pattern, markdown)
-        if match:
-            return match.group(1).strip()
+def _infer_revision_base_doc_target(
+    *,
+    path: Path,
+    markdown: str,
+    corpus_root: Path,
+) -> str | None:
+    hints: list[str] = []
+    explicit_hint = _extract_explicit_base_doc_target(markdown)
+    if explicit_hint:
+        hints.append(explicit_hint)
+    hints.extend(_infer_filename_base_doc_hints(path))
+
+    for hint in hints:
+        resolved = _resolve_base_doc_target_hint(
+            hint,
+            source_path=path,
+            corpus_root=corpus_root,
+        )
+        if resolved:
+            return resolved
+    return explicit_hint
+
+
+def _extract_explicit_base_doc_target(markdown: str) -> str | None:
+    header = "\n".join(markdown.splitlines()[:40])
+    for pattern in REVISION_DIRECTIVE_PATTERNS:
+        match = pattern.search(header)
+        if not match:
+            continue
+        cleaned = _clean_base_doc_target_hint(match.group(1))
+        if cleaned:
+            return cleaned
     return None
 
 
-def _matches_vocabulary_alias(
+def _infer_filename_base_doc_hints(path: Path) -> list[str]:
+    stem = path.stem
+    hints: list[str] = []
+    for pattern in (
+        r"(?i)(?P<hint>seccion-\d+)[-_](?:patch|upsert)\b",
+        r"(?i)(?:^|[_-])(?:patch|upsert)[-_: ]+(?P<hint>seccion-\d+)\b",
+        r"(?i)(?P<hint>[A-Z]{2,}-[NEL]\d{2}|[A-Z]{2,}-L\d{2}|[A-Z]-CRI|T-[A-Z])[-_](?:patch|upsert)\b",
+        r"(?i)(?:^|[_-])(?:patch|upsert)[-_: ]+(?P<hint>[A-Z]{2,}-[NEL]\d{2}|[A-Z]{2,}-L\d{2}|[A-Z]-CRI|T-[A-Z])\b",
+    ):
+        match = re.search(pattern, stem)
+        if match:
+            hint = match.group("hint").strip()
+            if hint and hint not in hints:
+                hints.append(hint)
+
+    stripped_stem = re.sub(r"(?i)(?:^|[_-])(?:patch|upsert|errata)(?:[_-]|$)", "-", stem)
+    stripped_stem = re.sub(r"(?i)^[A-Z]-\d+[_-]", "", stripped_stem)
+    stripped_stem = stripped_stem.strip(" _-:")
+    if stripped_stem and stripped_stem != stem and stripped_stem not in hints:
+        hints.append(stripped_stem)
+    return hints
+
+
+def _resolve_base_doc_target_hint(
+    hint: str,
+    *,
+    source_path: Path,
+    corpus_root: Path,
+) -> str | None:
+    cleaned = _clean_base_doc_target_hint(hint)
+    if not cleaned:
+        return None
+
+    direct_path = corpus_root / cleaned
+    if direct_path.is_file() and direct_path != source_path:
+        return _relative_path(direct_path, corpus_root)
+
+    sibling_path = source_path.parent / cleaned
+    if sibling_path.is_file() and sibling_path != source_path:
+        return _relative_path(sibling_path, corpus_root)
+
+    basename = Path(cleaned).name
+    normalized_hint = _normalize_token(Path(cleaned).stem or cleaned)
+    hint_tokens = {token for token in normalized_hint.split("_") if len(token) > 1}
+    candidates: list[tuple[int, str]] = []
+
+    for candidate in corpus_root.rglob("*.md"):
+        if candidate == source_path:
+            continue
+        if _is_revision_named_path(candidate):
+            continue
+        if "deprecated" in {_normalize_token(part) for part in candidate.parts}:
+            continue
+
+        relative = _relative_path(candidate, corpus_root)
+        normalized_relative = _normalize_token(relative)
+        normalized_name = _normalize_token(candidate.stem)
+        candidate_tokens = {token for token in normalized_relative.split("_") if len(token) > 1}
+        score = 0
+        if basename and candidate.name.lower() == basename.lower():
+            score += 120
+        if normalized_name == normalized_hint:
+            score += 80
+        if normalized_hint and normalized_hint in normalized_relative:
+            score += 50
+        score += 10 * len(hint_tokens & candidate_tokens)
+        if score:
+            candidates.append((score, relative))
+
+    if not candidates:
+        return None
+
+    candidates.sort(key=lambda item: (-item[0], item[1]))
+    best_score, best_relative = candidates[0]
+    if len(candidates) == 1 or best_score > candidates[1][0]:
+        return best_relative
+    return None
+
+
+def _clean_base_doc_target_hint(value: str) -> str:
+    cleaned = str(value or "").strip().strip("*`\"' ")
+    match = re.search(r"([^()\n]+?\.md)\b", cleaned, re.IGNORECASE)
+    if match:
+        cleaned = match.group(1).strip()
+    cleaned = cleaned.removeprefix("knowledge_base/").strip()
+    cleaned = cleaned.lstrip("./")
+    return cleaned
+
+
+def _is_revision_named_path(path: Path) -> bool:
+    return any(marker in _normalize_token(path.name) for marker in REVISION_FILENAME_MARKERS)
+
+
+def _score_vocabulary_alias_match(
     alias: str,
     token_set: set[str],
     normalized_path: str,
+    normalized_stem: str,
     normalized_title: str,
-) -> bool:
+) -> int:
     alias_norm = _normalize_token(alias)
-    alias_tokens = tuple(token for token in alias_norm.split("_") if token)
+    alias_tokens = tuple(token for token in alias_norm.split("_") if len(token) > 1)
     if not alias_tokens:
-        return False
+        return 0
+    if normalized_stem == alias_norm:
+        return 5
+    if alias_norm in normalized_stem:
+        return 4
+    if alias_norm in normalized_path:
+        return 3
+    if alias_norm in normalized_title:
+        return 2
     if len(alias_tokens) == 1:
-        return alias_tokens[0] in token_set
-    return alias_norm in normalized_path or alias_norm in normalized_title
+        return 1 if alias_tokens[0] in token_set else 0
+    return 1 if all(token in token_set for token in alias_tokens) else 0
+
+
+def _score_vocabulary_path_prefix_match(
+    prefix: str,
+    *,
+    normalized_path: str,
+) -> int:
+    prefix_norm = _normalize_token(prefix)
+    if not prefix_norm:
+        return 0
+    if prefix_norm in normalized_path:
+        return 6 + min(len(prefix_norm.split("_")), 3)
+    return 0
 
 
 def _relative_path(path: Path, root: Path) -> str:
@@ -993,9 +1499,76 @@ def _source_origin_counts(rows: Iterable[CorpusAuditRecord]) -> dict[str, int]:
     return {origin: counter[origin] for origin in sorted(counter)}
 
 
+def _source_tier_counts(rows: Iterable[CorpusAuditRecord]) -> dict[str, int]:
+    counter = Counter((row.source_tier or "unknown") for row in rows)
+    return {tier: counter[tier] for tier in sorted(counter)}
+
+
+def _authority_level_counts(rows: Iterable[CorpusAuditRecord]) -> dict[str, int]:
+    counter = Counter((row.authority_level or "unknown") for row in rows)
+    return {level: counter[level] for level in sorted(counter)}
+
+
+def _review_priority_counts(rows: Iterable[CorpusAuditRecord]) -> dict[str, int]:
+    counter = Counter(row.review_priority for row in rows)
+    return {priority: counter[priority] for priority in sorted(counter, key=_priority_sort_key)}
+
+
+def _ambiguity_flag_counts(rows: Iterable[CorpusAuditRecord]) -> dict[str, int]:
+    counter: Counter[str] = Counter()
+    for row in rows:
+        counter.update(row.ambiguity_flags)
+    return {flag: counter[flag] for flag in sorted(counter)}
+
+
 def _vocabulary_status_counts(documents: Iterable[CorpusDocument]) -> dict[str, int]:
     counter = Counter(document.vocabulary_status for document in documents)
     return {key: counter[key] for key in sorted(counter)}
+
+
+def _topic_key_counts(rows: Iterable[Any]) -> dict[str, int]:
+    counter = Counter((getattr(row, "topic_key", None) or "[none]") for row in rows)
+    return {key: counter[key] for key in sorted(counter)}
+
+
+def _subtopic_key_counts(rows: Iterable[Any]) -> dict[str, int]:
+    counter = Counter((getattr(row, "subtopic_key", None) or "[none]") for row in rows)
+    return {key: counter[key] for key in sorted(counter)}
+
+
+def _topic_subtopic_coverage(rows: Iterable[Any]) -> dict[str, Any]:
+    coverage: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        topic_key = getattr(row, "topic_key", None)
+        if not topic_key:
+            continue
+        parent_bucket = coverage.setdefault(
+            topic_key,
+            {
+                "direct_document_count": 0,
+                "subtopic_document_count": 0,
+                "subtopic_counts": {},
+            },
+        )
+        subtopic_key = getattr(row, "subtopic_key", None)
+        if subtopic_key:
+            parent_bucket["subtopic_document_count"] += 1
+            subtopic_counts = parent_bucket["subtopic_counts"]
+            subtopic_counts[subtopic_key] = subtopic_counts.get(subtopic_key, 0) + 1
+            continue
+        parent_bucket["direct_document_count"] += 1
+
+    return {
+        topic_key: {
+            "direct_document_count": bucket["direct_document_count"],
+            "subtopic_document_count": bucket["subtopic_document_count"],
+            "subtopic_counts": {
+                subtopic_key: bucket["subtopic_counts"][subtopic_key]
+                for subtopic_key in sorted(bucket["subtopic_counts"])
+            },
+        }
+        for topic_key, bucket in sorted(coverage.items())
+    }
 
 
 def _build_corpus_audit_report(
@@ -1006,12 +1579,20 @@ def _build_corpus_audit_report(
     audit_rows = tuple(rows)
     return {
         "corpus_dir": str(corpus_dir),
+        "taxonomy_version": topic_taxonomy_version(),
         "scanned_file_count": len(audit_rows),
         "decision_counts": _decision_counts(audit_rows),
         "source_origin_counts": _source_origin_counts(audit_rows),
         "extension_counts": _extension_counts(audit_rows),
         "parse_strategy_counts": _parse_strategy_counts(audit_rows),
         "document_archetype_counts": _document_archetype_counts(audit_rows),
+        "source_tier_counts": _source_tier_counts(audit_rows),
+        "authority_level_counts": _authority_level_counts(audit_rows),
+        "review_priority_counts": _review_priority_counts(audit_rows),
+        "ambiguity_flag_counts": _ambiguity_flag_counts(audit_rows),
+        "topic_key_counts": _topic_key_counts(audit_rows),
+        "subtopic_key_counts": _subtopic_key_counts(audit_rows),
+        "topic_subtopic_coverage": _topic_subtopic_coverage(audit_rows),
         "rows": [row.to_dict() for row in audit_rows],
     }
 
@@ -1025,8 +1606,12 @@ def _build_filtered_audit_payload(
     selected_rows = tuple(row for row in rows if row.ingestion_decision == decision)
     return {
         "corpus_dir": str(corpus_dir),
+        "taxonomy_version": topic_taxonomy_version(),
         "decision": decision,
         "count": len(selected_rows),
+        "topic_key_counts": _topic_key_counts(selected_rows),
+        "subtopic_key_counts": _subtopic_key_counts(selected_rows),
+        "topic_subtopic_coverage": _topic_subtopic_coverage(selected_rows),
         "rows": [row.to_dict() for row in selected_rows],
     }
 
@@ -1041,6 +1626,7 @@ def _build_corpus_inventory(
     audit_rows = tuple(rows)
     return {
         "corpus_dir": str(corpus_dir),
+        "taxonomy_version": topic_taxonomy_version(),
         "scanned_file_count": len(audit_rows),
         "decision_counts": _decision_counts(audit_rows),
         "extension_counts": _extension_counts(audit_rows),
@@ -1050,11 +1636,68 @@ def _build_corpus_inventory(
         "family_counts": _family_counts(included_rows),
         "knowledge_class_counts": _knowledge_class_counts(included_rows),
         "source_type_counts": _source_type_counts(included_rows),
+        "source_tier_counts": _source_tier_counts(included_rows),
+        "authority_level_counts": _authority_level_counts(included_rows),
         "graph_parse_ready_document_count": sum(1 for row in included_rows if row.graph_parse_ready),
         "vocabulary_status_counts": _vocabulary_status_counts(included_rows),
+        "review_priority_counts": _review_priority_counts(included_rows),
+        "ambiguity_flag_counts": _ambiguity_flag_counts(included_rows),
+        "topic_key_counts": _topic_key_counts(included_rows),
+        "subtopic_key_counts": _subtopic_key_counts(included_rows),
+        "topic_subtopic_coverage": _topic_subtopic_coverage(included_rows),
         "graph_target_families": sorted(GRAPH_TARGET_FAMILIES),
         "graph_target_document_count": sum(1 for row in included_rows if row.graph_target),
         "documents": [row.to_dict() for row in included_rows],
+    }
+
+
+def _build_corpus_reconnaissance_report(
+    *,
+    corpus_dir: Path,
+    documents: Iterable[CorpusDocument],
+    rows: Iterable[CorpusAuditRecord],
+) -> dict[str, Any]:
+    audit_rows = tuple(rows)
+    included_rows = tuple(documents)
+    recon_rows = _build_reconnaissance_rows(documents=included_rows, rows=audit_rows)
+    manual_review_queue = [
+        row for row in recon_rows if row["needs_manual_review"] and row["ingestion_decision"] != INGESTION_DECISION_EXCLUDE
+    ]
+    blessing_counts = Counter(row["canonical_blessing_status"] for row in recon_rows)
+    revision_linkage_counts = Counter(row["revision_linkage_status"] for row in recon_rows)
+    review_priority_counts = Counter(row["review_priority"] for row in recon_rows)
+    gate = _build_reconnaissance_gate(
+        blessing_counts=blessing_counts,
+        revision_linkage_counts=revision_linkage_counts,
+        manual_review_count=len(manual_review_queue),
+    )
+    return {
+        "corpus_dir": str(corpus_dir),
+        "taxonomy_version": topic_taxonomy_version(),
+        "quality_gate": gate,
+        "scanned_file_count": len(audit_rows),
+        "decision_counts": _decision_counts(audit_rows),
+        "document_archetype_counts": _document_archetype_counts(audit_rows),
+        "family_counts": _family_counts(included_rows),
+        "source_tier_counts": _source_tier_counts(audit_rows),
+        "authority_level_counts": _authority_level_counts(audit_rows),
+        "review_priority_counts": {
+            priority: review_priority_counts[priority]
+            for priority in sorted(review_priority_counts, key=_priority_sort_key)
+        },
+        "ambiguity_flag_counts": _ambiguity_flag_counts(audit_rows),
+        "topic_key_counts": _topic_key_counts(included_rows),
+        "subtopic_key_counts": _subtopic_key_counts(included_rows),
+        "topic_subtopic_coverage": _topic_subtopic_coverage(included_rows),
+        "revision_linkage_status_counts": {
+            key: revision_linkage_counts[key] for key in sorted(revision_linkage_counts)
+        },
+        "canonical_blessing_status_counts": {
+            key: blessing_counts[key] for key in sorted(blessing_counts)
+        },
+        "manual_review_queue_count": len(manual_review_queue),
+        "manual_review_queue": manual_review_queue,
+        "rows": recon_rows,
     }
 
 
@@ -1065,50 +1708,195 @@ def _build_canonical_corpus_manifest(
     rows: Iterable[CorpusAuditRecord],
 ) -> dict[str, Any]:
     included_rows = tuple(documents)
-    revision_rows = tuple(
-        row for row in rows if row.ingestion_decision == INGESTION_DECISION_REVISION
-    )
-    revisions_by_target: dict[str, list[CorpusAuditRecord]] = defaultdict(list)
-    unresolved_revisions: list[CorpusAuditRecord] = []
-    docs_by_relative = {doc.relative_path: doc for doc in included_rows}
-    docs_by_source = {doc.source_path: doc for doc in included_rows}
-
-    for row in revision_rows:
-        target = (row.base_doc_target or "").strip()
-        if not target:
-            unresolved_revisions.append(row)
-            continue
-        if target in docs_by_relative or target in docs_by_source:
-            revisions_by_target[target].append(row)
-            continue
-        unresolved_revisions.append(row)
-
+    recon_rows = _build_reconnaissance_rows(documents=included_rows, rows=tuple(rows))
+    document_rows = [row for row in recon_rows if row["ingestion_decision"] == INGESTION_DECISION_INCLUDE]
+    unresolved_revisions = [
+        row
+        for row in recon_rows
+        if row["ingestion_decision"] == INGESTION_DECISION_REVISION
+        and row["revision_linkage_status"] != "attached_to_base_doc"
+    ]
     documents_payload: list[dict[str, Any]] = []
-    for doc in included_rows:
-        attached_revisions = revisions_by_target.get(doc.relative_path) or revisions_by_target.get(
-            doc.source_path
-        ) or []
+    for doc in document_rows:
         documents_payload.append(
             {
-                **doc.to_dict(),
-                "canonical_ready": True,
-                "pending_revision_count": len(attached_revisions),
-                "has_pending_revisions": bool(attached_revisions),
-                "attached_revision_candidates": [row.to_dict() for row in attached_revisions],
+                **doc,
+                "pending_revision_count": doc["attached_revision_count"],
+                "canonical_ready": doc["canonical_blessing_status"] == "ready",
             }
         )
+    blessing_counts = Counter(row["canonical_blessing_status"] for row in document_rows)
 
     return {
         "corpus_dir": str(corpus_dir),
+        "taxonomy_version": topic_taxonomy_version(),
         "document_count": len(included_rows),
-        "canonical_ready_count": len(included_rows),
+        "canonical_ready_count": blessing_counts.get("ready", 0),
+        "review_required_count": blessing_counts.get("review_required", 0),
+        "blocked_count": blessing_counts.get("blocked", 0),
         "documents_with_pending_revisions": sum(
             1 for row in documents_payload if row["has_pending_revisions"]
         ),
         "unresolved_revision_candidate_count": len(unresolved_revisions),
+        "canonical_blessing_status_counts": {
+            key: blessing_counts[key] for key in sorted(blessing_counts)
+        },
+        "topic_key_counts": _topic_key_counts(included_rows),
+        "subtopic_key_counts": _subtopic_key_counts(included_rows),
+        "topic_subtopic_coverage": _topic_subtopic_coverage(included_rows),
         "documents": documents_payload,
-        "unresolved_revision_candidates": [row.to_dict() for row in unresolved_revisions],
+        "unresolved_revision_candidates": unresolved_revisions,
     }
+
+
+def _build_reconnaissance_rows(
+    *,
+    documents: Iterable[CorpusDocument],
+    rows: Iterable[CorpusAuditRecord],
+) -> list[dict[str, Any]]:
+    audit_rows = tuple(rows)
+    included_docs = tuple(documents)
+    docs_by_relative = {doc.relative_path: doc for doc in included_docs}
+    docs_by_source = {doc.source_path: doc for doc in included_docs}
+    attached_revisions_by_doc: dict[str, list[CorpusAuditRecord]] = defaultdict(list)
+    revision_linkage_by_source: dict[str, str] = {}
+
+    for row in audit_rows:
+        if row.ingestion_decision != INGESTION_DECISION_REVISION:
+            continue
+        target = (row.base_doc_target or "").strip()
+        if not target:
+            revision_linkage_by_source[row.source_path] = "missing_base_doc_target"
+            continue
+        target_doc = docs_by_relative.get(target) or docs_by_source.get(target)
+        if target_doc is None:
+            revision_linkage_by_source[row.source_path] = "target_not_found"
+            continue
+        revision_linkage_by_source[row.source_path] = "attached_to_base_doc"
+        attached_revisions_by_doc[target_doc.relative_path].append(row)
+
+    recon_rows: list[dict[str, Any]] = []
+    for row in audit_rows:
+        attached_revisions = attached_revisions_by_doc.get(row.relative_path, [])
+        revision_linkage_status = revision_linkage_by_source.get(row.source_path, "not_applicable")
+        review_reasons = list(row.ambiguity_flags)
+        review_priority = row.review_priority
+        if revision_linkage_status == "target_not_found":
+            review_reasons.append("revision_target_not_found")
+            review_priority = _max_review_priority(review_priority, "critical")
+        if attached_revisions:
+            review_reasons.append("pending_revision_attachment")
+            review_priority = _max_review_priority(review_priority, "medium")
+        canonical_blessing_status = _canonical_blessing_status(
+            row=row,
+            review_priority=review_priority,
+            revision_linkage_status=revision_linkage_status,
+            has_pending_revisions=bool(attached_revisions),
+        )
+        needs_manual_review = review_priority != "none"
+        recon_rows.append(
+            {
+                **row.to_dict(),
+                "review_priority": review_priority,
+                "needs_manual_review": needs_manual_review,
+                "review_reasons": review_reasons,
+                "revision_linkage_status": revision_linkage_status,
+                "attached_revision_count": len(attached_revisions),
+                "has_pending_revisions": bool(attached_revisions),
+                "attached_revision_candidates": [item.to_dict() for item in attached_revisions],
+                "canonical_blessing_status": canonical_blessing_status,
+            }
+        )
+
+    recon_rows.sort(
+        key=lambda row: (
+            _priority_sort_key(row["review_priority"]),
+            row["ingestion_decision"],
+            row["relative_path"],
+        )
+    )
+    return recon_rows
+
+
+def _build_reconnaissance_gate(
+    *,
+    blessing_counts: Counter[str],
+    revision_linkage_counts: Counter[str],
+    manual_review_count: int,
+) -> dict[str, Any]:
+    blockers: list[str] = []
+    if blessing_counts.get("blocked", 0):
+        blockers.append("At least one corpus file is blocked from canonical blessing.")
+    if revision_linkage_counts.get("missing_base_doc_target", 0):
+        blockers.append("At least one revision candidate is missing a base document target.")
+    if revision_linkage_counts.get("target_not_found", 0):
+        blockers.append("At least one revision candidate points to a base document that was not admitted.")
+
+    if blockers:
+        status = "blocked"
+    elif manual_review_count:
+        status = "review_required"
+    else:
+        status = "ready_for_canonical_blessing"
+
+    return {
+        "status": status,
+        "canonical_blessing_allowed": status == "ready_for_canonical_blessing",
+        "blocker_count": len(blockers),
+        "manual_review_count": manual_review_count,
+        "blockers": blockers,
+        "next_review_steps": _reconnaissance_next_steps(status=status),
+    }
+
+
+def _canonical_blessing_status(
+    *,
+    row: CorpusAuditRecord,
+    review_priority: str,
+    revision_linkage_status: str,
+    has_pending_revisions: bool,
+) -> str:
+    if row.ingestion_decision == INGESTION_DECISION_EXCLUDE:
+        return "excluded"
+    if row.ingestion_decision == INGESTION_DECISION_REVISION:
+        if revision_linkage_status in {"missing_base_doc_target", "target_not_found"}:
+            return "blocked"
+        return "pending_merge_review"
+    if review_priority == "critical":
+        return "blocked"
+    if has_pending_revisions or review_priority in {"high", "medium", "low"}:
+        return "review_required"
+    return "ready"
+
+
+def _max_review_priority(*priorities: str) -> str:
+    normalized = [priority for priority in priorities if priority]
+    if not normalized:
+        return "none"
+    return min(normalized, key=_priority_sort_key)
+
+
+def _priority_sort_key(priority: str) -> int:
+    return REVIEW_PRIORITY_ORDER.get(priority, len(REVIEW_PRIORITY_ORDER))
+
+
+def _reconnaissance_next_steps(*, status: str) -> list[str]:
+    if status == "blocked":
+        return [
+            "Resolve missing or unlinked revision targets before blessing the canonical manifest.",
+            "Review blocked corpus files with unknown family or authority shape.",
+            "Re-run the audit-first runner after correcting corpus structure or target paths.",
+        ]
+    if status == "review_required":
+        return [
+            "Review the manual-review queue before treating the canonical manifest as durable.",
+            "Confirm authority shape, vocabulary fit, and pending revision attachment decisions.",
+            "Bless the canonical manifest only after the review queue is intentionally accepted.",
+        ]
+    return [
+        "The reconnaissance gate is clear; the canonical manifest can be blessed for this run.",
+        "Proceed to normative graph materialization and later live FalkorDB validation.",
+    ]
 
 
 if __name__ == "__main__":

@@ -1,0 +1,341 @@
+{
+  "chat_run_id": "cr_20260416_005652_4c38f71e",
+  "trace_id": "d658f775-e858-4fc3-9608-029692b9a5bb",
+  "session_id": "chat_e12cb5f76d8a",
+  "client_turn_id": "3720a021-213d-413f-b0ad-418ac7f37f57",
+  "request_fingerprint": "a022c4ef1b02be1b219785b6497a949153e27bf34f25c5c5015052c952965cb2",
+  "endpoint": "/api/chat",
+  "tenant_id": "public_anon",
+  "user_id": "pub_9b059d70fd4caae1",
+  "company_id": null,
+  "status": "completed",
+  "pipeline_run_id": "pd_9c6ff6a9d9dd4370b1ce8ac15d5b47c0",
+  "request_payload": {
+    "message": "Mi cliente tiene saldo a favor en renta del AG 2025. ¿Cuáles son los requisitos y el procedimiento para solicitar la devolución ante la DIAN? ¿En qué plazos debe radicarse? ¿El trámite cambia si el contribuyente tiene facturación electrónica al día?",
+    "topic": "facturacion_electronica",
+    "requested_topic": null,
+    "effective_topic": "facturacion_electronica",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de facturacion electronica, por lo cual utilizaremos nuestra base de datos facturacion electronica.",
+    "topic_adjustment_reason": "rule:facturacion_electronica matched facturacion electronica, facturación electrónica, facturacion, facturación",
+    "pais": "colombia",
+    "primary_scope_mode": "global_overlay",
+    "response_route": "decision",
+    "retrieval_profile": "hybrid_rerank",
+    "response_depth": "auto",
+    "first_response_mode": "fast_action",
+    "pipeline_route": "pipeline_d",
+    "pipeline_variant": "pipeline_d",
+    "shadow_pipeline_variant": "None",
+    "pipeline_route_source": "config_default",
+    "debug": true
+  },
+  "response_payload": {
+    "trace_id": "d658f775-e858-4fc3-9608-029692b9a5bb",
+    "run_id": "pd_9c6ff6a9d9dd4370b1ce8ac15d5b47c0",
+    "answer_markdown": "Ruta graph-native parcial. Modo del planner: `obligation_chain`. Tema activo: `facturacion_electronica`.",
+    "answer_concise": "Ruta graph-native parcial. Modo del planner: `obligation_chain`. Tema activo: `facturacion_electronica`.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [],
+    "confidence": {
+      "score": 0.42,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native_partial",
+    "compose_quality": 0.45,
+    "fallback_reason": "pipeline_d_no_graph_primary_articles",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "compatibility_mode": false,
+      "pipeline_family": "pipeline_d_phase3",
+      "index_file": "/Users/ava-sensas/Developer/Lia_Graph/artifacts/document_index.jsonl",
+      "policy_path": "/Users/ava-sensas/Developer/Lia_Graph/config/credibility_policy.json",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "planner": {
+        "query_mode": "obligation_chain",
+        "entry_points": [
+          {
+            "kind": "topic",
+            "lookup_value": "facturacion_electronica",
+            "source": "topic_hint",
+            "confidence": 0.72,
+            "label": "facturacion_electronica",
+            "resolved_key": "facturacion_electronica"
+          }
+        ],
+        "traversal_budget": {
+          "max_hops": 2,
+          "max_nodes": 10,
+          "max_edges": 18,
+          "max_paths": 5,
+          "max_support_documents": 5
+        },
+        "evidence_bundle_shape": {
+          "primary_article_limit": 3,
+          "connected_article_limit": 5,
+          "related_reform_limit": 4,
+          "support_document_limit": 5,
+          "snippet_char_limit": 240
+        },
+        "temporal_context": {
+          "consulta_date": null,
+          "operation_date": null,
+          "cutoff_date": null,
+          "cutoff_source": null,
+          "scope_mode": "current",
+          "historical_query_intent": false,
+          "requested_period_label": "AG 2025",
+          "requested_period_source": "message_ag",
+          "anchor_reform_keys": [],
+          "anchor_reform_labels": [],
+          "notes": [
+            "Requested period resolved as AG 2025 via message_ag."
+          ]
+        },
+        "topic_hints": [
+          "facturacion_electronica"
+        ],
+        "planner_notes": [
+          "Planner will resolve entry points by lexical matching over graph article text."
+        ]
+      },
+      "evidence_bundle": {
+        "primary_articles": [],
+        "connected_articles": [],
+        "related_reforms": [],
+        "support_documents": [],
+        "citations": [],
+        "diagnostics": {
+          "artifacts_dir": "/Users/ava-sensas/Developer/Lia_Graph/artifacts",
+          "resolved_entry_count": 0,
+          "planner_query_mode": "obligation_chain",
+          "temporal_context": {
+            "consulta_date": null,
+            "operation_date": null,
+            "cutoff_date": null,
+            "cutoff_source": null,
+            "scope_mode": "current",
+            "historical_query_intent": false,
+            "requested_period_label": "AG 2025",
+            "requested_period_source": "message_ag",
+            "anchor_reform_keys": [],
+            "anchor_reform_labels": [],
+            "notes": [
+              "Requested period resolved as AG 2025 via message_ag."
+            ]
+          }
+        }
+      },
+      "citation_gaps_captured": {
+        "user": {
+          "captured_count": 0,
+          "captured_by_type": {}
+        },
+        "assistant": {
+          "captured_count": 0,
+          "captured_by_type": {}
+        }
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.0
+      },
+      "primary_scope_mode": "global_overlay",
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "facturacion_electronica",
+        "secondary_topics": [],
+        "topic_adjusted": true,
+        "topic_notice": "Tu pregunta es de facturacion electronica, por lo cual utilizaremos nuestra base de datos facturacion electronica.",
+        "reason": "rule:facturacion_electronica matched facturacion electronica, facturación electrónica, facturacion, facturación",
+        "confidence": 0.99,
+        "mode": "rule"
+      },
+      "pipeline": {
+        "route": "pipeline_d",
+        "variant": "pipeline_d",
+        "shadow_variant": null,
+        "source": "config_default"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 41,
+        "output_tokens": 10,
+        "total_tokens": 51,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "facturacion_electronica",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de facturacion electronica, por lo cual utilizaremos nuestra base de datos facturacion electronica.",
+    "topic_adjustment_reason": "rule:facturacion_electronica matched facturacion electronica, facturación electrónica, facturacion, facturación",
+    "coverage_notice": "La ruta graph-native no encontro articulos ancla suficientes; se devolvio la mejor evidencia parcial disponible.",
+    "topic": "facturacion_electronica",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1776301012,
+      "expires_at": 1776304612,
+      "token_id": "aebbc9109f52440f8b637c2e5a7ff3ba"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_e12cb5f76d8a",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 41,
+        "output_tokens": 10,
+        "total_tokens": 51
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "d658f775-e858-4fc3-9608-029692b9a5bb",
+      "last_run_id": "pd_9c6ff6a9d9dd4370b1ce8ac15d5b47c0",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_e12cb5f76d8a",
+    "chat_run_id": "cr_20260416_005652_4c38f71e",
+    "metrics": {
+      "latency_ms": 16.12,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 41,
+          "output_tokens": 10,
+          "total_tokens": 51,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native_partial",
+      "compose_quality": 0.45,
+      "fallback_reason": "pipeline_d_no_graph_primary_articles",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_e12cb5f76d8a",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 41,
+          "output_tokens": 10,
+          "total_tokens": 51
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "d658f775-e858-4fc3-9608-029692b9a5bb",
+        "last_run_id": "pd_9c6ff6a9d9dd4370b1ce8ac15d5b47c0",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.0
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "facturacion_electronica",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "6849c96fc0b741789e2f24e8e566f41b"
+  },
+  "error_payload": {},
+  "request_received_at": "2026-04-16T00:56:52Z",
+  "pipeline_started_at": "2026-04-16T00:56:52Z",
+  "first_model_delta_at": null,
+  "first_visible_answer_at": null,
+  "pipeline_completed_at": "2026-04-16T00:56:52Z",
+  "final_payload_ready_at": "2026-04-16T00:56:52Z",
+  "response_sent_at": null,
+  "async_persistence_done_at": "2026-04-16T00:56:52Z",
+  "completed_at": "2026-04-16T00:56:52Z",
+  "created_at": "2026-04-16T00:56:52Z",
+  "updated_at": "2026-04-16T00:56:52Z"
+}

@@ -8,14 +8,14 @@
 
 ### 1. Supabase Project
 - **What**: A dedicated Supabase project for LIA_Graph
-- **Why**: LIA_Graph has its own backend environment and must not share production state with Lia_contadores
+- **Why**: LIA_Graph has its own backend environment and must not share production state with any prior deployment
 - **Free tier**: Yes (500 MB DB, 1 GB storage — plenty for dev)
 - **What I need from you**:
   - `SUPABASE_URL` (e.g., `https://xxxx.supabase.co`)
   - `SUPABASE_ANON_KEY`
   - `SUPABASE_SERVICE_ROLE_KEY`
 - **Setup**: https://supabase.com/dashboard → New Project
-- **Rule**: Do not fall back to the old Lia_contadores Supabase project.
+- **Rule**: Do not fall back to any previous Supabase project.
 
 ### 2. FalkorDB Cloud
 - **What**: Managed graph database instance

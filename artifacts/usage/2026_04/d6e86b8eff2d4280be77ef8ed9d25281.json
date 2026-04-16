@@ -1,0 +1,24 @@
+{
+  "event_id": "d6e86b8eff2d4280be77ef8ed9d25281",
+  "event_type": "llm_usage",
+  "endpoint": "/api/chat",
+  "tenant_id": "public_anon",
+  "user_id": "pub_9b059d70fd4caae1",
+  "company_id": "",
+  "session_id": "chat_e12cb5f76d8a",
+  "trace_id": "d658f775-e858-4fc3-9608-029692b9a5bb",
+  "run_id": "pd_9c6ff6a9d9dd4370b1ce8ac15d5b47c0",
+  "integration_id": "lia_public",
+  "provider": "",
+  "model": "",
+  "usage_source": "none",
+  "billable": false,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "total_tokens": 0,
+  "metadata": {
+    "response_route": "decision",
+    "primary_scope_mode": "global_overlay"
+  },
+  "created_at": "2026-04-16T00:56:52Z"
+}
