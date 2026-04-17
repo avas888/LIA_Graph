@@ -1,4 +1,4 @@
-import{a as s}from"./chip-Bjq03GaS.js";import{c as p}from"./button-1yFzSXrY.js";import{t as m}from"./brandMark-BaRL-5wh.js";function _(a){const t=document.createElement("div");t.className="googly-loader",t.setAttribute("role","status"),t.setAttribute("aria-live","polite"),t.innerHTML=`
+import{a as s}from"./chip-Bjq03GaS.js";import{c as p}from"./button-1yFzSXrY.js";import{t as m}from"./brandMark-Danz1uVP.js";function _(a){const t=document.createElement("div");t.className="googly-loader",t.setAttribute("role","status"),t.setAttribute("aria-live","polite"),t.innerHTML=`
     <div class="googly-loader-orb" aria-hidden="true">
       <span class="googly-loader-core">
         <span class="lia-thinking-eye-pair">

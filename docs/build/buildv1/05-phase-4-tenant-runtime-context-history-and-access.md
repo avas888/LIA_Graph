@@ -38,6 +38,41 @@
 - grafo de conocimiento por tenant
 - retrieval de documentos distintos por tenant
 
+## RBAC Alignment With Lia Contadores
+
+El shell de producto debe heredar de `Lia_Contadores` las reglas maduras de acceso, invitaciones y administracion de tenants, pero sin reinterpretar el conocimiento como multi-tenant.
+
+### Invariantes operativos
+
+- los roles base siguen siendo `tenant_user`, `tenant_admin` y `platform_admin`
+- `tenant_user` consume producto; no administra usuarios, tenants ni ops
+- `tenant_admin` administra usuarios e invitaciones dentro de su tenant
+- `platform_admin` administra tenants y puede operar cross-tenant
+- el corpus y el grafo siguen siendo compartidos; RBAC controla runtime y superficies de administracion, no particiones de conocimiento
+
+### Seed parity que se debe preservar
+
+- mantener los 10 usuarios autorizados `@lia.dev` ya sembrados en las migraciones
+- `admin@lia.dev` debe seguir siendo `platform_admin`
+- `admin@lia.dev` es el usuario que destraba la shell administrativa completa y debe seguir viendo tabs criticos como Backstage, Activity, Ingesta, Orchestration, Ratings y API
+- los usuarios `usuario1@lia.dev` a `usuario10@lia.dev` siguen siendo el set de prueba autorizado para validar login, invitaciones y aislamiento por rol
+
+### Fuentes de verdad actuales
+
+- `supabase/migrations/20260325000002_seed_platform_users.sql`
+- `supabase/migrations/20260405000002_seed_test_users_shared_password.sql`
+- `supabase/migrations/20260408000002_seed_users_4_to_10.sql`
+- `src/lia_graph/platform_auth.py`
+- `src/lia_graph/user_management.py`
+- `src/lia_graph/ui_user_management_controllers.py`
+- `frontend/src/shared/auth/tabAccess.ts`
+
+### Regla de diseño
+
+- copiar el comportamiento de shell/RBAC de `Lia_Contadores`
+- no copiar ninguna suposicion de corpus por tenant
+- cualquier permiso extra para ingestion, Falkor o promotion debe modelarse como capacidad administrativa sobre un corpus compartido, no como ownership de un subgrafo por tenant
+
 ## Files To Create
 
 - nuevas migraciones para contexto runtime si se requieren - nuevas

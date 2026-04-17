@@ -1909,7 +1909,7 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             else:
                 if self._check_rate_limit("chat", 30, 60):
                     return
-        elif path == "/api/invite/accept":
+        elif path in {"/api/invite/accept", "/api/auth/accept-invite"}:
             if self._check_rate_limit("invite_accept", 10, 60):
                 return
         elif path.startswith("/api/eval/"):

@@ -99,10 +99,11 @@
 - `/public` ask/get-answer flow is live again
 - `?message=...` public handoff works again
 - public chat mounts correctly and can hit the real runtime
+- login, invite acceptance, tenant user management, and tenant/platform admin tenant listing are live again through the shared RBAC shell
 - remaining work:
   - evidence drill-down
   - saved-history / managed-chat surfaces
-  - some admin and secondary surfaces
+  - ingestion and other secondary admin surfaces
 
 ### 5. Orchestration Docs and HTML Parity
 

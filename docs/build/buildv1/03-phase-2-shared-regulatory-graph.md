@@ -77,6 +77,45 @@ Cada archivo escaneado debe caer en exactamente una decision:
 - un dominio valido fuera del vocabulario actual puede entrar como custom topic pendiente de ratificacion
 - reformas, excepciones, dependencias, definiciones y vigencia deben derivarse del grafo, no de rotulos planos
 
+## Shared-Graph Ingestion Admin Model
+
+La UI de ingestion puede verse muy parecida a la de `Lia_Contadores`, pero el backend no debe copiar la semantica vieja de flat RAG.
+
+### Regla madre
+
+- ingestion en `LIA_Graph` administra un corpus compartido y un grafo compartido
+- por eso, el dato `tenant_id` en ingestion sirve para auditoria, provenance operativa y tracking del submitter
+- no sirve para crear corpus por tenant, manifiestos por tenant ni subgrafos por tenant
+
+### Pipeline que la UI debe representar
+
+1. intake de archivos o lotes candidatos
+2. preflight de duplicados, shape, extractabilidad y family guess
+3. audit + reconnaissance gate sobre source assets
+4. decision de admision al canonical corpus manifest
+5. parse/link/classify/load solo para la parte normativa graph-parse-ready
+6. promotion de artefactos y revalidacion de Falkor / caches / reportes
+
+### Capas y permisos
+
+- `tenant_user`: sin acceso a ingestion ni ops
+- `tenant_admin`: puede ver estado, subir candidatos, revisar preflight y proponer clasificacion; no debe poder bendecir corpus canonico compartido ni escribir Falkor
+- `platform_admin`: puede aprobar/bless manifest, correr parse graph, cargar Falkor, promover artefactos, hacer rollback y operar health checks
+
+### FalkorDB implication
+
+- FalkorDB no necesita una politica compleja por tenant porque el grafo regulatorio es compartido
+- la proteccion relevante es de superficie y workflow: quien puede gatillar cargas, promociones, rollback y reindex
+- toda operacion que cambie el estado canonico o el grafo live debe quedar reservada a `platform_admin` y ser auditable
+
+### Consecuencia para la implementacion
+
+- reutilizar shell, layout y affordances de `Lia_Contadores` esta bien
+- reutilizar la logica que asumiria documentos privados por tenant no esta bien
+- el backend de ingestion debe hablar en terminos de `source asset`, `canonical blessing`, `graph-parse-ready`, `artifact promotion` y `Falkor parity`
+- si una accion afecta solo staging local del lote, puede vivir en la capa de ingestion session
+- si una accion afecta el corpus compartido o Falkor, debe pasar por guardrails de `platform_admin`
+
 ## Files To Create
 
 - `src/lia_graph/graph/schema.py` - nuevo

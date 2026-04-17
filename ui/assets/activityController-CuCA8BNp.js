@@ -1,4 +1,4 @@
-import{g as y}from"./client-OE0sHIIg.js";import{T as p}from"./brandMark-BaRL-5wh.js";import{c as h,a as v}from"./stateBlock-CleM9k1B.js";import{c as d}from"./factCard-Cu0UJHPY.js";import"./bootstrap-CDL0BdR1.js";import"./index-DE07Z79R.js";import"./authGate-Bb2S6efH.js";import"./format-CYFfBTRg.js";import"./icons-D0mOOFcM.js";import"./button-1yFzSXrY.js";import"./input-Byu2cnK9.js";import"./toasts-tYrWECOz.js";import"./chip-Bjq03GaS.js";function f(){return`
+import{g as y}from"./client-OE0sHIIg.js";import{T as p}from"./brandMark-Danz1uVP.js";import{c as h,a as v}from"./stateBlock-CleM9k1B.js";import{c as d}from"./factCard-Cu0UJHPY.js";import"./bootstrap-CDL0BdR1.js";import"./index-DE07Z79R.js";import"./authGate-Bb2S6efH.js";import"./format-CYFfBTRg.js";import"./icons-D0mOOFcM.js";import"./button-1yFzSXrY.js";import"./input-Byu2cnK9.js";import"./toasts-tYrWECOz.js";import"./chip-Bjq03GaS.js";function f(){return`
     <div class="activity-panel-shell">
       <header class="activity-panel-header">
         <h1>Actividad de Usuarios</h1>

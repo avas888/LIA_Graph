@@ -243,7 +243,7 @@ test("protected surfaces boot across major routes", async ({ page }) => {
 
   await page.goto("/orchestration");
   await expect(page.locator(".orch-title")).toBeVisible();
-  expect(await page.locator(".orch-node").count()).toBeGreaterThan(0);
+  expect(await page.locator(".orch-module-card").count()).toBeGreaterThan(0);
 
   await page.goto("/normative-analysis?doc_id=doc_demo");
   await expect(page.locator("#normative-analysis-title")).toContainText("Artículo de prueba");

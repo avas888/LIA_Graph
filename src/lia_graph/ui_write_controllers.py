@@ -81,13 +81,12 @@ def handle_form_guides_post(handler: Any, path: str, *args: Any, **kwargs: Any) 
 
 
 def handle_ingestion_post(handler: Any, path: str, *args: Any, **kwargs: Any) -> bool:
-    del args, kwargs
-    return _send_if_match(
-        handler,
-        path,
-        feature="Ingestion",
-        prefixes=("/api/ingestion",),
-    )
+    del args
+    if not path.startswith("/api/ingestion"):
+        return False
+    from .ui_ingestion_controllers import handle_ingestion_post as _handle_ingestion_post
+
+    return _handle_ingestion_post(handler, path, **kwargs)
 
 
 def handle_platform_post(handler: Any, path: str, *args: Any, **kwargs: Any) -> bool:
