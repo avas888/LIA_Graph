@@ -1,8 +1,13 @@
-# Orchestration Guide
+# Archived Orchestration Snapshot
+
+> Archived snapshot kept for comparison only.
+> Do not use this file as the current runtime truth.
+> For the live runtime read `docs/guide/orchestration.md`.
+> For the response-shaping source of truth read `docs/guide/chat-response-architecture.md`.
 
 ## Purpose
 
-This guide describes the served Lia Graph runtime exactly as it operates today.
+This guide describes an older served Lia Graph runtime snapshot preserved for historical comparison.
 
 It is the operating map for:
 

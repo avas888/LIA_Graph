@@ -4,58 +4,52 @@ export function renderOrchestrationShell(i18n: I18nRuntime): string {
   return `
     <main class="orch-shell">
       <header class="orch-header">
-        <div class="orch-header-left">
+        <div class="orch-brand">
           <a href="/" class="nav-link orch-back-link">${i18n.t("common.backToChat")}</a>
-          <div class="orch-header-title-group">
-            <p class="orch-eyebrow">${i18n.t("orch.eyebrow")}</p>
-            <h1 class="orch-title">${i18n.t("orch.title")}</h1>
+          <div class="orch-brand-copy">
+            <p class="orch-eyebrow">Mapa vivo del runtime</p>
+            <h1 class="orch-title">Arquitectura de Información y Orquestación</h1>
+            <p class="orch-subtitle">
+              Cómo viaja la información desde la pregunta del contador hasta la respuesta visible, qué contrato entrega cada capa y dónde terminan los límites entre lógica compartida, los seams estables de cada superficie y los tres tracks post-answer: bubble principal, Normativa e Interpretación.
+            </p>
           </div>
         </div>
-        <div class="orch-header-center">
-          <nav class="orch-lane-nav" aria-label="${i18n.t("orch.laneNav")}">
-            <button class="orch-lane-btn" data-lane="ingesta">${i18n.t("orch.lane.ingesta")}</button>
-            <button class="orch-lane-btn" data-lane="parsing">${i18n.t("orch.lane.parsing")}</button>
-            <button class="orch-lane-btn" data-lane="almacenamiento">${i18n.t("orch.lane.almacenamiento")}</button>
-            <button class="orch-lane-btn" data-lane="retrieval">${i18n.t("orch.lane.retrieval")}</button>
-            <button class="orch-lane-btn" data-lane="surfaces">${i18n.t("orch.lane.surfaces")}</button>
-          </nav>
-        </div>
-        <div class="orch-header-right">
-          <div class="orch-legend" aria-label="${i18n.t("orch.legend")}">
-            <span class="orch-legend-item" data-actor="curator">
-              <span class="orch-actor-dot" data-actor="curator"></span>
-              ${i18n.t("orch.actor.curator")}
-            </span>
-            <span class="orch-legend-item" data-actor="python">
-              <span class="orch-actor-dot" data-actor="python"></span>
-              ${i18n.t("orch.actor.python")}
-            </span>
-            <span class="orch-legend-item" data-actor="sql">
-              <span class="orch-actor-dot" data-actor="sql"></span>
-              ${i18n.t("orch.actor.sql")}
-            </span>
-            <span class="orch-legend-item" data-actor="llm">
-              <span class="orch-actor-dot" data-actor="llm"></span>
-              ${i18n.t("orch.actor.llm")}
-            </span>
-            <span class="orch-legend-item" data-actor="embedding">
-              <span class="orch-actor-dot" data-actor="embedding"></span>
-              ${i18n.t("orch.actor.embedding")}
-            </span>
+
+        <div class="orch-status-stack">
+          <div class="orch-status-card">
+            <span class="orch-status-label">Pipeline servido</span>
+            <strong>pipeline_d</strong>
+          </div>
+          <div class="orch-status-card">
+            <span class="orch-status-label">Última actualización</span>
+            <strong>2026-04-16</strong>
           </div>
         </div>
       </header>
 
-      <div id="orch-viewport" class="orch-viewport">
-        <div id="orch-canvas" class="orch-canvas">
-          <svg id="orch-svg" class="orch-svg-overlay"></svg>
-        </div>
-      </div>
+      <section class="orch-toolbar">
+        <nav class="orch-nav" aria-label="Navegación de arquitectura">
+          <a class="orch-nav-btn" href="#orch-overview" data-target="orch-overview">Vista general</a>
+          <a class="orch-nav-btn" href="#orch-contracts" data-target="orch-contracts">Contratos</a>
+          <a class="orch-nav-btn" href="#orch-lanes" data-target="orch-lanes">Lanes</a>
+          <a class="orch-nav-btn" href="#orch-modules" data-target="orch-modules">Módulos</a>
+          <a class="orch-nav-btn" href="#orch-surfaces" data-target="orch-surfaces">Superficies</a>
+          <a class="orch-nav-btn" href="#orch-tuning" data-target="orch-tuning">Tuning</a>
+        </nav>
 
-      <div id="orch-minimap" class="orch-minimap">
-        <canvas id="orch-minimap-canvas" width="220" height="154"></canvas>
-        <div id="orch-minimap-lens" class="orch-minimap-lens"></div>
-      </div>
+        <div class="orch-filter-group" role="toolbar" aria-label="Filtrar módulos por alcance">
+          <button class="orch-filter-btn" data-scope-filter="all" aria-pressed="true">Todos</button>
+          <button class="orch-filter-btn" data-scope-filter="shared" aria-pressed="false">Compartido</button>
+          <button class="orch-filter-btn" data-scope-filter="main-chat" aria-pressed="false">Main chat</button>
+          <button class="orch-filter-btn" data-scope-filter="normativa" aria-pressed="false">Normativa</button>
+          <button class="orch-filter-btn" data-scope-filter="interpretacion" aria-pressed="false">Interpretación</button>
+          <button class="orch-filter-btn" data-scope-filter="reader-windows" aria-pressed="false">Ventanas lectoras</button>
+        </div>
+      </section>
+
+      <section id="orch-scroll" class="orch-scroll">
+        <div id="orch-content" class="orch-content"></div>
+      </section>
     </main>
   `;
 }

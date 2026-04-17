@@ -16,6 +16,7 @@ If you are reorienting after an interruption, read these in order:
 10. `docs/state/TASK-04-deploy.md`
 11. `docs/DEPENDENCIES.md`
 12. `docs/guide/orchestration.md`
+13. `docs/guide/chat-response-architecture.md`
 
 ## Purpose of Each Doc
 
@@ -32,7 +33,8 @@ If you are reorienting after an interruption, read these in order:
 - `docs/state/TASK-03-integration-eval.md`: routing and comparison plan
 - `docs/state/TASK-04-deploy.md`: rollout and deployment plan
 - `docs/DEPENDENCIES.md`: external services and credentials needed
-- `docs/guide/orchestration.md`: current runtime/orchestration guide for the served Lia Graph path
+- `docs/guide/orchestration.md`: high-detail end-to-end map of the live served runtime and artifact-build lane, including per-surface orchestration for `main chat`, `Normativa`, `Interpretación`, and deterministic document windows
+- `docs/guide/chat-response-architecture.md`: primary docs source of truth for how `main chat` answers are shaped, plus the boundary rules that keep `Normativa` and `Interpretación` from drifting back into `main chat` assembly
 
 ## Build V1 Package
 

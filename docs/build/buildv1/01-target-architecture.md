@@ -36,6 +36,12 @@ The ingestion and retrieval architecture must distinguish three layers:
 - `canonical_blessing_state`: review signal over the canonical layer indicating whether documents are ready, require manual review, or are blocked before durable ingestion
 - `reasoning_layer`: graph-parse-ready normative text plus complementary retrieval support drawn from the canonical layer
 
+There is also a separate surface-package lane for deterministic UI assets such as
+interactive form guides. Those packages may live under `knowledge_base/` for
+local runtime convenience, but they are not automatically part of the shared
+graph-admission or blessing counts unless they are explicitly promoted into the
+canonical corpus workflow.
+
 This separation is critical. The audit surface is wider than the parse surface, and the parse surface is wider than the graph surface.
 
 ## Core Components

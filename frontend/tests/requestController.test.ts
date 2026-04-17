@@ -5,6 +5,7 @@ import { postJson } from "@/shared/api/client";
 
 vi.mock("@/shared/api/client", () => ({
   getJson: vi.fn(),
+  getApiAccessToken: vi.fn(() => null),
   postJson: vi.fn(),
 }));
 
@@ -338,6 +339,181 @@ describe("chat request controller", () => {
         pais: "colombia",
       })
     );
+  });
+
+  it("primes normative support before triggering post-answer expert callbacks", async () => {
+    const milestones: string[] = [];
+    const onChatSuccess = vi.fn(() => {
+      milestones.push("experts:start");
+    });
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((input: RequestInfo | URL) => {
+        const url = String(input);
+        if (url === "/api/chat/stream") {
+          return Promise.resolve(
+            createSseResponse([
+              formatSseEvent("meta", {
+                trace_id: "trace_post_answer_1",
+                session_id: "session_post_answer_1",
+                response_route: "decision",
+              }),
+              formatSseEvent("final", {
+                trace_id: "trace_post_answer_1",
+                session_id: "session_post_answer_1",
+                answer_markdown: "Aplica el artículo 147 ET cuando la pérdida esté determinada y soportada.",
+                followup_queries: [],
+                support_citations: [
+                  {
+                    doc_id: "et_art_147",
+                    legal_reference: "Artículo 147 ET",
+                    source_label: "Artículo 147 ET",
+                    usage_context: { cited_in_answer: true },
+                  },
+                ],
+                citations: [],
+                diagnostics: {},
+                llm_runtime: {
+                  model: "gemini-2.5-flash",
+                  selected_type: "gemini",
+                  selected_provider: "gemini_primary",
+                },
+                token_usage: {
+                  turn: { input_tokens: 10, output_tokens: 10, total_tokens: 20 },
+                },
+                metrics: {
+                  llm_runtime: {
+                    model: "gemini-2.5-flash",
+                    selected_type: "gemini",
+                    selected_provider: "gemini_primary",
+                  },
+                  token_usage: {
+                    turn: { input_tokens: 10, output_tokens: 10, total_tokens: 20 },
+                  },
+                  conversation: {
+                    token_usage_total: { input_tokens: 10, output_tokens: 10, total_tokens: 20 },
+                  },
+                },
+              }),
+            ])
+          );
+        }
+        return Promise.resolve(new Response(JSON.stringify({}), { status: 200 }));
+      })
+    );
+
+    const { controller } = createController({
+      renderCitations: () => {
+        milestones.push("normativa:primed");
+      },
+      onChatSuccess,
+    });
+
+    await controller.submitChatTurn({
+      displayUserText: "Consulta con soporte",
+      requestMessage: "Consulta con soporte",
+    });
+
+    expect(milestones).toContain("normativa:primed");
+    expect(milestones).toContain("experts:start");
+    expect(milestones.indexOf("normativa:primed")).toBeLessThan(milestones.indexOf("experts:start"));
+  });
+
+  it("releases the composer as soon as a terminal SSE event arrives even if the socket stays open", async () => {
+    const turnStates: string[] = [];
+    let streamController: ReadableStreamDefaultController<Uint8Array> | null = null;
+    let resolved = false;
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((input: RequestInfo | URL) => {
+        const url = String(input);
+        if (url === "/api/chat/stream") {
+          const stream = new ReadableStream<Uint8Array>({
+            start(controller) {
+              streamController = controller;
+              controller.enqueue(
+                new TextEncoder().encode(
+                  formatSseEvent("meta", {
+                    trace_id: "trace_stream_terminal",
+                    session_id: "session_stream_terminal",
+                    response_route: "decision",
+                  })
+                )
+              );
+              controller.enqueue(
+                new TextEncoder().encode(
+                  formatSseEvent("final", {
+                    trace_id: "trace_stream_terminal",
+                    session_id: "session_stream_terminal",
+                    answer_markdown: "Respuesta final lista.",
+                    followup_queries: [],
+                    citations: [],
+                    diagnostics: {},
+                    llm_runtime: {
+                      model: "gemini-2.5-flash",
+                      selected_type: "gemini",
+                      selected_provider: "gemini_primary",
+                    },
+                    token_usage: {
+                      turn: { input_tokens: 9, output_tokens: 11, total_tokens: 20 },
+                    },
+                    metrics: {
+                      llm_runtime: {
+                        model: "gemini-2.5-flash",
+                        selected_type: "gemini",
+                        selected_provider: "gemini_primary",
+                      },
+                      token_usage: {
+                        turn: { input_tokens: 9, output_tokens: 11, total_tokens: 20 },
+                      },
+                      conversation: {
+                        token_usage_total: { input_tokens: 9, output_tokens: 11, total_tokens: 20 },
+                      },
+                    },
+                  })
+                )
+              );
+            },
+          });
+          return Promise.resolve(
+            new Response(stream, {
+              status: 200,
+              headers: { "Content-Type": "text/event-stream; charset=utf-8" },
+            })
+          );
+        }
+        return Promise.resolve(new Response(JSON.stringify({}), { status: 200 }));
+      })
+    );
+
+    const { controller } = createController({
+      setTurnState: (state) => {
+        turnStates.push(state);
+      },
+      deriveReadyState: () => "ready-empty",
+    });
+
+    const submitPromise = controller.submitChatTurn({
+      displayUserText: "Necesito continuar apenas termine la respuesta.",
+      requestMessage: "Necesito continuar apenas termine la respuesta.",
+    }).then(() => {
+      resolved = true;
+    });
+
+    await new Promise((resolve) => window.setTimeout(resolve, 20));
+    const resolvedBeforeClose = resolved;
+    try {
+      streamController?.close();
+    } catch (_error) {
+      // The fixed path cancels the reader as soon as the terminal event lands.
+    }
+    await submitPromise;
+
+    expect(resolvedBeforeClose).toBe(true);
+    expect(turnStates.at(-1)).toBe("ready-empty");
+    expect(postJson).not.toHaveBeenCalled();
   });
 
   it("does not send a default topic in the initial chat request", async () => {

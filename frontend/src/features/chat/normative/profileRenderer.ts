@@ -292,7 +292,11 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
     });
   }
 
-  function buildNormaOriginalArticle(original, introText = ""): HTMLElement | null {
+  function buildNormaOriginalArticle(
+    original,
+    introText = "",
+    options: { hideInlineSourceLink?: boolean } = {},
+  ): HTMLElement | null {
     if (
       !original ||
       !isRenderableEvidenceStatus(original.evidence_status) ||
@@ -319,7 +323,7 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
     appendQuoteParagraphs(quote, original.quote);
     article.append(title, quote);
     const sourceHref = sanitizeHref(original.source_url || "");
-    if (sourceHref) {
+    if (sourceHref && !options.hideInlineSourceLink) {
       const sourceLink = document.createElement("a");
       sourceLink.className = "norma-inline-source";
       sourceLink.href = sourceHref;
@@ -384,8 +388,20 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
 
     const original = profile?.original_text;
     const useLeadInPrimary = isEtArticleProfile && String(profile?.lead || "").trim().length > 0;
+    const originalSourceHref = sanitizeHref(original?.source_url || "");
+    const topSourceActionHref = sanitizeHref(profile?.source_action?.url || "");
     const originalArticle = original
-      ? buildNormaOriginalArticle(original, useLeadInPrimary ? String(profile?.lead || "").trim() : "")
+      ? buildNormaOriginalArticle(
+          original,
+          useLeadInPrimary ? String(profile?.lead || "").trim() : "",
+          {
+            hideInlineSourceLink: Boolean(
+              originalSourceHref &&
+              topSourceActionHref &&
+              originalSourceHref === topSourceActionHref,
+            ),
+          },
+        )
       : null;
     if (originalArticle) normaPrimaryNode.appendChild(originalArticle);
 

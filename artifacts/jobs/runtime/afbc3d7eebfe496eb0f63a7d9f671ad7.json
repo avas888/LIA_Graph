@@ -1,0 +1,43 @@
+{
+  "job_id": "afbc3d7eebfe496eb0f63a7d9f671ad7",
+  "job_type": "chat_persistence",
+  "status": "completed",
+  "tenant_id": "public_anon",
+  "user_id": "pub_9b059d70fd4caae1",
+  "company_id": "",
+  "request_payload": {
+    "chat_run_id": "cr_20260416_155008_6a25e491",
+    "session_id": "chat_ade0c979089c",
+    "trace_id": "07ea4e0f-944b-4963-992e-0da1327ce10f"
+  },
+  "result_payload": {
+    "session_id": "chat_ade0c979089c",
+    "turn_count": 0,
+    "chat_run_id": "cr_20260416_155008_6a25e491",
+    "warnings": [
+      {
+        "dependency": "conversation_store",
+        "stage": "turn_persistence",
+        "error": "supabase package not installed. Run: uv sync --extra dev",
+        "error_type": "RuntimeError"
+      },
+      {
+        "dependency": "chat_session_metrics",
+        "stage": "session_metrics",
+        "error": "supabase package not installed. Run: uv sync --extra dev",
+        "error_type": "RuntimeError"
+      },
+      {
+        "dependency": "usage_ledger",
+        "stage": "usage_events",
+        "error": "supabase package not installed. Run: uv sync --extra dev",
+        "error_type": "RuntimeError"
+      }
+    ]
+  },
+  "error": "",
+  "attempts": 1,
+  "created_at": "2026-04-16T15:50:20Z",
+  "updated_at": "2026-04-16T15:50:24Z",
+  "completed_at": "2026-04-16T15:50:24Z"
+}

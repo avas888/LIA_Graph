@@ -1,0 +1,302 @@
+{
+  "chat_run_id": "cr_20260416_193801_35919da7",
+  "trace_id": "938beaf3-8a89-4808-9ab7-cad5936e1cd7",
+  "session_id": "chat_27c38795fb19",
+  "client_turn_id": "8eabfdec-ce42-4811-b7b4-24425305dec1",
+  "request_fingerprint": "5ac3ea6323d66bc2d74de2be37b4eb4ea552edcb1c01a50a6df7b8e160b7dea2",
+  "endpoint": "/api/chat/stream",
+  "tenant_id": "public_anon",
+  "user_id": "pub_9b059d70fd4caae1",
+  "company_id": null,
+  "status": "completed",
+  "pipeline_run_id": "pd_f57e2b2d380d4024847a4ff2483ec613",
+  "request_payload": {
+    "message": "existe algun limite anual en los 12 años que tengo para descontarme?",
+    "topic": null,
+    "requested_topic": null,
+    "effective_topic": null,
+    "secondary_topics": [],
+    "topic_adjusted": false,
+    "topic_notice": null,
+    "topic_adjustment_reason": "fallback:no_topic_detected",
+    "pais": "colombia",
+    "primary_scope_mode": "global_overlay",
+    "response_route": "decision",
+    "retrieval_profile": "hybrid_rerank",
+    "response_depth": "auto",
+    "first_response_mode": "fast_action",
+    "pipeline_route": "pipeline_d",
+    "pipeline_variant": "pipeline_d",
+    "shadow_pipeline_variant": "None",
+    "pipeline_route_source": "config_default",
+    "debug": false
+  },
+  "response_payload": {
+    "trace_id": "938beaf3-8a89-4808-9ab7-cad5936e1cd7",
+    "run_id": "pd_f57e2b2d380d4024847a4ff2483ec613",
+    "answer_markdown": "Para pérdidas sujetas al régimen vigente, el límite es temporal: doce períodos gravables siguientes y sin tope porcentual anual (arts. 147 y 290 ET).\n\nSi el saldo viene de años pre-2017, valida primero el régimen congelado del art. 290 ET antes de aplicar la regla de 12 años.\n\n**En concreto**\n1. La regla matriz del art. 147 ET es que la sociedad compensa pérdidas fiscales contra rentas líquidas ordinarias futuras; no las traslada a los socios ni las trata como un saldo a favor.\n2. Si además te preocupa la firmeza, mídela aparte: una cosa es la mecánica de compensación y otra el término de revisión de esa pérdida (arts. 147 y 290 ET).\n3. Haz un inventario de las pérdidas por año de origen, saldo pendiente y renta líquida disponible del período antes de definir cuánto vas a absorber en la declaración (arts. 147 y 290 ET).\n\n**Precauciones**\n- No leas la firmeza con la regla ordinaria de 3 años si la declaración origina o compensa pérdidas: en ese frente el expediente debe pensarse a 6 años (arts. 147 y 290 ET).\n- No cierres la posición solo con la palabra 'compensación': aquí el problema principal es pérdidas fiscales en renta, no devolución o compensación de saldos a favor (arts. 147 y 290 ET).\n\n**Anclaje Legal**\n- Art. 147 — COMPENSACIÓN DE PÉRDIDAS FISCALES DE SOCIEDADES\n- Art. 290 — RÉGIMEN DE TRANSICIÓN — DEPRECIACIÓN DE ACTIVOS",
+    "answer_concise": "Para pérdidas sujetas al régimen vigente, el límite es temporal: doce períodos gravables siguientes y sin tope porcentual anual (arts. 147 y 290 ET).\n\nSi el saldo viene de años pre-2017, valida primero el régimen congelado del art. 290 ET antes de aplicar la regla de 12 años.\n\n**En concreto**\n1. La regla matriz del art. 147 ET es que la sociedad compensa pérdidas fiscales contra rentas líquidas ordinarias futuras; no las traslada a los socios ni las trata como un saldo a favor.\n2. Si además te preocupa la firmeza, mídela aparte: una cosa es la mecánica de compensación y otra el término de revisión de esa pérdida (arts. 147 y 290 ET).\n3. Haz un inventario de las pérdidas por año de origen, saldo pendiente y renta líquida disponible del período antes de definir cuánto vas a absorber en la declaración (arts. 147 y 290 ET).\n\n**Precauciones**\n- No leas la firmeza con la regla ordinaria de 3 años si la declaración origina o compensa pérdidas: en ese frente el expediente debe pensarse a 6 años (arts. 147 y 290 ET).\n- No cierres la posición solo con la palabra 'compensación': aquí el problema principal es pérdidas fiscales en renta, no devolución o compensación de saldos a favor (arts. 147 y 290 ET).\n\n**Anclaje Legal**\n- Art. 147 — COMPENSACIÓN DE PÉRDIDAS FISCALES DE SOCIEDADES\n- Art. 290 — RÉGIMEN DE TRANSICIÓN — DEPRECIACIÓN DE ACTIVOS",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "iva_06_libro1_t1_cap5_deducciones",
+        "logical_doc_id": "iva_06_libro1_t1_cap5_deducciones",
+        "authority": "DIAN / fuente oficial",
+        "topic": "iva",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=iva_06_libro1_t1_cap5_deducciones",
+        "open_url": "/source-view?doc_id=iva_06_libro1_t1_cap5_deducciones",
+        "download_url": "/source-download?doc_id=iva_06_libro1_t1_cap5_deducciones&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=iva_06_libro1_t1_cap5_deducciones&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulo V Deducciones (Arts. 121 177 2)",
+        "legal_reference": "Capítulo V Deducciones (Arts. 121 177 2)",
+        "search_query": "Capítulo V Deducciones (Arts. 121 177 2) DIAN / fuente oficial colombia Capítulo V Deducciones (Arts. 121 177 2)",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 121",
+          "locator_kind": "articles",
+          "locator_start": "121",
+          "locator_end": null
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      },
+      {
+        "doc_id": "iva_dep_n01_depreciacion_fiscal_arts_137_140_et",
+        "logical_doc_id": "iva_dep_n01_depreciacion_fiscal_arts_137_140_et",
+        "authority": "DIAN / fuente oficial",
+        "topic": "iva",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=iva_dep_n01_depreciacion_fiscal_arts_137_140_et",
+        "open_url": "/source-view?doc_id=iva_dep_n01_depreciacion_fiscal_arts_137_140_et",
+        "download_url": "/source-download?doc_id=iva_dep_n01_depreciacion_fiscal_arts_137_140_et&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=iva_dep_n01_depreciacion_fiscal_arts_137_140_et&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DEP N01 — Depreciación Fiscal: Artículos 137, 140 y Régimen de Transición",
+        "legal_reference": "DEP N01 — Depreciación Fiscal: Artículos 137, 140 y Régimen de Transición",
+        "search_query": "DEP N01 — Depreciación Fiscal: Artículos 137, 140 y Régimen de Transición DIAN / fuente oficial colombia DEP N01 — Depreciación Fiscal: Artículos 137, 140 y Régimen de Transición",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 137",
+          "locator_kind": "articles",
+          "locator_start": "137",
+          "locator_end": null
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Artículo modificado por el artículo 24 de la Ley 788 de 2002. El nuevo texto es el siguiente:* <Inciso modificado por el artículo 88 de la Ley 1819 de 2016. El nuevo texto es el siguiente:> Las sociedades podrán comp...",
+      "Para los bienes depreciables cuyo saldo de depreciación pendiente al 31 de diciembre de 2016 no hubiere sido agotado, este se continuará depreciando durante la vida útil restante del bien, en conformidad con lo previs..."
+    ],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 12,
+        "output_tokens": 238,
+        "total_tokens": 250,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": null,
+    "secondary_topics": [],
+    "topic_adjusted": false,
+    "topic_notice": null,
+    "topic_adjustment_reason": "fallback:no_topic_detected",
+    "coverage_notice": null,
+    "topic": null,
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1776367672,
+      "expires_at": 1776371272,
+      "token_id": "10b7e53226ce4d9b9e5321812c86f386"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat/stream",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_27c38795fb19",
+      "turn_count": 2,
+      "token_usage_total": {
+        "input_tokens": 57,
+        "output_tokens": 539,
+        "total_tokens": 596
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "938beaf3-8a89-4808-9ab7-cad5936e1cd7",
+      "last_run_id": "pd_f57e2b2d380d4024847a4ff2483ec613",
+      "updated_at": "2026-04-16T19:37:37+00:00",
+      "pending": true
+    },
+    "session_id": "chat_27c38795fb19",
+    "chat_run_id": "cr_20260416_193801_35919da7",
+    "metrics": {
+      "latency_ms": 43.88,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 12,
+          "output_tokens": 238,
+          "total_tokens": 250,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_27c38795fb19",
+        "turn_count": 2,
+        "token_usage_total": {
+          "input_tokens": 57,
+          "output_tokens": 539,
+          "total_tokens": 596
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "938beaf3-8a89-4808-9ab7-cad5936e1cd7",
+        "last_run_id": "pd_f57e2b2d380d4024847a4ff2483ec613",
+        "updated_at": "2026-04-16T19:37:37+00:00",
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 2.6
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": null,
+        "secondary_topics": [],
+        "topic_adjusted": false
+      }
+    },
+    "persistence_job_id": "16af8436d2824baf93fe69b7c96c4786"
+  },
+  "error_payload": {},
+  "request_received_at": "2026-04-16T19:38:01Z",
+  "pipeline_started_at": "2026-04-16T19:38:01Z",
+  "first_model_delta_at": "2026-04-16T19:38:01Z",
+  "first_visible_answer_at": "2026-04-16T19:38:01Z",
+  "pipeline_completed_at": "2026-04-16T19:38:01Z",
+  "final_payload_ready_at": "2026-04-16T19:38:01Z",
+  "response_sent_at": "2026-04-16T19:38:01Z",
+  "async_persistence_done_at": "2026-04-16T19:38:01Z",
+  "completed_at": "2026-04-16T19:38:01Z",
+  "created_at": "2026-04-16T19:38:01Z",
+  "updated_at": "2026-04-16T19:38:01Z"
+}

@@ -16,9 +16,10 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 from uuid import uuid4
 
+from .chat_response_modes import ALLOWED_FIRST_RESPONSE_MODES, ALLOWED_RESPONSE_DEPTHS
 from .contracts import (
     ALLOWED_CLIENT_MODES,
     ALLOWED_FOLLOWUP_ACTIONS,
@@ -380,9 +381,9 @@ _DEFAULT_API_CHAT_TIMEOUT_SECONDS = 25.0
 _ALLOWED_STRICT_SCOPE = {"renta_only", "default"}
 _ALLOWED_INTERACTION_MODE = {"auto", "narrowing", "direct"}
 _ALLOWED_REASONING_PROFILE = {"balanced", "deep"}
-_ALLOWED_RESPONSE_DEPTH = {"auto", "concise", "deep"}
+_ALLOWED_RESPONSE_DEPTH = set(ALLOWED_RESPONSE_DEPTHS)
 _ALLOWED_INTENT_HINT = {"procedimiento", "calculo", "ambas"}
-_ALLOWED_FIRST_RESPONSE_MODE = {"fast_action", "balanced_action"}
+_ALLOWED_FIRST_RESPONSE_MODE = set(ALLOWED_FIRST_RESPONSE_MODES)
 _ALLOWED_LAYER_CASCADE_MODE = {"auto", "practica_first", "all_layers", "normativa_only", "practica_first_deferred_normative"}
 _ALLOWED_RESPONSE_SECTION_MODE = {"auto", "custom"}
 _ALLOWED_ENABLE_EMBEDDINGS = {"off", "on"}
@@ -500,6 +501,7 @@ def _start_reload_watcher(
 # --- eager imports: names used in handler deps dicts (48 names) ---
 from .ui_citation_profile_builders import (  # noqa: E402
     _collect_citation_profile_context, _collect_citation_profile_context_by_reference_key,
+    _build_fallback_citation_profile_payload,
     _apply_citation_profile_request_context, _should_skip_citation_profile_llm,
     _llm_citation_profile_payload, _build_citation_profile_lead, _build_citation_profile_facts,
     _build_citation_profile_sections, _render_citation_profile_payload, _build_structured_vigencia_detail,
@@ -616,6 +618,7 @@ def _analysis_controller_deps() -> dict[str, Any]:
     return {
         "as_public_error": as_public_error,
         "axis_labels": {},
+        "build_extractive_interpretation_summary": _build_extractive_interpretation_summary,
         "build_decision_frame": build_decision_frame,
         "build_interpretation_candidate": build_interpretation_candidate,
         "build_interpretation_query_seed": _build_interpretation_query_seed,
@@ -732,6 +735,13 @@ def _chat_controller_deps() -> dict[str, Any]:
 
 class LiaUIHandler(BaseHTTPRequestHandler):
     server_version = "LIAUI/0.1"
+
+    _UI_MILESTONE_EVENT_TYPES = {
+        "main_chat_displayed": "chat_run.ui.main_chat_displayed",
+        "response_bubble_highlighted": "chat_run.ui.response_bubble_highlighted",
+        "normative_displayed": "chat_run.ui.normative_displayed",
+        "expert_panel_displayed": "chat_run.ui.expert_panel_displayed",
+    }
 
     def _request_origin(self) -> str | None:
         origin = str(self.headers.get("Origin", "")).strip()
@@ -904,6 +914,194 @@ class LiaUIHandler(BaseHTTPRequestHandler):
     def _build_memory_summary(self, session: Any) -> str:
         return build_memory_summary(session)
 
+    def _handle_chat_frontend_compat_get(self, path: str, parsed: Any) -> bool:
+        if path == "/api/llm/status":
+            self._send_json(
+                HTTPStatus.OK,
+                {
+                    "ok": True,
+                    "llm_runtime": {
+                        "selected_provider": None,
+                        "selected_type": None,
+                        "selected_transport": None,
+                        "adapter_class": None,
+                        "model": None,
+                        "runtime_config_path": None,
+                        "attempts": [],
+                    },
+                },
+            )
+            return True
+
+        if path == "/api/feedback":
+            trace_id = str(parse_qs(parsed.query or "").get("trace_id", [""])[0] or "").strip()
+            feedback_record = (
+                load_feedback(trace_id, base_dir=FEEDBACK_PATH) if trace_id else None
+            )
+            payload = {
+                "ok": True,
+                "feedback": (
+                    {
+                        "trace_id": feedback_record.trace_id,
+                        "rating": feedback_record.rating,
+                        "vote": feedback_record.vote,
+                        "comment": feedback_record.comment,
+                    }
+                    if feedback_record is not None
+                    else None
+                ),
+            }
+            self._send_json(HTTPStatus.OK, payload)
+            return True
+
+        return False
+
+    def _handle_chat_frontend_compat_post(self, path: str) -> bool:
+        milestone_match = _CHAT_RUN_MILESTONES_ROUTE_RE.match(path)
+        if milestone_match:
+            payload = self._read_json_payload(object_error="Se requiere un objeto JSON.")
+            if payload is None:
+                return True
+            chat_run_id = str(milestone_match.group(1) or "").strip()
+            milestone = str(payload.get("milestone") or "").strip()
+            if not chat_run_id or not milestone:
+                self._send_json(
+                    HTTPStatus.BAD_REQUEST,
+                    {"ok": False, "error": "chat_run_id y milestone son obligatorios."},
+                )
+                return True
+
+            elapsed_raw = payload.get("elapsed_ms")
+            elapsed_ms = None
+            if isinstance(elapsed_raw, (int, float)):
+                elapsed_ms = round(float(elapsed_raw), 2)
+            details = payload.get("details")
+            event_payload = {
+                "milestone": milestone,
+                "elapsed_ms": elapsed_ms,
+                "source": str(payload.get("source") or "").strip() or None,
+                "status": str(payload.get("status") or "").strip() or "ok",
+                "details": dict(details) if isinstance(details, dict) else {},
+            }
+            event_type = self._UI_MILESTONE_EVENT_TYPES.get(
+                milestone,
+                f"chat_run.ui.{re.sub(r'[^a-z0-9_]+', '_', milestone.lower()).strip('_') or 'unknown'}",
+            )
+            recorded = record_chat_run_event_once(
+                chat_run_id,
+                event_type=event_type,
+                payload=event_payload,
+                base_dir=CHAT_RUNS_PATH,
+            )
+            self._send_json(
+                HTTPStatus.OK,
+                {"ok": True, "chat_run_id": chat_run_id, "recorded": bool(recorded)},
+            )
+            return True
+
+        if path == "/api/feedback":
+            payload = self._read_json_payload(object_error="Se requiere un objeto JSON.")
+            if payload is None:
+                return True
+            trace_id = str(payload.get("trace_id") or "").strip()
+            rating = self._resolve_feedback_rating(payload)
+            if not trace_id or rating is None:
+                self._send_json(
+                    HTTPStatus.BAD_REQUEST,
+                    {"ok": False, "error": "trace_id y rating valido son obligatorios."},
+                )
+                return True
+
+            auth_context = self._resolve_auth_context(required=False, allow_public=True)
+            docs_used = payload.get("docs_used")
+            layer_contributions = payload.get("layer_contributions")
+            record = FeedbackRecord(
+                trace_id=trace_id,
+                session_id=str(payload.get("session_id") or "").strip() or None,
+                rating=rating,
+                tenant_id=getattr(auth_context, "tenant_id", "") or "",
+                user_id=getattr(auth_context, "user_id", "") or "",
+                company_id=getattr(auth_context, "company_id", "") or "",
+                integration_id=getattr(auth_context, "integration_id", "") or "",
+                tags=[
+                    str(tag).strip()
+                    for tag in (payload.get("tags") or [])
+                    if str(tag).strip()
+                ],
+                comment=str(payload.get("comment") or "").strip(),
+                vote=str(payload.get("vote") or payload.get("thumb") or "").strip().lower(),
+                source="api",
+                created_by=getattr(auth_context, "user_id", "") or "",
+                docs_used=[
+                    str(item).strip()
+                    for item in (docs_used or [])
+                    if str(item).strip()
+                ]
+                if isinstance(docs_used, list)
+                else [],
+                layer_contributions=(
+                    {str(key): int(value) for key, value in layer_contributions.items()}
+                    if isinstance(layer_contributions, dict)
+                    else {}
+                ),
+                pain_detected=str(payload.get("pain_detected") or "").strip(),
+                task_detected=str(payload.get("task_detected") or "").strip(),
+                question_text=str(payload.get("question_text") or "").strip(),
+                answer_text=str(payload.get("answer_text") or "").strip(),
+            )
+            save_feedback(record, base_dir=FEEDBACK_PATH)
+            self._send_json(
+                HTTPStatus.OK,
+                {
+                    "ok": True,
+                    "feedback": {
+                        "trace_id": record.trace_id,
+                        "rating": record.rating,
+                        "vote": record.vote,
+                        "comment": record.comment,
+                    },
+                },
+            )
+            return True
+
+        if path == "/api/feedback/comment":
+            payload = self._read_json_payload(object_error="Se requiere un objeto JSON.")
+            if payload is None:
+                return True
+            trace_id = str(payload.get("trace_id") or "").strip()
+            comment = str(payload.get("comment") or "").strip()
+            if not trace_id or not comment:
+                self._send_json(
+                    HTTPStatus.BAD_REQUEST,
+                    {"ok": False, "error": "trace_id y comment son obligatorios."},
+                )
+                return True
+            auth_context = self._resolve_auth_context(required=False, allow_public=True)
+            updated = update_feedback_comment(
+                trace_id,
+                comment,
+                tenant_id=getattr(auth_context, "tenant_id", "") or PUBLIC_TENANT_ID,
+                base_dir=FEEDBACK_PATH,
+            )
+            self._send_json(HTTPStatus.OK, {"ok": bool(updated)})
+            return True
+
+        if path == "/api/normative-support":
+            payload = self._read_json_payload(object_error="Se requiere un objeto JSON.")
+            if payload is None:
+                return True
+            self._send_json(
+                HTTPStatus.OK,
+                {
+                    "ok": True,
+                    "trace_id": str(payload.get("trace_id") or "").strip() or None,
+                    "normative_citations": [],
+                },
+            )
+            return True
+
+        return False
+
     def _initialize_chat_request_context(
         self,
         *,
@@ -1042,11 +1240,12 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "text/event-stream; charset=utf-8")
         self.send_header("Cache-Control", "no-cache")
-        self.send_header("Connection", "keep-alive")
+        self.send_header("Connection", "close")
         self.send_header("X-Accel-Buffering", "no")
         for key, value in self._cors_headers().items():
             self.send_header(key, value)
         self.end_headers()
+        self.close_connection = True
         self._log_api_response(status=status, content_type="text/event-stream; charset=utf-8")
 
     def _write_sse_event(
@@ -1414,6 +1613,9 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             self._serve_public_page()
             return
 
+        if self._handle_chat_frontend_compat_get(path, parsed):
+            return
+
         if self._resolve_ui_asset_path(path) is not None:
             self._serve_ui_asset(path)
             return
@@ -1518,6 +1720,7 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         return handle_citation_get(self, path, parsed, deps={
             "collect_citation_profile_context": _collect_citation_profile_context,
             "collect_citation_profile_context_by_reference_key": _collect_citation_profile_context_by_reference_key,
+            "build_fallback_citation_profile_payload": _build_fallback_citation_profile_payload,
             "apply_citation_profile_request_context": _apply_citation_profile_request_context,
             "should_skip_citation_profile_llm": _should_skip_citation_profile_llm,
             "llm_citation_profile_payload": _llm_citation_profile_payload,
@@ -1733,6 +1936,9 @@ class LiaUIHandler(BaseHTTPRequestHandler):
 
         if path == "/api/chat":
             handle_api_chat_post(self, deps=_chat_controller_deps())
+            return
+
+        if self._handle_chat_frontend_compat_post(path):
             return
 
         write_deps = _write_controller_deps()

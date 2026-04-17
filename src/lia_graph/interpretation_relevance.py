@@ -1,20 +1,31 @@
 from __future__ import annotations
 
-from typing import Any
+"""Compatibility facade for Interpretación ranking helpers.
 
+The authoritative implementation now lives in `src/lia_graph/interpretacion/`.
+Legacy imports keep working through this thin shim so older controller and
+dependency wiring can stay stable while the dedicated surface package owns the
+real logic.
+"""
 
-def build_decision_frame(*args: Any, **kwargs: Any) -> dict[str, Any]:
-    return {}
+from .interpretacion.synthesis_helpers import (
+    DecisionFrame,
+    InterpretationCandidate,
+    RankedInterpretation,
+    RankedSelection,
+    build_decision_frame,
+    build_interpretation_candidate,
+    select_interpretation_candidates,
+    serialize_ranked_interpretation,
+)
 
-
-def build_interpretation_candidate(*args: Any, **kwargs: Any) -> dict[str, Any]:
-    return {}
-
-
-def select_interpretation_candidates(*args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-    return []
-
-
-def serialize_ranked_interpretation(*args: Any, **kwargs: Any) -> dict[str, Any]:
-    return {}
-
+__all__ = [
+    "DecisionFrame",
+    "InterpretationCandidate",
+    "RankedInterpretation",
+    "RankedSelection",
+    "build_decision_frame",
+    "build_interpretation_candidate",
+    "select_interpretation_candidates",
+    "serialize_ranked_interpretation",
+]

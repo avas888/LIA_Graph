@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 import re
 import unicodedata
 
 from ..pipeline_c.contracts import PipelineCRequest
+from .planner import _looks_like_loss_compensation_case, _looks_like_tax_planning_case
 from .contracts import GraphEvidenceItem, GraphSupportDocument
 
 _WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
@@ -20,7 +22,8 @@ _SUPPORT_PROCEDURE_MARKERS = (
     "compila",
     "prepara",
     "obtiene",
-    "carga",
+    "cargue",
+    "cargar",
     "adjunta",
     "responde",
     "seguimiento",
@@ -79,6 +82,66 @@ _SUPPORT_PRECAUTION_MARKERS = (
     "vence",
     "vencimiento",
 )
+_SUPPORT_STRATEGY_MARKERS = (
+    "rst",
+    "ordinario",
+    "perdidas fiscales",
+    "beneficio de auditoria",
+    "factura electronica",
+    "primer empleo",
+    "discapacidad",
+    "mujeres victimas",
+    "donacion",
+    "donaciones",
+    "timing",
+    "timing de ingresos",
+    "timing de gastos",
+    "leasing",
+    "dividendos",
+    "remuneracion",
+    "nomina",
+    "aportes voluntarios",
+    "energia renovable",
+    "energias renovables",
+    "ctei",
+    "planeacion debe hacerse antes del cierre",
+)
+_SUPPORT_JURISPRUDENCE_MARKERS = (
+    "economia de opcion",
+    "economia de opcion",
+    "abuso en materia tributaria",
+    "simulacion",
+    "elusion",
+    "evasion",
+    "proposito comercial",
+    "proposito economico",
+    "actos o negocios juridicos artificiosos",
+    "artificiosos",
+    "recaracterizar",
+    "reconfigurar",
+    "beneficio fiscal",
+    "riesgos economicos",
+    "requerimiento especial",
+    "sentencia",
+    "consejo de estado",
+    "corte suprema",
+    "corte constitucional",
+)
+_SUPPORT_CHECKLIST_MARKERS = (
+    "proyeccion de cierre",
+    "proyectar ingresos",
+    "proyectar costos",
+    "inventariar perdidas",
+    "simular",
+    "verificar",
+    "formalice",
+    "documente",
+    "deje constancia",
+    "papeles de trabajo",
+    "certificacion",
+    "certificaciones",
+    "soportes",
+)
 _SUPPORT_DEADLINE_MARKERS = (
     "dia",
     "dias",
@@ -110,12 +173,15 @@ _SUPPORT_LINE_DROP_PREFIXES = (
     "fuentes directas:",
     "fuentes secundarias:",
     "cross-references:",
+    "escenario real:",
+    "caso real:",
 )
 _SUPPORT_LINE_DROP_CONTAINS = (
     "consultado:",
     "disponible en:",
     "verificado contra:",
     "normograma",
+    "loggro",
     "http://",
     "https://",
     "www.",
@@ -169,6 +235,50 @@ _QUERY_TOKEN_STOPWORDS = frozenset(
         "impuestos",
     }
 )
+_TRUNCATION_MARKERS = ("...", "…", "[truncated]")
+_SUPPORT_DOC_BUCKET_LIMITS = {
+    "procedure": 6,
+    "paperwork": 4,
+    "context": 3,
+    "precaution": 4,
+    "strategy": 6,
+    "jurisprudence": 5,
+    "checklist": 5,
+}
+_ARTICLE_BUCKET_LIMITS = {
+    "procedure": 4,
+    "paperwork": 3,
+    "context": 4,
+    "precaution": 3,
+    "jurisprudence": 4,
+}
+
+
+@dataclass(frozen=True)
+class _InsightExtractionContext:
+    normalized_message: str
+    query_tokens: tuple[str, ...]
+    is_tax_planning_case: bool
+    is_loss_compensation_case: bool
+    query_mentions_rst: bool
+
+
+@dataclass(frozen=True)
+class _InsightLineSignals:
+    has_procedure_marker: bool
+    has_paperwork_marker: bool
+    has_context_marker: bool
+    has_precaution_marker: bool
+    has_strategy_marker: bool
+    has_jurisprudence_marker: bool
+    has_checklist_marker: bool
+    has_deadline_marker: bool
+
+
+@dataclass(frozen=True)
+class _InsightCandidate:
+    line: str
+    bucket_scores: tuple[tuple[str, float], ...]
 
 
 def extract_support_doc_insights(
@@ -176,41 +286,15 @@ def extract_support_doc_insights(
     request: PipelineCRequest,
     support_documents: tuple[GraphSupportDocument, ...],
 ) -> dict[str, tuple[str, ...]]:
-    ranked: dict[str, list[tuple[float, str]]] = {
-        "procedure": [],
-        "paperwork": [],
-        "context": [],
-        "precaution": [],
-    }
-    query_tokens = _query_tokens(request.message)
-    for doc in support_documents:
-        if str(doc.family or "") not in {"practica", "interpretacion"}:
-            continue
-        text = _load_support_doc_text(doc)
-        if not text:
-            continue
-        family_bonus = 0.6 if str(doc.family or "") == "practica" else 0.35
-        for line in _support_doc_candidate_lines(text):
-            normalized = _normalize_text(line)
-            if not normalized:
-                continue
-            score = _support_line_score(normalized, query_tokens, family_bonus=family_bonus)
-            if score < 2.2:
-                continue
-            if _line_matches_any(normalized, _SUPPORT_PROCEDURE_MARKERS):
-                _append_scored_line(ranked["procedure"], line, score + 0.6)
-            if _line_matches_any(normalized, _SUPPORT_PAPERWORK_MARKERS):
-                _append_scored_line(ranked["paperwork"], line, score + 0.8)
-            if _line_matches_any(normalized, _SUPPORT_CONTEXT_MARKERS):
-                _append_scored_line(ranked["context"], line, score + 0.4)
-            if _line_matches_any(normalized, _SUPPORT_PRECAUTION_MARKERS):
-                _append_scored_line(ranked["precaution"], line, score + 0.5)
-    return {
-        "procedure": _top_ranked_lines(ranked["procedure"], limit=4),
-        "paperwork": _top_ranked_lines(ranked["paperwork"], limit=4),
-        "context": _top_ranked_lines(ranked["context"], limit=3),
-        "precaution": _top_ranked_lines(ranked["precaution"], limit=3),
-    }
+    context = _build_insight_extraction_context(request)
+    candidates = _collect_support_doc_insight_candidates(
+        context=context,
+        support_documents=support_documents,
+    )
+    return _project_ranked_insight_buckets(
+        candidates,
+        bucket_limits=_support_doc_bucket_limits(context),
+    )
 
 
 def extract_article_insights(
@@ -220,56 +304,30 @@ def extract_article_insights(
     primary_articles: tuple[GraphEvidenceItem, ...],
     connected_articles: tuple[GraphEvidenceItem, ...],
 ) -> dict[str, tuple[str, ...]]:
-    ranked: dict[str, list[tuple[float, str]]] = {
-        "procedure": [],
-        "paperwork": [],
-        "context": [],
-        "precaution": [],
-    }
-    query_tokens = _query_tokens(request.message)
-    for item in (*primary_articles, *connected_articles[:2]):
-        cleaned_excerpt = _clean_evidence_excerpt_for_answer(
-            item.excerpt,
-            temporal_context=temporal_context,
-        )
-        if not cleaned_excerpt:
-            continue
-        for line in _evidence_candidate_lines(cleaned_excerpt):
-            normalized = _normalize_text(line)
-            score = _evidence_line_score(
-                normalized_line=normalized,
-                query_tokens=query_tokens,
-                hop_distance=item.hop_distance,
-            )
-            if score < 2.0:
-                continue
-            if _line_matches_any(normalized, _SUPPORT_PROCEDURE_MARKERS) or _line_matches_any(
-                normalized, _SUPPORT_DEADLINE_MARKERS
-            ):
-                _append_scored_line(ranked["procedure"], line, score + 0.5)
-            if _line_matches_any(normalized, _SUPPORT_PAPERWORK_MARKERS):
-                _append_scored_line(ranked["paperwork"], line, score + 0.3)
-            if _line_matches_any(normalized, _SUPPORT_CONTEXT_MARKERS) or _line_matches_any(
-                normalized, _SUPPORT_DEADLINE_MARKERS
-            ):
-                _append_scored_line(ranked["context"], line, score + 0.4)
-            if _line_matches_any(normalized, _SUPPORT_PRECAUTION_MARKERS):
-                _append_scored_line(ranked["precaution"], line, score + 0.4)
-    return {
-        "procedure": _top_ranked_lines(ranked["procedure"], limit=3),
-        "paperwork": _top_ranked_lines(ranked["paperwork"], limit=2),
-        "context": _top_ranked_lines(ranked["context"], limit=4),
-        "precaution": _top_ranked_lines(ranked["precaution"], limit=2),
-    }
+    context = _build_insight_extraction_context(request)
+    candidates = _collect_article_insight_candidates(
+        context=context,
+        temporal_context=temporal_context,
+        primary_articles=primary_articles,
+        connected_articles=connected_articles,
+    )
+    return _project_ranked_insight_buckets(
+        candidates,
+        bucket_limits=_article_bucket_limits(context),
+    )
 
 
 def clean_support_line_for_answer(value: str) -> str:
     line = re.sub(r"\s+", " ", str(value or "")).strip(" -")
     if not line:
         return ""
+    if "→" in line or "➜" in line:
+        return ""
+    if _looks_truncated_line(line):
+        return ""
     line = re.sub(r"https?://\S+", "", line)
     line = re.sub(
-        r"^(?:Actual[íi]cese|Gerencie\.com|Gerencie|[ÁA]mbito Jur[ií]dico|DIAN)\s*:\s*",
+        r"^(?:Actual[íi]cese|Gerencie\.com|Gerencie|[ÁA]mbito Jur[ií]dico|DIAN)\s*(?::|[-—])\s*",
         "",
         line,
         flags=re.IGNORECASE,
@@ -278,14 +336,277 @@ def clean_support_line_for_answer(value: str) -> str:
     line = re.sub(r"^\d+\.\s*", "", line)
     line = re.sub(r"^\d+\s+", "", line)
     line = re.sub(r"^(?:acci[oó]n|paso)\s*:\s*", "", line, flags=re.IGNORECASE)
+    line = re.sub(r"^\[[^\]]+\]\s*", "", line)
+    line = re.sub(r"^\[paso\s*\d+\]\s*", "", line, flags=re.IGNORECASE)
+    line = re.sub(r"^(?:estrategia|paso|convergencia|fase)\s*\d*\s*[—:-]\s*", "", line, flags=re.IGNORECASE)
+    line = re.sub(r"^divergencia\s*[a-z0-9-]*\s*[—:-]\s*", "", line, flags=re.IGNORECASE)
+    line = re.sub(r"^[→➜]+\s*", "", line)
     line = re.sub(r"^\[\s*\]\s*", "", line)
     line = line.strip(" -:")
     normalized = _normalize_text(line)
+    if normalized.startswith(("escenario real", "caso real")):
+        return ""
     if not line or any(token in normalized for token in _SUPPORT_LINE_DROP_CONTAINS):
+        return ""
+    if re.match(r'^[\"“].+[\"”]\s*\([^)]*\d{4}[^)]*\)\.?$', line):
+        return ""
+    if _looks_like_heading_line(line):
         return ""
     if line and line[-1] not in ".!?":
         line += "."
     return line
+
+
+def _build_insight_extraction_context(request: PipelineCRequest) -> _InsightExtractionContext:
+    normalized_message = _normalize_text(request.message)
+    return _InsightExtractionContext(
+        normalized_message=normalized_message,
+        query_tokens=_query_tokens(request.message),
+        is_tax_planning_case=_looks_like_tax_planning_case(normalized_message),
+        is_loss_compensation_case=_looks_like_loss_compensation_case(normalized_message),
+        query_mentions_rst=any(
+            marker in normalized_message
+            for marker in (
+                "rst",
+                "regimen simple",
+                "regimen simple de tributacion",
+            )
+        ),
+    )
+
+
+def _support_doc_bucket_limits(context: _InsightExtractionContext) -> dict[str, int]:
+    _ = context
+    return dict(_SUPPORT_DOC_BUCKET_LIMITS)
+
+
+def _article_bucket_limits(context: _InsightExtractionContext) -> dict[str, int]:
+    _ = context
+    return dict(_ARTICLE_BUCKET_LIMITS)
+
+
+def _collect_support_doc_insight_candidates(
+    *,
+    context: _InsightExtractionContext,
+    support_documents: tuple[GraphSupportDocument, ...],
+) -> list[_InsightCandidate]:
+    candidates: list[_InsightCandidate] = []
+    for doc in support_documents:
+        if str(doc.family or "") not in {"practica", "interpretacion"}:
+            continue
+        text = _load_support_doc_text(doc)
+        if not text:
+            continue
+        family_bonus = 0.6 if str(doc.family or "") == "practica" else 0.35
+        is_tax_planning_doc = _is_tax_planning_support_doc(doc)
+        if is_tax_planning_doc and not (context.is_tax_planning_case or context.query_mentions_rst):
+            continue
+        candidate_lines = list(_support_doc_candidate_lines(text))
+        if context.is_tax_planning_case and is_tax_planning_doc:
+            candidate_lines.extend(_support_doc_table_row_candidates(text))
+        for line in candidate_lines:
+            candidate = _build_support_doc_insight_candidate(
+                context=context,
+                line=line,
+                family_bonus=family_bonus,
+                is_tax_planning_doc=is_tax_planning_doc,
+            )
+            if candidate is not None:
+                candidates.append(candidate)
+    return candidates
+
+
+def _build_support_doc_insight_candidate(
+    *,
+    context: _InsightExtractionContext,
+    line: str,
+    family_bonus: float,
+    is_tax_planning_doc: bool,
+) -> _InsightCandidate | None:
+    normalized_line = _normalize_text(line)
+    if not normalized_line:
+        return None
+    query_overlap = _query_overlap_count(normalized_line, context.query_tokens)
+    signals = _detect_line_signals(normalized_line)
+    planning_relevant_line = (
+        context.is_tax_planning_case
+        and is_tax_planning_doc
+        and (
+            signals.has_strategy_marker
+            or signals.has_jurisprudence_marker
+            or signals.has_checklist_marker
+        )
+    )
+    loss_compensation_relevant_line = (
+        context.is_loss_compensation_case
+        and any(
+            marker in normalized_line
+            for marker in (
+                "perdida fiscal",
+                "perdidas fiscales",
+                "compensacion",
+                "renta liquida",
+                "firmeza",
+                "termino de revision",
+            )
+        )
+    )
+    if query_overlap == 0 and not planning_relevant_line:
+        return None
+    if context.is_loss_compensation_case and not loss_compensation_relevant_line:
+        return None
+    score = _support_line_score(
+        normalized_line,
+        context.query_tokens,
+        family_bonus=family_bonus,
+    )
+    if planning_relevant_line:
+        score += 1.2
+    if score < (1.8 if planning_relevant_line else 2.2):
+        return None
+    bucket_scores = _support_doc_bucket_scores(
+        context=context,
+        signals=signals,
+        score=score,
+    )
+    if not bucket_scores:
+        return None
+    return _InsightCandidate(
+        line=line,
+        bucket_scores=bucket_scores,
+    )
+
+
+def _support_doc_bucket_scores(
+    *,
+    context: _InsightExtractionContext,
+    signals: _InsightLineSignals,
+    score: float,
+) -> tuple[tuple[str, float], ...]:
+    bucket_scores: list[tuple[str, float]] = []
+    if signals.has_procedure_marker:
+        bucket_scores.append(("procedure", score + 0.6))
+    if signals.has_paperwork_marker:
+        bucket_scores.append(("paperwork", score + 0.8))
+    if signals.has_context_marker:
+        bucket_scores.append(("context", score + 0.4))
+    if signals.has_precaution_marker:
+        bucket_scores.append(("precaution", score + 0.5))
+    if context.is_tax_planning_case and signals.has_strategy_marker:
+        bucket_scores.append(("strategy", score + 1.2))
+    if context.is_tax_planning_case and signals.has_jurisprudence_marker:
+        bucket_scores.append(("jurisprudence", score + 1.1))
+    if context.is_tax_planning_case and signals.has_checklist_marker:
+        bucket_scores.append(("checklist", score + 1.0))
+    return tuple(bucket_scores)
+
+
+def _collect_article_insight_candidates(
+    *,
+    context: _InsightExtractionContext,
+    temporal_context: dict[str, object],
+    primary_articles: tuple[GraphEvidenceItem, ...],
+    connected_articles: tuple[GraphEvidenceItem, ...],
+) -> list[_InsightCandidate]:
+    candidates: list[_InsightCandidate] = []
+    for item in (*primary_articles, *connected_articles[:2]):
+        cleaned_excerpt = _clean_evidence_excerpt_for_answer(
+            item.excerpt,
+            temporal_context=temporal_context,
+        )
+        if not cleaned_excerpt:
+            continue
+        for line in _evidence_candidate_lines(cleaned_excerpt):
+            candidate = _build_article_insight_candidate(
+                context=context,
+                line=line,
+                hop_distance=item.hop_distance,
+            )
+            if candidate is not None:
+                candidates.append(candidate)
+    return candidates
+
+
+def _build_article_insight_candidate(
+    *,
+    context: _InsightExtractionContext,
+    line: str,
+    hop_distance: int,
+) -> _InsightCandidate | None:
+    normalized_line = _normalize_text(line)
+    if not normalized_line:
+        return None
+    query_overlap = _query_overlap_count(normalized_line, context.query_tokens)
+    signals = _detect_line_signals(normalized_line)
+    score = _evidence_line_score(
+        normalized_line=normalized_line,
+        query_tokens=context.query_tokens,
+        hop_distance=hop_distance,
+    )
+    if score < 2.0:
+        return None
+    bucket_scores = _article_bucket_scores(
+        context=context,
+        signals=signals,
+        query_overlap=query_overlap,
+        normalized_line=normalized_line,
+        score=score,
+    )
+    if not bucket_scores:
+        return None
+    return _InsightCandidate(
+        line=line,
+        bucket_scores=bucket_scores,
+    )
+
+
+def _article_bucket_scores(
+    *,
+    context: _InsightExtractionContext,
+    signals: _InsightLineSignals,
+    query_overlap: int,
+    normalized_line: str,
+    score: float,
+) -> tuple[tuple[str, float], ...]:
+    bucket_scores: list[tuple[str, float]] = []
+    if signals.has_procedure_marker and query_overlap > 0:
+        bucket_scores.append(("procedure", score + 0.5))
+    if signals.has_paperwork_marker and query_overlap > 0:
+        bucket_scores.append(("paperwork", score + 0.3))
+    if query_overlap > 0 and (signals.has_context_marker or signals.has_deadline_marker):
+        bucket_scores.append(("context", score + 0.4))
+    if signals.has_precaution_marker and query_overlap > 0:
+        bucket_scores.append(("precaution", score + 0.4))
+    if (
+        context.is_tax_planning_case
+        and (
+            signals.has_jurisprudence_marker
+            or "proposito economico" in normalized_line
+            or "proposito comercial" in normalized_line
+            or "beneficio fiscal" in normalized_line
+        )
+    ):
+        bucket_scores.append(("jurisprudence", score + 0.8))
+    return tuple(bucket_scores)
+
+
+def _project_ranked_insight_buckets(
+    candidates: list[_InsightCandidate],
+    *,
+    bucket_limits: dict[str, int],
+) -> dict[str, tuple[str, ...]]:
+    ranked: dict[str, list[tuple[float, str]]] = {
+        bucket: []
+        for bucket in bucket_limits
+    }
+    for candidate in candidates:
+        for bucket, bucket_score in candidate.bucket_scores:
+            if bucket in ranked:
+                _append_scored_line(ranked[bucket], candidate.line, bucket_score)
+    return {
+        bucket: _top_ranked_lines(ranked[bucket], limit=limit)
+        for bucket, limit in bucket_limits.items()
+    }
 
 
 def _load_support_doc_text(doc: GraphSupportDocument) -> str:
@@ -320,6 +641,8 @@ def _support_doc_candidate_lines(text: str) -> tuple[str, ...]:
         normalized = _normalize_text(cleaned)
         if not cleaned or len(cleaned) < 35 or len(cleaned) > 220:
             continue
+        if _looks_truncated_line(cleaned):
+            continue
         if any(normalized.startswith(prefix) for prefix in _SUPPORT_LINE_DROP_PREFIXES):
             continue
         if any(token in normalized for token in _SUPPORT_LINE_DROP_CONTAINS):
@@ -327,6 +650,50 @@ def _support_doc_candidate_lines(text: str) -> tuple[str, ...]:
         if normalized.count(" - ") > 4:
             continue
         lines.append(cleaned.rstrip(".") + ".")
+    return tuple(lines)
+
+
+def _support_doc_table_row_candidates(text: str) -> tuple[str, ...]:
+    lines: list[str] = []
+    for raw in str(text or "").splitlines():
+        stripped = raw.strip()
+        if not stripped.startswith("|"):
+            continue
+        if set(stripped.replace("|", "").replace("-", "").replace(":", "").strip()) == set():
+            continue
+        cells = [
+            re.sub(r"\s+", " ", cell.replace("**", "").replace("__", "").replace("*", "")).strip()
+            for cell in stripped.strip("|").split("|")
+        ]
+        cells = [cell for cell in cells if cell]
+        if len(cells) < 3:
+            continue
+        if cells[0].lower() in {"#", "concepto", "estrategia", "variable", "aspecto"}:
+            continue
+        first_cell = _normalize_text(cells[0])
+        line = ""
+        if re.fullmatch(r"[ed]-\d+", first_cell):
+            strategy = cells[1]
+            basis = cells[2]
+            detail = cells[3] if len(cells) >= 4 else ""
+            risk = cells[4] if len(cells) >= 5 else ""
+            pieces = [strategy]
+            if detail:
+                pieces.append(detail)
+            if risk:
+                pieces.append(f"Riesgo {risk}.")
+            line = " ".join(piece.strip() for piece in pieces if piece.strip())
+            if basis:
+                line = line.rstrip(".") + f" ({basis})."
+        elif len(cells) >= 3:
+            lead, detail, implication = cells[0], cells[1], cells[2]
+            line = f"{lead}: {detail} {implication}".strip()
+            if len(cells) >= 4 and cells[3]:
+                line = line.rstrip(".") + f" Riesgo {cells[3]}."
+        line = re.sub(r"\s+", " ", line).strip()
+        if len(line) < 45 or len(line) > 260:
+            continue
+        lines.append(line.rstrip(".") + ".")
     return tuple(lines)
 
 
@@ -370,6 +737,8 @@ def _evidence_candidate_lines(text: str) -> tuple[str, ...]:
         normalized = _normalize_text(cleaned)
         if not cleaned or len(cleaned) < 45 or len(cleaned) > 240:
             continue
+        if _looks_truncated_line(cleaned):
+            continue
         if any(token in normalized for token in _SUPPORT_LINE_DROP_CONTAINS):
             continue
         if cleaned.startswith("."):
@@ -401,6 +770,12 @@ def _support_line_score(
         score += 0.8
     if _line_matches_any(normalized_line, _SUPPORT_PRECAUTION_MARKERS):
         score += 0.7
+    if _line_matches_any(normalized_line, _SUPPORT_STRATEGY_MARKERS):
+        score += 0.9
+    if _line_matches_any(normalized_line, _SUPPORT_JURISPRUDENCE_MARKERS):
+        score += 1.0
+    if _line_matches_any(normalized_line, _SUPPORT_CHECKLIST_MARKERS):
+        score += 0.8
     return score
 
 
@@ -423,9 +798,25 @@ def _evidence_line_score(
         score += 0.7
     if _line_matches_any(normalized_line, _SUPPORT_DEADLINE_MARKERS):
         score += 1.0
+    if _line_matches_any(normalized_line, _SUPPORT_JURISPRUDENCE_MARKERS):
+        score += 0.9
     if hop_distance == 0:
         score += 0.5
     return score
+
+
+def _is_tax_planning_support_doc(doc: GraphSupportDocument) -> bool:
+    joined = " ".join(
+        str(value or "")
+        for value in (
+            doc.title_hint,
+            doc.relative_path,
+            doc.source_path,
+            doc.subtopic_key,
+        )
+    )
+    normalized = _normalize_text(joined)
+    return "planeacion" in normalized or "economia de opcion" in normalized or "rst" in normalized
 
 
 def _query_tokens(text: str) -> tuple[str, ...]:
@@ -445,8 +836,41 @@ def _line_token_set(text: str) -> set[str]:
     }
 
 
+def _query_overlap_count(text: str, query_tokens: tuple[str, ...]) -> int:
+    line_tokens = _line_token_set(text)
+    return sum(1 for token in query_tokens if token in line_tokens)
+
+
+def _detect_line_signals(normalized_line: str) -> _InsightLineSignals:
+    return _InsightLineSignals(
+        has_procedure_marker=_line_matches_any(normalized_line, _SUPPORT_PROCEDURE_MARKERS),
+        has_paperwork_marker=_line_matches_any(normalized_line, _SUPPORT_PAPERWORK_MARKERS),
+        has_context_marker=_line_matches_any(normalized_line, _SUPPORT_CONTEXT_MARKERS),
+        has_precaution_marker=_line_matches_any(normalized_line, _SUPPORT_PRECAUTION_MARKERS),
+        has_strategy_marker=_line_matches_any(normalized_line, _SUPPORT_STRATEGY_MARKERS),
+        has_jurisprudence_marker=_line_matches_any(normalized_line, _SUPPORT_JURISPRUDENCE_MARKERS),
+        has_checklist_marker=_line_matches_any(normalized_line, _SUPPORT_CHECKLIST_MARKERS),
+        has_deadline_marker=_line_matches_any(normalized_line, _SUPPORT_DEADLINE_MARKERS),
+    )
+
+
 def _line_matches_any(line: str, markers: tuple[str, ...]) -> bool:
     return any(marker in line for marker in markers)
+
+
+def _looks_truncated_line(value: str) -> bool:
+    normalized = _normalize_text(value)
+    return any(marker in value for marker in _TRUNCATION_MARKERS) or "[truncated]" in normalized
+
+
+def _looks_like_heading_line(value: str) -> bool:
+    prefix = re.split(r"[\(\.:]", value, maxsplit=1)[0].strip()
+    letters = [char for char in prefix if char.isalpha()]
+    if len(letters) < 8:
+        return False
+    uppercase_ratio = sum(1 for char in letters if char.isupper()) / len(letters)
+    word_count = len(re.findall(r"[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+", prefix))
+    return uppercase_ratio >= 0.7 and word_count <= 8
 
 
 def _append_scored_line(bucket: list[tuple[float, str]], line: str, score: float) -> None:

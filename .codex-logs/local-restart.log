@@ -1,0 +1,77 @@
+Running local preflight...
+Building public UI bundle...
+
+> build:public
+> node ./scripts/build-public.mjs
+
+vite v6.4.2 building for production...
+transforming...
+✓ 144 modules transformed.
+rendering chunks...
+computing gzip size...
+../ui/embed.html                                 0.87 kB │ gzip:  0.43 kB
+../ui/orchestration.html                         1.13 kB │ gzip:  0.50 kB
+../ui/login.html                                 1.19 kB │ gzip:  0.51 kB
+../ui/invite.html                                1.20 kB │ gzip:  0.52 kB
+../ui/form-guide.html                            1.20 kB │ gzip:  0.51 kB
+../ui/admin.html                                 1.33 kB │ gzip:  0.52 kB
+../ui/ops.html                                   1.40 kB │ gzip:  0.53 kB
+../ui/normative-analysis.html                    1.44 kB │ gzip:  0.55 kB
+../ui/index.html                                 2.30 kB │ gzip:  0.73 kB
+../ui/public.html                                2.68 kB │ gzip:  0.95 kB
+../ui/assets/index-7my697Aq.css                  1.73 kB │ gzip:  0.61 kB
+../ui/assets/recordCollections-BXeLzjxX.css      2.02 kB │ gzip:  0.83 kB
+../ui/assets/public-Dy5AuxqG.css                 2.76 kB │ gzip:  0.96 kB
+../ui/assets/admin-BpGbr0ro.css                  3.00 kB │ gzip:  0.81 kB
+../ui/assets/ratingsApp-cIpWaGBX.css             4.46 kB │ gzip:  1.28 kB
+../ui/assets/recordApp-pA5LQqPy.css              7.03 kB │ gzip:  1.82 kB
+../ui/assets/index-Bi_8U7j8.css                 26.23 kB │ gzip:  4.93 kB
+../ui/assets/main-CET3E3sE.css                 199.72 kB │ gzip: 37.11 kB
+../ui/assets/colors-ps0hVFT8.js                  0.22 kB │ gzip:  0.16 kB
+../ui/assets/factCard-Cu0UJHPY.js                0.36 kB │ gzip:  0.21 kB
+../ui/assets/ops-D_ruKbAm.js                     0.41 kB │ gzip:  0.28 kB
+../ui/assets/chip-Bjq03GaS.js                    0.55 kB │ gzip:  0.32 kB
+../ui/assets/bootstrap-CDL0BdR1.js               0.65 kB │ gzip:  0.38 kB
+../ui/assets/main-DICslklM.js                    0.71 kB │ gzip:  0.40 kB
+../ui/assets/formField-BiHg-U2Z.js               0.75 kB │ gzip:  0.39 kB
+../ui/assets/input-Byu2cnK9.js                   1.08 kB │ gzip:  0.50 kB
+../ui/assets/stateBlock-CleM9k1B.js              1.09 kB │ gzip:  0.48 kB
+../ui/assets/button-1yFzSXrY.js                  1.09 kB │ gzip:  0.55 kB
+../ui/assets/mobileNav-BzZCB6ac.js               1.17 kB │ gzip:  0.55 kB
+../ui/assets/authGate-Bb2S6efH.js                1.33 kB │ gzip:  0.62 kB
+../ui/assets/mobileChatAdapter-DLDPEvX4.js       1.39 kB │ gzip:  0.73 kB
+../ui/assets/mobileSheet-16RvsXF6.js             1.56 kB │ gzip:  0.66 kB
+../ui/assets/mobileDrawer-DH1rScTC.js            1.74 kB │ gzip:  0.81 kB
+../ui/assets/client-OE0sHIIg.js                  1.94 kB │ gzip:  0.80 kB
+../ui/assets/mobileInterpPanel-BeJqQRK3.js       1.98 kB │ gzip:  1.06 kB
+../ui/assets/embed-BVCXwYOw.js                   1.98 kB │ gzip:  1.06 kB
+../ui/assets/toasts-tYrWECOz.js                  3.11 kB │ gzip:  1.15 kB
+../ui/assets/invite-DP-TUmbG.js                  3.85 kB │ gzip:  1.63 kB
+../ui/assets/login-DPeTVaWo.js                   4.20 kB │ gzip:  1.79 kB
+../ui/assets/mobileHistorial-BWftuwJE.js         4.44 kB │ gzip:  2.07 kB
+../ui/assets/activityController-Ul67jB1E.js      5.39 kB │ gzip:  1.85 kB
+../ui/assets/adminApiController-BSlu8rhJ.js      6.92 kB │ gzip:  2.31 kB
+../ui/assets/shell-mobile-D7lIPYOA.js            7.28 kB │ gzip:  1.63 kB
+../ui/assets/recordCollections-DA2d5GkU.js       7.38 kB │ gzip:  2.25 kB
+../ui/assets/icons-D0mOOFcM.js                   7.42 kB │ gzip:  2.23 kB
+../ui/assets/ratingsApp-BTY-LvBJ.js              8.10 kB │ gzip:  3.08 kB
+../ui/assets/admin-BKb3W1c7.js                   9.42 kB │ gzip:  3.28 kB
+../ui/assets/public-Cpcc-O44.js                  9.86 kB │ gzip:  3.51 kB
+../ui/assets/recordApp-DUa2q-H8.js              10.37 kB │ gzip:  3.68 kB
+../ui/assets/normative-analysis-7AsxVUJy.js     10.53 kB │ gzip:  2.85 kB
+../ui/assets/mobileNormativaPanel-BY41Rnx0.js   11.26 kB │ gzip:  3.64 kB
+../ui/assets/index-BhSUtGg3.js                  13.59 kB │ gzip:  4.50 kB
+../ui/assets/form-guide-h20S5fE-.js             30.13 kB │ gzip:  8.36 kB
+../ui/assets/orchestration-BBu7WQh5.js          32.51 kB │ gzip:  9.17 kB
+../ui/assets/index-DE07Z79R.js                  45.88 kB │ gzip: 11.97 kB
+../ui/assets/format-CYFfBTRg.js                 70.59 kB │ gzip: 24.01 kB
+../ui/assets/opsApp-aVZtO3pn.js                152.02 kB │ gzip: 37.35 kB
+../ui/assets/brandMark-BaRL-5wh.js             202.72 kB │ gzip: 58.40 kB
+✓ built in 634ms
+Detected FalkorDB listener on redis://127.0.0.1:6389.
+Storage backend: filesystem
+Supabase cloud is skipped in local mode.
+- [OK] falkordb: FalkorDB accepted the connection and responded to PING/GRAPH.LIST.
+- [OK] gemini: Gemini API key was accepted by the embedding endpoint.
+Starting UI server on http://127.0.0.1:8787 ...
+Note: current graph chat answers are artifact-backed; FalkorDB is still preflighted for environment parity and graph ops.

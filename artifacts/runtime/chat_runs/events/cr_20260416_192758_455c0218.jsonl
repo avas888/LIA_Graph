@@ -1,0 +1,14 @@
+{"at": "2026-04-16T19:27:58Z", "event_type": "chat_run.created", "payload": {"endpoint": "/api/chat/stream", "session_id": "chat_7480f607efd2", "pipeline_route": "pipeline_d", "pipeline_variant": "pipeline_d", "shadow_pipeline_variant": "None"}}
+{"at": "2026-04-16T19:27:58Z", "event_type": "chat_run.pipeline_started", "payload": {}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.first_model_delta", "payload": {}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.first_visible_answer", "payload": {}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.pipeline_linked", "payload": {"pipeline_run_id": "pd_515581e348de4d3d84be9c4dc3eb465a", "pipeline_variant": "pipeline_d", "pipeline_route": "pipeline_d"}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.pipeline_completed", "payload": {}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.final_payload_ready", "payload": {}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.completed", "payload": {}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.response_sent", "payload": {}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.async_persistence_done", "payload": {}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.ui.main_chat_displayed", "payload": {"milestone": "main_chat_displayed", "elapsed_ms": 4159.2, "source": "assistant_success", "status": "ok", "details": {"response_route": "decision"}}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.ui.normative_displayed", "payload": {"milestone": "normative_displayed", "elapsed_ms": 4164.2, "source": "auto_detected", "status": "ok", "details": {"citations_count": 8, "mode": "detected"}}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.ui.response_bubble_highlighted", "payload": {"milestone": "response_bubble_highlighted", "elapsed_ms": 4165.6, "source": "bubble_active", "status": "ok", "details": {"question_id": "fd7a6105-4d9a-4863-8d76-8e345ff2c416"}}}
+{"at": "2026-04-16T19:28:02Z", "event_type": "chat_run.ui.expert_panel_displayed", "payload": {"milestone": "expert_panel_displayed", "elapsed_ms": 4190.1, "source": "expert_panel", "status": "empty", "details": {"panel_status": "empty"}}}

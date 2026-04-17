@@ -445,6 +445,15 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "formulario 210",
             "impuesto de renta",
             "impuesto sobre la renta",
+            "planeacion tributaria",
+            "planeación tributaria",
+            "planeacion tributaria legitima",
+            "planeación tributaria legítima",
+            "abuso en materia tributaria",
+            "clausula general antielusion",
+            "cláusula general antielusión",
+            "clausula antielusion",
+            "cláusula antielusión",
             # TTD / tasa mínima
             "tributacion depurada",
             "tributación depurada",
@@ -499,6 +508,10 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "impuesto adicional",
             "anticipo",
             "utilidad contable",
+            "elusion",
+            "elusión",
+            "simulacion",
+            "simulación",
             # "declaración"/"declaracion" removed — too generic, assimilates unrelated queries
             # Loss compensation / pérdidas fiscales
             "perdida fiscal",

@@ -5,7 +5,9 @@ from dataclasses import dataclass
 from functools import lru_cache
 import json
 from pathlib import Path
+import re
 from typing import Any
+import unicodedata
 
 from ..contracts import Citation, DocumentRecord
 from .contracts import (
@@ -64,6 +66,34 @@ class _ResolvedEntry:
     label: str
     source: str
     confidence: float
+
+
+@dataclass(frozen=True)
+class _ArticleEvidenceCandidate:
+    article_key: str
+    distance: int
+    discovery_score: float
+    temporal_bonus: float
+    relation_path: tuple[GraphPathStep, ...]
+    explicit_rank: int
+
+    @property
+    def sort_key(self) -> tuple[int, int, float, float, str]:
+        return (
+            self.explicit_rank,
+            self.distance,
+            -self.temporal_bonus,
+            -self.discovery_score,
+            self.article_key,
+        )
+
+
+@dataclass(frozen=True)
+class _SupportDocCandidate:
+    priority_group: int
+    source_path: str
+    manifest_row: dict[str, Any]
+    reason: str
 
 
 @dataclass(frozen=True)
@@ -438,7 +468,43 @@ def _select_article_evidence(
     primary_topic_keys: tuple[str, ...] = (),
 ) -> tuple[GraphEvidenceItem, ...]:
     rows: list[GraphEvidenceItem] = []
-    seen: set[str] = set()
+    candidates = _collect_article_evidence_candidates(
+        snapshot=snapshot,
+        article_keys=article_keys,
+        distances=distances,
+        predecessors=predecessors,
+        discovery_scores=discovery_scores,
+        plan=plan,
+        primary_source_paths=primary_source_paths,
+        primary_topic_keys=primary_topic_keys,
+    )
+    for candidate in candidates[:limit]:
+        rows.append(
+            _article_evidence_item(
+                snapshot=snapshot,
+                article_key=candidate.article_key,
+                distance=candidate.distance,
+                predecessor=predecessors.get(("ArticleNode", candidate.article_key)),
+                predecessors=predecessors,
+                score=candidate.discovery_score,
+                plan=plan,
+                relation_path=candidate.relation_path,
+            )
+        )
+    return tuple(rows)
+
+
+def _collect_article_evidence_candidates(
+    *,
+    snapshot: GraphArtifactSnapshot,
+    article_keys: tuple[str, ...],
+    distances: dict[tuple[str, str], int],
+    predecessors: dict[tuple[str, str], tuple[tuple[str, str], _Neighbor] | None],
+    discovery_scores: dict[tuple[str, str], float],
+    plan: GraphRetrievalPlan,
+    primary_source_paths: tuple[str, ...] = (),
+    primary_topic_keys: tuple[str, ...] = (),
+) -> list[_ArticleEvidenceCandidate]:
     primary_source_path_set = {
         str(path).strip()
         for path in primary_source_paths
@@ -449,38 +515,10 @@ def _select_article_evidence(
         for topic in primary_topic_keys
         if str(topic or "").strip()
     }
-    ordered_keys = list(
-        dict.fromkeys(
-            sorted(
-                article_keys,
-                key=lambda key: (
-                    distances.get(("ArticleNode", key), 99),
-                    -article_temporal_bonus(
-                        article=snapshot.articles.get(key, {}),
-                        temporal_context=plan.temporal_context,
-                    ),
-                    -discovery_scores.get(("ArticleNode", key), 0.0),
-                    key,
-                ),
-            )
-        )
-    )
-    if article_keys:
-        explicit_order = {key: index for index, key in enumerate(article_keys)}
-        ordered_keys.sort(
-            key=lambda key: (
-                explicit_order.get(key, len(explicit_order) + distances.get(("ArticleNode", key), 99)),
-                distances.get(("ArticleNode", key), 99),
-                -article_temporal_bonus(
-                    article=snapshot.articles.get(key, {}),
-                    temporal_context=plan.temporal_context,
-                ),
-                -discovery_scores.get(("ArticleNode", key), 0.0),
-                key,
-            )
-        )
-    for article_key in ordered_keys:
-        if article_key in seen or article_key not in snapshot.articles:
+    explicit_order = {key: index for index, key in enumerate(article_keys)}
+    candidates: list[_ArticleEvidenceCandidate] = []
+    for article_key in dict.fromkeys(article_keys):
+        if article_key not in snapshot.articles:
             continue
         relation_path = build_relation_path(
             node=("ArticleNode", article_key),
@@ -495,22 +533,24 @@ def _select_article_evidence(
             primary_topic_keys=primary_topic_key_set,
         ):
             continue
-        seen.add(article_key)
-        rows.append(
-            _article_evidence_item(
-                snapshot=snapshot,
+        candidates.append(
+            _ArticleEvidenceCandidate(
                 article_key=article_key,
                 distance=distances.get(("ArticleNode", article_key), 0),
-                predecessor=predecessors.get(("ArticleNode", article_key)),
-                predecessors=predecessors,
-                score=discovery_scores.get(("ArticleNode", article_key), 0.0),
-                plan=plan,
+                discovery_score=discovery_scores.get(("ArticleNode", article_key), 0.0),
+                temporal_bonus=article_temporal_bonus(
+                    article=snapshot.articles.get(article_key, {}),
+                    temporal_context=plan.temporal_context,
+                ),
                 relation_path=relation_path,
+                explicit_rank=explicit_order.get(
+                    article_key,
+                    len(explicit_order) + distances.get(("ArticleNode", article_key), 99),
+                ),
             )
         )
-        if len(rows) >= limit:
-            break
-    return tuple(rows)
+    candidates.sort(key=lambda candidate: candidate.sort_key)
+    return candidates
 
 
 def _article_evidence_item(
@@ -612,19 +652,89 @@ def _select_support_documents(
     primary_articles: tuple[GraphEvidenceItem, ...],
     connected_articles: tuple[GraphEvidenceItem, ...],
 ) -> tuple[tuple[GraphSupportDocument, ...], tuple[Citation, ...]]:
-    candidate_docs: list[tuple[int, str, dict[str, Any], str]] = []
-    seen_paths: set[str] = set()
-    topic_hints = {
-        str(topic).strip()
-        for topic in plan.topic_hints
-        if str(topic or "").strip()
-    }
+    query_tokens = support_doc_query_tokens(plan)
+    candidate_docs = _collect_support_document_candidates(
+        snapshot=snapshot,
+        plan=plan,
+        primary_articles=primary_articles,
+        connected_articles=connected_articles,
+    )
+    candidate_docs.sort(
+        key=lambda item: (
+            item.priority_group,
+            _FAMILY_RANK.get(str(item.manifest_row.get("family") or ""), 9),
+            -support_doc_query_overlap(item.manifest_row, query_tokens),
+            str(item.manifest_row.get("relative_path") or ""),
+        )
+    )
     ordered_topic_hints = tuple(
         str(topic).strip()
         for topic in plan.topic_hints
         if str(topic or "").strip()
     )
-    query_tokens = support_doc_query_tokens(plan)
+    focused_anchor_followup = _is_focused_anchor_followup(plan)
+    candidate_docs = _diversify_support_candidates(
+        candidate_docs=candidate_docs,
+        limit=plan.evidence_bundle_shape.support_document_limit,
+        preferred_topics=ordered_topic_hints,
+        query_tokens=query_tokens,
+        reserve_enrichment_slots=(
+            not focused_anchor_followup
+            and
+            not plan.temporal_context.historical_query_intent
+            and plan.query_mode
+            in {
+                "definition_chain",
+                "obligation_chain",
+                "computation_chain",
+                "strategy_chain",
+                "general_graph_research",
+            }
+        ),
+    )
+    selected_docs: list[GraphSupportDocument] = []
+    citations: list[Citation] = []
+    for candidate in candidate_docs:
+        manifest_row = candidate.manifest_row
+        selected_docs.append(
+            GraphSupportDocument(
+                relative_path=str(manifest_row.get("relative_path") or ""),
+                source_path=str(manifest_row.get("source_path") or ""),
+                title_hint=str(manifest_row.get("title_hint") or manifest_row.get("relative_path") or ""),
+                family=str(manifest_row.get("family") or "") or None,
+                knowledge_class=str(manifest_row.get("knowledge_class") or "") or None,
+                topic_key=str(manifest_row.get("topic_key") or "") or None,
+                subtopic_key=str(manifest_row.get("subtopic_key") or "") or None,
+                canonical_blessing_status=str(manifest_row.get("canonical_blessing_status") or "") or None,
+                graph_target=bool(manifest_row.get("graph_target")),
+                reason=candidate.reason,
+            )
+        )
+        citations.append(
+            Citation.from_document(
+                manifest_row_to_document(manifest_row, workspace_root=_WORKSPACE_ROOT)
+            )
+        )
+        if len(selected_docs) >= plan.evidence_bundle_shape.support_document_limit:
+            break
+    return tuple(selected_docs), tuple(citations)
+
+
+def _collect_support_document_candidates(
+    *,
+    snapshot: GraphArtifactSnapshot,
+    plan: GraphRetrievalPlan,
+    primary_articles: tuple[GraphEvidenceItem, ...],
+    connected_articles: tuple[GraphEvidenceItem, ...],
+) -> list[_SupportDocCandidate]:
+    candidates: list[_SupportDocCandidate] = []
+    seen_paths: set[str] = set()
+    focused_anchor_followup = _is_focused_anchor_followup(plan)
+    topic_hints = {
+        str(topic).strip()
+        for topic in plan.topic_hints
+        if str(topic or "").strip()
+    }
     primary_source_paths = {
         str(item.source_path).strip()
         for item in primary_articles
@@ -649,10 +759,17 @@ def _select_support_documents(
         if source_path in seen_paths:
             continue
         seen_paths.add(source_path)
-        candidate_docs.append((0, source_path, manifest_row, "source_doc_for_graph_article"))
+        candidates.append(
+            _SupportDocCandidate(
+                priority_group=0,
+                source_path=source_path,
+                manifest_row=manifest_row,
+                reason="source_doc_for_graph_article",
+            )
+        )
 
     expansion_topics = set(topic_hints)
-    if not expansion_topics:
+    if not expansion_topics and not focused_anchor_followup:
         expansion_topics.update(primary_topic_keys)
     for topic_key in sorted(topic for topic in expansion_topics if topic):
         for topic_doc in snapshot.ready_docs_by_topic.get(topic_key, ()):
@@ -672,73 +789,51 @@ def _select_support_documents(
             ):
                 continue
             seen_paths.add(topic_source)
-            reason = "topic_support_doc"
-            if topic_key in topic_hints:
-                reason = "topic_hint_support_doc"
-            candidate_docs.append((1, topic_source, topic_doc, reason))
+            reason = "topic_hint_support_doc" if topic_key in topic_hints else "topic_support_doc"
+            candidates.append(
+                _SupportDocCandidate(
+                    priority_group=1,
+                    source_path=topic_source,
+                    manifest_row=topic_doc,
+                    reason=reason,
+                )
+            )
+    return candidates
 
-    candidate_docs.sort(
-        key=lambda item: (
-            item[0],
-            _FAMILY_RANK.get(str(item[2].get("family") or ""), 9),
-            -support_doc_query_overlap(item[2], query_tokens),
-            str(item[2].get("relative_path") or ""),
-        )
+
+def _is_focused_anchor_followup(plan: GraphRetrievalPlan) -> bool:
+    anchor_sources = {
+        "explicit_article_reference",
+        "explicit_reform_reference",
+        "conversation_state_anchor",
+    }
+    has_focus_anchor = any(
+        entry.kind in {"article", "reform"} and entry.source in anchor_sources
+        for entry in plan.entry_points
     )
-    candidate_docs = _diversify_support_candidates(
-        candidate_docs=candidate_docs,
-        limit=plan.evidence_bundle_shape.support_document_limit,
-        preferred_topics=ordered_topic_hints,
-        query_tokens=query_tokens,
-        reserve_enrichment_slots=(
-            not plan.temporal_context.historical_query_intent
-            and plan.query_mode in {"obligation_chain", "computation_chain", "general_graph_research"}
-        ),
-    )
-    selected_docs: list[GraphSupportDocument] = []
-    citations: list[Citation] = []
-    for _, _, manifest_row, reason in candidate_docs:
-        selected_docs.append(
-            GraphSupportDocument(
-                relative_path=str(manifest_row.get("relative_path") or ""),
-                source_path=str(manifest_row.get("source_path") or ""),
-                title_hint=str(manifest_row.get("title_hint") or manifest_row.get("relative_path") or ""),
-                family=str(manifest_row.get("family") or "") or None,
-                knowledge_class=str(manifest_row.get("knowledge_class") or "") or None,
-                topic_key=str(manifest_row.get("topic_key") or "") or None,
-                subtopic_key=str(manifest_row.get("subtopic_key") or "") or None,
-                canonical_blessing_status=str(manifest_row.get("canonical_blessing_status") or "") or None,
-                graph_target=bool(manifest_row.get("graph_target")),
-                reason=reason,
-            )
-        )
-        citations.append(
-            Citation.from_document(
-                manifest_row_to_document(manifest_row, workspace_root=_WORKSPACE_ROOT)
-            )
-        )
-        if len(selected_docs) >= plan.evidence_bundle_shape.support_document_limit:
-            break
-    return tuple(selected_docs), tuple(citations)
+    if not has_focus_anchor:
+        return False
+    has_lexical_search = any(entry.kind == "article_search" for entry in plan.entry_points)
+    return not has_lexical_search and plan.query_mode == "article_lookup"
 
 
 def _diversify_support_candidates(
     *,
-    candidate_docs: list[tuple[int, str, dict[str, Any], str]],
+    candidate_docs: list[_SupportDocCandidate],
     limit: int,
     preferred_topics: tuple[str, ...],
     query_tokens: tuple[str, ...],
     reserve_enrichment_slots: bool,
-) -> list[tuple[int, str, dict[str, Any], str]]:
+) -> list[_SupportDocCandidate]:
     if limit <= 0 or len(candidate_docs) <= 1:
         return candidate_docs
 
     selected_paths: set[str] = set()
-    diversified: list[tuple[int, str, dict[str, Any], str]] = []
+    diversified: list[_SupportDocCandidate] = []
 
-    source_docs = [item for item in candidate_docs if item[3] == "source_doc_for_graph_article"]
-    topic_docs = [item for item in candidate_docs if item[3] != "source_doc_for_graph_article"]
-    family_picks: list[tuple[int, str, dict[str, Any], str]] = []
+    source_docs = [item for item in candidate_docs if item.reason == "source_doc_for_graph_article"]
+    topic_docs = [item for item in candidate_docs if item.reason != "source_doc_for_graph_article"]
+    family_picks: list[_SupportDocCandidate] = []
 
     if reserve_enrichment_slots:
         for family in ("practica", "interpretacion"):
@@ -752,7 +847,7 @@ def _diversify_support_candidates(
             if family_pick is None:
                 continue
             family_picks.append(family_pick)
-            selected_paths.add(family_pick[1])
+            selected_paths.add(family_pick.source_path)
 
     source_cap = limit
     if family_picks:
@@ -760,7 +855,7 @@ def _diversify_support_candidates(
 
     for item in source_docs:
         diversified.append(item)
-        selected_paths.add(item[1])
+        selected_paths.add(item.source_path)
         if len(diversified) >= source_cap:
             break
 
@@ -770,10 +865,10 @@ def _diversify_support_candidates(
             return diversified
 
     for item in topic_docs:
-        if item[1] in selected_paths:
+        if item.source_path in selected_paths:
             continue
         diversified.append(item)
-        selected_paths.add(item[1])
+        selected_paths.add(item.source_path)
         if len(diversified) >= limit:
             break
 
@@ -782,17 +877,17 @@ def _diversify_support_candidates(
 
 def _pick_family_doc(
     *,
-    topic_docs: list[tuple[int, str, dict[str, Any], str]],
+    topic_docs: list[_SupportDocCandidate],
     selected_paths: set[str],
     family: str,
     preferred_topics: tuple[str, ...],
     query_tokens: tuple[str, ...],
-) -> tuple[int, str, dict[str, Any], str] | None:
+) -> _SupportDocCandidate | None:
     preferred_rank = {topic: index for index, topic in enumerate(preferred_topics)}
     candidates = [
         item
         for item in topic_docs
-        if item[1] not in selected_paths and str(item[2].get("family") or "") == family
+        if item.source_path not in selected_paths and str(item.manifest_row.get("family") or "") == family
     ]
     if not candidates:
         return None
@@ -800,12 +895,12 @@ def _pick_family_doc(
         candidates,
         key=lambda item: (
             _family_doc_relevance_score(
-                row=item[2],
+                row=item.manifest_row,
                 query_tokens=query_tokens,
                 preferred_rank=preferred_rank,
             ),
-            -item[0],
-            str(item[2].get("relative_path") or ""),
+            -item.priority_group,
+            str(item.manifest_row.get("relative_path") or ""),
         ),
     )
 
@@ -825,27 +920,46 @@ def _family_doc_relevance_score(
     preferred_rank: dict[str, int],
 ) -> float:
     topic_key = str(row.get("topic_key") or "").strip()
+    title_blob = _normalize_support_doc_text(
+        " ".join(
+            str(row.get(field) or "")
+            for field in ("title_hint", "relative_path", "source_path", "subtopic_key")
+        )
+    )
     overlap = support_doc_query_overlap(row, query_tokens)
     primary_bonus = 1.0 if preferred_rank.get(topic_key) == 0 and overlap >= 2.0 else 0.0
     preferred_bonus = 0.25 if topic_key in preferred_rank else 0.0
     exact_topic_bonus = 0.25 * _support_topic_exact_token_match(row, query_tokens)
+    title_bonus = 0.0
+    if "planeacion" in query_tokens and "planeacion" in title_blob:
+        title_bonus += 2.0
+    if "jurisprudencia" in query_tokens and "interpretacion" in title_blob:
+        title_bonus += 0.8
+    if "abuso" in query_tokens and "abuso" in title_blob:
+        title_bonus += 0.8
     rank_penalty = preferred_rank.get(topic_key, 99) * 0.05
-    return overlap + primary_bonus + preferred_bonus + exact_topic_bonus - rank_penalty
+    return overlap + title_bonus + primary_bonus + preferred_bonus + exact_topic_bonus - rank_penalty
+
+
+def _normalize_support_doc_text(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", str(value or ""))
+    ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"\s+", " ", ascii_text).strip().lower()
 
 
 def _best_support_doc_match(
-    candidates: list[tuple[int, str, dict[str, Any], str]],
+    candidates: list[_SupportDocCandidate],
     query_tokens: tuple[str, ...],
-) -> tuple[int, str, dict[str, Any], str] | None:
+) -> _SupportDocCandidate | None:
     if not candidates:
         return None
     return max(
         candidates,
         key=lambda item: (
-            support_doc_query_overlap(item[2], query_tokens),
-            -item[0],
-            -_FAMILY_RANK.get(str(item[2].get("family") or ""), 9),
-            str(item[2].get("relative_path") or ""),
+            support_doc_query_overlap(item.manifest_row, query_tokens),
+            -item.priority_group,
+            -_FAMILY_RANK.get(str(item.manifest_row.get("family") or ""), 9),
+            str(item.manifest_row.get("relative_path") or ""),
         ),
     )
 

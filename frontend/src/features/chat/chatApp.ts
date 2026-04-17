@@ -315,7 +315,10 @@ export function mountChatApp(root, options) {
           details: { question_id: latestQ.questionId },
         });
       }
-      // Load expert panel for the latest bubble (fresh fetch, not from cache)
+      // Post-answer surfaces run as sibling tracks. The bubble is already
+      // published; Normativa owns its own deferred resolve, and Expertos starts
+      // from the current turn kernel without waiting for the full Normativa
+      // retrieval to complete.
       const normativeSupportSnapshot = requestController.getCurrentNormativeSupportSnapshot();
       void expertPanel
         .load(sessionController.buildExpertPanelLoadOptions({

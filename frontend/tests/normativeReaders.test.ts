@@ -1217,6 +1217,38 @@ describe("profileRenderer", () => {
         expect(quoteCard).not.toBeNull();
       });
 
+      it("hides the inline source link when source_action already exposes the same URL", () => {
+        const dom = makeMockDom();
+        const renderer = profileRenderer.createProfileRenderer({
+          i18n: makeMockI18n(),
+          dom,
+          formatNormativeCitationTitle: (raw: unknown) => String(raw || ""),
+          isRawDocId: () => false,
+        });
+
+        renderer.renderProfileContent(
+          {
+            title: "ET Art. 147",
+            document_family: "et_dur",
+            original_text: {
+              title: "Articulo 147",
+              quote: "Compensación de pérdidas fiscales.",
+              source_url: "https://example.com/et-147",
+              evidence_status: "verified",
+            },
+            source_action: {
+              label: "Ir a documento original",
+              state: "available",
+              url: "https://example.com/et-147",
+            },
+          },
+          "Fallback",
+        );
+
+        expect(dom.normaOriginalBtn.hidden).toBe(false);
+        expect(dom.normaPrimaryNode.querySelector(".norma-inline-source")).toBeNull();
+      });
+
       it("renders vigencia_detail as a fact", () => {
         const dom = makeMockDom();
         const renderer = profileRenderer.createProfileRenderer({

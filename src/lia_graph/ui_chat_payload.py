@@ -8,6 +8,12 @@ from http import HTTPStatus
 from typing import Any
 from uuid import uuid4
 
+from .chat_response_modes import (
+    DEFAULT_FIRST_RESPONSE_MODE,
+    DEFAULT_RESPONSE_DEPTH,
+    normalize_first_response_mode,
+    normalize_response_depth,
+)
 from .ui_chat_context import (
     ChatRequestContext,
     _default_session_payload,
@@ -302,8 +308,10 @@ def parse_api_chat_request(handler: Any, *, t_api_chat: float, deps: dict[str, A
     if response_route not in {"decision", "theoretical_normative"}:
         response_route = "decision"
     retrieval_profile = str(payload.get("retrieval_profile", "hybrid_rerank")).strip().lower() or "hybrid_rerank"
-    response_depth = str(payload.get("response_depth", "auto")).strip().lower() or "auto"
-    first_response_mode = str(payload.get("first_response_mode", "fast_action")).strip().lower() or "fast_action"
+    response_depth = normalize_response_depth(payload.get("response_depth", DEFAULT_RESPONSE_DEPTH))
+    first_response_mode = normalize_first_response_mode(
+        payload.get("first_response_mode", DEFAULT_FIRST_RESPONSE_MODE)
+    )
     debug_mode = bool(payload.get("debug", False))
     operation_date = payload.get("operation_date")
     company_context_payload = payload.get("company_context")

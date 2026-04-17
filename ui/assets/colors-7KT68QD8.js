@@ -1,1 +1,0 @@
-const e={neutral:{50:"#f8fbff",300:"#b6c8d8",400:"#8ea2b7"},green:{100:"#d7ebfb"},amber:{100:"#ffe7c8",600:"#915c1e"},white:"#ffffff"},t={text:{tertiary:"var(--text-tertiary)"},border:{default:"var(--border-default)"},status:{success:"var(--status-success)",error:"var(--status-error)"}};export{e as p,t as s};

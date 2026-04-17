@@ -169,3 +169,40 @@ def test_ui_server_public_session_and_chat_routes(monkeypatch) -> None:
             body = "".join(chunks)
             assert "event: final" in body
             assert "Smoke answer for: Pregunta stream" in body
+
+
+def test_ui_server_routes_expert_panel_to_analysis_controller(monkeypatch) -> None:
+    def _fake_handle_analysis_post(handler, path, *, deps):
+        del deps
+        if path != "/api/expert-panel":
+            return False
+        payload = handler._read_json_payload(object_error="Se requiere un objeto JSON.")
+        if payload is None:
+            return True
+        handler._send_json(
+            HTTPStatus.OK,
+            {
+                "ok": True,
+                "route": "analysis_controller",
+                "trace_id": str(payload.get("trace_id") or "").strip() or None,
+            },
+        )
+        return True
+
+    monkeypatch.setattr(ui_server, "handle_analysis_post", _fake_handle_analysis_post)
+
+    with _serve_smoke_server(monkeypatch) as handle:
+        time.sleep(0.1)
+
+        status, payload = _http_json(
+            "POST",
+            f"{handle.base_url}/api/expert-panel",
+            {"trace_id": "trace_expert_smoke", "message": "Consulta de interpretación"},
+        )
+
+        assert status == HTTPStatus.OK
+        assert payload == {
+            "ok": True,
+            "route": "analysis_controller",
+            "trace_id": "trace_expert_smoke",
+        }

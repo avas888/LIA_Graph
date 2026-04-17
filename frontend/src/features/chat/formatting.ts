@@ -78,6 +78,23 @@ function isGroupHeaderBullet(content: string): boolean {
   return /^[^:]+:\s*$/.test(stripped);
 }
 
+function isConciseStructuredLabel(value: string): boolean {
+  const normalized = String(value || "")
+    .replace(/\s+/g, " ")
+    .replace(/[.:]+$/, "")
+    .trim();
+  if (!normalized) return false;
+
+  const words = normalized.split(" ").filter(Boolean);
+  if (words.length > 8) return false;
+  if (normalized.length > 72) return false;
+  if (/[;,]/.test(normalized)) return false;
+  if (/[!?]/.test(normalized.slice(0, -1))) return false;
+  if (/\.\s/.test(normalized)) return false;
+
+  return true;
+}
+
 function normalizeStructuredItemContent(
   value: string,
   {
@@ -97,8 +114,12 @@ function normalizeStructuredItemContent(
     const label = trimmed.slice(0, colonIndex).trim();
     const body = trimmed.slice(colonIndex + 1).trim();
     if (!label) return trimmed;
-    const labelMarkdown = underlineLabel ? `**<u>${label}:</u>**` : `**${label}:**`;
-    return body ? `${labelMarkdown} ${body}` : labelMarkdown;
+    if (!body && !headingLike && !isConciseStructuredLabel(label)) {
+      return trimmed;
+    }
+    const shouldUnderlineLabel = underlineLabel && isConciseStructuredLabel(label);
+    const emphasizedLabel = shouldUnderlineLabel ? `**<u>${label}:</u>**` : `**${label}:**`;
+    return body ? `${emphasizedLabel} ${body}` : emphasizedLabel;
   }
 
   if (!headingLike) {
@@ -107,7 +128,8 @@ function normalizeStructuredItemContent(
 
   const normalizedLabel = trimmed.replace(/[.:]+$/, "").trim() || trimmed;
   const suffix = /[!?]$/.test(trimmed) ? "" : ":";
-  return underlineLabel ? `**<u>${normalizedLabel}${suffix}</u>**` : `**${normalizedLabel}${suffix}**`;
+  const shouldUnderlineLabel = underlineLabel && isConciseStructuredLabel(normalizedLabel);
+  return shouldUnderlineLabel ? `**<u>${normalizedLabel}${suffix}</u>**` : `**${normalizedLabel}${suffix}**`;
 }
 
 function indentationForListDepth(depth: number): string {
@@ -233,7 +255,13 @@ function formatKernelHierarchyPlainMarkdown(text: string): string {
       if (formatted.length > 0 && formatted[formatted.length - 1] !== "") {
         formatted.push("");
       }
-      formatted.push(`${top}. ${normalizeStructuredItemContent(title, { underlineLabel: true, headingLike: true })}`);
+      const shouldEmphasizeTopLevel = isConciseStructuredLabel(title);
+      formatted.push(
+        `${top}. ${normalizeStructuredItemContent(title, {
+          underlineLabel: shouldEmphasizeTopLevel,
+          headingLike: shouldEmphasizeTopLevel,
+        })}`
+      );
       activeTop = top;
       activeListDepth = 1;
       groupHeaderDepth = 0;
@@ -251,8 +279,9 @@ function formatKernelHierarchyPlainMarkdown(text: string): string {
     }
 
     const bulletDepth = Math.min(depth, 4);
+    const shouldEmphasizeNestedHeading = hasNestedStructuredContent(lines, index) && isConciseStructuredLabel(title);
     const content = normalizeStructuredItemContent(title, {
-      headingLike: hasNestedStructuredContent(lines, index),
+      headingLike: shouldEmphasizeNestedHeading,
     });
     formatted.push(`${indentationForListDepth(bulletDepth)}* ${content}`);
     activeListDepth = bulletDepth;

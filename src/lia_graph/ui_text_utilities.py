@@ -169,6 +169,14 @@ def _find_document_index_row(doc_id: str, index_file: Path | None = None) -> dic
         return row
     # Fallback: local JSONL index (dev/offline)
     if not index_file.exists():
+        try:
+            from .interpretacion.catalog import find_local_interpretation_row
+
+            local_row = find_local_interpretation_row(doc_id)
+            if local_row is not None:
+                return local_row
+        except Exception:
+            pass
         return None
     try:
         with index_file.open("r", encoding="utf-8") as handle:
@@ -183,7 +191,15 @@ def _find_document_index_row(doc_id: str, index_file: Path | None = None) -> dic
                 if str(row.get("doc_id", "")).strip() == doc_id:
                     return row
     except OSError:
-        return None
+        pass
+    try:
+        from .interpretacion.catalog import find_local_interpretation_row
+
+        local_row = find_local_interpretation_row(doc_id)
+        if local_row is not None:
+            return local_row
+    except Exception:
+        pass
     return None
 
 

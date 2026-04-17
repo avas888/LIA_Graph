@@ -6,6 +6,14 @@ import os
 from dataclasses import fields
 from typing import Any
 
+from .chat_response_modes import (
+    ALLOWED_FIRST_RESPONSE_MODES,
+    ALLOWED_RESPONSE_DEPTHS,
+    DEFAULT_FIRST_RESPONSE_MODE,
+    DEFAULT_RESPONSE_DEPTH,
+    normalize_first_response_mode,
+    normalize_response_depth,
+)
 from .contracts import (
     ALLOWED_CLIENT_MODES,
     ALLOWED_FOLLOWUP_ACTIONS,
@@ -275,12 +283,12 @@ def _validate_chat_optional_fields(
         ),
         (
             "response_depth",
-            {"auto", "concise", "deep"},
+            set(ALLOWED_RESPONSE_DEPTHS),
             "`response_depth` debe ser `auto`, `concise` o `deep`.",
         ),
         (
             "first_response_mode",
-            {"fast_action", "balanced_action"},
+            set(ALLOWED_FIRST_RESPONSE_MODES),
             "`first_response_mode` debe ser `fast_action` o `balanced_action`.",
         ),
         (
@@ -444,12 +452,14 @@ def _validate_pipeline_c_payload(
             "`retrieval_profile` debe ser `baseline_keyword`, `hybrid_rerank`, `hybrid_semantic` o `advanced_corrective`.",
         )
 
-    response_depth = str(payload.get("response_depth", "auto")).strip().lower() or "auto"
-    if response_depth not in {"auto", "concise", "deep"}:
+    response_depth = normalize_response_depth(payload.get("response_depth", DEFAULT_RESPONSE_DEPTH))
+    if response_depth not in set(ALLOWED_RESPONSE_DEPTHS):
         return False, "`response_depth` debe ser `auto`, `concise` o `deep`."
 
-    first_response_mode = str(payload.get("first_response_mode", "fast_action")).strip().lower() or "fast_action"
-    if first_response_mode not in {"fast_action", "balanced_action"}:
+    first_response_mode = normalize_first_response_mode(
+        payload.get("first_response_mode", DEFAULT_FIRST_RESPONSE_MODE)
+    )
+    if first_response_mode not in set(ALLOWED_FIRST_RESPONSE_MODES):
         return False, "`first_response_mode` debe ser `fast_action` o `balanced_action`."
 
     debug = payload.get("debug")

@@ -5,6 +5,7 @@ from dataclasses import replace
 import re
 import unicodedata
 
+from ..normative_references import extract_normative_reference_mentions
 from ..pipeline_c.contracts import PipelineCRequest
 from ..pipeline_c.temporal_intent import detect_historical_intent
 from ..topic_guardrails import normalize_topic_key
@@ -17,17 +18,64 @@ from .contracts import (
     TraversalBudget,
 )
 
-_ARTICLE_CUE_RE = re.compile(r"(?i)\bart(?:[ií]culo)?s?\.?\b")
-_ARTICLE_REF_RE = re.compile(
-    r"(?i)\b(?:art(?:[ií]culo)?s?|art\.)\s*(\d+(?:-\d+)?)\b"
-)
-_ARTICLE_BARE_RE = re.compile(r"\b(\d{1,4}(?:-\d+)?)\b")
+_ARTICLE_CUE_RE = re.compile(r"(?i)\bart(?:[ií]culo)?s?(?:\.(?=\s|\d|$)|\b)")
 _REFORM_RE = re.compile(
     r"(?i)\b(Ley|Decreto|Resoluci[oó]n)\s+(\d+)(?:\s+de\s+(\d{4}))?\b"
 )
 _AG_YEAR_RE = re.compile(
     r"\b(?:ag|ano\s+gravable|año\s+gravable)\s*[:\-]?\s*(20\d{2})\b",
     re.IGNORECASE,
+)
+_FOLLOWUP_FOCUS_MARKERS = (
+    "cuentame mas",
+    "cuentame mejor",
+    "hablame mas",
+    "explicame",
+    "profundiza",
+    "desarrolla",
+    "amplia esto",
+    "amplia ese punto",
+    "sobre ese punto",
+    "sobre esto",
+    "de esto",
+    "de eso",
+    "ese punto",
+    "este punto",
+    "a que te refieres",
+    "que significa eso",
+    "como opera eso",
+    "como funciona eso",
+)
+_FOLLOWUP_VAGUE_MARKERS = (
+    "esto",
+    "eso",
+    "este punto",
+    "ese punto",
+    "de esto",
+    "de eso",
+    "sobre esto",
+    "sobre eso",
+)
+_FOLLOWUP_EMBEDDED_ANSWER_STARTERS = (
+    "no,",
+    "si,",
+    "solo cambia",
+    "en la practica",
+    "en la práctica",
+    "recuerda que",
+    "ojo con",
+    "el limite",
+    "el límite",
+    "la regla",
+)
+_FOLLOWUP_EMBEDDED_ANSWER_MARKERS = (
+    "solo cambia",
+    "en la practica",
+    "en la práctica",
+    "(art.",
+    "(arts.",
+    " art. ",
+    " arts. ",
 )
 
 _REFORM_MODE_MARKERS = (
@@ -87,6 +135,63 @@ _COMPUTATION_MODE_MARKERS = (
     "costo o gasto",
     "costo y gasto",
 )
+_TAX_PLANNING_MARKERS = (
+    "planeacion tributaria",
+    "planeacion fiscal",
+    "economia de opcion",
+    "estrategias de planeacion",
+    "estrategias legitimas",
+    "estrategia legitima",
+    "planeacion legitima",
+    "planeacion licita",
+)
+_TAX_PLANNING_RISK_MARKERS = (
+    "abuso en materia tributaria",
+    "abuso del derecho",
+    "simulacion",
+    "elusion",
+    "jurisprudencia",
+    "fraude a la ley",
+    "proposito comercial",
+    "proposito economico",
+    "recaracterizar",
+    "reconfigurar",
+)
+_TAX_PLANNING_STRATEGY_MARKERS = (
+    "cierre",
+    "rst",
+    "ordinario",
+    "perdidas fiscales",
+    "beneficio de auditoria",
+    "factura electronica",
+    "timing",
+    "deduccion",
+    "descuento tributario",
+    "donacion",
+    "donaciones",
+    "dividendos",
+    "leasing",
+    "nomina",
+    "remuneracion",
+    "compensacion",
+)
+_LOSS_COMPENSATION_MARKERS = (
+    "compensacion de perdidas",
+    "compensar perdidas",
+    "perdida fiscal",
+    "perdidas fiscales",
+)
+_LOSS_COMPENSATION_CONTEXT_MARKERS = (
+    "compensacion",
+    "renta liquida",
+    "renta positiva",
+    "anos anteriores",
+    "ano gravable",
+    "ag ",
+    "limite anual",
+    "declaracion",
+    "firmeza",
+)
 _REFUND_BALANCE_MARKERS = (
     "devolucion",
     "compensacion",
@@ -129,10 +234,10 @@ _BUDGETS: dict[str, tuple[TraversalBudget, EvidenceBundleShape]] = {
     "article_lookup": (
         TraversalBudget(max_hops=1, max_nodes=6, max_edges=10, max_paths=3, max_support_documents=3),
         EvidenceBundleShape(
-            primary_article_limit=2,
+            primary_article_limit=3,
             connected_article_limit=3,
             related_reform_limit=2,
-            support_document_limit=3,
+            support_document_limit=4,
             snippet_char_limit=220,
         ),
     ),
@@ -164,6 +269,16 @@ _BUDGETS: dict[str, tuple[TraversalBudget, EvidenceBundleShape]] = {
             related_reform_limit=4,
             support_document_limit=5,
             snippet_char_limit=240,
+        ),
+    ),
+    "strategy_chain": (
+        TraversalBudget(max_hops=2, max_nodes=12, max_edges=20, max_paths=6, max_support_documents=6),
+        EvidenceBundleShape(
+            primary_article_limit=5,
+            connected_article_limit=5,
+            related_reform_limit=4,
+            support_document_limit=6,
+            snippet_char_limit=260,
         ),
     ),
     "reform_chain": (
@@ -212,15 +327,51 @@ _BUDGETS: dict[str, tuple[TraversalBudget, EvidenceBundleShape]] = {
 def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
     message = str(request.message or "").strip()
     normalized_message = _normalize_text(message)
+    focus_message = _planner_followup_focus_text(message)
+    normalized_focus_message = _normalize_text(focus_message or message)
     requested_topic = normalize_topic_key(request.topic or request.requested_topic)
     topic_detection = detect_topic_from_text(message)
     detected_topic = normalize_topic_key(topic_detection.topic)
     reform_refs = _extract_reform_refs(message)
     article_refs = _extract_article_refs(message)
+    followup_focus = _looks_like_followup_focus_request(
+        request=request,
+        normalized_message=normalized_focus_message,
+        article_refs=article_refs,
+        reform_refs=reform_refs,
+    )
+    carried_article_refs = _conversation_state_article_refs(request)
+    if followup_focus and not reform_refs:
+        if not article_refs:
+            article_refs = tuple(
+                OrderedDict.fromkeys(
+                    (
+                        *article_refs,
+                        *carried_article_refs[:3],
+                    )
+                )
+            )
+        elif len(article_refs) <= 1 and _looks_like_vague_followup_reference(normalized_focus_message):
+            article_refs = tuple(
+                OrderedDict.fromkeys(
+                    (
+                        *article_refs,
+                        *carried_article_refs[:3],
+                    )
+                )
+            )
+        if carried_article_refs:
+            carried_article_refs = tuple(
+                ref for ref in carried_article_refs if ref in article_refs
+            )
     requested_period_label, requested_period_source = _resolve_requested_period_summary(
         request=request,
         message=message,
     )
+    if not requested_period_label:
+        requested_period_label, requested_period_source = _carry_forward_requested_period_summary(
+            request=request,
+        )
     supplemental_topic_hints = _infer_supplemental_topic_hints(
         normalized_message=normalized_message,
         requested_period_label=requested_period_label,
@@ -253,6 +404,7 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
         article_refs=article_refs,
         reform_refs=reform_refs,
         temporal_context=temporal_context,
+        followup_focus=followup_focus,
     )
     traversal_budget, evidence_shape = _BUDGETS[query_mode]
 
@@ -262,7 +414,11 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
             PlannerEntryPoint(
                 kind="article",
                 lookup_value=article_ref,
-                source="explicit_article_reference",
+                source=(
+                    "conversation_state_anchor"
+                    if article_ref in carried_article_refs
+                    else "explicit_article_reference"
+                ),
                 confidence=0.98,
                 label=f"Art. {article_ref}",
                 resolved_key=article_ref,
@@ -290,6 +446,29 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
                 resolved_key=topic_hint,
             )
         )
+    if not article_refs and not reform_refs and _looks_like_loss_compensation_case(normalized_message):
+        entry_points.append(
+            PlannerEntryPoint(
+                kind="article",
+                lookup_value="147",
+                source="loss_compensation_anchor",
+                confidence=0.92,
+                label="Art. 147",
+                resolved_key="147",
+            )
+        )
+    if not article_refs and not reform_refs and _looks_like_tax_planning_case(normalized_message):
+        for article_key in ("869", "869-1", "869-2"):
+            entry_points.append(
+                PlannerEntryPoint(
+                    kind="article",
+                    lookup_value=article_key,
+                    source="tax_planning_anchor",
+                    confidence=0.9,
+                    label=f"Art. {article_key}",
+                    resolved_key=article_key,
+                )
+            )
 
     if not article_refs and not reform_refs:
         for article_search in _build_article_search_queries(
@@ -347,6 +526,22 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
         planner_notes.append(
             "Planner added practical support topics inferred from accountant-style workflow language."
         )
+    if followup_focus:
+        planner_notes.append(
+            "Planner treated the turn as a focused follow-up and tightened continuity against the active case context."
+        )
+    if carried_article_refs:
+        planner_notes.append(
+            "Planner carried forward previously cited norm anchors because the follow-up asked to double-click into a prior point."
+        )
+    if _looks_like_tax_planning_case(normalized_message):
+        planner_notes.append(
+            "Planner activated tax-planning advisory anchoring to pull anti-abuse, jurisprudence, and practical strategy evidence together."
+        )
+    if _looks_like_loss_compensation_case(normalized_message):
+        planner_notes.append(
+            "Planner treated the case as loss-compensation in renta instead of a saldo-a-favor refund/correction workflow."
+        )
 
     return GraphRetrievalPlan(
         query_mode=query_mode,
@@ -367,24 +562,20 @@ def with_resolved_entry_points(
 
 
 def _extract_article_refs(message: str) -> tuple[str, ...]:
-    article_cue_present = bool(_ARTICLE_CUE_RE.search(message))
-    explicit = [match.group(1).strip() for match in _ARTICLE_REF_RE.finditer(message)]
     reform_spans = tuple(match.span() for match in _REFORM_RE.finditer(message))
-
-    hits: list[str] = list(explicit)
-    bare_hits: list[str] = []
-    for match in _ARTICLE_BARE_RE.finditer(message):
-        token = match.group(1).strip()
-        if any(start <= match.start() < end for start, end in reform_spans):
+    hits: list[str] = []
+    for reference in extract_normative_reference_mentions(message):
+        locator_kind = str(reference.get("locator_kind") or "").strip().lower()
+        locator_start = str(reference.get("locator_start") or "").strip()
+        start = int(reference.get("start") or 0)
+        if locator_kind != "articles" or not locator_start:
             continue
-        if token.isdigit():
-            value = int(token)
-            if 1900 <= value <= 2039:
-                continue
-        if "-" not in token and not article_cue_present:
+        if any(span_start <= start < span_end for span_start, span_end in reform_spans):
             continue
-        bare_hits.append(token)
-    hits.extend(bare_hits)
+        hits.append(locator_start)
+        locator_end = str(reference.get("locator_end") or "").strip()
+        if locator_end:
+            hits.append(locator_end)
     return tuple(OrderedDict.fromkeys(hits))
 
 
@@ -405,11 +596,30 @@ def _classify_query_mode(
     article_refs: tuple[str, ...],
     reform_refs: tuple[tuple[str, str], ...],
     temporal_context: GraphTemporalContext,
+    followup_focus: bool,
 ) -> str:
     if temporal_context.historical_query_intent and (reform_refs or article_refs):
         return "historical_reform_chain"
     if temporal_context.historical_query_intent:
         return "historical_graph_research"
+    if followup_focus and article_refs and not reform_refs:
+        return "article_lookup"
+    if _looks_like_tax_planning_case(normalized_message):
+        return "strategy_chain"
+    if _looks_like_loss_compensation_case(normalized_message):
+        if any(
+            marker in normalized_message
+            for marker in (
+                "firmeza",
+                "regimen legal",
+                "precaucion",
+                "precauciones",
+                "riesgo",
+                "declaracion",
+            )
+        ):
+            return "obligation_chain"
+        return "computation_chain"
     if reform_refs or _contains_any(normalized_message, _REFORM_MODE_MARKERS):
         return "reform_chain"
     if _contains_any(normalized_message, _DEFINITION_MODE_MARKERS):
@@ -450,6 +660,17 @@ def _looks_like_tax_treatment_case(normalized_message: str) -> bool:
     return any(marker in normalized_message for marker in treatment_markers)
 
 
+def _looks_like_tax_planning_case(normalized_message: str) -> bool:
+    has_planning_marker = any(marker in normalized_message for marker in _TAX_PLANNING_MARKERS)
+    has_risk_marker = any(marker in normalized_message for marker in _TAX_PLANNING_RISK_MARKERS)
+    has_strategy_marker = any(marker in normalized_message for marker in _TAX_PLANNING_STRATEGY_MARKERS)
+    if has_planning_marker and has_risk_marker:
+        return True
+    if has_planning_marker and has_strategy_marker:
+        return True
+    return has_risk_marker and "planeacion" in normalized_message
+
+
 def _infer_supplemental_topic_hints(
     *,
     normalized_message: str,
@@ -458,6 +679,11 @@ def _infer_supplemental_topic_hints(
     primary_topics: tuple[str | None, ...],
 ) -> tuple[str, ...]:
     hints: list[str] = []
+    if _looks_like_tax_planning_case(normalized_message):
+        hints.append("procedimiento_tributario")
+        hints.append("declaracion_renta")
+    if _looks_like_loss_compensation_case(normalized_message):
+        hints.append("declaracion_renta")
     if _looks_like_correction_firmness_case(normalized_message):
         hints.append("procedimiento_tributario")
         hints.append("declaracion_renta")
@@ -484,6 +710,35 @@ def _build_article_search_queries(
     requested_period_label: str | None,
 ) -> tuple[str, ...]:
     queries: list[str] = []
+    if _looks_like_tax_planning_case(normalized_message):
+        queries.extend(
+            (
+                "abuso en materia tributaria proposito economico comercial simulacion fraude a la ley art 869 869-1 869-2",
+                "planeacion tributaria legitima economia de opcion jurisprudencia consejo de estado art 869 869-1",
+                "planeacion tributaria rst ordinario perdidas fiscales beneficio de auditoria arts 903 908 147 689-3",
+                "planeacion tributaria deduccion factura electronica primer empleo donaciones ttd art 108-5 ley 2277 art 257 art 240",
+                "timing de ingresos y gastos antes del cierre art 27 28 107 planeacion tributaria legitima",
+            )
+        )
+    if _looks_like_loss_compensation_case(normalized_message):
+        queries.extend(
+            (
+                "compensacion de perdidas fiscales renta liquida limite anual art 147",
+                "perdidas fiscales compensables renta liquida ordinaria art 147",
+            )
+        )
+        if any(
+            marker in normalized_message
+            for marker in (
+                "firmeza",
+                "termino de revision",
+                "termino de firmeza",
+                "beneficio de auditoria",
+            )
+        ):
+            queries.append(
+                "compensacion de perdidas fiscales firmeza declaracion termino de revision art 147 714 689-3"
+            )
     if _looks_like_correction_firmness_case(normalized_message):
         queries.extend(
             (
@@ -520,6 +775,8 @@ def _build_article_search_queries(
 
 
 def _looks_like_refund_balance_case(normalized_message: str) -> bool:
+    if _looks_like_loss_compensation_case(normalized_message):
+        return False
     refund_primary_hits = _count_markers(normalized_message, _REFUND_BALANCE_MARKERS)
     if refund_primary_hits == 0:
         return False
@@ -574,6 +831,8 @@ def _secondary_topic_hints_from_scores(
 
 
 def _looks_like_correction_firmness_case(normalized_message: str) -> bool:
+    if _looks_like_loss_compensation_case(normalized_message):
+        return False
     correction_primary_hits = _count_markers(
         normalized_message,
         _CORRECTION_FIRMNESS_MARKERS,
@@ -606,6 +865,146 @@ def _workflow_signal(
 
 def _count_markers(normalized_message: str, markers: tuple[str, ...]) -> int:
     return sum(1 for marker in markers if marker in normalized_message)
+
+
+def _looks_like_loss_compensation_case(normalized_message: str) -> bool:
+    loss_primary_hits = _count_markers(normalized_message, _LOSS_COMPENSATION_MARKERS)
+    if loss_primary_hits == 0:
+        return False
+    loss_score = _workflow_signal(
+        normalized_message=normalized_message,
+        primary_markers=_LOSS_COMPENSATION_MARKERS,
+        context_markers=_LOSS_COMPENSATION_CONTEXT_MARKERS,
+    )
+    refund_score = _workflow_signal(
+        normalized_message=normalized_message,
+        primary_markers=_REFUND_BALANCE_MARKERS,
+        context_markers=_REFUND_BALANCE_CONTEXT_MARKERS,
+    )
+    correction_score = _workflow_signal(
+        normalized_message=normalized_message,
+        primary_markers=_CORRECTION_FIRMNESS_MARKERS,
+        context_markers=_CORRECTION_FIRMNESS_CONTEXT_MARKERS,
+    )
+    return loss_score >= 4 and loss_score >= refund_score and loss_score >= correction_score
+
+
+def _looks_like_followup_focus_request(
+    *,
+    request: PipelineCRequest,
+    normalized_message: str,
+    article_refs: tuple[str, ...],
+    reform_refs: tuple[tuple[str, str], ...],
+) -> bool:
+    if not _is_followup_turn(request):
+        return False
+    if any(marker in normalized_message for marker in _FOLLOWUP_FOCUS_MARKERS):
+        return True
+    token_count = len([token for token in normalized_message.split() if token])
+    if ":" in str(request.message or "") and token_count <= 40:
+        return True
+    if article_refs or reform_refs:
+        return token_count <= 28
+    return token_count <= 18
+
+
+def _planner_followup_focus_text(raw_message: str) -> str:
+    text = re.sub(r"\s+", " ", str(raw_message or "")).strip()
+    if not text:
+        return ""
+    question_split = _split_question_from_embedded_followup_answer(text)
+    if question_split is not None:
+        return question_split[0]
+    newline_split = _split_first_line_from_embedded_followup_answer(raw_message)
+    if newline_split is not None:
+        return newline_split[0]
+    return text
+
+
+def _split_question_from_embedded_followup_answer(text: str) -> tuple[str, str] | None:
+    question_mark_index = text.find("?")
+    if question_mark_index == -1:
+        return None
+    head = text[: question_mark_index + 1].strip(" :-")
+    tail = text[question_mark_index + 1 :].strip(" :-")
+    if not head or not tail:
+        return None
+    if not _looks_like_embedded_followup_answer_text(tail):
+        return None
+    return head, tail
+
+
+def _split_first_line_from_embedded_followup_answer(raw_message: str) -> tuple[str, str] | None:
+    lines = [str(line or "").strip() for line in str(raw_message or "").splitlines() if str(line or "").strip()]
+    if len(lines) < 2:
+        return None
+    head = lines[0]
+    tail = " ".join(lines[1:]).strip()
+    if not head or not tail:
+        return None
+    if "?" not in head and len(head.split()) > 14:
+        return None
+    if not _looks_like_embedded_followup_answer_text(tail):
+        return None
+    return head, tail
+
+
+def _looks_like_embedded_followup_answer_text(text: str) -> bool:
+    raw = re.sub(r"\s+", " ", str(text or "")).strip()
+    normalized = _normalize_text(raw)
+    if not raw or len(normalized.split()) < 8:
+        return False
+    score = 0
+    if any(normalized.startswith(marker) for marker in _FOLLOWUP_EMBEDDED_ANSWER_STARTERS):
+        score += 2
+    if any(marker in normalized for marker in _FOLLOWUP_EMBEDDED_ANSWER_MARKERS):
+        score += 2
+    if raw.count(".") >= 1 or raw.count("\n") >= 1:
+        score += 1
+    if _ARTICLE_CUE_RE.search(raw):
+        score += 1
+    return score >= 3
+
+
+def _looks_like_vague_followup_reference(normalized_message: str) -> bool:
+    return any(marker in normalized_message for marker in _FOLLOWUP_VAGUE_MARKERS)
+
+
+def _is_followup_turn(request: PipelineCRequest) -> bool:
+    state = request.conversation_state
+    if isinstance(state, dict) and int(state.get("turn_count") or 0) > 0:
+        return True
+    return bool(str(request.conversation_context or "").strip())
+
+
+def _conversation_state_article_refs(request: PipelineCRequest) -> tuple[str, ...]:
+    state = request.conversation_state if isinstance(request.conversation_state, dict) else {}
+    anchors = tuple(
+        str(item or "").strip()
+        for item in list(state.get("normative_anchors") or ())
+        if str(item or "").strip()
+    )
+    refs: list[str] = []
+    for anchor in anchors:
+        refs.extend(_extract_article_refs(anchor))
+    return tuple(OrderedDict.fromkeys(refs))
+
+
+def _carry_forward_requested_period_summary(
+    *,
+    request: PipelineCRequest,
+) -> tuple[str | None, str | None]:
+    state = request.conversation_state if isinstance(request.conversation_state, dict) else {}
+    for item in list(state.get("carry_forward_facts") or ()):
+        label = _requested_period_label_from_text(str(item or ""))
+        if label:
+            return label, "conversation_state_fact"
+    context = str(request.conversation_context or "").strip()
+    if context:
+        label = _requested_period_label_from_text(context)
+        if label:
+            return label, "conversation_context"
+    return None, None
 
 
 def _build_temporal_context(
@@ -674,14 +1073,21 @@ def _resolve_requested_period_summary(
     request: PipelineCRequest,
     message: str,
 ) -> tuple[str | None, str | None]:
-    ag_match = _AG_YEAR_RE.search(message)
-    if ag_match is not None:
-        return f"AG {ag_match.group(1)}", "message_ag"
+    label = _requested_period_label_from_text(message)
+    if label is not None:
+        return label, "message_ag"
     company_context = dict(request.company_context or {})
     fiscal_year = str(company_context.get("fiscal_year") or "").strip()
     if fiscal_year.isdigit() and len(fiscal_year) == 4:
         return f"AG {fiscal_year}", "company_context_fiscal_year"
     return None, None
+
+
+def _requested_period_label_from_text(value: str) -> str | None:
+    ag_match = _AG_YEAR_RE.search(str(value or ""))
+    if ag_match is None:
+        return None
+    return f"AG {ag_match.group(1)}"
 
 
 def _normalize_reform_key(citation: str) -> str:

@@ -478,13 +478,14 @@ export function createChatRequestController({
             const elapsedMs = metrics.stopRequestTimer();
             stopPrimaryLoading();
             await handleAssistantSuccessPayload(payloadData, elapsedMs);
-            return;
+            return { stop: true };
           }
           if (event === "error") {
             sawTerminalEvent = true;
             const elapsedMs = metrics.stopRequestTimer();
             stopPrimaryLoading();
             await handleAssistantErrorPayload(payloadData, elapsedMs);
+            return { stop: true };
           }
         }, { onActivity: () => watchdog.touch() });
         if (!sawTerminalEvent) throw new Error("stream_incomplete");

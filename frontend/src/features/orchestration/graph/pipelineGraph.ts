@@ -1,6 +1,6 @@
 import type { PipelineEdge, PipelineGraph, PipelineLane, PipelineNode } from "./types";
 
-export const PIPELINE_VERSION = "2026-04-15";
+export const PIPELINE_VERSION = "2026-04-16";
 
 const lanes: PipelineLane[] = [
   { id: "plataforma", label: "Entry + Routing", color: "var(--orch-lane-plataforma)", order: 0 },
@@ -236,28 +236,70 @@ const nodes: PipelineNode[] = [
     id: "surfaces.normativa",
     lane: "surfaces",
     kind: "stage",
-    title: "Normativa / Evidence Panels",
-    summary: "This is where deeper legal reading belongs: source text, citations, and evidence inspection beyond the main answer body.",
+    title: "Normativa phase=instant",
+    summary: "Citation clicks open a deterministic modal/page chrome first: facts, caution, original text, vigencia, and actions.",
     actors: ["python"],
-    metrics: ["deep dive"],
+    metrics: ["phase=instant"],
     order: 2,
     detailHtml: `
-      <p>The main answer should help the accountant act.</p>
-      <p>The normativa surfaces are where the accountant can rest, verify legal context, and dig deeper into the exact texts if desired.</p>
+      <p><strong>Current truth:</strong> the Normativa surface now has a fast deterministic first paint again.</p>
+      <p>This layer is owned by the citation/profile builders and should stay authoritative for document identity, family, binding force, facts, caution, and original text.</p>
+    `,
+  },
+  {
+    id: "surfaces.normativa_llm",
+    lane: "surfaces",
+    kind: "stage",
+    title: "Normativa phase=llm + deep analysis",
+    summary: "A dedicated src/lia_graph/normativa/* package enriches the modal/page with graph-backed narrative without reusing main-chat answer assembly.",
+    actors: ["python"],
+    metrics: ["src/lia_graph/normativa/*"],
+    order: 3,
+    detailHtml: `
+      <p>This is the current architectural boundary: shared planner/retriever may be reused, but <code>answer_first_bubble.py</code> and friends are not the contract for Normativa.</p>
+      <p>The old modal UX stays intact while the enrichment path speaks graph-native retrieval.</p>
+    `,
+  },
+  {
+    id: "surfaces.interpretacion",
+    lane: "surfaces",
+    kind: "stage",
+    title: "Interpretación surface package",
+    summary: "A dedicated src/lia_graph/interpretacion/* package now owns Expertos ranking, grouping, summary and explore flows without reusing chat or Normativa assembly.",
+    actors: ["python"],
+    metrics: ["src/lia_graph/interpretacion/*"],
+    order: 4,
+    detailHtml: `
+      <p><strong>Important boundary:</strong> this window should not piggyback on main-chat first-bubble modules or on the Normativa package.</p>
+      <p>After the bubble publishes, this surface starts from the same minimal turn kernel used to prime Normativa, but it does not wait for Normativa retrieval to finish.</p>
+    `,
+  },
+  {
+    id: "surfaces.reader",
+    lane: "surfaces",
+    kind: "stage",
+    title: "Source / Article / Form readers",
+    summary: "Reader-style windows are deterministic document surfaces, not graph-published chat answers.",
+    actors: ["python"],
+    metrics: ["deterministic"],
+    order: 5,
+    detailHtml: `
+      <p>These windows read source text, locators, excerpts, and structured metadata directly.</p>
+      <p>They can share document-processing helpers, but they do not run through <code>answer_assembly.py</code>.</p>
     `,
   },
   {
     id: "surfaces.partial",
     lane: "surfaces",
     kind: "config",
-    title: "Still Partial",
-    summary: "Chat works end to end, but rich evidence drill-down, saved history, and some managed/admin surfaces still need more restoration.",
+    title: "Surface restoration status",
+    summary: "Main chat, Normativa, and Interpretación now have explicit runtime boundaries. Some managed shells still have restoration work ahead.",
     actors: ["python"],
-    metrics: ["chat ready", "managed layer partial"],
-    order: 3,
+    metrics: ["chat + normativa + interpretación"],
+    order: 6,
     detailHtml: `
-      <p><strong>Healthy now:</strong> open GUI, ask a question, get a corpus-backed answer.</p>
-      <p><strong>Still recovering:</strong> richer evidence utilities, saved conversation management, and some operational surfaces.</p>
+      <p><strong>Healthy now:</strong> main chat, citation-profile modal, normative-analysis, and Expertos all have explicit runtime ownership.</p>
+      <p><strong>Still recovering:</strong> some operational/managed surfaces around the core answer engine.</p>
     `,
   },
 
@@ -466,8 +508,13 @@ const edges: PipelineEdge[] = [
 
   { from: "retrieval.contract", to: "surfaces.public", crossLane: true, label: "published answer" },
   { from: "retrieval.contract", to: "surfaces.auth", crossLane: true, label: "published answer" },
-  { from: "retrieval.contract", to: "surfaces.normativa", crossLane: true, label: "citations + evidence" },
+  { from: "plataforma.server", to: "surfaces.normativa", crossLane: true, label: "/api/citation-profile" },
+  { from: "surfaces.normativa", to: "surfaces.normativa_llm", label: "needs_llm" },
+  { from: "retrieval.evidence", to: "surfaces.normativa_llm", crossLane: true, label: "shared graph evidence" },
+  { from: "plataforma.server", to: "surfaces.interpretacion", crossLane: true, label: "separate surface path" },
+  { from: "plataforma.server", to: "surfaces.reader", crossLane: true, label: "/source-view" },
   { from: "surfaces.auth", to: "surfaces.partial", label: "managed layer" },
+  { from: "surfaces.normativa_llm", to: "surfaces.partial", label: "restoration map" },
 
   { from: "ingesta.knowledge", to: "ingesta.manifest" },
   { from: "ingesta.manifest", to: "ingesta.publish" },

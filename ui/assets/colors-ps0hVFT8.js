@@ -1,0 +1,1 @@
+const t={amber:{100:"#ffe7c8",600:"#915c1e"}},r={text:{tertiary:"var(--text-tertiary)"},border:{default:"var(--border-default)"},status:{success:"var(--status-success)",error:"var(--status-error)"}};export{t as p,r as s};

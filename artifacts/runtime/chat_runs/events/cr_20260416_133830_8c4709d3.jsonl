@@ -1,0 +1,10 @@
+{"at": "2026-04-16T13:38:30Z", "event_type": "chat_run.created", "payload": {"endpoint": "/api/chat/stream", "session_id": "chat_eca05c886535", "pipeline_route": "pipeline_d", "pipeline_variant": "pipeline_d", "shadow_pipeline_variant": "None"}}
+{"at": "2026-04-16T13:38:30Z", "event_type": "chat_run.pipeline_started", "payload": {}}
+{"at": "2026-04-16T13:38:31Z", "event_type": "chat_run.first_model_delta", "payload": {}}
+{"at": "2026-04-16T13:38:31Z", "event_type": "chat_run.first_visible_answer", "payload": {}}
+{"at": "2026-04-16T13:38:31Z", "event_type": "chat_run.pipeline_linked", "payload": {"pipeline_run_id": "pd_5b754db286ef4902bbd900489774d730", "pipeline_variant": "pipeline_d", "pipeline_route": "pipeline_d"}}
+{"at": "2026-04-16T13:38:31Z", "event_type": "chat_run.pipeline_completed", "payload": {}}
+{"at": "2026-04-16T13:38:31Z", "event_type": "chat_run.final_payload_ready", "payload": {}}
+{"at": "2026-04-16T13:38:31Z", "event_type": "chat_run.completed", "payload": {}}
+{"at": "2026-04-16T13:38:31Z", "event_type": "chat_run.response_sent", "payload": {}}
+{"at": "2026-04-16T13:38:31Z", "event_type": "chat_run.async_persistence_done", "payload": {}}

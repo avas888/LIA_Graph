@@ -20,6 +20,10 @@ export type ChatStreamEvent = {
   data: unknown;
 };
 
+export type ChatStreamControl = {
+  stop?: boolean;
+};
+
 // ── Watchdog ──────────────────────────────────────────────────
 
 export class RequestWatchdogError extends Error {
@@ -121,7 +125,7 @@ function sleep(ms: number): Promise<void> {
 
 export async function consumeEventStream(
   response: Response,
-  onEvent: (event: ChatStreamEvent) => Promise<void> | void,
+  onEvent: (event: ChatStreamEvent) => Promise<ChatStreamControl | void> | ChatStreamControl | void,
   options: { onActivity?: () => void } = {},
 ): Promise<void> {
   const reader = response.body?.getReader();
@@ -133,8 +137,8 @@ export async function consumeEventStream(
   let eventId: string | null = null;
   let dataLines: string[] = [];
 
-  async function flushEvent(): Promise<void> {
-    if (dataLines.length === 0 && !eventId && eventName === "message") return;
+  async function flushEvent(): Promise<boolean> {
+    if (dataLines.length === 0 && !eventId && eventName === "message") return false;
     const rawData = dataLines.join("\n");
     let parsedData: unknown = null;
     if (rawData) {
@@ -144,10 +148,11 @@ export async function consumeEventStream(
         parsedData = rawData;
       }
     }
-    await onEvent({ event: eventName || "message", id: eventId, data: parsedData });
+    const control = await onEvent({ event: eventName || "message", id: eventId, data: parsedData });
     eventName = "message";
     eventId = null;
     dataLines = [];
+    return Boolean(control && typeof control === "object" && control.stop);
   }
 
   while (true) {
@@ -161,7 +166,14 @@ export async function consumeEventStream(
       buffer = buffer.slice(lineBreakIndex + 1);
 
       if (!line) {
-        await flushEvent();
+        if (await flushEvent()) {
+          try {
+            await reader.cancel();
+          } catch (_error) {
+            // Best-effort: returning early still releases the main chat flow.
+          }
+          return;
+        }
         lineBreakIndex = buffer.indexOf("\n");
         continue;
       }
@@ -186,7 +198,13 @@ export async function consumeEventStream(
   }
 
   if (buffer.trim()) dataLines.push(buffer.replace(/\r$/, ""));
-  await flushEvent();
+  if (await flushEvent()) {
+    try {
+      await reader.cancel();
+    } catch (_error) {
+      // Best-effort: returning early still releases the main chat flow.
+    }
+  }
 }
 
 // ── Polling fallback ──────────────────────────────────────────

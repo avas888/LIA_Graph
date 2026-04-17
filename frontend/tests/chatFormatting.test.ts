@@ -26,6 +26,20 @@ describe("applyKernelHierarchyFormattingMarkdown", () => {
     expect(formatted).toContain("2. **<u>Conciliacion fiscal:</u>**\n   * Papeles de trabajo");
   });
 
+  it("keeps long numbered recommendation sentences as normal list items instead of underlined pseudo-headings", () => {
+    const formatted = applyKernelHierarchyFormattingMarkdown(
+      [
+        "1. El régimen base del art. 147 ET es que la sociedad compensa la pérdida fiscal contra la renta líquida ordinaria de años siguientes; no es un trámite de devolución o compensación de saldo a favor ante la DIAN:",
+        "2. Para pérdidas sujetas al régimen vigente, la regla operativa es 12 períodos gravables y sin tope porcentual anual; revisa el art. 290 ET solo si el saldo viene de años anteriores bajo régimen de transición:",
+      ].join("\n")
+    );
+
+    expect(formatted).toContain("1. El régimen base del art. 147 ET es que la sociedad compensa la pérdida fiscal");
+    expect(formatted).toContain("2. Para pérdidas sujetas al régimen vigente, la regla operativa es 12 períodos gravables");
+    expect(formatted).not.toContain("**<u>El régimen base");
+    expect(formatted).not.toContain("**<u>Para pérdidas sujetas");
+  });
+
   it("dedents markdown-style nested bullets under numbered sections instead of flattening them", () => {
     const formatted = applyKernelHierarchyFormattingMarkdown(
       [

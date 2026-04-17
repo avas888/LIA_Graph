@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from .chat_response_modes import DEFAULT_FIRST_RESPONSE_MODE, DEFAULT_RESPONSE_DEPTH
 from .chat_runs_store import (
     DEFAULT_CHAT_RUNS_DIR,
     ChatRunRecord,
@@ -31,8 +32,8 @@ def build_chat_run_fingerprint(
     primary_scope_mode: str,
     response_route: str,
     retrieval_profile: str = "hybrid_rerank",
-    response_depth: str = "auto",
-    first_response_mode: str = "fast_action",
+    response_depth: str = DEFAULT_RESPONSE_DEPTH,
+    first_response_mode: str = DEFAULT_FIRST_RESPONSE_MODE,
     engine_version: str | None = None,
 ) -> str:
     normalized = {

@@ -723,6 +723,19 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
       source.appendChild(sourceLink);
     }
 
+    const excerpt = normalizeText(snippet.card_summary || snippet.snippet || "");
+    if (excerpt) {
+      const body = document.createElement("p");
+      body.className = "expert-detail-source-body";
+      body.textContent = excerpt;
+      source.appendChild(body);
+    }
+
+    const actions = renderSourceActions(snippet);
+    if (actions) {
+      source.appendChild(actions);
+    }
+
     return source;
   }
 

@@ -81,6 +81,7 @@ _MODE_EDGE_PREFERENCES: dict[str, tuple[str, ...]] = {
     "definition_chain": ("DEFINES", "REFERENCES", "REQUIRES"),
     "obligation_chain": ("REQUIRES", "REFERENCES", "MODIFIES"),
     "computation_chain": ("COMPUTATION_DEPENDS_ON", "REQUIRES", "REFERENCES"),
+    "strategy_chain": ("DEFINES", "REQUIRES", "COMPUTATION_DEPENDS_ON", "REFERENCES", "MODIFIES"),
     "reform_chain": ("MODIFIES", "SUPERSEDES", "REFERENCES"),
     "historical_reform_chain": ("SUPERSEDES", "MODIFIES", "REFERENCES", "REQUIRES"),
     "historical_graph_research": ("SUPERSEDES", "MODIFIES", "REFERENCES", "REQUIRES"),
@@ -117,6 +118,17 @@ _CONCEPT_BUNDLES: tuple[dict[str, object], ...] = (
         "query_terms": ("beneficio de auditoria",),
         "article_terms": ("beneficio de auditoria", "firmeza acelerada"),
         "boost": 3.4,
+    },
+    {
+        "query_terms": ("perdidas fiscales", "compensacion de perdidas", "compensar perdidas"),
+        "article_terms": (
+            "perdidas fiscales",
+            "compensar las perdidas",
+            "compensaran las perdidas fiscales",
+            "rentas liquidas",
+            "renta liquida",
+        ),
+        "boost": 4.0,
     },
     {
         "query_terms": ("devolucion", "compensacion", "auto inadmisorio", "devolucion con garantia"),

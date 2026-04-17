@@ -5,6 +5,7 @@ from datetime import date
 from typing import Any
 
 from ..contracts import Citation, DocumentRecord
+from ..chat_response_modes import DEFAULT_FIRST_RESPONSE_MODE, DEFAULT_RESPONSE_DEPTH
 
 
 def _validate_iso_date(value: str | None) -> None:
@@ -48,8 +49,8 @@ class PipelineCRequest:
     primary_scope_mode: str = "global_overlay"
     response_route: str = "decision"
     retrieval_profile: str = "hybrid_rerank"
-    response_depth: str = "auto"
-    first_response_mode: str = "fast_action"
+    response_depth: str = DEFAULT_RESPONSE_DEPTH
+    first_response_mode: str = DEFAULT_FIRST_RESPONSE_MODE
     conversation_context: str | None = None
     conversation_state: dict[str, Any] | None = None
     debug: bool = False

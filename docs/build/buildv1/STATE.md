@@ -22,6 +22,9 @@
 ## Corpus and Graph Health
 
 - Active local corpus root: `/Users/ava-sensas/Developer/Lia_Graph/knowledge_base`
+- Surface-specific deterministic package lane: `/Users/ava-sensas/Developer/Lia_Graph/knowledge_base/form_guides`
+  - powers local formulario/formato guide surfaces only
+  - excluded from the current shared-corpus blessing counts below
 - Preserved working snapshot outside repo:
   - `/Users/ava-sensas/Library/CloudStorage/Dropbox/AAA_LOGGRO Ongoing/AI/LIA_contadores/Lia_Graph_Working_Snapshots/knowledge_base_snapshot_2026-04-15_19-01-13`
 - Taxonomy state:

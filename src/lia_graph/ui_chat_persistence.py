@@ -6,6 +6,7 @@ import threading
 from typing import Any
 
 from .background_jobs import run_job_async
+from .chat_response_modes import DEFAULT_FIRST_RESPONSE_MODE, DEFAULT_RESPONSE_DEPTH
 from .chat_run_runtime import build_chat_run_fingerprint
 from .ui_chat_context import (
     ChatRequestContext,
@@ -58,8 +59,8 @@ def ensure_chat_run_context(*, request_context: ChatRequestContext, deps: dict[s
         primary_scope_mode=str(request_context["primary_scope_mode"]),
         response_route=str(request_context["pipeline_response_route"]),
         retrieval_profile=str(request_context.get("retrieval_profile") or "hybrid_rerank"),
-        response_depth=str(request_context.get("response_depth") or "auto"),
-        first_response_mode=str(request_context.get("first_response_mode") or "fast_action"),
+        response_depth=str(request_context.get("response_depth") or DEFAULT_RESPONSE_DEPTH),
+        first_response_mode=str(request_context.get("first_response_mode") or DEFAULT_FIRST_RESPONSE_MODE),
         engine_version=str(request_context.get("pipeline_variant") or "pipeline_c"),
     )
     payload["client_turn_id"] = client_turn_id
@@ -85,8 +86,8 @@ def ensure_chat_run_context(*, request_context: ChatRequestContext, deps: dict[s
             "primary_scope_mode": str(request_context["primary_scope_mode"]),
             "response_route": str(request_context["pipeline_response_route"]),
             "retrieval_profile": str(request_context.get("retrieval_profile") or "hybrid_rerank"),
-            "response_depth": str(request_context.get("response_depth") or "auto"),
-            "first_response_mode": str(request_context.get("first_response_mode") or "fast_action"),
+            "response_depth": str(request_context.get("response_depth") or DEFAULT_RESPONSE_DEPTH),
+            "first_response_mode": str(request_context.get("first_response_mode") or DEFAULT_FIRST_RESPONSE_MODE),
             "pipeline_route": str(request_context.get("requested_pipeline_variant") or "pipeline_c"),
             "pipeline_variant": str(request_context.get("pipeline_variant") or "pipeline_c"),
             "shadow_pipeline_variant": (
@@ -497,8 +498,8 @@ def _build_pipeline_request(request_context: ChatRequestContext, deps: dict[str,
         primary_scope_mode=str(request_context["primary_scope_mode"]),
         response_route=str(request_context["pipeline_response_route"]),
         retrieval_profile=str(request_context.get("retrieval_profile") or "hybrid_rerank"),
-        response_depth=str(request_context.get("response_depth") or "auto"),
-        first_response_mode=str(request_context.get("first_response_mode") or "fast_action"),
+        response_depth=str(request_context.get("response_depth") or DEFAULT_RESPONSE_DEPTH),
+        first_response_mode=str(request_context.get("first_response_mode") or DEFAULT_FIRST_RESPONSE_MODE),
         conversation_context=_extract_conversation_context(request_context),
         conversation_state=conversation_state,
         debug=bool(request_context["debug_mode"]),

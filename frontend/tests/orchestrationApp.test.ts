@@ -6,22 +6,23 @@ import { createI18n } from "@/shared/i18n";
 
 describe("orchestration app", () => {
   beforeEach(() => {
-    const ctx = new Proxy(
-      {},
-      {
-        get: () => () => {},
-      },
-    ) as CanvasRenderingContext2D;
-    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(
-      (() => ctx),
-    );
+    Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+      configurable: true,
+      value: vi.fn(),
+      writable: true,
+    });
+    Object.defineProperty(window, "scrollTo", {
+      configurable: true,
+      value: vi.fn(),
+      writable: true,
+    });
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("renders the graph canvas and expands node detail on toggle", () => {
+  it("renders the new information architecture map and filters modules by scope", () => {
     const i18n = createI18n("es-CO");
     document.body.innerHTML = `<div id="app">${renderOrchestrationShell(i18n)}</div>`;
 
@@ -32,26 +33,41 @@ describe("orchestration app", () => {
 
     mountOrchestrationApp(root, { i18n });
 
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>(".orch-node"));
-    const lanes = Array.from(document.querySelectorAll<HTMLElement>(".orch-lane"));
-    const laneButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".orch-lane-btn"));
-    const firstToggle = document.querySelector<HTMLButtonElement>(".orch-node-toggle");
-    const firstDetail = document.querySelector<HTMLElement>(".orch-node-detail");
+    const sections = Array.from(document.querySelectorAll<HTMLElement>(".orch-section"));
+    const navButtons = Array.from(document.querySelectorAll<HTMLElement>(".orch-nav-btn"));
+    const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".orch-filter-btn"));
+    const moduleCards = Array.from(document.querySelectorAll<HTMLElement>(".orch-module-card"));
+    const normativaFilter = document.querySelector<HTMLButtonElement>('[data-scope-filter="normativa"]');
+    const mainChatCards = Array.from(document.querySelectorAll<HTMLElement>('.orch-module-card[data-scope="main-chat"]'));
+    const normativaCards = Array.from(document.querySelectorAll<HTMLElement>('.orch-module-card[data-scope="normativa"]'));
+    const modulesButton = document.querySelector<HTMLElement>('[data-target="orch-modules"]');
 
-    expect(lanes.length).toBeGreaterThan(0);
-    expect(nodes.length).toBeGreaterThan(0);
-    expect(laneButtons.length).toBeGreaterThan(0);
-    expect(document.getElementById("orch-minimap-canvas")).not.toBeNull();
-    expect(firstToggle).not.toBeNull();
-    expect(firstDetail).not.toBeNull();
-    expect(firstDetail?.hidden).toBe(true);
-    expect(document.body.textContent).toContain("Served Chat (Pipeline D)");
-    expect(document.body.textContent).toContain("build_graph_retrieval_plan()");
+    expect(sections.length).toBeGreaterThan(0);
+    expect(navButtons.length).toBeGreaterThan(0);
+    expect(filterButtons.length).toBeGreaterThan(0);
+    expect(moduleCards.length).toBeGreaterThan(0);
+    expect(document.body.textContent).toContain("Arquitectura de Información y Orquestación");
+    expect(document.body.textContent).toContain("GraphEvidenceBundle");
+    expect(document.body.textContent).toContain("answer_synthesis.py");
+    expect(document.body.textContent).toContain("answer_inline_anchors.py");
+    expect(document.body.textContent).toContain("src/lia_graph/normativa/orchestrator.py");
+    expect(document.body.textContent).toContain("src/lia_graph/interpretacion/orchestrator.py");
+    expect(document.body.textContent).toContain("ui_citation_profile_builders.py");
+    expect(document.body.textContent).toContain("ui_source_view_processors.py");
+    expect(document.body.textContent).toContain("ui_analysis_controllers.py");
+    expect(document.body.textContent).toContain("Bubble primero; Normativa e Interpretación arrancan después con el mismo kernel mínimo");
+    expect(document.body.textContent).not.toContain("Normativa facade (target)");
+    expect(document.body.textContent).not.toContain("Futuras superficies");
     expect(document.body.textContent).not.toContain("Pipeline C");
 
-    firstToggle?.click();
+    normativaFilter?.click();
 
-    expect(firstToggle?.getAttribute("aria-expanded")).toBe("true");
-    expect(firstDetail?.hidden).toBe(false);
+    expect(normativaFilter?.getAttribute("aria-pressed")).toBe("true");
+    expect(mainChatCards.every((card) => card.hidden)).toBe(true);
+    expect(normativaCards.some((card) => !card.hidden)).toBe(true);
+
+    modulesButton?.click();
+
+    expect(window.scrollTo).toHaveBeenCalled();
   });
 });
