@@ -52,11 +52,18 @@ Consumers:
 
 These decide what evidence we try to bring before we compose the answer.
 
-Source of truth:
+Source of truth (planner + shared support):
 
 - `src/lia_graph/pipeline_d/planner.py`
-- `src/lia_graph/pipeline_d/retriever.py`
 - `src/lia_graph/pipeline_d/retrieval_support.py`
+
+Source of truth (retrieval adapters — orchestrator picks per request based on `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE`; see `docs/guide/orchestration.md` for the versioned env matrix):
+
+- `src/lia_graph/pipeline_d/retriever.py` — artifact BFS. Active in `dev`.
+- `src/lia_graph/pipeline_d/retriever_supabase.py` — cloud Supabase `hybrid_search` RPC + `documents` lookup. Active in `dev:staging` for the chunks half.
+- `src/lia_graph/pipeline_d/retriever_falkor.py` — cloud FalkorDB bounded Cypher BFS. Active in `dev:staging` for the graph half. Propagates errors — never silently falls back to artifacts.
+
+The three adapters return the same `GraphEvidenceBundle` shape so synthesis and assembly do not need to know which one ran. The orchestrator merges the Supabase chunks half with the Falkor graph half when both staging flags are set.
 
 This layer owns:
 
@@ -195,7 +202,7 @@ The current `main chat` information architecture should be understood as a chain
 | --- | --- | --- | --- | --- |
 | Request envelope | `chat_response_modes.py` + `pipeline_c/contracts.py` | normalized response knobs | UI/runtime, `pipeline_d` | shared |
 | Topic + planner | `planner.py` | retrieval plan, temporal context, query mode, follow-up continuity anchors | `retriever.py`, `orchestrator.py` | shared |
-| Retrieval | `retriever.py` | `GraphEvidenceBundle` | `answer_synthesis.py` | shared |
+| Retrieval (env-gated) | `retriever.py` / `retriever_supabase.py` / `retriever_falkor.py` | `GraphEvidenceBundle` | `answer_synthesis.py` | shared |
 | Enrichment extraction | `answer_support.py` | article insights and support insights | `answer_synthesis.py` | shared hot path |
 | Main-chat synthesis facade | `answer_synthesis.py` | `GraphNativeAnswerParts` | `orchestrator.py`, `answer_assembly.py` | `main chat` |
 | Main-chat assembly facade | `answer_assembly.py` | first-turn and second-plus visible markdown routes | `orchestrator.py` | `main chat` |
@@ -313,10 +320,12 @@ Stability rule:
 To keep the repo understandable over time:
 
 - do not duplicate allowed enum values across UI/runtime files
-- do not put large blocks of tone-defining copy directly in `planner.py` or `retriever.py`
+- do not put large blocks of tone-defining copy directly in `planner.py` or `retriever*.py`
 - do not add product-policy prose to tests; tests should assert behavior, not become the policy store
 - do not keep two “current runtime” docs alive at the same time
 - when a guide becomes historical, mark it explicitly as archived
+- do not branch answer-shaping logic on `LIA_CORPUS_SOURCE` / `LIA_GRAPH_MODE` — those flags belong to retrieval dispatch only; synthesis and assembly must stay backend-agnostic
+- when retrieval contract or env flags change, bump the env matrix version in `docs/guide/orchestration.md`
 
 ## Practical Tuning Checklist
 

@@ -272,7 +272,19 @@ def _check_gemini() -> CheckResult:
 
 def _check_falkordb() -> CheckResult:
     raw_url = str(os.getenv("FALKORDB_URL", "") or "").strip()
-    details = {"url": _redact_url(raw_url)}
+    graph_name = str(os.getenv("FALKORDB_GRAPH", "LIA_REGULATORY_GRAPH") or "LIA_REGULATORY_GRAPH").strip() or "LIA_REGULATORY_GRAPH"
+    graph_mode = str(os.getenv("LIA_GRAPH_MODE", "artifacts") or "artifacts").strip().lower()
+    min_nodes_raw = str(os.getenv("LIA_FALKOR_MIN_NODES", "") or "").strip()
+    try:
+        min_nodes_required = int(min_nodes_raw) if min_nodes_raw else (500 if graph_mode == "falkor_live" else 0)
+    except ValueError:
+        min_nodes_required = 0
+    details = {
+        "url": _redact_url(raw_url),
+        "graph_name": graph_name,
+        "graph_mode": graph_mode,
+        "min_nodes_required": min_nodes_required,
+    }
     if not raw_url:
         return CheckResult(
             name="falkordb",
@@ -294,6 +306,7 @@ def _check_falkordb() -> CheckResult:
             details=details,
         )
 
+    node_count: int | None = None
     try:
         base_socket = socket.create_connection((host, port), timeout=_SOCKET_TIMEOUT_SECONDS)
         base_socket.settimeout(_SOCKET_TIMEOUT_SECONDS)
@@ -334,6 +347,15 @@ def _check_falkordb() -> CheckResult:
             sock.sendall(_resp_encode("GRAPH.LIST"))
             graph_list_response = _read_resp(sock)
             details["graph_list_response"] = graph_list_response
+
+            if graph_mode == "falkor_live" or min_nodes_required > 0:
+                sock.sendall(
+                    _resp_encode("GRAPH.QUERY", graph_name, "MATCH (n) RETURN count(n) AS node_count")
+                )
+                query_response = _read_resp(sock)
+                details["node_count_response"] = query_response
+                node_count = _extract_node_count(query_response)
+                details["node_count"] = node_count
     except Exception as exc:  # noqa: BLE001
         details["error"] = str(exc)
         return CheckResult(
@@ -344,6 +366,19 @@ def _check_falkordb() -> CheckResult:
             details=details,
         )
 
+    if min_nodes_required > 0 and (node_count or 0) < min_nodes_required:
+        return CheckResult(
+            name="falkordb",
+            ok=False,
+            status="empty_graph",
+            summary=(
+                f"FalkorDB graph '{graph_name}' has {node_count or 0} nodes, "
+                f"below the required minimum of {min_nodes_required}. "
+                "Run `make phase2-graph-artifacts` against the configured FalkorDB before starting the server."
+            ),
+            details=details,
+        )
+
     return CheckResult(
         name="falkordb",
         ok=True,
@@ -351,6 +386,27 @@ def _check_falkordb() -> CheckResult:
         summary="FalkorDB accepted the connection and responded to PING/GRAPH.LIST.",
         details=details,
     )
+
+
+def _extract_node_count(raw_response: Any) -> int | None:
+    if not isinstance(raw_response, list) or len(raw_response) < 2:
+        return None
+    rows = raw_response[1]
+    if not isinstance(rows, list) or not rows:
+        return None
+    first_row = rows[0]
+    if not isinstance(first_row, list) or not first_row:
+        return None
+    cell = first_row[0]
+    if isinstance(cell, list) and len(cell) >= 2:
+        cell = cell[1]
+    try:
+        return int(cell)
+    except (TypeError, ValueError):
+        try:
+            return int(str(cell).strip())
+        except (TypeError, ValueError):
+            return None
 
 
 def _check_railway() -> CheckResult:

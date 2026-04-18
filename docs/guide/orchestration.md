@@ -1,5 +1,8 @@
 # Orchestration Guide
 
+> **Env matrix version: `v2026-04-18`.**
+> Authoritative table lives in [Runtime Env Matrix (Versioned)](#runtime-env-matrix-versioned). Bump the version and extend the change log whenever `scripts/dev-launcher.mjs` flips a flag, a new `LIA_*` env is introduced, or a mode's read path changes.
+
 ## Purpose
 
 This guide describes the live orchestration of Lia Graph at two levels:
@@ -12,6 +15,10 @@ This is the end-to-end operating map.
 For the primary source of truth for chat-answer shaping policy, module ownership, and tuning rules, read:
 
 - `docs/guide/chat-response-architecture.md`
+
+For operational details (env files loaded per mode, migration baseline, seed users, corpus refresh), read:
+
+- `docs/guide/env_guide.md`
 
 `docs/guide/orchestration1.md` is an archived snapshot only. It is not a live runtime guide.
 
@@ -27,8 +34,9 @@ This file is the main reference for:
 - `/api/normative-analysis`
 - `/source-view`
 - the `/orchestration` HTML view
-- the artifact-backed retrieval runtime
-- the ingestion path that materializes the artifacts the runtime reads
+- the retrieval runtime — both the artifact-backed path (dev) and the cloud-live Supabase + FalkorDB path (staging / production)
+- the ingestion path that materializes the artifacts AND the cloud Supabase rows the runtime reads
+- the per-mode env/flag matrix and its version history (see [Runtime Env Matrix (Versioned)](#runtime-env-matrix-versioned))
 
 This file answers questions like:
 
@@ -56,7 +64,11 @@ The current served runtime has these properties:
 - after the chat bubble publishes, `Normativa` and `Interpretación` run as sibling post-answer tracks from the same minimal turn kernel; neither should block the bubble, and `Interpretación` must not wait for full `Normativa` completion
 - source/document-reader windows are deterministic read surfaces, not graph answer-assembly surfaces
 - the served runtime does not read Dropbox directly
-- the served runtime reads the artifact bundle built from the canonical corpus
+- retrieval reads **two possible sources**, picked per run-mode:
+  - `dev` reads the filesystem artifact bundle and local docker FalkorDB (parity only)
+  - `dev:staging` reads cloud Supabase (`hybrid_search` RPC) and walks the graph live in cloud FalkorDB
+  - `dev:production` inherits staging's wiring through Railway env vars
+- the read path is gated by `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE`, set by `scripts/dev-launcher.mjs`; see [Runtime Env Matrix (Versioned)](#runtime-env-matrix-versioned) for the full versioned table
 - the `main chat` surface now has explicit internal facades and submodules instead of one large orchestration file
 - the `main chat` assembly path is split on purpose between first-turn mapping and second-plus follow-up publication
 
@@ -418,10 +430,15 @@ flowchart TD
     C --> D["topic_router.py + guardrails"]
     D --> E["pipeline_d/orchestrator.py"]
     E --> F["planner.py"]
-    F --> G["retriever.py"]
-    G --> H["answer_synthesis.py"]
+    F --> G["retriever dispatch<br/>(LIA_CORPUS_SOURCE + LIA_GRAPH_MODE)"]
+    G --> G1["retriever.py<br/>dev default"]
+    G --> G2["retriever_supabase.py<br/>staging chunks half"]
+    G --> G3["retriever_falkor.py<br/>staging graph half"]
+    G1 --> H["answer_synthesis.py"]
+    G2 --> H
+    G3 --> H
     H --> I["answer_assembly.py"]
-    I --> J["Visible answer + citations + diagnostics"]
+    I --> J["Visible answer + citations + diagnostics<br/>retrieval_backend + graph_backend"]
 
     H --> K["answer_synthesis_sections.py"]
     H --> L["answer_synthesis_helpers.py"]
@@ -430,11 +447,13 @@ flowchart TD
     M --> O["answer_inline_anchors.py"]
     M --> P["answer_historical_recap.py"]
 
-    G -. reads .-> Q["artifacts/canonical_corpus_manifest.json"]
-    G -. reads .-> R["artifacts/parsed_articles.jsonl"]
-    G -. reads .-> S["artifacts/typed_edges.jsonl"]
-    B -. persists runtime state .-> T["Supabase"]
-    B -. env parity + graph ops .-> U["FalkorDB"]
+    G1 -. reads (dev) .-> Q["artifacts/canonical_corpus_manifest.json"]
+    G1 -. reads (dev) .-> R["artifacts/parsed_articles.jsonl"]
+    G1 -. reads (dev) .-> S["artifacts/typed_edges.jsonl"]
+    G2 -. RPC + select (staging) .-> T["Supabase<br/>hybrid_search + documents"]
+    G3 -. Cypher BFS (staging) .-> U["FalkorDB<br/>LIA_REGULATORY_GRAPH"]
+    B -. persists runtime state .-> T
+    B -. preflight + node-count gate .-> U
 ```
 
 ## Lane 1: Entry, Route, And Runtime Shell
@@ -574,15 +593,18 @@ The remaining risk is not “one question fails”, but that new accountant phra
 
 ## Lane 4: Retrieval And Evidence Selection
 
-The served answer path is graph-first and artifact-backed.
+The served answer path is graph-first. The retrieval source is chosen per request by `orchestrator.py` based on `LIA_CORPUS_SOURCE` and `LIA_GRAPH_MODE` (see [Runtime Env Matrix (Versioned)](#runtime-env-matrix-versioned)):
 
-The retriever reads:
+- **dev (`LIA_CORPUS_SOURCE=artifacts` + `LIA_GRAPH_MODE=artifacts`)** — `retriever.py` reads the filesystem artifact bundle:
+  - `artifacts/canonical_corpus_manifest.json`
+  - `artifacts/parsed_articles.jsonl`
+  - `artifacts/typed_edges.jsonl`
+- **staging (`LIA_CORPUS_SOURCE=supabase` + `LIA_GRAPH_MODE=falkor_live`)** — two cooperating adapters merged by the orchestrator:
+  - `retriever_supabase.py` reads cloud Supabase via the `hybrid_search` RPC and the `documents` table for the chunks half.
+  - `retriever_falkor.py` walks cloud FalkorDB (`LIA_REGULATORY_GRAPH`) with a bounded, parameterized Cypher BFS for the graph half.
+- **production** — inherits staging wiring through Railway env vars.
 
-- `artifacts/canonical_corpus_manifest.json`
-- `artifacts/parsed_articles.jsonl`
-- `artifacts/typed_edges.jsonl`
-
-The evidence bundle has four layers:
+All three adapters honor the same evidence contract. The evidence bundle has four layers:
 
 1. `primary_articles`
 2. `connected_articles`
@@ -986,6 +1008,8 @@ The response returned to the UI and API still includes:
 
 The user should see the answer and citations, not the orchestration internals.
 
+For the three run modes (`dev`, `dev:staging`, `dev:production`), env files, squashed migration baseline, and seed-user workflow, see `docs/guide/env_guide.md`.
+
 Supabase remains the runtime persistence and ops state for:
 
 - conversations
@@ -997,13 +1021,80 @@ Supabase remains the runtime persistence and ops state for:
 - terms state
 - active-generation state
 
-FalkorDB currently supports:
+FalkorDB now serves two roles, picked per run-mode by `scripts/dev-launcher.mjs` and versioned in [Runtime Env Matrix (Versioned)](#runtime-env-matrix-versioned):
 
-- local Docker parity
-- staging or cloud parity
-- graph ops and environment health
+- **`npm run dev`** — local docker FalkorDB is still preflighted for environment parity and graph ops. The served runtime walks the artifact bundle (`artifacts/parsed_articles.jsonl` + `artifacts/typed_edges.jsonl`), so FalkorDB is not on the per-request hot path in dev.
+- **`npm run dev:staging`** — cloud FalkorDB (`LIA_REGULATORY_GRAPH`) IS the live per-request traversal engine. `pipeline_d/retriever_falkor.py` issues a bounded, parameterized Cypher BFS for each chat turn and returns the same `GraphEvidenceBundle` shape the artifact retriever produces.
+- **`npm run dev:production`** — inherits staging's cloud wiring through Railway env vars.
 
-It is not yet the live per-request traversal engine for served answers.
+The module wiring that makes this possible:
+
+- `src/lia_graph/pipeline_d/retriever.py` — original artifact BFS. Still the dev path.
+- `src/lia_graph/pipeline_d/retriever_supabase.py` — Supabase chunks + hybrid_search RPC adapter. Produces `primary_articles`/`connected_articles` from chunk rows and `support_documents`/`citations` from the `documents` table.
+- `src/lia_graph/pipeline_d/retriever_falkor.py` — cloud-live bounded Cypher BFS. Produces `primary_articles`/`connected_articles`/`related_reforms`. Does not produce support docs — that half stays with the Supabase adapter.
+- `src/lia_graph/pipeline_d/orchestrator.py` — reads `LIA_CORPUS_SOURCE`/`LIA_GRAPH_MODE`, dispatches to the right adapters, and merges the halves when both are cloud-live.
+
+Ingestion side (build-time) has the matching new module:
+
+- `src/lia_graph/ingestion/supabase_sink.py` — `SupabaseCorpusSink` that mirrors the corpus snapshot into `documents` / `document_chunks` / `corpus_generations` / `normative_edges` behind the `--supabase-sink` CLI flag. See `docs/guide/env_guide.md` for the refresh workflow.
+
+On an outage, the Falkor adapter propagates the error instead of silently falling back to artifacts — operators must see the outage.
+
+## Runtime Env Matrix (Versioned)
+
+This is the authoritative per-mode env matrix. The version number is monotonic — any change to what the launcher sets for `dev`, `dev:staging`, or `dev:production`, or any new `LIA_*` env that gates behavior, requires a version bump plus an entry in the change log.
+
+### Current version: `v2026-04-18`
+
+| Env | `npm run dev` | `npm run dev:staging` | `npm run dev:production` | Owner / consumer |
+|---|---|---|---|---|
+| `LIA_STORAGE_BACKEND` | `supabase` (local docker) | `supabase` (cloud) | `supabase` (cloud) | `src/lia_graph/supabase_client.py` — hard requires `supabase` |
+| `LIA_CORPUS_SOURCE` | `artifacts` | `supabase` | inherits Railway | `src/lia_graph/pipeline_d/orchestrator.py` → `retriever.py` vs `retriever_supabase.py` |
+| `LIA_GRAPH_MODE` | `artifacts` | `falkor_live` | inherits Railway | `src/lia_graph/pipeline_d/orchestrator.py` → `retriever.py` vs `retriever_falkor.py` |
+| `LIA_FALKOR_MIN_NODES` | unset (smoke check skipped) | `500` default (override via `.env.staging`) | inherits Railway | `src/lia_graph/dependency_smoke.py` — blocks boot if cloud graph is empty |
+| `LIA_INGEST_SUPABASE` | unset | unset (sink is opt-in per refresh) | unset | `src/lia_graph/ingest.py` — toggles `SupabaseCorpusSink` |
+| `LIA_INGEST_SUPABASE_TARGET` | unused | `production` default | unused | `src/lia_graph/ingest.py` `--supabase-target` |
+| `LIA_UI_HOST` / `LIA_UI_PORT` | `127.0.0.1` / `8787` | `127.0.0.1` / `8787` | set by Railway | `scripts/dev-launcher.mjs` |
+| `FALKORDB_URL` | `redis://127.0.0.1:6389` (local docker) | cloud FalkorDB URL | cloud FalkorDB URL | `scripts/dev-launcher.mjs` + `src/lia_graph/graph/client.py` |
+| `FALKORDB_GRAPH` | `LIA_REGULATORY_GRAPH` | `LIA_REGULATORY_GRAPH` | `LIA_REGULATORY_GRAPH` | `src/lia_graph/graph/client.py` |
+| `SUPABASE_URL` | `http://127.0.0.1:54321` (fallback) | cloud `utjndyxgfhkfcrjmtdqz` | cloud | `src/lia_graph/supabase_client.py` |
+| `SUPABASE_SERVICE_ROLE_KEY` | demo key (fallback) | required real key | required real key | `src/lia_graph/supabase_client.py` |
+| `SUPABASE_ANON_KEY` | demo key (fallback) | optional | optional | `src/lia_graph/supabase_client.py` |
+| `GEMINI_API_KEY` | from `.env.local` | from `.env.local` / `.env.staging` | set by Railway | `src/lia_graph/embeddings.py` |
+
+Diagnostics surface which adapters were actually used:
+
+- `PipelineCResponse.diagnostics.retrieval_backend` — `artifacts` or `supabase`
+- `PipelineCResponse.diagnostics.graph_backend` — `artifacts` or `falkor_live`
+
+If the values in diagnostics do not match the table above for the mode you are running, the launcher or env files drifted — fix it before shipping.
+
+### Change Log
+
+| Version | Date | Change | Affected files |
+|---|---|---|---|
+| `v2026-04-18` | 2026-04-18 | Introduced `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE` for the Phase B cloud-live retrieval cutover. `dev:staging` defaults flipped to `supabase` / `falkor_live`. `LIA_FALKOR_MIN_NODES` added to block boot when cloud Falkor is empty. Sink flags `LIA_INGEST_SUPABASE` / `LIA_INGEST_SUPABASE_TARGET` added for build-time corpus refresh. | `scripts/dev-launcher.mjs`, `src/lia_graph/pipeline_d/orchestrator.py`, `src/lia_graph/pipeline_d/retriever_supabase.py`, `src/lia_graph/pipeline_d/retriever_falkor.py`, `src/lia_graph/ingestion/supabase_sink.py`, `src/lia_graph/ingest.py`, `src/lia_graph/dependency_smoke.py`, `Makefile` (new `phase2-graph-artifacts-supabase` target), `supabase/migrations/20260418000000_normative_edges_unique.sql` |
+| `v2026-04-17` | 2026-04-17 | Migrations squashed onto `20260417000000_baseline.sql` + `20260417000001_seed_users.sql`; test accounts aligned to `Test123!`. Retrieval path still artifact-only in every mode. | `supabase/migrations/`, `scripts/seed_local_passwords.py` |
+| `v2026-04-16` | 2026-04-16 | `main chat` answer path split behind `answer_synthesis.py` + `answer_assembly.py` facades; `Normativa` and `Interpretación` get their own surface packages. Runtime read path still artifacts in all modes. | `src/lia_graph/pipeline_d/*`, `src/lia_graph/normativa/*`, `src/lia_graph/interpretacion/*` |
+
+### Version Bump Policy
+
+Bump the matrix version whenever ANY of the following happens:
+
+1. `scripts/dev-launcher.mjs` changes what it sets for a mode (new env key, different value, removed key).
+2. A new `LIA_*` env gates runtime behavior (retrieval, synthesis, assembly, preflight, ingestion).
+3. A mode changes its read path (e.g. dev flips to supabase, or a new mode is added).
+4. Preflight requirements change (new dependency smoke check, new minimum-node gate, new required env).
+5. The ingestion sink changes which tables it writes or which env controls it.
+
+For every bump:
+
+- update the "Current version" header
+- add a row to the Change Log with the exact files touched
+- update the mirror table in `docs/guide/env_guide.md` (short operational view) and in `CLAUDE.md` (quickstart view)
+- update the `/orchestration` HTML map status card in `frontend/src/app/orchestration/shell.ts`
+
+If the table, `env_guide.md`, `CLAUDE.md`, and the `/orchestration` page ever disagree, the orchestration guide table wins — reconcile the others to match it.
 
 ## Surface Boundaries
 
@@ -1131,7 +1222,12 @@ That remains deferred on purpose so the current fix stays commensurate with the 
 - `src/lia_graph/pipeline_c/temporal_intent.py`
 - `src/lia_graph/pipeline_d/planner.py`
 - `src/lia_graph/pipeline_d/retriever.py`
+- `src/lia_graph/pipeline_d/retriever_supabase.py`
+- `src/lia_graph/pipeline_d/retriever_falkor.py`
 - `src/lia_graph/pipeline_d/retrieval_support.py`
+- `src/lia_graph/ingestion/supabase_sink.py`
+- `src/lia_graph/dependency_smoke.py`
+- `scripts/dev-launcher.mjs`
 - `src/lia_graph/pipeline_d/answer_support.py`
 - `src/lia_graph/pipeline_d/answer_synthesis.py`
 - `src/lia_graph/pipeline_d/answer_synthesis_sections.py`

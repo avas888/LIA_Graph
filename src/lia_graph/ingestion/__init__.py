@@ -10,6 +10,7 @@ from .loader import (
     normalize_classified_edges,
 )
 from .parser import ParsedArticle, parse_article_documents, parse_articles
+from .supabase_sink import SupabaseCorpusSink, SupabaseSinkResult, default_generation_id
 
 __all__ = [
     "ClassifiedEdge",
@@ -17,8 +18,11 @@ __all__ = [
     "GraphLoadPlan",
     "ParsedArticle",
     "RawEdgeCandidate",
+    "SupabaseCorpusSink",
+    "SupabaseSinkResult",
     "build_graph_load_plan",
     "classify_edge_candidates",
+    "default_generation_id",
     "extract_edge_candidates",
     "load_graph_plan",
     "normalize_classified_edges",

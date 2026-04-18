@@ -1,4 +1,4 @@
-.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts
+.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase
 
 PHASE2_CORPUS_DIR ?= knowledge_base
 PHASE2_ARTIFACTS_DIR ?= artifacts
@@ -41,3 +41,9 @@ test-batched:
 
 phase2-graph-artifacts:
 	PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) --json
+
+# Same artifact build, plus the Supabase corpus sink. Required before
+# dev:staging can serve answers off cloud Supabase (Phase B runtime cutover).
+PHASE2_SUPABASE_TARGET ?= production
+phase2-graph-artifacts-supabase:
+	PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) --supabase-sink --supabase-target $(PHASE2_SUPABASE_TARGET) --json

@@ -1,11 +1,18 @@
 import "@/styles/main.css";
 import { renderFormGuideShell } from "@/app/form-guide/shell";
 import { mountFormGuideApp } from "@/features/form-guide/formGuideApp";
-import { bootstrapShellPage } from "@/shared/app/bootstrap";
+import { createPageContext } from "@/shared/app/bootstrap";
 
-bootstrapShellPage({
+// Form guides are public-readable content: a public visitor who clicks a
+// "guía gráfica sobre cómo llenarlo" link from the module must reach the
+// page without being redirected to /login. The backend form-guides
+// endpoints (`/api/form-guides/catalog`, `/api/form-guides/content`) do
+// not require auth, so we deliberately skip `requireAuth()` here — the
+// Authorization header is still attached if a platform token happens to
+// be present in localStorage.
+const page = createPageContext({
   missingRootMessage: "Missing #app root for form-guide page.",
-  mountApp: mountFormGuideApp,
-  renderShell: renderFormGuideShell,
-  title: (i18n) => i18n.t("app.title.formGuide") || "LIA - Guia de Formulario",
 });
+page.setTitle(page.i18n.t("app.title.formGuide") || "LIA - Guia de Formulario");
+page.mountShell(renderFormGuideShell(page.i18n));
+mountFormGuideApp(page.root, { i18n: page.i18n });

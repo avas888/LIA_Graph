@@ -1,23 +1,28 @@
 # Build V1 — Master State
 
-> **Last updated**: 2026-04-16T00:01:09-04:00
+> **Last updated**: 2026-04-18
 > **Program**: Purpose-led Shared-Corpus Graph Runtime for LIA
-> **Status**: PHASE_3_IN_PROGRESS
-> **Current phase**: 3 — Graph Planner, Retrieval, and Productization
-> **Next action**: Harden the first visible accountant answer by advancing retrieval precision, practical workflows, and published answer quality together
+> **Status**: PHASE_3_LIVE_WITH_STAGING_CUTOVER
+> **Current phase**: 3 — Graph Planner, Retrieval, and Productization (dev + staging runtimes diverged)
+> **Next action**: Harden the first visible accountant answer by advancing retrieval precision, practical workflows, and published answer quality together, while keeping the dev (artifacts) and staging (cloud Supabase + FalkorDB live) adapters behavior-equivalent
+> **Env matrix version**: `v2026-04-18` — authoritative table in `docs/guide/orchestration.md#runtime-env-matrix-versioned`
 
 ## Current Snapshot
 
 - Phases 1 and 2 are complete enough to support the live product path.
-- Phase 3 is live and user-testable in the GUI.
+- Phase 3 is live and user-testable in the GUI on both `npm run dev` and `npm run dev:staging`.
 - `pipeline_router` now defaults to `pipeline_d`.
-- The served answer path is graph-first and artifact-backed.
-- The public GUI on `/public` can ask a question and receive a real corpus-backed answer.
+- The served answer path is graph-first. Retrieval source is env-gated:
+  - `dev` → artifacts on disk + local Falkor (parity). Adapter: `retriever.py`.
+  - `dev:staging` → cloud Supabase `hybrid_search` + cloud FalkorDB Cypher BFS live. Adapters: `retriever_supabase.py` + `retriever_falkor.py` merged by `orchestrator.py`.
+  - Flags: `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE`, set by `scripts/dev-launcher.mjs`.
+- The public GUI on `/public` can ask a question and receive a real corpus-backed answer in both modes; `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend` so operators can see which adapter served the turn.
 - The published answer contract is now practical-first and hides planner/retrieval/meta-thinking from the visible reply.
-- The orchestration markdown guide now covers the current runtime plus the build-time ingestion path that feeds it, while the `/orchestration` HTML page remains focused on the served runtime.
-- Supabase is runtime persistence, not the live retrieval engine.
-- Falkor is environment parity / graph ops, not the live per-request answer source.
-- The local corpus snapshot now mirrors the Dropbox source state after the editorial revision tranche was merged into base docs and archived under `deprecated/`, with shared-path labels in parity with source.
+- The orchestration markdown guide covers the current runtime, the versioned per-mode env matrix, and the build-time ingestion path; the `/orchestration` HTML page mirrors the current state.
+- Supabase is now BOTH runtime persistence AND — in staging/production — the live chunks retrieval store (via `hybrid_search`). In dev it stays persistence-only.
+- FalkorDB is environment parity / graph ops in dev; in staging/production it IS the live per-request graph traversal engine via `retriever_falkor.py`. Cloud outages propagate — no silent artifact fallback.
+- Corpus refresh into cloud Supabase is handled by `src/lia_graph/ingestion/supabase_sink.py` via `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production`. Idempotent, additive, leaves embeddings NULL for `embedding_ops.py` to fill.
+- The local corpus snapshot mirrors the Dropbox source state after the editorial revision tranche was merged into base docs and archived under `deprecated/`, with shared-path labels in parity with source.
 
 ## Corpus and Graph Health
 

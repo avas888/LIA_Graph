@@ -807,3 +807,71 @@ def test_phase3_pipeline_d_followup_with_numeric_period_echo_stays_on_loss_compe
     assert "En la práctica," in response.answer_markdown
     assert "aportes en especie" not in response.answer_markdown.lower()
     assert "patrimonio relevante" not in response.answer_markdown.lower()
+
+
+def test_phase3_orchestrator_default_mode_reports_artifact_diagnostics(monkeypatch) -> None:
+    monkeypatch.delenv("LIA_CORPUS_SOURCE", raising=False)
+    monkeypatch.delenv("LIA_GRAPH_MODE", raising=False)
+
+    response = run_pipeline_d(
+        PipelineCRequest(
+            message="¿Qué dice el ET sobre el artículo 617 y la factura electrónica?",
+            topic="facturacion_electronica",
+            requested_topic="facturacion_electronica",
+        )
+    )
+
+    assert response.diagnostics is not None
+    assert response.diagnostics.get("retrieval_backend") == "artifacts"
+    assert response.diagnostics.get("graph_backend") == "artifacts"
+
+
+def test_phase3_orchestrator_staging_flags_dispatch_to_cloud_adapters(monkeypatch) -> None:
+    from lia_graph.pipeline_d import orchestrator as orchestrator_mod
+
+    captured: dict[str, int] = {"supabase": 0, "falkor": 0}
+
+    def fake_supabase_retrieve(plan, *, artifacts_dir=None, client=None):
+        captured["supabase"] += 1
+        from lia_graph.pipeline_d.contracts import GraphEvidenceBundle
+        return plan, GraphEvidenceBundle(
+            primary_articles=(),
+            connected_articles=(),
+            related_reforms=(),
+            support_documents=(),
+            citations=(),
+            diagnostics={"retrieval_backend": "supabase", "chunk_row_count": 0},
+        )
+
+    def fake_falkor_retrieve(plan, *, artifacts_dir=None, graph_client=None):
+        captured["falkor"] += 1
+        from lia_graph.pipeline_d.contracts import GraphEvidenceBundle
+        return plan, GraphEvidenceBundle(
+            primary_articles=(),
+            connected_articles=(),
+            related_reforms=(),
+            support_documents=(),
+            citations=(),
+            diagnostics={"graph_backend": "falkor_live"},
+        )
+
+    from lia_graph.pipeline_d import retriever_supabase as retriever_supabase_mod
+    from lia_graph.pipeline_d import retriever_falkor as retriever_falkor_mod
+    monkeypatch.setattr(retriever_supabase_mod, "retrieve_graph_evidence", fake_supabase_retrieve)
+    monkeypatch.setattr(retriever_falkor_mod, "retrieve_graph_evidence", fake_falkor_retrieve)
+    monkeypatch.setenv("LIA_CORPUS_SOURCE", "supabase")
+    monkeypatch.setenv("LIA_GRAPH_MODE", "falkor_live")
+
+    response = run_pipeline_d(
+        PipelineCRequest(
+            message="consulta",
+            topic="facturacion_electronica",
+            requested_topic="facturacion_electronica",
+        )
+    )
+
+    assert captured["supabase"] == 1
+    assert captured["falkor"] == 1
+    assert response.diagnostics is not None
+    assert response.diagnostics.get("retrieval_backend") == "supabase"
+    assert response.diagnostics.get("graph_backend") == "falkor_live"

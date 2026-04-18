@@ -212,12 +212,14 @@ const laneCards: LaneCard[] = [
   {
     id: "lane-4",
     number: "4",
-    title: "Retrieval",
-    summary: "Resuelve anclas, camina el grafo y arma el evidence bundle.",
+    title: "Retrieval (env-gated)",
+    summary: "Resuelve anclas, camina el grafo y arma el evidence bundle. El orchestrator elige adapter por request según LIA_CORPUS_SOURCE + LIA_GRAPH_MODE (ver matriz v2026-04-18 en docs/guide/orchestration.md).",
     bullets: [
-      "Artifacts locales, no Dropbox directo.",
-      "Primary primero, support después.",
-      "Historical mode es más estricto con connected noise.",
+      "dev: retriever.py sobre artifacts locales + local Falkor docker (parity).",
+      "dev:staging: retriever_supabase.py (hybrid_search RPC) + retriever_falkor.py (Cypher BFS sobre LIA_REGULATORY_GRAPH).",
+      "Los tres adapters devuelven el mismo GraphEvidenceBundle; synthesis/assembly no saben cuál corrió.",
+      "Falkor adapter propaga errores — nunca hace fallback silencioso a artifacts en staging.",
+      "Historical mode sigue siendo más estricto con connected noise en cualquiera de los tres caminos.",
     ],
   },
   {
@@ -250,7 +252,9 @@ const laneCards: LaneCard[] = [
     bullets: [
       "orchestrator.py empaqueta PipelineCResponse para main chat.",
       "ui_citation_controllers.py expone /api/citation-profile y /api/normative-analysis.",
-      "Supabase persiste runtime state; FalkorDB sigue siendo soporte de graph ops, no el traversal servido.",
+      "Supabase persiste runtime state y — en dev:staging — también sirve los chunks del retrieval vía hybrid_search.",
+      "FalkorDB es el traversal engine live en dev:staging (LIA_GRAPH_MODE=falkor_live); en dev sigue siendo soporte de graph ops.",
+      "response.diagnostics.retrieval_backend + graph_backend dejan claro qué adapter atendió cada turno.",
     ],
   },
 ];
@@ -286,14 +290,53 @@ const moduleCards: ModuleCard[] = [
   {
     title: "retriever.py",
     path: "src/lia_graph/pipeline_d/retriever.py",
-    role: "Graph evidence selector",
+    role: "Graph evidence selector (dev / artifacts)",
     consumes: "retrieval plan + artifacts",
     produces: "GraphEvidenceBundle",
     scope: "shared",
     stability: "implementation-detail",
     bullets: [
-      "Arma primary_articles, connected_articles, related_reforms y support_documents.",
-      "Entrega evidencia; todavía no decide la UX visible.",
+      "Arma primary_articles, connected_articles, related_reforms y support_documents desde artifacts.",
+      "Sigue siendo el path por defecto para dev (LIA_CORPUS_SOURCE=artifacts).",
+    ],
+  },
+  {
+    title: "retriever_supabase.py",
+    path: "src/lia_graph/pipeline_d/retriever_supabase.py",
+    role: "Supabase hybrid_search adapter (staging)",
+    consumes: "retrieval plan + cloud Supabase (documents, hybrid_search RPC)",
+    produces: "GraphEvidenceBundle (chunks + citations)",
+    scope: "shared",
+    stability: "implementation-detail",
+    bullets: [
+      "Activo cuando LIA_CORPUS_SOURCE=supabase (dev:staging default).",
+      "Produce primary/connected articles desde chunk rows y citations/support docs desde documents.",
+    ],
+  },
+  {
+    title: "retriever_falkor.py",
+    path: "src/lia_graph/pipeline_d/retriever_falkor.py",
+    role: "FalkorDB bounded Cypher BFS (staging)",
+    consumes: "retrieval plan + cloud FalkorDB (LIA_REGULATORY_GRAPH)",
+    produces: "GraphEvidenceBundle (graph half)",
+    scope: "shared",
+    stability: "implementation-detail",
+    bullets: [
+      "Activo cuando LIA_GRAPH_MODE=falkor_live (dev:staging default).",
+      "Cualquier error de Falkor se propaga — nada de fallback silencioso a artifacts.",
+    ],
+  },
+  {
+    title: "supabase_sink.py",
+    path: "src/lia_graph/ingestion/supabase_sink.py",
+    role: "Corpus sink (build-time, cloud)",
+    consumes: "parsed articles + classified edges + canonical manifest",
+    produces: "upserts a documents / document_chunks / corpus_generations / normative_edges",
+    scope: "shared",
+    stability: "implementation-detail",
+    bullets: [
+      "Se ejecuta vía make phase2-graph-artifacts-supabase, strictamente aditivo.",
+      "Idempotente por (source_key,target_key,relation,generation_id) y chunk_id; no toca embeddings.",
     ],
   },
   {
@@ -816,6 +859,11 @@ function renderPage(): string {
           <span class="orch-highlight-label">Post-answer tracks</span>
           <h3>Bubble primero; Normativa e Interpretación arrancan después con el mismo kernel mínimo</h3>
           <p>Las ventanas laterales son sibling tracks. No bloquean el bubble ni se bloquean entre sí más allá de la semilla del turno.</p>
+        </article>
+        <article class="orch-highlight-card">
+          <span class="orch-highlight-label">Env matrix v2026-04-18</span>
+          <h3>dev lee artifacts; dev:staging lee Supabase + FalkorDB live</h3>
+          <p>LIA_CORPUS_SOURCE y LIA_GRAPH_MODE, seteados por scripts/dev-launcher.mjs, eligen el adapter por request. Tabla versionada y change log viven en docs/guide/orchestration.md.</p>
         </article>
       </div>
     </section>

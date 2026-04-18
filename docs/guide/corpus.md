@@ -104,6 +104,10 @@ These are not just filing conventions. They help the audit and inventory step pr
    - `artifacts/graph_load_report.json`
    - `artifacts/graph_validation_report.json`
 10. When taxonomy behavior changes, inspect `taxonomy_version`, `topic_key_counts`, `subtopic_key_counts`, and `topic_subtopic_coverage` before assuming the canon is behaving correctly.
+11. Before the cloud runtime (`dev:staging` / production) can serve the refreshed corpus, mirror the same run into Supabase via the sink:
+    `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production`
+
+    This is additive to step 6 — artifacts on disk remain authoritative for `npm run dev`. The sink writes `documents`, `document_chunks`, `corpus_generations` (marking one row `is_active=true`), and `normative_edges`; embeddings stay NULL until `embedding_ops.py` runs against the same target. See `docs/guide/env_guide.md#corpus-refresh` for the exact commands and flags.
 
 ## Latest Run Status
 

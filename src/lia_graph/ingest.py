@@ -5,6 +5,7 @@ from collections import Counter, defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass
 import json
+import os
 from pathlib import Path
 import re
 from typing import Any
@@ -12,8 +13,10 @@ from typing import Any
 from .graph import GraphClient, GraphClientError, GraphQueryResult
 from .ingestion import (
     GraphLoadExecution,
+    SupabaseCorpusSink,
     build_graph_load_plan,
     classify_edge_candidates,
+    default_generation_id,
     extract_edge_candidates,
     load_graph_plan,
     normalize_classified_edges,
@@ -390,6 +393,11 @@ def materialize_graph_artifacts(
     allow_unblessed_load: bool = False,
     review_summary_limit: int = DEFAULT_REVIEW_SUMMARY_LIMIT,
     graph_client: GraphClient | None = None,
+    supabase_sink: bool = False,
+    supabase_target: str = "production",
+    supabase_generation_id: str | None = None,
+    supabase_activate: bool = True,
+    supabase_sink_factory: Any | None = None,
 ) -> dict[str, Any]:
     root = Path(corpus_dir)
     artifacts_root = Path(artifacts_dir)
@@ -508,6 +516,46 @@ def materialize_graph_artifacts(
     _write_json(graph_load_report_path, load_execution)
     _write_json(graph_validation_report_path, load_plan.validation.to_dict())
 
+    supabase_sink_report: dict[str, Any] | None = None
+    if supabase_sink:
+        generation_id = str(supabase_generation_id or default_generation_id()).strip()
+        if supabase_sink_factory is not None:
+            sink = supabase_sink_factory(
+                target=supabase_target,
+                generation_id=generation_id,
+            )
+        else:
+            sink = SupabaseCorpusSink(
+                target=supabase_target,
+                generation_id=generation_id,
+            )
+        knowledge_class_counts = _knowledge_class_counts(corpus_documents)
+        sink.write_generation(
+            documents=len(corpus_documents),
+            chunks=len(articles),
+            countries=("colombia",),
+            files=[doc.relative_path for doc in corpus_documents],
+            knowledge_class_counts=knowledge_class_counts,
+            index_dir=str(artifacts_root),
+        )
+        doc_id_by_source_path, documents_written = sink.write_documents(
+            [doc.to_dict() | {"markdown": doc.markdown} for doc in corpus_documents]
+        )
+        chunks_written = sink.write_chunks(
+            articles,
+            doc_id_by_source_path=doc_id_by_source_path,
+        )
+        edges_written = sink.write_normative_edges(classified_edges)
+        sink_result = sink.finalize(activate=bool(supabase_activate))
+        supabase_sink_report = sink_result.to_dict() | {
+            "documents_in_corpus": len(corpus_documents),
+            "articles_in_corpus": len(articles),
+            "typed_edges_in_corpus": len(typed_edges),
+            "documents_written_this_run": int(documents_written),
+            "chunks_written_this_run": int(chunks_written),
+            "edges_written_this_run": int(edges_written),
+        }
+
     return {
         "ok": True,
         "corpus_dir": str(root),
@@ -556,6 +604,7 @@ def materialize_graph_artifacts(
             "graph_validation_report": str(graph_validation_report_path),
         },
         "graph_load_report": load_execution,
+        "supabase_sink_report": supabase_sink_report,
     }
 
 
@@ -596,8 +645,45 @@ def parser() -> argparse.ArgumentParser:
         default=DEFAULT_REVIEW_SUMMARY_LIMIT,
         help="Maximum number of manual-review queue rows to surface in the run summary.",
     )
+    cli.add_argument(
+        "--supabase-sink",
+        action=argparse.BooleanOptionalAction,
+        default=_env_bool("LIA_INGEST_SUPABASE", False),
+        help=(
+            "Also write documents/document_chunks/corpus_generations/normative_edges "
+            "rows into Supabase after the artifact bundle is materialized."
+        ),
+    )
+    cli.add_argument(
+        "--supabase-target",
+        default=os.environ.get("LIA_INGEST_SUPABASE_TARGET", "production"),
+        choices=["production", "wip"],
+        help="Supabase target for the corpus sink. Defaults to production.",
+    )
+    cli.add_argument(
+        "--supabase-generation-id",
+        default=None,
+        help=(
+            "Override the generation_id tag used for this sink run. "
+            "Defaults to gen_<UTC timestamp>."
+        ),
+    )
+    cli.add_argument(
+        "--no-supabase-activate",
+        dest="supabase_activate",
+        action="store_false",
+        help="Write rows but leave is_active=false on corpus_generations.",
+    )
+    cli.set_defaults(supabase_activate=True)
     cli.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
     return cli
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    value = str(os.environ.get(name, "") or "").strip().lower()
+    if not value:
+        return default
+    return value in {"1", "true", "yes", "on"}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -611,6 +697,10 @@ def main(argv: list[str] | None = None) -> int:
             strict_falkordb=args.strict_falkordb,
             allow_unblessed_load=args.allow_unblessed_load,
             review_summary_limit=max(args.review_summary_limit, 0),
+            supabase_sink=bool(args.supabase_sink),
+            supabase_target=str(args.supabase_target),
+            supabase_generation_id=args.supabase_generation_id,
+            supabase_activate=bool(args.supabase_activate),
         )
     except (FileNotFoundError, NotADirectoryError) as exc:
         payload = {"ok": False, "error": "corpus_unavailable", "message": str(exc)}

@@ -1,0 +1,364 @@
+"""Falkor-backed replacement for the artifact BFS in `retriever.py`.
+
+Signature matches `retriever.retrieve_graph_evidence(plan, artifacts_dir=None)`.
+Orchestrator dispatches based on `LIA_GRAPH_MODE`:
+
+- `artifacts` (dev default) -> `retriever.retrieve_graph_evidence`
+- `falkor_live` (staging default) -> this module
+
+The rule of this module is simple: run a bounded, parameterized Cypher BFS
+against cloud FalkorDB and hand the result back in the same
+`GraphEvidenceBundle` shape synthesis/assembly already consumes. If FalkorDB
+errors, the error propagates — operators must see outages; we never silently
+fall back to artifacts.
+
+This module complements `retriever_supabase`:
+
+- `retriever_supabase` owns `support_documents`/`citations` (the chunk-level
+  retrieval)
+- `retriever_falkor` owns `primary_articles`/`connected_articles`/
+  `related_reforms` (the graph traversal)
+
+Orchestrator assembles both halves into one `GraphEvidenceBundle` when both
+flags say cloud-live.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+from ..graph.client import GraphClient, GraphClientError, GraphWriteStatement
+from .contracts import (
+    GraphEvidenceBundle,
+    GraphEvidenceItem,
+    GraphPathStep,
+    GraphRetrievalPlan,
+    PlannerEntryPoint,
+)
+from .planner import with_resolved_entry_points
+from .retrieval_support import _MODE_EDGE_PREFERENCES
+
+
+def retrieve_graph_evidence(
+    plan: GraphRetrievalPlan,
+    *,
+    artifacts_dir: Path | str | None = None,  # compatibility — Falkor never reads disk
+    graph_client: GraphClient | None = None,
+) -> tuple[GraphRetrievalPlan, GraphEvidenceBundle]:
+    del artifacts_dir
+    client = graph_client if graph_client is not None else GraphClient.from_env()
+    if not client.config.is_configured:
+        raise GraphClientError(
+            "FALKORDB_URL is not configured — live graph traversal cannot run. "
+            "Set FALKORDB_URL or switch LIA_GRAPH_MODE=artifacts."
+        )
+
+    explicit_article_keys = _explicit_article_keys(plan)
+    explicit_reform_keys = _explicit_reform_keys(plan)
+
+    primary_articles = _retrieve_primary_articles(
+        client=client,
+        plan=plan,
+        article_keys=explicit_article_keys,
+    )
+    connected_articles = _retrieve_connected_articles(
+        client=client,
+        plan=plan,
+        article_keys=explicit_article_keys,
+    )
+    related_reforms = _retrieve_reforms(
+        client=client,
+        plan=plan,
+        reform_keys=explicit_reform_keys,
+        article_keys=explicit_article_keys,
+    )
+    hydrated_plan = with_resolved_entry_points(
+        plan,
+        _hydrated_entries(plan=plan, resolved_article_keys={item.node_key for item in primary_articles}),
+    )
+    diagnostics = {
+        "graph_backend": "falkor_live",
+        "resolved_entry_count": sum(
+            1 for entry in hydrated_plan.entry_points if entry.resolved_key
+        ),
+        "primary_article_count": len(primary_articles),
+        "connected_article_count": len(connected_articles),
+        "related_reform_count": len(related_reforms),
+        "graph_name": client.config.graph_name,
+        "planner_query_mode": plan.query_mode,
+        "temporal_context": plan.temporal_context.to_dict(),
+    }
+    evidence = GraphEvidenceBundle(
+        primary_articles=primary_articles,
+        connected_articles=connected_articles,
+        related_reforms=related_reforms,
+        support_documents=(),
+        citations=(),
+        diagnostics=diagnostics,
+    )
+    return hydrated_plan, evidence
+
+
+# --- helpers ----------------------------------------------------------------
+
+
+def _explicit_article_keys(plan: GraphRetrievalPlan) -> tuple[str, ...]:
+    ordered: list[str] = []
+    seen: set[str] = set()
+    for entry in plan.entry_points:
+        if entry.kind == "article" and entry.lookup_value and entry.lookup_value not in seen:
+            seen.add(entry.lookup_value)
+            ordered.append(entry.lookup_value)
+    return tuple(ordered)
+
+
+def _explicit_reform_keys(plan: GraphRetrievalPlan) -> tuple[str, ...]:
+    ordered: list[str] = []
+    seen: set[str] = set()
+    for entry in plan.entry_points:
+        if entry.kind == "reform" and entry.lookup_value and entry.lookup_value not in seen:
+            seen.add(entry.lookup_value)
+            ordered.append(entry.lookup_value)
+    return tuple(ordered)
+
+
+def _mode_edge_preference(plan: GraphRetrievalPlan) -> tuple[str, ...]:
+    return _MODE_EDGE_PREFERENCES.get(
+        plan.query_mode,
+        ("REFERENCES", "REQUIRES", "MODIFIES"),
+    )
+
+
+def _execute(client: GraphClient, statement: GraphWriteStatement) -> list[dict[str, Any]]:
+    result = client.execute(statement, strict=True)
+    return [dict(row) for row in result.rows]
+
+
+def _retrieve_primary_articles(
+    *,
+    client: GraphClient,
+    plan: GraphRetrievalPlan,
+    article_keys: tuple[str, ...],
+) -> tuple[GraphEvidenceItem, ...]:
+    limit = plan.evidence_bundle_shape.primary_article_limit
+    if not article_keys or limit <= 0:
+        return ()
+    statement = GraphWriteStatement(
+        description=f"primary_articles limit={limit}",
+        query=(
+            "UNWIND $keys AS key\n"
+            "MATCH (node:ArticleNode {article_key: key})\n"
+            "RETURN key AS article_key, node.heading AS heading, node.text_current AS text_current,"
+            " node.source_path AS source_path, node.status AS status\n"
+        ),
+        parameters={"keys": list(article_keys[:limit])},
+    )
+    rows = _execute(client, statement)
+    items: list[GraphEvidenceItem] = []
+    for index, row in enumerate(rows):
+        article_key = str(row.get("article_key") or "")
+        if not article_key:
+            continue
+        text_current = str(row.get("text_current") or "")
+        excerpt = text_current[: plan.evidence_bundle_shape.snippet_char_limit]
+        items.append(
+            GraphEvidenceItem(
+                node_kind="ArticleNode",
+                node_key=article_key,
+                title=str(row.get("heading") or f"Articulo {article_key}"),
+                excerpt=excerpt,
+                source_path=str(row.get("source_path") or "") or None,
+                score=float(len(rows) - index),
+                hop_distance=0,
+                why=None,
+                relation_path=(),
+            )
+        )
+    return tuple(items)
+
+
+def _retrieve_connected_articles(
+    *,
+    client: GraphClient,
+    plan: GraphRetrievalPlan,
+    article_keys: tuple[str, ...],
+) -> tuple[GraphEvidenceItem, ...]:
+    limit = plan.evidence_bundle_shape.connected_article_limit
+    if not article_keys or limit <= 0:
+        return ()
+    max_hops = max(1, int(plan.traversal_budget.max_hops))
+    edge_preference = list(_mode_edge_preference(plan))
+    statement = GraphWriteStatement(
+        description=f"connected_articles hops<={max_hops}",
+        query=(
+            "UNWIND $keys AS seed_key\n"
+            "MATCH (seed:ArticleNode {article_key: seed_key})\n"
+            f"MATCH path = (seed)-[rel*1..{max_hops}]-(other:ArticleNode)\n"
+            "WHERE other.article_key <> seed_key AND NOT other.article_key IN $keys\n"
+            "WITH other, relationships(path) AS rels, length(path) AS hop\n"
+            "WITH other, hop, [r IN rels | type(r)] AS edge_kinds\n"
+            "WITH other.article_key AS article_key,"
+            " other.heading AS heading,"
+            " other.text_current AS text_current,"
+            " other.source_path AS source_path,"
+            " min(hop) AS hop_distance,"
+            " head(edge_kinds) AS first_edge_kind\n"
+            "WITH article_key, heading, text_current, source_path, hop_distance, first_edge_kind,\n"
+            " CASE\n"
+            + "\n".join(
+                f"  WHEN first_edge_kind = '{edge}' THEN {index}"
+                for index, edge in enumerate(edge_preference)
+            )
+            + f"\n  ELSE {len(edge_preference) + 1}\n END AS edge_rank\n"
+            "ORDER BY hop_distance ASC, edge_rank ASC, article_key ASC\n"
+            "LIMIT $limit\n"
+            "RETURN article_key, heading, text_current, source_path, hop_distance, first_edge_kind\n"
+        ),
+        parameters={"keys": list(article_keys), "limit": int(limit)},
+    )
+    rows = _execute(client, statement)
+    items: list[GraphEvidenceItem] = []
+    for row in rows:
+        article_key = str(row.get("article_key") or "")
+        if not article_key:
+            continue
+        text_current = str(row.get("text_current") or "")
+        excerpt = text_current[: plan.evidence_bundle_shape.snippet_char_limit]
+        first_edge_kind = str(row.get("first_edge_kind") or "")
+        relation_path: tuple[GraphPathStep, ...] = ()
+        if first_edge_kind:
+            relation_path = (
+                GraphPathStep(
+                    edge_kind=first_edge_kind,
+                    direction="out",
+                    from_node_kind="ArticleNode",
+                    from_node_key=article_keys[0],
+                    to_node_kind="ArticleNode",
+                    to_node_key=article_key,
+                ),
+            )
+        hop = int(row.get("hop_distance") or 1)
+        items.append(
+            GraphEvidenceItem(
+                node_kind="ArticleNode",
+                node_key=article_key,
+                title=str(row.get("heading") or f"Articulo {article_key}"),
+                excerpt=excerpt,
+                source_path=str(row.get("source_path") or "") or None,
+                score=float(limit - len(items)),
+                hop_distance=hop,
+                why=None,
+                relation_path=relation_path,
+            )
+        )
+    return tuple(items)
+
+
+def _retrieve_reforms(
+    *,
+    client: GraphClient,
+    plan: GraphRetrievalPlan,
+    reform_keys: tuple[str, ...],
+    article_keys: tuple[str, ...],
+) -> tuple[GraphEvidenceItem, ...]:
+    limit = plan.evidence_bundle_shape.related_reform_limit
+    if limit <= 0:
+        return ()
+    items: list[GraphEvidenceItem] = []
+    seen: set[str] = set()
+
+    if reform_keys:
+        statement = GraphWriteStatement(
+            description="related_reforms explicit",
+            query=(
+                "UNWIND $keys AS key\n"
+                "MATCH (node:ReformNode {reform_key: key})\n"
+                "RETURN key AS reform_key, node.citation AS citation\n"
+            ),
+            parameters={"keys": list(reform_keys[:limit])},
+        )
+        for row in _execute(client, statement):
+            key = str(row.get("reform_key") or "")
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            items.append(
+                GraphEvidenceItem(
+                    node_kind="ReformNode",
+                    node_key=key,
+                    title=str(row.get("citation") or key),
+                    excerpt="Reforma referenciada por el planner.",
+                    source_path=None,
+                    score=float(limit - len(items)),
+                    hop_distance=0,
+                    why=None,
+                    relation_path=(),
+                )
+            )
+
+    remaining = limit - len(items)
+    if remaining > 0 and article_keys:
+        statement = GraphWriteStatement(
+            description="related_reforms via article neighborhood",
+            query=(
+                "UNWIND $keys AS seed_key\n"
+                "MATCH (:ArticleNode {article_key: seed_key})-[rel]-(reform:ReformNode)\n"
+                "WHERE NOT reform.reform_key IN $seen_keys\n"
+                "RETURN reform.reform_key AS reform_key, reform.citation AS citation,"
+                " count(rel) AS hits\n"
+                "ORDER BY hits DESC, reform.reform_key ASC\n"
+                "LIMIT $limit\n"
+            ),
+            parameters={
+                "keys": list(article_keys),
+                "seen_keys": sorted(seen),
+                "limit": int(remaining),
+            },
+        )
+        for row in _execute(client, statement):
+            key = str(row.get("reform_key") or "")
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            items.append(
+                GraphEvidenceItem(
+                    node_kind="ReformNode",
+                    node_key=key,
+                    title=str(row.get("citation") or key),
+                    excerpt="Reforma vecina en el grafo.",
+                    source_path=None,
+                    score=float(row.get("hits") or 0.0),
+                    hop_distance=1,
+                    why=None,
+                    relation_path=(),
+                )
+            )
+    return tuple(items)
+
+
+def _hydrated_entries(
+    *,
+    plan: GraphRetrievalPlan,
+    resolved_article_keys: set[str],
+) -> tuple[PlannerEntryPoint, ...]:
+    hydrated: list[PlannerEntryPoint] = []
+    for entry in plan.entry_points:
+        if entry.kind == "article" and entry.lookup_value:
+            resolved_key = entry.lookup_value if entry.lookup_value in resolved_article_keys else None
+            hydrated.append(
+                PlannerEntryPoint(
+                    kind=entry.kind,
+                    lookup_value=entry.lookup_value,
+                    source=entry.source,
+                    confidence=entry.confidence,
+                    label=entry.label,
+                    resolved_key=resolved_key,
+                )
+            )
+        else:
+            hydrated.append(entry)
+    return tuple(hydrated)
+
+
+__all__ = ["retrieve_graph_evidence"]

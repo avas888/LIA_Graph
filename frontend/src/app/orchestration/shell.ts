@@ -22,7 +22,15 @@ export function renderOrchestrationShell(i18n: I18nRuntime): string {
           </div>
           <div class="orch-status-card">
             <span class="orch-status-label">Última actualización</span>
-            <strong>2026-04-16</strong>
+            <strong>2026-04-18</strong>
+          </div>
+          <div class="orch-status-card">
+            <span class="orch-status-label">Env matrix</span>
+            <strong>v2026-04-18</strong>
+          </div>
+          <div class="orch-status-card">
+            <span class="orch-status-label">Retrieval (dev / staging)</span>
+            <strong>artifacts + local Falkor / Supabase + FalkorDB live</strong>
           </div>
         </div>
       </header>

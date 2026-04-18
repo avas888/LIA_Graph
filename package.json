@@ -7,6 +7,7 @@
     "dev:check": "node ./scripts/dev-launcher.mjs local --check",
     "dev:staging": "node ./scripts/dev-launcher.mjs staging",
     "dev:staging:check": "node ./scripts/dev-launcher.mjs staging --check",
+    "dev:production": "node ./scripts/dev-launcher.mjs production",
     "frontend:build": "npm --prefix frontend run build:public",
     "test:frontend": "npm --prefix frontend run test:health",
     "test:frontend:all": "npm --prefix frontend run test:all",

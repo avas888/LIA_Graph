@@ -2,21 +2,60 @@
 
 Canonical operating guide for AI agents working in `Lia_Graph`.
 
+> **Env matrix version: `v2026-04-18`.** Authoritative per-mode env table lives in [`docs/guide/orchestration.md`](./docs/guide/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags or introduce a new `LIA_*` env, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map.
+
 ## Start Here
 
 Before changing the served runtime, read these in order:
 
-1. `docs/guide/orchestration.md`
+1. `docs/guide/orchestration.md` (includes the versioned env matrix + change log)
 2. `docs/guide/chat-response-architecture.md`
-3. `frontend/src/app/orchestration/shell.ts`
-4. `frontend/src/features/orchestration/orchestrationApp.ts`
+3. `docs/guide/env_guide.md`
+4. `frontend/src/app/orchestration/shell.ts`
+5. `frontend/src/features/orchestration/orchestrationApp.ts`
 
 `docs/guide/orchestration.md` is the main critical file for agents.
-It is the end-to-end map of the live runtime, the information architecture, and the boundary between shared graph logic and surface-specific orchestration.
+It is the end-to-end map of the live runtime, the information architecture, the versioned per-mode env matrix, and the boundary between shared graph logic and surface-specific orchestration.
 
 `docs/guide/chat-response-architecture.md` is the companion source of truth for how the `main chat` answer is shaped.
 
 If those docs and the code disagree, fix the mismatch instead of silently following whichever one you happened to read first.
+
+## Run Modes
+
+Three environments, configured by `scripts/dev-launcher.mjs`:
+
+- `npm run dev` — local app, local Supabase docker, local FalkorDB docker. Fully offline. Retrieval reads artifacts from disk.
+- `npm run dev:staging` — local app against cloud Supabase (`utjndyxgfhkfcrjmtdqz`) and cloud FalkorDB. Retrieval reads cloud Supabase via `hybrid_search` and walks cloud FalkorDB live (`LIA_CORPUS_SOURCE=supabase`, `LIA_GRAPH_MODE=falkor_live`).
+- `npm run dev:production` — Railway-hosted. Script exits locally; deploy via `railway up`. Inherits staging's cloud wiring.
+
+Test accounts: every `@lia.dev` user carries password `Test123!` in both local and cloud Supabase. Reseed with `scripts/seed_local_passwords.py`. Full details in `docs/guide/env_guide.md`.
+
+Migrations baseline: `20260417000000_baseline.sql` + `20260417000001_seed_users.sql`, plus `20260418000000_normative_edges_unique.sql` (idempotency index for the cloud sink). Pre-squash files live in `supabase/migrations/_archive/` for reference only — do not replay them.
+
+## Retrieval Adapters (Env-Gated)
+
+The hot path picks an adapter per request based on two env flags set by the launcher:
+
+| Flag | `dev` | `dev:staging` / `dev:production` | Module selected |
+|---|---|---|---|
+| `LIA_CORPUS_SOURCE` | `artifacts` | `supabase` | `retriever.py` vs `retriever_supabase.py` |
+| `LIA_GRAPH_MODE` | `artifacts` | `falkor_live` | `retriever.py` vs `retriever_falkor.py` |
+
+Rules:
+
+- Every `PipelineCResponse.diagnostics` must carry `retrieval_backend` and `graph_backend`. If they are missing, `orchestrator.py` regressed.
+- The Falkor adapter must keep propagating errors — no silent fallback to artifacts on staging. Operators must see cloud outages.
+- Do NOT hardcode the flags into `.env.local` or `.env.staging`. The launcher owns them so the values stay tied to the run command.
+- Before changing a flag's default or adding a new one, bump the version in `docs/guide/orchestration.md` and update the mirror tables.
+
+## Corpus Refresh (Required Before Staging Cutover)
+
+The cloud Supabase retriever reads rows that the build-time sink must have populated:
+
+- Run `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production` against `.env.staging` before `dev:staging` can serve answers from cloud.
+- Source: `src/lia_graph/ingestion/supabase_sink.py`. Writes `documents` / `document_chunks` / `corpus_generations` (with exactly-one active row) / `normative_edges`. Leaves embeddings NULL; `embedding_ops.py` fills them on a follow-up pass.
+- The refresh is additive, not a replacement — artifacts on disk stay authoritative for dev.
 
 ## Product Target
 
@@ -48,9 +87,12 @@ The hot path is:
 1. `src/lia_graph/ui_server.py`
 2. `src/lia_graph/pipeline_router.py`
 3. `src/lia_graph/topic_router.py`
-4. `src/lia_graph/pipeline_d/orchestrator.py`
+4. `src/lia_graph/pipeline_d/orchestrator.py` (reads `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE` and dispatches)
 5. `src/lia_graph/pipeline_d/planner.py`
-6. `src/lia_graph/pipeline_d/retriever.py`
+6. retriever (one of the three, depending on flags):
+   - `src/lia_graph/pipeline_d/retriever.py` — artifact BFS (dev default)
+   - `src/lia_graph/pipeline_d/retriever_supabase.py` — Supabase `hybrid_search` + `documents` lookup (staging chunks half)
+   - `src/lia_graph/pipeline_d/retriever_falkor.py` — cloud FalkorDB bounded Cypher BFS (staging graph half)
 7. `src/lia_graph/pipeline_d/answer_support.py`
 8. `src/lia_graph/pipeline_d/answer_synthesis.py`
 9. `src/lia_graph/pipeline_d/answer_assembly.py`
@@ -107,10 +149,12 @@ Owns:
 Main files:
 
 - `src/lia_graph/pipeline_d/planner.py`
-- `src/lia_graph/pipeline_d/retriever.py`
+- `src/lia_graph/pipeline_d/retriever.py` (artifact path — dev default)
+- `src/lia_graph/pipeline_d/retriever_supabase.py` (cloud Supabase `hybrid_search` — staging chunks half)
+- `src/lia_graph/pipeline_d/retriever_falkor.py` (cloud FalkorDB Cypher BFS — staging graph half)
 - `src/lia_graph/pipeline_d/retrieval_support.py`
 
-Use this layer when the answer is grounded on the wrong norm, wrong workflow, or wrong support corpus.
+Use this layer when the answer is grounded on the wrong norm, wrong workflow, or wrong support corpus. If the problem is "different answer between dev and staging", verify both adapters agree on the same underlying data before touching `retriever.py`.
 
 ### Practical enrichment extraction
 
@@ -212,6 +256,15 @@ If you change the runtime information architecture, update all three together in
 
 The docs and the architecture page should explain the same runtime truth.
 
+If you change envs or launcher flags (anything under `LIA_*`, anything in `scripts/dev-launcher.mjs`, anything in `dependency_smoke.py` that gates preflight), you must:
+
+1. Bump the env matrix version in `docs/guide/orchestration.md` → "Runtime Env Matrix (Versioned)".
+2. Add a Change Log row with the exact files touched.
+3. Update the mirror tables in `docs/guide/env_guide.md` and `CLAUDE.md`.
+4. Update the status card in `frontend/src/app/orchestration/shell.ts`.
+
+The orchestration guide's matrix is authoritative. If the mirrors disagree, reconcile them to the orchestration guide — never the other way around.
+
 ## Ingestion And Graph Build Guidance
 
 If the task touches corpus ingestion, graph build, labeling, routing, retrieval, or FalkorDB integration, also read:
@@ -239,9 +292,12 @@ Check these before closing the task:
 
 - the change lives in the correct layer
 - no contradictory instructions were introduced
-- `docs/guide/orchestration.md` still describes reality
+- `docs/guide/orchestration.md` still describes reality (including the versioned env matrix)
 - `docs/guide/chat-response-architecture.md` still matches the live `main chat`
 - the `/orchestration` page still maps the same architecture
 - `Normativa` and `Interpretación` boundaries did not get blurred by convenience edits
+- if a `LIA_*` env or launcher flag changed, the version was bumped and mirror tables updated
+- the Falkor adapter still propagates errors (no silent artifact fallback on staging)
+- `PipelineCResponse.diagnostics` still carries `retrieval_backend` and `graph_backend`
 
 If an agent can answer “where does this behavior live?” in one minute, the architecture is probably healthy.

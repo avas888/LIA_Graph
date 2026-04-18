@@ -53,6 +53,7 @@ function loadEnvForMode(mode) {
   const env = { ...process.env };
   const protectedKeys = new Set(Object.keys(process.env));
   const files = [".env", ".env.local"];
+  if (mode === "local") files.push(".env.dev.local");
   if (mode === "staging") files.push(".env.staging");
 
   for (const file of files) {
@@ -191,6 +192,21 @@ async function ensureLocalFalkorDocker(env) {
   }
 }
 
+async function ensureLocalSupabaseStack(env) {
+  // Local Supabase API port (Kong gateway). Standard supabase CLI default.
+  const host = "127.0.0.1";
+  const port = 54321;
+  const ready = await waitForPort(host, port, 1000);
+  if (ready) {
+    log(`Detected Supabase local API on http://${host}:${port}.`);
+    return;
+  }
+  fail(
+    `Local Supabase stack is not running on http://${host}:${port}. ` +
+      "Start it with `supabase start` before running `npm run dev`."
+  );
+}
+
 function summarizeDependencyResults(results) {
   for (const result of results) {
     const marker = result.ok ? "OK" : "!!";
@@ -227,9 +243,30 @@ function buildRuntimeEnv(mode) {
   env.LIA_UI_PORT = String(env.LIA_UI_PORT || DEFAULT_PORT).trim() || DEFAULT_PORT;
 
   if (mode === "local") {
-    env.LIA_STORAGE_BACKEND = "filesystem";
+    env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;
+    // Local dev keeps both read paths on the filesystem artifacts + local Falkor.
+    if (!String(env.LIA_CORPUS_SOURCE || "").trim()) env.LIA_CORPUS_SOURCE = "artifacts";
+    if (!String(env.LIA_GRAPH_MODE || "").trim()) env.LIA_GRAPH_MODE = "artifacts";
+    // Fallbacks if .env.dev.local is missing — safe demo keys shipped with every local Supabase CLI install.
+    if (!String(env.SUPABASE_URL || "").trim()) {
+      env.SUPABASE_URL = "http://127.0.0.1:54321";
+    }
+    if (!String(env.SUPABASE_ANON_KEY || "").trim()) {
+      env.SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0";
+    }
+    if (!String(env.SUPABASE_SERVICE_ROLE_KEY || "").trim()) {
+      env.SUPABASE_SERVICE_ROLE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU";
+    }
   } else if (mode === "staging") {
+    env.LIA_STORAGE_BACKEND = "supabase";
+    // Staging reads the corpus from cloud Supabase and walks the graph against
+    // cloud FalkorDB. Must already be hydrated — see `make phase2-graph-artifacts-supabase`.
+    env.LIA_CORPUS_SOURCE = "supabase";
+    env.LIA_GRAPH_MODE = "falkor_live";
+  } else if (mode === "production") {
     env.LIA_STORAGE_BACKEND = "supabase";
   } else {
     fail(`Unsupported mode: ${mode}`);
@@ -245,7 +282,7 @@ function ensureRequiredEnv(mode, env) {
 
   requireKey("GEMINI_API_KEY");
   requireKey("FALKORDB_URL");
-  if (mode === "staging") {
+  if (mode === "local" || mode === "staging") {
     requireKey("SUPABASE_URL");
     if (!String(env.SUPABASE_SERVICE_ROLE_KEY || "").trim() && !String(env.SUPABASE_ANON_KEY || "").trim()) {
       missing.push("SUPABASE_SERVICE_ROLE_KEY|SUPABASE_ANON_KEY");
@@ -269,11 +306,17 @@ async function preflight(mode) {
 
   if (mode === "local") {
     await ensureLocalFalkorDocker(env);
-    log("Storage backend: filesystem");
-    log("Supabase cloud is skipped in local mode.");
-    runDependencySmoke(["falkordb", "gemini"], env);
+    await ensureLocalSupabaseStack(env);
+    log("Storage backend: supabase (local docker)");
+    log("Runtime read path: artifacts (filesystem) + local FalkorDB docker");
+    runDependencySmoke(["falkordb", "supabase", "gemini"], env);
   } else {
-    log("Storage backend: supabase");
+    log("Storage backend: supabase (cloud)");
+    log(
+      `Runtime read path: ${env.LIA_CORPUS_SOURCE || "artifacts"} (chunks) + ${
+        env.LIA_GRAPH_MODE || "artifacts"
+      } (graph)`
+    );
     runDependencySmoke(["falkordb", "supabase", "gemini"], env);
   }
 
@@ -294,7 +337,13 @@ async function startServer(env) {
   }
 
   log(`Starting UI server on http://${host}:${port} ...`);
-  log("Note: current graph chat answers are artifact-backed; FalkorDB is still preflighted for environment parity and graph ops.");
+  const corpusSource = String(env.LIA_CORPUS_SOURCE || "artifacts").trim() || "artifacts";
+  const graphMode = String(env.LIA_GRAPH_MODE || "artifacts").trim() || "artifacts";
+  if (corpusSource === "supabase" && graphMode === "falkor_live") {
+    log("Note: served chat answers read chunks from cloud Supabase and walk the graph in cloud FalkorDB.");
+  } else {
+    log("Note: served chat answers are artifact-backed; FalkorDB is still preflighted for environment parity and graph ops.");
+  }
   const child = spawn(
     "uv",
     ["run", "python", "-m", "lia_graph.ui_server", "--host", host, "--port", port],
@@ -322,6 +371,11 @@ async function startServer(env) {
 async function main() {
   const mode = process.argv[2] || "local";
   const checkOnly = process.argv.includes("--check");
+  if (mode === "production") {
+    log("Production runs on Railway. Use `railway up` or push-to-deploy.");
+    log("This mode is intentionally disabled locally.");
+    process.exit(2);
+  }
   try {
     const env = await preflight(mode);
     if (checkOnly) {

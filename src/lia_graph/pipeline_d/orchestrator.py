@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from uuid import uuid4
 
@@ -8,9 +9,25 @@ from .answer_assembly import (
     compose_main_chat_answer as _compose_main_chat_answer,
 )
 from .answer_synthesis import build_graph_native_answer_parts
-from .contracts import GraphEvidenceBundle
+from .contracts import GraphEvidenceBundle, GraphRetrievalPlan
 from .planner import build_graph_retrieval_plan
-from .retriever import retrieve_graph_evidence
+from .retriever import retrieve_graph_evidence as _retrieve_artifacts
+
+
+_CORPUS_SOURCE_ENV = "LIA_CORPUS_SOURCE"
+_GRAPH_MODE_ENV = "LIA_GRAPH_MODE"
+_VALID_CORPUS_SOURCES = {"artifacts", "supabase"}
+_VALID_GRAPH_MODES = {"artifacts", "falkor_live"}
+
+
+def _current_corpus_source() -> str:
+    raw = str(os.getenv(_CORPUS_SOURCE_ENV, "artifacts") or "").strip().lower()
+    return raw if raw in _VALID_CORPUS_SOURCES else "artifacts"
+
+
+def _current_graph_mode() -> str:
+    raw = str(os.getenv(_GRAPH_MODE_ENV, "artifacts") or "").strip().lower()
+    return raw if raw in _VALID_GRAPH_MODES else "artifacts"
 
 
 def _artifacts_dir_from_index_file(index_file: object | None) -> Path | None:
@@ -20,6 +37,83 @@ def _artifacts_dir_from_index_file(index_file: object | None) -> Path | None:
     if path.name == "canonical_corpus_manifest.json":
         return path.parent
     return None
+
+
+def _retrieve_evidence(
+    plan: GraphRetrievalPlan,
+    *,
+    artifacts_dir: Path | None,
+) -> tuple[GraphRetrievalPlan, GraphEvidenceBundle, dict[str, str]]:
+    corpus_source = _current_corpus_source()
+    graph_mode = _current_graph_mode()
+    backend_diagnostics = {
+        "retrieval_backend": corpus_source,
+        "graph_backend": graph_mode,
+    }
+
+    if corpus_source == "artifacts" and graph_mode == "artifacts":
+        hydrated_plan, evidence = _retrieve_artifacts(plan, artifacts_dir=artifacts_dir)
+        return hydrated_plan, _attach_backend_diagnostics(evidence, backend_diagnostics), backend_diagnostics
+
+    # Import lazily so dev mode never pulls the Supabase/Falkor modules unless
+    # the caller opted into cloud-live retrieval.
+    if corpus_source == "supabase":
+        from .retriever_supabase import retrieve_graph_evidence as _retrieve_supabase
+        supabase_plan, supabase_evidence = _retrieve_supabase(plan, artifacts_dir=artifacts_dir)
+    else:
+        supabase_plan, supabase_evidence = _retrieve_artifacts(plan, artifacts_dir=artifacts_dir)
+
+    if graph_mode == "falkor_live":
+        from .retriever_falkor import retrieve_graph_evidence as _retrieve_falkor
+        falkor_plan, falkor_evidence = _retrieve_falkor(plan, artifacts_dir=artifacts_dir)
+        merged_plan = falkor_plan
+        merged_evidence = _merge_graph_and_chunk_evidence(
+            graph_evidence=falkor_evidence,
+            chunk_evidence=supabase_evidence,
+            backend_diagnostics=backend_diagnostics,
+        )
+        return merged_plan, merged_evidence, backend_diagnostics
+
+    # Supabase for chunks, artifacts for graph (fallback combination).
+    return supabase_plan, _attach_backend_diagnostics(supabase_evidence, backend_diagnostics), backend_diagnostics
+
+
+def _attach_backend_diagnostics(
+    evidence: GraphEvidenceBundle,
+    backend_diagnostics: dict[str, str],
+) -> GraphEvidenceBundle:
+    diagnostics = dict(evidence.diagnostics)
+    diagnostics.update(backend_diagnostics)
+    return GraphEvidenceBundle(
+        primary_articles=evidence.primary_articles,
+        connected_articles=evidence.connected_articles,
+        related_reforms=evidence.related_reforms,
+        support_documents=evidence.support_documents,
+        citations=evidence.citations,
+        diagnostics=diagnostics,
+    )
+
+
+def _merge_graph_and_chunk_evidence(
+    *,
+    graph_evidence: GraphEvidenceBundle,
+    chunk_evidence: GraphEvidenceBundle,
+    backend_diagnostics: dict[str, str],
+) -> GraphEvidenceBundle:
+    diagnostics = dict(chunk_evidence.diagnostics)
+    diagnostics.update(graph_evidence.diagnostics)
+    diagnostics.update(backend_diagnostics)
+    primary = graph_evidence.primary_articles or chunk_evidence.primary_articles
+    connected = graph_evidence.connected_articles or chunk_evidence.connected_articles
+    related = graph_evidence.related_reforms or chunk_evidence.related_reforms
+    return GraphEvidenceBundle(
+        primary_articles=primary,
+        connected_articles=connected,
+        related_reforms=related,
+        support_documents=chunk_evidence.support_documents,
+        citations=chunk_evidence.citations,
+        diagnostics=diagnostics,
+    )
 
 
 def _compose_graph_native_answer(
@@ -71,12 +165,16 @@ def run_pipeline_d(
     else:
         on_llm_delta = None
 
+    backend_diagnostics = {
+        "retrieval_backend": _current_corpus_source(),
+        "graph_backend": _current_graph_mode(),
+    }
     try:
         plan = build_graph_retrieval_plan(request)
         artifacts_dir = _artifacts_dir_from_index_file(index_file)
         if sink is not None and callable(status):
             status("pipeline_d", "Recuperando evidencia desde graph artifacts y canonical manifest...")
-        plan, evidence = retrieve_graph_evidence(plan, artifacts_dir=artifacts_dir)
+        plan, evidence, backend_diagnostics = _retrieve_evidence(plan, artifacts_dir=artifacts_dir)
     except FileNotFoundError:
         answer = (
             "Pipeline D no encontro los artifacts graph-native esperados en disco, "
@@ -105,6 +203,8 @@ def run_pipeline_d(
                 "runtime_config_path": (
                     str(runtime_config_path) if runtime_config_path is not None else None
                 ),
+                "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
+                "graph_backend": backend_diagnostics.get("graph_backend"),
             },
             llm_runtime=None,
             token_usage=None,
@@ -169,6 +269,8 @@ def run_pipeline_d(
             ),
             "planner": plan.to_dict(),
             "evidence_bundle": evidence.to_dict(),
+            "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
+            "graph_backend": backend_diagnostics.get("graph_backend"),
         },
         llm_runtime=None,
         token_usage=None,
@@ -183,3 +285,8 @@ def run_pipeline_d(
         pipeline_variant="pipeline_d",
         pipeline_route="pipeline_d",
     )
+
+
+__all__ = [
+    "run_pipeline_d",
+]

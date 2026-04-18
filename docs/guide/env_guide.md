@@ -1,0 +1,176 @@
+# Environment Guide
+
+> **Env matrix version: `v2026-04-18`.**
+> This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
+
+## Purpose
+
+This guide defines the three run modes of `Lia_Graph`, the env files they load, the workflow for seeding users, the corpus refresh that primes the cloud retriever, and the migration baseline. It is the operational counterpart to `docs/guide/orchestration.md`.
+
+## Run Modes
+
+| Command | App | Supabase | FalkorDB | Env files loaded | Retrieval read path (v2026-04-18) |
+|---|---|---|---|---|---|
+| `npm run dev` | local | local docker (`127.0.0.1:54321`) | local docker (`127.0.0.1:6389`) | `.env`, `.env.local`, `.env.dev.local` | artifacts + local Falkor (parity only) |
+| `npm run dev:staging` | local | cloud (`utjndyxgfhkfcrjmtdqz`) | cloud Falkor | `.env`, `.env.local`, `.env.staging` | cloud Supabase `hybrid_search` + cloud Falkor live BFS |
+| `npm run dev:production` | Railway | cloud | cloud | n/a — exits locally | inherits staging via Railway env |
+
+Launcher source: `scripts/dev-launcher.mjs`.
+
+Rules:
+
+- `dev` is fully local. No cloud traffic. Safe to run without internet.
+- `dev:staging` is a local app against shared cloud infra. Any DML (password reset, user updates, retrieval) hits production-adjacent data.
+- `dev:production` is not a local run mode. Production executes on Railway. The script prints a notice and exits code 2.
+
+Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
+
+## Runtime Retrieval Flags (v2026-04-18)
+
+`scripts/dev-launcher.mjs` sets these two flags per mode; the orchestrator reads them on every request and dispatches to the right adapter:
+
+| Flag | `dev` | `dev:staging` | `dev:production` | Adapter picked |
+|---|---|---|---|---|
+| `LIA_CORPUS_SOURCE` | `artifacts` | `supabase` | inherits Railway | `retriever.py` vs `retriever_supabase.py` |
+| `LIA_GRAPH_MODE` | `artifacts` | `falkor_live` | inherits Railway | `retriever.py` vs `retriever_falkor.py` |
+
+Every chat response carries the active values under `response.diagnostics.retrieval_backend` and `response.diagnostics.graph_backend`, so you can confirm what served the turn without guessing. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted — fix the env before shipping.
+
+Full table with every `LIA_*` env, owners, and version history lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned).
+
+## Env Files
+
+- **`.env.local`** — personal baseline. Per developer, gitignored. Live secrets (Gemini API key, anything else you don't want to commit) live here.
+- **`.env.dev.local`** — local Supabase URL and well-known demo keys, plus local Falkor URL. Loaded for `dev`. Checked in; safe to commit because the keys are the same across every Supabase CLI install.
+- **`.env.staging`** — cloud Supabase URL, cloud Falkor URL, service-role key, and optional `LIA_FALKOR_MIN_NODES` override. Loaded for `dev:staging`. Checked in so staging doesn't silently inherit whatever a developer put in `.env.local`.
+
+Later files override earlier ones, but `GEMINI_API_KEY` is intentionally absent from the mode-specific files, so `.env.local` always wins for it. The launcher also hardcodes safe local fallbacks in `buildRuntimeEnv`, so `npm run dev` still boots if `.env.dev.local` is accidentally deleted.
+
+`LIA_CORPUS_SOURCE` and `LIA_GRAPH_MODE` should NOT be committed in `.env.staging` or `.env.local` — the launcher sets them deterministically per mode so the values stay tied to the run command, not to a developer's shell.
+
+## Preflight (v2026-04-18)
+
+Each mode runs `scripts/dev-launcher.mjs` → `src/lia_graph/dependency_smoke.py` before starting the server. The checks are mode-aware:
+
+| Check | `dev` | `dev:staging` | `dev:production` | Source |
+|---|---|---|---|---|
+| Local Falkor docker up | yes (auto-starts `lia-graph-falkor-dev`) | n/a | n/a | `ensureLocalFalkorDocker` |
+| Local Supabase Kong gateway on `127.0.0.1:54321` | yes (hint-on-miss) | n/a | n/a | `ensureLocalSupabaseStack` |
+| FalkorDB PING + GRAPH.LIST | yes | yes | yes | `_check_falkordb` |
+| FalkorDB node count ≥ `LIA_FALKOR_MIN_NODES` | skipped (flag unset) | **required** (default 500; because `LIA_GRAPH_MODE=falkor_live`) | required | `_check_falkordb` runs `MATCH (n) RETURN count(n)` against `FALKORDB_GRAPH` |
+| Supabase PostgREST reachability + key acceptance | yes | yes | yes | `_check_supabase` |
+| Gemini embedding endpoint probe | yes | yes | yes | `_check_gemini` |
+| Required artifacts present in `artifacts/` | yes | yes | yes | `ensureArtifactsExist` |
+
+If `dev:staging` preflight fails on the node-count gate, run `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production` against the staging env first — see [Corpus Refresh](#corpus-refresh).
+
+## Test Accounts
+
+All 11 `@lia.dev` users share the password `Test123!` in both local and cloud Supabase:
+
+| Email | Role | Tenant |
+|---|---|---|
+| `admin@lia.dev` | `platform_admin` | `tenant-dev` |
+| `usuario1@lia.dev` | `tenant_user` | `tenant-alfa` |
+| `usuario2@lia.dev` | `tenant_user` | `tenant-beta` |
+| `usuario3@lia.dev` | `tenant_user` | `tenant-gamma` |
+| `usuario4@lia.dev` | `tenant_user` | `tenant-alfa` |
+| `usuario5@lia.dev` | `tenant_user` | `tenant-beta` |
+| `usuario6@lia.dev` | `tenant_user` | `tenant-gamma` |
+| `usuario7@lia.dev` … `usuario10@lia.dev` | `tenant_user` | `tenant-dev` |
+
+### Reseeding passwords
+
+`scripts/seed_local_passwords.py` resets every `@lia.dev` row to `Test123!` using the `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` found in the environment. It targets whichever Supabase those variables point at, so the same script works for local or cloud:
+
+```
+# Local
+set -a && source .env.dev.local && set +a
+PYTHONPATH=src:. uv run python scripts/seed_local_passwords.py
+
+# Cloud (staging)
+set -a && source .env.staging && set +a
+PYTHONPATH=src:. uv run python scripts/seed_local_passwords.py
+```
+
+Pass `--password <value>` to override.
+
+## Migrations — Squashed Baseline
+
+As of 2026-04-17, the 45 pre-existing migrations under `supabase/migrations/` were squashed into:
+
+- `supabase/migrations/20260417000000_baseline.sql` — full schema dump of the local `public` schema at head, with the required `vector`, `unaccent`, and `pg_trgm` extensions prepended.
+- `supabase/migrations/20260417000001_seed_users.sql` — consolidated from the three prior seed migrations.
+
+Since the baseline, the following migrations apply on top:
+
+- `supabase/migrations/20260418000000_normative_edges_unique.sql` — adds the `normative_edges_idempotency` unique index keyed on `(source_key, target_key, relation, generation_id)`. Required before `SupabaseCorpusSink.write_normative_edges` can upsert without tripping the `normative_edges_relation_check` constraint.
+
+The pre-squash files live in `supabase/migrations/_archive/` for historical reference. Do not move them back; the CLI would apply them twice against a fresh DB.
+
+### Workflow
+
+- **Fresh local DB:** `supabase db reset`. Plays the two baseline files plus `20260418000000_normative_edges_unique.sql`, then run `scripts/seed_local_passwords.py`.
+- **New schema change:** add a new migration file dated after `20260418000000`. Do not edit the baseline.
+- **Cloud sync:** cloud (`utjndyxgfhkfcrjmtdqz`) already carries a compatible schema. Migrating its history to match the repo requires `supabase link --password <db_password>` and a `migration repair` pass. See `docs/next/env_fixv1.md` for the exact commands.
+
+## Corpus Refresh
+
+The served runtime has two possible read paths:
+
+- **Artifact mode (default in `dev`).** The retriever reads `artifacts/canonical_corpus_manifest.json`, `artifacts/parsed_articles.jsonl`, and `artifacts/typed_edges.jsonl`. Local FalkorDB is loaded the same way it always has been. No cloud traffic is required.
+- **Supabase mode (default in `dev:staging`).** The retriever reads `documents`/`document_chunks` through the `hybrid_search` RPC, and the graph traversal resolves against cloud FalkorDB (`LIA_REGULATORY_GRAPH`). Switching to this mode requires the rows to already exist in cloud Supabase, so the corpus must be refreshed before `dev:staging` can serve answers.
+
+The refresh is additive to the usual artifact build:
+
+```
+# Fresh artifact bundle + sync rows into cloud Supabase. Writes
+# documents, document_chunks, corpus_generations (one active row), and
+# normative_edges; embeddings stay NULL until embedding_ops.py runs.
+set -a && source .env.staging && set +a
+make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production
+```
+
+Rerunning the target is safe — every write is keyed for idempotency and a
+single `corpus_generations` row ends up marked `is_active=true`. The sink
+never activates without a prior `write_generation()` call, so partial runs
+cannot leave the cloud with two active generations.
+
+The CLI flags on `python -m lia_graph.ingest` are:
+
+- `--supabase-sink` / `--no-supabase-sink` — toggles the sink (also controlled by `LIA_INGEST_SUPABASE=1`).
+- `--supabase-target {production,wip}` — picks which Supabase project to write to (also controlled by `LIA_INGEST_SUPABASE_TARGET`).
+- `--supabase-generation-id <id>` — override the auto-generated `gen_<UTC timestamp>` tag. Useful for reruns during testing.
+- `--no-supabase-activate` — write rows but leave `corpus_generations.is_active = false`. Use this when you want to stage a dry run.
+
+Local developers do NOT need to run the sink. `npm run dev` reads from the filesystem artifact bundle and the local FalkorDB docker; the cloud sink is only required before the staging runtime cutover.
+
+Embeddings are populated by `src/lia_graph/embedding_ops.py` on a follow-up pass against the same Supabase target; the sink intentionally writes `embedding = NULL` so one concern stays in one place.
+
+## Verification
+
+A healthy environment matches the following:
+
+- `docker ps` shows `lia-graph-falkor-dev` and the `supabase_*_lia-contador` stack before invoking `npm run dev`.
+- `npm run dev:check` prints `Preflight passed for local mode.`
+- `npm run dev:staging:check` prints `Preflight passed for staging mode.` AND the FalkorDB smoke check shows `node_count ≥ LIA_FALKOR_MIN_NODES`.
+- `POST http://127.0.0.1:8787/api/auth/login` with `admin@lia.dev` / `Test123!` returns HTTP 200 and `role=platform_admin`.
+- The same login succeeds against `dev:staging`.
+- A probe chat turn in `dev` shows `diagnostics.retrieval_backend == "artifacts"` and `diagnostics.graph_backend == "artifacts"`.
+- A probe chat turn in `dev:staging` shows `diagnostics.retrieval_backend == "supabase"` and `diagnostics.graph_backend == "falkor_live"`.
+- `npm run dev:production` exits non-zero with the Railway notice.
+
+## File Pointers
+
+- Launcher: `scripts/dev-launcher.mjs`
+- Backend guard: `src/lia_graph/supabase_client.py` `require_supabase_backend`
+- Preflight smoke: `src/lia_graph/dependency_smoke.py`
+- Password hashing: `src/lia_graph/password_auth.py`
+- Seed script: `scripts/seed_local_passwords.py`
+- Corpus sink: `src/lia_graph/ingestion/supabase_sink.py`
+- Ingest CLI: `src/lia_graph/ingest.py`
+- Supabase retriever: `src/lia_graph/pipeline_d/retriever_supabase.py`
+- Falkor retriever: `src/lia_graph/pipeline_d/retriever_falkor.py`
+- Orchestrator dispatch: `src/lia_graph/pipeline_d/orchestrator.py`
+- Migrations: `supabase/migrations/` (active) and `supabase/migrations/_archive/` (historical)
+- Follow-up plan: `docs/next/env_fixv1.md`
