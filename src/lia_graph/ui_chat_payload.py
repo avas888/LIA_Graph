@@ -798,7 +798,7 @@ def build_api_chat_success_payload(
                     pais=normalized_pais,
                     index_file=deps["index_file_path"],
                     path=deps["citation_gap_registry_path"],
-                )
+                ) or {}
                 deps["emit_event"](
                     "citation_gap_registry.updated",
                     {

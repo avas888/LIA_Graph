@@ -7,6 +7,6 @@ def list_citation_gaps(*args: Any, **kwargs: Any) -> list[dict[str, Any]]:
     return []
 
 
-def register_citation_gaps(*args: Any, **kwargs: Any) -> None:
-    return None
+def register_citation_gaps(*args: Any, **kwargs: Any) -> dict[str, Any]:
+    return {"captured_count": 0, "captured_by_type": {}}
 

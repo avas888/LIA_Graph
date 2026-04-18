@@ -172,6 +172,39 @@ def test_supabase_retriever_is_empty_when_hybrid_search_returns_nothing() -> Non
     assert hydrated_plan.query_mode == plan.query_mode
 
 
+def test_supabase_retriever_surfaces_cross_topic_anchor() -> None:
+    # Regression guard: Art. 147 ET is load-bearing for a declaracion_renta
+    # loss-compensation question but it is catalogued under the IVA topic in
+    # the current corpus. The planner emits it as an explicit article entry
+    # (loss_compensation_anchor), so the retriever must return it regardless
+    # of the routed topic.
+    request = PipelineCRequest(
+        message=(
+            "Mi cliente acumuló pérdidas fiscales en años anteriores y ahora tiene "
+            "renta líquida positiva. ¿Cuál es el régimen de compensación de pérdidas?"
+        ),
+        topic="declaracion_renta",
+        requested_topic="declaracion_renta",
+    )
+    plan = build_graph_retrieval_plan(request)
+    assert any(
+        entry.kind == "article" and entry.lookup_value == "147"
+        for entry in plan.entry_points
+    ), "planner should anchor loss-compensation queries on Art. 147"
+
+    iva_chunk = _hybrid_row("iva_06_libro1_t1_cap5_deducciones", "147", rrf=0.91)
+    iva_chunk["topic"] = "iva"
+    iva_document = _document_row("iva_06_libro1_t1_cap5_deducciones", "iva/cap5.md")
+    iva_document["topic"] = "iva"
+
+    client = _FakeClient(hybrid_rows=[iva_chunk], documents_rows=[iva_document])
+    _, evidence = retrieve_graph_evidence(plan, client=client)
+
+    assert client.last_rpc_payload["filter_topic"] is None
+    primary_keys = [item.node_key for item in evidence.primary_articles]
+    assert "147" in primary_keys
+
+
 def test_supabase_retriever_exposes_backend_diagnostics_for_orchestrator() -> None:
     request = PipelineCRequest(
         message="¿Cómo se conectan los artículos 631-5 y 658-3 del ET?",

@@ -600,8 +600,8 @@ The served answer path is graph-first. The retrieval source is chosen per reques
   - `artifacts/parsed_articles.jsonl`
   - `artifacts/typed_edges.jsonl`
 - **staging (`LIA_CORPUS_SOURCE=supabase` + `LIA_GRAPH_MODE=falkor_live`)** — two cooperating adapters merged by the orchestrator:
-  - `retriever_supabase.py` reads cloud Supabase via the `hybrid_search` RPC and the `documents` table for the chunks half.
-  - `retriever_falkor.py` walks cloud FalkorDB (`LIA_REGULATORY_GRAPH`) with a bounded, parameterized Cypher BFS for the graph half.
+  - `retriever_supabase.py` reads cloud Supabase via the `hybrid_search` RPC and the `documents` table for the chunks half. **Topic is passed as a ranking signal (inside `query_text`), never as a WHERE filter on `filter_topic`** — cross-topic anchors (e.g. Art. 147 ET under IVA, load-bearing for a `declaracion_renta` loss-compensation question) must stay reachable.
+  - `retriever_falkor.py` walks cloud FalkorDB (`LIA_REGULATORY_GRAPH`) with a bounded, parameterized Cypher BFS for the graph half. The traversal is topic-agnostic by construction: `MATCH (node:ArticleNode {article_key: key})` never carries a topic predicate, so adjacency — not catalog — drives recall.
 - **production** — inherits staging wiring through Railway env vars.
 
 All three adapters honor the same evidence contract. The evidence bundle has four layers:
