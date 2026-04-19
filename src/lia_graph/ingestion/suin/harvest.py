@@ -88,6 +88,13 @@ _SCOPES: dict[str, ScopeDefinition] = {
             ("corte_constitucional", "Corte Constitucional"),
         ),
     ),
+    "jurisprudencia_full": ScopeDefinition(
+        sitemaps=(SITEMAPS[1],),  # sitemapconsejoestado.xml — 3,370 Consejo de Estado sentencias
+        seed_urls=SEED_URLS.get("jurisprudencia_full", ()),
+        topic_anchors=(
+            ("consejo_estado_full", "Consejo de Estado — full sitemap (v2 Tier A)"),
+        ),
+    ),
     "full": ScopeDefinition(
         sitemaps=SITEMAPS,
         seed_urls=tuple(url for urls in SEED_URLS.values() for url in urls),

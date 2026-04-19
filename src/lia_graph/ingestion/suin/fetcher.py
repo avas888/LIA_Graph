@@ -96,6 +96,7 @@ SEED_URLS: dict[str, tuple[str, ...]] = {
         "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30045028",  # Ley 2277/2022
     ),
     "jurisprudencia": (),  # Uses sitemapconsejoestado.xml walk; deferred (see "explore later")
+    "jurisprudencia_full": (),  # v2 Tier A — crawls entire sitemapconsejoestado.xml
 }
 
 

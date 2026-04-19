@@ -246,6 +246,7 @@ _VERB_STEM_PATTERNS: list[tuple[str, str]] = [
     ("estarse a lo resuelto", "estarse_a_lo_resuelto"),
     ("inhibi", "inhibida"),        # inhibida / inhibido / declarada inhibida …
     ("denegad", "estarse_a_lo_resuelto"),  # "Denegadas las pretensiones" / "Denegada la pretensión"
+    ("niega", "estarse_a_lo_resuelto"),     # "Niega la pretensión"
     ("rechazad", "estarse_a_lo_resuelto"), # "Rechazada la demanda por cosa juzgada"
     ("cosa juzgad", "estarse_a_lo_resuelto"),
     ("estarse a lo decidido", "estarse_a_lo_resuelto"),
