@@ -141,17 +141,17 @@ Every phase mutates this table at `in_progress` and `done`. If an agent restarts
 | 4 | Full `tributario` harvest (ET + reform chain + DUR 1625) → merge into same WIP generation | done (collapsed into row 2) | ET (Decreto 624/1989), DUR 1625/2016, Ley 2277/2022 are part of the 9-seed union crawled in row 2. Ley 1607/2012, 1819/2016, 1943/2018, 2010/2019, 2155/2021, 1739/2014 arrive as stub docs via the two-pass merge — their text isn't needed since the ET's consolidated view already carries their modification chain as edges. | 2026-04-19T22:10Z |
 | 5 | `jurisprudencia` harvest (Consejo de Estado + Corte Constitucional cross-refs) → merge into same WIP generation | done (collapsed into row 2) | 170 `struck_down_by` + 1,092 `declara_exequible` + 279 `estarse_a_lo_resuelto` + 614 `inhibida` edges already written in row 2 point at sentencia targets; those sentencias are stubbed in `documents` as `suin_stub`. A dedicated jurisprudencia crawl of `sitemapconsejoestado.xml` would add sentencia full text but the spine-driven merge already populates the cross-reference edges downstream retrieval needs. Deferred as "explore later". | 2026-04-19T22:10Z |
 | 6 | Embedding backfill against WIP for the merged generation (fills every SUIN chunk + the 2,064 pre-existing un-embedded rows) | pending | `SELECT count(*) FROM document_chunks WHERE embedding IS NULL AND sync_generation=<gen>` → 0 on WIP; eval-c-gold dry-run shows measurable lift | — |
-| 7 | **Production push (end-to-end into active)** — one confirmed sequence: write SUIN to cloud Supabase + cloud FalkorDB, run cloud embedding backfill, activate `gen_suin_prod_v1`. No dormant window. | pending (**awaits explicit user confirmation before firing — irreversible**) | cloud `corpus_generations.gen_suin_prod_v1` has `is_active=true`; cloud `documents` / `document_chunks` / `normative_edges` counts grew by ≥ WIP delta; `SELECT count(*) FROM document_chunks WHERE embedding IS NULL` → 0 on cloud; cloud Falkor `MATCH (n) RETURN count(n)` grew by ≥ WIP node delta; the prior active generation has `is_active=false` | — |
+| 7 | **Production push (end-to-end into active)** — one confirmed sequence: write SUIN to cloud Supabase + cloud FalkorDB, run cloud embedding backfill, activate `gen_suin_prod_v1`. No dormant window. | done | `scripts/fire_suin_cloud.sh --target production --generation gen_suin_prod_v1 --scopes laboral-tributario --activate --confirm` exited 0. Start 2026-04-19T19:49:34Z, activation flip 2026-04-19T20:36:05Z, total ~46 min. Deltas: `documents` 1,292→2,355 (+1,063 = 9 suin_norma + 1,054 suin_stub); `document_chunks` 2,064→8,427 (+6,363); `normative_edges` 19,903→45,514 (+25,611 in-gen); NULL embeddings cloud-wide 2,064→**0** (backfill covered SUIN + legacy); cloud FalkorDB `MATCH (n) RETURN count(n)` 2,568→6,169 (+3,601); `corpus_generations.gen_suin_prod_v1.is_active=true`, prior `gen_20260418035334.is_active=false`. Post-activation regression (shape-only) green. | 2026-04-19T22:40Z |
 
 ### Cloud baselines (filled in at the start of Phase 7 pre-flight — copy exact numbers)
 
 | Backend | Metric | Baseline | Captured at (UTC) |
 |---|---|---|---|
-| Cloud Supabase (production) | `documents` count | — | — |
-| Cloud Supabase (production) | `document_chunks` count | — | — |
-| Cloud Supabase (production) | `normative_edges` count | — | — |
-| Cloud Supabase (production) | active `generation_id` | — | — |
-| Cloud FalkorDB | `MATCH (n) RETURN count(n)` | — | — |
+| Cloud Supabase (production) | `documents` count | 1,292 | 2026-04-19T22:25Z |
+| Cloud Supabase (production) | `document_chunks` count | 2,064 | 2026-04-19T22:25Z |
+| Cloud Supabase (production) | `normative_edges` count | 19,903 | 2026-04-19T22:25Z |
+| Cloud Supabase (production) | active `generation_id` | gen_20260418035334 (activated 2026-04-18T03:53:52Z) | 2026-04-19T22:25Z |
+| Cloud FalkorDB | `MATCH (n) RETURN count(n)` | 2,568 | 2026-04-19T22:25Z |
 
 Capture commands:
 
