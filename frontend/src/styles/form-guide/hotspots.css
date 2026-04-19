@@ -93,6 +93,16 @@
   transform-origin: center;
 }
 
+/* Pills anchored to the top of a default marker should still nudge a hair
+   downward so they sit ON the printed casilla badge (which has a tiny inset
+   from the row's hairline border) rather than kissing it from above. */
+.guide-hotspot[data-anchor-mode="top"] {
+  transform: translate(
+    var(--guide-hotspot-translate-x, 0),
+    calc(var(--guide-hotspot-translate-y, 0) + 0.05rem)
+  );
+}
+
 .guide-hotspot:focus-visible,
 .guide-hotspot-active {
   outline: none;
