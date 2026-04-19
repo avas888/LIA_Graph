@@ -26,7 +26,16 @@ import unicodedata
 from typing import Optional
 from urllib.parse import parse_qs, urlparse
 
-from bs4 import BeautifulSoup
+import warnings
+
+from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+
+# SUIN HTML documents start with `<?xml version="1.0"?>` — BeautifulSoup's
+# `lxml` HTML parser emits `XMLParsedAsHTMLWarning` on every parse because the
+# preamble looks like XML, even though the body is HTML. We want the HTML
+# parser (not `features="xml"`) because the DOM is genuinely HTML; just
+# silence the false-positive warning so live harvests log cleanly.
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 
 class UnknownVerb(ValueError):
