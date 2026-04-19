@@ -1,4 +1,4 @@
-import{q as Y}from"./bootstrap-CDL0BdR1.js";import{g as Ze,p as Ye,A as pt}from"./client-OE0sHIIg.js";import{p as At}from"./colors-ps0hVFT8.js";import{g as ut}from"./index-DE07Z79R.js";import{getToastController as ys}from"./toasts-tYrWECOz.js";function Ut(e){return`
+import{q as Y}from"./bootstrap-CDL0BdR1.js";import{g as Ze,p as Ye,A as pt}from"./client-OE0sHIIg.js";import{p as At}from"./colors-ps0hVFT8.js";import{g as ut}from"./index-DE07Z79R.js";import{getToastController as ys}from"./toasts-Dx3CUztl.js";function Ut(e){return`
     <dialog id="add-corpus-dialog" class="ops-dialog">
       <form id="add-corpus-form" method="dialog" class="ops-dialog-form">
         <h3>Nueva categoría de corpus</h3>

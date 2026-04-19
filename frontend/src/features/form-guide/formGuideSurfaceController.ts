@@ -2,6 +2,7 @@
 
 import { renderMarkdown } from "@/content/markdown";
 import type { FormGuideState } from "@/features/form-guide/formGuideState";
+import { icons } from "@/shared/ui/icons";
 import {
   closeDialogSafely,
   escapeHtml,
@@ -253,6 +254,7 @@ export function createFormGuideSurfaceController({ state }: CreateFormGuideSurfa
           <li class="campo-item" data-campo-field-id="${field.field_id}" role="button" tabindex="0">
             <div class="campo-header">${casillaBadge}<span class="campo-label">${label}</span></div>
             ${truncated ? `<p class="campo-instruction">${truncated}</p>` : ""}
+            <span class="campo-open-icon" aria-hidden="true" title="Ver ficha completa">${icons.externalLink}</span>
           </li>
         `;
       })

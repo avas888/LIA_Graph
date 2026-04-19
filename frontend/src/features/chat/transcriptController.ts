@@ -379,7 +379,7 @@ export function createChatTranscriptController({
 
   function applyFeedbackVisualState(state: FeedbackState): void {
     state.ratingBtns.forEach((btn, idx) => {
-      btn.classList.toggle("is-active", state.rating === idx + 1);
+      btn.classList.toggle("is-active", typeof state.rating === "number" && state.rating >= idx + 1);
     });
   }
 

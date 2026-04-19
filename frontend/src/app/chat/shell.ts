@@ -220,7 +220,7 @@ export function renderChatShell(i18n: I18nRuntime): string {
           <header class="modal-header expert-detail-modal-header">
             <div>
               <p class="modal-eyebrow">${i18n.t("chat.experts.title")}</p>
-              <h3 id="expert-detail-title">${i18n.t("chat.experts.modal.title")}</h3>
+              <h3 id="expert-detail-title" spellcheck="false">${i18n.t("chat.experts.modal.title")}</h3>
             </div>
             <button class="modal-close" type="button" data-close-modal="modal-expert-detail" aria-label="Cerrar">×</button>
           </header>
