@@ -1,22 +1,24 @@
 # SUIN-Juriscol Ingestion Plan
 
-## Implementation stage tracker (resumable)
+> **📍 This document describes the *infrastructure* work (Phase A + Phase B) that landed on `feat/suin-ingestion` and is now frozen. For any new harvest work — running scopes, merging to WIP, embedding, pushing to active production — use [`docs/next/suin_harvestv1.md`](./suin_harvestv1.md) instead. That doc is the operational harvest plan; this one is the historical record of how the scraping + parsing + sink + ingest wiring were built.**
 
-Every stage mutates this table when it starts (`in progress`) and completes (`done`). If an agent restarts mid-flight, this table is the source of truth for where to resume. Last-updated timestamps are UTC.
+## Implementation stage tracker (frozen — infrastructure only)
+
+Every stage mutates this table when it starts (`in progress`) and completes (`done`). Stages 0–5 describe the infrastructure build and are done. Stage 6 (original cloud-promotion plan) is **superseded** by `suin_harvestv1.md` Phase 7 and is not executed from this doc.
 
 | # | Stage | Status | Artifacts that prove it | Updated |
 |---|---|---|---|---|
 | 0 | Commit pending + branch (`feat/suin-ingestion`) | done | commit `266a8b9` on main, branch `feat/suin-ingestion` created | 2026-04-19T17:17Z |
-| 1 | Stage tracker added to this doc | in progress | this table | 2026-04-19T17:20Z |
+| 1 | Stage tracker added to this doc | done | this table | 2026-04-19T17:20Z |
 | 2 | Survey integration surfaces (parser.py, classifier.py, ingest.py, sink, Makefile, env targets) | done | notes captured in conversation; `wip` target verified as local docker Supabase in `.env.staging` | 2026-04-19T17:25Z |
 | 3 | Phase A — `suin/{fetcher,parser,harvest}.py` + tests + Makefile targets + `.gitignore` cache | done | `src/lia_graph/ingestion/suin/{__init__,fetcher,parser,harvest}.py`; `tests/test_suin_{parser,fetcher}.py` 17/17 green; Makefile targets `phase2-suin-harvest-{et,tax-laws,jurisprudence,full}`; `cache/suin/` in `.gitignore` | 2026-04-19T17:45Z |
 | 4 | Phase B — EdgeKind extension, sink map, `suin/bridge.py`, `--include-suin` on `ingest.py`, Makefile `--execute-load` fix | done | schema.py adds ANULA/DECLARES_EXEQUIBLE/DEROGATES/REGLAMENTA/STRUCK_DOWN_BY/SUSPENDS; supabase_sink `_RELATION_MAP` extended + Gap #1 resolved; `ingestion/suin/bridge.py` + `ingest.py` `_merge_suin_scope` two-pass wiring; Makefile now passes `--execute-load --allow-unblessed-load --strict-falkordb` + plumbs INGEST_SUIN; 85 ingestion tests + 17 Phase A tests green | 2026-04-19T18:05Z |
 | 5 | Test against local docker Supabase (target = `wip`) + local docker Falkor | done | `gen_suin_smoke_v2` wrote 5 SUIN documents (4 `suin_norma` + 1 `suin_stub`), 6 chunks (derogada article correctly marked `vigencia=derogada` + `chunk_section_type=historical`), 4 SUIN-specific DB relations (`derogates`, `complements`, `struck_down_by`×2). Local Falkor grew 2568 → 2617 nodes and carries `DECLARES_EXEQUIBLE`, `STRUCK_DOWN_BY`, `DEROGATES`, `REGLAMENTA` edge types. Fixture at `artifacts/suin/smoke/`. | 2026-04-19T18:20Z |
-| 6 | Promote to cloud Supabase + cloud FalkorDB | pending (requires user confirmation before firing — cloud write is irreversible) | `generation_id` visible in cloud Supabase studio; cloud Falkor `MATCH (n) RETURN count(n)` > 2,568 | — |
+| 6 | ~~Promote to cloud Supabase + cloud FalkorDB~~ **Superseded** — see [`suin_harvestv1.md`](./suin_harvestv1.md) Phase 7 (Production push) which covers real SUIN data promotion, cloud embedding, and activation in one orchestrator run. Do **not** execute this row; the smoke fixture at `artifacts/suin/smoke/` must never reach cloud. | superseded | execution of any future cloud write follows `suin_harvestv1.md`, not this row | 2026-04-19T19:30Z |
 
 ### Resume protocol
 
-If you pick this up mid-stream: read this table top-down, find the first row that is not `done`, confirm the "Artifacts that prove it" column against the repo, and continue from there. Do **not** skip forward — each stage's artifacts are preconditions for the next.
+This doc's tracker is **frozen** — all infrastructure work is complete. If you are a cold agent looking for current harvest work, **stop reading here and switch to [`docs/next/suin_harvestv1.md`](./suin_harvestv1.md)**. That doc owns the state-aware resume for every active phase going forward.
 
 ---
 
