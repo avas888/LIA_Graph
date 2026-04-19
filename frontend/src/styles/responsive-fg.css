@@ -1,3 +1,11 @@
+/* When the form-guide page is loaded inside the mobile host modal's iframe,
+   hide its own back/close nav so the host modal's close button is the single
+   dismissal affordance. */
+body.form-guide-embedded .form-guide-back-link,
+body.form-guide-embedded .form-guide-close-btn {
+  display: none !important;
+}
+
 @media (max-width: 900px) {
   .form-guide-shell,
   .normative-analysis-shell {
@@ -53,43 +61,14 @@
     padding: 1rem;
   }
 
-  /* Hide tab toggle on mobile — text guide shown by default */
+  /* Hide tab toggle on mobile — only the text guide is shown */
   .form-guide-view-toggle { display: none !important; }
 
-  /* Hide interactive view — accessible only via button at bottom */
-  #form-guide-interactive-view { display: none; }
-
-  /* Show text guide before graphic guide */
-  .form-guide-main {
-    display: flex;
-    flex-direction: column;
-  }
-
-  #form-guide-structured-view { order: 1; }
-  #mobile-show-graphic-btn { order: 2; }
-  #form-guide-interactive-view { order: 3; }
+  /* Omit graphic guide entirely on mobile — impractical on small screens */
+  #form-guide-interactive-view { display: none !important; }
 
   .form-guide-view {
     padding: 1rem;
-  }
-
-  /* "Ver guía gráfica" button at bottom of text guide */
-  .mobile-show-graphic-btn {
-    display: block !important;
-    margin: 1rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--brand, #0f5a47);
-    border-radius: 0.85rem;
-    background: var(--surface-glass-strong, #fcfeff);
-    color: var(--brand, #0f5a47);
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-  }
-
-  .mobile-show-graphic-btn:active {
-    background: var(--p-neutral-100, #edf4fd);
   }
 
   .profile-option-btn {

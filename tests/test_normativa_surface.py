@@ -309,11 +309,12 @@ def test_build_fallback_citation_profile_payload_for_et_article(monkeypatch) -> 
         }
     ]
     assert payload["original_text"] == {
-        "title": "Texto normativo disponible en artifacts",
+        "title": "Texto Normativo",
         "quote": (
             "ARTICULO 714. La declaración tributaria quedará en firme si dentro de los tres años "
             "siguientes no se ha notificado requerimiento especial."
         ),
+        "annotations": [],
         "source_url": "https://normograma.dian.gov.co/dian/compilacion/docs/estatuto_tributario.htm#714",
         "evidence_status": "verified",
     }
@@ -349,8 +350,9 @@ def test_citation_controller_instant_phase_uses_et_fallback_payload() -> None:
                 "facts": [{"label": "Artículo consultado", "value": "ET Artículo 714"}],
                 "sections": [],
                 "original_text": {
-                    "title": "Texto normativo disponible en artifacts",
+                    "title": "Texto Normativo",
                     "quote": "ARTICULO 714.",
+                    "annotations": [],
                     "source_url": "https://normograma.dian.gov.co/dian/compilacion/docs/estatuto_tributario.htm#714",
                     "evidence_status": "verified",
                 },

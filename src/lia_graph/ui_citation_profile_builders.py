@@ -55,6 +55,22 @@ _CITATION_PROFILE_TRAILING_STOPWORDS = frozenset({
 })
 _CITATION_PROFILE_TRAILING_TRIM_CHARS = " \t\n,;:.-—–"
 
+# Labels that appear inline inside the raw `full_text` of parsed ET articles as
+# `**Label:**` bold markers and precede the actual article body's trailing
+# metadata. Kept in display order so the resulting tab strip reads from most
+# to least relevant for an accountant.
+_ARTICLE_ANNOTATION_LABELS = (
+    "Notas de Vigencia",
+    "Concordancias",
+    "Jurisprudencia",
+    "Doctrina Concordante",
+)
+_ARTICLE_ANNOTATION_CANONICAL = {label.lower(): label for label in _ARTICLE_ANNOTATION_LABELS}
+_ARTICLE_ANNOTATION_PATTERN = re.compile(
+    r"\*\*\s*(Notas\s+de\s+Vigencia|Concordancias|Jurisprudencia|Doctrina\s+Concordante)\s*:?\s*\*\*",
+    re.IGNORECASE,
+)
+
 # ---------------------------------------------------------------------------
 # Lazy-import helpers -- these functions live in ui_server today and will
 # migrate to their own modules in later granularize phases (1B-1F).
@@ -155,6 +171,58 @@ def _tidy_truncated_citation_text(original: str, truncated: str) -> str:
     if not polished.endswith(("…", "...", ".", "!", "?")):
         polished = f"{polished}…"
     return polished
+
+
+def _clean_article_annotation_body(text: str) -> str:
+    """Light cleanup for annotation bodies (Notas/Concordancias/etc.).
+
+    Preserves line breaks so list-style annotations stay readable, but strips
+    link/bold/backtick markdown that would otherwise surface as literal noise
+    in the rendered tab panel.
+    """
+    value = str(text or "").replace("\r\n", "\n").replace("\r", "\n").strip()
+    if not value:
+        return ""
+    value = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"\1", value)
+    value = re.sub(r"`([^`]+)`", r"\1", value)
+    value = re.sub(r"\*\*([^*\n]+)\*\*", r"\1", value)
+    value = re.sub(r"\*([^*\n]+)\*", r"\1", value)
+    value = re.sub(r"^\s*#{1,6}\s*", "", value, flags=re.MULTILINE)
+    value = re.sub(r"[ \t]+", " ", value)
+    value = re.sub(r"\n{3,}", "\n\n", value)
+    value = re.sub(r"\s*---+\s*$", "", value).strip()
+    return value
+
+
+def _split_article_annotations(raw_text: str) -> tuple[str, list[dict[str, str]]]:
+    """Separate an article's body from its inline `**Label:**` annotations.
+
+    Returns `(body, annotations)` where `annotations` preserves the
+    discovery order of the labels in the original text. Used by the ET
+    citation profile so the modal can render the body cleanly and surface
+    Notas de Vigencia / Concordancias / Jurisprudencia / Doctrina in a
+    dedicated tab strip instead of dumping them inside the quote.
+    """
+    raw = str(raw_text or "")
+    if not raw.strip():
+        return "", []
+    matches = list(_ARTICLE_ANNOTATION_PATTERN.finditer(raw))
+    if not matches:
+        return raw, []
+    body = raw[: matches[0].start()].rstrip()
+    annotations: list[dict[str, str]] = []
+    seen_labels: set[str] = set()
+    for idx, match in enumerate(matches):
+        label_raw = " ".join(match.group(1).split())
+        label = _ARTICLE_ANNOTATION_CANONICAL.get(label_raw.lower(), label_raw)
+        if label in seen_labels:
+            continue
+        seen_labels.add(label)
+        end = matches[idx + 1].start() if idx + 1 < len(matches) else len(raw)
+        body_text = _clean_article_annotation_body(raw[match.end():end])
+        if body_text:
+            annotations.append({"label": label, "body": body_text})
+    return body, annotations
 
 
 def _normalize_citation_profile_text(value: Any, *, max_chars: int = 280) -> str:
@@ -687,13 +755,15 @@ def _build_fallback_citation_profile_payload(
     raw_quote = str((parsed_article or {}).get("full_text") or (parsed_article or {}).get("body") or "").strip()
     if raw_quote:
         raw_quote = raw_quote.split("\n---\n", 1)[0].strip()
-        cleaned_quote = _ui()._clean_markdown_inline(raw_quote)
-        clipped_quote = _ui()._clip_session_content(cleaned_quote, max_chars=1100)
-        quote = _tidy_truncated_citation_text(cleaned_quote, clipped_quote)
+        raw_body, annotations = _split_article_annotations(raw_quote)
+        cleaned_body = _ui()._clean_markdown_inline(raw_body)
+        clipped_body = _ui()._clip_session_content(cleaned_body, max_chars=1100)
+        quote = _tidy_truncated_citation_text(cleaned_body, clipped_body)
         if quote:
             original_text = {
-                "title": "Texto normativo disponible en artifacts",
+                "title": "Texto Normativo",
                 "quote": quote,
+                "annotations": annotations,
                 "source_url": _ui()._prefer_normograma_mintic_mirror(
                     f"https://normograma.dian.gov.co/dian/compilacion/docs/estatuto_tributario.htm#{locator_display}"
                 ),
@@ -1978,10 +2048,13 @@ def _build_structured_original_text(context: dict[str, Any]) -> dict[str, Any] |
     section = _ui()._build_citation_profile_original_text_section(context)
     if section is None:
         return None
-    default_title = "Texto Vigente del Artículo" if _ui()._citation_targets_et_article(citation) else "Texto original de la Ley"
+    raw_body = str(section.get("body") or "").strip()
+    body_text, annotations = _split_article_annotations(raw_body)
+    quote = body_text.strip() if body_text else raw_body
     return {
-        "title": str(section.get("title") or default_title).strip(),
-        "quote": str(section.get("body") or "").strip(),
+        "title": "Texto Normativo",
+        "quote": quote,
+        "annotations": annotations,
         "source_url": str(section.get("source_url") or "").strip() or None,
         "evidence_status": str(section.get("evidence_status") or "missing").strip() or "missing",
     }

@@ -20,9 +20,15 @@ export interface CitationProfileSection {
   body?: string;
 }
 
+export interface CitationProfileOriginalTextAnnotation {
+  label?: string;
+  body?: string;
+}
+
 export interface CitationProfileOriginalText {
   title?: string;
   quote?: string;
+  annotations?: CitationProfileOriginalTextAnnotation[] | null;
   source_url?: string | null;
   evidence_status?: "verified" | "missing" | "rejected_as_generic";
 }

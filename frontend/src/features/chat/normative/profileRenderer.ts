@@ -322,6 +322,8 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
     quote.className = "norma-quote-block";
     appendQuoteParagraphs(quote, original.quote);
     article.append(title, quote);
+    const annotationsNode = buildNormaAnnotationsNode(original.annotations);
+    if (annotationsNode) article.appendChild(annotationsNode);
     const sourceHref = sanitizeHref(original.source_url || "");
     if (sourceHref && !options.hideInlineSourceLink) {
       const sourceLink = document.createElement("a");
@@ -333,6 +335,95 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
       article.appendChild(sourceLink);
     }
     return article;
+  }
+
+  function appendAnnotationPanelBody(panel: HTMLElement, rawBody: string): void {
+    const normalized = String(rawBody || "").replace(/\r\n/g, "\n").trim();
+    if (!normalized) return;
+    const blocks = normalized.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
+    const bulletMatcher = /^[-•·]\s+/;
+    blocks.forEach((block) => {
+      const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+      const isAllBullets = lines.length > 0 && lines.every((l) => bulletMatcher.test(l));
+      if (isAllBullets) {
+        const list = document.createElement("ul");
+        list.className = "norma-annot-list";
+        lines.forEach((line) => {
+          const li = document.createElement("li");
+          li.textContent = line.replace(bulletMatcher, "");
+          list.appendChild(li);
+        });
+        panel.appendChild(list);
+      } else {
+        const p = document.createElement("p");
+        p.textContent = lines.join(" ");
+        panel.appendChild(p);
+      }
+    });
+  }
+
+  function buildNormaAnnotationsNode(annotations): HTMLElement | null {
+    const items = Array.isArray(annotations)
+      ? annotations
+          .map((item) => ({
+            label: String(item?.label || "").trim(),
+            body: String(item?.body || "").trim(),
+          }))
+          .filter((item) => item.label && item.body)
+      : [];
+    if (items.length === 0) return null;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "norma-annot";
+
+    const tabStrip = document.createElement("div");
+    tabStrip.className = "norma-annot-tabs";
+    tabStrip.setAttribute("role", "tablist");
+
+    const panels: HTMLElement[] = [];
+    const buttons: HTMLButtonElement[] = [];
+
+    items.forEach((item, idx) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "norma-annot-tab";
+      btn.dataset.tabIndex = String(idx);
+      btn.setAttribute("role", "tab");
+      btn.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+      btn.tabIndex = idx === 0 ? 0 : -1;
+      btn.textContent = item.label;
+      buttons.push(btn);
+      tabStrip.appendChild(btn);
+
+      const panel = document.createElement("div");
+      panel.className = "norma-annot-panel";
+      panel.dataset.tabIndex = String(idx);
+      panel.setAttribute("role", "tabpanel");
+      if (idx !== 0) panel.hidden = true;
+      appendAnnotationPanelBody(panel, item.body);
+      panels.push(panel);
+    });
+
+    const panelHost = document.createElement("div");
+    panelHost.className = "norma-annot-panels";
+    panels.forEach((p) => panelHost.appendChild(p));
+
+    const select = (targetIndex: number) => {
+      buttons.forEach((btn, i) => {
+        const active = i === targetIndex;
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+        btn.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== targetIndex;
+      });
+    };
+    buttons.forEach((btn, idx) => {
+      btn.addEventListener("click", () => select(idx));
+    });
+
+    wrapper.append(tabStrip, panelHost);
+    return wrapper;
   }
 
   function buildNormaSectionCard(section: CitationProfileSection): HTMLElement | null {

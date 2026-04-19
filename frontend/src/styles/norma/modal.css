@@ -467,6 +467,89 @@
   text-decoration: underline;
 }
 
+/* ── Annotation tabs (Notas, Concordancias, etc.) ─────────── */
+
+.norma-annot {
+  margin-top: 0.6rem;
+  border: 1px solid var(--border-default, #e2e8f0);
+  border-radius: 0.72rem;
+  background: var(--card-bg, #fff);
+  overflow: hidden;
+}
+
+.norma-annot-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px;
+  background: var(--p-neutral-100, #f1f5f9);
+}
+
+.norma-annot-tab {
+  flex: 0 0 auto;
+  padding: 0.42rem 0.78rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-tertiary, #64748b);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.norma-annot-tab:hover {
+  color: var(--text-primary, #1e293b);
+  background: var(--p-neutral-50, #f8fafc);
+}
+
+.norma-annot-tab[aria-selected="true"] {
+  background: var(--card-bg, #fff);
+  color: var(--p-blue-600, #2563eb);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.norma-annot-tab:focus-visible {
+  outline: 2px solid var(--p-blue-500, #3b82f6);
+  outline-offset: 2px;
+}
+
+.norma-annot-panel {
+  padding: 0.82rem 1rem;
+  font-size: 0.88rem;
+  line-height: 1.62;
+  color: var(--text-primary);
+}
+
+.norma-annot-panel[hidden] {
+  display: none;
+}
+
+.norma-annot-panel p {
+  margin: 0 0 0.5rem;
+}
+
+.norma-annot-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.norma-annot-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.norma-annot-list li {
+  margin-bottom: 0.3rem;
+  line-height: 1.55;
+}
+
+.norma-annot-list li:last-child {
+  margin-bottom: 0;
+}
+
 .norma-expert-accordion {
   display: grid;
   gap: 0.7rem;

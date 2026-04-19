@@ -135,8 +135,6 @@ export function renderFormGuideShell(i18n: I18nRuntime): string {
             </header>
             <div id="structured-sections" class="structured-sections"></div>
           </section>
-
-          <button id="mobile-show-graphic-btn" class="mobile-show-graphic-btn" type="button" hidden>Ver guía gráfica del formulario</button>
         </section>
 
         <aside class="form-guide-chat">

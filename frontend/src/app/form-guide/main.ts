@@ -14,5 +14,8 @@ const page = createPageContext({
   missingRootMessage: "Missing #app root for form-guide page.",
 });
 page.setTitle(page.i18n.t("app.title.formGuide") || "LIA - Guia de Formulario");
+if (new URLSearchParams(window.location.search).get("embed") === "1") {
+  document.body.classList.add("form-guide-embedded");
+}
 page.mountShell(renderFormGuideShell(page.i18n));
 mountFormGuideApp(page.root, { i18n: page.i18n });

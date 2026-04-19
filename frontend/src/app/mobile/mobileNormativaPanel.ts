@@ -21,6 +21,7 @@ import { sanitizeHref, isRenderableEvidenceStatus } from "@/features/chat/normat
 import { createLinkAction } from "@/shared/ui/atoms/button";
 import { createBadge } from "@/shared/ui/atoms/badge";
 import { icons } from "@/shared/ui/icons";
+import { installMobileFormGuideModalDelegation } from "@/app/mobile/mobileFormGuideModal";
 
 export interface MobileNormativaPanel {
   setCitations(citations: MobileCitationCardViewModel[]): void;
@@ -42,6 +43,8 @@ export function mountMobileNormativaPanel(
   const listEl = root.querySelector<HTMLElement>("#mobile-normativa-list")!;
   const emptyEl = root.querySelector<HTMLElement>("#mobile-normativa-empty")!;
   let currentCitations: MobileCitationCardViewModel[] = [];
+
+  installMobileFormGuideModalDelegation();
 
   function setCitations(citations: MobileCitationCardViewModel[]): void {
     currentCitations = [...citations];
@@ -84,6 +87,25 @@ export function mountMobileNormativaPanel(
   });
 
   // Depth sections use native <details> accordion — no JS handler needed.
+
+  // Delegated click handler for annotation tabs inside the original-text section.
+  document.addEventListener("click", (event: Event) => {
+    const tab = (event.target as HTMLElement).closest<HTMLButtonElement>(".mobile-sheet-annot-tab");
+    if (!tab || !tab.dataset.tabIndex) return;
+    const group = tab.closest<HTMLElement>(".mobile-sheet-annot");
+    if (!group) return;
+    event.preventDefault();
+    const targetIndex = tab.dataset.tabIndex;
+    group.querySelectorAll<HTMLButtonElement>(".mobile-sheet-annot-tab").forEach((btn) => {
+      const isActive = btn.dataset.tabIndex === targetIndex;
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+      btn.tabIndex = isActive ? 0 : -1;
+    });
+    group.querySelectorAll<HTMLElement>(".mobile-sheet-annot-panel").forEach((panel) => {
+      const isActive = panel.dataset.tabIndex === targetIndex;
+      panel.hidden = !isActive;
+    });
+  });
 
   function buildLoaderHtml(): string {
     return `
@@ -243,12 +265,82 @@ export function mountMobileNormativaPanel(
       .map((p) => `<p>${escapeHtml(p)}</p>`)
       .join("");
 
+    const annotationsHtml = buildAnnotationsHtml(original.annotations);
+
     return `
       <div class="mobile-sheet-section mobile-sheet-original-text">
         ${intro}
         <h4 class="mobile-sheet-section-title">${escapeHtml(title)}</h4>
         <blockquote class="mobile-sheet-quote">${quoteParagraphs}</blockquote>
+        ${annotationsHtml}
         ${sourceLink}
+      </div>
+    `;
+  }
+
+  function formatAnnotationBodyHtml(body: string): string {
+    const normalized = String(body || "").replace(/\r\n/g, "\n").trim();
+    if (!normalized) return "";
+    const blocks = normalized.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
+    return blocks
+      .map((block) => {
+        const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+        const bulletMatcher = /^[-•·]\s+/;
+        const isAllBullets = lines.length > 0 && lines.every((l) => bulletMatcher.test(l));
+        if (isAllBullets) {
+          const items = lines
+            .map((l) => `<li>${escapeHtml(l.replace(bulletMatcher, ""))}</li>`)
+            .join("");
+          return `<ul class="mobile-sheet-annot-list">${items}</ul>`;
+        }
+        return `<p>${escapeHtml(lines.join(" "))}</p>`;
+      })
+      .join("");
+  }
+
+  function buildAnnotationsHtml(
+    annotations: CitationProfileOriginalText["annotations"] | undefined,
+  ): string {
+    const items = Array.isArray(annotations)
+      ? annotations
+          .map((item) => ({
+            label: String(item?.label || "").trim(),
+            body: String(item?.body || "").trim(),
+          }))
+          .filter((item) => item.label && item.body)
+      : [];
+    if (items.length === 0) return "";
+
+    const tabs = items
+      .map(
+        (item, idx) => `
+        <button
+          type="button"
+          class="mobile-sheet-annot-tab"
+          role="tab"
+          data-tab-index="${idx}"
+          aria-selected="${idx === 0 ? "true" : "false"}"
+          tabindex="${idx === 0 ? 0 : -1}"
+        >${escapeHtml(item.label)}</button>`,
+      )
+      .join("");
+
+    const panels = items
+      .map(
+        (item, idx) => `
+        <div
+          class="mobile-sheet-annot-panel"
+          role="tabpanel"
+          data-tab-index="${idx}"
+          ${idx === 0 ? "" : "hidden"}
+        >${formatAnnotationBodyHtml(item.body)}</div>`,
+      )
+      .join("");
+
+    return `
+      <div class="mobile-sheet-annot" data-count="${items.length}">
+        <div class="mobile-sheet-annot-tabs" role="tablist">${tabs}</div>
+        <div class="mobile-sheet-annot-panels">${panels}</div>
       </div>
     `;
   }
@@ -479,7 +571,12 @@ export function mountMobileNormativaPanel(
       const href = sanitizeHref(companionAction.url);
       const label = String(companionAction.label || "Guía de formulario").trim();
       if (href) {
-        actions.push(createLinkAction({ href, iconHtml: icons.bookOpen, label, className: "mobile-sheet-action-btn" }).outerHTML);
+        actions.push(
+          `<button type="button" class="mobile-sheet-action-btn" data-mobile-form-guide-url="${escapeAttr(href)}" data-mobile-form-guide-title="${escapeAttr(label)}">` +
+            `<span class="mobile-sheet-action-icon" aria-hidden="true">${icons.bookOpen}</span>` +
+            `<span>${escapeHtml(label)}</span>` +
+          `</button>`
+        );
       }
     }
 
@@ -661,6 +758,10 @@ function escapeHtml(text: string): string {
   const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
+}
+
+function escapeAttr(text: string): string {
+  return escapeHtml(text).replace(/"/g, "&quot;");
 }
 
 function formatTextContent(text: string): string {

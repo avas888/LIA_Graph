@@ -380,6 +380,91 @@
   text-decoration: underline;
 }
 
+/* ── Annotation tabs (Notas, Concordancias, etc.) ─────────── */
+
+.mobile-sheet-annot {
+  margin-top: 12px;
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  background: var(--card-bg, #fff);
+  overflow: hidden;
+}
+
+.mobile-sheet-annot-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--p-neutral-100, #f1f5f9);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.mobile-sheet-annot-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-sheet-annot-tab {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 32px;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mobile-sheet-annot-tab:active {
+  background: var(--p-neutral-200, #e2e8f0);
+}
+
+.mobile-sheet-annot-tab[aria-selected="true"] {
+  background: var(--card-bg, #fff);
+  color: var(--p-blue-600, #2563eb);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.mobile-sheet-annot-panel {
+  padding: 12px 14px;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+
+.mobile-sheet-annot-panel[hidden] {
+  display: none;
+}
+
+.mobile-sheet-annot-panel p {
+  margin: 0 0 8px;
+}
+
+.mobile-sheet-annot-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-sheet-annot-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-secondary);
+}
+
+.mobile-sheet-annot-list li {
+  margin-bottom: 4px;
+  line-height: 1.55;
+}
+
+.mobile-sheet-annot-list li:last-child {
+  margin-bottom: 0;
+}
+
 /* ── Section Cards ──────────────────────────────────────── */
 
 .mobile-sheet-section-card {

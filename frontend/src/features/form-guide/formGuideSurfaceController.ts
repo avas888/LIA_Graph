@@ -528,18 +528,6 @@ export function createFormGuideSurfaceController({ state }: CreateFormGuideSurfa
     };
   }
 
-  function wireMobileGraphicBtn(): void {
-    const btn = document.getElementById("mobile-show-graphic-btn");
-    const interactiveView = document.getElementById("form-guide-interactive-view");
-    if (!btn || !interactiveView) return;
-
-    btn.addEventListener("click", () => {
-      interactiveView.style.display = "";
-      btn.hidden = true;
-      interactiveView.scrollIntoView({ block: "start", behavior: "smooth" });
-    });
-  }
-
   function wireMobileMenu(): void {
     const hamburger = document.querySelector<HTMLButtonElement>(".form-guide-hamburger");
     const menu = document.querySelector<HTMLElement>(".form-guide-mobile-menu");
@@ -663,7 +651,6 @@ export function createFormGuideSurfaceController({ state }: CreateFormGuideSurfa
     wireSourcesDialog();
     wirePdfDownload();
     wireMobileMenu();
-    wireMobileGraphicBtn();
     const preferText = window.matchMedia("(max-width: 640px)").matches;
     setGuideView(preferText ? "structured" : (hasInteractiveViewer ? "interactive" : "structured"));
     syncGuideSelection();
