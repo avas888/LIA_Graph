@@ -1,5 +1,25 @@
 # SUIN-Juriscol Ingestion Plan
 
+## Implementation stage tracker (resumable)
+
+Every stage mutates this table when it starts (`in progress`) and completes (`done`). If an agent restarts mid-flight, this table is the source of truth for where to resume. Last-updated timestamps are UTC.
+
+| # | Stage | Status | Artifacts that prove it | Updated |
+|---|---|---|---|---|
+| 0 | Commit pending + branch (`feat/suin-ingestion`) | done | commit `266a8b9` on main, branch `feat/suin-ingestion` created | 2026-04-19T17:17Z |
+| 1 | Stage tracker added to this doc | in progress | this table | 2026-04-19T17:20Z |
+| 2 | Survey integration surfaces (parser.py, classifier.py, ingest.py, sink, Makefile, env targets) | done | notes captured in conversation; `wip` target verified as local docker Supabase in `.env.staging` | 2026-04-19T17:25Z |
+| 3 | Phase A — `suin/{fetcher,parser,harvest}.py` + tests + Makefile targets + `.gitignore` cache | pending | `src/lia_graph/ingestion/suin/*.py`, `tests/test_suin_*.py`, `make phase2-suin-harvest-et` target | — |
+| 4 | Phase B — EdgeKind extension, sink map, `suin/bridge.py`, `--include-suin` on `ingest.py`, Makefile `--execute-load` fix | pending | diff in `graph/schema.py`, `ingestion/supabase_sink.py`, `ingest.py`, `Makefile`; `tests/test_suin_bridge.py`, additions to `test_ingestion_supabase_sink.py` | — |
+| 5 | Test against local docker Supabase (target = `wip`) + local docker Falkor | pending | `documents`/`document_chunks`/`normative_edges` rows for a SUIN generation_id visible in `http://127.0.0.1:54323`; Falkor node count increased | — |
+| 6 | Promote to cloud Supabase + cloud FalkorDB | pending (requires user confirmation before firing — cloud write is irreversible) | `generation_id` visible in cloud Supabase studio; cloud Falkor `MATCH (n) RETURN count(n)` > 2,568 | — |
+
+### Resume protocol
+
+If you pick this up mid-stream: read this table top-down, find the first row that is not `done`, confirm the "Artifacts that prove it" column against the repo, and continue from there. Do **not** skip forward — each stage's artifacts are preconditions for the next.
+
+---
+
 ## What we are trying to achieve (in plain language)
 
 Today LIA reads tax norms (Estatuto Tributario, reform laws, decretos, resoluciones) as static text. An article is either "in" the corpus or not. What the app **cannot do** is answer the senior-accountant question that always comes next: *"is this article still alive? who changed it? which sentencia says it means X?"* We feel this as thin answers when a user asks about a modified article, vague vigencia claims, and no traceable link back to the law that introduced the change.
