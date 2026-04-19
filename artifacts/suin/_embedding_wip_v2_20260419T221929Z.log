@@ -1,0 +1,29 @@
+Gemini batchEmbedContents failed
+Traceback (most recent call last):
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/embeddings.py", line 169, in _embed_batch
+    with urllib.request.urlopen(req, timeout=60) as response:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 493, in open
+    response = meth(req, response)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 602, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 531, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 611, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 429: Too Many Requests
+{
+  "ok": true,
+  "target": "wip",
+  "generation": "gen_suin_wip_v2_20260419",
+  "null_embedding_chunks": 0,
+  "total_chunks": 13739,
+  "manifest_path": "artifacts/suin/_embedding_wip_20260419T222119Z.json"
+}

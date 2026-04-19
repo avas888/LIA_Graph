@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "scope": "jurisprudencia_full",
+  "generated_at": "2026-04-19T21:20:42.288648+00:00",
+  "urls_crawled": 100,
+  "documents_parsed": 100,
+  "articles_parsed": 98,
+  "edges_parsed": 326,
+  "verb_counts": {
+    "estarse_a_lo_resuelto": 291,
+    "anula": 31,
+    "suspende": 4
+  },
+  "unknown_verb_failures": [
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30043775",
+      "raw_verb": "Declara nulo",
+      "hint": "normalized='declara nulo'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30043775",
+      "raw_verb": "Declara nulo",
+      "hint": "normalized='declara nulo'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30043775",
+      "raw_verb": "Declara nulo",
+      "hint": "normalized='declara nulo'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30043775",
+      "raw_verb": "Declara nulo",
+      "hint": "normalized='declara nulo'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30043775",
+      "raw_verb": "Declara nulo",
+      "hint": "normalized='declara nulo'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30043775",
+      "raw_verb": "Declara nulo",
+      "hint": "normalized='declara nulo'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10001463",
+      "raw_verb": "Declara probada la excepción",
+      "hint": "normalized='declara probada la excepcion'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10001463",
+      "raw_verb": "Declara probada la excepción",
+      "hint": "normalized='declara probada la excepcion'"
+    }
+  ],
+  "paths": {
+    "documents": "artifacts/suin/jurisprudencia_full/documents.jsonl",
+    "articles": "artifacts/suin/jurisprudencia_full/articles.jsonl",
+    "edges": "artifacts/suin/jurisprudencia_full/edges.jsonl"
+  }
+}

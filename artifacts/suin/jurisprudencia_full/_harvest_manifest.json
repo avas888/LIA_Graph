@@ -1,0 +1,24 @@
+{
+  "scope": "jurisprudencia_full",
+  "generated_at": "2026-04-19T22:18:34.265740+00:00",
+  "urls_crawled": 3370,
+  "documents_parsed": 3370,
+  "articles_parsed": 2668,
+  "edges_parsed": 4328,
+  "verb_counts": {
+    "estarse_a_lo_resuelto": 3181,
+    "anula": 953,
+    "suspende": 127,
+    "declara_inexequible": 1,
+    "inhibida": 50,
+    "declara_exequible": 11,
+    "nota_editorial": 3,
+    "deroga": 2
+  },
+  "unknown_verb_failures": [],
+  "paths": {
+    "documents": "artifacts/suin/jurisprudencia_full/documents.jsonl",
+    "articles": "artifacts/suin/jurisprudencia_full/articles.jsonl",
+    "edges": "artifacts/suin/jurisprudencia_full/edges.jsonl"
+  }
+}

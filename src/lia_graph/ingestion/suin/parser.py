@@ -247,12 +247,28 @@ _VERB_STEM_PATTERNS: list[tuple[str, str]] = [
     ("inhibi", "inhibida"),        # inhibida / inhibido / declarada inhibida …
     ("denegad", "estarse_a_lo_resuelto"),  # "Denegadas las pretensiones" / "Denegada la pretensión"
     ("niega", "estarse_a_lo_resuelto"),     # "Niega la pretensión"
+    ("decret", "estarse_a_lo_resuelto"),    # "Decreta" / "decretó" — procedural
     ("rechazad", "estarse_a_lo_resuelto"), # "Rechazada la demanda por cosa juzgada"
     ("cosa juzgad", "estarse_a_lo_resuelto"),
     ("estarse a lo decidido", "estarse_a_lo_resuelto"),
     ("nulidad", "anula"),
     ("anulad", "anula"),
     ("anula", "anula"),            # "Anula la parte …" (bare inflection)
+    ("declara nulo", "anula"),      # "Declara nulo" — contencioso administrativo annulment
+    ("declara probad", "estarse_a_lo_resuelto"),  # "Declara probada la excepción"
+    ("excepcion", "estarse_a_lo_resuelto"),        # fallback — any verb about "excepción"
+    ("inaplica", "declara_inexequible"),           # excepción de inconstitucionalidad
+    ("no accede", "estarse_a_lo_resuelto"),         # "No accede" — denies request
+    ("repone", "estarse_a_lo_resuelto"),             # "No repone" / "No se repone el auto"
+    ("estarse a lo dispuesto", "estarse_a_lo_resuelto"),
+    ("declara la legalidad", "estarse_a_lo_resuelto"),
+    ("declara ajustad", "estarse_a_lo_resuelto"),   # "Declara ajustado al ordenamiento jurídico"
+    ("declara la conformidad", "estarse_a_lo_resuelto"),
+    ("abstenerse", "estarse_a_lo_resuelto"),        # court refuses to rule
+    ("rechaza", "estarse_a_lo_resuelto"),           # "Rechaza el recurso" / "Rechaza la demanda"
+    ("constitucional", "declara_exequible"),        # bare "Constitucional" verb (implicit exequible)
+    ("decaimiento", "deroga"),                      # "Declara el decaimiento" — norm lapses
+    ("decrara ajustad", "estarse_a_lo_resuelto"),   # typo variant of "declara ajustado"
     ("subrog", "modifica"),
     ("sustitu", "modifica"),
     ("modificad", "modifica"),

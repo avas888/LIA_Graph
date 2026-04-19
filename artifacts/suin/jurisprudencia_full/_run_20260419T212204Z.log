@@ -1,0 +1,285 @@
+{
+  "ok": true,
+  "scope": "jurisprudencia_full",
+  "generated_at": "2026-04-19T22:16:50.827343+00:00",
+  "urls_crawled": 3370,
+  "documents_parsed": 3370,
+  "articles_parsed": 2668,
+  "edges_parsed": 4276,
+  "verb_counts": {
+    "estarse_a_lo_resuelto": 3137,
+    "anula": 953,
+    "suspende": 127,
+    "declara_inexequible": 1,
+    "inhibida": 50,
+    "declara_exequible": 5,
+    "nota_editorial": 3
+  },
+  "unknown_verb_failures": [
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10005037",
+      "raw_verb": "Estarse a lo dispuesto ...",
+      "hint": "normalized='estarse a lo dispuesto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10005165",
+      "raw_verb": "Estarse a lo dispuesto ...",
+      "hint": "normalized='estarse a lo dispuesto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10008323",
+      "raw_verb": "Rechaza el recurso",
+      "hint": "normalized='rechaza el recurso'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30049001",
+      "raw_verb": "Declara la legalidad",
+      "hint": "normalized='declara la legalidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30049001",
+      "raw_verb": "Declara la legalidad",
+      "hint": "normalized='declara la legalidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10000057",
+      "raw_verb": "Declara ajustado a derecho salvo ...",
+      "hint": "normalized='declara ajustado a derecho salvo '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004359",
+      "raw_verb": "Abstenerse",
+      "hint": "normalized='abstenerse'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004486",
+      "raw_verb": "No se repone el auto que decretó ...",
+      "hint": "normalized='no se repone el auto que decreto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032013",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032271",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032271",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032271",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032172",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30054184",
+      "raw_verb": "Declara la legalidad",
+      "hint": "normalized='declara la legalidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032417",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032417",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032417",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10003991",
+      "raw_verb": "Rechaza la demanda",
+      "hint": "normalized='rechaza la demanda'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10005977",
+      "raw_verb": "No repone el auto",
+      "hint": "normalized='no repone el auto'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30031821",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30036607",
+      "raw_verb": "Decrara ajustado al ordenamiento juridico",
+      "hint": "normalized='decrara ajustado al ordenamiento juridico'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30054201",
+      "raw_verb": "Declara la legalidad",
+      "hint": "normalized='declara la legalidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30054201",
+      "raw_verb": "Declara la legalidad",
+      "hint": "normalized='declara la legalidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30054201",
+      "raw_verb": "Declara la legalidad",
+      "hint": "normalized='declara la legalidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30054201",
+      "raw_verb": "Declara la legalidad",
+      "hint": "normalized='declara la legalidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30054207",
+      "raw_verb": "Declara la legalidad",
+      "hint": "normalized='declara la legalidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004007",
+      "raw_verb": "Estarse a lo dispuesto ...",
+      "hint": "normalized='estarse a lo dispuesto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004672",
+      "raw_verb": "Estarse a lo dispuesto ...",
+      "hint": "normalized='estarse a lo dispuesto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004454",
+      "raw_verb": "No repone el auto",
+      "hint": "normalized='no repone el auto'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004883",
+      "raw_verb": "Rechaza el recurso",
+      "hint": "normalized='rechaza el recurso'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30033388",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30031965",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30033409",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10002981",
+      "raw_verb": "Estarse a lo dispuesto ...",
+      "hint": "normalized='estarse a lo dispuesto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10002981",
+      "raw_verb": "Estarse a lo dispuesto ...",
+      "hint": "normalized='estarse a lo dispuesto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10005173",
+      "raw_verb": "Declara el decaimiento",
+      "hint": "normalized='declara el decaimiento'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10005173",
+      "raw_verb": "Declara el decaimiento",
+      "hint": "normalized='declara el decaimiento'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30043786",
+      "raw_verb": "Abstenerse",
+      "hint": "normalized='abstenerse'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004415",
+      "raw_verb": "No repone el auto",
+      "hint": "normalized='no repone el auto'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004415",
+      "raw_verb": "No repone el auto",
+      "hint": "normalized='no repone el auto'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10008479",
+      "raw_verb": "Constitucional",
+      "hint": "normalized='constitucional'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10008479",
+      "raw_verb": "Constitucional",
+      "hint": "normalized='constitucional'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10008479",
+      "raw_verb": "Constitucional",
+      "hint": "normalized='constitucional'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10008479",
+      "raw_verb": "Constitucional",
+      "hint": "normalized='constitucional'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10008479",
+      "raw_verb": "Constitucional",
+      "hint": "normalized='constitucional'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10008479",
+      "raw_verb": "Constitucional",
+      "hint": "normalized='constitucional'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10007606",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10007576",
+      "raw_verb": "Estarse a lo dispuesto ...",
+      "hint": "normalized='estarse a lo dispuesto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10007244",
+      "raw_verb": "Estarse a lo dispuesto ...",
+      "hint": "normalized='estarse a lo dispuesto '"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30032164",
+      "raw_verb": "No accede",
+      "hint": "normalized='no accede'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=10004754",
+      "raw_verb": "Declara la conformidad",
+      "hint": "normalized='declara la conformidad'"
+    },
+    {
+      "url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030324",
+      "raw_verb": "Abstenerse",
+      "hint": "normalized='abstenerse'"
+    }
+  ],
+  "paths": {
+    "documents": "artifacts/suin/jurisprudencia_full/documents.jsonl",
+    "articles": "artifacts/suin/jurisprudencia_full/articles.jsonl",
+    "edges": "artifacts/suin/jurisprudencia_full/edges.jsonl"
+  }
+}
