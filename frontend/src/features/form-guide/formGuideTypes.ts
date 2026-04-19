@@ -180,25 +180,58 @@ function parseMarkerBox(field: FieldHotspot): [number, number, number, number] |
 export function resolveHotspotAnchor(field: FieldHotspot): {
   left: number;
   top: number;
-  centered: boolean;
+  translateX: string;
+  translateY: string;
   markerCenterX: number | null;
   markerCenterY: number | null;
 } {
   const markerBox = parseMarkerBox(field);
   if (markerBox) {
+    const [mx, my, mw, mh] = markerBox;
+    const bbox = field.bbox;
+    const hasBbox = Array.isArray(bbox) && bbox.length === 4 && bbox.every((v) => Number.isFinite(Number(v)));
+
+    // A marker is "default" when it just inherits the bbox origin + full height
+    // (i.e. it was not hand-positioned over the actual printed casilla badge).
+    // For DIAN forms the printed badge lives at the TOP of the row, so we anchor
+    // the pill to the top edge instead of the geometric center of the slice.
+    // We exclude wide markers (>=70% of bbox width) because those are intentional
+    // centered banners (e.g. casilla 25, the corrección header).
+    const isDefaultLeftMarker =
+      hasBbox &&
+      Math.abs(mx - Number(bbox[0])) < 0.05 &&
+      Math.abs(my - Number(bbox[1])) < 0.05 &&
+      Math.abs(mh - Number(bbox[3])) < 0.05 &&
+      mw < Number(bbox[2]) * 0.7;
+
+    const centerX = mx + mw / 2;
+    if (isDefaultLeftMarker) {
+      return {
+        left: centerX,
+        top: my,
+        translateX: "-50%",
+        translateY: "0",
+        markerCenterX: centerX,
+        markerCenterY: my + mh / 2,
+      };
+    }
+
+    const centerY = my + mh / 2;
     return {
-      left: markerBox[0] + markerBox[2] / 2,
-      top: markerBox[1] + markerBox[3] / 2,
-      centered: true,
-      markerCenterX: markerBox[0] + markerBox[2] / 2,
-      markerCenterY: markerBox[1] + markerBox[3] / 2,
+      left: centerX,
+      top: centerY,
+      translateX: "-50%",
+      translateY: "-50%",
+      markerCenterX: centerX,
+      markerCenterY: centerY,
     };
   }
 
   return {
     left: field.bbox[0],
     top: field.bbox[1],
-    centered: false,
+    translateX: "0",
+    translateY: "0",
     markerCenterX: null,
     markerCenterY: null,
   };

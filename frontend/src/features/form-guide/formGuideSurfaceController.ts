@@ -374,9 +374,9 @@ export function createFormGuideSurfaceController({ state }: CreateFormGuideSurfa
                         data-page="${field.page}"
                         data-marker-x="${anchor.markerCenterX ?? ""}"
                         data-marker-y="${anchor.markerCenterY ?? ""}"
-                        data-marker-centered="${anchor.centered ? "true" : "false"}"
+                        data-anchor-mode="${anchor.translateY === "0" ? "top" : "center"}"
                         aria-label="Abrir o cerrar detalle de ${escapeHtml(uiText(field.label))}"
-                        style="left:${anchor.left}%;top:${anchor.top}%;--guide-hotspot-translate-x:${anchor.centered ? "-50%" : "0"};--guide-hotspot-translate-y:${anchor.centered ? "-50%" : "0"};"
+                        style="left:${anchor.left}%;top:${anchor.top}%;--guide-hotspot-translate-x:${anchor.translateX};--guide-hotspot-translate-y:${anchor.translateY};"
                       >
                         <span class="guide-hotspot-pill">${escapeHtml(renderHotspotBadge(field))}</span>
                       </button>
