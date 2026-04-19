@@ -242,6 +242,13 @@ function buildRuntimeEnv(mode) {
   env.LIA_UI_HOST = String(env.LIA_UI_HOST || DEFAULT_HOST).trim() || DEFAULT_HOST;
   env.LIA_UI_PORT = String(env.LIA_UI_PORT || DEFAULT_PORT).trim() || DEFAULT_PORT;
 
+  // LLM polish is on by default across all modes — the chat is useless
+  // as template boilerplate. Explicit `LIA_LLM_POLISH_ENABLED=0` from the
+  // shell still wins so operators can disable on the fly.
+  if (!String(env.LIA_LLM_POLISH_ENABLED || "").trim()) {
+    env.LIA_LLM_POLISH_ENABLED = "1";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

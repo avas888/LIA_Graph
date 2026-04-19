@@ -24,6 +24,7 @@ class GeminiChatAdapter:
         timeout_seconds: float = 30.0,
         temperature: float = 0.1,
         max_tokens: int | None = None,
+        thinking_enabled: bool | None = None,
     ) -> None:
         self.model = model
         self.api_key = api_key
@@ -31,6 +32,7 @@ class GeminiChatAdapter:
         self.timeout_seconds = timeout_seconds
         self.temperature = temperature
         self.max_tokens = max_tokens
+        self.thinking_enabled = thinking_enabled
 
     def _request(self, payload: dict[str, Any]) -> dict[str, Any]:
         req = urllib.request.Request(
@@ -57,6 +59,8 @@ class GeminiChatAdapter:
         }
         if self.max_tokens is not None:
             payload["max_tokens"] = self.max_tokens
+        if self.thinking_enabled is False:
+            payload["reasoning_effort"] = "none"
         data = self._request(payload)
         choices = data.get("choices") or []
         if not choices:
@@ -73,6 +77,10 @@ class GeminiChatAdapter:
             "temperature": self.temperature,
             "stream": True,
         }
+        if self.max_tokens is not None:
+            payload["max_tokens"] = self.max_tokens
+        if self.thinking_enabled is False:
+            payload["reasoning_effort"] = "none"
         req = urllib.request.Request(
             url=f"{self.base_url}/chat/completions",
             method="POST",
@@ -100,6 +108,7 @@ class GeminiNativeChatAdapter(GeminiChatAdapter):
         timeout_seconds: float = 30.0,
         temperature: float = 0.1,
         max_tokens: int | None = None,
+        thinking_enabled: bool | None = None,
     ) -> None:
         super().__init__(
             model=model,
@@ -108,5 +117,6 @@ class GeminiNativeChatAdapter(GeminiChatAdapter):
             timeout_seconds=timeout_seconds,
             temperature=temperature,
             max_tokens=max_tokens,
+            thinking_enabled=thinking_enabled,
         )
 

@@ -71,7 +71,7 @@ export function mountLoginApp(root: HTMLElement, opts: { i18n: I18nRuntime }) {
       type: "password",
       placeholder: "Ingrese su contrase\u00f1a",
       required: true,
-      minlength: 12,
+      minlength: 8,
       maxlength: 256,
     },
     trailingAction: {

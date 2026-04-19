@@ -1,0 +1,43 @@
+{
+  "job_id": "0cc751a019a645b68c34eff278801f6c",
+  "job_type": "chat_persistence",
+  "status": "completed",
+  "tenant_id": "public_anon",
+  "user_id": "pub_9b059d70fd4caae1",
+  "company_id": "",
+  "request_payload": {
+    "chat_run_id": "cr_20260418_122726_214276d2",
+    "session_id": "chat_8aab30e2d4bf",
+    "trace_id": "9447da5d-365a-4aa4-b886-6c124c9ce2ab"
+  },
+  "result_payload": {
+    "session_id": "chat_8aab30e2d4bf",
+    "turn_count": 0,
+    "chat_run_id": "cr_20260418_122726_214276d2",
+    "warnings": [
+      {
+        "dependency": "conversation_store",
+        "stage": "turn_persistence",
+        "error": "[Errno 8] nodename nor servname provided, or not known",
+        "error_type": "ConnectError"
+      },
+      {
+        "dependency": "chat_session_metrics",
+        "stage": "session_metrics",
+        "error": "[Errno 8] nodename nor servname provided, or not known",
+        "error_type": "ConnectError"
+      },
+      {
+        "dependency": "usage_ledger",
+        "stage": "usage_events",
+        "error": "[Errno 8] nodename nor servname provided, or not known",
+        "error_type": "ConnectError"
+      }
+    ]
+  },
+  "error": "",
+  "attempts": 1,
+  "created_at": "2026-04-18T12:27:32Z",
+  "updated_at": "2026-04-18T12:27:37Z",
+  "completed_at": "2026-04-18T12:27:37Z"
+}

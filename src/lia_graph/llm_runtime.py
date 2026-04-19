@@ -51,6 +51,7 @@ class LLMProviderConfig:
     timeout_seconds: float = 30.0
     temperature: float = 0.1
     max_tokens: int | None = None
+    thinking_enabled: bool | None = None
 
 
 @dataclass(frozen=True)
@@ -282,6 +283,22 @@ def _coerce_optional_int(name: str, value: Any, *, default: int | None = None) -
     return max(1, _coerce_int(name, value, default=1))
 
 
+def _coerce_optional_bool(name: str, value: Any, *, default: bool | None = None) -> bool | None:
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        lowered = value.strip().lower()
+        if lowered in {"true", "1", "yes", "on"}:
+            return True
+        if lowered in {"false", "0", "no", "off"}:
+            return False
+    raise LLMRuntimeConfigInvalidError(f"`{name}` debe ser booleano.")
+
+
 def load_llm_runtime_config(path: Path = DEFAULT_RUNTIME_CONFIG_PATH) -> LLMRuntimeConfig:
     payload = _parse_runtime_payload(path)
     if payload is None:
@@ -314,6 +331,7 @@ def load_llm_runtime_config(path: Path = DEFAULT_RUNTIME_CONFIG_PATH) -> LLMRunt
                 timeout_seconds=max(0.1, _coerce_float(f"providers[{idx}].timeout_seconds", row.get("timeout_seconds"), default=30.0)),
                 temperature=_coerce_float(f"providers[{idx}].temperature", row.get("temperature"), default=0.1),
                 max_tokens=_coerce_optional_int(f"providers[{idx}].max_tokens", row.get("max_tokens"), default=None),
+                thinking_enabled=_coerce_optional_bool(f"providers[{idx}].thinking_enabled", row.get("thinking_enabled"), default=None),
             )
         )
 
@@ -381,6 +399,7 @@ def _instantiate_adapter(provider: LLMProviderConfig) -> tuple[LLMAdapter | None
                     timeout_seconds=provider.timeout_seconds,
                     temperature=provider.temperature,
                     max_tokens=provider.max_tokens,
+                    thinking_enabled=provider.thinking_enabled,
                 ),
                 None,
             )
@@ -394,6 +413,7 @@ def _instantiate_adapter(provider: LLMProviderConfig) -> tuple[LLMAdapter | None
                 timeout_seconds=provider.timeout_seconds,
                 temperature=provider.temperature,
                 max_tokens=provider.max_tokens,
+                thinking_enabled=provider.thinking_enabled,
             ),
             None,
         )

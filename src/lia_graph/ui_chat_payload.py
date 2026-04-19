@@ -28,6 +28,26 @@ from .ui_chat_persistence import (
 _log = logging.getLogger(__name__)
 
 
+def filter_diagnostics_for_public_response(
+    orchestrator_diagnostics: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    """Strip diagnostics for non-debug users but keep `retrieval_health`.
+
+    `retrieval_health` is the minimal, PII-free observability contract we
+    guarantee in every environment: operators reading production traces need
+    to be able to tell schema-drift, unseeded-corpus, and planner-miss apart
+    on `graph_native_partial` turns without waiting for a debug-mode repro.
+    Everything else in the orchestrator's diagnostics (planner plan,
+    evidence_bundle, etc.) stays hidden.
+    """
+    if not isinstance(orchestrator_diagnostics, dict):
+        return None
+    retrieval_health = orchestrator_diagnostics.get("retrieval_health")
+    if isinstance(retrieval_health, dict) and retrieval_health:
+        return {"retrieval_health": dict(retrieval_health)}
+    return None
+
+
 # ---------------------------------------------------------------------------
 # Lazy-import helpers
 # ---------------------------------------------------------------------------
@@ -823,12 +843,13 @@ def build_api_chat_success_payload(
     threading.Thread(target=_deferred_citation_gaps, daemon=True).start()
     # Force diagnostics for eval robots regardless of debug_mode flag
     _include_diagnostics = debug_mode or (auth_context is not None and getattr(auth_context, "is_robot", False))
+    orchestrator_diagnostics = (
+        dict(response_payload.get("diagnostics") or {})
+        if isinstance(response_payload.get("diagnostics"), dict)
+        else {}
+    )
     if _include_diagnostics:
-        diagnostics_payload = (
-            dict(response_payload.get("diagnostics") or {})
-            if isinstance(response_payload.get("diagnostics"), dict)
-            else {}
-        )
+        diagnostics_payload = orchestrator_diagnostics
         diagnostics_payload["citation_gaps_captured"] = citation_gaps_capture
         diagnostics_payload["mention_resolution"] = dict(mention_resolution_metrics)
         diagnostics_payload["primary_scope_mode"] = primary_scope_mode
@@ -850,7 +871,9 @@ def build_api_chat_success_payload(
         }
         response_payload["diagnostics"] = diagnostics_payload
     else:
-        response_payload["diagnostics"] = None
+        response_payload["diagnostics"] = filter_diagnostics_for_public_response(
+            orchestrator_diagnostics
+        )
     turn_token_usage = deps["normalize_token_usage"](
         deps["estimate_token_usage_from_text"](
             input_text=message,

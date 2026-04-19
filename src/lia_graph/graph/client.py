@@ -533,8 +533,18 @@ def _coerce_query_rows(
 
 
 def _header_name(item: Any, *, index: int) -> str:
+    # FalkorDB's `GRAPH.QUERY` header element may arrive in two shapes:
+    #   - compact mode: `[type_code, column_name]`  (we read index 1)
+    #   - plain  mode: just the column name as a bare string
+    # Prior versions only handled the compact shape, so every `RETURN x AS y`
+    # silently became `column_1, column_2, ...` downstream — breaking every
+    # retriever that tried `row.get("article_key")` / `.get("heading")`.
     if isinstance(item, list) and len(item) >= 2:
         return str(item[1])
+    if isinstance(item, (str, bytes)):
+        value = item.decode("utf-8") if isinstance(item, bytes) else item
+        if value:
+            return value
     return f"column_{index}"
 
 

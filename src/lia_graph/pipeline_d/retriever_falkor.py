@@ -88,7 +88,17 @@ def retrieve_graph_evidence(
         "graph_name": client.config.graph_name,
         "planner_query_mode": plan.query_mode,
         "temporal_context": plan.temporal_context.to_dict(),
+        "seed_article_keys": list(explicit_article_keys),
     }
+    if not primary_articles:
+        diagnostics.update(
+            _diagnose_empty_primary(
+                client=client,
+                article_keys=explicit_article_keys,
+            )
+        )
+    else:
+        diagnostics["empty_reason"] = "ok"
     evidence = GraphEvidenceBundle(
         primary_articles=primary_articles,
         connected_articles=connected_articles,
@@ -101,6 +111,87 @@ def retrieve_graph_evidence(
 
 
 # --- helpers ----------------------------------------------------------------
+
+
+def _diagnose_empty_primary(
+    *,
+    client: GraphClient,
+    article_keys: tuple[str, ...],
+) -> dict[str, Any]:
+    """Classify *why* the primary lookup came back empty.
+
+    Emits `empty_reason` plus enough counters for an operator to tell
+    schema-drift, graph-not-seeded, and planner-no-anchor apart without
+    needing shell access.
+    """
+    probe: dict[str, Any] = {}
+    if not article_keys:
+        probe["empty_reason"] = "no_explicit_article_keys_in_plan"
+        return probe
+
+    # How many ArticleNodes exist at all? Differentiates "graph is empty" from
+    # "graph is seeded but our query found nothing".
+    try:
+        total_rows = _execute(
+            client,
+            GraphWriteStatement(
+                description="empty_reason_probe article_node_total",
+                query="MATCH (n:ArticleNode) RETURN count(n) AS total",
+                parameters={},
+            ),
+        )
+        article_node_total = int((total_rows[0] or {}).get("total") or 0) if total_rows else 0
+    except GraphClientError:
+        probe["empty_reason"] = "graph_probe_failed"
+        return probe
+    probe["article_node_total"] = article_node_total
+    if article_node_total == 0:
+        probe["empty_reason"] = "graph_not_seeded"
+        return probe
+
+    # Does ANY node match by the canonical property for the requested keys?
+    # If this is also zero, either keys are wrong *or* the canonical property
+    # drifted. A second probe against the legacy `article_key` predicate catches
+    # the drift case so operators see it instead of mystery silence.
+    canonical_rows = _execute(
+        client,
+        GraphWriteStatement(
+            description="empty_reason_probe match_by_article_number",
+            query=(
+                "UNWIND $keys AS key\n"
+                "MATCH (n:ArticleNode {article_number: key})\n"
+                "RETURN count(n) AS matches"
+            ),
+            parameters={"keys": list(article_keys)},
+        ),
+    )
+    canonical_matches = int((canonical_rows[0] or {}).get("matches") or 0) if canonical_rows else 0
+    probe["article_node_matches_by_article_number"] = canonical_matches
+
+    legacy_rows = _execute(
+        client,
+        GraphWriteStatement(
+            description="empty_reason_probe match_by_article_key_legacy",
+            query=(
+                "UNWIND $keys AS key\n"
+                "MATCH (n:ArticleNode {article_key: key})\n"
+                "RETURN count(n) AS matches"
+            ),
+            parameters={"keys": list(article_keys)},
+        ),
+    )
+    legacy_matches = int((legacy_rows[0] or {}).get("matches") or 0) if legacy_rows else 0
+    probe["article_node_matches_by_article_key"] = legacy_matches
+
+    if canonical_matches == 0 and legacy_matches > 0:
+        probe["empty_reason"] = "schema_drift:retriever_expects_article_number_but_data_uses_article_key"
+    elif canonical_matches == 0:
+        probe["empty_reason"] = "no_matching_article_numbers"
+    else:
+        # Canonical property had matches but the upstream query still returned
+        # zero — means the fetch path itself is broken (column aliasing, etc.).
+        probe["empty_reason"] = "primary_fetch_zero_despite_canonical_matches"
+    return probe
 
 
 def _explicit_article_keys(plan: GraphRetrievalPlan) -> tuple[str, ...]:
@@ -148,7 +239,10 @@ def _retrieve_primary_articles(
         description=f"primary_articles limit={limit}",
         query=(
             "UNWIND $keys AS key\n"
-            "MATCH (node:ArticleNode {article_key: key})\n"
+            # Canonical node property is `article_number` (see graph/schema.py).
+            # Historical code wrote `article_key` but no live graph carries that
+            # property — querying it was a silent no-op across the whole corpus.
+            "MATCH (node:ArticleNode {article_number: key})\n"
             "RETURN key AS article_key, node.heading AS heading, node.text_current AS text_current,"
             " node.source_path AS source_path, node.status AS status\n"
         ),
@@ -193,12 +287,12 @@ def _retrieve_connected_articles(
         description=f"connected_articles hops<={max_hops}",
         query=(
             "UNWIND $keys AS seed_key\n"
-            "MATCH (seed:ArticleNode {article_key: seed_key})\n"
+            "MATCH (seed:ArticleNode {article_number: seed_key})\n"
             f"MATCH path = (seed)-[rel*1..{max_hops}]-(other:ArticleNode)\n"
-            "WHERE other.article_key <> seed_key AND NOT other.article_key IN $keys\n"
+            "WHERE other.article_number <> seed_key AND NOT other.article_number IN $keys\n"
             "WITH other, relationships(path) AS rels, length(path) AS hop\n"
             "WITH other, hop, [r IN rels | type(r)] AS edge_kinds\n"
-            "WITH other.article_key AS article_key,"
+            "WITH other.article_number AS article_key,"
             " other.heading AS heading,"
             " other.text_current AS text_current,"
             " other.source_path AS source_path,"
@@ -303,7 +397,7 @@ def _retrieve_reforms(
             description="related_reforms via article neighborhood",
             query=(
                 "UNWIND $keys AS seed_key\n"
-                "MATCH (:ArticleNode {article_key: seed_key})-[rel]-(reform:ReformNode)\n"
+                "MATCH (:ArticleNode {article_number: seed_key})-[rel]-(reform:ReformNode)\n"
                 "WHERE NOT reform.reform_key IN $seen_keys\n"
                 "RETURN reform.reform_key AS reform_key, reform.citation AS citation,"
                 " count(rel) AS hits\n"

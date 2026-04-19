@@ -32,6 +32,7 @@ class _FakeTableQuery:
     def __init__(self, rows: list[dict[str, Any]]) -> None:
         self._rows = rows
         self._filters: list[tuple[str, str, Any]] = []
+        self._limit: int | None = None
 
     def select(self, _columns: str) -> "_FakeTableQuery":
         return self
@@ -40,11 +41,37 @@ class _FakeTableQuery:
         self._filters.append(("in", column, list(values)))
         return self
 
+    def like(self, column: str, pattern: str) -> "_FakeTableQuery":
+        self._filters.append(("like", column, pattern))
+        return self
+
+    def limit(self, n: int) -> "_FakeTableQuery":
+        self._limit = int(n)
+        return self
+
     def execute(self) -> _FakeResponse:
+        filtered = list(self._rows)
         for op, column, value in self._filters:
             if op == "in":
-                self._rows = [row for row in self._rows if row.get(column) in value]
-        return _FakeResponse(data=list(self._rows))
+                filtered = [row for row in filtered if row.get(column) in value]
+            elif op == "like":
+                # Minimal `ILIKE`-ish semantics: only leading `%` supported
+                # (matches the retriever's `%::<key>` call shape).
+                if value.startswith("%") and not value.endswith("%"):
+                    suffix = value[1:]
+                    filtered = [
+                        row for row in filtered
+                        if str(row.get(column, "")).endswith(suffix)
+                    ]
+                else:
+                    needle = value.strip("%")
+                    filtered = [
+                        row for row in filtered
+                        if needle in str(row.get(column, ""))
+                    ]
+        if self._limit is not None:
+            filtered = filtered[: self._limit]
+        return _FakeResponse(data=filtered)
 
 
 class _FakeTable:
@@ -71,9 +98,12 @@ class _FakeClient:
         *,
         hybrid_rows: list[dict[str, Any]],
         documents_rows: list[dict[str, Any]],
+        document_chunks_rows: list[dict[str, Any]] | None = None,
     ) -> None:
         self._hybrid_rows = hybrid_rows
         self._documents_rows = documents_rows
+        # Separate table used by the retriever's direct anchor fetch.
+        self._document_chunks_rows = list(document_chunks_rows or [])
         self.last_rpc_payload: dict[str, Any] | None = None
 
     def rpc(self, name: str, payload: dict[str, Any]) -> _FakeRpc:
@@ -82,8 +112,11 @@ class _FakeClient:
         return _FakeRpc(self._hybrid_rows)
 
     def table(self, name: str) -> _FakeTable:
-        assert name == "documents"
-        return _FakeTable(self._documents_rows)
+        if name == "documents":
+            return _FakeTable(self._documents_rows)
+        if name == "document_chunks":
+            return _FakeTable(self._document_chunks_rows)
+        raise AssertionError(f"Unexpected table name: {name!r}")
 
 
 def _hybrid_row(doc_id: str, article_key: str, *, rrf: float = 0.9) -> dict[str, Any]:
@@ -142,6 +175,14 @@ def test_supabase_retriever_uses_hybrid_search_and_returns_primary_articles() ->
     # Topic is a ranking signal (carried via query_text), not a recall
     # predicate — cross-topic anchors must remain reachable.
     assert client.last_rpc_payload["filter_topic"] is None
+
+    # FTS query must use OR semantics, not the RPC's default AND via
+    # plainto_tsquery. Regression guard: a missing `fts_query` + a multi-term
+    # `query_text` produces empty recall in production.
+    fts_query = client.last_rpc_payload["fts_query"]
+    assert fts_query is not None and " | " in fts_query, (
+        f"fts_query must be OR-joined to avoid AND-driven empty recall; got {fts_query!r}"
+    )
 
     primary_keys = [item.node_key for item in evidence.primary_articles]
     assert "115" in primary_keys
@@ -203,6 +244,80 @@ def test_supabase_retriever_surfaces_cross_topic_anchor() -> None:
     assert client.last_rpc_payload["filter_topic"] is None
     primary_keys = [item.node_key for item in evidence.primary_articles]
     assert "147" in primary_keys
+
+
+def test_fts_or_query_drops_stopwords_and_dedups() -> None:
+    from lia_graph.pipeline_d.retriever_supabase import _build_fts_or_query
+
+    assert _build_fts_or_query("") is None
+    assert _build_fts_or_query("   ") is None
+    # Stopwords + duplicates removed; kept tokens joined by OR
+    out = _build_fts_or_query("La compensación de las pérdidas fiscales y perdidas fiscales")
+    assert out is not None
+    assert "|" in out
+    tokens = [t.strip() for t in out.split("|")]
+    assert "compensación" in tokens
+    assert "pérdidas" in tokens
+    assert "fiscales" in tokens
+    assert "la" not in tokens and "de" not in tokens and "y" not in tokens
+    # dedup — `perdidas` should appear once even though the text had it twice
+    assert len([t for t in tokens if t in ("perdidas", "pérdidas")]) <= 2
+
+
+def test_supabase_retriever_anchor_fetch_promotes_article_when_fts_misses() -> None:
+    """Regression guard: even when the broad OR FTS does not return a chunk
+    for the planner's explicit anchor (e.g. match_count cap or noisy OR
+    ranking), the retriever's direct chunk_id-pattern fetch must still bring
+    the anchor in so classification can promote it to primary."""
+
+    from lia_graph.pipeline_d.planner import build_graph_retrieval_plan
+
+    request = PipelineCRequest(
+        message=(
+            "Mi cliente acumuló pérdidas fiscales en años anteriores y "
+            "ahora tiene renta líquida positiva. ¿Cuál es el régimen de "
+            "compensación de pérdidas fiscales? ¿Hay límite anual?"
+        ),
+        topic="declaracion_renta",
+        requested_topic="declaracion_renta",
+    )
+    plan = build_graph_retrieval_plan(request)
+    # Sanity: the planner anchors this case on Art. 147
+    assert any(
+        e.kind == "article" and e.lookup_value == "147"
+        for e in plan.entry_points
+    )
+
+    # FTS returns noisy chunks for unrelated articles — the anchor is NOT in
+    # the top-N. The retriever's direct anchor fetch must still surface it.
+    noisy_fts = [
+        _hybrid_row(f"noisy_doc_{i}", str(200 + i), rrf=0.03 - i * 0.001)
+        for i in range(5)
+    ]
+    anchor_chunk = _hybrid_row("renta_corpus_art_147", "147", rrf=0.1)
+    anchor_chunk["chunk_id"] = "renta_corpus_art_147::147"
+
+    client = _FakeClient(
+        hybrid_rows=noisy_fts,
+        documents_rows=[_document_row("renta_corpus_art_147", "renta/et_art_147.md")]
+        + [_document_row(f"noisy_doc_{i}", f"noise/{i}.md") for i in range(5)],
+        document_chunks_rows=[anchor_chunk],
+    )
+    _, evidence = retrieve_graph_evidence(plan, client=client)
+    primary_keys = [item.node_key for item in evidence.primary_articles]
+    assert "147" in primary_keys, (
+        "anchor fetch must surface Art. 147 even when FTS misses it"
+    )
+
+
+def test_fts_or_query_preserves_article_number_tokens() -> None:
+    from lia_graph.pipeline_d.retriever_supabase import _build_fts_or_query
+
+    out = _build_fts_or_query("Articulo 147 art 290 perdidas fiscales")
+    assert out is not None
+    # `147` and `290` are the anchor keys — must not be dropped as stopwords.
+    assert "147" in out
+    assert "290" in out
 
 
 def test_supabase_retriever_exposes_backend_diagnostics_for_orchestrator() -> None:

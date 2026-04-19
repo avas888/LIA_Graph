@@ -54,6 +54,13 @@ def retrieve_graph_evidence(
 
     query_text = _build_query_text(plan)
     chunk_rows = _hybrid_search(db, plan=plan, query_text=query_text)
+    # FTS ranking alone cannot guarantee that the planner's explicit anchor
+    # articles appear in top-N — broad OR queries often let generic chunks
+    # outrank the real anchor. Fetch each explicit article directly by its
+    # `chunk_id` pattern and merge, so primary_articles promotion does not
+    # depend on luck of the ranker.
+    anchor_rows = _fetch_anchor_article_rows(db, plan)
+    chunk_rows = _merge_rows_prefer_anchors(anchor_rows, chunk_rows)
 
     documents_by_doc_id = _load_documents_for_rows(db, chunk_rows)
 
@@ -78,6 +85,10 @@ def retrieve_graph_evidence(
         "planner_query_mode": plan.query_mode,
         "temporal_context": plan.temporal_context.to_dict(),
     }
+    if not chunk_rows:
+        diagnostics.update(_diagnose_empty_chunks(db))
+    else:
+        diagnostics["empty_reason"] = "ok"
     evidence = GraphEvidenceBundle(
         primary_articles=primary_articles,
         connected_articles=connected_articles,
@@ -126,6 +137,12 @@ def _hybrid_search(
     # anchors (e.g. Art. 147 ET catalogued under IVA but load-bearing for a
     # declaracion_renta query) must stay reachable — topic only shapes ranking
     # via `query_text` terms, never the WHERE clause.
+    #
+    # The RPC defaults to `plainto_tsquery` on `query_text`, which builds an
+    # AND across every term. Our `query_text` concatenates ~50 planner tokens
+    # (topic hints + article numbers + lexical searches + raw message), so an
+    # AND never matches anything. Build an explicit OR `fts_query` to force
+    # OR semantics; FTS ranking still prefers chunks that hit more terms.
     payload = {
         "query_embedding": _zero_embedding(),
         "query_text": query_text,
@@ -134,7 +151,7 @@ def _hybrid_search(
         "match_count": match_count,
         "filter_knowledge_class": None,
         "filter_sync_generation": None,
-        "fts_query": None,
+        "fts_query": _build_fts_or_query(query_text),
         "filter_effective_date_max": effective_date,
     }
     response = db.rpc("hybrid_search", payload).execute()
@@ -142,6 +159,139 @@ def _hybrid_search(
     if not isinstance(rows, list):
         return []
     return [row for row in rows if isinstance(row, dict)]
+
+
+_FTS_TOKEN_RE = re.compile(r"[a-záéíóúñ0-9][-a-záéíóúñ0-9]*", re.IGNORECASE)
+# Spanish stopwords that would either be dropped by to_tsquery or hurt recall
+# if kept. Kept short on purpose — aggressive filtering is handled by the
+# RPC's `to_tsquery('spanish', ...)` which applies the Spanish dictionary.
+_FTS_STOPWORDS = frozenset(
+    {
+        "a", "al", "de", "del", "en", "la", "el", "los", "las", "un", "una",
+        "unos", "unas", "o", "u", "y", "e", "que", "para", "por", "con", "sin",
+        "sobre", "se", "su", "sus", "mi", "mis", "tu", "tus", "lo", "le", "les",
+        "como", "si", "no", "ni", "es", "son", "ser", "ha", "he", "han", "haya",
+    }
+)
+
+
+def _build_fts_or_query(query_text: str) -> str | None:
+    """Turn the planner's concatenated `query_text` into an OR-connected
+    `to_tsquery` expression so FTS recall is not gated by term-AND.
+
+    Returns `None` when no usable tokens remain, which makes the RPC fall
+    back to its `plainto_tsquery(query_text)` default.
+    """
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for raw in _FTS_TOKEN_RE.findall(query_text or ""):
+        token = raw.lower().strip("-")
+        if len(token) < 2:
+            continue
+        if token in _FTS_STOPWORDS:
+            continue
+        if token in seen:
+            continue
+        seen.add(token)
+        ordered.append(token)
+    if not ordered:
+        return None
+    return " | ".join(ordered)
+
+
+def _fetch_anchor_article_rows(
+    db: Any,
+    plan: GraphRetrievalPlan,
+) -> list[dict[str, Any]]:
+    """Fetch chunks for every explicit `article` anchor in the plan.
+
+    The `chunk_id` convention from the sink is `doc_id::<article_key>`, so
+    `chunk_id LIKE '%::<key>'` matches every chunk for that article across all
+    documents that contain it. This bypasses FTS entirely so planner anchors
+    never go missing because the rank spread them below the match_count cap.
+    """
+    anchor_keys = [
+        str(entry.lookup_value).strip()
+        for entry in plan.entry_points
+        if entry.kind == "article" and entry.lookup_value
+    ]
+    anchor_keys = [k for k in dict.fromkeys(anchor_keys) if k]
+    if not anchor_keys:
+        return []
+    rows: list[dict[str, Any]] = []
+    for key in anchor_keys:
+        try:
+            response = (
+                db.table("document_chunks")
+                .select(
+                    "chunk_id, doc_id, chunk_text, summary, topic, "
+                    "knowledge_class, concept_tags, relative_path"
+                )
+                .like("chunk_id", f"%::{key}")
+                .limit(8)
+                .execute()
+            )
+        except Exception:  # noqa: BLE001 - anchor fetch is best-effort
+            continue
+        for row in getattr(response, "data", None) or []:
+            if not isinstance(row, dict):
+                continue
+            row = dict(row)
+            # Tag with a synthetic rank that sorts above any FTS result so
+            # classification preserves anchor priority when the two sets merge.
+            row.setdefault("rrf_score", 1.0)
+            row.setdefault("fts_rank", 1.0)
+            rows.append(row)
+    return rows
+
+
+def _merge_rows_prefer_anchors(
+    anchor_rows: list[dict[str, Any]],
+    fts_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Anchor rows first (they are the planner's explicit primaries), then
+    append FTS rows that aren't already present by chunk_id."""
+    seen: set[str] = set()
+    merged: list[dict[str, Any]] = []
+    for row in anchor_rows + fts_rows:
+        chunk_id = str(row.get("chunk_id") or "")
+        if not chunk_id or chunk_id in seen:
+            continue
+        seen.add(chunk_id)
+        merged.append(row)
+    return merged
+
+
+def _diagnose_empty_chunks(db: Any) -> dict[str, Any]:
+    """Classify why `hybrid_search` came back empty.
+
+    Distinguishes an unseeded corpus ("no chunks exist anywhere") from a
+    routing miss ("chunks exist but none matched this query"). Operators
+    reading `empty_reason=corpus_not_seeded` know the action is
+    `make phase2-graph-artifacts-supabase`; anything else points at
+    retrieval shape rather than ingestion.
+    """
+    try:
+        response = (
+            db.table("document_chunks")
+            .select("chunk_id", count="exact")
+            .limit(1)
+            .execute()
+        )
+    except Exception as exc:  # noqa: BLE001 - diagnostics must never raise
+        return {
+            "empty_reason": "chunks_probe_failed",
+            "chunks_probe_error": str(exc),
+        }
+    total = getattr(response, "count", None)
+    probe: dict[str, Any] = {"document_chunks_total": total}
+    if total is None:
+        probe["empty_reason"] = "chunks_probe_unknown_count"
+    elif total == 0:
+        probe["empty_reason"] = "corpus_not_seeded"
+    else:
+        probe["empty_reason"] = "no_lexical_or_vector_hits"
+    return probe
 
 
 def _zero_embedding() -> list[float]:
