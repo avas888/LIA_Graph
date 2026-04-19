@@ -47,6 +47,7 @@ def compose_main_chat_answer(
             procedure=answer_parts.procedure,
             paperwork=answer_parts.paperwork,
             precautions=answer_parts.precautions,
+            direct_answers=answer_parts.direct_answers,
         )
 
     return compose_followup_answer(

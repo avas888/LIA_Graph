@@ -3,9 +3,37 @@ from __future__ import annotations
 from lia_graph.pipeline_c.contracts import PipelineCRequest
 from lia_graph.pipeline_d.answer_shared import neutralize_non_imputative_language
 from lia_graph.pipeline_d.orchestrator import run_pipeline_d
-from lia_graph.pipeline_d.planner import _extract_article_refs, build_graph_retrieval_plan
+from lia_graph.pipeline_d.planner import (
+    _extract_article_refs,
+    _extract_user_sub_questions,
+    build_graph_retrieval_plan,
+)
 from lia_graph.pipeline_d.retriever import retrieve_graph_evidence
 from lia_graph.topic_router import detect_topic_from_text
+
+
+def test_extract_user_sub_questions_returns_empty_for_single_question() -> None:
+    assert _extract_user_sub_questions("¿Qué es el beneficio de auditoría?") == ()
+    assert _extract_user_sub_questions("") == ()
+    assert _extract_user_sub_questions("Sin interrogación clara.") == ()
+
+
+def test_extract_user_sub_questions_splits_inverted_marks_without_dragging_context() -> None:
+    result = _extract_user_sub_questions(
+        "Mi cliente tiene pérdidas. ¿Cuál es el régimen? ¿Hay límite anual? "
+        "¿Cómo afecta la firmeza de la declaración?"
+    )
+    assert result == (
+        "¿Cuál es el régimen?",
+        "¿Hay límite anual?",
+        "¿Cómo afecta la firmeza de la declaración?",
+    )
+
+
+def test_extract_user_sub_questions_falls_back_to_plain_question_marks() -> None:
+    result = _extract_user_sub_questions("cuál es el régimen? hay límite anual? afecta la firmeza?")
+    assert len(result) == 3
+    assert result[1] == "hay límite anual?"
 
 
 def test_phase3_planner_contract_extracts_multi_hop_entry_points() -> None:
@@ -287,6 +315,11 @@ def test_phase3_planner_keeps_loss_compensation_prompt_out_of_saldo_a_favor_work
     assert "compensacion de perdidas fiscales firmeza declaracion termino de revision art 147 714 689-3" in article_searches
     assert "correccion declaracion renta saldo a favor plazo un ano firmeza" not in article_searches
     assert "devolucion saldo a favor requisitos procedimiento dian" not in article_searches
+    assert plan.sub_questions == (
+        "¿Cuál es el régimen legal de compensación de pérdidas fiscales?",
+        "¿Hay límite anual?",
+        "¿Cómo afecta la compensación al término de firmeza de la declaración y qué precauciones debo tomar?",
+    )
 
 
 def test_phase3_pipeline_d_end_to_end_smoke_for_accountant_style_refund_prompt() -> None:
@@ -338,6 +371,14 @@ def test_phase3_pipeline_d_loss_compensation_prompt_surfaces_art_147_instead_of_
     assert "50, 30 o 20 días hábiles" not in response.answer_markdown
     assert response.diagnostics is not None
     assert response.diagnostics["planner"]["query_mode"] == "obligation_chain"
+    # Multi-question consultas must expose each sub-question as its own visible
+    # block so a reader scanning for "¿Hay límite anual?" finds it directly.
+    assert "**Respuestas directas**" in response.answer_markdown
+    assert "¿Hay límite anual?" in response.answer_markdown
+    assert "¿Cuál es el régimen legal de compensación de pérdidas fiscales?" in response.answer_markdown
+    respuestas_pos = response.answer_markdown.index("**Respuestas directas**")
+    ruta_pos = response.answer_markdown.index("**Ruta sugerida**")
+    assert respuestas_pos < ruta_pos
 
 
 def test_phase3_planner_routes_ica_deduction_prompt_to_computation_chain() -> None:

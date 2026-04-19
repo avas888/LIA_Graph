@@ -101,6 +101,7 @@ class GraphRetrievalPlan:
     temporal_context: GraphTemporalContext = field(default_factory=GraphTemporalContext)
     topic_hints: tuple[str, ...] = ()
     planner_notes: tuple[str, ...] = ()
+    sub_questions: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -111,6 +112,7 @@ class GraphRetrievalPlan:
             "temporal_context": self.temporal_context.to_dict(),
             "topic_hints": list(self.topic_hints),
             "planner_notes": list(self.planner_notes),
+            "sub_questions": list(self.sub_questions),
         }
 
 

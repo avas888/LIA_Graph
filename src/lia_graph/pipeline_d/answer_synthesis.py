@@ -15,6 +15,7 @@ from .answer_support import (
 )
 from .answer_synthesis_sections import (
     build_context_lines,
+    build_direct_answers,
     build_followup_resolution,
     build_legal_anchor_lines,
     build_opportunities,
@@ -37,6 +38,7 @@ class GraphNativeAnswerParts:
     context_lines: tuple[str, ...] = ()
     precautions: tuple[str, ...] = ()
     opportunities: tuple[str, ...] = ()
+    direct_answers: tuple[tuple[str, tuple[str, ...]], ...] = ()
     followup_direct_answer: str = ""
     followup_main_exception: str = ""
     followup_practical_next_step: str = ""
@@ -49,6 +51,7 @@ def build_graph_native_answer_parts(
     planner_query_mode: str,
     temporal_context: dict[str, object],
     evidence: GraphEvidenceBundle,
+    sub_questions: tuple[str, ...] = (),
 ) -> GraphNativeAnswerParts:
     allow_change_context = should_surface_change_context(
         normalized_message=normalize_text(request.message),
@@ -146,6 +149,15 @@ def build_graph_native_answer_parts(
         opportunities=opportunities,
         context_lines=context_lines,
     )
+    direct_answers = build_direct_answers(
+        sub_questions=sub_questions,
+        recommendations=recommendations,
+        procedure=procedure,
+        paperwork=paperwork,
+        precautions=precautions,
+        context_lines=context_lines,
+        opportunities=opportunities,
+    )
 
     return GraphNativeAnswerParts(
         article_insights=article_insights,
@@ -157,6 +169,7 @@ def build_graph_native_answer_parts(
         context_lines=context_lines,
         precautions=precautions,
         opportunities=opportunities,
+        direct_answers=direct_answers,
         followup_direct_answer=followup_direct_answer,
         followup_main_exception=followup_main_exception,
         followup_practical_next_step=followup_practical_next_step,

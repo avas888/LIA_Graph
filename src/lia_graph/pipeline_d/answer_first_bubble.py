@@ -39,6 +39,7 @@ def compose_first_bubble_answer(
     procedure: tuple[str, ...],
     paperwork: tuple[str, ...],
     precautions: tuple[str, ...],
+    direct_answers: tuple[tuple[str, tuple[str, ...]], ...] = (),
 ) -> str:
     sections: list[str] = []
     normalized_message = normalize_text(request.message)
@@ -98,6 +99,8 @@ def compose_first_bubble_answer(
         reforms=reforms,
     )
 
+    if direct_answers:
+        sections.append(_render_direct_answers_section(direct_answers))
     if route_lines:
         sections.append(render_prepared_section("Ruta sugerida", route_lines, numbered=True))
     if risk_lines:
@@ -129,6 +132,17 @@ def render_prepared_section(
         marker = prefix.format(idx=idx)
         body.append(f"{marker}{line.text}")
     return f"**{title}**\n" + "\n".join(body)
+
+
+def _render_direct_answers_section(
+    direct_answers: tuple[tuple[str, tuple[str, ...]], ...],
+) -> str:
+    lines: list[str] = ["**Respuestas directas**"]
+    for question, bullets in direct_answers:
+        lines.append(f"- **{question}**")
+        for bullet in bullets:
+            lines.append(f"  - {bullet}")
+    return "\n".join(lines)
 
 
 def _compose_tax_planning_first_bubble_answer(

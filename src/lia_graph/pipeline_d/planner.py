@@ -543,6 +543,8 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
             "Planner treated the case as loss-compensation in renta instead of a saldo-a-favor refund/correction workflow."
         )
 
+    sub_questions = _extract_user_sub_questions(message)
+
     return GraphRetrievalPlan(
         query_mode=query_mode,
         entry_points=tuple(entry_points),
@@ -551,7 +553,41 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
         temporal_context=temporal_context,
         topic_hints=topic_hints,
         planner_notes=tuple(planner_notes),
+        sub_questions=sub_questions,
     )
+
+
+_SUB_QUESTION_INVERTED_RE = re.compile(r"¿([^¿?]+)\?")
+_SUB_QUESTION_MIN_CHARS = 12
+_SUB_QUESTION_LIMIT = 4
+
+
+def _extract_user_sub_questions(message: str) -> tuple[str, ...]:
+    """Return user-facing sub-questions when the consulta has 2+ of them.
+
+    Prefers inverted-mark spans (``¿…?``) so we don't drag in preceding context;
+    falls back to splitting on ``?`` when the user omitted inverted marks. Returns
+    ``()`` for single-question or empty inputs so downstream shape logic can skip
+    the Respuestas directas block without a separate flag.
+    """
+    text = str(message or "").strip()
+    if not text:
+        return ()
+    questions: list[str] = []
+    for match in _SUB_QUESTION_INVERTED_RE.finditer(text):
+        body = match.group(1).strip(" .;:-—\n\t")
+        if len(body) >= _SUB_QUESTION_MIN_CHARS:
+            questions.append(f"¿{body}?")
+    if len(questions) < 2:
+        questions = []
+        for segment in text.split("?"):
+            trimmed = segment.strip(" .;:-—\n\t")
+            if len(trimmed) < _SUB_QUESTION_MIN_CHARS:
+                continue
+            questions.append(trimmed + "?")
+    if len(questions) < 2:
+        return ()
+    return tuple(OrderedDict.fromkeys(questions))[:_SUB_QUESTION_LIMIT]
 
 
 def with_resolved_entry_points(

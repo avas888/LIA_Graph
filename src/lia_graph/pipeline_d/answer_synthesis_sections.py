@@ -3,6 +3,10 @@ from __future__ import annotations
 import re
 
 from ..pipeline_c.contracts import PipelineCRequest
+from .answer_policy import (
+    DIRECT_ANSWER_BULLETS_PER_QUESTION,
+    DIRECT_ANSWER_COVERAGE_PENDING,
+)
 from .answer_shared import (
     anchor_query_tokens,
     append_unique,
@@ -620,8 +624,83 @@ def _line_is_echoed_in_message(line: str, raw_message: str) -> bool:
     return normalized_line in normalized_message
 
 
+def build_direct_answers(
+    *,
+    sub_questions: tuple[str, ...],
+    recommendations: tuple[str, ...],
+    procedure: tuple[str, ...],
+    paperwork: tuple[str, ...],
+    precautions: tuple[str, ...],
+    context_lines: tuple[str, ...],
+    opportunities: tuple[str, ...],
+) -> tuple[tuple[str, tuple[str, ...]], ...]:
+    """Map each sub-question to bullets drawn from the already-built sections.
+
+    Each sub-question becomes its own visible block with up to
+    DIRECT_ANSWER_BULLETS_PER_QUESTION bullets selected by keyword overlap with
+    the sub-question itself. Sub-questions that match nothing get an explicit
+    coverage-pending marker so the reader never sees a silently empty block.
+    """
+    if len(sub_questions) < 2:
+        return ()
+
+    pool: tuple[str, ...] = tuple(
+        line
+        for bucket in (recommendations, procedure, precautions, paperwork, context_lines, opportunities)
+        for line in bucket
+        if line
+    )
+    if not pool:
+        return tuple(
+            (question, (DIRECT_ANSWER_COVERAGE_PENDING,))
+            for question in sub_questions
+        )
+
+    question_tokens: list[set[str]] = [
+        anchor_query_tokens(normalize_text(question)) for question in sub_questions
+    ]
+    assignments: list[list[str]] = [[] for _ in sub_questions]
+    used_lines: set[str] = set()
+    for line in pool:
+        if line in used_lines:
+            continue
+        line_tokens = anchor_query_tokens(normalize_text(line))
+        best_index = -1
+        best_overlap = 0
+        best_ratio = 0.0
+        for index, tokens in enumerate(question_tokens):
+            if not tokens:
+                continue
+            overlap = len(tokens & line_tokens)
+            if overlap < 1:
+                continue
+            # Proportional match: favor shorter sub-questions whose keywords are
+            # fully covered over longer ones that only incidentally share tokens.
+            ratio = overlap / len(tokens)
+            if ratio > best_ratio or (ratio == best_ratio and overlap > best_overlap):
+                best_ratio = ratio
+                best_overlap = overlap
+                best_index = index
+        if best_index < 0:
+            continue
+        bucket = assignments[best_index]
+        if len(bucket) >= DIRECT_ANSWER_BULLETS_PER_QUESTION:
+            continue
+        bucket.append(line)
+        used_lines.add(line)
+
+    result: list[tuple[str, tuple[str, ...]]] = []
+    for question, bullets in zip(sub_questions, assignments):
+        if bullets:
+            result.append((question, tuple(bullets)))
+        else:
+            result.append((question, (DIRECT_ANSWER_COVERAGE_PENDING,)))
+    return tuple(result)
+
+
 __all__ = [
     "build_context_lines",
+    "build_direct_answers",
     "build_followup_resolution",
     "build_legal_anchor_lines",
     "build_opportunities",
