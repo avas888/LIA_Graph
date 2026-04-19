@@ -318,6 +318,7 @@ def build_stub_articles(
     loader's "skip unresolved ArticleNode edge" filter would silently discard
     most of the SUIN signal (Phase B gap #2).
     """
+    known_doc_ids = {str(d.get("doc_id") or "") for d in scope.documents if d.get("doc_id")}
     stub_articles: dict[str, ParsedArticle] = {}
     unresolved_docs: set[str] = set()
     for row in scope.edges:
@@ -328,7 +329,9 @@ def build_stub_articles(
             str(row.get("target_article_key") or row.get("target_fragment_id") or "")
         )
         target_doc_id = str(row.get("target_doc_id") or "")
-        if target_doc_id:
+        # Only stub target docs we did NOT actually harvest. Otherwise the real
+        # document row from `build_document_rows` already covers FK integrity.
+        if target_doc_id and target_doc_id not in known_doc_ids:
             unresolved_docs.add(target_doc_id)
         if not target_article_key or target_article_key in resolved_article_keys:
             continue

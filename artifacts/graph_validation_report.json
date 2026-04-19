@@ -2,18 +2,22 @@
   "ok": true,
   "graph_name": "LIA_REGULATORY_GRAPH",
   "node_count": 2617,
-  "edge_count": 20345,
+  "edge_count": 20351,
   "node_counts": {
     "ArticleNode": 1301,
     "ReformNode": 1316
   },
   "edge_counts": {
     "COMPUTATION_DEPENDS_ON": 174,
+    "DECLARES_EXEQUIBLE": 1,
     "DEFINES": 28,
+    "DEROGATES": 1,
     "EXCEPTION_TO": 66,
-    "MODIFIES": 5241,
+    "MODIFIES": 5242,
     "REFERENCES": 13291,
+    "REGLAMENTA": 1,
     "REQUIRES": 363,
+    "STRUCK_DOWN_BY": 2,
     "SUPERSEDES": 1182
   },
   "orphan_node_keys": [

@@ -1,0 +1,18 @@
+{
+  "scope": "smoke",
+  "generated_at": "2026-04-19T18:10:00+00:00",
+  "urls_crawled": 4,
+  "documents_parsed": 4,
+  "articles_parsed": 6,
+  "edges_parsed": 7,
+  "verb_counts": {
+    "modifica": 1,
+    "declara_inexequible": 2,
+    "declara_exequible": 1,
+    "reglamenta": 1,
+    "deroga": 1,
+    "nota_editorial": 1
+  },
+  "unknown_verb_failures": [],
+  "note": "Synthetic smoke fixture — exercises the full bridge/sink/Falkor path without hitting SUIN. Covers every SUIN-derived EdgeKind, a derogated doc (vigencia flow), Spanish characters (ñ á é í ó ú ü), and one unresolved target (SUIN_DEC_UNKNOWN_99_2019) to exercise the two-pass stub merge."
+}
