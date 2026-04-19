@@ -38,12 +38,39 @@ This plan brings SUIN into the existing ingestion path so it lands in `normative
 
 ## Pre-implementation health check (2026-04-19)
 
-A practical health check was run before handoff. Findings that shape this plan:
+A practical health check was run before handoff, including a **live query against cloud Supabase and cloud FalkorDB**. Findings that shape this plan:
+
+### Live cloud state (queried 2026-04-19)
+
+| Component | State |
+|---|---|
+| Cloud Supabase linked (`supabase/.temp/project-ref`) | ✅ `utjndyxgfhkfcrjmtdqz` |
+| `documents` rows | ✅ 1,292 |
+| `document_chunks` rows | ✅ 2,064 (active generation `gen_20260418035334`) |
+| `normative_edges` rows | ✅ 19,903 |
+| `corpus_generations.is_active=true` count | ✅ exactly 1 (partial unique index holding) |
+| Cloud FalkorDB reachable + populated | ✅ 2,568 nodes (above the 500-node preflight floor) |
+| `retriever_supabase.py` + `retriever_falkor.py` + orchestrator dispatch | ✅ wired at `src/lia_graph/pipeline_d/orchestrator.py:43-79`, with lazy imports and `retrieval_backend`/`graph_backend` diagnostics |
+| Staging env flags (`scripts/dev-launcher.mjs:274`) | ✅ sets `LIA_CORPUS_SOURCE=supabase`, `LIA_GRAPH_MODE=falkor_live` |
+| `documents.source_type` CHECK constraint | ✅ none — `"suin_norma"` is accepted as a free-text value |
+
+### Verified assumptions
 
 - **Pipeline is green.** `tests/test_phase2_graph_scaffolds.py` (19/19) and `tests/test_ingestion_supabase_sink.py` (6/6) pass. A real end-to-end ingest of a 3-file corpus slice produced `parsed_articles.jsonl` + `raw_edges.jsonl` + `typed_edges.jsonl` + a full audit bundle with graph validation `ok: true`.
 - **CHECK constraint already covers every DB relation this plan maps to.** Verified at `supabase/migrations/20260417000000_baseline.sql:1129` — `normative_edges_relation_check` permits `references | modifies | complements | exception_for | derogates | supersedes | suspends | struck_down_by | revokes | cross_domain`. **No relation-expansion migration is needed** (an earlier draft included one — removed).
-- **Pre-existing gap #1 — `_RELATION_DROP` silently discards graph-only edge kinds.** `src/lia_graph/ingestion/supabase_sink.py:59` drops `REQUIRES`, `COMPUTATION_DEPENDS_ON`, `DEFINES`, `PART_OF` rather than persist them. The live health-check run produced 1 `COMPUTATION_DEPENDS_ON` edge that was thrown away. SUIN doesn't emit those kinds, so this is not a blocker — but since we're already extending `_RELATION_MAP` in Phase B, this is the cheapest moment to decide (map them to `cross_domain` or `references`, or leave the drop in place with an explicit reason comment).
-- **Pre-existing gap #2 — unresolved edges are dropped, not stubbed.** The test ingest logged *"Skipped 11 unresolved ArticleNode edges whose targets are not materialized in the current corpus snapshot."* SUIN will hit the same case en masse: ET article → law we haven't ingested yet. In a single-pass ingest we'd lose most of the value SUIN brings. Phase B step #13 below mandates a two-pass merge that materializes stub target nodes for SUIN-discovered refs before the unresolved-drop step runs.
+- **`hybrid_search` has an independent FTS path** (baseline line 310: `WHERE dc.search_vector @@ effective_tsq`). It returns rows based on Postgres full-text search regardless of whether `embedding` is NULL. This means SUIN chunks become retrievable the instant they land — the vector RRF half simply contributes zero until embeddings are generated.
+- **`hybrid_search` implicitly filters `vigencia IN ('derogada', 'proyecto', 'suspendida')`** when `filter_effective_date_max IS NULL` (baseline line 317). SUIN-sourced chunks flagged `derogada` will be correctly excluded from default vigente-only retrieval without extra code — Phase C just needs to pass `filter_effective_date_max` when the user asks a historical question.
+
+### Gaps found
+
+- **Gap #1 — `_RELATION_DROP` silently discards graph-only edge kinds.** `src/lia_graph/ingestion/supabase_sink.py:59` drops `REQUIRES`, `COMPUTATION_DEPENDS_ON`, `DEFINES`, `PART_OF` rather than persist them. The live health-check run produced 1 `COMPUTATION_DEPENDS_ON` edge that was thrown away. SUIN doesn't emit those kinds, so this is not a blocker — but since we're already extending `_RELATION_MAP` in Phase B, this is the cheapest moment to decide (map `REQUIRES` + `COMPUTATION_DEPENDS_ON` to `references`, keep `DEFINES`/`PART_OF` dropped with an inline comment).
+
+- **Gap #2 — unresolved edges are dropped, not stubbed.** The test ingest logged *"Skipped 11 unresolved ArticleNode edges whose targets are not materialized in the current corpus snapshot."* SUIN will hit the same case en masse: ET article → law we haven't ingested yet. In a single-pass ingest we'd lose most of the value SUIN brings. Phase B step #13 below mandates a two-pass merge that materializes stub target nodes for SUIN-discovered refs before the unresolved-drop step runs.
+
+- **Gap #3 (silent trap) — `make phase2-graph-artifacts-supabase` does NOT execute the Falkor load.** The target at `Makefile:48` passes `--supabase-sink` but omits `--execute-load`. `materialize_graph_artifacts` only writes to Falkor when `execute_load=True` (see `src/lia_graph/ingest.py:474,499-504`). As a result, running the current Makefile target against cloud populates Supabase but leaves Falkor untouched — staging's graph-traversal half would never see the new edges. The existing 2,568 nodes in cloud Falkor were loaded by a manual `--execute-load` invocation at some earlier point, not by the Makefile target. **Phase B step #5 below fixes this.** Without the fix, Phase B produces Supabase-only SUIN absorption and the promised graph coverage never materializes.
+
+- **Gap #4 (myth-busting) — embeddings are NOT a gate for SUIN visibility.** Live cloud state shows 0 of 2,064 chunks have embeddings. Staging already serves answers against that state via the FTS half of `hybrid_search`. SUIN chunks follow the same pattern: FTS-retrievable at landing time, improved by running `embedding_ops.py` later. An earlier draft of this plan treated embeddings as a precondition — they are a **quality improvement**, not a blocker. Running `embedding_ops.py` against cloud backfills both the existing corpus and the new SUIN chunks; it is worth doing, but it does not gate Phase B success.
+
 - **Invocation convention.** The codebase runs ingestion under `uv run python` with `PYTHONPATH=src:.` (see `Makefile:43`). Every CLI and Makefile target this plan introduces must follow that pattern — no bare `python3 -m ...`.
 
 ---
@@ -193,7 +220,19 @@ Five new `EdgeKind` members. The existing `_RELATION_MAP` in `supabase_sink.py:5
     - **Two-pass merge — required** (addresses pre-existing gap #2). Pass 1: materialize stub `documents`/`ParsedArticle` rows for every SUIN edge target that is not already present in the corpus (source_type=`suin_stub`, `curation_status="stub"`, body empty — just enough for FK integrity). Pass 2: the existing "skip unresolved edge" step now sees resolved targets for everything SUIN discovered. Emit a diagnostic: `{"suin_merge": {"replaced": N, "added": M, "stubs_created": K, "unresolved_after_stub": U}}` — `U` should be 0 on a clean SUIN scope.
     - Ordering matters: SUIN-sourced articles for a doc that the existing parser also produces should **replace** the existing rows (SUIN carries richer vigencia + the cross-references). Keyed on `doc_id`.
 
-14. **~~supabase/migrations/20260420000000_normative_edges_relation_expand.sql~~** — **not needed.** The baseline CHECK at `supabase/migrations/20260417000000_baseline.sql:1129` already permits every DB relation this plan maps to. This step was in an earlier draft and has been verified away during the pre-implementation health check. Skip entirely.
+14. **`Makefile`** — **close Gap #3 by wiring `--execute-load` into the sink target.** The current `phase2-graph-artifacts-supabase` target (line 48) runs the Supabase sink but skips the Falkor write. Replace its recipe with:
+    ```make
+    phase2-graph-artifacts-supabase:
+    	PYTHONPATH=src:. uv run python -m lia_graph.ingest \
+    		--corpus-dir $(PHASE2_CORPUS_DIR) \
+    		--artifacts-dir $(PHASE2_ARTIFACTS_DIR) \
+    		--supabase-sink --supabase-target $(PHASE2_SUPABASE_TARGET) \
+    		--execute-load --allow-unblessed-load --strict-falkordb \
+    		--json
+    ```
+    `--execute-load` makes `materialize_graph_artifacts` call `load_graph_plan(..., execute=True)` at `src/lia_graph/ingest.py:499`, which drives the existing Falkor writer. `--allow-unblessed-load` bypasses the reconnaissance gate (we're running against production — the gate's "canonical blessing" only matters for local artifacts). `--strict-falkordb` ensures we fail loud if FalkorDB is unreachable instead of silently skipping (production must never serve against a stale graph). Without this change, Phase B ingests to Supabase only and cloud Falkor stays frozen at 2,568 nodes — defeating half the plan.
+
+    **Aside — struck migration:** an earlier draft included `supabase/migrations/20260420000000_normative_edges_relation_expand.sql`. It is **not needed**: the baseline CHECK at `supabase/migrations/20260417000000_baseline.sql:1129` already permits every DB relation this plan maps to. Verified during the health check. Skip entirely.
 
 ### Tests
 
@@ -207,12 +246,15 @@ Five new `EdgeKind` members. The existing `_RELATION_MAP` in `supabase_sink.py:5
 
 ### Acceptance (Phase B)
 
-- `make phase2-graph-artifacts-supabase INGEST_SUIN=et` produces:
-  - A non-empty `normative_edges` delta vs. the last generation, with rows in at least: `modifies`, `derogates`, `struck_down_by`, `complements`.
-  - `documents` rows of `source_type="suin_norma"` for the ET plus every law the ET edges point at (depth-1).
-  - Chunks with accurate `vigencia` — a known-derogated article shows `derogada` without regex heuristics.
+- `make phase2-graph-artifacts-supabase INGEST_SUIN=et` produces, **in both Supabase and Falkor**:
+  - Supabase: a non-empty `normative_edges` delta vs. the last generation, with rows in at least: `modifies`, `derogates`, `struck_down_by`, `complements`.
+  - Supabase: `documents` rows of `source_type="suin_norma"` for the ET plus every law the ET edges point at (depth-1).
+  - Supabase: chunks with accurate `vigencia` — a known-derogated article shows `derogada` without regex heuristics.
+  - **Falkor**: `GRAPH.QUERY LIA_REGULATORY_GRAPH "MATCH (n) RETURN count(n)"` climbs measurably above the pre-run baseline (captured before the run). If it doesn't, `--execute-load` didn't fire — check the command.
+  - **Falkor**: the same SUIN edge types appear on a spot-check: `GRAPH.QUERY LIA_REGULATORY_GRAPH "MATCH ()-[r:MODIFIES|DEROGATES|STRUCK_DOWN_BY]->() RETURN type(r), count(*) LIMIT 10"`.
 - Existing `tests/test_ingestion_*.py` stay green.
 - `npm run dev` (artifacts mode) is unaffected — SUIN data lands in Supabase + Falkor only when `--include-suin` is passed.
+- **First moment SUIN appears in staging answers**: immediately after this target completes successfully — no embedding run required, because `hybrid_search`'s FTS half returns SUIN chunks without embeddings (health-check Gap #4). An optional follow-up `embedding_ops.py` run lifts retrieval quality for both SUIN and the existing 2,064 un-embedded chunks.
 
 ---
 
@@ -266,11 +308,17 @@ Do NOT change `answer_assembly.py`. Per the product memory, the multi-question b
 
 Before implementing:
 
-- Read `AGENTS.md`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, and `docs/next/corpus_supabase_cutover.md`. SUIN ingestion sits on top of the latter — if Phase A/B of the cutover doc is not green, this plan cannot be validated end-to-end.
-- Skim the "Pre-implementation health check" section above. The CHECK-constraint verification is already done (no migration #14). The two pre-existing gaps (`_RELATION_DROP` silent drops, unresolved-edge skipping) have concrete resolutions assigned in Phase B steps #12 and #13 — implement those in the same PR.
+- Read `AGENTS.md`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, and `docs/next/corpus_supabase_cutover.md`. SUIN ingestion sits on top of the latter; the cutover's Phase A + B are already live per the 2026-04-19 health check (cloud Supabase populated, cloud Falkor populated, retriever cutover wired).
+- Skim the "Pre-implementation health check" section above. Four gaps were identified:
+  - Gap #1 (`_RELATION_DROP`) → resolved in Phase B step #12.
+  - Gap #2 (unresolved edge drop) → resolved in Phase B step #13 via the two-pass merge.
+  - Gap #3 (Makefile target skips Falkor) → resolved in Phase B step #14 via `--execute-load --allow-unblessed-load --strict-falkordb`. **Do not skip this — it's the silent trap.**
+  - Gap #4 (embeddings mis-cast as a gate) → no action required; `embedding_ops.py` is a follow-up quality lift, not a prerequisite.
+- Before the first SUIN ingest, capture a Falkor baseline: `GRAPH.QUERY LIA_REGULATORY_GRAPH "MATCH (n) RETURN count(n)"` — the Phase B acceptance check asserts an increase from this number. The baseline at handoff is **2,568 nodes**.
 - Confirm `cache/suin/` is added to `.gitignore` before the first harvest run — the cache will be sizeable and must not end up in commits or in `artifacts/`.
-- Stage Phase A + B as one PR. Phase C can ship in a follow-up once stakeholders see the new edges in Supabase.
+- Stage Phase A + B as one PR. Phase C can ship in a follow-up once stakeholders see the new edges in Supabase and Falkor.
 - Invoke the new CLI under `uv run python` with `PYTHONPATH=src:.`, matching `Makefile:43`. Never use bare `python3`.
+- Optional quality lift after Phase B merges to main: run `embedding_ops.py` against cloud Supabase to backfill the 2,064 existing chunks plus whatever new chunks SUIN added. This improves the vector half of `hybrid_search`; it does not change whether SUIN data is retrievable.
 
 ## Risks and how we address them
 
