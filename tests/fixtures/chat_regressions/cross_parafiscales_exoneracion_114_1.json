@@ -1,0 +1,18 @@
+{
+  "id": "cross_parafiscales_exoneracion_114_1",
+  "category": "cross_domain",
+  "question": "¿Cuándo aplica la exoneración de parafiscales del artículo 114-1 del ET y qué ley la introdujo?",
+  "expected_contains": [
+    "114-1",
+    "Ley 1607",
+    "SENA",
+    "ICBF"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true,
+    "cross_domain_edge": true
+  },
+  "notes": "ET art 114-1 + Ley 1607/2012 art 25 — key cross-domain tax/labor edge."
+}

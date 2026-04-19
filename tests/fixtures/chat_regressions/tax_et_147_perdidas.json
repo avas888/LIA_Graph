@@ -1,0 +1,15 @@
+{
+  "id": "tax_et_147_perdidas",
+  "category": "tax",
+  "question": "¿Cuál es el término actual para compensar pérdidas fiscales según ET art. 147 y qué reforma lo modificó?",
+  "expected_contains": [
+    "artículo 147",
+    "pérdidas"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true
+  },
+  "notes": "ET 147 was restructured by Ley 1819/2016; answer must cite the reform."
+}

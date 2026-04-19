@@ -1,0 +1,15 @@
+{
+  "id": "tax_et_631_exogena",
+  "category": "tax",
+  "question": "¿Qué establece el artículo 631 del ET sobre información exógena y quiénes están obligados a reportar?",
+  "expected_contains": [
+    "información exógena",
+    "artículo 631"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true
+  },
+  "notes": "ET art 631 has been modified several times post-2012; answer must surface current wording + flag the modification chain."
+}

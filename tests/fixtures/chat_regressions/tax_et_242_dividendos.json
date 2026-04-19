@@ -1,0 +1,15 @@
+{
+  "id": "tax_et_242_dividendos",
+  "category": "tax",
+  "question": "¿Cómo es la tarifa de retención en la fuente sobre dividendos para personas naturales residentes según el ET art. 242 después de la Ley 2277 de 2022?",
+  "expected_contains": [
+    "artículo 242",
+    "Ley 2277"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true
+  },
+  "notes": "Tests that Ley 2277/2022 modification of ET 242 is traceable in the answer."
+}

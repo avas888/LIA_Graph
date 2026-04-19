@@ -50,6 +50,22 @@ SITEMAPS: tuple[SitemapEntry, ...] = (
 )
 
 
+# Spine documents per scope. Each URL is an absolute SUIN document URL that must
+# be reached regardless of sitemap content — seeds are emitted *before* the
+# sitemap walk so the primary norms always land in cache.
+#
+# Empty tuples are intentional: Phase 1's dry-run crawl (see
+# `docs/next/suin_harvestv1.md`) verifies reachability of these spine norms
+# via the sitemap walk; populating this dict with known-good doc URLs is a
+# Phase 1 follow-up, not a blocker for Phase 0.
+SEED_URLS: dict[str, tuple[str, ...]] = {
+    "tributario": (),          # Decreto 624/1989 (ET) + DUR 1625/2016 — TBD in Phase 1
+    "laboral": (),             # Decreto-Ley 2663/1950 (CST) + Ley 100/1993 + DUR 1072/2015
+    "laboral-tributario": (),  # ET 114-1, ET 383–388, Ley 1607/2012
+    "jurisprudencia": (),      # Sala Tercera + Corte Constitucional crosswalk
+}
+
+
 @dataclass
 class _CacheManifestRow:
     url: str
@@ -145,6 +161,18 @@ class SuinFetcher:
             fetched_at=datetime.now(tz=timezone.utc).isoformat(),
         ))
         return text
+
+    def iter_seeds(self, scope: str) -> Iterator[str]:
+        """Yield the scope's spine seed URLs in declaration order.
+
+        Scope name resolution follows the alias table — passing `et` returns the
+        seeds of `tributario`. Unknown scopes yield nothing (caller decides).
+        """
+        seeds = SEED_URLS.get(scope)
+        if seeds is None and scope == "et":
+            seeds = SEED_URLS.get("tributario", ())
+        for url in seeds or ():
+            yield url
 
     def iter_sitemap(self, sitemap_url: str) -> Iterator[str]:
         """Yield every document URL reachable from a sitemap (recursive)."""
@@ -271,6 +299,7 @@ def iter_document_urls(
 
 
 __all__ = [
+    "SEED_URLS",
     "SITEMAPS",
     "SitemapEntry",
     "SuinFetcher",

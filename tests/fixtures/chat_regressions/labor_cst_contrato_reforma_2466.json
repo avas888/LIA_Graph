@@ -1,0 +1,16 @@
+{
+  "id": "labor_cst_contrato_reforma_2466",
+  "category": "labor",
+  "question": "¿Cómo cambió la Ley 2466 de 2025 las reglas de los contratos a término fijo en el CST?",
+  "expected_contains": [
+    "Ley 2466",
+    "contrato"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true,
+    "reform_cited": "ley_2466_2025"
+  },
+  "notes": "Reforma Laboral 2025 — answer must name Ley 2466/2025 and describe contract changes."
+}

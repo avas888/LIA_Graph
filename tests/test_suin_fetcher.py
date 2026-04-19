@@ -12,11 +12,18 @@ from __future__ import annotations
 
 from pathlib import Path
 import time
+from urllib.parse import urlparse
 
 import httpx
 import pytest
 
-from lia_graph.ingestion.suin.fetcher import SuinFetcher, SuinFetchError
+from lia_graph.ingestion.suin import harvest as harvest_mod
+from lia_graph.ingestion.suin.fetcher import (
+    SEED_URLS,
+    SITEMAPS,
+    SuinFetcher,
+    SuinFetchError,
+)
 
 
 class _Recorder:
@@ -118,6 +125,75 @@ def test_5xx_backoff_then_succeed(tmp_path: Path) -> None:
         text = fetcher.fetch("https://www.suin-juriscol.gov.co/doc?id=99")
     assert text == "<html>recovered</html>"
     assert attempts["https://www.suin-juriscol.gov.co/doc?id=99"] == 3
+
+
+def test_scope_catalog_has_every_expected_scope() -> None:
+    expected = {
+        "tributario",
+        "laboral",
+        "laboral-tributario",
+        "jurisprudencia",
+        "full",
+        "et",
+    }
+    assert expected.issubset(harvest_mod._SCOPES.keys())
+    assert harvest_mod._SCOPES["et"].alias_of == "tributario"
+    assert harvest_mod._SCOPES["et"].deprecated is True
+    canonical, definition = harvest_mod._resolve_scope("et")
+    assert canonical == "tributario"
+    assert definition is harvest_mod._SCOPES["tributario"]
+
+
+def test_scope_seed_urls_are_well_formed() -> None:
+    for scope, definition in harvest_mod._SCOPES.items():
+        for url in definition.seed_urls:
+            parsed = urlparse(url)
+            assert parsed.scheme == "https", f"{scope}: {url} not https"
+            assert parsed.netloc == "www.suin-juriscol.gov.co", (
+                f"{scope}: {url} not on suin-juriscol.gov.co"
+            )
+            assert parsed.path, f"{scope}: {url} has empty path"
+
+
+def test_full_scope_is_union_of_narrower_scopes() -> None:
+    narrow_sitemaps: set[str] = set()
+    for scope in ("tributario", "laboral", "laboral-tributario", "jurisprudencia"):
+        for entry in harvest_mod._SCOPES[scope].sitemaps:
+            narrow_sitemaps.add(entry.name)
+    full_sitemaps = {entry.name for entry in harvest_mod._SCOPES["full"].sitemaps}
+    assert narrow_sitemaps.issubset(full_sitemaps), (
+        f"full missing sitemaps: {narrow_sitemaps - full_sitemaps}"
+    )
+
+
+def test_fetcher_emits_seeds_before_sitemap_walk(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """With SEED_URLS patched, iter_seeds must return seeds in declaration order."""
+    seed = "https://www.suin-juriscol.gov.co/viewDocument.asp?id=seed-1"
+    monkeypatch.setitem(SEED_URLS, "tributario", (seed,))
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/robots.txt":
+            return httpx.Response(200, text="User-agent: *\nAllow: /\n")
+        return httpx.Response(200, text="<html></html>")
+
+    fetcher = SuinFetcher(
+        cache_dir=tmp_path / "cache",
+        rps=100.0,
+        transport=httpx.MockTransport(handler),
+    )
+    with fetcher:
+        emitted = list(fetcher.iter_seeds("tributario"))
+    assert emitted == [seed]
+
+    # `et` alias resolves to tributario seeds.
+    with SuinFetcher(
+        cache_dir=tmp_path / "cache2",
+        rps=100.0,
+        transport=httpx.MockTransport(handler),
+    ) as aliased:
+        assert list(aliased.iter_seeds("et")) == [seed]
 
 
 def test_manifest_appended_on_cache_miss(tmp_path: Path) -> None:

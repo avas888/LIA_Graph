@@ -20,13 +20,14 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 from collections.abc import Iterable
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 import json
 import logging
 from pathlib import Path
 from typing import Any
 
-from .fetcher import SITEMAPS, SitemapEntry, SuinFetcher, SuinFetchError
+from .fetcher import SITEMAPS, SEED_URLS, SitemapEntry, SuinFetcher, SuinFetchError
 from .parser import (
     SuinDocument,
     UnknownVerb,
@@ -36,11 +37,67 @@ from .parser import (
 
 _log = logging.getLogger(__name__)
 
-_SCOPES: dict[str, tuple[SitemapEntry, ...]] = {
-    "et": (SITEMAPS[0],),  # leyes (ET URL lives here in practice)
-    "tax-laws": (SITEMAPS[0],),
-    "jurisprudence": (SITEMAPS[1],),  # consejo de estado
-    "full": SITEMAPS,
+
+@dataclass(frozen=True)
+class ScopeDefinition:
+    """Resolved scope: which sitemaps to walk, which seeds to pre-fetch, anchors."""
+
+    sitemaps: tuple[SitemapEntry, ...]
+    seed_urls: tuple[str, ...] = ()
+    topic_anchors: tuple[tuple[str, str], ...] = ()
+    deprecated: bool = False
+    alias_of: str | None = None
+
+
+_SCOPES: dict[str, ScopeDefinition] = {
+    "tributario": ScopeDefinition(
+        sitemaps=(SITEMAPS[0],),
+        seed_urls=SEED_URLS.get("tributario", ()),
+        topic_anchors=(
+            ("decreto_624_1989", "Estatuto Tributario"),
+            ("decreto_1625_2016", "Decreto Único Reglamentario Tributario"),
+            ("ley_2277_2022", "Reforma Tributaria 2022"),
+        ),
+    ),
+    "laboral": ScopeDefinition(
+        sitemaps=(SITEMAPS[0],),
+        seed_urls=SEED_URLS.get("laboral", ()),
+        topic_anchors=(
+            ("decreto_ley_2663_1950", "Código Sustantivo del Trabajo"),
+            ("ley_100_1993", "Sistema General de Seguridad Social"),
+            ("decreto_1072_2015", "Decreto Único Reglamentario del Sector Trabajo"),
+            ("ley_2466_2025", "Reforma Laboral 2025"),
+            ("ley_2381_2024", "Reforma Pensional 2024"),
+        ),
+    ),
+    "laboral-tributario": ScopeDefinition(
+        sitemaps=(SITEMAPS[0],),
+        seed_urls=SEED_URLS.get("laboral-tributario", ()),
+        topic_anchors=(
+            ("et_art_114_1", "ET art 114-1 — Exoneración de parafiscales"),
+            ("et_art_383_a_388", "ET arts 383–388 — Retención por pagos laborales"),
+            ("ley_1607_2012", "Ley 1607/2012 — Origen exoneración parafiscales"),
+        ),
+    ),
+    "jurisprudencia": ScopeDefinition(
+        sitemaps=(SITEMAPS[1],),
+        seed_urls=SEED_URLS.get("jurisprudencia", ()),
+        topic_anchors=(
+            ("consejo_estado_sala_tercera", "Consejo de Estado — Sala Tercera"),
+            ("consejo_estado_sala_segunda", "Consejo de Estado — Sala Segunda"),
+            ("corte_constitucional", "Corte Constitucional"),
+        ),
+    ),
+    "full": ScopeDefinition(
+        sitemaps=SITEMAPS,
+        seed_urls=tuple(url for urls in SEED_URLS.values() for url in urls),
+    ),
+    "et": ScopeDefinition(
+        sitemaps=(SITEMAPS[0],),
+        seed_urls=SEED_URLS.get("tributario", ()),
+        deprecated=True,
+        alias_of="tributario",
+    ),
 }
 
 
@@ -55,7 +112,10 @@ def parser() -> argparse.ArgumentParser:
         "--scope",
         required=True,
         choices=sorted(_SCOPES.keys()),
-        help="Which crawl scope to run.",
+        help=(
+            "Which crawl scope to run. `et` is a deprecated alias of `tributario`. "
+            "New scopes: tributario, laboral, laboral-tributario, jurisprudencia, full."
+        ),
     )
     cli.add_argument(
         "--out",
@@ -109,15 +169,41 @@ def _write_jsonl(path: Path, rows: Iterable[dict[str, Any]]) -> int:
     return count
 
 
+def _resolve_scope(scope: str) -> tuple[str, ScopeDefinition]:
+    """Return (canonical_scope_name, definition), following alias links once."""
+    if scope not in _SCOPES:
+        raise KeyError(f"unknown scope {scope!r}")
+    definition = _SCOPES[scope]
+    if definition.alias_of:
+        canonical = definition.alias_of
+        _log.warning(
+            "scope %r is a deprecated alias — resolving to %r", scope, canonical
+        )
+        return canonical, _SCOPES[canonical]
+    return scope, definition
+
+
 def _iter_scope_urls(
     fetcher: SuinFetcher,
     scope: str,
     *,
     max_documents: int,
 ) -> Iterable[str]:
+    _, definition = _resolve_scope(scope)
     seen: set[str] = set()
     emitted = 0
-    for entry in _SCOPES[scope]:
+
+    # Emit seeds first — they must be reached regardless of sitemap content.
+    for seed_url in fetcher.iter_seeds(scope):
+        if seed_url in seen:
+            continue
+        seen.add(seed_url)
+        yield seed_url
+        emitted += 1
+        if max_documents and emitted >= max_documents:
+            return
+
+    for entry in definition.sitemaps:
         try:
             urls = fetcher.iter_sitemap(entry.url)
         except SuinFetchError as exc:

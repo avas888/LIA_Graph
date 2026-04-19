@@ -1,4 +1,4 @@
-.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-suin-harvest-et phase2-suin-harvest-tax-laws phase2-suin-harvest-jurisprudence phase2-suin-harvest-full
+.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full
 
 PHASE2_CORPUS_DIR ?= knowledge_base
 PHASE2_ARTIFACTS_DIR ?= artifacts
@@ -65,13 +65,20 @@ SUIN_ARTIFACTS_DIR ?= artifacts/suin
 SUIN_RPS ?= 1.0
 
 phase2-suin-harvest-et:
-	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope et --out $(SUIN_ARTIFACTS_DIR)/et --rps $(SUIN_RPS) --json
+	@echo "[deprecated: use phase2-suin-harvest-tributario]"
+	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope et --out $(SUIN_ARTIFACTS_DIR)/tributario --rps $(SUIN_RPS) --json
 
-phase2-suin-harvest-tax-laws:
-	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope tax-laws --out $(SUIN_ARTIFACTS_DIR)/tax-laws --rps $(SUIN_RPS) --json
+phase2-suin-harvest-tributario:
+	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope tributario --out $(SUIN_ARTIFACTS_DIR)/tributario --rps $(SUIN_RPS) --json
 
-phase2-suin-harvest-jurisprudence:
-	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope jurisprudence --out $(SUIN_ARTIFACTS_DIR)/jurisprudence --rps $(SUIN_RPS) --json
+phase2-suin-harvest-laboral:
+	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope laboral --out $(SUIN_ARTIFACTS_DIR)/laboral --rps $(SUIN_RPS) --json
+
+phase2-suin-harvest-laboral-tributario:
+	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope laboral-tributario --out $(SUIN_ARTIFACTS_DIR)/laboral-tributario --rps $(SUIN_RPS) --json
+
+phase2-suin-harvest-jurisprudencia:
+	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope jurisprudencia --out $(SUIN_ARTIFACTS_DIR)/jurisprudencia --rps $(SUIN_RPS) --json
 
 phase2-suin-harvest-full:
 	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope full --out $(SUIN_ARTIFACTS_DIR)/full --rps $(SUIN_RPS) --json

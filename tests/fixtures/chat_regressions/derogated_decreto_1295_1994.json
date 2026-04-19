@@ -1,0 +1,17 @@
+{
+  "id": "derogated_decreto_1295_1994",
+  "category": "derogated",
+  "question": "¿Qué artículos del Decreto 1295 de 1994 siguen vigentes y cuáles fueron derogados por la Ley 1562 de 2012?",
+  "expected_contains": [
+    "Decreto 1295",
+    "Ley 1562",
+    "ARL"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "derogation_flagged_first_paragraph": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true
+  },
+  "notes": "Decreto 1295/1994 parcialmente derogado por Ley 1562/2012; answer must not speak of derogated articles as vigente."
+}

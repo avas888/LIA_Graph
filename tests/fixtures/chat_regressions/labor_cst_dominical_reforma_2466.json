@@ -1,0 +1,17 @@
+{
+  "id": "labor_cst_dominical_reforma_2466",
+  "category": "labor",
+  "question": "¿Cómo quedó el recargo dominical y festivo en el CST después de la Ley 2466 de 2025?",
+  "expected_contains": [
+    "dominical",
+    "Ley 2466",
+    "recargo"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true,
+    "reform_cited": "ley_2466_2025"
+  },
+  "notes": "Reforma Laboral 2025 cambió el recargo dominical. Respuesta debe citar la Ley."
+}

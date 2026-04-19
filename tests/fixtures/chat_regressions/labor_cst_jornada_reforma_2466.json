@@ -1,0 +1,16 @@
+{
+  "id": "labor_cst_jornada_reforma_2466",
+  "category": "labor",
+  "question": "¿Cuál es la jornada máxima actual en Colombia tras la Ley 2101 de 2021 y la Ley 2466 de 2025?",
+  "expected_contains": [
+    "42 horas",
+    "Ley 2101",
+    "Ley 2466"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true
+  },
+  "notes": "Progressive reduction 48→42h spans both Ley 2101 and Ley 2466; answer must name both."
+}

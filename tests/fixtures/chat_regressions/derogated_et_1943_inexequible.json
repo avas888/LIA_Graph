@@ -1,0 +1,16 @@
+{
+  "id": "derogated_et_1943_inexequible",
+  "category": "derogated",
+  "question": "¿Qué pasó con los artículos de la Ley 1943 de 2018 que fueron declarados inexequibles?",
+  "expected_contains": [
+    "Ley 1943",
+    "inexequible",
+    "Ley 2010"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "derogation_flagged_first_paragraph": true,
+    "sentencia_cited": true
+  },
+  "notes": "Corte Constitucional declaró Ley 1943/2018 inexequible en 2019; Ley 2010 retomó la reforma. Answer must flag struck_down state prominently."
+}

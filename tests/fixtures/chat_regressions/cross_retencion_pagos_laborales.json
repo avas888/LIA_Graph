@@ -1,0 +1,17 @@
+{
+  "id": "cross_retencion_pagos_laborales",
+  "category": "cross_domain",
+  "question": "¿Cómo se aplica el procedimiento 2 de retención en la fuente sobre rentas de trabajo según ET arts. 383 a 388?",
+  "expected_contains": [
+    "procedimiento 2",
+    "artículo 385",
+    "retención"
+  ],
+  "expected_flags": {
+    "vigencia_flag_present": true,
+    "sentencia_cited": false,
+    "modification_chain_nonempty": true,
+    "cross_domain_edge": true
+  },
+  "notes": "ET 383–388 — cross-domain retención sobre nómina. Exercise depuración de rentas de trabajo."
+}
