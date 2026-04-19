@@ -1,3 +1,39 @@
+"""HTTP front-door for Lia Graph.
+
+READ THIS BEFORE EDITING: `docs/next/granularization_v1.md` §"Controller Surface Catalog"
+is the authoritative index of every domain controller, its dep-injection helper,
+and its HTTP surface. It also lists the recipe for adding new endpoints.
+
+Architecture in one paragraph:
+    This file owns ONE `BaseHTTPRequestHandler` subclass (`LiaUIHandler`) plus the
+    module-level `_<domain>_controller_deps()` helpers (search for `def _*_controller_deps`).
+    Every `_handle_*` method on the class is a 5–15 line DELEGATE that builds a
+    fresh `deps={…}` dict and calls `handle_<domain>_<verb>(handler, …, deps=…)`
+    in a sibling `ui_<domain>_controllers.py` module. Domain logic does NOT live
+    here — only dispatch, auth, rate limiting, response helpers (`_send_json`,
+    `_send_bytes`), and dep wiring.
+
+Where each surface lives (see the catalog for the authoritative list):
+    - `ui_frontend_compat_controllers.py` — `/api/llm/status`, `/api/feedback*`, milestones
+    - `ui_public_session_controllers.py`  — `/api/public/session`, `/public`
+    - `ui_chat_controller.py`             — `/api/chat`, `/api/chat/stream`
+    - `ui_route_controllers.py`           — form-guides, ops, source-view, analysis
+    - `ui_citation_controllers.py`        — `/api/citations/*`
+    - `ui_user_management_controllers.py` — admin + invite flows
+    - `ui_eval_controllers.py`            — eval surface
+    - `ui_write_controllers.py`           — state-mutating writes (501-stubs, filling in B9)
+    - `ui_conversation_controllers.py`    — history (501-stub, filling in B4)
+    - `ui_admin_controllers.py`           — platform/admin (501-stub, filling in B5)
+    - `ui_runtime_controllers.py`         — runtime terms / orchestration settings (501-stub, B6)
+    - `ui_reasoning_controllers.py`       — reasoning SSE (501-stub, B7)
+    - `ui_ingestion_controllers.py`       — ingestion (501-stub, B8)
+
+If you are about to inline domain logic in this file: DO NOT. Extract to the matching
+controller and wire a delegate. See the "How to add a new endpoint" recipe in the
+catalog. Adding inline logic here causes the monolith-regrowth problem the
+granularization v1 refactor was undertaken to fix.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -114,8 +150,11 @@ from .conversation_store import (
     list_distinct_topics,
     list_sessions,
     load_session,
+    public_captcha_pass_exists,
+    public_captcha_pass_record,
     update_session_metadata,
 )
+from .turnstile import verify_turnstile
 from .jobs_store import load_job
 from .platform_auth import (
     AuthContext,
@@ -733,15 +772,36 @@ def _chat_controller_deps() -> dict[str, Any]:
     }
 
 
+def _frontend_compat_controller_deps() -> dict[str, Any]:
+    return {
+        "chat_run_milestones_route_re": _CHAT_RUN_MILESTONES_ROUTE_RE,
+        "chat_runs_path": CHAT_RUNS_PATH,
+        "feedback_path": FEEDBACK_PATH,
+        "feedback_record_cls": FeedbackRecord,
+        "load_feedback": load_feedback,
+        "public_tenant_id": PUBLIC_TENANT_ID,
+        "record_chat_run_event_once": record_chat_run_event_once,
+        "save_feedback": save_feedback,
+        "update_feedback_comment": update_feedback_comment,
+    }
+
+
+def _public_session_controller_deps() -> dict[str, Any]:
+    return {
+        "issue_public_visitor_token": issue_public_visitor_token,
+        "public_captcha_enabled": PUBLIC_CAPTCHA_ENABLED,
+        "public_captcha_pass_exists": public_captcha_pass_exists,
+        "public_captcha_pass_record": public_captcha_pass_record,
+        "public_mode_enabled": PUBLIC_MODE_ENABLED,
+        "public_token_ttl_seconds": PUBLIC_TOKEN_TTL_SECONDS,
+        "public_turnstile_site_key": PUBLIC_TURNSTILE_SITE_KEY,
+        "ui_dir": UI_DIR,
+        "verify_turnstile": verify_turnstile,
+    }
+
+
 class LiaUIHandler(BaseHTTPRequestHandler):
     server_version = "LIAUI/0.1"
-
-    _UI_MILESTONE_EVENT_TYPES = {
-        "main_chat_displayed": "chat_run.ui.main_chat_displayed",
-        "response_bubble_highlighted": "chat_run.ui.response_bubble_highlighted",
-        "normative_displayed": "chat_run.ui.normative_displayed",
-        "expert_panel_displayed": "chat_run.ui.expert_panel_displayed",
-    }
 
     def _request_origin(self) -> str | None:
         origin = str(self.headers.get("Origin", "")).strip()
@@ -915,192 +975,21 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         return build_memory_summary(session)
 
     def _handle_chat_frontend_compat_get(self, path: str, parsed: Any) -> bool:
-        if path == "/api/llm/status":
-            self._send_json(
-                HTTPStatus.OK,
-                {
-                    "ok": True,
-                    "llm_runtime": {
-                        "selected_provider": None,
-                        "selected_type": None,
-                        "selected_transport": None,
-                        "adapter_class": None,
-                        "model": None,
-                        "runtime_config_path": None,
-                        "attempts": [],
-                    },
-                },
-            )
-            return True
-
-        if path == "/api/feedback":
-            trace_id = str(parse_qs(parsed.query or "").get("trace_id", [""])[0] or "").strip()
-            feedback_record = (
-                load_feedback(trace_id, base_dir=FEEDBACK_PATH) if trace_id else None
-            )
-            payload = {
-                "ok": True,
-                "feedback": (
-                    {
-                        "trace_id": feedback_record.trace_id,
-                        "rating": feedback_record.rating,
-                        "vote": feedback_record.vote,
-                        "comment": feedback_record.comment,
-                    }
-                    if feedback_record is not None
-                    else None
-                ),
-            }
-            self._send_json(HTTPStatus.OK, payload)
-            return True
-
-        return False
+        from .ui_frontend_compat_controllers import handle_chat_frontend_compat_get
+        return handle_chat_frontend_compat_get(
+            self,
+            path,
+            parsed,
+            deps=_frontend_compat_controller_deps(),
+        )
 
     def _handle_chat_frontend_compat_post(self, path: str) -> bool:
-        milestone_match = _CHAT_RUN_MILESTONES_ROUTE_RE.match(path)
-        if milestone_match:
-            payload = self._read_json_payload(object_error="Se requiere un objeto JSON.")
-            if payload is None:
-                return True
-            chat_run_id = str(milestone_match.group(1) or "").strip()
-            milestone = str(payload.get("milestone") or "").strip()
-            if not chat_run_id or not milestone:
-                self._send_json(
-                    HTTPStatus.BAD_REQUEST,
-                    {"ok": False, "error": "chat_run_id y milestone son obligatorios."},
-                )
-                return True
-
-            elapsed_raw = payload.get("elapsed_ms")
-            elapsed_ms = None
-            if isinstance(elapsed_raw, (int, float)):
-                elapsed_ms = round(float(elapsed_raw), 2)
-            details = payload.get("details")
-            event_payload = {
-                "milestone": milestone,
-                "elapsed_ms": elapsed_ms,
-                "source": str(payload.get("source") or "").strip() or None,
-                "status": str(payload.get("status") or "").strip() or "ok",
-                "details": dict(details) if isinstance(details, dict) else {},
-            }
-            event_type = self._UI_MILESTONE_EVENT_TYPES.get(
-                milestone,
-                f"chat_run.ui.{re.sub(r'[^a-z0-9_]+', '_', milestone.lower()).strip('_') or 'unknown'}",
-            )
-            recorded = record_chat_run_event_once(
-                chat_run_id,
-                event_type=event_type,
-                payload=event_payload,
-                base_dir=CHAT_RUNS_PATH,
-            )
-            self._send_json(
-                HTTPStatus.OK,
-                {"ok": True, "chat_run_id": chat_run_id, "recorded": bool(recorded)},
-            )
-            return True
-
-        if path == "/api/feedback":
-            payload = self._read_json_payload(object_error="Se requiere un objeto JSON.")
-            if payload is None:
-                return True
-            trace_id = str(payload.get("trace_id") or "").strip()
-            rating = self._resolve_feedback_rating(payload)
-            if not trace_id or rating is None:
-                self._send_json(
-                    HTTPStatus.BAD_REQUEST,
-                    {"ok": False, "error": "trace_id y rating valido son obligatorios."},
-                )
-                return True
-
-            auth_context = self._resolve_auth_context(required=False, allow_public=True)
-            docs_used = payload.get("docs_used")
-            layer_contributions = payload.get("layer_contributions")
-            record = FeedbackRecord(
-                trace_id=trace_id,
-                session_id=str(payload.get("session_id") or "").strip() or None,
-                rating=rating,
-                tenant_id=getattr(auth_context, "tenant_id", "") or "",
-                user_id=getattr(auth_context, "user_id", "") or "",
-                company_id=getattr(auth_context, "company_id", "") or "",
-                integration_id=getattr(auth_context, "integration_id", "") or "",
-                tags=[
-                    str(tag).strip()
-                    for tag in (payload.get("tags") or [])
-                    if str(tag).strip()
-                ],
-                comment=str(payload.get("comment") or "").strip(),
-                vote=str(payload.get("vote") or payload.get("thumb") or "").strip().lower(),
-                source="api",
-                created_by=getattr(auth_context, "user_id", "") or "",
-                docs_used=[
-                    str(item).strip()
-                    for item in (docs_used or [])
-                    if str(item).strip()
-                ]
-                if isinstance(docs_used, list)
-                else [],
-                layer_contributions=(
-                    {str(key): int(value) for key, value in layer_contributions.items()}
-                    if isinstance(layer_contributions, dict)
-                    else {}
-                ),
-                pain_detected=str(payload.get("pain_detected") or "").strip(),
-                task_detected=str(payload.get("task_detected") or "").strip(),
-                question_text=str(payload.get("question_text") or "").strip(),
-                answer_text=str(payload.get("answer_text") or "").strip(),
-            )
-            save_feedback(record, base_dir=FEEDBACK_PATH)
-            self._send_json(
-                HTTPStatus.OK,
-                {
-                    "ok": True,
-                    "feedback": {
-                        "trace_id": record.trace_id,
-                        "rating": record.rating,
-                        "vote": record.vote,
-                        "comment": record.comment,
-                    },
-                },
-            )
-            return True
-
-        if path == "/api/feedback/comment":
-            payload = self._read_json_payload(object_error="Se requiere un objeto JSON.")
-            if payload is None:
-                return True
-            trace_id = str(payload.get("trace_id") or "").strip()
-            comment = str(payload.get("comment") or "").strip()
-            if not trace_id or not comment:
-                self._send_json(
-                    HTTPStatus.BAD_REQUEST,
-                    {"ok": False, "error": "trace_id y comment son obligatorios."},
-                )
-                return True
-            auth_context = self._resolve_auth_context(required=False, allow_public=True)
-            updated = update_feedback_comment(
-                trace_id,
-                comment,
-                tenant_id=getattr(auth_context, "tenant_id", "") or PUBLIC_TENANT_ID,
-                base_dir=FEEDBACK_PATH,
-            )
-            self._send_json(HTTPStatus.OK, {"ok": bool(updated)})
-            return True
-
-        if path == "/api/normative-support":
-            payload = self._read_json_payload(object_error="Se requiere un objeto JSON.")
-            if payload is None:
-                return True
-            self._send_json(
-                HTTPStatus.OK,
-                {
-                    "ok": True,
-                    "trace_id": str(payload.get("trace_id") or "").strip() or None,
-                    "normative_citations": [],
-                },
-            )
-            return True
-
-        return False
+        from .ui_frontend_compat_controllers import handle_chat_frontend_compat_post
+        return handle_chat_frontend_compat_post(
+            self,
+            path,
+            deps=_frontend_compat_controller_deps(),
+        )
 
     def _initialize_chat_request_context(
         self,
@@ -1388,182 +1277,12 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         return bool(ctx is not None and ctx.role == PUBLIC_VISITOR_ROLE)
 
     def _handle_public_session_post(self) -> None:
-        """`POST /api/public/session` — mint a short-lived public_visitor JWT.
-
-        First-time visitors must include `turnstile_token` in the body. Once
-        Cloudflare confirms the token, the IP-hash is recorded in
-        `public_captcha_passes` and subsequent visits skip the captcha.
-        """
-        if not PUBLIC_MODE_ENABLED:
-            self._send_json(
-                HTTPStatus.SERVICE_UNAVAILABLE,
-                {"error": {"code": "public_mode_disabled", "message": "Public mode disabled."}},
-            )
-            return
-
-        client_ip = self._get_trusted_client_ip()
-        pub_user_id = self._hash_public_user_id(client_ip)
-
-        if not PUBLIC_CAPTCHA_ENABLED:
-            token, expires_at = issue_public_visitor_token(
-                pub_user_id=pub_user_id,
-                ttl_seconds=PUBLIC_TOKEN_TTL_SECONDS,
-            )
-            self._send_json(
-                HTTPStatus.OK,
-                {
-                    "ok": True,
-                    "token": token,
-                    "expires_at": expires_at,
-                    "captcha_required": False,
-                },
-            )
-            return
-
-        from .conversation_store import (
-            public_captcha_pass_exists,
-            public_captcha_pass_record,
-        )
-        from .turnstile import verify_turnstile
-
-        body_raw = b""
-        try:
-            content_length = int(self.headers.get("Content-Length") or 0)
-        except (TypeError, ValueError):
-            content_length = 0
-        if content_length > 0:
-            try:
-                body_raw = self.rfile.read(content_length) or b""
-            except Exception:
-                body_raw = b""
-        try:
-            body = json.loads(body_raw.decode("utf-8")) if body_raw else {}
-        except (ValueError, json.JSONDecodeError):
-            body = {}
-        if not isinstance(body, dict):
-            body = {}
-
-        already_passed = public_captcha_pass_exists(pub_user_id)
-        if not already_passed:
-            turnstile_token = str(body.get("turnstile_token") or "").strip()
-            if not turnstile_token:
-                self._send_json(
-                    HTTPStatus.BAD_REQUEST,
-                    {
-                        "error": {
-                            "code": "captcha_required",
-                            "message": "Captcha requerido para el primer acceso público.",
-                        },
-                        "site_key": PUBLIC_TURNSTILE_SITE_KEY,
-                    },
-                )
-                return
-            if not verify_turnstile(turnstile_token, client_ip):
-                self._send_json(
-                    HTTPStatus.FORBIDDEN,
-                    {
-                        "error": {
-                            "code": "captcha_invalid",
-                            "message": "Captcha inválido. Recargue la página.",
-                        }
-                    },
-                )
-                return
-            public_captcha_pass_record(pub_user_id)
-
-        token, expires_at = issue_public_visitor_token(
-            pub_user_id=pub_user_id,
-            ttl_seconds=PUBLIC_TOKEN_TTL_SECONDS,
-        )
-        self._send_json(
-            HTTPStatus.OK,
-            {
-                "ok": True,
-                "token": token,
-                "expires_at": expires_at,
-                "captcha_required": False,
-            },
-        )
+        from .ui_public_session_controllers import handle_public_session_post
+        handle_public_session_post(self, deps=_public_session_controller_deps())
 
     def _serve_public_page(self) -> None:
-        """`GET /public` — serve the chat-only HTML shell with token injection.
-
-        Two paths:
-          * IP already in `public_captcha_passes` → mint token, inject as
-            `lia-public-token` meta, set `lia-public-captcha-required=false`.
-          * Otherwise → leave the token meta empty, set
-            `lia-public-captcha-required=true`, inject the Turnstile site key.
-
-        The frontend's `/src/app/public/main.ts` reads these meta tags on
-        boot. All injected values are `html.escape`d as defense in depth even
-        though the JWT alphabet is `[A-Za-z0-9_\\-.]` and the site key is
-        `[A-Za-z0-9_\\-]`.
-        """
-        if not PUBLIC_MODE_ENABLED:
-            self._send_json(
-                HTTPStatus.SERVICE_UNAVAILABLE,
-                {"error": {"code": "public_mode_disabled", "message": "Public mode disabled."}},
-            )
-            return
-
-        public_html_path = UI_DIR / "public.html"
-        if not public_html_path.exists():
-            self._send_json(
-                HTTPStatus.NOT_FOUND,
-                {"error": {"code": "public_shell_missing", "message": "Public shell not built."}},
-            )
-            return
-
-        client_ip = self._get_trusted_client_ip()
-        pub_user_id = self._hash_public_user_id(client_ip)
-
-        token_value = ""
-        expires_value = ""
-        captcha_required = "true"
-        if not PUBLIC_CAPTCHA_ENABLED:
-            token, expires_at = issue_public_visitor_token(
-                pub_user_id=pub_user_id,
-                ttl_seconds=PUBLIC_TOKEN_TTL_SECONDS,
-            )
-            token_value = token
-            expires_value = str(int(expires_at or 0))
-            captcha_required = "false"
-        else:
-            from .conversation_store import public_captcha_pass_exists
-
-            if public_captcha_pass_exists(pub_user_id):
-                token, expires_at = issue_public_visitor_token(
-                    pub_user_id=pub_user_id,
-                    ttl_seconds=PUBLIC_TOKEN_TTL_SECONDS,
-                )
-                token_value = token
-                expires_value = str(int(expires_at or 0))
-                captcha_required = "false"
-
-        try:
-            html_text = public_html_path.read_text(encoding="utf-8")
-        except OSError:
-            self._send_json(
-                HTTPStatus.INTERNAL_SERVER_ERROR,
-                {"error": {"code": "public_shell_unreadable", "message": "Cannot read public shell."}},
-            )
-            return
-
-        replacements = {
-            "__LIA_PUBLIC_TOKEN__": html.escape(token_value),
-            "__LIA_PUBLIC_EXPIRES_AT__": html.escape(expires_value),
-            "__LIA_PUBLIC_CAPTCHA_REQUIRED__": html.escape(captcha_required),
-            "__LIA_PUBLIC_TURNSTILE_SITE_KEY__": html.escape(PUBLIC_TURNSTILE_SITE_KEY),
-        }
-        for placeholder, value in replacements.items():
-            html_text = html_text.replace(placeholder, value)
-
-        self._send_bytes(
-            HTTPStatus.OK,
-            html_text.encode("utf-8"),
-            "text/html; charset=utf-8",
-            extra_headers={"Cache-Control": "no-store"},
-        )
+        from .ui_public_session_controllers import handle_public_page_get
+        handle_public_page_get(self, deps=_public_session_controller_deps())
 
     def _is_user_suspended(self, tenant_id: str, user_id: str) -> bool:
         """Check if user is suspended (cached, best-effort)."""

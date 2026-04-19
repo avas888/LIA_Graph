@@ -1,10 +1,15 @@
 from __future__ import annotations
 
 from http import HTTPStatus
+from types import SimpleNamespace
 from typing import Any
 
 from lia_graph.platform_auth import AuthContext, PlatformAuthError
 from lia_graph.ui_ingestion_controllers import handle_ingestion_get, handle_ingestion_post
+
+
+_EMPTY_PARSED = SimpleNamespace(query="")
+_EMPTY_DEPS: dict[str, Any] = {}
 
 
 class _FakeHandler:
@@ -59,7 +64,9 @@ def _ctx(role: str) -> AuthContext:
 def test_ingestion_routes_require_admin_authentication() -> None:
     handler = _FakeHandler()
 
-    handled = handle_ingestion_get(handler, "/api/ingestion/sessions")
+    handled = handle_ingestion_get(
+        handler, "/api/ingestion/sessions", _EMPTY_PARSED, deps=_EMPTY_DEPS
+    )
 
     assert handled is True
     status, payload = handler.sent_json[0]

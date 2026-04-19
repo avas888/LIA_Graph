@@ -121,6 +121,36 @@ Important boundary:
 - other runtime modules should prefer importing the stable facades `answer_synthesis.py` and `answer_assembly.py`
 - the deeper modules are implementation detail for `main chat`
 
+## HTTP Controller Topology (granularization v1)
+
+`ui_server.py` is not a monolith anymore. It owns ONE `BaseHTTPRequestHandler` subclass (`LiaUIHandler`) plus the module-level `_<domain>_controller_deps()` helpers (see the `def _*_controller_deps` definitions just above the class). Every `_handle_*` method on the class is a **5–15 line delegate** that builds a fresh `deps={…}` dict and calls `handle_<domain>_<verb>(handler, …, deps=…)` in a sibling `ui_<domain>_controllers.py` module. Domain logic does not live in `ui_server.py` — only dispatch, auth, rate limiting, response helpers (`_send_json`, `_send_bytes`), and dep wiring.
+
+| Domain | Controller module | Deps helper | HTTP surface |
+|---|---|---|---|
+| chat (main) | `ui_chat_controller.py` | `_chat_controller_deps` | `POST /api/chat`, `POST /api/chat/stream` |
+| analysis (pipeline-C compat + expert-panel) | `ui_route_controllers.py` (+ `ui_analysis_controllers.py`) | `_analysis_controller_deps` | various `/api/*` analysis reads |
+| citations | `ui_citation_controllers.py` | inline | `GET /api/citations/*` |
+| form guides (Normativa forms) | `ui_route_controllers.py` + `ui_form_guide_helpers.py` | inline | `GET /api/form-guides/{catalog,content,asset}` |
+| frontend compat (legacy FE shims) | `ui_frontend_compat_controllers.py` | `_frontend_compat_controller_deps` | `GET /api/llm/status`, `GET\|POST /api/feedback*`, milestones, normative-support |
+| ops | `ui_route_controllers.py` | inline | `GET /api/ops/*` |
+| public session (anonymous visitors) | `ui_public_session_controllers.py` | `_public_session_controller_deps` | `POST /api/public/session`, `GET /public` |
+| source view | `ui_route_controllers.py` | inline | `GET /api/source/*` |
+| user management (admin + invite) | `ui_user_management_controllers.py` | `_write_controller_deps` | `GET\|POST /api/user-management/*`, invites |
+| eval (robot/admin) | `ui_eval_controllers.py` | inline | `GET /api/eval/*` |
+| writes (13 endpoints) | `ui_write_controllers.py` | `_write_controller_deps` | all state-mutating POST/PUT/DELETE: platform, form-guides, chat-runs, terms+feedback, contributions, ingestion, corpus sync/ops, embedding ops, reindex, rollback, promote |
+| history / conversations | `ui_conversation_controllers.py` | inline | `GET /api/conversation*`, `GET /api/contributions/pending` |
+| platform / admin | `ui_admin_controllers.py` | inline | `GET /api/me`, `/api/admin/*`, `/api/jobs/{id}` |
+| runtime terms | `ui_runtime_controllers.py` | inline | `GET /api/terms*`, `GET /terms-of-use`, `PUT /api/orchestration/settings` |
+| reasoning stream | `ui_reasoning_controllers.py` | inline | `GET /api/reasoning/events`, `GET /api/reasoning/stream` (SSE) |
+| ingestion (reads + DELETE) | `ui_ingestion_controllers.py` | inline (GET: `{"ingestion_runtime": INGESTION_RUNTIME}`) | `GET /api/corpora`, `GET /api/ingestion/sessions*`, `DELETE /api/ingestion/sessions/{id}` |
+
+Rules of thumb when editing or extending this surface (authoritative detail in `docs/next/granularization_v1.md` §Controller Surface Catalog):
+
+- anything stateful, path-rooted, env-gated, or monkeypatched on `ui_server` → inject via `deps`
+- pure stateless helpers (`json`, `re`, `parse_qs`, dataclass ctors from other modules) → direct import in the controller
+- `_send_json`, `_resolve_auth_context`, rate-limit, and audit helpers stay on the class and are called as `handler.X(...)`
+- adding more than ~15 LOC to `ui_server.py` for a new endpoint means you're doing it wrong — extract to the matching controller and wire a delegate
+
 ## Information Architecture Map
 
 The current runtime is easiest to reason about if you map it as information handoffs instead of just file order.
@@ -504,6 +534,7 @@ The planner outputs:
 - `temporal_context`
 - `topic_hints`
 - `planner_notes`
+- `sub_questions` — user-facing sub-questions when the consulta has ≥2 of them; empty otherwise. The split prefers `¿…?` inverted-mark spans so preceding context doesn't leak in; falls back to splitting on `?` when the user omitted inverted marks. Downstream, assembly renders a `Respuestas directas` block so each sub-question stays independently findable.
 
 ### 3.1 Query Mode Selection
 
@@ -600,8 +631,9 @@ The served answer path is graph-first. The retrieval source is chosen per reques
   - `artifacts/parsed_articles.jsonl`
   - `artifacts/typed_edges.jsonl`
 - **staging (`LIA_CORPUS_SOURCE=supabase` + `LIA_GRAPH_MODE=falkor_live`)** — two cooperating adapters merged by the orchestrator:
-  - `retriever_supabase.py` reads cloud Supabase via the `hybrid_search` RPC and the `documents` table for the chunks half. **Topic is passed as a ranking signal (inside `query_text`), never as a WHERE filter on `filter_topic`** — cross-topic anchors (e.g. Art. 147 ET under IVA, load-bearing for a `declaracion_renta` loss-compensation question) must stay reachable.
-  - `retriever_falkor.py` walks cloud FalkorDB (`LIA_REGULATORY_GRAPH`) with a bounded, parameterized Cypher BFS for the graph half. The traversal is topic-agnostic by construction: `MATCH (node:ArticleNode {article_key: key})` never carries a topic predicate, so adjacency — not catalog — drives recall.
+  - `retriever_supabase.py` reads cloud Supabase via the `hybrid_search` RPC and the `documents` table for the chunks half. **Topic is passed as a ranking signal (inside `query_text`), never as a WHERE filter on `filter_topic`** — cross-topic anchors (e.g. Art. 147 ET under IVA, load-bearing for a `declaracion_renta` loss-compensation question) must stay reachable. FTS is invoked with an explicit OR-joined `fts_query` built from the planner's tokens, so multi-term queries don't collapse under the RPC's default AND semantics. Planner-anchor chunks are fetched directly by `chunk_id LIKE '%::<key>'` before the FTS pass, so primary-article promotion never depends on ranker luck.
+  - `retriever_falkor.py` walks cloud FalkorDB (`LIA_REGULATORY_GRAPH`) with a bounded, parameterized Cypher BFS for the graph half. The traversal is topic-agnostic by construction: `MATCH (node:ArticleNode {article_number: key})` never carries a topic predicate, so adjacency — not catalog — drives recall. The property is `article_number`, which is the canonical field declared in `graph/schema.py`; do not migrate to `article_key` (that alias only exists Python-side on the snapshot).
+- **LLM polish (optional, enabled by `LIA_LLM_POLISH_ENABLED=1`)** — after the template composer emits the answer, `pipeline_d/answer_llm_polish.py` asks the configured LLM (see `config/llm_runtime.json`) to rewrite the prose in senior-accountant voice while preserving every `(art. X ET)` inline anchor. Fails loudly in `response.llm_runtime.skip_reason` (one of `polish_disabled_by_env`, `no_adapter_available`, `adapter_error:<Type>`, `empty_llm_output`, `anchors_stripped`) and silently in output: the template answer is always the safety net. The dev launcher sets `LIA_LLM_POLISH_ENABLED=1` by default across `dev`, `dev:staging`, and `dev:production` — override with `LIA_LLM_POLISH_ENABLED=0` to compare template vs polished output.
 - **production** — inherits staging wiring through Railway env vars.
 
 All three adapters honor the same evidence contract. The evidence bundle has four layers:
@@ -736,6 +768,7 @@ It currently includes:
 - `context_lines`
 - `precautions`
 - `opportunities`
+- `direct_answers` — for multi-question consultas only; each entry is `(sub_question, bullets)` with as many bullets as the content warrants. Empty tuple when the planner reported fewer than 2 sub-questions.
 
 This is not the public API contract.
 It is the internal handoff between synthesis and assembly for `main chat`.
@@ -771,6 +804,7 @@ It currently owns:
 - `build_context_lines(...)`
 - `build_precautions(...)`
 - `build_opportunities(...)`
+- `build_direct_answers(...)` — maps each planner sub-question to bullets drawn from the already-built sections using proportional keyword overlap (favors short sub-questions whose keywords are fully covered). Sub-questions with zero matches get `DIRECT_ANSWER_COVERAGE_PENDING` so an empty block is never silently emitted.
 
 This module is where the runtime answers:
 
@@ -920,6 +954,7 @@ The visible answer now has two live shapes.
 First-turn `fast_action`:
 
 - general operational prompts use:
+  - optional `Respuestas directas` — emitted only when the planner reports ≥2 sub-questions; rendered **before** `Ruta sugerida` so each sub-question is independently findable. Each sub-question is a bold bullet with any number of sub-bullets underneath.
   - `Ruta sugerida`
   - `Riesgos y condiciones`
   - `Soportes clave`
@@ -929,6 +964,8 @@ First-turn `fast_action`:
   - `Estrategias Legítimas A Modelar`
   - `Qué Mira DIAN Y La Jurisprudencia`
   - `Papeles De Trabajo`
+
+The LLM polish step (`answer_llm_polish.py`) is instructed to preserve `Respuestas directas` structurally: sub-questions may not be fused, bullets may not move between sub-questions, and `Cobertura pendiente para esta sub-pregunta` markers stay intact on any sub-question the retriever could not cover.
 
 Second-plus follow-ups use a separate publication path:
 
@@ -1074,6 +1111,7 @@ If the values in diagnostics do not match the table above for the mode you are r
 | Version | Date | Change | Affected files |
 |---|---|---|---|
 | `v2026-04-18` | 2026-04-18 | Introduced `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE` for the Phase B cloud-live retrieval cutover. `dev:staging` defaults flipped to `supabase` / `falkor_live`. `LIA_FALKOR_MIN_NODES` added to block boot when cloud Falkor is empty. Sink flags `LIA_INGEST_SUPABASE` / `LIA_INGEST_SUPABASE_TARGET` added for build-time corpus refresh. | `scripts/dev-launcher.mjs`, `src/lia_graph/pipeline_d/orchestrator.py`, `src/lia_graph/pipeline_d/retriever_supabase.py`, `src/lia_graph/pipeline_d/retriever_falkor.py`, `src/lia_graph/ingestion/supabase_sink.py`, `src/lia_graph/ingest.py`, `src/lia_graph/dependency_smoke.py`, `Makefile` (new `phase2-graph-artifacts-supabase` target), `supabase/migrations/20260418000000_normative_edges_unique.sql` |
+| `v2026-04-18-ui1` | 2026-04-18 | HTTP granularization v1. `ui_server.py` 2180→1899 LOC; extracted frontend-compat GET+POST and public session surfaces to `ui_frontend_compat_controllers.py` and `ui_public_session_controllers.py`. Filled 501-stub controllers with real ports: history/conversations, platform/admin, runtime/terms, reasoning SSE, ingestion GET/DELETE, and 13 write handlers. New `_frontend_compat_controller_deps()` + `_public_session_controller_deps()` helpers follow the `_write_controller_deps` / `_analysis_controller_deps` / `_chat_controller_deps` convention. See `docs/next/granularization_v1.md` §Controller Surface Catalog. NOT an env change — env matrix unchanged. | `src/lia_graph/ui_server.py`, `src/lia_graph/ui_frontend_compat_controllers.py` (new), `src/lia_graph/ui_public_session_controllers.py` (new), `src/lia_graph/ui_conversation_controllers.py`, `src/lia_graph/ui_admin_controllers.py`, `src/lia_graph/ui_runtime_controllers.py`, `src/lia_graph/ui_reasoning_controllers.py`, `src/lia_graph/ui_ingestion_controllers.py`, `src/lia_graph/ui_write_controllers.py`, `src/lia_graph/ui_form_guide_helpers.py` |
 | `v2026-04-17` | 2026-04-17 | Migrations squashed onto `20260417000000_baseline.sql` + `20260417000001_seed_users.sql`; test accounts aligned to `Test123!`. Retrieval path still artifact-only in every mode. | `supabase/migrations/`, `scripts/seed_local_passwords.py` |
 | `v2026-04-16` | 2026-04-16 | `main chat` answer path split behind `answer_synthesis.py` + `answer_assembly.py` facades; `Normativa` and `Interpretación` get their own surface packages. Runtime read path still artifacts in all modes. | `src/lia_graph/pipeline_d/*`, `src/lia_graph/normativa/*`, `src/lia_graph/interpretacion/*` |
 
@@ -1141,7 +1179,8 @@ The current refactor materially changed the hot path in these ways:
 1. `src/lia_graph/pipeline_d/orchestrator.py` is no longer the hidden home of most answer logic
 2. `main chat` synthesis now has a stable facade plus dedicated helper/section modules
 3. `main chat` assembly now has a stable facade plus first-bubble, follow-up, inline-anchor, recap, and shared submodules
-4. the docs now explicitly distinguish:
+4. multi-question consultas now render a `Respuestas directas` block before `Ruta sugerida` so each `¿…?` gets its own visible bullet with unrestricted sub-bullets. Detection lives in the planner (`sub_questions`); content selection in `answer_synthesis_sections.build_direct_answers`; rendering in `answer_first_bubble._render_direct_answers_section`; preservation rules in `answer_llm_polish`. Concerns stay granularized across layers
+5. the docs now explicitly distinguish:
    - runtime flow
    - synthesis
    - assembly
@@ -1165,10 +1204,11 @@ Use this order when debugging or improving the runtime:
 1. if the wrong workflow activates, tune `planner.py`
 2. if the wrong legal anchors dominate, tune `retriever.py` or `retrieval_support.py`
 3. if the evidence is right but the candidate answer parts are weak, tune `answer_synthesis_sections.py` or `answer_synthesis_helpers.py`
-4. if the first answer shape is right but the line-level legal anchors are weak, tune `answer_inline_anchors.py`
-5. if recap appears when it should not, or reads poorly, tune `answer_historical_recap.py`
-6. if the voice/shape itself is wrong, tune `answer_policy.py` or `answer_first_bubble.py`
-7. only change `orchestrator.py` when the actual runtime flow or response packaging changes
+4. if a multi-question consulta hides a sub-answer (reader scans, can't find it), check first that the planner emitted `sub_questions`; if yes, tune `build_direct_answers` scoring in `answer_synthesis_sections.py`; if no, tune sub-question detection in `planner._extract_user_sub_questions`
+5. if the first answer shape is right but the line-level legal anchors are weak, tune `answer_inline_anchors.py`
+6. if recap appears when it should not, or reads poorly, tune `answer_historical_recap.py`
+7. if the voice/shape itself is wrong, tune `answer_policy.py` or `answer_first_bubble.py`
+8. only change `orchestrator.py` when the actual runtime flow or response packaging changes
 
 ## Contained Pass Status
 

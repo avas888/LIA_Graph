@@ -97,6 +97,10 @@ The hot path is:
 8. `src/lia_graph/pipeline_d/answer_synthesis.py`
 9. `src/lia_graph/pipeline_d/answer_assembly.py`
 
+## HTTP Controller Topology
+
+`ui_server.py` owns dispatch + auth + response helpers only. Every `_handle_*` method on `LiaUIHandler` is a thin delegate to `handle_<domain>_<verb>(handler, …, *, deps)` in a sibling `ui_<domain>_controllers.py` module. Deps flow through `_<domain>_controller_deps()` helpers defined just above the class. See the full catalog (surface ↔ controller mapping, deps helper, extension recipe) in `docs/next/granularization_v1.md` §Controller Surface Catalog and in `docs/guide/orchestration.md` §HTTP Controller Topology.
+
 ## Stable Facades vs Implementation Detail
 
 Treat these as the stable `main chat` entrypoints:
