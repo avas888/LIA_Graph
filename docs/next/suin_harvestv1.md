@@ -6,9 +6,11 @@
 
 **If you are a fresh agent just told to "implement `docs/next/suin_harvestv1.md`", do these checks in order before any other action. Each check has a copy-paste command and an explicit stop-condition. Skipping this block is how a cold agent trips.**
 
-### 0. You cannot fire any cloud write without explicit user confirmation in this session
+### 0. You cannot fire the production push without explicit user confirmation in this session
 
-Phase 7 writes to production cloud Supabase + production cloud FalkorDB. **That step is irreversible.** If the user has not said "go" or "fire phase 7" in the current conversation, **stop at the end of Phase 6 and ask.** Do not infer approval from context, a TODO, or previous sessions. Cloud writes are a human-in-the-loop gate, always.
+Phase 7 is a single production push that writes to cloud Supabase + cloud FalkorDB, runs the cloud embedding backfill, and activates the new generation — **all in one continuous run, end to end into active production.** That sequence is irreversible: cloud rows persist and the active-generation flip changes user-visible answers as soon as it lands.
+
+If the user has not said "go" or "fire the production push" in the current conversation, **stop at the end of Phase 6 and ask.** Do not infer approval from context, a TODO, or previous sessions. The production push is a human-in-the-loop gate, always, but it is the **only** one — after confirmation the push completes without further pauses.
 
 ### 1. You must be on the right branch with the right base commit
 
@@ -95,16 +97,15 @@ Sibling documents:
 
 The canonical harvest fixture `artifacts/suin/smoke/` is synthetic and is treated as a **plumbing test only** — it must never be promoted to production cloud (would pollute with fake doc IDs). Any row that reaches cloud Supabase or cloud FalkorDB from this plan forward comes from a real SUIN crawl.
 
-## Execution policy — continuous WIP, single cloud fire
+## Execution policy — continuous WIP, one production push that ends in active production
 
-Per owner direction, once this plan is approved, execution is continuous:
+Per owner direction, once this plan is approved execution is continuous and ends in active production — no dormant generation, no two-gate shape:
 
 1. **Harvest every in-scope corpus to WIP** (local docker Supabase + local docker Falkor) back-to-back, no per-scope pauses.
 2. **Run embeddings** against the merged WIP generation.
-3. **Push the merged, embedded result to cloud** Supabase + cloud FalkorDB in a single promotion step.
-4. Optionally flip `is_active=true` after a spot-check.
+3. **Production push** — one confirmed command sequence that writes to cloud Supabase + cloud FalkorDB, runs cloud embedding backfill, and flips `is_active=true` on the new generation. When it returns, users see SUIN-enriched answers immediately.
 
-This removes per-scope cloud-confirm pauses. There is exactly **one** cloud write moment (phase 7), and it requires explicit user confirmation before firing because it is still irreversible. Everything before that is fully local and can be re-run freely.
+There is exactly **one** confirmation gate: the user's "go" before Phase 7 starts. Everything upstream is fully local and can be re-run freely; everything downstream of the gate runs to active-production without pause.
 
 ---
 
@@ -140,9 +141,7 @@ Every phase mutates this table at `in_progress` and `done`. If an agent restarts
 | 4 | Full `tributario` harvest (ET + reform chain + DUR 1625) → merge into same WIP generation | pending | `artifacts/suin/tributario/*.jsonl`; WIP generation grows; expected ≥700 articles, ≥6,000 edges cumulatively | — |
 | 5 | `jurisprudencia` harvest (Consejo de Estado + Corte Constitucional cross-refs) → merge into same WIP generation | pending | `artifacts/suin/jurisprudencia/*.jsonl`; WIP generation grows; expected ≥500 sentencia nodes, ≥1,500 cross-ref edges | — |
 | 6 | Embedding backfill against WIP for the merged generation (fills every SUIN chunk + the 2,064 pre-existing un-embedded rows) | pending | `SELECT count(*) FROM document_chunks WHERE embedding IS NULL AND sync_generation=<gen>` → 0 on WIP; eval-c-gold dry-run shows measurable lift | — |
-| 7 | **Cloud fire** — merged + embedded generation pushed to cloud Supabase + cloud FalkorDB in a single run (`--supabase-target production --execute-load --strict-falkordb`, `--no-supabase-activate`) | pending (**awaits explicit user confirmation before firing — irreversible**) | cloud `corpus_generations` row for the merged generation exists with `is_active=false`; cloud `documents`/`document_chunks`/`normative_edges` counts grew by ≥ WIP delta; cloud Falkor `MATCH (n) RETURN count(n)` grew by ≥ WIP node delta | — |
-| 8 | Cloud embedding backfill (parity with WIP — fills any cloud chunks still NULL) | pending | `SELECT count(*) FROM document_chunks WHERE embedding IS NULL` → 0 on cloud | — |
-| 9 | Optional: cutover to `is_active=true` for the merged SUIN generation after operator review of a 10-question regression | pending (**awaits user confirmation — flips what `dev:staging` serves**) | `corpus_generations.is_active=true` on the merged generation; 10-question regression passes | — |
+| 7 | **Production push (end-to-end into active)** — one confirmed sequence: write SUIN to cloud Supabase + cloud FalkorDB, run cloud embedding backfill, activate `gen_suin_prod_v1`. No dormant window. | pending (**awaits explicit user confirmation before firing — irreversible**) | cloud `corpus_generations.gen_suin_prod_v1` has `is_active=true`; cloud `documents` / `document_chunks` / `normative_edges` counts grew by ≥ WIP delta; `SELECT count(*) FROM document_chunks WHERE embedding IS NULL` → 0 on cloud; cloud Falkor `MATCH (n) RETURN count(n)` grew by ≥ WIP node delta; the prior active generation has `is_active=false` | — |
 
 ### Cloud baselines (filled in at the start of Phase 7 pre-flight — copy exact numbers)
 
@@ -345,8 +344,8 @@ Replace the current `{et, tax-laws, jurisprudence, full}` scopes with the topic-
 ### Files to create
 
 - `scripts/verify_suin_merge.py` — shared verification script used by phases 2–5 (against WIP) and phase 7 (against production). Takes `--target` and `--generation`; prints pass/fail per contract defined in "Shared WIP merge contract" above.
-- `scripts/supabase_flip_active_generation.py` — thin CLI wrapper over the sink's two-step activation flow. Requires `--confirm` to prevent accidental flips. Used in Phase 9 only.
-- `scripts/fire_suin_cloud.sh` — orchestrates the four sequential `--include-suin <scope>` cloud ingests (one per scope, same generation_id) and aborts on first failure. Used in Phase 7 only. Requires an explicit `--confirm` guard before firing.
+- `scripts/supabase_flip_active_generation.py` — thin CLI wrapper over the sink's two-step activation flow. Requires `--confirm` to prevent accidental flips. Used internally by `fire_suin_cloud.sh` in both the activation and the auto-rollback paths.
+- `scripts/fire_suin_cloud.sh` — **the single production-push orchestrator** used in Phase 7. Runs the seven-step sequence documented in the Phase 7 section (scope merges → cumulative count update → verify → embed → null-embedding gate → activate → regression → auto-rollback on regression failure). Requires `--confirm` and `--activate` to proceed. Exits non-zero on any halt; only exits 0 after activation + green regression.
 - **Decision recorded:** `--include-suin` stays single-valued. Sequential merges under the same generation_id is simpler, matches current CLI, and is naturally idempotent.
 
 ### Hard deliverables Phase 0 must resolve before any harvest
@@ -684,113 +683,83 @@ Row 6 → `done`.
 
 ---
 
-## Phase 7 — **CLOUD FIRE** — merged + embedded WIP generation → cloud Supabase + cloud Falkor
+## Phase 7 — **PRODUCTION PUSH** — merged + embedded WIP generation → active in cloud
+
+### What this phase does, in one run
+
+The orchestrator `scripts/fire_suin_cloud.sh` runs the following sequence. It aborts on the first non-zero exit.
+
+1. **Cloud write per scope** — four sequential ingest calls, one per scope, all under the same `--supabase-generation-id gen_suin_prod_v1`:
+   - `--include-suin laboral-tributario`
+   - `--include-suin laboral`
+   - `--include-suin tributario`
+   - `--include-suin jurisprudencia`
+
+   Each call upserts the scope's docs/chunks/edges into cloud Supabase and writes the matching nodes + edges into cloud FalkorDB. The first call creates `corpus_generations.gen_suin_prod_v1`; calls 2–4 pass `--skip-generation-row` so they don't overwrite the metadata row (Phase 0 built this flag).
+
+2. **Cumulative generation-row update** — after the four scope merges succeed, the orchestrator recomputes the true `documents` / `chunks` counts from the tables and upserts them back into `corpus_generations.gen_suin_prod_v1`.
+
+3. **Cloud verification** — `scripts/verify_suin_merge.py --target production --generation gen_suin_prod_v1` runs. If it fails the orchestrator halts before embedding and before activation.
+
+4. **Cloud embedding backfill** — `scripts/embedding_ops.py --target production --generation gen_suin_prod_v1` fills the `embedding` column for every SUIN chunk plus the 2,064 cloud chunks that were NULL at handoff.
+
+5. **Null-embedding gate** — `SELECT count(*) FROM document_chunks WHERE embedding IS NULL` on cloud must return `0`. If it does not, the orchestrator halts before activation.
+
+6. **Activation flip** — two-step deactivate-then-activate honoring `idx_corpus_generations_single_active`:
+   - `UPDATE corpus_generations SET is_active=false WHERE is_active=true AND generation_id<>'gen_suin_prod_v1'`
+   - `UPDATE corpus_generations SET is_active=true WHERE generation_id='gen_suin_prod_v1'`
+
+   At this point users see SUIN-enriched answers immediately.
+
+7. **Post-activation regression check** — the 10-question regression suite (`tests/fixtures/chat_regressions/` — built in Phase 0) runs against the now-active generation. If any regression fails, the orchestrator **auto-rolls back** the activation flip (re-activates the prior generation) and reports failure. The SUIN rows stay in cloud but become dormant again; no data loss, no production damage.
 
 ### Blast radius and safeguards
 
-- **Irreversible.** Writes new rows to production cloud Supabase + production cloud FalkorDB.
-- **Requires explicit user confirmation** immediately before firing. No autonomous fire.
-- **`--no-supabase-activate`** keeps the current active generation (`gen_20260418035334` at handoff) serving. Nothing user-visible changes until Phase 9.
-- **Idempotent rerun:** the same generation_id can be re-fired safely (upserts on natural keys). If the first fire is interrupted, re-run the same command.
+- **Irreversible data writes** to cloud Supabase + cloud FalkorDB. Cleanup (if ever needed) is `DELETE FROM corpus_generations WHERE generation_id='gen_suin_prod_v1'` — cascades via FK. Requires user approval; the orchestrator never deletes on its own.
+- **Activation flip is the user-visible change.** The orchestrator auto-rolls back activation on regression failure (see step 7) but never auto-rolls back the data writes.
+- **Requires explicit user confirmation** before firing. The orchestrator refuses to run without `--confirm` on the CLI.
+- **Idempotent re-run:** every step is a natural-key upsert, so re-firing after a partial failure is safe — completed steps no-op, remaining steps resume.
 
 ### Pre-flight checklist
 
 - [ ] All four harvest phases (2, 3, 4, 5) are `done` in the state tracker.
 - [ ] Phase 6 embedding backfill is `done` on WIP.
-- [ ] WIP verification against the rolling generation_id returns pass.
-- [ ] Cloud baselines captured: `documents`, `document_chunks`, `normative_edges` counts; Falkor `MATCH (n) RETURN count(n)`. Written into the state tracker as a comment row before the fire.
-- [ ] `cache/suin/` warm — the cloud run itself shouldn't hit SUIN at all; it reads from `artifacts/suin/*/` which were materialized in phases 2–5.
+- [ ] `scripts/verify_suin_merge.py --target wip --generation <rolling_wip_gen_id>` passes.
+- [ ] Cloud baselines captured in the "Cloud baselines" table at the top of this doc.
+- [ ] `cache/suin/` warm — the production push does not hit SUIN at all; it reads from `artifacts/suin/*/`.
+- [ ] `tests/fixtures/chat_regressions/` exists (built in Phase 0) and has been reviewed by the user.
 - [ ] User has said "go" in writing this session.
 
 ### Command
 
 ```
 LIA_ENV=staging \
-  PYTHONPATH=src:. uv run python -m lia_graph.ingest \
-    --corpus-dir knowledge_base --artifacts-dir artifacts \
-    --supabase-sink --supabase-target production \
-    --execute-load --allow-unblessed-load --strict-falkordb \
-    --include-suin laboral-tributario \
-    --include-suin laboral \
-    --include-suin tributario \
-    --include-suin jurisprudencia \
-    --supabase-generation-id gen_suin_prod_v1 \
-    --no-supabase-activate \
-    --json | tee artifacts/suin/_ingest_cloud_<ts>.log
-```
-
-**Note:** `--include-suin` accepts exactly one scope today. Per the Phase 0 decision, we run the four scopes **sequentially against the same cloud generation_id** — four commands, each with one `--include-suin <scope>` and the same `--supabase-generation-id gen_suin_prod_v1`. Sink upserts make this safe; the merge accumulates. The cloud-fire step is therefore a small script `scripts/fire_suin_cloud.sh` (**file to create in Phase 0**) that runs the four `uv run python -m lia_graph.ingest` calls in order and aborts on the first failure.
-
-### Post-flight validation
-
-```
-LIA_ENV=staging PYTHONPATH=src:. uv run python scripts/verify_suin_merge.py \
-  --target production --generation gen_suin_prod_v1
-```
-
-Must pass. If it fails, **do not retry blindly** — inspect the failure, and if rollback is needed, capture the exact SQL (`DELETE FROM corpus_generations WHERE generation_id='gen_suin_prod_v1'`) and wait for user approval before firing.
-
-### State tracker update
-
-Row 7 → `done` with cloud documents/chunks/edges counts and cloud Falkor node delta in the Proof column.
-
----
-
-## Phase 8 — Cloud embedding backfill
-
-### Goal
-
-Parity with WIP — fill the `embedding` column for every SUIN chunk now in cloud plus the 2,064 cloud chunks that were NULL at handoff.
-
-### Command
-
-```
-LIA_ENV=staging \
-  PYTHONPATH=src:. uv run python scripts/embedding_ops.py \
-  --target production \
-  --generation gen_suin_prod_v1 \
-  --batch-size 100 \
-  --json | tee artifacts/suin/_embedding_cloud_<ts>.log
-```
-
-### Validation
-
-- `SELECT count(*) FROM document_chunks WHERE embedding IS NULL` → 0 on cloud
-- Cloud `make eval-c-gold` shows lift vs. baseline
-
-### State tracker update
-
-Row 8 → `done`.
-
----
-
-## Phase 9 — Optional: activate the merged SUIN generation
-
-**Blast radius: this is what `dev:staging` + production serving reads from.** Flips `is_active=true`, so stale content disappears and SUIN-enriched content appears in answers.
-
-### Pre-flight
-
-- Run a 10-question regression (`tests/fixtures/chat_regressions/`) against a retriever pointed at `gen_suin_prod_v1`. Zero regressions; derogated-article flagging should be measurably better.
-- Capture `corpus_generations` snapshot so we can re-activate the prior generation if anything is off.
-
-### Command
-
-```
-LIA_ENV=staging \
-  PYTHONPATH=src:. uv run python scripts/supabase_flip_active_generation.py \
+  PYTHONPATH=src:. ./scripts/fire_suin_cloud.sh \
     --target production \
-    --generation gen_suin_prod_v1
+    --generation gen_suin_prod_v1 \
+    --scopes laboral-tributario,laboral,tributario,jurisprudencia \
+    --activate \
+    --confirm \
+    | tee artifacts/suin/_production_push_<ts>.log
 ```
 
-(**`scripts/supabase_flip_active_generation.py` — file to create in Phase 0.** Tiny wrapper around `SupabaseCorpusSink._activate_generation` with a `--confirm` flag to avoid accidental flips.)
+### Post-flight (automatic inside the orchestrator)
 
-### Rollback
+- Verification + embedding + activation + regression all chained.
+- On any step failing, the orchestrator halts (or auto-rolls back activation, per step 7), writes a failure summary to `artifacts/suin/_production_push_<ts>.log`, and exits non-zero.
+- The state tracker is **only** updated to `done` when the orchestrator exits 0 with activation flipped and the regression green. Partial success = `in_progress` with the halt point in the Proof column.
 
-Flip back to the prior generation via the same script. The partial unique index ensures at-most-one active row, so the rollback is safe.
+### Manual rollback (if ever needed, post-activation)
+
+Rollback after a clean activation is also a flip — call the orchestrator with `--rollback --previous-generation <id>` to flip back to the prior active generation. The new rows stay in cloud, but users stop seeing them. Requires user confirmation.
 
 ### State tracker update
 
-Row 9 → `done` only after operator confirms answers look right on a spot-check.
+Row 7 → `done` with:
+- cloud documents / chunks / edges counts and deltas vs. baselines
+- cloud Falkor node delta
+- `is_active=true` confirmation on `gen_suin_prod_v1`
+- regression-suite pass summary
 
 ---
 
@@ -890,4 +859,4 @@ When a phase's acceptance check fails, match the symptom against this table **be
 
 ## Stop condition
 
-You are done when **every row in the state tracker is `done`** AND the user has confirmed Phase 9's activation flip (or explicitly declined it). Do not start new work after that; report completion and wait.
+You are done when **every row in the state tracker is `done`**. Row 7 (the production push) already contains the activation flip + regression-pass verification inside the orchestrator, so when row 7 is `done` the new generation is live in production. Do not start new work after that; report completion and wait.
