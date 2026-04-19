@@ -46,20 +46,31 @@ _BATCH_SIZE = 500
 # The constraint allows exactly:
 #   references | modifies | complements | exception_for | derogates
 #   | supersedes | suspends | struck_down_by | revokes | cross_domain
-# `REQUIRES`, `COMPUTATION_DEPENDS_ON`, `DEFINES`, `PART_OF` are graph-only
-# concepts not represented in the Postgres normative_edges table — we skip
-# those rows on purpose rather than map them to an unrelated relation.
 _RELATION_MAP: dict[str, str] = {
     EdgeKind.REFERENCES.value: "references",
     EdgeKind.MODIFIES.value: "modifies",
     EdgeKind.SUPERSEDES.value: "supersedes",
     EdgeKind.EXCEPTION_TO.value: "exception_for",
+    # Gap #1 resolution (docs/next/ingestion_suin.md): REQUIRES and
+    # COMPUTATION_DEPENDS_ON previously got silently dropped. Map them onto
+    # `references` so the downstream retriever at least sees the link — the
+    # graph still carries the finer-grained EdgeKind for Falkor traversal.
+    EdgeKind.REQUIRES.value: "references",
+    EdgeKind.COMPUTATION_DEPENDS_ON.value: "references",
+    # SUIN-derived kinds (Phase B mapping table).
+    EdgeKind.DEROGATES.value: "derogates",
+    EdgeKind.REGLAMENTA.value: "complements",
+    EdgeKind.SUSPENDS.value: "suspends",
+    EdgeKind.ANULA.value: "revokes",
+    EdgeKind.DECLARES_EXEQUIBLE.value: "references",
+    EdgeKind.STRUCK_DOWN_BY.value: "struck_down_by",
 }
 
+# Graph-only concepts with no Postgres analogue — persisted in Falkor but not
+# in normative_edges. DEFINES is a vocabulary relation and PART_OF is purely
+# structural; promoting either to `references` would mislead consumers.
 _RELATION_DROP = frozenset(
     {
-        EdgeKind.REQUIRES.value,
-        EdgeKind.COMPUTATION_DEPENDS_ON.value,
         EdgeKind.DEFINES.value,
         EdgeKind.PART_OF.value,
     }

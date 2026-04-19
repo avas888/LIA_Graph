@@ -11,8 +11,11 @@ import re
 from typing import Any
 
 from .graph import GraphClient, GraphClientError, GraphQueryResult
+from .graph.schema import NodeKind
 from .ingestion import (
+    ClassifiedEdge,
     GraphLoadExecution,
+    ParsedArticle,
     SupabaseCorpusSink,
     build_graph_load_plan,
     classify_edge_candidates,
@@ -21,6 +24,14 @@ from .ingestion import (
     load_graph_plan,
     normalize_classified_edges,
     parse_article_documents,
+)
+from .ingestion.suin.bridge import (
+    SuinScope,
+    build_classified_edges as build_suin_classified_edges,
+    build_document_rows as build_suin_document_rows,
+    build_parsed_articles as build_suin_parsed_articles,
+    build_stub_articles as build_suin_stub_articles,
+    build_stub_document_rows as build_suin_stub_document_rows,
 )
 from .source_tiers import source_tier_key_for_row
 from .topic_taxonomy import iter_ingestion_topic_entries, topic_taxonomy_version
@@ -398,6 +409,8 @@ def materialize_graph_artifacts(
     supabase_generation_id: str | None = None,
     supabase_activate: bool = True,
     supabase_sink_factory: Any | None = None,
+    include_suin: str | Path | None = None,
+    suin_artifacts_root: Path | str = "artifacts/suin",
 ) -> dict[str, Any]:
     root = Path(corpus_dir)
     artifacts_root = Path(artifacts_dir)
@@ -467,9 +480,23 @@ def materialize_graph_artifacts(
             "Phase 2 expects at least one normativa document in the shared corpus."
         )
 
-    articles = parse_article_documents(graph_documents)
-    raw_edges = extract_edge_candidates(articles)
-    classified_edges = classify_edge_candidates(raw_edges)
+    articles_base = parse_article_documents(graph_documents)
+    raw_edges = extract_edge_candidates(articles_base)
+    classified_edges_base = classify_edge_candidates(raw_edges)
+
+    # Phase B: SUIN merge (two-pass). See docs/next/ingestion_suin.md step #13.
+    (
+        articles,
+        classified_edges,
+        suin_document_rows,
+        suin_merge_report,
+    ) = _merge_suin_scope(
+        articles_base=articles_base,
+        classified_edges_base=classified_edges_base,
+        include_suin=include_suin,
+        suin_artifacts_root=Path(suin_artifacts_root),
+    )
+
     typed_edges = normalize_classified_edges(articles, classified_edges)
     plan_graph_client = graph_client or (GraphClient.from_env() if execute_load else None)
     load_plan = build_graph_load_plan(
@@ -538,8 +565,12 @@ def materialize_graph_artifacts(
             knowledge_class_counts=knowledge_class_counts,
             index_dir=str(artifacts_root),
         )
+        corpus_document_rows = [
+            doc.to_dict() | {"markdown": doc.markdown} for doc in corpus_documents
+        ]
+        all_document_rows = corpus_document_rows + suin_document_rows
         doc_id_by_source_path, documents_written = sink.write_documents(
-            [doc.to_dict() | {"markdown": doc.markdown} for doc in corpus_documents]
+            all_document_rows
         )
         chunks_written = sink.write_chunks(
             articles,
@@ -554,6 +585,8 @@ def materialize_graph_artifacts(
             "documents_written_this_run": int(documents_written),
             "chunks_written_this_run": int(chunks_written),
             "edges_written_this_run": int(edges_written),
+            "suin_document_rows": len(suin_document_rows),
+            "suin_merge": suin_merge_report,
         }
 
     return {
@@ -605,7 +638,93 @@ def materialize_graph_artifacts(
         },
         "graph_load_report": load_execution,
         "supabase_sink_report": supabase_sink_report,
+        "suin_merge_report": suin_merge_report,
     }
+
+
+def _resolve_suin_scope_path(
+    include_suin: str | Path,
+    suin_artifacts_root: Path,
+) -> Path:
+    """Accept either a direct path or a short scope name like `et`."""
+    include_path = Path(str(include_suin))
+    if include_path.exists() and include_path.is_dir():
+        return include_path
+    candidate = suin_artifacts_root / str(include_suin)
+    if candidate.is_dir():
+        return candidate
+    raise FileNotFoundError(
+        f"--include-suin target not found: {include_suin!r} "
+        f"(tried {include_path} and {candidate})"
+    )
+
+
+def _merge_suin_scope(
+    *,
+    articles_base: tuple[ParsedArticle, ...],
+    classified_edges_base: tuple[ClassifiedEdge, ...],
+    include_suin: str | Path | None,
+    suin_artifacts_root: Path,
+) -> tuple[
+    tuple[ParsedArticle, ...],
+    tuple[ClassifiedEdge, ...],
+    list[dict[str, Any]],
+    dict[str, Any] | None,
+]:
+    """Two-pass SUIN merge (see docs/next/ingestion_suin.md Phase B step #13).
+
+    Pass 1: materialize SUIN articles + stub articles for any edge target that
+    is not already present. Pass 2: the subsequent `normalize_classified_edges`
+    call now sees resolved targets for everything SUIN discovered.
+
+    Returns `(articles_out, classified_edges_out, suin_document_rows, report)`.
+    When `include_suin` is falsy, the base inputs pass through untouched.
+    """
+    if not include_suin:
+        return tuple(articles_base), tuple(classified_edges_base), [], None
+
+    scope_path = _resolve_suin_scope_path(include_suin, suin_artifacts_root)
+    scope = SuinScope.load(scope_path)
+
+    # Pass 1: concrete SUIN articles + stub articles for targets we do not know yet.
+    suin_articles = build_suin_parsed_articles(scope)
+    resolved_keys = {a.article_key for a in articles_base} | {
+        a.article_key for a in suin_articles
+    }
+    stub_articles, unresolved_doc_ids = build_suin_stub_articles(
+        scope, resolved_article_keys=resolved_keys
+    )
+    suin_classified = build_suin_classified_edges(scope)
+
+    # SUIN-aware documents + stubs (for Supabase FK integrity).
+    suin_document_rows = build_suin_document_rows(scope) + build_suin_stub_document_rows(
+        unresolved_doc_ids
+    )
+
+    # Pass 1 completes — now we have resolved keys for every SUIN target article.
+    articles_out = tuple(articles_base) + tuple(suin_articles) + tuple(stub_articles)
+    classified_out = tuple(classified_edges_base) + tuple(suin_classified)
+
+    final_article_keys = {a.article_key for a in articles_out}
+    unresolved_after_stub = sum(
+        1
+        for edge in suin_classified
+        if edge.record.target_kind is NodeKind.ARTICLE
+        and edge.record.target_key not in final_article_keys
+    )
+
+    report: dict[str, Any] = {
+        "scope_path": str(scope_path),
+        "suin_documents_in": len(scope.documents),
+        "suin_articles_in": len(scope.articles),
+        "suin_edges_in": len(scope.edges),
+        "suin_articles_added": len(suin_articles),
+        "stub_articles_created": len(stub_articles),
+        "stub_documents_created": len(unresolved_doc_ids),
+        "unresolved_after_stub": unresolved_after_stub,
+        "verb_counts": dict(scope.manifest.get("verb_counts") or {}),
+    }
+    return articles_out, classified_out, suin_document_rows, report
 
 
 def parser() -> argparse.ArgumentParser:
@@ -675,6 +794,21 @@ def parser() -> argparse.ArgumentParser:
         help="Write rows but leave is_active=false on corpus_generations.",
     )
     cli.set_defaults(supabase_activate=True)
+    cli.add_argument(
+        "--include-suin",
+        default=None,
+        help=(
+            "Scope name (e.g. `et`) under `artifacts/suin/` OR a direct path to "
+            "a SUIN harvest directory. When set, the SUIN JSONL rows are merged "
+            "into parsed_articles + classified_edges before the Supabase sink "
+            "+ Falkor load run."
+        ),
+    )
+    cli.add_argument(
+        "--suin-artifacts-root",
+        default="artifacts/suin",
+        help="Base directory that --include-suin scope names resolve against.",
+    )
     cli.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
     return cli
 
@@ -701,6 +835,8 @@ def main(argv: list[str] | None = None) -> int:
             supabase_target=str(args.supabase_target),
             supabase_generation_id=args.supabase_generation_id,
             supabase_activate=bool(args.supabase_activate),
+            include_suin=args.include_suin,
+            suin_artifacts_root=Path(args.suin_artifacts_root),
         )
     except (FileNotFoundError, NotADirectoryError) as exc:
         payload = {"ok": False, "error": "corpus_unavailable", "message": str(exc)}

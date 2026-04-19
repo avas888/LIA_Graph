@@ -25,6 +25,14 @@ class EdgeKind(str, Enum):
     REQUIRES = "REQUIRES"
     DEFINES = "DEFINES"
     PART_OF = "PART_OF"
+    # SUIN-derived kinds. See docs/next/ingestion_suin.md Phase B mapping table.
+    # Alphabetized inside this block so new additions land deterministically.
+    ANULA = "ANULA"
+    DECLARES_EXEQUIBLE = "DECLARES_EXEQUIBLE"
+    DEROGATES = "DEROGATES"
+    REGLAMENTA = "REGLAMENTA"
+    STRUCK_DOWN_BY = "STRUCK_DOWN_BY"
+    SUSPENDS = "SUSPENDS"
 
 
 @dataclass(frozen=True)
@@ -215,6 +223,44 @@ def default_graph_schema() -> GraphSchema:
             source_kinds=(NodeKind.ARTICLE,),
             target_kinds=(NodeKind.CONCEPT,),
             description="Structural grouping between articles and topic anchors.",
+        ),
+        # SUIN-derived edges. Source/target cover ArticleNode and ReformNode so
+        # we can represent both intra-ET modifications and law→article edges.
+        EdgeKind.ANULA: GraphEdgeType(
+            label=EdgeKind.ANULA,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            target_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            description="Consejo de Estado annulment (nulidad) of an article or act.",
+        ),
+        EdgeKind.DECLARES_EXEQUIBLE: GraphEdgeType(
+            label=EdgeKind.DECLARES_EXEQUIBLE,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            target_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            description="Corte Constitucional affirms the article's constitutionality.",
+        ),
+        EdgeKind.DEROGATES: GraphEdgeType(
+            label=EdgeKind.DEROGATES,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            target_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            description="A law or article derogates another.",
+        ),
+        EdgeKind.REGLAMENTA: GraphEdgeType(
+            label=EdgeKind.REGLAMENTA,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            target_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            description="A decreto reglamentario regulates a law or article.",
+        ),
+        EdgeKind.STRUCK_DOWN_BY: GraphEdgeType(
+            label=EdgeKind.STRUCK_DOWN_BY,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            target_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            description="Corte Constitucional declares article inexequible.",
+        ),
+        EdgeKind.SUSPENDS: GraphEdgeType(
+            label=EdgeKind.SUSPENDS,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            target_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
+            description="An authority temporarily suspends the article's effect.",
         ),
     }
 

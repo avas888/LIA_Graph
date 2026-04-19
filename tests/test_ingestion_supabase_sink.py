@@ -247,6 +247,12 @@ def test_relation_check_constraint_enforced_rejects_unknown_kind() -> None:
 
 
 def test_edges_skip_graph_only_relations_without_assertion() -> None:
+    """Gap #1 resolution: REQUIRES + COMPUTATION_DEPENDS_ON now map to
+    `references`. DEFINES and PART_OF remain graph-only and are dropped.
+
+    With source/target identical across every edge in the fixture, the
+    references-mapped rows deduplicate to one, so the sink writes one row.
+    """
     client = _FakeClient()
     sink = SupabaseCorpusSink(
         target="production",
@@ -263,9 +269,9 @@ def test_edges_skip_graph_only_relations_without_assertion() -> None:
     ]
     written = sink.write_normative_edges(edges)
 
-    assert written == 1  # only REFERENCES maps onto the SQL constraint
+    assert written == 1  # three references-mapped edges dedupe; DEFINES+PART_OF drop
     result = sink.finalize(activate=False)
-    assert result.edges_skipped_relation == 4
+    assert result.edges_skipped_relation == 2  # DEFINES + PART_OF
 
 
 def test_activate_uses_two_step_flow_so_partial_unique_holds() -> None:
@@ -296,3 +302,44 @@ def test_activate_requires_generation_row() -> None:
     )
     with pytest.raises(RuntimeError):
         sink.finalize(activate=True)
+
+
+def test_writes_suin_relations() -> None:
+    """Every SUIN-derived EdgeKind must map onto an allowed DB relation.
+
+    Confirms Phase B mapping table: DEROGATES → derogates, REGLAMENTA →
+    complements, SUSPENDS → suspends, ANULA → revokes,
+    DECLARES_EXEQUIBLE → references, STRUCK_DOWN_BY → struck_down_by.
+    """
+    client = _FakeClient()
+    sink = SupabaseCorpusSink(
+        target="production",
+        generation_id="gen_suin_relations",
+        client=client,
+    )
+    sink.write_generation(documents=0, chunks=0)
+    edges = [
+        _edge("135", "1607_139", EdgeKind.DEROGATES),
+        _edge("135", "DECRETO-99-2019", EdgeKind.REGLAMENTA),
+        _edge("135", "DECRETO-5-2020", EdgeKind.SUSPENDS),
+        _edge("135", "SENTENCIA-C-1-2021", EdgeKind.ANULA),
+        _edge("135", "SENTENCIA-C-2-2022", EdgeKind.DECLARES_EXEQUIBLE),
+        _edge("135", "SENTENCIA-C-3-2022", EdgeKind.STRUCK_DOWN_BY),
+    ]
+    written = sink.write_normative_edges(edges)
+    assert written == 6
+
+    upserts = [
+        call
+        for call in client.calls
+        if call.table == "normative_edges" and call.op == "upsert"
+    ]
+    relations = {row["relation"] for call in upserts for row in call.payload}
+    assert relations == {
+        "derogates",
+        "complements",
+        "suspends",
+        "revokes",
+        "references",
+        "struck_down_by",
+    }
