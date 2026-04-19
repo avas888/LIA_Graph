@@ -130,6 +130,22 @@ class SuinFetcher:
             }
             if self.transport is not None:
                 kwargs["transport"] = self.transport
+            else:
+                # SUIN (suin-juriscol.gov.co) serves a Sectigo cert without
+                # shipping the intermediate during the TLS handshake. curl on
+                # macOS works via Keychain's AIA fetch; Python's default SSL
+                # context does not. `truststore` delegates verification to the
+                # OS trust store, matching curl's behavior. Fall back silently
+                # if `truststore` is unavailable (e.g. Linux without
+                # truststore-compatible libs).
+                import ssl as _ssl
+
+                try:
+                    import truststore  # type: ignore
+
+                    kwargs["verify"] = truststore.SSLContext(_ssl.PROTOCOL_TLS_CLIENT)
+                except ImportError:
+                    pass
             self._client = httpx.Client(**kwargs)
         return self._client
 
