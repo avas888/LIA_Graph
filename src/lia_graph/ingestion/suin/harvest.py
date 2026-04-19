@@ -260,9 +260,14 @@ def run_harvest(
                 _log.warning("fetch failed for %s: %s", url, exc)
                 continue
             doc_id = _url_to_doc_id(url)
+            per_doc_failures: list[dict[str, str]] = []
             try:
                 doc = parse_document(
-                    html, doc_id=doc_id, ruta=url, strict_verbs=strict_verbs
+                    html,
+                    doc_id=doc_id,
+                    ruta=url,
+                    strict_verbs=strict_verbs,
+                    verb_failures=None if strict_verbs else per_doc_failures,
                 )
             except UnknownVerb as exc:
                 unknown_failures.append(
@@ -271,6 +276,8 @@ def run_harvest(
                 if strict_verbs:
                     raise
                 continue
+            for failure in per_doc_failures:
+                unknown_failures.append({"url": url, **failure})
             documents.append(doc)
             for article in doc.articles:
                 for edge in article.outbound_edges:

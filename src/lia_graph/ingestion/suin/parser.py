@@ -115,6 +115,13 @@ _VERB_ALIASES: dict[str, str] = {
     "inexequible": "declara_inexequible",
     "inhibida": "inhibida",
     "inhibida para emitir pronunciamiento": "inhibida",
+    "inhibida para emitir pronunciamiento de fondo": "inhibida",
+    "declarada inhibida": "inhibida",
+    "declarada inhibida para emitir pronunciamiento": "inhibida",
+    "declarada inhibida para emitir pronunciamiento de fondo": "inhibida",
+    "declarado inhibido": "inhibida",
+    "declarado inhibido para emitir pronunciamiento": "inhibida",
+    "declarado inhibido para emitir pronunciamiento de fondo": "inhibida",
     "estarse a lo resuelto": "estarse_a_lo_resuelto",
     # editorial annotations (kept for metadata; bridge drops the edge)
     "nota editorial": "nota_editorial",
@@ -191,7 +198,15 @@ def normalize_doc_id(raw: str) -> str:
 
 
 def normalize_verb(raw: str) -> str:
-    """Return canonical verb for `raw` or raise `UnknownVerb`."""
+    """Return canonical verb for `raw` or raise `UnknownVerb`.
+
+    SUIN emits long-tail phrasings for the same canonical action
+    ("Declarado exequible bajo el entendido ...", "Modificado por el
+    artículo X...", "Declarada inhibida para emitir pronunciamiento de
+    fondo"). We try (1) exact alias, (2) underscore-collapsed alias,
+    (3) ordered stem match on the closed-vocab family. Only (3) lets
+    conditional/qualified phrasings resolve without a manual alias edit.
+    """
     key = _normalize_token(raw)
     if not key:
         raise UnknownVerb(raw, hint="empty token")
@@ -204,7 +219,71 @@ def normalize_verb(raw: str) -> str:
     canonical = _VERB_ALIASES.get(collapsed)
     if canonical is not None:
         return canonical
+    # Stem fallback — order matters; more specific stems first so
+    # "inexequible" beats "exequible", "modificad" beats "modifica", etc.
+    for stem, canonical_stem in _VERB_STEM_PATTERNS:
+        if stem in key:
+            return canonical_stem
     raise UnknownVerb(raw, hint=f"normalized={key!r}")
+
+
+# Stem-based fallback matching for SUIN's long-tail phrasings. Only used when
+# both exact-alias and underscore-collapsed lookups miss. Order is significant:
+# `inexequible` must come before `exequible` so "declarado inexequible" does
+# not false-match as `declara_exequible`.
+_VERB_STEM_PATTERNS: list[tuple[str, str]] = [
+    ("inexequible", "declara_inexequible"),
+    ("exequible", "declara_exequible"),
+    ("estarse a lo resuelto", "estarse_a_lo_resuelto"),
+    ("inhibi", "inhibida"),        # inhibida / inhibido / declarada inhibida …
+    ("denegad", "estarse_a_lo_resuelto"),  # "Denegadas las pretensiones" / "Denegada la pretensión"
+    ("rechazad", "estarse_a_lo_resuelto"), # "Rechazada la demanda por cosa juzgada"
+    ("cosa juzgad", "estarse_a_lo_resuelto"),
+    ("estarse a lo decidido", "estarse_a_lo_resuelto"),
+    ("nulidad", "anula"),
+    ("anulad", "anula"),
+    ("anula", "anula"),            # "Anula la parte …" (bare inflection)
+    ("subrog", "modifica"),
+    ("sustitu", "modifica"),
+    ("modificad", "modifica"),
+    ("modifica", "modifica"),
+    ("adicionad", "adiciona"),
+    ("adicion", "adiciona"),
+    ("agreg", "adiciona"),          # "Agrega" / "Agregado"
+    ("incluid", "adiciona"),        # "Incluido"
+    ("incorporad", "adiciona"),     # "Incorporado"
+    ("reglamentad", "reglamenta"),
+    ("reglamenta", "reglamenta"),
+    ("desarroll", "reglamenta"),   # "desarrollado por" — reglamentary development
+    ("derog", "deroga"),
+    ("suprim", "deroga"),          # "suprimido" — article removed; semantic derogation
+    ("elimin", "deroga"),           # "eliminado" — same
+    ("reemplaz", "modifica"),       # "reemplazado por"
+    ("reform", "modifica"),         # "reformado por"
+    ("cambiad", "modifica"),
+    ("transfer", "modifica"),
+    ("renombrad", "modifica"),
+    ("fusionad", "modifica"),
+    ("reducid", "modifica"),
+    ("ampliad", "adiciona"),
+    ("agregad", "adiciona"),
+    ("regulad", "reglamenta"),
+    ("fijad", "reglamenta"),        # value established by reglamentary norm
+    ("prorrog", "reglamenta"),      # "prorrogado" — extended
+    ("condicionad", "declara_exequible"),  # conditional constitutionality variant
+    ("interpretad", "estarse_a_lo_resuelto"),  # "interpretado" — procedural reference
+    ("confirm", "estarse_a_lo_resuelto"),       # "confirmado"
+    ("suspen", "suspende"),
+    ("observ", "nota_editorial"),
+    ("nota", "nota_editorial"),
+    ("correg", "nota_editorial"),   # "corregido yerro" / "corregido por" — fe de erratas
+    ("yerro", "nota_editorial"),
+    ("fe de erratas", "nota_editorial"),
+    ("aclarad", "nota_editorial"),
+    ("rectificad", "nota_editorial"),
+    # Jurisprudence-light references — unification, interpretation, no structural change
+    ("unificad", "estarse_a_lo_resuelto"),
+]
 
 
 @dataclass(frozen=True)
@@ -283,11 +362,16 @@ def parse_document(
     doc_id: str,
     ruta: str = "",
     strict_verbs: bool = True,
+    verb_failures: list[dict[str, str]] | None = None,
 ) -> SuinDocument:
     """Parse a single SUIN document HTML blob into a `SuinDocument`.
 
     Set `strict_verbs=False` only for regression fuzzing — production runs must
     keep `strict_verbs=True` so unknown tokens fail loud (see `UnknownVerb`).
+
+    When `strict_verbs=False`, pass a `verb_failures` list to collect every
+    per-edge `UnknownVerb` so callers can audit the long tail of SUIN
+    phrasings that need a canonical alias.
     """
     soup = BeautifulSoup(html or "", "lxml")
     metadata = _extract_metadata(soup)
@@ -295,7 +379,9 @@ def parse_document(
     anchors = soup.find_all("a", attrs={"name": re.compile(r"^ver_\d+$")})
     articles: list[SuinArticle] = []
     for anchor in anchors:
-        article = _extract_article(anchor, strict_verbs=strict_verbs)
+        article = _extract_article(
+            anchor, strict_verbs=strict_verbs, verb_failures=verb_failures
+        )
         if article is not None:
             articles.append(article)
 
@@ -371,7 +457,12 @@ def _normalize_vigencia(raw: str) -> str:
     return "desconocida"
 
 
-def _extract_article(anchor, *, strict_verbs: bool) -> Optional[SuinArticle]:
+def _extract_article(
+    anchor,
+    *,
+    strict_verbs: bool,
+    verb_failures: list[dict[str, str]] | None = None,
+) -> Optional[SuinArticle]:
     fragment_match = _FRAGMENT_ID_RE.match(anchor.get("name") or "")
     if fragment_match is None:
         return None
@@ -391,17 +482,37 @@ def _extract_article(anchor, *, strict_verbs: bool) -> Optional[SuinArticle]:
     )
 
     edges: list[SuinEdge] = []
+    seen_ref_signatures: set[tuple[str | None, str | None, str]] = set()
     for ul in container.find_all("ul", recursive=True):
-        container_kind = _container_kind_from_id(ul.get("id"))
+        container_kind = _container_kind_from_id(ul.get("id")) or _container_kind_from_class(
+            ul.get("class")
+        )
         if container_kind is None:
             continue
-        for li in ul.find_all("li", recursive=False):
+        # Find all `li.referencia` descendants (old DOM nested them directly;
+        # new DOM wraps them in extra `<ul class="resumenvigencias"><li>…`
+        # layers, so use a recursive descendant search filtered by class).
+        for li in ul.find_all("li", class_="referencia", recursive=True):
             try:
-                edge = _extract_edge(li, container_kind, strict_verbs=strict_verbs)
+                edge = _extract_edge(
+                    li,
+                    container_kind,
+                    strict_verbs=strict_verbs,
+                    verb_failures=verb_failures,
+                )
             except UnknownVerb:
                 raise
-            if edge is not None:
-                edges.append(edge)
+            if edge is None:
+                continue
+            signature = (
+                edge.target_doc_id,
+                edge.target_fragment_id,
+                edge.raw_verb,
+            )
+            if signature in seen_ref_signatures:
+                continue
+            seen_ref_signatures.add(signature)
+            edges.append(edge)
 
     body_html = str(container)
     body_text = container.get_text("\n", strip=True)
@@ -441,11 +552,27 @@ def _container_kind_from_id(raw_id: str | None) -> str | None:
     return None
 
 
+def _container_kind_from_class(raw_class: list[str] | None) -> str | None:
+    """Post-2025 SUIN DOM uses `<ul class="resumenvigencias">` in place of the
+    old `<ul id="NotasDestino*">` containers. The class alone doesn't split
+    Destino vs Jurisp — we route every resumenvigencias ref through
+    `NotasDestino` and let the verb (declara_exequible → jurisprudence,
+    modifica/adiciona/… → legislative) drive downstream edge typing.
+    """
+    if not raw_class:
+        return None
+    classes = set(raw_class)
+    if "resumenvigencias" in classes or "resumen-vigencias" in classes:
+        return "NotasDestino"
+    return None
+
+
 def _extract_edge(
     li,
     container_kind: str,
     *,
     strict_verbs: bool,
+    verb_failures: list[dict[str, str]] | None = None,
 ) -> Optional[SuinEdge]:
     span = li.find("span")
     if span is None:
@@ -455,9 +582,11 @@ def _extract_edge(
         return None
     try:
         canonical = normalize_verb(raw_verb_text)
-    except UnknownVerb:
+    except UnknownVerb as exc:
         if strict_verbs:
             raise
+        if verb_failures is not None:
+            verb_failures.append({"raw_verb": exc.raw, "hint": exc.hint or ""})
         return None
 
     # Scope — parenthetical inside the <li> but outside the <a>.

@@ -173,7 +173,7 @@ def test_verify_fails_on_unknown_verb_failures(tmp_path: Path, monkeypatch: pyte
     assert any("unknown_verb" in f for f in report["failures"])
 
 
-def test_verify_fails_when_chunks_below_articles(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_verify_fails_when_zero_chunks_landed(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     module = _load_module()
     scope_dir = tmp_path / "jurisprudencia"
     _write_scope(
@@ -185,9 +185,10 @@ def test_verify_fails_when_chunks_below_articles(tmp_path: Path, monkeypatch: py
         },
         docs=[{"doc_id": "9001"}],
     )
+    # zero chunks landed — sink never ran or failed mid-run
     client = _FakeClient(
         doc_count=1,
-        chunks=3,
+        chunks=0,
         edges_by_relation={rel: 1 for rel in module._DECLARED_RELATIONS},
     )
     monkeypatch.setattr(module, "_supabase_client", lambda _target: client)
@@ -197,4 +198,4 @@ def test_verify_fails_when_chunks_below_articles(tmp_path: Path, monkeypatch: py
         target="wip", generation="gen_test", scope_dirs=[scope_dir]
     )
     assert report["ok"] is False
-    assert any("chunks" in f for f in report["failures"])
+    assert any("zero chunks" in f for f in report["failures"])

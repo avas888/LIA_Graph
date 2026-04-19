@@ -54,15 +54,48 @@ SITEMAPS: tuple[SitemapEntry, ...] = (
 # be reached regardless of sitemap content — seeds are emitted *before* the
 # sitemap walk so the primary norms always land in cache.
 #
-# Empty tuples are intentional: Phase 1's dry-run crawl (see
-# `docs/next/suin_harvestv1.md`) verifies reachability of these spine norms
-# via the sitemap walk; populating this dict with known-good doc URLs is a
-# Phase 1 follow-up, not a blocker for Phase 0.
+# Policy (2026-04-19): forward-from-today, not ancestor-chain. We seed with
+# currently-vigente consolidated spines (ET, CST, Ley 100, DURs) + the
+# recent reforms whose own text isn't yet absorbed into those spines (Ley
+# 2466/2025, 2381/2024, 2277/2022). Historical reforms (Ley 1607/2012,
+# 1819/2016, etc.) are NOT seeded — SUIN's consolidated spine docs carry
+# their modification chain via NotasDestino blocks, which the two-pass
+# merge stub-resolves for free. An accountant never reads the old reform
+# texts directly.
+#
+# The `laboral-tributario` scope is used as the single high-value entry
+# point: all 9 spine URLs live here so one capped crawl (Phase 2)
+# produces the full corpus the downstream retriever needs. Phases 3/4
+# would re-crawl the same cached docs (no-op) so they are collapsed into
+# Phase 2; see `docs/next/suin_harvestv1.md` state tracker for the
+# rationale.
 SEED_URLS: dict[str, tuple[str, ...]] = {
-    "tributario": (),          # Decreto 624/1989 (ET) + DUR 1625/2016 — TBD in Phase 1
-    "laboral": (),             # Decreto-Ley 2663/1950 (CST) + Ley 100/1993 + DUR 1072/2015
-    "laboral-tributario": (),  # ET 114-1, ET 383–388, Ley 1607/2012
-    "jurisprudencia": (),      # Sala Tercera + Corte Constitucional crosswalk
+    "tributario": (
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=1132325",   # Decreto 624/1989 (ET)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361",  # Decreto 1625/2016 (DUR Tributario)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30045028",  # Ley 2277/2022 (reforma tributaria)
+    ),
+    "laboral": (
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=1874133",   # Decreto 2663/1950 (CST — origen)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019323",  # Código Sustantivo del Trabajo (consolidado)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=1635955",   # Ley 100/1993 (SGSSS)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019522",  # Decreto 1072/2015 (DUR Trabajo)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30055086",  # Ley 2466/2025 (reforma laboral)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30051782",  # Ley 2381/2024 (reforma pensional)
+    ),
+    "laboral-tributario": (
+        # Full 9-seed union — this scope drives the collapsed Phase 2 harvest.
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=1132325",   # Decreto 624/1989 (ET)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=1874133",   # Decreto 2663/1950 (CST — origen)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019323",  # CST (consolidado)
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=1635955",   # Ley 100/1993
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019522",  # DUR 1072/2015
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361",  # DUR 1625/2016
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30055086",  # Ley 2466/2025
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30051782",  # Ley 2381/2024
+        "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30045028",  # Ley 2277/2022
+    ),
+    "jurisprudencia": (),  # Uses sitemapconsejoestado.xml walk; deferred (see "explore later")
 }
 
 

@@ -42,9 +42,16 @@ def _ts() -> str:
 
 
 def _run(target: str, batch_size: int, force: bool) -> dict[str, Any]:
-    """Drive the runner in-process, emitting progress every poll."""
+    """Drive the runner in-process (synchronous, not threaded).
+
+    Uses `_EmbeddingJobRunner._run_embedding` directly so the CLI exits
+    only when backfill completes and its return code reflects success.
+    """
     from lia_graph.embedding_ops import (
+        _EmbeddingJobCtx,
         _EmbeddingJobRunner,
+        EMBEDDING_JOBS_DIR,
+        _utc_now_iso,
         build_embedding_status,
     )
     from lia_graph.jobs_store import create_job
@@ -55,10 +62,32 @@ def _run(target: str, batch_size: int, force: bool) -> dict[str, Any]:
         job_type="embedding_backfill",
         request_payload={"target": target, "force": bool(force)},
     )
-    runner = _EmbeddingJobRunner(record, target=target, force=force)
-    runner.run()
+    runner = _EmbeddingJobRunner(record.job_id, target=target, force=force)
+    ctx = _EmbeddingJobCtx(
+        job_id=record.job_id,
+        base_dir=EMBEDDING_JOBS_DIR,
+        payload={
+            "target": target,
+            "force": bool(force),
+            "started_at": _utc_now_iso(),
+            "stage": "embedding",
+            "stage_status": "running",
+            "log_tail": "",
+            "checks": [],
+            "progress": {},
+            "quality_report": None,
+        },
+    )
+    ctx.start()
+    try:
+        runner._run_embedding(ctx)
+        ctx.finish(ok=True, status="completed")
+    except Exception as exc:
+        ctx.finish(ok=False, status="failed", error=str(exc))
+        raise
+    finally:
+        ctx.stop()
 
-    # Final status
     status = build_embedding_status(target=target)
     return {
         "job_id": record.job_id,
