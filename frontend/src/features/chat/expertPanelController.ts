@@ -128,7 +128,6 @@ interface ExpertPanelControllerOptions {
   statusNode: HTMLElement;
   detailModalNode?: HTMLElement | null;
   openModal?: (modal: HTMLElement) => void;
-  onSnippetClick?: (docId: string) => void;
   onStateChanged?: (state: ExpertPanelPersistedState | null) => void;
 }
 
@@ -944,34 +943,26 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
     summaryHost.className = "expert-detail-tab-summary";
     body.appendChild(summaryHost);
 
+    // The expert tab itself IS the detail view: preview header + on-expand
+    // per-expert synthesis. The old "Abrir en LIA" button routed through
+    // openNormaModal({doc_id}), which only resolves curated normative refs
+    // (ET, leyes) — expert-source doc_ids hit a dead end and surface
+    // "No se pudo preparar la ficha curada". Footer keeps only the external
+    // source link, which always works.
     const links = Array.isArray(snippet.provider_links) ? snippet.provider_links : [];
     const sourceUrl = normalizeText(
       links.find((link) => normalizeText(link.url))?.url || snippet.source_view_url || "",
     );
-    const docId = normalizeText(snippet.doc_id);
-    const canOpenInLia = typeof options.onSnippetClick === "function" && Boolean(docId);
-    if (sourceUrl || canOpenInLia) {
+    if (sourceUrl) {
       const footer = document.createElement("div");
       footer.className = "expert-detail-tab-footer";
-      if (canOpenInLia) {
-        const openInLiaBtn = document.createElement("button");
-        openInLiaBtn.type = "button";
-        openInLiaBtn.className = "secondary-mini-btn";
-        openInLiaBtn.textContent = i18n.t("chat.experts.detail.openSource");
-        openInLiaBtn.addEventListener("click", () => {
-          options.onSnippetClick?.(docId);
-        });
-        footer.appendChild(openInLiaBtn);
-      }
-      if (sourceUrl) {
-        const sourceLink = document.createElement("a");
-        sourceLink.className = "expert-detail-source-original-link";
-        sourceLink.href = sourceUrl;
-        sourceLink.target = "_blank";
-        sourceLink.rel = "noopener noreferrer";
-        sourceLink.textContent = "(ver fuente original)";
-        footer.appendChild(sourceLink);
-      }
+      const sourceLink = document.createElement("a");
+      sourceLink.className = "expert-detail-source-original-link";
+      sourceLink.href = sourceUrl;
+      sourceLink.target = "_blank";
+      sourceLink.rel = "noopener noreferrer";
+      sourceLink.textContent = "(ver fuente original)";
+      footer.appendChild(sourceLink);
       body.appendChild(footer);
     }
 

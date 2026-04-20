@@ -47,8 +47,9 @@ function makeI18n() {
         "chat.experts.detail.question": "Consulta del turno",
         "chat.experts.detail.reading": "Lectura práctica",
         "chat.experts.detail.checklist": "Qué revisar antes de cerrar",
-        "chat.experts.detail.sources": "Fuentes consultadas",
-        "chat.experts.detail.openSource": "Abrir fuente en LIA",
+        "chat.experts.detail.experts": "Lo que dice cada experto",
+        "chat.experts.detail.expertOpen": "Ver análisis completo",
+        "chat.experts.detail.expertClose": "Ocultar análisis",
         "chat.experts.detail.externalLink": "Abrir enlace externo",
         "chat.experts.signal.permite": "Permite",
         "chat.experts.signal.restringe": "Restringe",
@@ -396,17 +397,15 @@ describe("createExpertPanelController", () => {
     expect(contentNode.textContent || "").toContain("2 fuentes");
   });
 
-  it("opens a practical detail modal with checklist and source drilldown", async () => {
+  it("opens a practical detail modal with checklist and per-expert tabs", async () => {
     vi.stubGlobal("fetch", mockFetchWithEnhance(MOCK_RESPONSE_Q6));
 
-    const onClick = vi.fn();
     const controller = createExpertPanelController({
       i18n: makeI18n() as never,
       contentNode,
       statusNode,
       detailModalNode,
       openModal: (modal) => modal.classList.add("is-open"),
-      onSnippetClick: onClick,
     });
 
     await controller.load({
@@ -423,8 +422,15 @@ describe("createExpertPanelController", () => {
     expect(detailContentNode.textContent || "").toContain("Qué revisar antes de cerrar");
     expect(detailContentNode.textContent || "").toContain("Oficio 801/2022");
 
-    (detailContentNode.querySelector(".secondary-mini-btn") as HTMLElement).click();
-    expect(onClick).toHaveBeenCalledWith("d801");
+    // Per-expert tabs lead the modal: each source is rendered as an expandable tab.
+    const tabs = detailContentNode.querySelectorAll(".expert-detail-tab");
+    expect(tabs.length).toBeGreaterThan(0);
+    expect(detailContentNode.textContent || "").toContain("Lo que dice cada experto");
+
+    // Broken "Abrir en LIA" affordance is intentionally NOT rendered for expert
+    // sources — their doc_ids don't resolve to a curated normative profile and
+    // hitting openNormaModal would surface "No se pudo preparar la ficha curada".
+    expect(detailContentNode.querySelector(".secondary-mini-btn")).toBeNull();
   });
 
   it("prioritizes the article requested by the chat answer over unrelated expert groups", async () => {

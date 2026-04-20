@@ -152,7 +152,6 @@ export function mountChatApp(root, options) {
     statusNode: expertPanelStatusNode,
     detailModalNode: expertDetailModalNode,
     openModal,
-    onSnippetClick: (docId: string) => openNormaModal({ doc_id: docId }),
     onStateChanged: (snapshot) => {
       if (!snapshot) return;
       const traceId = String(snapshot.loadOptions?.traceId || "").trim();
