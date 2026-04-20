@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "target": "production",
+  "generation": "gen_suin_prod_v1",
+  "total_chunks": 8427,
+  "null_embedding_chunks": 0,
+  "coverage_pct": 100.0,
+  "job_id": "fcb2b58c6ff54cae97393974202b490b",
+  "status": {
+    "target": "production",
+    "total_chunks": 8427,
+    "embedded_chunks": 8427,
+    "null_embedding_chunks": 0,
+    "coverage_pct": 100.0,
+    "current_operation": null,
+    "last_operation": null,
+    "api_health": {
+      "ok": true,
+      "detail": "768d, 436ms",
+      "latency_ms": 436
+    }
+  },
+  "finished_at": "20260419T203603Z"
+}
