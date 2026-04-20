@@ -23,84 +23,26 @@ import { renderKanbanBoard } from "@/features/ops/opsKanbanView";
 import type { OpsStateController } from "@/features/ops/opsState";
 import { getToastController } from "@/shared/ui/toasts";
 
-type AsyncTaskRunner = <T>(task: () => Promise<T>) => Promise<T>;
-
-interface OpsIngestionDom {
-  ingestionCorpusSelect: HTMLSelectElement;
-  ingestionBatchTypeSelect: HTMLSelectElement;
-  ingestionDropzone: HTMLElement;
-  ingestionFileInput: HTMLInputElement;
-  ingestionFolderInput: HTMLInputElement;
-  ingestionSelectFilesBtn: HTMLButtonElement;
-  ingestionSelectFolderBtn: HTMLButtonElement;
-  ingestionUploadProgress: HTMLDivElement;
-  ingestionPendingFiles: HTMLParagraphElement;
-  ingestionOverview: HTMLParagraphElement;
-  ingestionRefreshBtn: HTMLButtonElement;
-  ingestionCreateSessionBtn: HTMLButtonElement;
-  ingestionUploadBtn: HTMLButtonElement;
-  ingestionProcessBtn: HTMLButtonElement;
-  ingestionAutoProcessBtn: HTMLButtonElement;
-  ingestionValidateBatchBtn: HTMLButtonElement;
-  ingestionRetryBtn: HTMLButtonElement;
-  ingestionDeleteSessionBtn: HTMLButtonElement;
-  ingestionSessionMeta: HTMLParagraphElement;
-  ingestionSessionsList: HTMLUListElement;
-  selectedSessionMeta: HTMLParagraphElement;
-  ingestionLastError: HTMLDivElement;
-  ingestionLastErrorMessage: HTMLParagraphElement;
-  ingestionLastErrorGuidance: HTMLParagraphElement;
-  ingestionLastErrorNext: HTMLParagraphElement;
-  ingestionKanban: HTMLDivElement;
-  ingestionLogAccordion: HTMLDivElement;
-  ingestionLogBody: HTMLPreElement;
-  ingestionLogCopyBtn: HTMLButtonElement;
-  ingestionAutoStatus: HTMLParagraphElement;
-  addCorpusBtn: HTMLButtonElement | null;
-  addCorpusDialog: HTMLDialogElement | null;
-  ingestionBounceLog: HTMLDetailsElement | null;
-  ingestionBounceBody: HTMLPreElement | null;
-  ingestionBounceCopy: HTMLButtonElement | null;
-}
-
-interface CreateOpsIngestionControllerOptions {
-  i18n: I18nRuntime;
-  stateController: OpsStateController;
-  dom: OpsIngestionDom;
-  withThinkingWheel: AsyncTaskRunner;
-  setFlash: (message?: string, tone?: "success" | "error") => void;
-}
-
-async function requestJson<T>(url: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(url, init);
-  let payload: unknown = null;
-  try {
-    payload = await response.json();
-  } catch (_error) {
-    payload = null;
-  }
-  if (!response.ok) {
-    const message =
-      payload && typeof payload === "object" && "error" in payload
-        ? String((payload as { error?: string }).error || response.statusText)
-        : response.statusText;
-    throw new ApiError(message, response.status, payload);
-  }
-  return payload as T;
-}
-
-async function postJsonOrThrow<TResponse, TBody>(url: string, body: TBody): Promise<TResponse> {
-  const { response, data } = await postJson<TResponse, TBody>(url, body);
-  if (!response.ok) {
-    const message =
-      data && typeof data === "object" && "error" in (data as object)
-        ? String((data as { error?: string }).error || response.statusText)
-        : response.statusText;
-    throw new ApiError(message, response.status, data);
-  }
-  return data as TResponse;
-}
-
+import {
+  type AsyncTaskRunner,
+  type OpsIngestionDom,
+  type CreateOpsIngestionControllerOptions,
+  requestJson,
+  postJsonOrThrow,
+} from "@/features/ops/opsIngestionTypes";
+import {
+  SUPPORTED_INGESTION_EXTENSIONS as SUPPORTED_EXTENSIONS,
+  HIDDEN_FILE_PREFIXES as HIDDEN_PREFIXES,
+  FOLDER_UPLOAD_CONCURRENCY,
+  FOLDER_PENDING_STORAGE_PREFIX,
+  countRawDocs,
+  fileKey,
+  filterSupportedFiles,
+  formatFileSize,
+  getRelativePath,
+  makeVerdictPill,
+  verdictLabel,
+} from "@/features/ops/opsIngestionFormatters";
 export function createOpsIngestionController({
   i18n,
   stateController,
@@ -195,11 +137,6 @@ export function createOpsIngestionController({
   // ── Dedup key for de-duplicating File references across drops ────
   // Users can accidentally drop the same file twice. We key on a fingerprint
   // so addFilesToIntake() becomes idempotent.
-  function fileKey(file: File): string {
-    const rel = getRelativePath(file);
-    return `${file.name}|${file.size}|${(file as File & { lastModified?: number }).lastModified ?? 0}|${rel}`;
-  }
-
   // ── Granular intake pipeline (replaces monolithic handleFolderIngest) ──
   //
   //   addFilesToIntake       — on drop/pick
@@ -220,12 +157,12 @@ export function createOpsIngestionController({
     const existing = new Set(state.intake.map((e) => fileKey(e.file)));
     const newEntries: IntakeEntry[] = [];
     for (const file of files) {
-      const key = fileKey(file);
+      const key = fileKey(file, state.folderRelativePaths);
       if (existing.has(key)) continue;
       existing.add(key);
       newEntries.push({
         file,
-        relativePath: getRelativePath(file),
+        relativePath: getRelativePath(file, state.folderRelativePaths),
         contentHash: null,
         verdict: "pending",
         preflightEntry: null,
@@ -497,21 +434,6 @@ export function createOpsIngestionController({
 
   // ── Folder ingestion helpers ──────────────────────────────────
 
-  const SUPPORTED_EXTENSIONS = new Set([".pdf", ".md", ".txt", ".docx"]);
-  const HIDDEN_PREFIXES = [".", "__MACOSX"];
-  const FOLDER_UPLOAD_CONCURRENCY = 3;
-  const FOLDER_PENDING_STORAGE_PREFIX = "lia_folder_pending_";
-
-  function filterSupportedFiles(files: File[]): File[] {
-    return files.filter((f) => {
-      const name = f.name;
-      if (HIDDEN_PREFIXES.some((p) => name.startsWith(p))) return false;
-      const dotIdx = name.lastIndexOf(".");
-      const ext = dotIdx >= 0 ? name.slice(dotIdx).toLowerCase() : "";
-      return SUPPORTED_EXTENSIONS.has(ext);
-    });
-  }
-
   async function resolveFolderFiles(dataTransfer: DataTransfer): Promise<File[]> {
     const files: File[] = [];
     const entries: FileSystemEntry[] = [];
@@ -545,12 +467,6 @@ export function createOpsIngestionController({
 
     for (const entry of entries) await walkEntry(entry);
     return files;
-  }
-
-  function getRelativePath(file: File): string {
-    return (file as { webkitRelativePath?: string }).webkitRelativePath
-      || state.folderRelativePaths.get(file)
-      || "";
   }
 
   // getFolderName() / isFolderBatch() helpers were removed — their only
@@ -694,37 +610,6 @@ export function createOpsIngestionController({
     }
   }
 
-  function formatFileSize(bytes: number): string {
-    return bytes < 1024
-      ? `${bytes} B`
-      : bytes < 1024 * 1024
-        ? `${(bytes / 1024).toFixed(1)} KB`
-        : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  }
-
-  function verdictLabel(entry: IntakeEntry): string {
-    const docId = entry.preflightEntry?.existing_doc_id || "";
-    switch (entry.verdict) {
-      case "pending":     return i18n.t("ops.ingestion.verdict.pending");
-      case "new":         return i18n.t("ops.ingestion.verdict.new");
-      case "revision":    return docId
-        ? i18n.t("ops.ingestion.verdict.revisionOf", { docId })
-        : i18n.t("ops.ingestion.verdict.revision");
-      case "duplicate":   return docId
-        ? i18n.t("ops.ingestion.verdict.duplicateOf", { docId })
-        : i18n.t("ops.ingestion.verdict.duplicate");
-      case "artifact":    return i18n.t("ops.ingestion.verdict.artifact");
-      case "unreadable":  return i18n.t("ops.ingestion.verdict.unreadable");
-    }
-  }
-
-  function makeVerdictPill(entry: IntakeEntry): HTMLSpanElement {
-    const pill = document.createElement("span");
-    pill.className = `ops-verdict-pill ops-verdict-pill--${entry.verdict}`;
-    pill.textContent = verdictLabel(entry);
-    return pill;
-  }
-
   /** Render one file row into a target panel body. */
   function appendIntakeRow(
     body: HTMLElement,
@@ -749,7 +634,7 @@ export function createOpsIngestionController({
     size.className = "ops-intake-row__size";
     size.textContent = formatFileSize(entry.file.size);
 
-    const pill = makeVerdictPill(entry);
+    const pill = makeVerdictPill(entry, i18n);
 
     row.append(icon, name, size, pill);
 
@@ -1359,7 +1244,7 @@ export function createOpsIngestionController({
     if (topicValue) {
       headers["X-Upload-Topic"] = topicValue;
     }
-    const relativePath = getRelativePath(file);
+    const relativePath = getRelativePath(file, state.folderRelativePaths);
     if (relativePath) {
       headers["X-Upload-Relative-Path"] = relativePath;
     }
@@ -1552,12 +1437,6 @@ export function createOpsIngestionController({
   }
 
   /** Count raw/needs_classification docs from the document list (batch_summary lumps them into queued). */
-  function countRawDocs(session: IngestionSession): number {
-    return (session.documents || []).filter(
-      (d) => d.status === "raw" || d.status === "needs_classification",
-    ).length;
-  }
-
   function updateAutoStatus(session: IngestionSession): void {
     const summary = session.batch_summary;
     const rawCount = countRawDocs(session);

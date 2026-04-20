@@ -24,166 +24,24 @@ import { icons } from "@/shared/ui/icons";
 import type { I18nRuntime } from "@/shared/i18n";
 import { bogotaParts } from "@/shared/dates";
 
-const ACTION_ICON_SVG_NS = "http://www.w3.org/2000/svg";
-
-const _MONTHS_ES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
-
-function formatBubbleTimestamp(iso: string): string {
-  const d = new Date(iso);
-  if (isNaN(d.getTime())) return "";
-  const p = bogotaParts(d);
-  const ampm = p.hour >= 12 ? "p.m." : "a.m.";
-  const h = p.hour % 12 || 12;
-  return `${p.day} ${_MONTHS_ES[p.month]}, ${h}:${String(p.minute).padStart(2, "0")} ${ampm}`;
-}
-
-type BubbleRole = "user" | "assistant";
-
-type AddBubbleOptions = {
-  meta?: Record<string, unknown> | null;
-  persist?: boolean;
-  skipScroll?: boolean;
-  previousUserMessage?: string;
-  deferAssistantRender?: boolean;
-  onAssistantRenderComplete?: () => void;
-  timestamp?: string;
-};
-
-type StreamingAssistantBubbleOptions = {
-  meta?: Record<string, unknown> | null;
-  previousUserMessage?: string;
-};
-
-type FinalizeStreamingAssistantOptions = {
-  finalMarkdown: string;
-  meta?: Record<string, unknown> | null;
-  persist?: boolean;
-  previousUserMessage?: string;
-};
-
-type StreamingAssistantBubbleController = {
-  appendMarkdownBlock: (markdown: string) => Promise<void>;
-  replaceMarkdown: (markdown: string) => Promise<void>;
-  finalize: (options: FinalizeStreamingAssistantOptions) => Promise<void>;
-  setStatus: (message: string) => void;
-  clearStatus: () => void;
-  getNode: () => HTMLElement;
-};
-
-type BubbleScaffold = {
-  node: HTMLElement;
-  bubbleTextNode: HTMLElement;
-  meta: AssistantBubbleMeta;
-  timestamp: string;
-};
-
-type AssistantBubbleMeta = {
-  trace_id: string;
-  chat_run_id: string;
-  session_id: string;
-  requested_topic: string;
-  effective_topic: string;
-  topic_adjusted: boolean;
-  pais: string;
-  docs_used: string[];
-  layer_contributions: Record<string, number>;
-  pain_detected: string;
-  task_detected: string;
-  feedback_rating: number | null;
-  question_text: string;
-  response_route: string;
-  coverage_notice: string;
-} | null;
-
-type FeedbackState = {
-  traceId: string;
-  sessionId: string;
-  markdown: string;
-  docsUsed: string[];
-  layerContributions: Record<string, number>;
-  painDetected: string;
-  taskDetected: string;
-  rating: number | null;
-  questionText: string;
-  inFlight: boolean;
-  copyBtn: HTMLButtonElement | null;
-  ratingBtns: HTMLButtonElement[];
-  commentPopupNode: HTMLElement | null;
-  statusNode: HTMLElement | null;
-};
-
-type FeedbackGetResponse = {
-  feedback?: {
-    rating?: number;
-  } | null;
-};
-
-type CreateChatTranscriptControllerOptions = {
-  i18n: I18nRuntime;
-  chatLog: HTMLElement;
-  bubbleTemplate: HTMLTemplateElement;
-  feedbackGetRoute: string;
-  feedbackPostRoute: string;
-  feedbackRatingUp: number;
-  feedbackRatingDown: number;
-  setActiveSessionId: (value: string) => void;
-  updateChatLogEmptyState: () => void;
-  onTranscriptEntriesChanged?: () => void;
-};
-
-function stripFollowupSuggestionLines(markdown: unknown): string {
-  return splitAnswerFromFollowupSection(markdown).answer;
-}
-
-function flattenMarkdownForClipboard(markdown: unknown): string {
-  const source = stripFollowupSuggestionLines(stripInlineEvidenceAnnotations(String(markdown || "")));
-  if (!source) return "";
-
-  const decoded = document.createElement("textarea");
-  decoded.innerHTML = source;
-
-  return decoded.value
-    .replace(/\r\n/g, "\n")
-    .replace(/```(?:[\w-]+)?\n?/g, "")
-    .replace(/`([^`]+)`/g, "$1")
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1")
-    .replace(/<\/?u>/gi, "")
-    .replace(/<\/?[^>]+>/g, "")
-    .replace(/^\s{0,3}#{1,6}\s+/gm, "")
-    .replace(/^\s*>\s?/gm, "")
-    .replace(/^\s*[-*+]\s+/gm, "• ")
-    .replace(/^\s*(\d+)\)\s+/gm, "$1. ")
-    .replace(/\*\*([^*]+)\*\*/g, "$1")
-    .replace(/__([^_]+)__/g, "$1")
-    .replace(/\*([^*\n]+)\*/g, "$1")
-    .replace(/_([^_\n]+)_/g, "$1")
-    .replace(/~~([^~]+)~~/g, "$1")
-    .replace(/\*\*/g, "")
-    .replace(/__/g, "")
-    .replace(/[ \t]+\n/g, "\n")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
-}
-
-export function formatConversationCopyPayload(
-  questionText: unknown,
-  answerMarkdown: unknown,
-  i18n: I18nRuntime
-): string {
-  const question = String(questionText || "").trim();
-  const answer = flattenMarkdownForClipboard(answerMarkdown);
-  const sections = [
-    `${i18n.t("chat.feedback.questionLabel")}:`,
-    "",
-    question,
-    "",
-    `${i18n.t("chat.feedback.answerLabel")}:`,
-    "",
-    answer,
-  ];
-  return sections.join("\n").replace(/\n{3,}/g, "\n\n").trim();
-}
+import {
+  ACTION_ICON_SVG_NS,
+  formatBubbleTimestamp,
+  formatConversationCopyPayload,
+  stripFollowupSuggestionLines,
+  flattenMarkdownForClipboard,
+  type AddBubbleOptions,
+  type AssistantBubbleMeta,
+  type BubbleRole,
+  type BubbleScaffold,
+  type CreateChatTranscriptControllerOptions,
+  type FeedbackGetResponse,
+  type FeedbackState,
+  type FinalizeStreamingAssistantOptions,
+  type StreamingAssistantBubbleController,
+  type StreamingAssistantBubbleOptions,
+} from "@/features/chat/transcriptFormatters";
+export { formatConversationCopyPayload };
 
 export function createChatTranscriptController({
   i18n,

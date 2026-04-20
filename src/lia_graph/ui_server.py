@@ -426,7 +426,6 @@ _ALLOWED_FIRST_RESPONSE_MODE = set(ALLOWED_FIRST_RESPONSE_MODES)
 _ALLOWED_LAYER_CASCADE_MODE = {"auto", "practica_first", "all_layers", "normativa_only", "practica_first_deferred_normative"}
 _ALLOWED_RESPONSE_SECTION_MODE = {"auto", "custom"}
 _ALLOWED_ENABLE_EMBEDDINGS = {"off", "on"}
-_RELOAD_WATCH_SUFFIXES = {".py", ".html", ".js", ".css"}
 
 
 def _emit_audit_event(event_type: str, payload: dict[str, Any]) -> None:
@@ -439,102 +438,44 @@ def _emit_chat_verbose_event(event_type: str, payload: dict[str, Any]) -> None:
     emit_event(event_type, payload, log_path=VERBOSE_CHAT_LOG_PATH)
 
 
+# Dev-reload watcher + info-payload utilities extracted to
+# `ui_dev_reload.py` during granularize-v2 round 16. These thin
+# wrappers preserve the old argument-free call sites while delegating
+# the pure logic to the sibling module.
+from . import ui_dev_reload as _ui_dev_reload  # noqa: E402
+
+
 def _best_effort_git_commit() -> str:
-    try:
-        output = subprocess.check_output(
-            ["git", "rev-parse", "--short", "HEAD"],
-            cwd=WORKSPACE_ROOT,
-            text=True,
-            stderr=subprocess.DEVNULL,
-        )
-    except Exception:  # noqa: BLE001
-        return "unknown"
-    return str(output or "").strip() or "unknown"
+    return _ui_dev_reload._best_effort_git_commit(WORKSPACE_ROOT)
 
 
 def _build_info_payload() -> dict[str, Any]:
-    ui_asset_mtime = ""
-    latest_mtime = 0.0
-    candidate_roots = (UI_DIR, FRONTEND_DIR)
-    for root in candidate_roots:
-        if not root.exists() or not root.is_dir():
-            continue
-        for path in root.rglob("*"):
-            if not path.is_file():
-                continue
-            if path.suffix.lower() not in {".html", ".css", ".js", ".ts", ".json"}:
-                continue
-            try:
-                stat = path.stat()
-            except OSError:
-                continue
-            latest_mtime = max(latest_mtime, stat.st_mtime)
-    if latest_mtime > 0:
-        ui_asset_mtime = datetime.fromtimestamp(latest_mtime, tz=timezone.utc).isoformat()
-    reset_chat_on_dev_boot = str(os.environ.get("LIA_RESET_CHAT_ON_DEV_BOOT") or "").strip() == "1"
-    dev_boot_nonce = str(os.environ.get("LIA_DEV_BOOT_NONCE") or "").strip()
-    return {
-        "server_started_at": SERVER_STARTED_AT,
-        "git_commit": _best_effort_git_commit(),
-        "app_version": "lia-ui-1",
-        "ui_asset_mtime": ui_asset_mtime,
-        "reset_chat_on_dev_boot": reset_chat_on_dev_boot,
-        "dev_boot_nonce": dev_boot_nonce,
-    }
+    return _ui_dev_reload._build_info_payload(
+        server_started_at=SERVER_STARTED_AT,
+        workspace_root=WORKSPACE_ROOT,
+        ui_dir=UI_DIR,
+        frontend_dir=FRONTEND_DIR,
+    )
 
 
 def _build_reload_snapshot(roots: tuple[Path, ...]) -> tuple[tuple[str, int, int], ...]:
-    rows: list[tuple[str, int, int]] = []
-    for root in roots:
-        if not root.exists() or not root.is_dir():
-            continue
-        for path in root.rglob("*"):
-            if not path.is_file():
-                continue
-            if path.suffix.lower() not in _RELOAD_WATCH_SUFFIXES:
-                continue
-            try:
-                stat = path.stat()
-            except OSError:
-                continue
-            rows.append((str(path), int(stat.st_mtime_ns), int(stat.st_size)))
-    rows.sort()
-    return tuple(rows)
+    return _ui_dev_reload._build_reload_snapshot(roots)
 
 
 def _start_reload_watcher(
     *,
-    server: ThreadingHTTPServer,
+    server,
     watch_roots: tuple[Path, ...],
     interval_seconds: float,
-) -> tuple[threading.Event, threading.Event, threading.Thread]:
-    stop_event = threading.Event()
-    reload_event = threading.Event()
-    baseline = _build_reload_snapshot(watch_roots)
+):
+    return _ui_dev_reload._start_reload_watcher(
+        server=server,
+        watch_roots=watch_roots,
+        interval_seconds=interval_seconds,
+        emit_audit_event=_emit_audit_event,
+    )
 
-    def _watch_loop() -> None:
-        nonlocal baseline
-        while not stop_event.wait(interval_seconds):
-            current = _build_reload_snapshot(watch_roots)
-            if current == baseline:
-                continue
-            reload_event.set()
-            _emit_audit_event(
-                "ui_server.reload_requested",
-                {
-                    "watch_roots": [str(root) for root in watch_roots],
-                    "interval_seconds": interval_seconds,
-                },
-            )
-            try:
-                server.shutdown()
-            except OSError:
-                pass
-            return
 
-    watcher = threading.Thread(target=_watch_loop, name="lia-ui-reloader", daemon=True)
-    watcher.start()
-    return stop_event, reload_event, watcher
 
 
 # --- eager imports: names used in handler deps dicts (48 names) ---
@@ -577,7 +518,10 @@ _REEXPORT_SOURCES: dict[str, str] = {}
 for _mod, _names in {
     "ui_citation_profile_builders": "_normalize_citation_profile_text _collect_citation_profile_texts _find_grounded_profile_sentence _classify_document_family _format_citation_profile_date _latest_identified_citation_profile_date _extract_normative_year _official_publish_date_or_year _resolve_superseded_label _build_citation_profile_prompt _append_citation_profile_fact _resolve_companion_action _resolve_analysis_action _resolve_source_action _citation_profile_display_title _citation_locator_reference_keys _citation_profile_analysis_candidates _extract_locator_excerpt_from_text _summarize_analysis_excerpt _build_citation_profile_original_text_section _build_citation_profile_expert_section _build_structured_original_text _build_structured_expert_comment",
     "ui_form_citation_profile": "_row_looks_like_guide _extract_citation_profile_form_number _spanish_title_case _format_form_reference_title _resolve_form_guide_package_for_context _deterministic_form_citation_profile",
-    "ui_source_view_processors": "_guide_primary_source_payload _source_view_provenance_uri _collect_source_view_candidate_rows _load_source_text _pick_local_source_file _source_url_label_for_filename _is_generic_source_title _extract_source_title_from_raw_text _infer_source_title_from_url_or_path _trim_source_view_content_markers _is_source_view_noise_text _extract_source_view_usable_text _build_source_view_candidate_analysis _build_source_query_profile _extract_source_chunks _normalize_source_view_field_value _normalize_source_reference_text _infer_source_reference_anchor _text_refers_to_source_document _anchor_source_view_text _anchor_source_view_summary_payload _build_source_view_summary_prompt _llm_source_view_summary_payload _render_source_view_summary_markdown _build_source_view_summary_markdown _sanitize_source_view_href _render_source_view_inline_markdown _build_source_view_html _extract_outbound_links",
+    "ui_source_view_processors": "_guide_primary_source_payload _source_view_provenance_uri _collect_source_view_candidate_rows _load_source_text _pick_local_source_file _build_source_view_candidate_analysis _build_source_query_profile _extract_source_chunks _normalize_source_view_field_value _infer_source_reference_anchor _text_refers_to_source_document _anchor_source_view_text _anchor_source_view_summary_payload _build_source_view_summary_prompt _llm_source_view_summary_payload _render_source_view_summary_markdown _build_source_view_summary_markdown _extract_outbound_links",
+    "ui_source_view_html": "_sanitize_source_view_href _render_source_view_inline_markdown _render_source_view_markdown_html _build_source_view_html _build_source_view_href",
+    "ui_source_view_noise_filter": "_SOURCE_VIEW_CONTENT_MARKERS _SOURCE_VIEW_NON_USABLE_HINTS _SOURCE_VIEW_HTML_NOISE_HINTS _SOURCE_VIEW_USEFUL_HINT_RE _trim_source_view_content_markers _is_source_view_noise_text _extract_source_view_usable_text",
+    "ui_source_title_resolver": "_SOURCE_FORM_REFERENCE_RE _SOURCE_ARTICLE_ID_LINE_RE _SOURCE_HEADING_LINE_RE _TECHNICAL_PREFIX_TOKEN_RE _source_url_label_for_filename _build_source_download_filename _is_generic_source_title _extract_source_title_from_raw_text _infer_source_title_from_url_or_path _resolve_source_display_title _title_from_normative_identity _pick_source_display_title _looks_like_technical_title _humanize_technical_title _normalize_source_reference_text",
     "ui_normative_processors": "ET_ARTICLE_ADDITIONAL_DEPTH_PATH _is_broad_normative_reference_title _resolve_et_locator_row _resolve_et_locator_analysis _article_heading_pattern _extract_et_article_quote_from_markdown _extract_et_article_metadata _extract_et_article_summary _build_et_article_vigencia_detail _load_et_article_additional_depth _et_article_additional_depth_for_doc_id _resolve_et_additional_depth_sections _resolve_ley_additional_depth_sections _interpretive_display_label _build_structured_additional_depth_sections _clean_practica_label _best_practica_display_label",
     "ui_reference_resolvers": "_NORMATIVE_HELPER_KNOWLEDGE_CLASSES _NORMATIVO_HELPER_SOURCE_TYPES _STRICT_NORMATIVO_HELPER_SOURCE_TYPES _MENTION_KEY_PREFIX_TO_ALLOWED_FAMILIES _reference_label_from_key _find_reference_doc_id _extract_reference_identities_from_citation_payload _extract_reference_identities_from_text _extract_reference_keys_from_text _citation_matches_reference_mentions _document_family_from_row _is_cross_type_mention_mismatch _resolve_mention_citations _select_reference_detail_identity_for_citation _build_reference_detail_title _build_reference_detail_resolution_text _drop_base_citations_shadowed_by_locators _apply_reference_detail_to_citation _is_normative_helper_normativo_citation _filter_normative_helper_citations _citation_targets_ley _citation_et_locator_key _citation_et_locator_label",
     "ui_expert_extractors": "_normalize_query_tokens _expert_chunk_candidates _expert_chunk_matches_article _expert_chunk_matches_topic _derive_expert_topic_label _find_expert_provider_link _canonicalize_expert_panel_ref _extract_expert_anchor_excerpt _clean_expert_summary_paragraph _clip_expert_summary _expert_excerpt_paragraphs _expert_detail_excerpt",
@@ -612,196 +556,18 @@ def __getattr__(name: str) -> Any:
 # → moved to ui_citation_controllers.py (Phase 1 decouple-v1)
 
 
-def _write_controller_deps() -> dict[str, Any]:
-    return {
-        "accept_terms": accept_terms,
-        "approve_contribution": approve_contribution,
-        "auth_nonces_path": AUTH_NONCES_PATH,
-        "auth_nonce_path": AUTH_NONCES_PATH,
-        "contribution_cls": Contribution,
-        "contributions_path": WORKSPACE_ROOT / "artifacts" / "contributions",
-        "emit_audit_event": _emit_audit_event,
-        "exchange_host_grant": exchange_host_grant,
-        "feedback_path": FEEDBACK_PATH,
-        "feedback_record_cls": FeedbackRecord,
-        "form_guides_root": FORM_GUIDES_ROOT,
-        "guide_chat_request_cls": GuideChatRequest,
-        "host_integrations_config_path": HOST_INTEGRATIONS_CONFIG_PATH,
-        "index_file_path": INDEX_FILE_PATH,
-        "chat_run_milestones_route_re": _CHAT_RUN_MILESTONES_ROUTE_RE,
-        "chat_runs_path": CHAT_RUNS_PATH,
-        "get_chat_run": load_chat_run,
-        "ingestion_clear_batch_route_re": _INGESTION_CLEAR_BATCH_ROUTE_RE,
-        "ingestion_delete_failed_route_re": _INGESTION_DELETE_FAILED_ROUTE_RE,
-        "ingestion_files_route_re": _INGESTION_FILES_ROUTE_RE,
-        "ingestion_process_route_re": _INGESTION_PROCESS_ROUTE_RE,
-        "ingestion_retry_route_re": _INGESTION_RETRY_ROUTE_RE,
-        "ingestion_validate_batch_route_re": _INGESTION_VALIDATE_BATCH_ROUTE_RE,
-        "ingestion_runtime": INGESTION_RUNTIME,
-        "ingestion_stop_route_re": _INGESTION_STOP_ROUTE_RE,
-        "llm_runtime_config_path": LLM_RUNTIME_CONFIG_PATH,
-        "platform_auth_error_cls": PlatformAuthError,
-        "record_chat_run_event_once": record_chat_run_event_once,
-        "reject_contribution": reject_contribution,
-        "resolve_guide": resolve_guide,
-        "run_guide_chat": run_guide_chat,
-        "save_contribution": save_contribution,
-        "save_feedback": save_feedback,
-        "update_feedback_comment": update_feedback_comment,
-        "switch_active_company": switch_active_company,
-        "terms_policy_path": TERMS_POLICY_PATH,
-        "terms_state_path": TERMS_STATE_PATH,
-        "jobs_path": JOBS_RUNTIME_PATH,
-        "workspace_root": WORKSPACE_ROOT,
-    }
 
+# Controller-dependency factories extracted to `ui_server_deps.py` during
+# granularize-v2 round 20. Re-imported for back-compat so the handler's
+# `write_deps = _write_controller_deps()` style call sites continue to work.
+from .ui_server_deps import (  # noqa: F401,E402
+    _analysis_controller_deps,
+    _chat_controller_deps,
+    _frontend_compat_controller_deps,
+    _public_session_controller_deps,
+    _write_controller_deps,
+)
 
-def _analysis_controller_deps() -> dict[str, Any]:
-    return {
-        "as_public_error": as_public_error,
-        "axis_labels": {},
-        "build_extractive_interpretation_summary": _build_extractive_interpretation_summary,
-        "build_decision_frame": build_decision_frame,
-        "build_interpretation_candidate": build_interpretation_candidate,
-        "build_interpretation_query_seed": _build_interpretation_query_seed,
-        "build_normative_helper_citations": _build_normative_helper_citations,
-        "build_public_citation_from_row": _build_public_citation_from_row,
-        "citation_cls": Citation,
-        "classify_provider": _classify_provider,
-        "clip_session_content": _clip_session_content,
-        "dedupe_interpretation_docs": _dedupe_interpretation_docs,
-        "expand_expert_panel_requested_refs": _expand_expert_panel_requested_refs,
-        "expert_card_summary": _expert_card_summary,
-        "expert_summary_overrides_path": EXPERT_SUMMARY_OVERRIDES_PATH,
-        "filter_provider_links": _filter_provider_links,
-        "find_document_index_row": _find_document_index_row,
-        "first_substantive_sentence": _first_substantive_sentence,
-        "generate_llm_strict": generate_llm_strict,
-        "index_file_path": INDEX_FILE_PATH,
-        "llm_output_quality_error_cls": LLMOutputQualityError,
-        "llm_runtime_config_path": LLM_RUNTIME_CONFIG_PATH,
-        "load_doc_corpus_text": _load_doc_corpus_text,
-        "logical_doc_id": _logical_doc_id,
-        "normalize_pais": normalize_pais,
-        "normalize_provider_labels": normalize_provider_labels,
-        "normalize_topic_key": normalize_topic_key,
-        "pipeline_c_internal_error_cls": PipelineCInternalError,
-        "pipeline_c_strict_error_cls": PipelineCStrictError,
-        "prioritize_expert_panel_docs": _prioritize_expert_panel_docs,
-        "resolve_doc_expert_providers": _resolve_doc_expert_providers,
-        "select_interpretation_candidates": select_interpretation_candidates,
-        "serialize_ranked_interpretation": serialize_ranked_interpretation,
-        "summarize_snippet": _summarize_snippet,
-        "extended_excerpt": _expert_extended_excerpt,
-        "supported_topics": SUPPORTED_TOPICS,
-        "warn_missing_active_index_generation": _warn_missing_active_index_generation,
-    }
-
-
-def _chat_controller_deps() -> dict[str, Any]:
-    return {
-        "advance_clarification_state": advance_clarification_state,
-        "append_turn": append_turn,
-        "as_public_error": as_public_error,
-        "auth_context_cls": AuthContext,
-        "build_clarification_error_payload": _build_clarification_error_payload,
-        "build_clarification_interaction_payload": build_clarification_interaction_payload,
-        "build_normative_helper_citations": _build_normative_helper_citations,
-        "build_public_api_error": _build_public_api_error,
-        "chat_run_coordinator": get_chat_run_coordinator(),
-        "chat_runs_path": CHAT_RUNS_PATH,
-        "chat_session_metrics_path": CHAT_SESSION_METRICS_PATH,
-        "citation_gap_registry_path": CITATION_GAP_REGISTRY_PATH,
-        "clarification_sessions_path": CLARIFICATION_SESSIONS_PATH,
-        "clarification_state_version": CLARIFICATION_STATE_VERSION,
-        "clear_clarification_session_state": clear_clarification_session_state,
-        "comparative_field_questions": COMPARATIVE_FIELD_QUESTIONS,
-        "conversations_path": CONVERSATIONS_PATH,
-        "credibility_policy_path": WORKSPACE_ROOT / "config" / "credibility_policy.json",
-        "emit_chat_verbose_event": _emit_chat_verbose_event,
-        "emit_user_error_event": lambda payload: emit_event("user.chat.error", payload, log_path=USER_ERROR_LOG_PATH),
-        "emit_event": emit_event,
-        "emit_reasoning_event": emit_reasoning_event,
-        "ensure_session": ensure_session,
-        "ensure_session_shell": ensure_session_shell,
-        "enrich_citation_payloads_with_usage_context": _enrich_citation_payloads_with_usage_context,
-        "estimate_token_usage_from_text": estimate_token_usage_from_text,
-        "get_clarification_session_state": get_clarification_session_state,
-        "get_chat_session_metrics": get_chat_session_metrics,
-        "index_file_path": INDEX_FILE_PATH,
-        "is_semantic_422_error": is_semantic_422_error,
-        "jobs_path": JOBS_RUNTIME_PATH,
-        "llm_dynamic_clarification_decider": _llm_dynamic_clarification_decider,
-        "llm_runtime_config_path": LLM_RUNTIME_CONFIG_PATH,
-        "load_session": load_session,
-        "merge_citation_payloads": _merge_citation_payloads,
-        "normalize_pais": normalize_pais,
-        "normalize_token_usage": normalize_token_usage,
-        "normalize_topic_key": normalize_topic_key,
-        "pipeline_c_internal_error_cls": PipelineCInternalError,
-        "pipeline_c_request_cls": PipelineCRequest,
-        "pipeline_c_strict_error_cls": PipelineCStrictError,
-        "default_pipeline_variant": str(
-            os.getenv("LIA_PIPELINE_VARIANT", DEFAULT_PIPELINE_VARIANT)
-        ).strip() or DEFAULT_PIPELINE_VARIANT,
-        "execute_routed_pipeline": lambda request, **kwargs: execute_routed_pipeline(
-            request,
-            pipeline_c_runner=run_pipeline_c,
-            pipeline_d_runner=run_pipeline_d,
-            **kwargs,
-        ),
-        "platform_auth_error_cls": PlatformAuthError,
-        "public_visitor_role": PUBLIC_VISITOR_ROLE,
-        "public_tenant_id": PUBLIC_TENANT_ID,
-        "public_max_output_tokens": int(
-            str(os.getenv("LIA_PUBLIC_MAX_OUTPUT_TOKENS", "2048")).strip() or "2048"
-        ),
-        "refresh_state_from_semantic_error": refresh_state_from_semantic_error,
-        "register_citation_gaps": register_citation_gaps,
-        "resolve_chat_topic": resolve_chat_topic,
-        "resolve_pipeline_route": resolve_pipeline_route,
-        "resolve_guided_clarification_requirements": _resolve_guided_clarification_requirements,
-        "save_usage_event": save_usage_event,
-        "should_intercept_clarification_state": should_intercept_clarification_state,
-        "stored_conversation_turn_cls": StoredConversationTurn,
-        "strip_inline_evidence_annotations": strip_inline_evidence_annotations,
-        "update_chat_session_metrics": update_chat_session_metrics,
-        "update_session_metadata": update_session_metadata,
-        "upsert_clarification_session_state": upsert_clarification_session_state,
-        "usage_event_cls": UsageEvent,
-        "usage_events_path": USAGE_EVENTS_PATH,
-        "validate_pipeline_c_payload": _validate_pipeline_c_payload,
-        "build_user_message_for_question": build_user_message_for_question,
-        "uuid4": uuid4,
-    }
-
-
-def _frontend_compat_controller_deps() -> dict[str, Any]:
-    return {
-        "chat_run_milestones_route_re": _CHAT_RUN_MILESTONES_ROUTE_RE,
-        "chat_runs_path": CHAT_RUNS_PATH,
-        "feedback_path": FEEDBACK_PATH,
-        "feedback_record_cls": FeedbackRecord,
-        "load_feedback": load_feedback,
-        "public_tenant_id": PUBLIC_TENANT_ID,
-        "record_chat_run_event_once": record_chat_run_event_once,
-        "save_feedback": save_feedback,
-        "update_feedback_comment": update_feedback_comment,
-    }
-
-
-def _public_session_controller_deps() -> dict[str, Any]:
-    return {
-        "issue_public_visitor_token": issue_public_visitor_token,
-        "public_captcha_enabled": PUBLIC_CAPTCHA_ENABLED,
-        "public_captcha_pass_exists": public_captcha_pass_exists,
-        "public_captcha_pass_record": public_captcha_pass_record,
-        "public_mode_enabled": PUBLIC_MODE_ENABLED,
-        "public_token_ttl_seconds": PUBLIC_TOKEN_TTL_SECONDS,
-        "public_turnstile_site_key": PUBLIC_TURNSTILE_SITE_KEY,
-        "ui_dir": UI_DIR,
-        "verify_turnstile": verify_turnstile,
-    }
 
 
 class LiaUIHandler(BaseHTTPRequestHandler):

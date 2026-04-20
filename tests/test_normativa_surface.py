@@ -38,6 +38,10 @@ def test_llm_citation_profile_payload_uses_normativa_surface(monkeypatch) -> Non
         },
     )
     monkeypatch.setattr(citation_builders, "_ui", lambda: fake_ui)
+    # granularize-v2 round 12c: _llm_citation_profile_payload moved to a
+    # sibling module — patch its `_ui` too so the mock is honored there.
+    from lia_graph import ui_citation_profile_llm
+    monkeypatch.setattr(ui_citation_profile_llm, "_ui", lambda: fake_ui)
     monkeypatch.setattr(
         "lia_graph.normativa.orchestrator.run_normativa_surface",
         lambda context: (
@@ -500,9 +504,15 @@ def test_collect_citation_profile_context_by_reference_key_uses_local_form_guide
             ),
             "_load_index_rows_by_doc_id": staticmethod(lambda index_file=None: {}),
             "_spanish_title_case": staticmethod(citation_builders._spanish_title_case),
+            "_clean_markdown_inline": staticmethod(lambda value: str(value or "").strip()),
         },
     )
     monkeypatch.setattr(citation_builders, "_ui", lambda: fake_ui)
+    # granularize-v2 round 12b: context collectors now live in the sibling module
+    # `ui_citation_profile_context`. The test mocks `_ui` there too so the
+    # lazy accessor returns our FakeUI regardless of which module runs the call.
+    from lia_graph import ui_citation_profile_context
+    monkeypatch.setattr(ui_citation_profile_context, "_ui", lambda: fake_ui)
 
     context = citation_builders._collect_citation_profile_context_by_reference_key(
         "Formulario:2516",
@@ -537,9 +547,12 @@ def test_collect_citation_profile_context_by_reference_key_returns_generic_form_
             ),
             "_load_index_rows_by_doc_id": staticmethod(lambda index_file=None: {}),
             "_spanish_title_case": staticmethod(citation_builders._spanish_title_case),
+            "_clean_markdown_inline": staticmethod(lambda value: str(value or "").strip()),
         },
     )
     monkeypatch.setattr(citation_builders, "_ui", lambda: fake_ui)
+    from lia_graph import ui_citation_profile_context
+    monkeypatch.setattr(ui_citation_profile_context, "_ui", lambda: fake_ui)
 
     context = citation_builders._collect_citation_profile_context_by_reference_key(
         "Formulario:195",

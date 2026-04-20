@@ -25,6 +25,51 @@ from .source_tiers import (
     source_tier_key_for_row,
     source_tier_label_for_key,
 )
+# Title resolver extracted during granularize-v2 — re-imported so eager
+# `from .ui_source_view_processors import _pick_source_display_title` style
+# imports keep working (the ui_server lazy registry points lookups at the
+# new sibling directly). The reference-anchor cluster below still uses
+# `_SOURCE_FORM_REFERENCE_RE` and `_normalize_source_reference_text`.
+from .ui_source_title_resolver import (  # noqa: F401  — re-exported
+    _SOURCE_ARTICLE_ID_LINE_RE,
+    _SOURCE_FORM_REFERENCE_RE,
+    _SOURCE_HEADING_LINE_RE,
+    _TECHNICAL_PREFIX_TOKEN_RE,
+    _build_source_download_filename,
+    _extract_source_title_from_raw_text,
+    _humanize_technical_title,
+    _infer_source_title_from_url_or_path,
+    _is_generic_source_title,
+    _looks_like_technical_title,
+    _normalize_source_reference_text,
+    _pick_source_display_title,
+    _resolve_source_display_title,
+    _source_url_label_for_filename,
+    _title_from_normative_identity,
+)
+# HTML rendering extracted during granularize-v2 round 7. Re-imported so
+# eager `from .ui_source_view_processors import _build_source_view_html`
+# style imports in ui_server.py keep working; ui_server lazy registry now
+# points lookups at the new sibling directly.
+from .ui_source_view_html import (  # noqa: F401  — re-exported
+    _build_source_view_href,
+    _build_source_view_html,
+    _render_source_view_inline_markdown,
+    _render_source_view_markdown_html,
+    _sanitize_source_view_href,
+)
+# Noise filtering + content-marker trimming extracted round 8 — graduates
+# the host below 1000 LOC. Constants/functions still re-exported for
+# back-compat.
+from .ui_source_view_noise_filter import (  # noqa: F401  — re-exported
+    _SOURCE_VIEW_CONTENT_MARKERS,
+    _SOURCE_VIEW_HTML_NOISE_HINTS,
+    _SOURCE_VIEW_NON_USABLE_HINTS,
+    _SOURCE_VIEW_USEFUL_HINT_RE,
+    _extract_source_view_usable_text,
+    _is_source_view_noise_text,
+    _trim_source_view_content_markers,
+)
 
 # ---------------------------------------------------------------------------
 # Lazy-import helpers -- functions that still live in ui_server today.
@@ -42,73 +87,6 @@ def _ui() -> Any:
 # Module-level constants (moved from ui_server during granularize-v1 1B)
 # ---------------------------------------------------------------------------
 
-_SOURCE_VIEW_CONTENT_MARKERS = (
-    "contenido de la página",
-    "contenido principal",
-)
-_SOURCE_VIEW_NON_USABLE_HINTS = (
-    "resumen tecnico inicial para seed documental",
-    "este scaffold debe evolucionar",
-    "claim en construccion",
-    "claim en construcción",
-    "regla operativa para lia",
-    "condiciones de aplicacion",
-    "condiciones de aplicación",
-    "riesgos de interpretacion",
-    "riesgos de interpretación",
-    "relaciones normativas",
-    "checklist de vigencia",
-    "historico de cambios",
-    "histórico de cambios",
-    "ambito:",
-    "ámbito:",
-    "uso permitido:",
-    "fuente principal enlazada:",
-    "migrado desde",
-)
-_SOURCE_VIEW_HTML_NOISE_HINTS = (
-    "¿sabes que es gov.co?",
-    "conócelo aquí",
-    "icono twitter",
-    "icono youtube",
-    "icono linkedin",
-    "icono facebook",
-    "icono instagram",
-    "icono tiktok",
-    "parece que el explorador no tiene javascript habilitado",
-    "active javascript e inténtelo de nuevo",
-    "active javascript e intentelo de nuevo",
-    "icono cambio de idioma",
-    "icono aumento de tamaño de texto",
-    "icono aumento de tamano de texto",
-    "icono tamaño de texto normal",
-    "icono tamano de texto normal",
-    "icono disminución del tamaño de texto",
-    "icono disminucion del tamano de texto",
-    "alto contraste",
-    "portal dian",
-    "actualmente seleccionado",
-    "atención y servicios a la ciudadanía",
-    "atencion y servicios a la ciudadania",
-    "la ubicación de esta página es",
-    "la ubicacion de esta pagina es",
-    "<option value=",
-    "</option>",
-    "bookmarkaj",
-    "javascript:insrow",
-    "concordancias",
-    "doctrina concordante",
-    "legislación anterior",
-    "legislacion anterior",
-    "jurisprudencia vigencia",
-    "notas de vigencia",
-)
-_SOURCE_VIEW_USEFUL_HINT_RE = re.compile(
-    r"\b(formulario|declaraci[oó]n|renta|impuesto|impuestos|diligenciar|presentar|pagar|"
-    r"persona(?:s)?\s+jur[ií]dica(?:s)?|no\s+residentes|ingresos\s+y\s+patrimonio|"
-    r"resoluci[oó]n|obligaciones?\s+tributarias?)\b",
-    re.IGNORECASE,
-)
 _SOURCE_VIEW_SECTION_SPECS: tuple[tuple[str, str, bool], ...] = (
     ("que_hace", "Qué hace", False),
     ("por_que_sirve", "Por qué le sirve al contador", False),
@@ -117,12 +95,9 @@ _SOURCE_VIEW_SECTION_SPECS: tuple[tuple[str, str, bool], ...] = (
     ("alertas", "Alertas", True),
     ("sustento", "Sustento", True),
 )
-_SOURCE_FORM_REFERENCE_RE = re.compile(r"\b(?:formulario|formato|form\.?|f\.)\s*([0-9]{2,5}[A-Z]?)\b", re.IGNORECASE)
 _SOURCE_RESOLUTION_REFERENCE_RE = re.compile(r"\b(resoluci[oó]n\s+[0-9A-Za-z\-]+(?:\s+de\s+\d{4})?)\b", re.IGNORECASE)
 _SOURCE_DECREE_REFERENCE_RE = re.compile(r"\b(decreto\s+[0-9A-Za-z\-]+(?:\s+de\s+\d{4})?)\b", re.IGNORECASE)
 _SOURCE_LAW_REFERENCE_RE = re.compile(r"\b(ley\s+[0-9A-Za-z\-]+(?:\s+de\s+\d{4})?)\b", re.IGNORECASE)
-_SOURCE_ARTICLE_ID_LINE_RE = re.compile(r"^\s*-\s*article_id:\s*(.+?)\s*$", re.IGNORECASE)
-_SOURCE_HEADING_LINE_RE = re.compile(r"^\s{0,3}#{1,6}\s+(.+?)\s*$")
 _SOURCE_SECTION_LINE_RE = re.compile(
     r"^\s*(?:#{1,6}\s*)?(?:Secci[oó]n\s+\d+|\d+(?:\.\d+){0,4}\.?)\s*[—\-:\.]?\s+.+$",
     re.IGNORECASE,
@@ -243,375 +218,6 @@ def _pick_local_source_file(
     if original is not None:
         return original, original_first
     return None, normalized_first
-
-
-def _source_url_label_for_filename(source_url: str, *, max_len: int = 120) -> str:
-    clean_url = _ui()._sanitize_url_candidate(str(source_url or "").strip())
-    if not clean_url:
-        return ""
-    try:
-        parsed = urlparse(clean_url)
-    except ValueError:
-        return ""
-    host = _ui()._slugify_filename_part(parsed.netloc.replace("www.", ""), max_len=48)
-    path = _ui()._slugify_filename_part(parsed.path, max_len=64)
-    query = _ui()._slugify_filename_part(parsed.query, max_len=24)
-    parts = [part for part in (host, path, query) if part]
-    if not parts:
-        return ""
-    return "_".join(parts)[:max_len].strip("_")
-
-
-def _build_source_download_filename(
-    *,
-    row: dict[str, Any],
-    doc_id: str,
-    download_format: str,
-    fallback_title: str,
-) -> str:
-    extension = {"pdf": ".pdf", "md": ".md", "txt": ".txt"}.get(str(download_format or "").strip().lower(), ".bin")
-    title_candidates = (
-        str(fallback_title or "").strip(),
-        str(row.get("title", "")).strip(),
-        str(row.get("subtema", "")).strip(),
-        str(doc_id or "").strip(),
-        "Documento",
-    )
-    title_part = ""
-    for candidate in title_candidates:
-        title_part = _ui()._slugify_filename_part(candidate, max_len=84)
-        if title_part:
-            break
-    if not title_part:
-        title_part = "Documento"
-
-    url_part = _source_url_label_for_filename(str(row.get("url", "")).strip(), max_len=112)
-    if url_part:
-        return f"{title_part}_{url_part}{extension}"
-    return f"{title_part}{extension}"
-
-
-def _is_generic_source_title(title: str, *, authority: str = "") -> bool:
-    normalized_title = _normalize_source_reference_text(title)
-    normalized_authority = _normalize_source_reference_text(authority)
-    if not normalized_title:
-        return True
-    if normalized_title in _ui()._GENERIC_SOURCE_TITLES:
-        return True
-    if normalized_authority and normalized_title == normalized_authority:
-        return True
-    return normalized_title.isalpha() and len(normalized_title) <= 12
-
-
-def _extract_source_title_from_raw_text(raw_text: str) -> str:
-    text = str(raw_text or "")
-    if not text.strip():
-        return ""
-
-    for line in text.splitlines()[:24]:
-        article_match = _SOURCE_ARTICLE_ID_LINE_RE.match(line)
-        if article_match:
-            article_id = _ui()._clean_markdown_inline(article_match.group(1))
-            if article_id:
-                return article_id
-
-    for line in text.splitlines()[:12]:
-        heading_match = _SOURCE_HEADING_LINE_RE.match(line)
-        if not heading_match:
-            continue
-        heading = _ui()._clean_markdown_inline(heading_match.group(1))
-        heading = re.sub(r"\s*-\s*Plantilla t[eé]cnica\s*$", "", heading, flags=re.IGNORECASE)
-        if heading:
-            return heading
-    return ""
-
-
-def _infer_source_title_from_url_or_path(*, row: dict[str, Any], doc_id: str) -> str:
-    candidates = [
-        str(row.get("url") or "").strip(),
-        str(row.get("provenance_uri") or "").strip(),
-        str(row.get("relative_path") or "").strip(),
-        str(doc_id or "").strip(),
-    ]
-    for candidate in candidates:
-        form_match = _SOURCE_FORM_REFERENCE_RE.search(candidate)
-        if form_match:
-            if re.search(r"guia|como[-_\s]?diligenciar", candidate, re.IGNORECASE):
-                return f"Guía operativa Formulario {form_match.group(1)}"
-            return f"Formulario {form_match.group(1)}"
-    return ""
-
-
-def _resolve_source_display_title(
-    *,
-    row: dict[str, Any],
-    doc_id: str,
-    raw_text: str = "",
-    public_text: str = "",
-) -> str:
-    del public_text
-    authority = str(row.get("authority") or row.get("autoridad") or "").strip()
-    candidates = (
-        str(row.get("source_label") or "").strip(),
-        str(row.get("title") or "").strip(),
-        str(row.get("article_id") or "").strip(),
-        _infer_source_title_from_url_or_path(row=row, doc_id=doc_id),
-        "" if _notes_is_internal(str(row.get("notes") or "")) else str(row.get("notes") or "").strip(),
-        str(row.get("subtema") or "").strip(),
-        _extract_source_title_from_raw_text(raw_text),
-        Path(str(row.get("relative_path") or "")).stem.replace("_", " ").strip(),
-        str(doc_id or "").strip(),
-    )
-    for candidate in candidates:
-        clean = _ui()._clean_markdown_inline(candidate)
-        if not clean:
-            continue
-        if _is_generic_source_title(clean, authority=authority):
-            continue
-        return clean
-    return authority or "Fuente"
-
-
-def _title_from_normative_identity(row: dict[str, Any]) -> str:
-    """Parse entity_id or reference_identity_keys into a human title.
-
-    E.g. entity_id="decreto:2229:2023" → "Decreto 2229 de 2023"
-         entity_id="resolucion_dian:238:2025" → "Resolución DIAN 238 de 2025"
-    """
-    _NORM_TYPES = {
-        "decreto": "Decreto",
-        "ley": "Ley",
-        "resolucion": "Resolución",
-        "resolucion_dian": "Resolución DIAN",
-        "concepto": "Concepto",
-        "concepto_dian": "Concepto DIAN",
-        "circular": "Circular",
-    }
-    entity_id = str(row.get("entity_id") or "").strip().lower()
-    if not entity_id:
-        keys = list(row.get("reference_identity_keys") or [])
-        if keys:
-            entity_id = str(keys[0]).strip().lower()
-    if not entity_id:
-        return ""
-    parts = entity_id.split(":")
-    if len(parts) >= 3 and parts[0] in _NORM_TYPES:
-        return f"{_NORM_TYPES[parts[0]]} {parts[1]} de {parts[2]}"
-    if len(parts) == 2 and parts[0] in _NORM_TYPES:
-        return f"{_NORM_TYPES[parts[0]]} {parts[1]}"
-    return ""
-
-
-def _pick_source_display_title(
-    *,
-    requested_row: dict[str, Any],
-    resolved_row: dict[str, Any],
-    doc_id: str,
-    raw_text: str = "",
-    public_text: str = "",
-) -> str:
-    requested_title = _resolve_source_display_title(
-        row=requested_row,
-        doc_id=doc_id,
-        raw_text=raw_text,
-        public_text=public_text,
-    )
-    requested_authority = str(requested_row.get("authority") or requested_row.get("autoridad") or "").strip()
-    if not _is_generic_source_title(requested_title, authority=requested_authority):
-        # Check if the resolved title is still a technical identifier
-        if not _looks_like_technical_title(requested_title):
-            return requested_title
-    # Before trying the resolved_row (which may be a different document due to
-    # provenance_uri collisions), try extracting a clean title from the
-    # requested row's own normative identity keys.
-    normative_title = _title_from_normative_identity(requested_row)
-    if normative_title:
-        return normative_title
-    resolved_title = _resolve_source_display_title(
-        row=resolved_row,
-        doc_id=doc_id,
-        raw_text=raw_text,
-        public_text=public_text,
-    )
-    if not _looks_like_technical_title(resolved_title):
-        return resolved_title
-    # Fallback: try extracting "Tema principal" from document body
-    from .ui_expert_extractors import _extract_expert_document_metadata
-    meta = _extract_expert_document_metadata(public_text or raw_text)
-    tema = meta.get("tema_principal", "").strip()
-    if tema:
-        return tema[:180] if len(tema) > 180 else tema
-    # Last resort: humanize the technical filename
-    humanized = _humanize_technical_title(resolved_title)
-    return humanized or resolved_title
-
-
-def _looks_like_technical_title(title: str) -> bool:
-    """Detect titles that look like technical document identifiers."""
-    clean = str(title or "").strip()
-    if not clean:
-        return False
-    lowered = clean.lower()
-    # Contains 8-character hex hashes
-    if re.search(r"\b[0-9a-f]{8}\b", lowered):
-        return True
-    # Contains "part N" suffixes
-    if re.search(r"\bpart[_\s-]?\d+\b", lowered):
-        return True
-    # "Ingesta RAG" / "rag ready" internal headings
-    if "ingesta rag" in lowered or "rag ready" in lowered:
-        return True
-    # "Carga usuario" internal labels
-    if lowered.startswith("carga usuario"):
-        return True
-    # Internal corpus "bloque NN" identifiers (e.g. "bloque 02 formularios y formalidades")
-    if re.match(r"^bloque\s+\d", lowered):
-        return True
-    # File extensions (e.g. "conciliacion fiscal.md")
-    if re.search(r"\.\w{1,4}$", lowered):
-        return True
-    return False
-
-
-# Technical prefixes in document filenames (corpus type codes).
-# Applied iteratively from the left until no more match.
-_TECHNICAL_PREFIX_TOKEN_RE = re.compile(
-    r"^(?:"
-    r"t|pt|n|e|ref|san|dat|niif|pen|cam|eme|rut"           # corpus type codes
-    r"|normativa|expertos|addendum"                          # knowledge layer words
-    r"|[a-z]\d{2}"                                           # short codes like n01, e01, a01
-    r"|ingest|corpus"                                        # ingestion scaffolding
-    r")(?:[_\s-]|$)",
-    re.IGNORECASE,
-)
-
-
-def _humanize_technical_title(title: str) -> str:
-    """Clean a technical filename-derived title into a human-readable one.
-
-    Strips hex hashes, 'part N' suffixes, technical prefixes, and applies
-    Spanish title case.
-    """
-    clean = str(title or "").strip()
-    if not clean:
-        return ""
-    # Strip file extensions (e.g. ".md", ".pdf")
-    clean = re.sub(r"\.\w{1,4}$", "", clean)
-    # Strip hex hashes (e.g. "e45ce62d")
-    clean = re.sub(r"\b[0-9a-f]{8}\b", "", clean)
-    # Strip "part N" / "parte N/M" suffixes
-    clean = re.sub(r"\bpart[_\s-]?\d+\b", "", clean, flags=re.IGNORECASE)
-    clean = re.sub(r"\(?\bparte\s+\d+(?:/\d+)?\)?", "", clean, flags=re.IGNORECASE)
-    # Normalize separators before prefix stripping
-    clean = clean.replace("_", " ").replace("-", " ")
-    clean = re.sub(r"\s+", " ", clean).strip()
-    # Strip technical prefix tokens from the left (iteratively)
-    for _ in range(6):
-        m = _TECHNICAL_PREFIX_TOKEN_RE.match(clean)
-        if not m:
-            break
-        clean = clean[m.end():].strip()
-    clean = clean.strip(" .-:,;")
-    if not clean:
-        return ""
-    # Title case: capitalize first letter of each word except small Spanish words
-    words = clean.split()
-    _SMALL = {
-        "a", "al", "con", "de", "del", "desde", "e", "el", "en",
-        "la", "las", "los", "o", "para", "por", "sin", "u", "un", "una", "y",
-    }
-    result: list[str] = []
-    for i, word in enumerate(words):
-        if i == 0 or word.lower() not in _SMALL:
-            result.append(word.capitalize())
-        else:
-            result.append(word.lower())
-    return " ".join(result)
-
-
-def _trim_source_view_content_markers(text: str) -> str:
-    clean = str(text or "").strip()
-    if not clean:
-        return ""
-    lowered = clean.lower()
-    for marker in _SOURCE_VIEW_CONTENT_MARKERS:
-        idx = lowered.find(marker)
-        if idx >= 0:
-            trimmed = clean[idx + len(marker) :].strip(" :.-\n")
-            if trimmed:
-                clean = trimmed
-                lowered = clean.lower()
-                break
-    return clean
-
-
-def _is_source_view_noise_text(text: str) -> bool:
-    lowered = re.sub(r"\s+", " ", str(text or "").lower()).strip()
-    if not lowered:
-        return True
-    if any(hint in lowered for hint in _SOURCE_VIEW_NON_USABLE_HINTS):
-        return True
-    if any(hint in lowered for hint in _SOURCE_VIEW_HTML_NOISE_HINTS):
-        return True
-    if lowered.count("icono ") >= 2:
-        return True
-    if "portal dian" in lowered and not _SOURCE_VIEW_USEFUL_HINT_RE.search(lowered):
-        return True
-    return False
-
-
-def _extract_source_view_usable_text(public_text: str) -> str:
-    normalized = str(public_text or "").replace("\r\n", "\n").replace("\r", "\n")
-    if not normalized.strip():
-        return ""
-
-    if _ui()._looks_like_html_document(normalized):
-        normalized = _ui()._extract_visible_text_from_html(normalized)
-
-    normalized = html.unescape(normalized).replace("\xa0", " ")
-    normalized = _trim_source_view_content_markers(normalized)
-    paragraphs: list[str] = []
-    seen: set[str] = set()
-
-    for block in re.split(r"\n{2,}", normalized):
-        clean = _ui()._clean_markdown_inline(_trim_source_view_content_markers(block))
-        clean = re.sub(r"\s+", " ", clean).strip(" -:\n\t")
-        if not clean:
-            continue
-        if _ui()._SOURCE_METADATA_LINE_RE.match(clean):
-            continue
-        if _ui()._SOURCE_INTERNAL_BOUNDARY_RE.match(clean):
-            break
-        if _is_source_view_noise_text(clean):
-            continue
-        if len(clean) < 30 and not _SOURCE_VIEW_USEFUL_HINT_RE.search(clean):
-            continue
-        key = clean.lower()
-        if key in seen:
-            continue
-        seen.add(key)
-        paragraphs.append(clean)
-        if len(paragraphs) >= 12:
-            break
-
-    if not paragraphs:
-        sentence_candidates = re.split(r"(?<=[\.\!\?])\s+", normalized)
-        for sentence in sentence_candidates:
-            clean = _ui()._clean_markdown_inline(_trim_source_view_content_markers(sentence))
-            clean = re.sub(r"\s+", " ", clean).strip(" -:\n\t")
-            if not clean or _is_source_view_noise_text(clean):
-                continue
-            if len(clean) < 24 and not _SOURCE_VIEW_USEFUL_HINT_RE.search(clean):
-                continue
-            key = clean.lower()
-            if key in seen:
-                continue
-            seen.add(key)
-            paragraphs.append(clean)
-            if len(paragraphs) >= 12:
-                break
-
-    return "\n\n".join(paragraphs).strip()
 
 
 def _build_source_view_candidate_analysis(
@@ -843,11 +449,6 @@ def _normalize_source_view_field_value(value: Any, *, as_list: bool) -> list[str
                 break
         return normalized
     return _ui()._clip_session_content(_ui()._clean_markdown_inline(str(value or "").strip()), max_chars=420)
-
-
-def _normalize_source_reference_text(text: str) -> str:
-    ascii_text = unicodedata.normalize("NFKD", str(text or "")).encode("ascii", "ignore").decode("ascii")
-    return re.sub(r"\s+", " ", ascii_text).strip().lower()
 
 
 def _infer_source_reference_anchor(source_title: str) -> str:
@@ -1189,318 +790,6 @@ def _build_source_view_summary_markdown(
         return ""
     return _render_source_view_summary_markdown(summary_payload)
 
-
-def _sanitize_source_view_href(value: str) -> str:
-    href = str(value or "").strip()
-    if not href:
-        return ""
-    if href.startswith("/"):
-        return href
-    if re.match(r"^https?://", href, re.IGNORECASE):
-        return href
-    if re.match(r"^(mailto|tel):", href, re.IGNORECASE):
-        return href
-    return ""
-
-
-def _render_source_view_inline_markdown(text: str) -> str:
-    source = str(text or "")
-    placeholders: dict[str, str] = {}
-
-    def reserve(rendered: str) -> str:
-        token = f"@@MDTOKEN{len(placeholders)}@@"
-        placeholders[token] = rendered
-        return token
-
-    def replace_code(match: re.Match[str]) -> str:
-        return reserve(f"<code>{html.escape(match.group(1))}</code>")
-
-    source = re.sub(r"`([^`\n]+)`", replace_code, source)
-
-    def replace_link(match: re.Match[str]) -> str:
-        label = str(match.group(1) or "").strip()
-        href = _sanitize_source_view_href(match.group(2))
-        if not href:
-            return reserve(html.escape(label))
-        rel = " target='_blank' rel='noopener noreferrer'" if href.startswith(("http://", "https://")) else ""
-        return reserve(f"<a href='{html.escape(href)}'{rel}>{html.escape(label)}</a>")
-
-    source = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", replace_link, source)
-
-    rendered = html.escape(source)
-    rendered = re.sub(r"\*\*([^*\n]+)\*\*", r"<strong>\1</strong>", rendered)
-    rendered = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", r"<em>\1</em>", rendered)
-    rendered = re.sub(r"(?<!_)_([^_\n]+)_(?!_)", r"<em>\1</em>", rendered)
-    for token, replacement in placeholders.items():
-        rendered = rendered.replace(token, replacement)
-    return rendered
-
-
-def _render_source_view_markdown_html(text: str) -> str:
-    source = str(text or "").replace("\r\n", "\n").strip()
-    if not source:
-        return ""
-
-    blocks: list[str] = []
-    paragraph_lines: list[str] = []
-    list_items: list[str] = []
-    list_tag: str | None = None
-    quote_lines: list[str] = []
-    code_lines: list[str] = []
-    in_code_block = False
-
-    def flush_paragraph() -> None:
-        nonlocal paragraph_lines
-        if not paragraph_lines:
-            return
-        text_value = " ".join(line.strip() for line in paragraph_lines if line.strip())
-        if text_value:
-            blocks.append(f"<p>{_render_source_view_inline_markdown(text_value)}</p>")
-        paragraph_lines = []
-
-    def flush_list() -> None:
-        nonlocal list_items, list_tag
-        if not list_items or not list_tag:
-            list_items = []
-            list_tag = None
-            return
-        items_html = "".join(f"<li>{_render_source_view_inline_markdown(item)}</li>" for item in list_items)
-        blocks.append(f"<{list_tag}>{items_html}</{list_tag}>")
-        list_items = []
-        list_tag = None
-
-    def flush_quote() -> None:
-        nonlocal quote_lines
-        if not quote_lines:
-            return
-        text_value = " ".join(line.strip() for line in quote_lines if line.strip())
-        if text_value:
-            blocks.append(f"<blockquote><p>{_render_source_view_inline_markdown(text_value)}</p></blockquote>")
-        quote_lines = []
-
-    def flush_code() -> None:
-        nonlocal code_lines
-        if not code_lines:
-            return
-        blocks.append(f"<pre><code>{html.escape(chr(10).join(code_lines))}</code></pre>")
-        code_lines = []
-
-    for raw_line in source.split("\n"):
-        line = raw_line.rstrip()
-        stripped = line.strip()
-
-        if stripped.startswith("```"):
-            flush_paragraph()
-            flush_list()
-            flush_quote()
-            if in_code_block:
-                flush_code()
-                in_code_block = False
-            else:
-                in_code_block = True
-            continue
-
-        if in_code_block:
-            code_lines.append(raw_line)
-            continue
-
-        if not stripped:
-            flush_paragraph()
-            flush_list()
-            flush_quote()
-            continue
-
-        heading_match = re.match(r"^(#{1,6})\s+(.+)$", stripped)
-        if heading_match:
-            flush_paragraph()
-            flush_list()
-            flush_quote()
-            level = min(len(heading_match.group(1)), 6)
-            content = _render_source_view_inline_markdown(heading_match.group(2).strip())
-            blocks.append(f"<h{level}>{content}</h{level}>")
-            continue
-
-        if re.match(r"^([-*_])\1{2,}$", stripped):
-            flush_paragraph()
-            flush_list()
-            flush_quote()
-            blocks.append("<hr>")
-            continue
-
-        quote_match = re.match(r"^>\s?(.*)$", stripped)
-        if quote_match:
-            flush_paragraph()
-            flush_list()
-            quote_lines.append(quote_match.group(1))
-            continue
-
-        list_match = re.match(r"^([-*]|\d+\.)\s+(.+)$", stripped)
-        if list_match:
-            flush_paragraph()
-            flush_quote()
-            current_tag = "ol" if list_match.group(1).endswith(".") and list_match.group(1)[0].isdigit() else "ul"
-            if list_tag and list_tag != current_tag:
-                flush_list()
-            list_tag = current_tag
-            list_items.append(list_match.group(2).strip())
-            continue
-
-        flush_list()
-        flush_quote()
-        paragraph_lines.append(stripped)
-
-    if in_code_block:
-        flush_code()
-    else:
-        flush_paragraph()
-        flush_list()
-        flush_quote()
-
-    return "".join(blocks)
-
-
-def _build_source_view_html(
-    *,
-    title: str,
-    doc_id_html: str,
-    tier_label_html: str,
-    provider_label_html: str,
-    reference_link_html: str,
-    artifact_label: str,
-    download_href: str,
-    switch_view_html: str,
-    official_link_html: str,
-    rendered_content_html: str,
-    raw_fallback_html: str,
-    show_meta_card: bool = True,
-    viewer_note: str = "Visor de cliente final: muestra resumen estructurado y enlaces de soporte.",
-) -> str:
-    """Return a user-facing HTML page for citation support content."""
-    heading = "Contenido de Apoyo Proveido por Loggro"
-    meta_card_html = ""
-    if show_meta_card:
-        meta_card_html = (
-            "<section class='meta-card'>"
-            "<div class='chip-row'>"
-            f"<span class='chip'>Fuente: {tier_label_html}</span>"
-            f"<span class='chip'>Proveedor: {provider_label_html}</span>"
-            f"<span class='chip'>Documento: {artifact_label}</span>"
-            "</div>"
-            f"<p class='meta-link'>{reference_link_html}</p>"
-            f"<p class='viewer-note'>{html.escape(viewer_note)}</p>"
-            "</section>"
-        )
-    download_md_href = download_href.replace("&format=pdf", "&format=md")
-    actions_html = (
-        "<div class='actions'>"
-        f"<a class='btn primary' href='{html.escape(download_href)}'>Descargar PDF</a>"
-        f"<a class='btn' href='{html.escape(download_md_href)}'>Descargar Markdown</a>"
-        f"{switch_view_html}"
-        f"{official_link_html}"
-        "</div>"
-    )
-    if "view=original" in download_href:
-        normalized_md_href = (
-            download_href.replace("view=original", "view=normalized").replace("&format=original", "&format=md")
-        )
-        actions_html = (
-            "<div class='actions'>"
-            f"<a class='btn primary' href='{html.escape(download_href)}'>Descargar original</a>"
-            f"<a class='btn' href='{html.escape(normalized_md_href)}'>Descargar Markdown</a>"
-            f"{switch_view_html}"
-            f"{official_link_html}"
-            "</div>"
-        )
-
-    return (
-        "<!doctype html><html lang='es'><head><meta charset='utf-8'>"
-        "<meta name='viewport' content='width=device-width,initial-scale=1'>"
-        f"<title>{title}</title>"
-        "<style>"
-        "*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}"
-        "body{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f3f0eb;color:#1a1a1a;}"
-        ".page-wrapper{max-width:900px;margin:0 auto;padding:20px 16px 28px;}"
-        ".support-title{font-size:1.32rem;font-weight:700;color:#143f32;margin:0 0 14px;}"
-        ".page{background:#fff;border:1px solid #d4cfc8;border-radius:10px;"
-        "box-shadow:0 2px 8px rgba(0,0,0,.04);padding:26px 24px;min-height:520px;"
-        "line-height:1.75;font-size:.95rem;color:#2a2520;}"
-        ".meta-card{border:1px solid #d8d2ca;background:#f8f5f0;padding:12px 14px;border-radius:8px;margin-bottom:12px;}"
-        ".chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}"
-        ".chip{display:inline-flex;border:1px solid #c8d3cd;background:#edf4f1;color:#184437;border-radius:999px;padding:3px 10px;font-size:.78rem;font-weight:600;}"
-        ".meta-link{font-size:.84rem;color:#595349;}"
-        ".viewer-note{font-size:.8rem;color:#6a645b;}"
-        ".actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;}"
-        ".btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid #b8c9c2;border-radius:8px;padding:7px 12px;font-size:.82rem;font-weight:700;color:#15513f;background:#f4faf7;text-decoration:none;}"
-        ".btn.primary{background:#0f5a47;color:#fff;border-color:#0f5a47;}"
-        ".page h1{font-size:1.55rem;font-weight:700;color:#1a1714;margin:0 0 18px;"
-        "padding-bottom:10px;border-bottom:2px solid #e8e3db;}"
-        ".page h2{font-size:1.25rem;font-weight:700;color:#2c2620;margin:28px 0 12px;"
-        "padding-bottom:6px;border-bottom:1px solid #ede8e0;}"
-        ".page h3{font-size:1.08rem;font-weight:600;color:#3a3228;margin:22px 0 8px;}"
-        ".page h4{font-size:.96rem;font-weight:600;color:#4a4238;margin:18px 0 6px;}"
-        ".page p{margin:0 0 14px;}"
-        ".page ul,.page ol{margin:0 0 14px;padding-left:26px;}"
-        ".page li{margin:0 0 6px;}"
-        ".page li>ul,.page li>ol{margin:4px 0 4px;}"
-        ".page strong{font-weight:700;color:#1a1714;}"
-        ".page em{font-style:italic;}"
-        ".page code{font-family:'SF Mono','Fira Code',Consolas,monospace;"
-        "font-size:.86em;background:#f5f2ed;border:1px solid #e5e0d8;"
-        "border-radius:4px;padding:1px 5px;color:#8b4513;}"
-        ".page pre{background:#faf8f5;border:1px solid #e5e0d8;border-radius:8px;"
-        "padding:14px 18px;overflow-x:auto;margin:0 0 14px;}"
-        ".page pre code{background:none;border:none;padding:0;font-size:.84rem;"
-        "line-height:1.5;}"
-        ".page blockquote{border-left:3px solid #d4cfc8;margin:0 0 14px;"
-        "padding:8px 16px;color:#5a534b;background:#faf9f7;border-radius:0 6px 6px 0;}"
-        ".page hr{border:none;border-top:1px solid #e5e0d8;margin:24px 0;}"
-        ".page table{border-collapse:collapse;width:100%;margin:0 0 14px;"
-        "font-size:.88rem;}"
-        ".page th,.page td{border:1px solid #e0dbd3;padding:8px 12px;text-align:left;}"
-        ".page th{background:#f5f2ed;font-weight:600;color:#2c2620;}"
-        ".page a{color:#4a6cf7;text-decoration:none;}"
-        ".page a:hover{text-decoration:underline;}"
-        ".page-raw{white-space:pre-wrap;word-wrap:break-word;"
-        "font-family:'SF Mono','Fira Code',Consolas,monospace;"
-        "font-size:.86rem;line-height:1.55;}"
-        "@media(max-width:700px){.page-wrapper{padding:16px 10px 20px;}.page{padding:18px 14px;}}"
-        "</style>"
-        "</head><body>"
-        "<div class='page-wrapper'>"
-        f"<h1 class='support-title'>{html.escape(heading)}</h1>"
-        f"<p class='meta-link' style='margin:0 0 8px'>doc_id: {doc_id_html}</p>"
-        "<div class='page' id='doc-content'>"
-        f"{meta_card_html}"
-        f"{actions_html}"
-        f"<div id='rendered-content'>{rendered_content_html}</div>"
-        f"{raw_fallback_html}"
-        "</div>"
-        "</div>"
-        "</body></html>"
-    )
-
-
-def _build_source_view_href(
-    *,
-    doc_id: str,
-    view: str = "normalized",
-    question_context: str = "",
-    citation_context: str = "",
-    full: bool = False,
-) -> str:
-    params: dict[str, str] = {"doc_id": str(doc_id or "").strip()}
-    normalized_view = str(view or "normalized").strip().lower() or "normalized"
-    if normalized_view == "original":
-        params["view"] = "original"
-    q_clean = _ui()._sanitize_question_context(question_context)
-    if q_clean:
-        params["q"] = q_clean
-    cq_clean = _ui()._sanitize_question_context(citation_context, max_chars=240)
-    if cq_clean:
-        params["cq"] = cq_clean
-    if full:
-        params["full"] = "1"
-    return f"/source-view?{urlencode(params)}"
 
 
 # ---------------------------------------------------------------------------
