@@ -163,16 +163,13 @@ function createMobileExpertCard(card: ExpertCardViewModel): HTMLDivElement {
     header.appendChild(signal);
   }
 
-  // Layer 1: Why this interpretation is relevant
+  // "Posible relevancia" label intentionally omitted: the card being
+  // shown IS the signal of relevance — labelling it is redundant plumbing.
+  // The underlying relevancia text still renders, just unlabelled.
   if (card.relevancia) {
     const relevancia = document.createElement("p");
     relevancia.className = "mobile-interp-card-desc";
-    const label = document.createElement("strong");
-    label.textContent = "Posible relevancia: ";
-    const summary = document.createElement("em");
-    summary.style.fontWeight = "600";
-    summary.textContent = card.relevancia;
-    relevancia.append(label, summary);
+    relevancia.textContent = card.relevancia;
     mobileCard.append(header, relevancia);
   } else {
     mobileCard.appendChild(header);

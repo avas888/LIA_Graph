@@ -22,6 +22,25 @@ def _ui() -> Any:
     return _mod
 
 
+# Text-formatting helpers live in ui_text_formatters so they can be reused
+# and tested independently. Re-import them under the legacy underscored
+# names to keep call sites below untouched during the extraction.
+from .ui_text_formatters import (  # noqa: E402
+    SPANISH_SMALL_WORDS as _DEPTH_LABEL_SMALL_WORDS,
+    clean_practica_label as _clean_practica_label,
+    label_dedup_key as _label_dedup_key,
+    spanish_title_case_label as _spanish_title_case_label,
+)
+# Pure sub-helpers for ET article extraction — each owns one concern so
+# the orchestrator below stays declarative.
+from .ui_et_article_extractors import (  # noqa: E402
+    build_article_heading_pattern,
+    find_article_start_index,
+    is_noisy_source_markup,
+    is_skippable_citation_preamble,
+)
+
+
 # ---------------------------------------------------------------------------
 # Module-level constants (moved from ui_server during granularize-v1 1C)
 # ---------------------------------------------------------------------------
@@ -116,9 +135,9 @@ def _resolve_et_locator_analysis(context: dict[str, Any]) -> dict[str, Any] | No
 
 
 def _article_heading_pattern(locator_start: str) -> re.Pattern[str]:
-    clean = str(locator_start or "").strip()
-    trailing_guard = r"(?![-_]\d)" if "-" not in clean else ""
-    return re.compile(rf"\bart[íi]culo(?:s)?\s+{re.escape(clean)}{trailing_guard}\b", re.IGNORECASE)
+    # Thin alias preserved for legacy call sites; the regex builder lives
+    # in ui_et_article_extractors so it can be tested independently.
+    return build_article_heading_pattern(locator_start)
 
 
 def _extract_et_article_quote_from_markdown(
@@ -151,9 +170,9 @@ def _extract_et_article_quote_from_markdown(
         if not clean:
             continue
         lowered = clean.lower()
-        if lowered.startswith("*fuente original compilada:") or lowered.startswith("fuente original compilada:"):
+        if is_skippable_citation_preamble(lowered):
             continue
-        if any(token in lowered for token in ("<option", "</option>", "bookmarkaj", "javascript:insrow")):
+        if is_noisy_source_markup(lowered):
             return ""
         if _ui()._is_source_view_noise_text(clean):
             continue
@@ -162,12 +181,8 @@ def _extract_et_article_quote_from_markdown(
     if not paragraphs:
         return ""
 
-    heading_re = _article_heading_pattern(locator_start)
-    start_index = -1
-    for idx, paragraph in enumerate(paragraphs):
-        if heading_re.search(paragraph):
-            start_index = idx
-            break
+    heading_re = build_article_heading_pattern(locator_start)
+    start_index = find_article_start_index(paragraphs, heading_re)
     if start_index < 0:
         start_index = 0
 
@@ -625,25 +640,7 @@ _DEPTH_LABEL_ET_RE = re.compile(
     re.IGNORECASE,
 )
 _DEPTH_LABEL_FILE_EXT_RE = re.compile(r"\.(?:md|txt|json|html?)$", re.IGNORECASE)
-_DEPTH_LABEL_SMALL_WORDS = frozenset({
-    "a", "al", "con", "de", "del", "desde", "e", "el", "en",
-    "la", "las", "los", "o", "para", "por", "sin", "u", "un", "una", "y",
-})
-
-
-_LABEL_DEDUP_ENTITY_RE = re.compile(
-    r"\b(?:personas?\s+(?:jur[ií]dicas?|naturales?)|grandes?\s+contribuyentes?"
-    r"|jur[ií]dicas?|naturales?|gc|pj|pn|rst|pes)\b",
-    re.IGNORECASE,
-)
-_LABEL_DEDUP_YEAR_RE = re.compile(r"\b\d{4}\b")
-
-
-def _label_dedup_key(label: str) -> str:
-    """Collapse entity-type / year variants into a single dedup key."""
-    key = _LABEL_DEDUP_ENTITY_RE.sub("", label.lower())
-    key = _LABEL_DEDUP_YEAR_RE.sub("", key)
-    return re.sub(r"\s+", " ", key).strip()
+# _DEPTH_LABEL_SMALL_WORDS + _label_dedup_key now live in ui_text_formatters.
 
 
 def _normalize_depth_item_label(label: str) -> str:
@@ -690,18 +687,7 @@ def _normalize_depth_item_label(label: str) -> str:
     return f"{clean}{provider_suffix}" if provider_suffix else clean
 
 
-def _spanish_title_case_label(text: str) -> str:
-    """Apply Spanish title case to a label string."""
-    words = text.split()
-    if not words:
-        return text
-    result: list[str] = []
-    for i, word in enumerate(words):
-        if i == 0 or word.lower() not in _DEPTH_LABEL_SMALL_WORDS:
-            result.append(word.capitalize())
-        else:
-            result.append(word.lower())
-    return " ".join(result)
+# _spanish_title_case_label now lives in ui_text_formatters.
 
 
 def _build_structured_additional_depth_sections(context: dict[str, Any]) -> list[dict[str, Any]] | None:
@@ -731,23 +717,14 @@ def _build_structured_additional_depth_sections(context: dict[str, Any]) -> list
     return sections or None
 
 
+# _clean_practica_label + its PRACTICA regex constants now live in
+# ui_text_formatters. The two constants below are still used by
+# _best_practica_display_label and stay here because they are specific
+# to that orchestrator's doc-id parsing.
 _PRACTICA_INTERNAL_LABEL_RE = re.compile(r"ingesta\s+gui|checksum=", re.IGNORECASE)
 _PRACTICA_GENERIC_SUBTEMAS = frozenset({"ingestion_user_upload", "guia_practica_general", "guia practica", ""})
-_PRACTICA_UNKNOWN_PREFIX_RE = re.compile(r"^unknown\s*[:—–\-]\s*", re.IGNORECASE)
-_PRACTICA_CODE_PREFIX_RE = re.compile(r"^[a-z]{1,6}\s+[a-z]?\w{1,6}\s*[—–\-]\s*", re.IGNORECASE)
-_PRACTICA_NUM_PREFIX_RE = re.compile(r"^\d{1,3}\s*[—–\-]\s*", re.IGNORECASE)
 _PRACTICA_LEY_DOCID_RE = re.compile(r"practica[_\-\s]ley[_\-\s](\d+)[_\-\s](\d{4})", re.IGNORECASE)
 _PRACTICA_EXT_SUFFIX_RE = re.compile(r"\.(?:md|txt|json|html?)$", re.IGNORECASE)
-
-
-def _clean_practica_label(raw: str) -> str:
-    label = _PRACTICA_CODE_PREFIX_RE.sub("", raw).strip()
-    label = _PRACTICA_UNKNOWN_PREFIX_RE.sub("", label).strip()
-    label = _PRACTICA_NUM_PREFIX_RE.sub("", label).strip()
-    label = _PRACTICA_EXT_SUFFIX_RE.sub("", label).strip()
-    label = label.replace("_", " ")
-    label = re.sub(r"\s+", " ", label).strip()
-    return label or raw
 
 
 def _best_practica_display_label(rows: list[dict[str, Any]]) -> str:

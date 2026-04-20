@@ -9,6 +9,7 @@ from typing import Iterable
 ARTICLE_HEADER_RE = re.compile(
     r"^(?P<prefix>#{1,6})\s*(?:art(?:[ií]culo)?|art\.)\s+"
     r"(?P<number>\d+(?:-\d+)?)"
+    r"(?:\s*[oº°])?"
     r"(?:\s*[\.\-:]\s*(?P<title>.*))?$",
     re.IGNORECASE | re.MULTILINE,
 )

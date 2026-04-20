@@ -22,6 +22,7 @@ def _build_interpretation_card(
     logical_doc_id,
     expert_card_summary,
     summarize_snippet,
+    extended_excerpt,
 ) -> InterpretationCard:
     citation = dict(runtime.citation_payload or {})
     title = str(
@@ -32,6 +33,7 @@ def _build_interpretation_card(
     ).strip() or runtime.doc.doc_id
     card_summary = str(expert_card_summary(runtime.corpus_text or "", max_chars=240) or "").strip()
     snippet = str(summarize_snippet(runtime.corpus_text or "", max_chars=360) or "").strip()
+    extended = str(extended_excerpt(runtime.corpus_text or "", max_chars=2500) or "").strip() if extended_excerpt else ""
     position_signal = extract_position_signal(f"{card_summary}\n{snippet}\n{runtime.corpus_text[:1200]}")
     return InterpretationCard(
         doc_id=runtime.doc.doc_id,
@@ -49,6 +51,7 @@ def _build_interpretation_card(
         official_url=str(citation.get("official_url", "")).strip() or None,
         open_url=str(citation.get("open_url", "")).strip() or None,
         card_summary=card_summary,
+        extended_excerpt=extended,
         requested_match=bool(ranked.requested_match),
         selection_reason=str(ranked.selection_reason or "").strip(),
         core_ref_matches=tuple(ranked.core_ref_matches or ()),
@@ -68,6 +71,7 @@ def synthesize_expert_panel(
     logical_doc_id,
     expert_card_summary,
     summarize_snippet,
+    extended_excerpt=None,
 ) -> ExpertPanelSurface:
     candidates = [
         build_interpretation_candidate(
@@ -86,6 +90,7 @@ def synthesize_expert_panel(
             logical_doc_id=logical_doc_id,
             expert_card_summary=expert_card_summary,
             summarize_snippet=summarize_snippet,
+            extended_excerpt=extended_excerpt,
         )
         for ranked in selection.items
         if ranked.candidate.doc.doc_id in runtime_by_doc_id
@@ -120,6 +125,7 @@ def synthesize_citation_interpretations(
     logical_doc_id,
     expert_card_summary,
     summarize_snippet,
+    extended_excerpt=None,
 ) -> CitationInterpretationsSurface:
     candidates = [
         build_interpretation_candidate(
@@ -138,6 +144,7 @@ def synthesize_citation_interpretations(
             logical_doc_id=logical_doc_id,
             expert_card_summary=expert_card_summary,
             summarize_snippet=summarize_snippet,
+            extended_excerpt=extended_excerpt,
         )
         for ranked in selection.page
         if ranked.candidate.doc.doc_id in runtime_by_doc_id

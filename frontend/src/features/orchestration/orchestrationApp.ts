@@ -507,6 +507,33 @@ const moduleCards: ModuleCard[] = [
     bullets: [
       "Restauró el read path heredado de Lia Contadores para el modal de Normativa.",
       "Define el primer paint rápido y autoritativo antes de cualquier enrichment graph-backed.",
+      "Delega parsing de anotaciones ET a ui_article_annotations.py y el perfil de formularios a ui_form_citation_profile.py (granularize-v2).",
+    ],
+  },
+  {
+    title: "ui_article_annotations.py",
+    path: "src/lia_graph/ui_article_annotations.py",
+    role: "Parser puro de anotaciones ET",
+    consumes: "raw markdown body de parsed_articles.jsonl",
+    produces: "(body, [{label, body, items: [{text, href}]}])",
+    scope: "normativa",
+    stability: "implementation-detail",
+    bullets: [
+      "Separa Notas de Vigencia / Concordancias / Jurisprudencia / Doctrina Concordante del quote principal.",
+      "Preserva los 33k+ hrefs markdown que el corpus ya trae de normograma.dian.gov.co / secretaría senado / función pública para que el modal los pinte como anchors en vez de aplanarlos a texto plano.",
+    ],
+  },
+  {
+    title: "ui_form_citation_profile.py",
+    path: "src/lia_graph/ui_form_citation_profile.py",
+    role: "Perfil determinístico de formularios",
+    consumes: "citation context con document_family == 'formulario' + form-guide packages",
+    produces: "title, lead, facts, sections sin pasar por LLM",
+    scope: "normativa",
+    stability: "implementation-detail",
+    bullets: [
+      "Extrae número de formulario y normaliza títulos tipo 'Formulario 110: Renta Personas Jurídicas' con casing español correcto.",
+      "Decide si un row ya es una guía operativa para redirigir la companion-action al lector interactivo de guías.",
     ],
   },
   {

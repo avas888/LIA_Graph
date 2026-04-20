@@ -24,6 +24,15 @@ import {
 } from "@/features/chat/normative/citationParsing";
 import { createBadge } from "@/shared/ui/atoms/badge";
 import type { LiaChipTone } from "@/shared/ui/atoms/chip";
+import { formatBindingForceText } from "@/features/chat/normative/bindingForceFormatter";
+import {
+  isBulletListBlock,
+  splitBlockLines,
+  splitParagraphBlocks,
+  stripBulletMarker,
+} from "@/shared/utils/textBlockFormatter";
+import { buildNormaFacts } from "@/features/chat/normative/profileFactsBuilder";
+import { buildLinkableListNode } from "@/shared/ui/molecules/linkableList";
 
 // ── Fetch helpers ─────────────────────────────────────────────
 
@@ -217,36 +226,8 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
     });
   }
 
-  function buildNormaFacts(profile: CitationProfileResponse): CitationProfileFact[] {
-    const hideBaseFacts =
-      String(profile?.document_family || "").trim() === "et_dur" && Boolean(profile?.original_text);
-    if (hideBaseFacts) return [];
-    const rows = Array.isArray(profile?.facts) ? [...profile.facts] : [];
-    const vigencia = profile?.vigencia_detail;
-    if (
-      vigencia &&
-      isRenderableEvidenceStatus(vigencia.evidence_status) &&
-      String(vigencia.label || "").trim()
-    ) {
-      const summaryText = String(vigencia.summary || "").trim();
-      const value = summaryText || [
-        String(vigencia.label || "").trim(),
-        String(vigencia.basis || "").trim(),
-        String(vigencia.notes || "").trim(),
-        String(vigencia.last_verified_date || "").trim()
-          ? `Última verificación del corpus: ${String(vigencia.last_verified_date || "").trim()}`
-          : "",
-      ].filter(Boolean).join("\n");
-      const existingIdx = rows.findIndex((fact) => /vigencia/i.test(String(fact?.label || "")));
-      const entry = { label: "Vigencia específica", value };
-      if (existingIdx >= 0) {
-        rows.splice(existingIdx, 1, entry);
-      } else {
-        rows.push(entry);
-      }
-    }
-    return rows;
-  }
+  // buildNormaFacts moved to profileFactsBuilder.ts — pure data transform,
+  // unit-testable without DOM or dep bag.
 
   function renderNormaSections(sections: CitationProfileSection[] = []): void {
     normaSectionsNode.innerHTML = "";
@@ -275,21 +256,17 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
   }
 
   function appendQuoteParagraphs(container: HTMLElement, text: unknown): void {
-    const blocks = String(text || "")
-      .replace(/\r\n/g, "\n")
-      .split(/\n{2,}/)
-      .map((item) => item.trim())
-      .filter(Boolean);
+    const blocks = splitParagraphBlocks(String(text ?? ""));
     if (blocks.length === 0) {
       container.textContent = "";
       return;
     }
-    blocks.forEach((block) => {
+    for (const block of blocks) {
       const paragraph = document.createElement("p");
       paragraph.className = "norma-quote-paragraph";
       paragraph.textContent = block;
       container.appendChild(paragraph);
-    });
+    }
   }
 
   function buildNormaOriginalArticle(
@@ -337,29 +314,37 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
     return article;
   }
 
-  function appendAnnotationPanelBody(panel: HTMLElement, rawBody: string): void {
-    const normalized = String(rawBody || "").replace(/\r\n/g, "\n").trim();
-    if (!normalized) return;
-    const blocks = normalized.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
-    const bulletMatcher = /^[-•·]\s+/;
-    blocks.forEach((block) => {
-      const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
-      const isAllBullets = lines.length > 0 && lines.every((l) => bulletMatcher.test(l));
-      if (isAllBullets) {
+  function appendAnnotationPanelBody(
+    panel: HTMLElement,
+    rawBody: string,
+    structuredItems?: Array<{ text?: string; href?: string | null }> | null,
+  ): void {
+    if (Array.isArray(structuredItems) && structuredItems.length > 0) {
+      const linkable = buildLinkableListNode(structuredItems, {
+        className: "norma-annot-list",
+      });
+      if (linkable) {
+        panel.appendChild(linkable);
+        return;
+      }
+    }
+    for (const block of splitParagraphBlocks(rawBody)) {
+      const lines = splitBlockLines(block);
+      if (isBulletListBlock(lines)) {
         const list = document.createElement("ul");
         list.className = "norma-annot-list";
-        lines.forEach((line) => {
+        for (const line of lines) {
           const li = document.createElement("li");
-          li.textContent = line.replace(bulletMatcher, "");
+          li.textContent = stripBulletMarker(line);
           list.appendChild(li);
-        });
+        }
         panel.appendChild(list);
       } else {
         const p = document.createElement("p");
         p.textContent = lines.join(" ");
         panel.appendChild(p);
       }
-    });
+    }
   }
 
   function buildNormaAnnotationsNode(annotations): HTMLElement | null {
@@ -368,8 +353,9 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
           .map((item) => ({
             label: String(item?.label || "").trim(),
             body: String(item?.body || "").trim(),
+            items: Array.isArray(item?.items) ? item.items : null,
           }))
-          .filter((item) => item.label && item.body)
+          .filter((item) => item.label && (item.body || (item.items && item.items.length > 0)))
       : [];
     if (items.length === 0) return null;
 
@@ -389,7 +375,7 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
       btn.className = "norma-annot-tab";
       btn.dataset.tabIndex = String(idx);
       btn.setAttribute("role", "tab");
-      btn.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+      btn.setAttribute("aria-selected", "false");
       btn.tabIndex = idx === 0 ? 0 : -1;
       btn.textContent = item.label;
       buttons.push(btn);
@@ -399,8 +385,8 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
       panel.className = "norma-annot-panel";
       panel.dataset.tabIndex = String(idx);
       panel.setAttribute("role", "tabpanel");
-      if (idx !== 0) panel.hidden = true;
-      appendAnnotationPanelBody(panel, item.body);
+      panel.hidden = true;
+      appendAnnotationPanelBody(panel, item.body, item.items);
       panels.push(panel);
     });
 
@@ -409,13 +395,17 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
     panels.forEach((p) => panelHost.appendChild(p));
 
     const select = (targetIndex: number) => {
+      const currentlyActive = buttons.findIndex(
+        (btn) => btn.getAttribute("aria-selected") === "true",
+      );
+      const shouldClose = currentlyActive === targetIndex;
       buttons.forEach((btn, i) => {
-        const active = i === targetIndex;
+        const active = !shouldClose && i === targetIndex;
         btn.setAttribute("aria-selected", active ? "true" : "false");
-        btn.tabIndex = active ? 0 : -1;
+        btn.tabIndex = active || (shouldClose && i === targetIndex) ? 0 : -1;
       });
       panels.forEach((panel, i) => {
-        panel.hidden = i !== targetIndex;
+        panel.hidden = shouldClose || i !== targetIndex;
       });
     };
     buttons.forEach((btn, idx) => {
@@ -754,18 +744,9 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
       : "formulario";
 
     // Eyebrow text: the backend emits `binding_force` from
-    // `normative_taxonomy.py` as a classification label positioned on a
-    // binding-force hierarchy ("Decreto reglamentario", "Ley o estatuto",
-    // "Rango constitucional", …). Prefix with "Fuerza vinculante:" so the
-    // eyebrow reads as an authority statement instead of a redundant class
-    // label above the header title. Idempotent if the value already carries
-    // the prefix (test fixtures may).
-    const bindingForceRaw = String(profile?.binding_force || "").trim();
-    const bindingForceText = bindingForceRaw
-      ? /^fuerza\s+vinculante\b/i.test(bindingForceRaw)
-        ? bindingForceRaw
-        : `Fuerza vinculante: ${bindingForceRaw}`
-      : "";
+    // `normative_taxonomy.py` as a classification label. Prefix delegated
+    // to the shared formatter so desktop and mobile stay in sync.
+    const bindingForceText = formatBindingForceText(String(profile?.binding_force || ""));
     normaBindingForceNode.textContent = bindingForceText;
     normaBindingForceNode.hidden = !bindingForceText;
 

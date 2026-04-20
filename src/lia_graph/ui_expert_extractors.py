@@ -462,3 +462,301 @@ def _expert_card_summary(text: str, *, max_chars: int = 240) -> str:
         sentence = excerpt
     sentence = sentence if re.search(r"[.!?…]$", sentence) else f"{sentence}."
     return _clip_expert_summary(sentence, max_chars=max_chars)
+
+
+# --- Structured extractor for the per-expert detail view --------------------
+# The expert corpus markdown has rich structure (## H2 sections, ### H3
+# subsections, **Provider:** intros, a)/b)/c) lettered lists, **🔗 Fuentes
+# directas:** link blocks). The legacy `_expert_excerpt_paragraphs` path
+# flattens all of it via `re.sub(r"\s+", " ", ...)` in
+# `_clean_expert_summary_paragraph`, which is fine for a one-line card preview
+# but turns the per-expert detail view into a wall of text.
+#
+# `_expert_extended_excerpt` walks the raw markdown lines and emits a clean
+# subset (`### `, `- `, `**bold**`) that the frontend renders semantically,
+# while stripping plumbing the accountant doesn't need.
+
+_EXPERT_PROVIDERS_RE_FRAGMENT = (
+    r"Gerencie\.com|Gerencie|Actualícese|Actualicese|Deloitte|EY|KPMG|PwC|BDO|"
+    r"Grant\s+Thornton|Crowe|Baker\s+Tilly|CR\s+Consultores|"
+    r"Consultor\s+Contable\s+Alegra|DIAN|Legis|Vértice|Vertice|Consultorcontable"
+)
+
+_EXPERT_ATTRIB_PROVIDER_RE = re.compile(
+    rf"^(?:{_EXPERT_PROVIDERS_RE_FRAGMENT})\s+",
+    re.IGNORECASE,
+)
+_EXPERT_ATTRIB_VERB_RE = re.compile(
+    r"^(?:documenta|detalla|publica|analiza|presenta|indica|enfatiza|"
+    r"señala|senala|explica|destaca|sostiene|argumenta|considera|observa|"
+    r"menciona|aclara|advierte|recomienda|describe|expone|comenta|interpreta|"
+    r"reitera|aborda|trata|enseña|ensena|sugiere|propone|resalta|recoge|aporta)\s+",
+    re.IGNORECASE,
+)
+_EXPERT_ATTRIB_BRIDGE_RE = re.compile(
+    r"^(?:que|los|las|una|un|el|la|en|este|esta|estos|estas|sobre|para|"
+    r"cuando|cómo|como|cuáles|cuales|qué|cualquier|todos|todas|si)\s+",
+    re.IGNORECASE,
+)
+
+_FUENTES_DIRECTAS_HEADER_RE = re.compile(
+    r"^\s*\*\*\s*(?:🔗\s*)?Fuentes\s+directas\s*:?\s*\*\*\s*$",
+    re.IGNORECASE,
+)
+_PROVIDER_BOLD_HEADER_RE = re.compile(
+    rf"^\s*\*\*\s*(?:{_EXPERT_PROVIDERS_RE_FRAGMENT})\s*:?\s*\*\*\s*$",
+    re.IGNORECASE,
+)
+_LETTERED_ITEM_RE = re.compile(r"^\s*([a-z])\)\s+(.+)$", re.IGNORECASE)
+_BULLET_ITEM_RE = re.compile(r"^\s*[-*]\s+(.+)$")
+_HEADING_RE = re.compile(r"^(#{1,5})\s+(.+)$")
+_HORIZONTAL_RULE_RE = re.compile(r"^\s*-{3,}\s*$")
+_MARKDOWN_LINK_LINE_RE = re.compile(r"^\s*-\s+\[.+\]\(https?://[^\s)]+\).*$")
+_TABLE_ROW_RE = re.compile(r"^\s*\|.+\|\s*$")
+_TABLE_SEPARATOR_RE = re.compile(r"^\s*\|[\s:|-]+\|\s*$")
+
+
+def _strip_attribution_prefix(text: str) -> str:
+    """Strip leading "Gerencie documenta que ..." patterns.
+
+    The expert is already identified by the chip badge; restating the
+    provider name on every sentence is noise. This recognises three
+    components in sequence — provider name + reporting verb + (optional)
+    bridge word — and drops them, capitalising the first remaining char.
+    """
+    m = _EXPERT_ATTRIB_PROVIDER_RE.match(text)
+    if not m:
+        return text
+    rest = text[m.end():]
+    m2 = _EXPERT_ATTRIB_VERB_RE.match(rest)
+    if not m2:
+        return text
+    rest = rest[m2.end():]
+    m3 = _EXPERT_ATTRIB_BRIDGE_RE.match(rest)
+    if m3:
+        rest = rest[m3.end():]
+    rest = rest.lstrip()
+    if not rest:
+        return text
+    return rest[0].upper() + rest[1:]
+
+
+def _expert_extended_excerpt_legacy(text: str, *, max_chars: int) -> str:
+    paragraphs = _expert_excerpt_paragraphs(text)
+    if not paragraphs:
+        return ""
+    kept: list[str] = []
+    running = 0
+    for paragraph in paragraphs:
+        if not paragraph:
+            continue
+        projected = running + len(paragraph) + (2 if kept else 0)
+        if projected > max_chars and kept:
+            break
+        if len(paragraph) > max_chars:
+            paragraph = _clip_expert_summary(paragraph, max_chars=max_chars - running - (2 if kept else 0))
+            if paragraph:
+                kept.append(paragraph)
+            break
+        kept.append(paragraph)
+        running = projected
+    return "\n\n".join(kept).strip()
+
+
+def _drop_expert_metadata_header(text: str) -> list[str] | None:
+    """Return raw lines from the first ``## `` heading onward.
+
+    Everything above the first H2 is plumbing (title, "Tipo de corpus",
+    "Fecha de última verificación", "Normas base", etc.). Returns ``None``
+    when no H2 exists, signalling that the caller should fall back.
+    """
+    raw_lines = str(text or "").splitlines()
+    for idx, line in enumerate(raw_lines):
+        m = _HEADING_RE.match(line)
+        if m and len(m.group(1)) >= 2:
+            return raw_lines[idx:]
+    return None
+
+
+def _classify_expert_line(stripped: str) -> tuple[str, str | None]:
+    """Classify one stripped corpus line into ('kind', payload-or-None).
+
+    Pure function. The caller owns state (Fuentes-block flag, paragraph
+    buffer) and translates classifications into emitted markdown blocks.
+    """
+    if not stripped:
+        return ("blank", None)
+    if _FUENTES_DIRECTAS_HEADER_RE.match(stripped):
+        return ("fuentes_header", None)
+    if _HORIZONTAL_RULE_RE.match(stripped):
+        return ("hr", None)
+    if _PROVIDER_BOLD_HEADER_RE.match(stripped):
+        return ("provider_header", None)
+    if _MARKDOWN_LINK_LINE_RE.match(stripped):
+        return ("link_line", None)
+    # Table separator (|---|---|) is a structural marker we drop. Order
+    # matters: must check before the more permissive _TABLE_ROW_RE.
+    if _TABLE_SEPARATOR_RE.match(stripped):
+        return ("table_separator", None)
+    if _TABLE_ROW_RE.match(stripped):
+        return ("table_row", stripped)
+    heading = _HEADING_RE.match(stripped)
+    if heading:
+        level = len(heading.group(1))
+        text = heading.group(2).strip().rstrip(":")
+        return ("heading", f"{level}|{text}") if text else ("blank", None)
+    lettered = _LETTERED_ITEM_RE.match(stripped)
+    if lettered:
+        return ("bullet", lettered.group(2).strip()) if lettered.group(2).strip() else ("blank", None)
+    bullet = _BULLET_ITEM_RE.match(stripped)
+    if bullet:
+        return ("bullet", bullet.group(1).strip()) if bullet.group(1).strip() else ("blank", None)
+    return ("text", stripped)
+
+
+def _format_expert_heading(payload: str) -> str:
+    """Emit a markdown heading, demoted one level so ``## H2`` renders as
+    ``### H3`` inside the modal (which already owns the higher levels)."""
+    level_str, _, text = payload.partition("|")
+    demoted = min(int(level_str) + 1, 5)
+    return f"{'#' * demoted} {text}"
+
+
+def _expert_extended_excerpt(text: str, *, max_chars: int = 2500) -> str:
+    """Walk the corpus markdown and emit a clean, structured subset.
+
+    Drops the front-matter metadata, drops ``**🔗 Fuentes directas:**``
+    link blocks (until the next heading or HR), drops ``---`` rules and
+    standalone ``**Provider:**`` headers, strips self-referential
+    attribution prefixes, and preserves ``## H2`` / ``### H3`` headings,
+    ``- `` bullets, and ``a) b) c)`` lettered items (rewritten to ``- ``).
+    The frontend renders this minimal markdown subset semantically.
+    """
+    lines = _drop_expert_metadata_header(text)
+    if lines is None:
+        return _expert_extended_excerpt_legacy(text, max_chars=max_chars)
+
+    builder = _ExtendedExcerptBuilder(max_chars=max_chars)
+    in_fuentes = False
+    for line in lines:
+        if builder.is_full():
+            break
+        stripped = line.strip()
+
+        if in_fuentes:
+            kind, _ = _classify_expert_line(stripped)
+            if kind in ("heading", "hr"):
+                in_fuentes = False  # fall through to process this line
+            else:
+                continue
+
+        kind, payload = _classify_expert_line(stripped)
+        # Table rows accumulate on their own buffer; any other kind flushes
+        # the table first so we don't merge a table into surrounding prose.
+        if kind == "table_row" and payload:
+            builder.flush_paragraph()
+            builder.add_table_row(payload)
+            continue
+        if kind == "table_separator":
+            continue  # structural marker; the row layout is enough to render
+        builder.flush_table()
+
+        if kind == "fuentes_header":
+            builder.flush_paragraph()
+            in_fuentes = True
+        elif kind == "hr" or kind == "provider_header":
+            builder.flush_paragraph()
+        elif kind == "link_line":
+            continue
+        elif kind == "heading" and payload:
+            builder.flush_paragraph()
+            builder.append_block(_format_expert_heading(payload))
+        elif kind == "bullet" and payload:
+            builder.flush_paragraph()
+            builder.append_block(f"- {payload}")
+        elif kind == "blank":
+            builder.flush_paragraph()
+        elif kind == "text" and payload:
+            builder.add_paragraph_line(payload)
+
+    builder.flush_paragraph()
+    builder.flush_table()
+    result = builder.render()
+    if not result:
+        return _expert_extended_excerpt_legacy(text, max_chars=max_chars)
+    return result
+
+
+class _ExtendedExcerptBuilder:
+    """Accumulates clean markdown blocks under a char budget.
+
+    Holds the small bit of mutable state (paragraph buffer, emitted
+    blocks, char counter, overflow flag) that `_expert_extended_excerpt`
+    threads through the line walk. Extracted so the orchestrator stays
+    declarative and the budget bookkeeping has one home.
+    """
+
+    def __init__(self, *, max_chars: int) -> None:
+        self._max_chars = max_chars
+        self._blocks: list[str] = []
+        self._paragraph_buf: list[str] = []
+        self._table_buf: list[str] = []
+        self._running = 0
+        self._overflow = False
+
+    def is_full(self) -> bool:
+        return self._overflow
+
+    def add_paragraph_line(self, line: str) -> None:
+        self._paragraph_buf.append(line)
+
+    def add_table_row(self, line: str) -> None:
+        self._table_buf.append(line)
+
+    def flush_paragraph(self) -> None:
+        if not self._paragraph_buf:
+            return
+        joined = _strip_attribution_prefix(" ".join(self._paragraph_buf).strip())
+        self._paragraph_buf.clear()
+        if not joined:
+            return
+        if not self._fits(joined):
+            if not self._blocks:
+                joined = _clip_expert_summary(joined, max_chars=self._max_chars)
+                self._blocks.append(joined)
+                self._running = len(joined)
+            self._overflow = True
+            return
+        self._commit(joined)
+
+    def flush_table(self) -> None:
+        if not self._table_buf:
+            return
+        joined = "\n".join(self._table_buf).strip()
+        self._table_buf.clear()
+        if not joined:
+            return
+        if not self._fits(joined):
+            self._overflow = True
+            return
+        self._commit(joined)
+
+    def append_block(self, block: str) -> bool:
+        if not self._fits(block):
+            self._overflow = True
+            return False
+        self._commit(block)
+        return True
+
+    def render(self) -> str:
+        return "\n\n".join(self._blocks).strip()
+
+    def _block_cost(self, block: str) -> int:
+        return len(block) + (2 if self._blocks else 0)
+
+    def _fits(self, block: str) -> bool:
+        return self._running + self._block_cost(block) <= self._max_chars
+
+    def _commit(self, block: str) -> None:
+        self._running += self._block_cost(block)
+        self._blocks.append(block)

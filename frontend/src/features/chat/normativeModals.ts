@@ -30,6 +30,13 @@ import {
 } from "@/features/chat/normative/interpretationModal";
 import { openPracticaReader } from "@/features/chat/normative/practicaReader";
 import { openArticleReader } from "@/features/chat/normative/articleReader";
+import { isRawDocId } from "@/shared/utils/documentIdentifierDetection";
+import {
+  formatDecretoTitle,
+  formatFormularioTitle,
+  formatLeyTitle,
+  formatResolucionTitle,
+} from "@/features/chat/normative/normativeTitleFormatters";
 
 // ── Public re-exports (used by chatApp, chatCitationRenderer) ──
 
@@ -62,67 +69,20 @@ export function formatNormativeCitationTitle(rawTitle: unknown): string {
   const clean = String(rawTitle || "").replace(/\s+/g, " ").trim();
   if (!clean) return "";
 
-  // Ley check BEFORE ET — "Ley X de Y" must not be consumed by parseEtTitle
-  const leyMatch = /^Ley\s+(\d+)\s+de\s+(\d{4})(.*)$/i.exec(clean);
-  if (leyMatch) {
-    const number = leyMatch[1];
-    const year = leyMatch[2];
-    const remainder = String(leyMatch[3] || "").trim().replace(/^[:\-\u2013,\s]+/, "").trim();
-    if (!remainder) return `Ley ${number} de ${year}`;
-    return `Ley ${number} de ${year}: ${toSpanishTitleCase(remainder)}`;
-  }
-
-  // Decreto check
-  const decretoMatch = /^Decreto\s+(\d+)\s+de\s+(\d{4})(.*)$/i.exec(clean);
-  if (decretoMatch) {
-    const number = decretoMatch[1];
-    const year = decretoMatch[2];
-    const remainder = String(decretoMatch[3] || "").trim().replace(/^[:\-\u2013,\s]+/, "").trim();
-    if (!remainder) return `Decreto ${number} de ${year}`;
-    return `Decreto ${number} de ${year}: ${toSpanishTitleCase(remainder)}`;
-  }
-
-  // Resolución check
-  const resolucionMatch = /^Resoluci[oó]n\s+(\d+)\s+de\s+(\d{4})(.*)$/i.exec(clean);
-  if (resolucionMatch) {
-    const number = resolucionMatch[1];
-    const year = resolucionMatch[2];
-    const remainder = String(resolucionMatch[3] || "").trim().replace(/^[:\-\u2013,\s]+/, "").trim();
-    if (!remainder) return `Resolución ${number} de ${year}`;
-    return `Resolución ${number} de ${year}: ${toSpanishTitleCase(remainder)}`;
-  }
-
-  const etTitle = parseEtTitle(rawTitle);
-  if (etTitle) return etTitle;
-
-  const match = /^(Formulario|Formato)\s+(\d{2,6})(.*)$/i.exec(clean);
-  if (!match) return clean;
-
-  const kind = `${match[1].charAt(0).toUpperCase()}${match[1].slice(1).toLowerCase()}`;
-  const number = match[2];
-  let remainder = String(match[3] || "").trim().replace(/^[:\-–,\s]+/, "").trim();
-  if (!remainder) return `${kind} ${number}`;
-
-  return `${kind} ${number}: ${toSpanishTitleCase(remainder)}`;
+  // Ordered ladder: Ley / Decreto / Resolución first (so parseEtTitle
+  // doesn't swallow "Ley 1819 de 2016" as an ET reference), then parseEtTitle,
+  // then Formulario/Formato, then fall back to the cleaned input.
+  return (
+    formatLeyTitle(clean) ||
+    formatDecretoTitle(clean) ||
+    formatResolucionTitle(clean) ||
+    parseEtTitle(rawTitle) ||
+    formatFormularioTitle(clean) ||
+    clean
+  );
 }
 
-function isRawDocId(value: unknown): boolean {
-  const clean = String(value || "").trim();
-  if (!clean || clean.length < 16) return false;
-  // Classic underscore-separated lowercase identifiers (e.g. "renta_ingest_pt_normativa_...")
-  if (!(/\s/.test(clean)) && /^[a-z0-9_\-]+$/i.test(clean) && !/[A-Z]/.test(clean.slice(1))) return true;
-  // Concatenated identifiers with :: section separators (e.g. "rentaingest...::section01")
-  if (/::/.test(clean)) return true;
-  // Long strings (>40 chars) without spaces — almost certainly machine identifiers
-  if (clean.length > 40 && !(/\s/.test(clean))) return true;
-  // Contains "ingest" substring — strong signal of internal doc_id
-  if (/ingest/i.test(clean) && !(/\s/.test(clean))) return true;
-  // Space-separated technical names containing hex hashes (e.g. "pt expertos ... 27555a78 part 03")
-  if (/\b[0-9a-f]{8}\b/.test(clean)) return true;
-  // Space-separated names with "part N" suffixes
-  if (/\bpart[_\s-]?\d+\b/i.test(clean)) return true;
-  return false;
-}
+// isRawDocId now lives in shared/utils/documentIdentifierDetection.ts.
 
 function humanizeCitationFallback(citation: Record<string, unknown> | null | undefined): string {
   const authority = String(citation?.authority || "").trim();
@@ -333,12 +293,18 @@ export function createNormativeModalController({
         const isFormularioProfile = /^(?:Formulario|Formato)\s+\d/i.test(
           String(profile?.title || fallbackTitle || "").trim(),
         );
+        const isCorpusGap = Boolean((profile as any)?.corpus_gap);
         const suppressCheckmark =
           isFormularioProfile ||
+          isCorpusGap ||
           (String(profile?.document_family || "").trim() === "et_dur" && Boolean(profile?.original_text));
 
         profileRenderer.renderProfileContent(profile, fallbackTitle, { showLlmSpinner: needsLlm });
         if (!needsLlm) {
+          if (isCorpusGap) {
+            profileRenderer.setNormaModalStatus("Texto no disponible en el corpus", "warning");
+            return;
+          }
           profileRenderer.setNormaModalStatus(suppressCheckmark ? "" : "✓", "done");
           return;
         }

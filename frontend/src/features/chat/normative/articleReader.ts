@@ -9,6 +9,11 @@
 import { renderMarkdown } from "@/content/markdown";
 import { icons } from "@/shared/ui/icons";
 import { isMobile } from "@/app/mobile/detectMobile";
+import { isTechnicalLabel } from "@/shared/utils/documentIdentifierDetection";
+import {
+  SPANISH_SMALL_WORDS,
+  titleCaseHeadings,
+} from "@/shared/utils/spanishTextFormatters";
 
 // ── Category config ─────────────────────────────────────────
 
@@ -111,22 +116,12 @@ export function setMobileSheet(sheet: typeof _mobileSheet): void {
 
 // ── Title cleaning ────────────────────────────────────────
 
-/**
- * Detect labels that look like technical doc identifiers
- * (e.g. "pt expertos precios transferencia 27555a78 part 03").
- */
-function isTechnicalLabel(value: string): boolean {
-  if (!value || value.length < 12) return false;
-  if (/\b[0-9a-f]{8}\b/.test(value)) return true;
-  if (/\bpart[_\s-]?\d+\b/i.test(value)) return true;
-  if (/^[a-z0-9_\-]+$/i.test(value) && value.length >= 16) return true;
-  return false;
-}
+// isTechnicalLabel now lives in shared/utils/documentIdentifierDetection.ts.
 
-const SMALL_WORDS = new Set([
-  "a", "al", "con", "de", "del", "desde", "e", "el", "en",
-  "la", "las", "los", "o", "para", "por", "sin", "u", "un", "una", "y",
-]);
+// spanishTitleCase / titleCaseHeadings / SPANISH_SMALL_WORDS live in
+// shared/utils/spanishTextFormatters.ts. humanizeTechnicalLabel stays
+// here — it mixes regex stripping specific to the article reader with
+// a title-case pass that uses the shared small-words set.
 
 /**
  * Clean a technical filename-style label into a human-readable title.
@@ -149,37 +144,14 @@ function humanizeTechnicalLabel(value: string): string {
     clean = clean.slice(m[0].length).trim();
   }
   if (!clean) return "";
-  // Title case
-  return clean.split(" ").map((w, i) =>
-    i === 0 || !SMALL_WORDS.has(w.toLowerCase())
-      ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
-      : w.toLowerCase(),
-  ).join(" ");
-}
-
-/**
- * Spanish title-case: capitalize each word except small connectors,
- * preserving all-uppercase acronyms (AG, UVT, DIAN) and markdown
- * bold markers.
- */
-function spanishTitleCase(text: string): string {
-  return text.split(" ").map((w, i) => {
-    if (!w) return w;
-    // Preserve all-uppercase tokens ≥ 2 chars (acronyms)
-    if (w.length >= 2 && w === w.toUpperCase() && /[A-Z]/.test(w)) return w;
-    // Preserve markdown bold/italic markers
-    if (w.startsWith("**") || w.startsWith("__") || w.startsWith("*")) return w;
-    // Small words stay lowercase (except first word)
-    if (i > 0 && SMALL_WORDS.has(w.toLowerCase())) return w.toLowerCase();
-    return w.charAt(0).toUpperCase() + w.slice(1);
-  }).join(" ");
-}
-
-/** Title-case H1–H3 headings in markdown. */
-function titleCaseHeadings(markdown: string): string {
-  return markdown.replace(/^(#{1,3})\s+(.+)$/gm, (_, hashes, text) => {
-    return `${hashes} ${spanishTitleCase(text)}`;
-  });
+  return clean
+    .split(" ")
+    .map((w, i) =>
+      i === 0 || !SPANISH_SMALL_WORDS.has(w.toLowerCase())
+        ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
+        : w.toLowerCase(),
+    )
+    .join(" ");
 }
 
 /**

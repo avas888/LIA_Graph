@@ -305,6 +305,7 @@ def run_expert_panel_request(payload: dict, *, deps: dict):
         logical_doc_id=deps["logical_doc_id"],
         expert_card_summary=deps["expert_card_summary"],
         summarize_snippet=deps["summarize_snippet"],
+        extended_excerpt=deps.get("extended_excerpt"),
     )
     surface = apply_rerank_to_surface(
         surface=surface,
@@ -413,6 +414,7 @@ def run_citation_interpretations_request(payload: dict, *, deps: dict):
         logical_doc_id=deps["logical_doc_id"],
         expert_card_summary=deps["expert_card_summary"],
         summarize_snippet=deps["summarize_snippet"],
+        extended_excerpt=deps.get("extended_excerpt"),
     )
     diagnostics = dict(surface.retrieval_diagnostics)
     diagnostics.update(dict(knowledge.retrieval_diagnostics or {}))

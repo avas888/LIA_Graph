@@ -22,6 +22,17 @@ import { createLinkAction } from "@/shared/ui/atoms/button";
 import { createBadge } from "@/shared/ui/atoms/badge";
 import { icons } from "@/shared/ui/icons";
 import { installMobileFormGuideModalDelegation } from "@/app/mobile/mobileFormGuideModal";
+import { escapeAttr, escapeHtml, formatTextContent } from "@/shared/utils/htmlSanitizers";
+import {
+  bindingForceTone,
+  formatBindingForceText,
+} from "@/features/chat/normative/bindingForceFormatter";
+import {
+  isBulletListBlock,
+  splitBlockLines,
+  splitParagraphBlocks,
+  stripBulletMarker,
+} from "@/shared/utils/textBlockFormatter";
 
 export interface MobileNormativaPanel {
   setCitations(citations: MobileCitationCardViewModel[]): void;
@@ -96,14 +107,16 @@ export function mountMobileNormativaPanel(
     if (!group) return;
     event.preventDefault();
     const targetIndex = tab.dataset.tabIndex;
+    const wasActive = tab.getAttribute("aria-selected") === "true";
     group.querySelectorAll<HTMLButtonElement>(".mobile-sheet-annot-tab").forEach((btn) => {
-      const isActive = btn.dataset.tabIndex === targetIndex;
-      btn.setAttribute("aria-selected", isActive ? "true" : "false");
-      btn.tabIndex = isActive ? 0 : -1;
+      const isTarget = btn.dataset.tabIndex === targetIndex;
+      const active = isTarget && !wasActive;
+      btn.setAttribute("aria-selected", active ? "true" : "false");
+      btn.tabIndex = isTarget ? 0 : -1;
     });
     group.querySelectorAll<HTMLElement>(".mobile-sheet-annot-panel").forEach((panel) => {
-      const isActive = panel.dataset.tabIndex === targetIndex;
-      panel.hidden = !isActive;
+      const isTarget = panel.dataset.tabIndex === targetIndex;
+      panel.hidden = wasActive || !isTarget;
     });
   });
 
@@ -257,11 +270,7 @@ export function mountMobileNormativaPanel(
       `;
     }
 
-    const quoteParagraphs = quote
-      .replace(/\r\n/g, "\n")
-      .split(/\n{2,}/)
-      .map((p) => p.trim())
-      .filter(Boolean)
+    const quoteParagraphs = splitParagraphBlocks(quote)
       .map((p) => `<p>${escapeHtml(p)}</p>`)
       .join("");
 
@@ -279,17 +288,12 @@ export function mountMobileNormativaPanel(
   }
 
   function formatAnnotationBodyHtml(body: string): string {
-    const normalized = String(body || "").replace(/\r\n/g, "\n").trim();
-    if (!normalized) return "";
-    const blocks = normalized.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
-    return blocks
+    return splitParagraphBlocks(body)
       .map((block) => {
-        const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
-        const bulletMatcher = /^[-•·]\s+/;
-        const isAllBullets = lines.length > 0 && lines.every((l) => bulletMatcher.test(l));
-        if (isAllBullets) {
+        const lines = splitBlockLines(block);
+        if (isBulletListBlock(lines)) {
           const items = lines
-            .map((l) => `<li>${escapeHtml(l.replace(bulletMatcher, ""))}</li>`)
+            .map((l) => `<li>${escapeHtml(stripBulletMarker(l))}</li>`)
             .join("");
           return `<ul class="mobile-sheet-annot-list">${items}</ul>`;
         }
@@ -319,7 +323,7 @@ export function mountMobileNormativaPanel(
           class="mobile-sheet-annot-tab"
           role="tab"
           data-tab-index="${idx}"
-          aria-selected="${idx === 0 ? "true" : "false"}"
+          aria-selected="false"
           tabindex="${idx === 0 ? 0 : -1}"
         >${escapeHtml(item.label)}</button>`,
       )
@@ -332,7 +336,7 @@ export function mountMobileNormativaPanel(
           class="mobile-sheet-annot-panel"
           role="tabpanel"
           data-tab-index="${idx}"
-          ${idx === 0 ? "" : "hidden"}
+          hidden
         >${formatAnnotationBodyHtml(item.body)}</div>`,
       )
       .join("");
@@ -708,68 +712,6 @@ function hideDesktopModal(root: HTMLElement): void {
   }
 }
 
-/**
- * Map a normative document's binding force to a badge tone.
- *
- * Prefers the numeric `binding_force_rank` emitted by `normative_taxonomy.py`
- * (1000 = constitutional, 100 = generic support). When the rank is absent
- * (legacy test fixtures, missing field), falls back to pattern-matching the
- * label — including the stale alta/media vocabulary so old fixtures still
- * light up correctly.
- *
- * Rank thresholds:
- *   - ≥ 700 → "success"  (constitucional, ley, et_dur, decreto,
- *                         jurisprudencia, resolución DIAN — binding norms)
- *   - ≥ 300 → "warning"  (formulario, doctrina administrativa, circular —
- *                         prescriptive or orientative, read with caveats)
- *   - <  300 → "neutral" (generic support documents)
- */
-function bindingForceTone(value: string, rank: number = 0): string {
-  if (rank >= 700) return "success";
-  if (rank >= 300) return "warning";
-  if (rank > 0) return "neutral";
+// bindingForceTone / formatBindingForceText moved to
+// features/chat/normative/bindingForceFormatter.ts (shared with desktop).
 
-  // Fallback: no rank provided. Try to recover a tone from the label itself.
-  const normalized = value.toLowerCase();
-  if (normalized.includes("alta")) return "success";
-  if (normalized.includes("media")) return "warning";
-  if (/(rango constitucional|ley o estatuto|compilaci[oó]n tributaria|decreto reglamentario|precedente judicial|resoluci[oó]n dian)/.test(normalized)) {
-    return "success";
-  }
-  if (/(instrumento operativo|doctrina administrativa|circular administrativa)/.test(normalized)) {
-    return "warning";
-  }
-  return "neutral";
-}
-
-/**
- * Wrap a raw `binding_force` string from the backend taxonomy
- * (`normative_taxonomy.py`) with the "Fuerza vinculante:" prefix. Idempotent
- * if the value already carries the prefix — mirrors the desktop logic in
- * `profileRenderer.ts` so both surfaces render the eyebrow consistently.
- */
-function formatBindingForceText(raw: string): string {
-  const value = String(raw || "").trim();
-  if (!value) return "";
-  return /^fuerza\s+vinculante\b/i.test(value) ? value : `Fuerza vinculante: ${value}`;
-}
-
-function escapeHtml(text: string): string {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function escapeAttr(text: string): string {
-  return escapeHtml(text).replace(/"/g, "&quot;");
-}
-
-function formatTextContent(text: string): string {
-  return text
-    .replace(/\r\n/g, "\n")
-    .split(/\n{2,}/)
-    .map((p) => p.trim())
-    .filter(Boolean)
-    .map((p) => `<p>${escapeHtml(p)}</p>`)
-    .join("");
-}

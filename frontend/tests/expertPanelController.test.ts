@@ -48,6 +48,9 @@ function makeI18n() {
         "chat.experts.detail.reading": "Lectura práctica",
         "chat.experts.detail.checklist": "Qué revisar antes de cerrar",
         "chat.experts.detail.sources": "Fuentes consultadas",
+        "chat.experts.detail.experts": "Interpretaciones de Expertos de Posible Relevancia:",
+        "chat.experts.detail.expertOpen": "Ver análisis completo",
+        "chat.experts.detail.expertClose": "Ocultar análisis",
         "chat.experts.detail.openSource": "Abrir fuente en LIA",
         "chat.experts.detail.externalLink": "Abrir enlace externo",
         "chat.experts.signal.permite": "Permite",
@@ -396,17 +399,15 @@ describe("createExpertPanelController", () => {
     expect(contentNode.textContent || "").toContain("2 fuentes");
   });
 
-  it("opens a practical detail modal with checklist and source drilldown", async () => {
+  it("opens a practical detail modal with per-expert tabs that reveal real prose on click", async () => {
     vi.stubGlobal("fetch", mockFetchWithEnhance(MOCK_RESPONSE_Q6));
 
-    const onClick = vi.fn();
     const controller = createExpertPanelController({
       i18n: makeI18n() as never,
       contentNode,
       statusNode,
       detailModalNode,
       openModal: (modal) => modal.classList.add("is-open"),
-      onSnippetClick: onClick,
     });
 
     await controller.load({
@@ -419,12 +420,44 @@ describe("createExpertPanelController", () => {
 
     expect(detailModalNode.classList.contains("is-open")).toBe(true);
     expect(detailTitleNode.textContent || "").toContain("beneficio de auditoría no procede");
-    expect(detailContentNode.textContent || "").toContain(Q6);
+    // "Consulta del turno" is intentionally NOT rendered — the user already
+    // knows the question they asked; showing it back is plumbing.
+    expect(detailContentNode.textContent || "").not.toContain(Q6);
+    // "Posible relevancia" is also omitted — the card's presence IS the
+    // signal of relevance, restating it is redundant.
+    expect(detailContentNode.textContent || "").not.toContain("Posible relevancia");
     expect(detailContentNode.textContent || "").toContain("Qué revisar antes de cerrar");
-    expect(detailContentNode.textContent || "").toContain("Oficio 801/2022");
+    expect(detailContentNode.textContent || "").toContain(
+      "Interpretaciones de Expertos de Posible Relevancia:",
+    );
 
-    (detailContentNode.querySelector(".secondary-mini-btn") as HTMLElement).click();
-    expect(onClick).toHaveBeenCalledWith("d801");
+    // Per-expert tabs render — one per source — and start collapsed.
+    // The eyebrow chip (DIAN, Deloitte) identifies the source; the snippet
+    // title field is intentionally not rendered as a separate subtitle to
+    // avoid duplicating the modal heading.
+    const tabs = detailContentNode.querySelectorAll(".expert-detail-tab");
+    expect(tabs.length).toBe(2);
+    const eyebrowText = Array.from(detailContentNode.querySelectorAll(".expert-detail-tab-authority"))
+      .map((el) => el.textContent || "")
+      .join(" ");
+    expect(eyebrowText).toContain("DIAN");
+    expect(eyebrowText).toContain("Deloitte");
+    const firstTab = tabs[0] as HTMLElement;
+    const firstHeader = firstTab.querySelector(".expert-detail-tab-header") as HTMLButtonElement;
+    const firstBody = firstTab.querySelector(".expert-detail-tab-body") as HTMLElement;
+    expect(firstBody.hidden).toBe(true);
+    expect(firstHeader.getAttribute("aria-expanded")).toBe("false");
+
+    // Clicking expands the tab — no LLM round-trip; the snippet text is rendered directly.
+    firstHeader.click();
+    expect(firstBody.hidden).toBe(false);
+    expect(firstHeader.getAttribute("aria-expanded")).toBe("true");
+    expect(firstTab.classList.contains("expert-detail-tab--expanded")).toBe(true);
+
+    // The expanded body contains real expert text from snippet/extended_excerpt
+    // (the test fixture provides `snippet` since the mock has no extended_excerpt).
+    const proseText = firstBody.textContent || "";
+    expect(proseText).toContain("beneficio de auditoría");
   });
 
   it("prioritizes the article requested by the chat answer over unrelated expert groups", async () => {

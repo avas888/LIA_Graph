@@ -22,6 +22,10 @@ import {
   UI_EVENT_CITATIONS_UPDATED,
   emitUiEvent,
 } from "@/shared/ui/patterns/uiEvents";
+import {
+  extractYearFromReferenceKey,
+  extractYearFromText,
+} from "@/shared/utils/citationDateExtraction";
 
 export interface CitationRendererDeps {
   citationsList: HTMLElement;
@@ -139,21 +143,11 @@ export function createCitationRenderer(deps: CitationRendererDeps) {
    * See docs/next/soporte_normativo_citation_ordering.md §3.2.
    */
   function citationIssuanceYear(citation) {
-    const referenceKey = String(citation?.reference_key || "").trim();
-    const keyMatch = /:(\d{4})(?::|$)/.exec(referenceKey);
-    if (keyMatch) {
-      const year = Number.parseInt(keyMatch[1], 10);
-      if (Number.isFinite(year) && year >= 1900) return year;
-    }
-    const fallbackSource = String(
-      citation?.legal_reference || citation?.title || citationTitleValue(citation) || "",
-    );
-    const textMatch = /\bde\s+(\d{4})\b/i.exec(fallbackSource);
-    if (textMatch) {
-      const year = Number.parseInt(textMatch[1], 10);
-      if (Number.isFinite(year) && year >= 1900) return year;
-    }
-    return 0;
+    const keyYear = extractYearFromReferenceKey(citation?.reference_key);
+    if (keyYear) return keyYear;
+    const fallbackSource =
+      citation?.legal_reference || citation?.title || citationTitleValue(citation) || "";
+    return extractYearFromText(fallbackSource);
   }
 
   /**
@@ -214,16 +208,32 @@ export function createCitationRenderer(deps: CitationRendererDeps) {
   }
 
   function citationId(citation) {
-    return String(
+    const base = String(
       citation?.doc_id ||
       citation?.reference_key ||
       citation?.external_url ||
-      citation?.locator_start ||
       citation?.title ||
       citation?.label ||
       citation?.source_provider ||
       "citation",
     ).trim();
+    // Without a doc_id, mention-only citations sharing a reference_key (e.g.
+    // every ET article carries reference_key="et") collide in lastCitationMap
+    // and the click handler fetches whichever one was inserted last. Append
+    // the locator so each article/range stays uniquely addressable.
+    if (!String(citation?.doc_id || "").trim()) {
+      const locatorSuffix = [
+        String(citation?.locator_kind || "").trim(),
+        String(citation?.locator_start || "").trim(),
+        String(citation?.locator_end || "").trim(),
+      ]
+        .filter(Boolean)
+        .join(":");
+      if (locatorSuffix) return `${base}#${locatorSuffix}`;
+      const locatorText = String(citation?.locator_text || "").trim();
+      if (locatorText) return `${base}#${locatorText}`;
+    }
+    return base;
   }
 
   function toCitationViewModel(citation): CitationItemViewModel {

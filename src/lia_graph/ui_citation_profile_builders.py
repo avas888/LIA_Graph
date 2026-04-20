@@ -15,7 +15,20 @@ from .citation_resolution import (
 from .form_guides import resolve_guide
 from .normative_taxonomy import classify_normative_document
 from .pipeline_c.orchestrator import generate_llm_strict
+from .ui_article_annotations import (
+    ANNOTATION_LABELS as _ARTICLE_ANNOTATION_LABELS,
+    clean_annotation_body as _clean_article_annotation_body,
+    split_article_annotations as _split_article_annotations,
+)
 from .ui_expert_extractors import _extract_expert_document_metadata
+from .ui_form_citation_profile import (
+    _deterministic_form_citation_profile,
+    _extract_citation_profile_form_number,
+    _format_form_reference_title,
+    _resolve_form_guide_package_for_context,
+    _row_looks_like_guide,
+    _spanish_title_case,
+)
 
 # ---------------------------------------------------------------------------
 # Module-level constants (moved from ui_server during granularize-v1 1A)
@@ -23,6 +36,13 @@ from .ui_expert_extractors import _extract_expert_document_metadata
 
 _WORKSPACE_ROOT = Path(__file__).resolve().parents[2]
 _PARSED_ARTICLES_PATH = _WORKSPACE_ROOT / "artifacts" / "parsed_articles.jsonl"
+
+# parsed_articles.jsonl aggregates articles from every corpus file — Ley 80,
+# Ley 100, CST, ET Libros, etc. — all keyed by bare `article_number`. The ET
+# lookup must restrict to ET-corpus source files or it will first-write-wins
+# into an unrelated law (e.g. ET Art 1 collided with Ley 80 Art 1 about
+# "contratos que celebren las entidades estatales").
+_ET_CORPUS_SOURCE_MARKER = "RENTA/NORMATIVA/Normativa/"
 _MONTHS_ES = (
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
@@ -36,7 +56,6 @@ _CITATION_PROFILE_BANNED_HINTS = (
     "source_tier",
     "provider",
 )
-_CITATION_PROFILE_FORM_RE = re.compile(r"\b(?:formulario|formato|f)\.?\s*(\d{2,6})\b", re.IGNORECASE)
 _CITATION_PROFILE_GUIDE_PROMPT = "¿Quieres una guía sobre cómo llenarlo?"
 _CITATION_PROFILE_GUIDE_UNAVAILABLE = "Esta guía aún no está disponible"
 _CITATION_PROFILE_ORIGINAL_LABEL = "Ir a documento original"
@@ -55,21 +74,10 @@ _CITATION_PROFILE_TRAILING_STOPWORDS = frozenset({
 })
 _CITATION_PROFILE_TRAILING_TRIM_CHARS = " \t\n,;:.-—–"
 
-# Labels that appear inline inside the raw `full_text` of parsed ET articles as
-# `**Label:**` bold markers and precede the actual article body's trailing
-# metadata. Kept in display order so the resulting tab strip reads from most
-# to least relevant for an accountant.
-_ARTICLE_ANNOTATION_LABELS = (
-    "Notas de Vigencia",
-    "Concordancias",
-    "Jurisprudencia",
-    "Doctrina Concordante",
-)
-_ARTICLE_ANNOTATION_CANONICAL = {label.lower(): label for label in _ARTICLE_ANNOTATION_LABELS}
-_ARTICLE_ANNOTATION_PATTERN = re.compile(
-    r"\*\*\s*(Notas\s+de\s+Vigencia|Concordancias|Jurisprudencia|Doctrina\s+Concordante)\s*:?\s*\*\*",
-    re.IGNORECASE,
-)
+# Inline ET-article annotation parsing (labels, regex, splitter) lives in
+# `ui_article_annotations.py` — pure, side-effect-free, reusable. The names
+# are imported above for back-compat with the callers below and with tests
+# that referenced the underscored symbols before the granularize extraction.
 
 # ---------------------------------------------------------------------------
 # Lazy-import helpers -- these functions live in ui_server today and will
@@ -116,6 +124,12 @@ def _load_parsed_articles_by_key_cached(path_str: str, signature: str) -> dict[s
                 except json.JSONDecodeError:
                     continue
                 if not isinstance(row, dict):
+                    continue
+                # ET-only filter: the sole caller (`_lookup_parsed_et_article`)
+                # resolves ET article references. Without this, the bare article
+                # numbers collide across laws and first-write-wins returns the
+                # wrong source (see `_ET_CORPUS_SOURCE_MARKER` comment above).
+                if _ET_CORPUS_SOURCE_MARKER not in str(row.get("source_path", "")):
                     continue
                 for candidate in (row.get("article_key"), row.get("article_number")):
                     key = _normalize_et_article_lookup_key(candidate)
@@ -171,58 +185,6 @@ def _tidy_truncated_citation_text(original: str, truncated: str) -> str:
     if not polished.endswith(("…", "...", ".", "!", "?")):
         polished = f"{polished}…"
     return polished
-
-
-def _clean_article_annotation_body(text: str) -> str:
-    """Light cleanup for annotation bodies (Notas/Concordancias/etc.).
-
-    Preserves line breaks so list-style annotations stay readable, but strips
-    link/bold/backtick markdown that would otherwise surface as literal noise
-    in the rendered tab panel.
-    """
-    value = str(text or "").replace("\r\n", "\n").replace("\r", "\n").strip()
-    if not value:
-        return ""
-    value = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"\1", value)
-    value = re.sub(r"`([^`]+)`", r"\1", value)
-    value = re.sub(r"\*\*([^*\n]+)\*\*", r"\1", value)
-    value = re.sub(r"\*([^*\n]+)\*", r"\1", value)
-    value = re.sub(r"^\s*#{1,6}\s*", "", value, flags=re.MULTILINE)
-    value = re.sub(r"[ \t]+", " ", value)
-    value = re.sub(r"\n{3,}", "\n\n", value)
-    value = re.sub(r"\s*---+\s*$", "", value).strip()
-    return value
-
-
-def _split_article_annotations(raw_text: str) -> tuple[str, list[dict[str, str]]]:
-    """Separate an article's body from its inline `**Label:**` annotations.
-
-    Returns `(body, annotations)` where `annotations` preserves the
-    discovery order of the labels in the original text. Used by the ET
-    citation profile so the modal can render the body cleanly and surface
-    Notas de Vigencia / Concordancias / Jurisprudencia / Doctrina in a
-    dedicated tab strip instead of dumping them inside the quote.
-    """
-    raw = str(raw_text or "")
-    if not raw.strip():
-        return "", []
-    matches = list(_ARTICLE_ANNOTATION_PATTERN.finditer(raw))
-    if not matches:
-        return raw, []
-    body = raw[: matches[0].start()].rstrip()
-    annotations: list[dict[str, str]] = []
-    seen_labels: set[str] = set()
-    for idx, match in enumerate(matches):
-        label_raw = " ".join(match.group(1).split())
-        label = _ARTICLE_ANNOTATION_CANONICAL.get(label_raw.lower(), label_raw)
-        if label in seen_labels:
-            continue
-        seen_labels.add(label)
-        end = matches[idx + 1].start() if idx + 1 < len(matches) else len(raw)
-        body_text = _clean_article_annotation_body(raw[match.end():end])
-        if body_text:
-            annotations.append({"label": label, "body": body_text})
-    return body, annotations
 
 
 def _normalize_citation_profile_text(value: Any, *, max_chars: int = 280) -> str:
@@ -780,6 +742,24 @@ def _build_fallback_citation_profile_payload(
         "helper_text": None,
     }
 
+    corpus_gap = original_text is None
+    caution_banner: dict[str, Any] | None = dict(document_profile.get("caution_banner") or {}) or None
+    if corpus_gap:
+        lead = _normalize_citation_profile_text(
+            f"No tenemos el texto del Artículo {locator_display} del Estatuto Tributario en el corpus "
+            "local. Consulta la fuente oficial para el contenido verbatim.",
+            max_chars=320,
+        )
+        caution_banner = {
+            "title": "Texto no disponible en el corpus",
+            "body": (
+                f"El texto del Artículo {locator_display} del Estatuto Tributario no está en el "
+                "corpus local de Lia. Puedes abrirlo en la fuente oficial (DIAN / Normograma) con "
+                "el botón «Ir a documento original»."
+            ),
+            "tone": "warning",
+        }
+
     return {
         "title": f"Estatuto Tributario, Artículo {locator_display}",
         "document_family": str(document_profile.get("document_family") or "et_dur").strip(),
@@ -797,7 +777,8 @@ def _build_fallback_citation_profile_payload(
         "vigencia_detail": None,
         "expert_comment": None,
         "additional_depth_sections": None,
-        "caution_banner": dict(document_profile.get("caution_banner") or {}) or None,
+        "caution_banner": caution_banner,
+        "corpus_gap": corpus_gap,
         "analysis_action": {
             "label": "Abrir análisis normativo",
             "state": "not_applicable",
@@ -1104,173 +1085,6 @@ def _build_citation_profile_facts(context: dict[str, Any], llm_payload: dict[str
     _ui()._append_citation_profile_fact(facts, "Fecha identificada", official_date or latest_identified)
     _ui()._append_citation_profile_fact(facts, "Vigencia", vigencia_text)
     return facts
-
-
-def _row_looks_like_guide(row: dict[str, Any]) -> bool:
-    tipo_documento = str(row.get("tipo_de_documento", "")).strip().lower()
-    haystack = " ".join(
-        [
-            str(row.get("relative_path") or ""),
-            str(row.get("notes") or ""),
-            str(row.get("title") or ""),
-            str(row.get("subtema") or ""),
-        ]
-    ).lower()
-    return (
-        tipo_documento == "guia_operativa"
-        or "guia" in haystack
-        or "guía" in haystack
-        or "como diligenciar" in haystack
-    )
-
-
-def _extract_citation_profile_form_number(*values: Any) -> str:
-    for value in values:
-        match = _CITATION_PROFILE_FORM_RE.search(str(value or ""))
-        if match:
-            return str(int(match.group(1)))
-    return ""
-
-
-_FORM_TITLE_SMALL_WORDS = {
-    "a",
-    "al",
-    "con",
-    "contra",
-    "de",
-    "del",
-    "desde",
-    "e",
-    "el",
-    "en",
-    "la",
-    "las",
-    "los",
-    "o",
-    "para",
-    "por",
-    "sin",
-    "u",
-    "un",
-    "una",
-    "y",
-}
-
-
-def _spanish_title_case(text: Any) -> str:
-    words = re.split(r"(\s+)", str(text or "").strip().lower())
-    if not words:
-        return ""
-    rendered: list[str] = []
-    is_first_word = True
-    for token in words:
-        if not token or token.isspace():
-            rendered.append(token)
-            continue
-        if not is_first_word and token in _FORM_TITLE_SMALL_WORDS:
-            rendered.append(token)
-        else:
-            rendered.append(token[:1].upper() + token[1:])
-        is_first_word = False
-    return "".join(rendered).strip()
-
-
-def _format_form_reference_title(base_title: Any, descriptor: Any = "") -> str:
-    clean_title = re.sub(r"\s+", " ", str(base_title or "")).strip()
-    if not clean_title:
-        return ""
-    match = re.match(r"^(Formulario|Formato)\s+(\d{2,6})(.*)$", clean_title, re.IGNORECASE)
-    if not match:
-        return clean_title
-
-    kind = match.group(1).capitalize()
-    number = match.group(2)
-    title_suffix = re.sub(r"^[\s:,\-–]+", "", str(match.group(3) or "")).strip()
-    raw_descriptor = re.sub(r"^[\s:,\-–]+", "", re.sub(r"\s+", " ", str(descriptor or "")).strip())
-    descriptor_suffix = raw_descriptor
-    descriptor_match = re.match(r"^(Formulario|Formato)\s+(\d{2,6})(.*)$", raw_descriptor, re.IGNORECASE)
-    if descriptor_match and descriptor_match.group(2) == number:
-        kind = descriptor_match.group(1).capitalize()
-        descriptor_suffix = re.sub(r"^[\s:,\-–]+", "", str(descriptor_match.group(3) or "")).strip()
-    if descriptor_suffix:
-        descriptor_suffix = re.sub(
-            rf"^(?:formulario|formato)\s+{re.escape(number)}\b[\s:,\-–]*",
-            "",
-            descriptor_suffix,
-            flags=re.IGNORECASE,
-        ).strip()
-    suffix = title_suffix or descriptor_suffix
-    if not suffix:
-        return f"{kind} {number}"
-    return f"{kind} {number}: {_ui()._spanish_title_case(suffix)}"
-
-
-def _resolve_form_guide_package_for_context(context: dict[str, Any]) -> Any | None:
-    if str(context.get("document_family") or "").strip().lower() != "formulario":
-        return None
-    citation = dict(context.get("citation") or {})
-    row = dict(context.get("requested_row") or {})
-    reference_key = str(citation.get("reference_key") or "").strip()
-    if not reference_key:
-        form_number = _ui()._extract_citation_profile_form_number(
-            citation.get("source_label"),
-            citation.get("legal_reference"),
-            row.get("title"),
-            row.get("notes"),
-            row.get("relative_path"),
-            row.get("doc_id"),
-        )
-        reference_key = f"formulario:{form_number}" if form_number else ""
-    if not reference_key:
-        return None
-    return resolve_guide(reference_key, root=_ui().FORM_GUIDES_ROOT)
-
-
-def _deterministic_form_citation_profile(context: dict[str, Any]) -> dict[str, Any] | None:
-    guide_package = _ui()._resolve_form_guide_package_for_context(context)
-    citation_profile = getattr(guide_package, "citation_profile", None) if guide_package is not None else None
-    if citation_profile is None:
-        return None
-
-    title = _ui()._normalize_citation_profile_text(context.get("title"), max_chars=160)
-    if not title:
-        manifest_title = _ui()._normalize_citation_profile_text(
-            getattr(getattr(guide_package, "manifest", None), "title", ""),
-            max_chars=160,
-        )
-        title = _ui()._format_form_reference_title(manifest_title) if manifest_title else "Formulario"
-
-    lead = _ui()._normalize_citation_profile_text(citation_profile.lead, max_chars=320)
-    if not lead:
-        lead = f"{title} es el formulario prescrito para esta obligación tributaria."
-
-    facts: list[dict[str, str]] = []
-    _ui()._append_citation_profile_fact(facts, "Para qué sirve", citation_profile.purpose_text)
-    _ui()._append_citation_profile_fact(facts, "Desde cuándo es obligatorio", citation_profile.mandatory_when)
-    _ui()._append_citation_profile_fact(facts, "Última actualización identificada", citation_profile.latest_identified)
-
-    sections: list[dict[str, str]] = []
-    impact = _ui()._normalize_citation_profile_text(citation_profile.professional_impact, max_chars=320)
-    if impact:
-        sections.append(
-            {
-                "id": "impacto_profesional",
-                "title": "Cómo impacta la labor contable",
-                "body": impact,
-            }
-        )
-
-    return {
-        "title": title,
-        "lead": lead,
-        "facts": facts,
-        "sections": sections,
-        "supporting_source_ids": [
-            str(item).strip()
-            for item in list(citation_profile.supporting_source_ids or ())
-            if str(item).strip()
-        ],
-    }
 
 
 def _resolve_companion_action(context: dict[str, Any]) -> dict[str, Any]:

@@ -92,6 +92,7 @@ class InterpretationCard:
     official_url: str | None = None
     open_url: str | None = None
     card_summary: str = ""
+    extended_excerpt: str = ""
     summary_origin: str = "deterministic"
     summary_quality: str = "medium"
     source_hash: str = ""
@@ -121,6 +122,7 @@ class InterpretationCard:
             "official_url": self.official_url,
             "open_url": self.open_url,
             "card_summary": self.card_summary,
+            "extended_excerpt": self.extended_excerpt,
             "summary_origin": self.summary_origin,
             "summary_quality": self.summary_quality,
             "source_hash": self.source_hash,
