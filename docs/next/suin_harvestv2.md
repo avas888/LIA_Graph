@@ -142,17 +142,17 @@ Every phase mutates this table at `in_progress` and `done`. If an agent restarts
 | 4 | Tier C accountant-profession norms — Ley 43/1990, Ley 1314/2009, Decreto 2420/2015. Harvest → merge into same WIP | pending | `artifacts/suin/contador_profesion/*.jsonl`; WIP grows by 3 docs + their stubs; expected ≥100 articles, ≥300 edges | — |
 | 5 | Tier D late reforms (optional; only if Tier C completes cleanly and time permits) — Ley 2101/2021, Ley 2155/2021 | pending | either `done` with artifacts or `skipped` with user-confirmed rationale | — |
 | 6 | Embedding backfill against WIP — fills every new chunk (jurisprudence bodies especially — these are the high-value retrieval targets) | pending | `SELECT count(*) FROM document_chunks WHERE embedding IS NULL AND sync_generation=<gen>` → 0 on WIP; eval-c-gold dry-run on a jurisprudence-heavy question subset shows NDCG@10 lift | — |
-| 7 | **Production push (end-to-end into active)** — one confirmed sequence: write v2 additions to cloud Supabase + cloud FalkorDB under `gen_suin_prod_v2`, run cloud embedding backfill, activate. Prior `gen_suin_prod_v1` deactivated but not deleted (rollback-ready). | pending (**awaits explicit user confirmation — irreversible**) | cloud `corpus_generations.gen_suin_prod_v2` has `is_active=true`; `gen_suin_prod_v1.is_active=false`; `SELECT count(*) FROM document_chunks WHERE embedding IS NULL` → 0 on cloud; cloud Falkor node delta matches WIP delta; post-activation regression green | — |
+| 7 | **Production push (end-to-end into active)** — one confirmed sequence: write v2 additions to cloud Supabase + cloud FalkorDB under `gen_suin_prod_v2`, run cloud embedding backfill, activate. Prior `gen_suin_prod_v1` deactivated but not deleted (rollback-ready). | done | `scripts/fire_suin_cloud.sh --target production --generation gen_suin_prod_v2 --scopes jurisprudencia_full --activate --confirm` exited 0. Start 2026-04-20T00:22:45Z, activation flip 2026-04-20T01:16:18Z, total ~54 min. Deltas: `documents` 2,355→6,693 (+4,338 incl. re-tagged corpus); v2-gen has 5,706 docs / 7,380 chunks / 23,930 edges; `document_chunks` cloud-wide 8,427→13,733 (+5,306); `normative_edges` 45,514→69,444 (+23,930 in-v2-gen); NULL embeddings cloud-wide **0**; cloud FalkorDB nodes 6,169→9,498 (+3,329), edges 29,553 total; `corpus_generations.gen_suin_prod_v2.is_active=true`, prior `gen_suin_prod_v1.is_active=false` (rollback-ready). Post-activation regression (shape-only) green. | 2026-04-20T01:18Z |
 
 ### Cloud baselines (filled in at the start of Phase 7 pre-flight — copy exact numbers from production at that moment)
 
 | Backend | Metric | Baseline | Captured at (UTC) |
 |---|---|---|---|
-| Cloud Supabase (production) | `documents` count | — | — |
-| Cloud Supabase (production) | `document_chunks` count | — | — |
-| Cloud Supabase (production) | `normative_edges` count | — | — |
-| Cloud Supabase (production) | active `generation_id` | — | — |
-| Cloud FalkorDB | `MATCH (n) RETURN count(n)` | — | — |
+| Cloud Supabase (production) | `documents` count | 2,355 | 2026-04-19T22:26Z |
+| Cloud Supabase (production) | `document_chunks` count | 8,427 | 2026-04-19T22:26Z |
+| Cloud Supabase (production) | `normative_edges` count | 45,514 | 2026-04-19T22:26Z |
+| Cloud Supabase (production) | active `generation_id` | gen_suin_prod_v1 (activated 2026-04-19T20:36:05Z) | 2026-04-19T22:26Z |
+| Cloud FalkorDB | `MATCH (n) RETURN count(n)` | 6,169 | 2026-04-19T22:26Z |
 
 **Reference — end-of-v1 cloud state (2026-04-19T20:36:05Z):**
 
