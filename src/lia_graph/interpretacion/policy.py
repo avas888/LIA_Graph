@@ -9,6 +9,25 @@ EXPERT_PANEL_SOURCE_DIVERSITY_MAX_DIAN = 2
 EXPERT_PANEL_ENHANCE_MAX_CARDS = 5
 EXPERT_PANEL_EXPLORE_MAX_SNIPPETS = 8
 
+# --- Question-aware re-ranking (Graph + LLM + Supabase) ----------------------
+#
+# Rerank takes the lexical retrieval's top candidates, asks Claude for a per-
+# candidate relevance score + one-sentence summary keyed to the user's
+# question, blends that with graph proximity and (when staging) Supabase
+# hybrid search, and re-orders the panel.
+#
+# Weights deliberately favor the LLM judge because lexical/graph/supabase are
+# already filters at the retrieval stage; the LLM is the only signal that
+# actually reads the candidate against the user's question.
+EXPERT_RERANK_TOP_N = 12
+EXPERT_RERANK_LLM_WEIGHT = 0.62
+EXPERT_RERANK_GRAPH_WEIGHT = 0.18
+EXPERT_RERANK_SUPABASE_WEIGHT = 0.12
+EXPERT_RERANK_LEXICAL_WEIGHT = 0.08
+EXPERT_RERANK_CANDIDATE_EXCERPT_CHARS = 720
+EXPERT_RERANK_SUMMARY_MAX_CHARS = 240
+EXPERT_RERANK_FALLBACK_MODE = "lexical_only"
+
 CITATION_INTERPRETATIONS_DEFAULT_TOP_K = 8
 CITATION_INTERPRETATIONS_MAX_TOP_K = 20
 CITATION_INTERPRETATIONS_DEFAULT_PROCESS_LIMIT = 5

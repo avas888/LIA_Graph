@@ -648,95 +648,12 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
     emitStateChanged();
   }
 
-  function renderSourceActions(snippet: ExpertSnippet): HTMLElement | null {
-    const links = Array.isArray(snippet.provider_links) ? snippet.provider_links.slice(0, 3) : [];
-    const hasSnippetClick = typeof options.onSnippetClick === "function" && Boolean(normalizeText(snippet.doc_id));
-    const sourceViewUrl = normalizeText(snippet.source_view_url || "");
-    if (links.length === 0 && !hasSnippetClick && !sourceViewUrl) {
-      return null;
-    }
-    const actions = document.createElement("div");
-    actions.className = "expert-detail-source-actions";
-
-    if (hasSnippetClick) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "secondary-mini-btn";
-      button.textContent = "Abrir detalle";
-      button.addEventListener("click", () => {
-        options.onSnippetClick?.(normalizeText(snippet.doc_id));
-      });
-      actions.appendChild(button);
-    }
-
-    for (const link of links) {
-      const url = normalizeText(link.url);
-      if (!url) continue;
-      const anchor = document.createElement("a");
-      anchor.className = "expert-detail-link";
-      anchor.href = url;
-      anchor.target = "_blank";
-      anchor.rel = "noopener noreferrer";
-      anchor.textContent = normalizeText(link.provider || link.label) || i18n.t("chat.experts.detail.externalLink");
-      actions.appendChild(anchor);
-    }
-
-    if (links.length === 0 && sourceViewUrl) {
-      const anchor = document.createElement("a");
-      anchor.className = "expert-detail-link";
-      anchor.href = sourceViewUrl;
-      anchor.textContent = "Ver en corpus";
-      actions.appendChild(anchor);
-    }
-
-    return actions.children.length > 0 ? actions : null;
-  }
-
   function humanSourceTitle(snippet: ExpertSnippet): string {
     const raw = normalizeText(snippet.title);
     // Reject slug-like titles: no spaces and longer than 30 chars (raw doc_id artifacts)
     const isSlug = raw.length > 30 && !/\s/.test(raw);
     if (raw && !isSlug) return raw;
     return normalizeText(snippet.authority) || "Fuente profesional";
-  }
-
-  function renderSourceCard(snippet: ExpertSnippet): HTMLElement {
-    const source = document.createElement("article");
-    source.className = "expert-detail-source";
-
-    const links = Array.isArray(snippet.provider_links) ? snippet.provider_links : [];
-    const firstUrl = normalizeText(links.find((link) => normalizeText(link.url))?.url || snippet.source_view_url || "");
-    const titleText = humanSourceTitle(snippet);
-
-    const title = document.createElement("h4");
-    title.className = "expert-detail-source-title";
-    title.textContent = titleText;
-    source.appendChild(title);
-
-    if (firstUrl) {
-      const sourceLink = document.createElement("a");
-      sourceLink.className = "expert-detail-source-original-link";
-      sourceLink.href = firstUrl;
-      sourceLink.target = "_blank";
-      sourceLink.rel = "noopener noreferrer";
-      sourceLink.textContent = "(ver fuente original)";
-      source.appendChild(sourceLink);
-    }
-
-    const excerpt = normalizeText(snippet.card_summary || snippet.snippet || "");
-    if (excerpt) {
-      const body = document.createElement("p");
-      body.className = "expert-detail-source-body";
-      body.textContent = excerpt;
-      source.appendChild(body);
-    }
-
-    const actions = renderSourceActions(snippet);
-    if (actions) {
-      source.appendChild(actions);
-    }
-
-    return source;
   }
 
   function renderMarkdownContent(markdown: string): HTMLElement {
@@ -967,6 +884,122 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
     }
   }
 
+  function renderExpertTab(snippet: ExpertSnippet, card: ExpertCard): HTMLElement {
+    const tab = document.createElement("article");
+    tab.className = "expert-detail-tab";
+
+    const header = document.createElement("button");
+    header.type = "button";
+    header.className = "expert-detail-tab-header";
+    header.setAttribute("aria-expanded", "false");
+
+    const headerInner = document.createElement("div");
+    headerInner.className = "expert-detail-tab-header-inner";
+
+    const eyebrow = document.createElement("div");
+    eyebrow.className = "expert-detail-tab-eyebrow";
+    const authorityName = normalizeText(snippet.authority);
+    if (authorityName) {
+      const authorityChip = document.createElement("span");
+      authorityChip.className = `expert-detail-tab-authority ${authorityBadgeClass(authorityName)}`;
+      authorityChip.textContent = authorityName;
+      eyebrow.appendChild(authorityChip);
+    }
+    if (card.articleLabel) {
+      const articleHint = document.createElement("span");
+      articleHint.className = "expert-detail-tab-article";
+      articleHint.textContent = card.articleLabel;
+      eyebrow.appendChild(articleHint);
+    }
+
+    const title = document.createElement("h4");
+    title.className = "expert-detail-tab-title";
+    title.textContent = humanSourceTitle(snippet);
+
+    const preview = document.createElement("p");
+    preview.className = "expert-detail-tab-preview";
+    const previewText = clipText(normalizeText(snippet.card_summary || snippet.snippet || ""), 220);
+    preview.textContent = previewText || i18n.t("chat.experts.detail.expertOpen");
+
+    headerInner.append(eyebrow, title);
+    if (previewText) headerInner.append(preview);
+
+    const toggle = document.createElement("span");
+    toggle.className = "expert-detail-tab-toggle";
+    const toggleLabel = document.createElement("span");
+    toggleLabel.className = "expert-detail-tab-toggle-label";
+    toggleLabel.textContent = i18n.t("chat.experts.detail.expertOpen");
+    const toggleIcon = document.createElement("span");
+    toggleIcon.className = "expert-detail-tab-toggle-icon";
+    toggleIcon.setAttribute("aria-hidden", "true");
+    toggle.append(toggleLabel, toggleIcon);
+
+    header.append(headerInner, toggle);
+
+    const body = document.createElement("div");
+    body.className = "expert-detail-tab-body";
+    body.hidden = true;
+
+    const summaryHost = document.createElement("div");
+    summaryHost.className = "expert-detail-tab-summary";
+    body.appendChild(summaryHost);
+
+    const links = Array.isArray(snippet.provider_links) ? snippet.provider_links : [];
+    const sourceUrl = normalizeText(
+      links.find((link) => normalizeText(link.url))?.url || snippet.source_view_url || "",
+    );
+    const docId = normalizeText(snippet.doc_id);
+    const canOpenInLia = typeof options.onSnippetClick === "function" && Boolean(docId);
+    if (sourceUrl || canOpenInLia) {
+      const footer = document.createElement("div");
+      footer.className = "expert-detail-tab-footer";
+      if (canOpenInLia) {
+        const openInLiaBtn = document.createElement("button");
+        openInLiaBtn.type = "button";
+        openInLiaBtn.className = "secondary-mini-btn";
+        openInLiaBtn.textContent = i18n.t("chat.experts.detail.openSource");
+        openInLiaBtn.addEventListener("click", () => {
+          options.onSnippetClick?.(docId);
+        });
+        footer.appendChild(openInLiaBtn);
+      }
+      if (sourceUrl) {
+        const sourceLink = document.createElement("a");
+        sourceLink.className = "expert-detail-source-original-link";
+        sourceLink.href = sourceUrl;
+        sourceLink.target = "_blank";
+        sourceLink.rel = "noopener noreferrer";
+        sourceLink.textContent = "(ver fuente original)";
+        footer.appendChild(sourceLink);
+      }
+      body.appendChild(footer);
+    }
+
+    let loaded = false;
+    header.addEventListener("click", () => {
+      const expanded = header.getAttribute("aria-expanded") === "true";
+      if (expanded) {
+        header.setAttribute("aria-expanded", "false");
+        body.hidden = true;
+        tab.classList.remove("expert-detail-tab--expanded");
+        toggleLabel.textContent = i18n.t("chat.experts.detail.expertOpen");
+        return;
+      }
+      header.setAttribute("aria-expanded", "true");
+      body.hidden = false;
+      tab.classList.add("expert-detail-tab--expanded");
+      toggleLabel.textContent = i18n.t("chat.experts.detail.expertClose");
+      if (!loaded) {
+        loaded = true;
+        const singleSourceCard: ExpertCard = { ...card, sources: [snippet] };
+        void fetchExplore(singleSourceCard, "summary", summaryHost);
+      }
+    });
+
+    tab.append(header, body);
+    return tab;
+  }
+
   function openCardDetail(card: ExpertCard): void {
     if (!detailModalNode || !detailTitleNode || !detailContentNode || typeof openModal !== "function") {
       return;
@@ -1048,33 +1081,18 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
       banner.append(nutshellBlock);
     }
 
-    // --- Synthesized summary section (4-5 paragraphs, lazy-loaded) ---
-    const summarySection = document.createElement("section");
-    summarySection.className = "expert-detail-synthesis";
-    banner.append(summarySection);
-
-    // Auto-fetch the multi-paragraph summary
-    void fetchExplore(card, "summary", summarySection);
-
-    // --- "Explorar a profundidad" button + container ---
-    const deepDiveSection = document.createElement("section");
-    deepDiveSection.className = "expert-detail-deep-dive";
-
-    const deepDiveButton = document.createElement("button");
-    deepDiveButton.type = "button";
-    deepDiveButton.className = "expert-deep-dive-btn";
-    deepDiveButton.textContent = "Explorar a profundidad";
-    deepDiveButton.addEventListener("click", () => {
-      deepDiveButton.disabled = true;
-      deepDiveButton.textContent = "Generando…";
-      const deepDiveContent = document.createElement("div");
-      deepDiveContent.className = "expert-deep-dive-content";
-      deepDiveSection.appendChild(deepDiveContent);
-      void fetchExplore(card, "deep", deepDiveContent).finally(() => {
-        deepDiveButton.hidden = true;
-      });
-    });
-    deepDiveSection.appendChild(deepDiveButton);
+    // --- Expert tabs: lead the modal with one large card per expert ---
+    const tabsSection = document.createElement("section");
+    tabsSection.className = "expert-detail-tabs-shell";
+    const tabsTitle = document.createElement("h4");
+    tabsTitle.className = "expert-detail-section-title";
+    tabsTitle.textContent = i18n.t("chat.experts.detail.experts");
+    const tabs = document.createElement("div");
+    tabs.className = "expert-detail-tabs";
+    for (const source of card.sources) {
+      tabs.appendChild(renderExpertTab(source, card));
+    }
+    tabsSection.append(tabsTitle, tabs);
 
     const grid = document.createElement("div");
     grid.className = "expert-detail-grid";
@@ -1105,19 +1123,27 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
 
     grid.append(implicationPanel, checklistPanel);
 
-    const sourcesSection = document.createElement("section");
-    sourcesSection.className = "expert-detail-sources-shell";
-    const sourcesTitle = document.createElement("h4");
-    sourcesTitle.className = "expert-detail-section-title";
-    sourcesTitle.textContent = i18n.t("chat.experts.detail.sources");
-    const sources = document.createElement("div");
-    sources.className = "expert-detail-sources";
-    for (const source of card.sources) {
-      sources.appendChild(renderSourceCard(source));
-    }
-    sourcesSection.append(sourcesTitle, sources);
+    // --- Cross-expert deep dive at the end ---
+    const deepDiveSection = document.createElement("section");
+    deepDiveSection.className = "expert-detail-deep-dive";
 
-    detailContentNode.append(banner, deepDiveSection, grid, sourcesSection);
+    const deepDiveButton = document.createElement("button");
+    deepDiveButton.type = "button";
+    deepDiveButton.className = "expert-deep-dive-btn";
+    deepDiveButton.textContent = "Explorar a profundidad";
+    deepDiveButton.addEventListener("click", () => {
+      deepDiveButton.disabled = true;
+      deepDiveButton.textContent = "Generando…";
+      const deepDiveContent = document.createElement("div");
+      deepDiveContent.className = "expert-deep-dive-content";
+      deepDiveSection.appendChild(deepDiveContent);
+      void fetchExplore(card, "deep", deepDiveContent).finally(() => {
+        deepDiveButton.hidden = true;
+      });
+    });
+    deepDiveSection.appendChild(deepDiveButton);
+
+    detailContentNode.append(banner, tabsSection, grid, deepDiveSection);
     openModal(detailModalNode);
   }
 

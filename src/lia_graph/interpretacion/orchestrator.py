@@ -30,6 +30,8 @@ from .policy import (
     build_expert_explore_prompt,
     build_interpretation_summary_prompt,
 )
+from .rerank import rerank_runtimes
+from .rerank.applier import apply_to_surface as apply_rerank_to_surface
 from .shared import ExpertEnhancement, InterpretationDocRuntime, InterpretationSummarySurface
 from .synthesis import synthesize_citation_interpretations, synthesize_expert_panel
 from .synthesis_helpers import (
@@ -283,6 +285,17 @@ def run_expert_panel_request(payload: dict, *, deps: dict):
     prioritized_docs = deps["prioritize_expert_panel_docs"](list(knowledge.docs_selected), requested_refs=requested_refs)
     deduped = deps["dedupe_interpretation_docs"](prioritized_docs, limit=search_top_k)
     runtimes = [runtime for doc in deduped if (runtime := _build_runtime_for_doc(doc, deps=deps)) is not None]
+
+    rerank_result = rerank_runtimes(
+        runtimes=runtimes,
+        question=message,
+        assistant_answer=str(assistant_answer or ""),
+        expert_query_seed=expert_query_seed,
+        trace_id=trace_id or str(uuid4()),
+        deps=deps,
+    )
+    runtimes = list(rerank_result.ordered_runtimes)
+
     surface = synthesize_expert_panel(
         runtimes=runtimes,
         frame=decision_frame,
@@ -293,11 +306,17 @@ def run_expert_panel_request(payload: dict, *, deps: dict):
         expert_card_summary=deps["expert_card_summary"],
         summarize_snippet=deps["summarize_snippet"],
     )
+    surface = apply_rerank_to_surface(
+        surface=surface,
+        summaries=rerank_result.summaries,
+        composite_scores=rerank_result.composite_scores,
+    )
     diagnostics = dict(surface.retrieval_diagnostics)
     diagnostics.update(dict(knowledge.retrieval_diagnostics or {}))
     diagnostics["expert_query_seed"] = expert_query_seed
     diagnostics["expert_query_seed_origin"] = expert_query_seed_origin
     diagnostics["expert_search_top_k"] = search_top_k
+    diagnostics["expert_rerank"] = dict(rerank_result.diagnostics)
     surface = surface.__class__(
         groups=surface.groups,
         ungrouped=surface.ungrouped,

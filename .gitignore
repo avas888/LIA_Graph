@@ -10,3 +10,15 @@ dist/
 artifacts/temp/
 knowledge_base/
 cache/suin/
+cache/suin_probe/
+
+# --- SUIN ingestion large artifacts (regenerate from cache/ on ingest re-run) ---
+artifacts/suin/**/*.log
+artifacts/suin/**/*.jsonl
+artifacts/suin/_production_push_*.log
+artifacts/suin/_embedding_*.log
+artifacts/graph_load_report.json
+artifacts/parsed_articles.jsonl
+artifacts/typed_edges.jsonl
+artifacts/full_corpus_probe*/
+artifacts/jobs/runtime/
