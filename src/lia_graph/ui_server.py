@@ -1141,6 +1141,10 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         if self._handle_form_guides_get(path, parsed):
             return
 
+        from .ui_subtopic_controllers import handle_subtopic_get
+        if handle_subtopic_get(self, path, parsed, deps={"workspace_root": WORKSPACE_ROOT}):
+            return
+
         self._serve_ui_asset(path)
 
     def do_OPTIONS(self) -> None:  # noqa: N802
@@ -1457,6 +1461,9 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             return
         from .ui_ingest_run_controllers import handle_ingest_post as _handle_ingest_run_post
         if _handle_ingest_run_post(self, path, deps={"workspace_root": WORKSPACE_ROOT}):
+            return
+        from .ui_subtopic_controllers import handle_subtopic_post
+        if handle_subtopic_post(self, path, deps={"workspace_root": WORKSPACE_ROOT}):
             return
         if handle_reindex_post(self, path, deps=write_deps):
             return

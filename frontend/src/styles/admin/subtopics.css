@@ -1,0 +1,366 @@
+/* Sub-topics — curation surface
+ *
+ * Atomic-design strict: tokens-only, no raw hex, no inline SVG.
+ * Atoms (chip/button), molecules (proposalCard, evidenceList),
+ * organism (curationBoard), template (subtopicShell).
+ */
+
+.lia-subtopic-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem clamp(1rem, 4vw, 2.5rem);
+  max-width: 84rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+.lia-subtopic-shell__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.lia-subtopic-shell__eyebrow {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--p-blue-500);
+}
+
+.lia-subtopic-shell__title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.lia-subtopic-shell__lede {
+  margin: 0;
+  max-width: 64rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.lia-subtopic-shell__lede code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.84rem;
+  background: var(--p-neutral-100);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  color: var(--p-navy-700);
+}
+
+.lia-subtopic-shell__row {
+  width: 100%;
+}
+
+/* ── Curation board ──────────────────────────────────── */
+
+.lia-subtopic-board {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lia-subtopic-board__empty {
+  padding: 1.5rem;
+  background: var(--p-neutral-50);
+  border: 1px dashed var(--p-neutral-300);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.lia-subtopic-board__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.lia-subtopic-board__column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--p-neutral-50);
+  border: 1px solid var(--p-neutral-200);
+  border-radius: 10px;
+}
+
+.lia-subtopic-board__column-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--p-neutral-200);
+}
+
+.lia-subtopic-board__column-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lia-subtopic-board__column-meta {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.lia-subtopic-board__column-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* ── Sidebar (current taxonomy) ──────────────────────── */
+
+.lia-subtopic-board__sidebar {
+  padding: 1rem;
+  background: var(--p-neutral-50);
+  border: 1px solid var(--p-neutral-200);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lia-subtopic-board__sidebar-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-subtopic-board__sidebar-empty {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.lia-subtopic-board__sidebar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.lia-subtopic-board__sidebar-parent {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--p-blue-500);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lia-subtopic-board__sidebar-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.lia-subtopic-board__sidebar-item {
+  font-size: 0.86rem;
+  color: var(--text-primary);
+}
+
+/* ── Proposal card (molecule) ────────────────────────── */
+
+.lia-subtopic-proposal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  background: var(--surface-primary);
+  border: 1px solid var(--p-neutral-200);
+  border-radius: 8px;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.lia-subtopic-proposal--decided {
+  opacity: 0.55;
+}
+
+.lia-subtopic-proposal__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lia-subtopic-proposal__title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-subtopic-proposal__meta {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.lia-subtopic-proposal__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lia-subtopic-proposal__key {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.lia-subtopic-proposal__key code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  background: var(--p-neutral-100);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  color: var(--p-navy-700);
+}
+
+.lia-subtopic-proposal__key-label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.lia-subtopic-proposal__aliases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.lia-subtopic-proposal__decided {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--p-blue-500);
+}
+
+.lia-subtopic-proposal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--p-neutral-200);
+}
+
+/* ── Evidence list (molecule) ────────────────────────── */
+
+.lia-subtopic-evidence {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--p-neutral-50);
+  border: 1px solid var(--p-neutral-200);
+  border-radius: 6px;
+  margin-top: 0.25rem;
+  max-height: 18rem;
+  overflow-y: auto;
+}
+
+.lia-subtopic-evidence__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.lia-subtopic-evidence__title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-subtopic-evidence__count {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.lia-subtopic-evidence__error,
+.lia-subtopic-evidence__empty,
+.lia-subtopic-evidence__skeleton {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.lia-subtopic-evidence__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.lia-subtopic-evidence__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.3rem 0.4rem;
+  background: var(--surface-primary);
+  border: 1px solid var(--p-neutral-200);
+  border-radius: 4px;
+}
+
+.lia-subtopic-evidence__path {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--text-primary);
+}
+
+.lia-subtopic-evidence__label {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--p-blue-500);
+  font-weight: 600;
+}
+
+.lia-subtopic-evidence__rationale {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ── Toast ─────────────────────────────────────────────── */
+
+.lia-subtopic-toast {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  max-width: 24rem;
+}
+
+.lia-subtopic-toast--error {
+  background: var(--p-red-500);
+  color: var(--surface-primary);
+}
+
+.lia-subtopic-toast--success {
+  background: var(--p-green-500);
+  color: var(--surface-primary);
+}

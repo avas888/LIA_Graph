@@ -297,14 +297,35 @@ function initApp(): void {
       }, 5_000);
     }
 
-    // 3. Wire the level-1 Sesiones / Promoción switcher.
+    // 3. Wire the level-1 Sesiones / Promoción / Sub-temas switcher.
     const ingestionSubtabBtns = ingestionPanel.querySelectorAll<HTMLButtonElement>(
       ".ingestion-subtab",
     );
     const ingestionSections: Record<string, HTMLElement | null> = {
       sesiones: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-sesiones"),
       promocion: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-promocion"),
+      subtopics: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-subtopics"),
     };
+    let subtopicsMounted = false;
+    async function ensureSubtopicsMounted(): Promise<void> {
+      if (subtopicsMounted) return;
+      const section = ingestionSections.subtopics;
+      if (!section) return;
+      subtopicsMounted = true;
+      const [
+        { renderSubtopicShellMarkup },
+        { createSubtopicController },
+      ] = await Promise.all([
+        import("@/app/subtopics/subtopicShell"),
+        import("@/features/subtopics/subtopicController"),
+      ]);
+      mountTemplate(section, renderSubtopicShellMarkup());
+      const shellRoot = section.querySelector<HTMLElement>("#lia-subtopic-shell");
+      if (shellRoot) {
+        const controller = createSubtopicController(shellRoot);
+        void controller.refresh();
+      }
+    }
     ingestionSubtabBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
         const section = btn.dataset.ingestionSection ?? "sesiones";
@@ -315,6 +336,9 @@ function initApp(): void {
         });
         for (const [key, el] of Object.entries(ingestionSections)) {
           if (el) el.hidden = key !== section;
+        }
+        if (section === "subtopics") {
+          void ensureSubtopicsMounted();
         }
       });
     });

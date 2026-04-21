@@ -1,4 +1,4 @@
-.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full
+.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy
 
 PHASE2_CORPUS_DIR ?= knowledge_base
 PHASE2_ARTIFACTS_DIR ?= artifacts
@@ -82,3 +82,49 @@ phase2-suin-harvest-jurisprudencia:
 
 phase2-suin-harvest-full:
 	PYTHONPATH=src:. uv run python -m lia_graph.ingestion.suin.harvest --scope full --out $(SUIN_ARTIFACTS_DIR)/full --rps $(SUIN_RPS) --json
+
+# ---- Phase 5c regrandfather pass -------------------------------------------
+# One-time re-chunk of the existing corpus under the canonical 8-section
+# template. `DRY_RUN=1` is the safe default lever; omit it (or set to empty)
+# to actually mutate files under `knowledge_base/`.
+#
+# Usage:
+#   make phase2-regrandfather-corpus DRY_RUN=1
+#   make phase2-regrandfather-corpus LIMIT=10 SKIP_LLM=1
+#   make phase2-regrandfather-corpus ONLY_TOPIC=laboral
+phase2-regrandfather-corpus:
+	PYTHONPATH=src:. uv run python scripts/regrandfather_corpus.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SKIP_LLM),--skip-llm,)
+
+# ---- subtopic_generationv1 ------------------------------------------------
+# Phase 2: one-shot collection pass that records `autogenerar_label` for every
+# corpus document. Writes `artifacts/subtopic_candidates/collection_<UTC>.jsonl`.
+# DRY_RUN=1 is the safe default lever; omit it to actually write files.
+#
+# Usage:
+#   make phase2-collect-subtopic-candidates DRY_RUN=1 LIMIT=10
+#   make phase2-collect-subtopic-candidates LIMIT=10 SKIP_LLM=1   # fast smoke, no LLM
+#   make phase2-collect-subtopic-candidates ONLY_TOPIC=laboral    # scoped run
+#   make phase2-collect-subtopic-candidates                       # full corpus commit
+phase2-collect-subtopic-candidates:
+	PYTHONPATH=src:. uv run python scripts/collect_subtopic_candidates.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SKIP_LLM),--skip-llm,) $(if $(BATCH_ID),--batch-id $(BATCH_ID),) $(if $(RESUME_FROM),--resume-from $(RESUME_FROM),) $(if $(RATE_LIMIT_RPM),--rate-limit-rpm $(RATE_LIMIT_RPM),)
+
+# Phase 3: mine collection JSONL(s) → proposal clusters per parent_topic.
+# Writes `artifacts/subtopic_proposals_<UTC>.json`. Safe to run offline — the
+# embedding seam falls back to one-hot vectors when --skip-embed is set.
+#
+# Usage:
+#   make phase3-mine-subtopic-candidates INPUT=artifacts/subtopic_candidates/collection_*.jsonl
+#   make phase3-mine-subtopic-candidates INPUT=... CLUSTER_THRESHOLD=0.85
+#   make phase3-mine-subtopic-candidates INPUT=... ONLY_TOPIC=laboral SKIP_EMBED=1
+phase3-mine-subtopic-candidates:
+	PYTHONPATH=src:. uv run python scripts/mine_subtopic_candidates.py --input '$(INPUT)' $(if $(OUTPUT),--output $(OUTPUT),) $(if $(CLUSTER_THRESHOLD),--cluster-threshold $(CLUSTER_THRESHOLD),) $(if $(MIN_CLUSTER_SIZE),--min-cluster-size $(MIN_CLUSTER_SIZE),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SLUG_STEM_RULES),--slug-stem-rules $(SLUG_STEM_RULES),) $(if $(SKIP_EMBED),--skip-embed,)
+
+# Phase 6: promote `artifacts/subtopic_decisions.jsonl` → `config/subtopic_taxonomy.json`.
+# DRY_RUN=1 prints a diff without writing. Stakeholder sign-off gate — see
+# docs/next/subtopic_generationv1.md §0.11.
+#
+# Usage:
+#   make phase2-promote-subtopic-taxonomy DRY_RUN=1
+#   make phase2-promote-subtopic-taxonomy VERSION=2026-04-21-v1
+phase2-promote-subtopic-taxonomy:
+	PYTHONPATH=src:. uv run python scripts/promote_subtopic_decisions.py $(if $(DRY_RUN),--dry-run,) $(if $(DECISIONS),--decisions $(DECISIONS),) $(if $(OUTPUT),--output $(OUTPUT),) $(if $(VERSION),--version $(VERSION),)

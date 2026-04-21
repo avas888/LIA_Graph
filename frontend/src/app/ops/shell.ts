@@ -218,6 +218,13 @@ export function renderIngestionShell(i18n: I18nRuntime): string {
           data-ingestion-section="promocion"
           aria-selected="false"
         >Promoción</button>
+        <button
+          class="ingestion-subtab"
+          type="button"
+          role="tab"
+          data-ingestion-section="subtopics"
+          aria-selected="false"
+        >Sub-temas</button>
       </nav>
 
       <div id="ingestion-section-sesiones" class="ingestion-section" role="tabpanel">
@@ -225,6 +232,8 @@ export function renderIngestionShell(i18n: I18nRuntime): string {
       </div>
 
       <div id="ingestion-section-promocion" class="ingestion-section" role="tabpanel" hidden></div>
+
+      <div id="ingestion-section-subtopics" class="ingestion-section" role="tabpanel" hidden></div>
     </div>
   `;
 }
