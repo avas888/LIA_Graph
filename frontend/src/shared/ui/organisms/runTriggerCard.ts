@@ -1,6 +1,13 @@
 import { createPipelineFlow } from "@/shared/ui/molecules/pipelineFlow";
 import { createRunStatusBadge, type RunStatus } from "@/shared/ui/molecules/runStatusBadge";
 
+export interface RunTriggerParams {
+  suinScope: string;
+  supabaseTarget: "wip" | "production";
+  autoEmbed: boolean;
+  autoPromote: boolean;
+}
+
 export interface RunTriggerOptions {
   /** Currently dispatched job id, if any. */
   activeJobId: string | null;
@@ -8,7 +15,7 @@ export interface RunTriggerOptions {
   lastRunStatus: RunStatus | null;
   /** Disable trigger while a job is running. */
   disabled: boolean;
-  onTrigger: (params: { suinScope: string; supabaseTarget: "wip" | "production" }) => void;
+  onTrigger: (params: RunTriggerParams) => void;
 }
 
 export function createRunTriggerCard(opts: RunTriggerOptions): HTMLElement {
@@ -68,6 +75,22 @@ export function createRunTriggerCard(opts: RunTriggerOptions): HTMLElement {
   });
   form.appendChild(suinField);
 
+  const optionsField = _renderCheckboxGroup([
+    {
+      name: "skip_embeddings",
+      label: "Saltar embeddings",
+      hint: "Si se marca, la etapa de embeddings no se encadena al final (auto_embed=false).",
+      defaultChecked: false,
+    },
+    {
+      name: "auto_promote",
+      label: "Promover a cloud al terminar",
+      hint: "Si se marca, la corrida encadena una promoción WIP→Cloud al finalizar sin errores.",
+      defaultChecked: false,
+    },
+  ]);
+  form.appendChild(optionsField);
+
   // Submit row
   const submitRow = document.createElement("div");
   submitRow.className = "lia-run-trigger__submit-row";
@@ -98,9 +121,13 @@ export function createRunTriggerCard(opts: RunTriggerOptions): HTMLElement {
     const fd = new FormData(form);
     const supabaseTarget = (fd.get("supabase_target") as string) || "wip";
     const suinScope = String(fd.get("suin_scope") || "").trim();
+    const skipEmbeddings = fd.get("skip_embeddings") != null;
+    const autoPromote = fd.get("auto_promote") != null;
     onTrigger({
       suinScope,
       supabaseTarget: supabaseTarget === "production" ? "production" : "wip",
+      autoEmbed: !skipEmbeddings,
+      autoPromote,
     });
   });
 
@@ -149,6 +176,52 @@ function _renderRadioField(opts: {
     if (option.hint) {
       const hintEl = document.createElement("span");
       hintEl.className = "lia-run-trigger__radio-hint";
+      hintEl.textContent = option.hint;
+      text.appendChild(hintEl);
+    }
+    wrap.appendChild(text);
+
+    fs.appendChild(wrap);
+  });
+
+  return fs;
+}
+
+interface CheckboxOption {
+  name: string;
+  label: string;
+  hint?: string;
+  defaultChecked?: boolean;
+}
+
+function _renderCheckboxGroup(options: CheckboxOption[]): HTMLFieldSetElement {
+  const fs = document.createElement("fieldset");
+  fs.className = "lia-run-trigger__field lia-run-trigger__field--checkbox";
+
+  const legend = document.createElement("legend");
+  legend.className = "lia-run-trigger__legend";
+  legend.textContent = "Opciones de corrida";
+  fs.appendChild(legend);
+
+  options.forEach((option) => {
+    const wrap = document.createElement("label");
+    wrap.className = "lia-run-trigger__checkbox-row";
+
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.name = option.name;
+    if (option.defaultChecked) input.defaultChecked = true;
+    wrap.appendChild(input);
+
+    const text = document.createElement("span");
+    text.className = "lia-run-trigger__checkbox-text";
+    const labelLine = document.createElement("span");
+    labelLine.className = "lia-run-trigger__checkbox-label";
+    labelLine.textContent = option.label;
+    text.appendChild(labelLine);
+    if (option.hint) {
+      const hintEl = document.createElement("span");
+      hintEl.className = "lia-run-trigger__checkbox-hint";
       hintEl.textContent = option.hint;
       text.appendChild(hintEl);
     }

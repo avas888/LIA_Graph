@@ -28,6 +28,13 @@ export function renderIngestShellMarkup(): string {
         <div class="lia-ingest-shell__col lia-ingest-shell__col--secondary" data-slot="run-trigger"></div>
       </div>
 
+      <div class="lia-ingest-shell__grid lia-ingest-shell__grid--phase5">
+        <div class="lia-ingest-shell__col lia-ingest-shell__col--primary" data-slot="intake-zone"></div>
+        <div class="lia-ingest-shell__col lia-ingest-shell__col--secondary" data-slot="progress-timeline"></div>
+      </div>
+
+      <div class="lia-ingest-shell__row" data-slot="log-console"></div>
+
       <div class="lia-ingest-shell__row" data-slot="generations-list"></div>
     </main>
   `;

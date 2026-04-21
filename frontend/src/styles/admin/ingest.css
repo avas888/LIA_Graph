@@ -612,3 +612,538 @@ button.lia-generation-row:hover { background: var(--card-hover-bg); }
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
 }
+
+/* ── Atom: .lia-progress-dot ────────────────────────── */
+
+.lia-progress-dot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  position: relative;
+  vertical-align: middle;
+}
+
+.lia-progress-dot--pending {
+  background: var(--p-neutral-300);
+  box-shadow: 0 0 0 2px var(--p-neutral-150);
+}
+
+.lia-progress-dot--running {
+  background: var(--p-blue-500);
+  box-shadow: 0 0 0 2px var(--p-neutral-100);
+}
+
+.lia-progress-dot--done {
+  background: var(--p-success-600);
+  box-shadow: 0 0 0 2px var(--p-success-100);
+}
+
+.lia-progress-dot--failed {
+  background: var(--p-red-600);
+  box-shadow: 0 0 0 2px var(--p-red-100);
+}
+
+@keyframes lia-progress-dot-pulse {
+  0%, 100% { opacity: 0.65; transform: scale(1); }
+  50%      { opacity: 0; transform: scale(1.9); }
+}
+
+.lia-progress-dot--pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--p-blue-500);
+  animation: lia-progress-dot-pulse 1.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── Atom: .lia-file-chip ───────────────────────────── */
+
+.lia-file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 18rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.lia-file-chip__icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.lia-file-chip__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  max-width: 11rem;
+}
+
+.lia-file-chip__size {
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.lia-file-chip__remove {
+  all: unset;
+  cursor: pointer;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.lia-file-chip__remove:hover {
+  background: var(--p-red-50);
+  color: var(--p-red-600);
+}
+
+/* ── Molecule: .lia-intake-file-row ─────────────────── */
+
+.lia-intake-file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.15rem;
+  border-bottom: 1px solid var(--p-neutral-150);
+}
+
+.lia-intake-file-row:last-child {
+  border-bottom: 0;
+}
+
+.lia-intake-file-row__file {
+  display: inline-flex;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.lia-intake-file-row__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.lia-intake-file-row__topic {
+  font-size: 0.72rem;
+}
+
+.lia-intake-file-row__confidence {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.lia-intake-file-row__review {
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+.lia-intake-file-row__coercion {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+/* ── Molecule: .lia-stage-progress-item ─────────────── */
+
+.lia-stage-progress-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 0.55rem 0.75rem;
+  padding: 0.5rem 0.1rem;
+  border-bottom: 1px dashed var(--p-neutral-150);
+}
+
+.lia-stage-progress-item:last-child {
+  border-bottom: 0;
+}
+
+.lia-stage-progress-item__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lia-stage-progress-item__counts {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.lia-stage-progress-item__duration {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.lia-stage-progress-item__error {
+  grid-column: 1 / -1;
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  color: var(--status-error);
+  background: var(--status-error-soft);
+  border-left: 3px solid var(--p-red-200);
+  padding: 0.35rem 0.55rem;
+  border-radius: 4px;
+}
+
+.lia-stage-progress-item--failed .lia-stage-progress-item__label {
+  color: var(--status-error);
+}
+
+.lia-stage-progress-item--done .lia-stage-progress-item__label {
+  color: var(--p-success-700);
+}
+
+/* ── Molecule: .lia-log-tail-viewer ─────────────────── */
+
+.lia-log-tail-viewer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 0.6rem 0.8rem;
+}
+
+.lia-log-tail-viewer__toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.lia-log-tail-viewer__copy {
+  all: unset;
+  cursor: pointer;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-default);
+  background: var(--panel-bg-strong);
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.lia-log-tail-viewer__copy:hover {
+  background: var(--p-neutral-100);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.lia-log-tail-viewer__details {
+  background: var(--corpus-log-bg);
+  color: var(--corpus-log-fg);
+  border-radius: 8px;
+  padding: 0.3rem 0.55rem 0.55rem;
+  border: 1px solid var(--p-navy-800);
+}
+
+.lia-log-tail-viewer__summary {
+  cursor: pointer;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--p-neutral-150);
+  padding: 0.2rem 0;
+  list-style: none;
+}
+
+.lia-log-tail-viewer__summary::-webkit-details-marker {
+  display: none;
+}
+
+.lia-log-tail-viewer__summary::before {
+  content: "\25B8"; /* right-pointing small triangle */
+  display: inline-block;
+  margin-right: 0.45rem;
+  transform: rotate(0deg);
+  transition: transform 120ms ease;
+  color: var(--p-neutral-300);
+}
+
+.lia-log-tail-viewer__details[open] > .lia-log-tail-viewer__summary::before {
+  transform: rotate(90deg);
+}
+
+.lia-log-tail-viewer__body {
+  margin: 0.4rem 0 0;
+  max-height: 16rem;
+  overflow: auto;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--corpus-log-fg);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Organism: .lia-intake-drop-zone ────────────────── */
+
+.lia-intake-drop-zone {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.lia-intake-drop-zone__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lia-intake-drop-zone__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-intake-drop-zone__hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.lia-intake-drop-zone__zone {
+  border: 2px dashed var(--p-neutral-300);
+  border-radius: 14px;
+  background: var(--p-neutral-50);
+  padding: 1.75rem 1rem;
+  text-align: center;
+  color: var(--text-tertiary);
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+  cursor: copy;
+}
+
+.lia-intake-drop-zone__zone:focus-visible {
+  outline: none;
+  border-color: var(--p-blue-500);
+  box-shadow: 0 0 0 3px var(--p-blue-50);
+}
+
+.lia-intake-drop-zone__zone--active {
+  background: var(--p-blue-50);
+  border-color: var(--p-blue-500);
+  color: var(--p-blue-800);
+}
+
+.lia-intake-drop-zone__zone-label {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.lia-intake-drop-zone__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.lia-intake-drop-zone__empty {
+  margin: 0;
+  padding: 0.55rem 0.1rem;
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+}
+
+.lia-intake-drop-zone__feedback {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  min-height: 1.1rem;
+}
+
+.lia-intake-drop-zone__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.lia-intake-drop-zone__approve {
+  background: var(--interactive-primary);
+  color: var(--text-inverse);
+  border: 1px solid var(--interactive-primary);
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+
+.lia-intake-drop-zone__approve:hover:not(:disabled) {
+  background: var(--interactive-primary-hover);
+}
+
+.lia-intake-drop-zone__approve:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* ── Organism: .lia-run-progress-timeline ───────────── */
+
+.lia-run-progress-timeline {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.lia-run-progress-timeline__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.lia-run-progress-timeline__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-run-progress-timeline__list {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.lia-run-progress-timeline__item {
+  position: relative;
+  padding-left: 1.1rem;
+}
+
+.lia-run-progress-timeline__item::before {
+  content: "";
+  position: absolute;
+  left: 0.35rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--p-neutral-200);
+}
+
+.lia-run-progress-timeline__item:first-child::before {
+  top: 1rem;
+}
+
+.lia-run-progress-timeline__item:last-child::before {
+  bottom: calc(100% - 1rem);
+}
+
+/* ── Organism: .lia-run-log-console ─────────────────── */
+
+.lia-run-log-console {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.lia-run-log-console__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.lia-run-log-console__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-run-log-console__subtitle {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  line-height: 1.45;
+}
+
+/* ── Organism: .lia-run-trigger (checkbox additions) ── */
+
+.lia-run-trigger__field--checkbox {
+  gap: 0.45rem;
+}
+
+.lia-run-trigger__checkbox-row {
+  display: grid;
+  grid-template-columns: 1.1rem 1fr;
+  align-items: start;
+  gap: 0.55rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--p-neutral-200);
+  background: var(--p-neutral-50);
+  cursor: pointer;
+  margin-bottom: 0.35rem;
+}
+
+.lia-run-trigger__checkbox-row:hover {
+  background: var(--p-neutral-100);
+}
+
+.lia-run-trigger__checkbox-row:has(input:checked) {
+  background: var(--card-bg);
+  border-color: var(--p-blue-500);
+}
+
+.lia-run-trigger__checkbox-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lia-run-trigger__checkbox-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.lia-run-trigger__checkbox-hint {
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}

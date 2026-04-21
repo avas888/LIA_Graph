@@ -139,7 +139,9 @@ describe("organism: runTriggerCard", () => {
     const form = node.querySelector("form")!;
     form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 
-    expect(onTrigger).toHaveBeenCalledWith({ suinScope: "et", supabaseTarget: "production" });
+    expect(onTrigger).toHaveBeenCalledWith(
+      expect.objectContaining({ suinScope: "et", supabaseTarget: "production" }),
+    );
 
     document.body.removeChild(node);
   });

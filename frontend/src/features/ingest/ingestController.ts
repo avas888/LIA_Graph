@@ -32,6 +32,20 @@ import {
   createGenerationsList,
 } from "@/shared/ui/organisms/generationsList";
 import { createRunTriggerCard } from "@/shared/ui/organisms/runTriggerCard";
+import {
+  createIntakeDropZone,
+  type IntakeDropZoneFile,
+  type IntakeDropZoneResponse,
+} from "@/shared/ui/organisms/intakeDropZone";
+import {
+  createRunProgressTimeline,
+  type ProgressResponse,
+  type RunProgressTimelineHandle,
+} from "@/shared/ui/organisms/runProgressTimeline";
+import {
+  createRunLogConsole,
+  type RunLogConsoleHandle,
+} from "@/shared/ui/organisms/runLogConsole";
 import type { GenerationRowViewModel } from "@/shared/ui/molecules/generationRow";
 import type { RunStatus } from "@/shared/ui/molecules/runStatusBadge";
 
@@ -81,6 +95,39 @@ interface IngestRunResponse {
   job_id: string;
 }
 
+interface IngestIntakeResponseFile {
+  filename: string;
+  mime?: string | null;
+  bytes?: number | null;
+  detected_topic?: string | null;
+  topic_label?: string | null;
+  combined_confidence?: number | null;
+  requires_review?: boolean;
+  coercion_method?: string | null;
+}
+
+interface IngestIntakeResponse {
+  ok: boolean;
+  batch_id: string;
+  summary: { received: number; placed: number; deduped: number; rejected: number };
+  files: IngestIntakeResponseFile[];
+}
+
+interface IngestProgressResponse {
+  ok: boolean;
+  job_id: string;
+  status: string;
+  stages?: ProgressResponse["stages"];
+}
+
+interface IngestLogTailResponse {
+  ok: boolean;
+  lines: string[];
+  next_cursor: number;
+  total_lines: number;
+  log_relative_path?: string;
+}
+
 interface JobStatusResponse {
   ok?: boolean;
   job?: {
@@ -102,12 +149,22 @@ interface InternalState {
   activeJobId: string | null;
   lastRunStatus: RunStatus | null;
   pollHandle: number | null;
+  logCursor: number;
+  lastBatchId: string | null;
+  autoEmbed: boolean;
+  autoPromote: boolean;
+  supabaseTarget: "wip" | "production";
+  suinScope: string;
 }
 
 export function createIngestController(rootElement: HTMLElement): IngestController {
   const overviewSlot = rootElement.querySelector<HTMLElement>("[data-slot=corpus-overview]");
   const triggerSlot = rootElement.querySelector<HTMLElement>("[data-slot=run-trigger]");
   const generationsSlot = rootElement.querySelector<HTMLElement>("[data-slot=generations-list]");
+  // Phase 5 slots — optional so the legacy page still works if they are missing.
+  const intakeSlot = rootElement.querySelector<HTMLElement>("[data-slot=intake-zone]");
+  const timelineSlot = rootElement.querySelector<HTMLElement>("[data-slot=progress-timeline]");
+  const logSlot = rootElement.querySelector<HTMLElement>("[data-slot=log-console]");
 
   if (!overviewSlot || !triggerSlot || !generationsSlot) {
     // Defensive — if slots are missing, surface clearly without crashing the page.
@@ -119,7 +176,16 @@ export function createIngestController(rootElement: HTMLElement): IngestControll
     activeJobId: null,
     lastRunStatus: null,
     pollHandle: null,
+    logCursor: 0,
+    lastBatchId: null,
+    autoEmbed: true,
+    autoPromote: false,
+    supabaseTarget: "wip",
+    suinScope: "",
   };
+
+  let timelineHandle: RunProgressTimelineHandle | null = null;
+  let logHandle: RunLogConsoleHandle | null = null;
 
   function _renderTrigger(): void {
     triggerSlot!.replaceChildren(
@@ -127,11 +193,44 @@ export function createIngestController(rootElement: HTMLElement): IngestControll
         activeJobId: state.activeJobId,
         lastRunStatus: state.lastRunStatus,
         disabled: state.activeJobId !== null,
-        onTrigger: ({ suinScope, supabaseTarget }) => {
-          void _startRun({ suinScope, supabaseTarget });
+        onTrigger: ({ suinScope, supabaseTarget, autoEmbed, autoPromote }) => {
+          state.autoEmbed = autoEmbed;
+          state.autoPromote = autoPromote;
+          state.supabaseTarget = supabaseTarget;
+          state.suinScope = suinScope;
+          void _startRun({ suinScope, supabaseTarget, autoEmbed, autoPromote, batchId: null });
         },
       }),
     );
+  }
+
+  function _renderIntakeZone(): void {
+    if (!intakeSlot) return;
+    intakeSlot.replaceChildren(
+      createIntakeDropZone({
+        onIntake: (files) => _handleIntakeDrop(files),
+        onApprove: (batchId) => {
+          void _handleIntakeApprove(batchId, {
+            autoEmbed: state.autoEmbed,
+            autoPromote: state.autoPromote,
+            supabaseTarget: state.supabaseTarget,
+            suinScope: state.suinScope,
+          });
+        },
+      }),
+    );
+  }
+
+  function _renderTimeline(): void {
+    if (!timelineSlot) return;
+    timelineHandle = createRunProgressTimeline();
+    timelineSlot.replaceChildren(timelineHandle.element);
+  }
+
+  function _renderLogConsole(): void {
+    if (!logSlot) return;
+    logHandle = createRunLogConsole();
+    logSlot.replaceChildren(logHandle.element);
   }
 
   async function _renderOverview(): Promise<void> {
@@ -185,16 +284,90 @@ export function createIngestController(rootElement: HTMLElement): IngestControll
     }
   }
 
+  async function _handleIntakeDrop(
+    files: IntakeDropZoneFile[],
+  ): Promise<IntakeDropZoneResponse> {
+    const encoded = await Promise.all(
+      files.map(async (entry) => {
+        const content_base64 = await _fileToBase64(entry.file);
+        return {
+          filename: entry.filename,
+          content_base64,
+          relative_path: entry.relativePath || entry.filename,
+        };
+      }),
+    );
+    const payload = {
+      batch_id: null as string | null,
+      files: encoded,
+      options: { mirror_to_dropbox: false, dropbox_root: null as string | null },
+    };
+    const res = await postJsonOrThrow<IngestIntakeResponse>("/api/ingest/intake", payload);
+    state.lastBatchId = res.batch_id;
+    return res;
+  }
+
+  async function _fileToBase64(file: File): Promise<string> {
+    // Prefer FileReader.readAsDataURL — most universally supported in
+    // both real browsers and jsdom. Fall back to arrayBuffer + btoa for
+    // environments that provide `Blob.arrayBuffer` but not FileReader.
+    const g = globalThis as {
+      FileReader?: typeof FileReader;
+      btoa?: (s: string) => string;
+    };
+    if (typeof g.FileReader === "function") {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new g.FileReader!();
+        reader.onerror = () => reject(reader.error || new Error("file read failed"));
+        reader.onload = () => resolve(String(reader.result || ""));
+        reader.readAsDataURL(file);
+      });
+      const comma = dataUrl.indexOf(",");
+      return comma >= 0 ? dataUrl.slice(comma + 1) : "";
+    }
+    if (typeof (file as File & { arrayBuffer?: () => Promise<ArrayBuffer> }).arrayBuffer === "function") {
+      const buffer = await (file as File & { arrayBuffer: () => Promise<ArrayBuffer> }).arrayBuffer();
+      return _arrayBufferToBase64(buffer);
+    }
+    return "";
+  }
+
+  async function _handleIntakeApprove(
+    batchId: string,
+    opts: {
+      autoEmbed: boolean;
+      autoPromote: boolean;
+      supabaseTarget: "wip" | "production";
+      suinScope: string;
+    },
+  ): Promise<void> {
+    await _startRun({
+      batchId,
+      autoEmbed: opts.autoEmbed,
+      autoPromote: opts.autoPromote,
+      supabaseTarget: opts.supabaseTarget,
+      suinScope: opts.suinScope,
+    });
+  }
+
   async function _startRun(params: {
     suinScope: string;
     supabaseTarget: "wip" | "production";
+    autoEmbed: boolean;
+    autoPromote: boolean;
+    batchId: string | null;
   }): Promise<void> {
     state.lastRunStatus = "queued";
+    state.logCursor = 0;
+    if (logHandle) logHandle.clear();
     _renderTrigger();
     try {
       const res = await postJsonOrThrow<IngestRunResponse>("/api/ingest/run", {
         suin_scope: params.suinScope,
         supabase_target: params.supabaseTarget,
+        auto_embed: params.autoEmbed,
+        auto_promote: params.autoPromote,
+        batch_id: params.batchId,
       });
       state.activeJobId = res.job_id;
       state.lastRunStatus = "running";
@@ -210,19 +383,65 @@ export function createIngestController(rootElement: HTMLElement): IngestControll
 
   function _startPolling(): void {
     _stopPolling();
+    // If the Phase 5 slots are wired, use the progress+log endpoints
+    // (1.5s) so the timeline + log surface live updates. Otherwise,
+    // fall back to the legacy /api/jobs/{id} poll (4s).
+    const phaseFive = timelineSlot !== null || logSlot !== null;
     state.pollHandle = window.setInterval(() => {
       if (!state.activeJobId) {
         _stopPolling();
         return;
       }
-      void _pollOnce(state.activeJobId);
-    }, 4000);
+      if (phaseFive) {
+        void _pollProgress(state.activeJobId);
+        void _pollLog(state.activeJobId);
+      } else {
+        void _pollOnce(state.activeJobId);
+      }
+    }, phaseFive ? 1500 : 4000);
   }
 
   function _stopPolling(): void {
     if (state.pollHandle !== null) {
       window.clearInterval(state.pollHandle);
       state.pollHandle = null;
+    }
+  }
+
+  async function _pollProgress(jobId: string): Promise<void> {
+    try {
+      const res = await getJson<IngestProgressResponse>(
+        `/api/ingest/job/${jobId}/progress`,
+      );
+      if (timelineHandle) timelineHandle.update(res as ProgressResponse);
+      const status = res.status;
+      if (status === "done" || status === "failed") {
+        state.lastRunStatus = status === "done" ? "active" : "failed";
+        state.activeJobId = null;
+        _renderTrigger();
+        _stopPolling();
+        if (status === "done") {
+          await Promise.all([_renderOverview(), _renderGenerations()]);
+        }
+      }
+    } catch {
+      // Transient — let the next tick retry.
+    }
+  }
+
+  async function _pollLog(jobId: string): Promise<void> {
+    try {
+      const res = await getJson<IngestLogTailResponse>(
+        `/api/ingest/job/${jobId}/log/tail?cursor=${state.logCursor}&limit=200`,
+      );
+      if (res.lines && res.lines.length > 0 && logHandle) {
+        logHandle.appendLines(res.lines);
+      }
+      if (typeof res.next_cursor === "number") {
+        state.logCursor = res.next_cursor;
+      }
+    } catch {
+      // Transient — let the next tick retry.
     }
   }
 
@@ -250,6 +469,23 @@ export function createIngestController(rootElement: HTMLElement): IngestControll
     } catch {
       // Transient — let the next tick retry.
     }
+  }
+
+  function _arrayBufferToBase64(buffer: ArrayBuffer): string {
+    const bytes = new Uint8Array(buffer);
+    // Chunk to avoid blowing the call stack on very large files (btoa).
+    const CHUNK = 0x8000;
+    let binary = "";
+    for (let i = 0; i < bytes.length; i += CHUNK) {
+      const slice = bytes.subarray(i, Math.min(bytes.length, i + CHUNK));
+      binary += String.fromCharCode.apply(null, Array.from(slice));
+    }
+    const g = globalThis as { btoa?: (s: string) => string };
+    if (typeof g.btoa === "function") return g.btoa(binary);
+    // Node fallback path (jsdom normally provides btoa, but guard anyway).
+    const nodeBuffer = (globalThis as { Buffer?: { from: (s: string, enc: string) => { toString: (enc: string) => string } } }).Buffer;
+    if (nodeBuffer) return nodeBuffer.from(binary, "binary").toString("base64");
+    return "";
   }
 
   // Helpers
@@ -291,6 +527,9 @@ export function createIngestController(rootElement: HTMLElement): IngestControll
 
   // Initial mount
   _renderTrigger();
+  _renderIntakeZone();
+  _renderTimeline();
+  _renderLogConsole();
   void Promise.all([_renderOverview(), _renderGenerations()]);
 
   return {

@@ -8,6 +8,11 @@ export interface GenerationRowViewModel {
   chunks: number;
   topClass?: string;
   topClassCount?: number;
+  // ingestfix-v2 Phase 7 — subtopic coverage micro-metric.
+  subtopicCoverage?: {
+    docsWithSubtopic: number;
+    docsRequiringReview?: number;
+  };
 }
 
 function formatDateShort(iso: string): string {
@@ -65,6 +70,21 @@ export function createGenerationRow(
     familyCell.className = "lia-generation-row__family";
     familyCell.textContent = `${vm.topClass}: ${vm.topClassCount.toLocaleString("es-CO")}`;
     root.appendChild(familyCell);
+  }
+
+  if (vm.subtopicCoverage) {
+    const coverage = vm.subtopicCoverage;
+    const denominator = vm.documents > 0 ? vm.documents : 1;
+    const pct = Math.round((coverage.docsWithSubtopic / denominator) * 100);
+    const subtopicCell = document.createElement("span");
+    subtopicCell.className = "lia-generation-row__subtopic";
+    subtopicCell.setAttribute("data-lia-component", "generation-row-subtopic");
+    const reviewSuffix =
+      coverage.docsRequiringReview && coverage.docsRequiringReview > 0
+        ? ` (${coverage.docsRequiringReview} por revisar)`
+        : "";
+    subtopicCell.textContent = `subtema: ${pct}%${reviewSuffix}`;
+    root.appendChild(subtopicCell);
   }
 
   return root;
