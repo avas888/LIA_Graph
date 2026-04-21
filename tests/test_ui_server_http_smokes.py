@@ -98,7 +98,9 @@ def test_ui_server_serves_core_html_surfaces(monkeypatch) -> None:
         time.sleep(0.1)
 
         for path, expected_text in (
-            ("/", "Redirigiendo a LIA"),
+            # `/` is the SPA shell — gates on auth client-side via authGate.ts.
+            # Was a meta-refresh stub; that intermediate page was removed.
+            ("/", "<!doctype html>"),
             ("/public", "LIA"),
             ("/ops", "<!doctype html>"),
             ("/admin", "<!doctype html>"),

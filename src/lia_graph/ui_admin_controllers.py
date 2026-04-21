@@ -235,59 +235,63 @@ def _handle_admin_activity_get(handler: Any, parsed: Any) -> bool:
     except ValueError:
         limit = 100
 
+    empty_activity = {
+        "recent_logins": [],
+        "user_stats": [],
+        "summary": {
+            "logins_today": 0,
+            "active_users_7d": 0,
+            "total_interactions_7d": 0,
+        },
+    }
+
     try:
         from .login_audit import query_recent_logins, query_user_activity_stats
     except ImportError:
-        handler._send_json(
-            HTTPStatus.OK,
-            {
-                "ok": True,
-                "activity": {
-                    "recent_logins": [],
-                    "total_logins": 0,
-                    "unique_users": 0,
-                },
-            },
-        )
+        handler._send_json(HTTPStatus.OK, {"ok": True, "activity": empty_activity})
         return True
 
-    recent_logins = query_recent_logins(tenant_id=tenant_scope, limit=limit)
+    try:
+        recent_logins = query_recent_logins(tenant_id=tenant_scope, limit=limit)
 
-    user_ids = {str(r.get("user_id", "") or "").strip() for r in recent_logins if r.get("user_id")}
-    display_map: dict[str, str] = {}
-    if user_ids:
-        try:
-            from .supabase_client import get_supabase_client
+        user_ids = {str(r.get("user_id", "") or "").strip() for r in recent_logins if r.get("user_id")}
+        display_map: dict[str, str] = {}
+        if user_ids:
+            try:
+                from .supabase_client import get_supabase_client
 
-            client = get_supabase_client()
-            if client:
-                users_res = (
-                    client.table("users")
-                    .select("user_id, display_name")
-                    .in_("user_id", list(user_ids))
-                    .execute()
-                )
-                for u in (users_res.data or []):
-                    display_map[str(u.get("user_id", ""))] = str(u.get("display_name", "") or "")
-        except Exception:
-            pass
+                client = get_supabase_client()
+                if client:
+                    users_res = (
+                        client.table("users")
+                        .select("user_id, display_name")
+                        .in_("user_id", list(user_ids))
+                        .execute()
+                    )
+                    for u in (users_res.data or []):
+                        display_map[str(u.get("user_id", ""))] = str(u.get("display_name", "") or "")
+            except Exception:
+                pass
 
-    enriched_logins = []
-    for row in recent_logins:
-        uid = str(row.get("user_id", "") or "").strip()
-        enriched_logins.append(
-            {
-                "email": row.get("email", ""),
-                "display_name": display_map.get(uid, ""),
-                "status": row.get("status", ""),
-                "ip_address": row.get("ip_address", ""),
-                "created_at": row.get("created_at", ""),
-                "failure_reason": row.get("failure_reason"),
-            }
-        )
+        enriched_logins = []
+        for row in recent_logins:
+            uid = str(row.get("user_id", "") or "").strip()
+            enriched_logins.append(
+                {
+                    "email": row.get("email", ""),
+                    "display_name": display_map.get(uid, ""),
+                    "status": row.get("status", ""),
+                    "ip_address": row.get("ip_address", ""),
+                    "created_at": row.get("created_at", ""),
+                    "failure_reason": row.get("failure_reason"),
+                }
+            )
 
-    stats = query_user_activity_stats(tenant_id=tenant_scope)
-    stats["recent_logins"] = enriched_logins
+        stats = query_user_activity_stats(tenant_id=tenant_scope)
+        stats["recent_logins"] = enriched_logins
+    except Exception as exc:  # noqa: BLE001
+        _log.warning("admin_activity: query failed, returning empty payload: %s", exc, exc_info=True)
+        stats = empty_activity
 
     handler._send_json(HTTPStatus.OK, {"ok": True, "activity": stats})
     return True

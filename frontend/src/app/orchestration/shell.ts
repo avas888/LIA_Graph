@@ -21,8 +21,8 @@ export function renderOrchestrationShell(i18n: I18nRuntime): string {
             <strong>pipeline_d</strong>
           </div>
           <div class="orch-status-card">
-            <span class="orch-status-label">Última actualización</span>
-            <strong>2026-04-18</strong>
+            <span class="orch-status-label">Última granularización</span>
+            <strong>2026-04-20 · ui13</strong>
           </div>
           <div class="orch-status-card">
             <span class="orch-status-label">Env matrix</span>

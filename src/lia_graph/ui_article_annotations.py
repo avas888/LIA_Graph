@@ -27,6 +27,7 @@ this module is safe to import from anywhere and to unit-test in isolation.
 from __future__ import annotations
 
 import re
+import unicodedata
 from typing import Any
 
 
@@ -39,19 +40,71 @@ ANNOTATION_LABELS: tuple[str, ...] = (
     "Concordancias",
     "Jurisprudencia",
     "Doctrina Concordante",
+    "Legislación Anterior",
 )
-_ANNOTATION_CANONICAL: dict[str, str] = {label.lower(): label for label in ANNOTATION_LABELS}
-_ANNOTATION_PATTERN = re.compile(
-    r"\*\*\s*(Notas\s+de\s+Vigencia|Concordancias|Jurisprudencia|Doctrina\s+Concordante)\s*:?\s*\*\*",
-    re.IGNORECASE,
-)
+
+# Corpus-observed variants (case-insensitive, accent-folded, paren-suffixes
+# stripped) mapped to one of the four canonical tabs. Any bold header whose
+# normalized form isn't here is left in the article body — we match on a loose
+# `**...:**` pattern, so this alias map is the sole gate preventing random
+# inline bold from creating phantom tabs.
+_LABEL_ALIASES: dict[str, str] = {
+    # Notas de Vigencia
+    "notas de vigencia": "Notas de Vigencia",
+    "nota de vigencia": "Notas de Vigencia",
+    # Concordancias
+    "concordancias": "Concordancias",
+    "concordancia": "Concordancias",
+    "concordancias transversales": "Concordancias",
+    # Jurisprudencia — merge every subtype into one tab so courts land as
+    # individual bullets rather than a single concatenated paragraph.
+    "jurisprudencia": "Jurisprudencia",
+    "jurisprudencia concordante": "Jurisprudencia",
+    "jurisprudencia vigencia": "Jurisprudencia",
+    "jurisprudencia unificacion": "Jurisprudencia",
+    "jurisprudencia relevante": "Jurisprudencia",
+    "jurisprudencia disponible": "Jurisprudencia",
+    "jurisprucdencia concordante": "Jurisprudencia",  # corpus typo (4 occurrences)
+    # Doctrina Concordante
+    "doctrina concordante": "Doctrina Concordante",
+    "doctrina dian": "Doctrina Concordante",
+    "doctrina": "Doctrina Concordante",
+    # Legislación Anterior — historical text of the article as modified by
+    # prior laws. Each `> *` bullet is usually a heading ("Texto modificado
+    # por la Ley X:") followed by a paragraph-length quoted passage. The
+    # frontend is responsible for rendering long anchor text as prose rather
+    # than as a single underlined link.
+    "legislacion anterior": "Legislación Anterior",
+}
+
+_ANNOTATION_PATTERN = re.compile(r"\*\*\s*([^*\n]{3,80}?)\s*:\s*\*\*")
+_ORPHAN_BOLD_HEADER_RE = re.compile(r"^\*\*\s*[^*\n]{3,80}\s*:\s*\*\*$")
+_EDITOR_NOTE_SENTINEL_RE = re.compile(r"^\s*En\s+criterio\s+del\s+editor\b", re.IGNORECASE)
+_PAREN_SUFFIX_RE = re.compile(r"\s*\([^)]*\)\s*")
 _MD_LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 _BULLET_PREFIX_RE = re.compile(r"^\s*(?:>\s*)*(?:[*\-•]\s+)?")
+_LEADING_DASH_RE = re.compile(r"^\s*[-–—•*]\s+")
 _INLINE_BOLD_RE = re.compile(r"\*\*([^*\n]+)\*\*")
 _INLINE_ITALIC_RE = re.compile(r"(?<!\*)\*([^*\n]+)\*")
 _INLINE_CODE_RE = re.compile(r"`([^`]+)`")
 _HEADING_RE = re.compile(r"^\s*#{1,6}\s*", flags=re.MULTILINE)
 _SAFE_HREF_SCHEMES = ("http://", "https://", "/")
+
+
+def _normalize_label(raw: str) -> str:
+    """Fold a raw `**Label:**` header to the key used in `_LABEL_ALIASES`.
+
+    Lowercases, strips parenthetical suffixes like `(DIAN)`, removes accents,
+    and collapses internal whitespace so the alias map only needs plain-ASCII
+    lowercase keys. Returns "" when the input carries no recognizable word
+    content.
+    """
+    if not raw:
+        return ""
+    without_parens = _PAREN_SUFFIX_RE.sub(" ", raw)
+    folded = unicodedata.normalize("NFKD", without_parens)
+    ascii_only = folded.encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"\s+", " ", ascii_only.lower()).strip()
 
 
 def _sanitize_href(raw: Any) -> str:
@@ -102,7 +155,11 @@ def parse_annotation_items(text: Any) -> list[dict[str, str]]:
     Each returned item is `{"text": str, "href": str}` where `href` is
     empty when the source line has no markdown link. The caller decides
     whether to render as `<a>` or plain text. Non-bullet paragraphs are
-    emitted as single items with the full paragraph text.
+    emitted as single items with the full paragraph text. When a block mixes
+    bullets with a stray bold header (e.g. `**Notas del Editor:**` leaking
+    into an adjacent segment), the bullets are emitted individually and the
+    orphan header is dropped — preserving per-bullet structure and URLs
+    rather than collapsing the block into a single run-on paragraph.
     """
     raw = str(text or "").replace("\r\n", "\n").replace("\r", "\n").strip()
     if not raw:
@@ -121,12 +178,58 @@ def parse_annotation_items(text: Any) -> list[dict[str, str]]:
                 item = _extract_linked_item(body)
                 if item["text"] or item["href"]:
                     items.append(item)
+        elif any(bullet_like):
+            for line, is_bullet in zip(lines, bullet_like):
+                stripped = line.strip()
+                if _ORPHAN_BOLD_HEADER_RE.match(stripped):
+                    continue
+                body = _BULLET_PREFIX_RE.sub("", line).strip() if is_bullet else stripped
+                if not body:
+                    continue
+                item = _extract_linked_item(body)
+                if item["text"] or item["href"]:
+                    items.append(item)
         else:
             joined = " ".join(_BULLET_PREFIX_RE.sub("", line).strip() for line in lines)
             item = _extract_linked_item(joined)
             if item["text"] or item["href"]:
                 items.append(item)
     return items
+
+
+def group_editor_notes(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Fold `En criterio del editor` sentinel items into parent+sub_items.
+
+    The ET corpus packs editor commentary into `Notas del Editor` blocks
+    where each distinct note starts with the sentence `En criterio del editor
+    …`, followed by continuation bullets (quoted norms, parenthetical
+    clarifications). This helper walks a flat items list and groups every
+    continuation under its preceding sentinel item, so the renderer can show
+    one parent bullet per note with the continuation fragments as indented
+    sub-bullets. No-op when no item matches the sentinel.
+    """
+    if not items:
+        return []
+    has_sentinel = any(_EDITOR_NOTE_SENTINEL_RE.match(i.get("text", "") or "") for i in items)
+    if not has_sentinel:
+        return list(items)
+    grouped: list[dict[str, Any]] = []
+    current: dict[str, Any] | None = None
+    for item in items:
+        text = item.get("text", "") or ""
+        if _EDITOR_NOTE_SENTINEL_RE.match(text):
+            if current is not None:
+                grouped.append(current)
+            current = {"text": text, "href": item.get("href", "") or "", "sub_items": []}
+        elif current is not None:
+            current["sub_items"].append(
+                {"text": text, "href": item.get("href", "") or ""}
+            )
+        else:
+            grouped.append(item)
+    if current is not None:
+        grouped.append(current)
+    return grouped
 
 
 def _extract_linked_item(line: str) -> dict[str, str]:
@@ -142,15 +245,16 @@ def _extract_linked_item(line: str) -> dict[str, str]:
         return {"text": "", "href": ""}
     match = _MD_LINK_RE.search(stripped)
     if match is None:
-        return {"text": _strip_inline_markdown(stripped), "href": ""}
+        return {"text": _LEADING_DASH_RE.sub("", _strip_inline_markdown(stripped)), "href": ""}
     href = _sanitize_href(match.group(2))
     anchor_text = match.group(1).strip()
     before = stripped[: match.start()].strip(" \t:;,.-—–")
     after = stripped[match.end():].strip(" \t:;,.-—–")
     if not before and not after:
-        return {"text": _strip_inline_markdown(anchor_text), "href": href}
+        clean = _LEADING_DASH_RE.sub("", _strip_inline_markdown(anchor_text))
+        return {"text": clean, "href": href}
     flattened = _MD_LINK_RE.sub(lambda m: m.group(1), stripped)
-    return {"text": _strip_inline_markdown(flattened), "href": href}
+    return {"text": _LEADING_DASH_RE.sub("", _strip_inline_markdown(flattened)), "href": href}
 
 
 def split_article_annotations(raw_text: Any) -> tuple[str, list[dict[str, Any]]]:
@@ -161,31 +265,42 @@ def split_article_annotations(raw_text: Any) -> tuple[str, list[dict[str, Any]]]
       - `body`:  plain-text flattened block (back-compat)
       - `items`: list of {text, href} — href may be empty for text-only lines
 
-    Annotations preserve the discovery order of the labels in the original
-    text. Used by the ET citation profile so the modal can render the body
-    cleanly and surface Notas de Vigencia / Concordancias / Jurisprudencia /
-    Doctrina in a dedicated tab strip with clickable references where the
-    corpus carries them.
+    Annotations preserve the discovery order of the first match for each
+    canonical label. Corpus variants of the same concept (e.g. `Jurisprudencia
+    Concordante` and `Jurisprudencia Vigencia`) collapse into a single tab
+    with items concatenated, so each cited court decision surfaces as its own
+    bullet rather than a run-on paragraph.
     """
     raw = str(raw_text or "")
     if not raw.strip():
         return "", []
-    matches = list(_ANNOTATION_PATTERN.finditer(raw))
-    if not matches:
+    recognized: list[tuple[re.Match[str], str]] = []
+    for match in _ANNOTATION_PATTERN.finditer(raw):
+        canonical = _LABEL_ALIASES.get(_normalize_label(match.group(1)))
+        if canonical:
+            recognized.append((match, canonical))
+    if not recognized:
         return raw, []
-    body = raw[: matches[0].start()].rstrip()
-    annotations: list[dict[str, Any]] = []
-    seen_labels: set[str] = set()
-    for idx, match in enumerate(matches):
-        label_raw = " ".join(match.group(1).split())
-        label = _ANNOTATION_CANONICAL.get(label_raw.lower(), label_raw)
-        if label in seen_labels:
-            continue
-        seen_labels.add(label)
-        end = matches[idx + 1].start() if idx + 1 < len(matches) else len(raw)
+    body = raw[: recognized[0][0].start()].rstrip()
+    by_label: dict[str, dict[str, Any]] = {}
+    for idx, (match, label) in enumerate(recognized):
+        end = recognized[idx + 1][0].start() if idx + 1 < len(recognized) else len(raw)
         segment = raw[match.end():end]
         body_text = clean_annotation_body(segment)
         items = parse_annotation_items(segment)
-        if body_text or items:
-            annotations.append({"label": label, "body": body_text, "items": items})
-    return body, annotations
+        if not (body_text or items):
+            continue
+        if label in by_label:
+            existing = by_label[label]
+            if body_text:
+                existing["body"] = (
+                    f"{existing['body']}\n\n{body_text}".strip()
+                    if existing["body"]
+                    else body_text
+                )
+            existing["items"].extend(items)
+        else:
+            by_label[label] = {"label": label, "body": body_text, "items": list(items)}
+    for entry in by_label.values():
+        entry["items"] = group_editor_notes(entry["items"])
+    return body, list(by_label.values())

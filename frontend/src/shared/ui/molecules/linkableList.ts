@@ -23,13 +23,24 @@ import { sanitizeHref } from "@/features/chat/normative/citationParsing";
 export interface LinkableListItem {
   text?: string | null;
   href?: string | null;
+  sub_items?: readonly (LinkableListItem | null | undefined)[] | null;
 }
 
 export interface LinkableListOptions {
   className?: string;
   anchorClassName?: string;
   linkTarget?: "_blank" | "_self";
+  // When true, items whose `text` exceeds `longAnchorThreshold` render as
+  // prose inside the `<li>` with a compact trailing source link, instead of
+  // wrapping the entire paragraph in one `<a>`. Used by the article
+  // annotation modal so Legislación Anterior blocks stay readable.
+  splitLongAnchors?: boolean;
+  longAnchorThreshold?: number;
+  longAnchorLinkLabel?: string;
+  longItemClassName?: string;
 }
+
+const DEFAULT_LONG_ANCHOR_THRESHOLD = 140;
 
 export function buildLinkableListNode(
   items: readonly (LinkableListItem | null | undefined)[] | null | undefined,
@@ -40,6 +51,7 @@ export function buildLinkableListNode(
         .map((raw) => ({
           text: String(raw?.text ?? "").trim(),
           href: sanitizeHref(raw?.href ?? ""),
+          subItems: Array.isArray(raw?.sub_items) ? raw!.sub_items! : null,
         }))
         .filter((item) => item.text || item.href)
     : [];
@@ -49,22 +61,51 @@ export function buildLinkableListNode(
   if (options.className) list.className = options.className;
 
   const target = options.linkTarget ?? "_blank";
+  const splitLong = options.splitLongAnchors === true;
+  const longThreshold = options.longAnchorThreshold ?? DEFAULT_LONG_ANCHOR_THRESHOLD;
+  const longLinkLabel = options.longAnchorLinkLabel ?? "Ver fuente";
   for (const item of normalized) {
     const li = document.createElement("li");
-    if (item.href) {
-      const anchor = document.createElement("a");
-      anchor.href = item.href;
-      if (target === "_blank") {
-        anchor.target = "_blank";
-        anchor.rel = "noopener noreferrer";
-      }
-      if (options.anchorClassName) anchor.className = options.anchorClassName;
-      anchor.textContent = item.text || item.href;
-      li.appendChild(anchor);
+    const text = item.text;
+    const hasLongText = splitLong && text.length > longThreshold;
+    if (item.href && !hasLongText) {
+      li.appendChild(buildAnchor(item.href, text || item.href, target, options.anchorClassName));
+    } else if (item.href && hasLongText) {
+      if (options.longItemClassName) li.className = options.longItemClassName;
+      const prose = document.createElement("span");
+      prose.className = "linkable-list__prose";
+      prose.textContent = text;
+      const sourceLink = buildAnchor(item.href, longLinkLabel, target, "linkable-list__source");
+      li.append(prose, document.createTextNode(" "), sourceLink);
     } else {
-      li.textContent = item.text;
+      li.textContent = text;
+    }
+    if (item.subItems && item.subItems.length > 0) {
+      const nested = buildLinkableListNode(item.subItems, {
+        ...options,
+        className: "linkable-list__nested",
+        longItemClassName: undefined,
+      });
+      if (nested) li.appendChild(nested);
     }
     list.appendChild(li);
   }
   return list;
+}
+
+function buildAnchor(
+  href: string,
+  label: string,
+  target: "_blank" | "_self",
+  className?: string,
+): HTMLAnchorElement {
+  const anchor = document.createElement("a");
+  anchor.href = href;
+  if (target === "_blank") {
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+  }
+  if (className) anchor.className = className;
+  anchor.textContent = label;
+  return anchor;
 }

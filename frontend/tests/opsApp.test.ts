@@ -119,7 +119,12 @@ describe("ops app", () => {
     }
   });
 
-  it("creates a session, uploads files, and starts ingestion processing from Backstage Ops", async () => {
+  // Skipped: tests the legacy kanban ingestion controller. The Sesiones surface
+  // was rewritten in v2026-04-20-ui14 (see docs/guide/orchestration.md) and the
+  // kanban is no longer mounted when `#lia-ingest-shell` is present. The
+  // ingestion path is now covered by `tests/ingestOrganisms.test.ts` +
+  // `tests/test_ui_ingest_run_controllers.py`.
+  it.skip("creates a session, uploads files, and starts ingestion processing from Backstage Ops", async () => {
     const sessions = new Map<string, MockSession>();
     const initial = buildSession("ing_prev_01", []);
     sessions.set(initial.session_id, initial);
@@ -283,7 +288,8 @@ describe("ops app", () => {
     expect(document.getElementById("ingestion-flash")?.textContent).toContain("quedó en ejecución");
   });
 
-  it("removes failed documents from the selected ingestion session", async () => {
+  // Skipped — see note above on the kanban controller deprecation (v2026-04-20-ui14).
+  it.skip("removes failed documents from the selected ingestion session", async () => {
     const failedSession = buildSession(
       "ing_failed_01",
       [
@@ -573,7 +579,10 @@ describe("ops app", () => {
     expect(document.getElementById("cascade-note")?.textContent).toContain("hitos de usuario y técnicos");
   });
 
-  it("populates corpora dropdown when only ingestion shell is rendered (browser-chrome mode)", async () => {
+  // Skipped — `renderIngestionShell` no longer emits the legacy `#ingestion-corpus`
+  // dropdown (v2026-04-20-ui14). The new Sesiones surface reads corpus state from
+  // `/api/ingest/state` instead; see `tests/ingestOrganisms.test.ts`.
+  it.skip("populates corpora dropdown when only ingestion shell is rendered (browser-chrome mode)", async () => {
     document.body.innerHTML = `<div id="ingestion-panel">${renderIngestionShell(createI18n("es-CO"))}</div>`;
 
     vi.stubGlobal(

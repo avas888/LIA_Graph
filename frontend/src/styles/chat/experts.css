@@ -309,39 +309,8 @@
   background: var(--p-neutral-400, #8ea2b7);
 }
 
-.expert-detail-banner {
-  border: 1px solid var(--border-default);
-  border-radius: 18px;
-  padding: 1rem 1.05rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  background: linear-gradient(180deg, var(--expert-banner-gradient-top), var(--expert-banner-gradient-bottom));
-}
-
-.expert-detail-banner--concordancia {
-  border-color: var(--expert-banner-concordancia-border);
-}
-
-.expert-detail-banner--divergencia {
-  border-color: var(--expert-banner-divergencia-border);
-}
-
-.expert-detail-banner--complementario {
-  border-color: var(--expert-banner-complementario-border);
-}
-
-.expert-detail-banner--individual {
-  border-color: var(--expert-banner-individual-border);
-}
-
-.expert-detail-banner-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
+/* The modal header keeps the split title (applySplitTitle), so the topic
+   title style below is still live even though the banner is gone. */
 .expert-detail-title-main {
   display: block;
   font-size: 1.08rem;
@@ -359,32 +328,6 @@
   color: var(--text-secondary);
 }
 
-.expert-detail-question,
-.expert-detail-lead,
-.expert-detail-summary,
-.expert-detail-evidence {
-  margin: 0;
-}
-
-.expert-detail-question,
-.expert-detail-summary {
-  font-size: 0.8rem;
-  line-height: 1.45;
-  color: var(--text-secondary);
-}
-
-.expert-detail-lead {
-  font-size: 0.96rem;
-  line-height: 1.5;
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.expert-detail-evidence {
-  font-size: 0.74rem;
-  color: var(--text-secondary);
-}
-
 .expert-detail-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -399,14 +342,21 @@
   box-shadow: 0 8px 18px rgba(18, 27, 34, 0.04);
 }
 
-.expert-detail-panel-title,
-.expert-detail-section-title {
+.expert-detail-panel-title {
   margin: 0 0 0.7rem;
   font-size: 0.82rem;
   line-height: 1.2;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-secondary);
+}
+
+/* The section heading that leads the per-expert tabs is now a
+   `.lia-section-heading` atom. The class below is kept only as a hook
+   for the old selector from templates/tests and intentionally does not
+   restyle the atom. */
+.expert-detail-section-title {
+  margin-bottom: 0.85rem;
 }
 
 .expert-detail-panel-body {

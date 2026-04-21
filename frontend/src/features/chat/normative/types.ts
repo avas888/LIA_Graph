@@ -23,6 +23,7 @@ export interface CitationProfileSection {
 export interface CitationProfileOriginalTextAnnotationItem {
   text?: string;
   href?: string | null;
+  sub_items?: CitationProfileOriginalTextAnnotationItem[] | null;
 }
 
 export interface CitationProfileOriginalTextAnnotation {

@@ -7,12 +7,19 @@
  * controller so title styling and the parsing contract evolve together.
  */
 
-import { sanitizeExpertText, splitTitleAndTopic } from "@/features/chat/expertSummaryText";
+import {
+  cleanModalTitle,
+  sanitizeExpertText,
+  splitTitleAndTopic,
+} from "@/features/chat/expertSummaryText";
+
+const TITLE_MAX_CHARS = 140;
 
 export function applySplitTitle(titleNode: HTMLElement, rawHeading: string): void {
   titleNode.innerHTML = "";
   const { title, topic } = splitTitleAndTopic(rawHeading);
-  const mainText = title || sanitizeExpertText(rawHeading) || String(rawHeading || "");
+  const candidate = title || sanitizeExpertText(rawHeading) || String(rawHeading || "");
+  const mainText = cleanModalTitle(candidate, TITLE_MAX_CHARS) || candidate;
 
   const main = document.createElement("span");
   main.className = "expert-detail-title-main";

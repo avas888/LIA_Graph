@@ -322,6 +322,8 @@ export function createProfileRenderer(deps: ProfileRendererDeps) {
     if (Array.isArray(structuredItems) && structuredItems.length > 0) {
       const linkable = buildLinkableListNode(structuredItems, {
         className: "norma-annot-list",
+        splitLongAnchors: true,
+        longItemClassName: "norma-annot-list__item--prose",
       });
       if (linkable) {
         panel.appendChild(linkable);

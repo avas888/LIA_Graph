@@ -550,6 +550,60 @@
   margin-bottom: 0;
 }
 
+/* Paragraph-length anchor text (Legislación Anterior and similar) renders as
+ * prose with a compact source link instead of a single underlined blob. */
+.norma-annot-list li.norma-annot-list__item--prose {
+  list-style: disc;
+  margin-bottom: 0.7rem;
+  line-height: 1.6;
+}
+
+.norma-annot-list .linkable-list__prose {
+  display: block;
+  color: var(--text-primary, #1e293b);
+  text-align: justify;
+  hyphens: auto;
+}
+
+.norma-annot-list .linkable-list__source {
+  display: inline-block;
+  margin-top: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--p-blue-600, #2563eb);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.norma-annot-list .linkable-list__source::before {
+  content: "↗ ";
+  margin-right: 0.15rem;
+}
+
+.norma-annot-list .linkable-list__source:hover,
+.norma-annot-list .linkable-list__source:focus-visible {
+  text-decoration: underline;
+}
+
+/* Nested list inside an editor-note parent: indented sub-bullets for each
+ * continuation fragment of a single "En criterio del editor" note. */
+.norma-annot-list .linkable-list__nested {
+  margin: 0.4rem 0 0;
+  padding-left: 1.15rem;
+  list-style: circle;
+  color: var(--text-secondary, #475569);
+}
+
+.norma-annot-list .linkable-list__nested li {
+  margin-bottom: 0.25rem;
+  line-height: 1.55;
+  font-size: 0.86rem;
+}
+
+.norma-annot-list .linkable-list__nested li:last-child {
+  margin-bottom: 0;
+}
+
 .norma-expert-accordion {
   display: grid;
   gap: 0.7rem;

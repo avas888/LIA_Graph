@@ -67,6 +67,57 @@ export function sanitizeExpertText(value: string): string {
 }
 
 /**
+ * Collapses a paragraph-like heading into a short, proper modal title.
+ *
+ * The group/card `heading` can degrade into a raw snippet body when the
+ * backend group summary is missing or paragraph-shaped (e.g. a "Posicion
+ * Normativa — Referencia Rapida Los INCRNGO son ingresos..." dump that
+ * includes a table). This helper walks three fallbacks, in order:
+ *
+ *   1. Prose-starter cut — split on a Spanish clause-starter word (Los,
+ *      La, El, Cuando, Si, ...) that comes after a 24+ char heading-like
+ *      head, dropping the body that follows.
+ *   2. Sentence cut — take the first terminating sentence within cap.
+ *   3. Hard word-boundary clip with ellipsis.
+ *
+ * Short, clean headings (under `maxChars`) are returned untouched.
+ */
+const PROSE_STARTER_RE =
+  /^(.{24,200}?)(?<![.!?:;])\s+(?:Los|Las|El|La|Un|Una|Unos|Unas|En|Al|Del|Con|Sin|Por|Para|Cuando|Si|Aunque|Mientras|Porque|Como|Este|Esta|Estos|Estas|Ese|Esa|Esos|Esas|Se|Es|Son|Est[aá]|Est[aá]n|Debe|Deben|Procede|Incluye|Comprende|Aplica|Aplican|Resulta|Corresponde|Adem[aá]s|Respecto|Bajo|Ante|Entre|Sobre|Tras|Durante|Seg[uú]n|Mediante)\b/u;
+
+function hardWordCap(text: string, maxChars: number): string {
+  if (text.length <= maxChars) return text;
+  const slice = text.slice(0, maxChars - 1);
+  const lastSpace = slice.lastIndexOf(" ");
+  const cut = lastSpace > maxChars * 0.6 ? slice.slice(0, lastSpace) : slice;
+  return `${cut.trimEnd()}…`;
+}
+
+export function cleanModalTitle(raw: string, maxChars = 140): string {
+  const sanitized = sanitizeExpertText(raw);
+  if (!sanitized) return "";
+  if (sanitized.length <= maxChars) return sanitized;
+
+  const starterMatch = sanitized.match(PROSE_STARTER_RE);
+  if (starterMatch && starterMatch[1]) {
+    const head = starterMatch[1].replace(/[\s,;:—–-]+$/g, "").trim();
+    if (head.length >= 12 && head.length <= maxChars) return head;
+  }
+
+  // Require an uppercase-letter start after the terminator so abbreviations
+  // like "art. 147" or "Sr. Pérez" don't trigger false sentence breaks.
+  const sentenceMatch = sanitized
+    .slice(0, maxChars + 20)
+    .match(/^(.{24,}?[.!?])(?:\s+[A-ZÁÉÍÓÚÑ]|$)/u);
+  if (sentenceMatch && sentenceMatch[1]) {
+    const sent = sentenceMatch[1].replace(/[.!?]+$/, "").trim();
+    if (sent.length >= 12 && sent.length <= maxChars) return sent;
+  }
+
+  return hardWordCap(sanitized, maxChars);
+}
+
+/**
  * Splits "<title> Tema principal: <topic>" into two parts for the modal
  * header. When the tail isn't present, returns the sanitized title and an
  * empty topic so callers can render the fallback single-line heading.

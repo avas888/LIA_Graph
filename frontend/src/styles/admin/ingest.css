@@ -1,0 +1,614 @@
+/* Sesiones — Lia Graph ingest admin surface
+ *
+ * Atomic-design strict: atoms (.lia-metric-value, .lia-status-dot),
+ * molecules (.lia-metric-card, .lia-run-status, .lia-pipeline-flow,
+ * .lia-generation-row), organisms (.lia-corpus-overview,
+ * .lia-generations-list, .lia-run-trigger), template (.lia-ingest-shell).
+ */
+
+/* ── Template / page shell ─────────────────────────── */
+
+.lia-ingest-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem clamp(1rem, 4vw, 2.5rem);
+  max-width: 84rem;
+  margin: 0 auto;
+}
+
+.lia-ingest-shell__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.lia-ingest-shell__eyebrow {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--p-blue-500);
+}
+
+.lia-ingest-shell__title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.lia-ingest-shell__lede {
+  margin: 0;
+  max-width: 64rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.lia-ingest-shell__lede code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.84rem;
+  background: var(--p-neutral-100);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  color: var(--p-navy-700);
+}
+
+.lia-ingest-shell__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 1024px) {
+  .lia-ingest-shell__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lia-ingest-shell__col {
+  min-width: 0;
+}
+
+.lia-ingest-shell__row {
+  width: 100%;
+}
+
+/* Skeleton + error states for slot mounting */
+.lia-ingest-skeleton {
+  background: var(--card-bg);
+  border: 1px dashed var(--card-border);
+  border-radius: 14px;
+  padding: 2rem 1.25rem;
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+}
+
+.lia-ingest-error {
+  background: var(--status-error-soft);
+  border: 1px solid var(--p-red-200);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  color: var(--p-red-700);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lia-ingest-error__detail {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--p-red-600);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.lia-ingest-toast {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--p-navy-800);
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Atom: .lia-metric-value ────────────────────────── */
+
+.lia-metric-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.lia-metric-value--sm .lia-metric-value__number { font-size: 1rem; }
+.lia-metric-value--md .lia-metric-value__number { font-size: 1.5rem; }
+.lia-metric-value--lg .lia-metric-value__number { font-size: 2rem; }
+
+.lia-metric-value__unit {
+  font-weight: 500;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  letter-spacing: 0;
+}
+
+/* ── Atom: .lia-status-dot ──────────────────────────── */
+
+.lia-status-dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.lia-status-dot--active   { background: var(--p-success-600); box-shadow: 0 0 0 3px var(--p-success-100); }
+.lia-status-dot--idle     { background: var(--p-neutral-400); }
+.lia-status-dot--running  { background: var(--p-blue-500); }
+.lia-status-dot--warning  { background: var(--p-amber-400); }
+.lia-status-dot--error    { background: var(--p-red-600); }
+
+@keyframes lia-status-dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 currentColor; }
+  50%      { box-shadow: 0 0 0 6px transparent; }
+}
+
+.lia-status-dot--pulse::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 2px solid currentColor;
+  opacity: 0.55;
+  animation: lia-status-dot-pulse 1.5s ease-in-out infinite;
+}
+
+.lia-status-dot--running.lia-status-dot--pulse::after { color: var(--p-blue-500); }
+.lia-status-dot--warning.lia-status-dot--pulse::after { color: var(--p-amber-400); }
+
+/* ── Molecule: .lia-metric-card ─────────────────────── */
+
+.lia-metric-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.lia-metric-card:hover {
+  border-color: var(--card-border-strong);
+}
+
+.lia-metric-card--success { border-left: 3px solid var(--p-success-600); }
+.lia-metric-card--warning { border-left: 3px solid var(--p-amber-400); }
+.lia-metric-card--error   { border-left: 3px solid var(--p-red-600); }
+
+.lia-metric-card__label {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.lia-metric-card__hint {
+  margin: 0.1rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* ── Molecule: .lia-run-status ──────────────────────── */
+
+.lia-run-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: var(--p-neutral-100);
+  border: 1px solid var(--p-neutral-200);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.lia-run-status--active   { background: var(--p-success-50);  border-color: var(--p-success-200); color: var(--p-success-700); }
+.lia-run-status--running,
+.lia-run-status--queued   { background: #ebf2fc; border-color: #c4d9f3; color: var(--p-blue-800); }
+.lia-run-status--failed   { background: var(--p-red-50);  border-color: var(--p-red-200);  color: var(--p-red-700); }
+.lia-run-status--pending  { background: var(--p-amber-50); border-color: var(--p-amber-200); color: var(--p-amber-600); }
+
+/* ── Molecule: .lia-pipeline-flow ───────────────────── */
+
+.lia-pipeline-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--p-neutral-50) 0%, var(--p-neutral-100) 100%);
+  border: 1px solid var(--p-neutral-200);
+}
+
+.lia-pipeline-flow__stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  background: var(--p-neutral-50);
+  border: 1px solid transparent;
+  min-width: 8.5rem;
+  flex: 1 1 0;
+}
+
+.lia-pipeline-flow__stage--active {
+  background: white;
+  border-color: var(--p-blue-500);
+  box-shadow: 0 0 0 3px rgba(45, 111, 164, 0.12);
+}
+
+.lia-pipeline-flow__label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.lia-pipeline-flow__sublabel {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+.lia-pipeline-flow__arrow {
+  color: var(--p-neutral-400);
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+/* ── Molecule: .lia-generation-row ──────────────────── */
+
+.lia-generation-row {
+  display: grid;
+  grid-template-columns: minmax(10rem, 1.5fr) minmax(6rem, 0.6fr) minmax(7rem, 0.7fr) minmax(5rem, 0.5fr) minmax(5rem, 0.5fr) minmax(8rem, 0.8fr);
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.7rem 0.9rem;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--p-neutral-150);
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  text-align: left;
+  font: inherit;
+  width: 100%;
+  cursor: default;
+}
+
+button.lia-generation-row { cursor: pointer; }
+button.lia-generation-row:hover { background: var(--card-hover-bg); }
+
+.lia-generation-row__id {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lia-generation-row__date {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.lia-generation-row__count {
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.lia-generation-row__count--muted {
+  color: var(--text-tertiary);
+}
+
+.lia-generation-row__family {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* ── Organism: .lia-corpus-overview ─────────────────── */
+
+.lia-corpus-overview {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.lia-corpus-overview__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lia-corpus-overview__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-corpus-overview__subtitle {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.lia-corpus-overview__subtitle code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--p-navy-700);
+  background: var(--p-neutral-100);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+.lia-corpus-overview__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.85rem;
+}
+
+/* ── Organism: .lia-generations-list ────────────────── */
+
+.lia-generations-list {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+}
+
+.lia-generations-list__header {
+  padding: 1rem 1.25rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-bottom: 1px solid var(--p-neutral-150);
+}
+
+.lia-generations-list__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-generations-list__subtitle {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+.lia-generations-list__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.lia-generations-list__head-row {
+  display: grid;
+  grid-template-columns: minmax(10rem, 1.5fr) minmax(6rem, 0.6fr) minmax(7rem, 0.7fr) minmax(5rem, 0.5fr) minmax(5rem, 0.5fr) minmax(8rem, 0.8fr);
+  gap: 0.75rem;
+  padding: 0.55rem 0.9rem;
+  background: var(--p-neutral-50);
+  border-bottom: 1px solid var(--p-neutral-150);
+}
+
+.lia-generations-list__head-cell {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.lia-generations-list__feedback {
+  margin: 0;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+}
+
+.lia-generations-list__feedback--error {
+  color: var(--p-red-700);
+  background: var(--p-red-50);
+}
+
+/* ── Organism: .lia-run-trigger ─────────────────────── */
+
+.lia-run-trigger {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.lia-run-trigger__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.lia-run-trigger__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.lia-run-trigger__subtitle {
+  margin: 0;
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.lia-run-trigger__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.lia-run-trigger__field {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lia-run-trigger__legend,
+.lia-run-trigger__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 0;
+}
+
+.lia-run-trigger__radio-row {
+  display: grid;
+  grid-template-columns: 1.1rem 1fr;
+  align-items: start;
+  gap: 0.55rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--p-neutral-200);
+  background: var(--p-neutral-50);
+  cursor: pointer;
+  margin-bottom: 0.4rem;
+}
+
+.lia-run-trigger__radio-row:hover {
+  background: var(--p-neutral-100);
+}
+
+.lia-run-trigger__radio-row:has(input:checked) {
+  background: white;
+  border-color: var(--p-blue-500);
+  box-shadow: 0 0 0 2px rgba(45, 111, 164, 0.1);
+}
+
+.lia-run-trigger__radio-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lia-run-trigger__radio-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.lia-run-trigger__radio-hint {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+.lia-run-trigger__input {
+  font: inherit;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--p-neutral-300);
+  border-radius: 8px;
+  background: white;
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.lia-run-trigger__input:focus-visible {
+  outline: none;
+  border-color: var(--p-blue-500);
+  box-shadow: 0 0 0 3px rgba(45, 111, 164, 0.15);
+}
+
+.lia-run-trigger__hint {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+  line-height: 1.45;
+}
+
+.lia-run-trigger__submit-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.lia-run-trigger__submit {
+  background: var(--interactive-primary);
+  color: var(--text-inverse);
+  border: 1px solid var(--interactive-primary);
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.lia-run-trigger__submit:hover:not(:disabled) {
+  background: var(--interactive-primary-hover);
+}
+
+.lia-run-trigger__submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.lia-run-trigger__job-id {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: var(--p-neutral-100);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}

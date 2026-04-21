@@ -109,7 +109,17 @@ async function flushUi(): Promise<void> {
 
 // ── Test suite ───────────────────────────────────────────
 
-describe("folder ingestion", () => {
+// Skipped: this entire suite tests the legacy kanban folder-upload flow.
+// The Sesiones surface was rewritten in v2026-04-20-ui14 (see
+// docs/guide/orchestration.md change log) and `renderIngestionShell` no longer
+// emits the kanban DOM (`#ingestion-folder-input`, `#ingestion-select-folder`,
+// `#ingestion-kanban`, etc.). The new Sesiones flow runs ingestion via
+// `make phase2-graph-artifacts-supabase` against `knowledge_base/`, not via
+// per-file browser uploads. Ingest-run coverage now lives in
+// `tests/ingestOrganisms.test.ts` + `tests/test_ui_ingest_run_controllers.py`.
+// The legacy `opsIngestionController` source is preserved pending removal per
+// `docs/next/decouplingv1.md` Phase 7+.
+describe.skip("folder ingestion (legacy kanban — see v2026-04-20-ui14)", () => {
   beforeEach(() => {
     document.body.innerHTML = `<div id="app">${renderOpsShell(createI18n("es-CO"))}</div>`;
     vi.restoreAllMocks();

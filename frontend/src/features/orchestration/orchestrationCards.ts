@@ -218,8 +218,9 @@ export const laneCards: LaneCard[] = [
     title: "Planner",
     summary: "Construye el retrieval plan, query_mode y temporal_context.",
     bullets: [
+      "Elige uno de 9 query_mode: article_lookup, definition_chain, obligation_chain, computation_chain, reform_chain, strategy_chain, historical_reform_chain, historical_graph_research, general_graph_research (clasificación en planner_query_modes.py).",
       "Strategy, reform, historical y operational chains viven aquí.",
-      "Define anchors, budgets y lexical searches.",
+      "Define entry_points, traversal budgets, temporal_context, sub_questions y lexical searches.",
       "Es donde se decide el porqué de la recuperación.",
     ],
   },
@@ -289,6 +290,21 @@ export const moduleCards: ModuleCard[] = [
     ],
   },
   {
+    title: "contracts.py",
+    path: "src/lia_graph/pipeline_d/contracts.py",
+    role: "Contratos de datos del runtime",
+    consumes: "type definitions compartidas entre capas",
+    produces: "GraphEvidenceBundle, GraphRetrievalPlan, GraphNativeAnswerParts y afines",
+    scope: "shared",
+    stability: "stable-facade",
+    bullets: [
+      "Define los dataclasses y typed dicts que viajan entre planner, retriever, synthesis y assembly.",
+      "GraphEvidenceBundle: primary_articles, connected_articles, related_reforms, support_documents.",
+      "GraphRetrievalPlan: query_mode, entry_points, traversal_budget, temporal_context, sub_questions.",
+      "GraphNativeAnswerParts: recommendations, procedure, paperwork, anchors, context, precautions, opportunities.",
+    ],
+  },
+  {
     title: "planner.py",
     path: "src/lia_graph/pipeline_d/planner.py",
     role: "Planificador de retrieval",
@@ -300,6 +316,21 @@ export const moduleCards: ModuleCard[] = [
       "Define query_mode, entry_points, budgets y temporal_context.",
       "Puede heredar anchors y período del caso activo cuando el usuario hace double click en un punto previo.",
       "Es shared logic; Normativa puede reutilizarlo si su problema es realmente el mismo.",
+      "Delega la clasificación de query_mode y los marker-sets a planner_query_modes.py (granularize-v2 ui9).",
+    ],
+  },
+  {
+    title: "planner_query_modes.py",
+    path: "src/lia_graph/pipeline_d/planner_query_modes.py",
+    role: "Clasificador de query_mode",
+    consumes: "message + topic hints",
+    produces: "uno de los 9 query_mode (article_lookup, definition_chain, obligation_chain, computation_chain, reform_chain, strategy_chain, historical_reform_chain, historical_graph_research, general_graph_research)",
+    scope: "shared",
+    stability: "implementation-detail",
+    bullets: [
+      "Centraliza los 15 marker tuples (_REFORM_MODE_MARKERS, _DEFINITION_MODE_MARKERS, etc.) y los 5 _looks_like_* clasificadores.",
+      "_classify_query_mode orquesta la elección según workflow signal y markers.",
+      "answer_first_bubble, answer_synthesis_helpers y answer_support lo importan vía re-export en planner.",
     ],
   },
   {
@@ -352,6 +383,20 @@ export const moduleCards: ModuleCard[] = [
     bullets: [
       "Se ejecuta vía make phase2-graph-artifacts-supabase, strictamente aditivo.",
       "Idempotente por (source_key,target_key,relation,generation_id) y chunk_id; no toca embeddings.",
+    ],
+  },
+  {
+    title: "retrieval_support.py",
+    path: "src/lia_graph/pipeline_d/retrieval_support.py",
+    role: "Selector y ranking de support docs",
+    consumes: "primary/connected articles + evidence candidates",
+    produces: "support_documents ordenados (práctica + interpretación)",
+    scope: "shared",
+    stability: "implementation-detail",
+    bullets: [
+      "Aplica source-docs-first, topic expansion, diversidad y enrichment para ordenar práctica e interpretación.",
+      "Reserva espacio para practical/interpretive en operational answers.",
+      "answer_support.py lo invoca para armar el bundle de enrichment que llega a synthesis.",
     ],
   },
   {
@@ -443,6 +488,35 @@ export const moduleCards: ModuleCard[] = [
     bullets: [
       "Decide shape general vs tax-planning advisory.",
       "No elige anchors ni recap por sí solo; delega esos subproblemas.",
+    ],
+  },
+  {
+    title: "answer_policy.py",
+    path: "src/lia_graph/pipeline_d/answer_policy.py",
+    role: "Límites, cupos y shape policy del main chat",
+    consumes: "section builders + requested shape",
+    produces: "FIRST_BUBBLE_ROUTE_LIMIT, ARTICLE_GUIDANCE, planning-mode shapes",
+    scope: "main-chat",
+    stability: "implementation-detail",
+    bullets: [
+      "Centraliza topes operativos (4 routes, 3 riesgos, 2 supports, 3 recaps) y cupos por planning mode (setup/strategy/criteria/checklist).",
+      "ARTICLE_GUIDANCE mapea números de artículo a recomendaciones, procedimientos y precauciones estables.",
+      "Consumida por answer_first_bubble, answer_synthesis_sections y answer_followup; aquí se ajusta voz y shape sin tocar retrieval.",
+    ],
+  },
+  {
+    title: "answer_llm_polish.py",
+    path: "src/lia_graph/pipeline_d/answer_llm_polish.py",
+    role: "Repaso LLM opcional post-assembly",
+    consumes: "markdown ensamblado + inline anchors + sub_questions",
+    produces: "markdown pulido o fallback determinístico al template",
+    scope: "main-chat",
+    stability: "implementation-detail",
+    bullets: [
+      "Se activa cuando LIA_LLM_POLISH_ENABLED=1 (default via dev-launcher.mjs).",
+      "Pide al LLM reescribir en voz de contador senior preservando cada (art. X ET) y cada bullet de Respuestas directas.",
+      "Protege el bloque Respuestas directas: no funde sub-preguntas ni mueve bullets entre ellas.",
+      "Falla ruidoso en response.llm_runtime.skip_reason; el answer de template es siempre fallback seguro.",
     ],
   },
   {

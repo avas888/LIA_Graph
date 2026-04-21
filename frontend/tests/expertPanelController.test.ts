@@ -48,7 +48,7 @@ function makeI18n() {
         "chat.experts.detail.reading": "Lectura práctica",
         "chat.experts.detail.checklist": "Qué revisar antes de cerrar",
         "chat.experts.detail.sources": "Fuentes consultadas",
-        "chat.experts.detail.experts": "Interpretaciones de Expertos de Posible Relevancia:",
+        "chat.experts.detail.experts": "Interpretaciones de Expertos de Posible Relevancia",
         "chat.experts.detail.expertOpen": "Ver análisis completo",
         "chat.experts.detail.expertClose": "Ocultar análisis",
         "chat.experts.detail.openSource": "Abrir fuente en LIA",
@@ -428,7 +428,7 @@ describe("createExpertPanelController", () => {
     expect(detailContentNode.textContent || "").not.toContain("Posible relevancia");
     expect(detailContentNode.textContent || "").toContain("Qué revisar antes de cerrar");
     expect(detailContentNode.textContent || "").toContain(
-      "Interpretaciones de Expertos de Posible Relevancia:",
+      "Interpretaciones de Expertos de Posible Relevancia",
     );
 
     // Per-expert tabs render — one per source — and start collapsed.

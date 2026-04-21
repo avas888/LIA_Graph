@@ -175,6 +175,10 @@ def handle_user_management_post(handler: Any, path: str, *, deps: dict[str, Any]
             )
             return True
 
+        client_ip = str(getattr(handler, "client_address", ("",))[0] or "").strip()
+        client_ua = str(handler.headers.get("User-Agent", "")) if hasattr(handler, "headers") else ""
+        from .login_audit import record_login_event
+
         try:
             from . import user_management
 
@@ -197,6 +201,15 @@ def handle_user_management_post(handler: Any, path: str, *, deps: dict[str, Any]
                 role=str(auth_result["role"]),
             )
 
+            record_login_event(
+                email=email,
+                status="success",
+                user_id=str(auth_result["user_id"]),
+                tenant_id=str(auth_result["tenant_id"]),
+                ip_address=client_ip,
+                user_agent=client_ua,
+            )
+
             handler._send_json(
                 HTTPStatus.OK,
                 {
@@ -212,6 +225,13 @@ def handle_user_management_post(handler: Any, path: str, *, deps: dict[str, Any]
                 },
             )
         except ValueError as exc:
+            record_login_event(
+                email=email,
+                status="failure",
+                failure_reason=str(exc),
+                ip_address=client_ip,
+                user_agent=client_ua,
+            )
             handler._send_json(HTTPStatus.UNAUTHORIZED, {"ok": False, "error": str(exc)})
         except PlatformAuthError as exc:
             handler._send_json(exc.http_status, {"ok": False, "error": str(exc)})

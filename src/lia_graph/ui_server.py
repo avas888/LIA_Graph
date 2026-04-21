@@ -1128,6 +1128,8 @@ class LiaUIHandler(BaseHTTPRequestHandler):
             return
         if self._handle_ingestion_get(path, parsed):
             return
+        if self._handle_ingest_run_get(path, parsed):
+            return
         if self._handle_runtime_terms_get(path):
             return
         if self._handle_citation_get(path, parsed):
@@ -1190,6 +1192,10 @@ class LiaUIHandler(BaseHTTPRequestHandler):
     def _handle_ingestion_get(self, path: str, parsed: Any) -> bool:
         from .ui_ingestion_controllers import handle_ingestion_get
         return handle_ingestion_get(self, path, parsed, deps={"ingestion_runtime": INGESTION_RUNTIME})
+
+    def _handle_ingest_run_get(self, path: str, parsed: Any) -> bool:
+        from .ui_ingest_run_controllers import handle_ingest_get
+        return handle_ingest_get(self, path, parsed, deps={"workspace_root": WORKSPACE_ROOT})
 
     def _handle_runtime_terms_get(self, path: str) -> bool:
         from .ui_runtime_controllers import handle_runtime_terms_get
@@ -1448,6 +1454,9 @@ class LiaUIHandler(BaseHTTPRequestHandler):
         if handle_contributions_post(self, path, deps=write_deps):
             return
         if handle_ingestion_post(self, path, deps=write_deps):
+            return
+        from .ui_ingest_run_controllers import handle_ingest_post as _handle_ingest_run_post
+        if _handle_ingest_run_post(self, path, deps={"workspace_root": WORKSPACE_ROOT}):
             return
         if handle_reindex_post(self, path, deps=write_deps):
             return

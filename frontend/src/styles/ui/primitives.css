@@ -190,6 +190,82 @@
   }
 }
 
+.lia-section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  margin: 0 0 0.85rem;
+  color: var(--text-primary);
+}
+
+.lia-section-heading__eyebrow {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary, var(--text-secondary));
+}
+
+.lia-section-heading__label {
+  margin: 0;
+  font-weight: 650;
+  line-height: 1.28;
+  letter-spacing: -0.005em;
+  color: inherit;
+  text-wrap: balance;
+}
+
+.lia-section-heading--sm .lia-section-heading__label {
+  font-size: 0.92rem;
+  line-height: 1.32;
+}
+
+.lia-section-heading--md .lia-section-heading__label {
+  font-size: 1.05rem;
+}
+
+.lia-section-heading--lg .lia-section-heading__label {
+  font-size: 1.22rem;
+  letter-spacing: -0.012em;
+}
+
+.lia-section-heading--primary {
+  color: var(--text-primary);
+}
+
+.lia-section-heading--accent {
+  color: var(--p-blue-700, var(--interactive-primary));
+}
+
+.lia-section-heading--muted {
+  color: var(--text-secondary);
+}
+
+.lia-section-heading--accent .lia-section-heading__label,
+.lia-section-heading--accent .lia-section-heading__eyebrow {
+  color: inherit;
+}
+
+/* Optional editorial left-rule. Rendered via a pseudo-element so callers
+   can turn it on without changing their box model. */
+.lia-section-heading--accent {
+  position: relative;
+  padding-left: 0.75rem;
+}
+
+.lia-section-heading--accent::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.12rem;
+  bottom: 0.12rem;
+  width: 3px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.82;
+}
+
 .lia-list-section-heading {
   display: flex;
   align-items: center;

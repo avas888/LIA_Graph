@@ -12,6 +12,7 @@ import {
   renderExpertCardList,
   type ExpertCardViewModel,
 } from "@/shared/ui/organisms/expertCards";
+import { createSectionHeading } from "@/shared/ui/atoms/sectionHeading";
 import { UI_EVENT_EXPERTS_UPDATED, emitUiEvent } from "@/shared/ui/patterns/uiEvents";
 import { renderExpertProse } from "@/features/chat/expertProseRenderer";
 import {
@@ -94,33 +95,6 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
       response: cloneExpertPanelResponse(lastResponse),
       enhancements: Object.keys(lastEnhancements).length > 0 ? { ...lastEnhancements } : null,
     });
-  }
-
-  function appendInlineNode(target: HTMLElement, node: HTMLElement): void {
-    if (target.childNodes.length > 0) {
-      target.appendChild(document.createTextNode(" "));
-    }
-    target.appendChild(node);
-  }
-
-  function appendProviderPills(
-    target: HTMLElement,
-    providers: ExpertProvider[],
-    prefix = "expert-card-chip",
-  ): void {
-    const { visible, hiddenCount } = visibleProviders(providers);
-    for (const provider of visible) {
-      const pill = document.createElement("span");
-      pill.className = `${prefix} expert-card-chip--provider ${authorityBadgeClass(provider.name)}`;
-      pill.textContent = provider.name;
-      appendInlineNode(target, pill);
-    }
-    if (hiddenCount > 0) {
-      const overflow = document.createElement("span");
-      overflow.className = `${prefix} expert-card-chip--provider expert-card-chip--provider-overflow`;
-      overflow.textContent = i18n.t("chat.experts.providers.overflow", { count: String(hiddenCount) });
-      appendInlineNode(target, overflow);
-    }
   }
 
   function hasStableResults(): boolean {
@@ -553,58 +527,25 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
     applySplitTitle(detailTitleNode, card.heading);
     detailContentNode.innerHTML = "";
 
-    const banner = document.createElement("section");
-    banner.className = `expert-detail-banner expert-detail-banner--${card.classification}`;
-
-    const bannerMeta = document.createElement("div");
-    bannerMeta.className = "expert-detail-banner-meta";
-
-    if (card.classification !== "individual" || card.providers.length === 0) {
-      const classBadge = document.createElement("span");
-      classBadge.className = `expert-card-chip expert-card-chip--${card.classification}`;
-      classBadge.textContent = classificationLabel(i18n, card.classification);
-      appendInlineNode(bannerMeta, classBadge);
-    }
-
-    if (card.articleLabel) {
-      const articleBadge = document.createElement("span");
-      articleBadge.className = "expert-card-chip expert-card-chip--article";
-      articleBadge.textContent = card.articleLabel;
-      appendInlineNode(bannerMeta, articleBadge);
-    }
-
-    appendProviderPills(bannerMeta, card.providers);
-
-    if (card.dominantSignal !== "neutral") {
-      const signalBadge = document.createElement("span");
-      signalBadge.className = `expert-card-chip expert-card-chip--signal expert-card-chip--signal-${card.dominantSignal}`;
-      signalBadge.textContent = signalLabel(i18n, card.dominantSignal);
-      appendInlineNode(bannerMeta, signalBadge);
-    }
-
-    // "Consulta del turno" and "Posible relevancia" intentionally omitted:
-    // the user already knows their own question, and showing a card IS the
-    // signal of possible relevance — stating it is redundant plumbing.
-    banner.appendChild(bannerMeta);
-
-    const evidence = document.createElement("p");
-    evidence.className = "expert-detail-evidence";
-    evidence.textContent = sourceCountLabel(card.sources);
-    banner.append(evidence);
-
-    if (card.resumenNutshell) {
-      const nutshellBlock = document.createElement("p");
-      nutshellBlock.className = "expert-detail-nutshell-lead";
-      nutshellBlock.textContent = card.resumenNutshell;
-      banner.append(nutshellBlock);
-    }
+    // Banner (chips + "N fuentes" + nutshell quote) intentionally removed:
+    // the modal header already names the article and topic, the sidebar
+    // card that opened it carries the chips and source count, and the
+    // nutshell quote duplicated the title's framing. The modal now opens
+    // directly on the real content — per-expert tabs, led by a proper
+    // section heading.
 
     // --- Per-expert tabs lead the modal ---
     const tabsSection = document.createElement("section");
     tabsSection.className = "expert-detail-tabs-shell";
-    const tabsTitle = document.createElement("h4");
-    tabsTitle.className = "expert-detail-section-title";
-    tabsTitle.textContent = i18n.t("chat.experts.detail.experts");
+    const tabsTitle = createSectionHeading({
+      label: i18n.t("chat.experts.detail.experts"),
+      level: "h3",
+      size: "lg",
+      tone: "accent",
+      accent: true,
+      className: "expert-detail-section-title",
+      dataComponent: "expert-detail-section-title",
+    });
     const tabs = document.createElement("div");
     tabs.className = "expert-detail-tabs";
     for (const source of card.sources) {
@@ -642,7 +583,7 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
 
     grid.append(implicationPanel, checklistPanel);
 
-    detailContentNode.append(banner, tabsSection, grid);
+    detailContentNode.append(tabsSection, grid);
     openModal(detailModalNode);
   }
 

@@ -41,4 +41,14 @@ describe("applySplitTitle", () => {
     expect(host.querySelectorAll(".expert-detail-title-topic").length).toBe(0);
     expect(host.querySelector(".expert-detail-title-main")?.textContent).toBe("Título B");
   });
+
+  it("collapses a paragraph-shaped heading into a short proper title", () => {
+    applySplitTitle(
+      host,
+      "Posicion Normativa — Referencia Rapida Los INCRNGO son ingresos que, reuniendo las condiciones para ser gravables, han sido excluidos de la base gravable por norma expresa del ET.",
+    );
+    const main = host.querySelector(".expert-detail-title-main");
+    expect(main?.textContent).toBe("Posicion Normativa — Referencia Rapida");
+    expect(main?.textContent?.length).toBeLessThan(60);
+  });
 });

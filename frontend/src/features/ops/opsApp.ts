@@ -7,9 +7,27 @@ import { createOpsMonitorController } from "@/features/ops/opsMonitorController"
 import { createOpsReindexController } from "@/features/ops/opsReindexController";
 import { startOpsPolling } from "@/features/ops/opsPolling";
 import { createOpsState } from "@/features/ops/opsState";
+import { createIngestController } from "@/features/ingest/ingestController";
 
 export function mountOpsApp(root: HTMLElement | Document, { i18n }: { i18n: I18nRuntime }): void {
   const q = root as ParentNode;
+
+  // ── New Sesiones surface (Lia_Graph native) ────────────────
+  // When `#lia-ingest-shell` is present, mount the new ingest controller AND
+  // skip the legacy kanban `createOpsIngestionController` further down —
+  // its `queryRequired` calls would crash on the new DOM. Other surfaces
+  // (monitor, corpus lifecycle, embeddings, re-index) keep mounting normally
+  // because they look for their own independent DOM IDs and degrade
+  // gracefully when those are absent.
+  const newIngestShell = q.querySelector<HTMLElement>("#lia-ingest-shell");
+  let newIngestController: { refresh: () => Promise<void>; destroy: () => void } | null = null;
+  if (newIngestShell) {
+    newIngestController = createIngestController(newIngestShell);
+    window.setInterval(() => {
+      void newIngestController?.refresh();
+    }, 30_000);
+  }
+  const skipLegacyIngestionController = newIngestShell !== null;
 
   // Subtab buttons are optional (absent in browser-chrome mode).
   const monitorTabBtn = q.querySelector<HTMLButtonElement>("#ops-tab-monitor");
@@ -34,46 +52,14 @@ export function mountOpsApp(root: HTMLElement | Document, { i18n }: { i18n: I18n
   const refreshRunsBtn = q.querySelector<HTMLButtonElement>("#refresh-runs");
   const hasMonitorDom = !!(runsBody && timelineNode && timelineMeta && cascadeNote && userCascadeNode && userCascadeSummary && technicalCascadeNode && technicalCascadeSummary && refreshRunsBtn);
 
-  const ingestionCorpusSelect = queryRequired<HTMLSelectElement>(q, "#ingestion-corpus");
-  const ingestionBatchTypeSelect = queryRequired<HTMLSelectElement>(q, "#ingestion-batch-type");
-  const ingestionDropzone = queryRequired<HTMLElement>(q, "#ingestion-dropzone");
-  const ingestionFileInput = queryRequired<HTMLInputElement>(q, "#ingestion-file-input");
-  const ingestionFolderInput = queryRequired<HTMLInputElement>(q, "#ingestion-folder-input");
-  const ingestionPendingFiles = queryRequired<HTMLParagraphElement>(q, "#ingestion-pending-files");
-  const ingestionOverview = queryRequired<HTMLParagraphElement>(q, "#ingestion-overview");
-  const ingestionFlash = queryRequired<HTMLDivElement>(q, "#ingestion-flash");
-  const ingestionRefreshBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-refresh");
-  const ingestionCreateSessionBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-create-session");
-  const ingestionSelectFilesBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-select-files");
-  const ingestionSelectFolderBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-select-folder");
-  const ingestionUploadBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-upload-files");
-  const ingestionUploadProgress = queryRequired<HTMLDivElement>(q, "#ingestion-upload-progress");
-  const ingestionProcessBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-process-session");
-  const ingestionAutoProcessBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-auto-process");
-  const ingestionValidateBatchBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-validate-batch");
-  const ingestionRetryBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-retry-session");
-  const ingestionDeleteSessionBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-delete-session");
-  const ingestionSessionMeta = queryRequired<HTMLParagraphElement>(q, "#ingestion-session-meta");
-  const ingestionSessionsList = queryRequired<HTMLUListElement>(q, "#ingestion-sessions-list");
-  const selectedSessionMeta = queryRequired<HTMLParagraphElement>(q, "#selected-session-meta");
-  const ingestionLastError = queryRequired<HTMLDivElement>(q, "#ingestion-last-error");
-  const ingestionLastErrorMessage = queryRequired<HTMLParagraphElement>(q, "#ingestion-last-error-message");
-  const ingestionLastErrorGuidance = queryRequired<HTMLParagraphElement>(q, "#ingestion-last-error-guidance");
-  const ingestionLastErrorNext = queryRequired<HTMLParagraphElement>(q, "#ingestion-last-error-next");
-  const ingestionKanban = queryRequired<HTMLDivElement>(q, "#ingestion-kanban");
-  const ingestionLogAccordion = queryRequired<HTMLDivElement>(q, "#ingestion-log-accordion");
-  const ingestionLogBody = queryRequired<HTMLPreElement>(q, "#ingestion-log-body");
-  const ingestionLogCopyBtn = queryRequired<HTMLButtonElement>(q, "#ingestion-log-copy");
-  const ingestionAutoStatus = queryRequired<HTMLParagraphElement>(q, "#ingestion-auto-status");
-  const addCorpusBtn = q.querySelector<HTMLButtonElement>("#ingestion-add-corpus-btn");
-  const addCorpusDialog = q.querySelector<HTMLDialogElement>("#add-corpus-dialog");
-  const ingestionBounceLog = q.querySelector<HTMLDetailsElement>("#ingestion-bounce-log");
-  const ingestionBounceBody = q.querySelector<HTMLPreElement>("#ingestion-bounce-body");
-  const ingestionBounceCopy = q.querySelector<HTMLButtonElement>("#ingestion-bounce-copy");
+  const ingestionFlash = skipLegacyIngestionController
+    ? null
+    : queryRequired<HTMLDivElement>(q, "#ingestion-flash");
 
   const stateController = createOpsState();
 
   function setFlash(message = "", tone: "success" | "error" = "success"): void {
+    if (!ingestionFlash) return;
     if (!message) {
       ingestionFlash.hidden = true;
       ingestionFlash.textContent = "";
@@ -84,6 +70,46 @@ export function mountOpsApp(root: HTMLElement | Document, { i18n }: { i18n: I18n
     ingestionFlash.dataset.tone = tone;
     ingestionFlash.textContent = message;
   }
+
+  // ── Legacy ingestion (kanban) DOM bindings — only when its DOM is present.
+  // Folded into a single block to preserve the original structure for future
+  // removal (see decouplingv1.md kill list). When the new Sesiones shell is
+  // mounted, this entire block is skipped and the references are null.
+  const ingestionCorpusSelect = skipLegacyIngestionController ? null : queryRequired<HTMLSelectElement>(q, "#ingestion-corpus");
+  const ingestionBatchTypeSelect = skipLegacyIngestionController ? null : queryRequired<HTMLSelectElement>(q, "#ingestion-batch-type");
+  const ingestionDropzone = skipLegacyIngestionController ? null : queryRequired<HTMLElement>(q, "#ingestion-dropzone");
+  const ingestionFileInput = skipLegacyIngestionController ? null : queryRequired<HTMLInputElement>(q, "#ingestion-file-input");
+  const ingestionFolderInput = skipLegacyIngestionController ? null : queryRequired<HTMLInputElement>(q, "#ingestion-folder-input");
+  const ingestionPendingFiles = skipLegacyIngestionController ? null : queryRequired<HTMLParagraphElement>(q, "#ingestion-pending-files");
+  const ingestionOverview = skipLegacyIngestionController ? null : queryRequired<HTMLParagraphElement>(q, "#ingestion-overview");
+  const ingestionRefreshBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-refresh");
+  const ingestionCreateSessionBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-create-session");
+  const ingestionSelectFilesBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-select-files");
+  const ingestionSelectFolderBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-select-folder");
+  const ingestionUploadBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-upload-files");
+  const ingestionUploadProgress = skipLegacyIngestionController ? null : queryRequired<HTMLDivElement>(q, "#ingestion-upload-progress");
+  const ingestionProcessBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-process-session");
+  const ingestionAutoProcessBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-auto-process");
+  const ingestionValidateBatchBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-validate-batch");
+  const ingestionRetryBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-retry-session");
+  const ingestionDeleteSessionBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-delete-session");
+  const ingestionSessionMeta = skipLegacyIngestionController ? null : queryRequired<HTMLParagraphElement>(q, "#ingestion-session-meta");
+  const ingestionSessionsList = skipLegacyIngestionController ? null : queryRequired<HTMLUListElement>(q, "#ingestion-sessions-list");
+  const selectedSessionMeta = skipLegacyIngestionController ? null : queryRequired<HTMLParagraphElement>(q, "#selected-session-meta");
+  const ingestionLastError = skipLegacyIngestionController ? null : queryRequired<HTMLDivElement>(q, "#ingestion-last-error");
+  const ingestionLastErrorMessage = skipLegacyIngestionController ? null : queryRequired<HTMLParagraphElement>(q, "#ingestion-last-error-message");
+  const ingestionLastErrorGuidance = skipLegacyIngestionController ? null : queryRequired<HTMLParagraphElement>(q, "#ingestion-last-error-guidance");
+  const ingestionLastErrorNext = skipLegacyIngestionController ? null : queryRequired<HTMLParagraphElement>(q, "#ingestion-last-error-next");
+  const ingestionKanban = skipLegacyIngestionController ? null : queryRequired<HTMLDivElement>(q, "#ingestion-kanban");
+  const ingestionLogAccordion = skipLegacyIngestionController ? null : queryRequired<HTMLDivElement>(q, "#ingestion-log-accordion");
+  const ingestionLogBody = skipLegacyIngestionController ? null : queryRequired<HTMLPreElement>(q, "#ingestion-log-body");
+  const ingestionLogCopyBtn = skipLegacyIngestionController ? null : queryRequired<HTMLButtonElement>(q, "#ingestion-log-copy");
+  const ingestionAutoStatus = skipLegacyIngestionController ? null : queryRequired<HTMLParagraphElement>(q, "#ingestion-auto-status");
+  const addCorpusBtn = q.querySelector<HTMLButtonElement>("#ingestion-add-corpus-btn");
+  const addCorpusDialog = q.querySelector<HTMLDialogElement>("#add-corpus-dialog");
+  const ingestionBounceLog = q.querySelector<HTMLDetailsElement>("#ingestion-bounce-log");
+  const ingestionBounceBody = q.querySelector<HTMLPreElement>("#ingestion-bounce-body");
+  const ingestionBounceCopy = q.querySelector<HTMLButtonElement>("#ingestion-bounce-copy");
 
   async function withThinkingWheel<T>(task: () => Promise<T>): Promise<T> {
     return task();
@@ -119,49 +145,51 @@ export function mountOpsApp(root: HTMLElement | Document, { i18n }: { i18n: I18n
       })
     : null;
 
-  const ingestionController = createOpsIngestionController({
-    i18n,
-    stateController,
-    dom: {
-      ingestionCorpusSelect,
-      ingestionBatchTypeSelect,
-      ingestionDropzone,
-      ingestionFileInput,
-      ingestionFolderInput,
-      ingestionSelectFilesBtn,
-      ingestionSelectFolderBtn,
-      ingestionUploadProgress,
-      ingestionPendingFiles,
-      ingestionOverview,
-      ingestionRefreshBtn,
-      ingestionCreateSessionBtn,
-      ingestionUploadBtn,
-      ingestionProcessBtn,
-      ingestionAutoProcessBtn,
-      ingestionValidateBatchBtn,
-      ingestionRetryBtn,
-      ingestionDeleteSessionBtn,
-      ingestionSessionMeta,
-      ingestionSessionsList,
-      selectedSessionMeta,
-      ingestionLastError,
-      ingestionLastErrorMessage,
-      ingestionLastErrorGuidance,
-      ingestionLastErrorNext,
-      ingestionKanban,
-      ingestionLogAccordion,
-      ingestionLogBody,
-      ingestionLogCopyBtn,
-      ingestionAutoStatus,
-      addCorpusBtn,
-      addCorpusDialog,
-      ingestionBounceLog,
-      ingestionBounceBody,
-      ingestionBounceCopy,
-    },
-    withThinkingWheel,
-    setFlash,
-  });
+  const ingestionController = skipLegacyIngestionController
+    ? null
+    : createOpsIngestionController({
+        i18n,
+        stateController,
+        dom: {
+          ingestionCorpusSelect: ingestionCorpusSelect!,
+          ingestionBatchTypeSelect: ingestionBatchTypeSelect!,
+          ingestionDropzone: ingestionDropzone!,
+          ingestionFileInput: ingestionFileInput!,
+          ingestionFolderInput: ingestionFolderInput!,
+          ingestionSelectFilesBtn: ingestionSelectFilesBtn!,
+          ingestionSelectFolderBtn: ingestionSelectFolderBtn!,
+          ingestionUploadProgress: ingestionUploadProgress!,
+          ingestionPendingFiles: ingestionPendingFiles!,
+          ingestionOverview: ingestionOverview!,
+          ingestionRefreshBtn: ingestionRefreshBtn!,
+          ingestionCreateSessionBtn: ingestionCreateSessionBtn!,
+          ingestionUploadBtn: ingestionUploadBtn!,
+          ingestionProcessBtn: ingestionProcessBtn!,
+          ingestionAutoProcessBtn: ingestionAutoProcessBtn!,
+          ingestionValidateBatchBtn: ingestionValidateBatchBtn!,
+          ingestionRetryBtn: ingestionRetryBtn!,
+          ingestionDeleteSessionBtn: ingestionDeleteSessionBtn!,
+          ingestionSessionMeta: ingestionSessionMeta!,
+          ingestionSessionsList: ingestionSessionsList!,
+          selectedSessionMeta: selectedSessionMeta!,
+          ingestionLastError: ingestionLastError!,
+          ingestionLastErrorMessage: ingestionLastErrorMessage!,
+          ingestionLastErrorGuidance: ingestionLastErrorGuidance!,
+          ingestionLastErrorNext: ingestionLastErrorNext!,
+          ingestionKanban: ingestionKanban!,
+          ingestionLogAccordion: ingestionLogAccordion!,
+          ingestionLogBody: ingestionLogBody!,
+          ingestionLogCopyBtn: ingestionLogCopyBtn!,
+          ingestionAutoStatus: ingestionAutoStatus!,
+          addCorpusBtn,
+          addCorpusDialog,
+          ingestionBounceLog,
+          ingestionBounceBody,
+          ingestionBounceCopy,
+        },
+        withThinkingWheel,
+        setFlash,
+      });
 
   const corpusLifecycleContainer = q.querySelector<HTMLElement>("#corpus-lifecycle");
   const corpusLifecycleController = corpusLifecycleContainer
@@ -189,18 +217,18 @@ export function mountOpsApp(root: HTMLElement | Document, { i18n }: { i18n: I18n
     : null;
 
   monitorController?.bindEvents();
-  ingestionController.bindEvents();
+  ingestionController?.bindEvents();
   corpusLifecycleController?.bindEvents();
   embeddingsController?.bindEvents();
   reindexController?.bindEvents();
   monitorController?.renderTabs();
-  ingestionController.render();
+  ingestionController?.render();
   startOpsPolling({
     stateController,
     withThinkingWheel,
     setFlash,
     refreshRuns: monitorController?.refreshRuns ?? (async () => {}),
-    refreshIngestion: ingestionController.refreshIngestion,
+    refreshIngestion: ingestionController?.refreshIngestion ?? (async () => {}),
     refreshCorpusLifecycle: corpusLifecycleController?.refresh,
     refreshEmbeddings: embeddingsController?.refresh,
     refreshReindex: reindexController?.refresh,

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildElevatorSummary,
+  cleanModalTitle,
   sanitizeExpertText,
   splitTitleAndTopic,
   stripInternalDocCode,
@@ -149,5 +150,47 @@ describe("buildElevatorSummary", () => {
     const long = "a".repeat(300) + ". " + "b".repeat(300) + ".";
     const out = buildElevatorSummary({ snippet: long }, 120);
     expect(out.length).toBeLessThanOrEqual(120);
+  });
+});
+
+describe("cleanModalTitle", () => {
+  it("leaves short clean headings untouched", () => {
+    expect(cleanModalTitle("Firmeza de las Declaraciones Tributarias")).toBe(
+      "Firmeza de las Declaraciones Tributarias",
+    );
+  });
+
+  it("cuts a paragraph heading before a Spanish prose-starter clause", () => {
+    const raw =
+      "Posicion Normativa — Referencia Rapida Los INCRNGO son ingresos que, reuniendo las condiciones para ser gravables, han sido excluidos de la base gravable por norma expresa del ET.";
+    expect(cleanModalTitle(raw)).toBe("Posicion Normativa — Referencia Rapida");
+  });
+
+  it("prefers the first sentence when no prose-starter pattern matches", () => {
+    const raw =
+      "Compensación de pérdidas bajo el art. 147 del Estatuto Tributario. El régimen fija el término vigente para aplicar pérdidas acumuladas.";
+    const out = cleanModalTitle(raw, 80);
+    expect(out).toBe("Compensación de pérdidas bajo el art. 147 del Estatuto Tributario");
+  });
+
+  it("hard-caps long titles on a word boundary with ellipsis as a last resort", () => {
+    const raw = "Interpretación profesional ".repeat(40);
+    const out = cleanModalTitle(raw, 100);
+    expect(out.length).toBeLessThanOrEqual(100);
+    expect(out.endsWith("…")).toBe(true);
+    expect(out).not.toMatch(/Interpretación\s$/);
+  });
+
+  it("strips internal doc codes before trimming", () => {
+    const raw =
+      "FIR-E01 — Firmeza de las Declaraciones Tributarias Los plazos especiales aplican cuando se compensan pérdidas, prorrogando el término a seis años.";
+    const out = cleanModalTitle(raw);
+    expect(out).not.toContain("FIR-E01");
+    expect(out.startsWith("Firmeza")).toBe(true);
+  });
+
+  it("returns empty string for empty input", () => {
+    expect(cleanModalTitle("")).toBe("");
+    expect(cleanModalTitle("   ")).toBe("");
   });
 });
