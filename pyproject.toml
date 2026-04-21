@@ -45,6 +45,9 @@ where = ["src"]
 # A conftest guard will abort if >20 test files are collected without
 # LIA_BATCHED_RUNNER=1.  See tests/conftest.py for details.
 addopts = "--tb=short -q"
+markers = [
+    "integration: requires live infrastructure (e.g. local Falkor docker). Gated by LIA_INTEGRATION=1.",
+]
 
 [dependency-groups]
 dev = [

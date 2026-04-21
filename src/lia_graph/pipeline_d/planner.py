@@ -422,6 +422,14 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
 
     sub_questions = _extract_user_sub_questions(message)
 
+    # ingestfix-v2 Phase 6: lexical subtopic-intent detection.
+    from .planner_query_modes import _detect_sub_topic_intent as _detect_intent
+
+    sub_topic_intent = _detect_intent(
+        message if isinstance(message, str) else str(message or ""),
+        detected_topic,
+    )
+
     return GraphRetrievalPlan(
         query_mode=query_mode,
         entry_points=tuple(entry_points),
@@ -431,6 +439,7 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
         topic_hints=topic_hints,
         planner_notes=tuple(planner_notes),
         sub_questions=sub_questions,
+        sub_topic_intent=sub_topic_intent,
     )
 
 

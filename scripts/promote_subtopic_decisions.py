@@ -37,7 +37,8 @@ from typing import Sequence
 # and as ``PYTHONPATH=src:. python scripts/promote_subtopic_decisions.py``.
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _SRC_DIR = _REPO_ROOT / "src"
-for candidate in (_SRC_DIR, _REPO_ROOT):
+_SCRIPTS_DIR = _REPO_ROOT / "scripts"
+for candidate in (_SRC_DIR, _REPO_ROOT, _SCRIPTS_DIR):
     candidate_str = str(candidate)
     if candidate.is_dir() and candidate_str not in sys.path:
         sys.path.insert(0, candidate_str)
@@ -99,6 +100,17 @@ def _build_argparser() -> argparse.ArgumentParser:
         help=(
             "Version slug recorded in the output. "
             "Default: UTC date like 2026-04-21-v1."
+        ),
+    )
+    parser.add_argument(
+        "--sync-supabase",
+        type=str,
+        choices=("wip", "production"),
+        default=None,
+        help=(
+            "After writing the taxonomy JSON, mirror it into the Supabase "
+            "sub_topic_taxonomy table at the named target. Ignored when "
+            "--dry-run is set."
         ),
     )
     return parser
@@ -232,6 +244,20 @@ def main(argv: Sequence[str] | None = None) -> int:
             "dry_run": dry_run,
         },
     )
+
+    sync_target = getattr(args, "sync_supabase", None)
+    if sync_target and not dry_run:
+        # Import lazily so dry-run flows never touch supabase_client.
+        from lia_graph.subtopic_taxonomy_loader import load_taxonomy as _load
+        from sync_subtopic_taxonomy_to_supabase import sync as _sync
+
+        try:
+            _sync(_load(output_path), target=sync_target, dry_run=False)
+        except Exception as exc:  # noqa: BLE001 — surface sync failure loudly
+            sys.stderr.write(
+                f"promote: Supabase sync to {sync_target} failed — {exc}\n"
+            )
+            return 1
 
     return 0
 

@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import re
+from typing import Mapping
 
 from ..graph.client import GraphClient, GraphQueryResult, GraphWriteStatement
 from ..graph.schema import (
+    EdgeKind,
     GraphEdgeRecord,
     GraphNodeRecord,
     GraphSchema,
@@ -16,6 +18,20 @@ from ..graph.schema import (
 from ..graph.validators import GraphValidationReport, validate_graph_records
 from .classifier import ClassifiedEdge
 from .parser import ParsedArticle
+
+
+@dataclass(frozen=True)
+class SubtopicBinding:
+    """Lightweight tuple tying an article to a curated SubTopic anchor.
+
+    Consumed by :func:`build_graph_load_plan` to emit one SubTopicNode +
+    one HAS_SUBTOPIC edge per article that carries a resolved subtopic.
+    Idempotency is handled by :func:`_dedupe_nodes` / :func:`_dedupe_edges`.
+    """
+
+    sub_topic_key: str
+    parent_topic: str
+    label: str
 
 
 @dataclass(frozen=True)
@@ -69,6 +85,7 @@ def build_graph_load_plan(
     *,
     schema: GraphSchema | None = None,
     graph_client: GraphClient | None = None,
+    article_subtopics: Mapping[str, SubtopicBinding] | None = None,
 ) -> GraphLoadPlan:
     graph_schema = schema or (graph_client.schema if graph_client is not None else default_graph_schema())
     client = graph_client or GraphClient(schema=graph_schema)
@@ -77,8 +94,12 @@ def build_graph_load_plan(
     nodes = _dedupe_nodes(
         list(_build_article_nodes(articles))
         + list(_build_reform_nodes(articles, normalized_edges))
+        + list(_build_subtopic_nodes(article_subtopics or {}))
     )
-    edges = _dedupe_edges(edge.record for edge in normalized_edges)
+    subtopic_edges = _build_subtopic_edges(articles, article_subtopics or {})
+    edges = _dedupe_edges(
+        list(edge.record for edge in normalized_edges) + list(subtopic_edges)
+    )
     validation = validate_graph_records(nodes, edges, schema=graph_schema)
 
     statements = tuple(client.stage_node(node) for node in nodes) + tuple(
@@ -152,6 +173,52 @@ def _build_article_nodes(
         )
         for article in articles
     )
+
+
+def _build_subtopic_nodes(
+    article_subtopics: Mapping[str, SubtopicBinding],
+) -> tuple[GraphNodeRecord, ...]:
+    unique: dict[str, SubtopicBinding] = {}
+    for binding in article_subtopics.values():
+        if not binding.sub_topic_key:
+            continue
+        unique.setdefault(binding.sub_topic_key, binding)
+    nodes: list[GraphNodeRecord] = []
+    for key, binding in sorted(unique.items()):
+        nodes.append(
+            GraphNodeRecord(
+                kind=NodeKind.SUBTOPIC,
+                key=binding.sub_topic_key,
+                properties={
+                    "sub_topic_key": binding.sub_topic_key,
+                    "parent_topic": binding.parent_topic,
+                    "label": binding.label,
+                },
+            )
+        )
+    return tuple(nodes)
+
+
+def _build_subtopic_edges(
+    articles: tuple[ParsedArticle, ...] | list[ParsedArticle],
+    article_subtopics: Mapping[str, SubtopicBinding],
+) -> tuple[GraphEdgeRecord, ...]:
+    edges: list[GraphEdgeRecord] = []
+    article_keys = {article.article_key for article in articles}
+    for article_key, binding in article_subtopics.items():
+        if not binding.sub_topic_key or article_key not in article_keys:
+            continue
+        edges.append(
+            GraphEdgeRecord(
+                kind=EdgeKind.HAS_SUBTOPIC,
+                source_kind=NodeKind.ARTICLE,
+                source_key=article_key,
+                target_kind=NodeKind.SUBTOPIC,
+                target_key=binding.sub_topic_key,
+                properties={"parent_topic": binding.parent_topic},
+            )
+        )
+    return tuple(edges)
 
 
 def _build_reform_nodes(

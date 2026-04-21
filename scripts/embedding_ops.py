@@ -33,6 +33,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_SRC_DIR = _REPO_ROOT / "src"
+for _candidate in (_SRC_DIR, _REPO_ROOT):
+    _candidate_str = str(_candidate)
+    if _candidate.is_dir() and _candidate_str not in sys.path:
+        sys.path.insert(0, _candidate_str)
+
+from lia_graph.env_loader import load_dotenv_if_present  # noqa: E402
+
 
 _ARTIFACTS_DIR = Path("artifacts/suin")
 
@@ -97,6 +106,7 @@ def _run(target: str, batch_size: int, force: bool) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_dotenv_if_present()
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--target", required=True, choices=["wip", "production"])
     cli.add_argument(

@@ -26,6 +26,11 @@ import unicodedata
 from dataclasses import dataclass
 from typing import Any
 
+from .subtopic_taxonomy_loader import (
+    SubtopicEntry,
+    SubtopicTaxonomy,
+    load_taxonomy as load_subtopic_taxonomy,
+)
 from .topic_guardrails import get_supported_topics, get_topic_label
 from .topic_router import detect_topic_from_text
 from .topic_taxonomy import iter_topic_taxonomy_entries
@@ -105,10 +110,23 @@ PASO 3: Determina el tipo de documento:
 - interpretative_guidance: conceptos DIAN, doctrina, analisis experto
 - practica_erp: guias practicas, checklists, paso a paso, plantillas
 
-Responde SOLO JSON valido:
+PASO 4: Si PASO 2 resolvio a un tema EXISTENTE, considera los subtemas candidatos \
+disponibles para ese tema en esta lista (formato: tema -> subtemas):
+{subtopic_list_with_labels}
+
+Resuelve el subtema del documento bajo el tema resuelto en PASO 2:
+- Si el documento encaja con UN subtema existente, mapea a ese sub_topic_key.
+- Si es genuinamente nuevo bajo el tema resuelto, marca subtopic_is_new=true y propone un slug.
+- Si el documento NO tiene subtema identificable (texto muy general o mezcla de subtemas), devuelve null.
+- Importante: el subtema DEBE pertenecer al mismo tema resuelto en PASO 2.
+
+Responde SOLO JSON valido con todos estos campos:
 {{"generated_label": "...", "rationale": "...", "resolved_to_existing": "topic_key_o_null", \
 "synonym_confidence": 0.0, "is_new_topic": false, \
-"suggested_key": "slug_si_es_nuevo_o_null", "detected_type": "normative_base"}}
+"suggested_key": "slug_si_es_nuevo_o_null", "detected_type": "normative_base", \
+"subtopic_resolved_to_existing": "sub_key_o_null", "subtopic_synonym_confidence": 0.0, \
+"subtopic_is_new": false, "subtopic_suggested_key": "slug_subtopic_o_null", \
+"subtopic_label": "etiqueta_humana_o_null"}}
 
 Archivo: {filename}
 Fragmento:
@@ -136,6 +154,16 @@ class _N2Result:
     is_new_topic: bool
     suggested_key: str | None
     detected_type: str | None
+    # --- PASO 4 subtopic fields (ingestfix-v2) ---
+    subtopic_resolved_to_existing: str | None = None
+    subtopic_synonym_confidence: float = 0.0
+    subtopic_is_new: bool = False
+    subtopic_suggested_key: str | None = None
+    subtopic_label: str | None = None
+    # Parent-topic key under which the LLM emitted the subtopic. Populated
+    # post-sanity-check; None when PASO 4 skipped or parent couldn't be
+    # determined. Invariant I4 uses this to drop cross-parent subtopics.
+    subtopic_parent_topic: str | None = None
 
 
 @dataclass(frozen=True)
@@ -162,6 +190,15 @@ class AutogenerarResult:
     classification_source: str  # "keywords" | "llm" | "filename"
     is_raw: bool
     requires_review: bool
+    # --- ingestfix-v2 subtopic verdict (Phase 3) ---
+    subtopic_key: str | None = None
+    subtopic_label: str | None = None
+    subtopic_confidence: float = 0.0
+    subtopic_is_new: bool = False
+    subtopic_suggested_key: str | None = None
+    subtopic_resolved_to_existing: str | None = None
+    subtopic_synonym_confidence: float = 0.0
+    requires_subtopic_review: bool = False
 
 
 # ---------------------------------------------------------------------------
@@ -280,10 +317,59 @@ def _build_topic_list_for_prompt() -> str:
     return "\n".join(lines)
 
 
+_SUBTOPIC_TAXONOMY_CACHE: dict[str, SubtopicTaxonomy] = {}
+
+
+def _get_cached_subtopic_taxonomy() -> SubtopicTaxonomy | None:
+    """Return the singleton taxonomy, or None if it can't be loaded.
+
+    Cached in module state to avoid re-reading the JSON on every classify
+    call. Tests clear the cache by reassigning ``_SUBTOPIC_TAXONOMY_CACHE``.
+    """
+    cached = _SUBTOPIC_TAXONOMY_CACHE.get("default")
+    if cached is not None:
+        return cached
+    try:
+        loaded = load_subtopic_taxonomy()
+    except (FileNotFoundError, ValueError):
+        logger.info(
+            "ingestion_classifier: subtopic taxonomy not available — "
+            "PASO 4 will omit candidate list"
+        )
+        return None
+    _SUBTOPIC_TAXONOMY_CACHE["default"] = loaded
+    return loaded
+
+
+def _build_subtopic_list_for_prompt(
+    taxonomy: SubtopicTaxonomy | None,
+) -> str:
+    """Build the ``topic -> [sub_key: label]`` block fed to PASO 4.
+
+    Compact format — one line per parent with pipe-separated children — so
+    the prompt stays within the 500-token budget even with 86 subtopics.
+    """
+    if taxonomy is None or taxonomy.total_entries() == 0:
+        return "(no hay subtemas curados disponibles)"
+    lines: list[str] = []
+    for parent in taxonomy.parents():
+        children = taxonomy.get_candidates_for(parent)
+        if not children:
+            continue
+        fragments = [
+            f"{entry.key}: {entry.label}"
+            for entry in sorted(children, key=lambda e: e.key)
+        ]
+        lines.append(f"- {parent} -> " + " | ".join(fragments))
+    return "\n".join(lines) if lines else "(no hay subtemas curados disponibles)"
+
+
 def _build_n2_prompt(filename: str, body_text: str) -> str:
     body_preview = (body_text or "")[:_BODY_PREVIEW_CHARS]
+    taxonomy = _get_cached_subtopic_taxonomy()
     return _AUTOGENERAR_PROMPT_TEMPLATE.format(
         topic_list_with_labels=_build_topic_list_for_prompt(),
+        subtopic_list_with_labels=_build_subtopic_list_for_prompt(taxonomy),
         filename=filename,
         body_preview=body_preview,
     )
@@ -313,7 +399,7 @@ def _invoke_adapter(adapter: Any, prompt: str) -> str:
     if hasattr(adapter, "generate_with_options"):
         try:
             result = adapter.generate_with_options(
-                prompt, temperature=0.0, max_tokens=300, timeout_seconds=10.0
+                prompt, temperature=0.0, max_tokens=500, timeout_seconds=10.0
             )
             return str((result or {}).get("content") or "").strip()
         except Exception:
@@ -362,6 +448,36 @@ def _parse_n2_response(raw: str) -> _N2Result | None:
     if detected_type and detected_type not in VALID_TYPES:
         detected_type = None
 
+    # --- PASO 4 subtopic fields (ingestfix-v2) ---
+    sub_resolved_raw = parsed.get("subtopic_resolved_to_existing")
+    subtopic_resolved: str | None = (
+        str(sub_resolved_raw).strip() if sub_resolved_raw else None
+    )
+    if subtopic_resolved in {"", "null", "None"}:
+        subtopic_resolved = None
+
+    try:
+        subtopic_syn_conf = float(parsed.get("subtopic_synonym_confidence") or 0.0)
+    except (TypeError, ValueError):
+        subtopic_syn_conf = 0.0
+    subtopic_syn_conf = max(0.0, min(1.0, subtopic_syn_conf))
+
+    subtopic_is_new = bool(parsed.get("subtopic_is_new", False))
+
+    sub_suggested_raw = parsed.get("subtopic_suggested_key")
+    subtopic_suggested: str | None = (
+        str(sub_suggested_raw).strip() if sub_suggested_raw else None
+    )
+    if subtopic_suggested in {"", "null", "None"}:
+        subtopic_suggested = None
+
+    sub_label_raw = parsed.get("subtopic_label")
+    subtopic_label_parsed: str | None = (
+        str(sub_label_raw).strip() if sub_label_raw else None
+    )
+    if subtopic_label_parsed in {"", "null", "None"}:
+        subtopic_label_parsed = None
+
     return _N2Result(
         generated_label=generated_label,
         rationale=rationale,
@@ -370,6 +486,11 @@ def _parse_n2_response(raw: str) -> _N2Result | None:
         is_new_topic=is_new_topic,
         suggested_key=suggested_key,
         detected_type=detected_type,
+        subtopic_resolved_to_existing=subtopic_resolved,
+        subtopic_synonym_confidence=subtopic_syn_conf,
+        subtopic_is_new=subtopic_is_new,
+        subtopic_suggested_key=subtopic_suggested,
+        subtopic_label=subtopic_label_parsed,
     )
 
 
@@ -423,6 +544,12 @@ def _apply_post_llm_sanity(n2: _N2Result, n1: _N1Result) -> _N2Result:
         is_new_topic=is_new_topic,
         suggested_key=suggested_key,
         detected_type=n2.detected_type,
+        subtopic_resolved_to_existing=n2.subtopic_resolved_to_existing,
+        subtopic_synonym_confidence=n2.subtopic_synonym_confidence,
+        subtopic_is_new=n2.subtopic_is_new,
+        subtopic_suggested_key=n2.subtopic_suggested_key,
+        subtopic_label=n2.subtopic_label,
+        subtopic_parent_topic=n2.subtopic_parent_topic,
     )
 
 
@@ -458,6 +585,103 @@ def _fuse_autogenerar_confidence(n1: _N1Result, n2: _N2Result | None) -> float:
         high_syn_boost = 0.05
 
     return min(base + agreement_boost + high_syn_boost, 1.0)
+
+
+def _fuse_subtopic_confidence(n1: _N1Result, n2: _N2Result | None) -> float:
+    """Fuse subtopic confidence — mirrors :func:`_fuse_autogenerar_confidence`.
+
+    Decision C1 (mirror topic-level fusion):
+      - N2 absent or no subtopic verdict → 0.0.
+      - Subtopic is new → 0.70.
+      - synonym < 0.50 → 0.0 (review).
+      - 0.50 <= synonym < 0.80 → 0.0 (review).
+      - synonym >= 0.80 → base 0.85; +0.10 if N1 topic agrees with the
+        parent that PASO 4 resolved under; +0.05 if synonym >= 0.90.
+    """
+    if n2 is None:
+        return 0.0
+    if not n2.subtopic_resolved_to_existing and not n2.subtopic_is_new:
+        return 0.0
+    if n2.subtopic_is_new:
+        return 0.70
+    syn = n2.subtopic_synonym_confidence
+    if syn < _SYNONYM_HIGH:
+        return 0.0
+    base = 0.85
+    agreement_boost = 0.0
+    high_syn_boost = 0.0
+    if (
+        n1.detected_topic
+        and n2.subtopic_parent_topic
+        and n2.subtopic_parent_topic == n1.detected_topic
+    ):
+        agreement_boost = 0.10
+    if syn >= 0.90:
+        high_syn_boost = 0.05
+    return min(base + agreement_boost + high_syn_boost, 1.0)
+
+
+def _annotate_subtopic_parent(
+    n2: _N2Result | None,
+    final_topic: str | None,
+    taxonomy: SubtopicTaxonomy | None,
+) -> _N2Result | None:
+    """Stamp ``subtopic_parent_topic`` onto the parsed N2 result.
+
+    When the LLM resolved to an existing subtopic, look it up in the
+    taxonomy to find which parent it belongs to. Invariant I4: if that
+    parent differs from ``final_topic``, the subtopic is dropped.
+
+    For new-subtopic declarations, we trust the LLM's topic verdict from
+    PASO 2 as the parent (same call guarantee — Decision A1).
+    """
+    if n2 is None:
+        return n2
+    resolved = n2.subtopic_resolved_to_existing
+    parent: str | None = None
+    if resolved and taxonomy is not None:
+        for parent_topic, children in taxonomy.subtopics_by_parent.items():
+            for entry in children:
+                if entry.key == resolved:
+                    parent = parent_topic
+                    break
+            if parent is not None:
+                break
+        # Subtopic key not present in taxonomy → treat as new.
+        if parent is None:
+            return _N2Result(
+                generated_label=n2.generated_label,
+                rationale=n2.rationale,
+                resolved_to_existing=n2.resolved_to_existing,
+                synonym_confidence=n2.synonym_confidence,
+                is_new_topic=n2.is_new_topic,
+                suggested_key=n2.suggested_key,
+                detected_type=n2.detected_type,
+                subtopic_resolved_to_existing=None,
+                subtopic_synonym_confidence=0.0,
+                subtopic_is_new=True,
+                subtopic_suggested_key=n2.subtopic_suggested_key
+                or (_slugify(n2.subtopic_label) if n2.subtopic_label else None),
+                subtopic_label=n2.subtopic_label,
+                subtopic_parent_topic=final_topic,
+            )
+    elif n2.subtopic_is_new:
+        parent = final_topic
+    return _N2Result(
+        generated_label=n2.generated_label,
+        rationale=n2.rationale,
+        resolved_to_existing=n2.resolved_to_existing,
+        synonym_confidence=n2.synonym_confidence,
+        is_new_topic=n2.is_new_topic,
+        suggested_key=n2.suggested_key,
+        detected_type=n2.detected_type,
+        subtopic_resolved_to_existing=n2.subtopic_resolved_to_existing,
+        subtopic_synonym_confidence=n2.subtopic_synonym_confidence,
+        subtopic_is_new=n2.subtopic_is_new,
+        subtopic_suggested_key=n2.subtopic_suggested_key,
+        subtopic_label=n2.subtopic_label,
+        subtopic_parent_topic=parent,
+    )
 
 
 def _resolve_adapter(adapter: Any | None) -> Any | None:
@@ -631,6 +855,81 @@ def classify_ingestion_document(
     exact_match = combined >= _CONFIDENCE_THRESHOLD
     requires_review = is_raw and not exact_match
 
+    # --- PASO 4 subtopic verdict (ingestfix-v2) --------------------------
+    taxonomy = _get_cached_subtopic_taxonomy()
+    annotated_n2 = _annotate_subtopic_parent(n2, detected_topic, taxonomy)
+    subtopic_key: str | None = None
+    subtopic_label: str | None = None
+    subtopic_conf = 0.0
+    subtopic_is_new_flag = False
+    subtopic_suggested: str | None = None
+    subtopic_resolved: str | None = None
+    subtopic_synonym: float = 0.0
+    requires_subtopic_review = False
+
+    if annotated_n2 is not None:
+        subtopic_resolved = annotated_n2.subtopic_resolved_to_existing
+        subtopic_synonym = annotated_n2.subtopic_synonym_confidence
+        subtopic_is_new_flag = annotated_n2.subtopic_is_new
+        subtopic_suggested = annotated_n2.subtopic_suggested_key
+        subtopic_label = annotated_n2.subtopic_label
+        subtopic_conf = _fuse_subtopic_confidence(n1, annotated_n2)
+
+        # Invariant I4 — drop subtopic if parent mismatches final topic.
+        parent = annotated_n2.subtopic_parent_topic
+        cross_parent = (
+            parent is not None
+            and detected_topic is not None
+            and parent != detected_topic
+        )
+        has_any_subtopic = bool(subtopic_resolved) or subtopic_is_new_flag
+
+        if cross_parent:
+            subtopic_key = None
+            subtopic_label = None
+            subtopic_conf = 0.0
+            requires_subtopic_review = True
+        elif subtopic_is_new_flag:
+            # New subtopic — do not write until curator promotes it, but
+            # surface the suggestion + flag for review.
+            subtopic_key = None
+            requires_subtopic_review = True
+        elif subtopic_resolved and subtopic_conf >= _SYNONYM_HIGH:
+            subtopic_key = subtopic_resolved
+            if subtopic_label is None and taxonomy is not None:
+                entry = None
+                for children in taxonomy.subtopics_by_parent.values():
+                    for child in children:
+                        if child.key == subtopic_resolved:
+                            entry = child
+                            break
+                    if entry is not None:
+                        break
+                if entry is not None:
+                    subtopic_label = entry.label
+        elif has_any_subtopic:
+            # LLM emitted something but confidence too low — flag for review.
+            subtopic_key = None
+            requires_subtopic_review = True
+
+    try:
+        from .instrumentation import emit_event as _emit
+
+        _emit(
+            "subtopic.ingest.classified",
+            {
+                "filename": filename,
+                "topic": detected_topic,
+                "subtopic_key": subtopic_key,
+                "subtopic_confidence": round(subtopic_conf, 4),
+                "requires_subtopic_review": requires_subtopic_review,
+                "subtopic_is_new": subtopic_is_new_flag,
+            },
+        )
+    except Exception:
+        # Observability must never break classification.
+        logger.debug("ingestion_classifier: subtopic.ingest.classified emit failed", exc_info=True)
+
     return AutogenerarResult(
         generated_label=n2.generated_label if n2 else None,
         rationale=n2.rationale if n2 else None,
@@ -646,6 +945,14 @@ def classify_ingestion_document(
         classification_source=classification_source,
         is_raw=is_raw,
         requires_review=requires_review,
+        subtopic_key=subtopic_key,
+        subtopic_label=subtopic_label,
+        subtopic_confidence=subtopic_conf,
+        subtopic_is_new=subtopic_is_new_flag,
+        subtopic_suggested_key=subtopic_suggested,
+        subtopic_resolved_to_existing=subtopic_resolved,
+        subtopic_synonym_confidence=subtopic_synonym,
+        requires_subtopic_review=requires_subtopic_review,
     )
 
 

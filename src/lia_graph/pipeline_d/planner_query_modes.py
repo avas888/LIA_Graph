@@ -32,7 +32,83 @@ consumers (`answer_first_bubble`, `answer_synthesis_helpers`,
 
 from __future__ import annotations
 
+from ..subtopic_taxonomy_loader import (
+    SubtopicTaxonomy,
+    load_taxonomy as _load_subtopic_taxonomy,
+    normalize_alias as _normalize_alias,
+)
 from .contracts import GraphTemporalContext
+
+
+_SUBTOPIC_INTENT_CACHE: dict[str, SubtopicTaxonomy | None] = {}
+
+
+def _get_subtopic_taxonomy() -> SubtopicTaxonomy | None:
+    """Return the cached subtopic taxonomy, or None if it can't be loaded."""
+    if "default" in _SUBTOPIC_INTENT_CACHE:
+        return _SUBTOPIC_INTENT_CACHE["default"]
+    try:
+        taxonomy = _load_subtopic_taxonomy()
+    except (FileNotFoundError, ValueError):
+        taxonomy = None
+    _SUBTOPIC_INTENT_CACHE["default"] = taxonomy
+    return taxonomy
+
+
+def _detect_sub_topic_intent(
+    query_text: str,
+    detected_topic: str | None,
+    *,
+    taxonomy: SubtopicTaxonomy | None = None,
+) -> str | None:
+    """Lexical subtopic-intent detection (Decision H1 — regex/alias match).
+
+    Scans ``query_text`` against the full alias list of every subtopic
+    under ``detected_topic``. Honors Invariant I1 (alias breadth). Ties
+    are broken by longest alias first, then lexicographic by key.
+
+    Returns the matched ``sub_topic_key`` or None when no alias fires.
+    """
+    if not query_text or not detected_topic:
+        return None
+    tax = taxonomy if taxonomy is not None else _get_subtopic_taxonomy()
+    if tax is None:
+        return None
+    candidates = tax.get_candidates_for(detected_topic)
+    if not candidates:
+        return None
+    normalized_query = _normalize_alias(query_text)
+    if not normalized_query:
+        return None
+    matches: list[tuple[int, str, str]] = []
+    for entry in candidates:
+        for form in entry.all_surface_forms():
+            normalized_form = _normalize_alias(form)
+            if not normalized_form:
+                continue
+            if normalized_form in normalized_query:
+                matches.append((len(normalized_form), entry.key, form))
+                break
+    if not matches:
+        return None
+    # Longest form wins; ties go to the alphabetically-first key.
+    matches.sort(key=lambda item: (-item[0], item[1]))
+    winning_key = matches[0][1]
+    winning_form = matches[0][2]
+    try:
+        from ..instrumentation import emit_event as _emit
+
+        _emit(
+            "subtopic.retrieval.intent_detected",
+            {
+                "topic": detected_topic,
+                "sub_topic_intent": winning_key,
+                "match_via": winning_form,
+            },
+        )
+    except Exception:  # noqa: BLE001 — observability must never block planning
+        pass
+    return winning_key
 
 
 _REFORM_MODE_MARKERS = (

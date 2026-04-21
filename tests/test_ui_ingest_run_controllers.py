@@ -324,7 +324,13 @@ def test_run_post_dispatches_job_with_defaults(
     assert status == HTTPStatus.OK
     assert body["job_id"] == "job-fake-1"
     assert captured_kwargs["job_type"] == "ingest_run"
-    assert captured_kwargs["request_payload"] == {"suin_scope": "", "supabase_target": "wip"}
+    assert captured_kwargs["request_payload"] == {
+        "suin_scope": "",
+        "supabase_target": "wip",
+        "auto_embed": False,
+        "auto_promote": False,
+        "batch_id": None,
+    }
 
 
 def test_run_post_accepts_production_target_and_suin(
@@ -341,6 +347,9 @@ def test_run_post_accepts_production_target_and_suin(
     assert captured["kwargs"]["request_payload"] == {
         "suin_scope": "et",
         "supabase_target": "production",
+        "auto_embed": False,
+        "auto_promote": False,
+        "batch_id": None,
     }
 
 

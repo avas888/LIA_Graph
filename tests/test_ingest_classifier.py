@@ -810,7 +810,7 @@ def test_generate_with_options_preferred_when_available(
     assert adapter.options_calls, "generate_with_options should have been preferred"
     assert adapter.generate_calls == []
     assert adapter.options_calls[0]["temperature"] == 0.0
-    assert adapter.options_calls[0]["max_tokens"] == 300
+    assert adapter.options_calls[0]["max_tokens"] == 500
     assert adapter.options_calls[0]["timeout_seconds"] == 10.0
     assert result.detected_topic == "iva"
 
@@ -1037,3 +1037,231 @@ def test_always_emit_label_low_confidence_behaves_like_baseline(
         result_baseline.combined_confidence
     )
     assert result_always.classification_source == result_baseline.classification_source
+
+
+# ---------------------------------------------------------------------------
+# PASO 4 — subtopic resolution (ingestfix-v2 Phase 3)
+# ---------------------------------------------------------------------------
+
+
+def _n2_payload_with_subtopic(
+    *,
+    resolved: str | None = "iva",
+    synonym_confidence: float = 0.95,
+    subtopic_resolved: str | None = None,
+    subtopic_synonym_confidence: float = 0.0,
+    subtopic_is_new: bool = False,
+    subtopic_suggested_key: str | None = None,
+    subtopic_label: str | None = None,
+) -> dict[str, Any]:
+    return {
+        "generated_label": "tema",
+        "rationale": "ok",
+        "resolved_to_existing": resolved,
+        "synonym_confidence": synonym_confidence,
+        "is_new_topic": False,
+        "suggested_key": None,
+        "detected_type": "normative_base",
+        "subtopic_resolved_to_existing": subtopic_resolved,
+        "subtopic_synonym_confidence": subtopic_synonym_confidence,
+        "subtopic_is_new": subtopic_is_new,
+        "subtopic_suggested_key": subtopic_suggested_key,
+        "subtopic_label": subtopic_label,
+    }
+
+
+def _install_fake_taxonomy(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Make the classifier see a tiny predictable subtopic taxonomy.
+
+    Also forces N1 to return no topic so PASO 4 (and therefore N2 overall)
+    is exercised via the adapter. Callers that want N1 to win should set
+    up their own monkeypatch after calling this helper.
+    """
+    monkeypatch.setattr(
+        classifier_module,
+        "detect_topic_from_text",
+        lambda text, filename=None: type(
+            "TopicDetection", (), {"topic": None, "confidence": 0.0}
+        )(),
+    )
+    from lia_graph.subtopic_taxonomy_loader import (
+        SubtopicEntry,
+        SubtopicTaxonomy,
+    )
+
+    iva_entry = SubtopicEntry(
+        parent_topic="iva",
+        key="nomina_electronica",
+        label="Nómina electrónica",
+        aliases=("pago_nomina_electronica",),
+        evidence_count=4,
+        curated_at="2026-04-21T00:00:00Z",
+        curator="test",
+    )
+    laboral_entry = SubtopicEntry(
+        parent_topic="laboral",
+        key="parafiscales_icbf",
+        label="Parafiscales ICBF",
+        aliases=("aporte_parafiscales_icbf",),
+        evidence_count=9,
+        curated_at="2026-04-21T00:00:00Z",
+        curator="test",
+    )
+    by_parent = {
+        "iva": (iva_entry,),
+        "laboral": (laboral_entry,),
+    }
+    by_key = {
+        ("iva", "nomina_electronica"): iva_entry,
+        ("laboral", "parafiscales_icbf"): laboral_entry,
+    }
+    by_alias = {
+        "nomina_electronica": iva_entry,
+        "pago_nomina_electronica": iva_entry,
+        "parafiscales_icbf": laboral_entry,
+        "aporte_parafiscales_icbf": laboral_entry,
+    }
+    fake = SubtopicTaxonomy(
+        version="test-1",
+        generated_from="test",
+        generated_at="2026-04-21T00:00:00Z",
+        subtopics_by_parent=by_parent,
+        lookup_by_key=by_key,
+        lookup_by_alias=by_alias,
+    )
+    monkeypatch.setattr(
+        classifier_module,
+        "_get_cached_subtopic_taxonomy",
+        lambda: fake,
+    )
+
+
+def test_paso4_resolves_existing_subtopic(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _install_fake_taxonomy(monkeypatch)
+    adapter = FakeAdapter(
+        payload=_n2_payload_with_subtopic(
+            resolved="iva",
+            synonym_confidence=0.95,
+            subtopic_resolved="nomina_electronica",
+            subtopic_synonym_confidence=0.95,
+        )
+    )
+    result = classify_ingestion_document(
+        filename="doc_generico.md",
+        body_text="El articulo explica la nomina electronica y su relacion con el IVA.",
+        adapter=adapter,
+    )
+    assert result.detected_topic == "iva"
+    assert result.subtopic_key == "nomina_electronica"
+    assert result.subtopic_label == "Nómina electrónica"
+    assert result.subtopic_confidence >= 0.85
+    assert result.requires_subtopic_review is False
+
+
+def test_paso4_new_subtopic_sets_is_new_and_requires_review(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _install_fake_taxonomy(monkeypatch)
+    adapter = FakeAdapter(
+        payload=_n2_payload_with_subtopic(
+            resolved="iva",
+            synonym_confidence=0.95,
+            subtopic_is_new=True,
+            subtopic_suggested_key="retencion_fuente_servicios",
+            subtopic_label="Retención en fuente por servicios",
+        )
+    )
+    result = classify_ingestion_document(
+        filename="doc_iva_new.md",
+        body_text="Tema emergente sobre retencion en fuente aplicada a servicios.",
+        adapter=adapter,
+    )
+    assert result.subtopic_is_new is True
+    assert result.subtopic_suggested_key == "retencion_fuente_servicios"
+    assert result.subtopic_key is None  # not written until curator promotes
+    assert result.requires_subtopic_review is True
+
+
+def test_paso4_low_confidence_forces_review(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _install_fake_taxonomy(monkeypatch)
+    adapter = FakeAdapter(
+        payload=_n2_payload_with_subtopic(
+            resolved="iva",
+            synonym_confidence=0.95,
+            subtopic_resolved="nomina_electronica",
+            subtopic_synonym_confidence=0.65,
+        )
+    )
+    result = classify_ingestion_document(
+        filename="doc_iva_fragment.md",
+        body_text="texto corto",
+        adapter=adapter,
+    )
+    assert result.subtopic_key is None
+    assert result.subtopic_confidence == 0.0
+    assert result.requires_subtopic_review is True
+
+
+def test_paso4_cross_parent_is_dropped(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Invariant I4 — subtopic under a different parent than topic is discarded."""
+    _install_fake_taxonomy(monkeypatch)
+    adapter = FakeAdapter(
+        payload=_n2_payload_with_subtopic(
+            resolved="iva",
+            synonym_confidence=0.95,
+            subtopic_resolved="parafiscales_icbf",  # belongs to "laboral"
+            subtopic_synonym_confidence=0.95,
+        )
+    )
+    result = classify_ingestion_document(
+        filename="doc_weird.md",
+        body_text="texto",
+        adapter=adapter,
+    )
+    assert result.detected_topic == "iva"
+    assert result.subtopic_key is None
+    assert result.requires_subtopic_review is True
+
+
+def test_paso4_skipped_when_skip_llm(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _install_fake_taxonomy(monkeypatch)
+    adapter = FakeAdapter(
+        payload=_n2_payload_with_subtopic(
+            subtopic_resolved="nomina_electronica",
+            subtopic_synonym_confidence=0.95,
+        )
+    )
+    result = classify_ingestion_document(
+        filename="doc_skip_llm.md",
+        body_text="texto",
+        adapter=adapter,
+        skip_llm=True,
+    )
+    assert adapter.calls == []
+    assert result.subtopic_key is None
+    assert result.subtopic_confidence == 0.0
+    assert result.requires_subtopic_review is False
+
+
+def test_paso4_malformed_response_leaves_topic_intact(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _install_fake_taxonomy(monkeypatch)
+    adapter = FakeAdapter(payload="this is not json at all")
+    result = classify_ingestion_document(
+        filename="test.md",
+        body_text="body",
+        adapter=adapter,
+    )
+    # N2 parse failed → subtopic fields default; topic falls back to N1.
+    assert result.subtopic_key is None
+    assert result.subtopic_confidence == 0.0
+    assert result.requires_subtopic_review is False

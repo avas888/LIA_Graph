@@ -1,4 +1,4 @@
-.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy
+.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy
 
 PHASE2_CORPUS_DIR ?= knowledge_base
 PHASE2_ARTIFACTS_DIR ?= artifacts
@@ -57,6 +57,15 @@ PHASE2_SUPABASE_SINK_FLAGS = --supabase-sink --supabase-target $(PHASE2_SUPABASE
 PHASE2_SUIN_FLAG = $(if $(INGEST_SUIN),--include-suin $(INGEST_SUIN),)
 phase2-graph-artifacts-supabase:
 	PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) $(PHASE2_SUPABASE_SINK_FLAGS) $(PHASE2_SUIN_FLAG) --json
+
+# Preflight canary for the single-pass ingest. Runs against the committed
+# mini_corpus fixture (3 docs) and asserts the subtopic invariant
+# ((topic_key, subtopic_key) in taxonomy) on every classified doc + that
+# Falkor emitted at least one SubTopicNode + HAS_SUBTOPIC edge. ~30 seconds,
+# ~$0.01 in LLM cost. Run this BEFORE a full-corpus ingest — it is the
+# canary that would have caught the B3 topic_override bug in seconds.
+phase2-graph-artifacts-smoke:
+	LIA_INTEGRATION=1 PYTHONPATH=src:. uv run --group dev pytest tests/integration/test_single_pass_ingest.py tests/integration/test_subtema_taxonomy_consistency.py -v -m integration
 
 # ---- SUIN harvest targets (Phase A) ----------------------------------------
 # These walk SUIN sitemaps and materialize artifacts/suin/<scope>/*.jsonl.
@@ -127,4 +136,29 @@ phase3-mine-subtopic-candidates:
 #   make phase2-promote-subtopic-taxonomy DRY_RUN=1
 #   make phase2-promote-subtopic-taxonomy VERSION=2026-04-21-v1
 phase2-promote-subtopic-taxonomy:
-	PYTHONPATH=src:. uv run python scripts/promote_subtopic_decisions.py $(if $(DRY_RUN),--dry-run,) $(if $(DECISIONS),--decisions $(DECISIONS),) $(if $(OUTPUT),--output $(OUTPUT),) $(if $(VERSION),--version $(VERSION),)
+	PYTHONPATH=src:. uv run python scripts/promote_subtopic_decisions.py $(if $(DRY_RUN),--dry-run,) $(if $(DECISIONS),--decisions $(DECISIONS),) $(if $(OUTPUT),--output $(OUTPUT),) $(if $(VERSION),--version $(VERSION),) $(if $(SYNC_SUPABASE),--sync-supabase $(SYNC_SUPABASE),)
+
+# ---- ingestfix-v2 --------------------------------------------------------
+# Phase 2 (v2) sync: mirror config/subtopic_taxonomy.json into Supabase.
+# TARGET=wip|production.
+#
+# Usage:
+#   make phase2-sync-subtopic-taxonomy DRY_RUN=1
+#   make phase2-sync-subtopic-taxonomy TARGET=wip
+#   make phase2-sync-subtopic-taxonomy TARGET=production
+phase2-sync-subtopic-taxonomy:
+	PYTHONPATH=src:. uv run python scripts/sync_subtopic_taxonomy_to_supabase.py $(if $(DRY_RUN),--dry-run,) $(if $(TARGET),--target $(TARGET),) $(if $(TAXONOMY),--taxonomy $(TAXONOMY),)
+
+# Maintenance-only backfill of documents.subtema via PASO 4. After
+# ingestfix-v2-maximalist (docs/next/ingestfixv2.md), the normal
+# single-pass ingest populates subtema + Falkor SubTopic structure
+# inline. Use this target to re-classify docs flagged
+# requires_subtopic_review=true or after a taxonomy version bump.
+# DRY_RUN=1 is the safe default.
+#
+# Usage:
+#   make phase2-backfill-subtopic DRY_RUN=1 LIMIT=10
+#   make phase2-backfill-subtopic DRY_RUN=1 ONLY_REQUIRES_REVIEW=1
+#   make phase2-backfill-subtopic LIMIT=50            # --commit
+phase2-backfill-subtopic:
+	PYTHONPATH=src:. uv run python scripts/backfill_subtopic.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(RATE_LIMIT_RPM),--rate-limit-rpm $(RATE_LIMIT_RPM),) $(if $(GENERATION_ID),--generation-id $(GENERATION_ID),) $(if $(RESUME_FROM),--resume-from $(RESUME_FROM),) $(if $(REFRESH_EXISTING),--refresh-existing,) $(if $(ONLY_REQUIRES_REVIEW),--only-requires-review,) $(if $(NO_FALKOR),--no-falkor-emit,)

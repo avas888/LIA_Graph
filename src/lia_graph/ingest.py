@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 from typing import Any
 
+from .env_posture import EnvPostureError, assert_local_posture
 from .graph import GraphClient, GraphClientError, GraphQueryResult
 from .graph.schema import NodeKind
 from .ingestion import (
@@ -229,16 +230,28 @@ def materialize_graph_artifacts(
     supabase_sink_factory: Any | None = None,
     include_suin: str | Path | None = None,
     suin_artifacts_root: Path | str = "artifacts/suin",
+    skip_llm: bool = False,
+    rate_limit_rpm: int = 60,
 ) -> dict[str, Any]:
     root = Path(corpus_dir)
     artifacts_root = Path(artifacts_dir)
     artifacts_root.mkdir(parents=True, exist_ok=True)
 
     audit_rows = audit_corpus_documents(root, pattern=pattern)
-    corpus_documents = tuple(
+    legacy_corpus_documents = tuple(
         CorpusDocument.from_audit_record(row)
         for row in audit_rows
         if row.ingestion_decision == INGESTION_DECISION_INCLUDE
+    )
+    # Phase A4: run PASO 4 classifier over every included doc before the
+    # Supabase sink + graph load, so subtema / requires_subtopic_review are
+    # populated in one pass. `--skip-llm` returns the legacy tuple unchanged.
+    from .ingest_subtopic_pass import classify_corpus_documents
+
+    corpus_documents = classify_corpus_documents(
+        legacy_corpus_documents,
+        skip_llm=bool(skip_llm),
+        rate_limit_rpm=int(rate_limit_rpm),
     )
 
     corpus_audit_report_path = artifacts_root / "corpus_audit_report.json"
@@ -317,10 +330,20 @@ def materialize_graph_artifacts(
 
     typed_edges = normalize_classified_edges(articles, classified_edges)
     plan_graph_client = graph_client or (GraphClient.from_env() if execute_load else None)
+    # Phase A5: correlate classified docs → articles → curated taxonomy so the
+    # loader emits SubTopicNode + HAS_SUBTOPIC during the same pass as the
+    # article/reform load (no separate Falkor-sync step required).
+    from .ingest_subtopic_pass import build_article_subtopic_bindings
+
+    article_subtopics = build_article_subtopic_bindings(
+        classified_documents=corpus_documents,
+        articles=articles,
+    )
     load_plan = build_graph_load_plan(
         articles,
         classified_edges,
         graph_client=plan_graph_client,
+        article_subtopics=article_subtopics,
     )
     runtime_graph_client = plan_graph_client or (
         GraphClient.from_env(schema=load_plan.schema)
@@ -627,6 +650,35 @@ def parser() -> argparse.ArgumentParser:
         default="artifacts/suin",
         help="Base directory that --include-suin scope names resolve against.",
     )
+    cli.add_argument(
+        "--allow-non-local-env",
+        action="store_true",
+        help=(
+            "Skip the local-env posture guard. Required when intentionally "
+            "running against cloud Supabase / cloud FalkorDB. See "
+            "src/lia_graph/env_posture.py."
+        ),
+    )
+    cli.add_argument(
+        "--skip-llm",
+        action="store_true",
+        help=(
+            "Skip the PASO 4 classifier pass during the audit. Legacy "
+            "_infer_vocabulary_labels verdict stays authoritative — no "
+            "subtema population, no Falkor SubTopic structure. Intended "
+            "for fast dev-loop and CI smoke tests."
+        ),
+    )
+    cli.add_argument(
+        "--rate-limit-rpm",
+        type=int,
+        default=int(os.environ.get("LIA_INGEST_CLASSIFIER_RPM", "60")),
+        help=(
+            "Upper bound on PASO 4 classifier calls per minute. Default 60 "
+            "(≈22 min for a 1300-doc corpus). Gemini Flash paid tier "
+            "tolerates ~1000 rpm."
+        ),
+    )
     cli.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
     return cli
 
@@ -640,6 +692,19 @@ def _env_bool(name: str, default: bool) -> bool:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    if not args.allow_non_local_env:
+        try:
+            assert_local_posture(
+                require_supabase=bool(args.supabase_sink),
+                require_falkor=bool(args.execute_load),
+            )
+        except EnvPostureError as exc:
+            payload = {"ok": False, "error": "env_posture", "message": str(exc)}
+            if args.json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(f"Phase 2 ingest aborted: {exc}")
+            return 4
     try:
         result = materialize_graph_artifacts(
             corpus_dir=Path(args.corpus_dir),
@@ -655,6 +720,8 @@ def main(argv: list[str] | None = None) -> int:
             supabase_activate=bool(args.supabase_activate),
             include_suin=args.include_suin,
             suin_artifacts_root=Path(args.suin_artifacts_root),
+            skip_llm=bool(args.skip_llm),
+            rate_limit_rpm=int(args.rate_limit_rpm),
         )
     except (FileNotFoundError, NotADirectoryError) as exc:
         payload = {"ok": False, "error": "corpus_unavailable", "message": str(exc)}
@@ -770,3 +837,8 @@ def _print_human(result: dict[str, Any]) -> None:
     for label, path in result["files"].items():
         print(f"- {label}: {path}")
 
+
+
+if __name__ == "__main__":
+    import sys as _sys
+    _sys.exit(main())

@@ -172,6 +172,13 @@ class SupabaseCorpusSink:
         self._generation_row_written = False
         self._file_list: list[str] = []
         self._activated = False
+        # subtopic wire-up (ingestfix-v2 Phase 4): write_documents populates
+        # these so write_chunks can inherit subtema per-parent without an
+        # extra round-trip to Supabase.
+        self._subtema_by_doc_id: dict[str, str] = {}
+        self._topic_by_doc_id: dict[str, str] = {}
+        self._docs_with_subtopic = 0
+        self._docs_requiring_subtopic_review = 0
 
     @property
     def client(self) -> Any:
@@ -229,16 +236,26 @@ class SupabaseCorpusSink:
             if source_path:
                 doc_id_by_source_path[source_path] = doc_id
             markdown = str(document.get("markdown") or "")
+            subtopic_key = document.get("subtopic_key")
+            subtopic_key_clean: str | None = None
+            if isinstance(subtopic_key, str):
+                stripped = subtopic_key.strip()
+                if stripped:
+                    subtopic_key_clean = stripped
+            requires_subtopic_review = bool(
+                document.get("requires_subtopic_review") or False
+            )
+            topic_key = str(document.get("topic_key") or "unknown")
             row = {
                 "doc_id": doc_id,
                 "relative_path": relative_path,
                 "source_type": str(document.get("source_type") or document.get("document_archetype") or "unknown"),
-                "topic": str(document.get("topic_key") or "unknown"),
+                "topic": topic_key,
                 "authority": str(document.get("authority_level") or "unknown"),
                 "pais": str(document.get("pais") or "colombia"),
                 "knowledge_class": str(document.get("knowledge_class") or "unknown"),
                 "tema": document.get("topic_key"),
-                "subtema": document.get("subtopic_key"),
+                "subtema": subtopic_key_clean,
                 "tipo_de_documento": document.get("document_archetype"),
                 "corpus": document.get("family"),
                 "content_hash": _content_hash(markdown),
@@ -246,9 +263,17 @@ class SupabaseCorpusSink:
                 "first_heading": str(document.get("title_hint") or "")[:500],
                 "curation_status": "raw",
                 "sync_generation": self.generation_id,
+                "requires_subtopic_review": requires_subtopic_review,
                 "created_at": now,
                 "updated_at": now,
             }
+            if subtopic_key_clean:
+                self._subtema_by_doc_id[doc_id] = subtopic_key_clean
+                self._docs_with_subtopic += 1
+            if requires_subtopic_review:
+                self._docs_requiring_subtopic_review += 1
+            if topic_key and topic_key != "unknown":
+                self._topic_by_doc_id[doc_id] = topic_key
             rows.append(row)
 
         written = 0
@@ -277,6 +302,8 @@ class SupabaseCorpusSink:
                 continue
             seen_chunk_ids.add(chunk_id)
             chunk_text = article.full_text or article.body or article.heading or ""
+            inherited_subtema = self._subtema_by_doc_id.get(doc_id)
+            inherited_topic = self._topic_by_doc_id.get(doc_id)
             row = {
                 "doc_id": doc_id,
                 "chunk_id": chunk_id,
@@ -286,12 +313,14 @@ class SupabaseCorpusSink:
                 "chunk_sha256": _chunk_sha(chunk_text),
                 "source_type": "article",
                 "curation_status": "raw",
-                "topic": None,
+                "topic": inherited_topic,
                 "pais": "colombia",
                 "authority": None,
                 "vigencia": "vigente" if article.status != "derogado" else "derogada",
                 "retrieval_visibility": "primary",
                 "relative_path": None,
+                "tema": inherited_topic,
+                "subtema": inherited_subtema,
                 "knowledge_class": "normative_base",
                 "sync_generation": self.generation_id,
                 "chunk_section_type": "vigente" if article.status != "derogado" else "historical",
@@ -359,6 +388,21 @@ class SupabaseCorpusSink:
         if activate:
             self._activate_generation()
             self._activated = True
+        try:
+            from ..instrumentation import emit_event as _emit
+
+            _emit(
+                "subtopic.ingest.sunk",
+                {
+                    "generation_id": self.generation_id,
+                    "target": self.target,
+                    "docs_written": self._documents_written,
+                    "docs_with_subtopic": self._docs_with_subtopic,
+                    "docs_requiring_subtopic_review": self._docs_requiring_subtopic_review,
+                },
+            )
+        except Exception:  # noqa: BLE001 — observability never blocks
+            pass
         return SupabaseSinkResult(
             generation_id=self.generation_id,
             target=self.target,

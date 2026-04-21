@@ -57,21 +57,59 @@ def retrieve_graph_evidence(
     explicit_article_keys = _explicit_article_keys(plan)
     explicit_reform_keys = _explicit_reform_keys(plan)
 
+    # ingestfix-v2 Phase 6: when planner detected a subtopic intent, lift
+    # articles bound to that SubTopic into the primary anchors. Falls back
+    # to the explicit-article-keys path when no bindings exist.
+    sub_topic_intent = getattr(plan, "sub_topic_intent", None)
+    subtopic_article_keys: tuple[str, ...] = ()
+    if sub_topic_intent:
+        subtopic_article_keys = _retrieve_subtopic_bound_article_keys(
+            client=client,
+            sub_topic_key=sub_topic_intent,
+            limit=max(plan.evidence_bundle_shape.primary_article_limit, 1),
+        )
+        if not subtopic_article_keys:
+            try:
+                from ..instrumentation import emit_event as _emit
+
+                _emit(
+                    "subtopic.retrieval.fallback_to_topic",
+                    {
+                        "sub_topic_intent": sub_topic_intent,
+                        "parent_topic_hint": (plan.topic_hints[0] if plan.topic_hints else None),
+                        "fallback_node_count": len(explicit_article_keys),
+                    },
+                )
+            except Exception:  # noqa: BLE001 — observability never blocks
+                pass
+
+    # Merge subtopic-anchored keys with explicit article keys (explicit first).
+    if subtopic_article_keys:
+        seen: set[str] = set(explicit_article_keys)
+        merged = list(explicit_article_keys)
+        for key in subtopic_article_keys:
+            if key not in seen:
+                seen.add(key)
+                merged.append(key)
+        effective_article_keys = tuple(merged)
+    else:
+        effective_article_keys = explicit_article_keys
+
     primary_articles = _retrieve_primary_articles(
         client=client,
         plan=plan,
-        article_keys=explicit_article_keys,
+        article_keys=effective_article_keys,
     )
     connected_articles = _retrieve_connected_articles(
         client=client,
         plan=plan,
-        article_keys=explicit_article_keys,
+        article_keys=effective_article_keys,
     )
     related_reforms = _retrieve_reforms(
         client=client,
         plan=plan,
         reform_keys=explicit_reform_keys,
-        article_keys=explicit_article_keys,
+        article_keys=effective_article_keys,
     )
     hydrated_plan = with_resolved_entry_points(
         plan,
@@ -89,6 +127,8 @@ def retrieve_graph_evidence(
         "planner_query_mode": plan.query_mode,
         "temporal_context": plan.temporal_context.to_dict(),
         "seed_article_keys": list(explicit_article_keys),
+        "retrieval_sub_topic_intent": sub_topic_intent,
+        "subtopic_anchor_keys": list(subtopic_article_keys),
     }
     if not primary_articles:
         diagnostics.update(
@@ -192,6 +232,38 @@ def _diagnose_empty_primary(
         # zero — means the fetch path itself is broken (column aliasing, etc.).
         probe["empty_reason"] = "primary_fetch_zero_despite_canonical_matches"
     return probe
+
+
+def _retrieve_subtopic_bound_article_keys(
+    *,
+    client: GraphClient,
+    sub_topic_key: str,
+    limit: int,
+) -> tuple[str, ...]:
+    """Fetch article keys linked to a curated SubTopic via HAS_SUBTOPIC.
+
+    Invariant I2 — errors propagate; we never silently degrade.
+    """
+    if not sub_topic_key or limit <= 0:
+        return ()
+    statement = GraphWriteStatement(
+        description=f"subtopic_bound_articles key={sub_topic_key} limit={limit}",
+        query=(
+            "MATCH (a:ArticleNode)-[:HAS_SUBTOPIC]->(s:SubTopicNode {sub_topic_key: $key})\n"
+            "RETURN a.article_number AS article_key\n"
+            "LIMIT $limit\n"
+        ),
+        parameters={"key": sub_topic_key, "limit": int(limit)},
+    )
+    rows = _execute(client, statement)
+    keys: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        candidate = str(row.get("article_key") or "").strip()
+        if candidate and candidate not in seen:
+            seen.add(candidate)
+            keys.append(candidate)
+    return tuple(keys)
 
 
 def _explicit_article_keys(plan: GraphRetrievalPlan) -> tuple[str, ...]:

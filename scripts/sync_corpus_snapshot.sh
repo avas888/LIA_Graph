@@ -13,7 +13,7 @@ fi
 
 mkdir -p "$snapshot_root"
 
-for root_name in "CORE ya Arriba" "to upload"; do
+for root_name in "CORE ya Arriba" "to upload" "to_upload_graph"; do
   rm -rf "$snapshot_root/$root_name"
 done
 
@@ -45,7 +45,7 @@ while IFS= read -r source_file; do
   fi
   printf '%s\n' "$rel_path" >> "$tmp_file_list"
 done < <(
-  find "$source_root/CORE ya Arriba" "$source_root/to upload" -type f | sort
+  find "$source_root/CORE ya Arriba" "$source_root/to upload" "$source_root/to_upload_graph" -type f 2>/dev/null | sort
 )
 
 rsync -aR --files-from="$tmp_file_list" "$source_root"/ "$snapshot_root"/

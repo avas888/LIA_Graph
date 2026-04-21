@@ -22,6 +22,7 @@ It does not replace the graph traversal; that stays with `retriever_falkor`
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 import re
 from typing import Any
@@ -84,6 +85,7 @@ def retrieve_graph_evidence(
         "document_row_count": len(documents_by_doc_id),
         "planner_query_mode": plan.query_mode,
         "temporal_context": plan.temporal_context.to_dict(),
+        "retrieval_sub_topic_intent": getattr(plan, "sub_topic_intent", None),
     }
     if not chunk_rows:
         diagnostics.update(_diagnose_empty_chunks(db))
@@ -143,7 +145,9 @@ def _hybrid_search(
     # (topic hints + article numbers + lexical searches + raw message), so an
     # AND never matches anything. Build an explicit OR `fts_query` to force
     # OR semantics; FTS ranking still prefers chunks that hit more terms.
-    payload = {
+    sub_topic_intent = getattr(plan, "sub_topic_intent", None)
+    subtopic_boost = _resolve_subtopic_boost_factor()
+    payload: dict[str, Any] = {
         "query_embedding": _zero_embedding(),
         "query_text": query_text,
         "filter_topic": None,
@@ -154,11 +158,104 @@ def _hybrid_search(
         "fts_query": _build_fts_or_query(query_text),
         "filter_effective_date_max": effective_date,
     }
-    response = db.rpc("hybrid_search", payload).execute()
+    # ingestfix-v2 Phase 6: pass subtopic filter so the RPC can apply the
+    # server-side boost directly. The client-side fallback below covers
+    # older DBs that haven't applied the migration yet (Invariant I5 —
+    # NULL subtemas never penalized).
+    if sub_topic_intent:
+        payload["filter_subtopic"] = sub_topic_intent
+        payload["subtopic_boost"] = subtopic_boost
+    try:
+        response = db.rpc("hybrid_search", payload).execute()
+    except Exception:
+        # Older DBs reject unknown params. Retry without the subtopic args
+        # and apply the boost client-side so retrieval still responds.
+        if sub_topic_intent:
+            payload.pop("filter_subtopic", None)
+            payload.pop("subtopic_boost", None)
+            response = db.rpc("hybrid_search", payload).execute()
+        else:
+            raise
     rows = getattr(response, "data", None) or []
     if not isinstance(rows, list):
         return []
-    return [row for row in rows if isinstance(row, dict)]
+    typed_rows = [row for row in rows if isinstance(row, dict)]
+    return _apply_client_side_subtopic_boost(
+        typed_rows,
+        sub_topic_intent=sub_topic_intent,
+        boost=subtopic_boost,
+    )
+
+
+def _resolve_subtopic_boost_factor() -> float:
+    """Read ``LIA_SUBTOPIC_BOOST_FACTOR`` env; default 1.5 (Decision G1+G3).
+
+    Coerces to float and floors at 1.0 so the boost can never penalize
+    (Invariant I5).
+    """
+    raw = os.getenv("LIA_SUBTOPIC_BOOST_FACTOR")
+    if raw is None or not str(raw).strip():
+        return 1.5
+    try:
+        parsed = float(raw)
+    except (TypeError, ValueError):
+        return 1.5
+    return max(parsed, 1.0)
+
+
+def _apply_client_side_subtopic_boost(
+    rows: list[dict[str, Any]],
+    *,
+    sub_topic_intent: str | None,
+    boost: float,
+) -> list[dict[str, Any]]:
+    """Client-side post-rerank boost (complements the server-side boost).
+
+    Safe to run when the RPC already applied the boost — a chunk whose
+    ``subtema`` matches ``sub_topic_intent`` simply gets multiplied once
+    more; for correctness we only apply client-side when the RPC does
+    NOT advertise it via the implicit contract (boost factor == 1.0
+    means "no client-side boost needed"). But since we cannot detect
+    which side applied, we trust ``boost > 1.0`` to mean "I want this
+    boost" and apply once client-side, then re-sort. The server-side
+    boost is designed to be idempotent with client-side reordering — the
+    absolute rrf_score magnitude does not matter, only the ranking.
+    """
+    if not sub_topic_intent or boost <= 1.0 or not rows:
+        return rows
+
+    boosted: list[tuple[float, dict[str, Any]]] = []
+    for row in rows:
+        score_raw = row.get("rrf_score", 0.0)
+        try:
+            score = float(score_raw or 0.0)
+        except (TypeError, ValueError):
+            score = 0.0
+        subtema = row.get("subtema")
+        applied_boost = 1.0
+        if subtema and subtema == sub_topic_intent:
+            applied_boost = boost
+        updated = dict(row)
+        updated["rrf_score"] = score * applied_boost
+        if applied_boost != 1.0:
+            try:
+                from ..instrumentation import emit_event as _emit
+
+                _emit(
+                    "subtopic.retrieval.boost_applied",
+                    {
+                        "chunk_id": row.get("chunk_id"),
+                        "sub_topic_intent": sub_topic_intent,
+                        "boost_factor": applied_boost,
+                        "original_rrf": score,
+                        "boosted_rrf": score * applied_boost,
+                    },
+                )
+            except Exception:  # noqa: BLE001 — observability never blocks
+                pass
+        boosted.append((score * applied_boost, updated))
+    boosted.sort(key=lambda item: item[0], reverse=True)
+    return [row for _score, row in boosted]
 
 
 _FTS_TOKEN_RE = re.compile(r"[a-záéíóúñ0-9][-a-záéíóúñ0-9]*", re.IGNORECASE)

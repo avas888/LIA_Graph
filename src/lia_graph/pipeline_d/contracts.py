@@ -102,6 +102,9 @@ class GraphRetrievalPlan:
     topic_hints: tuple[str, ...] = ()
     planner_notes: tuple[str, ...] = ()
     sub_questions: tuple[str, ...] = ()
+    # ingestfix-v2 Phase 6: curated subtopic intent detected in the user
+    # query, used by retrievers to boost chunks with matching `subtema`.
+    sub_topic_intent: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -113,6 +116,7 @@ class GraphRetrievalPlan:
             "topic_hints": list(self.topic_hints),
             "planner_notes": list(self.planner_notes),
             "sub_questions": list(self.sub_questions),
+            "sub_topic_intent": self.sub_topic_intent,
         }
 
 

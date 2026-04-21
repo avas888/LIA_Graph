@@ -62,6 +62,7 @@ def run_job_async(
         request_payload = dict(kwargs.pop("request_payload", {}) or {})
         base_dir = Path(kwargs.pop("base_dir", DEFAULT_JOBS_DIR))
         tracked_job_name = str(kwargs.pop("job_name", job_name) or f"lia-bg-{job_type}")
+        pass_job_id = bool(kwargs.pop("pass_job_id", False))
         if kwargs:
             unexpected = ", ".join(sorted(kwargs))
             raise TypeError(f"run_job_async() got unexpected keyword arguments: {unexpected}")
@@ -83,7 +84,10 @@ def run_job_async(
                 base_dir=base_dir,
             )
             try:
-                result = tracked_task()
+                if pass_job_id:
+                    result = tracked_task(job_id=record.job_id)
+                else:
+                    result = tracked_task()
             except Exception as exc:  # noqa: BLE001
                 update_job(
                     record.job_id,

@@ -14,6 +14,8 @@ class NodeKind(str, Enum):
     REFORM = "ReformNode"
     CONCEPT = "ConceptNode"
     PARAMETER = "ParameterNode"
+    # ingestfix-v2 Phase 5: curated subtopic anchor.
+    SUBTOPIC = "SubTopicNode"
 
 
 class EdgeKind(str, Enum):
@@ -33,6 +35,8 @@ class EdgeKind(str, Enum):
     REGLAMENTA = "REGLAMENTA"
     STRUCK_DOWN_BY = "STRUCK_DOWN_BY"
     SUSPENDS = "SUSPENDS"
+    # ingestfix-v2 Phase 5: doc → curated subtopic link.
+    HAS_SUBTOPIC = "HAS_SUBTOPIC"
 
 
 @dataclass(frozen=True)
@@ -172,6 +176,15 @@ def default_graph_schema() -> GraphSchema:
             description="Versioned fiscal or accounting parameters such as UVT values.",
             required_fields=("name", "value"),
         ),
+        NodeKind.SUBTOPIC: GraphNodeType(
+            label=NodeKind.SUBTOPIC,
+            key_field="sub_topic_key",
+            description=(
+                "Curated subtopic anchor from config/subtopic_taxonomy.json. "
+                "Documents link to these via HAS_SUBTOPIC for retrieval boost."
+            ),
+            required_fields=("sub_topic_key", "parent_topic", "label"),
+        ),
     }
 
     article_targets = (NodeKind.ARTICLE, NodeKind.REFORM, NodeKind.CONCEPT, NodeKind.PARAMETER)
@@ -261,6 +274,16 @@ def default_graph_schema() -> GraphSchema:
             source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
             target_kinds=(NodeKind.ARTICLE, NodeKind.REFORM),
             description="An authority temporarily suspends the article's effect.",
+        ),
+        EdgeKind.HAS_SUBTOPIC: GraphEdgeType(
+            label=EdgeKind.HAS_SUBTOPIC,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM, NodeKind.CONCEPT),
+            target_kinds=(NodeKind.SUBTOPIC,),
+            description=(
+                "Links a document-origin node (Article/Reform/Concept) to a "
+                "curated SubTopic anchor — used by retrieval to boost chunks "
+                "under a detected subtopic intent."
+            ),
         ),
     }
 

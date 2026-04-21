@@ -1038,17 +1038,17 @@ Expensas necesarias y medios de pago para deduccion.
     assert corpus_inventory["topic_key_counts"] == {
         "declaracion_renta": 2,
     }
-    assert corpus_inventory["subtopic_key_counts"] == {
-        "[none]": 1,
-        "costos_deducciones_renta": 1,
-    }
+    # Phase A4+A5: the classifier pass validates subtopic_keys against the
+    # curated taxonomy. ``costos_deducciones_renta`` is produced by the
+    # legacy regex vocabulary but is NOT in the curated taxonomy, so it
+    # is dropped from the classified CorpusDocument (and thus the
+    # inventory view, which is the post-classifier snapshot).
+    assert corpus_inventory["subtopic_key_counts"] == {"[none]": 2}
     assert corpus_inventory["topic_subtopic_coverage"] == {
         "declaracion_renta": {
-            "direct_document_count": 1,
-            "subtopic_document_count": 1,
-            "subtopic_counts": {
-                "costos_deducciones_renta": 1,
-            },
+            "direct_document_count": 2,
+            "subtopic_document_count": 0,
+            "subtopic_counts": {},
         }
     }
     serialized_child = next(
@@ -1058,4 +1058,5 @@ Expensas necesarias y medios de pago para deduccion.
     )
     assert serialized_child["taxonomy_version"] == taxonomy_version
     assert serialized_child["topic_key"] == "declaracion_renta"
-    assert serialized_child["subtopic_key"] == "costos_deducciones_renta"
+    # subtopic_key is dropped by A4 validation because it's not in taxonomy.
+    assert serialized_child["subtopic_key"] is None

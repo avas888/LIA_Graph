@@ -229,6 +229,7 @@ class CorpusDocument:
     review_priority: str
     needs_manual_review: bool
     markdown: str
+    requires_subtopic_review: bool = False
 
     @classmethod
     def from_audit_record(cls, record: CorpusAuditRecord) -> "CorpusDocument":
@@ -256,10 +257,35 @@ class CorpusDocument:
             review_priority=record.review_priority,
             needs_manual_review=record.needs_manual_review,
             markdown=record.markdown or "",
+            requires_subtopic_review=False,
         )
 
     def markdown_document(self) -> tuple[str, str]:
         return (self.source_path, self.markdown)
+
+    def with_subtopic(
+        self,
+        *,
+        subtopic_key: str | None,
+        requires_subtopic_review: bool,
+        topic_key: str | None = None,
+    ) -> "CorpusDocument":
+        """Return a copy with the subtopic verdict replaced (frozen dataclass).
+
+        If ``topic_key`` is provided and non-empty, overrides the legacy
+        topic_key too — needed when the PASO 4 classifier's
+        ``detected_topic`` is more specific than the regex legacy pass
+        (common for interpretacion / practica / sectoral docs).
+        """
+        from dataclasses import replace
+
+        overrides: dict[str, Any] = {
+            "subtopic_key": subtopic_key,
+            "requires_subtopic_review": bool(requires_subtopic_review),
+        }
+        if topic_key:
+            overrides["topic_key"] = topic_key
+        return replace(self, **overrides)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -285,4 +311,5 @@ class CorpusDocument:
             "ambiguity_flags": list(self.ambiguity_flags),
             "review_priority": self.review_priority,
             "needs_manual_review": self.needs_manual_review,
+            "requires_subtopic_review": self.requires_subtopic_review,
         }
