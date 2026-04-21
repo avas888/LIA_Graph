@@ -26,7 +26,7 @@ It is the end-to-end runtime and information-architecture map, and it carries th
 - `Normativa` and future `Interpretación` should get their own orchestration boundaries
 - retrieval is now **mode-aware**: `dev` reads artifacts from disk, `dev:staging` reads from cloud Supabase + cloud FalkorDB. The split is gated by `LIA_CORPUS_SOURCE` and `LIA_GRAPH_MODE`, wired by `scripts/dev-launcher.mjs`
 
-## Runtime Read Path (Env v2026-04-18)
+## Runtime Read Path (Env v2026-04-21-stv2)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -34,7 +34,7 @@ It is the end-to-end runtime and information-architecture map, and it carries th
 | `npm run dev:staging` | `supabase` | `falkor_live` | cloud Supabase (`hybrid_search` RPC) | cloud FalkorDB (`LIA_REGULATORY_GRAPH`) |
 | `npm run dev:production` | inherits Railway env | inherits Railway env | mirrors staging | mirrors staging |
 
-Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend`, so you can confirm which adapters served a turn without guessing. The orchestration guide owns the authoritative version history — update it if you change what the launcher sets.
+Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend`, so you can confirm which adapters served a turn without guessing. Since `v2026-04-21-stv2`, diagnostics also carry `retrieval_sub_topic_intent` when the planner detected a curated subtopic in the user's query — the Supabase retriever boosts matching chunks by `LIA_SUBTOPIC_BOOST_FACTOR` (default 1.5) and the Falkor retriever prefers `HAS_SUBTOPIC → SubTopicNode` anchors. Since `v2026-04-21-stv2b`, the bulk ingest runs the PASO 4 classifier inline (via `src/lia_graph/ingest_subtopic_pass.py`) and emits `SubTopicNode` + `HAS_SUBTOPIC` to Falkor in the same single pass — no separate backfill required; pass `--skip-llm` on `python -m lia_graph.ingest` for fast dev-loop / CI smoke. The orchestration guide owns the authoritative version history — update it if you change what the launcher sets.
 
 ## Fast Decision Rule
 
