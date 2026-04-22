@@ -213,7 +213,7 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 | 0 | Decisions ratified by user (§4) | DONE | this doc | — (in-doc ratification, 2026-04-22) |
 | 1 | Schema migration + backfill | PASSED_TESTS | `supabase/migrations/20260422000000_corpus_additive.sql`, `supabase/migrations/20260422000001_ingest_delta_jobs.sql`, `src/lia_graph/ingestion/fingerprint.py` (landed early per §12.1 subsumption — Phase 2 target), `scripts/backfill_doc_fingerprint.py`, `tests/test_fingerprint.py`, `tests/test_backfill_doc_fingerprint.py`, `tests/test_ingest_delta_jobs_lock.py` | — |
 | 2 | Baseline snapshot reader + fingerprint helper | PASSED_TESTS | `src/lia_graph/ingestion/baseline_snapshot.py`, `tests/test_baseline_snapshot.py` (fingerprint.py + test_fingerprint.py landed in Phase 1 per §12.1 subsumption) | — |
-| 3 | Delta planner (pure) | NOT_STARTED | `src/lia_graph/ingestion/delta_planner.py`, `tests/test_delta_planner.py` | — |
+| 3 | Delta planner (pure) | PASSED_TESTS | `src/lia_graph/ingestion/delta_planner.py`, `tests/test_delta_planner.py` | — |
 | 4 | Additive Supabase sink path | NOT_STARTED | `src/lia_graph/ingestion/supabase_sink.py` (extend), `src/lia_graph/ingestion/dangling_store.py` (new), `tests/test_supabase_sink_delta.py`, `tests/test_dangling_store.py` | — |
 | 5 | Additive Falkor path | NOT_STARTED | `src/lia_graph/ingestion/loader.py` (extend), `src/lia_graph/graph/client.py` (extend), `tests/test_loader_delta.py` | — |
 | 6 | Orchestrator wiring + CLI + Makefile + env matrix | NOT_STARTED | `src/lia_graph/ingest.py` (extend), `Makefile`, `scripts/dev-launcher.mjs` (read-only check), `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/features/orchestration/orchestrationApp.ts`, `tests/test_ingest_cli_additive.py` | — |
@@ -707,8 +707,12 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** planner produces a complete 4-bucket partition of `(disk ∪ baseline)`; every doc is in exactly one bucket.
 - **Trace events:** none (pure).
 - **Migrations:** none.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — pure module landed. `DiskDocument` carries `content_hash` + `classifier_output` + `relative_path`; the planner calls `compute_doc_fingerprint` on the in-memory classifier output so Phase 6 orchestrator can pass the output directly from the PASO 4 classifier without re-serialization.
+    - decision: already-retired baseline docs that stay off disk are a no-op (not re-removed). Already-retired docs that come back are routed to `added`, not `modified` — the write path must clear `retired_at` and re-upsert full content.
+    - decision: legacy baseline rows with `doc_fingerprint=NULL` always flow to `modified`. Conservative: we can't be sure the classifier output hasn't drifted either, so we force a rewrite. First full-rebuild after backfill removes this edge case.
+    - Verification: `pytest tests/test_delta_planner.py -v` → 15 passed (12 planned + 3 extra coverage: legacy-null-fingerprint, retired-stays-off-disk, empty-path ignore).
+- **Resume marker:** Phase 3 PASSED_TESTS → pending commit.
 
 ---
 
