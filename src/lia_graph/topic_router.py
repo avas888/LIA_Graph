@@ -182,6 +182,40 @@ def _bootstrap_custom_corpora() -> None:
 _bootstrap_custom_corpora()
 
 
+def _log_topics_without_keywords() -> None:
+    """Warn at boot for any supported topic with no routing keywords.
+
+    Backlog item C (docs/next/structuralwork_v1_SEENOW.md): a topic that is
+    registered in ``get_supported_topics()`` but has neither strong nor
+    weak entries in ``_TOPIC_KEYWORDS`` cannot be picked by the keyword
+    scorer. Some of these are legitimately 0/0 because they are served
+    exclusively by a ``_SUBTOPIC_OVERRIDE_PATTERNS`` entry (for example
+    ``gravamen_movimiento_financiero_4x1000`` — see the ``Tough calls``
+    section in the backlog doc); those are surfaced at INFO, not WARNING.
+    Everything else is a silent routing hole and deserves a louder signal.
+    """
+    override_served = {topic for _pattern, topic, _kw in _SUBTOPIC_OVERRIDE_PATTERNS}
+    for topic in get_supported_topics():
+        entry = _TOPIC_KEYWORDS.get(topic, {})
+        has_keywords = bool(entry.get("strong") or entry.get("weak"))
+        if has_keywords:
+            continue
+        if topic in override_served:
+            logger.info(
+                "topic_router: %r has no keywords but is served by a subtopic-override pattern",
+                topic,
+            )
+        else:
+            logger.warning(
+                "topic_router: topic %r has no registered keywords — queries in this domain "
+                "will fall through to fallback routing or be hijacked by adjacent weak hits",
+                topic,
+            )
+
+
+_log_topics_without_keywords()
+
+
 def get_narrow_topic_filter(topic: str) -> frozenset[str] | None:
     """Return narrow SQL topic values for a child topic, or None if not a child."""
     return _PARENT_CORE_TOPICS.get(topic)

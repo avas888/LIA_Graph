@@ -19,6 +19,28 @@ graduate the host below 1000 LOC. ~637 LOC of pure data lived inline:
 All of these are consumed only inside `topic_router` today; keeping
 them here means changes to the heuristic vocabulary land in a
 self-contained file instead of the 600-LOC host.
+
+Weak-bucket design rule
+-----------------------
+Weak entries must be topic-**characteristic** on their own. A bare
+term that is topic-**dominant** but also appears in other domains
+(``liquidación`` — labor-dominant, but also means DIAN audit
+liquidation, company dissolution, tax self-assessment, contract
+settlement; ``prima`` — labor-dominant, but also means equity
+colocación premium or insurance premium) does NOT belong in ``weak``.
+Two valid relocations:
+
+  * Promote to ``strong`` as a compound phrase (``prima de servicios``,
+    ``liquidación de nómina``) — the scorer's ``\\b…\\b`` boundary
+    matches compounds as a single unit.
+  * Move to ``_SUBTOPIC_OVERRIDE_PATTERNS`` as a proximity regex (the
+    laboral-colloquial override already demonstrates this pattern:
+    ``\\bliquid\\w*\\b[^.?!]{0,30}\\b(?:emplead[oa]|trabajador[ae]|…)``).
+
+See ``docs/next/structuralwork_v1_SEENOW.md`` (backlog item A) for the
+full rationale, the list of terms already migrated, and the "Tough
+calls" section listing polysemous-but-labor-dominant terms that remain
+in ``weak`` pending adversarial evidence.
 """
 
 from __future__ import annotations
@@ -94,15 +116,32 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "trabaja por horas",
         ),
         "weak": (
-            # NOTE: bare "liquidar" / "liquidacion" / "liquidación" used to live
-            # here but they are polysemous (liquidación oficial DIAN, liquidación
-            # privada, liquidación de sociedad, liquidación de contrato civil).
-            # The labor compounds are already covered above (strong:
-            # "liquidación de contrato", "liquidación de nómina",
-            # "liquidación de prestaciones") and by the laboral regex in
-            # `_SUBTOPIC_OVERRIDE_PATTERNS` (liquidar + empleado/trabajador
-            # within 30 chars), so recall on real labor queries is preserved
-            # without routing generic "liquidación" queries to laboral.
+            # NOTE: see the module-level "Weak-bucket design rule" docstring
+            # above. Removed polysemous bare entries (backlog item A —
+            # docs/next/structuralwork_v1_SEENOW.md):
+            #   - "liquidar" / "liquidacion" / "liquidación": DIAN liquidación
+            #     oficial, liquidación de sociedad, liquidación de contrato
+            #     civil, liquidación privada. Compound labor forms survive in
+            #     strong ("liquidación de nómina/contrato/prestaciones") and
+            #     the laboral _SUBTOPIC_OVERRIDE_PATTERNS regex still catches
+            #     liquidar+empleado within 30 chars.
+            #   - "prima": prima en colocación de acciones (societario), prima
+            #     de seguros. Compound "prima de servicios" stays in weak
+            #     below.
+            #   - "aportes" / "aportaciones": aportes de capital (societario),
+            #     aportes a fondos de inversión. Compound "aportes seguridad
+            #     social" / "aportes en línea" stay in weak below; strong
+            #     list covers "parafiscales".
+            #   - "planilla": planilla de cálculo genérica. Compounds
+            #     "planilla pila", "planilla integrada" stay in strong; "mi
+            #     planilla" stays in weak.
+            #   - "bonificación": bonificación comercial / fiscal. No compound
+            #     kept — labor queries about bonificaciones typically arrive
+            #     with empleado/trabajador context, caught by the override
+            #     regex.
+            # Kept-as-weak polysemous terms (salud, pensión, cotización,
+            # dotación) are tracked in docs/next/structuralwork_v1_SEENOW.md
+            # under "Tough calls" with the criterion for promoting them later.
             "trabajador",
             "trabajadores",
             "salud",
@@ -110,11 +149,8 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "pensión",
             "cesantias",
             "cesantías",
-            "prima",
             "vacaciones",
             "contrato laboral",
-            "aportes",
-            "aportaciones",
             # --- sinónimos nuevos ---
             "horas extras",
             "recargo nocturno",
@@ -126,13 +162,11 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "licencia de maternidad",
             "licencia de paternidad",
             "cotización",
-            "planilla",
             "fondo de cesantías",
             "fondo de pensiones",
             "caja de compensación",
             "sena",
             "icbf",
-            "bonificación",
             "jornada laboral",
             "período de prueba",
             # --- cross-domain weak signals ---
@@ -589,6 +623,72 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "fiscalizacion",
             "fiscalización",
             "acto administrativo",
+        ),
+    },
+    # Backlog item C step 3 — model entry for populating daily-traffic
+    # topics that today sit at 0/0 keywords. Shape:
+    #   - strong: multi-word domain-specific phrases, canonical ET/DIAN
+    #     vocabulary, compound forms that unambiguously fire on this topic.
+    #   - weak: bare terms that are topic-characteristic on their own (pass
+    #     the weak-bucket design rule above). Avoid polysemous bare terms;
+    #     if a term is domain-dominant but polysemous, lift it to a strong
+    #     compound instead.
+    # Replicate this shape across: informacion_exogena, ganancia_ocasional,
+    # regimen_simple, and the other 40+ unregistered topics flagged in
+    # docs/next/structuralwork_v1_SEENOW.md Part 1 item C.
+    "retencion_en_la_fuente": {
+        "strong": (
+            "retencion en la fuente",
+            "retención en la fuente",
+            "retefuente",
+            "reteiva",
+            "reteica",
+            "agente retenedor",
+            "agente de retencion",
+            "agente de retención",
+            "certificado de retencion",
+            "certificado de retención",
+            "autorretenedor",
+            "autorretencion",
+            "autorretención",
+            "practicar retencion",
+            "practicar retención",
+            "tarifa de retencion",
+            "tarifa de retención",
+            "base de retencion",
+            "base de retención",
+            "retencion asumida",
+            "retención asumida",
+            "retencion trasladable",
+            "retención trasladable",
+            "declaracion de retencion",
+            "declaración de retención",
+            "exonerado de retencion",
+            "exonerado de retención",
+            "no sujeto a retencion",
+            "no sujeto a retención",
+            # --- ET article anchors for retención en la fuente ---
+            "articulo 383",
+            "artículo 383",
+            "articulo 388",
+            "artículo 388",
+            "articulo 408",
+            "artículo 408",
+            "articulo 437",
+            "artículo 437",
+        ),
+        "weak": (
+            "retenedor",
+            "retenedores",
+            "retencion",
+            "retención",
+            "retenciones",
+            "base minima",
+            "base mínima",
+            "tarifa minima",
+            "tarifa mínima",
+            "rete",
+            "dian",
         ),
     },
 }

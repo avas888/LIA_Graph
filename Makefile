@@ -1,4 +1,4 @@
-.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-graph-artifacts-smoke phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy
+.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-graph-artifacts-smoke phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy debug-query
 
 PHASE2_CORPUS_DIR ?= knowledge_base
 PHASE2_ARTIFACTS_DIR ?= artifacts
@@ -162,3 +162,17 @@ phase2-sync-subtopic-taxonomy:
 #   make phase2-backfill-subtopic LIMIT=50            # --commit
 phase2-backfill-subtopic:
 	PYTHONPATH=src:. uv run python scripts/backfill_subtopic.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(RATE_LIMIT_RPM),--rate-limit-rpm $(RATE_LIMIT_RPM),) $(if $(GENERATION_ID),--generation-id $(GENERATION_ID),) $(if $(RESUME_FROM),--resume-from $(RESUME_FROM),) $(if $(REFRESH_EXISTING),--refresh-existing,) $(if $(ONLY_REQUIRES_REVIEW),--only-requires-review,) $(if $(NO_FALKOR),--no-falkor-emit,)
+
+# Trace a query through the lexical planner layers (topic router + subtopic
+# classifier + sub-question splitter). No Supabase, no Falkor, no LLM — safe
+# to run without cloud env vars. See docs/next/structuralwork_v1_SEENOW.md
+# item E for background.
+#
+# Usage:
+#   make debug-query Q="La DIAN le envió un requerimiento..."
+#   make debug-query Q="..." FULL=1              # include GraphRetrievalPlan
+#   make debug-query Q="..." PER_SUB_QUESTION=1  # trace each ¿…? separately
+#   make debug-query Q="..." TOPIC=renta         # pin requested_topic
+debug-query:
+	@test -n "$(Q)" || (echo "Usage: make debug-query Q='your query here' [FULL=1] [PER_SUB_QUESTION=1] [TOPIC=renta]"; exit 1)
+	PYTHONPATH=src:. uv run python scripts/debug_query.py $(if $(FULL),--full,) $(if $(PER_SUB_QUESTION),--per-sub-question,) $(if $(TOPIC),--topic $(TOPIC),) "$(Q)"
