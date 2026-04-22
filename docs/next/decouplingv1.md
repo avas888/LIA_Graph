@@ -1,8 +1,10 @@
 # Decoupling v1 — Executable State-Aware Plan
 
-**Last edited:** 2026-04-20 (plan authored)
+**Last edited:** 2026-04-21 (audit pass during docs refresh — no phases executed; baselines re-measured)
 **Execution owner:** autonomous Claude session (post-approval)
-**Goal:** graduate the final two files above 1000 LOC — `src/lia_graph/ui_server.py` (1669 → ~150 LOC) and `frontend/src/features/ops/opsIngestionController.ts` (2327 → ~100 LOC) — without regressing the served runtime.
+**Goal:** graduate the final two files above 1000 LOC — `src/lia_graph/ui_server.py` (1685 → ~150 LOC) and `frontend/src/features/ops/opsIngestionController.ts` (2327 → ~100 LOC) — without regressing the served runtime.
+
+> **Status as of 2026-04-21:** plan has NOT been executed. `ui_server.py` drifted 1669 → 1685 LOC since the plan was authored (absorbed the stv2 / intake wiring). The Phase 1 extraction targets still apply — the drift is inside the dispatch + deps surface that Phases 2+3 claim, not in the constants/helpers cluster Phase 1 takes. Env matrix has since advanced from `v2026-04-18` through `v2026-04-21-stv2d`; the draft changelog slot numbers in this plan (`v2026-04-20-ui14` … `v2026-04-21-ui4`) need to be re-assigned after the latest published entries at Phase 13.
 
 > This document is both a **plan** and a **work ledger**. Every phase has a status block that MUST be updated in-place as work progresses. If execution is interrupted, the state of this file is the resumption pointer — read the dashboard, find the first non-`DONE` phase, inspect its `State Notes`, and resume from the last checkmark.
 
@@ -36,7 +38,7 @@
 
 | File | Baseline LOC | Current LOC | Target LOC |
 |---|---|---|---|
-| `src/lia_graph/ui_server.py` | 1669 | 1669 | ≤ 300 |
+| `src/lia_graph/ui_server.py` | 1669 (at plan authoring, 2026-04-20) | 1685 (re-measured 2026-04-21) | ≤ 300 |
 | `frontend/src/features/ops/opsIngestionController.ts` | 2327 | 2327 | ≤ 150 |
 
 **Test baseline (update after Phase 0)**

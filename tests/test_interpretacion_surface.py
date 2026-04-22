@@ -17,6 +17,7 @@ from lia_graph.interpretacion.orchestrator import (
 from lia_graph.ui_expert_extractors import (
     _expand_expert_panel_requested_refs,
     _expert_card_summary,
+    _expert_extended_excerpt,
     _prioritize_expert_panel_docs,
     _resolve_doc_expert_providers,
 )
@@ -125,6 +126,45 @@ def _analysis_deps(docs: tuple[DocumentRecord, ...] = ()) -> dict[str, object]:
         "supported_topics": {"renta"},
         "warn_missing_active_index_generation": lambda: None,
     }
+
+
+def test_expert_extended_excerpt_drops_trailing_orphan_heading_from_empty_section() -> None:
+    # The source markdown carries a final section heading with no body under it
+    # (the corpus section is genuinely empty). The extractor must omit the
+    # heading entirely rather than rendering it stranded in the modal.
+    markdown = (
+        "# Mapa Completo\n\n"
+        "## 2. Convergencias\n\n"
+        "La firmeza general es de 3 años.\n\n"
+        "## 3. Divergencias y Zonas Grises\n"
+    )
+    assert "Divergencias" not in _expert_extended_excerpt(markdown, max_chars=2500)
+
+
+def test_expert_extended_excerpt_drops_trailing_orphan_heading_when_budget_overflows() -> None:
+    # Heading fits but the paragraph under it does not fit in the remaining
+    # budget — the heading would otherwise be emitted without any content.
+    markdown = (
+        "## 2. Convergencias\n\n"
+        "Convergencia uno.\n\n"
+        "## 3. Divergencias y Zonas Grises\n\n"
+        + ("Contenido extenso bajo divergencias. " * 80)
+    )
+    excerpt = _expert_extended_excerpt(markdown, max_chars=120)
+    assert "Convergencia uno" in excerpt
+    assert "Divergencias" not in excerpt
+
+
+def test_expert_extended_excerpt_keeps_heading_when_section_has_content() -> None:
+    markdown = (
+        "## 2. Convergencias\n\n"
+        "Convergencia uno.\n\n"
+        "## 3. Divergencias y Zonas Grises\n\n"
+        "Existe una divergencia entre Actualicese y CR Consultores.\n"
+    )
+    excerpt = _expert_extended_excerpt(markdown, max_chars=2500)
+    assert "Divergencias" in excerpt
+    assert "Actualicese" in excerpt
 
 
 def test_interpretacion_surface_does_not_import_main_chat_or_normativa_layers() -> None:

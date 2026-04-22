@@ -1,4 +1,4 @@
-import"./main-4m6-vLmf.js";import{b as h}from"./bootstrap-DAARwiGO.js";import"./index-BAf9D_ld.js";import"./authGate-Bb2S6efH.js";import"./client-OE0sHIIg.js";function y(e){return`
+import"./main-DE-rE2No.js";import{b as h}from"./bootstrap-DAARwiGO.js";import"./index-BAf9D_ld.js";import"./authGate-Bb2S6efH.js";import"./client-OE0sHIIg.js";function y(e){return`
     <main class="orch-shell">
       <header class="orch-header">
         <div class="orch-brand">

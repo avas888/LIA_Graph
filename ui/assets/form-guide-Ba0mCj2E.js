@@ -1,4 +1,4 @@
-import"./main-4m6-vLmf.js";import{p as J,g as z}from"./client-OE0sHIIg.js";import{p as W,r as O}from"./format-CYFfBTRg.js";import{i as Z}from"./icons-BZwBwwSI.js";import{c as ee}from"./bootstrap-DAARwiGO.js";import"./index-BAf9D_ld.js";import"./authGate-Bb2S6efH.js";function te(e){return`
+import"./main-DE-rE2No.js";import{p as J,g as z}from"./client-OE0sHIIg.js";import{p as W,r as O}from"./format-CYFfBTRg.js";import{i as Z}from"./icons-BZwBwwSI.js";import{c as ee}from"./bootstrap-DAARwiGO.js";import"./index-BAf9D_ld.js";import"./authGate-Bb2S6efH.js";function te(e){return`
     <main class="form-guide-shell">
       <header class="form-guide-header">
         <div class="form-guide-header-info">

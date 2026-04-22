@@ -33,7 +33,7 @@ def _build_interpretation_card(
     ).strip() or runtime.doc.doc_id
     card_summary = str(expert_card_summary(runtime.corpus_text or "", max_chars=240) or "").strip()
     snippet = str(summarize_snippet(runtime.corpus_text or "", max_chars=360) or "").strip()
-    extended = str(extended_excerpt(runtime.corpus_text or "", max_chars=2500) or "").strip() if extended_excerpt else ""
+    extended = str(extended_excerpt(runtime.corpus_text or "", max_chars=5000) or "").strip() if extended_excerpt else ""
     position_signal = extract_position_signal(f"{card_summary}\n{snippet}\n{runtime.corpus_text[:1200]}")
     return InterpretationCard(
         doc_id=runtime.doc.doc_id,

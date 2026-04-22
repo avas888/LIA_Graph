@@ -1,4 +1,4 @@
-import{a as n}from"./brandMark-DFbqTxjh.js";import{i as a}from"./icons-BZwBwwSI.js";import"./bootstrap-DAARwiGO.js";import"./index-BAf9D_ld.js";import"./authGate-Bb2S6efH.js";import"./client-OE0sHIIg.js";import"./format-CYFfBTRg.js";import"./stateBlock-CleM9k1B.js";import"./chip-Bjq03GaS.js";import"./button-1yFzSXrY.js";import"./input-Byu2cnK9.js";import"./toasts-Dx3CUztl.js";function I(i,t="default"){const l=n(i),e=t==="public",s=e?"":`
+import{a as n}from"./brandMark-BZ3quspr.js";import{i as a}from"./icons-BZwBwwSI.js";import"./bootstrap-DAARwiGO.js";import"./index-BAf9D_ld.js";import"./authGate-Bb2S6efH.js";import"./client-OE0sHIIg.js";import"./format-CYFfBTRg.js";import"./badge-UV61UhzD.js";import"./chip-Bjq03GaS.js";import"./button-1yFzSXrY.js";import"./input-Byu2cnK9.js";import"./toasts-Dx3CUztl.js";import"./stateBlock-Dqw5sa9X.js";function C(i,t="default"){const l=n(i),e=t==="public",s=e?"":`
         <!-- Historial panel (full screen, hidden by default) -->
         <div id="mobile-panel-historial" class="mobile-panel">
           <div class="mobile-historial-header">
@@ -137,4 +137,4 @@ ${s}
         </div>
       </div>
     </div>
-  `}export{I as renderMobileShell};
+  `}export{C as renderMobileShell};

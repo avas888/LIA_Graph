@@ -4,53 +4,42 @@ This is the active reading order for the repo.
 
 If you are reorienting after an interruption, read these in order:
 
-1. `docs/build/buildv1/NEXT.md`
-2. `docs/build/buildv1/STATE.md`
-3. `docs/build/buildV1.md`
-4. `docs/architecture/FORK-BOUNDARY.md`
-5. `docs/build/buildv1/appendix-d-corpus-audit-and-labeling-policy.md`
-6. `docs/state/STATE.md`
-7. `docs/state/TASK-01-corpus-ingestion.md`
-8. `docs/state/TASK-02-pipeline-d-core.md`
-9. `docs/state/TASK-03-integration-eval.md`
-10. `docs/state/TASK-04-deploy.md`
-11. `docs/DEPENDENCIES.md`
-12. `docs/guide/orchestration.md`
-13. `docs/guide/chat-response-architecture.md`
+1. `docs/guide/orchestration.md` — end-to-end live runtime map + authoritative versioned env matrix + change log
+2. `docs/guide/chat-response-architecture.md` — how the `main chat` answer is shaped (and the surface boundary with `Normativa` / `Interpretación`)
+3. `docs/guide/env_guide.md` — run modes, env files, migration baseline, test accounts, corpus refresh
+4. `docs/guide/corpus.md` — corpus layers, ingest audit gate, taxonomy operations, latest run status
+5. `AGENTS.md` (root) — operating guide for AI agents (mirrors env matrix)
+6. `docs/architecture/FORK-BOUNDARY.md` — what we reuse vs. rethink
+7. `docs/state/STATE.md` — broader repo state tracker
+8. `docs/DEPENDENCIES.md` — external services needed
+9. `docs/next/decouplingv1.md` — the last active forward-looking work ledger (`ui_server.py` + `opsIngestionController.ts` graduation)
 
 ## Purpose of Each Doc
 
-- `docs/build/buildv1/NEXT.md`: the short rolling sheet for what we believe should happen next
-- `docs/build/buildv1/STATE.md`: resumable Build V1 implementation ledger with checkpoints and blockers
-- `docs/build/buildV1.md`: executive Build V1 plan for the new purpose-led GraphRAG
-- `docs/architecture/FORK-BOUNDARY.md`: the main architectural steering rule for this repo
-- `docs/build/buildv1/appendix-d-corpus-audit-and-labeling-policy.md`: active policy for corpus admission, labeling, and keeping graph structure load-bearing
-- `docs/state/STATE.md`: broader repo state, historical bridge, and dependency ledger
-- the Build V1 package now assumes a three-layer ingestion view: source assets, canonical corpus, and graph-parse-ready reasoning inputs
-- the Build V1 package also assumes a reconnaissance quality gate before the canonical manifest is treated as durable truth
-- `docs/state/TASK-01-corpus-ingestion.md`: graph ingestion and graph-build plan
-- `docs/state/TASK-02-pipeline-d-core.md`: graph-native retrieval and composition plan
-- `docs/state/TASK-03-integration-eval.md`: routing and comparison plan
-- `docs/state/TASK-04-deploy.md`: rollout and deployment plan
-- `docs/DEPENDENCIES.md`: external services and credentials needed
-- `docs/guide/orchestration.md`: high-detail end-to-end map of the live served runtime and artifact-build lane, including per-surface orchestration for `main chat`, `Normativa`, `Interpretación`, and deterministic document windows
-- `docs/guide/chat-response-architecture.md`: primary docs source of truth for how `main chat` answers are shaped, plus the boundary rules that keep `Normativa` and `Interpretación` from drifting back into `main chat` assembly
+- `docs/guide/orchestration.md` — the main critical file: end-to-end runtime map, HTTP controller topology, information-architecture contracts, build-time ingestion lane (single-pass subtopic-aware classifier + sink + Falkor loader), serve-time retrieval dispatch, versioned per-mode env matrix + change log.
+- `docs/guide/chat-response-architecture.md` — primary source of truth for how `main chat` answers are shaped. Stable facades (`answer_synthesis.py`, `answer_assembly.py`) vs. focused submodules; surface-boundary rules that keep `Normativa` and `Interpretación` from drifting back into `main chat` assembly; optional LLM polish (`answer_llm_polish.py`).
+- `docs/guide/env_guide.md` — operational counterpart: three run modes, env files, preflight checks, seed-users workflow, squashed migration baseline, corpus refresh commands, file pointers.
+- `docs/guide/corpus.md` — source-of-truth for corpus layers (source assets → canonical → reasoning inputs), audit-first admission, taxonomy operations (topic + curated subtopic, version `2026-04-21-v2`), latest run status, refresh procedure.
+- `docs/architecture/FORK-BOUNDARY.md` — steering doc: what we inherit as product-shell reuse vs. what must be rethought for graph-native reasoning.
+- `docs/state/STATE.md` — broader repo state tracker; the current phase picture and active fronts.
+- `docs/DEPENDENCIES.md` — external services required to run the repo autonomously.
+- `docs/next/decouplingv1.md` — forward-looking executable plan for the final two oversized modules (`ui_server.py` ≈ 1847 LOC, `opsIngestionController.ts` ≈ 2377 LOC). Self-healing state ledger; update in-place during execution.
 
-## Build V1 Package
+## Executed / Archival Material
 
-The new architecture and implementation package for the GraphRAG direction lives under:
+These directories describe tasks already executed — read them for archaeology, don't treat them as steering:
 
-- `docs/build/buildV1.md`
-- `docs/build/buildv1/`
+- `docs/done/` — executed tasks: ingest v1 + v2 (maximalist), corpus Supabase cutover, SUIN harvest v1 + v2, ingestion (DIAN / MINTRABAJO / SUIN / UGPP), subtopic generation v1, curator decisions April 2026.
+- `docs/state/TASK-01`…`TASK-04` — per-task state with checkpoints for the early build phases.
+- `docs/build/buildV1.md` and `docs/build/buildv1/` — the original Build V1 executive plan + phase decomposition (largely materialized; read as the product rationale).
+- `docs/guide/orchestration1.md` — archived older runtime snapshot, kept for comparison only.
+- `docs/next/env_fixv1.md`, `docs/next/ingestfixv1-design-notes.md`, `docs/next/granularization_v1.md`, `docs/next/subtopic_generationv1.md`, `docs/next/subtopic_generationv1-contracts.md` — forward-looking planning docs whose underlying work has shipped. Kept for reference.
+- `docs/quality_tests/EVALUACION-CORPUS-30-PREGUNTAS-RESPUESTAS.md` — batch evaluation output.
+- `docs/deprecated/old-RAG/` — historical pre-graph-native material.
 
-If the work touches corpus ingestion or retrieval narrowing, read `docs/build/buildv1/appendix-d-corpus-audit-and-labeling-policy.md` together with the active phase doc. It records the reset away from label-heavy RAG toward graph-anchored normative reasoning, plus the audit-first and reconnaissance-gated path from source assets to canonical corpus to reasoning inputs.
+## Rule Of Thumb
 
-Use that package when preparing or resuming the implementation of the new RAG engine. Start with `NEXT.md`, then `STATE.md`, then the active phase. The Build V1 package assumes a shared corpus for all tenants and a multi-tenant runtime layer for history, permissions and context. Use `docs/state/TASK-*.md` for the older phase tracker already present in the repo.
-
-## Deprecated Material
-
-Historical material that still carries old-RAG framing lives under:
-
-`docs/deprecated/old-RAG/`
-
-Read those only for migration archaeology or compatibility work.
+- If the task is **understanding the live system**, read the guides (`docs/guide/*`).
+- If the task is **changing the served runtime**, re-read `orchestration.md` and `chat-response-architecture.md` first; update them in the same diff if behavior shifts.
+- If the task is **ingesting / graph-build / corpus work**, read `corpus.md` + `orchestration.md` §Lane 0 (Build-Time Ingestion).
+- If the task is **env / launcher / preflight**, read `env_guide.md` + `orchestration.md` §Runtime Env Matrix.

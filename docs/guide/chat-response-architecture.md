@@ -55,15 +55,16 @@ These decide what evidence we try to bring before we compose the answer.
 Source of truth (planner + shared support):
 
 - `src/lia_graph/pipeline_d/planner.py`
+- `src/lia_graph/pipeline_d/planner_query_modes.py` — query-mode classifier + `_detect_sub_topic_intent`
 - `src/lia_graph/pipeline_d/retrieval_support.py`
 
 Source of truth (retrieval adapters — orchestrator picks per request based on `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE`; see `docs/guide/orchestration.md` for the versioned env matrix):
 
 - `src/lia_graph/pipeline_d/retriever.py` — artifact BFS. Active in `dev`.
-- `src/lia_graph/pipeline_d/retriever_supabase.py` — cloud Supabase `hybrid_search` RPC + `documents` lookup. Active in `dev:staging` for the chunks half.
-- `src/lia_graph/pipeline_d/retriever_falkor.py` — cloud FalkorDB bounded Cypher BFS. Active in `dev:staging` for the graph half. Propagates errors — never silently falls back to artifacts.
+- `src/lia_graph/pipeline_d/retriever_supabase.py` — cloud Supabase `hybrid_search` RPC + `documents` lookup. Active in `dev:staging` for the chunks half. Passes `filter_subtopic` + `subtopic_boost` (floor 1.0, default 1.5 from `LIA_SUBTOPIC_BOOST_FACTOR`) when the planner emits `sub_topic_intent`.
+- `src/lia_graph/pipeline_d/retriever_falkor.py` — cloud FalkorDB bounded Cypher BFS. Active in `dev:staging` for the graph half. Runs a preferential `HAS_SUBTOPIC → SubTopicNode` probe when `sub_topic_intent` fires and merges those article keys with explicit anchors. Propagates errors — never silently falls back to artifacts.
 
-The three adapters return the same `GraphEvidenceBundle` shape so synthesis and assembly do not need to know which one ran. The orchestrator merges the Supabase chunks half with the Falkor graph half when both staging flags are set.
+The three adapters return the same `GraphEvidenceBundle` shape (now including `subtopic_anchor_keys`) so synthesis and assembly do not need to know which one ran. The orchestrator merges the Supabase chunks half with the Falkor graph half when both staging flags are set.
 
 This layer owns:
 
@@ -112,6 +113,7 @@ Source of truth:
 - `src/lia_graph/pipeline_d/answer_inline_anchors.py`
 - `src/lia_graph/pipeline_d/answer_historical_recap.py`
 - `src/lia_graph/pipeline_d/answer_shared.py`
+- `src/lia_graph/pipeline_d/answer_llm_polish.py` (optional post-assembly polish; gated by `LIA_LLM_POLISH_ENABLED=1`)
 - `src/lia_graph/pipeline_d/orchestrator.py`
 
 Division of responsibility:
@@ -153,10 +155,16 @@ Division of responsibility:
   - dedup keys
   - common section rendering
   - change-intent detection
+- `answer_llm_polish.py` owns the optional post-assembly polish pass:
+  - senior-accountant voice rewrite of the deterministic template answer
+  - `(art. X ET)` inline-anchor preservation invariant
+  - `Respuestas directas` structural preservation when the planner emitted sub-questions
+  - loud failure in `response.llm_runtime.skip_reason`, silent fallback in visible output
 - `orchestrator.py` owns Pipeline D runtime flow only:
   - build retrieval plan
   - fetch graph evidence
   - hand off to synthesis + assembly
+  - optionally hand assembly output to `answer_llm_polish.py`
   - package the response contract
 
 Rule:
@@ -276,7 +284,7 @@ The post-answer runtime order is:
 2. prime the `Normativa` track
 3. prime the `Interpretación` track
 
-But that ordering does not mean deep blocking. `Normativa` and `Interpretación` should both start from the same minimal turn kernel and run independently. `Interpretación` must not wait for full `Normativa` retrieval to finish before starting its own retrieval.
+But that ordering does not mean deep blocking. `Normativa` and `Interpretación` should both start from the same minimal turn kernel (`trace_id`, user message, published answer, normalized topic/country, cited-anchor snapshot) and run independently. `Interpretación` must not wait for full `Normativa` retrieval to finish before starting its own retrieval. Full concurrency rules live in `docs/guide/orchestration.md` §Post-Answer Surface Concurrency.
 
 Editing rule:
 
@@ -308,6 +316,7 @@ Use this as the quickest reliable map when you need to tune the chat runtime:
 - `answer_inline_anchors.py`: chooses which legal references should attach inline to each first-bubble line.
 - `answer_historical_recap.py`: decides whether historical recap should appear and how reform chains are narrated.
 - `answer_shared.py`: common normalization, publication filtering, deduplication, change-intent detection, and markdown section rendering.
+- `answer_llm_polish.py`: optional senior-accountant voice rewrite of the deterministic template answer. Preserves inline legal anchors and `Respuestas directas` sub-question structure. Gated by `LIA_LLM_POLISH_ENABLED` (default `1`).
 - `answer_policy.py`: declarative product voice and workflow blueprint policy.
 
 Stability rule:

@@ -10,6 +10,7 @@ This guide explains where the LIA corpus lives, what each root is for, how we ma
 - Canonical roots we currently ingest:
   - `CORE ya Arriba`
   - `to upload`
+  - `to_upload_graph/` — admin drag-to-ingest bucket populated by `POST /api/ingest/intake` (since `v2026-04-20-ui15`)
 
 We intentionally do not ingest the whole Dropbox parent directory in one pass. The parent also contains clearly operational or improvement-only material such as planning notes, self-improvement folders, deprecated upload mirrors, and other non-corpus control files.
 
@@ -75,10 +76,13 @@ These are not just filing conventions. They help the audit and inventory step pr
 
 ## Taxonomy Operations
 
-- The canonical topic taxonomy now lives in repo config at `config/topic_taxonomy.json`.
-- The taxonomy is a living, versioned operational asset; legacy topic keys survive only as aliases.
-- `python -m lia_graph.ingest` now emits `taxonomy_version`, `topic_key_counts`, `subtopic_key_counts`, and `topic_subtopic_coverage` into the audit, reconnaissance, inventory, revision, and canonical-manifest artifacts.
-- Parent/child materialization now happens during ingest: direct parent matches keep `subtopic_key = null`, while child matches keep the parent in `topic_key` and materialize the child into `subtopic_key`.
+- The canonical topic taxonomy lives in repo config at `config/topic_taxonomy.json`; the curated subtopic taxonomy lives at `config/subtopic_taxonomy.json` (version `2026-04-21-v2`, **106 subtopics × 39 parent topics** since `v2026-04-21-stv2d`).
+- The taxonomy is a living, versioned operational asset; legacy topic keys survive only as aliases. Subtopic entries carry optional `deprecated_aliases` for smooth key renames (Decision `v2026-04-21-stv2d`).
+- `config/prefix_parent_topic_map.json` short-circuits filename-prefix → parent-topic inference inside the classifier (e.g., `II-1429-2010` → `impuestos_descontables_iva`; stops mis-routeos documented in the April curator memo).
+- `python -m lia_graph.ingest` emits `taxonomy_version`, `topic_key_counts`, `subtopic_key_counts`, and `topic_subtopic_coverage` into the audit, reconnaissance, inventory, revision, and canonical-manifest artifacts.
+- Parent/child materialization happens during ingest: direct parent matches keep `subtopic_key = null`, while child matches keep the parent in `topic_key` and materialize the child into `subtopic_key`. The invariant `(topic_key, subtopic_key) ∈ taxonomy.lookup_by_key` is enforced at the classifier boundary (`ingest_subtopic_pass.py`) — orphan pairs are nulled.
+- Since `v2026-04-21-stv2b`, the PASO 4 LLM classifier runs **inline in the same ingest invocation**, between audit and sink. `documents.subtema` and Falkor `SubTopicNode` + `HAS_SUBTOPIC` edges land in the same pass — no separate backfill step. `scripts/backfill_subtopic.py` is maintenance-only.
+- `src/lia_graph/subtopic_taxonomy_builder.validate_no_empty_parents()` raises `EmptyParentTopicError` when a parent topic has zero subtopics (enforced at the end of `promote_subtopic_decisions.main`; bypass via `--allow-empty-parents`).
 
 ## Management Workflow
 
@@ -111,43 +115,37 @@ These are not just filing conventions. They help the audit and inventory step pr
 
 ## Latest Run Status
 
-Latest filtered snapshot ingest on `2026-04-16` produced:
+Latest single-pass ingest on `2026-04-21` (env matrix `v2026-04-21-stv2d`) produced:
 
-- scanned files: 1319
-- admitted corpus docs: 1246
-- revision candidates: 0
-- excluded internal files: 73
-- family counts:
-  - `normativa`: 1017
-  - `interpretacion`: 104
-  - `practica`: 125
 - canonical manifest status:
-  - `canonical_ready_count`: 1246
+  - `document_count`: 1227
+  - `canonical_ready_count`: 1222
   - `review_required_count`: 0
-  - `blocked_count`: 0
+  - `blocked_count`: 5 (binary / derogated / structural manifest assets rejected by the tightened admission gate)
   - `documents_with_pending_revisions`: 0
   - `unresolved_revision_candidate_count`: 0
 - reconnaissance gate:
-  - status: ready_for_canonical_blessing in the latest materializer run
+  - status: `ready_for_canonical_blessing`
   - blocker count: 0
   - manual review queue: 0 rows
 - taxonomy coverage:
-  - `taxonomy_version`: `draft_v1_2026_04_15c`
-  - `topic_key_count`: 39
-  - remaining ambiguity flags on admitted docs: 0
-  - `declaracion_renta`: 47 docs total, 24 docs now split across 9 child subtopics
-- graph validation:
+  - `subtopic_taxonomy_version`: `2026-04-21-v2`
+  - `topic_key_count` (topics with documents): 42
+  - `subtopic_key_count` (subtopics with documents): 93
+  - total curated subtopics: 106 across 39 parent topics
+  - 6 parent topics are currently empty (surfaced by `validate_no_empty_parents()`; not a blocker for runtime)
+- graph validation (`artifacts/graph_validation_report.json`):
   - `ok: true`
-  - nodes: 2617
-  - edges: 20345
-  - issues: 0
+  - `node_count`: 2633 (ArticleNode 1301, ReformNode 1316, SubTopicNode 16)
+  - `edge_count`: 20495 (REFERENCES 13306, MODIFIES 5243, SUPERSEDES 1186, REQUIRES 364, COMPUTATION_DEPENDS_ON 175, HAS_SUBTOPIC 127, EXCEPTION_TO 66, DEFINES 28)
+  - `issues`: 0
 
-Triple-check status on the latest pass:
+Single-pass ingest outcome:
 
-- the previously filtered accountant-facing docs from `Documents to branch and improve/`, `to update/`, and `to upload/URLS-PIPELINE-DIAN/` are now visible in the canonical layer
-- every Dropbox path shared with `knowledge_base` has exact audit parity on decision, family, topic, subtopic, and taxonomy metadata
-- there are `0` shared-path label mismatches between Dropbox and the local snapshot
-- the prior `18` patch/upsert/errata files were merged into their `17` base docs in Dropbox source and then archived under `deprecated/`, leaving `0` pending revisions and a fully green blessing gate
+- PASO 4 classifier ran inline across every admitted doc (`ingest_subtopic_pass.py`); `documents.subtema` + Falkor `SubTopicNode` + `HAS_SUBTOPIC` edges landed in the same pass.
+- Classifier invariants held: every written `(topic, subtopic)` pair is in `subtopic_taxonomy.lookup_by_key`; orphan LLM keys were dropped; docs with transient classifier failures were flagged `requires_subtopic_review=true` instead of silently dropping.
+- Admission gate rejected binaries (`.png/.svg/.jpg/.jpeg/.webp`), form-guides manifest JSONs, and `LEYES/DEROGADAS/` paths per the April curator memo.
+- The `v2026-04-21-stv2b` regression (silent 100% NULL `documents.subtema` + 0 `SubTopicNode`s) is caught by `make phase2-graph-artifacts-smoke` against the committed `mini_corpus` fixture before a full re-ingest.
 
 The next operational step is therefore routine maintenance rather than cleanup:
 
@@ -250,6 +248,9 @@ Current upload batches in the filtered snapshot:
 
 When the Dropbox corpus changes:
 
-1. Run `scripts/sync_corpus_snapshot.sh`
-2. Re-run `make phase2-graph-artifacts PHASE2_CORPUS_DIR=knowledge_base`
-3. Review the audit and reconnaissance outputs before relying on any downstream graph artifacts
+1. Run `scripts/sync_corpus_snapshot.sh` (pulls `CORE ya Arriba` + `to upload` + `to_upload_graph/`).
+2. Dry-smoke the canary: `make phase2-graph-artifacts-smoke`.
+3. Re-run the full build: `make phase2-graph-artifacts PHASE2_CORPUS_DIR=knowledge_base` (local-only) or `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET={wip|production}` (cloud sink + Falkor load in the same pass).
+4. Review the audit, reconnaissance, and subtopic-bindings outputs (`artifacts/corpus_audit_report.json`, `corpus_reconnaissance_report.json`, `canonical_corpus_manifest.json`, `graph_validation_report.json`, plus the `subtopic.graph.bindings_summary` trace in `logs/events.jsonl`) before relying on any downstream graph artifacts.
+5. If `docs/guide/env_guide.md`'s `Corpus Refresh` section shows the staging runtime depends on cloud Supabase + cloud Falkor, promote WIP → production via the Promoción surface (`/api/ops/corpus/rebuild-from-wip`) or an explicit `PHASE2_SUPABASE_TARGET=production` rerun.
+6. Embeddings are populated on a follow-up pass by `scripts/embedding_ops.py` (or chain them automatically via `INGEST_AUTO_EMBED=1` on `POST /api/ingest/run`).

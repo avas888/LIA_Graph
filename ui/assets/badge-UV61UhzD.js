@@ -1,0 +1,1 @@
+import{c as e}from"./chip-Bjq03GaS.js";function r(a){return e({...a,className:["lia-badge",a.className||""].filter(Boolean).join(" "),dataComponent:a.dataComponent||"badge",emphasis:a.emphasis||"solid"})}export{r as c};

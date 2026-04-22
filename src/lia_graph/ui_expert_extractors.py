@@ -622,7 +622,7 @@ def _format_expert_heading(payload: str) -> str:
     return f"{'#' * demoted} {text}"
 
 
-def _expert_extended_excerpt(text: str, *, max_chars: int = 2500) -> str:
+def _expert_extended_excerpt(text: str, *, max_chars: int = 5000) -> str:
     """Walk the corpus markdown and emit a clean, structured subset.
 
     Drops the front-matter metadata, drops ``**🔗 Fuentes directas:**``
@@ -749,7 +749,15 @@ class _ExtendedExcerptBuilder:
         return True
 
     def render(self) -> str:
-        return "\n\n".join(self._blocks).strip()
+        # Drop trailing heading blocks that have no content below them. An
+        # orphan heading appears when the source section is genuinely empty
+        # or when the char budget overflowed right after committing the
+        # heading — rendering "3. Divergencias …" with nothing underneath
+        # is worse than omitting the section entirely.
+        blocks = list(self._blocks)
+        while blocks and _HEADING_RE.match(blocks[-1]):
+            blocks.pop()
+        return "\n\n".join(blocks).strip()
 
     def _block_cost(self, block: str) -> int:
         return len(block) + (2 if self._blocks else 0)

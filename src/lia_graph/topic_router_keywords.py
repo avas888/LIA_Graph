@@ -94,9 +94,15 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "trabaja por horas",
         ),
         "weak": (
-            "liquidar",
-            "liquidacion",
-            "liquidación",
+            # NOTE: bare "liquidar" / "liquidacion" / "liquidación" used to live
+            # here but they are polysemous (liquidación oficial DIAN, liquidación
+            # privada, liquidación de sociedad, liquidación de contrato civil).
+            # The labor compounds are already covered above (strong:
+            # "liquidación de contrato", "liquidación de nómina",
+            # "liquidación de prestaciones") and by the laboral regex in
+            # `_SUBTOPIC_OVERRIDE_PATTERNS` (liquidar + empleado/trabajador
+            # within 30 chars), so recall on real labor queries is preserved
+            # without routing generic "liquidación" queries to laboral.
             "trabajador",
             "trabajadores",
             "salud",
@@ -528,6 +534,7 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
     },
     "procedimiento_tributario": {
         "strong": (
+            # --- devoluciones / saldos a favor face ---
             "devolucion de saldos a favor",
             "devolución de saldos a favor",
             "solicitud de devolucion",
@@ -540,6 +547,23 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "devolución con garantía",
             "compensacion tributaria",
             "compensación tributaria",
+            # --- fiscalización / audit-procedure face (actos administrativos DIAN) ---
+            "requerimiento ordinario",
+            "requerimiento especial",
+            "emplazamiento para declarar",
+            "emplazamiento para corregir",
+            "liquidacion oficial",
+            "liquidación oficial",
+            "liquidacion de revision",
+            "liquidación de revisión",
+            "liquidacion de aforo",
+            "liquidación de aforo",
+            "recurso de reconsideracion",
+            "recurso de reconsideración",
+            "pliego de cargos",
+            "auto de archivo",
+            "inspeccion tributaria",
+            "inspección tributaria",
         ),
         "weak": (
             "devolucion",
@@ -559,6 +583,12 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "firmeza",
             "correccion de declaracion",
             "corrección de declaración",
+            # --- fiscalización / audit-procedure face ---
+            "requerimiento",
+            "emplazamiento",
+            "fiscalizacion",
+            "fiscalización",
+            "acto administrativo",
         ),
     },
 }

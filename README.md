@@ -31,34 +31,37 @@ Query → Intake (shared) → Topic Router (shared) → Graph Planner (new)
 
 ## Status
 
-See `docs/build/buildv1/NEXT.md` for the short "what we do next" sheet, `docs/build/buildv1/STATE.md` for durable Build V1 implementation state, and `docs/state/STATE.md` for the broader repo ledger.
+Build V1 Phases 1–3 are live: the graph is green, `pipeline_d` is the served default, `dev:staging` walks cloud Supabase + cloud FalkorDB on every request, and the corpus sink + Gemini embeddings round-trip through one `make phase2-graph-artifacts-supabase` run. See `docs/guide/orchestration.md` (env matrix + change log) for the authoritative live-state map, and `docs/state/STATE.md` for the broader repo ledger.
 
 ## Dev Commands
 
 - `npm run dev`
-  Runs the local UI server after preflighting the repo, rebuilding the public UI bundle, forcing `LIA_STORAGE_BACKEND=filesystem`, and checking a local Docker FalkorDB on `redis://127.0.0.1:6389`.
+  Runs the local UI server after preflighting the repo, rebuilding the public UI bundle, setting `LIA_CORPUS_SOURCE=artifacts` + `LIA_GRAPH_MODE=artifacts`, and checking the local Docker FalkorDB on `redis://127.0.0.1:6389` plus the local Supabase stack on `127.0.0.1:54321`. Storage backend is always `supabase` (the filesystem backend was removed with the April 2026 env cut).
 - `npm run dev:staging`
-  Runs the same local UI server after preflighting the repo, rebuilding the public UI bundle, forcing `LIA_STORAGE_BACKEND=supabase`, and checking the cloud FalkorDB + cloud Supabase credentials from your env files.
-- `npm run dev:check`
-  Runs the local preflight only.
-- `npm run dev:staging:check`
-  Runs the staging-backed preflight only.
+  Runs the same local UI server against cloud infrastructure — sets `LIA_CORPUS_SOURCE=supabase` + `LIA_GRAPH_MODE=falkor_live`. The orchestrator routes retrieval through `retriever_supabase.py` (chunks) and `retriever_falkor.py` (graph BFS) on every request. A `FalkorDB node_count ≥ LIA_FALKOR_MIN_NODES` gate blocks boot when the cloud graph is empty.
+- `npm run dev:production`
+  Exits with a Railway notice — production is deployed via `railway up`, not locally.
+- `npm run dev:check` / `npm run dev:staging:check`
+  Preflight only.
 
 Notes:
-- The current GUI/chat runtime is still artifact-backed for `pipeline_d`, so FalkorDB is preflighted for environment parity and graph ops rather than serving the live chat answer path directly.
-- Local dev intentionally uses filesystem persistence to avoid depending on cloud Supabase for everyday browser testing.
+- Every `PipelineCResponse.diagnostics` carries `retrieval_backend` + `graph_backend` (and `retrieval_sub_topic_intent` when the planner detects a curated subtopic) so you can confirm which adapter served a turn without guessing.
+- Optional post-assembly polish is gated by `LIA_LLM_POLISH_ENABLED` (default `1`); the deterministic template answer remains the safety net and polish failures surface in `response.llm_runtime.skip_reason`.
 
 ## Docs
 
+- `docs/guide/orchestration.md` — End-to-end live runtime map + authoritative env matrix & change log (read this first)
+- `docs/guide/chat-response-architecture.md` — How the `main chat` answer is shaped
+- `docs/guide/env_guide.md` — Run modes, env files, migration baseline, test accounts, corpus refresh
+- `docs/guide/corpus.md` — Corpus layers, ingestion audit gate, latest run stats
+- `AGENTS.md` — Canonical operating guide for AI agents (mirrors of the env matrix)
 - `docs/README.md` — Active docs map and reading order
-- `AGENT.md` — Repo-level ingestion and retrieval guardrails for future coding sessions
-- `docs/build/buildv1/NEXT.md` — Rolling next-step sheet for the active Build V1 package
-- `docs/build/buildv1/STATE.md` — Durable Build V1 implementation ledger
-- `docs/state/STATE.md` — Broader repo state tracker and older phase bridge
-- `docs/architecture/FORK-BOUNDARY.md` — Active steering boundary for what we reuse vs. rethink
-- `docs/state/TASK-*.md` — Per-task state with checkpoints
+- `docs/architecture/FORK-BOUNDARY.md` — Steering boundary for what we reuse vs. rethink
+- `docs/state/STATE.md` — Broader repo state tracker
 - `docs/DEPENDENCIES.md` — External services needed
-- `docs/deprecated/old-RAG/` — Historical docs quarantined so they do not steer current design
+- `docs/next/decouplingv1.md` — Forward-looking plan for the last two oversized modules
+- `docs/done/` — Executed task records (subtopic generation v1, ingestfix v1 + v2, corpus cutover, curator decisions)
+- `docs/deprecated/old-RAG/` — Historical material quarantined so it does not steer current design
 
 ## Origin
 

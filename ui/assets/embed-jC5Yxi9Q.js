@@ -1,4 +1,4 @@
-import"./main-4m6-vLmf.js";import{c as m,p as w,A as y,s as u}from"./client-OE0sHIIg.js";const o=document.querySelector("#app");if(!o)throw new Error("Missing #app root.");o.innerHTML=`
+import"./main-DE-rE2No.js";import{c as m,p as w,A as y,s as u}from"./client-OE0sHIIg.js";const o=document.querySelector("#app");if(!o)throw new Error("Missing #app root.");o.innerHTML=`
   <main class="ops-shell">
     <section class="ops-card ops-window" style="max-width: 780px; margin: 8vh auto;">
       <div class="ops-window-head">
