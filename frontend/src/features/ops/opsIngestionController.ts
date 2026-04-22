@@ -33,6 +33,7 @@ import {
 import { createOpsApi } from "@/features/ops/opsIngestionApi";
 import { createOpsControllerCtx } from "@/features/ops/opsIngestionContext";
 import { createOpsUpload } from "@/features/ops/opsIngestionUpload";
+import { createOpsIntake } from "@/features/ops/opsIngestionIntake";
 import {
   SUPPORTED_INGESTION_EXTENSIONS as SUPPORTED_EXTENSIONS,
   HIDDEN_FILE_PREFIXES as HIDDEN_PREFIXES,
@@ -160,277 +161,23 @@ export function createOpsIngestionController(
     if (ingestionBounceBody) ingestionBounceBody.textContent = "";
   }
 
-  // ── Intake-window local state ─────────────────────────────────────
-  // UI-only; deliberately not in OpsStateData.
-  //
-  // `intakeError`       — true if the last preflight call failed (network/500).
-  //                       Renders the red retry banner; blocks approval.
-  // `preflightDebounce` — trailing debounce timer id so a folder drop of 500
-  //                       files only triggers ONE preflight call, not 500.
-  let intakeError = false;
-  let preflightDebounce: ReturnType<typeof setTimeout> | null = null;
-  const PREFLIGHT_DEBOUNCE_MS = 150;
-
-  // ── Dedup key for de-duplicating File references across drops ────
-  // Users can accidentally drop the same file twice. We key on a fingerprint
-  // so addFilesToIntake() becomes idempotent.
-  // ── Granular intake pipeline (replaces monolithic handleFolderIngest) ──
-  //
-  //   addFilesToIntake       — on drop/pick
-  //     └─ schedulePreflight — debounced trigger
-  //          └─ runIntakePreflight   — orchestrator, race-guarded
-  //                ├─ hashIntakeEntries    — SHA-256 via crypto.subtle
-  //                ├─ preflightIntake      — POST /api/ingestion/preflight
-  //                └─ applyManifestToIntake — split into willIngest + bounced
-  //   removeIntakeEntry      — X button on a window-2 row
-  //   clearIntake            — reset, e.g. after successful ingest
-  //   confirmAndIngest       — what "Aprobar e ingerir" calls
-
-  /** Add raw Files (from drop / file picker / folder picker) to the intake
-   * window, dedup by file fingerprint, and schedule a preflight pass. */
-  function addFilesToIntake(files: File[]): void {
-    if (files.length === 0) return;
-
-    const existing = new Set(state.intake.map((e) => fileKey(e.file)));
-    const newEntries: IntakeEntry[] = [];
-    for (const file of files) {
-      const key = fileKey(file, state.folderRelativePaths);
-      if (existing.has(key)) continue;
-      existing.add(key);
-      newEntries.push({
-        file,
-        relativePath: getRelativePath(file, state.folderRelativePaths),
-        contentHash: null,
-        verdict: "pending",
-        preflightEntry: null,
-      });
-    }
-    if (newEntries.length === 0) return;
-
-    stateController.setIntake([...state.intake, ...newEntries]);
-    // Mark any existing plan as stale — we're about to re-dedup everything.
-    if (state.reviewPlan) {
-      stateController.setReviewPlan({ ...state.reviewPlan, stalePartial: true });
-    }
-    intakeError = false;
-    schedulePreflight();
-    render();
-  }
-
-  /** Trailing debounce: coalesce rapid drops into a single preflight call. */
-  function schedulePreflight(): void {
-    if (preflightDebounce) clearTimeout(preflightDebounce);
-    const runId = stateController.bumpPreflightRunId();
-    preflightDebounce = setTimeout(() => {
-      preflightDebounce = null;
-      void runIntakePreflight(runId);
-    }, PREFLIGHT_DEBOUNCE_MS);
-  }
-
-  /** Orchestrator: hash → preflight → apply. Race-guarded via `runId`. */
-  async function runIntakePreflight(runId: number): Promise<void> {
-    if (runId !== state.preflightRunId) return;
-    if (state.intake.length === 0) return;
-
-    const pending = state.intake.filter((e) => e.contentHash === null);
-    try {
-      if (pending.length > 0) {
-        await hashIntakeEntries(pending);
-        if (runId !== state.preflightRunId) return;
-      }
-
-      const manifest = await preflightIntake();
-      if (runId !== state.preflightRunId) return;
-      if (!manifest) {
-        intakeError = true;
-        render();
-        return;
-      }
-
-      applyManifestToIntake(manifest);
-      intakeError = false;
-      render();
-    } catch (error) {
-      if (runId !== state.preflightRunId) return;
-      console.error("[intake] preflight failed:", error);
-      intakeError = true;
-      render();
-    }
-  }
-
-  /** Hash every intake entry whose contentHash is still null. Writes the hash
-   * back onto the entry. Files that fail to read become verdict="unreadable". */
-  async function hashIntakeEntries(entries: IntakeEntry[]): Promise<void> {
-    stateController.setPreflightScanProgress({ total: entries.length, hashed: 0, scanning: true });
-    renderScanProgress();
-
-    for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i];
-      try {
-        const buffer = await entry.file.arrayBuffer();
-        const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        entry.contentHash = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-      } catch (error) {
-        console.warn(`[intake] hash failed for ${entry.file.name}:`, error);
-        entry.verdict = "unreadable";
-        entry.contentHash = ""; // mark as processed so we don't retry
-      }
-      stateController.setPreflightScanProgress({ total: entries.length, hashed: i + 1, scanning: true });
-      renderScanProgress();
-    }
-    stateController.setPreflightScanProgress(null);
-  }
-
-  /** Call /api/ingestion/preflight with every intake entry that has a hash.
-   * Returns the manifest, or null on network failure. */
-  async function preflightIntake(): Promise<PreflightManifest | null> {
-    const fileEntries = state.intake
-      .filter((e) => e.contentHash && e.verdict !== "unreadable")
-      .map((e) => ({
-        filename: e.file.name,
-        relative_path: e.relativePath || e.file.name,
-        size: e.file.size,
-        content_hash: e.contentHash!,
-      }));
-    if (fileEntries.length === 0) {
-      // Nothing to preflight (everything was unreadable). Return an empty manifest.
-      return {
-        artifacts: [],
-        duplicates: [],
-        revisions: [],
-        new_files: [],
-        scanned: 0,
-        elapsed_ms: 0,
-      };
-    }
-    try {
-      return await requestPreflight(fileEntries, state.selectedCorpus);
-    } catch (error) {
-      console.error("[intake] /api/ingestion/preflight failed:", error);
-      return null;
-    }
-  }
-
-  /** Apply a preflight manifest to `state.intake`: set each entry's verdict +
-   * preflightEntry, then partition the intake into willIngest (new+revision)
-   * and bounced (duplicate+artifact+unreadable). Writes `state.reviewPlan`
-   * AND the derived `state.pendingFiles` (the File[] that directFolderIngest
-   * consumes). */
-  function applyManifestToIntake(manifest: PreflightManifest): void {
-    // Build a path→(bucket, entry) index for O(1) lookup.
-    const byPath = new Map<string, { verdict: IntakeVerdict; preflightEntry: PreflightEntry }>();
-    const idx = (bucket: IntakeVerdict, list: PreflightEntry[]) => {
-      for (const p of list) {
-        const key = p.relative_path || p.filename;
-        byPath.set(key, { verdict: bucket, preflightEntry: p });
-      }
-    };
-    idx("new", manifest.new_files);
-    idx("revision", manifest.revisions);
-    idx("duplicate", manifest.duplicates);
-    idx("artifact", manifest.artifacts);
-
-    const updated: IntakeEntry[] = state.intake.map((entry) => {
-      if (entry.verdict === "unreadable") return entry;
-      const key = entry.relativePath || entry.file.name;
-      const hit = byPath.get(key);
-      if (!hit) return { ...entry, verdict: "pending" };
-      return { ...entry, verdict: hit.verdict, preflightEntry: hit.preflightEntry };
-    });
-
-    const willIngest = updated.filter((e) => e.verdict === "new" || e.verdict === "revision");
-    const bounced = updated.filter(
-      (e) => e.verdict === "duplicate" || e.verdict === "artifact" || e.verdict === "unreadable",
-    );
-
-    stateController.setIntake(updated);
-    stateController.setReviewPlan({
-      willIngest,
-      bounced,
-      scanned: manifest.scanned,
-      elapsedMs: manifest.elapsed_ms,
-      stalePartial: false,
-    });
-    // pendingFiles is the live "approved" queue directFolderIngest consumes.
-    stateController.setPendingFiles(willIngest.map((e) => e.file));
-  }
-
-  /** Remove a single entry from window 2 (the user cancelled it). Also
-   * removes it from window 1 and the pendingFiles queue. Window 3 rows are
-   * read-only so this is never called for bounced entries. */
-  function removeIntakeEntry(target: IntakeEntry): void {
-    const filter = (e: IntakeEntry) => fileKey(e.file) !== fileKey(target.file);
-    stateController.setIntake(state.intake.filter(filter));
-    if (state.reviewPlan) {
-      const nextWill = state.reviewPlan.willIngest.filter(filter);
-      stateController.setReviewPlan({ ...state.reviewPlan, willIngest: nextWill });
-      stateController.setPendingFiles(nextWill.map((e) => e.file));
-    } else {
-      stateController.setPendingFiles(state.pendingFiles.filter((f) => fileKey(f) !== fileKey(target.file)));
-    }
-    render();
-  }
-
-  /** "cancelar todo" button on window 2 — drop every will-ingest entry.
-   * Leaves window 3 (bounced) visible, leaves window 1 showing the bounced
-   * entries with their verdicts, clears the pending queue. */
-  function cancelAllWillIngest(): void {
-    if (!state.reviewPlan) return;
-    const willPaths = new Set(state.reviewPlan.willIngest.map((e) => fileKey(e.file)));
-    const keptIntake = state.intake.filter((e) => !willPaths.has(fileKey(e.file)));
-    stateController.setIntake(keptIntake);
-    stateController.setReviewPlan({ ...state.reviewPlan, willIngest: [] });
-    stateController.setPendingFiles([]);
-    render();
-  }
-
-  /** Reset intake to zero state — e.g. after a successful approve+ingest. */
-  function clearIntake(): void {
-    if (preflightDebounce) {
-      clearTimeout(preflightDebounce);
-      preflightDebounce = null;
-    }
-    stateController.bumpPreflightRunId();
-    stateController.setIntake([]);
-    stateController.setReviewPlan(null);
-    stateController.setPendingFiles([]);
-    stateController.setPreflightScanProgress(null);
-    intakeError = false;
-    state.folderRelativePaths.clear();
-  }
-
-  /** "Aprobar e ingerir" handler. Validates preflight has run and at least
-   * one file will be ingested, then hands off to the existing
-   * directFolderIngest() — which handles session creation, upload, processing
-   * and kanban updates exactly as today. */
-  async function confirmAndIngest(): Promise<void> {
-    const plan = state.reviewPlan;
-    if (!plan) return;
-    if (plan.stalePartial) return;
-    if (plan.willIngest.length === 0) return;
-    if (intakeError) return;
-
-    setFlash();
-    stateController.setMutating(true);
-    renderControls();
-    try {
-      await directFolderIngest();
-      clearIntake();
-      ingestionFolderInput.value = "";
-      ingestionFileInput.value = "";
-    } catch (error) {
-      stateController.setFolderUploadProgress(null);
-      renderUploadProgress();
-      setFlash(formatOpsError(error), "error");
-      if (state.selectedSessionId) {
-        void refreshSelectedSession({ sessionId: state.selectedSessionId, showWheel: false, reportError: false });
-      }
-    } finally {
-      stateController.setMutating(false);
-      renderControls();
-    }
-  }
+  // Decouplingv1 Phase 9: the three-window intake pipeline lives in
+  // `createOpsIntake`. It owns the local `intakeError` + `preflightDebounce`
+  // state. Two callbacks (directFolderIngest + renderControls) still live
+  // in this controller closure so we populate them on the deps object
+  // *after* those helpers are defined further down.
+  const intakeDeps = {
+    directFolderIngest: () => Promise.resolve(),
+    renderControls: () => {},
+  };
+  const intake = createOpsIntake(ctx, api, upload, intakeDeps);
+  const {
+    addFilesToIntake,
+    clearIntake,
+    confirmAndIngest,
+    removeIntakeEntry,
+    cancelAllWillIngest,
+  } = intake;
 
   // doc_ids whose reclassify panel must NOT be restored on the next render.
   // Populated on successful assign; consumed and cleared by renderSelectedSession.
@@ -649,7 +396,7 @@ export function createOpsIngestionController(
   function buildIntakeBanner(): HTMLElement | null {
     const stale = state.reviewPlan?.stalePartial === true;
     const hasPending = state.intake.some((e) => e.verdict === "pending");
-    const failed = intakeError;
+    const failed = intake.getIntakeError();
 
     if (!stale && !hasPending && !failed) return null;
 
@@ -667,8 +414,8 @@ export function createOpsIngestionController(
       retry.textContent = i18n.t("ops.ingestion.intake.retry");
       retry.addEventListener("click", (e) => {
         e.stopPropagation();
-        intakeError = false;
-        schedulePreflight();
+        intake.setIntakeError(false);
+        intake.schedulePreflight();
         render();
       });
       banner.append(text, retry);
@@ -705,7 +452,7 @@ export function createOpsIngestionController(
     const plan = state.reviewPlan;
     const willCount = plan?.willIngest.length ?? 0;
     const preflightStale = plan?.stalePartial === true;
-    const preflightFailed = intakeError === true;
+    const preflightFailed = intake.getIntakeError() === true;
     const approveReady = !!plan && willCount > 0 && !preflightStale && !preflightFailed;
 
     ingestionCreateSessionBtn.disabled = state.mutating || !selectedActive;
@@ -1048,11 +795,14 @@ export function createOpsIngestionController(
     renderSelectedSession();
   }
 
-  // Decouplingv1 Phase 7: rebind the ctx callbacks now that render/trace
-  // are defined. Factories captured `ctx` by reference and read these at
-  // call time, so late binding is transparent.
+  // Decouplingv1 Phase 7/9: rebind the ctx callbacks now that render/trace
+  // (and the intake deps that reach into directFolderIngest + renderControls)
+  // are defined. Factories captured `ctx` / `intakeDeps` by reference, so
+  // mutating them here is transparent.
   ctx.render = render;
   ctx.trace = trace;
+  intakeDeps.directFolderIngest = directFolderIngest;
+  intakeDeps.renderControls = renderControls;
 
   // ── Auto-pilot loop ──────────────────────────────────
   // Polls session, re-calls auto-process to queue newly classified docs,
