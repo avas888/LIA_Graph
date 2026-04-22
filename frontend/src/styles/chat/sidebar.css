@@ -17,7 +17,177 @@
   padding: 0;
   overflow: clip;
   border-top: 4px solid var(--p-neutral-300);
-  transition: border-top-color 0.2s ease;
+  transition:
+    border-top-color 0.2s ease,
+    flex-basis 0.28s cubic-bezier(0.2, 0.7, 0.2, 1),
+    flex-grow 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ── Expand / collapse split layout ────────────────────────── */
+
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos,
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa {
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos .side-panel-body,
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa .side-panel-body {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    max-height 0.26s ease,
+    padding 0.26s ease,
+    opacity 0.18s ease;
+}
+
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos .side-panel-header,
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa .side-panel-header {
+  opacity: 0.78;
+  transition: opacity 0.2s ease;
+}
+
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos:hover .side-panel-header,
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa:hover .side-panel-header {
+  opacity: 1;
+}
+
+/* ── Expand button (top-right of each header) ──────────────── */
+
+.side-panel-expand-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  padding: 0;
+  margin-left: auto;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--p-red-600);
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.26s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.side-panel-expand-btn svg {
+  display: block;
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.26s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.side-panel-expand-btn:hover {
+  background: color-mix(in srgb, var(--p-red-50), white 10%);
+  border-color: color-mix(in srgb, var(--p-red-200), white 30%);
+  color: var(--p-red-700);
+}
+
+.side-panel-expand-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--p-red-400), transparent 55%);
+  outline-offset: 1px;
+}
+
+.side-panel-expand-btn[aria-pressed="true"] svg {
+  /* Flip the outward-pointing arrows inward — now a "collapse" cue. */
+  transform: rotate(180deg);
+}
+
+.side-panel-expand-btn[aria-pressed="true"] {
+  color: var(--p-red-700);
+  background: color-mix(in srgb, var(--p-red-50), white 5%);
+  border-color: color-mix(in srgb, var(--p-red-200), white 25%);
+}
+
+/* Visually demote the expand button on the collapsed side (keep it for re-expanding). */
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos .side-panel-expand-btn,
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa .side-panel-expand-btn {
+  opacity: 0.55;
+}
+
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos .side-panel-expand-btn:hover,
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa .side-panel-expand-btn:hover {
+  opacity: 1;
+}
+
+/* ── Restore hint (the clickable stub footer) ──────────────── */
+
+.side-panel-restore-hint {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  width: 100%;
+  padding: 0.28rem 0.9rem 0.38rem;
+  margin: 0;
+  border: none;
+  border-top: 1px dashed color-mix(in srgb, var(--p-red-200), var(--border-default) 55%);
+  background: transparent;
+  color: var(--p-red-700);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos .side-panel-restore-hint,
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa .side-panel-restore-hint {
+  display: inline-flex;
+}
+
+.side-panel-restore-hint:hover {
+  background: color-mix(in srgb, var(--p-red-50), white 18%);
+  color: var(--p-red-700);
+}
+
+.side-panel-restore-hint:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--p-red-400), transparent 55%);
+  outline-offset: -2px;
+}
+
+.side-panel-restore-hint-chevron {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+/* Expertos collapsed (at bottom of column) → chevron points UP toward the split-center. */
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos .side-panel-restore-hint-chevron {
+  transform: rotate(-135deg);
+}
+
+/* Normativa collapsed (at top of column) → chevron points DOWN toward the split-center. */
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa .side-panel-restore-hint-chevron {
+  transform: rotate(45deg);
+}
+
+.side-panel[data-side-panel-expansion="normativa"] .side-panel-section-expertos .side-panel-restore-hint:hover .side-panel-restore-hint-chevron {
+  transform: rotate(-135deg) translate(1px, 1px);
+}
+
+.side-panel[data-side-panel-expansion="expertos"] .side-panel-section-normativa .side-panel-restore-hint:hover .side-panel-restore-hint-chevron {
+  transform: rotate(45deg) translate(1px, 1px);
 }
 
 .side-panel section.is-focus-window {

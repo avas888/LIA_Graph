@@ -18,6 +18,7 @@ import {
 import { createChatSurfaceController } from "@/features/chat/chatSurfaceController";
 import { createExpertPanelController } from "@/features/chat/expertPanelController";
 import { initSplitter } from "@/features/chat/splitter";
+import { initSidePanelExpansion } from "@/features/chat/sidePanelExpansion";
 import { getThinkingOverlay } from "@/shared/async/thinkingOverlay";
 import { getToastController } from "@/shared/ui/toasts";
 import { getJson } from "@/shared/api/client";
@@ -354,6 +355,9 @@ export function mountChatApp(root, options) {
   });
   initializeSurface();
   if (chatLayoutEl && chatSplitterEl) initSplitter(chatLayoutEl, chatSplitterEl);
+
+  const sidePanelEl = root.querySelector<HTMLElement>(".side-panel");
+  if (sidePanelEl) initSidePanelExpansion(sidePanelEl);
 
   // ── Active-window focus ring ────────────────────────────────
   const chatPanelEl = root.querySelector<HTMLElement>(".chat-panel");

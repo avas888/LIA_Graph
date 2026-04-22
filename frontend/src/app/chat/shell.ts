@@ -60,8 +60,8 @@ export function renderChatShell(i18n: I18nRuntime): string {
 
         <div class="chat-splitter" role="separator" aria-orientation="vertical" tabindex="0" title="Arrastrar para redimensionar"></div>
 
-        <aside class="side-panel">
-          <section>
+        <aside class="side-panel" data-side-panel-expansion="idle">
+          <section class="side-panel-section-normativa">
             <header class="side-panel-header">
               <div class="side-panel-heading">
                 <div class="side-panel-title-row side-panel-title-row-compact">
@@ -69,12 +69,38 @@ export function renderChatShell(i18n: I18nRuntime): string {
                   <p id="citations-status" class="section-note side-panel-header-note">${i18n.t("chat.support.defer")}</p>
                 </div>
               </div>
+              <button
+                type="button"
+                class="side-panel-expand-btn"
+                data-side-panel-target="normativa"
+                aria-label="${i18n.t("chat.panel.expand.normativa")}"
+                aria-pressed="false"
+                title="${i18n.t("chat.panel.expand.normativa")}"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M14 4h6v6" />
+                  <path d="M20 4l-7 7" />
+                  <path d="M10 20H4v-6" />
+                  <path d="M4 20l7-7" />
+                </svg>
+              </button>
             </header>
             <div class="side-panel-body">
               <ul id="citations" class="citation-list"></ul>
             </div>
+            <button
+              type="button"
+              class="side-panel-restore-hint"
+              data-side-panel-restore="normativa"
+              aria-label="${i18n.t("chat.panel.restore")}"
+              tabindex="-1"
+              hidden
+            >
+              <span class="side-panel-restore-hint-chevron" aria-hidden="true"></span>
+              <span class="side-panel-restore-hint-label">${i18n.t("chat.panel.restore")}</span>
+            </button>
           </section>
-          <section class="side-panel-experts">
+          <section class="side-panel-experts side-panel-section-expertos">
             <header class="side-panel-header">
               <div>
                 <div class="side-panel-title-row">
@@ -96,11 +122,37 @@ export function renderChatShell(i18n: I18nRuntime): string {
                   </div>
                 </div>
               </div>
+              <button
+                type="button"
+                class="side-panel-expand-btn"
+                data-side-panel-target="expertos"
+                aria-label="${i18n.t("chat.panel.expand.expertos")}"
+                aria-pressed="false"
+                title="${i18n.t("chat.panel.expand.expertos")}"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M14 4h6v6" />
+                  <path d="M20 4l-7 7" />
+                  <path d="M10 20H4v-6" />
+                  <path d="M4 20l7-7" />
+                </svg>
+              </button>
             </header>
             <div class="side-panel-body">
               <p id="expert-panel-status" class="section-note">${i18n.t("chat.experts.defer")}</p>
               <div id="expert-panel-content"></div>
             </div>
+            <button
+              type="button"
+              class="side-panel-restore-hint"
+              data-side-panel-restore="expertos"
+              aria-label="${i18n.t("chat.panel.restore")}"
+              tabindex="-1"
+              hidden
+            >
+              <span class="side-panel-restore-hint-chevron" aria-hidden="true"></span>
+              <span class="side-panel-restore-hint-label">${i18n.t("chat.panel.restore")}</span>
+            </button>
           </section>
         </aside>
       </section>
