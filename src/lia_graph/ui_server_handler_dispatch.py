@@ -52,11 +52,12 @@ from .pipeline_c import get_run as get_pipeline_c_run
 from .pipeline_c import get_timeline as get_pipeline_c_timeline
 from .pipeline_c import list_runs as list_pipeline_c_runs
 from .terms import get_terms_status, read_terms_text
-# Note: `handle_analysis_post` is intentionally *not* imported here. Tests
-# monkeypatch `ui_server.handle_analysis_post` to swap in a fake, and the
-# dispatch method looks the name up through the `ui_server` module (see
-# `_ui_server` below) so the patched symbol is honored at call time.
-from . import ui_server as _ui_server
+# Note: `handle_analysis_post` is intentionally *not* imported at module
+# level. Tests monkeypatch `ui_server.handle_analysis_post` to swap in a
+# fake, so the dispatch method looks the name up lazily through the
+# `ui_server` module at call time (see `do_POST`). Doing the import lazily
+# also dodges a circular-import shape that surfaces under
+# `python -m lia_graph.ui_server`.
 from .ui_chat_controller import handle_api_chat_post, handle_api_chat_stream_post
 from .ui_chat_payload import (
     _load_runtime_orchestration_settings,
@@ -526,6 +527,7 @@ class LiaUIHandler(LiaUIHandlerBase):
         if handle_rollback_post(self, path, deps=write_deps):
             return
 
+        from . import ui_server as _ui_server
         if _ui_server.handle_analysis_post(self, path, deps=_analysis_controller_deps()):
             return
 
