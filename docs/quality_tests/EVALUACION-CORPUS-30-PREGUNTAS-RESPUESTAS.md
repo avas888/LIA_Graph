@@ -1,32 +1,165 @@
-# Evaluación del Corpus Contable — 30 Preguntas y Respuestas Modelo
+# Evaluación del Corpus Contable — Gold Eval Harness (30 → 80–120 preguntas)
 
-**Propósito:** Benchmark para comparar el desempeño de Lía Contadores (RAG), Lía Graph (RAG) y Claude Sonnet 4.6 contra respuestas modelo derivadas exclusivamente del corpus.
+> **Role change (2026-04-22).** This document is now **the gold retrieval eval harness source of truth** — not just a human benchmark for prose-quality comparisons. The reshape was driven by the senior RAG review that prepends `docs/next/structuralwork_v1_SEENOW.md` as "Top Ranked #1 — Build an eval harness before touching anything else." Every item in the structural backlog (A–H) is a hypothesis; this file is what falsifies or validates them.
 
-**Fecha de generación:** 19 de abril de 2026
+**Propósito.**
+1. **Primary (eval harness):** machine-readable gold set that drives `make eval-retrieval`, emits retrieval@10 / nDCG@10 / MRR / topic-accuracy / subtopic-accuracy / **sub-question-level recall**, and gates every subsequent PR against red-line thresholds.
+2. **Secondary (human benchmark, legacy purpose):** compare Lía Contadores (RAG), Lía Graph (RAG), and Claude Sonnet 4.6 prose answers against reference answers derived exclusively from the corpus.
+
+**Fecha de generación:** 19 de abril de 2026 (v1 — 30 preguntas humanas)
+**Fecha de reshape a harness:** 22 de abril de 2026 (v2 — añade metadata estructurada + JSONL companion)
 **Corpus de referencia:** Corpus Lia Contador — CORE ya Arriba (producción)
 **Parámetros vigentes:** UVT 2025 = $49.799 | UVT 2026 = $52.374 | SMLMV 2026 = $1.750.905
 
 ---
 
-## Cobertura temática
+## 1. Harness specification
+
+### 1.1 Gold record format (JSONL — one question per line)
+
+Each gold record is a JSON object. The fields below are the contract consumed by `scripts/eval_retrieval.py` (to be written as part of the Monday move in the structural doc). The authoritative JSONL companion lives at `evals/gold_retrieval_v1.jsonl`; this markdown doc carries both the human prose (answers + follow-ups) *and* a structured appendix at the end that mirrors the JSONL entries one-for-one for diff-readability.
+
+```jsonc
+{
+  "qid": "Q1",                           // stable ID, Q1..QN
+  "type": "S",                           // "S" single-point | "M" multi-point
+  "query_shape": "single",               // "single" | "multi" | "multi+cross_topic"
+  "macro_area": "a_renta_pj",            // coverage bucket (see §2)
+  "initial_question_es": "...",          // truncated to ~180 chars, full prose below
+  "expected_topic": "declaracion_renta", // top-level topic slug (get_supported_topics style)
+  "expected_subtopic": "deducciones_art107_renta", // or null if not obvious
+  "expected_article_keys": [             // canonical anchor keys (3–10 per Q ideal)
+    "LEY_2277_2022_ART_7",
+    "ET_ART_771_2",
+    "ET_ART_107"
+  ],
+  "followup_question_es": "...",         // follow-up prompt (truncated)
+  "followup_expected_article_keys": ["ET_ART_771_5"],
+  "sub_questions": null,                 // for "M": see below
+  "notes": null                          // optional curator note (derogations, disputes)
+}
+```
+
+For `type: "M"`, `sub_questions` is a list, **one entry per `¿…?` clause** in the initial prompt. Sub-question recall is scored **independently per entry** — this is the metric that reflects real product quality, because the product promise is "one visible block per `¿…?` with unrestricted multi-bullets inside" (see memory `feedback_multiquestion_answer_shape.md`):
+
+```jsonc
+"sub_questions": [
+  {"text_es": "¿Cómo calculo la TTD paso a paso?",
+   "expected_topic": "declaracion_renta",
+   "expected_subtopic": "ttd_tasa_tributacion_depurada",
+   "expected_article_keys": ["ET_ART_240_PAR_6"]},
+  {"text_es": "¿Qué pasa si queda por debajo del 15%?",
+   "expected_topic": "declaracion_renta",
+   "expected_subtopic": "ttd_tasa_tributacion_depurada",
+   "expected_article_keys": ["ET_ART_240_PAR_6"]},
+  {"text_es": "¿En qué renglón del Formulario 110?",
+   "expected_topic": "declaracion_renta",
+   "expected_subtopic": "formulario_110",
+   "expected_article_keys": []}
+]
+```
+
+### 1.2 Canonical article key format
+
+The article keys are the anchor IDs the Falkor retriever's `_explicit_article_keys` and `_retrieve_subtopic_bound_article_keys` resolve against. Follow these patterns strictly — any drift poisons the gold set and makes eval numbers non-comparable across runs:
+
+| Source type | Pattern | Example |
+|---|---|---|
+| Estatuto Tributario | `ET_ART_<num>` (with `_PAR_<n>` suffix for parágrafos) | `ET_ART_107`, `ET_ART_240_PAR_6`, `ET_ART_771_2` |
+| Leyes | `LEY_<num>_<year>_ART_<num>` | `LEY_2277_2022_ART_7`, `LEY_2155_2021_ART_51` |
+| Decretos | `DECRETO_<num>_<year>[_ART_<x_y_z>]` | `DECRETO_2201_2016`, `DECRETO_1625_2016_ART_1_2_6_6` |
+| Resoluciones DIAN | `RES_DIAN_<num>_<year>` | `RES_DIAN_000165_2023` |
+| Conceptos DIAN | `CONCEPTO_DIAN_<num>_<year>` | `CONCEPTO_DIAN_006483_2024` |
+| Sentencias Consejo de Estado | `CE_SENT_<num>_<year>` | `CE_SENT_28920_2025` |
+| Código Sustantivo del Trabajo | `CST_ART_<num>` | `CST_ART_249` |
+| Ley 100 de 1993 | `LEY_100_1993_ART_<num>` | `LEY_100_1993_ART_204` |
+| CPACA / CGP | `CPACA_ART_<num>`, `CGP_ART_<num>` | `CPACA_ART_138`, `CGP_ART_165` |
+
+If an answer cites a norm only by description with no number, **skip it** — do not guess. Missing is recoverable; wrong is not.
+
+### 1.3 Metrics emitted by the harness
+
+| Metric | Definition | What it tests |
+|---|---|---|
+| `retrieval@10` | For each Q (or sub-Q), fraction of `expected_article_keys` present in top-10 retrieved chunks' article anchors. Mean across the gold set. | Recall of the anchor set — the "did we pull the right articles" question. |
+| `nDCG@10` | Standard nDCG over top-10 with binary relevance from `expected_article_keys`. | Ranking quality — are right articles near the top, not just present. |
+| `MRR` | Mean reciprocal rank of the **first** expected article found. | Top-of-list precision. |
+| `topic_accuracy` | Fraction of Qs where `resolve_chat_topic(q).effective_topic == expected_topic`. | Layer-1 routing health. |
+| `subtopic_accuracy` | Fraction of Qs where `_detect_sub_topic_intent(q, topic)` matches `expected_subtopic` (ignore when gold is `null`). | Layer-2 classifier health. |
+| `sub_question_recall` | For `type=M` only: split the query into its `¿…?` clauses, run the full retrieval per clause, report mean retrieval@10 across clauses. | **The product-quality metric** — catches the D1/D2 failure mode. |
+
+### 1.4 Red-line thresholds (v0 — ratchet up as items land)
+
+| Metric | v0 baseline | v1 ratchet (post-reranker, #2) | v2 ratchet (post-B1+H, #3) |
+|---|---|---|---|
+| `retrieval@10` | ≥ 0.70 | ≥ 0.80 | ≥ 0.88 |
+| `nDCG@10` | ≥ 0.55 | ≥ 0.65 | ≥ 0.75 |
+| `topic_accuracy` | ≥ 0.85 | ≥ 0.90 | ≥ 0.93 |
+| `subtopic_accuracy` | ≥ 0.60 | ≥ 0.70 | ≥ 0.80 |
+| `sub_question_recall` | ≥ 0.60 | ≥ 0.72 | ≥ 0.82 |
+
+Every PR that touches `pipeline_d/`, `topic_router*`, the taxonomy, or the retrievers must either keep the current thresholds or justify a red-line bump. CI fails the PR if any metric drops below the active threshold.
+
+### 1.5 How to run (to be wired)
+
+```bash
+make eval-retrieval                    # runs evals/gold_retrieval_v1.jsonl end-to-end
+make eval-retrieval QID=Q12            # single question, full diagnostic trace
+make eval-retrieval --sub-questions    # per-clause scoring for M-type only
+make eval-retrieval --shadow-reranker  # runs #2's bge-reranker sidecar for A/B
+```
+
+The harness reads the JSONL, calls `run_pipeline_d(request)` per entry (or per sub-question for M-type), and emits a metrics JSON + a per-question diff markdown to `evals/out/<timestamp>/`. `scripts/debug_query.py` (structural item E) is the single-query cousin of this — use it to investigate a specific failure once `make eval-retrieval` flags it.
+
+### 1.6 Relationship to existing eval infrastructure
+
+There is already a retrieval harness at `evals/run_retrieval_eval.py` consuming `evals/rag_retrieval_benchmark.jsonl` (~60 entries). That format uses **document-level** gold (`gold_doc_ids`, `gold_chunk_prefixes`) and was built against the old Pipeline C retrieval contract.
+
+The format defined in §1.1 is **article-level** (`expected_article_keys`) and targets the Pipeline D graph-anchor contract — it's what Falkor's `_explicit_article_keys` / `_retrieve_subtopic_bound_article_keys` actually resolve against. The two grains measure different things and should both run:
+
+- `rag_retrieval_benchmark.jsonl` → chunk/doc-level recall (does `hybrid_search` surface the right documents).
+- `evals/gold_retrieval_v1.jsonl` → article-anchor recall + sub-question recall (does the graph path anchor correctly, and does each `¿…?` clause retrieve its own evidence).
+
+Extension path: `run_retrieval_eval.py` grows a `--dataset gold_retrieval_v1.jsonl --mode article_anchor` branch that reads the new schema. Don't fork the runner — extend it.
+
+### 1.7 Growth plan — 30 → 80–120
+
+v1 (this doc) lands 30 curated questions across 10 macro-areas. The senior-RAG review calls for 80–120 before conclusions about A–H can be drawn. Grow via:
+
+- **Log mining (~30 new Qs).** Pull distinct query shapes from `logs/chat_verbose.jsonl` across the last quarter. Prioritize (a) queries that returned `Cobertura pendiente`, (b) multi-`¿…?` queries, (c) queries whose `retrieval_backend=artifacts` unexpectedly, (d) queries in the unregistered-topic buckets flagged by structural item C.
+- **Gap-driven additions (~15 new Qs).** For each subdomain flagged in structural item H as three-family-asymmetric (UGPP, PILA, precios de transferencia, corrección voluntaria, devolución saldos, RUB actualizaciones), add 2–3 queries that *should* be answerable after H's curation lands — these start failing, flip green as docs land.
+- **Adversarial additions (~15 new Qs).** Polysemous-trap queries for structural item A (`prima en colocación de acciones`, `sociedad en liquidación`, `cotización en bolsa`), cross-topic `¿…?` patterns for D2, and `label-speak vs query-speak` probes for B1. Each is designed to fail at a specific structural item and flip green when it lands.
+
+Cap: 120. Beyond that the curator maintenance cost outgrows the signal. Rotate rather than grow past 120.
+
+---
+
+## 2. Cobertura temática (v1, 30 preguntas)
 
 Las 30 preguntas se distribuyen en 10 macro-áreas del corpus, asegurando cobertura uniforme:
 
-| # | Macro-área | Preguntas | Carpetas del corpus cubiertas |
-|---|-----------|-----------|-------------------------------|
-| A | Renta PJ (deducciones, TTD, beneficio auditoría, anticipo, tarifas) | Q1–Q5 | RENTA/ |
-| B | IVA (periodicidad, prorrata, saldos a favor) | Q6–Q7 | IVA_COMPLETO/ |
-| C | Retención en la fuente | Q8–Q9 | RETENCION_FUENTE_AGENTE/ |
-| D | Facturación electrónica | Q10–Q11 | FACTURACION_ELECTRONICA_OPERATIVA/ |
-| E | RST (Régimen Simple de Tributación) | Q12–Q13 | RST_REGIMEN_SIMPLE/ |
-| F | Nómina, laboral, tiempo parcial, pensiones | Q14–Q17 | NOMINA_SEGURIDAD_SOCIAL/, REFORMA_LABORAL_LEY_2466/, TRABAJO_TIEMPO_PARCIAL/, REFORMA_PENSIONAL/ |
-| G | NIIF PYMEs y obligaciones mercantiles | Q18–Q19 | NIIF_PYMES_GRUPO2/, OBLIGACIONES_MERCANTILES/ |
-| H | Procedimiento tributario (sanciones, firmeza, devoluciones, exógena) | Q20–Q23 | REGIMEN_SANCIONATORIO/, FIRMEZA_DECLARACIONES_ART714/, DEVOLUCIONES_SALDOS_FAVOR/, INFORMACION_EXOGENA_2026/ |
-| I | Impuestos especiales (GMF, ICA, patrimonio, dividendos) | Q24–Q26 | GMF_4X1000/, ICA_INDUSTRIA_COMERCIO/, IMPUESTO_PATRIMONIO_PN/, DIVIDENDOS_UTILIDADES/ |
-| J | Compliance y temas especiales (SAGRILAFT, ZOMAC, pérdidas fiscales, obligaciones del contador) | Q27–Q30 | SAGRILAFT_PTEE/, ZOMAC_INCENTIVOS/, PERDIDAS_FISCALES_ART147/, OBLIGACIONES_PROFESIONALES_CONTADOR/, BENEFICIARIO_FINAL_RUB/ |
+| # | Macro-área | `macro_area` slug | Preguntas | Carpetas del corpus cubiertas |
+|---|-----------|---|-----------|-------------------------------|
+| A | Renta PJ (deducciones, TTD, beneficio auditoría, anticipo, tarifas) | `a_renta_pj` | Q1–Q5 | RENTA/ |
+| B | IVA (periodicidad, prorrata, saldos a favor) | `b_iva` | Q6–Q7 | IVA_COMPLETO/ |
+| C | Retención en la fuente | `c_retencion_fuente` | Q8–Q9 | RETENCION_FUENTE_AGENTE/ |
+| D | Facturación electrónica | `d_facturacion_electronica` | Q10–Q11 | FACTURACION_ELECTRONICA_OPERATIVA/ |
+| E | RST (Régimen Simple de Tributación) | `e_rst` | Q12–Q13 | RST_REGIMEN_SIMPLE/ |
+| F | Nómina, laboral, tiempo parcial, pensiones | `f_nomina_laboral` | Q14–Q17 | NOMINA_SEGURIDAD_SOCIAL/, REFORMA_LABORAL_LEY_2466/, TRABAJO_TIEMPO_PARCIAL/, REFORMA_PENSIONAL/ |
+| G | NIIF PYMEs y obligaciones mercantiles | `g_niif_mercantil` | Q18–Q19 | NIIF_PYMES_GRUPO2/, OBLIGACIONES_MERCANTILES/ |
+| H | Procedimiento tributario (sanciones, firmeza, devoluciones, exógena) | `h_procedimiento_tributario` | Q20–Q23 | REGIMEN_SANCIONATORIO/, FIRMEZA_DECLARACIONES_ART714/, DEVOLUCIONES_SALDOS_FAVOR/, INFORMACION_EXOGENA_2026/ |
+| I | Impuestos especiales (GMF, ICA, patrimonio, dividendos) | `i_impuestos_especiales` | Q24–Q26 | GMF_4X1000/, ICA_INDUSTRIA_COMERCIO/, IMPUESTO_PATRIMONIO_PN/, DIVIDENDOS_UTILIDADES/ |
+| J | Compliance y temas especiales (SAGRILAFT, ZOMAC, pérdidas fiscales, obligaciones del contador) | `j_compliance_especiales` | Q27–Q30 | SAGRILAFT_PTEE/, ZOMAC_INCENTIVOS/, PERDIDAS_FISCALES_ART147/, OBLIGACIONES_PROFESIONALES_CONTADOR/, BENEFICIARIO_FINAL_RUB/ |
 
-**Tipo de pregunta:** S = pregunta de punto único | M = pregunta multipunto (2-3 sub-preguntas)
-**Distribución:** 15 S + 15 M
+**Tipo de pregunta:** `S` = punto único | `M` = multipunto (2-3 sub-preguntas con `¿…?`).
+**Distribución v1:** 15 S + 15 M.
+**Cross-topic v1:** flagged in the structured appendix (§ "Structured Eval Metadata") with `query_shape: "multi+cross_topic"`.
+
+---
+
+## 3. Human-readable gold (prose answers)
+
+Las secciones siguientes mantienen la forma original humana — pregunta, respuesta modelo, pregunta de seguimiento, respuesta de seguimiento — para revisiones cualitativas y para que los accountant-reviewers verifiquen los `expected_article_keys` extraídos. La metadata estructurada por pregunta vive en el apéndice al final del documento (§ "Structured Eval Metadata") y en el JSONL companion `evals/gold_retrieval_v1.jsonl`.
 
 ---
 
@@ -1477,4 +1610,482 @@ La actualización de la tarjeta profesional ante la JCC debe hacerse antes del 3
 
 ---
 
-*Documento generado exclusivamente con base en el Corpus Lia Contador — CORE ya Arriba. No se utilizaron fuentes externas ni conocimiento fuera del corpus para las respuestas modelo.*
+## Structured Eval Metadata (v1 — 30 preguntas, harness-consumable)
+
+> **Relationship to companion JSONL.** The authoritative machine-readable source is `evals/gold_retrieval_v1.jsonl` (one JSON object per line, schema per §1.1). The appendix below mirrors that file as a single pretty-printed JSON array so curator diffs to this markdown stay meaningful. If the two diverge, the JSONL wins — regenerate this appendix from the JSONL via `jq` or a small script; never hand-edit only one. Accountant curators who need to add expected article keys should edit the JSONL first and then copy the same JSON into this block.
+>
+> **Curator review checklist when adding a new question.**
+> 1. Run the prose answer through the `expected_article_keys` lens — every `art. N ET`, every ley/decreto citation, every RES/CONCEPTO DIAN, every sentencia must land in the keys list in canonical form (§1.2).
+> 2. For `type=M`: each `¿…?` clause in the initial prompt is a separate `sub_questions` entry. Count clauses in the prose and make sure `sub_questions` length matches.
+> 3. For queries where the sub-questions obviously span different top-level topics, set `query_shape: "multi+cross_topic"` (not `"multi"`). This is the metric that catches the D2 failure mode in the structural backlog.
+> 4. When unsure about `expected_topic` (topic slug vs. taxonomy's actual key), add `"expected_topic_uncertain": true` — don't guess silently.
+> 5. If a norm is cited only by description in the prose (no number), skip it. Missing keys are recoverable; wrong keys poison the metric.
+
+### Coverage stats (v1)
+
+- **Total questions:** 30 (15 `S`, 15 `M`)
+- **`multi+cross_topic`:** 1 (Q24 — GMF/ICA)
+- **Topics touched:** `declaracion_renta`, `iva`, `retencion_en_la_fuente`, `facturacion_electronica`, `regimen_simple`, `laboral`, `estados_financieros_niif`, `obligaciones_mercantiles`*, `regimen_sancionatorio`, `firmeza_declaraciones`, `devoluciones_saldos_a_favor`, `informacion_exogena`, `gravamen_movimiento_financiero_4x1000`, `ica`, `impuesto_patrimonio`, `dividendos`, `sagrilaft_ptee`, `zonas_francas`*, `perdidas_fiscales`, `obligaciones_profesionales_contador` (* = `expected_topic_uncertain: true`; Q19 may belong under `estados_financieros_niif` or a new `obligaciones_mercantiles` top-level; Q28 ZOMAC may be its own topic rather than `zonas_francas`).
+- **Sub-questions total (for `type=M`):** 39 individual `¿…?` clauses across 15 M-type questions — this is the denominator for `sub_question_recall`.
+- **Total unique `expected_article_keys`:** approximately 70 distinct anchors spanning ET / Leyes / Decretos / Resoluciones DIAN / Conceptos DIAN / Sentencias Consejo de Estado.
+- **Expected empty-`article_keys` count:** 7 questions have `expected_article_keys: []` at the top level (Q6, Q7, Q9, Q10, Q11, Q17, Q27). These are topics where the answer is procedural/descriptive rather than article-anchored — they should still route correctly (`topic_accuracy` and `subtopic_accuracy` still score) and retrieval@10 is measured against chunk-level relevance via the paired `rag_retrieval_benchmark.jsonl` grain, not article anchors.
+
+### Full JSON array (mirror of `evals/gold_retrieval_v1.jsonl`)
+
+```json
+[
+  {
+    "qid": "Q1",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "a_renta_pj",
+    "initial_question_es": "Colega, tengo un cliente SAS comercializadora con ingresos brutos de $3.000 millones en el AG 2025. Todas sus compras están soportadas con factura electrónica validada. ¿Cuánto puede deducir…",
+    "expected_topic": "declaracion_renta",
+    "expected_subtopic": "deduccion_factura_electronica_1pct",
+    "expected_article_keys": ["LEY_2277_2022_ART_7", "ET_ART_771_2", "ET_ART_107"],
+    "followup_question_es": "¿Y qué pasa si parte de esas compras se pagaron en efectivo? ¿Puedo tomar la deducción del 1% sobre compras que excedieron el límite de pagos en efectivo del Art. 771-5?",
+    "followup_expected_article_keys": ["ET_ART_771_5", "LEY_2277_2022_ART_7"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q2",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "a_renta_pj",
+    "initial_question_es": "Necesito ayuda con la TTD para un cliente SAS de comercio con las siguientes cifras del AG 2025: utilidad contable antes de impuestos $360 millones, diferencias permanentes (gastos no deducibles)…",
+    "expected_topic": "declaracion_renta",
+    "expected_subtopic": "ttd_tasa_tributacion_depurada",
+    "expected_article_keys": ["ET_ART_240_PAR_6", "CONCEPTO_DIAN_006483_2024", "ET_ART_807", "ET_ART_689_3"],
+    "followup_question_es": "¿Qué hago si mi cliente tiene una pérdida contable (utilidad contable negativa)? ¿La UD puede ser negativa y eso me exime del cálculo de TTD?",
+    "followup_expected_article_keys": ["CONCEPTO_DIAN_100208192_202_2024", "CE_SENT_28920_2025"],
+    "sub_questions": [
+      {"text_es": "¿Cómo calculo la TTD paso a paso?", "expected_topic": "declaracion_renta", "expected_subtopic": "ttd_tasa_tributacion_depurada", "expected_article_keys": ["ET_ART_240_PAR_6"]},
+      {"text_es": "¿Qué pasa si el resultado queda por debajo del 15%?", "expected_topic": "declaracion_renta", "expected_subtopic": "ttd_tasa_tributacion_depurada", "expected_article_keys": ["ET_ART_240_PAR_6"]},
+      {"text_es": "¿En qué renglón del Formulario 110 registro el Impuesto a Adicionar?", "expected_topic": "declaracion_renta", "expected_subtopic": "formulario_110", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q3",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "a_renta_pj",
+    "initial_question_es": "Un cliente PJ tuvo un impuesto neto de renta de $153.000.000 en AG 2024 y estima un impuesto neto de $214.000.000 para AG 2025 (incluyendo el IA de TTD). ¿Puede acogerse al beneficio de auditoría…",
+    "expected_topic": "declaracion_renta",
+    "expected_subtopic": "beneficio_auditoria",
+    "expected_article_keys": ["ET_ART_689_3", "LEY_2155_2021_ART_51", "LEY_2294_2023_ART_69", "ET_ART_714"],
+    "followup_question_es": "¿Y si el cliente tiene saldo a favor en esa declaración, el plazo para solicitar la devolución también se acorta?",
+    "followup_expected_article_keys": ["ET_ART_689_3", "ET_ART_854"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q4",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "a_renta_pj",
+    "initial_question_es": "Tengo una SAS comercializadora en su tercer año declarando renta. En AG 2024 el INR (incluyendo IA) fue de $164.200.000 y en AG 2025 estimo un INR de $195.000.000. Las retenciones practicadas…",
+    "expected_topic": "declaracion_renta",
+    "expected_subtopic": "anticipo_impuesto_renta",
+    "expected_article_keys": ["ET_ART_807", "ET_ART_809", "ET_ART_810"],
+    "followup_question_es": "Las autorretenciones especiales de renta (Decreto 2201/2016) que mi cliente practica mensualmente, ¿se descuentan del anticipo o del impuesto a cargo? ¿Cómo juegan en el cálculo?",
+    "followup_expected_article_keys": ["DECRETO_2201_2016", "DECRETO_1625_2016_ART_1_2_6_6"],
+    "sub_questions": [
+      {"text_es": "¿Cómo calculo el anticipo por los dos procedimientos del Art. 807?", "expected_topic": "declaracion_renta", "expected_subtopic": "anticipo_impuesto_renta", "expected_article_keys": ["ET_ART_807"]},
+      {"text_es": "¿Cuál le conviene más al cliente?", "expected_topic": "declaracion_renta", "expected_subtopic": "anticipo_impuesto_renta", "expected_article_keys": ["ET_ART_807"]},
+      {"text_es": "¿Hay alguna forma de reducir el anticipo si el negocio va mal en 2026?", "expected_topic": "declaracion_renta", "expected_subtopic": "reduccion_anticipo", "expected_article_keys": ["ET_ART_809", "ET_ART_810"]}
+    ]
+  },
+  {
+    "qid": "Q5",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "a_renta_pj",
+    "initial_question_es": "Un cliente tiene un hotel nuevo en un municipio de menos de 200.000 habitantes, con renta líquida gravable de $150 millones en AG 2025. ¿Qué tarifa de renta le aplica y cuánto se ahorra frente…",
+    "expected_topic": "declaracion_renta",
+    "expected_subtopic": "tarifa_hotelera_art240_par5",
+    "expected_article_keys": ["ET_ART_240_PAR_5"],
+    "followup_question_es": "¿Y si ese mismo hotel está ubicado en un municipio ZOMAC, puede acumular el beneficio ZOMAC con la tarifa del Parágrafo 5?",
+    "followup_expected_article_keys": ["LEY_1819_2016_ART_237", "ET_ART_240_PAR_5", "ET_ART_689_3"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q6",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "b_iva",
+    "initial_question_es": "Tengo una SAS distribuidora de alimentos que vende productos gravados al 19% y también comercializa productos de la canasta familiar (excluidos de IVA). Los ingresos brutos del AG 2024 fueron…",
+    "expected_topic": "iva",
+    "expected_subtopic": "periodicidad_y_prorrateo",
+    "expected_article_keys": [],
+    "followup_question_es": "¿Y si en un cuatrimestre me queda un saldo a favor de IVA, qué opciones tengo para manejarlo?",
+    "followup_expected_article_keys": ["ET_ART_815", "ET_ART_854", "LEY_2277_2022"],
+    "sub_questions": [
+      {"text_es": "¿Cuál es la periodicidad de declaración de IVA para 2026?", "expected_topic": "iva", "expected_subtopic": "periodicidad_iva", "expected_article_keys": []},
+      {"text_es": "¿Cómo calculo el prorrateo del IVA descontable en los gastos comunes?", "expected_topic": "iva", "expected_subtopic": "prorrateo_iva_descontable", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q7",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "b_iva",
+    "initial_question_es": "Mi cliente PYME le vendió mercancía gravada a un gran contribuyente por $10.000.000 más IVA. ¿Cómo funciona la retención de IVA en esa operación y cuánto recibe efectivamente mi cliente?",
+    "expected_topic": "iva",
+    "expected_subtopic": "reteiva_grandes_contribuyentes",
+    "expected_article_keys": [],
+    "followup_question_es": "¿Hay una base mínima para que operen la ReteIVA? Es decir, ¿en compras pequeñas también me retienen?",
+    "followup_expected_article_keys": [],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q8",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "c_retencion_fuente",
+    "initial_question_es": "Tengo que calcular la retención en la fuente por salarios para tres empleados con estos sueldos mensuales en 2026: (a) $3.000.000, (b) $12.000.000, y (c) $20.000.000. Todos tienen las deducciones…",
+    "expected_topic": "retencion_en_la_fuente",
+    "expected_subtopic": "retencion_salarial_tabla_art383",
+    "expected_article_keys": ["ET_ART_383", "ET_ART_206", "ET_ART_336"],
+    "followup_question_es": "Si uno de esos empleados tiene un crédito hipotecario y aportes voluntarios a pensión, ¿cómo afecta eso la base de retención?",
+    "followup_expected_article_keys": ["ET_ART_387", "ET_ART_336", "ET_ART_658_1"],
+    "sub_questions": [
+      {"text_es": "¿Cuánto le retengo al empleado con salario $3.000.000?", "expected_topic": "retencion_en_la_fuente", "expected_subtopic": "retencion_salarial_tabla_art383", "expected_article_keys": ["ET_ART_383", "ET_ART_206", "ET_ART_336"]},
+      {"text_es": "¿Cuánto le retengo al empleado con salario $12.000.000?", "expected_topic": "retencion_en_la_fuente", "expected_subtopic": "retencion_salarial_tabla_art383", "expected_article_keys": ["ET_ART_383"]},
+      {"text_es": "¿Cuánto le retengo al empleado con salario $20.000.000?", "expected_topic": "retencion_en_la_fuente", "expected_subtopic": "retencion_salarial_tabla_art383", "expected_article_keys": ["ET_ART_383"]}
+    ]
+  },
+  {
+    "qid": "Q9",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "c_retencion_fuente",
+    "initial_question_es": "Voy a contratar a un consultor independiente (persona natural declarante de renta) por honorarios de $8.000.000 mensuales. ¿Cuánto debo retenerle en la fuente por concepto de honorarios?",
+    "expected_topic": "retencion_en_la_fuente",
+    "expected_subtopic": "retencion_honorarios",
+    "expected_article_keys": [],
+    "followup_question_es": "¿Y si el consultor me dice que no es declarante de renta, cambia la tarifa de retención?",
+    "followup_expected_article_keys": ["ET_ART_383"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q10",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "d_facturacion_electronica",
+    "initial_question_es": "Un cliente nuevo acaba de constituir una SAS y necesita habilitarse para facturar electrónicamente. (a) ¿Qué opciones tiene para habilitarse? (b) ¿Cuántas resoluciones necesita tener activas?…",
+    "expected_topic": "facturacion_electronica",
+    "expected_subtopic": "habilitacion_y_operacion",
+    "expected_article_keys": [],
+    "followup_question_es": "¿Y el documento soporte cómo funciona? Compro mercancía a un agricultor que no está obligado a facturar. ¿Qué debo hacer?",
+    "followup_expected_article_keys": ["RES_DIAN_000167_2021"],
+    "sub_questions": [
+      {"text_es": "¿Qué opciones tiene para habilitarse?", "expected_topic": "facturacion_electronica", "expected_subtopic": "habilitacion", "expected_article_keys": []},
+      {"text_es": "¿Cuántas resoluciones necesita tener activas?", "expected_topic": "facturacion_electronica", "expected_subtopic": "resoluciones_numeracion", "expected_article_keys": []},
+      {"text_es": "¿Qué hago si el sistema se cae y no puedo transmitir facturas a la DIAN?", "expected_topic": "facturacion_electronica", "expected_subtopic": "contingencia", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q11",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "d_facturacion_electronica",
+    "initial_question_es": "Un cliente me devolvió mercancía por un defecto de calidad. Ya le había emitido factura electrónica por $5.000.000 + IVA. ¿Cómo manejo la nota crédito electrónica?",
+    "expected_topic": "facturacion_electronica",
+    "expected_subtopic": "notas_credito_electronica",
+    "expected_article_keys": [],
+    "followup_question_es": "¿Y si descubrí el error un mes después de cerrar el período de IVA? ¿Puedo emitir la nota crédito en el período siguiente?",
+    "followup_expected_article_keys": ["ET_ART_588", "ET_ART_644"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q12",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "e_rst",
+    "initial_question_es": "Tengo un cliente SAS de servicios profesionales (consultoría) con 3 socios personas naturales residentes, ingresos brutos de $600 millones en AG 2025, y todos los clientes son diversos…",
+    "expected_topic": "regimen_simple",
+    "expected_subtopic": "elegibilidad_y_tarifa",
+    "expected_article_keys": ["ET_ART_905", "ET_ART_906", "ET_ART_908"],
+    "followup_question_es": "¿Qué pasa si uno de los socios tiene participación del 15% en otra SAS que no está en RST? ¿Eso afecta la elegibilidad?",
+    "followup_expected_article_keys": ["ET_ART_905", "LEY_2277_2022"],
+    "sub_questions": [
+      {"text_es": "¿Puede inscribirse en el RST?", "expected_topic": "regimen_simple", "expected_subtopic": "elegibilidad_rst", "expected_article_keys": ["ET_ART_905", "ET_ART_906"]},
+      {"text_es": "¿Qué tarifa consolidada le aplicaría?", "expected_topic": "regimen_simple", "expected_subtopic": "tarifa_rst_grupos", "expected_article_keys": ["ET_ART_908"]},
+      {"text_es": "¿Le conviene más que el régimen ordinario?", "expected_topic": "regimen_simple", "expected_subtopic": "comparacion_rst_ordinario", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q13",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "e_rst",
+    "initial_question_es": "Mi cliente ya está inscrito en el RST (Grupo 2 — actividad comercial mayorista). ¿Cómo funcionan los anticipos bimestrales y con qué formulario los declara?",
+    "expected_topic": "regimen_simple",
+    "expected_subtopic": "anticipos_bimestrales_rst",
+    "expected_article_keys": ["ET_ART_908"],
+    "followup_question_es": "¿Y qué pasa si mi cliente quiere retirarse del RST a mitad de año porque le va mal? ¿Puede?",
+    "followup_expected_article_keys": [],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q14",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "f_nomina_laboral",
+    "initial_question_es": "Tengo una PYME manufacturera con 8 empleados, todos con salarios inferiores a 10 SMLMV. (a) ¿Qué aportes parafiscales debo pagar y cuáles están exonerados? (b) ¿Cuáles son los plazos de pago…",
+    "expected_topic": "laboral",
+    "expected_subtopic": "parafiscales_exoneracion_art114_1",
+    "expected_article_keys": ["ET_ART_114_1"],
+    "followup_question_es": "Uno de los empleados trabaja horas extra dominicales. ¿Cómo calculo el recargo y eso afecta el IBC para los aportes?",
+    "followup_expected_article_keys": ["LEY_2466_2025"],
+    "sub_questions": [
+      {"text_es": "¿Qué aportes parafiscales debo pagar y cuáles están exonerados?", "expected_topic": "laboral", "expected_subtopic": "parafiscales_exoneracion_art114_1", "expected_article_keys": ["ET_ART_114_1"]},
+      {"text_es": "¿Cuáles son los plazos de pago de la PILA según el NIT?", "expected_topic": "laboral", "expected_subtopic": "plazos_pila", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q15",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "f_nomina_laboral",
+    "initial_question_es": "Acabo de escuchar que la Ley 2466 trae cambios importantes en materia laboral. ¿Cuáles son los cambios más críticos que debo implementar en las PYMEs que asesoro y qué fechas límite tengo?",
+    "expected_topic": "laboral",
+    "expected_subtopic": "reforma_laboral_ley_2466",
+    "expected_article_keys": ["LEY_2466_2025"],
+    "followup_question_es": "Con la reducción de jornada a 42 horas semanales desde julio 2026, ¿debo aumentar el salario de mis trabajadores que ganan más del mínimo?",
+    "followup_expected_article_keys": ["LEY_2466_2025"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q16",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "f_nomina_laboral",
+    "initial_question_es": "Un cliente quiere contratar una recepcionista por medio tiempo (4 horas diarias, 5 días a la semana). (a) ¿Cómo se calcula el salario y las prestaciones? (b) ¿Qué opciones tengo para la cotización…",
+    "expected_topic": "laboral",
+    "expected_subtopic": "trabajo_tiempo_parcial",
+    "expected_article_keys": ["LEY_2466_2025_ART_34", "DECRETO_2616_2013"],
+    "followup_question_es": "¿La UGPP me puede cuestionar si contrato a alguien como medio tiempo pero en la práctica trabaja jornada completa?",
+    "followup_expected_article_keys": [],
+    "sub_questions": [
+      {"text_es": "¿Cómo se calcula el salario y las prestaciones?", "expected_topic": "laboral", "expected_subtopic": "salario_proporcional_tiempo_parcial", "expected_article_keys": []},
+      {"text_es": "¿Qué opciones tengo para la cotización a seguridad social?", "expected_topic": "laboral", "expected_subtopic": "cotizacion_seguridad_social_tiempo_parcial", "expected_article_keys": ["LEY_2466_2025_ART_34", "DECRETO_2616_2013"]},
+      {"text_es": "¿Cuánto le cuesta al empleador en total?", "expected_topic": "laboral", "expected_subtopic": "costo_patronal_tiempo_parcial", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q17",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "f_nomina_laboral",
+    "initial_question_es": "¿A partir de qué ingreso debe un empleado aportar al Fondo de Solidaridad Pensional y cuánto le corresponde?",
+    "expected_topic": "laboral",
+    "expected_subtopic": "fondo_solidaridad_pensional",
+    "expected_article_keys": [],
+    "followup_question_es": "Con la reforma pensional, ¿hay algún cambio pendiente en los aportes o en la obligatoriedad de migrar empleados a Colpensiones?",
+    "followup_expected_article_keys": ["LEY_2381_2024"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q18",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "g_niif_mercantil",
+    "initial_question_es": "Tengo un cliente PYME Grupo 2 que compró maquinaria por $120 millones en enero de 2025. (a) ¿Cuáles son las vidas útiles para depreciación fiscal vs. NIIF? (b) ¿Cómo calculo la diferencia…",
+    "expected_topic": "estados_financieros_niif",
+    "expected_subtopic": "depreciacion_fiscal_vs_niif",
+    "expected_article_keys": ["ET_ART_137"],
+    "followup_question_es": "¿Puedo usar depreciación acelerada fiscalmente para esa maquinaria y cómo afectaría el cálculo del impuesto diferido?",
+    "followup_expected_article_keys": ["ET_ART_140"],
+    "sub_questions": [
+      {"text_es": "¿Cuáles son las vidas útiles para depreciación fiscal vs. NIIF?", "expected_topic": "estados_financieros_niif", "expected_subtopic": "depreciacion_fiscal_vs_niif", "expected_article_keys": ["ET_ART_137"]},
+      {"text_es": "¿Cómo calculo la diferencia temporaria para el impuesto diferido?", "expected_topic": "estados_financieros_niif", "expected_subtopic": "impuesto_diferido", "expected_article_keys": []},
+      {"text_es": "¿Dónde registro esta diferencia en el Formato 2516?", "expected_topic": "estados_financieros_niif", "expected_subtopic": "formato_2516_conciliacion_fiscal", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q19",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "g_niif_mercantil",
+    "initial_question_es": "¿Cuáles son las obligaciones mercantiles que una SAS debe cumplir en el primer trimestre del año y qué pasa si no las cumple?",
+    "expected_topic": "obligaciones_mercantiles",
+    "expected_subtopic": "renovacion_rues_y_asamblea",
+    "expected_article_keys": ["ET_ART_242", "ET_ART_245"],
+    "followup_question_es": "Si la SAS no alcanzó a hacer la asamblea antes del 31 de marzo, ¿qué consecuencias tiene y puede hacerla después?",
+    "followup_expected_article_keys": ["LEY_222_1995_ART_86"],
+    "sub_questions": null,
+    "expected_topic_uncertain": true
+  },
+  {
+    "qid": "Q20",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "h_procedimiento_tributario",
+    "initial_question_es": "Un cliente persona jurídica se atrasó 3 meses en la presentación de la declaración de renta del AG 2024. El impuesto a cargo fue de $45.000.000. (a) ¿Cómo calculo la sanción por extemporaneidad?…",
+    "expected_topic": "regimen_sancionatorio",
+    "expected_subtopic": "extemporaneidad_y_reduccion",
+    "expected_article_keys": ["ET_ART_641", "ET_ART_640"],
+    "followup_question_es": "¿Y si el cliente presentó la declaración a tiempo pero sin pago? ¿Eso también genera sanción por extemporaneidad?",
+    "followup_expected_article_keys": ["ET_ART_634", "ET_ART_823", "ET_ART_689_3", "ET_ART_814"],
+    "sub_questions": [
+      {"text_es": "¿Cómo calculo la sanción por extemporaneidad?", "expected_topic": "regimen_sancionatorio", "expected_subtopic": "sancion_extemporaneidad", "expected_article_keys": ["ET_ART_641"]},
+      {"text_es": "¿Puedo reducir la sanción con el Art. 640 ET?", "expected_topic": "regimen_sancionatorio", "expected_subtopic": "reduccion_sancion_art640", "expected_article_keys": ["ET_ART_640"]},
+      {"text_es": "¿Cuál es la sanción mínima?", "expected_topic": "regimen_sancionatorio", "expected_subtopic": "sancion_minima", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q21",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "h_procedimiento_tributario",
+    "initial_question_es": "¿En qué fecha queda en firme la declaración de renta del AG 2022 para una persona jurídica que la presentó oportunamente el 10 de mayo de 2023, sin beneficio de auditoría?",
+    "expected_topic": "firmeza_declaraciones",
+    "expected_subtopic": "firmeza_ordinaria_art714",
+    "expected_article_keys": ["ET_ART_714", "ET_ART_147_PAR_1"],
+    "followup_question_es": "Tengo un cliente con más de 130 declaraciones anuales entre renta, IVA, retención y GMF. ¿Hay alguna forma práctica de llevar el control de la firmeza de todas?",
+    "followup_expected_article_keys": ["ET_ART_632"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q22",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "h_procedimiento_tributario",
+    "initial_question_es": "Un cliente PJ tiene un saldo a favor de $85.000.000 en su declaración de renta del AG 2025 (originado por exceso de retenciones). (a) ¿Qué opciones tiene para manejar ese saldo? (b) ¿Cuánto tiempo…",
+    "expected_topic": "devoluciones_saldos_a_favor",
+    "expected_subtopic": "procedimiento_devolucion",
+    "expected_article_keys": ["ET_ART_815", "ET_ART_854", "LEY_2277_2022"],
+    "followup_question_es": "¿La DIAN puede abrir una fiscalización después de aprobar la devolución?",
+    "followup_expected_article_keys": ["ET_ART_670"],
+    "sub_questions": [
+      {"text_es": "¿Qué opciones tiene para manejar ese saldo?", "expected_topic": "devoluciones_saldos_a_favor", "expected_subtopic": "opciones_saldo_a_favor", "expected_article_keys": ["ET_ART_815"]},
+      {"text_es": "¿Cuánto tiempo toma la devolución?", "expected_topic": "devoluciones_saldos_a_favor", "expected_subtopic": "tiempos_devolucion", "expected_article_keys": ["ET_ART_854", "LEY_2277_2022"]},
+      {"text_es": "¿Necesita garantía bancaria?", "expected_topic": "devoluciones_saldos_a_favor", "expected_subtopic": "garantia_bancaria", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q23",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "h_procedimiento_tributario",
+    "initial_question_es": "¿Cuáles son los umbrales para estar obligado a presentar información exógena del AG 2025 y cuáles son los plazos de vencimiento para 2026?",
+    "expected_topic": "informacion_exogena",
+    "expected_subtopic": "umbrales_y_plazos_exogena",
+    "expected_article_keys": ["RES_DIAN_000233"],
+    "followup_question_es": "Se me pasó un proveedor en el Formato 1001 del año pasado y la DIAN me notificó. ¿Cómo corrijo y qué sanción me aplican?",
+    "followup_expected_article_keys": ["ET_ART_651", "ET_ART_640"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q24",
+    "type": "M",
+    "query_shape": "multi+cross_topic",
+    "macro_area": "i_impuestos_especiales",
+    "initial_question_es": "Un cliente PYME tiene movimientos bancarios mensuales de $200 millones y opera en Bogotá en actividad comercial. (a) ¿Cómo puede optimizar el GMF (4×1000)? (b) ¿El ICA de Bogotá es deducible…",
+    "expected_topic": "gravamen_movimiento_financiero_4x1000",
+    "expected_subtopic": "optimizacion_gmf_y_deduccion_ica",
+    "expected_article_keys": ["ET_ART_879", "ET_ART_115"],
+    "followup_question_es": "¿Si mi cliente opera en Bogotá y también tiene una sucursal en Medellín, cómo distribuyo los ingresos para ICA entre las dos ciudades?",
+    "followup_expected_article_keys": ["ET_ART_115"],
+    "sub_questions": [
+      {"text_es": "¿Cómo puede optimizar el GMF (4×1000)?", "expected_topic": "gravamen_movimiento_financiero_4x1000", "expected_subtopic": "optimizacion_gmf_cuenta_exenta", "expected_article_keys": ["ET_ART_879", "ET_ART_115"]},
+      {"text_es": "¿El ICA de Bogotá es deducible en renta?", "expected_topic": "ica", "expected_subtopic": "deducibilidad_ica_renta", "expected_article_keys": ["ET_ART_115"]},
+      {"text_es": "¿Cuánto vale la tarifa de ICA para comercio en Bogotá?", "expected_topic": "ica", "expected_subtopic": "tarifa_ica_bogota", "expected_article_keys": []}
+    ]
+  },
+  {
+    "qid": "Q25",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "i_impuestos_especiales",
+    "initial_question_es": "Un socio de una PYME que asesoro tiene un patrimonio líquido de $4.000 millones al 1 de enero de 2026. ¿Está obligado a declarar impuesto al patrimonio y cuánto le correspondería pagar?",
+    "expected_topic": "impuesto_patrimonio",
+    "expected_subtopic": "umbral_y_tarifas_patrimonio_pn",
+    "expected_article_keys": ["ET_ART_292_3", "ET_ART_295_3"],
+    "followup_question_es": "¿Los bienes que tiene en la PYME (acciones o participaciones) cómo se valoran para el impuesto al patrimonio?",
+    "followup_expected_article_keys": [],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q26",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "i_impuestos_especiales",
+    "initial_question_es": "Una SAS con utilidad contable de $500 millones en AG 2025 quiere distribuir dividendos a sus 2 socios personas naturales residentes (50% cada uno). (a) ¿Cómo depuro la utilidad para determinar…",
+    "expected_topic": "dividendos",
+    "expected_subtopic": "depuracion_y_retencion_dividendos",
+    "expected_article_keys": ["ET_ART_49", "ET_ART_242"],
+    "followup_question_es": "¿Puedo distribuir los dividendos como abono en cuenta (cuenta 2505 — Dividendos por pagar) sin pagar efectivamente, y la retención se causa igual?",
+    "followup_expected_article_keys": ["ET_ART_369"],
+    "sub_questions": [
+      {"text_es": "¿Cómo depuro la utilidad para determinar la parte gravada y no gravada?", "expected_topic": "dividendos", "expected_subtopic": "depuracion_art49", "expected_article_keys": ["ET_ART_49"]},
+      {"text_es": "¿Cuánto le retengo a cada socio?", "expected_topic": "dividendos", "expected_subtopic": "retencion_dividendos_art242", "expected_article_keys": ["ET_ART_242"]}
+    ]
+  },
+  {
+    "qid": "Q27",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "j_compliance_especiales",
+    "initial_question_es": "¿Mi cliente PYME de comercio con activos de $3.000 millones está obligado a implementar SAGRILAFT o PTEE?",
+    "expected_topic": "sagrilaft_ptee",
+    "expected_subtopic": "clasificacion_umbrales_pyme",
+    "expected_article_keys": [],
+    "followup_question_es": "¿Y si el año que viene los activos superan los $8.754 millones por una valorización de inventarios, entra automáticamente al PTEE?",
+    "followup_expected_article_keys": [],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q28",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "j_compliance_especiales",
+    "initial_question_es": "Un cliente quiere montar una empresa nueva en un municipio ZOMAC. (a) ¿Qué tarifas de renta le aplican y por cuánto tiempo? (b) ¿Qué requisitos de inversión y empleo debe cumplir? (c) ¿Cuándo…",
+    "expected_topic": "zonas_francas",
+    "expected_subtopic": "zomac_incentivos_tarifas",
+    "expected_article_keys": ["LEY_1819_2016_ART_235", "LEY_1819_2016_ART_236", "LEY_1819_2016_ART_237", "LEY_1819_2016_ART_238", "DECRETO_957_2019", "DECRETO_1650", "ET_ART_689_3"],
+    "followup_question_es": "¿Si el cliente ya tiene una empresa en Bogotá y quiere abrir una sucursal en un municipio ZOMAC, obtiene el beneficio?",
+    "followup_expected_article_keys": ["ET_ART_647"],
+    "sub_questions": [
+      {"text_es": "¿Qué tarifas de renta le aplican y por cuánto tiempo?", "expected_topic": "zonas_francas", "expected_subtopic": "tarifas_progresivas_zomac", "expected_article_keys": ["LEY_1819_2016_ART_235", "LEY_1819_2016_ART_236", "LEY_1819_2016_ART_237", "LEY_1819_2016_ART_238", "DECRETO_957_2019"]},
+      {"text_es": "¿Qué requisitos de inversión y empleo debe cumplir?", "expected_topic": "zonas_francas", "expected_subtopic": "requisitos_zomac", "expected_article_keys": ["DECRETO_1650"]},
+      {"text_es": "¿Cuándo se acaba el beneficio?", "expected_topic": "zonas_francas", "expected_subtopic": "vigencia_zomac", "expected_article_keys": ["ET_ART_689_3"]}
+    ],
+    "expected_topic_uncertain": true
+  },
+  {
+    "qid": "Q29",
+    "type": "S",
+    "query_shape": "single",
+    "macro_area": "j_compliance_especiales",
+    "initial_question_es": "Mi cliente PJ tiene pérdidas fiscales acumuladas de $200 millones originadas en el AG 2020. ¿Hasta cuándo puede compensarlas y cómo afecta eso la TTD?",
+    "expected_topic": "perdidas_fiscales",
+    "expected_subtopic": "compensacion_art147_y_ttd",
+    "expected_article_keys": ["ET_ART_147", "LEY_1819_2016"],
+    "followup_question_es": "¿El término de firmeza de la declaración donde se originó la pérdida también cambia?",
+    "followup_expected_article_keys": ["ET_ART_147_PAR_1"],
+    "sub_questions": null
+  },
+  {
+    "qid": "Q30",
+    "type": "M",
+    "query_shape": "multi",
+    "macro_area": "j_compliance_especiales",
+    "initial_question_es": "Un colega me pregunta en qué casos la firma del contador es obligatoria en las declaraciones tributarias de una PJ y qué responsabilidades asumo al firmar. (a) ¿Cuándo es obligatoria mi firma?…",
+    "expected_topic": "obligaciones_profesionales_contador",
+    "expected_subtopic": "firma_contador_y_responsabilidad",
+    "expected_article_keys": ["ET_ART_596", "ET_ART_597", "ET_ART_581", "ET_ART_658_1", "LEY_43_1990"],
+    "followup_question_es": "¿Hasta cuándo debo conservar los papeles de trabajo que soportan la declaración que firmé?",
+    "followup_expected_article_keys": ["ET_ART_632", "DECRETO_2420_2015", "LEY_43_1990"],
+    "sub_questions": [
+      {"text_es": "¿Cuándo es obligatoria mi firma?", "expected_topic": "obligaciones_profesionales_contador", "expected_subtopic": "obligatoriedad_firma_contador", "expected_article_keys": ["ET_ART_596", "ET_ART_597"]},
+      {"text_es": "¿Qué certifico implícitamente al firmar?", "expected_topic": "obligaciones_profesionales_contador", "expected_subtopic": "certificaciones_firma_art581", "expected_article_keys": ["ET_ART_581"]},
+      {"text_es": "¿Qué sanciones me pueden imponer?", "expected_topic": "obligaciones_profesionales_contador", "expected_subtopic": "sanciones_contador", "expected_article_keys": ["ET_ART_658_1", "LEY_43_1990"]}
+    ]
+  }
+]
+```
+
+---
+
+*Documento generado exclusivamente con base en el Corpus Lia Contador — CORE ya Arriba. No se utilizaron fuentes externas ni conocimiento fuera del corpus para las respuestas modelo. Structured eval metadata añadida el 2026-04-22 para convertir este benchmark humano en la fuente-de-verdad del gold retrieval eval harness (v1 = 30 preguntas; meta v2 = 80–120 preguntas).*

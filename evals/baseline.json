@@ -1,0 +1,65 @@
+{
+  "generated_at": "2026-04-22T21:42:58.441340+00:00",
+  "gold_path": "evals/gold_retrieval_v1.jsonl",
+  "gold_entry_count": 30,
+  "router_denominator": 28,
+  "methodology": {
+    "skip_sub_questions": true,
+    "top_k": 10,
+    "reranker_mode": "live",
+    "decompose_enabled": true
+  },
+  "metrics": {
+    "router_accuracy": 0.6071428571428571,
+    "primary_only_strict.retrieval_at_10": 0.27318840579710146,
+    "primary_only_strict.ndcg_at_10": 0.20974362759204473,
+    "primary_only_strict.mrr": 0.2608695652173913,
+    "primary_only_strict.sub_question_recall_at_10": 0.27318840579710146,
+    "primary_only_loose.retrieval_at_10": 0.32753623188405795,
+    "primary_only_loose.ndcg_at_10": 0.2639306879720764,
+    "primary_only_loose.mrr": 0.32608695652173914,
+    "primary_only_loose.sub_question_recall_at_10": 0.32753623188405795,
+    "with_connected_strict.retrieval_at_10": 0.2818840579710145,
+    "with_connected_strict.ndcg_at_10": 0.21544819617953784,
+    "with_connected_strict.mrr": 0.2608695652173913,
+    "with_connected_strict.sub_question_recall_at_10": 0.2818840579710145,
+    "with_connected_loose.retrieval_at_10": 0.336231884057971,
+    "with_connected_loose.ndcg_at_10": 0.26963525655956955,
+    "with_connected_loose.mrr": 0.32608695652173914,
+    "with_connected_loose.sub_question_recall_at_10": 0.336231884057971
+  },
+  "aggregate": {
+    "variants": {
+      "primary_only_strict": {
+        "retrieval_at_10": 0.27318840579710146,
+        "ndcg_at_10": 0.20974362759204473,
+        "mrr": 0.2608695652173913,
+        "sub_question_recall_at_10": 0.27318840579710146,
+        "sub_question_count": 23
+      },
+      "primary_only_loose": {
+        "retrieval_at_10": 0.32753623188405795,
+        "ndcg_at_10": 0.2639306879720764,
+        "mrr": 0.32608695652173914,
+        "sub_question_recall_at_10": 0.32753623188405795,
+        "sub_question_count": 23
+      },
+      "with_connected_strict": {
+        "retrieval_at_10": 0.2818840579710145,
+        "ndcg_at_10": 0.21544819617953784,
+        "mrr": 0.2608695652173913,
+        "sub_question_recall_at_10": 0.2818840579710145,
+        "sub_question_count": 23
+      },
+      "with_connected_loose": {
+        "retrieval_at_10": 0.336231884057971,
+        "ndcg_at_10": 0.26963525655956955,
+        "mrr": 0.32608695652173914,
+        "sub_question_recall_at_10": 0.336231884057971,
+        "sub_question_count": 23
+      }
+    },
+    "router_accuracy": 0.6071428571428571,
+    "router_denominator": 28
+  }
+}

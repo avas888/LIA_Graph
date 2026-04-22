@@ -1,4 +1,4 @@
-import"./main-DE-rE2No.js";import{v as b,r as C}from"./format-CYFfBTRg.js";import{g as A}from"./client-OE0sHIIg.js";import{c as S}from"./chip-Bjq03GaS.js";import{b as I}from"./button-1yFzSXrY.js";import{c as B}from"./factCard-Cu0UJHPY.js";import{b as N}from"./bootstrap-DAARwiGO.js";import"./index-BAf9D_ld.js";import"./authGate-Bb2S6efH.js";function x(t){return`
+import"./main-Doje7Suw.js";import{v as b,r as C}from"./format-CYFfBTRg.js";import{g as A}from"./client-OE0sHIIg.js";import{c as S}from"./chip-Bjq03GaS.js";import{b as I}from"./button-1yFzSXrY.js";import{c as B}from"./factCard-Cu0UJHPY.js";import{b as N}from"./bootstrap-BApbUZ11.js";import"./index-DF3uq1vv.js";import"./authGate-Bb2S6efH.js";function x(t){return`
     <main class="normative-analysis-shell">
       <header class="normative-analysis-header">
         <div class="normative-analysis-header-info">

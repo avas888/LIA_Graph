@@ -249,6 +249,27 @@ function buildRuntimeEnv(mode) {
     env.LIA_LLM_POLISH_ENABLED = "1";
   }
 
+  // Cross-encoder reranker (structural backlog #2). Default flipped
+  // to `live` on 2026-04-22 per the "all improvements on" directive
+  // for the internal-beta period. With no sidecar deployed yet, the
+  // adapter falls back to hybrid order and logs
+  // `reranker_fallback=true` — functionally identical to shadow for
+  // served answers, but methodology-labeled as live so the regression
+  // gates stay aligned once the sidecar actually lands. Shell override
+  // still wins.
+  if (!String(env.LIA_RERANKER_MODE || "").trim()) {
+    env.LIA_RERANKER_MODE = "live";
+  }
+
+  // V2-2 query decomposition. Default flipped to `on` on 2026-04-22
+  // (same directive). Multi-`¿…?` queries fan out per sub-question
+  // before retrieval; results merge at synthesis. Applies to all three
+  // run modes — local, staging, production — since this is internal
+  // beta and no flag here contradicts another. Shell override wins.
+  if (!String(env.LIA_QUERY_DECOMPOSE || "").trim()) {
+    env.LIA_QUERY_DECOMPOSE = "on";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

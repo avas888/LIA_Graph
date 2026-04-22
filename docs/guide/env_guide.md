@@ -1,6 +1,6 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-04-21-stv2d`.**
+> **Env matrix version: `v2026-04-22-betaflipsall`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
 
 ## Purpose
@@ -25,7 +25,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-04-21-stv2d)
+## Runtime Retrieval Flags (v2026-04-22-betaflipsall)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -35,6 +35,9 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_GRAPH_MODE` | `artifacts` | `falkor_live` | inherits Railway | `retriever.py` vs `retriever_falkor.py` |
 | `LIA_LLM_POLISH_ENABLED` | `1` | `1` | `1` | `answer_llm_polish.py` — set to `0` to compare template vs polished |
 | `LIA_SUBTOPIC_BOOST_FACTOR` | `1.5` default (unused in dev) | `1.5` default | inherits Railway | `retriever_supabase.py` + `retriever_falkor.py` when planner detects subtopic intent |
+| `LIA_RERANKER_MODE` | **`live`** | **`live`** | **`live`** | `pipeline_d/reranker.py` — all modes flipped `live` on 2026-04-22 (internal-beta risk-forward). Adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset; served answers unchanged until the sidecar lands. |
+| `LIA_QUERY_DECOMPOSE` | **`on`** | **`on`** | **`on`** | `pipeline_d/query_decomposer.py` — multi-`¿…?` queries fan out per sub-question; evidence merges at synthesis. |
+| `LIA_RERANKER_ENDPOINT` | unset | unset | unset | `pipeline_d/reranker.py` — base URL of the bge-reranker-v2-m3 sidecar (`POST {url}/rerank`). Unset until the sidecar is deployed. |
 | `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 
 Every chat response carries the active values under `response.diagnostics.retrieval_backend`, `response.diagnostics.graph_backend`, and — when the planner detects a curated subtopic — `response.diagnostics.retrieval_sub_topic_intent` + `response.diagnostics.subtopic_anchor_keys`. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted — fix the env before shipping.

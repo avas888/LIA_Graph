@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from typing import Any
 from uuid import uuid4
 
 from ..pipeline_c.contracts import PipelineCRequest, PipelineCResponse
@@ -12,7 +13,21 @@ from .answer_llm_polish import polish_graph_native_answer
 from .answer_synthesis import build_graph_native_answer_parts
 from .contracts import GraphEvidenceBundle, GraphRetrievalPlan
 from .planner import build_graph_retrieval_plan
+from .query_decomposer import (
+    build_sub_query_request,
+    decompose_query,
+    is_enabled as _decompose_enabled,
+    merge_evidence_bundles,
+)
+from .reranker import rerank_evidence_bundle
 from .retriever import retrieve_graph_evidence as _retrieve_artifacts
+from .topic_safety import (
+    abstention_text_for_misalignment,
+    abstention_text_for_router_silent,
+    detect_router_silent_failure,
+    detect_topic_misalignment,
+    should_promote_misalignment_to_abstention,
+)
 
 
 _CORPUS_SOURCE_ENV = "LIA_CORPUS_SOURCE"
@@ -161,6 +176,67 @@ def _compose_graph_native_answer(
     return "Con la evidencia disponible todavía no alcanzo una recomendación operativa suficientemente confiable."
 
 
+def _compose_topic_safety_abstention(
+    *,
+    request: PipelineCRequest,
+    index_file: object | None,
+    policy_path: object | None,
+    runtime_config_path: object | None,
+    answer_text: str,
+    fallback_reason: str,
+    confidence_mode: str,
+    topic_safety: dict[str, object],
+    backend_diagnostics: dict[str, str],
+    on_llm_delta: object | None,
+) -> PipelineCResponse:
+    """Shared short-circuit response for router-safety abstentions.
+
+    Mirrors the FileNotFoundError branch's shape so downstream consumers
+    (UI, diagnostics, tests) see a well-formed PipelineCResponse with a
+    clear fallback_reason + topic_safety block.
+    """
+    if callable(on_llm_delta):
+        on_llm_delta(answer_text)
+    return PipelineCResponse(
+        trace_id=str(request.trace_id or uuid4().hex),
+        run_id=f"pd_{uuid4().hex}",
+        answer_markdown=answer_text,
+        answer_concise=answer_text,
+        followup_queries=(),
+        citations=(),
+        confidence_score=0.05,
+        confidence_mode=confidence_mode,
+        answer_mode="topic_safety_abstention",
+        compose_quality=0.0,
+        fallback_reason=fallback_reason,
+        evidence_snippets=(),
+        diagnostics={
+            "compatibility_mode": False,
+            "pipeline_family": "pipeline_d",
+            "index_file": str(index_file) if index_file is not None else None,
+            "policy_path": str(policy_path) if policy_path is not None else None,
+            "runtime_config_path": (
+                str(runtime_config_path) if runtime_config_path is not None else None
+            ),
+            "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
+            "graph_backend": backend_diagnostics.get("graph_backend"),
+            "topic_safety": topic_safety,
+        },
+        llm_runtime=None,
+        token_usage=None,
+        timing=None,
+        requested_topic=request.requested_topic,
+        effective_topic=request.topic,
+        secondary_topics=request.secondary_topics,
+        topic_adjusted=request.topic_adjusted,
+        topic_notice=request.topic_notice,
+        topic_adjustment_reason=request.topic_adjustment_reason,
+        coverage_notice=answer_text,
+        pipeline_variant="pipeline_d",
+        pipeline_route="pipeline_d",
+    )
+
+
 def run_pipeline_d(
     request: PipelineCRequest,
     *,
@@ -182,12 +258,100 @@ def run_pipeline_d(
         "retrieval_backend": _current_corpus_source(),
         "graph_backend": _current_graph_mode(),
     }
+
+    # SAFETY CHECK 1: router silent-failure.
+    # If the upstream topic router returned no topic with effectively zero
+    # confidence, refuse to synthesize from whatever grab-bag articles
+    # fall out of general_graph_research retrieval. See topic_safety.py
+    # and `docs/next/structuralwork_v1_SEENOW.md` v5.3 landed-state.
+    silent_failure = detect_router_silent_failure(request)
+    if silent_failure is not None:
+        return _compose_topic_safety_abstention(
+            request=request,
+            index_file=index_file,
+            policy_path=policy_path,
+            runtime_config_path=runtime_config_path,
+            answer_text=abstention_text_for_router_silent(),
+            fallback_reason="pipeline_d_router_silent_failure",
+            confidence_mode="router_silent_failure",
+            topic_safety={"router_silent": silent_failure, "misalignment": None},
+            backend_diagnostics=backend_diagnostics,
+            on_llm_delta=on_llm_delta,
+        )
+
+    decomposer_diag: dict[str, Any] = {"enabled": _decompose_enabled(), "sub_queries": []}
     try:
-        plan = build_graph_retrieval_plan(request)
         artifacts_dir = _artifacts_dir_from_index_file(index_file)
         if sink is not None and callable(status):
             status("pipeline_d", "Recuperando evidencia desde graph artifacts y canonical manifest...")
-        plan, evidence, backend_diagnostics = _retrieve_evidence(plan, artifacts_dir=artifacts_dir)
+
+        # V2-2: if query decomposition is enabled and the query has
+        # multiple ¿…? sub-questions, route + plan + retrieve per
+        # sub-query and merge the evidence bundles before synthesis.
+        # Otherwise, single-query path (today's behavior).
+        sub_queries: tuple[str, ...] = ()
+        if _decompose_enabled():
+            sub_queries = decompose_query(request.message)
+            decomposer_diag["sub_queries"] = list(sub_queries)
+
+        if sub_queries:
+            from ..topic_router import resolve_chat_topic as _resolve
+
+            per_bundles: list[Any] = []
+            provenance: list[dict[str, Any]] = []
+            plan = None
+            for sq in sub_queries:
+                sq_routing = _resolve(message=sq, requested_topic=None, pais=request.pais)
+                sq_request = build_sub_query_request(
+                    parent_request=request,
+                    sub_query=sq,
+                    resolved_topic=sq_routing.effective_topic,
+                    secondary_topics=sq_routing.secondary_topics,
+                    topic_confidence=sq_routing.confidence,
+                )
+                sq_plan = build_graph_retrieval_plan(sq_request)
+                sq_plan, sq_evidence, sq_backend = _retrieve_evidence(
+                    sq_plan, artifacts_dir=artifacts_dir
+                )
+                per_bundles.append(sq_evidence)
+                provenance.append(
+                    {
+                        "sub_query": sq,
+                        "router_topic": sq_routing.effective_topic,
+                        "router_confidence": round(float(sq_routing.confidence or 0.0), 3),
+                        "primary_count": len(sq_evidence.primary_articles),
+                        "connected_count": len(sq_evidence.connected_articles),
+                    }
+                )
+                # Keep the first plan for downstream consumers that still
+                # expect a single `plan.to_dict()` in diagnostics; the
+                # sub-query provenance block surfaces the full fan-out.
+                if plan is None:
+                    plan = sq_plan
+                backend_diagnostics = sq_backend
+
+            evidence = merge_evidence_bundles(
+                per_bundles, per_sub_query_provenance=provenance
+            )
+            # If fan-out happened but the primary plan is somehow None
+            # (empty sub_queries race), fall through to single-query.
+            if plan is None:
+                plan = build_graph_retrieval_plan(request)
+                plan, evidence, backend_diagnostics = _retrieve_evidence(
+                    plan, artifacts_dir=artifacts_dir
+                )
+            decomposer_diag["fanout_count"] = len(sub_queries)
+        else:
+            plan = build_graph_retrieval_plan(request)
+            plan, evidence, backend_diagnostics = _retrieve_evidence(
+                plan, artifacts_dir=artifacts_dir
+            )
+            decomposer_diag["fanout_count"] = 0
+
+        evidence, reranker_diagnostics = rerank_evidence_bundle(
+            query=request.message,
+            evidence=evidence,
+        )
     except FileNotFoundError:
         answer = (
             "Pipeline D no encontro los artifacts graph-native esperados en disco, "
@@ -233,6 +397,35 @@ def run_pipeline_d(
             pipeline_route="pipeline_d",
         )
 
+    # SAFETY CHECK 2: router↔retrieval misalignment.
+    # The router may have picked a topic (so check 1 didn't fire) but the
+    # primary articles the retriever found don't lexically belong to that
+    # topic. This is the Q1 / Q26-class failure. If the router's own
+    # confidence was already borderline, promote to abstention; otherwise
+    # stash the signal in diagnostics so the alignment harness catches it.
+    misalignment = detect_topic_misalignment(request, evidence)
+    if should_promote_misalignment_to_abstention(request, misalignment):
+        return _compose_topic_safety_abstention(
+            request=request,
+            index_file=index_file,
+            policy_path=policy_path,
+            runtime_config_path=runtime_config_path,
+            answer_text=abstention_text_for_misalignment(misalignment),
+            fallback_reason="pipeline_d_topic_misalignment_borderline_confidence",
+            confidence_mode="topic_misalignment",
+            topic_safety={
+                "router_silent": None,
+                "misalignment": {"kind": "topic_misalignment", **misalignment},
+            },
+            backend_diagnostics=backend_diagnostics,
+            on_llm_delta=on_llm_delta,
+        )
+
+    topic_safety_diag = {
+        "router_silent": None,
+        "misalignment": misalignment,
+    }
+
     answer_mode = "graph_native"
     fallback_reason = None
     confidence = 0.82 if evidence.primary_articles else 0.42
@@ -246,6 +439,12 @@ def run_pipeline_d(
         answer_mode = "graph_native_partial"
         fallback_reason = "pipeline_d_no_graph_primary_articles"
         coverage_notice = _compose_partial_coverage_notice(retrieval_health)
+    elif misalignment.get("misaligned"):
+        # Confident-enough router but misaligned evidence — serve the
+        # answer with a hedged confidence band instead of abstaining,
+        # since the accountant may still want to see the evidence.
+        confidence = min(confidence, 0.55)
+        confidence_mode = "topic_misalignment_hedged"
 
     answer = _compose_graph_native_answer(
         request=request,
@@ -294,6 +493,9 @@ def run_pipeline_d(
             "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
             "graph_backend": backend_diagnostics.get("graph_backend"),
             "retrieval_health": retrieval_health,
+            "reranker": reranker_diagnostics,
+            "topic_safety": topic_safety_diag,
+            "decomposer": decomposer_diag,
         },
         llm_runtime=dict(llm_runtime_diag),
         token_usage=None,

@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-04-22T21:43:27.295903+00:00",
+  "gold_path": "evals/gold_retrieval_v1.jsonl",
+  "gold_entry_count": 30,
+  "methodology": {
+    "top_k": 10,
+    "reranker_mode": "live",
+    "polish_enabled": false,
+    "decompose_enabled": true
+  },
+  "metrics": {
+    "citation_precision_strict": 0.9896687674465453,
+    "citation_precision_loose": 0.9896687674465453,
+    "primary_anchor_recall_strict": 0.8263668430335097,
+    "primary_anchor_recall_loose": 0.8263668430335097,
+    "abstention_rate": 0.1
+  },
+  "observability": {
+    "total_cites": 347,
+    "total_regulatory_cites": 5,
+    "precision_denominator": 27,
+    "recall_denominator": 27
+  }
+}

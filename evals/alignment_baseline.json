@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-04-22T21:43:56.077164+00:00",
+  "gold_path": "evals/gold_retrieval_v1.jsonl",
+  "gold_entry_count": 30,
+  "methodology": {
+    "top_k": 10,
+    "reranker_mode": "live",
+    "polish_enabled": false,
+    "decompose_enabled": true
+  },
+  "metrics": {
+    "body_vs_router_alignment": 0.5925925925925926,
+    "body_vs_expected_alignment": 0.56,
+    "safety_abstention_rate": 0.06666666666666667,
+    "misalignment_detection_rate": 0.35714285714285715,
+    "sub_question_router_accuracy": 0.4523809523809524
+  },
+  "observability": {
+    "safety_abstention_denominator": 30,
+    "body_vs_router_denominator": 27,
+    "body_vs_expected_denominator": 25,
+    "misalignment_detection_denominator": 28
+  }
+}

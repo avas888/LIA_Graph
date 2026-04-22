@@ -1,4 +1,4 @@
-.PHONY: reset-c eval-c-gold eval-c-full ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-graph-artifacts-smoke phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy debug-query
+.PHONY: reset-c eval-c-gold eval-c-full eval-retrieval eval-faithfulness eval-alignment ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-graph-artifacts-smoke phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy debug-query
 
 PHASE2_CORPUS_DIR ?= knowledge_base
 PHASE2_ARTIFACTS_DIR ?= artifacts
@@ -13,6 +13,89 @@ eval-c-full:
 	PYTHONPATH=src:. LIA_BATCHED_RUNNER=1 uv run pytest -q
 	PYTHONPATH=src:. uv run python -m evals.run_retrieval_eval --dataset evals/rag_retrieval_benchmark.jsonl --index artifacts/document_index.jsonl --profile hybrid_rerank
 	PYTHONPATH=src:. uv run python scripts/eval_pipeline_c_gold.py --threshold 90
+
+# Structural backlog item #1 — retrieval eval harness against
+# `evals/gold_retrieval_v1.jsonl`. Fires each gold entry (and each
+# sub-question of M-type entries) through `resolve_chat_topic`
+# → `run_pipeline_d` and scores against the curator-annotated
+# `expected_article_keys` + resolver topic labels.
+#
+# CI gate: **regression vs committed baseline** (`evals/baseline.json`)
+# at 2pp tolerance. Absolute red lines are reported as aspirational but
+# NOT gated at n=30 — 95% CI on r@10 is ±~18pp at that sample size, so
+# a 0.70 floor would false-fail clean PRs and false-pass real regressions.
+# Switch to absolute gating once the gold hits ~80 entries and the
+# metric stabilizes.
+#
+# Metrics are reported in a 2×2 matrix:
+#   (primary_only | with_connected) × (strict | loose normalizer)
+# The deltas are diagnostic — loose−strict shows the "parent container"
+# looseness cost; with_connected−primary_only shows graph-expansion rescue.
+# `subtopic_accuracy` is intentionally not reported until the accountant
+# re-indexes gold `expected_subtopic` slugs against
+# `config/subtopic_taxonomy.json`. See `docs/next/package_expert.md`.
+#
+# Usage:
+#   make eval-retrieval                          # regression gate (CI default)
+#   make eval-retrieval FAIL_ON_REGRESSION=0     # report only, no gate
+#   make eval-retrieval ASPIRATIONAL=1           # also gate on red lines (human-run)
+#   make eval-retrieval UPDATE_BASELINE=1        # overwrite evals/baseline.json
+#   make eval-retrieval JSON=1                   # JSON-only output
+#   make eval-retrieval GOLD=evals/other.jsonl
+#   make eval-retrieval TOLERANCE_PP=3           # looser regression gate
+#
+# Reranker stays in `shadow` by default so the eval exercises the same
+# diagnostic path the served runtime uses. `RERANKER_MODE=off` for a
+# pure hybrid baseline; `RERANKER_MODE=live` once a sidecar is wired.
+# `SKIP_SUBQ=1` is the default so the eval runs consistently with the
+# committed `evals/baseline.json` methodology. Full sub-question fanout
+# is a future baseline — see the methodology-mismatch guard in the
+# harness, which refuses to gate if CI and baseline disagree on flags.
+FAIL_ON_REGRESSION ?= 1
+ASPIRATIONAL ?=
+UPDATE_BASELINE ?=
+TOLERANCE_PP ?= 2
+RERANKER_MODE ?= live
+SKIP_SUBQ ?= 1
+# V2-2 query decomposition. Baselines are imprinted with DECOMPOSE=on,
+# matching the staging runtime default. Local `npm run dev` still ships
+# with LIA_QUERY_DECOMPOSE=off so engineers can A/B manually; the eval
+# harnesses always run with DECOMPOSE=on for methodology consistency.
+DECOMPOSE ?= on
+eval-retrieval:
+	LIA_RERANKER_MODE=$(RERANKER_MODE) LIA_QUERY_DECOMPOSE=$(DECOMPOSE) PYTHONPATH=src:. uv run python scripts/eval_retrieval.py $(if $(GOLD),--gold $(GOLD),) $(if $(BASELINE),--baseline $(BASELINE),) --tolerance-pp $(TOLERANCE_PP) $(if $(filter 1,$(FAIL_ON_REGRESSION)),--fail-on-regression,) $(if $(ASPIRATIONAL),--fail-under-red-lines,) $(if $(UPDATE_BASELINE),--update-baseline,) $(if $(JSON),--json,) $(if $(OUTPUT),--output $(OUTPUT),) $(if $(filter 1,$(SKIP_SUBQ)),--skip-sub-questions,) $(if $(TOP_K),--top-k $(TOP_K),)
+
+# Citation-faithfulness harness — sibling to `eval-retrieval`. Asks
+# whether the answer we show the accountant is grounded in the evidence
+# the retriever returned. Two metrics, gold-free (no new curator
+# annotations needed): `citation_precision` (anti-hallucination) and
+# `primary_anchor_recall` (anti-orphan-evidence), plus an observability
+# `abstention_rate`. Same CI-gate shape as eval-retrieval:
+# regression-vs-`evals/faithfulness_baseline.json` at 2pp tolerance.
+#
+# Usage:
+#   make eval-faithfulness                       # regression gate (CI default)
+#   make eval-faithfulness ASPIRATIONAL=1        # also gate red lines
+#   make eval-faithfulness UPDATE_BASELINE=1     # re-freeze baseline
+#   make eval-faithfulness JSON=1
+eval-faithfulness:
+	LIA_RERANKER_MODE=$(RERANKER_MODE) LIA_QUERY_DECOMPOSE=$(DECOMPOSE) PYTHONPATH=src:. uv run python scripts/eval_citations.py $(if $(GOLD),--gold $(GOLD),) $(if $(BASELINE),--baseline $(BASELINE),) --tolerance-pp $(TOLERANCE_PP) $(if $(filter 1,$(FAIL_ON_REGRESSION)),--fail-on-regression,) $(if $(ASPIRATIONAL),--fail-under-red-lines,) $(if $(UPDATE_BASELINE),--update-baseline,) $(if $(JSON),--json,) $(if $(OUTPUT),--output $(OUTPUT),) $(if $(TOP_K),--top-k $(TOP_K),)
+
+# Topic-alignment harness — third sibling. Measures whether the answer
+# body discusses the same topic the router chose and whether it matches
+# the gold's expected_topic. Also measures safety_abstention_rate (the
+# rate at which topic_safety.py router-silent / misalignment checks fire)
+# as a band metric — too low = safety checks are missing wrong answers;
+# too high = safety is over-firing on valid queries.
+#
+# Same gate pattern. CI runs the regression-vs-baseline at 2pp tolerance.
+#
+# Usage:
+#   make eval-alignment                      # regression gate (CI default)
+#   make eval-alignment ASPIRATIONAL=1       # also gate aspirational floors
+#   make eval-alignment UPDATE_BASELINE=1    # re-freeze baseline
+eval-alignment:
+	LIA_RERANKER_MODE=$(RERANKER_MODE) LIA_QUERY_DECOMPOSE=$(DECOMPOSE) PYTHONPATH=src:. uv run python scripts/eval_topic_alignment.py $(if $(GOLD),--gold $(GOLD),) $(if $(BASELINE),--baseline $(BASELINE),) --tolerance-pp $(TOLERANCE_PP) $(if $(filter 1,$(FAIL_ON_REGRESSION)),--fail-on-regression,) $(if $(ASPIRATIONAL),--fail-under-red-lines,) $(if $(UPDATE_BASELINE),--update-baseline,) $(if $(JSON),--json,) $(if $(OUTPUT),--output $(OUTPUT),) $(if $(TOP_K),--top-k $(TOP_K),)
 
 ralph-loop:
 	PYTHONPATH=src:. uv run python scripts/ralph_loop_pipeline_c.py --target 85 --max-iterations 8 --case-id C_GOLD_001
