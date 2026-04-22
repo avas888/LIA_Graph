@@ -13,9 +13,11 @@ from urllib.parse import urlparse
 
 from .schema import (
     DEFAULT_GRAPH_NAME,
+    EdgeKind,
     GraphEdgeRecord,
     GraphNodeRecord,
     GraphSchema,
+    NodeKind,
     default_graph_schema,
 )
 
@@ -156,6 +158,62 @@ class GraphClient:
             description=f"Upsert {record.kind.value}:{record.key}",
             query=query,
             parameters={"key": record.key, "properties": dict(record.properties)},
+        )
+
+    def stage_detach_delete(self, kind: NodeKind, key: str) -> GraphWriteStatement:
+        """Stage a ``MATCH ... DETACH DELETE`` against a single node by key.
+
+        Used by the additive-corpus-v1 Phase 5 delta loader to remove the
+        article nodes that belong to a retired doc. The DETACH clause deletes
+        the node and all of its inbound/outbound edges in one statement.
+        """
+        if not key or not str(key).strip():
+            raise ValueError("stage_detach_delete requires a non-empty key")
+        node_type = self.schema.node_type(kind)
+        query = (
+            f"MATCH (node:{kind.value} {{{node_type.key_field}: $key}})\n"
+            "DETACH DELETE node\n"
+        )
+        return GraphWriteStatement(
+            description=f"Detach-delete {kind.value}:{key}",
+            query=query,
+            parameters={"key": str(key)},
+        )
+
+    def stage_delete_outbound_edges(
+        self,
+        source_kind: NodeKind,
+        source_key: str,
+        *,
+        relation_subset: Iterable[EdgeKind] | None = None,
+    ) -> GraphWriteStatement:
+        """Stage a ``MATCH ... DELETE`` over outbound edges from a single node.
+
+        When ``relation_subset`` is supplied the DELETE is scoped to those
+        edge kinds; otherwise every outbound edge is removed. Used by the
+        delta loader to wipe stale outbound edges for modified-doc articles
+        before the re-MERGE step.
+        """
+        if not source_key or not str(source_key).strip():
+            raise ValueError("stage_delete_outbound_edges requires a non-empty source_key")
+        source_type = self.schema.node_type(source_kind)
+        if relation_subset is None:
+            edge_clause = "[rel]"
+        else:
+            names = sorted({k.value for k in relation_subset})
+            if not names:
+                edge_clause = "[rel]"
+            else:
+                edge_clause = "[rel:" + "|".join(names) + "]"
+        query = (
+            f"MATCH (source:{source_kind.value} {{{source_type.key_field}: $source_key}})"
+            f"-{edge_clause}->()\n"
+            "DELETE rel\n"
+        )
+        return GraphWriteStatement(
+            description=f"Delete outbound edges from {source_kind.value}:{source_key}",
+            query=query,
+            parameters={"source_key": str(source_key)},
         )
 
     def stage_edge(self, record: GraphEdgeRecord) -> GraphWriteStatement:

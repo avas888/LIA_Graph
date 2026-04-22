@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import re
-from typing import Mapping
+from typing import Iterable, Mapping
 
 from ..graph.client import GraphClient, GraphQueryResult, GraphWriteStatement
 from ..graph.schema import (
@@ -120,6 +120,112 @@ def build_graph_load_plan(
         nodes=nodes,
         edges=edges,
         statements=statements,
+        validation=validation,
+        warnings=tuple(warnings),
+    )
+
+
+def build_graph_delta_plan(
+    delta: object,
+    *,
+    delta_articles: tuple[ParsedArticle, ...] | list[ParsedArticle],
+    delta_edges: tuple[ClassifiedEdge, ...] | list[ClassifiedEdge],
+    retired_article_keys: Iterable[str] | None = None,
+    promoted_dangling_edges: tuple[GraphEdgeRecord, ...] | list[GraphEdgeRecord] = (),
+    schema: GraphSchema | None = None,
+    graph_client: GraphClient | None = None,
+) -> GraphLoadPlan:
+    """Build the targeted Falkor plan for a planned ``CorpusDelta``.
+
+    Emits statements in dependency order:
+
+    1. ``DETACH DELETE`` for every article key that belonged to a retired doc.
+    2. ``DELETE`` outbound edges from every article key owned by a modified
+       doc — preserves the node, wipes stale outbound references.
+    3. MERGE for added + modified article nodes + reform nodes.
+    4. MERGE for edges extracted from the delta articles, plus any edges
+       promoted out of the dangling store.
+
+    ``retired_article_keys`` is supplied by the orchestrator (Phase 6) after
+    it queries Supabase for chunk-id prefixes owned by retired docs. Matches
+    the approach used by the Supabase sink (`write_delta`'s Pass 2).
+
+    Unchanged docs produce NO statements — that's the whole point of the
+    additive path.
+    """
+    from .delta_planner import CorpusDelta  # local import to avoid cycle
+
+    graph_schema = schema or (graph_client.schema if graph_client is not None else default_graph_schema())
+    client = graph_client or GraphClient(schema=graph_schema)
+
+    added_entries = tuple(getattr(delta, "added", ()) or ())
+    modified_entries = tuple(getattr(delta, "modified", ()) or ())
+
+    # Which article keys belong to modified docs? A fresh parse of the
+    # modified doc yields its new article set; outbound edges for each of
+    # those keys must be wiped before re-MERGE (Pass C in the sink).
+    modified_doc_ids = {
+        entry.doc_id for entry in modified_entries if entry.doc_id
+    }
+    modified_article_keys: set[str] = set()
+    for article in delta_articles:
+        # The loader doesn't know which doc_id an article belongs to without
+        # help; callers must set article.source_path consistent with the
+        # documents they passed to the sink. For Phase 5 purposes, every
+        # article in `delta_articles` that also corresponds to a modified
+        # doc will have its outbound edges wiped. Since the delta planner
+        # uses relative_path as a key, we rely on the source_path <->
+        # relative_path mapping being handled upstream: here we wipe every
+        # article key that the caller named as belonging to a modified doc.
+        pass
+    # The orchestrator owns the source_path → doc_id mapping, so a stricter
+    # design would have the caller pass in ``modified_article_keys`` too.
+    # Phase 6 will wire this; Phase 5 accepts optional hints.
+    modified_article_keys.update(
+        getattr(delta, "modified_article_keys", ()) or ()
+    )
+
+    statements: list[GraphWriteStatement] = []
+
+    # (1) DETACH DELETE for retired articles.
+    retired_keys = tuple(retired_article_keys or ())
+    for key in sorted({str(k) for k in retired_keys if k}):
+        statements.append(client.stage_detach_delete(NodeKind.ARTICLE, key))
+
+    # (2) DELETE outbound edges for modified-doc article keys.
+    for key in sorted(modified_article_keys):
+        statements.append(
+            client.stage_delete_outbound_edges(NodeKind.ARTICLE, key)
+        )
+
+    # (3) + (4) MERGE nodes + edges for added + modified docs.
+    normalized_edges = normalize_classified_edges(delta_articles, delta_edges)
+    nodes = _dedupe_nodes(
+        list(_build_article_nodes(delta_articles))
+        + list(_build_reform_nodes(delta_articles, normalized_edges))
+    )
+    edges = _dedupe_edges(
+        list(edge.record for edge in normalized_edges)
+        + list(promoted_dangling_edges)
+    )
+    validation = validate_graph_records(nodes, edges, schema=graph_schema)
+
+    for node in nodes:
+        statements.append(client.stage_node(node))
+    for edge in edges:
+        statements.append(client.stage_edge(edge))
+
+    warnings: list[str] = []
+    if not retired_keys and not added_entries and not modified_entries:
+        warnings.append(
+            "build_graph_delta_plan received an empty delta; no statements emitted."
+        )
+
+    return GraphLoadPlan(
+        schema=graph_schema,
+        nodes=nodes,
+        edges=edges,
+        statements=tuple(statements),
         validation=validation,
         warnings=tuple(warnings),
     )
