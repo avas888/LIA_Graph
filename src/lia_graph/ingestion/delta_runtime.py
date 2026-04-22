@@ -177,6 +177,8 @@ def materialize_delta(
     graph_client: Any | None = None,
     skip_llm: bool = False,
     rate_limit_rpm: int = 60,
+    lock_target: str | None = None,
+    created_by: str | None = None,
 ) -> DeltaRunReport:
     """Plan + apply a corpus delta against the rolling generation.
 
@@ -188,8 +190,10 @@ def materialize_delta(
     from ..ingest_constants import CorpusDocument, INGESTION_DECISION_INCLUDE
     from ..supabase_client import create_supabase_client_for_target
     from .classifier import classify_edge_candidates
+    from .delta_lock import DeltaLockBusy, held_job_lock
     from .linker import extract_edge_candidates
     from .loader import build_graph_delta_plan
+    from .parity_check import check_parity
     from .parser import parse_article_documents
     # These helpers live in ingest.py — we import via a narrow interface
     # that doesn't pull the entire CLI stack.
@@ -200,6 +204,31 @@ def materialize_delta(
 
     if supabase_client is None:
         supabase_client = create_supabase_client_for_target(supabase_target)
+
+    # Phase 7 — parity probe before the delta. Non-blocking unless --strict-parity.
+    parity_target = lock_target or supabase_target
+    parity_report = None
+    if not dry_run:
+        parity_report = check_parity(
+            supabase_client,
+            graph_client,
+            generation_id=generation_id,
+        )
+        if not parity_report.ok and strict_parity:
+            from ..instrumentation import emit_event as _emit
+
+            _emit(
+                "ingest.delta.cli.done",
+                {
+                    "delta_id": delta_id or "pre_lock",
+                    "outcome": "blocked",
+                    "reason": "parity_mismatch_strict",
+                },
+            )
+            raise RuntimeError(
+                "parity check failed with --strict-parity — "
+                f"mismatches={[m.to_dict() for m in parity_report.mismatches]}"
+            )
 
     # -------- audit + classify full corpus --------
     audit_rows = audit_corpus_documents(root, pattern=pattern)
