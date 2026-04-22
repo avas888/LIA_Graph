@@ -27,6 +27,11 @@ logs/embeddings_*.log
 logs/backfill_*.log
 frontend/logs/
 
+# --- dev-only scaffolding (local preview pages + one-off verification scripts) ---
+frontend/preview-*.html
+frontend/scripts/verify-*.mjs
+frontend/scripts/inspect-*.mjs
+
 # --- SUIN ingestion large artifacts (regenerate from cache/ on ingest re-run) ---
 artifacts/suin/**/*.log
 artifacts/suin/**/*.jsonl
