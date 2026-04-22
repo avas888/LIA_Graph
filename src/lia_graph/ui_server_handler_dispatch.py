@@ -177,6 +177,8 @@ class LiaUIHandler(LiaUIHandlerBase):
             return
         if self._handle_ingest_run_get(path, parsed):
             return
+        if self._handle_ingest_delta_get(path, parsed):
+            return
         if self._handle_runtime_terms_get(path):
             return
         if self._handle_citation_get(path, parsed):
@@ -247,6 +249,15 @@ class LiaUIHandler(LiaUIHandlerBase):
     def _handle_ingest_run_get(self, path: str, parsed: Any) -> bool:
         from .ui_ingest_run_controllers import handle_ingest_get
         return handle_ingest_get(self, path, parsed, deps={"workspace_root": WORKSPACE_ROOT})
+
+    def _handle_ingest_delta_get(self, path: str, parsed: Any) -> bool:
+        from .ui_ingest_delta_controllers import handle_ingest_delta_get
+        return handle_ingest_delta_get(
+            self,
+            path,
+            parsed,
+            deps={"corpus_dir": WORKSPACE_ROOT / "knowledge_base"},
+        )
 
     def _handle_runtime_terms_get(self, path: str) -> bool:
         from .ui_runtime_controllers import handle_runtime_terms_get
@@ -508,6 +519,20 @@ class LiaUIHandler(LiaUIHandlerBase):
             return
         from .ui_ingest_run_controllers import handle_ingest_post as _handle_ingest_run_post
         if _handle_ingest_run_post(self, path, deps={"workspace_root": WORKSPACE_ROOT}):
+            return
+        from .ui_ingest_delta_controllers import handle_ingest_delta_post as _handle_ingest_delta_post
+        if _handle_ingest_delta_post(
+            self,
+            path,
+            parsed,
+            deps={
+                "corpus_dir": WORKSPACE_ROOT / "knowledge_base",
+                "artifacts_dir": WORKSPACE_ROOT / "artifacts",
+                "pattern": "**/*.md",
+                "generation_id": "gen_active_rolling",
+                "submit_worker": None,
+            },
+        ):
             return
         from .ui_subtopic_controllers import handle_subtopic_post
         if handle_subtopic_post(self, path, deps={"workspace_root": WORKSPACE_ROOT}):
