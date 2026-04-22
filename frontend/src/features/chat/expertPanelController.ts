@@ -149,50 +149,6 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
     emitStateChanged();
   }
 
-  function renderSourceActions(snippet: ExpertSnippet): HTMLElement | null {
-    const links = Array.isArray(snippet.provider_links) ? snippet.provider_links.slice(0, 3) : [];
-    const hasSnippetClick = typeof options.onSnippetClick === "function" && Boolean(normalizeText(snippet.doc_id));
-    const sourceViewUrl = normalizeText(snippet.source_view_url || "");
-    if (links.length === 0 && !hasSnippetClick && !sourceViewUrl) {
-      return null;
-    }
-    const actions = document.createElement("div");
-    actions.className = "expert-detail-source-actions";
-
-    if (hasSnippetClick) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "secondary-mini-btn";
-      button.textContent = "Abrir detalle";
-      button.addEventListener("click", () => {
-        options.onSnippetClick?.(normalizeText(snippet.doc_id));
-      });
-      actions.appendChild(button);
-    }
-
-    for (const link of links) {
-      const url = normalizeText(link.url);
-      if (!url) continue;
-      const anchor = document.createElement("a");
-      anchor.className = "expert-detail-link";
-      anchor.href = url;
-      anchor.target = "_blank";
-      anchor.rel = "noopener noreferrer";
-      anchor.textContent = normalizeText(link.provider || link.label) || i18n.t("chat.experts.detail.externalLink");
-      actions.appendChild(anchor);
-    }
-
-    if (links.length === 0 && sourceViewUrl) {
-      const anchor = document.createElement("a");
-      anchor.className = "expert-detail-link";
-      anchor.href = sourceViewUrl;
-      anchor.textContent = "Ver en corpus";
-      actions.appendChild(anchor);
-    }
-
-    return actions.children.length > 0 ? actions : null;
-  }
-
   function humanSourceTitle(snippet: ExpertSnippet): string {
     const raw = normalizeText(snippet.title);
     // Reject slug-like titles: no spaces and longer than 30 chars (raw doc_id artifacts)
