@@ -1,32 +1,68 @@
 # CLAUDE.md
 
-Quickstart for Claude-family agents working in `Lia_Graph`.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+Quickstart for Claude-family agents working in `Lia_Graph`, a graph-native RAG product shell for Colombian accounting.
 
 ## Canonical Guidance
 
 Read these before changing the served runtime:
 
-1. `AGENTS.md`
-2. `docs/guide/orchestration.md`
-3. `docs/guide/chat-response-architecture.md`
-4. `docs/guide/env_guide.md`
+1. `AGENTS.md` — canonical repo-level operating guide (layer ownership, surface boundaries, doc discipline)
+2. `docs/guide/orchestration.md` — end-to-end runtime map + **authoritative** versioned env/flag matrix + change log
+3. `docs/guide/chat-response-architecture.md` — companion source of truth for how the `main chat` answer is shaped
+4. `docs/guide/env_guide.md` — operational counterpart: run modes, env files, squashed migration baseline, test accounts, corpus refresh
 
-`docs/guide/orchestration.md` is the main critical file.
-It is the end-to-end runtime and information-architecture map, and it carries the authoritative per-mode env/flag versioning table.
+If code and docs disagree, reconcile to `docs/guide/orchestration.md` — never the other way around.
 
-`docs/guide/env_guide.md` is the operational counterpart — it defines the three run modes (`npm run dev`, `dev:staging`, `dev:production`), their env files, the squashed migration baseline, and the test-account + corpus-refresh workflows.
+## Commands
 
-## What To Internalize First
+### Run the app
 
-- the product target is “a senior accountant guiding another accountant”
-- `main chat` uses stable facades:
-  - `src/lia_graph/pipeline_d/answer_synthesis.py`
-  - `src/lia_graph/pipeline_d/answer_assembly.py`
-- `orchestrator.py` is runtime flow, not the default place to fix answer quality
-- `Normativa` and future `Interpretación` should get their own orchestration boundaries
-- retrieval is now **mode-aware**: `dev` reads artifacts from disk, `dev:staging` reads from cloud Supabase + cloud FalkorDB. The split is gated by `LIA_CORPUS_SOURCE` and `LIA_GRAPH_MODE`, wired by `scripts/dev-launcher.mjs`
+- `npm run dev` — local app, local Supabase docker, local FalkorDB docker. Fully offline. `LIA_CORPUS_SOURCE=artifacts`, `LIA_GRAPH_MODE=artifacts`.
+- `npm run dev:staging` — local app against cloud Supabase + cloud FalkorDB. `LIA_CORPUS_SOURCE=supabase`, `LIA_GRAPH_MODE=falkor_live`.
+- `npm run dev:production` — Railway-hosted. Script exits locally; deploy via `railway up`.
+- `npm run dev:check` / `npm run dev:staging:check` — run the preflight only (no server).
 
-## Runtime Read Path (Env v2026-04-21-stv2d)
+The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do not hardcode `LIA_CORPUS_SOURCE` / `LIA_GRAPH_MODE` into `.env.local` or `.env.staging`**.
+
+### Tests
+
+- `npm run test:health` — golden health: build public UI bundle + focused backend smokes + frontend health vitest + e2e playwright.
+- `npm run test:health:fast` — same minus e2e.
+- `npm run test:backend` — the curated backend smoke set (`test_background_jobs.py`, `test_phase1_runtime_seams.py`, `test_phase2_graph_scaffolds.py`, `test_phase3_graph_planner_retrieval.py`, `test_ui_server_http_smokes.py`).
+- `npm run test:frontend` / `npm run test:frontend:all` / `npm run test:e2e` — frontend-only vitest / full vitest / playwright.
+- `make test-batched` — **the only sanctioned way to run the full Python suite.** Runs pytest in 120 batches with stall detection. There is a `conftest` guard that aborts if >20 test files are collected without `LIA_BATCHED_RUNNER=1`, to prevent OOM.
+- Single Python test: `PYTHONPATH=src:. uv run pytest tests/test_retriever_falkor.py -q` (or `-k <pattern>` for a single case).
+- Evals: `make eval-c-gold` (threshold 90), `make eval-c-full` (batched + retrieval eval + gold).
+- Preflight / dependency probe only: `make smoke-deps`.
+
+### Build artifacts and Supabase sync
+
+- `make phase2-graph-artifacts` — build the artifact bundle from `knowledge_base/` into `artifacts/`.
+- `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production` — same build + run `SupabaseCorpusSink`. **Required before `dev:staging` can serve answers from cloud.** Idempotent; embeddings stay `NULL` (filled by `embedding_ops.py` on a follow-up pass).
+
+### Supabase local stack
+
+`make supabase-start` / `supabase-stop` / `supabase-reset` / `supabase-status`. After a fresh `db reset`, run `PYTHONPATH=src:. uv run python scripts/seed_local_passwords.py` (every `@lia.dev` user → password `Test123!`).
+
+## Repository Layout
+
+- `src/lia_graph/` — Python backend. Entrypoints via `pyproject.toml`: `lia-ui` (`ui_server.py`), `lia-graph-artifacts` (`ingest.py`), `lia-deps-check` (`dependency_smoke.py`).
+  - `pipeline_d/` — the served runtime; see "Hot Path" below.
+  - `pipeline_c/` — legacy pipeline, still wired for contracts and shared plumbing. `pipeline_router.py` routes between them.
+  - `normativa/` and `interpretacion/` — **surface-specific** orchestration/synthesis/assembly. These are parallel to `pipeline_d`'s `main chat` facades, not hidden behind them.
+  - `ingestion/` — build-time corpus ingestion (includes `supabase_sink.py`).
+  - top-level modules — auth (`password_auth.py`, `platform_auth.py`, `service_account_auth.py`), `ui_*_controllers.py` (HTTP handlers fanning out from `ui_server.py`), storage (`supabase_client.py`, `*_store.py`), domain helpers.
+- `frontend/` — Vite + TypeScript UI. Built with `npm run frontend:build` (which is `npm --prefix frontend run build:public`). Tested with vitest + Playwright.
+- `scripts/dev-launcher.mjs` — the run-mode entrypoint. Owns env selection, preflight, and the `LIA_*` flag matrix.
+- `supabase/migrations/` — squashed baseline (`20260417000000_baseline.sql` + `20260417000001_seed_users.sql`) plus post-baseline files (e.g. `20260418000000_normative_edges_unique.sql`). Pre-squash files are in `_archive/` for reference — **do not replay them**.
+- `artifacts/` — filesystem corpus bundle served in dev mode (`canonical_corpus_manifest.json`, `parsed_articles.jsonl`, `typed_edges.jsonl`, etc.).
+- `tests/` — pytest suite. Run via `make test-batched` for the full run; single files directly with `uv run pytest`.
+- `evals/` — retrieval/gold benchmarks.
+- `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
+
+## Runtime Read Path (Env v2026-04-18)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -34,42 +70,48 @@ It is the end-to-end runtime and information-architecture map, and it carries th
 | `npm run dev:staging` | `supabase` | `falkor_live` | cloud Supabase (`hybrid_search` RPC) | cloud FalkorDB (`LIA_REGULATORY_GRAPH`) |
 | `npm run dev:production` | inherits Railway env | inherits Railway env | mirrors staging | mirrors staging |
 
-Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend`, so you can confirm which adapters served a turn without guessing. Since `v2026-04-21-stv2`, diagnostics also carry `retrieval_sub_topic_intent` + `subtopic_anchor_keys` when the planner detected a curated subtopic — the Supabase retriever boosts matching chunks by `LIA_SUBTOPIC_BOOST_FACTOR` (default 1.5) and the Falkor retriever prefers `HAS_SUBTOPIC → SubTopicNode` anchors. Since `v2026-04-21-stv2b`, the bulk ingest runs the PASO 4 classifier inline (via `src/lia_graph/ingest_subtopic_pass.py`) and emits `SubTopicNode` + `HAS_SUBTOPIC` to Falkor in the same single pass — no separate backfill required; pass `--skip-llm` on `python -m lia_graph.ingest` for fast dev-loop / CI smoke. Since `v2026-04-21-stv2d`, the subtopic taxonomy (`config/subtopic_taxonomy.json`) holds **106 subtopics × 39 parent topics** (version `2026-04-21-v2`); the classifier honors a prefix→parent lookup (`config/prefix_parent_topic_map.json`) and drops binary/derogated files at the admission gate. Post-assembly LLM polish (`answer_llm_polish.py`) is on by default via `LIA_LLM_POLISH_ENABLED=1` and fails loudly in diagnostics, safely in output. The orchestration guide owns the authoritative version history — update it if you change what the launcher sets.
+Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend` — use them to confirm which adapters served a turn. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted.
+
+## Hot Path (main chat)
+
+1. `src/lia_graph/ui_server.py`
+2. `src/lia_graph/pipeline_router.py`
+3. `src/lia_graph/topic_router.py`
+4. `src/lia_graph/pipeline_d/orchestrator.py` — reads `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE`, dispatches
+5. `src/lia_graph/pipeline_d/planner.py`
+6. Retriever (one of):
+   - `pipeline_d/retriever.py` — artifact BFS (dev default)
+   - `pipeline_d/retriever_supabase.py` — Supabase `hybrid_search` (staging chunks half)
+   - `pipeline_d/retriever_falkor.py` — cloud FalkorDB Cypher BFS (staging graph half). Errors **propagate** — never silently falls back to artifacts.
+7. `pipeline_d/answer_support.py` — practical enrichment extraction
+8. `pipeline_d/answer_synthesis.py` — **stable facade** for synthesis
+9. `pipeline_d/answer_assembly.py` — **stable facade** for assembly
+
+Facade implementation modules (edit the narrow one that owns the behavior):
+`answer_synthesis_sections.py`, `answer_synthesis_helpers.py`, `answer_first_bubble.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_shared.py`, `answer_policy.py`.
 
 ## Fast Decision Rule
 
-Use this shortcut when deciding where to work:
+- wrong norms or wrong workflow → planner or retriever
+- right evidence but weak practical substance → `answer_support.py`
+- wrong tone, shape, or visible organization → `answer_policy.py` or the `main chat` assembly/synthesis modules
+- runtime wiring change → `orchestrator.py` (and only then)
+- dev ≠ staging → check `response.diagnostics.retrieval_backend` / `graph_backend`, then `scripts/dev-launcher.mjs` + the env matrix in `docs/guide/orchestration.md`
+- `Normativa` / `Interpretación` UX work → their own packages (`src/lia_graph/normativa/`, `src/lia_graph/interpretacion/`). **Never** route their requirements into `main chat` assembly.
 
-- wrong norms or wrong workflow -> planner or retriever
-- right evidence but weak practical substance -> `answer_support.py`
-- wrong tone, shape, or visible organization -> `answer_policy.py` or the `main chat` assembly modules
-- runtime wiring change -> `orchestrator.py`
-- which adapter served a turn or why staging looks different from dev -> check `response.diagnostics.retrieval_backend` / `graph_backend`, then `scripts/dev-launcher.mjs` + the version table in `docs/guide/orchestration.md`
+## Surface Boundaries
 
-## Retrieval Adapters (Env-Gated, Subtopic-Aware)
-
-- `src/lia_graph/pipeline_d/retriever.py` — artifact BFS. Active when `LIA_CORPUS_SOURCE=artifacts` AND `LIA_GRAPH_MODE=artifacts` (dev default).
-- `src/lia_graph/pipeline_d/retriever_supabase.py` — cloud Supabase `hybrid_search` RPC + `documents` lookup. Active when `LIA_CORPUS_SOURCE=supabase`. Passes `filter_subtopic` + `subtopic_boost` when planner emits `sub_topic_intent`; client-side post-rerank fallback for older DBs.
-- `src/lia_graph/pipeline_d/retriever_falkor.py` — cloud FalkorDB bounded Cypher BFS. Active when `LIA_GRAPH_MODE=falkor_live`. Runs a preferential `HAS_SUBTOPIC → SubTopicNode` probe when planner emits `sub_topic_intent`. Errors propagate — **never silently falls back to artifacts**.
-- `src/lia_graph/pipeline_d/orchestrator.py` — reads the two flags, dispatches to the right adapters, and merges halves when both are cloud-live.
-- `src/lia_graph/pipeline_d/answer_llm_polish.py` — optional post-assembly polish, gated by `LIA_LLM_POLISH_ENABLED=1`. Template answer is the safety net; `response.llm_runtime.skip_reason` carries why the polish skipped (one of `polish_disabled_by_env`, `no_adapter_available`, `adapter_error:<Type>`, `empty_llm_output`, `anchors_stripped`).
-
-## Ingestion Sink (Build-Time, Single-Pass)
-
-- `src/lia_graph/ingestion/supabase_sink.py` — `SupabaseCorpusSink` mirrors the corpus snapshot into `documents` (now with `subtema` + `requires_subtopic_review`) / `document_chunks` / `corpus_generations` / `normative_edges` / `sub_topic_taxonomy`. Run with `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production` (or the `--supabase-sink` CLI flag on `python -m lia_graph.ingest`). Idempotent, additive, never touches embeddings.
-- `src/lia_graph/ingest_subtopic_pass.py` — runs the PASO 4 LLM classifier over every admitted doc between audit and sink. Honors `--rate-limit-rpm` (default 60) and `--skip-llm` (fast smoke). Drops any LLM subtopic key not in `config/subtopic_taxonomy.json` (Invariant: no orphan subtemas in graph).
-- `src/lia_graph/ingestion/loader.py` — emits `SubTopicNode` + `HAS_SUBTOPIC` edges to Falkor in the **same single-pass run** (Decision F1: doc-level only). No separate `sync_subtopic_edges_to_falkor.py` step.
-- `src/lia_graph/env_posture.py` — `assert_local_posture()` guards the CLI; pass `--allow-non-local-env` only when cloud writes are intended.
-- Required before `dev:staging` can serve answers — the Supabase retriever reads what the sink wrote.
-- Canary: `make phase2-graph-artifacts-smoke` runs the 30-second integration suite against the committed `mini_corpus` fixture.
+`main chat`, `Normativa`, and future `Interpretación` are **distinct surfaces** with parallel orchestration/synthesis/assembly modules. Shared graph/evidence utilities may stay shared; visible assembly must stay surface-specific. `answer_synthesis.py` / `answer_assembly.py` are not the backend for the Normativa modal.
 
 ## Non-Negotiables
 
-- keep docs, code, and the `/orchestration` architecture page aligned
-- prefer focused module edits over monolithic rewrites
-- do not let `main chat` become the hidden rendering layer for `Normativa`
-- if architecture changes, update `docs/guide/orchestration.md` (including the env/flag version table)
-- if you flip a launcher flag or introduce a new env-driven branch, bump the env version in the orchestration guide and in this file
-- the Falkor adapter must keep surfacing cloud outages — do not re-introduce silent artifact fallback
+- Keep docs, code, and the `/orchestration` HTML map (`frontend/src/app/orchestration/shell.ts`, `frontend/src/features/orchestration/orchestrationApp.ts`) aligned.
+- Prefer focused module edits over monolithic rewrites. Make changes in the narrowest module that owns the behavior.
+- If architecture changes, update `docs/guide/orchestration.md` (including the versioned env matrix) **in the same task** as the code change.
+- If a `LIA_*` env or launcher flag changes, bump the env matrix version in the orchestration guide, add a change-log row, and update the mirror tables in `docs/guide/env_guide.md`, this file, and the `/orchestration` status card.
+- The Falkor adapter must keep propagating cloud outages — **no silent artifact fallback** on staging.
+- `PipelineCResponse.diagnostics` must always carry `retrieval_backend` and `graph_backend`.
+- Never run the full pytest suite in one process — use `make test-batched`. The `tests/` conftest guard aborts without `LIA_BATCHED_RUNNER=1`.
+- Do not inherit old-RAG assumptions (indexing, tagging, vocab design, reranking, chunk orchestration, cache strategy). Old-RAG docs under `docs/deprecated/` are archaeology, not active steering.
 
 If there is any doubt, follow `AGENTS.md` and treat it as the repo-level operating guide.
