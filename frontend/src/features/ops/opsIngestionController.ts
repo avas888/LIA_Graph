@@ -30,6 +30,8 @@ import {
   requestJson,
   postJsonOrThrow,
 } from "@/features/ops/opsIngestionTypes";
+import { createOpsApi } from "@/features/ops/opsIngestionApi";
+import { createOpsControllerCtx } from "@/features/ops/opsIngestionContext";
 import {
   SUPPORTED_INGESTION_EXTENSIONS as SUPPORTED_EXTENSIONS,
   HIDDEN_FILE_PREFIXES as HIDDEN_PREFIXES,
@@ -43,13 +45,10 @@ import {
   makeVerdictPill,
   verdictLabel,
 } from "@/features/ops/opsIngestionFormatters";
-export function createOpsIngestionController({
-  i18n,
-  stateController,
-  dom,
-  withThinkingWheel,
-  setFlash,
-}: CreateOpsIngestionControllerOptions) {
+export function createOpsIngestionController(
+  options: CreateOpsIngestionControllerOptions,
+) {
+  const { i18n, stateController, dom, withThinkingWheel, setFlash } = options;
   const {
     ingestionCorpusSelect,
     ingestionBatchTypeSelect,
@@ -84,7 +83,30 @@ export function createOpsIngestionController({
   } = dom;
 
   const { state } = stateController;
-  const toast = getToastController(i18n);
+  const ctx = createOpsControllerCtx(options);
+  const toast = ctx.toast;
+
+  // Decouplingv1 Phase 7: API calls live in `createOpsApi`. We destructure
+  // with the historical names so every existing call site (refreshIngestion,
+  // fetchCorpora, uploadIngestionFile, …) keeps working. `ctx.render` and
+  // `ctx.trace` are rebound at the bottom of this closure to the `render()`
+  // and `trace()` functions defined further down.
+  const api = createOpsApi(ctx);
+  const {
+    resolveSessionCorpus,
+    fetchCorpora,
+    fetchIngestionSessions,
+    fetchIngestionSession,
+    createIngestionSession,
+    uploadIngestionFile,
+    startIngestionProcess,
+    validateBatch,
+    retryIngestionSession,
+    ejectIngestionSession,
+    refreshIngestion,
+    refreshSelectedSession,
+    ensureSelectedSession,
+  } = api;
 
   // ── Persistent trace log — dedicated floating panel that nothing can overwrite ──
   let _traceLines: string[] = [];
@@ -422,14 +444,6 @@ export function createOpsIngestionController({
       option.selected = corpus.key === current;
       ingestionCorpusSelect.appendChild(option);
     });
-  }
-
-  /** Returns the real corpus key to use for session creation.
-   * When AUTOGENERAR is selected, keeps "autogenerar" — the backend
-   * ingestion runtime accepts it and per-file classification handles topic. */
-  function resolveSessionCorpus(): string {
-    if (state.selectedCorpus !== "autogenerar") return state.selectedCorpus;
-    return "autogenerar";
   }
 
   // ── Folder ingestion helpers ──────────────────────────────────
@@ -1193,230 +1207,11 @@ export function createOpsIngestionController({
     renderSelectedSession();
   }
 
-  async function fetchCorpora(): Promise<void> {
-    const payload = await getJson<CorporaPayload>("/api/corpora");
-    const corpora = Array.isArray(payload.corpora) ? payload.corpora : [];
-    stateController.setCorpora(corpora);
-
-    const availableKeys = new Set(corpora.map((corpus) => corpus.key));
-    availableKeys.add("autogenerar");
-    if (!availableKeys.has(state.selectedCorpus)) {
-      stateController.setSelectedCorpus("autogenerar");
-    }
-  }
-
-  async function fetchIngestionSessions(): Promise<IngestionSession[]> {
-    const payload = await getJson<IngestionSessionsPayload>(
-      `/api/ingestion/sessions?limit=20`
-    );
-    return Array.isArray(payload.sessions) ? payload.sessions : [];
-  }
-
-  async function fetchIngestionSession(sessionId: string): Promise<IngestionSession> {
-    const payload = await getJson<IngestionSessionPayload>(
-      `/api/ingestion/sessions/${encodeURIComponent(sessionId)}`
-    );
-    if (!payload.session) {
-      throw new Error("missing_session");
-    }
-    return payload.session;
-  }
-
-  async function createIngestionSession(corpus: string): Promise<IngestionSession> {
-    const payload = await postJsonOrThrow<IngestionSessionPayload, { corpus: string }>(
-      "/api/ingestion/sessions",
-      { corpus }
-    );
-    if (!payload.session) {
-      throw new Error("missing_session");
-    }
-    return payload.session;
-  }
-
-  async function uploadIngestionFile(sessionId: string, file: File, batchType: string): Promise<IngestionDocument> {
-    const topicValue = ingestionCorpusSelect.value === "autogenerar" ? "" : ingestionCorpusSelect.value;
-    const headers: Record<string, string> = {
-      "Content-Type": "application/octet-stream",
-      "X-Upload-Filename": file.name,
-      "X-Upload-Mime": file.type || "application/octet-stream",
-      "X-Upload-Batch-Type": batchType,
-    };
-    if (topicValue) {
-      headers["X-Upload-Topic"] = topicValue;
-    }
-    const relativePath = getRelativePath(file, state.folderRelativePaths);
-    if (relativePath) {
-      headers["X-Upload-Relative-Path"] = relativePath;
-    }
-    console.log(`[upload] ${file.name} (${file.size}B) → session=${sessionId} batch=${batchType}`);
-    const response = await fetch(
-      `/api/ingestion/sessions/${encodeURIComponent(sessionId)}/files`,
-      { method: "POST", headers, body: file },
-    );
-    const rawText = await response.text();
-    let payload: IngestionActionPayload;
-    try {
-      payload = JSON.parse(rawText) as IngestionActionPayload;
-    } catch {
-      console.error(`[upload] ${file.name} — response not JSON (${response.status}):`, rawText.slice(0, 300));
-      throw new Error(`Upload response not JSON: ${response.status} ${rawText.slice(0, 100)}`);
-    }
-    if (!response.ok) {
-      const msg = (payload as unknown as { error?: string }).error || response.statusText;
-      console.error(`[upload] ${file.name} — HTTP ${response.status}:`, msg);
-      throw new ApiError(msg, response.status, payload);
-    }
-    if (!payload.document) {
-      console.error(`[upload] ${file.name} — no document in response:`, payload);
-      throw new Error("missing_document");
-    }
-    console.log(`[upload] ${file.name} → OK doc_id=${payload.document.doc_id} status=${payload.document.status}`);
-    return payload.document;
-  }
-
-  async function startIngestionProcess(sessionId: string): Promise<IngestionActionPayload> {
-    return requestJson<IngestionActionPayload>(
-      `/api/ingestion/sessions/${encodeURIComponent(sessionId)}/process`,
-      { method: "POST" }
-    );
-  }
-
-  async function validateBatch(sessionId: string): Promise<IngestionActionPayload> {
-    return requestJson<IngestionActionPayload>(
-      `/api/ingestion/sessions/${encodeURIComponent(sessionId)}/validate-batch`,
-      { method: "POST" }
-    );
-  }
-
-  async function retryIngestionSession(sessionId: string): Promise<IngestionActionPayload> {
-    return requestJson<IngestionActionPayload>(
-      `/api/ingestion/sessions/${encodeURIComponent(sessionId)}/retry`,
-      { method: "POST" }
-    );
-  }
-
-  async function ejectIngestionSession(sessionId: string, force = false): Promise<EjectResult> {
-    const qs = force ? "?force=true" : "";
-    return requestJson<EjectResult>(
-      `/api/ingestion/sessions/${encodeURIComponent(sessionId)}${qs}`,
-      { method: "DELETE" }
-    );
-  }
-
-  async function refreshIngestion({
-    showWheel = true,
-    reportError = true,
-    focusSessionId = "",
-  }: {
-    showWheel?: boolean;
-    reportError?: boolean;
-    focusSessionId?: string;
-  } = {}): Promise<void> {
-    const task = async () => {
-      await fetchCorpora();
-      render();
-
-      let sessions = await fetchIngestionSessions();
-      const candidateId = focusSessionId || state.selectedSessionId;
-      if (candidateId && !sessions.some((session) => session.session_id === candidateId)) {
-        try {
-          const detail = await fetchIngestionSession(candidateId);
-          sessions = [detail, ...sessions.filter((session) => session.session_id !== candidateId)];
-        } catch (_error) {
-          if (candidateId === state.selectedSessionId) {
-            stateController.setSelectedSession(null);
-          }
-        }
-      }
-
-      stateController.setSessions(
-        sessions.sort(
-          (left, right) => Date.parse(String(right.updated_at || 0)) - Date.parse(String(left.updated_at || 0))
-        )
-      );
-      stateController.syncSelectedSession();
-      render();
-    };
-
-    try {
-      if (showWheel) {
-        await withThinkingWheel(task);
-      } else {
-        await task();
-      }
-    } catch (error) {
-      if (reportError) {
-        setFlash(formatOpsError(error), "error");
-      }
-      render();
-      throw error;
-    }
-  }
-
-  async function refreshSelectedSession({
-    sessionId,
-    showWheel = false,
-    reportError = true,
-  }: {
-    sessionId: string;
-    showWheel?: boolean;
-    reportError?: boolean;
-  }): Promise<void> {
-    const task = async () => {
-      const session = await fetchIngestionSession(sessionId);
-      stateController.upsertSession(session);
-      render();
-    };
-
-    try {
-      if (showWheel) {
-        await withThinkingWheel(task);
-      } else {
-        await task();
-      }
-    } catch (error) {
-      if (reportError) {
-        setFlash(formatOpsError(error), "error");
-      }
-      throw error;
-    }
-  }
-
-  async function ensureSelectedSession(): Promise<IngestionSession> {
-    const effectiveCorpus = resolveSessionCorpus();
-    console.log(`[folder-ingest] ensureSelectedSession: effectiveCorpus="${effectiveCorpus}", selectedSession=${state.selectedSession?.session_id || "null"} (status=${state.selectedSession?.status || "null"}, corpus=${state.selectedSession?.corpus || "null"})`);
-
-    // Reuse the selected session only if it's not completed and matches corpus
-    if (
-      state.selectedSession &&
-      !isCompletedSession(state.selectedSession) &&
-      state.selectedSession.status !== "completed" &&
-      (state.selectedSession.corpus === effectiveCorpus || effectiveCorpus === "autogenerar")
-    ) {
-      console.log(`[folder-ingest] Reusing session ${state.selectedSession.session_id}`);
-      return state.selectedSession;
-    }
-
-    // Create a new session — try requested corpus, fall back to first active
-    trace(`Creando sesión con corpus="${effectiveCorpus}"...`);
-    try {
-      const session = await createIngestionSession(effectiveCorpus);
-      trace(`Sesión creada: ${session.session_id} (corpus=${session.corpus})`);
-      stateController.upsertSession(session);
-      return session;
-    } catch (error) {
-      trace(`Creación falló para corpus="${effectiveCorpus}": ${error instanceof Error ? error.message : String(error)}`);
-      if (effectiveCorpus === "autogenerar") {
-        const fallback = state.corpora.find((c) => c.active)?.key || "declaracion_renta";
-        trace(`Reintentando con corpus="${fallback}"...`);
-        const session = await createIngestionSession(fallback);
-        trace(`Sesión fallback: ${session.session_id} (corpus=${session.corpus})`);
-        stateController.upsertSession(session);
-        return session;
-      }
-      throw error;
-    }
-  }
+  // Decouplingv1 Phase 7: rebind the ctx callbacks now that render/trace
+  // are defined. Factories captured `ctx` by reference and read these at
+  // call time, so late binding is transparent.
+  ctx.render = render;
+  ctx.trace = trace;
 
   // ── Auto-pilot loop ──────────────────────────────────
   // Polls session, re-calls auto-process to queue newly classified docs,
