@@ -150,6 +150,43 @@ class SupabaseSinkResult:
         }
 
 
+@dataclass(frozen=True)
+class SupabaseDeltaResult:
+    """Per-bucket row-count report returned by ``write_delta``.
+
+    Additive-corpus-v1 Phase 4 — see ``docs/next/additive_corpusv1.md`` §5.
+    """
+
+    generation_id: str
+    target: str
+    delta_id: str
+    documents_added: int
+    documents_modified: int
+    documents_retired: int
+    chunks_written: int
+    chunks_deleted: int
+    edges_written: int
+    edges_deleted: int
+    dangling_upserted: int
+    dangling_promoted: int
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "generation_id": self.generation_id,
+            "target": self.target,
+            "delta_id": self.delta_id,
+            "documents_added": int(self.documents_added),
+            "documents_modified": int(self.documents_modified),
+            "documents_retired": int(self.documents_retired),
+            "chunks_written": int(self.chunks_written),
+            "chunks_deleted": int(self.chunks_deleted),
+            "edges_written": int(self.edges_written),
+            "edges_deleted": int(self.edges_deleted),
+            "dangling_upserted": int(self.dangling_upserted),
+            "dangling_promoted": int(self.dangling_promoted),
+        }
+
+
 class SupabaseCorpusSink:
     """Writes corpus snapshot rows into the Supabase schema."""
 
@@ -384,6 +421,417 @@ class SupabaseCorpusSink:
         self._edges_written += written
         return written
 
+    # -----------------------------------------------------------------
+    # Additive-corpus-v1 Phase 4 — write_delta
+    # -----------------------------------------------------------------
+
+    def write_delta(
+        self,
+        delta: Any,  # CorpusDelta (importing delta_planner here would be circular-ish)
+        *,
+        documents: Sequence[dict[str, Any]],
+        articles: Sequence[ParsedArticle],
+        edges: Sequence[ClassifiedEdge],
+        dangling_store: Any,
+    ) -> SupabaseDeltaResult:
+        """Apply a planned ``CorpusDelta`` to the rolling generation.
+
+        * ``documents`` — full doc-payload dicts (same shape ``write_documents``
+          expects) for every doc in ``delta.added`` ∪ ``delta.modified``.
+        * ``articles`` — parsed articles belonging to delta docs (added/modified).
+        * ``edges`` — classified edges extracted from the delta articles.
+        * ``dangling_store`` — persistent store for unresolved ARTICLE targets.
+
+        See ``docs/next/additive_corpusv1.md`` §5 Phase 4 for the per-bucket
+        semantics. This method does NOT flip ``corpus_generations.is_active``;
+        the caller owns activation (``finalize(activate=True)`` or the Phase 6
+        orchestrator path).
+        """
+        from ..instrumentation import emit_event as _emit
+
+        delta_id = str(getattr(delta, "delta_id", "") or "").strip()
+        _emit(
+            "ingest.delta.sink.start",
+            {
+                "delta_id": delta_id,
+                "target": self.target,
+                "generation_id": self.generation_id,
+                "added": len(getattr(delta, "added", ())),
+                "modified": len(getattr(delta, "modified", ())),
+                "removed": len(getattr(delta, "removed", ())),
+            },
+        )
+
+        added_entries = list(getattr(delta, "added", ()) or ())
+        modified_entries = list(getattr(delta, "modified", ()) or ())
+        removed_entries = list(getattr(delta, "removed", ()) or ())
+
+        # Short-circuit on empty delta (per Decision E1 reviewer amendment:
+        # empty deltas skip downstream work altogether).
+        if not added_entries and not modified_entries and not removed_entries:
+            _emit(
+                "ingest.delta.sink.done",
+                {
+                    "delta_id": delta_id,
+                    "target": self.target,
+                    "documents_added": 0,
+                    "documents_modified": 0,
+                    "documents_retired": 0,
+                    "chunks_written": 0,
+                    "chunks_deleted": 0,
+                    "edges_written": 0,
+                    "edges_deleted": 0,
+                },
+            )
+            return SupabaseDeltaResult(
+                generation_id=self.generation_id,
+                target=self.target,
+                delta_id=delta_id,
+                documents_added=0,
+                documents_modified=0,
+                documents_retired=0,
+                chunks_written=0,
+                chunks_deleted=0,
+                edges_written=0,
+                edges_deleted=0,
+                dangling_upserted=0,
+                dangling_promoted=0,
+            )
+
+        # -------- Pass 1: upsert added + modified docs + chunks -------------
+        # Preserve _subtema_by_doc_id / _topic_by_doc_id coupling (§3.9):
+        # write_documents populates them, write_chunks consumes them.
+        doc_id_by_source_path: dict[str, str] = {}
+        if documents:
+            doc_id_by_source_path, _ = self.write_documents(documents)
+
+        # Tag added/modified docs with last_delta_id so diagnostics can trace
+        # which delta touched each row. write_documents already set
+        # sync_generation to self.generation_id; we patch last_delta_id via an
+        # update keyed on the written doc_ids.
+        touched_doc_ids = list(doc_id_by_source_path.values())
+        for chunk_batch in _iter_batches(
+            [{"doc_id": d, "last_delta_id": delta_id} for d in touched_doc_ids]
+        ):
+            if not chunk_batch:
+                continue
+            for item in chunk_batch:
+                self._client.table("documents").update(
+                    {"last_delta_id": item["last_delta_id"]}
+                ).eq("doc_id", item["doc_id"]).execute()
+
+        # For modified docs we must also remove chunks whose article_key is no
+        # longer present in the fresh parse. Compute current chunk_id set,
+        # diff against the just-written set, hard-delete the stragglers.
+        modified_doc_ids = {
+            entry.doc_id
+            for entry in modified_entries
+            if entry.doc_id
+        }
+        chunks_deleted = 0
+        if modified_doc_ids:
+            written_chunk_ids = {
+                _chunk_id(doc_id_by_source_path.get(str(a.source_path or ""), ""), a.article_key)
+                for a in articles
+                if doc_id_by_source_path.get(str(a.source_path or "")) in modified_doc_ids
+            }
+            for doc_id in modified_doc_ids:
+                resp = (
+                    self._client.table("document_chunks")
+                    .select("chunk_id")
+                    .eq("doc_id", doc_id)
+                    .execute()
+                )
+                current_ids = {
+                    str(r.get("chunk_id") or "")
+                    for r in list(getattr(resp, "data", None) or [])
+                }
+                stale = current_ids - written_chunk_ids
+                for stale_id in stale:
+                    if not stale_id:
+                        continue
+                    self._client.table("document_chunks").delete().eq(
+                        "chunk_id", stale_id
+                    ).execute()
+                    chunks_deleted += 1
+
+        # Write the fresh chunk set (idempotent upsert on chunk_id).
+        chunks_written = 0
+        if articles and doc_id_by_source_path:
+            chunks_written = self.write_chunks(
+                articles, doc_id_by_source_path=doc_id_by_source_path
+            )
+
+        # -------- Pass 2: retire removed docs --------------------------------
+        chunks_deleted_retired = 0
+        edges_deleted = 0
+        retired_doc_ids: list[str] = []
+        retired_article_keys: set[str] = set()
+        for entry in removed_entries:
+            baseline = entry.baseline
+            if baseline is None or not baseline.doc_id:
+                continue
+            retired_doc_ids.append(baseline.doc_id)
+
+        if retired_doc_ids:
+            # Find article keys owned by retired docs via chunk_id prefix.
+            for doc_id in retired_doc_ids:
+                resp = (
+                    self._client.table("document_chunks")
+                    .select("chunk_id")
+                    .eq("doc_id", doc_id)
+                    .execute()
+                )
+                for raw in list(getattr(resp, "data", None) or []):
+                    chunk_id = str(raw.get("chunk_id") or "")
+                    if "::" in chunk_id:
+                        _, _, article_key = chunk_id.partition("::")
+                        if article_key:
+                            retired_article_keys.add(article_key)
+                # Hard-delete chunks for the retired doc.
+                del_resp = (
+                    self._client.table("document_chunks")
+                    .delete()
+                    .eq("doc_id", doc_id)
+                    .execute()
+                )
+                chunks_deleted_retired += len(
+                    list(getattr(del_resp, "data", None) or [])
+                )
+                # Mark doc retired + tag with delta_id.
+                self._client.table("documents").update(
+                    {
+                        "retired_at": _now_iso(),
+                        "last_delta_id": delta_id,
+                    }
+                ).eq("doc_id", doc_id).execute()
+
+            # Delete outbound edges sourced at retired article keys on the
+            # rolling generation. Rows with other generation_ids (snapshot
+            # history) stay untouched.
+            for article_key in retired_article_keys:
+                del_resp = (
+                    self._client.table("normative_edges")
+                    .delete()
+                    .eq("source_key", article_key)
+                    .eq("generation_id", self.generation_id)
+                    .execute()
+                )
+                edges_deleted += len(list(getattr(del_resp, "data", None) or []))
+
+        # Similarly: for modified docs, wipe prior outbound edges on the
+        # rolling row before writing the fresh set. Determine their article
+        # keys from the freshly-parsed articles.
+        modified_article_keys: set[str] = set()
+        for article in articles:
+            dest_doc = doc_id_by_source_path.get(str(article.source_path or ""))
+            if dest_doc and dest_doc in modified_doc_ids:
+                modified_article_keys.add(article.article_key)
+        for article_key in modified_article_keys:
+            del_resp = (
+                self._client.table("normative_edges")
+                .delete()
+                .eq("source_key", article_key)
+                .eq("generation_id", self.generation_id)
+                .execute()
+            )
+            edges_deleted += len(list(getattr(del_resp, "data", None) or []))
+
+        # -------- Pass 3: edges (Pass A + B promotion + C) -------------------
+        # Pass A: write the delta's new edges (idempotent on rolling key).
+        edges_written = 0
+        if edges:
+            edges_written += self._write_rolling_edges(edges, delta_id=delta_id)
+
+        # Pass B: promote dangling candidates whose target arrived in this delta.
+        new_article_keys = {a.article_key for a in articles}
+        dangling_promoted = 0
+        if new_article_keys and dangling_store is not None:
+            grouped = dangling_store.load_for_target_keys(new_article_keys)
+            promoted = []
+            for key, rows in grouped.items():
+                for dang in rows:
+                    promoted.append(dang)
+            if promoted:
+                dangling_promoted = self._promote_dangling(
+                    promoted, delta_id=delta_id
+                )
+                # Remove promoted rows from the store.
+                from .dangling_store import DanglingCandidate
+
+                dangling_store.delete_promoted(
+                    [
+                        DanglingCandidate(
+                            source_key=r.source_key,
+                            target_key=r.target_key,
+                            relation=r.relation,
+                        )
+                        for r in promoted
+                    ]
+                )
+
+        # Pass C: record new dangling candidates — edges whose target_key is
+        # unknown after the delta's article set has been considered.
+        dangling_upserted = 0
+        if edges and dangling_store is not None:
+            candidates = self._classify_dangling_candidates(
+                edges,
+                known_article_keys=new_article_keys,
+            )
+            if candidates:
+                dangling_upserted = dangling_store.upsert_candidates(
+                    candidates, delta_id=delta_id
+                )
+
+        # -------- Done -------------------------------------------------------
+        result = SupabaseDeltaResult(
+            generation_id=self.generation_id,
+            target=self.target,
+            delta_id=delta_id,
+            documents_added=len(added_entries),
+            documents_modified=len(modified_entries),
+            documents_retired=len(retired_doc_ids),
+            chunks_written=chunks_written,
+            chunks_deleted=chunks_deleted + chunks_deleted_retired,
+            edges_written=edges_written + dangling_promoted,
+            edges_deleted=edges_deleted,
+            dangling_upserted=dangling_upserted,
+            dangling_promoted=dangling_promoted,
+        )
+        _emit("ingest.delta.sink.done", result.to_dict())
+        return result
+
+    def _write_rolling_edges(
+        self,
+        edges: Sequence[ClassifiedEdge],
+        *,
+        delta_id: str,
+    ) -> int:
+        """Upsert edges onto ``generation_id=self.generation_id`` with ``last_seen_delta_id``."""
+        rows: list[dict[str, Any]] = []
+        now = _now_iso()
+        seen: set[tuple[str, str, str]] = set()
+        for edge in edges:
+            kind_value = edge.record.kind.value
+            if kind_value in _RELATION_DROP:
+                self._edges_skipped_relation += 1
+                continue
+            relation = _RELATION_MAP.get(kind_value)
+            if relation is None or relation not in _ALLOWED_RELATIONS:
+                continue
+            source_key = str(edge.record.source_key or "").strip()
+            target_key = str(edge.record.target_key or "").strip()
+            if not source_key or not target_key:
+                continue
+            dedup = (source_key, target_key, relation)
+            if dedup in seen:
+                continue
+            seen.add(dedup)
+            basis_text = str(edge.record.properties.get("raw_reference") or "") or None
+            rows.append(
+                {
+                    "source_key": source_key,
+                    "target_key": target_key,
+                    "relation": relation,
+                    "confidence": float(edge.confidence or 0.0),
+                    "generation_id": self.generation_id,
+                    "last_seen_delta_id": delta_id,
+                    "created_at": now,
+                    "basis_text": basis_text,
+                }
+            )
+        written = 0
+        for batch in _iter_batches(rows):
+            # When the generation is gen_active_rolling, the partial unique
+            # index `normative_edges_rolling_idempotency` enforces the
+            # 3-column uniqueness; the 4-column (with generation_id) unique
+            # index still dedups for snapshot generations. Upsert on the
+            # 4-column key remains correct for both paths.
+            self._client.table("normative_edges").upsert(
+                batch, on_conflict="source_key,target_key,relation,generation_id"
+            ).execute()
+            written += len(batch)
+        self._edges_written += written
+        return written
+
+    def _classify_dangling_candidates(
+        self,
+        edges: Sequence[ClassifiedEdge],
+        *,
+        known_article_keys: set[str],
+    ) -> list[Any]:
+        """Return DanglingCandidate instances for edges with unresolved ARTICLE targets.
+
+        Mirrors the §3.5 constraint: ARTICLE targets only. Other target kinds
+        are either always-present (subtopic) or minted inline elsewhere.
+        """
+        from .dangling_store import DanglingCandidate
+
+        out: list[DanglingCandidate] = []
+        for edge in edges:
+            kind_value = edge.record.kind.value
+            if kind_value in _RELATION_DROP:
+                continue
+            target_kind = edge.record.target_kind
+            # Only ARTICLE-target edges enter the dangling store.
+            if target_kind is not NodeKind.ARTICLE:
+                continue
+            target_key = str(edge.record.target_key or "").strip()
+            source_key = str(edge.record.source_key or "").strip()
+            if not target_key or not source_key:
+                continue
+            if target_key in known_article_keys:
+                continue
+            relation = _RELATION_MAP.get(kind_value)
+            if relation is None or relation not in _ALLOWED_RELATIONS:
+                continue
+            out.append(
+                DanglingCandidate(
+                    source_key=source_key,
+                    target_key=target_key,
+                    relation=relation,
+                    source_doc_id=str(edge.record.properties.get("source_doc_id") or "") or None,
+                    raw_reference=str(edge.record.properties.get("raw_reference") or "") or None,
+                )
+            )
+        return out
+
+    def _promote_dangling(
+        self,
+        rows: Sequence[Any],
+        *,
+        delta_id: str,
+    ) -> int:
+        """Promote DanglingRow instances into ``normative_edges``."""
+        now = _now_iso()
+        payloads: list[dict[str, Any]] = []
+        for r in rows:
+            if not r.source_key or not r.target_key or not r.relation:
+                continue
+            payloads.append(
+                {
+                    "source_key": r.source_key,
+                    "target_key": r.target_key,
+                    "relation": r.relation,
+                    "confidence": 1.0,
+                    "generation_id": self.generation_id,
+                    "last_seen_delta_id": delta_id,
+                    "created_at": now,
+                    "basis_text": r.raw_reference,
+                }
+            )
+        if not payloads:
+            return 0
+        written = 0
+        for batch in _iter_batches(payloads):
+            self._client.table("normative_edges").upsert(
+                batch, on_conflict="source_key,target_key,relation,generation_id"
+            ).execute()
+            written += len(batch)
+        return written
+
+    # -----------------------------------------------------------------
+
     def finalize(self, *, activate: bool) -> SupabaseSinkResult:
         if activate:
             self._activate_generation()
@@ -446,6 +894,7 @@ class SupabaseCorpusSink:
 
 __all__ = [
     "SupabaseCorpusSink",
+    "SupabaseDeltaResult",
     "SupabaseSinkResult",
     "default_generation_id",
 ]

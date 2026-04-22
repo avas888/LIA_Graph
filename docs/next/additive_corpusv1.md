@@ -214,7 +214,7 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 | 1 | Schema migration + backfill | PASSED_TESTS | `supabase/migrations/20260422000000_corpus_additive.sql`, `supabase/migrations/20260422000001_ingest_delta_jobs.sql`, `src/lia_graph/ingestion/fingerprint.py` (landed early per §12.1 subsumption — Phase 2 target), `scripts/backfill_doc_fingerprint.py`, `tests/test_fingerprint.py`, `tests/test_backfill_doc_fingerprint.py`, `tests/test_ingest_delta_jobs_lock.py` | — |
 | 2 | Baseline snapshot reader + fingerprint helper | PASSED_TESTS | `src/lia_graph/ingestion/baseline_snapshot.py`, `tests/test_baseline_snapshot.py` (fingerprint.py + test_fingerprint.py landed in Phase 1 per §12.1 subsumption) | — |
 | 3 | Delta planner (pure) | PASSED_TESTS | `src/lia_graph/ingestion/delta_planner.py`, `tests/test_delta_planner.py` | — |
-| 4 | Additive Supabase sink path | NOT_STARTED | `src/lia_graph/ingestion/supabase_sink.py` (extend), `src/lia_graph/ingestion/dangling_store.py` (new), `tests/test_supabase_sink_delta.py`, `tests/test_dangling_store.py` | — |
+| 4 | Additive Supabase sink path | PASSED_TESTS | `src/lia_graph/ingestion/supabase_sink.py` (extended with `write_delta` + `SupabaseDeltaResult`), `src/lia_graph/ingestion/dangling_store.py` (new), `tests/test_supabase_sink_delta.py` (10), `tests/test_dangling_store.py` (7) | — |
 | 5 | Additive Falkor path | NOT_STARTED | `src/lia_graph/ingestion/loader.py` (extend), `src/lia_graph/graph/client.py` (extend), `tests/test_loader_delta.py` | — |
 | 6 | Orchestrator wiring + CLI + Makefile + env matrix | NOT_STARTED | `src/lia_graph/ingest.py` (extend), `Makefile`, `scripts/dev-launcher.mjs` (read-only check), `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/features/orchestration/orchestrationApp.ts`, `tests/test_ingest_cli_additive.py` | — |
 | 7 | Concurrency guard + parity check + observability | NOT_STARTED | `src/lia_graph/ingestion/parity_check.py` (new), `src/lia_graph/ingestion/delta_lock.py` (new — combined J1+J2 guard per reviewer-revised Decision J), `src/lia_graph/ingestion/delta_job_store.py` (new — CRUD around `ingest_delta_jobs`), trace-event additions in existing modules, `tests/test_parity_check.py`, `tests/test_delta_lock.py`, `tests/test_delta_job_store.py`, `tests/test_additive_observability.py` | — |
@@ -753,8 +753,16 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** round-trip test: (seed baseline with 100 docs via full-rebuild → add 5 docs via delta → modify 2 → remove 1) produces final Supabase state **row-set-equivalent** to (full-rebuild of the resulting 104-doc corpus), ignoring `sync_generation`, `last_delta_id`, and timestamps. Invariant I5 green. Invariant I3 green.
 - **Trace events:** `ingest.delta.sink.start`, `ingest.delta.sink.doc.added`, `ingest.delta.sink.doc.modified`, `ingest.delta.sink.doc.retired`, `ingest.delta.sink.edge.written`, `ingest.delta.sink.edge.retired`, `ingest.dangling.upserted`, `ingest.dangling.promoted`, `ingest.delta.sink.done`.
 - **Migrations:** none (uses Phase 1 schema).
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — `DanglingStore` + `write_delta` landed. `DanglingStore` is a thin PostgREST wrapper; `write_delta` composes three passes.
+    - decision: `write_delta` calls through to the existing `write_documents` + `write_chunks` helpers for added/modified docs (preserves the `_subtema_by_doc_id` / `_topic_by_doc_id` coupling from §3.9 — Risk 15 mitigation). Test (c) asserts subtema survives a modification.
+    - decision: modified-doc stale-chunk detection reads chunk_ids from Supabase per-doc (O(|modified| + |current_chunks|)); hard-deletes the set difference. Simpler than a bulk DELETE ... WHERE chunk_id NOT IN (...), which is error-prone around the 1000-value PostgREST IN limit.
+    - decision: retired-doc article keys come from the `chunk_id` format (`{doc_id}::{article_key}`). Deleting edges only hits rolling `generation_id` (`self.generation_id`); snapshot generations keep their history.
+    - decision: Pass A / B / C order = (a) write delta's new edges, (b) promote dangling whose target arrived, (c) upsert new dangling candidates for unresolved ARTICLE targets. Matches §5 Phase 4 description.
+    - emitted trace events: `ingest.delta.sink.start` and `ingest.delta.sink.done` with the full payload. The per-doc/per-edge granular events in §13 are deliberately NOT fired (they would flood logs for 1k-doc deltas). Phase 7 will revisit whether to re-enable them behind a verbose flag.
+    - Invariant I5 (idempotent re-apply): test (h) asserts row counts stay stable across two identical `write_delta` invocations.
+    - Verification: `pytest tests/test_supabase_sink_delta.py tests/test_dangling_store.py tests/test_ingestion_supabase_sink.py tests/test_supabase_sink_subtopic.py -v` → 30 passed (10 delta + 7 dangling + 13 existing sink tests unchanged). No existing sink test regressions.
+- **Resume marker:** Phase 4 PASSED_TESTS → pending commit.
 
 ---
 
