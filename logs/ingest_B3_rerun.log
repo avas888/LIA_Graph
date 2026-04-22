@@ -1,1 +1,0 @@
-PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir knowledge_base --artifacts-dir artifacts --supabase-sink --supabase-target wip --execute-load --allow-unblessed-load --strict-falkordb  --json

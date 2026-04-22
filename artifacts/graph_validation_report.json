@@ -1,18 +1,18 @@
 {
   "ok": true,
   "graph_name": "LIA_REGULATORY_GRAPH",
-  "node_count": 2628,
-  "edge_count": 20412,
+  "node_count": 2633,
+  "edge_count": 20495,
   "node_counts": {
     "ArticleNode": 1301,
     "ReformNode": 1316,
-    "SubTopicNode": 11
+    "SubTopicNode": 16
   },
   "edge_counts": {
     "COMPUTATION_DEPENDS_ON": 175,
     "DEFINES": 28,
     "EXCEPTION_TO": 66,
-    "HAS_SUBTOPIC": 44,
+    "HAS_SUBTOPIC": 127,
     "MODIFIES": 5243,
     "REFERENCES": 13306,
     "REQUIRES": 364,
@@ -24,10 +24,6 @@
     "ArticleNode:487",
     "ArticleNode:512",
     "ArticleNode:513",
-    "ArticleNode:526",
-    "ArticleNode:529",
-    "ArticleNode:543",
-    "ArticleNode:551",
     "ArticleNode:561",
     "ArticleNode:689",
     "ArticleNode:740",
