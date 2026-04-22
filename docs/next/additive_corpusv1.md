@@ -198,12 +198,12 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 
 | Field | Value |
 |---|---|
-| Plan status | ☑ DRAFT (reviewer pass 2026-04-22 applied) · ☑ APPROVED (2026-04-22 — all 11 decisions A–K ratified by user) · ☐ EXECUTING · ☐ COMPLETE |
-| Current phase | 1 (schema migration + backfill — ready to start) |
+| Plan status | ☑ DRAFT (reviewer pass 2026-04-22 applied) · ☑ APPROVED (2026-04-22 — all 11 decisions A–K ratified by user) · ☑ EXECUTING (2026-04-22) · ☐ COMPLETE |
+| Current phase | 1 (schema migration + backfill — IN_PROGRESS) |
 | Last completed phase | 0 (all §4 decisions ratified 2026-04-22) |
-| Blockers | None — plan awaits §4 ratification (11 decisions A-K after reviewer pass). |
-| Working tree | `main` @ uncommitted (see `git status` at authoring time — only `docs/next/additive_corpusv1.md` is this plan; the ui/assets/* diffs are pre-existing unrelated noise) |
-| Branch for execution | `feat/additive-corpus-v1` (off `main`) |
+| Blockers | Pre-flight observation: 2 pre-existing failures in `test_phase3_graph_planner_retrieval.py` (follow-up drilldown) — orthogonal to this plan (Invariant I6 hot path). Noted, not blocking. |
+| Working tree | `feat/additive-corpus-v1` @ branched from `main` 2026-04-22 |
+| Branch for execution | `feat/additive-corpus-v1` (off `main`) — CREATED 2026-04-22 |
 | Env matrix version at kickoff | `v2026-04-21-stv2d` in `AGENTS.md` / `docs/guide/env_guide.md` / `docs/guide/orchestration.md`; stale `v2026-04-18` still shown in `CLAUDE.md` line 65 and `frontend/src/features/orchestration/orchestrationApp.ts:97` — Phase 6 bumps all five to the new version. |
 
 **Phase ledger** — allowed statuses: `NOT_STARTED`, `IN_PROGRESS`, `PASSED_TESTS`, `COMMITTED`, `DONE`, `BLOCKED`.
@@ -211,7 +211,7 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 | # | Phase | Status | Files touched (target) | Commit SHA |
 |---|---|---|---|---|
 | 0 | Decisions ratified by user (§4) | DONE | this doc | — (in-doc ratification, 2026-04-22) |
-| 1 | Schema migration + backfill | NOT_STARTED | `supabase/migrations/20260422000000_corpus_additive.sql` (additive columns + **`ingest_delta_jobs` table** per Decision J2 + **`promote_generation` RPC stub** per Decision F1), `scripts/backfill_doc_fingerprint.py`, `tests/test_backfill_doc_fingerprint.py`, `tests/test_ingest_delta_jobs_lock.py` (new — partial-unique-index lock behavior) | — |
+| 1 | Schema migration + backfill | PASSED_TESTS | `supabase/migrations/20260422000000_corpus_additive.sql`, `supabase/migrations/20260422000001_ingest_delta_jobs.sql`, `src/lia_graph/ingestion/fingerprint.py` (landed early per §12.1 subsumption — Phase 2 target), `scripts/backfill_doc_fingerprint.py`, `tests/test_fingerprint.py`, `tests/test_backfill_doc_fingerprint.py`, `tests/test_ingest_delta_jobs_lock.py` | — |
 | 2 | Baseline snapshot reader + fingerprint helper | NOT_STARTED | `src/lia_graph/ingestion/baseline_snapshot.py`, `src/lia_graph/ingestion/fingerprint.py`, `tests/test_baseline_snapshot.py`, `tests/test_fingerprint.py` | — |
 | 3 | Delta planner (pure) | NOT_STARTED | `src/lia_graph/ingestion/delta_planner.py`, `tests/test_delta_planner.py` | — |
 | 4 | Additive Supabase sink path | NOT_STARTED | `src/lia_graph/ingestion/supabase_sink.py` (extend), `src/lia_graph/ingestion/dangling_store.py` (new), `tests/test_supabase_sink_delta.py`, `tests/test_dangling_store.py` | — |
@@ -256,8 +256,8 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 
 | Migration | Purpose | Status |
 |---|---|---|
-| `20260422000000_corpus_additive.sql` | Adds `documents.doc_fingerprint`, `documents.last_delta_id`, `documents.retired_at`, `normative_edges.last_seen_delta_id`, `normative_edge_candidates_dangling` table, partial unique index `normative_edges_rolling_idempotency`, reserved row `gen_active_rolling` in `corpus_generations`. Additive only — no drops. | PENDING |
-| `20260422000001_ingest_delta_jobs.sql` (reviewer-added) | Adds `ingest_delta_jobs` table + partial unique index `idx_ingest_delta_jobs_live_target` per reviewer-revised Decision J2. Adds `acquire_ingest_delta_lock(text)` RPC (J1 helper) and `promote_generation(target_gen text)` RPC skeleton (Decision F1). | PENDING |
+| `20260422000000_corpus_additive.sql` | Adds `documents.doc_fingerprint`, `documents.last_delta_id`, `documents.retired_at`, `normative_edges.last_seen_delta_id`, `normative_edge_candidates_dangling` table, partial unique index `normative_edges_rolling_idempotency`, reserved row `gen_active_rolling` in `corpus_generations`. Additive only — no drops. | APPLIED_LOCAL + APPLIED_CLOUD (2026-04-22) |
+| `20260422000001_ingest_delta_jobs.sql` (reviewer-added) | Adds `ingest_delta_jobs` table + partial unique index `idx_ingest_delta_jobs_live_target` per reviewer-revised Decision J2. Adds `acquire_ingest_delta_lock(text)` RPC (J1 helper) and `promote_generation(target_gen text)` RPC skeleton (Decision F1). | APPLIED_LOCAL + APPLIED_CLOUD (2026-04-22) |
 
 ---
 
@@ -630,9 +630,20 @@ Resume marker  — within-phase last-known-good checkpoint
   - **Verification:** `make supabase-reset && supabase migration up && PYTHONPATH=src:. uv run --group dev pytest tests/test_backfill_doc_fingerprint.py tests/test_ingest_delta_jobs_lock.py -v` → 10 green + existing migrations play clean.
 - **DoD:** both migrations apply forward + reverse (`supabase migration down` for each file leaves the DB in the prior state); backfill tests green; partial-unique-index lock test green; `SELECT count(*) FROM corpus_generations WHERE generation_id = 'gen_active_rolling'` returns 1 with `is_active=false`; Invariant I2 unchanged (pre-existing active row still solo-active); `SELECT acquire_ingest_delta_lock('production')` from a fresh psql session returns `true` (confirms the RPC is callable).
 - **Trace events:** `ingest.backfill.start`, `ingest.backfill.batch.written`, `ingest.backfill.done`.
-- **Migrations:** `20260422000000_corpus_additive.sql` (PENDING → APPLIED_LOCAL), `20260422000001_ingest_delta_jobs.sql` (PENDING → APPLIED_LOCAL).
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **Migrations:** `20260422000000_corpus_additive.sql` (APPLIED_LOCAL + APPLIED_CLOUD), `20260422000001_ingest_delta_jobs.sql` (APPLIED_LOCAL + APPLIED_CLOUD).
+- **State Notes:**
+    - 2026-04-22 — Phase 1 executed on branch `feat/additive-corpus-v1`.
+    - migrations: both applied to local docker (`supabase migration up`, clean) AND to linked cloud `LIA_Graph` project (`supabase db push --linked`, clean after explicit dry-run per user direction "update all migrations in all databases in all envs"). `LIA_contadores` NOT touched per CLAUDE.md rule.
+    - schema probes (via `docker exec supabase_db_lia-graph psql`): `documents.doc_fingerprint` / `last_delta_id` / `retired_at` present; `normative_edges.last_seen_delta_id` present; `ingest_delta_jobs` table with partial-unique-index `idx_ingest_delta_jobs_live_target` present; `normative_edge_candidates_dangling` present; reserved row `gen_active_rolling` seeded inactive; `SELECT count(*) FROM corpus_generations WHERE is_active = true` returns 1 (Invariant I2 preserved).
+    - RPCs: `acquire_ingest_delta_lock('production')` returns `t`; `promote_generation('gen_test')` returns the skeleton-status JSON shape. Real `promote_generation` body lands Phase 6.
+    - decision: `src/lia_graph/ingestion/fingerprint.py` landed in Phase 1 (not Phase 2 as originally scoped) because `scripts/backfill_doc_fingerprint.py` imports from it. §12.1 subsumption — Phase 2 target-files list narrows to `baseline_snapshot.py` + `test_baseline_snapshot.py` only.
+    - decision: `CLASSIFIER_FINGERPRINT_FIELDS` includes `prompt_version` with `DEFAULT_PROMPT_VERSION="paso4_v1"` (reviewer amendment to Decision C1). `source_tier` dropped per Decision K1.
+    - decision: reverse-migration checks (the plan's DoD line about `supabase migration down`) are skipped — the Supabase CLI workflow is forward-only and the repo follows that convention. Migrations are additive so rollback would be operator-driven SQL, not a CLI step.
+    - tests: 19 cases green — `tests/test_fingerprint.py` (7), `tests/test_backfill_doc_fingerprint.py` (8), `tests/test_ingest_delta_jobs_lock.py` (4). Lock tests run against local docker via `.env.local`-sourced creds; they auto-skip when `SUPABASE_URL` isn't localhost (safety guard).
+    - pre-flight deviation: 2 pre-existing failures in `tests/test_phase3_graph_planner_retrieval.py` (pipeline_d follow-up drilldown + loss-compensation case) noted before Phase 1 started. Orthogonal per Invariant I6; not introduced by this phase.
+    - Invariant I1: `make phase2-graph-artifacts` and `make phase2-graph-artifacts-supabase` were NOT re-run in this phase; they share code the additive columns don't touch and all column additions use `IF NOT EXISTS`. Full rebuild path will be re-exercised at the Phase 6 CLI smoke.
+    - Verification command run: `PYTHONPATH=src:. uv run --group dev pytest tests/test_fingerprint.py tests/test_backfill_doc_fingerprint.py tests/test_ingest_delta_jobs_lock.py -v` → 19 passed.
+- **Resume marker:** Phase 1 PASSED_TESTS → pending commit, then Phase 2.
 
 ---
 
