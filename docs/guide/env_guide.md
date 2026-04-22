@@ -1,6 +1,6 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-04-18`.**
+> **Env matrix version: `v2026-04-21-stv2d`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
 
 ## Purpose
@@ -25,16 +25,19 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-04-18)
+## Runtime Retrieval Flags (v2026-04-21-stv2d)
 
-`scripts/dev-launcher.mjs` sets these two flags per mode; the orchestrator reads them on every request and dispatches to the right adapter:
+`scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
-| Flag | `dev` | `dev:staging` | `dev:production` | Adapter picked |
+| Flag | `dev` | `dev:staging` | `dev:production` | Consumer |
 |---|---|---|---|---|
 | `LIA_CORPUS_SOURCE` | `artifacts` | `supabase` | inherits Railway | `retriever.py` vs `retriever_supabase.py` |
 | `LIA_GRAPH_MODE` | `artifacts` | `falkor_live` | inherits Railway | `retriever.py` vs `retriever_falkor.py` |
+| `LIA_LLM_POLISH_ENABLED` | `1` | `1` | `1` | `answer_llm_polish.py` — set to `0` to compare template vs polished |
+| `LIA_SUBTOPIC_BOOST_FACTOR` | `1.5` default (unused in dev) | `1.5` default | inherits Railway | `retriever_supabase.py` + `retriever_falkor.py` when planner detects subtopic intent |
+| `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 
-Every chat response carries the active values under `response.diagnostics.retrieval_backend` and `response.diagnostics.graph_backend`, so you can confirm what served the turn without guessing. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted — fix the env before shipping.
+Every chat response carries the active values under `response.diagnostics.retrieval_backend`, `response.diagnostics.graph_backend`, and — when the planner detects a curated subtopic — `response.diagnostics.retrieval_sub_topic_intent` + `response.diagnostics.subtopic_anchor_keys`. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted — fix the env before shipping.
 
 Full table with every `LIA_*` env, owners, and version history lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned).
 
@@ -142,10 +145,29 @@ The CLI flags on `python -m lia_graph.ingest` are:
 - `--supabase-target {production,wip}` — picks which Supabase project to write to (also controlled by `LIA_INGEST_SUPABASE_TARGET`).
 - `--supabase-generation-id <id>` — override the auto-generated `gen_<UTC timestamp>` tag. Useful for reruns during testing.
 - `--no-supabase-activate` — write rows but leave `corpus_generations.is_active = false`. Use this when you want to stage a dry run.
+- `--skip-llm` — bypass the PASO 4 subtopic classifier (fast dev-loop / CI smoke). Documents land with `subtema = null` + `requires_subtopic_review = false`. Added in `v2026-04-21-stv2b`.
+- `--rate-limit-rpm N` — cap the PASO 4 classifier at N requests per minute (default `60`; Gemini Flash tolerates ~1000 if you raise it). Also controlled by `LIA_INGEST_CLASSIFIER_RPM`. Added in `v2026-04-21-stv2b`.
+- `--allow-non-local-env` — bypass the `env_posture.assert_local_posture()` guard. Required when you intentionally point a "local" ingest run at cloud Supabase / cloud Falkor. Added in `v2026-04-21-stv2b`.
+- `--include-suin <scope>` / `--suin-artifacts-root <path>` — merge SUIN JSONL shards before the audit pass.
 
 Local developers do NOT need to run the sink. `npm run dev` reads from the filesystem artifact bundle and the local FalkorDB docker; the cloud sink is only required before the staging runtime cutover.
 
-Embeddings are populated by `src/lia_graph/embedding_ops.py` on a follow-up pass against the same Supabase target; the sink intentionally writes `embedding = NULL` so one concern stays in one place.
+### Env Posture Guard
+
+`src/lia_graph/env_posture.py` is invoked at the top of `python -m lia_graph.ingest` unless `--allow-non-local-env` is passed. The guard classifies `SUPABASE_URL` / `FALKORDB_URL` by host — if either points at cloud during what the launcher considers a local-mode run, it raises `EnvPostureError` and emits `env.posture.asserted` with the offending host. Prevents the silent-risk mode where a misconfigured `.env.local` would write production rows while the developer believed they were running locally.
+
+### Single-Pass Ingest (Since `v2026-04-21-stv2b`)
+
+The bulk ingest runs the PASO 4 LLM subtopic classifier inline between audit and sink, so `documents.subtema` + Falkor `SubTopicNode` / `HAS_SUBTOPIC` edges land in the same `make phase2-graph-artifacts-supabase` run — no separate backfill step. See `docs/guide/orchestration.md` §0.4 for the full module decomposition. `scripts/backfill_subtopic.py` is now maintenance-only (default filter: `requires_subtopic_review=true OR subtema IS NULL`).
+
+### Embedding + Promotion Auto-Chain
+
+Embeddings are populated by `src/lia_graph/embedding_ops.py` on a follow-up pass against the same Supabase target; the sink intentionally writes `embedding = NULL` so one concern stays in one place. Two env vars chain extra work onto `POST /api/ingest/run`:
+
+- `INGEST_AUTO_EMBED=1` — after the sink completes, `scripts/ingest_run_full.sh` invokes `embedding_ops.py` against the just-written generation.
+- `INGEST_AUTO_PROMOTE=1` — after embeddings land, re-run the pipeline with `PHASE2_SUPABASE_TARGET=production` to promote WIP → production.
+
+Both are opt-in and propagated from the admin `POST /api/ingest/run` body (`auto_embed`, `auto_promote`), not from launcher env.
 
 ## Verification
 
@@ -158,19 +180,24 @@ A healthy environment matches the following:
 - The same login succeeds against `dev:staging`.
 - A probe chat turn in `dev` shows `diagnostics.retrieval_backend == "artifacts"` and `diagnostics.graph_backend == "artifacts"`.
 - A probe chat turn in `dev:staging` shows `diagnostics.retrieval_backend == "supabase"` and `diagnostics.graph_backend == "falkor_live"`.
+- A probe chat turn that mentions a curated subtopic (e.g. "4x1000") shows `diagnostics.retrieval_sub_topic_intent != null` and non-empty `diagnostics.subtopic_anchor_keys` in `dev:staging`.
 - `npm run dev:production` exits non-zero with the Railway notice.
 
 ## File Pointers
 
 - Launcher: `scripts/dev-launcher.mjs`
 - Backend guard: `src/lia_graph/supabase_client.py` `require_supabase_backend`
+- Env posture guard: `src/lia_graph/env_posture.py`
 - Preflight smoke: `src/lia_graph/dependency_smoke.py`
 - Password hashing: `src/lia_graph/password_auth.py`
 - Seed script: `scripts/seed_local_passwords.py`
 - Corpus sink: `src/lia_graph/ingestion/supabase_sink.py`
 - Ingest CLI: `src/lia_graph/ingest.py`
-- Supabase retriever: `src/lia_graph/pipeline_d/retriever_supabase.py`
-- Falkor retriever: `src/lia_graph/pipeline_d/retriever_falkor.py`
+- Single-pass subtopic classifier: `src/lia_graph/ingest_subtopic_pass.py`
+- Curated taxonomy loader: `src/lia_graph/subtopic_taxonomy_loader.py`
+- Supabase retriever (subtopic-aware): `src/lia_graph/pipeline_d/retriever_supabase.py`
+- Falkor retriever (subtopic-aware): `src/lia_graph/pipeline_d/retriever_falkor.py`
+- Optional LLM polish: `src/lia_graph/pipeline_d/answer_llm_polish.py`
 - Orchestrator dispatch: `src/lia_graph/pipeline_d/orchestrator.py`
 - Migrations: `supabase/migrations/` (active) and `supabase/migrations/_archive/` (historical)
-- Follow-up plan: `docs/next/env_fixv1.md`
+- Historical execution record for the env cut: `docs/next/env_fixv1.md` (Completed 2026-04-17)

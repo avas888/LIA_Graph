@@ -133,6 +133,8 @@ flowchart TD
 
 `ui_server.py` is not a monolith. It owns one `BaseHTTPRequestHandler` subclass (`LiaUIHandler`) plus module-level `_<domain>_controller_deps()` helpers. Every `_handle_*` method on the class is a **5–15 line delegate** that builds a fresh `deps={…}` dict and calls `handle_<domain>_<verb>(handler, …, deps=…)` in a sibling `ui_<domain>_controllers.py` module. Domain logic does not live in `ui_server.py` — only dispatch, auth, rate limiting, response helpers (`_send_json`, `_send_bytes`), and dep wiring.
 
+Sibling `ui_*_controllers.py` module count as of `v2026-04-21-stv2d`: **16** domain controllers + `ui_route_controllers.py` (shared passthrough dispatch). The table below is the domain-to-controller mapping — grep for `handle_<domain>_` to find the concrete entrypoint.
+
 | Domain | Controller module | Deps helper | HTTP surface |
 |---|---|---|---|
 | chat (main) | `ui_chat_controller.py` (+ `ui_chat_payload.py` / `ui_chat_clarification.py`) | `_chat_controller_deps` | `POST /api/chat`, `POST /api/chat/stream` |

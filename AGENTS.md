@@ -2,7 +2,7 @@
 
 Canonical operating guide for AI agents working in `Lia_Graph`.
 
-> **Env matrix version: `v2026-04-18`.** Authoritative per-mode env table lives in [`docs/guide/orchestration.md`](./docs/guide/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags or introduce a new `LIA_*` env, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map.
+> **Env matrix version: `v2026-04-21-stv2d`.** Authoritative per-mode env table lives in [`docs/guide/orchestration.md`](./docs/guide/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags or introduce a new `LIA_*` env, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map.
 
 ## Start Here
 
@@ -33,7 +33,7 @@ Test accounts: every `@lia.dev` user carries password `Test123!` in both local a
 
 Migrations baseline: `20260417000000_baseline.sql` + `20260417000001_seed_users.sql`, plus `20260418000000_normative_edges_unique.sql` (idempotency index for the cloud sink). Pre-squash files live in `supabase/migrations/_archive/` for reference only — do not replay them.
 
-## Retrieval Adapters (Env-Gated)
+## Retrieval Adapters (Env-Gated, Subtopic-Aware)
 
 The hot path picks an adapter per request based on two env flags set by the launcher:
 
@@ -41,12 +41,17 @@ The hot path picks an adapter per request based on two env flags set by the laun
 |---|---|---|---|
 | `LIA_CORPUS_SOURCE` | `artifacts` | `supabase` | `retriever.py` vs `retriever_supabase.py` |
 | `LIA_GRAPH_MODE` | `artifacts` | `falkor_live` | `retriever.py` vs `retriever_falkor.py` |
+| `LIA_LLM_POLISH_ENABLED` | `1` | `1` | `answer_llm_polish.py` (optional post-assembly polish) |
+| `LIA_SUBTOPIC_BOOST_FACTOR` | `1.5` | `1.5` | `retriever_supabase.py` + `retriever_falkor.py` (subtopic boost) |
+
+Since `v2026-04-21-stv2` the planner emits `GraphRetrievalPlan.sub_topic_intent` when the user message matches a curated subtopic (regex/alias index, longest-form tie-break). The Supabase retriever passes `filter_subtopic` + `subtopic_boost` to the `hybrid_search` RPC with a client-side post-rerank fallback; the Falkor retriever runs a preferential `HAS_SUBTOPIC → SubTopicNode` probe and merges those article keys with explicit anchors before traversal. Diagnostics carry `retrieval_sub_topic_intent` + `subtopic_anchor_keys`.
 
 Rules:
 
-- Every `PipelineCResponse.diagnostics` must carry `retrieval_backend` and `graph_backend`. If they are missing, `orchestrator.py` regressed.
+- Every `PipelineCResponse.diagnostics` must carry `retrieval_backend`, `graph_backend`, and (when a subtopic fires) `retrieval_sub_topic_intent` / `subtopic_anchor_keys`. If they are missing, `orchestrator.py` regressed.
 - The Falkor adapter must keep propagating errors — no silent fallback to artifacts on staging. Operators must see cloud outages.
-- Do NOT hardcode the flags into `.env.local` or `.env.staging`. The launcher owns them so the values stay tied to the run command.
+- Do NOT hardcode `LIA_CORPUS_SOURCE` / `LIA_GRAPH_MODE` into `.env.local` or `.env.staging`. The launcher owns them so the values stay tied to the run command.
+- Alias lists in `config/subtopic_taxonomy.json` are deliberately wide (semantic-expansion fuel). Do not auto-tighten them.
 - Before changing a flag's default or adding a new one, bump the version in `docs/guide/orchestration.md` and update the mirror tables.
 
 ## Corpus Refresh (Required Before Staging Cutover)
@@ -54,7 +59,11 @@ Rules:
 The cloud Supabase retriever reads rows that the build-time sink must have populated:
 
 - Run `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production` against `.env.staging` before `dev:staging` can serve answers from cloud.
-- Source: `src/lia_graph/ingestion/supabase_sink.py`. Writes `documents` / `document_chunks` / `corpus_generations` (with exactly-one active row) / `normative_edges`. Leaves embeddings NULL; `embedding_ops.py` fills them on a follow-up pass.
+- Source: `src/lia_graph/ingestion/supabase_sink.py`. Writes `documents` (now including `subtema` + `requires_subtopic_review`) / `document_chunks` / `corpus_generations` (with exactly-one active row) / `normative_edges` / `sub_topic_taxonomy`. Leaves embeddings NULL; `embedding_ops.py` fills them on a follow-up pass.
+- Since `v2026-04-21-stv2b` the ingest is **single-pass**: the PASO 4 subtopic classifier runs inline between audit and sink, and Falkor receives `SubTopicNode` + `HAS_SUBTOPIC` edges in the same invocation via `src/lia_graph/ingest_subtopic_pass.py`. No separate backfill required.
+- `src/lia_graph/env_posture.py` guards against silent cloud writes from a "local" run — pass `--allow-non-local-env` on the CLI when intentional.
+- `scripts/backfill_subtopic.py` is now maintenance-only (default filter: `requires_subtopic_review=true OR subtema IS NULL`); emits `SubTopicNode` + `HAS_SUBTOPIC` MERGE to Falkor per updated doc.
+- `make phase2-graph-artifacts-smoke` is the 30-second canary against the committed `mini_corpus` fixture — run it before a full-corpus re-ingest.
 - The refresh is additive, not a replacement — artifacts on disk stay authoritative for dev.
 
 ## Product Target
@@ -99,7 +108,7 @@ The hot path is:
 
 ## HTTP Controller Topology
 
-`ui_server.py` owns dispatch + auth + response helpers only. Every `_handle_*` method on `LiaUIHandler` is a thin delegate to `handle_<domain>_<verb>(handler, …, *, deps)` in a sibling `ui_<domain>_controllers.py` module. Deps flow through `_<domain>_controller_deps()` helpers defined just above the class. See the full catalog (surface ↔ controller mapping, deps helper, extension recipe) in `docs/next/granularization_v1.md` §Controller Surface Catalog and in `docs/guide/orchestration.md` §HTTP Controller Topology.
+`ui_server.py` owns dispatch + auth + response helpers only. Every `_handle_*` method on `LiaUIHandler` is a thin delegate to `handle_<domain>_<verb>(handler, …, *, deps)` in a sibling `ui_<domain>_controllers.py` module. Deps flow through `_<domain>_controller_deps()` helpers defined just above the class. **16 domain controllers** exist as of `v2026-04-21-stv2d` — see `docs/guide/orchestration.md` §HTTP Controller Topology for the full surface ↔ controller table. The original refactor play-by-play lives in `docs/next/granularization_v1.md` (executed task ledger).
 
 ## Stable Facades vs Implementation Detail
 
@@ -113,9 +122,12 @@ Treat these as focused implementation modules behind those facades:
 - `src/lia_graph/pipeline_d/answer_synthesis_sections.py`
 - `src/lia_graph/pipeline_d/answer_synthesis_helpers.py`
 - `src/lia_graph/pipeline_d/answer_first_bubble.py`
+- `src/lia_graph/pipeline_d/answer_followup.py`
 - `src/lia_graph/pipeline_d/answer_inline_anchors.py`
 - `src/lia_graph/pipeline_d/answer_historical_recap.py`
 - `src/lia_graph/pipeline_d/answer_shared.py`
+- `src/lia_graph/pipeline_d/answer_policy.py`
+- `src/lia_graph/pipeline_d/answer_llm_polish.py` (optional; gated by `LIA_LLM_POLISH_ENABLED`)
 
 Best practice:
 
