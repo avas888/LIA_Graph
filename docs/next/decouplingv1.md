@@ -1,10 +1,51 @@
 # Decoupling v1 — Executable State-Aware Plan
 
-**Last edited:** 2026-04-21 (audit pass during docs refresh — no phases executed; baselines re-measured)
+**Last edited:** 2026-04-22 (Phase 13 — plan COMPLETE, both hosts graduated)
 **Execution owner:** autonomous Claude session (post-approval)
 **Goal:** graduate the final two files above 1000 LOC — `src/lia_graph/ui_server.py` (1685 → ~150 LOC) and `frontend/src/features/ops/opsIngestionController.ts` (2327 → ~100 LOC) — without regressing the served runtime.
 
-> **Status as of 2026-04-21:** plan has NOT been executed. `ui_server.py` drifted 1669 → 1685 LOC since the plan was authored (absorbed the stv2 / intake wiring). The Phase 1 extraction targets still apply — the drift is inside the dispatch + deps surface that Phases 2+3 claim, not in the constants/helpers cluster Phase 1 takes. Env matrix has since advanced from `v2026-04-18` through `v2026-04-21-stv2d`; the draft changelog slot numbers in this plan (`v2026-04-20-ui14` … `v2026-04-21-ui4`) need to be re-assigned after the latest published entries at Phase 13.
+## Final LOC snapshot (2026-04-22)
+
+| File | Baseline | Final | Role |
+|---|---:|---:|---|
+| `src/lia_graph/ui_server.py` | 1685 | **374** | top imports + `h.*` back-compat surface + lazy `__getattr__` re-export + re-exports LiaUIHandler and CLI `main` |
+| `src/lia_graph/ui_server_constants.py` | (new) | 293 | paths, flags, regex, frozen data, public-mode config, `_SUSPENDED_CACHE`, `_RATE_LIMITER` |
+| `src/lia_graph/ui_server_helpers.py` | (new) | 78 | audit-event emitters + dev-reload watcher shims |
+| `src/lia_graph/ui_server_handler_base.py` | (new) | 579 | `LiaUIHandlerBase` — 33 plumbing/auth/send/rate-limit methods |
+| `src/lia_graph/ui_server_handler_dispatch.py` | (new) | 654 | `LiaUIHandler(LiaUIHandlerBase)` — 17 verb dispatchers + GET routes + chat-payload wrappers |
+| `src/lia_graph/ui_server_cli.py` | (new) | 97 | `run_server` / `parser` / `main` |
+| `frontend/src/features/ops/opsIngestionController.ts` | 2327 | **915** | composer: ctx + 4 factories + still-inline renderers + `render` + `bindEvents` delegating to `bindOpsEvents` |
+| `frontend/src/features/ops/opsIngestionContext.ts` | (new) | 58 | `OpsControllerCtx` + `createOpsControllerCtx` |
+| `frontend/src/features/ops/opsIngestionApi.ts` | (new) | 320 | `createOpsApi(ctx)` — 13 network entry points |
+| `frontend/src/features/ops/opsIngestionUpload.ts` | (new) | 281 | `createOpsUpload(ctx, api)` — folder walker, concurrency-bounded upload, progress renderers, tab-crash recovery, preflight |
+| `frontend/src/features/ops/opsIngestionIntake.ts` | (new) | 346 | `createOpsIntake(ctx, api, upload, deps)` — three-window pipeline owning `intakeError` + `preflightDebounce` |
+| `frontend/src/features/ops/opsIngestionAutoPilot.ts` | (new) | 220 | `createOpsAutoPilot(ctx, api)` — auto-pilot polling loop |
+| `frontend/src/features/ops/opsIngestionEvents.ts` | (new) | 700 | `bindOpsEvents(deps)` — 27+ DOM event listeners |
+
+**Both hosts graduated (≤1000 LOC).** Every sibling also ≤1000 LOC.
+
+## Variance from the original plan
+
+Two planned targets were relaxed in flight:
+
+1. **`ui_server.py` ≤300 target → 374 actual.** The file retains ~200 LOC of module-level imports (used by `ui_server_deps.py` via `h.<name>`) plus the 30-LOC `_REEXPORT_SOURCES` + `__getattr__` registry. Both are load-bearing for the cross-controller dep-wiring pattern; trimming would require refactoring `ui_server_deps.py` to import each name from its original source module directly, which is out of scope for decouplingv1. 374 is still well below the 1000-LOC graduation line.
+
+2. **Phase 11 (Renderers factory extraction) was skipped.** The 10 tightly-coupled renderer functions (`renderSessions`/`renderSelectedSession`/`renderControls`/`renderIntakeWindows`/etc., ~600 LOC combined) share mutable state (`suppressPanelsOnNextRender`) with `bindEvents` and cross-reference each other heavily. Phase 12's Events-binder extraction alone drops the controller host below 1000 LOC (1519 → 915), so Phase 11 was deferred to a follow-up round rather than pushed through with the cross-factory callback plumbing it would have required.
+
+Delta from the plan's 13 code commits (Phase 0 + 13 is doc-only; Phase 5 + 13 produced no code; Phase 6 was a no-op since the 11 pre-existing ops test failures had been fixed in the interim; Phase 11 was deferred) → **9 code commits** on `feat/decouplingv1`.
+
+## Status summary
+
+- Plan status: **COMPLETE** (2026-04-22).
+- Feature branch: `feat/decouplingv1` (9 commits on top of `59210be`).
+- Python tests: 788 pass / 2 pre-existing fail (`tests/test_platform_seed_users.py` — missing migration file, unrelated to decoupling).
+- Frontend ops tests: 150 pass / 17 skipped / 0 fail.
+- Frontend health tests: 10 pass.
+- Frontend full suite: 9 unrelated pre-existing failures (recordApp, recordState, splitter, tooltipManager) and 5 e2e files that need a running server — none in ops/ingestion or chat surfaces.
+- CLI entry points verified: `uv run lia-ui --help` and `python -m lia_graph.ui_server --help` both exit 0.
+- Local dev preflight: `npm run dev:check` passes.
+
+> Plan executed 2026-04-22 by autonomous Claude session. Drift note: `ui_server.py` was at 1685 LOC when the plan ran, not the 1669 cited at plan-authoring time. The drift was inside the dispatch + deps surface that Phase 2+3 claim, not in the constants/helpers cluster Phase 1 takes.
 
 > This document is both a **plan** and a **work ledger**. Every phase has a status block that MUST be updated in-place as work progresses. If execution is interrupted, the state of this file is the resumption pointer — read the dashboard, find the first non-`DONE` phase, inspect its `State Notes`, and resume from the last checkmark.
 
