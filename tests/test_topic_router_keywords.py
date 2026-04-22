@@ -82,3 +82,75 @@ def test_host_module_shares_same_dict_identity() -> None:
     assert host._TOPIC_KEYWORDS is _TOPIC_KEYWORDS
     assert host._SUBTOPIC_OVERRIDE_PATTERNS is _SUBTOPIC_OVERRIDE_PATTERNS
     assert host._TOPIC_NOTICE_OVERRIDES is _TOPIC_NOTICE_OVERRIDES
+
+
+# --- Backlog item A (conservative pass) — adversarial guards ---
+# Each test below asserts that a bare polysemous term that USED to live in
+# `laboral.weak` no longer hijacks an unrelated query. Flip-to-laboral here
+# means the removal regressed — investigate which bucket the keyword leaked
+# back into.
+
+import pytest
+from lia_graph.topic_router import resolve_chat_topic
+
+
+@pytest.mark.parametrize(
+    "query, must_not_route_to",
+    [
+        # `liquidación` removed — tax / procedural / societario senses stay off laboral.
+        ("liquidación oficial de la DIAN por requerimiento especial", "laboral"),
+        ("sociedad en proceso de liquidación", "laboral"),
+        ("necesito liquidar el impuesto de renta", "laboral"),
+        # `prima` removed — equity / insurance senses stay off laboral.
+        ("prima en colocación de acciones", "laboral"),
+        ("prima de seguro de vida deducible", "laboral"),
+        # `aportes` / `aportaciones` removed — capital senses stay off laboral.
+        ("aportes de capital a una sociedad", "laboral"),
+        ("aportaciones a fondos de inversión", "laboral"),
+        # `planilla` removed — generic spreadsheet sense stays off laboral.
+        ("planilla de cálculo para conciliación bancaria", "laboral"),
+        # `bonificación` removed — commercial sense stays off laboral.
+        ("bonificación comercial por volumen de compra", "laboral"),
+    ],
+)
+def test_polysemous_bare_terms_do_not_hijack_adversarial_queries(
+    query: str, must_not_route_to: str
+) -> None:
+    result = resolve_chat_topic(message=query, requested_topic=None)
+    assert result.effective_topic != must_not_route_to, (
+        f"query {query!r} routed to {must_not_route_to!r} — "
+        f"polysemous-weak-keyword anti-pattern regression. "
+        f"Reason: {result.reason}"
+    )
+
+
+def test_laboral_real_queries_still_route_via_compounds_or_override() -> None:
+    # Recall check: after removing the bare polysemous terms, genuine labor
+    # queries must still route to laboral — either via compound strong
+    # entries or via the _SUBTOPIC_OVERRIDE_PATTERNS laboral regex.
+    for query in (
+        "liquidación de nómina mensual",
+        "cómo liquido a un empleado con contrato de obra labor",
+        "prima de servicios del segundo semestre",
+        "aportes a seguridad social del mes",
+        "planilla PILA de la empresa",
+    ):
+        result = resolve_chat_topic(message=query, requested_topic=None)
+        assert result.effective_topic == "laboral", (
+            f"{query!r} should route to laboral but went to {result.effective_topic!r}"
+        )
+
+
+# --- Backlog item C step 3 (model topic) — retencion_en_la_fuente ---
+
+def test_retencion_en_la_fuente_routes_canonical_queries() -> None:
+    for query in (
+        "cuál es la tarifa de retención en la fuente para servicios",
+        "el cliente es autorretenedor de renta",
+        "certificado de retención del agente retenedor",
+        "base mínima de retención para compras",
+    ):
+        result = resolve_chat_topic(message=query, requested_topic=None)
+        assert result.effective_topic == "retencion_en_la_fuente", (
+            f"{query!r} -> {result.effective_topic!r} (expected retencion_en_la_fuente)"
+        )
