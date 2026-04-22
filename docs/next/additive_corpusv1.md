@@ -212,7 +212,7 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 |---|---|---|---|---|
 | 0 | Decisions ratified by user (§4) | DONE | this doc | — (in-doc ratification, 2026-04-22) |
 | 1 | Schema migration + backfill | PASSED_TESTS | `supabase/migrations/20260422000000_corpus_additive.sql`, `supabase/migrations/20260422000001_ingest_delta_jobs.sql`, `src/lia_graph/ingestion/fingerprint.py` (landed early per §12.1 subsumption — Phase 2 target), `scripts/backfill_doc_fingerprint.py`, `tests/test_fingerprint.py`, `tests/test_backfill_doc_fingerprint.py`, `tests/test_ingest_delta_jobs_lock.py` | — |
-| 2 | Baseline snapshot reader + fingerprint helper | NOT_STARTED | `src/lia_graph/ingestion/baseline_snapshot.py`, `src/lia_graph/ingestion/fingerprint.py`, `tests/test_baseline_snapshot.py`, `tests/test_fingerprint.py` | — |
+| 2 | Baseline snapshot reader + fingerprint helper | PASSED_TESTS | `src/lia_graph/ingestion/baseline_snapshot.py`, `tests/test_baseline_snapshot.py` (fingerprint.py + test_fingerprint.py landed in Phase 1 per §12.1 subsumption) | — |
 | 3 | Delta planner (pure) | NOT_STARTED | `src/lia_graph/ingestion/delta_planner.py`, `tests/test_delta_planner.py` | — |
 | 4 | Additive Supabase sink path | NOT_STARTED | `src/lia_graph/ingestion/supabase_sink.py` (extend), `src/lia_graph/ingestion/dangling_store.py` (new), `tests/test_supabase_sink_delta.py`, `tests/test_dangling_store.py` | — |
 | 5 | Additive Falkor path | NOT_STARTED | `src/lia_graph/ingestion/loader.py` (extend), `src/lia_graph/graph/client.py` (extend), `tests/test_loader_delta.py` | — |
@@ -674,8 +674,13 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** helpers callable in isolation; fingerprint contract locked against test (a)-(e); snapshot contract locked against test (a)-(g).
 - **Trace events:** none (pure modules).
 - **Migrations:** none.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — `fingerprint.py` + `test_fingerprint.py` subsumed by Phase 1 (backfill required fingerprint — §12.1 in-flight decision). Phase 2 target-files list narrowed to `baseline_snapshot.py` + `test_baseline_snapshot.py`.
+    - `BaselineSnapshot` exposes `documents_by_relative_path`, `total_docs`, `total_chunks`, `total_edges`, `retired_docs`. Retired docs are kept in the mapping (not filtered out) so the planner can distinguish "doc is back" (retired_at clear + re-introduction) from "brand new doc".
+    - Paginates in 1000-row pages via PostgREST `.range()` (Supabase default cap). Tested up to 1250 rows in `test_handles_pagination_over_1000_rows`.
+    - Aggregate counts use PostgREST `count="exact"`; on any failure (e.g. missing table) fall back to 0.
+    - Verification: `pytest tests/test_baseline_snapshot.py -v` → 8 passed. `tests/test_fingerprint.py` stays green (7 cases, unchanged since Phase 1).
+- **Resume marker:** Phase 2 PASSED_TESTS → pending commit.
 
 ---
 
