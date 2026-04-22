@@ -1,6 +1,6 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-04-22-betaflipsall`.**
+> **Env matrix version: `v2026-04-22-ac1`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
 
 ## Purpose

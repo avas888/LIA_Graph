@@ -2,7 +2,7 @@
 
 Canonical operating guide for AI agents working in `Lia_Graph`.
 
-> **Env matrix version: `v2026-04-21-stv2d`.** Authoritative per-mode env table lives in [`docs/guide/orchestration.md`](./docs/guide/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags or introduce a new `LIA_*` env, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map.
+> **Env matrix version: `v2026-04-22-ac1`.** Authoritative per-mode env table lives in [`docs/guide/orchestration.md`](./docs/guide/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags or introduce a new `LIA_*` env, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map. (Latest bump: `v2026-04-22-ac1` — additive-corpus-v1 plan lands Phase 1 schema migrations + Phase 6 `--additive` delta path + `ingest_delta_jobs` table. See `docs/next/additive_corpusv1.md`.)
 
 ## Start Here
 

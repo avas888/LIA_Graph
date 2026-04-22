@@ -62,7 +62,7 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 - `evals/` — retrieval/gold benchmarks.
 - `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
 
-## Runtime Read Path (Env v2026-04-22-betaflipsall)
+## Runtime Read Path (Env v2026-04-22-ac1)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|

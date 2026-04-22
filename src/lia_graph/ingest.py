@@ -680,6 +680,45 @@ def parser() -> argparse.ArgumentParser:
         ),
     )
     cli.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
+    # Additive-corpus-v1 Phase 6 — delta-path flags.
+    cli.add_argument(
+        "--additive",
+        action="store_true",
+        help=(
+            "Run the additive-corpus-v1 delta path: compare the on-disk "
+            "corpus against the current rolling Supabase baseline and apply "
+            "only the diff (added + modified + removed docs). Requires "
+            "--supabase-sink; --supabase-generation-id defaults to "
+            "'gen_active_rolling'. See docs/next/additive_corpusv1.md."
+        ),
+    )
+    cli.add_argument(
+        "--delta-id",
+        default=None,
+        help=(
+            "Override the auto-generated delta_id (format "
+            "'delta_YYYYMMDD_HHMMSS_xxxxxx'). Useful for replay / testing."
+        ),
+    )
+    cli.add_argument(
+        "--dry-run-delta",
+        action="store_true",
+        help=(
+            "Plan the delta + print the summary but do NOT write to Supabase "
+            "or Falkor. Only meaningful with --additive."
+        ),
+    )
+    cli.add_argument(
+        "--strict-parity",
+        action="store_true",
+        help=(
+            "Escalate any Supabase<->Falkor parity-check mismatch to a hard "
+            "block before the delta is applied. Without this flag, mismatches "
+            "beyond the default tolerance emit a warning and proceed. "
+            "(Parity check lands in Phase 7; flag is already reserved here "
+            "so Phase 8 UI can bind to it.)"
+        ),
+    )
     return cli
 
 
@@ -705,6 +744,78 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 print(f"Phase 2 ingest aborted: {exc}")
             return 4
+
+    # Additive-corpus-v1 Phase 6 delta path.
+    if getattr(args, "additive", False):
+        if not args.supabase_sink:
+            msg = (
+                "--additive requires --supabase-sink; the delta path reads the "
+                "current baseline from Supabase and has nothing to do without it."
+            )
+            payload = {"ok": False, "error": "additive_requires_supabase", "message": msg}
+            if args.json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(msg)
+            return 2
+        from .ingestion.delta_runtime import materialize_delta
+
+        generation_id = str(
+            args.supabase_generation_id or "gen_active_rolling"
+        ).strip() or "gen_active_rolling"
+        try:
+            report = materialize_delta(
+                corpus_dir=Path(args.corpus_dir),
+                artifacts_dir=Path(args.artifacts_dir),
+                pattern=args.pattern,
+                supabase_target=str(args.supabase_target),
+                generation_id=generation_id,
+                delta_id=args.delta_id,
+                dry_run=bool(args.dry_run_delta),
+                execute_load=bool(args.execute_load),
+                strict_falkordb=bool(args.strict_falkordb),
+                strict_parity=bool(args.strict_parity),
+                skip_llm=bool(args.skip_llm),
+                rate_limit_rpm=int(args.rate_limit_rpm),
+            )
+        except (FileNotFoundError, NotADirectoryError) as exc:
+            payload = {
+                "ok": False,
+                "error": "corpus_unavailable",
+                "message": str(exc),
+            }
+            if args.json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(f"Additive delta aborted: {exc}")
+            return 2
+        except GraphClientError as exc:
+            payload = {
+                "ok": False,
+                "error": "graph_load_failed",
+                "message": str(exc),
+            }
+            if args.json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(f"Additive delta Falkor load failed: {exc}")
+            return 3
+        result = {"ok": True, "delta_run": report.to_dict()}
+        if args.json:
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+        else:
+            summary = report.delta_summary
+            mode = "dry-run" if report.dry_run else "applied"
+            print(
+                f"[additive {mode}] delta_id={report.delta_id} "
+                f"added={summary['added']} modified={summary['modified']} "
+                f"removed={summary['removed']} unchanged={summary['unchanged']}"
+            )
+            if report.warnings:
+                for w in report.warnings:
+                    print(f"  warn: {w}")
+        return 0
+
     try:
         result = materialize_graph_artifacts(
             corpus_dir=Path(args.corpus_dir),
