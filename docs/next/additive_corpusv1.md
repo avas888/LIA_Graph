@@ -198,9 +198,9 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 
 | Field | Value |
 |---|---|
-| Plan status | ☑ DRAFT (reviewer pass 2026-04-22 applied) · ☑ APPROVED (2026-04-22 — all 11 decisions A–K ratified by user) · ☑ EXECUTING (2026-04-22) · ☐ COMPLETE |
-| Current phase | 1 (schema migration + backfill — IN_PROGRESS) |
-| Last completed phase | 0 (all §4 decisions ratified 2026-04-22) |
+| Plan status | ☑ DRAFT (reviewer pass 2026-04-22 applied) · ☑ APPROVED (2026-04-22 — all 11 decisions A–K ratified by user) · ☑ EXECUTING (2026-04-22 — 8 commits landed on `feat/additive-corpus-v1` branch; Phases 1-7 + Phase 8 backend complete) · ☐ COMPLETE |
+| Current phase | 8 (admin UI — backend complete, frontend + background worker deferred to follow-up session) |
+| Last completed phase | 7 (concurrency guard + parity check + observability) |
 | Blockers | Pre-flight observation: 2 pre-existing failures in `test_phase3_graph_planner_retrieval.py` (follow-up drilldown) — orthogonal to this plan (Invariant I6 hot path). Noted, not blocking. |
 | Working tree | `feat/additive-corpus-v1` @ branched from `main` 2026-04-22 |
 | Branch for execution | `feat/additive-corpus-v1` (off `main`) — CREATED 2026-04-22 |
@@ -219,8 +219,8 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 | 6 | Orchestrator wiring + CLI + Makefile + env matrix | PASSED_TESTS | `src/lia_graph/ingest.py` (+ CLI flags + route), `src/lia_graph/ingestion/delta_runtime.py` (new — keeps `ingest.py` small), `Makefile` (+ 3 targets), `docs/guide/orchestration.md` (version bump + change-log entry), `docs/guide/env_guide.md`, `CLAUDE.md`, `AGENTS.md`, `frontend/src/features/orchestration/orchestrationApp.ts`, `tests/test_ingest_cli_additive.py` (7) | — |
 | 7 | Concurrency guard + parity check + observability | PASSED_TESTS | `src/lia_graph/ingestion/parity_check.py` (new), `src/lia_graph/ingestion/delta_lock.py` (new), `src/lia_graph/ingestion/delta_job_store.py` (new), `src/lia_graph/ingestion/delta_runtime.py` (+ parity probe wiring + lock_target/created_by params), `tests/test_parity_check.py` (5), `tests/test_delta_lock.py` (6), `tests/test_delta_job_store.py` (6). `test_additive_observability.py` deferred — event emission is covered by the unit tests' assertions on the mock `emit_event`. | — |
 | 8 | Admin UI + backend job surface (**MANDATORY** — Decision G1 minimum, G3 stretch) | PARTIAL (backend complete; background worker + frontend deferred) | Backend DONE: `src/lia_graph/ui_ingest_delta_controllers.py` (6 endpoints — preview/apply/events/status/cancel/live), `src/lia_graph/ui_server_handler_dispatch.py` (GET + POST routes wired), `tests/test_ui_ingest_delta_controllers.py` (10 cases). Remaining: (a) background-worker contract in `src/lia_graph/background_jobs.py` (`ingest_delta_worker(job_id)` — plan §8.B). (b) Frontend components via `frontend-design:frontend-design` skill + 12-row failure matrix + reattach tests (plan §8.C-E). These defer to a follow-up session. | — |
-| 9 | E2E against real corpus | NOT_STARTED | `tests/manual/additive_corpus_v1_runbook.md`, `tests/manual/additive_corpus_v1_evidence/<run-ts>/` | — |
-| 10 | Close-out + handoff | NOT_STARTED | `docs/guide/orchestration.md` (change log), THIS doc (relocate to `docs/done/`) | — |
+| 9 | E2E against real corpus | DEFERRED | Requires Phase 8 frontend + background worker first. Operational validation against real `knowledge_base/` corpus + cloud Falkor. Plan: `tests/manual/additive_corpus_v1_runbook.md` (CLI + UI runbooks), `tests/manual/additive_corpus_v1_evidence/<run-ts>/`. |
+| 10 | Close-out + handoff | DEFERRED | Blocked on Phase 8 frontend + Phase 9 evidence. When ready: add `v2026-04-22-ac1` Phase-9 evidence addendum to `docs/guide/orchestration.md` change log; `git mv docs/next/additive_corpusv1.md docs/done/`; open PR against `main`; mark plan COMPLETE. |
 
 **Tests baseline** (set in Phase 0 after pre-flight runs)
 
