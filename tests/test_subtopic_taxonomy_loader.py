@@ -138,3 +138,177 @@ def test_normalize_alias_handles_accents_and_spacing() -> None:
 def test_default_taxonomy_path_points_to_config() -> None:
     assert DEFAULT_TAXONOMY_PATH.name == "subtopic_taxonomy.json"
     assert DEFAULT_TAXONOMY_PATH.parent.name == "config"
+
+
+def _write_fixture(tmp_path: Path, payload: dict) -> Path:
+    path = tmp_path / "taxonomy.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    return path
+
+
+def test_loader_parses_deprecated_aliases_when_present(tmp_path: Path) -> None:
+    """Curator renames (memo §5.4–5.5) populate ``deprecated_aliases``."""
+    fixture = {
+        "version": "fixture-deprecated-1",
+        "generated_from": "test",
+        "generated_at": "2026-04-21T00:00:00Z",
+        "subtopics": {
+            "tributario": [
+                {
+                    "key": "emergencia_tributaria_decretos_transitorios",
+                    "label": "Emergencia tributaria — decretos transitorios",
+                    "aliases": ["decretos_transitorios"],
+                    "deprecated_aliases": [
+                        "exenciones_tributarias_covid_19",
+                        "old_key_x",
+                    ],
+                    "evidence_count": 3,
+                    "curated_at": "2026-04-21T00:00:00Z",
+                    "curator": "test",
+                },
+                {
+                    "key": "plain_entry",
+                    "label": "Plain Entry",
+                    "aliases": [],
+                    "evidence_count": 1,
+                    "curated_at": "2026-04-21T00:00:00Z",
+                    "curator": "test",
+                },
+            ]
+        },
+    }
+    taxonomy = load_taxonomy(_write_fixture(tmp_path, fixture))
+    renamed = taxonomy.lookup_by_key[
+        ("tributario", "emergencia_tributaria_decretos_transitorios")
+    ]
+    assert renamed.deprecated_aliases == (
+        "exenciones_tributarias_covid_19",
+        "old_key_x",
+    )
+
+
+def test_loader_defaults_deprecated_aliases_to_empty_tuple_when_absent(
+    tmp_path: Path,
+) -> None:
+    """Pre-rename entries without the field still load cleanly."""
+    fixture = {
+        "version": "fixture-deprecated-2",
+        "generated_from": "test",
+        "generated_at": "2026-04-21T00:00:00Z",
+        "subtopics": {
+            "laboral": [
+                {
+                    "key": "nomina_electronica",
+                    "label": "Nómina electrónica",
+                    "aliases": ["nom_elec"],
+                    "evidence_count": 1,
+                    "curated_at": "2026-04-21T00:00:00Z",
+                    "curator": "test",
+                }
+            ]
+        },
+    }
+    taxonomy = load_taxonomy(_write_fixture(tmp_path, fixture))
+    entry = taxonomy.lookup_by_key[("laboral", "nomina_electronica")]
+    assert entry.deprecated_aliases == ()
+
+
+def test_resolve_key_prefers_current_key_over_deprecated(tmp_path: Path) -> None:
+    """When a key appears as both current and deprecated, current wins."""
+    fixture = {
+        "version": "fixture-deprecated-3",
+        "generated_from": "test",
+        "generated_at": "2026-04-21T00:00:00Z",
+        "subtopics": {
+            "tributario": [
+                {
+                    "key": "shared_name",
+                    "label": "Shared Name — canonical",
+                    "aliases": [],
+                    "evidence_count": 2,
+                    "curated_at": "2026-04-21T00:00:00Z",
+                    "curator": "test",
+                },
+                {
+                    "key": "new_owner",
+                    "label": "New Owner",
+                    "aliases": [],
+                    "deprecated_aliases": ["shared_name"],
+                    "evidence_count": 2,
+                    "curated_at": "2026-04-21T00:00:00Z",
+                    "curator": "test",
+                },
+            ]
+        },
+    }
+    taxonomy = load_taxonomy(_write_fixture(tmp_path, fixture))
+    resolved = taxonomy.resolve_key("tributario", "shared_name")
+    assert resolved is not None
+    assert resolved.key == "shared_name"
+    assert resolved.label == "Shared Name — canonical"
+
+
+def test_resolve_key_falls_back_to_deprecated_when_current_missing(
+    tmp_path: Path,
+) -> None:
+    """Legacy keys route to the renamed entry via deprecated_aliases."""
+    fixture = {
+        "version": "fixture-deprecated-4",
+        "generated_from": "test",
+        "generated_at": "2026-04-21T00:00:00Z",
+        "subtopics": {
+            "tributario": [
+                {
+                    "key": "impuesto_patrimonio_personas_naturales_permanente",
+                    "label": "Impuesto al patrimonio — personas naturales (permanente)",
+                    "aliases": [],
+                    "deprecated_aliases": [
+                        "impuesto_al_patrimonio_excepcional_2011"
+                    ],
+                    "evidence_count": 4,
+                    "curated_at": "2026-04-21T00:00:00Z",
+                    "curator": "test",
+                }
+            ]
+        },
+    }
+    taxonomy = load_taxonomy(_write_fixture(tmp_path, fixture))
+    assert (
+        taxonomy.resolve_key(
+            "tributario", "impuesto_al_patrimonio_excepcional_2011"
+        )
+        is not None
+    )
+    resolved = taxonomy.resolve_key(
+        "tributario", "impuesto_al_patrimonio_excepcional_2011"
+    )
+    assert resolved is not None
+    assert resolved.key == "impuesto_patrimonio_personas_naturales_permanente"
+    # Unknown key in the same parent returns None.
+    assert taxonomy.resolve_key("tributario", "totally_unknown_key") is None
+    # Legacy key under a non-matching parent does NOT cross-resolve.
+    assert (
+        taxonomy.resolve_key(
+            "laboral", "impuesto_al_patrimonio_excepcional_2011"
+        )
+        is None
+    )
+
+
+def test_all_surface_forms_includes_deprecated_aliases() -> None:
+    """Planner intent detection must still match queries phrased with old keys."""
+    entry = SubtopicEntry(
+        parent_topic="tributario",
+        key="emergencia_tributaria_decretos_transitorios",
+        label="Emergencia tributaria — decretos transitorios",
+        aliases=("decretos_transitorios",),
+        evidence_count=1,
+        curated_at="2026-04-21T00:00:00Z",
+        curator="test",
+        deprecated_aliases=("exenciones_tributarias_covid_19",),
+    )
+    forms = set(entry.all_surface_forms())
+    assert "emergencia_tributaria_decretos_transitorios" in forms
+    assert "Emergencia tributaria — decretos transitorios" in forms
+    assert "decretos_transitorios" in forms
+    assert "exenciones_tributarias_covid_19" in forms

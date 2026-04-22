@@ -304,6 +304,10 @@ def test_f_dry_run_prints_diff_and_does_not_write(promote_module, tmp_path):
                 "--dry-run",
                 "--version",
                 "2026-04-21-v1",
+                # Synthetic decisions cover only 2 parents; bypass the
+                # zero-subtopic-per-parent invariant that consults the real
+                # topic_taxonomy.json (39 parents).
+                "--allow-empty-parents",
             ]
         )
 

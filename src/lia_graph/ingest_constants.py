@@ -26,8 +26,38 @@ GRAPH_TARGET_FAMILIES = frozenset({"normativa"})
 GRAPH_PARSE_STRATEGIES = frozenset({"markdown_graph_parse"})
 TEXT_DIRECT_PARSE_EXTENSIONS = frozenset({".md", ".markdown"})
 TEXT_INVENTORY_EXTENSIONS = frozenset({".txt", ".csv", ".json", ".yaml", ".yml", ".xml", ".html"})
-BINARY_DOCUMENT_EXTENSIONS = frozenset({".pdf", ".doc", ".docx"})
+BINARY_DOCUMENT_EXTENSIONS = frozenset(
+    {".pdf", ".doc", ".docx", ".svg", ".png", ".jpg", ".jpeg", ".webp"}
+)
 HELPER_CODE_EXTENSIONS = frozenset({".py", ".js", ".ts", ".pyc"})
+
+# C5 — audit-admission tighteners.
+#
+# ``EXCLUDED_FILENAMES`` is a basename allow-list of structural manifest
+# JSONs that live alongside `form_guides/` prose but carry no
+# accountant-facing content on their own (they are indexes/pointers
+# regenerated from the prose). They must never enter graph-parse.
+EXCLUDED_FILENAMES: frozenset[str] = frozenset(
+    {
+        "guide_manifest.json",
+        "structured_guide.json",
+        "sources.json",
+        "interactive_map.json",
+        "citation_profile.json",
+    }
+)
+
+# ``EXCLUDED_PATH_PREFIXES`` is compared against the audit row's
+# ``relative_path`` (POSIX-style, corpus-root-relative, no leading
+# slash — see ``_relative_path`` in ``ingest_classifiers``). Entries
+# here represent whole corpus subtrees that must be withheld from
+# ingestion (e.g. derogated laws retained only for historical context).
+# Keep prefixes trailing-slash terminated so they never match a
+# sibling directory by accident (``LEYES/DEROGADAS/`` vs.
+# ``LEYES/DEROGADAS_foo/``).
+EXCLUDED_PATH_PREFIXES: tuple[str, ...] = (
+    "LEYES/DEROGADAS/",
+)
 
 REVIEW_PRIORITY_ORDER = {
     "critical": 0,

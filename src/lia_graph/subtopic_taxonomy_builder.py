@@ -35,10 +35,22 @@ from typing import Any, Iterable
 from lia_graph.instrumentation import emit_event
 
 __all__ = [
+    "EmptyParentTopicError",
     "load_decisions",
     "resolve_merge_chains",
     "build_taxonomy",
+    "validate_no_empty_parents",
 ]
+
+
+class EmptyParentTopicError(ValueError):
+    """Raised when a taxonomy publication would leave a parent with zero subtopics.
+
+    Silent empty parents are a known failure mode (curator strategy memo,
+    2026-04-21): docs routed to such a parent in PASO 1 fall through PASO 4
+    with no subtopic match candidates and end up flagged-for-review forever.
+    The generator should refuse to publish and surface the offending parents.
+    """
 
 
 _VALID_ACTIONS = {"accept", "reject", "merge", "rename", "split"}
@@ -354,6 +366,46 @@ def build_taxonomy(decisions: list[dict], *, version: str) -> dict:
         "generated_at": _utc_now_iso(),
         "subtopics": ordered_buckets,
     }
+
+
+def validate_no_empty_parents(taxonomy_output: dict) -> None:
+    """Raise ``EmptyParentTopicError`` if any known parent has zero subtopics.
+
+    Invariant: every top-level parent_topic key in the active topic taxonomy
+    (``config/topic_taxonomy.json`` — entries with ``parent_key is None``)
+    must have at least one subtopic in the generated output. An empty parent
+    means every doc routed there in PASO 1 falls through PASO 4 with no
+    subtopic match candidates and silently ends up flagged-for-review.
+
+    The validator is intentionally strict: it lists every offender so the
+    curator can seed entries (or remove the parent from the topic taxonomy)
+    before republishing. It consults ``iter_ingestion_topic_entries`` from
+    ``lia_graph.topic_taxonomy`` — the canonical source of truth for the
+    active parent list.
+    """
+    from .topic_taxonomy import iter_ingestion_topic_entries
+
+    known_parents = {
+        entry.key
+        for entry in iter_ingestion_topic_entries()
+        if entry.parent_key is None
+    }
+    subtopics_map = taxonomy_output.get("subtopics")
+    if not isinstance(subtopics_map, dict):
+        subtopics_map = {}
+
+    empty_parents = sorted(
+        parent
+        for parent in known_parents
+        if not subtopics_map.get(parent)
+    )
+    if empty_parents:
+        raise EmptyParentTopicError(
+            f"Taxonomy generation rejected — {len(empty_parents)} parent_topic(s) "
+            f"have zero subtopics: {empty_parents}. Seed at least one subtopic "
+            f"per parent before publishing, or remove the parent from the "
+            f"active topic taxonomy."
+        )
 
 
 def _ensure_valid_actions(decisions: Iterable[dict]) -> None:

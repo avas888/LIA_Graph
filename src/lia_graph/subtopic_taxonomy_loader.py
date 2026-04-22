@@ -69,13 +69,22 @@ class SubtopicEntry:
     evidence_count: int
     curated_at: str
     curator: str
+    deprecated_aliases: tuple[str, ...] = ()
 
     def all_surface_forms(self) -> tuple[str, ...]:
-        """Return ``key + label + aliases`` as a de-duplicated tuple.
+        """Return ``key + label + aliases + deprecated_aliases`` as a de-duplicated tuple.
 
         Honors Invariant I1 — the breadth of the alias list is preserved.
+        Includes ``deprecated_aliases`` so planner intent detection still
+        matches queries phrased with legacy (renamed) keys; callers get the
+        CURRENT entry back.
         """
-        forms: list[str] = [self.key, self.label, *self.aliases]
+        forms: list[str] = [
+            self.key,
+            self.label,
+            *self.aliases,
+            *self.deprecated_aliases,
+        ]
         seen: set[str] = set()
         out: list[str] = []
         for form in forms:
@@ -105,6 +114,9 @@ class SubtopicTaxonomy:
         default_factory=dict
     )
     lookup_by_alias: Mapping[str, SubtopicEntry] = field(default_factory=dict)
+    lookup_by_deprecated_key: Mapping[tuple[str, str], SubtopicEntry] = field(
+        default_factory=dict
+    )
 
     def parents(self) -> tuple[str, ...]:
         """Return sorted tuple of parent-topic keys with subtopics."""
@@ -142,6 +154,28 @@ class SubtopicTaxonomy:
                 if normalize_alias(form) == normalized:
                     return entry
         return None
+
+    def resolve_key(
+        self, parent_topic: str, key: str
+    ) -> SubtopicEntry | None:
+        """Resolve a ``(parent_topic, key)`` pair, honoring deprecated renames.
+
+        Resolution order:
+
+        1. ``lookup_by_key`` — current canonical key wins.
+        2. ``lookup_by_deprecated_key`` — legacy key (pre-rename) falls back
+           to the CURRENT entry that declared it in ``deprecated_aliases``.
+        3. ``None`` if neither matches.
+
+        Used by backfill / classifier when a ``documents.subtema`` row was
+        tagged under an older key that has since been renamed by the curator.
+        """
+        if not parent_topic or not key:
+            return None
+        current = self.lookup_by_key.get((parent_topic, key))
+        if current is not None:
+            return current
+        return self.lookup_by_deprecated_key.get((parent_topic, key))
 
 
 def validate_taxonomy(data: Any) -> list[str]:
@@ -195,6 +229,13 @@ def validate_taxonomy(data: Any) -> list[str]:
             aliases = entry.get("aliases", [])
             if aliases is not None and not isinstance(aliases, list):
                 errors.append(f"{prefix} 'aliases' must be a list if present")
+            deprecated_aliases = entry.get("deprecated_aliases", [])
+            if deprecated_aliases is not None and not isinstance(
+                deprecated_aliases, list
+            ):
+                errors.append(
+                    f"{prefix} 'deprecated_aliases' must be a list if present"
+                )
     return errors
 
 
@@ -203,9 +244,11 @@ def _build_lookup_indices(
 ) -> tuple[
     dict[tuple[str, str], SubtopicEntry],
     dict[str, SubtopicEntry],
+    dict[tuple[str, str], SubtopicEntry],
 ]:
     by_key: dict[tuple[str, str], SubtopicEntry] = {}
     by_alias: dict[str, SubtopicEntry] = {}
+    by_deprecated_key: dict[tuple[str, str], SubtopicEntry] = {}
     for parent, entries in subtopics_by_parent.items():
         for entry in entries:
             by_key[(parent, entry.key)] = entry
@@ -216,7 +259,15 @@ def _build_lookup_indices(
                 # First insertion wins — breadth policy preserves all aliases
                 # on the entry itself; the lookup just breaks ties.
                 by_alias.setdefault(normalized, entry)
-    return by_key, by_alias
+            for deprecated in entry.deprecated_aliases:
+                if not deprecated:
+                    continue
+                # First insertion wins. If a curator accidentally re-used a
+                # legacy key under two current entries in the same parent,
+                # the earlier one is authoritative; validation stays silent
+                # to keep the breadth policy permissive.
+                by_deprecated_key.setdefault((parent, deprecated), entry)
+    return by_key, by_alias, by_deprecated_key
 
 
 def load_taxonomy(path: Path | None = None) -> SubtopicTaxonomy:
@@ -254,6 +305,7 @@ def load_taxonomy(path: Path | None = None) -> SubtopicTaxonomy:
         parsed: list[SubtopicEntry] = []
         for entry in entries:
             aliases_raw = entry.get("aliases") or ()
+            deprecated_raw = entry.get("deprecated_aliases") or ()
             parsed.append(
                 SubtopicEntry(
                     parent_topic=parent_topic,
@@ -263,11 +315,12 @@ def load_taxonomy(path: Path | None = None) -> SubtopicTaxonomy:
                     evidence_count=int(entry.get("evidence_count", 0) or 0),
                     curated_at=str(entry.get("curated_at", "") or ""),
                     curator=str(entry.get("curator", "") or ""),
+                    deprecated_aliases=tuple(deprecated_raw),
                 )
             )
         subtopics_by_parent[parent_topic] = tuple(parsed)
 
-    by_key, by_alias = _build_lookup_indices(subtopics_by_parent)
+    by_key, by_alias, by_deprecated_key = _build_lookup_indices(subtopics_by_parent)
     return SubtopicTaxonomy(
         version=str(data["version"]),
         generated_from=str(data.get("generated_from", "") or ""),
@@ -275,4 +328,5 @@ def load_taxonomy(path: Path | None = None) -> SubtopicTaxonomy:
         subtopics_by_parent=subtopics_by_parent,
         lookup_by_key=by_key,
         lookup_by_alias=by_alias,
+        lookup_by_deprecated_key=by_deprecated_key,
     )

@@ -293,7 +293,11 @@ def _emit_falkor_subtopic(
     edge_stmt = GraphWriteStatement(
         description="backfill.subtopic_edge.merge",
         query=(
-            "MATCH (a:ArticleNode { article_key: $article_key }) "
+            # ArticleNode stores its identity under `article_id` per
+            # default_graph_schema() — NOT `article_key` (the Python
+            # attribute on ParsedArticle). See
+            # tests/test_graph_node_key_contract.py for the contract.
+            "MATCH (a:ArticleNode { article_id: $article_key }) "
             "MATCH (s:SubTopicNode { sub_topic_key: $sub_topic_key }) "
             "MERGE (a)-[r:HAS_SUBTOPIC]->(s) "
             "RETURN type(r) AS kind"

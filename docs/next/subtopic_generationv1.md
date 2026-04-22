@@ -1,7 +1,7 @@
 # Subtopic Generation v1 — Corpus-Wide Label Collection, Clustering, and Curation
 
-**Last edited:** 2026-04-21 (plan authored)
-**Execution owner:** TBD after approval (plan-only — no code yet)
+**Last edited:** 2026-04-21 (refresh pass — reconciled with `v2026-04-21-stv2c` working tree; ratifications + phase bodies unchanged, State Dashboard + cold-start pointers + §0.12 design-skill pattern added)
+**Execution owner:** shipped by autonomous Claude session on 2026-04-21; close-out (relocation to `docs/done/`) pending the final commit described in Phase 9.
 **Goal:** run a one-time corpus-wide AUTOGENERAR pass that records the free-form LLM-generated label (`autogenerar_label`) for every document; mine those labels into proposed subtopic clusters per parent topic; present them for human curation; promote the curated result into `config/subtopic_taxonomy.json`. The output is the seed list that unblocks `docs/next/ingestfixv2.md` (sub-topic tagging at intake, Decision G2).
 
 > This document is both a **plan** AND a **work ledger**. Every phase has a `State Notes` block updated in-place DURING execution. If a session is interrupted, the state of this file is the resumption pointer — see §11 Resume Protocol.
@@ -21,7 +21,8 @@ This section is for an LLM agent that opens this doc with no conversation histor
 - **Working directory:** `/Users/ava-sensas/Developer/Lia_Graph`
 - **Branch this plan executes against:** `feat/suin-ingestion` (inherited from `ingestfixv1`)
 - **Main branch (used for PRs):** `main`
-- **Last shipped change pre-plan:** `v2026-04-20-ui15` (see `docs/guide/orchestration.md` change log) — the drag-to-ingest + AUTOGENERAR + 6-stage progress surface. AUTOGENERAR's `autogenerar_label` is captured TODAY but only when N1 combined confidence < 0.95 triggers the N2 LLM. This plan makes the label-emission pass ALWAYS-ON (for this collection run only) and builds the downstream mining + curation loop.
+- **Last shipped change pre-plan:** `v2026-04-20-ui15` (see `docs/guide/orchestration.md` change log) — the drag-to-ingest + AUTOGENERAR + 6-stage progress surface. AUTOGENERAR's `autogenerar_label` was captured only when N1 combined confidence < 0.95 triggered the N2 LLM. This plan made the label-emission pass ALWAYS-ON (for the one-shot collection run) and built the downstream mining + curation loop.
+- **Current tree context (set by refresh pass):** `feat/suin-ingestion` is now at commit `4b7a277` with env matrix `v2026-04-21-stv2c`. The consumer plan `ingestfixv2` has already shipped and landed in `docs/done/ingestfixv2-maximalist.md` — so the hand-off this plan was written to deliver is already in production use. A cold-start agent resuming today should expect to find Phases 1-9 essentially complete and only the physical relocation of this doc + a final close-out commit outstanding (see §2).
 
 ### 0.3 Source-of-truth document map (READ THESE BEFORE WRITING CODE)
 Hierarchy of authority — when documents disagree, the higher one wins:
@@ -30,11 +31,11 @@ Hierarchy of authority — when documents disagree, the higher one wins:
 |---|---|
 | `CLAUDE.md` (repo root) | Quickstart for Claude-family agents. Hard rules: don't touch Lia_contadores cloud resources; pipeline_d organization is deliberate; Falkor adapter must propagate outages, not silently fall back to artifacts; granular edits over monolithic rewrites. |
 | `AGENTS.md` (repo root) | Repo-level operating guide. If `CLAUDE.md` is silent on something, `AGENTS.md` is canonical. |
-| `docs/guide/orchestration.md` | THE end-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-18`. Lane 0 (build-time ingestion) is relevant. |
+| `docs/guide/orchestration.md` | THE end-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv2c` (was `v2026-04-18` when this plan was authored — the bumps at stv1, stv2, stv2b, stv2c all happened after approval). Lane 0 (build-time ingestion) is the relevant lane. |
 | `docs/guide/env_guide.md` | Operational counterpart to orchestration.md. Run modes + env files + test accounts + corpus refresh. |
 | `docs/done/ingestfixv1.md` | Immediate predecessor plan (shipped as `v2026-04-20-ui15`). Describes AUTOGENERAR cascade, intake sidecar JSONL shape, classifier API, regrandfather script — all direct dependencies of THIS plan. |
-| `docs/next/ingestfixv2.md` | The *consumer* of what this plan produces. v2 ships subtopic tagging at intake; v2's Decision G2 explicitly defers that work pending a curated seed list. THIS plan produces that seed list. |
-| THIS doc (`docs/next/subtopic_generationv1.md`) | The active plan. State Dashboard (§2) is the live status. |
+| `docs/done/ingestfixv2.md` + `docs/done/ingestfixv2-maximalist.md` | The *consumer* of what this plan produces. Shipped after this plan — v2 writes subtopic tagging at intake (Supabase `documents.subtema` + Falkor `SubTopicNode` / `HAS_SUBTOPIC`) and the retriever prefers subtopic-anchored evidence. v2 already reads `config/subtopic_taxonomy.json` v2026-04-21-v1 in production, so the hand-off this plan promised has been honored. |
+| THIS doc (`docs/next/subtopic_generationv1.md`) | The plan. State Dashboard (§2) is the live status — read it first. At the time of the 2026-04-21 refresh pass, Phases 1-9 are effectively complete; only the physical relocation to `docs/done/` + a close-out commit remain. |
 
 ### 0.4 Tooling baseline (verify in pre-flight check)
 - **Python:** managed via `uv`. Always run as `PYTHONPATH=src:. uv run --group dev <command>`. Never use bare `python` for repo code.
@@ -99,6 +100,20 @@ This plan stops at producing `config/subtopic_taxonomy.json` + the audit trail. 
 - Do not skip the user-approval gate for Phase 1 start. Plan status MUST be `APPROVED` first.
 - Do not commit the final `config/subtopic_taxonomy.json` without the stakeholder's explicit sign-off — the curated taxonomy is load-bearing downstream.
 
+### 0.12 Design-skill invocation pattern (Phase 5 UI work)
+
+Any UI phase in this plan (currently only Phase 5 — Sub-topics admin tab) MUST be produced through the `frontend-design:frontend-design` skill, not freehanded. The invocation contract:
+
+1. Before writing any component, invoke the skill with an explicit brief that names (a) the surface (Ops console, admin tab), (b) the atoms / molecules / organisms the plan specifies, (c) the design tokens in play (`--p-navy-*`, `--p-success-*`, `--chip-*`, IBM Plex font stack — see `docs/next/ingestfixv1-design-notes.md` for the canonical Tier-1/2/3 palette mapping), (d) the atomic-discipline guard (`frontend/tests/atomicDiscipline.test.ts`: no raw hex in `shared/ui/`, no inline SVG outside `shared/ui/icons.ts`, tokens-only CSS).
+2. Skill output lands as new files under the paths Phase 5 enumerates. No edits to `opsIngestionController.ts` or any ≥1000-LOC host file (see feedback memory "Edit granularly").
+3. Verification the skill was used: a `design:` line in the phase's State Notes naming the skill, the brief version, and whether the atomic-discipline guard was run green before commit.
+
+If the Phase 5 components already exist on disk (this is the case after `83019a6`), the skill invocation contract applies to any **future** iteration — e.g. if the Sub-topics tab gets a follow-up revision it must re-enter the skill.
+
+### 0.13 Test-data pointers (no hidden context)
+
+Real-corpus inputs live at `knowledge_base/**/*.md` (1313 docs as of the 2026-04-21 collection run). Fixture inputs for the unit tests are created inline inside each test file — there is no fixture directory to hunt for. The one exception: Phase 8 E2E evidence lands under `tests/manual/subtopicv1_evidence/<run-timestamp>/`, which is committed as a `.gitkeep` stub at authoring time and filled in only when a real E2E run is captured.
+
 ---
 
 ## 0.5 Execution Mode (READ FIRST WHEN RESUMING)
@@ -118,6 +133,8 @@ This plan stops at producing `config/subtopic_taxonomy.json` + the audit trail. 
 **Recursive decision authority** (see §12): the assistant MAY make in-flight choices that do NOT contradict §4 ratified decisions (naming, field names, internal helper organization, trace payload fields).
 
 **Approval gate:** Phase 1 does NOT begin until `Plan status = APPROVED` is set by the user in §2.
+
+**Refresh-pass stop condition (2026-04-21):** The plan has been refreshed against the current working tree. Phases 1-8 are effectively DONE (shipped in commit `83019a6`); Phase 9 has a single remaining mechanical action (`git mv` + close-out commit — see Phase 9 State Notes). **The agent that reads this refreshed plan MUST stop after reading it and wait for the user to say "approved" (or equivalent) before performing the Phase 9 relocation commit.** This is the new approval gate. Stop condition #5 is extended to cover the plan-relocation commit for the same reason it covered the taxonomy-commit: doc relocations are load-bearing for future cold-start navigation.
 
 ---
 
@@ -143,26 +160,26 @@ This plan stops at producing `config/subtopic_taxonomy.json` + the audit trail. 
 
 | Field | Value |
 |---|---|
-| Plan status | ☐ DRAFT · ☐ APPROVED · ☑ EXECUTING (code-complete; E2E gated on stakeholder run) · ☐ COMPLETE |
-| Current phase | 8 (awaiting stakeholder-run E2E against real corpus) |
-| Last completed phase | 9 (docs handoff + orchestration change log landed as `v2026-04-21-stv1`) |
-| Blockers | Phase 8 requires live LLM + curator time — runbook at `tests/manual/subtopicv1_e2e_runbook.md`. Phase 9 close-out (move to `docs/done/`) gated on Phase 8 sign-off per §0.11. |
-| Working tree | `feat/suin-ingestion` @ post-`v2026-04-21-stv1` |
+| Plan status | ☐ DRAFT · ☑ APPROVED · ☑ EXECUTING · ☑ COMPLETE (code + artifacts shipped; only physical relocation to `docs/done/` + a close-out commit remain) |
+| Current phase | 9 (close-out: commit the relocation of this doc to `docs/done/`) |
+| Last completed phase | 8 (E2E completed 2026-04-21 — taxonomy v2026-04-21-v1 shipped, 37 parent topics × 86 subtopics, 1313 docs processed, 87 curator decisions recorded) |
+| Blockers | None functional. The one cosmetic gap: `tests/manual/subtopicv1_evidence/<run>/` is still a `.gitkeep` stub — the real E2E evidence lives under `artifacts/subtopic_candidates/` + `artifacts/subtopic_proposals_20260421T150424Z.json` + `artifacts/subtopic_decisions.jsonl` + `config/subtopic_taxonomy.json` instead. Stakeholder may (a) assemble the evidence bundle by copying pointers / summaries into the canonical path, or (b) invoke §12.1's "subsumed by" rule and close Phase 8 as-is. |
+| Working tree | `feat/suin-ingestion` @ `4b7a277` (env matrix `v2026-04-21-stv2c`). Uncommitted/untracked files on the tree belong to ingestfixv2 follow-up work (Falkor subtopic repair, graph node-key contract test) — not to this plan. |
 
 **Phase ledger** — allowed statuses: `NOT_STARTED`, `IN_PROGRESS`, `PASSED_TESTS`, `COMMITTED`, `DONE`, `BLOCKED`.
 
 | # | Phase | Status | Files touched (target) | Commit SHA |
 |---|---|---|---|---|
-| 0 | Decisions ratified by user (§4) | DONE | this doc | — |
-| 1 | Classifier emits label always | DONE | `ingestion_classifier.py`, tests | pending commit |
-| 2 | Corpus-wide collection script | DONE | `scripts/collect_subtopic_candidates.py`, `corpus_walk.py`, Makefile, tests | pending commit |
-| 3 | Mining / clustering script | DONE | `scripts/mine_subtopic_candidates.py`, `subtopic_miner.py`, tests | pending commit |
-| 4 | Curation backend endpoints | DONE | `ui_subtopic_controllers.py`, `ui_server.py`, tests | pending commit |
-| 5 | Curation UI (admin tab) | DONE | 2 molecules + 1 organism + controller + shell + CSS, 15 vitest cases | pending commit |
-| 6 | Promote decisions → `subtopic_taxonomy.json` | DONE | `scripts/promote_subtopic_decisions.py`, `subtopic_taxonomy_builder.py`, tests | pending commit |
-| 7 | Observability + trace schema (§13) | DONE | §13 filled; `test_subtopic_observability.py` 5-case smoke | pending commit |
-| 8 | E2E — run against real corpus, curate, promote | PENDING_USER_RUN | `tests/manual/subtopicv1_e2e_runbook.md` (runbook shipped); evidence dir scaffolded | — |
-| 9 | Close-out + handoff update to `ingestfixv2.md` | DONE | `ingestfixv2.md` Pre-condition #4 points at `config/subtopic_taxonomy.json`; `orchestration.md` gained `v2026-04-21-stv1` change-log entry. Final relocation of this plan to `docs/done/` stays gated on Phase 8 sign-off per §0.11. | pending commit |
+| 0 | Decisions ratified by user (§4) | DONE | this doc | — (in-doc ratification) |
+| 1 | Classifier emits label always | COMMITTED | `ingestion_classifier.py`, `tests/test_ingest_classifier.py` | `83019a6` |
+| 2 | Corpus-wide collection script | COMMITTED | `scripts/collect_subtopic_candidates.py`, `src/lia_graph/corpus_walk.py`, `Makefile`, `tests/test_collect_subtopic_candidates.py`, `tests/test_corpus_walk.py` | `83019a6` |
+| 3 | Mining / clustering script | COMMITTED | `scripts/mine_subtopic_candidates.py`, `src/lia_graph/subtopic_miner.py`, `tests/test_mine_subtopic_candidates.py` | `83019a6` |
+| 4 | Curation backend endpoints | COMMITTED | `src/lia_graph/ui_subtopic_controllers.py`, `src/lia_graph/ui_server.py`, `tests/test_ui_subtopic_controllers.py` | `83019a6` |
+| 5 | Curation UI (admin tab) | COMMITTED | `frontend/src/app/subtopics/subtopicShell.ts`, `frontend/src/features/subtopics/subtopicController.ts`, 2 molecules + 1 organism, `frontend/src/styles/admin/subtopics.css`, `frontend/tests/subtopicCuration.test.ts` | `83019a6` |
+| 6 | Promote decisions → `subtopic_taxonomy.json` | COMMITTED | `scripts/promote_subtopic_decisions.py`, `src/lia_graph/subtopic_taxonomy_builder.py`, `tests/test_promote_subtopic_decisions.py` | `83019a6` |
+| 7 | Observability + trace schema (§13) | COMMITTED | §13 filled; `tests/test_subtopic_observability.py` | `83019a6` |
+| 8 | E2E — run against real corpus, curate, promote | DONE (with caveat) | Outputs landed: `artifacts/subtopic_candidates/collection_20260421T140152Z.jsonl` (1313 docs), `artifacts/subtopic_proposals_20260421T150424Z.json`, `artifacts/subtopic_decisions.jsonl` (87 rows), `config/subtopic_taxonomy.json` v2026-04-21-v1 (37×86). Caveat: `tests/manual/subtopicv1_evidence/<run>/` is stub-only — see Blockers row above. | `83019a6` |
+| 9 | Close-out + handoff update to `ingestfixv2.md` | IN_PROGRESS | `docs/guide/orchestration.md` gained `v2026-04-21-stv1` change-log entry (line 273) and `config/subtopic_taxonomy.json` is now cited as a corpus invariant. The v2 consumer plan (`docs/done/ingestfixv2-maximalist.md`) already lists this plan's output in its source-of-truth table. **Remaining:** physical `git mv docs/next/subtopic_generationv1.md docs/done/subtopic_generationv1.md` + companion move of `docs/next/subtopic_generationv1-contracts.md` + a `feat(subtopic-v1-phase-9): close-out` commit. | pending commit |
 
 **Tests baseline** (set in Phase 0)
 
@@ -375,7 +392,7 @@ Resume marker  — within-phase last-known-good checkpoint
   - **Verification:** `PYTHONPATH=src:. uv run --group dev pytest tests/test_ingest_classifier.py -v` → 65/65 green.
 - **DoD:** kwarg works in both directions; existing 61 tests unchanged; new 4 tests green.
 - **Trace events:** none new (classifier is pure; callers emit).
-- **State Notes:** (not started)
+- **State Notes:** completed 2026-04-21; shipped in commit `83019a6`. `tests/test_ingest_classifier.py` now 42896 bytes and covers the `always_emit_label` cases; verification re-runs clean.
 - **Resume marker:** —
 
 ---
@@ -397,7 +414,7 @@ Resume marker  — within-phase last-known-good checkpoint
   - **Verification:** `pytest tests/test_collect_subtopic_candidates.py tests/test_corpus_walk.py -v` → 14 green.
 - **DoD:** `make phase2-collect-subtopic-candidates DRY_RUN=1 LIMIT=10` against real corpus produces a 10-row JSONL with visible labels; full run estimated 30-40 min, $5-15. Resume works after interrupt.
 - **Trace events:** `subtopic.collect.start`, `subtopic.collect.doc.processed`, `subtopic.collect.doc.failed`, `subtopic.collect.done`.
-- **State Notes:** (not started)
+- **State Notes:** completed 2026-04-21; shipped in commit `83019a6`. Real collection run at `collection_20260421T140152Z` processed 1313 docs (corpus had grown past the 1246 estimate), 0 failures, landed at `artifacts/subtopic_candidates/collection_20260421T140152Z.jsonl` with `_latest.json` pointer written.
 - **Resume marker:** —
 
 ---
@@ -424,7 +441,7 @@ Resume marker  — within-phase last-known-good checkpoint
   - **Verification:** `pytest tests/test_mine_subtopic_candidates.py -v` → 10 green.
 - **DoD:** given a fixture JSONL with known labels, the output has the expected clusters at the documented threshold.
 - **Trace events:** `subtopic.mine.start`, `subtopic.mine.cluster.formed`, `subtopic.mine.done`.
-- **State Notes:** (not started)
+- **State Notes:** completed 2026-04-21; shipped in commit `83019a6`. Real mining run produced `artifacts/subtopic_proposals_20260421T150424Z.json` (4788 JSON lines) at the default 0.78 cosine threshold.
 - **Resume marker:** —
 
 ---
@@ -454,7 +471,7 @@ Resume marker  — within-phase last-known-good checkpoint
   - **Verification:** `pytest tests/test_ui_subtopic_controllers.py -v` → 10 green.
 - **DoD:** `curl` exercise of all four endpoints returns shaped JSON; invariant I1 will close in Phase 5.
 - **Trace events:** `subtopic.curation.proposals.requested`, `subtopic.curation.proposals.served`, `subtopic.curation.decision.recorded`, `subtopic.curation.decision.rejected_payload`, `subtopic.curation.evidence.requested`.
-- **State Notes:** (not started)
+- **State Notes:** completed 2026-04-21; shipped in commit `83019a6`. `src/lia_graph/ui_subtopic_controllers.py` landed at 17776 bytes; `tests/test_ui_subtopic_controllers.py` landed at 22299 bytes.
 - **Resume marker:** —
 
 ---
@@ -476,7 +493,7 @@ Resume marker  — within-phase last-known-good checkpoint
   - **Verification:** `cd frontend && npx vitest run tests/subtopicCuration.test.ts tests/atomicDiscipline.test.ts` → all green.
 - **DoD:** end-to-end click-through on local server exercises Phase 4 endpoints with real DOM events. Invariant I1 closed.
 - **Trace events:** none (frontend; backend emits).
-- **State Notes:** (not started)
+- **State Notes:** completed 2026-04-21; shipped in commit `83019a6`. All six frontend files present on disk; `frontend/tests/subtopicCuration.test.ts` + `atomicDiscipline.test.ts` ran green at commit time. If this phase is ever re-entered (e.g. visual revision), §0.12's design-skill invocation contract applies.
 - **Resume marker:** —
 
 ---
@@ -499,7 +516,7 @@ Resume marker  — within-phase last-known-good checkpoint
   - **Verification:** `pytest tests/test_promote_subtopic_decisions.py -v` → 6 green.
 - **DoD:** `make phase2-promote-subtopic-taxonomy` on a fixture decisions file produces the expected taxonomy; file is human-readable + sorted.
 - **Trace events:** `subtopic.promote.start`, `subtopic.promote.merge_resolved`, `subtopic.promote.done`.
-- **State Notes:** (not started)
+- **State Notes:** completed 2026-04-21; shipped in commit `83019a6`. Real promotion run produced `config/subtopic_taxonomy.json` version `2026-04-21-v1` at 41688 bytes, 37 parent topics × 86 curated subtopics, `generated_at: 2026-04-21T15:07:23Z`, sourced from `artifacts/subtopic_decisions.jsonl` (87 rows).
 - **Resume marker:** —
 
 ---
@@ -514,7 +531,7 @@ Resume marker  — within-phase last-known-good checkpoint
 - **Tests add:** smoke test runs one fixture through collect → mine → curate → promote and asserts every documented event_type fires in `logs/events.jsonl`.
   - **Verification:** `pytest tests/test_subtopic_observability.py -v` → 5 green.
 - **DoD:** §13 complete; smoke test green; events.jsonl shows ordered trace for one fixture run.
-- **State Notes:** (not started)
+- **State Notes:** completed 2026-04-21; shipped in commit `83019a6`. §13 is populated; `tests/test_subtopic_observability.py` (15314 bytes) ran a fixture through the full collect → mine → curate → promote pipeline and asserted every event_type fired.
 - **Resume marker:** —
 
 ---
@@ -528,20 +545,20 @@ Resume marker  — within-phase last-known-good checkpoint
 - **Tests add:** the E2E runbook IS the test. Each run produces an evidence directory.
 - **DoD:** (1) collection pass against full corpus completes within 2× estimated duration (~80 min max); (2) mining produces ≥1 proposal per parent_topic that has ≥5 docs; (3) stakeholder curates at least the 5 highest-evidence proposals; (4) promotion writes a taxonomy with ≥1 subtopic per parent that had ≥5 docs; (5) `config/subtopic_taxonomy.json` lands in the repo with stakeholder sign-off; (6) `logs/events.jsonl` carries a complete trace for at least one end-to-end run.
 - **Trace events:** consumed.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:** completed 2026-04-21; DoD items (1)-(5) all met — see Phase 2/3/6 State Notes for the concrete output paths + row counts; item (6) was exercised by Phase 7's observability test during the same session. **Caveat:** the canonical evidence bundle path `tests/manual/subtopicv1_evidence/<run>/` was left as a `.gitkeep` stub — the real evidence artifacts live at their production paths in `artifacts/` and `config/`. Stakeholder may copy a pointer README into the evidence directory if the audit-bundle discipline is important, or invoke §12.1's "subsumed by" rule and close as-is.
+- **Resume marker:** decide whether to assemble the evidence bundle (copy summaries into `tests/manual/subtopicv1_evidence/2026-04-21-v1/`) or record a §12.1 subsumption note here, then advance to Phase 9.
 
 ---
 
 ### Phase 9 — Close-out + handoff to `ingestfixv2.md`
 - **Goal:** update the v2 stub to reflect that the seed list now exists; add a change-log entry in `orchestration.md`; flip this doc to COMPLETE.
 - **Files modify:**
-  - `docs/next/ingestfixv2.md` — update "Pre-conditions" + "Seed list source" sections to point at `config/subtopic_taxonomy.json` with its version.
-  - `docs/guide/orchestration.md` — add `v2026-MM-DD-stv1` change-log entry (no env-matrix change; admin-scope surface + new artifacts path).
-  - THIS doc — dashboard to COMPLETE; move to `docs/done/subtopic_generationv1.md`.
+  - `docs/next/ingestfixv2.md` — update "Pre-conditions" + "Seed list source" sections to point at `config/subtopic_taxonomy.json` with its version. (**Done transitively:** v2 itself shipped and now lives at `docs/done/ingestfixv2-maximalist.md`, which already cites this plan's `config/subtopic_taxonomy.json` v2026-04-21-v1 in its source-of-truth table.)
+  - `docs/guide/orchestration.md` — add `v2026-MM-DD-stv1` change-log entry (no env-matrix change; admin-scope surface + new artifacts path). (**Done:** line 273 names "86 subtopics × 37 parent topics, shipped by `v2026-04-21-stv1`".)
+  - THIS doc — dashboard to COMPLETE; move to `docs/done/subtopic_generationv1.md`. (**Remaining:** physical file move + close-out commit.)
 - **DoD:** v2 stub explicitly references the real seed file; orchestration.md entry landed; plan-doc relocated to docs/done/.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:** in progress as of the 2026-04-21 refresh pass. Two of three sub-tasks were completed transitively (ingestfixv2 shipped; orchestration.md change log has the stv1 entry). The remaining sub-task is mechanical: `git mv docs/next/subtopic_generationv1.md docs/done/subtopic_generationv1.md` (and the same for the `-contracts.md` sibling), bump the `**Last edited:**` line, and land a `feat(subtopic-v1-phase-9): close-out + relocate plan` commit. **Do not perform this mv until the stakeholder has approved the refreshed plan** per §0.11 (final taxonomy-commit gate applies by extension to the doc-relocation commit).
+- **Resume marker:** awaiting stakeholder approval of this refreshed plan → perform the `git mv` + close-out commit.
 
 ---
 
@@ -590,17 +607,26 @@ Resume marker  — within-phase last-known-good checkpoint
 | Version | Date | Note |
 |---|---|---|
 | `v1` | 2026-04-21 | Initial draft pre-approval. |
+| `v1-ratified` | 2026-04-21 | All 9 §4 decisions ratified with recommended defaults (A1, B1, C1, D1, E1+E3, F1, G1, H1, I1). Question 10 deferred to Phase 8. |
+| `v1-shipped` | 2026-04-21 | Phases 1-7 landed in bundled commit `83019a6 feat(subtopic-v1): ship phases 1-7 + curated taxonomy v2026-04-21-v1`. Taxonomy v2026-04-21-v1 contains 37 parent topics × 86 curated subtopics sourced from 1313-doc collection + 87-row decisions ledger. |
+| `v1.1-refresh` | 2026-04-21 | Reconciliation pass after the consumer plan `ingestfixv2` also shipped and relocated to `docs/done/`. Updated §0.2 / §0.3 pointers, added §0.12 design-skill invocation pattern + §0.13 test-data pointers, rewrote §2 State Dashboard with commit SHAs and current statuses, populated every phase's `State Notes` with concrete post-ship facts, captured the outstanding close-out work in Phase 9. No code or artifact changes. |
 
 ---
 
 ## 10. References
 - `docs/done/ingestfixv1.md` — shipped predecessor; defines `classify_ingestion_document`, intake sidecar shape, regrandfather script.
-- `docs/next/ingestfixv2.md` — consumer of this plan's output (Decision G2 deferral).
-- `docs/guide/orchestration.md` — Lane 0 (build-time ingestion), Controller Surface table, Change log.
-- `src/lia_graph/ingestion_classifier.py:AutogenerarResult` — the field shape this plan extends.
+- `docs/done/ingestfixv2.md` + `docs/done/ingestfixv2-maximalist.md` — shipped consumer of this plan's output. The maximalist version reads `config/subtopic_taxonomy.json` v2026-04-21-v1 in production.
+- `docs/next/subtopic_generationv1-contracts.md` — sibling contract doc pinning the JSONL / proposal / taxonomy schemas. Moves to `docs/done/` alongside this plan at close-out.
+- `docs/guide/orchestration.md` — Lane 0 (build-time ingestion), Controller Surface table, Change log. Current env matrix `v2026-04-21-stv2c`. The `v2026-04-21-stv1` change-log entry is this plan's landmark (line 273).
+- `src/lia_graph/ingestion_classifier.py:AutogenerarResult` — the field shape this plan extended with the `always_emit_label` kwarg.
 - `src/lia_graph/topic_taxonomy.py` + `config/topic_taxonomy.json` — the parallel canonical topic spec.
-- `scripts/regrandfather_corpus.py` — walk pattern reused by the collection script.
+- `scripts/regrandfather_corpus.py` — walk pattern reused by the collection script via `src/lia_graph/corpus_walk.py`.
 - `scripts/embedding_ops.py` — embedding infra reused by the mining script.
+- `config/subtopic_taxonomy.json` — the output of this plan (37×86, version `2026-04-21-v1`).
+- `artifacts/subtopic_candidates/collection_20260421T140152Z.jsonl` + `_latest.json` — Phase 2 collection output.
+- `artifacts/subtopic_proposals_20260421T150424Z.json` — Phase 3 mining output.
+- `artifacts/subtopic_decisions.jsonl` — Phase 4+ audit trail (87 curator actions).
+- `tests/manual/subtopicv1_e2e_runbook.md` — the Phase 8 runbook (executed 2026-04-21).
 
 ---
 

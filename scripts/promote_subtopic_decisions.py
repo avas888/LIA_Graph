@@ -45,8 +45,10 @@ for candidate in (_SRC_DIR, _REPO_ROOT, _SCRIPTS_DIR):
 
 from lia_graph.instrumentation import emit_event  # noqa: E402
 from lia_graph.subtopic_taxonomy_builder import (  # noqa: E402
+    EmptyParentTopicError,
     build_taxonomy,
     load_decisions,
+    validate_no_empty_parents,
 )
 
 
@@ -111,6 +113,16 @@ def _build_argparser() -> argparse.ArgumentParser:
             "After writing the taxonomy JSON, mirror it into the Supabase "
             "sub_topic_taxonomy table at the named target. Ignored when "
             "--dry-run is set."
+        ),
+    )
+    parser.add_argument(
+        "--allow-empty-parents",
+        action="store_true",
+        help=(
+            "Bypass the zero-subtopic-per-parent invariant. Use ONLY during "
+            "bootstrapping when some parents are intentionally unseeded. "
+            "Default: strict — generation fails if any known parent_topic "
+            "has no subtopic entries."
         ),
     )
     return parser
@@ -218,6 +230,28 @@ def main(argv: Sequence[str] | None = None) -> int:
     taxonomy = build_taxonomy(decisions, version=version)
 
     parent_count, subtopic_count = _count_entries(taxonomy)
+
+    allow_empty_parents = bool(getattr(args, "allow_empty_parents", False))
+    if not allow_empty_parents:
+        try:
+            validate_no_empty_parents(taxonomy)
+        except EmptyParentTopicError as exc:
+            sys.stderr.write(f"promote: {exc}\n")
+            sys.stderr.write(
+                "promote: invariant failed — no file written. Re-run with "
+                "--allow-empty-parents to bypass during bootstrapping.\n"
+            )
+            sys.stderr.flush()
+            emit_event(
+                "subtopic.promote.invariant_failed",
+                {
+                    "output_path": str(output_path),
+                    "parent_topic_count": parent_count,
+                    "subtopic_count": subtopic_count,
+                    "dry_run": dry_run,
+                },
+            )
+            return 1
 
     if dry_run:
         existing = _load_existing_output(output_path)

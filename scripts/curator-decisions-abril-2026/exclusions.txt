@@ -1,0 +1,24 @@
+# Paths to exclude from corpus (case d)
+# Generated: 2026-04-21
+# Action: DELETE FROM documents WHERE relative_path IN (...) AND remove from upload pipeline
+
+## Ley derogada (histórica, sin vigencia) (2 docs)
+CORE ya Arriba/LEYES/DEROGADAS/LOGGRO_Ley-52-1975.md
+CORE ya Arriba/LEYES/DEROGADAS/NORMATIVA_Ley-1-1976.md
+
+## form_guides asset (.svg/.json) — binary artifact, no prose content (14 docs)
+form_guides/formulario_210/pn_residente/assets/page_02.svg
+form_guides/formulario_210/pn_residente/interactive_map.json
+form_guides/formulario_210/pn_residente/structured_guide.json
+form_guides/formulario_2516/pj_obligados_contabilidad/assets/page_02.svg
+form_guides/formulario_2516/pj_obligados_contabilidad/assets/page_06.svg
+form_guides/formulario_2516/pj_obligados_contabilidad/guide_manifest.json
+form_guides/formulario_2517/pn_residente/interactive_map.json
+form_guides/formulario_2517/pn_residente/sources.json
+form_guides/formulario_115/pes_general/assets/page_02.svg
+form_guides/formulario_115/pes_general/citation_profile.json
+form_guides/formulario_115/pes_general/guide_manifest.json
+form_guides/formulario_115/pes_general/interactive_map.json
+form_guides/formulario_115/pes_general/sources.json
+form_guides/formulario_115/pes_general/structured_guide.json
+

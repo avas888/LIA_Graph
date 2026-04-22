@@ -1,7 +1,7 @@
 {
-  "version": "2026-04-21-v1",
-  "generated_from": "artifacts/subtopic_decisions.jsonl",
-  "generated_at": "2026-04-21T15:07:23Z",
+  "version": "2026-04-21-v2",
+  "generated_from": "merge: v1 + curator-decisions-abril-2026",
+  "generated_at": "2026-04-21T21:58:00Z",
   "subtopics": {
     "beneficiario_final_rub": [
       {
@@ -136,6 +136,36 @@
         "evidence_count": 3,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "regimen_emprendimiento_ley_2069_2020",
+        "label": "Ley de Emprendimiento (Ley 2069/2020)",
+        "aliases": [
+          "ley_2069_2020",
+          "ley_emprendimiento",
+          "BIC_sociedades_beneficio_interes_colectivo",
+          "compras_publicas_mipyme",
+          "SECOP_emprendedores",
+          "inscripcion_registro_nacional_emprendedores"
+        ],
+        "evidence_count": 4,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      },
+      {
+        "key": "regimen_mipyme_ley_590_905",
+        "label": "Régimen MiPyME (Leyes 590/2000 y 905/2004)",
+        "aliases": [
+          "ley_590_2000",
+          "ley_905_2004",
+          "mipyme",
+          "micro_pequena_mediana_empresa",
+          "clasificacion_empresarial",
+          "registro_mipyme"
+        ],
+        "evidence_count": 4,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "contratacion_estatal": [
@@ -194,6 +224,36 @@
         "evidence_count": 3,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "regulacion_tic_ley_1341_2009",
+        "label": "Regulación TIC (Ley 1341/2009)",
+        "aliases": [
+          "ley_1341_2009",
+          "MinTIC",
+          "contribucion_tic",
+          "operadores_servicios_tic",
+          "CRC_comision_regulacion_comunicaciones",
+          "fondo_TIC"
+        ],
+        "evidence_count": 2,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      },
+      {
+        "key": "teletrabajo_ley_1221_2008",
+        "label": "Teletrabajo (Ley 1221/2008)",
+        "aliases": [
+          "ley_1221_2008",
+          "teletrabajo",
+          "trabajo_remoto",
+          "dispositivos_tecnologicos_empleador",
+          "auxilio_conectividad",
+          "contrato_teletrabajador"
+        ],
+        "evidence_count": 4,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "declaracion_renta": [
@@ -209,7 +269,23 @@
           "compensacion_de_perdidas_fiscales_de_sociedades",
           "compensacion_de_perdidas_fiscales_pyme",
           "compensacion_excesos_renta_presuntiva",
-          "determinacion_de_la_renta_liquida_gravable"
+          "determinacion_de_la_renta_liquida_gravable",
+          "casos_practicos_renta_pj_seccion_28",
+          "clasificacion_depuracion_ingresos_renta_pj",
+          "et_libro_normativa_base",
+          "et_libro_normativa_base_renta_bruta",
+          "renta_pj_seccion_07",
+          "renta_pj_seccion_09",
+          "renta_pj_seccion_10",
+          "renta_pj_seccion_11",
+          "renta_pj_seccion_13",
+          "renta_pj_seccion_15",
+          "renta_pj_seccion_16",
+          "renta_pj_seccion_17",
+          "renta_pj_seccion_18",
+          "renta_pj_seccion_24",
+          "renta_pj_seccion_26",
+          "renta_pj_seccion_27"
         ],
         "evidence_count": 59,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -227,7 +303,8 @@
           "descuentos_tributarios_en_renta",
           "descuentos_tributarios_ganancias_ocasionales_tarifas_y_precios_de_transferencia",
           "donaciones_como_deduccion_o_descuento_tributario",
-          "estimulos_tributarios_vivienda_interes_social"
+          "estimulos_tributarios_vivienda_interes_social",
+          "donaciones_descuento_tributario_pyme"
         ],
         "evidence_count": 12,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -321,6 +398,36 @@
         "evidence_count": 3,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "depreciacion_fiscal_pyme",
+        "label": "Depreciación fiscal para PYME",
+        "aliases": [
+          "depreciacion_fiscal",
+          "art_137_ET",
+          "vida_util_fiscal",
+          "tasas_maximas_depreciacion",
+          "diferencia_niif_fiscal_depreciacion",
+          "activos_fijos_depreciables"
+        ],
+        "evidence_count": 1,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      },
+      {
+        "key": "incentivos_regionales_zomac_zese",
+        "label": "Incentivos regionales ZOMAC y ZESE",
+        "aliases": [
+          "ZOMAC",
+          "zonas_mas_afectadas_conflicto_armado",
+          "ZESE",
+          "zona_economica_especial",
+          "tarifa_progresiva_ZOMAC",
+          "renta_exenta_regional"
+        ],
+        "evidence_count": 2,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "dividendos_utilidades": [
@@ -365,7 +472,8 @@
           "guia_medidas_tributarias_emergencia_economica",
           "guia_practica_decretos_emergencia_economica",
           "medidas_tributarias_de_emergencia_ambiental",
-          "medidas_tributarias_de_emergencia_por_desastres_naturales"
+          "medidas_tributarias_de_emergencia_por_desastres_naturales",
+          "emergencia_tributaria_decretos_1474_0240_2025_2026"
         ],
         "evidence_count": 21,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -484,6 +592,21 @@
         "evidence_count": 3,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "marco_legal_gmf_4x1000",
+        "label": "Marco legal GMF 4x1000 (cuentas exentas)",
+        "aliases": [
+          "GMF",
+          "4x1000",
+          "gravamen_movimientos_financieros",
+          "art_870_ET",
+          "art_879_ET",
+          "cuentas_exentas_GMF"
+        ],
+        "evidence_count": 1,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "ica": [
@@ -518,7 +641,9 @@
           "impuesto_al_patrimonio_2011",
           "impuesto_al_patrimonio_personas_juridicas",
           "impuesto_al_patrimonio_personas_naturales",
-          "impuesto_al_patrimonio_personas_naturales_valoracion_y_planeacion"
+          "impuesto_al_patrimonio_personas_naturales_valoracion_y_planeacion",
+          "impuesto_patrimonio_PN_guia_practica_2026",
+          "impuesto_patrimonio_PN_permanente_arts_292_298_ET"
         ],
         "evidence_count": 8,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -536,6 +661,21 @@
         "evidence_count": 3,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "recurso_sancion_exogena_art_651_ET",
+        "label": "Recurso contra sanción por no presentar exógena (art. 651 ET)",
+        "aliases": [
+          "art_651_ET",
+          "sancion_no_presentar_exogena",
+          "recurso_reconsideracion_exogena",
+          "reduccion_sancion_exogena",
+          "defensa_sancion_informacion_exogena",
+          "gradualidad_sancion_art_651"
+        ],
+        "evidence_count": 3,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "inversiones_incentivos": [
@@ -567,6 +707,66 @@
         "evidence_count": 4,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "fnce_ley_1715_2014_energia_renovable",
+        "label": "Fuentes No Convencionales de Energía (Ley 1715/2014)",
+        "aliases": [
+          "ley_1715_2014",
+          "FNCE",
+          "fuentes_no_convencionales_energia",
+          "deduccion_inversion_energia_renovable",
+          "solar_eolico_incentivos",
+          "UPME_certificacion"
+        ],
+        "evidence_count": 5,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      },
+      {
+        "key": "ley_paez_218_1995",
+        "label": "Ley Páez — incentivos Zona del Río Páez (Ley 218/1995)",
+        "aliases": [
+          "ley_218_1995",
+          "ley_paez",
+          "zona_rio_paez",
+          "renta_exenta_paez",
+          "incentivo_cauca_huila",
+          "empresas_establecidas_paez"
+        ],
+        "evidence_count": 6,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      },
+      {
+        "key": "progresividad_ley_1429_2010_formalizacion",
+        "label": "Progresividad de renta — Ley de Formalización (Ley 1429/2010)",
+        "aliases": [
+          "ley_1429_2010",
+          "ley_formalizacion",
+          "progresividad_renta",
+          "pequenas_empresas_beneficios",
+          "tarifa_progresiva_primeros_anos",
+          "formalizacion_empresarial"
+        ],
+        "evidence_count": 5,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      },
+      {
+        "key": "transicion_energetica_ley_2099_2021",
+        "label": "Transición energética (Ley 2099/2021)",
+        "aliases": [
+          "ley_2099_2021",
+          "transicion_energetica",
+          "hidrogeno_verde",
+          "eficiencia_energetica",
+          "incentivos_energia_renovable_2099",
+          "ampliacion_FNCE"
+        ],
+        "evidence_count": 6,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "iva": [
@@ -617,7 +817,17 @@
           "aporte_parafiscales_y_su_deducibilidad",
           "calculo_recargo_nocturno_laboral",
           "contribuciones_parafiscales_cooperativas_trabajo_asociado",
-          "contribuciones_parafiscales_especiales_territoriales"
+          "contribuciones_parafiscales_especiales_territoriales",
+          "ley_1010_2006_laboral",
+          "ley_1468_2011_laboral",
+          "ley_1822_2017_laboral",
+          "ley_2101_2021_laboral",
+          "ley_21_1982_laboral",
+          "ley_27_1974_laboral",
+          "ley_50_1990_laboral",
+          "ley_789_2002_laboral",
+          "ley_797_2003_laboral",
+          "parafiscal_especial_marco_legal"
         ],
         "evidence_count": 98,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -655,6 +865,21 @@
         "evidence_count": 3,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "reforma_laboral_ley_2466_2025",
+        "label": "Reforma Laboral (Ley 2466/2025)",
+        "aliases": [
+          "ley_2466_2025",
+          "reforma_laboral_petro",
+          "recargo_nocturno_6pm",
+          "dominical_100_porciento",
+          "contrato_termino_indefinido_obligatorio",
+          "aprendiz_contrato_laboral"
+        ],
+        "evidence_count": 3,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "leyes_derogadas": [
@@ -731,7 +956,8 @@
           "beneficios_y_obligaciones_sector_transporte",
           "beneficios_y_obligaciones_turismo",
           "cadenas_productivas_agropecuarias",
-          "codigo_de_minas_y_su_impacto_tributario"
+          "codigo_de_minas_y_su_impacto_tributario",
+          "ley_1438_2011_reforma_salud"
         ],
         "evidence_count": 232,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -843,6 +1069,36 @@
         "evidence_count": 3,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "anticorrupcion_sagrilaft_ley_1474_2011",
+        "label": "Ley Anticorrupción / SAGRILAFT (Ley 1474/2011)",
+        "aliases": [
+          "ley_1474_2011",
+          "estatuto_anticorrupcion",
+          "SAGRILAFT",
+          "PTEE",
+          "inhabilidades_contratacion",
+          "prevencion_corrupcion"
+        ],
+        "evidence_count": 4,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      },
+      {
+        "key": "estatuto_consumidor_ley_1480_2011",
+        "label": "Estatuto del Consumidor (Ley 1480/2011)",
+        "aliases": [
+          "ley_1480_2011",
+          "estatuto_consumidor",
+          "proteccion_consumidor",
+          "SIC",
+          "responsabilidad_productor",
+          "derechos_consumidor"
+        ],
+        "evidence_count": 4,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "precios_de_transferencia": [
@@ -870,7 +1126,12 @@
           "aplicacion_presupuesto_nacional_pymes",
           "modificacion_ley_organica_presupuesto",
           "presupuesto_de_ingresos_y_egresos_nacional",
-          "presupuesto_general_de_la_nacion"
+          "presupuesto_general_de_la_nacion",
+          "ley_1151_2007_pnd",
+          "ley_225_1995_organica_presupuesto",
+          "ley_225_1995_presupuesto",
+          "ley_2327_2023_presupuesto",
+          "presupuesto_ley_generica"
         ],
         "evidence_count": 8,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -900,6 +1161,21 @@
         "evidence_count": 5,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "sistema_general_regalias_ley_1530_2012",
+        "label": "Sistema General de Regalías (Ley 1530/2012)",
+        "aliases": [
+          "ley_1530_2012",
+          "sistema_general_regalias",
+          "SGR",
+          "OCAD",
+          "distribucion_regalias",
+          "regalias_entidades_territoriales"
+        ],
+        "evidence_count": 5,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "procedimiento_tributario": [
@@ -946,6 +1222,36 @@
         "evidence_count": 3,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      },
+      {
+        "key": "codigo_general_proceso_ley_1564_2012",
+        "label": "Código General del Proceso (Ley 1564/2012)",
+        "aliases": [
+          "ley_1564_2012",
+          "CGP",
+          "codigo_general_proceso",
+          "proceso_ejecutivo",
+          "mandamiento_pago",
+          "medidas_cautelares"
+        ],
+        "evidence_count": 5,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      },
+      {
+        "key": "cpaca_ley_1437_2011",
+        "label": "CPACA — Código de Procedimiento Administrativo (Ley 1437/2011)",
+        "aliases": [
+          "ley_1437_2011",
+          "CPACA",
+          "codigo_procedimiento_administrativo",
+          "silencio_administrativo",
+          "notificacion_administrativa",
+          "medios_control_contencioso"
+        ],
+        "evidence_count": 2,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ],
     "reformas_tributarias": [
@@ -962,7 +1268,24 @@
           "modificacion_general_del_estatuto_tributario",
           "modificaciones_al_codigo_tributario",
           "modificaciones_tributarias_y_aduaneras",
-          "reforma_base_para_pymes"
+          "reforma_base_para_pymes",
+          "ley_1111_2006_reforma_tributaria",
+          "ley_1430_2010_reforma_tributaria",
+          "ley_1607_2012_reforma_tributaria",
+          "ley_1739_2014_reforma_tributaria",
+          "ley_1819_2016_reforma_tributaria",
+          "ley_1943_2018_reforma_tributaria",
+          "ley_2010_2019_reforma_tributaria",
+          "ley_2155_2021_reforma_tributaria",
+          "ley_223_1994_reforma",
+          "ley_223_1995_reforma_tributaria",
+          "ley_2277_2022_reforma_tributaria",
+          "ley_383_1997_reforma_tributaria",
+          "ley_488_1998_reforma_tributaria",
+          "ley_49_1990_reforma_tributaria",
+          "ley_6_1992_reforma_tributaria",
+          "ley_75_1986_reforma_tributaria",
+          "ley_863_2003_reforma_tributaria"
         ],
         "evidence_count": 52,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -996,7 +1319,8 @@
         "label": "Ajuste de sanciones por inflación",
         "aliases": [
           "ajuste_de_sanciones_tributarias_por_inflacion",
-          "reduccion_de_sanciones_y_gradualidad_tributaria"
+          "reduccion_de_sanciones_y_gradualidad_tributaria",
+          "regimen_sancionatorio_reduccion_gradualidad_fiscalizacion"
         ],
         "evidence_count": 5,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -1037,7 +1361,8 @@
           "regimen_tributario_especial_economia_solidaria",
           "regimen_tributario_especial_esal",
           "regimen_tributario_especial_para_esal",
-          "regulacion_de_la_economia_solidaria_y_cooperativas"
+          "regulacion_de_la_economia_solidaria_y_cooperativas",
+          "ESAL_regimen_tributario_especial"
         ],
         "evidence_count": 9,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -1079,7 +1404,8 @@
         "aliases": [
           "regulacion_de_retencion_en_la_fuente",
           "regulacion_retencion_en_la_fuente",
-          "retencion_en_la_fuente_en_contratacion_estatal"
+          "retencion_en_la_fuente_en_contratacion_estatal",
+          "retencion_fuente_agente_retenedor_decreto_572"
         ],
         "evidence_count": 4,
         "curated_at": "2026-04-21T15:07:13Z",
@@ -1135,11 +1461,46 @@
           "regimen_tributario_y_aduanero_de_zonas_francas",
           "regulacion_de_zonas_francas",
           "zonas_economicas_especiales_de_exportacion",
-          "zonas_francas_tarifa_dual_y_plan_internacionalizacion"
+          "zonas_francas_tarifa_dual_y_plan_internacionalizacion",
+          "zonas_francas_regimen_tributario"
         ],
         "evidence_count": 10,
         "curated_at": "2026-04-21T15:07:13Z",
         "curator": "auto_accept_v1"
+      }
+    ],
+    "activos_exterior": [
+      {
+        "key": "declaracion_activos_exterior_formulario_160",
+        "label": "Declaración de activos en el exterior (Formulario 160)",
+        "aliases": [
+          "activos_exterior",
+          "formulario_160",
+          "declaracion_activos_exterior",
+          "AEX",
+          "art_607_ET",
+          "activos_poseidos_en_el_exterior"
+        ],
+        "evidence_count": 2,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
+      }
+    ],
+    "impuestos_saludables": [
+      {
+        "key": "impuestos_saludables_ibua_icui",
+        "label": "Impuestos saludables IBUA e ICUI",
+        "aliases": [
+          "IBUA",
+          "impuesto_bebidas_ultraprocesadas_azucaradas",
+          "ICUI",
+          "impuesto_comestibles_ultraprocesados",
+          "ley_2277_2022_impuestos_saludables",
+          "art_513_1_ET"
+        ],
+        "evidence_count": 1,
+        "curated_at": "2026-04-21T16:48:00Z",
+        "curator": "curator-decisions-abril-2026"
       }
     ]
   }

@@ -285,6 +285,9 @@ def test_end_to_end_trace_trail_fires_every_documented_event(
             str(taxonomy_path),
             "--version",
             "2026-04-21-v1",
+            # Observability end-to-end probe uses a 2-parent synthetic
+            # corpus; the C6 invariant would otherwise reject it.
+            "--allow-empty-parents",
         ]
     )
     assert promote_exit == 0
@@ -347,6 +350,9 @@ def test_merge_resolved_fires_on_merge_chain(
             str(output_path),
             "--version",
             "2026-04-21-v1",
+            # Observability probe uses a synthetic 2-parent decisions file;
+            # the C6 "no empty parents" invariant would otherwise reject it.
+            "--allow-empty-parents",
         ]
     )
     assert exit_code == 0

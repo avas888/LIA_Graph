@@ -20,8 +20,10 @@ them and declares no module-level state beyond pure functions.
 
 from __future__ import annotations
 
+import json
 import re
 from collections.abc import Iterable
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +32,8 @@ from .ingest_constants import (
     CORPUS_FAMILY_ALIASES,
     CorpusAuditRecord,
     CRITICAL_RECON_FLAGS,
+    EXCLUDED_FILENAMES,
+    EXCLUDED_PATH_PREFIXES,
     GRAPH_PARSE_STRATEGIES,
     GRAPH_TARGET_FAMILIES,
     HELPER_CODE_EXTENSIONS,
@@ -50,6 +54,7 @@ from .ingest_constants import (
     TEXT_DIRECT_PARSE_EXTENSIONS,
     TEXT_INVENTORY_EXTENSIONS,
 )
+from .instrumentation import emit_event
 from .source_tiers import source_tier_key_for_row
 from .topic_taxonomy import iter_ingestion_topic_entries, topic_taxonomy_version
 
@@ -171,6 +176,18 @@ def _classify_ingestion_decision(
     text_extractable: bool,
     corpus_root: Path,
 ) -> tuple[str, str, str | None, str]:
+    # C5 admission-gate tighteners — run BEFORE any other heuristic so
+    # binary assets / structural manifests / derogated laws never reach
+    # the graph-parse cascade. Most-specific reason wins; only one event
+    # fires per excluded file (see ``_audit_admission_rejection``).
+    admission = _audit_admission_rejection(
+        path=path,
+        relative_path=relative_path,
+        extension=extension,
+    )
+    if admission is not None:
+        return admission
+
     file_name_norm = _normalize_token(path.name)
     stem_norm = _normalize_token(path.stem)
     content_norm = _normalize_search_blob(markdown)
@@ -314,6 +331,109 @@ def _classify_ingestion_decision(
         "base_doc",
     )
 
+
+def _audit_admission_rejection(
+    *,
+    path: Path,
+    relative_path: str,
+    extension: str,
+) -> tuple[str, str, str | None, str] | None:
+    """Return an ``exclude_internal`` verdict for C5 admission rejects.
+
+    Most-specific reason wins — path-prefix (``derogated_law``) beats
+    filename (``structural_manifest``) beats extension
+    (``binary_asset``) — and exactly one ``audit.admission.rejected``
+    event is emitted per excluded file.
+
+    Returns ``None`` when the file is admissible (the normal heuristic
+    cascade will decide).
+    """
+    normalized_relative = _normalize_relative_path(relative_path)
+
+    for prefix in EXCLUDED_PATH_PREFIXES:
+        if _relative_path_matches_prefix(normalized_relative, prefix):
+            return _emit_admission_rejection(
+                relative_path=relative_path,
+                reason="derogated_law",
+                document_archetype="derogated_law",
+            )
+
+    if path.name in EXCLUDED_FILENAMES:
+        return _emit_admission_rejection(
+            relative_path=relative_path,
+            reason="structural_manifest",
+            document_archetype="structural_manifest",
+        )
+
+    if extension.lower() in {".svg", ".png", ".jpg", ".jpeg", ".webp"}:
+        # PDFs/DOC(X) are legitimate corpus-document formats and keep
+        # their existing downstream handling; the C5 tightener is only
+        # about image-style binary assets that sit alongside prose.
+        return _emit_admission_rejection(
+            relative_path=relative_path,
+            reason="binary_asset",
+            document_archetype="binary_asset",
+        )
+
+    return None
+
+
+def _normalize_relative_path(relative_path: str) -> str:
+    """Return a POSIX-style, leading-slash-stripped view of ``relative_path``.
+
+    Tests write paths with forward slashes already, but audit rows built
+    on Windows (or from absolute fallbacks) can carry backslashes or a
+    leading ``/``. The prefix check is resilient to both.
+    """
+    normalized = str(relative_path or "").replace("\\", "/")
+    return normalized.lstrip("/")
+
+
+def _relative_path_matches_prefix(normalized_relative: str, prefix: str) -> bool:
+    """Return True iff ``prefix`` appears as a path-segment slice.
+
+    The match is segment-aware: ``LEYES/DEROGADAS/`` matches
+    ``CORE ya Arriba/LEYES/DEROGADAS/foo.md`` at the segment boundary
+    but NOT ``CORE ya Arriba/LEYES/DEROGADAS_foo/bar.md``. Prefixes
+    are expected to be trailing-slash terminated (see
+    ``EXCLUDED_PATH_PREFIXES``).
+    """
+    prefix_clean = (prefix or "").replace("\\", "/").lstrip("/")
+    if not prefix_clean:
+        return False
+    if normalized_relative.startswith(prefix_clean):
+        return True
+    # Segment-aware search — match only after a ``/`` boundary so a
+    # prefix never lands inside a directory name.
+    return ("/" + prefix_clean) in ("/" + normalized_relative)
+
+
+def _emit_admission_rejection(
+    *,
+    relative_path: str,
+    reason: str,
+    document_archetype: str,
+) -> tuple[str, str, str | None, str]:
+    """Emit the ``audit.admission.rejected`` trace + build the exclude tuple.
+
+    ``decision_reason`` is deliberately the short machine-readable tag
+    (``binary_asset`` / ``structural_manifest`` / ``derogated_law``) —
+    downstream audit-report consumers pivot on it (spec C5).
+    """
+    try:
+        emit_event(
+            "audit.admission.rejected",
+            {"relative_path": relative_path, "reason": reason},
+        )
+    except Exception:
+        # Instrumentation must never break ingestion.
+        pass
+    return (
+        INGESTION_DECISION_EXCLUDE,
+        reason,
+        None,
+        document_archetype,
+    )
 
 
 def _normalize_token(value: str) -> str:
@@ -558,12 +678,76 @@ def _infer_source_type(path: Path, *, markdown: str, family: str) -> str:
     return "unknown"
 
 
+_PREFIX_PARENT_TOPIC_MAP_PATH = Path("config/prefix_parent_topic_map.json")
+
+
+@lru_cache(maxsize=1)
+def _load_prefix_parent_topic_map() -> tuple[tuple[str, str], ...]:
+    """Load the filename-prefix -> parent_topic_key lookup table.
+
+    Sorted longest-prefix-first so that ``RET-`` wins over ``RE-`` when both
+    exist. Returns prefixes in lowercase (the lookup is case-insensitive).
+    Returns an empty tuple if the config file is missing or malformed — the
+    classifier falls through to the existing heuristics in that case.
+    """
+    candidates = [_PREFIX_PARENT_TOPIC_MAP_PATH]
+    repo_root = Path(__file__).resolve().parents[2]
+    candidates.append(repo_root / _PREFIX_PARENT_TOPIC_MAP_PATH)
+    for candidate in candidates:
+        if not candidate.exists():
+            continue
+        try:
+            payload = json.loads(candidate.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return ()
+        raw_mappings = payload.get("mappings") or {}
+        if not isinstance(raw_mappings, dict):
+            return ()
+        pairs: list[tuple[str, str]] = []
+        for prefix, parent_topic in raw_mappings.items():
+            if not isinstance(prefix, str) or not isinstance(parent_topic, str):
+                continue
+            norm_prefix = prefix.strip().lower()
+            norm_parent = parent_topic.strip().lower()
+            if not norm_prefix or not norm_parent:
+                continue
+            pairs.append((norm_prefix, norm_parent))
+        # Longest prefix first so "RET-" beats "RE-" on lookup.
+        pairs.sort(key=lambda item: (-len(item[0]), item[0]))
+        return tuple(pairs)
+    return ()
+
+
+def _lookup_parent_topic_by_filename_prefix(filename: str) -> str | None:
+    """Return the parent_topic_key mapped by the filename prefix, if any.
+
+    Case-insensitive. Uses longest-prefix-wins semantics. Returns ``None``
+    when no prefix in the lookup matches the filename.
+    """
+    if not filename:
+        return None
+    name = filename.strip().lower()
+    for prefix, parent_topic in _load_prefix_parent_topic_map():
+        if name.startswith(prefix):
+            return parent_topic
+    return None
+
+
 def _infer_vocabulary_labels(
     path: Path,
     *,
     markdown: str,
 ) -> tuple[str | None, str | None, str, str]:
     taxonomy_version = topic_taxonomy_version()
+
+    # Static prefix lookup — takes precedence over the alias-score heuristic
+    # below, which otherwise confuses numeric substrings in the path with
+    # parent_topic keywords (e.g. "II-1429-2010" routed to "iva"). Rationale:
+    # scripts/curator-decisions-abril-2026/strategy-memo.md §2.2.
+    prefix_match = _lookup_parent_topic_by_filename_prefix(path.name)
+    if prefix_match:
+        return prefix_match, None, "ratified_v1_2", taxonomy_version
+
     normalized_path = _normalize_token(str(path))
     normalized_stem = _normalize_token(path.stem)
     normalized_title = _normalize_token(_infer_title_hint(path, markdown=markdown))

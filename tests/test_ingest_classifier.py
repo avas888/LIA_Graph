@@ -1265,3 +1265,27 @@ def test_paso4_malformed_response_leaves_topic_intact(
     assert result.subtopic_key is None
     assert result.subtopic_confidence == 0.0
     assert result.requires_subtopic_review is False
+
+
+# ---------------------------------------------------------------------------
+# Regression — static filename-prefix lookup (Task C4)
+# ---------------------------------------------------------------------------
+
+
+def test_prefix_lookup_regression_II_routes_to_inversiones_not_iva() -> None:
+    """Regression — ``II-1429-2010-NORMATIVA.md`` was previously misrouted
+    to ``iva`` because the alias heuristic treated the numeric substring
+    ``II-1429`` as evidence for IVA. The static prefix lookup in
+    ``ingest_classifiers._infer_vocabulary_labels`` must now short-circuit
+    that misroute. See ``scripts/curator-decisions-abril-2026/strategy-memo.md``
+    §2.2 for the curator audit this test anchors.
+    """
+    from pathlib import Path
+
+    from lia_graph.ingest_classifiers import _infer_vocabulary_labels
+
+    path = Path("knowledge_base/NORMATIVA_LEYES/II-1429-2010-NORMATIVA.md")
+    topic_key, subtopic_key, _, _ = _infer_vocabulary_labels(path, markdown="")
+    assert topic_key == "inversiones_incentivos"
+    assert topic_key != "iva"
+    assert subtopic_key is None

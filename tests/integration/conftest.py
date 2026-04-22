@@ -48,3 +48,30 @@ def _skip_when_integration_disabled() -> None:
             "skipping integration tests",
             allow_module_level=True,
         )
+
+
+@pytest.fixture(autouse=True, scope="session")
+def _isolate_falkor_test_graph() -> None:
+    """Point Falkor writes at a dedicated test graph for the duration of the
+    session.
+
+    The integration fixtures run destructive operations (wipe SubTopicNodes,
+    re-MERGE) that MUST NOT touch the production graph the single-pass
+    ingest wrote into. Before this fixture existed, every
+    ``make phase2-graph-artifacts-smoke`` run wiped the freshly-ingested
+    SubTopicNodes from ``LIA_REGULATORY_GRAPH`` — the exact opposite of
+    what a preflight canary should do.
+
+    We override ``FALKORDB_GRAPH`` to ``LIA_REGULATORY_GRAPH_TEST`` for the
+    session and restore it on teardown. ``GraphClient.from_env()`` then
+    connects to the isolated graph automatically.
+    """
+    prev = os.environ.get("FALKORDB_GRAPH")
+    os.environ["FALKORDB_GRAPH"] = "LIA_REGULATORY_GRAPH_TEST"
+    try:
+        yield
+    finally:
+        if prev is None:
+            os.environ.pop("FALKORDB_GRAPH", None)
+        else:
+            os.environ["FALKORDB_GRAPH"] = prev

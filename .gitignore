@@ -2,15 +2,30 @@ __pycache__/
 *.py[cod]
 .env
 .env.local
+.env.local.cloud.bak.*
+.env.staging
+.env.production
 node_modules/
 dist/
 *.egg-info/
 .vscode/
+.claude/
 .DS_Store
 artifacts/temp/
 knowledge_base/
+knowledge_base_archive/
 cache/suin/
 cache/suin_probe/
+
+# --- run logs (volatile; regenerate on each ingest run) ---
+logs/events.jsonl
+logs/api_audit.jsonl
+logs/chat_verbose.jsonl
+logs/reasoning_events.jsonl
+logs/ingest_*.log
+logs/embeddings_*.log
+logs/backfill_*.log
+frontend/logs/
 
 # --- SUIN ingestion large artifacts (regenerate from cache/ on ingest re-run) ---
 artifacts/suin/**/*.log
