@@ -1,0 +1,31 @@
+{
+  "batches": {
+    "001": {
+      "batch_num": 1,
+      "status": "done",
+      "input_hash": "303e2abe3044b296",
+      "started_at_utc": "2026-04-23T21:45:39Z",
+      "doc_count": 20,
+      "completed_at_utc": "2026-04-23T21:45:54Z",
+      "elapsed_seconds": 15.23,
+      "result_path": "artifacts/sector_classification/batches/batch_001.json"
+    },
+    "002": {
+      "batch_num": 2,
+      "status": "done",
+      "input_hash": "c71572ccd9092e7c",
+      "started_at_utc": "2026-04-23T21:45:54Z",
+      "doc_count": 20,
+      "completed_at_utc": "2026-04-23T21:46:29Z",
+      "elapsed_seconds": 35.46,
+      "result_path": "artifacts/sector_classification/batches/batch_002.json"
+    }
+  },
+  "created_at_utc": null,
+  "manifest_path": "artifacts/fingerprint_bust/20260423T211819Z_probe_otros_sectoriales.json",
+  "batch_size": 20,
+  "total_docs": 510,
+  "total_batches": 26,
+  "model": "gemini-2.5-flash",
+  "updated_at_utc": "2026-04-23T21:46:29Z"
+}
