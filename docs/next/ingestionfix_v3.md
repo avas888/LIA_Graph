@@ -216,6 +216,116 @@ The 9.A reingest crashed three times before landing on attempt #4. **Each crash 
 
 > **The Falkor graph database has 10 of 39 expected Topic nodes and 0 PRACTICA_DE edges.** A broader reingest would fill it. Naive "run the whole thing again" risks another 40-minute classifier pass with crash exposure. The fix: **bust fingerprints per topic, re-run additive per topic, commit between topics, quality-gate batch 1 before letting batches 2–8 run autonomously.** If any single batch crashes, only that batch (~10–15 min) is redone — prior batches are written in stone.
 
+> ⚠ **Read §2.1 before planning a rehearsal.** A 2026-04-23 pre-rehearsal probe revealed the v3.0 seed plan.json underestimates actual per-batch doc counts by 2-27×. Total corpus to process is 1,319 docs (not 340). Batch 1 as-written in plan.json is 552 docs (not 20) because `otros_sectoriales` alone is 510. A rebalanced v3.1 proposal is in §2.1.5; execute that **before** running batch 1 for real.
+
+---
+
+## §2.1 2026-04-23 pre-rehearsal probe — critical findings
+
+*Added after the Phase-2 code landed. A dry-run probe of batch 1 revealed that the seed plan's per-batch doc-count estimates are **2-27× too low** because the initial taxonomy-only sizing missed that one catch-all topic owns 39% of the classified corpus. These numbers are the TRUE starting state; every estimate below ≤ §5 needs to be read against this table, not the §5 Phase 3 seed.*
+
+### 2.1.1 Actual per-topic doc counts (production, live, `retired_at IS NULL`)
+
+Source: `scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py --topic <k> --dry-run` × 39 top-level topics + one `is_('tema','null')` probe. Executed 2026-04-23 PM (Bogotá).
+
+```
+   510  otros_sectoriales           ← 39% of classified corpus; wrecking ball
+    83  reformas_tributarias
+    80  declaracion_renta
+    75  laboral
+    71  comercial_societario
+    50  procedimiento_tributario
+    39  inversiones_incentivos
+    37  presupuesto_hacienda
+    32  datos_tecnologia
+    28  estados_financieros_niif
+    26  iva
+    25  leyes_derogadas
+    23  ica
+    23  cambiario
+    21  facturacion_electronica
+    15  retencion_en_la_fuente
+    15  regimen_simple
+    15  contratacion_estatal
+    15  obligaciones_profesionales_contador
+    14  informacion_exogena
+    13  beneficiario_final_rub
+    11  regimen_sancionatorio
+    11  emergencia_tributaria
+    10  zonas_francas
+     8  calendario_obligaciones
+     8  economia_digital_criptoactivos
+     8  impuesto_nacional_consumo
+     7  sagrilaft_ptee
+     7  regimen_tributario_especial
+     6  gravamen_movimiento_financiero_4x1000
+     6  dividendos_utilidades
+     6  activos_exterior
+     5  precios_de_transferencia
+     4  impuesto_patrimonio_personas_naturales
+     3  perdidas_fiscales_art147
+     3  reforma_pensional
+     3  normas_internacionales_auditoria
+     2  impuestos_saludables
+     1  estatuto_tributario       ← ET rows mostly live under subtopic keys
+     2  (NULL tema)
+------
+  1319  TOTAL classified (top-level tema)
+```
+
+### 2.1.2 Planned vs actual batch sizes (v3.0 seed plan.json)
+
+| Batch | Planned docs | Actual docs | Drift | Notes |
+|---|---|---|---|---|
+| 1 (gate) | 20 | **552** | **27×** | `otros_sectoriales` (510) dominates |
+| 2 | 25 | 52 | 2× | — |
+| 3 | 30 | 41 | 1.4× | — |
+| 4 | 35 | 45 | 1.3× | — |
+| 5 | 40 | **211** | **5×** | `reformas_tributarias` (83) bloats it |
+| 6 | 50 | 129 | 2.6× | `comercial_societario` (71) dominates |
+| 7 | 60 | 107 | 1.8× | `procedimiento_tributario` (50) dominates |
+| 8 | 80 | 182 | 2.3× | `declaracion_renta` + `laboral` (155) dominate |
+
+Total: **1,319 docs** across all 8 batches (the plan said 340). Total wall time at the historical ~30 docs/min classifier rate ≈ **44 min pure classify + sink/Falkor per-batch overhead ≈ 2.5-3.5 hr unattended**, not the 70-105 min quoted in §5 Phase 3.
+
+### 2.1.3 `tema` column semantics — follow-up worth checking
+
+Classified total (1,319) + NULL (2) = 1,321 rows, far below the 6,730 live-docs headline in §1.4. Implication: the `tema` column probably holds subtopic keys for ~5,400 rows, not just the 39 top-level keys. This does NOT block v3 Phase 3 (the bust + additive path filters by whatever key is in `tema`, and re-classification restamps), but it means:
+
+* The Falkor `TopicNode` population story may need an additional backfill pass over the rows whose `tema` is a subtopic — those don't currently trigger a TEMA edge to a top-level TopicNode.
+* Actual docs-touched per batch could be higher than the tallies above if the classifier promotes subtopic-keyed docs to top-level topic attribution during re-sink.
+
+Parked as follow-up **F6** in §8 `followups_for_later`.
+
+### 2.1.4 Critical risk: `otros_sectoriales` as gate batch
+
+`otros_sectoriales` is a taxonomy catch-all with no domain boundary. 510 docs is 17-25 min of pure classifier wall time at ~30 docs/min — exceeding the upper end of G9's 5-25 min window for a batch. Beyond wall time: a catch-all has the highest per-doc classifier variance, so it's the **worst possible choice** for a Quality Gate batch (which should have low blast radius + tight topical cohesion to surface systemic bugs cleanly).
+
+### 2.1.5 Recommended plan.json v3.1 rebalance
+
+Proposed to land before the Phase-2 rehearsal runs for real. Not yet committed — operator call.
+
+| Batch | Topics | Docs | Wall est. |
+|---|---|---|---|
+| 1 (gate) | `activos_exterior (6) + emergencia_tributaria (11) + impuestos_saludables (2) + normas_internacionales_auditoria (3) + perdidas_fiscales_art147 (3) + reforma_pensional (3)` | **28** | ~5-8 min |
+| 2 | `leyes_derogadas + beneficiario_final_rub + economia_digital_criptoactivos + sagrilaft_ptee + obligaciones_profesionales_contador + zonas_francas + impuesto_patrimonio_personas_naturales` | ~83 | ~10 min |
+| 3 | `regimen_tributario_especial + regimen_simple + regimen_sancionatorio + impuesto_nacional_consumo + gravamen_movimiento_financiero_4x1000 + dividendos_utilidades + calendario_obligaciones + precios_de_transferencia + cambiario` | ~94 | ~12 min |
+| 4 | `ica + facturacion_electronica + retencion_en_la_fuente + contratacion_estatal + informacion_exogena + datos_tecnologia` | ~120 | ~14 min |
+| 5 | `inversiones_incentivos + presupuesto_hacienda + estados_financieros_niif + procedimiento_tributario + estatuto_tributario` | ~155 | ~17 min |
+| 6 | `reformas_tributarias` | ~83 | ~10 min |
+| 7 | `comercial_societario + declaracion_renta` | ~151 | ~17 min |
+| 8 | `iva + laboral` | ~101 | ~12 min |
+| 9 | `otros_sectoriales` (quarantined) | ~510 | ~30-40 min |
+
+Total: 1,319 docs across 9 batches. Gate batch is 28 docs (small enough to iterate cheaply on if Quality-Gate finds something). Batch 9 (`otros_sectoriales`) is explicitly quarantined so it can be run last and doesn't gate the rest. Every other batch lands in the 10-17 min window — below G9's 25-min upper threshold.
+
+### 2.1.6 What to do with this
+
+1. Operator reviews the v3.1 proposal above.
+2. If accepted, update `artifacts/fingerprint_bust/plan.json` + the `est_wall_minutes` / `est_doc_count` fields + add a `plan_version: v3.1` marker + a `revisions_log` block documenting this probe.
+3. Re-run `bash scripts/launch_batch.sh --batch 1 --dry-run` against the new batch 1 composition; expect `row_count: 28`.
+4. Proceed to real-run Phase-2 rehearsal.
+
 ---
 
 ## §3 Scope + phasing overview
@@ -227,7 +337,7 @@ Six phases. Each is **independently shippable and resumable**. Phase 3.0 (Qualit
 | 1 | Close v2 paperwork (10.3 amendment, Phase 11 banner, Phase 12 docs) | ~1 hr | ~1 hr | — |
 | 2 | Build + unit-test `fingerprint_bust.py`, chain runner skeleton, batch plan; rehearse on `laboral` | ~2 hrs | ~2.5 hrs | Phase 3.0 |
 | 3.0 | **Batch 1 Quality Gate** — run batch 1, execute G1-G10/M1-M3/U1-U4 checks, operator approves | ~1 hr | ~1.5 hrs | Phase 3 batches 2–8 |
-| 3 | Phased topic-coverage backfill — batches 2–8 via autonomous chain | ~15 min launch | ~70–105 min unattended | — |
+| 3 | Phased topic-coverage backfill — batches 2–8 via autonomous chain | ~15 min launch | ~2.5–3.5 hr unattended (revised 2026-04-23 per §2.1) | — |
 | 4 | Orphan-doc backfill (stretch; deferred) | TBD | TBD | — |
 | 5 | Operator browser smokes (10.4 main chat, 10.5 Tags tab) | ~20 min | ~20 min | v3 close-out |
 
@@ -602,20 +712,27 @@ phase_3_0_quality_gate:
 
 **Only runs if Phase 3.0 gate is `passed`.** Enforced by `scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh`.
 
-#### Phase 3 — Batch plan (seed; exact topic counts validated by Phase 2 dry-runs)
+#### Phase 3 — Batch plan
 
-| Batch | Topics (example grouping) | Est. docs | Est. wall |
-|---|---|---|---|
-| 3.1 | `cambiario`, `activos_exterior`, `beneficio_auditoria`, `emergencia_tributaria`, `impuestos_saludables` | ~20 | ~10 min |
-| 3.2 | `leyes_derogadas`, `normas_internacionales_auditoria`, `beneficiario_final_rub`, `reforma_pensional`, `economia_digital_criptoactivos` | ~25 | ~10 min |
-| 3.3 | `sagrilaft_ptee`, `obligaciones_profesionales_contador`, `perdidas_fiscales_art147`, `zonas_francas`, `gravamen_movimiento_financiero_4x1000` | ~30 | ~10 min |
-| 3.4 | `regimen_tributario_especial`, `regimen_simple`, `regimen_sancionatorio`, `impuesto_nacional_consumo`, `impuesto_patrimonio_personas_naturales` | ~35 | ~12 min |
-| 3.5 | `precios_de_transferencia`, `contratacion_estatal`, `datos_tecnologia`, `inversiones_incentivos`, `presupuesto_hacienda`, `reformas_tributarias` | ~40 | ~13 min |
-| 3.6 | `comercial_societario`, `ica`, `facturacion_electronica`, `calendario_obligaciones`, `dividendos_utilidades` | ~50 | ~15 min |
-| 3.7 | `informacion_exogena`, `estados_financieros_niif`, `procedimiento_tributario`, `retencion_en_la_fuente` | ~60 | ~18 min |
-| 3.8 | `declaracion_renta`, `iva`, `laboral`, `estatuto_tributario` | ~80 | ~22 min |
+> ⚠ **SUPERSEDED by §2.1.5 (2026-04-23 probe).** The table below is the original v3.0 seed plan; it underestimated per-batch doc counts by 2-27×. See §2.1 for the actual per-topic tally (1,319 docs total) and §2.1.5 for the rebalanced v3.1 proposal (9 batches, 28-doc gate batch, `otros_sectoriales` quarantined). Treat the table below as **historical context**; `artifacts/fingerprint_bust/plan.json` will be bumped to v3.1 before the Phase-2 rehearsal runs for real.
 
-Note: batch 1 in the actual chain plan ≠ 3.1 — it's chosen for the Quality Gate; typically the smallest/safest batch. Recommend `cambiario, activos_exterior, beneficio_auditoria, emergencia_tributaria, impuestos_saludables` (original 3.1 grouping) as batch 1 since these are smaller, less-load-bearing topics.
+<details><summary>Original v3.0 seed batch plan (historical — do NOT execute)</summary>
+
+| Batch | Topics (example grouping) | Est. docs (seed) | Est. wall (seed) | Actual docs (2026-04-23 probe) |
+|---|---|---|---|---|
+| 3.1 | `cambiario`, `activos_exterior`, `beneficio_auditoria`, `emergencia_tributaria`, `impuestos_saludables` | ~20 | ~10 min | **552** (otros_sectoriales substituted for beneficio_auditoria in shipped plan.json) |
+| 3.2 | `leyes_derogadas`, `normas_internacionales_auditoria`, `beneficiario_final_rub`, `reforma_pensional`, `economia_digital_criptoactivos` | ~25 | ~10 min | 52 |
+| 3.3 | `sagrilaft_ptee`, `obligaciones_profesionales_contador`, `perdidas_fiscales_art147`, `zonas_francas`, `gravamen_movimiento_financiero_4x1000` | ~30 | ~10 min | 41 |
+| 3.4 | `regimen_tributario_especial`, `regimen_simple`, `regimen_sancionatorio`, `impuesto_nacional_consumo`, `impuesto_patrimonio_personas_naturales` | ~35 | ~12 min | 45 |
+| 3.5 | `precios_de_transferencia`, `contratacion_estatal`, `datos_tecnologia`, `inversiones_incentivos`, `presupuesto_hacienda`, `reformas_tributarias` | ~40 | ~13 min | 211 |
+| 3.6 | `comercial_societario`, `ica`, `facturacion_electronica`, `calendario_obligaciones`, `dividendos_utilidades` | ~50 | ~15 min | 129 |
+| 3.7 | `informacion_exogena`, `estados_financieros_niif`, `procedimiento_tributario`, `retencion_en_la_fuente` | ~60 | ~18 min | 107 |
+| 3.8 | `declaracion_renta`, `iva`, `laboral`, `estatuto_tributario` | ~80 | ~22 min | 182 |
+| | **TOTAL** | **~340** | **~110 min** | **1,319 → ~2.5-3.5 hr** |
+
+</details>
+
+**Use the §2.1.5 v3.1 proposal** for the actual rehearsal. Gate batch in v3.1 is `activos_exterior + emergencia_tributaria + impuestos_saludables + normas_internacionales_auditoria + perdidas_fiscales_art147 + reforma_pensional` = 28 docs.
 
 #### Phase 3 — Autonomous chain mechanics
 
@@ -1020,12 +1137,29 @@ phase_2_tool_and_rehearsal:
     - test_validate_batch (19/19)
     - test_run_topic_backfill_chain (7/7)
     - test_ingest_heartbeat (7/7)
+  pre_rehearsal_probe_2026_04_23:
+    status: completed
+    method: "Per-topic --dry-run SELECT across all 39 top-level taxonomy keys + one NULL-tema probe."
+    total_classified_docs: 1319
+    null_tema_docs: 2
+    live_doc_headline_from_v1_4: 6730             # gap = 5411 rows likely under subtopic keys in tema column (F6)
+    batch_1_actual_vs_planned:
+      planned: 20
+      actual: 552
+      culprit: "otros_sectoriales (510 docs = 39% of classified corpus; taxonomy catch-all)"
+    batch_5_actual_vs_planned:
+      planned: 40
+      actual: 211
+      culprit: "reformas_tributarias (83 docs)"
+    total_wall_time_revised: "2.5-3.5 hr unattended (vs 70-105 min in v3.0 seed)"
+    findings_captured_in: "docs/next/ingestionfix_v3.md §2.1 + §2.1.5 rebalance proposal"
+    pending_operator_action: "Apply §2.1.5 v3.1 rebalance to artifacts/fingerprint_bust/plan.json before Phase-2 rehearsal runs for real."
   rehearsal_result:
     topic: laboral
     bust_row_count:                                # operator fills during Phase 2 rehearsal
     falkor_topic_node_after:
     falkor_tema_edges_after:
-    note: "Rehearsal is operator-gated (production Supabase write). Code is ready."
+    note: "Rehearsal is operator-gated (production Supabase write). Code is ready; plan.json needs v3.1 rebalance first."
   notes: >
     Sub-folder structure landed at scripts/monitoring/monitor_ingest_topic_batches/ (verbose
     name per operator preference). launch_batch.sh at scripts/ root so it sits next to
@@ -1087,6 +1221,18 @@ followups_for_later:
   - id: F5
     source: v3
     description: "Orphan-doc backfill — the 1,523 cloud-only docs without chunks. See §5 Phase 4."
+  - id: F6
+    source: v3 (§2.1 probe)
+    description: >
+      `documents.tema` column likely holds subtopic keys for ~5,400 rows (classified
+      1,319 vs live 6,730 — the 5,411 delta suggests subtopic-keyed rows dominate).
+      Implication: TopicNode + TEMA edge population may need a second pass over rows
+      whose tema is a subtopic key, not a top-level taxonomy key. Not blocking v3
+      Phase 3 (the bust filter already matches whatever key is in tema), but
+      materially changes what "39 TopicNodes populated" means for the full corpus.
+      Verify with `SELECT tema, count(*) FROM documents WHERE retired_at IS NULL
+      GROUP BY tema ORDER BY count DESC LIMIT 50;` and cross-check against
+      config/topic_taxonomy.json top-level keys.
 ```
 
 ---
