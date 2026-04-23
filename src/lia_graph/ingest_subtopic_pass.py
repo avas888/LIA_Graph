@@ -176,6 +176,17 @@ def classify_corpus_documents(
         detected_topic = (
             getattr(verdict, "detected_topic", None) or doc.topic_key
         )
+        # ingestionfix_v2 §4 Phase 3 defense-in-depth: if both the legacy
+        # regex pass AND the PASO 4 LLM returned no topic, fall back to
+        # the path-inferred topic so the subtopic.ingest.audit_classified
+        # event never emits with a null topic when the folder layout is a
+        # clear signal (e.g. retencion_en_la_fuente/X.md).
+        if detected_topic is None:
+            from .ingest_classifiers import coerce_topic_from_path
+
+            detected_topic = coerce_topic_from_path(
+                doc.relative_path or doc.source_path
+            )
 
         # Taxonomy consistency: drop orphan keys and flag.
         accepted_key, orphan = _validate_against_taxonomy(

@@ -56,7 +56,11 @@ from .ingest_constants import (
 )
 from .instrumentation import emit_event
 from .source_tiers import source_tier_key_for_row
-from .topic_taxonomy import iter_ingestion_topic_entries, topic_taxonomy_version
+from .topic_taxonomy import (
+    iter_ingestion_topic_entries,
+    normalize_topic_key,
+    topic_taxonomy_version,
+)
 
 
 def _relative_path(path: Path, root: Path) -> str:
@@ -90,6 +94,18 @@ def _audit_single_file(path: Path, *, corpus_root: Path) -> CorpusAuditRecord:
         path,
         markdown=markdown,
     )
+    # ingestionfix_v2 §4 Phase 3: path-inferred topic fallback.
+    # When the deterministic alias/prefix score yields no topic, use the
+    # first segment of the corpus-root-relative path (which is itself a
+    # curated folder layout that mirrors topic_taxonomy.json keys).
+    # Only overrides when the path segment resolves to a known taxonomy
+    # key — unknown folders stay null to avoid false positives.
+    if topic_key is None:
+        path_inferred = coerce_topic_from_path(relative_path)
+        if path_inferred:
+            topic_key = path_inferred
+            if vocabulary_status in (None, "unassigned"):
+                vocabulary_status = "path_inferred_v1"
     graph_target = (
         ingestion_decision == INGESTION_DECISION_INCLUDE
         and family in GRAPH_TARGET_FAMILIES
@@ -731,6 +747,33 @@ def _lookup_parent_topic_by_filename_prefix(filename: str) -> str | None:
         if name.startswith(prefix):
             return parent_topic
     return None
+
+
+def coerce_topic_from_path(relative_path: str | Path) -> str | None:
+    """Infer a taxonomy topic_key from the first segment of ``relative_path``.
+
+    Used as a post-classifier fallback (ingestionfix_v2 §4 Phase 3): when the
+    deterministic regex pass and the PASO 4 LLM both return ``topic_key=None``,
+    the corpus folder layout (e.g. ``retencion_en_la_fuente/X.md`` or
+    ``declaracion_renta/...``) is itself a strong signal.
+
+    Returns the canonical ``topic_key`` when the first path segment resolves
+    to a known taxonomy key (directly or via any alias); otherwise ``None``.
+    This guarantees the hook never invents a topic — unknown top-level
+    folders stay null rather than getting a false-positive assignment.
+    """
+    if not relative_path:
+        return None
+    try:
+        parts = Path(str(relative_path)).parts
+    except (TypeError, ValueError):
+        return None
+    if not parts:
+        return None
+    first_part = parts[0].strip()
+    if not first_part:
+        return None
+    return normalize_topic_key(first_part)
 
 
 def _infer_vocabulary_labels(
