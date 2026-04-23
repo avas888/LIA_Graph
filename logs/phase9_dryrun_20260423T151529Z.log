@@ -1,0 +1,7 @@
+PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir knowledge_base --artifacts-dir artifacts --additive --supabase-sink --supabase-target production --supabase-generation-id gen_active_rolling --execute-load --allow-unblessed-load --strict-falkordb   --dry-run-delta  --json
+{
+  "ok": false,
+  "error": "env_posture",
+  "message": "Local-env posture guard failed: SUPABASE_URL points at cloud host 'utjndyxgfhkfcrjmtdqz.supabase.co'; FALKORDB_URL points at cloud host 'r-akgitwzd6h.instance-ydc1s7e2n.hc-bqvjmszgs.us-east-1.aws.f2e0a955bb84.cloud'. Fix the .env file, or pass --allow-non-local-env to bypass."
+}
+make: *** [phase2-corpus-additive] Error 4

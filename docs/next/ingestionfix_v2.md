@@ -936,13 +936,58 @@ phase_08_subtopic_miner_refresh:
   next_step: "Operator overnight batch per §4 Phase 8 recipe. Consider parallelizing Tier A topics first."
 
 phase_09_full_reingest:
-  status: pending
-  NEW_GEN:
-  reingest_log_path:
-  embed_log_path:
-  promoted_at:
-  old_gen_retired_from:
-  ...
+  status: in_progress_as_of_2026_04_23
+  mode_chosen: additive_delta  # not full_rebuild; see decision below
+  decision_rationale: "Operator picked additive over full-rebuild to avoid a ~6.5h Gemini pass. Additive diffs on-disk corpus (1,381 docs) vs cloud (6,677 docs) and only processes added+modified+retired. Writes directly to gen_active_rolling — no atomic flip needed; Phase 9.C is a no-op."
+  branch_tip: feat/ingestionfix-v2-phase8-subtopic-miner  # cascades 1→8 minus Phase 11 (frontend only)
+
+  prerequisites_confirmed:
+    migration_20260423000000_normative_edges_typed: applied 2026-04-23 via "supabase db push --linked --include-all"
+    migration_20260423000001_document_tag_reviews: applied 2026-04-23 via same command
+    normative_edges_edge_type_column: verified via supabase-py probe
+    document_tag_reviews_table: verified (0 rows initially)
+    supabase_cli_version: "2.90.0 (upgraded from 2.84.2 via brew upgrade)"
+    linked_project_ref: utjndyxgfhkfcrjmtdqz
+    env_source: ".env.staging"  # confusingly named; it has the SUPABASE_URL for production
+
+  baseline_snapshot_cloud_2026_04_23_pre_reingest:
+    documents: 6677
+    chunks: 13742
+    docs_with_chunks: 4067
+    orphan_docs: 2610  # ~39%, down from plan's 1152/89.5% baseline
+    chunks_without_embedding: 0
+    active_generation: gen_20260422005449  # 2026-04-22 00:54 UTC
+
+  command_to_run: >
+    set -a; source .env.staging; set +a;
+    PYTHONPATH=src:. uv run python -m lia_graph.ingest
+    --corpus-dir knowledge_base --artifacts-dir artifacts
+    --additive --supabase-sink --supabase-target production
+    --supabase-generation-id gen_active_rolling
+    --execute-load --allow-unblessed-load --strict-falkordb
+    --allow-non-local-env --json
+
+  dry_run_command: same as above + "--dry-run-delta" (previews plan without writes)
+
+  resumption_instructions: |
+    If this session dies mid-reingest:
+    1. Re-source .env.staging.
+    2. Check current cloud counts (documents / document_chunks) against baseline above.
+    3. If counts moved: delta partially applied. Re-run the command above — sink is idempotent on
+       doc_id, so re-running only touches docs whose fingerprint changed since last write.
+    4. If counts unchanged: re-run the command from scratch.
+    5. After command completes with outcome != "ok_empty", run embedding backfill:
+         PYTHONPATH=src:. uv run python -m lia_graph.embedding_ops --target production
+       (or `scripts/embedding_ops.py --target production` — grep for the entry-point).
+    6. Verify no chunks with NULL embedding remain:
+         supabase-py: c.table('document_chunks').select('chunk_id', count='exact').is_('embedding', 'null').execute().count
+    7. Phase 10 verification (§4 Phase 10).
+
+  NEW_GEN: null  # additive delta uses gen_active_rolling; no new gen created
+  reingest_log_path: "logs/phase9_*.log"
+  embed_log_path: null  # filled after 9.B
+  promoted_at: null     # no promotion step (additive)
+  old_gen_retired_from: null
 
 phase_10_verification:
   status: pending
