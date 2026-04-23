@@ -1,0 +1,190 @@
+{
+  "batch_num": 25,
+  "input_hash": "7f5f39d486320f3d",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-98-1993.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-666-2001.md",
+    "CORE_ya_Arriba_LOGGRO_LEYES_PF-1474-2011-LOGGRO.md",
+    "CORE_ya_Arriba_EXPERTOS_LEYES_DT-2300-2023-EXPERTOS.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1114-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-130-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1555-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1731-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-20-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2068-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-300-1996.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-310-1996.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-58-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-594-2000.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-812-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-95-1890.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1753_2015_PND.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1090-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1275-2009.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1536-2012.md"
+  ],
+  "elapsed_seconds": 36.71,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-98-1993.md",
+      "proposed_topic": "sector_bibliotecologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la profesión de bibliotecólogo, un sector específico no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-666-2001.md",
+      "proposed_topic": "sector_salud_seguridad_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley 100 de 1993, relacionada con el sistema de seguridad social.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LOGGRO_LEYES_PF-1474-2011-LOGGRO.md",
+      "proposed_topic": "sector_administracion_publica_anticorrupcion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece normas para combatir la corrupción y fortalecer la gestión pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_EXPERTOS_LEYES_DT-2300-2023-EXPERTOS.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el trabajo en casa, un aspecto específico del derecho laboral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1114-2006.md",
+      "proposed_topic": "sector_administracion_publica",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Modifica ley sobre reestructuración de la rama ejecutiva del poder público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-130-1994.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el estatuto básico de partidos políticos y su financiación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1555-2012.md",
+      "proposed_topic": "sector_agropecuario_pesquero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Desarrollo Agropecuario y Pesquero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1731-2014.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones sobre cultura y crea un fondo para su desarrollo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-20-1979.md",
+      "proposed_topic": "sector_profesion_economista",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de economista en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2068-2020.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo, fortaleciendo la sostenibilidad del sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-300-1996.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Es la Ley General de Turismo, fundamental para el sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-310-1996.md",
+      "proposed_topic": "sector_profesion_diseno_industrial",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de diseñador industrial.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-58-1985.md",
+      "proposed_topic": "sector_profesion_periodismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de periodista.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-594-2000.md",
+      "proposed_topic": "sector_archivistica_gestion_documental",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece la Ley General de Archivos, fundamental para la gestión documental.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-812-2003.md",
+      "proposed_topic": "sector_planificacion_nacional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Aprueba el Plan Nacional de Desarrollo, que establece políticas multisectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-95-1890.md",
+      "proposed_topic": "sector_aduanas_comercio_exterior",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen de aduanas, fundamental para el comercio exterior.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1753_2015_PND.md",
+      "proposed_topic": "sector_planificacion_nacional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el Plan Nacional de Desarrollo, que establece políticas multisectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1090-2006.md",
+      "proposed_topic": "sector_profesion_psicologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de psicología.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1275-2009.md",
+      "proposed_topic": "sector_cine_audiovisual",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Fomento Cinematográfico, impulsando la industria del cine.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1536-2012.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones para fomentar la donación de componentes anatómicos, tema de salud.",
+      "title": ""
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "batch_num": 13,
+  "input_hash": "7eaf5e9c8ddbc1e3",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_599_2000_CodigoPenalDelitosF.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-10-1991.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-101-1993.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1014-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1064-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1066-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1098-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1101-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1114-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1121-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-111-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1122-2007.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-115-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-117-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1175-2007.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1185-2008.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1228-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-123-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1233-2008.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1257-2008.md"
+  ],
+  "elapsed_seconds": 35.09,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_599_2000_CodigoPenalDelitosF.md",
+      "proposed_topic": "sector_derecho_penal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 599 de 2000 es el Código Penal, un nuevo sector legal fundamental.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-10-1991.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 10 de 1991 organiza el Sistema Nacional de Salud, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-101-1993.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 101 de 1993 es la Ley General de Desarrollo Agropecuario y Pesquero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1014-2006.md",
+      "proposed_topic": "sector_emprendimiento",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1014 de 2006 fomenta la cultura del emprendimiento, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1064-2006.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1064 de 2006 apoya la educación para el trabajo y desarrollo humano.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1066-2006.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley 1066 de 2006 dicta normas para normalización de cartera pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1098-2006.md",
+      "proposed_topic": "sector_infancia_adolescencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1098 de 2006 es el Código de la Infancia y la Adolescencia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1101-2006.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1101 de 2006 modifica la Ley General de Turismo, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1114-2006.md",
+      "proposed_topic": "sector_medio_ambiente",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1114 de 2006 aprueba el Protocolo de Kyoto sobre cambio climático.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1121-2006.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley 1121 de 2006 previene y sanciona financiación del terrorismo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-111-2006.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "No se identifica ley con ese número y año; contenido vacío.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1122-2007.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1122 de 2007 modifica el Sistema General de Seguridad Social en Salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-115-1994.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 115 de 1994 es la Ley General de Educación, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-117-1985.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley 117 de 1985 regula el ejercicio de la profesión de Contador Público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1175-2007.md",
+      "proposed_topic": "sector_seguridad_justicia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1175 de 2007 aprueba convenio contra delincuencia organizada transnacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1185-2008.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1185 de 2008 aprueba convención para salvaguardia patrimonio cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1228-1995.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "No se identifica ley con ese número y año; contenido vacío.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-123-1994.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley 123 de 1994 regula el ejercicio de la profesión de Contador Público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1233-2008.md",
+      "proposed_topic": "sector_seguridad_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1233 de 2008 crea el Sistema de Seguridad Social Integral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1257-2008.md",
+      "proposed_topic": "sector_genero_equidad",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1257 de 2008 dicta normas contra violencia y discriminación a mujeres.",
+      "title": ""
+    }
+  ]
+}

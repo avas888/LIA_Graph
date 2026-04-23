@@ -1,0 +1,190 @@
+{
+  "batch_num": 23,
+  "input_hash": "f3248c116bc85a0c",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-808-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-811-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-814-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-833-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-84-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-89-1988.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-9-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-9-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-902-2017.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-939-2004.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-964-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-986-2005.md",
+    "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_EXPERTOS_EXPERTOS_Ley-1474-2011.md",
+    "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_LOGGRO_PRACTICA_Ley-1474-2011.md",
+    "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_NORMATIVA_Ley-1474-2011.md",
+    "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_consolidado_Ley-1474-2011.md",
+    "CORE_ya_Arriba_LOGGRO_LEYES_DT-2300-2023-LOGGRO.md",
+    "CORE_ya_Arriba_NORMATIVA_LEYES_DT-2300-2023-NORMATIVA.md",
+    "CORE_ya_Arriba_NORMATIVA_LEYES_PF-1474-2011-NORMATIVA.md",
+    "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_EXPERTOS_EXPERTOS_Ley-2300-2023.md"
+  ],
+  "elapsed_seconds": 37.71,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-808-2020.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el régimen de insolvencia empresarial, tema comercial y societario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-811-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Aprueba acuerdo internacional sobre lucha contra el narcotráfico, encaja en otros sectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-814-2003.md",
+      "proposed_topic": "sector_cultura_cine",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta la actividad cinematográfica, un sector específico de la cultura.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-833-2003.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Aprueba convención contra la corrupción, alineada con prevención de actividades ilícitas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-84-1989.md",
+      "proposed_topic": "sector_proteccion_animal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta el Estatuto Nacional de Protección de los Animales, un sector específico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-89-1988.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre destinación de partida del Presupuesto Nacional, tema de presupuesto y hacienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-9-1979.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como el Código Sanitario Nacional, regula temas de salud pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-9-1989.md",
+      "proposed_topic": "sector_vivienda_urbana",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como Ley de Reforma Urbana, regula temas de vivienda y desarrollo urbano.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-902-2017.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta medidas para la Reforma Rural Integral, tema agropecuario y de tierras.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-939-2004.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Estabilización de Precios del Café, un tema del sector agropecuario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-964-2005.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Conocida como Ley del Mercado de Valores, regula aspectos financieros y comerciales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-986-2005.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "medium",
+      "reasoning": "Adopta medidas para víctimas de secuestro, tema social específico sin topic claro.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_EXPERTOS_EXPERTOS_Ley-1474-2011.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_LOGGRO_PRACTICA_Ley-1474-2011.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_NORMATIVA_Ley-1474-2011.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_consolidado_Ley-1474-2011.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LOGGRO_LEYES_DT-2300-2023-LOGGRO.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Conocida como Ley de Desconexión Laboral, regula aspectos del derecho laboral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_NORMATIVA_LEYES_DT-2300-2023-NORMATIVA.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley de Desconexión Laboral, regula aspectos del derecho laboral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_NORMATIVA_LEYES_PF-1474-2011-NORMATIVA.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_EXPERTOS_EXPERTOS_Ley-2300-2023.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley de Desconexión Laboral, su esencia es laboral, aunque el contexto sea digital.",
+      "title": ""
+    }
+  ]
+}

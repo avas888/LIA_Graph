@@ -1,0 +1,190 @@
+{
+  "batch_num": 7,
+  "input_hash": "6127b9e4b14e4d5f",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-397-1997.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-454-1998.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-510-1999.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-33-1968.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-546-1999.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-55-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-6-1975.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-643-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-594-2000.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-67-1983.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-675-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-681-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-685-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-70-1993.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-715-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-716-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-768-2002.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-808-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-811-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-814-2003.md"
+  ],
+  "elapsed_seconds": 38.3,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-397-1997.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece la Ley General de Cultura, creando el Ministerio de Cultura.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-454-1998.md",
+      "proposed_topic": "sector_economia_solidaria",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la economía solidaria, cooperativas y crea la Superintendencia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-510-1999.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Dicta disposiciones sobre el sistema financiero, asegurador y mercado de valores.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-33-1968.md",
+      "proposed_topic": "reforma_pensional",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Establece normas sobre el régimen de pensiones y jubilaciones de empleados oficiales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-546-1999.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas en materia de vivienda y financiación de vivienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-55-1985.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Aprueba convenio OIT sobre seguridad y salud de los trabajadores.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-6-1975.md",
+      "proposed_topic": "reforma_pensional",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el régimen de pensiones de las Fuerzas Militares y Policía.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-643-2001.md",
+      "proposed_topic": "sector_juegos_azar",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fija el régimen del monopolio rentístico de juegos de suerte y azar.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-594-2000.md",
+      "proposed_topic": "sector_archivos_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta la Ley General de Archivos y gestión documental.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-67-1983.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "medium",
+      "reasoning": "Aprueba un convenio internacional sobre un fondo común para productos básicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-675-2001.md",
+      "proposed_topic": "sector_propiedad_horizontal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el régimen de propiedad horizontal en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-681-2001.md",
+      "proposed_topic": "sector_fronteras_desarrollo_regional",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Modifica ley de fronteras y crea fondo de compensación regional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-685-2001.md",
+      "proposed_topic": "sector_mineria",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el Código de Minas, regulando la actividad minera.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-70-1993.md",
+      "proposed_topic": "sector_etnias_afrocolombianas",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Desarrolla derechos de comunidades negras y afrocolombianas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-715-2001.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Dicta normas orgánicas sobre recursos y competencias para servicios públicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-716-2001.md",
+      "proposed_topic": "sector_contabilidad_publica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas para el saneamiento de la información contable en el sector público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-768-2002.md",
+      "proposed_topic": "sector_gobierno_territorial",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta régimen político, administrativo y fiscal de distritos y municipios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-808-2020.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Ley 808 de 2020 no existe en la legislación colombiana.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-811-2003.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica ley del sector agropecuario y crea organizaciones de cadena.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-814-2003.md",
+      "proposed_topic": "sector_cine_audiovisual",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas para el fomento de la actividad cinematográfica.",
+      "title": ""
+    }
+  ]
+}

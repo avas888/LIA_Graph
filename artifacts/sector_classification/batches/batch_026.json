@@ -1,0 +1,100 @@
+{
+  "batch_num": 26,
+  "input_hash": "b4984f3d9208b534",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1727-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1731-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-300-1996.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1098-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1233-2008.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1493-2011.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1787-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2064-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-397-1997.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-597-2025.md"
+  ],
+  "elapsed_seconds": 11.78,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1727-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1731-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-300-1996.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1098-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1233-2008.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1493-2011.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1787-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2064-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-397-1997.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-597-2025.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    }
+  ]
+}
