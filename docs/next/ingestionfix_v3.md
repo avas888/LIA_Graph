@@ -403,11 +403,11 @@ Running the v3.1 proposal as-is (batch 9 = `otros_sectoriales` quarantine) creat
 
 **Three-pile decomposition (all 510 docs, combined view).**
 
-| Pile | Count | Share | What it means |
-|---|---|---|---|
-| Migrate to an **existing named topic** | **106** | 20.8% | These docs were misclassified into `otros_sectoriales` by the ingestion classifier and belong in topics that already exist. Fix is a `tema` UPDATE (no taxonomy change). |
-| `new_sector` (raw labels) | **324** | 63.5% | Genuinely sectoral content that needs new taxonomy entries. 187 raw labels across both passes; ~20 canonical after near-duplicate merge. |
-| Effective orphans | **80** | 15.7% | 54 first-pass explicit + 22 strict-pass `sector_otros*` (LLM loophole — treats as orphan) + 4 strict-pass explicit. Need a third deeper pass per §2.2.7 below. |
+| Pile | Count (pre-A.2) | Final (post-A.2) | Share | What it means |
+|---|---|---|---|---|
+| Migrate to an **existing named topic** | 106 | **108** | 21.2% | These docs were misclassified into `otros_sectoriales` by the ingestion classifier and belong in topics that already exist. Fix is a `tema` UPDATE (no taxonomy change). A.2 added 2 more rescues (`facturacion_electronica`, `beneficiario_final_rub`). |
+| `new_sector` (raw labels) | 324 | **324** | 63.5% | Genuinely sectoral content that needs new taxonomy entries. 187 raw labels; ~30 canonical after near-duplicate merge. A.2 added 0 new_sector (the rich per-doc prompt found no rescuable sectoral signal among the 80 orphans). |
+| Effective orphans | 80 | **78** | 15.3% | A.2 per-doc pass confirmed 78 are genuinely miscellaneous Colombian laws outside accountant scope. Correctly stay in `otros_sectoriales`. |
 
 **The 106 real migrations — ranked by target topic:**
 
@@ -453,15 +453,17 @@ Running the v3.1 proposal as-is (batch 9 = `otros_sectoriales` quarantine) creat
 
 **Tentative count: 21 canonical sectors + 8-10 tail-end small ones ≈ ~30 new top-level topics** (vs my pre-run estimate of 12-15). The taxonomy grows from 39 → ~65-70 top-level topics.
 
-### 2.2.7 The 80 orphans deserve one more pass
+### 2.2.7 Orphan rescue Pass 3 — completed 2026-04-23 PM
 
-The effective-orphan pile (80 docs) is bigger than the pre-run estimate (~10) mostly because the strict prompt's "if in doubt, prefer `new_sector`" rule didn't prevent 22 `sector_otros*` loopholes. These 26 (22 sector_otros + 4 strict explicit) plus the 54 first-pass orphans are the highest-value candidates for a third pass that:
+Task A.2 ran 80 rich per-doc Gemini calls against the effective-orphan pile (54 first-pass orphans + 22 strict-pass `sector_otros*` + 4 strict explicit). Each doc got its own call with full content (3,000 chars) + the complete closed-world list (39 existing topics + 135 newly-proposed sectors = 174 options).
 
-* Shows the model the **current proposed taxonomy** (39 existing + ~30 proposed new sectors) as a closed-world list.
-* Asks per-doc: "What is this doc most about? Does it fit any of these N categories? If not, how WOULD you categorize it?"
-* Runs per-doc (not batched) so the model has full context + room to reason.
+**Results:** 80/80 classified · 2 rescued (`facturacion_electronica`, `beneficiario_final_rub`) · 78 confirmed orphan · 0 errors after retry · $0.033 Gemini · ~10 min wall time.
 
-Tracked as Task A.2 (new) under §5 Phase 2.5. Cost estimate ~$0.03-0.05, wall time ~2-5 minutes. Output: `artifacts/sector_classification_orphans/orphan_rescue_proposal.json`.
+**Interpretation:** The 2/80 = 2.5% rescue rate is the signal. The prior two batched passes had already extracted everything extractable. The 78 residuals are genuine Colombian-law miscellaneous content outside accountant scope (disability rights, Afro-Colombian communities, electoral code, gender violence, drugs-related — all real laws, all rarely asked about by SMB accountants). They're the *right* docs to leave in `otros_sectoriales` as the final, well-defined catch-all.
+
+**Final three-pass spend:** $0.019 + $0.018 + $0.033 = **$0.070 for 510 docs** (13× cheaper than $0.50 pre-run budget).
+
+**Net outcome:** `otros_sectoriales` shrinks from **39% of classified corpus** (510/1319) to **~6%** (78/classified-after-migration). Meets the v3 goal of clean topical TopicNodes without creating a meaningless giant generic node.
 
 ---
 
@@ -1441,7 +1443,7 @@ phase_2_tool_and_rehearsal:
   resumption_hint: "Operator runs scripts/launch_batch.sh --batch 1 --dry-run first, then --batch 1 to execute."
 
 phase_2_5_sector_reclassification:
-  status: task_A_complete_awaiting_A2_and_B  # §2.2 deep-dive found otros_sectoriales is really 3 things; this phase untangles it before Phase 3 materializes Falkor state
+  status: tasks_A_and_A2_complete_awaiting_B  # All three Gemini passes shipped 2026-04-23 PM; operator review next
   added_to_plan_at: 2026-04-23 (Bogotá)
   rationale: "See §2.2: 510 otros_sectoriales docs decompose into ~30-60 misclassified rows (belong in existing named topics), ~400-450 genuinely-sectoral rows (need ~12-15 new sector topics), and ~10 true orphans. Running Phase 3 without this split would encode the catch-all permanently into Falkor TopicNode/TEMA state."
   blocks: phase_3_0_quality_gate                 # not physically enforced; operator judgment. Plan text explains why.
@@ -1467,20 +1469,29 @@ phase_2_5_sector_reclassification:
       rescue_rate: "216/242 = 89% pulled into real buckets"
     combined_actuals:
       total_docs: 510
-      migrate_to_existing_topics: 106           # 20.8%
+      migrate_to_existing_topics: 108           # 21.2% (after A.2 added 2 more rescues)
       new_sector_raw_labels: 324                # 63.5% of docs; 187 distinct labels; ~30 canonical after merge
-      effective_orphans: 80                     # 15.7% — 54 first-pass + 22 sector_otros* loophole + 4 strict
-      total_gemini_cost_usd: 0.037              # vs $0.50 pre-run estimate
-      wall_time_minutes: 15                     # both passes combined
+      confirmed_true_orphans: 78                # 15.3% — stay in otros_sectoriales as the right final bucket
+      total_gemini_cost_usd_all_three_passes: 0.070  # $0.019 + $0.018 + $0.033 vs $0.50 pre-run estimate
+      wall_time_minutes: 25                     # all three passes combined
     canonical_sectors_proposed_count: "~30 (vs pre-run estimate 12-15)"
-    full_findings_in_doc: "§2.2.6"
+    otros_sectoriales_shrinkage: "510 → 78 docs · 39% of classified → ~6% · catch-all now well-defined"
+    full_findings_in_doc: "§2.2.6 + §2.2.7"
   sub_task_A2_orphan_rescue_pass:
-    status: pending                              # richer per-doc prompt against 80 orphans; operator-approved scope
-    script_to_build: scripts/monitoring/monitor_sector_reclassification/classify_orphans.py
-    input_doc_count: 80                          # can be run against all 80 or the 26 strict-pass subset
-    cost_estimate_usd: 0.03-0.05
-    wall_estimate_minutes: 2-5
+    status: completed                            # 2026-04-23 PM
+    completed_at: "2026-04-23 (Bogotá) PM"
+    script_shipped: scripts/monitoring/monitor_sector_reclassification/classify_orphans.py
+    input_doc_count: 80                          # 54 first-pass orphans + 22 strict-pass sector_otros + 4 strict explicit
     output: artifacts/sector_classification_orphans/orphan_rescue_proposal.json
+    actuals:
+      total_classified: 80
+      rescued_to_existing: 2                     # facturacion_electronica, beneficiario_final_rub
+      proposed_new_sector: 0
+      confirmed_orphan: 78
+      errors_after_retry: 0                      # 4 transient timeouts on first run, all clean on retry
+      gemini_cost_usd: 0.033
+      wall_minutes: 10
+    interpretation: "The low 2/80 rescue rate is itself the signal: the prior two batched passes extracted everything extractable. The 78 are genuinely miscellaneous Colombian laws outside accountant scope (discapacidad, comunidades negras, electoral, violencia contra la mujer, drogas) — correctly left in otros_sectoriales."
   sub_task_B_operator_review:
     status: pending
     canonical_merge_map_needed: true             # 187 raw sector labels → ~30 canonical
