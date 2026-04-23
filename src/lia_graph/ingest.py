@@ -348,11 +348,25 @@ def materialize_graph_artifacts(
         classified_documents=corpus_documents,
         articles=articles,
     )
+    # ingestionfix_v2 §4 Phase 5: also thread article→topic bindings so
+    # the loader emits TopicNode + TEMA + static SUBTEMA_DE edges during
+    # the same pass.
+    _topic_by_source_path = {
+        document.source_path: document.topic_key
+        for document in corpus_documents
+        if document.topic_key
+    }
+    article_topics = {
+        article.article_key: _topic_by_source_path[str(article.source_path or "")]
+        for article in articles
+        if str(article.source_path or "") in _topic_by_source_path
+    }
     load_plan = build_graph_load_plan(
         articles,
         classified_edges,
         graph_client=plan_graph_client,
         article_subtopics=article_subtopics,
+        article_topics=article_topics,
     )
     runtime_graph_client = plan_graph_client or (
         GraphClient.from_env(schema=load_plan.schema)

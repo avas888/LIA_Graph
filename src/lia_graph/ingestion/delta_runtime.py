@@ -475,12 +475,31 @@ def materialize_delta(
     retired_article_keys = _fetch_retired_article_keys(
         supabase_client, retired_doc_ids=retired_doc_ids
     )
+    # ingestionfix_v2 §4 Phase 5: thread article→topic + article→subtopic
+    # bindings through the delta path so TEMA / SUBTEMA_DE / HAS_SUBTOPIC
+    # edges land for delta docs too.
+    from ..ingest_subtopic_pass import build_article_subtopic_bindings
+
+    _delta_article_subtopics = build_article_subtopic_bindings(
+        classified_documents=delta_corpus_docs,
+        articles=delta_articles,
+    )
+    _delta_topic_by_source_path = {
+        d.source_path: d.topic_key for d in delta_corpus_docs if d.topic_key
+    }
+    _delta_article_topics = {
+        a.article_key: _delta_topic_by_source_path[str(a.source_path or "")]
+        for a in delta_articles
+        if str(a.source_path or "") in _delta_topic_by_source_path
+    }
     falkor_plan = build_graph_delta_plan(
         delta,
         delta_articles=list(delta_articles),
         delta_edges=list(classified_edges),
         retired_article_keys=retired_article_keys,
         graph_client=graph_client,
+        article_subtopics=_delta_article_subtopics,
+        article_topics=_delta_article_topics,
     )
     report.falkor_statements = len(falkor_plan.statements)
     emit_event(

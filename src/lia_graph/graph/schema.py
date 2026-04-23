@@ -16,6 +16,8 @@ class NodeKind(str, Enum):
     PARAMETER = "ParameterNode"
     # ingestfix-v2 Phase 5: curated subtopic anchor.
     SUBTOPIC = "SubTopicNode"
+    # ingestionfix_v2 §4 Phase 5: curated topic anchor.
+    TOPIC = "TopicNode"
 
 
 class EdgeKind(str, Enum):
@@ -37,6 +39,9 @@ class EdgeKind(str, Enum):
     SUSPENDS = "SUSPENDS"
     # ingestfix-v2 Phase 5: doc → curated subtopic link.
     HAS_SUBTOPIC = "HAS_SUBTOPIC"
+    # ingestionfix_v2 §4 Phase 5: thematic edges.
+    TEMA = "TEMA"                    # Article/Reform → Topic
+    SUBTEMA_DE = "SUBTEMA_DE"        # SubTopic → Topic (static taxonomy)
 
 
 @dataclass(frozen=True)
@@ -185,6 +190,15 @@ def default_graph_schema() -> GraphSchema:
             ),
             required_fields=("sub_topic_key", "parent_topic", "label"),
         ),
+        NodeKind.TOPIC: GraphNodeType(
+            label=NodeKind.TOPIC,
+            key_field="topic_key",
+            description=(
+                "Curated topic anchor from config/topic_taxonomy.json. "
+                "Documents link to these via TEMA for topic-first retrieval fan-out."
+            ),
+            required_fields=("topic_key", "label"),
+        ),
     }
 
     article_targets = (NodeKind.ARTICLE, NodeKind.REFORM, NodeKind.CONCEPT, NodeKind.PARAMETER)
@@ -283,6 +297,26 @@ def default_graph_schema() -> GraphSchema:
                 "Links a document-origin node (Article/Reform/Concept) to a "
                 "curated SubTopic anchor — used by retrieval to boost chunks "
                 "under a detected subtopic intent."
+            ),
+        ),
+        EdgeKind.TEMA: GraphEdgeType(
+            label=EdgeKind.TEMA,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM, NodeKind.CONCEPT),
+            target_kinds=(NodeKind.TOPIC,),
+            description=(
+                "Chunk/article-level thematic edge to a curated Topic anchor. "
+                "Enables topic-first retrieval fan-out from ``planner.topic_hint`` "
+                "to all chunks under the topic."
+            ),
+        ),
+        EdgeKind.SUBTEMA_DE: GraphEdgeType(
+            label=EdgeKind.SUBTEMA_DE,
+            source_kinds=(NodeKind.SUBTOPIC,),
+            target_kinds=(NodeKind.TOPIC,),
+            description=(
+                "Static taxonomy edge from SubTopic → parent Topic. Emitted "
+                "once per subtopic at load time so the graph can walk "
+                "subtopic ↔ topic without consulting the JSON taxonomy."
             ),
         ),
     }

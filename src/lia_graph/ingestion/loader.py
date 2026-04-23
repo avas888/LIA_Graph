@@ -86,19 +86,34 @@ def build_graph_load_plan(
     schema: GraphSchema | None = None,
     graph_client: GraphClient | None = None,
     article_subtopics: Mapping[str, SubtopicBinding] | None = None,
+    article_topics: Mapping[str, str] | None = None,
 ) -> GraphLoadPlan:
     graph_schema = schema or (graph_client.schema if graph_client is not None else default_graph_schema())
     client = graph_client or GraphClient(schema=graph_schema)
     normalized_edges = normalize_classified_edges(articles, classified_edges)
 
+    article_topics = article_topics or {}
+    topic_keys_in_use = {
+        str(v).strip() for v in article_topics.values() if v and str(v).strip()
+    }
+    for binding in (article_subtopics or {}).values():
+        if binding and binding.parent_topic:
+            topic_keys_in_use.add(str(binding.parent_topic).strip())
+
     nodes = _dedupe_nodes(
         list(_build_article_nodes(articles))
         + list(_build_reform_nodes(articles, normalized_edges))
         + list(_build_subtopic_nodes(article_subtopics or {}))
+        + list(_build_topic_nodes(topic_keys_in_use))
     )
     subtopic_edges = _build_subtopic_edges(articles, article_subtopics or {})
+    tema_edges = _build_article_tema_edges(articles, article_topics)
+    subtema_de_edges = _build_static_subtema_de_edges(article_subtopics or {})
     edges = _dedupe_edges(
-        list(edge.record for edge in normalized_edges) + list(subtopic_edges)
+        list(edge.record for edge in normalized_edges)
+        + list(subtopic_edges)
+        + list(tema_edges)
+        + list(subtema_de_edges)
     )
     validation = validate_graph_records(nodes, edges, schema=graph_schema)
 
@@ -134,6 +149,8 @@ def build_graph_delta_plan(
     promoted_dangling_edges: tuple[GraphEdgeRecord, ...] | list[GraphEdgeRecord] = (),
     schema: GraphSchema | None = None,
     graph_client: GraphClient | None = None,
+    article_subtopics: Mapping[str, SubtopicBinding] | None = None,
+    article_topics: Mapping[str, str] | None = None,
 ) -> GraphLoadPlan:
     """Build the targeted Falkor plan for a planned ``CorpusDelta``.
 
@@ -200,13 +217,26 @@ def build_graph_delta_plan(
 
     # (3) + (4) MERGE nodes + edges for added + modified docs.
     normalized_edges = normalize_classified_edges(delta_articles, delta_edges)
+    article_topics = article_topics or {}
+    article_subtopics = article_subtopics or {}
+    topic_keys_in_use = {
+        str(v).strip() for v in article_topics.values() if v and str(v).strip()
+    }
+    for binding in article_subtopics.values():
+        if binding and binding.parent_topic:
+            topic_keys_in_use.add(str(binding.parent_topic).strip())
     nodes = _dedupe_nodes(
         list(_build_article_nodes(delta_articles))
         + list(_build_reform_nodes(delta_articles, normalized_edges))
+        + list(_build_subtopic_nodes(article_subtopics))
+        + list(_build_topic_nodes(topic_keys_in_use))
     )
     edges = _dedupe_edges(
         list(edge.record for edge in normalized_edges)
         + list(promoted_dangling_edges)
+        + list(_build_subtopic_edges(delta_articles, article_subtopics))
+        + list(_build_article_tema_edges(delta_articles, article_topics))
+        + list(_build_static_subtema_de_edges(article_subtopics))
     )
     validation = validate_graph_records(nodes, edges, schema=graph_schema)
 
@@ -279,6 +309,96 @@ def _build_article_nodes(
         )
         for article in articles
     )
+
+
+def _build_topic_nodes(
+    topic_keys: Iterable[str],
+) -> tuple[GraphNodeRecord, ...]:
+    """Emit one TopicNode per distinct key referenced by this run's articles.
+
+    Pulls label + parent_key from ``topic_taxonomy.json`` via the canonical
+    loader so the node properties match what the taxonomy module advertises.
+    """
+    from ..topic_taxonomy import get_topic_taxonomy_entry
+
+    seen: dict[str, GraphNodeRecord] = {}
+    for raw_key in topic_keys:
+        if not raw_key:
+            continue
+        key = str(raw_key).strip()
+        if not key or key in seen:
+            continue
+        entry = get_topic_taxonomy_entry(key)
+        # Fall back to the raw key when the taxonomy hasn't heard of it —
+        # the retriever can still use the anchor, and Phase-12 docs will
+        # flag the orphan.
+        label = getattr(entry, "label", None) or key
+        parent = getattr(entry, "parent_key", None) or ""
+        seen[key] = GraphNodeRecord(
+            kind=NodeKind.TOPIC,
+            key=key,
+            properties={
+                "topic_key": key,
+                "label": label,
+                "parent_key": parent,
+            },
+        )
+    return tuple(seen[k] for k in sorted(seen))
+
+
+def _build_static_subtema_de_edges(
+    article_subtopics: Mapping[str, SubtopicBinding],
+) -> tuple[GraphEdgeRecord, ...]:
+    """Emit one static SubTopic→Topic edge per subtopic actually in use."""
+    unique_pairs: dict[tuple[str, str], SubtopicBinding] = {}
+    for binding in article_subtopics.values():
+        if not binding.sub_topic_key or not binding.parent_topic:
+            continue
+        pair = (binding.sub_topic_key, binding.parent_topic)
+        unique_pairs.setdefault(pair, binding)
+    edges: list[GraphEdgeRecord] = []
+    for (sub_key, parent) in sorted(unique_pairs):
+        edges.append(
+            GraphEdgeRecord(
+                kind=EdgeKind.SUBTEMA_DE,
+                source_kind=NodeKind.SUBTOPIC,
+                source_key=sub_key,
+                target_kind=NodeKind.TOPIC,
+                target_key=parent,
+                properties={},
+            )
+        )
+    return tuple(edges)
+
+
+def _build_article_tema_edges(
+    articles: tuple[ParsedArticle, ...] | list[ParsedArticle],
+    article_topics: Mapping[str, str],
+) -> tuple[GraphEdgeRecord, ...]:
+    """Emit TEMA edges: every article with a resolved topic → TopicNode."""
+    if not article_topics:
+        return ()
+    article_keys = {article.article_key for article in articles}
+    edges: list[GraphEdgeRecord] = []
+    seen: set[tuple[str, str]] = set()
+    for article_key, topic_key in article_topics.items():
+        if not topic_key or article_key not in article_keys:
+            continue
+        pair = (article_key, str(topic_key))
+        if pair in seen:
+            continue
+        seen.add(pair)
+        edges.append(
+            GraphEdgeRecord(
+                kind=EdgeKind.TEMA,
+                source_kind=NodeKind.ARTICLE,
+                source_key=article_key,
+                target_kind=NodeKind.TOPIC,
+                target_key=str(topic_key),
+                properties={},
+            )
+        )
+    return tuple(edges)
 
 
 def _build_subtopic_nodes(
