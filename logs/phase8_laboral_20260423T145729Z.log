@@ -1,0 +1,44 @@
+topic_router: topic 'presupuesto_hacienda' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'conciliacion_fiscal' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'datos_tecnologia' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'economia_digital_criptoactivos' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'activos_exterior' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'impuestos_saludables' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'anticipos_retenciones_a_favor' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'descuentos_tributarios_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'tarifas_tasa_minima_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ganancia_ocasional' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'emergencia_tributaria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'regimen_tributario_especial' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'beneficio_auditoria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'impuesto_nacional_consumo' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'reformas_tributarias' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'inversiones_incentivos' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'otros_sectoriales' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ingresos_fiscales_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'cambiario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'contratacion_estatal' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'leyes_derogadas' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'precios_de_transferencia' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'beneficiario_final_rub' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'comercial_societario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'normas_internacionales_auditoria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'estatuto_tributario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'renta_liquida_gravable' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'rentas_exentas' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'reforma_pensional' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+[1/11] laboral/EXPERTOS_Resolucion-532-2024.md -> label='Regulación laboral y seguridad social' parent=laboral
+[2/11] laboral/NOM-E01-interpretaciones-novedades-nomina-electronica.md -> label='Novedades e interpretaciones de nómina electrónica' parent=laboral
+[3/11] laboral/NOM-L01-guia-practica-novedades-nomina-electronica.md -> label='Novedades en Nómina Electrónica' parent=laboral
+[4/11] laboral/NOM-N01-nomina-electronica-novedades-marco-legal.md -> label='Novedades marco legal nómina electrónica' parent=laboral
+[5/11] laboral/PRACTICA_Resolucion-532-2024.md -> label='Guía práctica laboral' parent=laboral
+[6/11] laboral/REF-E01-PATCH-recargo-nocturno-interpretaciones.md -> label='Interpretaciones recargo nocturno laboral' parent=laboral
+[7/11] laboral/REF-L01-PATCH-dominical-festivo-acumulacion-ley2466.md -> label='Reforma Laboral Ley 2466/2025' parent=laboral
+[8/11] laboral/REF-L01-PATCH-recargo-nocturno-ejemplo-numerico.md -> label='Recargo nocturno y laboral' parent=laboral
+[9/11] laboral/REF-N01-PATCH-recargo-nocturno-ley-2466.md -> label='Recargo nocturno y reforma laboral' parent=laboral
+[10/11] laboral/Resolucion-532-2024.md -> label='Presunción de costos para IBC de independientes' parent=laboral
+[11/11] laboral/TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md -> label='Trabajo doméstico remunerado por días' parent=laboral
+
+subtopic.collect: batch=phase8_laboral docs_processed=11 docs_failed=0 llm_calls=11 elapsed_s=27.423 mode=commit
+output: /Users/ava-sensas/Developer/Lia_Graph/artifacts/subtopic_candidates/phase8_laboral.jsonl
+latest: /Users/ava-sensas/Developer/Lia_Graph/artifacts/subtopic_candidates/_latest.json

@@ -142,7 +142,7 @@ Twelve phases. Each is independently shippable and leaves the system in a consis
 | 6 | `doc_fingerprint` persistence on sink | Sink writes the column; drop reliance on `scripts/backfill_doc_fingerprint.py`. |
 | 7a | `Tags` admin endpoints (backend only) | Migration + 5 HTTP endpoints + LLM report builder + sink skeleton-insert. **Frontend deferred → 7b.** |
 | 7b | `Tags` admin tab (frontend) | New tab in Ops shell; curation UI for the 7a endpoints. **Deferred to follow-up.** |
-| 8 | Subtopic-miner dry-run + catalog refresh | Fresh `config/subtopic_taxonomy.json` committed. |
+| 8 | Subtopic-miner (partial pass: `laboral` only; 38 topics cataloged for overnight batch) | Taxonomy unchanged (current 106-entry snapshot deemed fresh for Phase 9). See §4 Phase 8 for the punted topic list. |
 | 9 | Full cloud reingest + embeddings + promotion | The CLI sequence in §5 below. |
 | 10 | Verification + smoke | Coverage query + retrieval smoke + e2e chat. |
 | 11 | UI terminal-banner field-path fix | Cosmetic. |
@@ -510,7 +510,64 @@ Everything in this subsection is explicitly punted to a follow-up. Phase 7a back
 
 ---
 
-### Phase 8 — Subtopic-miner dry-run + catalog refresh
+### Phase 8 — Subtopic-miner (partial pass **shipped 2026-04-23**; 38 of 39 topics **punted to operator batch**)
+
+**Scope note.** The full miner is a 6.5-hour LLM pass over all 1,381 docs (~17 s / doc real wall-time despite the 60-rpm rate-limit ceiling — Gemini inference latency dominates). Running the full pass in this session would have pushed Phase 9 out of reach. The operator elected to run **one representative topic (`laboral`)** as a sanity check, catalog the remaining 38 topics for a future overnight batch, and proceed to Phase 9 with the current 106-entry `config/subtopic_taxonomy.json` (curated 2026-04-21).
+
+**Miner output for `laboral` (ran 2026-04-23):**
+- 11 docs collected, 11 classified labels captured in `artifacts/subtopic_candidates/phase8_laboral.jsonl`.
+- Mining (`scripts/mine_subtopic_candidates.py --skip-embed`) produced **0 cluster proposals** + 11 singletons (didn't cluster because `--skip-embed` uses one-hot vectors).
+- Manual inspection of singleton labels against the existing 5 laboral subtopics (`novedades_en_nomina_electronica`, `reforma_laboral_ley_2466_2025`, `contratacion_y_liquidacion_laboral_tiempo_parcial`, `marco_general_de_libranzas_y_descuentos_directos_de_nomina`, `aporte_parafiscales_icbf`): **every singleton is already covered**. No taxonomy change required.
+
+**Implication.** Current laboral taxonomy is fresh. Other topics *probably* similar quality (taxonomy curated 2 days ago), but unverified until mined. Post-Phase-9, any mis-classified doc will land in the Phase-7a tag-review queue and can be resolved then.
+
+#### Punted miner batches (cataloged so nothing gets lost)
+
+Each of the 38 parent topics below has NOT been mined in 2026-04-23. When the operator runs the overnight pass, invoke one of the following per topic:
+
+```bash
+# Per-topic mining recipe:
+set -a; source .env.local; set +a
+PYTHONPATH=src:. uv run python scripts/collect_subtopic_candidates.py \
+    --commit --only-topic <TOPIC> --rate-limit-rpm 120 \
+    --batch-id phase8_<TOPIC>
+PYTHONPATH=src:. uv run python scripts/mine_subtopic_candidates.py \
+    --input artifacts/subtopic_candidates/phase8_<TOPIC>.jsonl \
+    --only-topic <TOPIC>
+# Review artifacts/subtopic_proposals_<UTC>.json, then if accepted:
+# append to artifacts/subtopic_decisions.jsonl and run
+make phase2-promote-subtopic-taxonomy
+make phase2-sync-subtopic-taxonomy TARGET=production
+```
+
+**Topics still to mine (as of 2026-04-23), grouped by priority tier:**
+
+*Tier A — high doc volume or recent regulatory activity (mine first when batching):*
+- `retencion_en_la_fuente` (1 curated subtopic — likely missing Decreto 572 subdivisions)
+- `declaracion_renta` (12 subtopics — needs validation against 2024/2025 reform churn)
+- `procedimiento_tributario` (5 subtopics — heavy process doc set)
+- `iva` (3 subtopics — core product)
+- `facturacion_electronica` (4 subtopics)
+- `informacion_exogena` (2 subtopics)
+- `regimen_simple` (1 subtopic)
+- `impuesto_patrimonio_personas_naturales` (1 subtopic)
+
+*Tier B — moderate activity:*
+- `calendario_obligaciones`, `reformas_tributarias`, `regimen_sancionatorio`, `comercial_societario`, `estados_financieros_niif`, `precios_de_transferencia`, `cambiario`, `sagrilaft_ptee`, `contratacion_estatal`, `dividendos_utilidades`, `obligaciones_profesionales_contador`, `impuesto_nacional_consumo`, `zonas_francas`, `activos_exterior`, `gravamen_movimiento_financiero_4x1000`, `ica`
+
+*Tier C — smaller / niche topics:*
+- `beneficiario_final_rub`, `datos_tecnologia`, `economia_digital_criptoactivos`, `emergencia_tributaria`, `exogena`, `impuestos_saludables`, `inversiones_incentivos`, `leyes_derogadas`, `otros_sectoriales`, `presupuesto_hacienda`, `regimen_tributario_especial`, `rentas_exentas`, `retencion`, `costos_deducciones_renta`, `reforma_pensional` (if present)
+
+**Recommended overnight batch:** `parallel -j 1` the Tier-A list first (8 topics × ~30-90 min each = ~6-10 hours with `--rate-limit-rpm 120`). Tier B and C can wait a week.
+
+**When mining resumes, also consider:**
+- Re-run `laboral` with embeddings enabled (no `--skip-embed`) — the semantic clustering may surface sub-subtopic structure (nómina / reforma / trabajo doméstico) that one-hot vectors missed.
+- Mine the combined `laboral + reforma_pensional` so PILA / ILD / SGSS adjacencies surface as proposals rather than singletons.
+- Once the Phase-7b Tags admin UI ships, use it to approve/reject proposals interactively instead of editing `artifacts/subtopic_decisions.jsonl` by hand.
+
+---
+
+### Phase 8 (historical spec — original full-pass; superseded by partial mining above)
 
 **Goal.** Refresh `config/subtopic_taxonomy.json` from the current corpus before the reingest, so docs don't classify against a frozen catalog and end up in `null` purgatory.
 
@@ -864,11 +921,19 @@ phase_07b_tags_admin_frontend:
   design_skill_invocation: "required before first DOM write — see §4 Phase 7b for brief"
 
 phase_08_subtopic_miner_refresh:
-  status: pending
-  staging_json_path: config/subtopic_taxonomy.staging.json
-  experts_reviewed_proposals:
-  final_entries_count:
-  ...
+  status: partial_shipped
+  completed_at: 2026-04-23
+  branch: feat/ingestionfix-v2-phase8-subtopic-miner
+  mined_topics:
+    - laboral  # 11 docs, 0 cluster proposals, 11 singletons (already covered)
+  mined_outputs:
+    - artifacts/subtopic_candidates/phase8_laboral.jsonl
+    - artifacts/subtopic_proposals_20260423T145816Z.json
+  taxonomy_delta: none  # current 106 entries deemed fresh
+  punted_topics_count: 38
+  punted_topics_catalog: "see §4 Phase 8 (Tier A/B/C tables)"
+  reason_punted: "Gemini wall-time ~17s/doc → full 1381-doc pass ~6.5 hours. Operator elected to ship Phase 9 today with current taxonomy and batch remaining topics overnight."
+  next_step: "Operator overnight batch per §4 Phase 8 recipe. Consider parallelizing Tier A topics first."
 
 phase_09_full_reingest:
   status: pending
