@@ -16,11 +16,18 @@ scripts/monitoring/
 │                                  · polls Supabase + Falkor counts
 │                                  · optional --chain-state-file adds
 │                                    chain progress + Total ETA rows
-└── monitor_ingest_topic_batches/               v3 topic-backfill tools (HIGHLY VISIBLE
-    ├── README.md                 here — this is the canonical v3 flow)
-    ├── fingerprint_bust.py       null doc_fingerprint for a topic slice
-    ├── validate_batch.py         G1-G10 Quality Gate validator
-    └── run_topic_backfill_chain.sh   gate-enforced chain supervisor
+├── monitor_ingest_topic_batches/   v3 topic-backfill tools (Phase 2/3 chain)
+│   ├── README.md                 canonical v3 chain flow
+│   ├── fingerprint_bust.py       null doc_fingerprint for a topic slice
+│   ├── validate_batch.py         G1-G10 Quality Gate validator
+│   └── run_topic_backfill_chain.sh   gate-enforced chain supervisor
+└── monitor_sector_reclassification/   v3 Phase 2.5 tools (otros_sectoriales split)
+    ├── README.md                 Phase 2.5 flow + output layout
+    ├── sector_classify.py        LLM-assisted per-doc sector classifier
+    │                               · batches of 20, atomic checkpoints
+    │                               · resumable, visible heartbeat
+    └── apply_sector_reclassification.py   apply operator-approved proposal
+                                    (Phase 2.5 Task E — not yet built)
 ```
 
 Adjacent launchers (kept at repo root so they're visible next to `dev-launcher.mjs`):

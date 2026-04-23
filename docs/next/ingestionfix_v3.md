@@ -637,9 +637,9 @@ phase_2_tool_and_rehearsal:
 
 | Path | Purpose |
 |---|---|
-| `scripts/monitoring/monitor_ingest_topic_batches/sector_classify.py` | LLM-assisted title classifier. Reads the 510 `otros_sectoriales` doc titles + first ~2 paragraphs, asks Gemini to bucket each into one of: existing top-level topic (migration), proposed new sector topic, or `otros_sectoriales_true` (genuinely orphan). Emits `artifacts/sector_reclassification_proposal.json`. |
+| `scripts/monitoring/monitor_sector_reclassification/sector_classify.py` | LLM-assisted title classifier. Reads the 510 `otros_sectoriales` doc titles + first ~2 paragraphs, asks Gemini to bucket each into one of: existing top-level topic (migration), proposed new sector topic, or `otros_sectoriales_true` (genuinely orphan). Emits `artifacts/sector_reclassification_proposal.json`. |
 | `artifacts/sector_reclassification_proposal.json` | Proposed per-doc map: `{doc_id → {proposed_topic, confidence, reasoning, current_tema}}`. Operator reviews + adjusts before anything mutates. |
-| `scripts/monitoring/monitor_ingest_topic_batches/apply_sector_reclassification.py` | Applies the operator-approved proposal. Two writes per doc: (1) update `documents.tema`, (2) null `documents.doc_fingerprint` (so additive reingest regenerates chunks + edges with the new topic). Same safety rails as `fingerprint_bust.py` (dry-run default, `--confirm` required, manifest-before-execute). |
+| `scripts/monitoring/monitor_sector_reclassification/apply_sector_reclassification.py` | Applies the operator-approved proposal. Two writes per doc: (1) update `documents.tema`, (2) null `documents.doc_fingerprint` (so additive reingest regenerates chunks + edges with the new topic). Same safety rails as `fingerprint_bust.py` (dry-run default, `--confirm` required, manifest-before-execute). |
 | `tests/test_sector_classify.py` | Unit tests on pure classifier helpers (prompt construction, response parsing, bucket-validation). |
 | `tests/test_apply_sector_reclassification.py` | Unit tests on the migration writer (dry-run safety, confirm-required, manifest integrity). |
 
