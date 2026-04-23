@@ -324,7 +324,74 @@ Total: 1,319 docs across 9 batches. Gate batch is 28 docs (small enough to itera
 1. Operator reviews the v3.1 proposal above.
 2. If accepted, update `artifacts/fingerprint_bust/plan.json` + the `est_wall_minutes` / `est_doc_count` fields + add a `plan_version: v3.1` marker + a `revisions_log` block documenting this probe.
 3. Re-run `bash scripts/launch_batch.sh --batch 1 --dry-run` against the new batch 1 composition; expect `row_count: 28`.
-4. Proceed to real-run Phase-2 rehearsal.
+4. Proceed to real-run Phase-2 rehearsal — **but see §2.2 first**: subsequent inspection of `otros_sectoriales` content showed the catch-all is really a mix of misclassified rows + 12-15 genuine sectors, so Phase 2.5 (sector reclassification) should land BEFORE Phase 3 chain runs, otherwise the 510-doc quarantine batch permanently encodes bad taxonomy.
+
+---
+
+## §2.2 `otros_sectoriales` deep-dive — the 510-doc catch-all is really 3 things
+
+*Added after §2.1 probe. Manual inspection of 40 sample files + 4 subfolder analysis revealed that the "miscellaneous" bucket is not genuinely miscellaneous; it's a dumping ground produced by taxonomy under-coverage + classifier misrouting. Treating it as one batch (even as a quarantined batch 9) bakes that under-coverage permanently into TopicNode/TEMA graph state.*
+
+### 2.2.1 Structural finding — 4 editorial layers, not 4 sectors
+
+The 510 docs are stored in four subfolders:
+
+| Folder | Docs | What it is |
+|---|---|---|
+| `NORMATIVA/` | 119 | Raw uncurated law stubs (bare metadata — ~30 lines typical) |
+| `consolidado/` | 121 | **Curated practical digest for SMB accountants** (~168 lines typical; structured "Objeto y alcance" / "Temas clave para PYMEs" / article-level commentary) |
+| `EXPERTOS/EXPERTOS/` | 120 | Expert-reviewed curator pass |
+| `LOGGRO/PRACTICA/` | 123 | Practice-focused, case-oriented |
+| `Ley*` (root orphans) | 10 | One-offs at the OTROS_SECTORIALES root |
+
+Sample-verified on Ley 1712 de 2014 (Transparencia): `NORMATIVA/Ley-1712-2014.md` = 30 lines (stub), `consolidado/Ley-1712-2014.md` = 168 lines (curated commentary). These are **editorial layers of the same underlying law**, not semantic duplicates. All four layers are valuable — they give retrieval different tonal registers to draw from. Deduplication here would destroy signal.
+
+### 2.2.2 Sector content is rich but hidden inside titles
+
+Title sampling of 40 `consolidado/` files surfaces at least a dozen clean sector clusters:
+
+| Sector cluster | Sample laws |
+|---|---|
+| Health | Ley 10/1990 (Sistema Nacional de Salud), Ley 1122/2007 (Seguridad Social en Salud) |
+| Education | Ley 115/1994 (Ley General de Educación), Ley 1064/2006 (Educación para el trabajo), Ley 1014/2006 (cultura emprendimiento) |
+| Agriculture | Ley 101/1993 (Desarrollo Agropecuario y Pesquero) |
+| Utilities / energy | Ley 142/1994 (servicios públicos domiciliarios), Ley 143/1994 (sector eléctrico) |
+| Culture / heritage | Ley 1185/2008 (patrimonio cultural), Ley 1379/2010 (bibliotecas), Ley 1493/2011 (artes escénicas) |
+| Tourism | Ley 1101/2006 (contribución turismo), Ley 1558/2012 (reforma turismo) |
+| Housing | Ley 1537/2012 (vivienda de interés social) |
+| Social / childhood / gender | Ley 1098/2006 (Infancia y Adolescencia), Ley 1257/2008 (violencia contra la mujer) |
+| Zonas francas | Ley 109/1985 |
+| Science & tech | Ley 1286/2009 (Colciencias) |
+| Electoral / political | Ley 130/1994 (partidos políticos), Ley 1475/2011 (código electoral) |
+| Public finance / APP | Ley 141/1994 (regalías), Ley 1508/2012 (APP) |
+
+### 2.2.3 Several "miscellaneous" laws are misclassified into named topics
+
+Inspection surfaces laws that clearly belong in existing top-level taxonomy but landed in `otros_sectoriales`:
+
+| Law | Currently `tema` | Should be |
+|---|---|---|
+| Ley 1066/2006 (cartera pública) | otros_sectoriales | `procedimiento_tributario` |
+| Ley 1175/2007 (cartera tributaria) | otros_sectoriales | `procedimiento_tributario` |
+| Ley 1111/2006 (modifica ET) | otros_sectoriales | `reformas_tributarias` |
+| Ley 1121/2006 (anti-terrorism financing) | otros_sectoriales | `sagrilaft_ptee` |
+| Ley 1328/2009 (consumer financial protection) | otros_sectoriales | `comercial_societario` |
+| Ley 1527/2012 (libranzas / payroll deductions) | otros_sectoriales | `laboral` |
+| Ley 109/1985 (zonas francas) | otros_sectoriales | `zonas_francas` |
+
+Order-of-magnitude estimate: **30-60 of the 510 docs** are misclassified into existing named topics. The classifier's prefix/alias map doesn't cover these cases yet.
+
+### 2.2.4 The three pieces otros_sectoriales is hiding
+
+1. **~30-60 docs** — misclassified; belong in existing named topics (should migrate into `procedimiento_tributario`, `laboral`, `sagrilaft_ptee`, `zonas_francas`, etc.).
+2. **~400-450 docs** — genuinely sectoral; fall into ~12-15 clean new sector topics (`sector_salud`, `sector_educacion`, `sector_utilities`, `sector_cultura`, `sector_vivienda`, etc.) that don't exist in the taxonomy yet.
+3. **~10 docs** — true miscellaneous orphans that no existing or proposed new topic catches.
+
+### 2.2.5 Why this matters for v3 close-out
+
+Running the v3.1 proposal as-is (batch 9 = `otros_sectoriales` quarantine) creates one giant `TopicNode{topic_key:"otros_sectoriales"}` in Falkor with 510 TEMA edges pointing at it. Accountants asking "what does Ley 142 say about public utility billing?" get retrieval that routes through "otros_sectoriales" — a meaningless generic bucket — instead of a focused `sector_utilities` TopicNode with ~10 TEMA edges. That's a retrieval-quality regression vs the ~39-clean-topics goal v3 was written to achieve.
+
+**Implication:** Phase 2.5 (below in §5) inserts the sector-reclassification work BEFORE the Phase 3 chain runs, so the batch that lands `otros_sectoriales` + its replacement sector topics into Falkor does so with the right structure the first time.
 
 ---
 
@@ -335,13 +402,14 @@ Six phases. Each is **independently shippable and resumable**. Phase 3.0 (Qualit
 | Phase | Purpose | Active cost | Wall time | Blocks what |
 |---|---|---|---|---|
 | 1 | Close v2 paperwork (10.3 amendment, Phase 11 banner, Phase 12 docs) | ~1 hr | ~1 hr | — |
-| 2 | Build + unit-test `fingerprint_bust.py`, chain runner skeleton, batch plan; rehearse on `laboral` | ~2 hrs | ~2.5 hrs | Phase 3.0 |
+| 2 | Build + unit-test `fingerprint_bust.py`, chain runner skeleton, batch plan; rehearse on `laboral` | ~2 hrs | ~2.5 hrs | Phase 2.5 |
+| **2.5** | **Sector reclassification of `otros_sectoriales`** — LLM title pass → operator review → taxonomy update → plan.json v3.1 → `tema` migration → re-probe | ~3-4 hrs | ~4-5 hrs (mostly operator review) | Phase 3.0 |
 | 3.0 | **Batch 1 Quality Gate** — run batch 1, execute G1-G10/M1-M3/U1-U4 checks, operator approves | ~1 hr | ~1.5 hrs | Phase 3 batches 2–8 |
 | 3 | Phased topic-coverage backfill — batches 2–8 via autonomous chain | ~15 min launch | ~2.5–3.5 hr unattended (revised 2026-04-23 per §2.1) | — |
 | 4 | Orphan-doc backfill (stretch; deferred) | TBD | TBD | — |
 | 5 | Operator browser smokes (10.4 main chat, 10.5 Tags tab) | ~20 min | ~20 min | v3 close-out |
 
-Phases 1, 2, 3.0, 3, 5 close v3. Phase 4 is tracked separately.
+Phases 1, 2, 2.5, 3.0, 3, 5 close v3. Phase 4 is tracked separately.
 
 ---
 
@@ -551,6 +619,137 @@ phase_2_tool_and_rehearsal:
     bust_row_count:
     falkor_topic_node_after:
     falkor_tema_edges_after:
+  notes: ""
+  resumption_hint: ""
+```
+
+---
+
+### Phase 2.5 — Sector reclassification of `otros_sectoriales`
+
+**Goal.** Turn the 510-doc catch-all bucket into ~12-15 clean sector topics + migrate ~30-60 misclassified docs into existing named topics, BEFORE the Phase 3 chain permanently encodes the bad taxonomy into Falkor TopicNode/TEMA state. See §2.2 for the investigation that motivated this phase.
+
+**Why before Phase 3, not after.** Phase 3 is the step that materializes TopicNodes + TEMA edges into Falkor. Running it with `otros_sectoriales` intact creates one giant misleading TopicNode with 510 edges; splitting it afterwards means tearing down Falkor state + re-materializing — a much bigger blast-radius operation than just getting it right the first time.
+
+**Six sub-tasks (A → F), sequential, operator-gated at B and D.**
+
+#### Phase 2.5 — Files to create
+
+| Path | Purpose |
+|---|---|
+| `scripts/monitoring/monitor_ingest_topic_batches/sector_classify.py` | LLM-assisted title classifier. Reads the 510 `otros_sectoriales` doc titles + first ~2 paragraphs, asks Gemini to bucket each into one of: existing top-level topic (migration), proposed new sector topic, or `otros_sectoriales_true` (genuinely orphan). Emits `artifacts/sector_reclassification_proposal.json`. |
+| `artifacts/sector_reclassification_proposal.json` | Proposed per-doc map: `{doc_id → {proposed_topic, confidence, reasoning, current_tema}}`. Operator reviews + adjusts before anything mutates. |
+| `scripts/monitoring/monitor_ingest_topic_batches/apply_sector_reclassification.py` | Applies the operator-approved proposal. Two writes per doc: (1) update `documents.tema`, (2) null `documents.doc_fingerprint` (so additive reingest regenerates chunks + edges with the new topic). Same safety rails as `fingerprint_bust.py` (dry-run default, `--confirm` required, manifest-before-execute). |
+| `tests/test_sector_classify.py` | Unit tests on pure classifier helpers (prompt construction, response parsing, bucket-validation). |
+| `tests/test_apply_sector_reclassification.py` | Unit tests on the migration writer (dry-run safety, confirm-required, manifest integrity). |
+
+#### Phase 2.5 — Files to modify
+
+| Path | Change |
+|---|---|
+| `config/topic_taxonomy.json` | Add new top-level sector entries (one per approved new sector; version bumped `v2026-04-21-v2` → `v2026-04-NN-v3`). |
+| `config/subtopic_taxonomy.json` | If operator chooses to model some new sectors with subtopics, mirror there. |
+| `artifacts/fingerprint_bust/plan.json` | Bump `plan_version` → `v3.1`. Replace the single `otros_sectoriales` batch with the new per-sector topic breakdown; add `revisions_log` entry citing §2.1 + §2.2. |
+
+#### Phase 2.5 — Sub-tasks
+
+**A — LLM title classification pass** *(`sector_classify.py`; ~30 min wall; ~$0.50 Gemini cost)*
+
+* Input: 510 `doc_id`s from the `otros_sectoriales` probe manifest.
+* For each doc: read `knowledge_base/<path>` (prefer `consolidado/` version if it exists since it's the richest), take the first heading line + first ~2 paragraphs as the classification signal.
+* Prompt Gemini with a 3-bucket decision tree: (a) **migrate to existing topic X** (list the 39 names); (b) **new sector topic** (free-form label); (c) **true orphan**.
+* For (b), cluster the free-form labels post-hoc into ~12-15 canonical sector names.
+* Emit `artifacts/sector_reclassification_proposal.json`. No writes to Supabase.
+
+**B — Operator review of proposal** *(operator-driven; ~1-2 hrs)*
+
+* Operator reads the proposal, adjusts bucket assignments, consolidates free-form sector labels.
+* Particularly important: confirm the `confidence: low` rows and the `migrate to existing topic` rows, since those directly move docs between topic_keys (harder to undo cleanly than staying in otros_sectoriales).
+* Output: `artifacts/sector_reclassification_proposal.approved.json` with a checksum and `approved_by` field.
+
+**C — Taxonomy update** *(operator-driven; ~20 min)*
+
+* Add each new approved sector as a top-level entry in `config/topic_taxonomy.json` (with aliases, `vocabulary_status: "ratified_v3_0"`).
+* Bump taxonomy version; run `PYTHONPATH=src:. uv run pytest tests/test_subtopic_taxonomy_loader.py` to lock.
+
+**D — plan.json v3.1 rewrite** *(operator-driven; ~15 min)*
+
+* Replace `otros_sectoriales` batch 9 entry with new per-sector batches.
+* Recompute batch sizes using the approved proposal.
+* Add `plan_version: v3.1` + `revisions_log` citing §2.1 + §2.2.
+* Re-run `bash scripts/launch_batch.sh --batch 1 --dry-run` to confirm counts still match expectations.
+
+**E — `tema` migration** *(`apply_sector_reclassification.py`; ~5 min wall; production write — gated by `--confirm`)*
+
+* For each doc in the approved proposal: `UPDATE documents SET tema=<new_topic>, doc_fingerprint=NULL WHERE doc_id=?`
+* Null-fingerprinting ensures the next additive run regenerates chunks/edges with the new topic classification.
+* Writes a per-run manifest to `artifacts/sector_reclassification/<ts>.json`.
+
+**F — Re-probe** *(~2 min wall; read-only)*
+
+* Re-run the per-topic tally from §2.1.1. Expect `otros_sectoriales` to drop from 510 to ~10 (the true orphans), new sector topics to match the approved proposal, and existing topics (e.g. `laboral`, `procedimiento_tributario`) to have absorbed their migration docs.
+* Record the post-migration tally in `§8 phase_2_5_sector_reclassification.post_migration_tally`.
+
+#### Phase 2.5 — Tests
+
+| Test | File | Locks |
+|---|---|---|
+| `test_classify_response_parses_valid_json` | tests/test_sector_classify.py | Gemini response parser handles well-formed output |
+| `test_classify_response_handles_malformed_json` | tests/test_sector_classify.py | Falls back to `needs_review` bucket, doesn't crash |
+| `test_classify_prompt_includes_all_existing_topics` | tests/test_sector_classify.py | Prompt lists all 39 current taxonomy keys so LLM can migrate |
+| `test_classify_skips_docs_without_readable_content` | tests/test_sector_classify.py | A zero-byte file or parser-fallback stub gets routed to `needs_review`, not silently lost |
+| `test_proposal_shape_validates` | tests/test_sector_classify.py | Output JSON has expected shape + required fields |
+| `test_apply_dry_run_performs_no_writes` | tests/test_apply_sector_reclassification.py | `--dry-run` default; no UPDATE issued |
+| `test_apply_requires_approved_proposal_file` | tests/test_apply_sector_reclassification.py | Refuses a raw (non-approved) proposal; requires `.approved.json` extension + checksum |
+| `test_apply_writes_manifest_before_mutation` | tests/test_apply_sector_reclassification.py | Manifest-before-execute invariant (mirrors fingerprint_bust) |
+
+#### Phase 2.5 — Acceptance
+
+1. `artifacts/sector_reclassification_proposal.json` exists with entries for all 510 `otros_sectoriales` doc_ids.
+2. Operator-approved `artifacts/sector_reclassification_proposal.approved.json` exists with `approved_by` + `approved_at` (Bogotá AM/PM).
+3. `config/topic_taxonomy.json` version bumped; new sector topics present; taxonomy loader tests green.
+4. `artifacts/fingerprint_bust/plan.json` bumped to `plan_version: v3.1` with new per-sector batches.
+5. Post-migration re-probe shows `otros_sectoriales` doc count drops from 510 to ≤~10 (true orphans only).
+6. Unit tests green on both new scripts.
+
+#### Phase 2.5 — State log
+
+```yaml
+phase_2_5_sector_reclassification:
+  status: pending
+  started_at:
+  completed_at:
+  branch: feat/ingestionfix-v3-phase-2-5-sectors   # suggested
+  sub_task_A_llm_pass:
+    status:
+    proposal_path: artifacts/sector_reclassification_proposal.json
+    doc_count_classified:
+    new_sector_labels_proposed: []
+    migration_candidate_count:
+    true_orphan_count:
+    gemini_cost_usd:
+  sub_task_B_operator_review:
+    status:
+    approved_proposal_path: artifacts/sector_reclassification_proposal.approved.json
+    approved_by:
+    approved_at:
+    operator_overrides_count:        # how many LLM assignments the operator changed
+  sub_task_C_taxonomy_update:
+    status:
+    new_topics_added: []
+    taxonomy_version_bumped_to:
+  sub_task_D_planjson_v3_1:
+    status:
+    plan_version: v3.1
+    new_batch_count:
+  sub_task_E_tema_migration:
+    status:
+    rows_updated:
+    migration_manifest:
+  sub_task_F_reprobe:
+    status:
+    otros_sectoriales_after:
+    new_topic_tallies: {}
   notes: ""
   resumption_hint: ""
 ```
@@ -1169,6 +1368,25 @@ phase_2_tool_and_rehearsal:
     20-doc estimate in plan.json — update estimate before rehearsal runs for real).
   resumption_hint: "Operator runs scripts/launch_batch.sh --batch 1 --dry-run first, then --batch 1 to execute."
 
+phase_2_5_sector_reclassification:
+  status: pending                                # §2.2 deep-dive found otros_sectoriales is really 3 things; this phase untangles it before Phase 3 materializes Falkor state
+  added_to_plan_at: 2026-04-23 (Bogotá)
+  rationale: "See §2.2: 510 otros_sectoriales docs decompose into ~30-60 misclassified rows (belong in existing named topics), ~400-450 genuinely-sectoral rows (need ~12-15 new sector topics), and ~10 true orphans. Running Phase 3 without this split would encode the catch-all permanently into Falkor TopicNode/TEMA state."
+  blocks: phase_3_0_quality_gate                 # not physically enforced; operator judgment. Plan text explains why.
+  sub_task_A_llm_pass:
+    status: pending
+  sub_task_B_operator_review:
+    status: pending
+  sub_task_C_taxonomy_update:
+    status: pending
+  sub_task_D_planjson_v3_1:
+    status: pending
+  sub_task_E_tema_migration:
+    status: pending
+  sub_task_F_reprobe:
+    status: pending
+  notes: "Next step: run Task A (LLM title classification). Writes no production mutations — produces artifacts/sector_reclassification_proposal.json for operator review (Task B)."
+
 phase_3_0_quality_gate:
   status: code_complete_awaiting_operator
   code_completed_at: 2026-04-23 (Bogotá)
@@ -1233,6 +1451,17 @@ followups_for_later:
       Verify with `SELECT tema, count(*) FROM documents WHERE retired_at IS NULL
       GROUP BY tema ORDER BY count DESC LIMIT 50;` and cross-check against
       config/topic_taxonomy.json top-level keys.
+  - id: F7
+    source: v3 (§2.2 otros_sectoriales deep-dive)
+    description: >
+      Classifier prefix/alias map (config/prefix_parent_topic_map.json +
+      src/lia_graph/ingest_classifiers.py) should be audited for gaps that caused the
+      §2.2 misclassification set (Ley 1066/1175 → procedimiento_tributario, Ley 1111
+      → reformas_tributarias, Ley 1121 → sagrilaft_ptee, Ley 1328 → comercial_societario,
+      Ley 1527 → laboral, Ley 109 → zonas_francas). Phase 2.5 migrates specific docs,
+      but the classifier that put them in otros_sectoriales will keep routing similar
+      future laws to the same wrong bucket unless the alias map is extended. Cheapest
+      fix: add title-prefix rules for ~20 common Colombian-law-naming patterns.
 ```
 
 ---
