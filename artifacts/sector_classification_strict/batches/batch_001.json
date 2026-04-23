@@ -1,0 +1,190 @@
+{
+  "batch_num": 1,
+  "input_hash": "303e2abe3044b296",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-109-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1228-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-143-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-16-1990.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1762-2015.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-215-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1755-2015.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-310-1996.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-4-1913.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-58-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-67-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-687-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-79-1988.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-986-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1064-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-111-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1275-2009.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1328-2009.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-939-2004.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-117-1985.md"
+  ],
+  "elapsed_seconds": 38.95,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-109-1985.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de contador público en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1228-1995.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Sin contenido ni título, y sin referencia clara en la legislación colombiana, no se puede clasificar.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-143-1994.md",
+      "proposed_topic": "sector_energia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen para la generación, transmisión y comercialización de electricidad.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-16-1990.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Crédito Agropecuario y FINAGRO para el sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1762-2015.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Adopta instrumentos para prevenir y sancionar contrabando, lavado de activos y evasión fiscal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-215-1995.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Modifica disposiciones del Estatuto Orgánico del Presupuesto y racionalización económica.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1755-2015.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Regula el derecho de petición y procedimiento administrativo, no es sectorial ni tributario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-310-1996.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones sobre el turismo y crea el Fondo de Promoción Turística.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-4-1913.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Establece el régimen político y municipal, no es sectorial ni encaja en topics existentes.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-58-1985.md",
+      "proposed_topic": "sector_servicios_legales",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de abogado.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-67-1979.md",
+      "proposed_topic": "sector_servicios_profesionales",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de economista.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-687-2001.md",
+      "proposed_topic": "sector_juegos_azar",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la ley de loterías y apuestas permanentes, regulando el sector de juegos de azar.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-79-1988.md",
+      "proposed_topic": "sector_cooperativo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Actualiza la legislación sobre el sector cooperativo en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-986-2005.md",
+      "proposed_topic": "sector_asistencia_social",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Adopta medidas para la protección de víctimas del secuestro y sus familias.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1064-2006.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas para el apoyo y fortalecimiento de la educación para el trabajo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-111-2006.md",
+      "proposed_topic": "inversiones_incentivos",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Aprueba acuerdo de promoción y protección recíproca de inversiones.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1275-2009.md",
+      "proposed_topic": "sector_gestion_riesgos_desastres",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo Nacional de Calamidades para gestión de riesgos y desastres.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1328-2009.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas en materia financiera, de seguros y del mercado de valores.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-939-2004.md",
+      "proposed_topic": "sector_servicios_farmaceuticos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de tecnólogo en regencia de farmacia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-117-1985.md",
+      "proposed_topic": "sector_servicios_tecnologicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de ingeniero de sistemas y afines.",
+      "title": ""
+    }
+  ]
+}

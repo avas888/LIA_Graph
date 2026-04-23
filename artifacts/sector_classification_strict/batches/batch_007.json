@@ -1,0 +1,190 @@
+{
+  "batch_num": 7,
+  "input_hash": "d2686470f9e8361e",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-716-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-768-2002.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-79-1988.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-790-2002.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-795-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-808-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-811-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-814-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-824-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-833-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-84-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-3-1991.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-9-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-9-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-902-2017.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-939-2004.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-95-1890.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-964-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-973-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-986-2005.md"
+  ],
+  "elapsed_seconds": 35.46,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-716-2001.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula saneamiento contable público y disposiciones presupuestales, encaja en presupuesto y hacienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-768-2002.md",
+      "proposed_topic": "sector_gobierno_local",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece régimen político, administrativo y fiscal para distritos especiales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-79-1988.md",
+      "proposed_topic": "sector_cooperativo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Actualiza la legislación específica para el sector cooperativo en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-790-2002.md",
+      "proposed_topic": "sector_administracion_publica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide disposiciones para la renovación de la administración pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-795-2003.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ajusta normas del Estatuto Orgánico del Sistema Financiero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-808-2020.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Ley 808 de 2020 no identificada; sin contenido, no se puede clasificar.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-811-2003.md",
+      "proposed_topic": "sector_agropecuario_pesquero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica Ley 101 de 1993, relacionada con desarrollo agropecuario y pesquero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-814-2003.md",
+      "proposed_topic": "sector_cultura_cine",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas de fomento a la actividad cinematográfica en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-824-2003.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Cultura (Ley 397 de 1997).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-833-2003.md",
+      "proposed_topic": "sector_anticorrupcion_gobernanza",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Aprueba la Convención de la ONU contra la Corrupción.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-84-1989.md",
+      "proposed_topic": "sector_proteccion_animal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta el Estatuto Nacional de Protección de los Animales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-3-1991.md",
+      "proposed_topic": "sector_vivienda_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Vivienda de Interés Social.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-9-1979.md",
+      "proposed_topic": "sector_salud_publica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta Medidas Sanitarias (Código Sanitario Nacional).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-9-1989.md",
+      "proposed_topic": "sector_desarrollo_urbano",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre planes de desarrollo municipal y reforma urbana.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-902-2017.md",
+      "proposed_topic": "sector_rural_agrario",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Aunque el año es incierto, el número 902 se asocia a saneamiento de propiedad rural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-939-2004.md",
+      "proposed_topic": "sector_cafe",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Estabilización de Precios del Café.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-95-1890.md",
+      "proposed_topic": "sector_gobierno_local",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen político y municipal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-964-2005.md",
+      "proposed_topic": "sector_mercado_valores",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el mercado de valores y recursos captados del público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-973-2005.md",
+      "proposed_topic": "sector_seguridad_internacional_derechos_humanos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Aprueba convenciones contra delincuencia organizada y trata de personas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-986-2005.md",
+      "proposed_topic": "sector_victimas_conflicto",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta medidas para la protección de víctimas del secuestro.",
+      "title": ""
+    }
+  ]
+}

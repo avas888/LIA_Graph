@@ -1,0 +1,190 @@
+{
+  "batch_num": 12,
+  "input_hash": "7de9eabf062089d5",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-55-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-84-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1098-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-973-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-811-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1983.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1990.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1990-2019.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-795-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1778-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-681-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-824-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1727-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1731-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-300-1996.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1098-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1233-2008.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1493-2011.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1787-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2064-2020.md"
+  ],
+  "elapsed_seconds": 30.4,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-55-1985.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el Fondo Nacional de Ahorro y fomento de vivienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-84-1989.md",
+      "proposed_topic": "sector_proteccion_animal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el Estatuto Nacional de Protección de los Animales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1098-2006.md",
+      "proposed_topic": "sector_infancia_adolescencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Es el Código de la Infancia y la Adolescencia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-973-2005.md",
+      "proposed_topic": "sector_profesiones",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Reglamenta el ejercicio de la profesión de Administrador de Empresas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-811-2003.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Desarrollo Agropecuario y Pesquero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1983.md",
+      "proposed_topic": "sector_comercio_internacional",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Aprueba convenio sobre Fondo Común para Productos Básicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1990.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Reorganiza el Sistema Nacional de Salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1990-2019.md",
+      "proposed_topic": "sector_servicios_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley de Servicios Públicos Domiciliarios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-795-2003.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica el Estatuto Orgánico del Sistema Financiero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1778-2016.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre responsabilidad por corrupción transnacional (PTEE).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-681-2001.md",
+      "proposed_topic": "reformas_tributarias",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Modifica el Estatuto Tributario y otras disposiciones tributarias.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-824-2003.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta investigación y desarrollo tecnológico en sector agropecuario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1727-2014.md",
+      "proposed_topic": "sector_economia_solidaria",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula inspección, vigilancia y control de organizaciones solidarias.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1731-2014.md",
+      "proposed_topic": "sector_transporte",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones en materia de infraestructura de transporte.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-300-1996.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Es la Ley General de Turismo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1098-2006.md",
+      "proposed_topic": "sector_infancia_adolescencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Es el Código de la Infancia y la Adolescencia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1233-2008.md",
+      "proposed_topic": "sector_educacion_sena",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Establece contribución parafiscal para el financiamiento del SENA.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1493-2011.md",
+      "proposed_topic": "sector_cultura_espectaculos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el sector del espectáculo público de artes escénicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1787-2016.md",
+      "proposed_topic": "sector_salud_cannabis",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el uso medicinal y científico del cannabis.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2064-2020.md",
+      "proposed_topic": "sector_economia_naranja",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la promoción y desarrollo de la economía naranja.",
+      "title": ""
+    }
+  ]
+}

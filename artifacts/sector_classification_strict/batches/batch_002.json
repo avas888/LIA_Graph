@@ -1,0 +1,190 @@
+{
+  "batch_num": 2,
+  "input_hash": "39b9251b9ec9c97e",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1565-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1743-2018.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1762-2015.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-201-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1992.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-812-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-824-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-973-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-16-1990.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1991.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-101-1993.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1014-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1064-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1066-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1778-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-201-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2040-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2064-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2068-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2070-2020.md"
+  ],
+  "elapsed_seconds": 40.18,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1565-2012.md",
+      "proposed_topic": "sector_migracion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley sobre retorno de colombianos y Fondo Especial para las Migraciones.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1743-2018.md",
+      "proposed_topic": "sector_varios",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Número de ley no encontrado para 2018, tema no identificable.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1762-2015.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Prevenir, controlar y sancionar contrabando, lavado de activos y evasión fiscal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-201-1995.md",
+      "proposed_topic": "sector_justicia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley sobre la estructura de la Fiscalía General de la Nación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1992.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Organiza el servicio público de la Educación Superior.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-812-2003.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Expide el Plan Nacional de Desarrollo 2002-2006.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-824-2003.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley 30 de 1992, relacionada con educación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-973-2005.md",
+      "proposed_topic": "sector_responsabilidad_social_empresarial",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea Sistema Nacional de Coordinación de Responsabilidad Social Empresarial.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-16-1990.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Ciencia y Tecnología.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1991.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Organiza el Sistema Nacional de Salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-101-1993.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece régimen especial para el sector agropecuario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1014-2006.md",
+      "proposed_topic": "sector_emprendimiento",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley de fomento a la cultura del emprendimiento.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1064-2006.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Apoyo y fortalecimiento de la educación para el trabajo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1066-2006.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas para la normalización de la cartera pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1778-2016.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Responsabilidad jurídica por actos de corrupción transnacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-201-1995.md",
+      "proposed_topic": "sector_justicia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley sobre la estructura de la Fiscalía General de la Nación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2040-2020.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Adopta medidas para impulsar el empleo juvenil.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2064-2020.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Fomento de la formalización y generación de empleo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2068-2020.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2070-2020.md",
+      "proposed_topic": "sector_desarrollo_regional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Reactivación económica, social y ambiental de Providencia y Santa Catalina.",
+      "title": ""
+    }
+  ]
+}

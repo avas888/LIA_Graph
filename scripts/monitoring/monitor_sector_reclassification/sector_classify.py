@@ -144,10 +144,15 @@ _CLASSIFICATION_PROMPT_TEMPLATE = """Eres un experto contador colombiano clasifi
 
 OPCIÓN 1 — MIGRAR A TOPIC EXISTENTE: La ley claramente pertenece a uno de estos topics ya presentes en la taxonomía:
 {existing_topics}
+{excluded_topics_warning}
+OPCIÓN 2 — NUEVO SECTOR: La ley trata un sector no cubierto por los topics existentes arriba (ej: salud, educación, agropecuario, servicios_publicos, cultura, vivienda, turismo, etc). Proponle un nombre en snake_case prefijado con `sector_` (ej: `sector_salud`, `sector_educacion`). ESTA es la opción correcta cuando el contenido es sectorial pero no encaja en NINGÚN topic de OPCIÓN 1.
 
-OPCIÓN 2 — NUEVO SECTOR: La ley trata un sector no cubierto por los topics existentes (ej: salud, educación, agropecuario, servicios_publicos, cultura, vivienda, turismo, etc). Proponle un nombre en snake_case prefijado con `sector_` (ej: `sector_salud`, `sector_educacion`).
+OPCIÓN 3 — HUÉRFANO: No encaja en ningún topic existente, no es sectorial, y no se puede agrupar con otras leyes similares. Úsala ÚNICAMENTE cuando las opciones 1 y 2 no aplican.
 
-OPCIÓN 3 — HUÉRFANO: No encaja claramente en ningún topic ni se puede agrupar con otras leyes similares.
+Reglas estrictas:
+- Si dudas entre OPCIÓN 2 y OPCIÓN 3, elige OPCIÓN 2 (proponer un nuevo sector es más útil que declarar huérfano).
+- `migrate` SOLO se usa para los topics de OPCIÓN 1 (arriba). Cualquier otro destino debe usar `new_sector` o `orphan`.
+- `proposed_topic` debe coincidir exactamente con un topic de OPCIÓN 1 (si `kind=migrate`), empezar con `sector_` (si `kind=new_sector`), o ser exactamente `orphan` (si `kind=orphan`).
 
 Para cada ley abajo, devuelve SOLO un JSON array con este formato exacto (sin prosa adicional, sin markdown, sin ```json):
 
@@ -203,19 +208,39 @@ def classify_batch(
     *,
     docs: list[tuple[str, str, str]],  # (doc_id, title, head)
     existing_topics: list[str],
+    excluded_topics: list[str] | None = None,
 ) -> list[ClassificationResult]:
     """Send one batch to Gemini; map response back to per-doc results.
+
+    ``excluded_topics`` (optional) — topics removed from the OPCIÓN 1
+    migrate list AND explicitly forbidden in a prompt warning. Useful
+    when re-classifying docs that a prior pass dumped into a catch-all:
+    forbidding the catch-all forces the model to pick a real sector or
+    declare orphan, stripping the prompt-ambiguity noise.
 
     Robust to: missing doc_ids in response, extra entries, malformed JSON.
     Any doc not present in the response comes back as ``kind=error``.
     """
-    topic_lines = "\n".join(f"  - {t}" for t in existing_topics)
+    excluded = [t for t in (excluded_topics or []) if t]
+    eligible_topics = [t for t in existing_topics if t not in excluded]
+    topic_lines = "\n".join(f"  - {t}" for t in eligible_topics)
+    if excluded:
+        excluded_topics_warning = (
+            "\nPROHIBIDO: Los siguientes topics NO están disponibles en "
+            "OPCIÓN 1 (fueron removidos intencionalmente). Si el contenido "
+            "parece encajar en alguno de ellos, usa OPCIÓN 2 o OPCIÓN 3 en "
+            f"su lugar: {', '.join(excluded)}.\n"
+        )
+    else:
+        excluded_topics_warning = ""
     doc_blocks = "\n\n".join(
         f"### doc_id: {did}\n**Título:** {title}\n**Contenido:**\n{head[:1200]}"
         for did, title, head in docs
     )
     prompt = _CLASSIFICATION_PROMPT_TEMPLATE.format(
-        existing_topics=topic_lines, doc_blocks=doc_blocks
+        existing_topics=topic_lines,
+        excluded_topics_warning=excluded_topics_warning,
+        doc_blocks=doc_blocks,
     )
 
     raw = adapter.generate(prompt)
@@ -440,6 +465,7 @@ def run(
     api_key: str,
     dry_run: bool = False,
     max_batches: int | None = None,
+    exclude_migrate_topics: list[str] | None = None,
 ) -> int:
     from lia_graph.gemini_runtime import (
         GeminiChatAdapter,
@@ -581,7 +607,10 @@ def run(
             try:
                 assert adapter is not None
                 results = classify_batch(
-                    adapter, docs=content, existing_topics=existing_topics
+                    adapter,
+                    docs=content,
+                    existing_topics=existing_topics,
+                    excluded_topics=exclude_migrate_topics,
                 )
             except Exception as exc:
                 rec["status"] = "failed"
@@ -763,6 +792,16 @@ def build_argparser() -> argparse.ArgumentParser:
         default=None,
         help="Process at most N batches this run (useful for staged rollout).",
     )
+    p.add_argument(
+        "--exclude-migrate-topics",
+        default=None,
+        help=(
+            "Comma-separated topic keys to REMOVE from the migrate options. "
+            "Prompt explicitly forbids the LLM from migrating to these topics; "
+            "useful when re-classifying a prior run's noise (e.g. docs dumped "
+            "into otros_sectoriales by a first, looser prompt)."
+        ),
+    )
     return p
 
 
@@ -777,6 +816,11 @@ def main(argv: Iterable[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 2
+    excluded = (
+        [t.strip() for t in args.exclude_migrate_topics.split(",") if t.strip()]
+        if args.exclude_migrate_topics
+        else None
+    )
     return run(
         manifest_path=Path(args.manifest),
         output_dir=Path(args.output_dir),
@@ -787,6 +831,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         api_key=api_key,
         dry_run=args.dry_run,
         max_batches=args.max_batches,
+        exclude_migrate_topics=excluded,
     )
 
 

@@ -1,0 +1,190 @@
+{
+  "batch_num": 5,
+  "input_hash": "fa2721f1cbccde4a",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-181-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1755-2015.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1990-2019.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2-1976.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-20-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-201-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2040-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2064-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2068-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1990-2019.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2133-2021.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-215-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2283-2023.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-26-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-3-1991.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1971.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1988.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1992.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-31-1992.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-310-1996.md"
+  ],
+  "elapsed_seconds": 23.73,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-181-1995.md",
+      "proposed_topic": "sector_deporte",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley del Deporte, regula el sistema nacional del deporte.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1755-2015.md",
+      "proposed_topic": "sector_transparencia_informacion_publica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el derecho fundamental de acceso a la información pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1990-2019.md",
+      "proposed_topic": "sector_economia_naranja",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta la economía creativa y cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2-1976.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece normas sobre reforma agraria y desarrollo rural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-20-1979.md",
+      "proposed_topic": "sector_proteccion_consumidor",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece normas para la protección del consumidor.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-201-1995.md",
+      "proposed_topic": "sector_juventud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el Sistema Nacional de Juventud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2040-2020.md",
+      "proposed_topic": "sector_inclusion_discapacidad",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta el empleo para personas con discapacidad.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2064-2020.md",
+      "proposed_topic": "sector_energias_renovables",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Promueve el uso de energías renovables no convencionales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2068-2020.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1990-2019.md",
+      "proposed_topic": "sector_economia_naranja",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta la economía creativa y cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2133-2021.md",
+      "proposed_topic": "sector_vivienda_habitat",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la política de vivienda y hábitat.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-215-1995.md",
+      "proposed_topic": "sector_desarrollo_urbano",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece normas sobre desarrollo y reforma urbana.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2283-2023.md",
+      "proposed_topic": "sector_seguridad_vial",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece medidas para la seguridad vial.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-26-1989.md",
+      "proposed_topic": "sector_puertos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la actividad portuaria.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-3-1991.md",
+      "proposed_topic": "sector_vivienda_interes_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece normas sobre vivienda de interés social.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1971.md",
+      "proposed_topic": "sector_medio_ambiente_fauna",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Protege la fauna silvestre y los recursos naturales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1988.md",
+      "proposed_topic": "sector_educacion_superior",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la educación superior en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1992.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece la Ley General de Educación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-31-1992.md",
+      "proposed_topic": "sector_banca_central",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la organización y funcionamiento del Banco de la República.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-310-1996.md",
+      "proposed_topic": "sector_puertos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica y adiciona normas sobre puertos.",
+      "title": ""
+    }
+  ]
+}

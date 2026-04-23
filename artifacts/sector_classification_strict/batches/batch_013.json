@@ -1,0 +1,28 @@
+{
+  "batch_num": 13,
+  "input_hash": "b2bd964c4109b370",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-397-1997.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-597-2025.md"
+  ],
+  "elapsed_seconds": 17.15,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-397-1997.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley General de Cultura, claramente sectorial y no encaja en topics existentes.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-597-2025.md",
+      "proposed_topic": "sector_varios",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Ley futura sin contenido; doc_id sugiere sectorial. Se usa sector_varios por falta de especificidad.",
+      "title": ""
+    }
+  ]
+}

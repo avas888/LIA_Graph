@@ -1,0 +1,190 @@
+{
+  "batch_num": 11,
+  "input_hash": "89c3d5f19a0ea90b",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-67-1983.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-675-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-677-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-685-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-687-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-70-1993.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-67-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-716-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-768-2002.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-79-1988.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-790-2002.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-795-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-811-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-666-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-84-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-109-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-630-2000.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1697-2013.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-141-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1122-2007.md"
+  ],
+  "elapsed_seconds": 37.22,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-67-1983.md",
+      "proposed_topic": "inversiones_incentivos",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Aprueba convenio internacional sobre fondo común para productos básicos, relacionado con desarrollo económico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-675-2001.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el régimen de propiedad horizontal, directamente relacionado con vivienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-677-2001.md",
+      "proposed_topic": "sector_minero_energetico",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica ley sobre regalías y compensaciones por explotación de recursos naturales no renovables.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-685-2001.md",
+      "proposed_topic": "sector_minero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el Código de Minas, regulando la actividad minera.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-687-2001.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece mecanismos de apoyo a programas de vivienda de interés social.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-70-1993.md",
+      "proposed_topic": "sector_etnico",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Desarrolla derechos de comunidades negras, incluyendo propiedad colectiva y cultura.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-67-1979.md",
+      "proposed_topic": "sector_derecho_internacional",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Aprueba la Convención de Viena sobre el Derecho de los Tratados.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-716-2001.md",
+      "proposed_topic": "sector_recursos_hidricos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones para el control y ordenamiento de recursos hídricos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-768-2002.md",
+      "proposed_topic": "sector_ordenamiento_territorial",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta régimen político, administrativo y fiscal de Distritos Especiales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-79-1988.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Actualiza la legislación cooperativa, una forma de organización empresarial.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-790-2002.md",
+      "proposed_topic": "sector_administracion_publica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide disposiciones para el programa de renovación de la administración pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-795-2003.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ajusta normas del Estatuto Orgánico del Sistema Financiero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-811-2003.md",
+      "proposed_topic": "sector_agropecuario_pesquero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica ley de desarrollo agropecuario y pesquero, creando organizaciones de cadena.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-666-2001.md",
+      "proposed_topic": "sector_transporte",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica el Estatuto Nacional de Transporte, regulando el sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-84-1989.md",
+      "proposed_topic": "sector_proteccion_animal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta el Estatuto Nacional de Protección de los Animales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-109-1985.md",
+      "proposed_topic": "sector_regulacion_profesional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de Bacteriólogo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-630-2000.md",
+      "proposed_topic": "sector_regulacion_profesional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de Optometría.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1697-2013.md",
+      "proposed_topic": "sector_deporte_recreacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea la Tasa Pro Deporte y Recreación, un impuesto sectorial.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-141-1994.md",
+      "proposed_topic": "sector_minero_energetico",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la distribución de regalías y compensaciones de recursos naturales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1122-2007.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica el Sistema General de Seguridad Social en Salud.",
+      "title": ""
+    }
+  ]
+}
