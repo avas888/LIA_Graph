@@ -140,7 +140,8 @@ Twelve phases. Each is independently shippable and leaves the system in a consis
 | 4 | Edge extraction gating + typed edges | `MODIFICA`/`DEROGA`/`CITA` only for normativa; `PRACTICA_DE`/`INTERPRETA_A`/`MENCIONA` for others; weights. |
 | 5 | Thematic graph edges (TEMA / SUBTEMA) | Topic + subtopic nodes in FalkorDB; edges from every chunk. |
 | 6 | `doc_fingerprint` persistence on sink | Sink writes the column; drop reliance on `scripts/backfill_doc_fingerprint.py`. |
-| 7 | `Tags` admin tab (backend + frontend + LLM report) | New tab in Ops shell; review queue; expert approval. |
+| 7a | `Tags` admin endpoints (backend only) | Migration + 5 HTTP endpoints + LLM report builder + sink skeleton-insert. **Frontend deferred → 7b.** |
+| 7b | `Tags` admin tab (frontend) | New tab in Ops shell; curation UI for the 7a endpoints. **Deferred to follow-up.** |
 | 8 | Subtopic-miner dry-run + catalog refresh | Fresh `config/subtopic_taxonomy.json` committed. |
 | 9 | Full cloud reingest + embeddings + promotion | The CLI sequence in §5 below. |
 | 10 | Verification + smoke | Coverage query + retrieval smoke + e2e chat. |
@@ -373,7 +374,61 @@ notes:
 
 ---
 
-### Phase 7 — `Tags` admin tab (backend + frontend + LLM report)
+### Phase 7a — `Tags` admin endpoints (backend only; ingestionfix_v2 §4 Phase 7a, **shipped 2026-04-23**)
+
+**Scope note.** After implementation review, the full Phase 7 scope (backend + frontend) was split into **7a (backend)** — shipped today, operable via curl / Postman — and **7b (frontend Tags tab)** — deferred to a follow-up so Phase 9 (cloud reingest) lands sooner. Primary success criterion for `ingestionfix_v2` (app serving on the full corpus) does not require the UI, only the backend scaffolding.
+
+**What ships in 7a:**
+- Migration `supabase/migrations/20260423000001_document_tag_reviews.sql` — `document_tag_reviews` table with pending-queue partial unique index (one open review per doc).
+- `src/lia_graph/tag_report_generator.py` — deterministic Markdown brief builder (title + first-500-words + top-3 alternatives + neighborhood + extracted legal refs) with optional LLM polish via `llm_runtime.resolve_llm_adapter`.
+- `src/lia_graph/ui_tags_controllers.py` — five admin endpoints:
+  - `GET  /api/tags/review?min_confidence=&reason=&topic=` — pending queue
+  - `GET  /api/tags/review/{doc_id}` — detail + review row + topic-matched neighbors
+  - `POST /api/tags/review/{doc_id}/report` — triggers LLM brief, persists `report_id` + `report_markdown`
+  - `GET  /api/tags/review/{doc_id}/report/{report_id}` — fetch persisted brief
+  - `POST /api/tags/review/{doc_id}/decision` — persist expert decision (`approve` / `override` / `promote_new_subtopic` / `reject`), mirrors onto `documents` row.
+- Integration in `src/lia_graph/ingestion/supabase_sink.py`: `write_documents` buffers a skeleton review row for every doc with `requires_subtopic_review=True` and flushes after the documents upsert (FK safe).
+- Route dispatch wired in `src/lia_graph/ui_server_handler_dispatch.py`.
+- Tests: `tests/test_ui_tags_controllers.py` (9 cases) + `tests/test_tag_report_generator.py` (8 cases). All green.
+
+**Acceptance (7a).** Backend tests green. After Phase 9 reingest, `document_tag_reviews` auto-populates with flagged docs; all five endpoints operable via curl. No UI yet.
+
+---
+
+### Phase 7b — `Tags` admin tab **(frontend; DEFERRED, not yet shipped)**
+
+Everything in this subsection is explicitly punted to a follow-up. Phase 7a backend is fully functional without it; you can operate the review workflow via curl / Postman meanwhile. Listed here so the follow-up has a clean checklist.
+
+**Files to create (frontend, atoms/molecules/organisms — design-skill-assisted).**
+- `frontend/src/app/ops/tagsShell.ts` — shell for the new tab.
+- `frontend/src/features/ops/tagsController.ts` — state machine + API bindings.
+- `frontend/src/shared/ui/organisms/tagsReviewBoard.ts` — table: Archivo / Topic actual / Subtopic + confianza / Motivo / Última clasificación / Acciones.
+- `frontend/src/shared/ui/molecules/tagsRowActions.ts` — button row per doc (Aprobar / Sobrescribir / Promover / Rechazar / Reporte con LLM).
+- `frontend/src/shared/ui/molecules/tagsLlmReportPanel.ts` — pane to display the generated Markdown brief.
+- `frontend/src/shared/ui/molecules/tagsNeighborhoodCard.ts` — shows 3 similar docs per candidate tag.
+- `frontend/src/styles/admin/tags.css` — tokens-only CSS.
+
+**Files to modify (frontend).**
+- `frontend/src/app/ops/shell.ts` — register new tab `Tags` between `Ingesta` and `Promoción` (or wherever it fits by surface-boundary rules). Note: shell is already 650 lines, so tab registration must be additive and must not duplicate existing markup.
+
+**Design-skill invocation.** Before touching frontend, invoke `frontend-design:frontend-design` with a brief that describes: "Bandeja de revisión de tags para expertos en contabilidad colombiana; pestaña dentro del Ops shell; tabla con filtros, botón `Reporte con LLM` por fila, modal con el brief Markdown, acciones de aprobar/sobrescribir/promover/rechazar; estilo tokens-only, IBM Plex stack". Keep atomic-discipline guard green.
+
+**Tests (frontend, to add).**
+- `frontend/tests/tagsController.test.ts` — vitest.
+- `frontend/tests/tagsReviewBoard.test.ts` — organism render + action-click.
+- `frontend/tests/atomicDiscipline.test.ts` — must stay green (no raw hex, no inline SVG outside `shared/ui/icons.ts`, tokens-only CSS).
+
+**Tests to run for 7b acceptance.**
+- `npm run test:frontend -- tagsController tagsReviewBoard atomicDiscipline`
+- Manual smoke: against local Supabase, navigate to the new `Tags` tab, see the queue populated from `requires_subtopic_review=true` rows, generate a report for one doc, apply an override, confirm `documents` row updated.
+
+**Upgrade opportunities to consider during 7b.**
+- The 7a neighborhood lookup uses a simple `topic`-match filter. Swap in the `hybrid_search` RPC for true embedding-based similarity once Phase 9's embedding backfill is stable.
+- 7a stores `classifier_alternatives` only if `deps["classifier_alternatives_for"]` is injected. Phase 7b should persist alternatives at classification time (write to `document_tag_reviews.decision_payload` or a sidecar column) so the brief reliably shows the top-3.
+
+---
+
+### Phase 7 (historical spec — original full-scope; superseded by 7a + 7b above)
 
 **Goal.** Single surface where an expert can review low-confidence tag bindings and new-subtopic proposals, generate an LLM report per doc for decision support, and persist expert decisions back into the taxonomy + document rows.
 
@@ -781,14 +836,32 @@ phase_06_fingerprint_persistence:
   status: pending
   ...
 
-phase_07_tags_admin_tab:
-  status: pending
-  design_skill_invoked:
-  backend_tests: [ ]
-  frontend_tests: [ ]
-  migration_applied_local:
-  migration_applied_cloud:
-  ...
+phase_07a_tags_admin_backend:
+  status: shipped
+  completed_at: 2026-04-23
+  branch: feat/ingestionfix-v2-phase7-tags-tab
+  migration: supabase/migrations/20260423000001_document_tag_reviews.sql
+  backend_tests:
+    - tests/test_tag_report_generator.py (8 cases, green)
+    - tests/test_ui_tags_controllers.py (9 cases, green)
+  endpoints:
+    - "GET  /api/tags/review"
+    - "GET  /api/tags/review/{doc_id}"
+    - "POST /api/tags/review/{doc_id}/report"
+    - "GET  /api/tags/review/{doc_id}/report/{report_id}"
+    - "POST /api/tags/review/{doc_id}/decision"
+  sink_integration: "SupabaseCorpusSink.write_documents now flushes tag-review skeletons after doc upsert"
+
+phase_07b_tags_admin_frontend:
+  status: deferred
+  punt_reason: "Full spec too large to ship in same session without risking Phase 9 (cloud reingest). Scope preserved verbatim in §4 Phase 7b for follow-up."
+  depends_on: phase_07a_tags_admin_backend (done)
+  unblocked_by: nothing — can ship whenever the operator is ready
+  frontend_tests_expected:
+    - frontend/tests/tagsController.test.ts
+    - frontend/tests/tagsReviewBoard.test.ts
+    - frontend/tests/atomicDiscipline.test.ts (must stay green)
+  design_skill_invocation: "required before first DOM write — see §4 Phase 7b for brief"
 
 phase_08_subtopic_miner_refresh:
   status: pending

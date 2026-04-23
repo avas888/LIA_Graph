@@ -194,6 +194,17 @@ class LiaUIHandler(LiaUIHandlerBase):
         if handle_subtopic_get(self, path, parsed, deps={"workspace_root": WORKSPACE_ROOT}):
             return
 
+        # ingestionfix_v2 §4 Phase 7a: tag-review admin endpoints.
+        from .ui_tags_controllers import handle_tags_get
+
+        if handle_tags_get(
+            self,
+            path,
+            parsed,
+            deps={"workspace_root": WORKSPACE_ROOT, "supabase_target": "production"},
+        ):
+            return
+
         self._serve_ui_asset(path)
 
     def do_OPTIONS(self) -> None:  # noqa: N802
@@ -538,6 +549,15 @@ class LiaUIHandler(LiaUIHandlerBase):
             return
         from .ui_subtopic_controllers import handle_subtopic_post
         if handle_subtopic_post(self, path, deps={"workspace_root": WORKSPACE_ROOT}):
+            return
+        # ingestionfix_v2 §4 Phase 7a: tag-review admin POST endpoints.
+        from .ui_tags_controllers import handle_tags_post
+
+        if handle_tags_post(
+            self,
+            path,
+            deps={"workspace_root": WORKSPACE_ROOT, "supabase_target": "production"},
+        ):
             return
         if handle_reindex_post(self, path, deps=write_deps):
             return

@@ -234,6 +234,9 @@ class SupabaseCorpusSink:
         self._topic_by_doc_id: dict[str, str] = {}
         self._docs_with_subtopic = 0
         self._docs_requiring_subtopic_review = 0
+        # ingestionfix_v2 §4 Phase 7a: tag-review skeleton rows buffered
+        # during write_documents and flushed after the documents upsert.
+        self._pending_tag_review_rows: list[dict[str, Any]] = []
 
     @property
     def client(self) -> Any:
@@ -342,11 +345,47 @@ class SupabaseCorpusSink:
                 self._topic_by_doc_id[doc_id] = topic_key
             rows.append(row)
 
+            # ingestionfix_v2 §4 Phase 7a — tag-review skeleton row.
+            # Insert one open review row per doc whose classification needs
+            # an expert to look at it. The `/api/tags/review` endpoints
+            # surface these for curation.
+            if requires_subtopic_review:
+                self._pending_tag_review_rows.append(
+                    {
+                        "review_id": f"rev_{doc_id}_{int(datetime.now(timezone.utc).timestamp())}",
+                        "doc_id": doc_id,
+                        "trigger_reason": "requires_review_flag",
+                        "snapshot_topic": topic_key if topic_key != "unknown" else None,
+                        "snapshot_subtopic": subtopic_key_clean,
+                        "snapshot_confidence": None,
+                        "created_at": now,
+                        "updated_at": now,
+                    }
+                )
+
         written = 0
         for batch in _iter_batches(rows):
             self._client.table("documents").upsert(batch, on_conflict="doc_id").execute()
             written += len(batch)
         self._documents_written += written
+
+        # Phase 7a: flush tag-review skeleton rows after documents land so
+        # the FK constraint on document_tag_reviews.doc_id is satisfied.
+        # ON CONFLICT DO NOTHING on the partial unique index so re-ingesting
+        # a doc that's still under open review doesn't dup the queue.
+        if self._pending_tag_review_rows:
+            try:
+                for batch in _iter_batches(self._pending_tag_review_rows):
+                    self._client.table("document_tag_reviews").upsert(
+                        batch,
+                        on_conflict="review_id",
+                    ).execute()
+            except Exception as exc:  # noqa: BLE001 — review queue is best-effort
+                _log.warning(
+                    "tag_review_skeleton_flush_failed", extra={"err": str(exc)}
+                )
+            self._pending_tag_review_rows.clear()
+
         return doc_id_by_source_path, written
 
     def write_chunks(
