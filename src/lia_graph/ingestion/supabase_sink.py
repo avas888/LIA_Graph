@@ -128,6 +128,20 @@ def _chunk_id(doc_id: str, article_key: str) -> str:
     return f"{doc_id}::{article_key}"
 
 
+def _derive_source_type(article_key: str, article_number: str) -> str:
+    """Map parsed-article shape → chunk source_type.
+
+    - numeric statutory article (e.g. "512-1"): "article"
+    - whole-document fallback (article_key == "doc"): "document"
+    - section slug under v2-template / práctica / interpretación fallback: "section"
+    """
+    if article_number and article_key == article_number:
+        return "article"
+    if article_key == "doc":
+        return "document"
+    return "section"
+
+
 @dataclass(frozen=True)
 class SupabaseSinkResult:
     generation_id: str
@@ -348,7 +362,7 @@ class SupabaseCorpusSink:
                 "summary": article.heading or None,
                 "concept_tags": list(article.reform_references),
                 "chunk_sha256": _chunk_sha(chunk_text),
-                "source_type": "article",
+                "source_type": _derive_source_type(article.article_key, article.article_number),
                 "curation_status": "raw",
                 "topic": inherited_topic,
                 "pais": "colombia",

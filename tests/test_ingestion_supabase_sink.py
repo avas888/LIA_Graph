@@ -20,7 +20,11 @@ import pytest
 from lia_graph.graph.schema import EdgeKind, GraphEdgeRecord, NodeKind
 from lia_graph.ingestion.classifier import ClassifiedEdge
 from lia_graph.ingestion.parser import ParsedArticle
-from lia_graph.ingestion.supabase_sink import SupabaseCorpusSink, _RELATION_MAP
+from lia_graph.ingestion.supabase_sink import (
+    SupabaseCorpusSink,
+    _RELATION_MAP,
+    _derive_source_type,
+)
 
 
 # --- fake supabase-py client ------------------------------------------------
@@ -302,6 +306,68 @@ def test_activate_requires_generation_row() -> None:
     )
     with pytest.raises(RuntimeError):
         sink.finalize(activate=True)
+
+
+def test_chunk_source_type_numeric_article_key() -> None:
+    assert _derive_source_type("512-1", "512-1") == "article"
+    assert _derive_source_type("147", "147") == "article"
+
+
+def test_chunk_source_type_slug_section_key() -> None:
+    assert _derive_source_type("identificacion", "") == "section"
+    assert _derive_source_type("regla-operativa-para-lia", "") == "section"
+    assert _derive_source_type("historico-de-cambios-1", "") == "section"
+
+
+def test_chunk_source_type_whole_doc_key() -> None:
+    assert _derive_source_type("doc", "") == "document"
+
+
+def test_chunk_source_type_emitted_for_mixed_article_shapes() -> None:
+    """End-to-end: a parsed-article mix should produce mixed source_type
+    values in the sink upsert payload, not a hardcoded "article"."""
+    client = _FakeClient()
+    sink = SupabaseCorpusSink(
+        target="production",
+        generation_id="gen_source_type_mix",
+        client=client,
+    )
+    docs = [
+        _doc("a/statutory.md", "/abs/a/statutory.md"),
+        _doc("b/practica.md", "/abs/b/practica.md", family="practica"),
+        _doc("c/leftover.md", "/abs/c/leftover.md", family="practica"),
+    ]
+    articles = [
+        _article("512-1", "Hecho generador", "/abs/a/statutory.md"),
+        ParsedArticle(
+            article_key="identificacion",
+            article_number="",
+            heading="Identificacion",
+            body="Body",
+            full_text="## Identificacion\nBody",
+            status="vigente",
+            source_path="/abs/b/practica.md",
+        ),
+        ParsedArticle(
+            article_key="doc",
+            article_number="",
+            heading="Documento completo",
+            body="Body",
+            full_text="Body",
+            status="vigente",
+            source_path="/abs/c/leftover.md",
+        ),
+    ]
+    sink.write_generation(documents=len(docs), chunks=len(articles))
+    doc_ids, _ = sink.write_documents(docs)
+    sink.write_chunks(articles, doc_id_by_source_path=doc_ids)
+
+    chunk_upserts = [
+        call for call in client.calls if call.table == "document_chunks" and call.op == "upsert"
+    ]
+    assert chunk_upserts, "expected at least one document_chunks upsert"
+    source_types = {row["source_type"] for call in chunk_upserts for row in call.payload}
+    assert source_types == {"article", "section", "document"}
 
 
 def test_writes_suin_relations() -> None:
