@@ -34,6 +34,10 @@ from typing import Any
 
 from ..graph.schema import EdgeKind, NodeKind
 from ..ingestion.classifier import ClassifiedEdge
+from ..ingestion.fingerprint import (
+    classifier_output_from_corpus_document,
+    compute_doc_fingerprint,
+)
 from ..ingestion.parser import ParsedArticle
 from ..supabase_client import create_supabase_client_for_target
 
@@ -297,6 +301,16 @@ class SupabaseCorpusSink:
                 document.get("requires_subtopic_review") or False
             )
             topic_key = str(document.get("topic_key") or "unknown")
+            content_hash = _content_hash(markdown)
+            # ingestionfix_v2 §4 Phase 6: compute doc_fingerprint inline at
+            # write-time so future deltas can use the content-hash shortcut
+            # without a separate backfill pass. The helper picks the same
+            # subset of classifier fields that the backfill path does (see
+            # tests/test_fingerprint.py case (f) for the parity assertion).
+            doc_fingerprint = compute_doc_fingerprint(
+                content_hash=content_hash,
+                classifier_output=classifier_output_from_corpus_document(document),
+            )
             row = {
                 "doc_id": doc_id,
                 "relative_path": relative_path,
@@ -309,7 +323,8 @@ class SupabaseCorpusSink:
                 "subtema": subtopic_key_clean,
                 "tipo_de_documento": document.get("document_archetype"),
                 "corpus": document.get("family"),
-                "content_hash": _content_hash(markdown),
+                "content_hash": content_hash,
+                "doc_fingerprint": doc_fingerprint,
                 "filename_normalized": relative_path,
                 "first_heading": str(document.get("title_hint") or "")[:500],
                 "curation_status": "raw",

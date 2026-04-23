@@ -12,6 +12,7 @@ contract-level, not row-level.
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass
 from typing import Any
 
@@ -306,6 +307,75 @@ def test_activate_requires_generation_row() -> None:
     )
     with pytest.raises(RuntimeError):
         sink.finalize(activate=True)
+
+
+def test_write_documents_populates_fingerprint() -> None:
+    """ingestionfix_v2 §4 Phase 6: every newly-written document row must
+    carry a non-empty doc_fingerprint so future deltas can use the
+    content-hash shortcut without a separate backfill."""
+    client = _FakeClient()
+    sink = SupabaseCorpusSink(
+        target="production",
+        generation_id="gen_fp_inline",
+        client=client,
+    )
+    docs = [
+        _doc("a/alpha.md", "/abs/a/alpha.md"),
+        _doc("b/beta.md", "/abs/b/beta.md", family="practica"),
+    ]
+    _doc_ids, _written = sink.write_documents(docs)
+
+    upserts = [
+        call for call in client.calls if call.table == "documents" and call.op == "upsert"
+    ]
+    assert upserts
+    for call in upserts:
+        for row in call.payload:
+            fp = row.get("doc_fingerprint")
+            assert isinstance(fp, str) and len(fp) == 64, (
+                f"doc_fingerprint must be a 64-char sha256 hex, got {fp!r}"
+            )
+
+
+def test_fingerprint_stable_across_full_and_backfill_paths() -> None:
+    """The inline fingerprint (Phase 6) must byte-match what the backfill
+    path computes from the persisted document row. Guards against silent
+    drift between ingest-side + backfill-side classifier_output shapes."""
+    from lia_graph.ingestion.fingerprint import (
+        classifier_output_from_corpus_document,
+        classifier_output_from_document_row,
+        compute_doc_fingerprint,
+    )
+
+    document = _doc("a/alpha.md", "/abs/a/alpha.md")
+    document["markdown"] = "# Alpha\nContenido consistente."
+
+    # Ingest-path fingerprint — computed from the live CorpusDocument-shape.
+    content_hash = hashlib.sha256(document["markdown"].encode("utf-8")).hexdigest()
+    ingest_fp = compute_doc_fingerprint(
+        content_hash=content_hash,
+        classifier_output=classifier_output_from_corpus_document(document),
+    )
+
+    # Simulate the persisted row (shape is what write_documents writes).
+    persisted_row = {
+        "topic": document["topic_key"],
+        "tema": document["topic_key"],
+        "subtema": document["subtopic_key"],
+        "authority": document["authority_level"],
+        "tipo_de_documento": document["document_archetype"],
+        "source_type": document["source_type"],
+        "knowledge_class": document["knowledge_class"],
+        "requires_subtopic_review": False,
+    }
+    backfill_fp = compute_doc_fingerprint(
+        content_hash=content_hash,
+        classifier_output=classifier_output_from_document_row(persisted_row),
+    )
+
+    assert ingest_fp == backfill_fp, (
+        "Phase-6 inline fingerprint must equal backfill-path fingerprint."
+    )
 
 
 def test_normative_edges_include_edge_type_and_weight() -> None:
