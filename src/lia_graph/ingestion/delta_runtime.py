@@ -231,6 +231,25 @@ def materialize_delta(
                 f"mismatches={[m.to_dict() for m in parity_report.mismatches]}"
             )
 
+    # -------- resolve a run id early so every trace + the UI feeler can
+    # cross-reference the same delta_id (set here unless the caller pinned
+    # one). Used as the shared key for logs/events.jsonl filtering.
+    from .delta_planner import _default_delta_id
+
+    run_delta_id = str(
+        delta_id or _default_delta_id(generation_id)
+    ).strip()
+    emit_event(
+        "ingest.delta.run.start",
+        {
+            "delta_id": run_delta_id,
+            "target": supabase_target,
+            "requested_generation_id": generation_id,
+            "dry_run": bool(dry_run),
+            "force_full_classify": bool(force_full_classify),
+        },
+    )
+
     # -------- audit full corpus --------
     audit_rows = audit_corpus_documents(root, pattern=pattern)
     legacy_docs = tuple(
@@ -241,8 +260,39 @@ def materialize_delta(
     from ..ingest_subtopic_pass import classify_corpus_documents
 
     # -------- baseline --------
+    # Reviewer-picked semantics for Decision F1: the "rolling generation"
+    # dynamically tracks whichever corpus_generations row is currently
+    # is_active, not a hardcoded string. If the caller passed the default
+    # "gen_active_rolling" and that row is empty but a different row is
+    # is_active (e.g. a gen_<UTC> snapshot never promoted yet), use the
+    # active one so the shortcut + delta apply land on real data. The
+    # caller can still pin a specific generation by passing it explicitly.
+    resolved_generation_id = generation_id
+    if generation_id == DEFAULT_GENERATION_ID:
+        try:
+            resp = (
+                supabase_client.table("corpus_generations")
+                .select("generation_id")
+                .eq("is_active", True)
+                .limit(1)
+                .execute()
+            )
+            rows = list(getattr(resp, "data", None) or [])
+            if rows and rows[0].get("generation_id"):
+                resolved_generation_id = str(rows[0]["generation_id"])
+        except Exception:  # noqa: BLE001
+            pass
+    if resolved_generation_id != generation_id:
+        emit_event(
+            "ingest.delta.generation.resolved",
+            {
+                "requested": generation_id,
+                "resolved_to": resolved_generation_id,
+                "reason": "requested_rolling_but_active_is_snapshot",
+            },
+        )
     baseline: BaselineSnapshot = load_baseline_snapshot(
-        supabase_client, generation_id=generation_id
+        supabase_client, generation_id=resolved_generation_id
     )
 
     # -------- content-hash shortcut (v1.1 optimization) --------
@@ -274,6 +324,7 @@ def materialize_delta(
     emit_event(
         "ingest.delta.shortcut.computed",
         {
+            "delta_id": run_delta_id,
             "force_full_classify": bool(force_full_classify),
             "legacy_doc_count": len(legacy_docs),
             "prematched_count": len(prematched_paths),
@@ -312,7 +363,7 @@ def materialize_delta(
     delta: CorpusDelta = plan_delta(
         disk_docs=disk_docs,
         baseline=baseline,
-        delta_id=delta_id,
+        delta_id=run_delta_id,
         prematched_relative_paths=prematched_paths,
     )
     summary = summarize_delta(delta)
@@ -327,7 +378,7 @@ def materialize_delta(
     report = DeltaRunReport(
         delta_id=delta.delta_id,
         target=supabase_target,
-        generation_id=generation_id,
+        generation_id=resolved_generation_id,
         dry_run=dry_run,
         baseline_generation_id=baseline.generation_id,
         delta_summary=summary,
@@ -385,9 +436,13 @@ def materialize_delta(
     object.__setattr__(delta, "modified_article_keys", modified_article_keys)
 
     # -------- Supabase sink --------
+    # Use the resolved generation so added/modified docs land on the
+    # currently-active row (matches Decision F1 reviewer-pick: rolling
+    # pointer follows is_active, doesn't require a dedicated
+    # gen_active_rolling row once an operator has promoted a snapshot).
     sink = SupabaseCorpusSink(
         target=supabase_target,
-        generation_id=generation_id,
+        generation_id=resolved_generation_id,
         client=supabase_client,
     )
     dangling_store = DanglingStore(supabase_client)

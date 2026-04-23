@@ -25,6 +25,16 @@ export interface AdditiveDeltaActivityFeelerOptions {
 export interface AdditiveDeltaActivityFeelerLiveProgress {
   classified: number;
   lastFilename?: string | null;
+  /** Real denominator — the number of docs the server actually has to
+   * classify (content-hash shortcut has already skipped the rest).
+   * When null, we fall back to the vague "~1.300" placeholder. */
+  classifierInputCount?: number | null;
+  /** How many docs the shortcut skipped. Shown as a reassuring side
+   * note so the operator sees the shortcut is working. */
+  prematchedCount?: number | null;
+  /** Run id — displayed in the header as a grep handle so the operator
+   * can pull the exact events for this run from ``logs/events.jsonl``. */
+  deltaId?: string | null;
 }
 
 export interface AdditiveDeltaActivityFeelerHandle {
@@ -53,10 +63,13 @@ export function createAdditiveDeltaActivityFeeler(
   const title = document.createElement("h3");
   title.className = "lia-adelta-feeler__title";
   title.textContent = opts.title;
+  const runIdEl = document.createElement("code");
+  runIdEl.className = "lia-adelta-feeler__run-id";
+  runIdEl.hidden = true;
   const elapsed = document.createElement("span");
   elapsed.className = "lia-adelta-feeler__elapsed";
   elapsed.textContent = "00:00";
-  titleWrap.append(title, elapsed);
+  titleWrap.append(title, runIdEl, elapsed);
 
   header.append(spinnerWrap, titleWrap);
   root.appendChild(header);
@@ -89,17 +102,28 @@ export function createAdditiveDeltaActivityFeeler(
 
   function setLiveProgress(p: AdditiveDeltaActivityFeelerLiveProgress): void {
     const count = Math.max(0, Math.floor(p.classified ?? 0));
-    if (count <= 0 && !p.lastFilename) {
+    const denom = p.classifierInputCount ?? null;
+    const prematched = p.prematchedCount ?? null;
+    if (count <= 0 && !p.lastFilename && denom == null) {
       liveLine.hidden = true;
       liveLine.textContent = "";
       return;
     }
     liveLine.hidden = false;
     const shortName = (p.lastFilename ?? "").split("/").pop() ?? "";
+    // Use the real denominator when the server knows it; otherwise a
+    // vague but honest "~1.300" fallback.
+    const totalLabel = denom != null ? String(denom) : "~1.300";
+    const skipNote =
+      prematched != null && prematched > 0
+        ? ` — ${prematched} saltados por shortcut`
+        : "";
     if (shortName) {
-      liveLine.textContent = `Clasificados ${count} de ~1.300 — último: ${shortName}`;
+      liveLine.textContent =
+        `Clasificados ${count} de ${totalLabel}${skipNote} — último: ${shortName}`;
     } else {
-      liveLine.textContent = `Clasificados ${count} de ~1.300`;
+      liveLine.textContent =
+        `Clasificados ${count} de ${totalLabel}${skipNote}`;
     }
   }
 

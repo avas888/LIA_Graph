@@ -430,12 +430,13 @@ def _handle_preview_progress(handler: Any, deps: dict[str, Any]) -> bool:
     # Tail the last ~200 KiB to stay fast even if the log is huge. At
     # ~400 bytes per event that's ~500 events, plenty for any window the
     # UI would want to summarize.
-    import os
-
     tail_bytes = 200 * 1024
     classified_since: int = 0
     last_filename: str | None = None
     last_ts: str | None = None
+    classifier_input_count: int | None = None
+    prematched_count: int | None = None
+    delta_id: str | None = None
     try:
         size = events_path.stat().st_size
         offset = max(0, size - tail_bytes)
@@ -456,18 +457,49 @@ def _handle_preview_progress(handler: Any, deps: dict[str, Any]) -> bool:
             except Exception:  # noqa: BLE001
                 continue
             et = ev.get("event_type")
-            if et == "subtopic.ingest.classified":
+            if et == "ingest.delta.run.start":
+                # Each run emits this first. Capture the delta_id so the
+                # UI can display it (operator can grep logs by this id).
+                payload_ev = ev.get("payload") or {}
+                d_id = payload_ev.get("delta_id")
+                if isinstance(d_id, str) and d_id:
+                    delta_id = d_id
+                classified_since = 0
+                last_filename = None
+                classifier_input_count = None
+                prematched_count = None
+                last_ts = ev.get("ts_utc") or last_ts
+            elif et == "ingest.delta.shortcut.computed":
+                # Emits BEFORE the classifier kicks in — resets counters
+                # so the UI shows only this run's work, and surfaces the
+                # real denominator the feeler should render instead of a
+                # hardcoded "~1.300".
+                payload_ev = ev.get("payload") or {}
+                d_id = payload_ev.get("delta_id")
+                if isinstance(d_id, str) and d_id:
+                    delta_id = d_id
+                classifier_input_count = int(
+                    payload_ev.get("classifier_input_count") or 0
+                )
+                prematched_count = int(payload_ev.get("prematched_count") or 0)
+                classified_since = 0
+                last_filename = None
+                last_ts = ev.get("ts_utc") or last_ts
+            elif et == "subtopic.ingest.classified":
                 classified_since += 1
-                payload = ev.get("payload") or {}
-                fname = payload.get("filename")
+                payload_ev = ev.get("payload") or {}
+                fname = payload_ev.get("filename")
                 if isinstance(fname, str) and fname:
                     last_filename = fname
                 last_ts = ev.get("ts_utc") or last_ts
             elif et in {"ingest.delta.plan.computed", "ingest.delta.cli.done"}:
-                # A preview/apply completed — reset the counter so the
-                # next run starts fresh in our view.
+                # A preview/apply completed — reset so the next run
+                # starts fresh in our view. Keep delta_id — the operator
+                # may still want to look up the completed run's logs.
                 classified_since = 0
                 last_filename = None
+                classifier_input_count = None
+                prematched_count = None
                 last_ts = ev.get("ts_utc") or last_ts
     except Exception as exc:  # noqa: BLE001
         handler._send_json(
@@ -483,6 +515,15 @@ def _handle_preview_progress(handler: Any, deps: dict[str, Any]) -> bool:
         "classified_since_last_run_boundary": int(classified_since),
         "last_filename": last_filename,
         "last_ts_utc": last_ts,
+        # Real denominator, when the shortcut has fired: the number of
+        # docs that ACTUALLY need classifying (not 1.3k). UI should
+        # render "N / classifier_input_count" and mention prematched_count
+        # as shortcut skips.
+        "classifier_input_count": classifier_input_count,
+        "prematched_count": prematched_count,
+        # Run id — operator can grep logs/events.jsonl by this value to
+        # get all trace events for the specific run they're watching.
+        "delta_id": delta_id,
     }
     handler._send_json(HTTPStatus.OK, payload)
     _emit_response(

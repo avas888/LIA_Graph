@@ -1,4 +1,4 @@
-import"./main-Doje7Suw.js";import{b as h}from"./bootstrap-BApbUZ11.js";import"./index-DF3uq1vv.js";import"./authGate-Bb2S6efH.js";import"./client-OE0sHIIg.js";function y(e){return`
+import"./main-BV9vKnsA.js";import{b as h}from"./bootstrap-BApbUZ11.js";import"./index-DF3uq1vv.js";import"./authGate-Bb2S6efH.js";import"./client-OE0sHIIg.js";function y(e){return`
     <main class="orch-shell">
       <header class="orch-header">
         <div class="orch-brand">
@@ -23,7 +23,7 @@ import"./main-Doje7Suw.js";import{b as h}from"./bootstrap-BApbUZ11.js";import"./
           </div>
           <div class="orch-status-card">
             <span class="orch-status-label">Env matrix</span>
-            <strong>v2026-04-18</strong>
+            <strong>v2026-04-22-betaflipsall</strong>
           </div>
           <div class="orch-status-card">
             <span class="orch-status-label">Retrieval (dev / staging)</span>
@@ -89,7 +89,7 @@ import"./main-Doje7Suw.js";import{b as h}from"./bootstrap-BApbUZ11.js";import"./
           <p>Las ventanas laterales son sibling tracks. No bloquean el bubble ni se bloquean entre sí más allá de la semilla del turno.</p>
         </article>
         <article class="orch-highlight-card">
-          <span class="orch-highlight-label">Env matrix v2026-04-18</span>
+          <span class="orch-highlight-label">Env matrix v2026-04-22-ac1</span>
           <h3>dev lee artifacts; dev:staging lee Supabase + FalkorDB live</h3>
           <p>LIA_CORPUS_SOURCE y LIA_GRAPH_MODE, seteados por scripts/dev-launcher.mjs, eligen el adapter por request. Tabla versionada y change log viven en docs/guide/orchestration.md.</p>
         </article>

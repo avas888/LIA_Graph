@@ -42,3 +42,7 @@ artifacts/parsed_articles.jsonl
 artifacts/typed_edges.jsonl
 artifacts/full_corpus_probe*/
 artifacts/jobs/runtime/
+
+# --- additive-corpus delta runtime output (regenerate each ingest run) ---
+artifacts/intake/intake_*.jsonl
+artifacts/delta_delta_*.json

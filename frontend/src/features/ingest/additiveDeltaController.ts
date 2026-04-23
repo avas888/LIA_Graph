@@ -190,6 +190,11 @@ export function bindAdditiveDelta(
   let feelerHandle: AdditiveDeltaActivityFeelerHandle | null = null;
   let sseHandle: AdditiveDeltaSseHandle | null = null;
   let uiState: AdditiveDeltaUiState = "idle";
+  // Last-known progress VM. Holding it here (instead of re-reading from
+  // pane.dataset on every sseStatus change) means renderSseStatus can
+  // patch ONE field without clobbering stage/progress/heartbeat that
+  // came from the latest snapshot.
+  let currentProgressVm: AdditiveDeltaProgressViewModel | null = null;
   // Tracks the currently-active foreground operation so Cancelar knows
   // what to abort/POST. Keeps Cancelar idempotent — clicking it twice
   // while "cancelling" is already in flight is a no-op.
@@ -258,6 +263,7 @@ export function bindAdditiveDelta(
     inFlight = null;
     activeJobId = null;
     cancelling = false;
+    currentProgressVm = null;
     bannerSlot.replaceChildren();
     progressSlot.replaceChildren();
     terminalSlot.replaceChildren();
@@ -525,7 +531,11 @@ export function bindAdditiveDelta(
     bannerSlot.replaceChildren();
     terminalSlot.replaceChildren();
     progressSlot.replaceChildren();
-    const initialProgress: AdditiveDeltaProgressViewModel = {
+    // Seed the VM cell so every subsequent sseStatus/snapshot patch
+    // starts from a coherent object — not from reading back stale
+    // dataset attributes (which was the bug that froze the pane on
+    // "queued/0%" even while the worker progressed through all stages).
+    currentProgressVm = {
       jobId,
       stage: "queued",
       progressPct: 0,
@@ -533,7 +543,7 @@ export function bindAdditiveDelta(
       sseStatus: "connecting",
       cancelRequested: false,
     };
-    progressHandle = createAdditiveDeltaProgressPane(initialProgress);
+    progressHandle = createAdditiveDeltaProgressPane(currentProgressVm);
     progressSlot.replaceChildren(progressHandle.element);
     setState("running", { deltaId: jobId, counts: undefined });
 
@@ -550,36 +560,23 @@ export function bindAdditiveDelta(
   }
 
   function renderSseStatus(status: AdditiveDeltaSseStatus): void {
-    if (!progressHandle) return;
-    // Keep the last snapshot fields; only patch sseStatus.
-    const pane = progressHandle.element;
-    const jobIdEl = pane.querySelector<HTMLElement>(".lia-adelta-progress__job");
-    const bar = pane.querySelector<HTMLElement>(".lia-adelta-progress__bar-fill");
-    const pct = bar ? parseInt(bar.style.width || "0", 10) || 0 : 0;
-    progressHandle.update({
-      jobId: jobIdEl?.textContent?.replace(/^job_id=/, "") ?? "",
-      stage: (pane.dataset.currentStage as AdditiveDeltaStage) ?? "queued",
-      progressPct: pct,
-      lastHeartbeatAt: pane.dataset.heartbeat ?? null,
-      sseStatus: status,
-      cancelRequested: pane.dataset.cancelRequested === "true",
-    });
+    if (!progressHandle || !currentProgressVm) return;
+    // Patch ONE field. Don't read stale dataset values.
+    currentProgressVm = { ...currentProgressVm, sseStatus: status };
+    progressHandle.update(currentProgressVm);
   }
 
   function renderSseSnapshot(ev: AdditiveDeltaSseEvent): void {
     if (!progressHandle) return;
-    const pane = progressHandle.element;
-    pane.dataset.currentStage = ev.stage;
-    pane.dataset.heartbeat = ev.lastHeartbeatAt ?? "";
-    pane.dataset.cancelRequested = ev.cancelRequested ? "true" : "false";
-    progressHandle.update({
+    currentProgressVm = {
       jobId: ev.jobId,
       stage: ev.stage as AdditiveDeltaStage,
       progressPct: ev.progressPct,
       lastHeartbeatAt: ev.lastHeartbeatAt ?? null,
       sseStatus: "connected",
       cancelRequested: ev.cancelRequested,
-    });
+    };
+    progressHandle.update(currentProgressVm);
   }
 
   function renderTerminal(ev: AdditiveDeltaSseEvent): void {
@@ -592,6 +589,7 @@ export function bindAdditiveDelta(
     activeJobId = null;
     cancelling = false;
     inFlight = null;
+    currentProgressVm = null;
     const vm: AdditiveDeltaTerminalViewModel = {
       stage: ev.stage,
       deltaId: (ev.reportJson?.delta_id as string) ?? ev.jobId,
