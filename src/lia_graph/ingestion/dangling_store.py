@@ -77,31 +77,38 @@ class DanglingStore:
 
     # ---- reads --------------------------------------------------------
 
+    _LOAD_BATCH_SIZE = 200
+    _UPSERT_BATCH_SIZE = 500
+
     def load_for_target_keys(
         self, target_keys: Iterable[str]
     ) -> dict[str, list[DanglingRow]]:
         """Return all candidates grouped by ``target_key``.
 
         Input strings are deduplicated before querying. Returns an empty dict
-        when the input iterable is empty (no PostgREST call).
+        when the input iterable is empty (no PostgREST call). The key list is
+        chunked into ``_LOAD_BATCH_SIZE`` sub-requests so the PostgREST query
+        string stays under httpx's URL-length limit (large deltas can easily
+        touch thousands of article keys).
         """
         keys = [k for k in {str(k).strip() for k in target_keys if k} if k]
         if not keys:
             return {}
-        resp = (
-            self._client.table(self.TABLE_NAME)
-            .select(
-                "source_key, target_key, relation, source_doc_id, "
-                "first_seen_delta_id, last_seen_delta_id, raw_reference"
-            )
-            .in_("target_key", keys)
-            .execute()
-        )
-        rows = list(getattr(resp, "data", None) or [])
         grouped: dict[str, list[DanglingRow]] = {}
-        for raw in rows:
-            dang = _row_to_dangling(raw)
-            grouped.setdefault(dang.target_key, []).append(dang)
+        for start in range(0, len(keys), self._LOAD_BATCH_SIZE):
+            batch = keys[start : start + self._LOAD_BATCH_SIZE]
+            resp = (
+                self._client.table(self.TABLE_NAME)
+                .select(
+                    "source_key, target_key, relation, source_doc_id, "
+                    "first_seen_delta_id, last_seen_delta_id, raw_reference"
+                )
+                .in_("target_key", batch)
+                .execute()
+            )
+            for raw in list(getattr(resp, "data", None) or []):
+                dang = _row_to_dangling(raw)
+                grouped.setdefault(dang.target_key, []).append(dang)
         return grouped
 
     # ---- writes -------------------------------------------------------
@@ -120,38 +127,65 @@ class DanglingStore:
         * refreshes ``raw_reference`` + ``source_doc_id`` with the latest
           observation.
         """
-        payloads: list[dict[str, Any]] = []
+        # Build + dedupe by the on_conflict key in one pass. Multiple source
+        # edges can legitimately emit the same (source_key, target_key,
+        # relation) candidate (e.g. two articles both referencing the same
+        # target with the same relation); PostgREST's ON CONFLICT DO UPDATE
+        # rejects a batch containing intra-payload duplicates with SQLSTATE
+        # 21000 ("cannot affect row a second time"). We collapse dupes here
+        # with **last-observation-wins** semantics for ``source_doc_id`` /
+        # ``raw_reference`` — matching the docstring's promise that those
+        # fields reflect the most recent observation — but coalesce so a
+        # later ``None`` does NOT stomp a previously-populated value
+        # (provenance loss is silent and hard to debug).
+        # ``first_seen_delta_id`` is later spliced back from the DB row if
+        # one already exists.
+        dedup: dict[tuple[str, str, str], dict[str, Any]] = {}
         for cand in candidates:
-            if not cand.source_key or not cand.target_key or not cand.relation:
+            source_key = (cand.source_key or "").strip()
+            target_key = (cand.target_key or "").strip()
+            relation = (cand.relation or "").strip()
+            # Reject empty AND whitespace-only keys. The latter would pass a
+            # naive truthiness check and pollute the DB with unmatchable rows.
+            if not source_key or not target_key or not relation:
                 continue
-            payloads.append(
-                {
-                    "source_key": cand.source_key,
-                    "target_key": cand.target_key,
-                    "relation": cand.relation,
-                    "source_doc_id": cand.source_doc_id,
-                    "first_seen_delta_id": delta_id,
-                    "last_seen_delta_id": delta_id,
-                    "raw_reference": cand.raw_reference,
-                }
-            )
+            key = (source_key, target_key, relation)
+            prior_payload = dedup.get(key)
+            dedup[key] = {
+                "source_key": source_key,
+                "target_key": target_key,
+                "relation": relation,
+                "source_doc_id": cand.source_doc_id
+                    or (prior_payload and prior_payload.get("source_doc_id"))
+                    or None,
+                "first_seen_delta_id": delta_id,
+                "last_seen_delta_id": delta_id,
+                "raw_reference": cand.raw_reference
+                    or (prior_payload and prior_payload.get("raw_reference"))
+                    or None,
+            }
+        payloads: list[dict[str, Any]] = list(dedup.values())
         if not payloads:
             return 0
 
         # Pre-existing rows win the first_seen fight: load them first and
         # splice their first_seen_delta_id into the payload so the upsert
         # doesn't stomp history.
-        keys = {(p["source_key"], p["target_key"], p["relation"]) for p in payloads}
-        existing = self._load_exact(keys)
+        existing = self._load_exact(dedup.keys())
         for payload in payloads:
             key = (payload["source_key"], payload["target_key"], payload["relation"])
             prior = existing.get(key)
             if prior is not None and prior.first_seen_delta_id:
                 payload["first_seen_delta_id"] = prior.first_seen_delta_id
 
-        self._client.table(self.TABLE_NAME).upsert(
-            payloads, on_conflict="source_key,target_key,relation"
-        ).execute()
+        # Chunk the write so a very large delta's candidate set doesn't blow
+        # the PostgREST request body limit (~5 MB default). 500 rows × ~200 B
+        # per row keeps us well under the ceiling with headroom.
+        for start in range(0, len(payloads), self._UPSERT_BATCH_SIZE):
+            batch = payloads[start : start + self._UPSERT_BATCH_SIZE]
+            self._client.table(self.TABLE_NAME).upsert(
+                batch, on_conflict="source_key,target_key,relation"
+            ).execute()
         return len(payloads)
 
     def delete_promoted(

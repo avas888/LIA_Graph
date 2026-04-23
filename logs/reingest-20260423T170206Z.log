@@ -1,0 +1,61 @@
+topic_router: topic 'rentas_exentas' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'renta_liquida_gravable' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'emergencia_tributaria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'reformas_tributarias' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'anticipos_retenciones_a_favor' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'comercial_societario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'conciliacion_fiscal' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'tarifas_tasa_minima_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'otros_sectoriales' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'beneficio_auditoria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'inversiones_incentivos' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'leyes_derogadas' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'beneficiario_final_rub' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'contratacion_estatal' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ingresos_fiscales_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'descuentos_tributarios_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'impuestos_saludables' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'normas_internacionales_auditoria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'estatuto_tributario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'regimen_tributario_especial' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'datos_tecnologia' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'impuesto_nacional_consumo' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'economia_digital_criptoactivos' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ganancia_ocasional' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'presupuesto_hacienda' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'reforma_pensional' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'activos_exterior' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'precios_de_transferencia' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'cambiario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingest.py", line 990, in <module>
+    _sys.exit(main())
+              ~~~~^^
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingest.py", line 801, in main
+    report = materialize_delta(
+        corpus_dir=Path(args.corpus_dir),
+    ...<11 lines>...
+        force_full_classify=bool(args.force_full_classify),
+    )
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingestion/delta_runtime.py", line 462, in materialize_delta
+    sink_result: SupabaseDeltaResult = sink.write_delta(
+                                       ~~~~~~~~~~~~~~~~^
+        delta,
+        ^^^^^^
+    ...<3 lines>...
+        dangling_store=dangling_store,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingestion/supabase_sink.py", line 755, in write_delta
+    dangling_upserted = dangling_store.upsert_candidates(
+        candidates, delta_id=delta_id
+    )
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingestion/dangling_store.py", line 160, in upsert_candidates
+    ).execute()
+      ~~~~~~~^^
+  File "/Users/ava-sensas/Developer/Lia_Graph/.venv/lib/python3.14/site-packages/postgrest/_sync/request_builder.py", line 53, in execute
+    raise APIError(dict(json_obj))
+postgrest.exceptions.APIError: {'message': 'ON CONFLICT DO UPDATE command cannot affect row a second time', 'code': '21000', 'hint': 'Ensure that no rows proposed for insertion within the same command have duplicate constrained values.', 'details': None}

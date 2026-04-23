@@ -20,6 +20,67 @@ from .classifier import ClassifiedEdge
 from .parser import ParsedArticle
 
 
+def _is_article_node_eligible(article: ParsedArticle) -> bool:
+    """Return True iff the article meets the Falkor ArticleNode schema.
+
+    Two parser fallback paths (`_section_fallback`, `_whole_document_fallback`
+    in ``parser.py``) legitimately emit articles with ``article_number=""``
+    for docs that have no formal numbered article structure — heading-only
+    sections or prose-only documents. Those outputs are valid as Supabase
+    chunks (for retrieval) but cannot be materialized as ArticleNodes, which
+    ``graph/schema.py`` requires to carry ``article_number`` / ``heading`` /
+    ``text_current`` / ``status``. Filtering here keeps the Falkor staging
+    pipeline from crashing on validate_node_record while preserving the
+    chunk-level ingestion.
+    """
+    if not article:
+        return False
+    number = str(article.article_number or "").strip()
+    heading = str(article.heading or "").strip()
+    text = str(article.body or article.full_text or "").strip()
+    status = str(article.status or "").strip()
+    return bool(number and heading and text and status)
+
+
+def _is_subtopic_binding_eligible(binding: "SubtopicBinding | None") -> bool:
+    """Return True iff the SubtopicBinding meets the Falkor SubTopicNode schema.
+
+    ``graph/schema.py`` declares SubTopicNode.required_fields =
+    ``("sub_topic_key", "parent_topic", "label")``; a caller that passes a
+    binding with any of those empty/whitespace would crash the same way the
+    original ArticleNode bug did. We filter at build time to make the failure
+    mode loud (surfaced via ``ingest.graph.subtopics_skipped_nonschema``) but
+    non-fatal.
+    """
+    if not binding:
+        return False
+    return bool(
+        str(binding.sub_topic_key or "").strip()
+        and str(binding.parent_topic or "").strip()
+        and str(binding.label or "").strip()
+    )
+
+
+def _try_emit_event(event_type: str, payload: dict) -> None:
+    """Best-effort wrapper around ``instrumentation.emit_event``.
+
+    Observability failures must never break ingest, but they also mustn't be
+    silent: the wrapper degrades to stderr if the instrumentation module
+    itself is unavailable, so a dropped event is still visible in logs.
+    """
+    try:
+        from ..instrumentation import emit_event
+
+        emit_event(event_type, payload)
+    except Exception as exc:  # noqa: BLE001 — instrumentation must never break ingest
+        import sys as _sys
+
+        print(
+            f"[loader] failed to emit {event_type}: {exc!r} payload={payload!r}",
+            file=_sys.stderr,
+        )
+
+
 @dataclass(frozen=True)
 class SubtopicBinding:
     """Lightweight tuple tying an article to a curated SubTopic anchor.
@@ -109,12 +170,23 @@ def build_graph_load_plan(
     subtopic_edges = _build_subtopic_edges(articles, article_subtopics or {})
     tema_edges = _build_article_tema_edges(articles, article_topics)
     subtema_de_edges = _build_static_subtema_de_edges(article_subtopics or {})
-    edges = _dedupe_edges(
+    raw_edges = (
         list(edge.record for edge in normalized_edges)
         + list(subtopic_edges)
         + list(tema_edges)
         + list(subtema_de_edges)
     )
+    # Drop edges whose ARTICLE endpoint was filtered out by the eligibility
+    # checks above. ``stage_edge`` uses MATCH for endpoints so these would
+    # silently no-op in Cypher, but keeping them in the plan inflates stats
+    # and hides real provenance loss. See the 2026-04-23 Phase 9.A triage.
+    ineligible_article_keys = {
+        a.article_key for a in articles if not _is_article_node_eligible(a)
+    }
+    edges, dropped_edges = _filter_edges_by_article_eligibility(
+        raw_edges, ineligible_article_keys
+    )
+    edges = _dedupe_edges(edges)
     validation = validate_graph_records(nodes, edges, schema=graph_schema)
 
     statements = tuple(client.stage_node(node) for node in nodes) + tuple(
@@ -127,6 +199,11 @@ def build_graph_load_plan(
             "Skipped "
             f"{skipped_edge_count} unresolved ArticleNode edge(s) whose targets are not materialized "
             "in the current corpus snapshot."
+        )
+    if dropped_edges:
+        warnings.append(
+            f"Skipped {dropped_edges} edge(s) whose ArticleNode endpoint was filtered "
+            "as non-schema (e.g. parser-fallback article without article_number)."
         )
     if not client.config.is_configured:
         warnings.append("FALKORDB_URL is not configured; load plan is staged only.")
@@ -204,9 +281,12 @@ def build_graph_delta_plan(
 
     statements: list[GraphWriteStatement] = []
 
-    # (1) DETACH DELETE for retired articles.
+    # (1) DETACH DELETE for retired articles. Filter empty AND
+    # whitespace-only keys so stage_detach_delete (which rejects both) never
+    # sees a malformed input — a whitespace-only key sneaking through would
+    # mask an orchestrator bug.
     retired_keys = tuple(retired_article_keys or ())
-    for key in sorted({str(k) for k in retired_keys if k}):
+    for key in sorted({str(k).strip() for k in retired_keys if k and str(k).strip()}):
         statements.append(client.stage_detach_delete(NodeKind.ARTICLE, key))
 
     # (2) DELETE outbound edges for modified-doc article keys.
@@ -231,13 +311,20 @@ def build_graph_delta_plan(
         + list(_build_subtopic_nodes(article_subtopics))
         + list(_build_topic_nodes(topic_keys_in_use))
     )
-    edges = _dedupe_edges(
+    raw_edges = (
         list(edge.record for edge in normalized_edges)
         + list(promoted_dangling_edges)
         + list(_build_subtopic_edges(delta_articles, article_subtopics))
         + list(_build_article_tema_edges(delta_articles, article_topics))
         + list(_build_static_subtema_de_edges(article_subtopics))
     )
+    ineligible_article_keys = {
+        a.article_key for a in delta_articles if not _is_article_node_eligible(a)
+    }
+    filtered_edges, dropped_edges = _filter_edges_by_article_eligibility(
+        raw_edges, ineligible_article_keys
+    )
+    edges = _dedupe_edges(filtered_edges)
     validation = validate_graph_records(nodes, edges, schema=graph_schema)
 
     for node in nodes:
@@ -249,6 +336,11 @@ def build_graph_delta_plan(
     if not retired_keys and not added_entries and not modified_entries:
         warnings.append(
             "build_graph_delta_plan received an empty delta; no statements emitted."
+        )
+    if dropped_edges:
+        warnings.append(
+            f"Skipped {dropped_edges} edge(s) whose ArticleNode endpoint was filtered "
+            "as non-schema (e.g. parser-fallback article without article_number)."
         )
 
     return GraphLoadPlan(
@@ -292,6 +384,25 @@ def load_graph_plan(
 def _build_article_nodes(
     articles: tuple[ParsedArticle, ...] | list[ParsedArticle],
 ) -> tuple[GraphNodeRecord, ...]:
+    eligible = [a for a in articles if _is_article_node_eligible(a)]
+    skipped = len(articles) - len(eligible)
+    if skipped:
+        # Best-effort observability — parser-fallback articles (no
+        # article_number) are a known legitimate case; surface the count so
+        # Phase 10 smokes can reconcile Supabase chunks vs Falkor articles.
+        sample_keys = [
+            a.article_key for a in articles if not _is_article_node_eligible(a)
+        ][:5]
+        _try_emit_event(
+            "ingest.graph.articles_skipped_nonschema",
+            {
+                "skipped": skipped,
+                "sample_article_keys": sample_keys,
+                "reason": "ParsedArticle lacked required ArticleNode fields "
+                "(article_number / heading / text / status). Typically a "
+                "section-fallback or whole-doc-fallback output.",
+            },
+        )
     return tuple(
         GraphNodeRecord(
             kind=NodeKind.ARTICLE,
@@ -307,7 +418,7 @@ def _build_article_nodes(
                 "annotations": list(article.annotations),
             },
         )
-        for article in articles
+        for article in eligible
     )
 
 
@@ -375,10 +486,19 @@ def _build_article_tema_edges(
     articles: tuple[ParsedArticle, ...] | list[ParsedArticle],
     article_topics: Mapping[str, str],
 ) -> tuple[GraphEdgeRecord, ...]:
-    """Emit TEMA edges: every article with a resolved topic → TopicNode."""
+    """Emit TEMA edges: every article with a resolved topic → TopicNode.
+
+    Scoped to the eligible (schema-meeting) article set; fallback articles
+    that were filtered out of ``_build_article_nodes`` must not source a
+    TEMA edge whose ArticleNode was never materialized. The edge's MATCH
+    on the source node would silently no-op in Cypher, but we'd rather not
+    pollute the statement stream with unreachable statements.
+    """
     if not article_topics:
         return ()
-    article_keys = {article.article_key for article in articles}
+    article_keys = {
+        article.article_key for article in articles if _is_article_node_eligible(article)
+    }
     edges: list[GraphEdgeRecord] = []
     seen: set[tuple[str, str]] = set()
     for article_key, topic_key in article_topics.items():
@@ -405,10 +525,26 @@ def _build_subtopic_nodes(
     article_subtopics: Mapping[str, SubtopicBinding],
 ) -> tuple[GraphNodeRecord, ...]:
     unique: dict[str, SubtopicBinding] = {}
+    skipped_bindings: list[str] = []
     for binding in article_subtopics.values():
-        if not binding.sub_topic_key:
+        if not _is_subtopic_binding_eligible(binding):
+            # Keep the sub_topic_key for observability even when the binding
+            # is partially populated — helps diagnose upstream miners that
+            # forgot to wire ``parent_topic`` / ``label``.
+            if binding and binding.sub_topic_key:
+                skipped_bindings.append(binding.sub_topic_key)
             continue
         unique.setdefault(binding.sub_topic_key, binding)
+    if skipped_bindings:
+        _try_emit_event(
+            "ingest.graph.subtopics_skipped_nonschema",
+            {
+                "skipped": len(skipped_bindings),
+                "sample_sub_topic_keys": skipped_bindings[:5],
+                "reason": "SubtopicBinding lacked required SubTopicNode fields "
+                "(sub_topic_key / parent_topic / label).",
+            },
+        )
     nodes: list[GraphNodeRecord] = []
     for key, binding in sorted(unique.items()):
         nodes.append(
@@ -430,7 +566,11 @@ def _build_subtopic_edges(
     article_subtopics: Mapping[str, SubtopicBinding],
 ) -> tuple[GraphEdgeRecord, ...]:
     edges: list[GraphEdgeRecord] = []
-    article_keys = {article.article_key for article in articles}
+    # Only articles that became ArticleNodes can source HAS_SUBTOPIC edges;
+    # see ``_is_article_node_eligible`` for the rationale.
+    article_keys = {
+        article.article_key for article in articles if _is_article_node_eligible(article)
+    }
     for article_key, binding in article_subtopics.items():
         if not binding.sub_topic_key or article_key not in article_keys:
             continue
@@ -460,14 +600,33 @@ def _build_reform_nodes(
             continue
         raw_reference = str(edge.record.properties.get("raw_reference", "") or "").strip()
         citations_by_key.setdefault(edge.record.target_key, raw_reference or edge.record.target_key)
-    return tuple(
-        GraphNodeRecord(
-            kind=NodeKind.REFORM,
-            key=key,
-            properties={"citation": citation},
+    # ReformNode.required_fields = ("citation",) per schema.py. Drop any
+    # entry whose citation is empty/whitespace — same crash class as the
+    # ArticleNode bug. Surface the count so the miner can notice when it's
+    # emitting malformed references.
+    nodes: list[GraphNodeRecord] = []
+    skipped: list[str] = []
+    for key, citation in sorted(citations_by_key.items()):
+        if not str(citation or "").strip():
+            skipped.append(key)
+            continue
+        nodes.append(
+            GraphNodeRecord(
+                kind=NodeKind.REFORM,
+                key=key,
+                properties={"citation": citation},
+            )
         )
-        for key, citation in sorted(citations_by_key.items())
-    )
+    if skipped:
+        _try_emit_event(
+            "ingest.graph.reforms_skipped_nonschema",
+            {
+                "skipped": len(skipped),
+                "sample_reform_keys": skipped[:5],
+                "reason": "ReformNode citation was empty/whitespace.",
+            },
+        )
+    return tuple(nodes)
 
 
 def normalize_classified_edges(
@@ -497,6 +656,44 @@ def _normalize_reform_key(citation: str) -> str:
     number = match.group("number")
     year = match.group("year") or "s_f"
     return f"{prefix}-{number}-{year}"
+
+
+def _filter_edges_by_article_eligibility(
+    edges: list[GraphEdgeRecord],
+    ineligible_article_keys: set[str],
+) -> tuple[list[GraphEdgeRecord], int]:
+    """Drop edges whose ARTICLE endpoint is in the ``ineligible_article_keys``
+    set (i.e., an article this delta filtered out of ArticleNode staging).
+
+    Returns ``(kept, dropped_count)``. Only drops when we KNOW the endpoint
+    was skipped by us — ARTICLE endpoints NOT in the delta's article list
+    are assumed materialized by a prior reingest and left alone so ``MATCH``
+    can find them.
+
+    See the 2026-04-23 Phase 9.A triage: parser-fallback articles were
+    filtered out of ArticleNode staging, leaving their classifier / dangling
+    edges orphaned. ``stage_edge`` MATCH would silently no-op but the
+    statement stream still inflated. Filtering here keeps the plan honest.
+    """
+    if not ineligible_article_keys:
+        return list(edges), 0
+    kept: list[GraphEdgeRecord] = []
+    dropped = 0
+    for record in edges:
+        if (
+            record.source_kind is NodeKind.ARTICLE
+            and record.source_key in ineligible_article_keys
+        ):
+            dropped += 1
+            continue
+        if (
+            record.target_kind is NodeKind.ARTICLE
+            and record.target_key in ineligible_article_keys
+        ):
+            dropped += 1
+            continue
+        kept.append(record)
+    return kept, dropped
 
 
 def _dedupe_nodes(records: list[GraphNodeRecord]) -> tuple[GraphNodeRecord, ...]:

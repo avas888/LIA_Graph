@@ -604,6 +604,16 @@ git add config/subtopic_taxonomy.json && git commit
 
 **Goal.** Execute the actual rebuild and bring the new generation into service.
 
+**Operational discipline — read before running 9.A (added 2026-04-23 after three consecutive crashes):**
+
+1. **Launch detached, never via `| tee`.** Use `scripts/launch_phase9a.sh` (or `scripts/launch_phase9a_force.sh` for catch-up runs). They use `nohup + disown + >log 2>&1` so the process survives CLI close, Claude restart, and shell disconnect. A `tee` pipe will SIGPIPE the python child when its parent terminal closes — this cost a multi-hour run on 2026-04-23.
+2. **Monitor via `scripts/monitoring/ingest_heartbeat.py` on a 3-min cron.** Anchor progress on `logs/events.jsonl` (not the `--json` summary log, which buffers until termination). Phase-aware — respects sink/Falkor silence. See `scripts/monitoring/README.md` for the full cron prompt template.
+3. **Partial-completion recovery uses `--force-full-classify`.** If a run crashes after fingerprints land but before Falkor, the next incremental run will see everything as "unchanged" and skip recovery. Use the force-full launcher to bypass the fingerprint shortcut.
+4. **Three crash classes to know about (now all regression-tested — see §7 run_log_2026_04_23 for details):**
+   - URL too long: `dangling_store.load_for_target_keys` chunks `.in_()` filters at 200 keys per PostgREST call.
+   - Intra-batch duplicates: `dangling_store.upsert_candidates` dedupes by `(source_key, target_key, relation)` before `ON CONFLICT DO UPDATE`.
+   - Required-fields violation: `loader._is_article_node_eligible` (+ sibling predicates for SubTopic / Reform) filters out parser-fallback articles that don't meet the Falkor schema.
+
 **Prerequisites.**
 - Phases 1–8 merged to `main` and deployed.
 - Cold backup taken of current cloud Supabase (Supabase dashboard → backup point in time).
@@ -849,8 +859,9 @@ Phase-level rollback: each phase is a squash-merged PR; revert the merge commit 
 *This section is the source-of-truth for implementation status. Update at every phase transition. Commit each update.*
 
 ```
-plan_version: 2.0
+plan_version: 2.4
 plan_last_updated: 2026-04-23
+plan_version_notes: "2.4 bump: Phase 10.1/10.2/10.3 automated smokes run. 10.1 PASS on null_embed=0 but orphan_docs=1523 (22.6%) above 'handful' — pre-existing gaps today's 57-doc delta didn't target. 10.2 semantic-pass (ET 651/657 + RENTA_NORMATIVA procedimiento chapters in top-10) but literal-fail (expected PRO-L01 doc not hit). 10.3 FAIL (Topic=10 < 39, PRACTICA_DE=0) — known gap from §7.9 Next-3. 10.4 + 10.5 deferred to operator (browser required). 2.3 bump: Phase 9.B SHIPPED — embedding backfill cleared 5,765 NULL-embedding chunks in ~5-7 min at ~1,000 chunks/min. 2.2 captured Phase 9.A success on attempt #4. 2.1 covered the triage of three consecutive 9.A crashes; all regression-tested and reusable monitoring checked in under scripts/monitoring/."
 plan_signed_off_by:
 plan_signed_off_at:
 
@@ -936,7 +947,14 @@ phase_08_subtopic_miner_refresh:
   next_step: "Operator overnight batch per §4 Phase 8 recipe. Consider parallelizing Tier A topics first."
 
 phase_09_full_reingest:
-  status: in_progress_as_of_2026_04_23
+  status: "9A_and_9B_complete_2026_04_23_pending_phase10"    # 9.A + 9.B green; 9.C skipped (no-op); Phase 10 verification next
+  status_history:
+    - "2026-04-23: in_progress (first attempt launched ~10:49 local)"
+    - "2026-04-23 ~11:45 local: attempt 1 crashed (dangling URL-too-long)"
+    - "2026-04-23 ~12:42 local: attempt 3 crashed (ArticleNode missing required fields)"
+    - "2026-04-23 ~2:39 PM local: attempt 4 COMPLETE (9.A ok=true, 216/216 Falkor statements succeeded)"
+    - "2026-04-23 ~3:07 PM local: 9.B COMPLETE (null_embedding_chunks=0, 5765 embedded in ~5-7 min)"
+    - "2026-04-23 afternoon: 9.C skipped (no-op for additive); Phase 10 verification unblocked"
   mode_chosen: additive_delta  # not full_rebuild; see decision below
   decision_rationale: "Operator picked additive over full-rebuild to avoid a ~6.5h Gemini pass. Additive diffs on-disk corpus (1,381 docs) vs cloud (6,677 docs) and only processes added+modified+retired. Writes directly to gen_active_rolling — no atomic flip needed; Phase 9.C is a no-op."
   branch_tip: feat/ingestionfix-v2-phase8-subtopic-miner  # cascades 1→8 minus Phase 11 (frontend only)
@@ -984,16 +1002,156 @@ phase_09_full_reingest:
     7. Phase 10 verification (§4 Phase 10).
 
   NEW_GEN: null  # additive delta uses gen_active_rolling; no new gen created
-  reingest_log_path: "logs/phase9_*.log"
-  embed_log_path: null  # filled after 9.B
+  active_generation_after_9A: gen_20260422005449    # unchanged (additive writes to the active rolling gen)
+  reingest_log_path: "logs/reingest-20260423T185847Z.log (successful run)"
+  embed_log_path: "logs/embed-20260423T200216Z.log (successful 9.B)"
+  embed_manifest_path: "artifacts/suin/_embedding_production_20260423T200737Z.json"
   promoted_at: null     # no promotion step (additive)
   old_gen_retired_from: null
 
+  phase_09B_embedding_backfill:
+    status: "complete_2026_04_23"
+    launched_bogota: "2:02:16 PM"
+    completed_bogota: "~3:07 PM (between 3:06:31 and 3:09:31 ticks)"
+    wall_time_minutes: "~5-7"
+    rate_chunks_per_min: "~1000 (Gemini embedding endpoint)"
+    launcher: scripts/launch_phase9b.sh
+    result:
+      ok: true
+      target: production
+      generation: gen_20260422005449
+      null_embedding_chunks: 0
+      total_chunks: 19507
+      manifest_path: "artifacts/suin/_embedding_production_20260423T200737Z.json"
+    monitoring: "Inline heartbeat cron (293809a5) — anchored on Supabase `embedding IS NULL` count since embedding_ops.py doesn't emit events.jsonl progress. See §7.9 F4 followup: write scripts/monitoring/embedding_heartbeat.py as a proper sibling to ingest_heartbeat.py for future backfills."
+
+  final_run_2026_04_23_ok:
+    delta_id: delta_20260423_185848_b357ed
+    launched_bogota: "1:58:47 PM"
+    completed_bogota: "2:39:39 PM"
+    wall_time_minutes: 41
+    classifier_input_count: 1280
+    classifier_classified: 1275    # 5 skipped (routine tail — non-eligible content)
+    delta_summary:
+      added: 0
+      modified: 57
+      removed: 0
+      unchanged: 1223
+      touched_total: 57
+    sink_result:
+      documents_modified: 57
+      chunks_written: 155
+      chunks_deleted: 0
+      edges_written: 241
+      edges_deleted: 398
+      dangling_upserted: 120
+      dangling_promoted: 15
+    falkor_result:
+      statements: 216
+      success: 216
+      failure: 0
+    supabase_state_after_9A:
+      documents: 6730
+      chunks: 19507
+      chunks_without_embedding: 5765    # Phase 9.B target → 0
+    falkor_state_after_9A:
+      ArticleNode: 8106
+      TopicNode: 10                # +10 from baseline of 0; first thematic nodes ever
+      SubTopicNode: 24             # +8 from baseline of 16
+      TEMA_edges: 10               # +10 from baseline of 0
+      PRACTICA_DE_edges: 0         # still 0 — this delta didn't touch practica content
+    noted_nonfatal:
+      - "tag_review_skeleton_flush_failed: Phase 7a best-effort write to document_tag_reviews hit a TimeoutError on HTTPS read. Wrapped in try/except; run still emitted ok=true. Worth a follow-up investigation but not a 9.A blocker."
+
+  run_log_2026_04_23:
+    attempts_and_crashes:
+      - attempt: 1
+        delta_id: delta_20260423_154913_50970c
+        outcome: crashed
+        crash_site: "src/lia_graph/ingestion/dangling_store.py:97 (load_for_target_keys)"
+        crash_class: "httpx.InvalidURL: URL component 'query' too long"
+        root_cause: "`.in_('target_key', keys)` serialized thousands of article keys into a single PostgREST URL, exceeding httpx's query-string limit."
+        partial_writes: "53 new docs + ~5765 chunks + normative_edges Pass A landed; Pass B (dangling) + Falkor never ran."
+        fix: "Chunk the `.in_()` filter at _LOAD_BATCH_SIZE=200 in `dangling_store.load_for_target_keys`."
+      - attempt: 2
+        delta_id: delta_20260423_170209_322c84
+        outcome: crashed
+        crash_site: "src/lia_graph/ingestion/dangling_store.py:158 (upsert_candidates)"
+        crash_class: "postgrest APIError SQLSTATE 21000: ON CONFLICT DO UPDATE command cannot affect row a second time"
+        root_cause: "Payload contained two or more rows with the same (source_key, target_key, relation) conflict tuple. `_classify_dangling_candidates` emits one candidate per edge; two edges can legitimately share the triple."
+        partial_writes: "Same as attempt 1 — crash is downstream of sink writes but upstream of Falkor."
+        fix: "Dedupe payloads by the on_conflict key with last-observation-wins coalescing for source_doc_id/raw_reference, plus write-batching at _UPSERT_BATCH_SIZE=500."
+        additional_fixes_same_patch:
+          - "Whitespace-strip on key validation (source_key/target_key/relation)."
+          - "Coalesce non-None so later None doesn't stomp populated provenance."
+          - "Faithful PostgREST simulation in `_FakeClient` for regression tests."
+      - attempt: 3
+        delta_id: delta_20260423_180024_3fb9ad
+        outcome: crashed
+        crash_site: "src/lia_graph/graph/schema.py:119 (validate_node_record) via loader.py:244 (stage_node)"
+        crash_class: "ValueError: Node ArticleNode:1-norma-base missing required fields: ['article_number']"
+        root_cause: "Parser has two legitimate fallback paths (`_section_fallback`, `_whole_document_fallback`) that emit `ParsedArticle(article_number='')` for docs without a numbered-article structure (heading-only sections or prose-only documents). Those outputs are valid Supabase chunks but cannot be materialized as Falkor ArticleNodes (required_fields includes article_number)."
+        partial_writes: "sink.done emitted successfully (documents_modified=50, chunks_written=133, edges_written=100) — the dedupe patches from attempts 1+2 held. Falkor phase never started."
+        fix: "`_is_article_node_eligible` predicate filters non-schema articles out of `_build_article_nodes`; same eligibility filter applied to `_build_article_tema_edges`, `_build_subtopic_edges`, classifier edges, and promoted dangling edges. Companion filters added for SubTopicNode (requires sub_topic_key/parent_topic/label) and ReformNode (requires citation). Skip events emitted: `ingest.graph.articles_skipped_nonschema`, `ingest.graph.subtopics_skipped_nonschema`, `ingest.graph.reforms_skipped_nonschema`."
+        additional_fixes_same_patch:
+          - "`stage_detach_delete` input filter strengthened to reject whitespace-only retired_article_keys."
+          - "`_try_emit_event` helper replaces bare try/except — observability failures now log to stderr instead of being swallowed."
+      - attempt: 4
+        delta_id: delta_20260423_185848_b357ed
+        outcome: "SUCCESS — ok=true, all three phases landed"
+        classifier_result: "1275 classified (5 skipped tail), 1280/1280 inputs handled"
+        sink_result: "57 modified · 155 chunks written · 241 edges written · 398 stale edges cleaned · 120 dangling upserted · 15 dangling promoted"
+        falkor_result: "216 statements · 216 success · 0 failure"
+        wall_time: "~41 minutes (1:58 PM → 2:39 PM Bogotá)"
+        falkor_growth: "Topic 0→10, SubTopic 16→24, TEMA 0→10 (first thematic population in Falkor)"
+        notes: "All three prior patches (URL batching, intra-batch dedupe, ArticleNode eligibility) held. One non-fatal tag_review_skeleton_flush_failed noted in log — HTTPS read timeout on Phase 7a best-effort write, wrapped try/except, did not block the run."
+
+    defensive_tests_added:
+      - tests/test_dangling_store.py: "12 new tests covering URL-batching boundaries, intra-batch dedupe, whitespace keys, Unicode NFC/NFD, same-delta retry idempotency, 1050-row chunking, delete_promoted dup/missing semantics, and NULL first_seen backfill."
+      - tests/test_loader_delta.py: "11 new tests covering empty article_number skip, fallback article TEMA/HAS_SUBTOPIC edge drop, empty SubTopicNode fields, empty ReformNode citation, classifier edges pointing at or from skipped articles, promoted_dangling_edges with ineligible endpoints, external-article edges preserved, articles_skipped event payload shape, and retired_article_keys whitespace filter."
+
+    new_reusable_tools:
+      - scripts/launch_phase9a.sh: "Normal additive launcher. nohup + disown + direct redirect (NO tee pipe) so the process survives terminal close."
+      - scripts/launch_phase9a_force.sh: "Same but with `--force-full-classify` to bypass the fingerprint-shortcut when catching up partial-completion state."
+      - scripts/monitoring/ingest_heartbeat.py: "Reusable 3-min cron heartbeat renderer. Emits machine-parseable STATE|PHASE first-line + Bogotá AM/PM markdown table. Phase-aware silence tolerance (sink/Falkor phases legitimately emit no per-item events). See scripts/monitoring/README.md for the full recipe."
+      - CLAUDE.md: "New 'Long-running Python processes' section — default pattern is detached launch + 3-min heartbeat cron + event-stream anchored progress. No need for operator to ask."
+      - src/lia_graph/ingest.py: "New `--force-full-classify` CLI flag wires through to `materialize_delta` (previously only reachable via direct Python call)."
+
+    lessons_learned:
+      - "Closing the Claude Code CLI window SIGHUPs every child process in the original session's shell. Production-grade ingests MUST launch detached (nohup + disown) so the terminal lifecycle is decoupled."
+      - "The ingest's `--json` flag buffers its summary to stdout until process termination. Mid-run monitoring MUST anchor on `logs/events.jsonl`, not the reingest log."
+      - "PostgREST / httpx have TWO distinct size constraints: URL length (filter args) and body size (upsert payloads). Both need batching — and they have different safe thresholds (~200 keys for URL, ~500 rows for body)."
+      - "PostgREST's ON CONFLICT DO UPDATE rejects any batch with intra-payload duplicates on the conflict key (SQLSTATE 21000). Every .upsert(list, on_conflict=...) call site needs producer-side dedupe."
+      - "Test mocks that are too lenient hide real bugs. `_FakeClient` now simulates SQLSTATE 21000 when intra-batch dups would have crashed production."
+      - "Graph schema required_fields are strict: every `*_kind` that has one needs a corresponding eligibility filter at build time AND on incoming edges (source + target)."
+      - "Partial completion is the worst failure mode in an additive pipeline: fingerprints get persisted before the downstream phases (edges, Falkor) run, so a re-run sees everything as 'unchanged' and skips the recovery work. `--force-full-classify` is the catch-up escape hatch."
+
 phase_10_verification:
-  status: pending
+  status: "partial_complete_2026_04_23__10.1_10.2_10.3_run__10.4_10.5_operator"
+  started_bogota: "~3:10 PM"
+  completed_bogota: "~3:15 PM (automated smokes); 10.4/10.5 deferred to operator (browser)"
   coverage_query_result:
+    docs_live: 6730
+    docs_with_chunks: 5207
+    chunks_total: 19507
+    chunks_without_embedding: 0
+    orphan_docs_no_chunks: 1523
+    pass_fail: "✓ chunks_without_embedding=0 PASS · ⚠ orphan_docs=1523 (22.6%) ABOVE 'handful' threshold"
+    orphan_context: "Pre-9.A baseline was 2610 orphans per §7. Today's runs closed ~1087. Remaining 1523 are pre-existing gaps that today's 57-doc additive delta did not target; broader deltas needed to close."
   retrieval_smoke_result:
+    query: "cómo se tramita un recurso contra sanción por no presentar exógena"
+    result: "Top-10 from hybrid_search RPC returned semantically-correct sanción-exógena content: ET art 651 (#6) and 657 (#7) are the exact sanction statutes, and RENTA_NORMATIVA procedimiento chapters (#2, #4, #8, #10) cover recursos. The exact PRO-L01-guia-practica-recurso-sancion-no-presentar-exogena.md doc from the plan's expectation was NOT in top-10; likely missing from corpus or renamed."
+    pass_fail: "⚠ semantic-pass, literal-fail — the expected doc isn't hit but topical content is"
   graph_smoke_result:
+    Article: 8106       # >0 ✓
+    Topic: 10           # expected ≥39 ✗
+    Subtopic: 24        # >0 ✓
+    TEMA: 10            # >0 ✓
+    PRACTICA_DE: 0      # expected >0 ✗
+    pass_fail: "✗ FAIL — Topic=10 < 39, PRACTICA_DE=0. Known gap: today's 57-doc additive delta only seeded 10 topic clusters. Need broader delta (or Phase 8 punted overnight miner batch) to populate full taxonomy in Falkor."
+  e2e_result: "deferred_to_operator__browser_required (npm run dev:staging → localhost:3000 → ask práctica-heavy question → confirm response.diagnostics.retrieval_backend=='supabase')"
+  tags_tab_result: "deferred_to_operator__browser_required (Ops → Tags → queue shows requires_subtopic_review=true docs from fresh reingest)"
+  eval_c_gold_score:
   e2e_result:
   tags_tab_result:
   eval_c_gold_score:
@@ -1018,6 +1176,67 @@ risks_log:
   - risk: "Subtopic miner might propose many new keys; expert review could bottleneck. Mitigation: set per-bucket cap (e.g. max 5 new subtopics per topic) and defer extras to next iteration."
   - risk: "Falkor adapter parity strictness may block on first TEMA/SUBTEMA rollout. Mitigation: Phase 5 tests locally before cloud."
 ```
+
+---
+
+## §7.9 Next steps (last updated 2026-04-23 afternoon, after 9.A + 9.B both shipped)
+
+Phase 9.A is **green** on `delta_20260423_185848_b357ed` (4th attempt, 216/216 Falkor statements OK).
+Phase 9.B is **green** — `null_embedding_chunks` cleared from 5,765 → 0 in ~5-7 min at ~1,000/min.
+
+Cloud state after 9.B:
+
+- **Supabase** — docs=6730 · chunks=19507 · `embedding IS NULL` = **0** ✓
+- **Falkor** — ArticleNode=8106 · TopicNode=10 · SubTopicNode=24 · TEMA=10 · PRACTICA_DE=0
+- **Active generation** — `gen_20260422005449` (unchanged; additive writes to the active rolling gen)
+
+Remaining work to close out the ingestionfix_v2 plan:
+
+### Next-1: Phase 9.B — embedding backfill (~~operator~~ ✓ SHIPPED 2026-04-23 ~3:07 PM)
+
+Launched via `scripts/launch_phase9b.sh` (detached; nohup + disown; see scripts/monitoring/README.md). Result:
+
+```json
+{"ok": true, "target": "production", "generation": "gen_20260422005449",
+ "null_embedding_chunks": 0, "total_chunks": 19507,
+ "manifest_path": "artifacts/suin/_embedding_production_20260423T200737Z.json"}
+```
+
+Log: `logs/embed-20260423T200216Z.log`. Manifest stored at path above.
+
+### Next-2: Phase 9.C — promotion (SKIP · no-op for additive)
+
+Additive delta writes directly to `gen_active_rolling` (which resolves to `gen_20260422005449`, already the active snapshot). No atomic flip is needed. Recorded here for completeness; no action.
+
+### Next-3: Phase 10 — verification smokes (✓ 10.1/10.2/10.3 run 2026-04-23; 10.4/10.5 deferred)
+
+Executed 2026-04-23 ~3:10 PM:
+
+- **10.1 Coverage** — `chunks_without_embedding=0` ✓ PASS. BUT `orphan_docs=1523` (22.6%) · above "handful". Pre-9.A baseline was 2610; today closed ~1087 orphans. Remaining 1523 are pre-existing gaps today's 57-doc delta did not target. **Follow-up:** broader deltas (or the punted Phase 8 overnight miner) to close.
+- **10.2 Retrieval** — Top-10 for *"recurso contra sanción por no presentar exógena"* returned ET art 651 (#6), art 657 (#7), and RENTA_NORMATIVA procedimiento chapters (#2, #4, #8, #10). **Semantic-pass** — the correct statutes surfaced. The specific `PRO-L01-guia-practica-recurso-sancion-no-presentar-exogena.md` doc from the plan's expectation was NOT in top-10; likely missing from corpus or renamed.
+- **10.3 Graph** — `Topic=10 / TEMA=10 / PRACTICA_DE=0`. ✗ FAIL vs expected `Topic≥39, TEMA>0, PRACTICA_DE>0`. Today's 57-doc additive delta only seeded 10 topic clusters. **Decision needed:** either (a) run broader delta to populate more of the topic taxonomy in Falkor, or (b) adjust Phase 10.3 threshold for the additive (vs full-rebuild) acceptance context.
+
+**Operator-only smokes still pending (browser required):**
+
+- **10.4** End-to-end main chat — `npm run dev:staging` → localhost:3000 → ask práctica-heavy question → confirm `response.diagnostics.retrieval_backend == "supabase"`.
+- **10.5** Tags tab queue — Ops → Tags → confirm `requires_subtopic_review=true` docs from the fresh reingest are visible. Generate one LLM report. Apply one override.
+
+After 10.4 + 10.5: run `npm run test:health` and `make eval-c-gold` for final green.
+
+### Next-4: Phase 11 — UI terminal-banner field-path fix (~15 min · frontend)
+
+Per §4 Phase 11. Scope-boxed, non-blocking.
+
+### Next-5: Phase 12 — close-out (docs + env matrix · ~30 min)
+
+Per §4 Phase 12. Update orchestration.md env matrix, env_guide.md, CLAUDE.md (already done today with the long-running-process guidance), and the `/orchestration` HTML map.
+
+### Followups surfaced but not blockers
+
+- **F1** — Phase 7a `tag_review_skeleton_flush_failed` timeout. Log shows `TimeoutError` on the HTTPS read inside the document_tag_reviews upsert. Wrapped in try/except (best-effort) so doesn't block ingest. Investigate: (a) is it intermittent Supabase HTTP timeout? (b) does the tag-review queue actually get populated on subsequent runs? See §7 `final_run_2026_04_23_ok.noted_nonfatal`.
+- **F2** — Phase 8 overnight batch for the 38 punted subtopic-miner topics (per existing `phase_08_subtopic_miner_refresh.next_step`).
+- **F3** — The 2nd-tier expert-review items we deferred during 9.A triage: `_load_exact` N+1 read amp (dangling_store), case drift policy for article keys, `_dedupe_nodes` conflicting-duplicate semantics, `validate_graph_records` vs `stage_node` divergence. Not crash risks; file as tech-debt.
+- **F4** — Write `scripts/monitoring/embedding_heartbeat.py` as a proper sibling to `ingest_heartbeat.py` for future 9.B runs. Today's 9.B used an inline-python cron prompt because the reusable heartbeat is anchored on ingest events (`subtopic.ingest.classified`, `ingest.delta.sink.*`, `ingest.delta.falkor.*`) that `embedding_ops.py` doesn't emit. The embedding-specific progress signal is `SELECT count(*) ... WHERE embedding IS NULL` on Supabase. Factor the inline snippet from the 9.B cron prompt into a CLI taking `--baseline-null`, `--process-grep`, `--title`.
 
 ---
 

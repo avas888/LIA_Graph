@@ -742,6 +742,17 @@ def parser() -> argparse.ArgumentParser:
             "so Phase 8 UI can bind to it.)"
         ),
     )
+    cli.add_argument(
+        "--force-full-classify",
+        action="store_true",
+        help=(
+            "Bypass the fingerprint-based prematch shortcut and run the "
+            "classifier over every doc in the corpus. Used to catch up state "
+            "that a prior crashed run already fingerprinted but never finished "
+            "downstream (edges, dangling, Falkor). Only meaningful with "
+            "--additive."
+        ),
+    )
     return cli
 
 
@@ -800,6 +811,7 @@ def main(argv: list[str] | None = None) -> int:
                 strict_parity=bool(args.strict_parity),
                 skip_llm=bool(args.skip_llm),
                 rate_limit_rpm=int(args.rate_limit_rpm),
+                force_full_classify=bool(args.force_full_classify),
             )
         except (FileNotFoundError, NotADirectoryError) as exc:
             payload = {
