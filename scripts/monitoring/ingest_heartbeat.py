@@ -78,6 +78,61 @@ def bog_time_short(dt: datetime) -> str:
 
 
 @dataclass
+class ChainState:
+    """Lightweight view over ``artifacts/backfill_state.json``.
+
+    Produced by ``scripts/run_topic_backfill_chain.sh`` before each batch
+    boundary. Only the fields the heartbeat renders are parsed — unknown
+    fields are ignored so the schema can extend without breaking this
+    consumer. See ingestionfix_v3 §5 Phase 2.
+    """
+
+    batches_planned: int
+    done_count: int
+    done_wall_minutes: float
+    current_batch: int | None
+    current_started_at: str | None
+    avg_wall_minutes: float
+    est_remaining_minutes: float
+
+    @classmethod
+    def from_file(cls, path: Path) -> "ChainState | None":
+        if not path.exists():
+            return None
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            return None
+        planned = int(payload.get("batches_planned") or 0)
+        done = list(payload.get("done_batches_log") or [])
+        wall_total = 0.0
+        for entry in done:
+            try:
+                wall_total += float(entry.get("wall_minutes") or 0.0)
+            except Exception:
+                continue
+        avg = wall_total / len(done) if done else 0.0
+        current = payload.get("current_batch") or {}
+        current_idx = current.get("batch") if isinstance(current, dict) else None
+        current_started = (
+            current.get("started_at") if isinstance(current, dict) else None
+        )
+        remaining = max(planned - len(done), 0)
+        est_remaining = avg * remaining if avg > 0 else 0.0
+        return cls(
+            batches_planned=planned,
+            done_count=len(done),
+            done_wall_minutes=round(wall_total, 1),
+            current_batch=(int(current_idx) if current_idx is not None else None),
+            current_started_at=(
+                str(current_started) if current_started else None
+            ),
+            avg_wall_minutes=round(avg, 1),
+            est_remaining_minutes=round(est_remaining, 1),
+        )
+
+
+@dataclass
 class EventStats:
     done: int = 0
     last_ts: str = ""
@@ -269,6 +324,7 @@ def render(
     base_falk_topic: int,
     base_falk_tema: int,
     base_falk_practica: int,
+    chain: "ChainState | None" = None,
 ) -> str:
     now = datetime.now(timezone.utc)
     last_dt = (
@@ -350,10 +406,33 @@ def render(
     # Progress bar header
     header_line = f"{bar}  {pct:.1f}%   {stats.done} / {total} docs (classifier)"
 
+    chain_rows: list[str] = []
+    if chain is not None:
+        current = (
+            f"batch {chain.current_batch}"
+            if chain.current_batch is not None
+            else "(between batches)"
+        )
+        chain_rows.append(
+            f"| **Chain progress** | `{chain.done_count} / {chain.batches_planned}` done · "
+            f"current `{current}` · avg `{chain.avg_wall_minutes} min/batch` |"
+        )
+        if chain.est_remaining_minutes > 0:
+            eta_wall = bog_time_short(
+                now + timedelta(minutes=chain.est_remaining_minutes)
+            )
+            chain_rows.append(
+                f"| **Total ETA** | `{chain.est_remaining_minutes:.1f} min` remaining "
+                f"→ `{eta_wall}` |"
+            )
+        else:
+            chain_rows.append("| **Total ETA** | `—` (no completed batches yet) |")
+
     meta_table = "\n".join(
         [
             "| | |",
             "|---|---|",
+            *chain_rows,
             f"| **State** | `{state}` · {phase} |",
             f"| **PID / etime** | `{process.pid or '—'}`  ·  `{process.etime}` |",
             f"| **Rate** | `{rate:.1f}` docs/min |",
@@ -433,6 +512,16 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Skip the Falkor count query.",
     )
+    p.add_argument(
+        "--chain-state-file",
+        default=None,
+        help=(
+            "Optional path to artifacts/backfill_state.json. When set, the "
+            "heartbeat prepends 'Chain progress' + 'Total ETA' rows showing "
+            "done/planned batches, avg batch wall time, and estimated "
+            "remaining chain time. See ingestionfix_v3 §5 Phase 2."
+        ),
+    )
     return p.parse_args()
 
 
@@ -446,6 +535,11 @@ def main() -> int:
 
     supa = None if args.skip_supabase else supabase_counts(args.supabase_target)
     falk = None if args.skip_falkor else falkor_counts()
+    chain = (
+        ChainState.from_file(Path(args.chain_state_file))
+        if args.chain_state_file
+        else None
+    )
 
     out = render(
         title=args.title,
@@ -462,6 +556,7 @@ def main() -> int:
         base_falk_topic=args.falk_base_topic,
         base_falk_tema=args.falk_base_tema,
         base_falk_practica=args.falk_base_practica,
+        chain=chain,
     )
     print(out)
     return 0

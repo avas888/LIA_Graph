@@ -34,13 +34,19 @@ src/lia_graph/
   ingest.py               # CLI entry point — has --force-full-classify
 
 scripts/
-  launch_phase9a.sh           # detached reingest (nohup + disown + direct redirect)
+  launch_phase9a.sh           # detached full-corpus reingest (nohup + disown + direct redirect)
   launch_phase9a_force.sh     # same + --force-full-classify
   launch_phase9b.sh           # detached embedding backfill
+  launch_batch.sh             # v3: per-batch detached launcher (fingerprint_bust + ingest)
   embedding_ops.py            # 9.B CLI
   monitoring/
+    README.md                 # top-level navigation index
     ingest_heartbeat.py       # reusable 3-min cron heartbeat renderer
-    README.md                 # cron-prompt template + kill-switches
+    batch_pipeline/           # v3 topic-backfill tools
+      README.md               # canonical v3 flow diagram + safety rails
+      fingerprint_bust.py     # null doc_fingerprint for a topic slice
+      validate_batch.py       # G1-G10 Quality Gate validator
+      run_topic_backfill_chain.sh    # gate-enforced chain supervisor
 
 tests/
   test_dangling_store.py      # 20 tests (12 added by v2)
@@ -180,7 +186,7 @@ The 9.A reingest crashed three times before landing on attempt #4. **Each crash 
 | 3 | `graph/schema.validate_node_record` via `loader.stage_node` | Parser fallback docs have `article_number=""`; Falkor schema requires it | `_is_article_node_eligible()` filter + sibling predicates for SubTopicNode / ReformNode; edge-endpoint filter |
 | 4 | **Completed** | — | — |
 
-**The lesson baked into v3**: fingerprint checkpointing exists and works; what was missing was **controlled fingerprint invalidation** so the operator can force re-work on a specific subset without reclassifying the whole corpus. v3 introduces this via `scripts/fingerprint_bust.py` + a per-batch quality gate.
+**The lesson baked into v3**: fingerprint checkpointing exists and works; what was missing was **controlled fingerprint invalidation** so the operator can force re-work on a specific subset without reclassifying the whole corpus. v3 introduces this via `scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py` + a per-batch quality gate.
 
 ### 1.3 What's left as of 2026-04-23 close
 
@@ -351,8 +357,8 @@ phase_1_paperwork:
 
 | Path | Purpose |
 |---|---|
-| `scripts/fingerprint_bust.py` | CLI: `--topic <key>` or `--topics a,b,c`; `--dry-run`; `--confirm` (required for >0 real rows); `--force-multi` (required for >1 topic); writes `artifacts/fingerprint_bust/<ts>_<batch_or_topic>.json` manifest |
-| `scripts/run_topic_backfill_chain.sh` | Bash supervisor loop — skeleton in Phase 2, full implementation in Phase 3. Must include `--gate-only` mode that runs ONLY batch 1 + pauses |
+| `scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py` | CLI: `--topic <key>` or `--topics a,b,c`; `--dry-run`; `--confirm` (required for >0 real rows); `--force-multi` (required for >1 topic); writes `artifacts/fingerprint_bust/<ts>_<batch_or_topic>.json` manifest |
+| `scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh` | Bash supervisor loop — skeleton in Phase 2, full implementation in Phase 3. Must include `--gate-only` mode that runs ONLY batch 1 + pauses |
 | `artifacts/fingerprint_bust/plan.json` | Canonical 8-batch plan (JSON). See §5 Phase 3 "Batch plan" table for seed groupings |
 | `artifacts/fingerprint_bust/.gitkeep` | Ensure the directory is tracked |
 | `tests/test_fingerprint_bust.py` | Unit tests for `fingerprint_bust.py` using the `_FakeClient` pattern from `test_dangling_store.py` |
@@ -373,15 +379,15 @@ phase_1_paperwork:
 
 ```bash
 # Create the tool + tests
-$EDITOR scripts/fingerprint_bust.py
+$EDITOR scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py
 $EDITOR tests/test_fingerprint_bust.py
 
 # Run just these tests — should all pass before moving on
 PYTHONPATH=src:. uv run pytest tests/test_fingerprint_bust.py -v
 
 # Create the chain runner skeleton
-$EDITOR scripts/run_topic_backfill_chain.sh
-chmod +x scripts/run_topic_backfill_chain.sh
+$EDITOR scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
+chmod +x scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
 
 # Create the batch plan JSON (see §5 Phase 3 seed groupings)
 $EDITOR artifacts/fingerprint_bust/plan.json
@@ -393,8 +399,8 @@ PYTHONPATH=src:. uv run pytest tests/test_ingest_heartbeat.py -k chain_state -v
 
 # Rehearsal — CAUTION, touches production Supabase
 set -a; source .env.staging; set +a
-python scripts/fingerprint_bust.py --topic laboral --dry-run
-python scripts/fingerprint_bust.py --topic laboral --confirm
+python scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py --topic laboral --dry-run
+python scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py --topic laboral --confirm
 bash scripts/launch_phase9a.sh
 # arm heartbeat cron (3m) with --chain-state-file=artifacts/backfill_state.json
 
@@ -413,7 +419,7 @@ git commit -m "feat(ingestionfix-v3-phase-2): fingerprint_bust tool + chain runn
 #### Phase 2 — Acceptance
 
 1. All unit tests in `tests/test_fingerprint_bust.py` green (≥5 tests).
-2. `scripts/fingerprint_bust.py --help` prints usage with `--dry-run`, `--confirm`, `--force-multi`, `--topics`, `--topic` flags.
+2. `scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py --help` prints usage with `--dry-run`, `--confirm`, `--force-multi`, `--topics`, `--topic` flags.
 3. Rehearsal on `laboral` produces Falkor `TopicNode{topic_key:"laboral"}` count=1 and `TEMA` edges >0.
 4. Heartbeat rendered with `--chain-state-file` shows `Chain progress` + `Total ETA` rows.
 5. `artifacts/fingerprint_bust/plan.json` is valid JSON covering all 39 topics in 8 batches.
@@ -449,19 +455,19 @@ phase_2_tool_and_rehearsal:
 
 | Path | Change |
 |---|---|
-| `scripts/run_topic_backfill_chain.sh` | Add: at startup, read `artifacts/batch_1_quality_gate.json`; if missing or `status!=passed`, exit 2 with a message telling the operator what to do. Also add `--gate-only` mode that runs batch 1 and stops. |
+| `scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh` | Add: at startup, read `artifacts/batch_1_quality_gate.json`; if missing or `status!=passed`, exit 2 with a message telling the operator what to do. Also add `--gate-only` mode that runs batch 1 and stops. |
 
 #### Phase 3.0 — Files to create
 
 | Path | Purpose |
 |---|---|
-| `scripts/validate_batch.py` | Runs G1–G10 automated checks + G-summary writes `artifacts/batch_<N>_quality_gate.json` |
+| `scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py` | Runs G1–G10 automated checks + G-summary writes `artifacts/batch_<N>_quality_gate.json` |
 | `artifacts/batch_1_quality_gate.json` | Written by `validate_batch.py --batch 1 --gate`; operator manually fills M1–M3 + U1–U4 results |
 | `tests/test_validate_batch.py` | Unit tests for each G-check against mock client data |
 
 #### Phase 3.0 — The check inventory
 
-**Automated checks (G1–G10)** — run by `scripts/validate_batch.py --batch 1 --gate`:
+**Automated checks (G1–G10)** — run by `scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py --batch 1 --gate`:
 
 | ID | Check | How verified |
 |---|---|---|
@@ -491,7 +497,7 @@ phase_2_tool_and_rehearsal:
 | U1 | Row-level materialization audit — for every `doc_id` in manifest: (a) `documents` row exists with non-NULL `doc_fingerprint`, (b) `document_chunks` count > 0, (c) ≥1 `normative_edges` row prefixed by the doc's article keys, (d) Falkor ArticleNode exists for every article key. Emits `artifacts/batch_1_ultra_audit.jsonl` |
 | U2 | Re-run idempotency — `scripts/launch_phase9a.sh` again; expected `touched_total ≤ 5`, `chunks_written == 0` |
 | U3 | Regression suite replay — `PYTHONPATH=src:. uv run pytest tests/test_dangling_store.py tests/test_loader_delta.py tests/test_falkor_loader_thematic.py tests/test_ingest_cli_additive.py -v` → 90+ tests, 0 failures |
-| U4 | Heartbeat + chain stop-resume integration — `touch artifacts/STOP_BACKFILL` during a 30s yield window; chain halts; state file shows `done_batches_log[0].batch==1`; resume via `rm STOP_BACKFILL && bash scripts/run_topic_backfill_chain.sh` advances to batch 2 |
+| U4 | Heartbeat + chain stop-resume integration — `touch artifacts/STOP_BACKFILL` during a 30s yield window; chain halts; state file shows `done_batches_log[0].batch==1`; resume via `rm STOP_BACKFILL && bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh` advances to batch 2 |
 
 #### Phase 3.0 — Tests (on the validator itself)
 
@@ -514,21 +520,21 @@ PYTHONPATH=src:. uv run pytest tests/test_run_topic_backfill_chain.py -k gate -v
 
 ```bash
 # Create validator + tests
-$EDITOR scripts/validate_batch.py
+$EDITOR scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py
 $EDITOR tests/test_validate_batch.py
 PYTHONPATH=src:. uv run pytest tests/test_validate_batch.py -v   # must pass
 
 # Extend chain runner to enforce the gate
-$EDITOR scripts/run_topic_backfill_chain.sh
+$EDITOR scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
 $EDITOR tests/test_run_topic_backfill_chain.py
 PYTHONPATH=src:. uv run pytest tests/test_run_topic_backfill_chain.py -k gate -v
 
 # Run batch 1 only (via chain runner's --gate-only mode)
-bash scripts/run_topic_backfill_chain.sh --gate-only
+bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh --gate-only
 # ... wait ~10-15 min, heartbeat shows progress
 
 # After batch 1 completes, run the validator
-python scripts/validate_batch.py --batch 1 --gate
+python scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py --batch 1 --gate
 
 # Operator performs M1-M3 manually; fills M1-M3 + U1-U4 results in
 # artifacts/batch_1_quality_gate.json; sets status=passed once all green.
@@ -540,12 +546,12 @@ git commit -m "feat(ingestionfix-v3-phase-3-0): Batch 1 Quality Gate — validat
 
 #### Phase 3.0 — Acceptance
 
-1. `scripts/validate_batch.py --batch 1 --gate` exits 0 (all G1–G10 green).
+1. `scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py --batch 1 --gate` exits 0 (all G1–G10 green).
 2. `artifacts/batch_1_quality_gate.json` exists with `status: passed`, operator initials in `approved_by`, approved_at timestamp in Bogotá AM/PM.
 3. All M1–M3 recorded with supporting data (query, top-3 chunk_ids, retrieval_backend, score delta).
 4. All U1–U4 passed; `artifacts/batch_1_ultra_audit.jsonl` written and non-empty.
 5. v2 regression suite (90+ tests) all green.
-6. `scripts/run_topic_backfill_chain.sh` (without `--gate-only`) on a missing/failing gate file exits 2 with an instructive message.
+6. `scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh` (without `--gate-only`) on a missing/failing gate file exits 2 with an instructive message.
 
 #### Phase 3.0 — State log
 
@@ -594,7 +600,7 @@ phase_3_0_quality_gate:
 
 **Goal.** Populate all 39 TopicNode entries + their TEMA edges (and PRACTICA_DE where applicable) in Falkor via 8 sequential batches. Batches 2–8 run autonomously (30-second yield window between batches); each commits independently; a crash costs only that batch.
 
-**Only runs if Phase 3.0 gate is `passed`.** Enforced by `scripts/run_topic_backfill_chain.sh`.
+**Only runs if Phase 3.0 gate is `passed`.** Enforced by `scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh`.
 
 #### Phase 3 — Batch plan (seed; exact topic counts validated by Phase 2 dry-runs)
 
@@ -624,7 +630,7 @@ Note: batch 1 in the actual chain plan ≠ 3.1 — it's chosen for the Quality G
 
 Polls for `artifacts/STOP_BACKFILL` every 3 seconds. If present, exits with `final_state=operator_halted`.
 
-**Resume is trivial**: `rm artifacts/STOP_BACKFILL && bash scripts/run_topic_backfill_chain.sh`. Chain reads `artifacts/backfill_state.json` → `done_batches_log[]` → skips completed batches → resumes at the next one.
+**Resume is trivial**: `rm artifacts/STOP_BACKFILL && bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh`. Chain reads `artifacts/backfill_state.json` → `done_batches_log[]` → skips completed batches → resumes at the next one.
 
 #### Phase 3 — Durability contract (prior batches written in stone)
 
@@ -644,7 +650,7 @@ Polls for `artifacts/STOP_BACKFILL` every 3 seconds. If present, exits with `fin
 
 | Path | Change |
 |---|---|
-| `scripts/run_topic_backfill_chain.sh` | Implement the full chain loop: read `plan.json`, for each batch {checkpoint state → bust → 9.A → verify → 30s yield with STOP poll → commit to done_batches_log}. Includes atomic state-file writes. |
+| `scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh` | Implement the full chain loop: read `plan.json`, for each batch {checkpoint state → bust → 9.A → verify → 30s yield with STOP poll → commit to done_batches_log}. Includes atomic state-file writes. |
 
 #### Phase 3 — Files to create
 
@@ -676,7 +682,7 @@ PYTHONPATH=src:. uv run pytest tests/test_run_topic_backfill_chain.py -v
 jq -r .status artifacts/batch_1_quality_gate.json   # must be "passed"
 
 # Kick off the chain (runs batches 2-8 autonomously)
-bash scripts/run_topic_backfill_chain.sh
+bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
 
 # Monitor via heartbeat cron — chain writes to artifacts/backfill_state.json
 # so heartbeat shows Chain progress + Total ETA
@@ -687,7 +693,7 @@ touch artifacts/STOP_BACKFILL
 
 # Resume later:
 rm artifacts/STOP_BACKFILL
-bash scripts/run_topic_backfill_chain.sh
+bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
 
 # Inspect state at any time:
 cat artifacts/backfill_state.json | jq
@@ -867,7 +873,7 @@ git checkout -b feat/ingestionfix-v3-phase-2-tool
 PYTHONPATH=src:. uv run pytest tests/test_fingerprint_bust.py tests/test_ingest_heartbeat.py -v
 # Rehearse on laboral
 set -a; source .env.staging; set +a
-python scripts/fingerprint_bust.py --topic laboral --confirm
+python scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py --topic laboral --confirm
 bash scripts/launch_phase9a.sh
 # arm heartbeat cron per scripts/monitoring/README.md
 # Verify Falkor growth
@@ -878,10 +884,10 @@ git checkout -b feat/ingestionfix-v3-phase-3-0-gate
 # Create validator + tests
 PYTHONPATH=src:. uv run pytest tests/test_validate_batch.py -v
 # Run batch 1 via chain runner --gate-only
-bash scripts/run_topic_backfill_chain.sh --gate-only
+bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh --gate-only
 # heartbeat cron shows batch 1 progress
 # When done: validate
-python scripts/validate_batch.py --batch 1 --gate
+python scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py --batch 1 --gate
 # Operator: M1-M3 + U1-U4 manually, fill gate file
 # Set status=passed + approved_by + approved_at
 git commit -am "feat(ingestionfix-v3-phase-3-0): Batch 1 Quality Gate + validator"
@@ -890,11 +896,11 @@ git commit -am "feat(ingestionfix-v3-phase-3-0): Batch 1 Quality Gate + validato
 git checkout -b feat/ingestionfix-v3-phase-3-chain
 # Implement full chain runner loop
 PYTHONPATH=src:. uv run pytest tests/test_run_topic_backfill_chain.py -v
-bash scripts/run_topic_backfill_chain.sh
+bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
 # Unattended ~70-105 min; heartbeat cron every 3 min
 # Inspect progress: cat artifacts/backfill_state.json | jq
 # Stop cleanly if needed: touch artifacts/STOP_BACKFILL
-# Resume: rm STOP_BACKFILL && bash scripts/run_topic_backfill_chain.sh
+# Resume: rm STOP_BACKFILL && bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
 git commit -am "feat(ingestionfix-v3-phase-3): autonomous chain for batches 2-8"
 
 # --- Phase 5: operator browser smokes ---
@@ -988,16 +994,60 @@ phase_1_paperwork:
   resumption_hint: ""
 
 phase_2_tool_and_rehearsal:
-  status: pending
-  # See §5 Phase 2 State log template.
+  status: code_complete_awaiting_rehearsal  # code + tests shipped; laboral rehearsal is operator-gated
+  started_at: 2026-04-23 (Bogotá)
+  code_completed_at: 2026-04-23 (Bogotá)
+  branch: feat/ingestionfix-v2-phase9-reingest    # riding on v2 feat branch
+  commit:                                         # stamped at commit time
+  files_created:
+    - scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py
+    - scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py
+    - scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
+    - scripts/monitoring/monitor_ingest_topic_batches/README.md
+    - scripts/launch_batch.sh                     # per-batch detached launcher (no more 1200+ docs per run)
+    - artifacts/fingerprint_bust/plan.json        # 8-batch plan covering all 39 top-level topics
+    - artifacts/fingerprint_bust/.gitkeep
+    - tests/test_fingerprint_bust.py              # 9 cases
+    - tests/test_validate_batch.py                # 19 cases
+    - tests/test_run_topic_backfill_chain.py      # 7 cases (gate refusal / exit codes)
+    - tests/test_ingest_heartbeat.py              # 7 cases (chain-state enrichment)
+  files_modified:
+    - scripts/monitoring/ingest_heartbeat.py      # +ChainState.from_file + --chain-state-file flag
+    - scripts/monitoring/README.md                # rewritten as top-level navigation index
+    - docs/next/ingestionfix_v3.md                # §0.2 repo-layout snapshot refreshed; paths bumped to new subfolder
+  tests_passing:
+    - test_fingerprint_bust (9/9)
+    - test_validate_batch (19/19)
+    - test_run_topic_backfill_chain (7/7)
+    - test_ingest_heartbeat (7/7)
+  rehearsal_result:
+    topic: laboral
+    bust_row_count:                                # operator fills during Phase 2 rehearsal
+    falkor_topic_node_after:
+    falkor_tema_edges_after:
+    note: "Rehearsal is operator-gated (production Supabase write). Code is ready."
+  notes: >
+    Sub-folder structure landed at scripts/monitoring/monitor_ingest_topic_batches/ (verbose
+    name per operator preference). launch_batch.sh at scripts/ root so it sits next to
+    launch_phase9a.sh for easy comparison. Durability contract (prior batches written in
+    stone) baked into launch_batch.sh header + README mirror. Bundled a smoke dry-run of
+    batch 1 during the rename fix: reports 552 docs in the 5 batch-1 topics (vs the
+    20-doc estimate in plan.json — update estimate before rehearsal runs for real).
+  resumption_hint: "Operator runs scripts/launch_batch.sh --batch 1 --dry-run first, then --batch 1 to execute."
 
 phase_3_0_quality_gate:
-  status: pending
-  # See §5 Phase 3.0 State log template.
+  status: code_complete_awaiting_operator
+  code_completed_at: 2026-04-23 (Bogotá)
+  files_created:
+    - scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py  # G1-G10
+    - tests/test_validate_batch.py
+  notes: "Validator + unit tests shipped. Live Phase 3.0 gate run is operator-driven once Phase 2 rehearsal completes."
 
 phase_3_autonomous_chain:
-  status: pending
-  # See §5 Phase 3 State log template.
+  status: scaffolded                             # gate-enforcement skeleton shipped; full batch loop lands in Phase 3 proper
+  files_created:
+    - scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh  # skeleton + --gate-only + gate refusal
+  notes: "Exit-code contract (0/1/2/3) locked by tests. Full STOP_BACKFILL poll + state-file atomic rewrites deferred to Phase 3 proper."
 
 phase_4_orphan_backfill:
   status: deferred
@@ -1064,12 +1114,12 @@ Once Phase 2 has shipped the tools:
 
 ```bash
 # STEP 1: gate batch 1 (MANDATORY before STEP 2)
-bash scripts/run_topic_backfill_chain.sh --gate-only
-python scripts/validate_batch.py --batch 1 --gate
+bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh --gate-only
+python scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py --batch 1 --gate
 # ... operator completes M1-M3 + U1-U4, marks status=passed in the gate file
 
 # STEP 2: let the chain finish the rest (refuses to run until step 1 passes)
-bash scripts/run_topic_backfill_chain.sh
+bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
 
 # During the chain: heartbeat cron every 3 min shows current batch + chain ETA
 # To stop between batches (safe):
@@ -1077,7 +1127,7 @@ touch artifacts/STOP_BACKFILL
 
 # To resume:
 rm artifacts/STOP_BACKFILL
-bash scripts/run_topic_backfill_chain.sh
+bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
 
 # Inspect state:
 cat artifacts/backfill_state.json | jq

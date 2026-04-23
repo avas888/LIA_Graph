@@ -1,0 +1,121 @@
+{
+  "version": "v3.0",
+  "generated_at": "2026-04-23",
+  "description": "8-batch plan for the ingestionfix_v3 Phase 3 topic-coverage backfill. Batch 1 is the Quality Gate batch (smallest / least load-bearing topics); batches 2-8 run autonomously via scripts/run_topic_backfill_chain.sh once the gate passes. Covers all 39 top-level taxonomy entries (subtopics like beneficio_auditoria are covered by their parent batch).",
+  "taxonomy_source": "config/topic_taxonomy.json",
+  "taxonomy_top_level_count": 39,
+  "batches": [
+    {
+      "batch": 1,
+      "label": "gate",
+      "topics": [
+        "cambiario",
+        "activos_exterior",
+        "emergencia_tributaria",
+        "impuestos_saludables",
+        "otros_sectoriales"
+      ],
+      "est_doc_count": 20,
+      "est_wall_minutes": 10,
+      "rationale": "Small, less-load-bearing topics. Chosen as the Quality Gate batch: if something systemic is wrong, we want to discover it on ~20 docs, not on the 80 in batch 8."
+    },
+    {
+      "batch": 2,
+      "label": "specialty_regs",
+      "topics": [
+        "leyes_derogadas",
+        "normas_internacionales_auditoria",
+        "beneficiario_final_rub",
+        "reforma_pensional",
+        "economia_digital_criptoactivos"
+      ],
+      "est_doc_count": 25,
+      "est_wall_minutes": 10
+    },
+    {
+      "batch": 3,
+      "label": "professional_obligations",
+      "topics": [
+        "sagrilaft_ptee",
+        "obligaciones_profesionales_contador",
+        "perdidas_fiscales_art147",
+        "zonas_francas",
+        "gravamen_movimiento_financiero_4x1000"
+      ],
+      "est_doc_count": 30,
+      "est_wall_minutes": 10
+    },
+    {
+      "batch": 4,
+      "label": "regimes_and_minor_taxes",
+      "topics": [
+        "regimen_tributario_especial",
+        "regimen_simple",
+        "regimen_sancionatorio",
+        "impuesto_nacional_consumo",
+        "impuesto_patrimonio_personas_naturales"
+      ],
+      "est_doc_count": 35,
+      "est_wall_minutes": 12
+    },
+    {
+      "batch": 5,
+      "label": "business_and_macro",
+      "topics": [
+        "precios_de_transferencia",
+        "contratacion_estatal",
+        "datos_tecnologia",
+        "inversiones_incentivos",
+        "presupuesto_hacienda",
+        "reformas_tributarias"
+      ],
+      "est_doc_count": 40,
+      "est_wall_minutes": 13
+    },
+    {
+      "batch": 6,
+      "label": "operational",
+      "topics": [
+        "comercial_societario",
+        "ica",
+        "facturacion_electronica",
+        "calendario_obligaciones",
+        "dividendos_utilidades"
+      ],
+      "est_doc_count": 50,
+      "est_wall_minutes": 15
+    },
+    {
+      "batch": 7,
+      "label": "reporting_heavyweights",
+      "topics": [
+        "informacion_exogena",
+        "estados_financieros_niif",
+        "procedimiento_tributario",
+        "retencion_en_la_fuente"
+      ],
+      "est_doc_count": 60,
+      "est_wall_minutes": 18
+    },
+    {
+      "batch": 8,
+      "label": "core_taxes_and_labor",
+      "topics": [
+        "declaracion_renta",
+        "iva",
+        "laboral",
+        "estatuto_tributario"
+      ],
+      "est_doc_count": 80,
+      "est_wall_minutes": 22
+    }
+  ],
+  "total_est_doc_count": 340,
+  "total_est_wall_minutes": 110,
+  "notes": [
+    "Estimates are deliberate over-counts; real docs/min depends on how many topic-tagged docs live in production at chain-run time.",
+    "Batch 1 topics were curated for safety: dropping beneficio_auditoria (it is a subtopic of declaracion_renta and is covered by batch 8).",
+    "otros_sectoriales is a taxonomy catch-all and is small enough to belong in the gate batch.",
+    "declaracion_renta subtopics (patrimonio_fiscal_renta, ingresos_fiscales_renta, etc.) are not listed explicitly — the additive reclassification re-stamps their tema values on re-sink, and documents.tema for those rows is declaracion_renta."
+  ]
+}

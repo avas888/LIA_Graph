@@ -1,12 +1,36 @@
-# `scripts/monitoring` — long-running ingest babysitter
+# `scripts/monitoring/` — long-running ingest babysitter + v3 batch pipeline
 
-Durability pattern + live heartbeat for any Lia_Graph background process that
-takes more than a couple of minutes. Built for the Phase 9.A reingest and
-generalized so future runs (9.B embedding backfill, Phase 8 overnight
-subtopic-miner batches, full corpus rebuilds) can reuse it.
+Durability pattern, live heartbeat, and batch-gated pipeline for every
+Lia_Graph background process that takes more than a couple of minutes.
 
 **All user-facing times render as Bogotá AM/PM** (`America/Bogota`, UTC-5,
 no DST). Machine comparisons stay UTC.
+
+## Directory layout
+
+```
+scripts/monitoring/
+├── README.md                     (you are here — top-level index)
+├── ingest_heartbeat.py           3-minute heartbeat renderer
+│                                  · reads logs/events.jsonl
+│                                  · polls Supabase + Falkor counts
+│                                  · optional --chain-state-file adds
+│                                    chain progress + Total ETA rows
+└── monitor_ingest_topic_batches/               v3 topic-backfill tools (HIGHLY VISIBLE
+    ├── README.md                 here — this is the canonical v3 flow)
+    ├── fingerprint_bust.py       null doc_fingerprint for a topic slice
+    ├── validate_batch.py         G1-G10 Quality Gate validator
+    └── run_topic_backfill_chain.sh   gate-enforced chain supervisor
+```
+
+Adjacent launchers (kept at repo root so they're visible next to `dev-launcher.mjs`):
+
+| Path | Role |
+|---|---|
+| `scripts/launch_batch.sh` | **NEW** — per-batch detached launcher (pairs with `fingerprint_bust.py`). Use this for v3 backfills so you never re-classify 1,200+ docs in a single run. |
+| `scripts/launch_phase9a.sh` | Full-corpus detached additive reingest. |
+| `scripts/launch_phase9a_force.sh` | Full-corpus + `--force-full-classify`. Use only when a total re-classification is truly needed. |
+| `scripts/launch_phase9b.sh` | Detached embedding backfill. |
 
 ## Why this exists
 
@@ -167,6 +191,40 @@ Script converts every user-facing timestamp to Bogotá (UTC-5) and renders
 12-hour with AM/PM (e.g. `12:37 PM` not `17:37 UTC`). Machine-readable
 log entries and comparison timestamps stay UTC ISO, since that's what's in
 `events.jsonl` and DB columns.
+
+### Chain mode (`--chain-state-file`)
+
+When the `ingestionfix_v3` Phase-3 topic-backfill chain is running, pass
+`--chain-state-file artifacts/backfill_state.json` to the heartbeat. The
+output then prepends two rows above the usual `State` line:
+
+- **Chain progress** — `done / planned` batches, current batch index, and
+  average wall time per completed batch.
+- **Total ETA** — average × remaining, rendered as both a minute count and
+  a Bogotá AM/PM landing time.
+
+Everything else (phase inference, kill-switches, verdict wording) stays
+the same — the chain rows are purely additive context for the operator.
+
+Example cron prompt addendum (slot into the bash block used for the inner
+batch's `--delta-id` / `--start-utc`):
+
+```
+PYTHONPATH=src:. uv run --group dev python scripts/monitoring/ingest_heartbeat.py \
+    --delta-id delta_<current_batch_id> \
+    --start-utc <current_batch_start_utc> \
+    --total <current_batch_est_docs> \
+    --title "v3 Phase 3 chain — batch N" \
+    --chain-state-file artifacts/backfill_state.json \
+    --supa-base-docs <...> --supa-base-chunks <...> \
+    --falk-base-article <...> --falk-base-topic <...> \
+    --falk-base-tema <...> --falk-base-practica <...>
+```
+
+If the chain-state file is missing or malformed, `ChainState.from_file`
+returns `None` and the heartbeat silently falls back to non-chain output.
+That's intentional — we'd rather degrade gracefully than break the cron
+tick when a single batch hasn't yet checkpointed.
 
 ### When to use force-full
 
