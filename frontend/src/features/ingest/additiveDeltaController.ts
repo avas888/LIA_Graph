@@ -153,6 +153,27 @@ function isTerminalStage(stage: string): stage is AdditiveDeltaTerminalStage {
   return (TERMINAL_STAGES as readonly string[]).includes(stage);
 }
 
+// Pure helper: build the terminal-banner VM from an SSE event. The backend
+// nests per-sink counters under ``report_json.sink_result`` so the banner
+// must read that child, not the envelope. Exported for unit coverage.
+export function buildAdditiveDeltaTerminalVm(
+  ev: Pick<
+    AdditiveDeltaSseEvent,
+    "stage" | "jobId" | "reportJson" | "errorClass" | "errorMessage"
+  >,
+): AdditiveDeltaTerminalViewModel {
+  const report =
+    (ev.reportJson?.sink_result as AdditiveDeltaTerminalViewModel["report"]) ??
+    null;
+  return {
+    stage: ev.stage as AdditiveDeltaTerminalStage,
+    deltaId: (ev.reportJson?.delta_id as string) ?? ev.jobId,
+    report,
+    errorClass: ev.errorClass,
+    errorMessage: ev.errorMessage,
+  };
+}
+
 export function bindAdditiveDelta(
   opts: AdditiveDeltaBindingOptions,
 ): AdditiveDeltaControllerHandle {
@@ -590,13 +611,7 @@ export function bindAdditiveDelta(
     cancelling = false;
     inFlight = null;
     currentProgressVm = null;
-    const vm: AdditiveDeltaTerminalViewModel = {
-      stage: ev.stage,
-      deltaId: (ev.reportJson?.delta_id as string) ?? ev.jobId,
-      report: (ev.reportJson as AdditiveDeltaTerminalViewModel["report"]) ?? null,
-      errorClass: ev.errorClass,
-      errorMessage: ev.errorMessage,
-    };
+    const vm = buildAdditiveDeltaTerminalVm(ev);
     terminalSlot.replaceChildren(createAdditiveDeltaTerminalBanner(vm));
     store.clear();
     setState("terminal");

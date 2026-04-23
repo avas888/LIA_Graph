@@ -967,8 +967,25 @@ cloud_state_at_v3_start_2026_04_23:
     PRACTICA_DE_edges: 0          # target: >0 after Phase 3
 
 phase_1_paperwork:
-  status: pending
-  # See §5 Phase 1 State log template — copy here as the phase begins.
+  status: completed
+  started_at: 2026-04-23 (Bogotá)
+  completed_at: 2026-04-23 (Bogotá)
+  branch: feat/ingestionfix-v2-phase9-reingest   # v3 phases riding on v2's feat branch per operator call
+  commit:                                        # filled by post-commit hook / manual stamp
+  files_modified:
+    - docs/next/ingestionfix_v2.md               # §10.3 wording amended; plan_version 2.4 → 2.5; closed_out_at stamped
+    - frontend/src/features/ingest/additiveDeltaController.ts  # buildAdditiveDeltaTerminalVm extracted; reads reportJson.sink_result
+  files_created:
+    - frontend/tests/additiveDeltaControllerTerminalVm.test.ts # 5 vitest cases lock the sink_result wire contract
+  tests_passing:
+    - additiveDeltaControllerTerminalVm            # 5 cases green; aggregated with chat/thinking/orchestration smokes (15 total)
+  notes: >
+    v3 introduces zero runtime env changes, so `docs/guide/orchestration.md`,
+    `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`,
+    and `frontend/src/features/orchestration/orchestrationApp.ts` env-matrix mirrors
+    are untouched (per §5 Phase 1 guidance — matrix bump only required when new flags land).
+    v2 plan_version bumped to 2.5 with closed_out_at: 2026-04-23.
+  resumption_hint: ""
 
 phase_2_tool_and_rehearsal:
   status: pending
