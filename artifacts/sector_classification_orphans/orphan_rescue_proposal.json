@@ -1,0 +1,744 @@
+{
+  "generated_at_utc": "2026-04-23T22:33:43Z",
+  "model": "gemini-2.5-flash",
+  "total_docs": 80,
+  "total_classified": 80,
+  "decision_counts": {
+    "existing": 2,
+    "new_sector": 0,
+    "orphan": 78,
+    "error": 0
+  },
+  "topic_key_counts": {
+    "orphan": 78,
+    "facturacion_electronica": 1,
+    "beneficiario_final_rub": 1
+  },
+  "closed_world_size": 174,
+  "existing_topic_count": 39,
+  "proposed_sector_count": 135,
+  "estimated_cost_usd": 0.0016,
+  "elapsed_seconds": 28.5,
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-808-2020.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, por lo que no contiene información alguna para analizar su contenido principal o identificar un sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no presenta contenido normativo para su clasificación temática."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1228-1995.md",
+      "title": "",
+      "analysis": "El documento normativo proporcionado está vacío, por lo que no contiene información para su análisis. Sin contenido, es imposible identificar un tema principal o un sector dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento no presenta contenido alguno, impidiendo identificar un tema o sector para su clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-111-2006.md",
+      "title": "",
+      "analysis": "Este documento establece los requisitos y procedimientos para la habilitación, autorización y registro de operadores y prestadores de servicios tecnológicos que emiten documentos electrónicos para operaciones de comercio exterior. Su enfoque principal es la regulación de la infraestructura tecnológica y los actores que soportan la digitalización de trámites en el comercio internacional. El sector ",
+      "decision": "existing",
+      "topic_key": "facturacion_electronica",
+      "confidence": "high",
+      "reasoning": "Regula operadores y servicios tecnológicos para documentos electrónicos, un componente clave del ecosistema de facturación y documentos electrónicos."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-137-1994.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, título o cualquier información que permita identificar su propósito o temática. Por lo tanto, no es posible determinar su área principal o sector dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, sin título ni contenido, lo que impide cualquier tipo de clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1743-2018.md",
+      "title": "",
+      "analysis": "Este documento está completamente vacío, sin título ni contenido. Por lo tanto, no es posible identificar su tema principal ni el sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de cualquier contenido, impidiendo cualquier tipo de clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-67-1983.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no es posible identificar un tema principal o un sector dominante. Carece de contenido normativo para su análisis.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no contiene información para ser clasificado en un tema o sector específico."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-808-2020.md",
+      "title": "",
+      "analysis": "Este documento está completamente vacío, sin título ni contenido. Por lo tanto, no es posible determinar su tema principal ni el sector o área temática a la que podría pertenecer.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, no contiene información alguna para su clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-902-2017.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. No presenta información normativa alguna para su clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no contiene información normativa para su clasificación en ningún topic o sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1228-1995.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, lo que impide cualquier análisis de su contenido principal o la identificación de un sector temático dominante. No hay información para determinar su propósito o área de aplicación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, haciendo imposible determinar su tema o sector para una clasificación adecuada."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-123-1994.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no contiene información para determinar su tema principal o el sector/área temática dominante. No es posible realizar un análisis de contenido.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y carece de contenido para cualquier tipo de clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1233-2008.md",
+      "title": "",
+      "analysis": "El documento proporcionado carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. No hay información para analizar o clasificar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento sin contenido; imposible clasificar temáticamente o sectorialmente según las opciones dadas."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1257-2008.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no es posible determinar su contenido principal ni identificar un sector o área temática dominante. No hay información para clasificar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento vacío, no hay contenido para analizar o clasificar en ninguna categoría existente o nueva."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1121-2006.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, careciendo de título y contenido. Por lo tanto, no es posible identificar un tema principal o un sector dominante para su clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, impidiendo cualquier análisis temático o sectorial para su clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1286-2009.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. No presenta información normativa alguna para su análisis y clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no contiene información para clasificar en ningún topic o sector existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-130-1994.md",
+      "title": "",
+      "analysis": "El documento proporcionado carece de contenido, lo que imposibilita determinar su tema principal o el sector al que pertenece. Sin información textual, no es posible realizar un análisis significativo.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no contiene información para clasificarlo en ningún topic o sector existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-137-1994.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, título o cualquier información que permita identificar su tema principal o sector. Por lo tanto, no es posible realizar un análisis significativo ni determinar su clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, impidiendo cualquier análisis o clasificación temática. No hay información para categorizar."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1379-2010.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. No presenta información normativa alguna para su análisis.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no contiene información para clasificar en ningún topic o sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-141-1994.md",
+      "title": "",
+      "analysis": "El documento normativo no fue proporcionado en el prompt. Por lo tanto, no es posible determinar su contenido principal ni el sector o área temática dominante, ya que no hay texto para analizar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El contenido del documento normativo está ausente, impidiendo cualquier clasificación temática específica."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-142-1994.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido normativo, por lo que no es posible determinar su tema principal ni el sector dominante. No se puede realizar un análisis significativo sin información.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento vacío, imposible clasificar sin contenido normativo. No se identifica tema ni sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-143-1994.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, careciendo de título y contenido. Por lo tanto, no es posible identificar de qué trata principalmente ni cuál es su sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, impidiendo cualquier análisis temático o sectorial para su clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1475-2011.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no es posible determinar su contenido principal ni su área temática dominante. No hay información disponible para realizar un análisis o clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no contiene información para su clasificación en ningún topic o sector existente."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1493-2011.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no es posible determinar su tema principal ni su sector o área temática dominante. Sin contenido, no se puede inferir ninguna intención normativa o área de aplicación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, impidiendo cualquier análisis o clasificación temática."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1537-2012.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. Al no presentar información, no se puede determinar su propósito normativo ni su aplicación específica.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, impidiendo cualquier clasificación temática o sectorial según los criterios establecidos."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1555-2012.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no contiene información sobre un tema principal o un sector dominante. No es posible determinar su contenido normativo ni su área temática específica.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento no contiene texto, imposibilitando cualquier análisis o clasificación temática en los topics existentes o nuevos sectores."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1558-2012.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido. No presenta texto, título ni información alguna que permita identificar su propósito o temática principal, lo que imposibilita cualquier análisis sustantivo.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, no contiene información para su clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1561-2012.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido normativo, título o cuerpo textual, lo que impide cualquier análisis sustantivo o clasificación temática. No presenta información alguna para determinar su propósito o área de aplicación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento vacío, sin contenido para analizar o clasificar en cualquier topic o sector existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1563-2012.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, sin título ni contenido. Por lo tanto, es imposible determinar su tema principal o el sector temático dominante al que podría pertenecer.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "low",
+      "reasoning": "El documento está vacío, carece de contenido para su clasificación en cualquier tema o sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1565-2012.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no contiene información normativa para su análisis. Es imposible determinar su tema principal o el sector temático dominante sin contenido.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "low",
+      "reasoning": "El documento está vacío y no presenta contenido alguno que permita su clasificación en un topic o sector específico."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-30-1971.md",
+      "title": "",
+      "analysis": "Este documento trata principalmente sobre la regulación del Registro Único de Beneficiarios Finales (RUB), estableciendo los requisitos y procedimientos para su inscripción, actualización y cancelación. El sector o área temática dominante es la transparencia fiscal y la lucha contra el lavado de activos, enfocada en la identificación de los beneficiarios finales de las estructuras corporativas.",
+      "decision": "existing",
+      "topic_key": "beneficiario_final_rub",
+      "confidence": "high",
+      "reasoning": "El documento regula directamente el Registro Único de Beneficiarios Finales (RUB), su inscripción y gestión, lo cual es el tema central."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-30-1988.md",
+      "title": "",
+      "analysis": "El documento proporcionado no contiene texto en su sección de 'Contenido', por lo que no es posible determinar su tema principal o el sector dominante al que pertenece. Sin información textual, no se puede realizar un análisis significativo.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento sin contenido. Imposible clasificar sin información textual para analizar su temática."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-31-1992.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío. Por lo tanto, es imposible determinar su contenido principal o identificar un sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento sin contenido. No se puede analizar ni clasificar en ningún topic o sector existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-361-1997.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no contiene información sobre ningún tema específico. Sin contenido, es imposible identificar un sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, no hay contenido para analizar o clasificar en ningún topic o sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-388-1997.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, lo que impide cualquier análisis de su contenido o temática principal. Sin información, no es posible identificar un sector dominante ni realizar una clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "low",
+      "reasoning": "El documento está vacío, no hay contenido para clasificar."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-397-1997.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío y no contiene texto. Por lo tanto, no es posible determinar su tema principal ni identificar un sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, impidiendo cualquier clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-4-1913.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no es posible determinar su contenido principal ni el sector o área temática dominante. Carece de información para cualquier tipo de clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no contiene información para su clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-454-1998.md",
+      "title": "",
+      "analysis": "El documento normativo no fue proporcionado, por lo que no es posible realizar un análisis de su contenido principal o determinar su sector temático dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido del documento normativo no fue proporcionado para su análisis y clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-510-1999.md",
+      "title": "",
+      "analysis": "El documento normativo no ha sido proporcionado. Por favor, adjunta el contenido del documento para que pueda realizar el análisis y la clasificación solicitada.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "low",
+      "reasoning": "No se proporcionó el contenido del documento para su análisis y clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-6-1975.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no aborda ningún tema normativo o sectorial específico. No es posible determinar su propósito o área de aplicación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, imposibilitando cualquier clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-630-2000.md",
+      "title": "",
+      "analysis": "Este documento no contiene texto, por lo que no trata de ningún tema específico. Al no haber contenido, no se puede identificar un sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no presenta contenido para clasificar en ningún tema o sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-643-2001.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, por lo que no contiene información temática alguna para analizar. No es posible determinar su contenido principal ni su sector dominante sin texto.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, impidiendo cualquier análisis temático o clasificación en un topic existente o nuevo sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1979.md",
+      "title": "",
+      "analysis": "El documento proporcionado carece de contenido, lo que impide cualquier análisis sobre su tema principal o área temática dominante. Sin texto normativo, es imposible identificar su propósito o alcance.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "low",
+      "reasoning": "El documento carece de contenido, imposibilitando su clasificación en cualquier topic o sector existente."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-675-2001.md",
+      "title": "",
+      "analysis": "El documento normativo proporcionado está completamente vacío. Por lo tanto, no es posible identificar su tema principal ni el sector o área temática dominante para realizar una clasificación adecuada.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no presenta contenido normativo para clasificar en ningún topic o sector existente."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-687-2001.md",
+      "title": "",
+      "analysis": "El documento no contiene información, por lo que no es posible determinar su tema principal ni el sector o área temática dominante. Carece de contenido para cualquier análisis.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento sin contenido, imposible clasificar temáticamente en cualquier topic o sector existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-7-1991.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que es imposible determinar su tema principal o el sector al que pertenece. No hay información disponible para realizar un análisis significativo.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento sin contenido, imposible determinar tema o sector para clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-70-1993.md",
+      "title": "",
+      "analysis": "El documento proporcionado no contiene ningún texto en su título ni en su contenido. Por lo tanto, no es posible identificar de qué trata principalmente ni cuál es su sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no hay contenido para clasificar en ningún topic o sector existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-597-2025.md",
+      "title": "",
+      "analysis": "El documento carece de contenido, por lo que no es posible determinar su tema principal ni el sector o área temática dominante. No hay información para analizar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, imposibilitando cualquier análisis o clasificación temática según los criterios dados."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-716-2001.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no contiene información normativa que permita identificar un tema principal o un sector dominante. Sin contenido, es imposible realizar una clasificación adecuada.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no hay contenido para clasificar en ningún topic o sector existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-79-1988.md",
+      "title": "",
+      "analysis": "Este documento normativo no presenta contenido alguno. Por lo tanto, es imposible determinar su tema principal, sector dominante o cualquier área temática específica para su clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, impidiendo cualquier análisis o clasificación temática."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-986-2005.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. No presenta información normativa alguna para su análisis.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento sin contenido; imposible clasificar temáticamente o sectorialmente. No hay información normativa para analizar."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-998-2005.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no contiene información temática para analizar o clasificar. No es posible identificar un sector o área dominante sin contenido.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, impidiendo cualquier análisis temático o sectorial para su clasificación en un topic existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-111-2006.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible determinar su tema principal o sector dominante. Sin información textual, no se puede inferir su propósito normativo ni el área a la que pertenece.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, impidiendo cualquier análisis temático o sectorial para su clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1228-1995.md",
+      "title": "",
+      "analysis": "Este documento está completamente vacío, por lo que no es posible determinar su contenido principal ni el sector o área temática dominante. No hay información disponible para realizar un análisis.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento proporcionado está completamente vacío, impidiendo cualquier análisis o clasificación temática."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-137-1994.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible determinar su tema principal o sector dominante. No presenta información normativa alguna para su análisis.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no contiene texto ni información para clasificarlo en alguna categoría."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-986-2005.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, título o cualquier información que permita identificar su tema principal o sector dominante. No es posible realizar un análisis sustantivo sobre su propósito o área temática.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, sin contenido ni título para su clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1228-1995.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. No se puede determinar su propósito normativo.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, impidiendo cualquier clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1755-2015.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar su tema principal ni el sector o área temática dominante. No hay información para analizar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no contiene información para su clasificación en ningún tema o sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-4-1913.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no contiene información para analizar su tema principal o sector dominante. No es posible identificar un contenido normativo específico.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, impidiendo cualquier clasificación temática o sectorial según las opciones dadas."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1743-2018.md",
+      "title": "",
+      "analysis": "El documento proporcionado no contiene texto, por lo que su temática principal y el sector o área dominante no pueden ser determinados. No hay información alguna para analizar o clasificar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío y no presenta contenido para su clasificación temática."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-808-2020.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. No presenta información alguna para su análisis.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, imposibilitando cualquier clasificación temática o sectorial específica."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-10-1990.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no es posible identificar su tema principal ni el sector o área temática dominante. No hay contenido para analizar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento no contiene texto, impidiendo cualquier clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-10-1991.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. Se presenta como un documento vacío sin información para clasificar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, impidiendo cualquier clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-101-1993.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, título o cualquier información textual. Por lo tanto, no es posible identificar su tema principal ni el sector o área temática dominante al que podría pertenecer.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, impidiendo cualquier análisis o clasificación temática."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1014-2006.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, sin título ni contenido. Por lo tanto, es imposible determinar su tema principal o el sector temático dominante al que podría pertenecer.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de cualquier contenido, título o información que permita su clasificación temática."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1064-2006.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar un tema principal o un sector dominante. Se presenta completamente vacío, sin texto ni información alguna.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, impidiendo cualquier clasificación temática o sectorial específica."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1066-2006.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, sin título ni contenido. Por lo tanto, es imposible determinar su tema principal o el sector al que podría pertenecer, ya que no hay información para analizar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no contiene información alguna para su clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-109-1985.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no es posible determinar su tema principal ni el sector o área temática dominante. No hay contenido para analizar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no hay contenido para analizar o clasificar en ningún topic o sector existente."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1090-2006.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no contiene información temática principal ni sectorial para su análisis. No es posible determinar su contenido o propósito.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no presenta contenido alguno para su clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1101-2006.md",
+      "title": "",
+      "analysis": "El documento proporcionado carece de contenido, por lo que no es posible determinar su tema principal o sector dominante. No hay información para analizar su propósito o área temática.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, impidiendo cualquier análisis o clasificación temática según las opciones dadas."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-111-2006.md",
+      "title": "",
+      "analysis": "El documento carece de contenido, por lo que no es posible determinar su tema principal ni su sector o área temática dominante. No presenta información alguna para su clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no contiene información alguna para su clasificación en un tema o sector específico."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1114-2006.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, lo que impide determinar su tema principal o el sector/área temática dominante. No contiene información alguna para su clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, imposibilitando cualquier análisis o clasificación temática según el contenido."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1121-2006.md",
+      "title": "",
+      "analysis": "El documento normativo no fue proporcionado. Por lo tanto, no es posible realizar un análisis de su contenido principal ni identificar su sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "low",
+      "reasoning": "El contenido del documento está ausente, impidiendo cualquier clasificación o análisis temático."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1558-2012.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío, por lo que no es posible determinar su tema principal ni su sector o área temática dominante. No contiene información para analizar.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, no hay contenido normativo para clasificar en ningún topic o sector existente o nuevo."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1561-2012.md",
+      "title": "",
+      "analysis": "El documento proporcionado está vacío y no contiene texto normativo. Por lo tanto, no es posible determinar su tema principal ni su sector dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "Documento vacío, carece de contenido para clasificación."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1563-2012.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, lo que impide cualquier análisis de su contenido principal o la identificación de un sector o área temática dominante. Sin información, no es posible determinar su propósito o relevancia normativa.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, imposibilitando cualquier análisis o clasificación temática según las opciones dadas."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-16-1990.md",
+      "title": "",
+      "analysis": "Este documento carece de contenido, por lo que no es posible identificar su tema principal o el sector al que pertenece. No se puede realizar un análisis significativo sin información.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío y no presenta contenido para clasificar en ningún topic o sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-160-1994.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío, careciendo de título y contenido. Por lo tanto, no es posible identificar un tema principal o un sector/área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está vacío, sin contenido ni título, lo que impide cualquier clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1695-2013.md",
+      "title": "",
+      "analysis": "Este documento está completamente vacío y no contiene información normativa alguna. Por su ausencia de contenido, no es posible identificar un sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, impidiendo cualquier clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1697-2013.md",
+      "title": "",
+      "analysis": "Este documento está vacío, por lo que no contiene información normativa para analizar. No es posible determinar su tema principal o sector dominante sin contenido.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "low",
+      "reasoning": "El documento está vacío y no presenta contenido normativo para su clasificación en ningún topic o sector."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1712-2014.md",
+      "title": "",
+      "analysis": "Este documento carece de título y contenido, lo que impide identificar su tema principal o el sector temático dominante al que podría pertenecer. No hay información alguna para su clasificación.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento está completamente vacío, sin título ni contenido, imposibilitando cualquier tipo de clasificación temática o sectorial."
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-597-2025.md",
+      "title": "",
+      "analysis": "El documento proporcionado está completamente vacío y no contiene información normativa alguna. Por lo tanto, no es posible determinar su tema principal ni identificar un sector o área temática dominante.",
+      "decision": "orphan",
+      "topic_key": "orphan",
+      "confidence": "high",
+      "reasoning": "El documento carece de contenido, lo que imposibilita cualquier clasificación temática o sectorial."
+    }
+  ]
+}
