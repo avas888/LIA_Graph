@@ -107,7 +107,10 @@ def _emit_response(endpoint: str, status: int, started: float, **extra: Any) -> 
 def _handle_preview(handler: Any, deps: dict[str, Any]) -> bool:
     body = _read_json_body(handler)
     target = str(body.get("target") or "production").strip() or "production"
-    _emit_request("preview", handler, target=target)
+    force_full_classify = bool(body.get("force_full_classify", False))
+    _emit_request(
+        "preview", handler, target=target, force_full_classify=force_full_classify
+    )
     started = time.monotonic()
 
     try:
@@ -123,6 +126,7 @@ def _handle_preview(handler: Any, deps: dict[str, Any]) -> bool:
             graph_client=deps.get("graph_client"),
             skip_llm=bool(deps.get("skip_llm", False)),
             rate_limit_rpm=int(deps.get("rate_limit_rpm", 60)),
+            force_full_classify=force_full_classify,
         )
     except Exception as exc:  # noqa: BLE001
         _emit_response("preview", 500, started, error=str(exc))
@@ -392,6 +396,104 @@ def _default_supabase_client() -> Any:
 # ---------------------------------------------------------------------------
 
 
+def _handle_preview_progress(handler: Any, deps: dict[str, Any]) -> bool:
+    """Peek at ``logs/events.jsonl`` to report how far the classifier got.
+
+    The preview path runs the PASO 4 classifier over the full corpus
+    (rate-limited at ~1 doc/sec), so a first-run preview takes 20-25 min.
+    This endpoint tails the events log, counts classifier events in the
+    current run, and returns the latest filename seen so the UI can show
+    real "X of ~N — just processed: <filename>" feedback instead of a
+    blind spinner.
+    """
+    from pathlib import Path
+
+    started = time.monotonic()
+    _emit_request("preview-progress", handler)
+    workspace_root: Path = deps.get("corpus_dir") or Path.cwd()
+    # logs/events.jsonl sits next to knowledge_base/ in the repo root.
+    if workspace_root.name == "knowledge_base":
+        workspace_root = workspace_root.parent
+    events_path = workspace_root / "logs" / "events.jsonl"
+    if not events_path.exists():
+        handler._send_json(
+            HTTPStatus.OK,
+            {
+                "ok": True,
+                "available": False,
+                "reason": "events_log_missing",
+            },
+        )
+        _emit_response("preview-progress", 200, started, available=False)
+        return True
+
+    # Tail the last ~200 KiB to stay fast even if the log is huge. At
+    # ~400 bytes per event that's ~500 events, plenty for any window the
+    # UI would want to summarize.
+    import os
+
+    tail_bytes = 200 * 1024
+    classified_since: int = 0
+    last_filename: str | None = None
+    last_ts: str | None = None
+    try:
+        size = events_path.stat().st_size
+        offset = max(0, size - tail_bytes)
+        with events_path.open("rb") as fh:
+            fh.seek(offset)
+            raw = fh.read()
+        text = raw.decode("utf-8", errors="replace")
+        lines = text.splitlines()
+        # Skip the first (possibly partial) line.
+        if offset > 0 and lines:
+            lines = lines[1:]
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                ev = json.loads(line)
+            except Exception:  # noqa: BLE001
+                continue
+            et = ev.get("event_type")
+            if et == "subtopic.ingest.classified":
+                classified_since += 1
+                payload = ev.get("payload") or {}
+                fname = payload.get("filename")
+                if isinstance(fname, str) and fname:
+                    last_filename = fname
+                last_ts = ev.get("ts_utc") or last_ts
+            elif et in {"ingest.delta.plan.computed", "ingest.delta.cli.done"}:
+                # A preview/apply completed — reset the counter so the
+                # next run starts fresh in our view.
+                classified_since = 0
+                last_filename = None
+                last_ts = ev.get("ts_utc") or last_ts
+    except Exception as exc:  # noqa: BLE001
+        handler._send_json(
+            HTTPStatus.OK,
+            {"ok": True, "available": False, "reason": f"read_error:{exc}"},
+        )
+        _emit_response("preview-progress", 200, started, available=False)
+        return True
+
+    payload = {
+        "ok": True,
+        "available": True,
+        "classified_since_last_run_boundary": int(classified_since),
+        "last_filename": last_filename,
+        "last_ts_utc": last_ts,
+    }
+    handler._send_json(HTTPStatus.OK, payload)
+    _emit_response(
+        "preview-progress",
+        200,
+        started,
+        classified=classified_since,
+    )
+    return True
+
+
 def handle_ingest_delta_get(
     handler: Any,
     path: str,
@@ -413,6 +515,8 @@ def handle_ingest_delta_get(
         return _handle_events(handler, parsed, deps)
     if path == API_PREFIX + "live":
         return _handle_live(handler, parsed, deps)
+    if path == API_PREFIX + "preview-progress":
+        return _handle_preview_progress(handler, deps)
     handler._send_json(HTTPStatus.NOT_FOUND, {"error": "unknown_additive_route"})
     return True
 

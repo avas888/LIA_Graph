@@ -155,11 +155,23 @@ def _iter_rows_to_backfill(
     generation_id: str | None,
     batch_size: int,
     limit: int | None,
+    dry_run: bool = False,
 ) -> Iterable[list[dict[str, Any]]]:
-    """Yield batches of documents rows needing a fingerprint."""
+    """Yield batches of documents rows needing a fingerprint.
+
+    Always queries ``range(0, batch_size - 1)`` because each batch gets
+    WRITTEN (populates ``doc_fingerprint``) before the next iteration —
+    so the ``doc_fingerprint IS NULL`` filter naturally "advances" the
+    result window without needing a manual offset. Incrementing offset
+    would skip rows on the next SELECT (classic read-while-write bug).
+    Dry-run mode sets ``write_batch=noop`` externally, so we guard the
+    iteration with a max-iterations safety net to avoid an infinite loop.
+    """
     fetched_total = 0
-    offset = 0
-    while True:
+    max_iterations = 10_000  # safety net; 10k batches × 200 rows = 2M docs
+    iterations = 0
+    while iterations < max_iterations:
+        iterations += 1
         query = client.table("documents").select(_PROJECTION).is_("doc_fingerprint", "null")
         if generation_id:
             query = query.eq("sync_generation", generation_id)
@@ -167,14 +179,18 @@ def _iter_rows_to_backfill(
         if remaining == 0:
             return
         take = batch_size if remaining is None else min(batch_size, remaining)
-        resp = query.order("doc_id").range(offset, offset + take - 1).execute()
+        resp = query.order("doc_id").range(0, take - 1).execute()
         rows = list(getattr(resp, "data", None) or [])
         if not rows:
             return
         yield rows
         fetched_total += len(rows)
-        offset += len(rows)
         if len(rows) < take:
+            return
+        if dry_run:
+            # Dry-run doesn't persist fingerprints, so the NULL filter
+            # keeps returning the same rows — stop after one batch to
+            # report the count without looping.
             return
 
 
@@ -200,9 +216,20 @@ def _compute_batch_fingerprints(rows: list[dict[str, Any]]) -> list[dict[str, An
 def _write_batch(client: Any, payloads: list[dict[str, Any]]) -> int:
     if not payloads:
         return 0
-    # upsert on doc_id; only touches the new column.
-    client.table("documents").upsert(payloads, on_conflict="doc_id").execute()
-    return len(payloads)
+    # PATCH (UPDATE) per row instead of upsert — Supabase PostgREST's
+    # upsert path tries an INSERT first and hits NOT NULL constraints on
+    # columns we didn't include in the payload (relative_path, etc.).
+    # One UPDATE per row is fine: the backfill is a one-time operation
+    # over ~1.3k rows, still completes in seconds.
+    written = 0
+    for payload in payloads:
+        doc_id = payload.get("doc_id")
+        if not doc_id:
+            continue
+        update_body = {k: v for k, v in payload.items() if k != "doc_id"}
+        client.table("documents").update(update_body).eq("doc_id", doc_id).execute()
+        written += 1
+    return written
 
 
 def run_backfill(
@@ -234,6 +261,7 @@ def run_backfill(
         generation_id=options.generation_id,
         batch_size=options.batch_size,
         limit=options.limit,
+        dry_run=options.dry_run,
     ):
         rows_scanned += len(batch)
         payloads = _compute_batch_fingerprints(batch)

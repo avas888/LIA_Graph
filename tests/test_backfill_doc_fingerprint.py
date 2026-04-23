@@ -100,6 +100,9 @@ class _Query:
         if self._op == "upsert":
             self._parent.apply_upsert(self._payload, self._on_conflict)
             return _Execute([])
+        if self._op == "update":
+            self._parent.apply_update(self._payload, self._filters)
+            return _Execute([])
         return _Execute([])
 
 
@@ -139,6 +142,20 @@ class _Table:
             else:
                 match.update(row)
 
+    def apply_update(self, payload: Any, filters: list[tuple[str, str, Any]]) -> None:
+        existing = self._store.rows.setdefault(self.name, [])
+        for row in existing:
+            matches = True
+            for op, column, value in filters:
+                if op == "eq" and row.get(column) != value:
+                    matches = False
+                    break
+                if op == "is_" and value == "null" and row.get(column) is not None:
+                    matches = False
+                    break
+            if matches:
+                row.update(payload)
+
     def select(self, columns: str) -> _Query:
         q = _Query(self, "select")
         q.select(columns)
@@ -147,6 +164,9 @@ class _Table:
     def upsert(self, rows: Any, on_conflict: str | None = None) -> _Query:
         payload = list(rows) if isinstance(rows, list) else [rows]
         return _Query(self, "upsert", payload, on_conflict=on_conflict)
+
+    def update(self, payload: dict[str, Any]) -> _Query:
+        return _Query(self, "update", dict(payload))
 
 
 class _FakeStore:

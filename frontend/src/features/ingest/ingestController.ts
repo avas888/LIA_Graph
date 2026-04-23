@@ -15,10 +15,18 @@ import { ApiError, getJson, postJson } from "@/shared/api/client";
 async function postJsonOrThrow<T, B = unknown>(url: string, body: B): Promise<T> {
   const { response, data } = await postJson<T, B>(url, body);
   if (!response.ok) {
-    const errMsg =
-      data && typeof data === "object" && "error" in (data as Record<string, unknown>)
-        ? String((data as { error?: string }).error || response.statusText)
-        : response.statusText;
+    // Many handlers emit `{error: <code>, details: <human copy>}` — surface
+    // both so the UI message is actionable ("batch_too_large — Max 500
+    // archivos por lote.") instead of just a code.
+    let errMsg = response.statusText;
+    if (data && typeof data === "object") {
+      const d = data as Record<string, unknown>;
+      const code = typeof d.error === "string" ? d.error : "";
+      const details = typeof d.details === "string" ? d.details : "";
+      if (code && details) errMsg = `${code} — ${details}`;
+      else if (code) errMsg = code;
+      else if (details) errMsg = details;
+    }
     throw new ApiError(errMsg, response.status, data);
   }
   if (!data) throw new ApiError("Empty response", response.status, null);
@@ -48,6 +56,13 @@ import {
 } from "@/shared/ui/organisms/runLogConsole";
 import type { GenerationRowViewModel } from "@/shared/ui/molecules/generationRow";
 import type { RunStatus } from "@/shared/ui/molecules/runStatusBadge";
+import {
+  bindAdditiveDelta,
+  type AdditiveDeltaControllerHandle,
+} from "@/features/ingest/additiveDeltaController";
+import { createSegmentedControl } from "@/shared/ui/atoms/segmentedControl";
+import { getToastController } from "@/shared/ui/toasts";
+import type { I18nRuntime } from "@/shared/i18n";
 
 // ── API contracts ────────────────────────────────────────────
 
@@ -157,7 +172,18 @@ interface InternalState {
   suinScope: string;
 }
 
-export function createIngestController(rootElement: HTMLElement): IngestController {
+export interface CreateIngestControllerOptions {
+  /** I18n runtime used for the shared toast controller. Optional so
+   * legacy call sites (and tests) that instantiate the controller without
+   * an i18n runtime still work — the drop zone then falls back to
+   * native ``window.confirm()`` for destructive prompts. */
+  i18n?: I18nRuntime;
+}
+
+export function createIngestController(
+  rootElement: HTMLElement,
+  options: CreateIngestControllerOptions = {},
+): IngestController {
   const overviewSlot = rootElement.querySelector<HTMLElement>("[data-slot=corpus-overview]");
   const triggerSlot = rootElement.querySelector<HTMLElement>("[data-slot=run-trigger]");
   const generationsSlot = rootElement.querySelector<HTMLElement>("[data-slot=generations-list]");
@@ -204,21 +230,51 @@ export function createIngestController(rootElement: HTMLElement): IngestControll
     );
   }
 
+  // Build a toast-backed destructive-confirm bridge once, so every
+  // re-render of the intake zone reuses the same bound controller. When
+  // no i18n runtime was injected (tests / legacy paths) leave it
+  // undefined → the drop zone falls back to native window.confirm.
+  const toastConfirmDestructive = options.i18n
+    ? (opts: {
+        title: string;
+        message: string;
+        confirmLabel: string;
+        cancelLabel: string;
+      }): Promise<boolean> =>
+        getToastController(options.i18n!).confirm({
+          title: opts.title,
+          message: opts.message,
+          tone: "caution",
+          confirmLabel: opts.confirmLabel,
+          cancelLabel: opts.cancelLabel,
+        })
+    : undefined;
+
   function _renderIntakeZone(): void {
     if (!intakeSlot) return;
     intakeSlot.replaceChildren(
       createIntakeDropZone({
         onIntake: (files) => _handleIntakeDrop(files),
-        onApprove: (batchId) => {
-          void _handleIntakeApprove(batchId, {
-            autoEmbed: state.autoEmbed,
-            autoPromote: state.autoPromote,
-            supabaseTarget: state.supabaseTarget,
-            suinScope: state.suinScope,
-          });
-        },
+        // After AUTOGENERAR placed the files on disk, the green CTA is
+        // NOT "run a pipeline" — it's "go to Paso 2 and pick delta vs
+        // full". The old auto-trigger of /api/ingest/run was ambiguous
+        // with the Delta aditivo workflow; the operator now makes the
+        // choice explicitly in the next section.
+        onApprove: () => _scrollToProcessingStep(),
+        confirmDestructive: toastConfirmDestructive,
       }),
     );
+  }
+
+  function _scrollToProcessingStep(): void {
+    const target =
+      rootElement.querySelector<HTMLElement>("[data-slot=flow-toggle]")?.closest<HTMLElement>("section") ??
+      rootElement.querySelector<HTMLElement>("[data-slot=flow-toggle]") ??
+      null;
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    target.classList.add("is-highlighted");
+    window.setTimeout(() => target.classList.remove("is-highlighted"), 2400);
   }
 
   function _renderTimeline(): void {
@@ -532,12 +588,81 @@ export function createIngestController(rootElement: HTMLElement): IngestControll
   _renderLogConsole();
   void Promise.all([_renderOverview(), _renderGenerations()]);
 
+  // Paso 2 flow toggle — swaps active card between Delta aditivo and
+  // Ingesta completa. The non-selected card is greyed out via CSS targeting
+  // [data-active-flow] on the section wrapper.
+  const flowToggleSlot = rootElement.querySelector<HTMLElement>("[data-slot=flow-toggle]");
+  const flowSection = flowToggleSlot?.closest<HTMLElement>("[data-active-flow]") ?? null;
+  if (flowToggleSlot && flowSection) {
+    const toggle = createSegmentedControl({
+      ariaLabel: "Flujo de ingesta",
+      value: "delta",
+      options: [
+        {
+          value: "delta",
+          label: "Delta aditivo",
+          hint: "Rápido · solo lo que cambió",
+        },
+        {
+          value: "full",
+          label: "Ingesta completa",
+          hint: "Lento · reconstruye todo",
+        },
+      ],
+      onChange: (next) => {
+        flowSection.setAttribute("data-active-flow", next);
+      },
+    });
+    flowToggleSlot.replaceChildren(toggle.element);
+  }
+
+  // Additive-corpus-v1 sub-panel (Phase 8). Renders a titled card that
+  // mirrors the visual weight of the "Iniciar nueva ingesta" card so the
+  // operator sees both ingest flows as peers.
+  let additiveDelta: AdditiveDeltaControllerHandle | null = null;
+  const additiveSlot = rootElement.querySelector<HTMLElement>("[data-slot=additive-delta]");
+  if (additiveSlot) {
+    const card = document.createElement("article");
+    card.className = "lia-adelta-card";
+    card.setAttribute("data-lia-component", "additive-delta-card");
+    card.innerHTML = `
+      <header class="lia-adelta-card__header">
+        <h3 class="lia-adelta-card__title">Delta aditivo</h3>
+        <p class="lia-adelta-card__body">
+          Lee <code>knowledge_base/</code> en disco, lo compara contra la base
+          ya publicada y procesa <strong>solo los archivos nuevos, modificados
+          o borrados</strong>. No hay upload: primero pon los archivos en esa
+          carpeta (paso 3 abajo), después aquí.
+        </p>
+        <p class="lia-adelta-card__steps">
+          <strong>Previsualizar</strong> te muestra el diff sin escribir nada.
+          <strong>Aplicar</strong> procesa el delta con una confirmación
+          explícita. Rápido — minutos, no horas.
+        </p>
+      </header>
+    `;
+    const mount = document.createElement("div");
+    mount.className = "lia-adelta-card__mount";
+    card.appendChild(mount);
+    additiveSlot.replaceChildren(card);
+    additiveDelta = bindAdditiveDelta({
+      rootElement: mount,
+      target: "production",
+      onError: (message) => _toast(message),
+      confirmDestructive: toastConfirmDestructive,
+    });
+  }
+
   return {
     async refresh(): Promise<void> {
       await Promise.all([_renderOverview(), _renderGenerations()]);
     },
     destroy(): void {
       _stopPolling();
+      if (additiveDelta) {
+        additiveDelta.destroy();
+        additiveDelta = null;
+      }
     },
   };
 }

@@ -521,6 +521,7 @@ class LiaUIHandler(LiaUIHandlerBase):
         if _handle_ingest_run_post(self, path, deps={"workspace_root": WORKSPACE_ROOT}):
             return
         from .ui_ingest_delta_controllers import handle_ingest_delta_post as _handle_ingest_delta_post
+        from .ingestion.delta_worker import submit_ingest_delta_worker
         if _handle_ingest_delta_post(
             self,
             path,
@@ -530,7 +531,8 @@ class LiaUIHandler(LiaUIHandlerBase):
                 "artifacts_dir": WORKSPACE_ROOT / "artifacts",
                 "pattern": "**/*.md",
                 "generation_id": "gen_active_rolling",
-                "submit_worker": None,
+                "submit_worker": submit_ingest_delta_worker,
+                "execute_load": True,
             },
         ):
             return

@@ -179,6 +179,7 @@ def materialize_delta(
     rate_limit_rpm: int = 60,
     lock_target: str | None = None,
     created_by: str | None = None,
+    force_full_classify: bool = False,
 ) -> DeltaRunReport:
     """Plan + apply a corpus delta against the rolling generation.
 
@@ -230,7 +231,7 @@ def materialize_delta(
                 f"mismatches={[m.to_dict() for m in parity_report.mismatches]}"
             )
 
-    # -------- audit + classify full corpus --------
+    # -------- audit full corpus --------
     audit_rows = audit_corpus_documents(root, pattern=pattern)
     legacy_docs = tuple(
         CorpusDocument.from_audit_record(row)
@@ -239,21 +240,80 @@ def materialize_delta(
     )
     from ..ingest_subtopic_pass import classify_corpus_documents
 
-    corpus_documents = classify_corpus_documents(
-        legacy_docs,
-        skip_llm=bool(skip_llm),
-        rate_limit_rpm=int(rate_limit_rpm),
-    )
-
-    # -------- plan delta --------
+    # -------- baseline --------
     baseline: BaselineSnapshot = load_baseline_snapshot(
         supabase_client, generation_id=generation_id
     )
+
+    # -------- content-hash shortcut (v1.1 optimization) --------
+    # If ``force_full_classify`` is False, skip the PASO 4 classifier for
+    # every doc whose on-disk bytes match the baseline's stored
+    # content_hash. Those docs are byte-identical → their classifier
+    # output (and therefore fingerprint) from the last rebuild is still
+    # correct. Only truly-new or truly-edited files go through the LLM.
+    # For a 1-file delta this drops preview from ~9 min → ~1 sec.
+    import hashlib as _hashlib
+
+    prematched_paths: set[str] = set()
+    if not force_full_classify:
+        for doc in legacy_docs:
+            rel_path = str(getattr(doc, "relative_path", "") or "").strip()
+            if not rel_path:
+                continue
+            markdown = str(getattr(doc, "markdown", "") or "")
+            disk_hash = _hashlib.sha256(markdown.encode("utf-8")).hexdigest()
+            base_doc = baseline.documents_by_relative_path.get(rel_path)
+            if (
+                base_doc is not None
+                and base_doc.content_hash == disk_hash
+                and base_doc.doc_fingerprint
+                and base_doc.retired_at is None
+            ):
+                prematched_paths.add(rel_path)
+
+    emit_event(
+        "ingest.delta.shortcut.computed",
+        {
+            "force_full_classify": bool(force_full_classify),
+            "legacy_doc_count": len(legacy_docs),
+            "prematched_count": len(prematched_paths),
+            "classifier_input_count": len(legacy_docs) - len(prematched_paths),
+        },
+    )
+
+    # -------- classify only the docs that need it --------
+    docs_to_classify = tuple(
+        d
+        for d in legacy_docs
+        if str(getattr(d, "relative_path", "") or "").strip() not in prematched_paths
+    )
+    classified_new = classify_corpus_documents(
+        docs_to_classify,
+        skip_llm=bool(skip_llm),
+        rate_limit_rpm=int(rate_limit_rpm),
+    )
+    # Merge classified + prematched pass-through. Prematched docs keep
+    # their legacy (pre-classification) form — that's safe because the
+    # planner will force them into "unchanged" bucket without looking at
+    # their classifier output.
+    _classified_paths = {
+        str(getattr(d, "relative_path", "") or "").strip() for d in classified_new
+    }
+    pass_through = tuple(
+        d
+        for d in legacy_docs
+        if str(getattr(d, "relative_path", "") or "").strip() in prematched_paths
+        and str(getattr(d, "relative_path", "") or "").strip() not in _classified_paths
+    )
+    corpus_documents = tuple(classified_new) + pass_through
+
+    # -------- plan delta --------
     disk_docs = _disk_documents_from_corpus(corpus_documents)
     delta: CorpusDelta = plan_delta(
         disk_docs=disk_docs,
         baseline=baseline,
         delta_id=delta_id,
+        prematched_relative_paths=prematched_paths,
     )
     summary = summarize_delta(delta)
     emit_event(

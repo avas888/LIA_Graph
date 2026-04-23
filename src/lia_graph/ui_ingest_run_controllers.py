@@ -655,7 +655,11 @@ def _derive_overall_status(record: Any, stages: dict[str, dict[str, Any]]) -> st
 
 
 _SUPPORTED_INTAKE_EXTENSIONS = frozenset({".md", ".txt", ".json", ".pdf", ".docx"})
-_INTAKE_MAX_FILES = 50
+# Hard cap on files per intake batch. Set generously so a full Dropbox
+# folder drop (~76 files observed) fits comfortably. The 64 MiB HTTP payload
+# cap in ui_server_handler_base._read_json_payload is the other backstop;
+# at ~30 KiB/file base64 average, 500 files ≈ 15 MiB — safely under that.
+_INTAKE_MAX_FILES = 500
 _INTAKE_MAX_BYTES_PER_FILE = 25 * 1024 * 1024  # 25 MiB — matches Lia_contadores
 _FILENAME_SAFE_RE = re.compile(r"^[A-Za-z0-9._\- ]+$")
 _RELATIVE_PATH_UNSAFE_RE = re.compile(r"(^|/)\.\.(/|$)|^/|\\")
@@ -771,7 +775,15 @@ def _handle_ingest_intake_post(
         return True
 
     workspace_root: Path = deps["workspace_root"]
-    body = handler._read_json_payload(object_error="Se requiere un objeto JSON.") or {}
+    # Intake batches carry base64-encoded file contents — ~1.4x the raw
+    # size. The default 1 MiB cap in _read_json_payload is appropriate for
+    # pure JSON control-plane calls but bombs on a handful of markdown
+    # files. 64 MiB comfortably covers ~50 files of 1 MB each post-encode,
+    # which matches the UI's drag-drop batch expectations.
+    body = handler._read_json_payload(
+        object_error="Se requiere un objeto JSON.",
+        max_size=64 * 1_048_576,
+    ) or {}
 
     files_raw = body.get("files") or []
     if not isinstance(files_raw, list) or not files_raw:

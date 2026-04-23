@@ -28,16 +28,23 @@ export function createRunTriggerCard(opts: RunTriggerOptions): HTMLElement {
   const header = document.createElement("header");
   header.className = "lia-run-trigger__header";
 
-  const title = document.createElement("h2");
+  const title = document.createElement("h3");
   title.className = "lia-run-trigger__title";
-  title.textContent = "Iniciar nueva ingesta";
+  title.textContent = "Ingesta completa";
   header.appendChild(title);
 
   const subtitle = document.createElement("p");
   subtitle.className = "lia-run-trigger__subtitle";
-  subtitle.textContent =
-    "Ejecuta make phase2-graph-artifacts-supabase contra knowledge_base/. Por defecto escribe a WIP (Supabase local + FalkorDB local). Cuando WIP esté validado, promueve a Cloud desde la pestaña Promoción.";
+  subtitle.innerHTML =
+    "Lee <code>knowledge_base/</code> en disco completo y lo reconstruye desde cero: re-audita, re-clasifica, re-parsea y re-publica los ~1.3k documentos. Tarda 30–40 minutos y cuesta aprox. US$ 6–16 en LLM. Úsala cuando cambie el clasificador, la taxonomía, o quieras un baseline limpio. Para cambios puntuales, prefiere Delta aditivo.";
   header.appendChild(subtitle);
+
+  const safetyNote = document.createElement("p");
+  safetyNote.className = "lia-run-trigger__safety";
+  safetyNote.innerHTML =
+    "<strong>Seguridad:</strong> por defecto escribe a la base local (WIP). " +
+    "Solo promueve a la nube cuando el resultado esté validado — desde la pestaña Promoción.";
+  header.appendChild(safetyNote);
 
   root.appendChild(header);
 
@@ -50,18 +57,18 @@ export function createRunTriggerCard(opts: RunTriggerOptions): HTMLElement {
 
   const targetField = _renderRadioField({
     name: "supabase_target",
-    legend: "Destino Supabase",
+    legend: "¿Dónde escribir?",
     options: [
       {
         value: "wip",
-        label: "WIP (local)",
-        hint: "Supabase docker + FalkorDB docker — ciclo seguro",
+        label: "Base local (recomendado)",
+        hint: "Escribe a Supabase y FalkorDB locales en Docker. Ciclo seguro: no afecta la base de producción.",
         defaultChecked: true,
       },
       {
         value: "production",
-        label: "Producción (cloud)",
-        hint: "Supabase cloud + FalkorDB cloud — afecta runtime servido",
+        label: "Producción (nube)",
+        hint: "Escribe directo a Supabase y FalkorDB en la nube. Afecta lo que ven los usuarios hoy.",
       },
     ],
   });
@@ -69,9 +76,9 @@ export function createRunTriggerCard(opts: RunTriggerOptions): HTMLElement {
 
   const suinField = _renderTextField({
     name: "suin_scope",
-    label: "Scope SUIN-Juriscol",
-    placeholder: "vacío para omitir, ej: et",
-    hint: "Cuando es vacío, sólo se reingiere el corpus base. Pasa el scope (et, tributario, laboral, jurisprudencia) para incluir SUIN.",
+    label: "Incluir jurisprudencia SUIN (opcional)",
+    placeholder: "déjalo vacío si solo quieres re-ingerir la base",
+    hint: "Además del corpus base, incluye documentos SUIN-Juriscol descargados. Valores válidos: et · tributario · laboral · jurisprudencia.",
   });
   form.appendChild(suinField);
 
@@ -79,13 +86,13 @@ export function createRunTriggerCard(opts: RunTriggerOptions): HTMLElement {
     {
       name: "skip_embeddings",
       label: "Saltar embeddings",
-      hint: "Si se marca, la etapa de embeddings no se encadena al final (auto_embed=false).",
+      hint: "No recalcula los embeddings al final. Usa esto solo si vas a correrlos manualmente después.",
       defaultChecked: false,
     },
     {
       name: "auto_promote",
-      label: "Promover a cloud al terminar",
-      hint: "Si se marca, la corrida encadena una promoción WIP→Cloud al finalizar sin errores.",
+      label: "Promover a la nube al terminar",
+      hint: "Si la ingesta local termina sin errores, encadena automáticamente una promoción a la nube.",
       defaultChecked: false,
     },
   ]);
@@ -98,7 +105,7 @@ export function createRunTriggerCard(opts: RunTriggerOptions): HTMLElement {
   const submit = document.createElement("button");
   submit.type = "submit";
   submit.className = "lia-button lia-button--primary lia-run-trigger__submit";
-  submit.textContent = activeJobId ? "Ejecutando…" : "Iniciar ingesta";
+  submit.textContent = activeJobId ? "Ejecutando…" : "Reconstruir todo";
   submit.disabled = disabled;
   submitRow.appendChild(submit);
 

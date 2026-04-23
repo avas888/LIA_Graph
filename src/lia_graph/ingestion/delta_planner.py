@@ -99,6 +99,7 @@ def plan_delta(
     baseline: BaselineSnapshot,
     *,
     delta_id: str | None = None,
+    prematched_relative_paths: set[str] | None = None,
 ) -> CorpusDelta:
     """Classify each doc in (disk ∪ baseline) into exactly one bucket.
 
@@ -113,7 +114,18 @@ def plan_delta(
       as a new arrival.
 
     Every path in ``(disk ∪ baseline)`` appears in exactly one bucket.
+
+    ``prematched_relative_paths`` (optional): fast path for the content-hash
+    shortcut in ``delta_runtime``. When a disk doc's path is in this set,
+    the planner forces it into the ``unchanged`` bucket without computing
+    or comparing fingerprints — the caller has already proven (via
+    ``sha256(markdown_bytes) == baseline.content_hash``) that the file is
+    byte-identical to the baseline, so classifying it would be wasted work.
+    Retired-reintroduction and legacy-null-fingerprint rules are NOT
+    bypassed — prematched paths whose baseline row is retired still route
+    to ``added`` so the write path re-upserts.
     """
+    prematched = prematched_relative_paths or set()
     resolved_delta_id = str(
         delta_id or _default_delta_id(baseline.generation_id)
     ).strip()
@@ -151,6 +163,15 @@ def plan_delta(
             # irrelevant because the write path must clear retired_at and
             # re-upsert chunks/edges in full.
             added.append(DeltaEntry(path, disk_doc, base_doc))
+            continue
+        # Fast path: caller already proved byte-identical content to the
+        # baseline (content_hash match). Skip classifier + fingerprint
+        # comparison, bucket as unchanged. Legacy rows with no fingerprint
+        # are still routed through the classifier path below — the
+        # shortcut only fires when both content_hash AND doc_fingerprint
+        # are present in baseline, and the caller keeps that invariant.
+        if path in prematched and base_doc.doc_fingerprint:
+            unchanged.append(DeltaEntry(path, disk_doc, base_doc))
             continue
         # Legacy rows with no fingerprint on file: force through the modified
         # path so the next run persists a fingerprint + rewrites chunks. A

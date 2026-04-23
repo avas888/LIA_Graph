@@ -269,3 +269,64 @@ def test_plan_delta_ignores_disk_doc_with_empty_path() -> None:
     disk = [DiskDocument(relative_path="", content_hash="h")]
     delta = plan_delta(disk_docs=disk, baseline=_baseline([]))
     assert delta.added == delta.modified == delta.removed == delta.unchanged == ()
+
+
+# Content-hash shortcut: prematched paths force unchanged bucket without
+# needing a fingerprint match. This is the v1.1 optimization that lets
+# delta_runtime skip classifying byte-identical files.
+def test_plan_delta_prematched_paths_force_unchanged_bucket() -> None:
+    # Disk doc has a DIFFERENT classifier_output (hence a different
+    # fingerprint) — would normally route to modified. With the
+    # prematched hint, the planner trusts the caller's proof that
+    # bytes match and forces unchanged.
+    disk = [_disk_doc("shortcut/a.md", classifier_output={"topic_key": "WOULD_DRIFT"})]
+    baseline = _baseline([
+        _baseline_doc(
+            relative_path="shortcut/a.md",
+            fingerprint="stable_baseline_fingerprint",
+        ),
+    ])
+    delta = plan_delta(
+        disk_docs=disk,
+        baseline=baseline,
+        prematched_relative_paths={"shortcut/a.md"},
+    )
+    assert {e.relative_path for e in delta.unchanged} == {"shortcut/a.md"}
+    assert delta.modified == ()
+
+
+# Prematched does NOT bypass retirement: a retired baseline row that's
+# "prematched" still routes to added (re-introduction path).
+def test_plan_delta_prematched_respects_retirement() -> None:
+    disk = [_disk_doc("was_retired.md")]
+    baseline = _baseline([
+        _baseline_doc(
+            relative_path="was_retired.md",
+            fingerprint=disk[0].fingerprint,
+            retired_at="2026-04-20T10:00:00+00:00",
+        )
+    ])
+    delta = plan_delta(
+        disk_docs=disk,
+        baseline=baseline,
+        prematched_relative_paths={"was_retired.md"},
+    )
+    assert {e.relative_path for e in delta.added} == {"was_retired.md"}
+    assert delta.unchanged == ()
+
+
+# Prematched DOES NOT bypass legacy-null-fingerprint: if the baseline has
+# no fingerprint yet (pre-backfill), the planner still routes to modified
+# so the next run persists one.
+def test_plan_delta_prematched_defers_on_null_fingerprint() -> None:
+    disk = [_disk_doc("legacy.md")]
+    baseline = _baseline([
+        _baseline_doc(relative_path="legacy.md", fingerprint=None),
+    ])
+    delta = plan_delta(
+        disk_docs=disk,
+        baseline=baseline,
+        prematched_relative_paths={"legacy.md"},
+    )
+    assert {e.relative_path for e in delta.modified} == {"legacy.md"}
+    assert delta.unchanged == ()

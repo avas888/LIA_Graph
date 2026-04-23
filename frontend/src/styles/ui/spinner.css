@@ -1,0 +1,46 @@
+/* Atom: spinner.
+ *
+ * currentColor-driven so it inherits the parent's text color — drop it
+ * inside any button or inline label and it matches. Tokens-only.
+ */
+
+.lia-spinner {
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: currentColor;
+  border-top-color: transparent;
+  animation: lia-spinner-spin 0.8s linear infinite;
+  vertical-align: -0.15em;
+}
+
+.lia-spinner--inline {
+  width: 1em;
+  height: 1em;
+  border-width: 2px;
+}
+
+.lia-spinner--sm {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-width: 2px;
+}
+
+.lia-spinner--md {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-width: 2px;
+}
+
+.lia-spinner--lg {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-width: 3px;
+}
+
+@keyframes lia-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
