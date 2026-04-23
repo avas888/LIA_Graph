@@ -22,7 +22,7 @@ INGESTION_DECISION_INCLUDE = "include_corpus"
 INGESTION_DECISION_REVISION = "revision_candidate"
 INGESTION_DECISION_EXCLUDE = "exclude_internal"
 
-GRAPH_TARGET_FAMILIES = frozenset({"normativa"})
+GRAPH_TARGET_FAMILIES = frozenset({"normativa", "practica", "interpretacion", "expertos"})
 GRAPH_PARSE_STRATEGIES = frozenset({"markdown_graph_parse"})
 TEXT_DIRECT_PARSE_EXTENSIONS = frozenset({".md", ".markdown"})
 TEXT_INVENTORY_EXTENSIONS = frozenset({".txt", ".csv", ".json", ".yaml", ".yml", ".xml", ".html"})

@@ -312,7 +312,16 @@ def materialize_graph_artifacts(
         )
 
     articles_base = parse_article_documents(graph_documents)
-    raw_edges = extract_edge_candidates(articles_base)
+    # ingestionfix_v2 §4 Phase 4: thread origin family into edge extraction
+    # so the classifier emits the Spanish-taxonomy edge_type + weight.
+    family_by_source_path = {
+        document.source_path: document.family
+        for document in corpus_documents
+        if document.graph_parse_ready
+    }
+    raw_edges = extract_edge_candidates(
+        articles_base, family_by_source_path=family_by_source_path
+    )
     classified_edges_base = classify_edge_candidates(raw_edges)
 
     # Phase B: SUIN merge (two-pass). See docs/next/ingestion_suin.md step #13.

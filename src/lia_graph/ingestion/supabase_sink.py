@@ -423,6 +423,11 @@ class SupabaseCorpusSink:
                     "generation_id": self.generation_id,
                     "created_at": now,
                     "basis_text": basis_text,
+                    # ingestionfix_v2 §4 Phase 4 — Spanish-taxonomy typing +
+                    # authority weight. Both nullable at the DB level so
+                    # pre-Phase-4 rows remain valid.
+                    "edge_type": edge.edge_type,
+                    "weight": float(edge.weight) if edge.weight is not None else 1.0,
                 }
             )
 

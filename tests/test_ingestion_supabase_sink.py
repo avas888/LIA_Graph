@@ -308,6 +308,46 @@ def test_activate_requires_generation_row() -> None:
         sink.finalize(activate=True)
 
 
+def test_normative_edges_include_edge_type_and_weight() -> None:
+    """ingestionfix_v2 §4 Phase 4: normative_edges rows must carry
+    the Spanish-taxonomy edge_type + authority weight."""
+    client = _FakeClient()
+    sink = SupabaseCorpusSink(
+        target="production",
+        generation_id="gen_edge_typed",
+        client=client,
+    )
+    sink.write_generation(documents=0, chunks=0)
+    edge = ClassifiedEdge(
+        record=GraphEdgeRecord(
+            kind=EdgeKind.MODIFIES,
+            source_kind=NodeKind.ARTICLE,
+            source_key="100",
+            target_kind=NodeKind.ARTICLE,
+            target_key="200",
+            properties={
+                "raw_reference": "Ley 2277 de 2022",
+                "edge_type": "MODIFICA",
+                "weight": 1.0,
+            },
+        ),
+        confidence=0.95,
+        rule="keyword_modifies",
+        edge_type="MODIFICA",
+        weight=1.0,
+    )
+    written = sink.write_normative_edges([edge])
+    assert written == 1
+
+    upserts = [
+        call for call in client.calls if call.table == "normative_edges" and call.op == "upsert"
+    ]
+    assert upserts
+    row = upserts[0].payload[0]
+    assert row["edge_type"] == "MODIFICA"
+    assert row["weight"] == 1.0
+
+
 def test_chunk_source_type_numeric_article_key() -> None:
     assert _derive_source_type("512-1", "512-1") == "article"
     assert _derive_source_type("147", "147") == "article"

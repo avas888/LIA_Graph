@@ -409,7 +409,15 @@ def materialize_delta(
     delta_graph_documents = tuple(d.markdown_document() for d in delta_corpus_docs)
     if delta_graph_documents:
         delta_articles = parse_article_documents(delta_graph_documents)
-        raw_edges = extract_edge_candidates(delta_articles)
+        # ingestionfix_v2 §4 Phase 4: thread origin family into edge
+        # extraction so typed edges (PRACTICA_DE / INTERPRETA_A / MENCIONA)
+        # also land through the additive delta path.
+        delta_family_by_source_path = {
+            d.source_path: d.family for d in delta_corpus_docs
+        }
+        raw_edges = extract_edge_candidates(
+            delta_articles, family_by_source_path=delta_family_by_source_path
+        )
         classified_edges = classify_edge_candidates(raw_edges)
     else:
         delta_articles = ()

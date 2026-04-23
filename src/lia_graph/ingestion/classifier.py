@@ -1,4 +1,13 @@
-"""Deterministic edge typing scaffolds for Phase 2 graph ingestion."""
+"""Deterministic edge typing scaffolds for Phase 2 graph ingestion.
+
+ingestionfix_v2 §4 Phase 4 introduces a parallel Spanish-taxonomy
+``edge_type`` (MODIFICA / DEROGA / CITA / PRACTICA_DE / INTERPRETA_A /
+MENCIONA) and a ``weight`` scalar on every classified edge. The legacy
+English ``EdgeKind`` enum is unchanged — it still drives the
+``normative_edges.relation`` column + the Falkor-side EdgeKind label —
+while ``edge_type`` adds a family-origin-aware typing layer used by
+downstream retrieval / ranking.
+"""
 
 from __future__ import annotations
 
@@ -8,17 +17,81 @@ from ..graph.schema import EdgeKind, GraphEdgeRecord, default_graph_schema
 from .linker import RawEdgeCandidate
 
 
+# Phase-4 taxonomy constants. Spanish string values mirror the
+# database CHECK constraint introduced by
+# supabase/migrations/20260423000000_normative_edges_typed.sql.
+EDGE_TYPE_MODIFICA = "MODIFICA"
+EDGE_TYPE_DEROGA = "DEROGA"
+EDGE_TYPE_CITA = "CITA"
+EDGE_TYPE_PRACTICA_DE = "PRACTICA_DE"
+EDGE_TYPE_INTERPRETA_A = "INTERPRETA_A"
+EDGE_TYPE_MENCIONA = "MENCIONA"
+
+# Per-type weights. Higher weight = more authoritative. Downstream
+# retrieval uses these to rank edge-driven evidence.
+_WEIGHT_NORMATIVA_AUTHORITATIVE = 1.0
+_WEIGHT_PRACTICA = 0.6
+_WEIGHT_INTERPRETACION = 0.6
+_WEIGHT_CASUAL_MENTION = 0.2
+
+_INTERPRETIVE_FAMILIES = frozenset({"interpretacion", "expertos"})
+
+
 @dataclass(frozen=True)
 class ClassifiedEdge:
     record: GraphEdgeRecord
     confidence: float
     rule: str
+    # ingestionfix_v2 §4 Phase 4 additions. Both optional for back-compat
+    # with older pickled edges / third-party callers.
+    edge_type: str | None = None
+    weight: float = 1.0
 
     def to_dict(self) -> dict[str, object]:
         payload = self.record.to_dict()
         payload["confidence"] = self.confidence
         payload["rule"] = self.rule
+        payload["edge_type"] = self.edge_type
+        payload["weight"] = self.weight
         return payload
+
+
+def _resolve_edge_type_and_weight(
+    *,
+    source_family: str | None,
+    kind: EdgeKind,
+    relation_hint: str | None,
+) -> tuple[str, float]:
+    """Map (source_family, kind, relation_hint) → (edge_type, weight).
+
+    Rules per ingestionfix_v2 §4 Phase 4:
+      * normativa + MODIFIES-like → MODIFICA (1.0)
+      * normativa + SUPERSEDES-like → DEROGA (1.0)
+      * normativa + vanilla citation → CITA (1.0)
+      * practica → PRACTICA_DE (0.6)
+      * interpretacion / expertos → INTERPRETA_A (0.6)
+      * no family known AND no authority hint → MENCIONA (0.2)
+    """
+    family = (source_family or "").strip().lower() or None
+    if family == "normativa":
+        if kind is EdgeKind.MODIFIES or relation_hint == EdgeKind.MODIFIES.value:
+            return EDGE_TYPE_MODIFICA, _WEIGHT_NORMATIVA_AUTHORITATIVE
+        if kind is EdgeKind.SUPERSEDES or relation_hint == EdgeKind.SUPERSEDES.value:
+            return EDGE_TYPE_DEROGA, _WEIGHT_NORMATIVA_AUTHORITATIVE
+        return EDGE_TYPE_CITA, _WEIGHT_NORMATIVA_AUTHORITATIVE
+    if family == "practica":
+        return EDGE_TYPE_PRACTICA_DE, _WEIGHT_PRACTICA
+    if family in _INTERPRETIVE_FAMILIES:
+        return EDGE_TYPE_INTERPRETA_A, _WEIGHT_INTERPRETACION
+    # Unknown family, or casual prose reference. If the relation_hint
+    # signaled authority (MODIFIES/SUPERSEDES), preserve the authoritative
+    # type even when family is unset — legacy rows from before the family
+    # plumbing still deserve the right edge_type.
+    if relation_hint == EdgeKind.MODIFIES.value:
+        return EDGE_TYPE_MODIFICA, _WEIGHT_NORMATIVA_AUTHORITATIVE
+    if relation_hint == EdgeKind.SUPERSEDES.value:
+        return EDGE_TYPE_DEROGA, _WEIGHT_NORMATIVA_AUTHORITATIVE
+    return EDGE_TYPE_MENCIONA, _WEIGHT_CASUAL_MENTION
 
 
 def classify_edge_candidates(
@@ -98,6 +171,11 @@ def _build_edge(
     confidence: float,
     rule: str,
 ) -> ClassifiedEdge:
+    edge_type, weight = _resolve_edge_type_and_weight(
+        source_family=candidate.source_family,
+        kind=edge_kind,
+        relation_hint=candidate.relation_hint,
+    )
     return ClassifiedEdge(
         record=GraphEdgeRecord(
             kind=edge_kind,
@@ -110,10 +188,15 @@ def _build_edge(
                 "context": candidate.context,
                 "relation_hint": candidate.relation_hint,
                 "classifier_rule": rule,
+                "source_family": candidate.source_family,
+                "edge_type": edge_type,
+                "weight": weight,
             },
         ),
         confidence=confidence,
         rule=rule,
+        edge_type=edge_type,
+        weight=weight,
     )
 
 
