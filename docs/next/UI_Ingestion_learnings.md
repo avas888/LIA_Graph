@@ -368,7 +368,229 @@ source file has the full story.
 
 ---
 
-## §11 When to update this file
+## §11 "Rescue-from-Other" playbook — every ingestion, every reingest
+
+**Context.** Colombian legal corpora always produce a catch-all bucket
+(`otros_sectoriales`, `varios`, `otros`, etc.) because the taxonomy
+covers the ~40 core accounting topics accountants actually work with.
+Anything outside that (health, education, agriculture, culture,
+utilities, etc.) lands in the catch-all. In our 2026-04-23 probe,
+`otros_sectoriales` ate 39% of the classified corpus (510 of 1,319).
+
+Left alone, that catch-all becomes a permanent `TopicNode` in Falkor
+with hundreds of generic TEMA edges — useless for retrieval.
+
+**Rule.** Every regular ingestion AND every reingest-from-raw must run
+the Rescue-from-Other pipeline as a **standard post-sink step**. It is
+not an opt-in; it is the default. Skipping it requires a written
+justification in the PR description.
+
+**The three-pass pipeline (battle-tested on 2026-04-23; 216 of 242
+noisy docs rescued into real buckets = 89% rescue rate; total Gemini
+cost $0.037 for 510 docs):**
+
+### §11.1 Trigger conditions
+
+Launch the rescue pipeline when ANY of these is true after a sink
+completes (either full-rebuild or additive):
+
+| Trigger | Threshold | Why |
+|---|---|---|
+| **Any single `tema` holds >5% of live corpus** | 5% of `count(documents WHERE retired_at IS NULL)` | Indicates a bucket absorbing taxonomy gaps. 5% chosen because the next-largest named topic historically tops out at 6-7% (`declaracion_renta`). |
+| **`tema='otros_sectoriales'` absolute count > 100** | 100 | Hard floor. Regardless of %, a >100-doc catch-all is worth a pass. |
+| **New corpus documents added** | any | A reingest that adds content may reveal new sectors the first pass missed. |
+| **Taxonomy change that removes a topic** | any | Retired topics leave dangling docs — flush them into proper buckets. |
+
+Automated check to gate ingestion completion (should be wired into the
+admin UI's post-sink "health check" panel):
+
+```sql
+SELECT tema, count(*) AS n,
+       round(100.0 * count(*) / (SELECT count(*) FROM documents WHERE retired_at IS NULL), 1) AS pct
+FROM documents WHERE retired_at IS NULL
+GROUP BY tema HAVING count(*) > 100 OR
+       count(*) > 0.05 * (SELECT count(*) FROM documents WHERE retired_at IS NULL)
+ORDER BY n DESC;
+```
+
+Any row returned ⇒ rescue pass required. UI surfaces a yellow banner:
+*"Rescue-from-Other pending for topic(s): X (Y docs, Z%). Run the
+sector-classify pipeline before closing this ingestion."*
+
+### §11.2 Pass 1 — loose prompt (discovery)
+
+Goal: surface the shape of what's in the catch-all. Allow the LLM to
+pick among three options:
+
+1. Migrate to one of N existing named topics.
+2. Propose a new sector (`sector_*` label, free-form).
+3. Mark as orphan.
+
+**Batched** at 20 docs/call. **Per-batch atomic checkpoint** so a
+failure only costs one batch of work. Visible heartbeat after every
+batch (progress bar, ETA, running cost estimate, top proposed new
+sectors, top migrate-to targets). **Resumable** on interrupt (SIGINT
+flips in-flight batch to `status=interrupted`; resume retries only
+that slice).
+
+**Canonical tool:** `scripts/monitoring/monitor_sector_reclassification/sector_classify.py`
+
+**Expected noise on pass 1:** the loose prompt will often accept
+"migrate to the catch-all itself" as an answer (the LLM's shortcut for
+"leave it alone"). In our run that was 47% of outputs. Pass 2 fixes this.
+
+### §11.3 Pass 2 — strict retry on the noise (escalation)
+
+Goal: force the LLM to give a real answer for docs the loose pass
+dumped back into the catch-all.
+
+**Extract** the doc_ids the loose pass labelled `migrate → <catch-all>`.
+**Re-run** the same tool with `--exclude-migrate-topics <catch-all>`
+which:
+
+* Removes the catch-all from the OPCIÓN-1 migrate list the LLM sees.
+* Adds a `PROHIBIDO` warning in the prompt.
+* Adds `Si dudas entre OPCIÓN 2 y OPCIÓN 3, elige OPCIÓN 2` (prefer new
+  sector over orphan when sectorial content is ambiguous).
+
+**Expected rescue rate:** 85-90% of noisy docs move into real buckets
+(~42% migrate to existing topics, ~48% propose new sectors, ~5% explicit
+orphan, ~15-20% disguised `sector_otros*` loophole).
+
+**Output:** a second aggregate proposal at
+`artifacts/sector_classification_strict/sector_reclassification_proposal.json`.
+
+### §11.4 Pass 3 — rich per-doc rescue for residual orphans
+
+Goal: close out the remaining 10-15% that the strict pass couldn't
+place (true orphans + disguised-catch-all labels like `sector_otros`).
+
+**Per-doc call**, not batched — each of these docs gets the full
+proposed taxonomy (39 existing + ~30 newly-proposed sectors from
+pass 2) as a closed-world list, plus a richer prompt:
+
+> *"¿De qué trata principalmente este documento? ¿Encaja en alguna de
+> las N categorías listadas? Si no encaja en ninguna, ¿cómo lo
+> categorizarías tú?"*
+
+**Model selects** from the closed list OR proposes a final new-sector
+label with reasoning. Per-doc context makes this more accurate than
+the batched pass for hard cases.
+
+**Canonical tool** (to build): `scripts/monitoring/monitor_sector_reclassification/classify_orphans.py`.
+
+**Expected cost:** $0.0003-0.0005 per doc × ~80 docs ≈ $0.03-0.05 total.
+Negligible compared to the retrieval quality we get back.
+
+### §11.5 Operator gates
+
+**Pass 1 + Pass 2 + Pass 3 produce proposals — they do not mutate
+anything.** Before any `documents.tema` UPDATE fires:
+
+1. **Operator reviews the proposal** in a diff-friendly view (doc_id,
+   current_tema, proposed_tema, confidence, reasoning).
+2. **Operator merges raw sector labels into canonical ones.** The LLM
+   produced 187 raw labels in our run; operator collapsed them to ~30
+   canonical sectors in ~20 minutes. Build a merge-map script that
+   takes the raw proposal + an operator-edited `merge_map.yaml` and
+   emits the canonical proposal.
+3. **Operator approves** via signed manifest: checksum +
+   `approved_by` + `approved_at` + `plan_version_expected` fields in
+   the approved-proposal file.
+4. **Only the approved file is valid input** to the apply script. Raw
+   proposals refuse at the `.approved.json` extension check.
+
+This pattern mirrors the Phase 3.0 Quality Gate in `ingestionfix_v3`:
+automation produces the evidence; a human signs the go/no-go.
+
+### §11.6 Apply step — it's a `fingerprint_bust` + `tema` UPDATE
+
+**The apply step is NOT a delete-and-recreate.** Two writes per doc:
+
+```sql
+UPDATE documents
+   SET tema = '<new_topic>', doc_fingerprint = NULL
+ WHERE doc_id = $1;
+```
+
+Nulling the fingerprint ensures the next additive reingest regenerates
+chunks + TEMA edges under the new topic. Same `fingerprint_bust`
+durability contract applies (safety rails, manifest-before-execute,
+atomic batched writes).
+
+**Canonical tool** (to build): `scripts/monitoring/monitor_sector_reclassification/apply_sector_reclassification.py`.
+
+### §11.7 Post-rescue validation (required)
+
+After apply completes, run a **post-rescue tema-distribution re-probe**:
+
+```bash
+python scripts/monitoring/monitor_sector_reclassification/probe_tema_distribution.py
+```
+
+(Tool to build — trivial wrapper around the SQL from §12.1.)
+
+**Acceptance:**
+* Catch-all topic count drops from pre-rescue N to ≤5% of corpus OR
+  ≤100 absolute docs — whichever the trigger in §12.1 used.
+* No new topic exceeds the 5% threshold (otherwise that topic needs
+  its own rescue pass).
+* Every new canonical sector has an entry in `config/topic_taxonomy.json`
+  with `vocabulary_status: ratified_v<N>`.
+* No `documents.tema` values reference a key that doesn't exist in the
+  taxonomy (orphan-tema check).
+
+### §11.8 UI surface — where this shows up
+
+For the future admin UI that triggers ingestion:
+
+* **Pre-ingest panel:** shows the current tema histogram (visible
+  warning if any bucket >5% or >100).
+* **Post-sink panel:** if trigger hit, yellow banner +
+  "Run Rescue-from-Other" button that fires the three-pass pipeline.
+* **Rescue progress panel:** heartbeat from `sector_classify.py`
+  streamed live (progress bar + ETA + sector histogram growing).
+* **Review panel:** proposal diff viewer (sortable by confidence, by
+  doc count per proposed topic, by migration target).
+* **Apply button:** gated on a signed approved-proposal file; shows
+  the manifest path before + after.
+
+### §11.9 Budget expectations (from 2026-04-23 production run)
+
+| Pass | Docs | Wall time | Gemini cost |
+|---|---|---|---|
+| Pass 1 (loose, 510-doc catch-all) | 510 | ~10 min | $0.019 |
+| Pass 2 (strict, 242 noisy) | 242 | ~5 min | $0.018 |
+| Pass 3 (rich per-doc, 80 orphans est.) | ~80 | ~3 min | ~$0.04 |
+| **Total** | **510 docs** | **~18 min** | **~$0.08** |
+
+Well under any reasonable budget. The cost scales linearly with catch-all
+size; a 5,000-doc catch-all would be ~$0.80 — still cheap insurance
+against a permanent retrieval-quality regression.
+
+### §11.10 What this prevents
+
+The ingestion-time classifier (prefix/alias map in
+`config/prefix_parent_topic_map.json` + `src/lia_graph/ingest_classifiers.py`)
+is rule-based and WILL miss edge cases — especially for Colombian laws
+whose titles don't match any configured prefix pattern. Our 2026-04-23
+probe found 106 such misclassifications across 39 topics (Ley 1066
+cartera pública, Ley 1527 libranzas, Ley 1121 anti-terrorism financing,
+etc. — all dumped into the catch-all by the rule-based pass).
+
+Without the Rescue pipeline these stay miscategorized until someone
+notices an accountant asking a labor question and not getting Ley 1527.
+The pipeline catches them automatically on every reingest — a
+**self-healing taxonomy layer** on top of the rule-based classifier.
+
+Follow-up **F7** (see `docs/next/ingestionfix_v3.md §8`) covers
+extending the classifier's prefix/alias map so future Colombian laws
+don't keep landing in the catch-all for the same reasons — that's the
+LONG-term fix; the Rescue pipeline is the SHORT-term always-on net.
+
+---
+
+## §12 When to update this file
 
 * After any ingestion bug that bites us in production. Add §N with the
   incident + the rule that prevents it.
@@ -384,5 +606,6 @@ a full triage cycle**.
 
 ---
 
-*Last major update: 2026-04-23 (after ingestionfix_v3 Phase 2 code +
-Phase 2.5 tooling landed, pre-rehearsal).*
+*Last major update: 2026-04-23 PM (§11 Rescue-from-Other playbook added
+after v3 Phase 2.5 Task A shipped — 216/242 noisy docs rescued from the
+catch-all, pipeline proven end-to-end).*

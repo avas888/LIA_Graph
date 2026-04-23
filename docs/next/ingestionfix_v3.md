@@ -393,6 +393,76 @@ Running the v3.1 proposal as-is (batch 9 = `otros_sectoriales` quarantine) creat
 
 **Implication:** Phase 2.5 (below in §5) inserts the sector-reclassification work BEFORE the Phase 3 chain runs, so the batch that lands `otros_sectoriales` + its replacement sector topics into Falkor does so with the right structure the first time.
 
+### 2.2.6 Phase 2.5 Task A — Gemini classification passes shipped 2026-04-23 PM
+
+*The LLM title-classification pass (§5 Phase 2.5 Task A) ran live. What follows are the real numbers, superseding the §2.2.4 estimates.*
+
+**Two passes, not one.** The first (loose) prompt allowed the model to choose `migrate → otros_sectoriales` as a "leave it where it is" answer; 242 of 510 docs (47%) got that label — useless signal. A second **strict pass** re-ran only those 242 with a tightened prompt that (a) removes `otros_sectoriales` from the OPCIÓN-1 migrate list, (b) adds an explicit `PROHIBIDO` warning, (c) prefers `new_sector` over `orphan` when in doubt. That implementation is the `--exclude-migrate-topics` flag on `scripts/monitoring/monitor_sector_reclassification/sector_classify.py`.
+
+**Run stats (combined).** 510/510 docs classified across 39 batches (26 first-pass + 13 strict-pass retry). Zero parse errors. Total Gemini spend **$0.037** (about 13× cheaper than the $0.50 pre-run budget). One transient batch-18 timeout on the first pass — retried clean; the durability contract (per-batch atomic checkpoint + resume) held end-to-end.
+
+**Three-pile decomposition (all 510 docs, combined view).**
+
+| Pile | Count | Share | What it means |
+|---|---|---|---|
+| Migrate to an **existing named topic** | **106** | 20.8% | These docs were misclassified into `otros_sectoriales` by the ingestion classifier and belong in topics that already exist. Fix is a `tema` UPDATE (no taxonomy change). |
+| `new_sector` (raw labels) | **324** | 63.5% | Genuinely sectoral content that needs new taxonomy entries. 187 raw labels across both passes; ~20 canonical after near-duplicate merge. |
+| Effective orphans | **80** | 15.7% | 54 first-pass explicit + 22 strict-pass `sector_otros*` (LLM loophole — treats as orphan) + 4 strict-pass explicit. Need a third deeper pass per §2.2.7 below. |
+
+**The 106 real migrations — ranked by target topic:**
+
+| Existing top-level topic | Docs migrated in | Examples |
+|---|---|---|
+| `presupuesto_hacienda` | 25 | Ley 1066/2006 (cartera pública), budget + regalías laws |
+| `laboral` | 16 | Ley 1527/2012 (libranzas), payroll/labor laws |
+| `sagrilaft_ptee` | 15 | Ley 1121/2006 (financiación terrorismo) + AML family |
+| `comercial_societario` | 13 | Ley 1328/2009 (consumer financial protection) + corporate family |
+| `obligaciones_profesionales_contador` | 7 | Auditor/contador statutes |
+| `contratacion_estatal` | 6 | State-contracting laws misrouted |
+| `reforma_pensional` | 5 | Pension reforms bundled into the catch-all |
+| `leyes_derogadas` | 4 | Repealed laws that got tagged miscellaneous |
+| `datos_tecnologia` | 4 | Tech / data-protection statutes |
+| `reformas_tributarias`, `inversiones_incentivos`, `zonas_francas`, `estados_financieros_niif`, `ica` | 1-3 each | Single-digit rescues each |
+
+**Preliminary canonical sector map (post-merge estimate — operator to finalize in Task B):**
+
+| Canonical sector (proposed) | Approx. docs | Raw labels absorbed |
+|---|---|---|
+| `sector_agropecuario` | ~24 | agropecuario + agropecuario_rural + agropecuario_pesquero + agropecuario_tierras + agrario_rural + propiedad_tierra |
+| `sector_salud` | ~22 | salud + salud_seguridad_social |
+| `sector_cultura` | ~20 | cultura + cultura_cine + cultura_espectaculos + cultura_artes_escenicas + cultura_bibliotecas + cine_audiovisual + bibliotecologia |
+| `sector_vivienda` | ~17 | vivienda + vivienda_urbana/urbano + propiedad_inmueble + propiedad_horizontal + ordenamiento_territorial + desarrollo_urbano |
+| `sector_turismo` | ~16 | turismo (clean, no near-dupes) |
+| `sector_educacion` | ~15 | educacion (clean) |
+| `sector_financiero` | ~15 | financiero + financiero_seguros + financiero_credito + financiero_consumidor + financiero_libranzas |
+| `sector_servicios_publicos` | ~10 | servicios_publicos + servicios_publicos_sociales + energia_electrica |
+| `sector_administracion_publica` | ~9 | administracion_publica + administracion_publica_anticorrupcion + gobierno_territorial + gobierno_local + transparencia_gobernanza |
+| `sector_politico_electoral` | ~8 | politico_electoral (clean) |
+| `sector_ciencia_tecnologia` | ~6 | ciencia_tecnologia (clean) |
+| `sector_profesiones_liberales` | ~6 | profesiones_liberales + profesion_economista + profesion_diseno_industrial + profesion_periodismo + profesion_psicologia + regulacion_profesional + psicologia |
+| `sector_energia_mineria` | ~5 | energia + minero_energetico + mineria + minero |
+| `sector_deporte` | ~4 | deporte + deporte_recreacion |
+| `sector_justicia` | ~4 | justicia + seguridad_justicia + derecho_penal + derecho_constitucional |
+| `sector_inclusion_social` | ~4 | inclusion_social + inclusion_discapacidad + genero_violencia + genero_equidad |
+| `sector_infancia_adolescencia` | ~3 | infancia_adolescencia + juventud |
+| `sector_transporte` | ~3 | transporte + puertos |
+| `sector_economia_solidaria` | ~4 | economia_solidaria + cooperativo |
+| `sector_juegos_azar` | ~3 | juegos_azar + juegos_suerte_azar |
+| `sector_desarrollo_regional` | ~3 | desarrollo_regional + fronteras_desarrollo_regional + planificacion_nacional |
+| *(~8-10 small single-topic labels)* | 1-2 each | archivos, etnias, protecion_animal, medio_ambiente, gestion_riesgos, etc. |
+
+**Tentative count: 21 canonical sectors + 8-10 tail-end small ones ≈ ~30 new top-level topics** (vs my pre-run estimate of 12-15). The taxonomy grows from 39 → ~65-70 top-level topics.
+
+### 2.2.7 The 80 orphans deserve one more pass
+
+The effective-orphan pile (80 docs) is bigger than the pre-run estimate (~10) mostly because the strict prompt's "if in doubt, prefer `new_sector`" rule didn't prevent 22 `sector_otros*` loopholes. These 26 (22 sector_otros + 4 strict explicit) plus the 54 first-pass orphans are the highest-value candidates for a third pass that:
+
+* Shows the model the **current proposed taxonomy** (39 existing + ~30 proposed new sectors) as a closed-world list.
+* Asks per-doc: "What is this doc most about? Does it fit any of these N categories? If not, how WOULD you categorize it?"
+* Runs per-doc (not batched) so the model has full context + room to reason.
+
+Tracked as Task A.2 (new) under §5 Phase 2.5. Cost estimate ~$0.03-0.05, wall time ~2-5 minutes. Output: `artifacts/sector_classification_orphans/orphan_rescue_proposal.json`.
+
 ---
 
 ## §3 Scope + phasing overview
@@ -653,13 +723,15 @@ phase_2_tool_and_rehearsal:
 
 #### Phase 2.5 — Sub-tasks
 
-**A — LLM title classification pass** *(`sector_classify.py`; ~30 min wall; ~$0.50 Gemini cost)*
+**A — LLM title classification pass** ✓ **COMPLETED 2026-04-23 PM** *(actual: 2 passes, ~15 min wall, $0.037 Gemini cost — 13× cheaper than estimate)*
 
-* Input: 510 `doc_id`s from the `otros_sectoriales` probe manifest.
-* For each doc: read `knowledge_base/<path>` (prefer `consolidado/` version if it exists since it's the richest), take the first heading line + first ~2 paragraphs as the classification signal.
-* Prompt Gemini with a 3-bucket decision tree: (a) **migrate to existing topic X** (list the 39 names); (b) **new sector topic** (free-form label); (c) **true orphan**.
-* For (b), cluster the free-form labels post-hoc into ~12-15 canonical sector names.
-* Emit `artifacts/sector_reclassification_proposal.json`. No writes to Supabase.
+* **First pass:** all 510 docs, 26 batches of 20, loose prompt. Output: `artifacts/sector_classification/sector_reclassification_proposal.json`.
+* **Strict-pass retry** (needed because first prompt let the LLM use `migrate → otros_sectoriales` as a "leave it" answer for 242 docs): same tool with `--exclude-migrate-topics otros_sectoriales`, 13 batches of 20 against the 242 noisy doc_ids. Output: `artifacts/sector_classification_strict/sector_reclassification_proposal.json`.
+* **Combined result** (see §2.2.6 for full tables): 106 migrate → existing topics · 324 `new_sector` (187 raw labels, ~30 canonical after merge) · 80 effective orphans.
+* **Durability contract held end-to-end:** one batch-18 timeout on the first pass; resumed clean; per-batch atomic checkpoints preserved all prior work.
+* Zero parse errors across 39 batches.
+
+**A.2 — Orphan rescue pass** *(new; operator-gated)* — the 80 effective orphans (22 disguised `sector_otros*` + 4 explicit strict + 54 first-pass) get one more pass that shows the model the **full proposed taxonomy as a closed-world list** and asks per-doc: "what is this about / does it fit any of these / if not, how would you categorize it?" Per-doc call (not batched) for context richness. Cost estimate ~$0.03-0.05; wall ~2-5 min. Output: `artifacts/sector_classification_orphans/orphan_rescue_proposal.json`.
 
 **B — Operator review of proposal** *(operator-driven; ~1-2 hrs)*
 
@@ -1369,23 +1441,61 @@ phase_2_tool_and_rehearsal:
   resumption_hint: "Operator runs scripts/launch_batch.sh --batch 1 --dry-run first, then --batch 1 to execute."
 
 phase_2_5_sector_reclassification:
-  status: pending                                # §2.2 deep-dive found otros_sectoriales is really 3 things; this phase untangles it before Phase 3 materializes Falkor state
+  status: task_A_complete_awaiting_A2_and_B  # §2.2 deep-dive found otros_sectoriales is really 3 things; this phase untangles it before Phase 3 materializes Falkor state
   added_to_plan_at: 2026-04-23 (Bogotá)
   rationale: "See §2.2: 510 otros_sectoriales docs decompose into ~30-60 misclassified rows (belong in existing named topics), ~400-450 genuinely-sectoral rows (need ~12-15 new sector topics), and ~10 true orphans. Running Phase 3 without this split would encode the catch-all permanently into Falkor TopicNode/TEMA state."
   blocks: phase_3_0_quality_gate                 # not physically enforced; operator judgment. Plan text explains why.
   sub_task_A_llm_pass:
-    status: pending
+    status: completed                            # 2026-04-23 PM, two passes (loose + strict retry)
+    first_pass:
+      completed_at: "2026-04-23 (Bogotá) PM"
+      docs_classified: 510
+      batches: 26
+      errors: 0
+      transient_timeouts: 1                      # batch 18 — retried clean via --resume
+      gemini_cost_usd: 0.019
+      output: artifacts/sector_classification/sector_reclassification_proposal.json
+      issue: "prompt let LLM use 'migrate → otros_sectoriales' as a 'leave it' answer — 242 noisy labels"
+    strict_retry:
+      completed_at: "2026-04-23 (Bogotá) PM"
+      docs_reclassified: 242
+      batches: 13
+      errors: 0
+      gemini_cost_usd: 0.018
+      output: artifacts/sector_classification_strict/sector_reclassification_proposal.json
+      implementation: "sector_classify.py --exclude-migrate-topics otros_sectoriales"
+      rescue_rate: "216/242 = 89% pulled into real buckets"
+    combined_actuals:
+      total_docs: 510
+      migrate_to_existing_topics: 106           # 20.8%
+      new_sector_raw_labels: 324                # 63.5% of docs; 187 distinct labels; ~30 canonical after merge
+      effective_orphans: 80                     # 15.7% — 54 first-pass + 22 sector_otros* loophole + 4 strict
+      total_gemini_cost_usd: 0.037              # vs $0.50 pre-run estimate
+      wall_time_minutes: 15                     # both passes combined
+    canonical_sectors_proposed_count: "~30 (vs pre-run estimate 12-15)"
+    full_findings_in_doc: "§2.2.6"
+  sub_task_A2_orphan_rescue_pass:
+    status: pending                              # richer per-doc prompt against 80 orphans; operator-approved scope
+    script_to_build: scripts/monitoring/monitor_sector_reclassification/classify_orphans.py
+    input_doc_count: 80                          # can be run against all 80 or the 26 strict-pass subset
+    cost_estimate_usd: 0.03-0.05
+    wall_estimate_minutes: 2-5
+    output: artifacts/sector_classification_orphans/orphan_rescue_proposal.json
   sub_task_B_operator_review:
     status: pending
+    canonical_merge_map_needed: true             # 187 raw sector labels → ~30 canonical
+    approved_proposal_path: artifacts/sector_reclassification_proposal.approved.json
   sub_task_C_taxonomy_update:
     status: pending
+    new_topic_count_expected: "~30 (from §2.2.6 preliminary consolidation)"
   sub_task_D_planjson_v3_1:
     status: pending
   sub_task_E_tema_migration:
     status: pending
+    script_to_build: scripts/monitoring/monitor_sector_reclassification/apply_sector_reclassification.py
   sub_task_F_reprobe:
     status: pending
-  notes: "Next step: run Task A (LLM title classification). Writes no production mutations — produces artifacts/sector_reclassification_proposal.json for operator review (Task B)."
+  notes: "Task A shipped 2026-04-23. Next: A.2 orphan rescue pass (this session), then operator B/C/D/E/F."
 
 phase_3_0_quality_gate:
   status: code_complete_awaiting_operator
