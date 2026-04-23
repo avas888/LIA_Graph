@@ -705,15 +705,46 @@ phase_2_tool_and_rehearsal:
 
 **Six sub-tasks (A → F), sequential, operator-gated at B and D.**
 
+#### Current state (snapshot 2026-04-23 PM)
+
+| Task | Status | Output |
+|---|---|---|
+| A — LLM title classification (loose + strict passes) | ✓ shipped | `artifacts/sector_classification{,_strict}/sector_reclassification_proposal.json` |
+| A.2 — Rich per-doc orphan rescue | ✓ shipped | `artifacts/sector_classification_orphans/orphan_rescue_proposal.json` |
+| **B-prep — canonical merge-map builder** | ✓ shipped | `artifacts/sector_classification/sector_merge_map.json` — 137 raw sector labels → **26 canonical groups** covering all 324 new-sector docs |
+| B — operator review of merged proposal | ⏳ pending (operator-driven, ~30 min) | `artifacts/sector_reclassification_proposal.approved.json` |
+| C — taxonomy update | ⏳ pending | `config/topic_taxonomy.json` + 26 new sector entries |
+| D — `plan.json` v3.1 rewrite | ⏳ pending | — |
+| E — `tema` migration (production write) | ⏳ pending — **script not yet built** | `scripts/monitoring/monitor_sector_reclassification/apply_sector_reclassification.py` |
+| F — post-migration re-probe | ⏳ pending | fresh per-topic tally |
+
+**Combined Gemini spend across A + A.2: $0.070** (vs $0.50 pre-run estimate).
+**Net outcome target:** `otros_sectoriales` shrinks **510 → 78 docs** (~39% → ~6% of classified corpus), **26 new sector topics** land in the taxonomy, **108 docs migrate** into existing named topics.
+
+#### Recommended operator path forward (parallelizable)
+
+| Who | Action | Duration |
+|---|---|---|
+| **Operator (you)** | Review `artifacts/sector_classification/sector_merge_map.json`. Accept as-is OR edit `SYNONYM_MERGES` in `scripts/monitoring/monitor_sector_reclassification/build_merge_map.py` + re-run (deterministic, sub-second). | ~20-30 min |
+| **Claude (in parallel)** | Build `scripts/monitoring/monitor_sector_reclassification/apply_sector_reclassification.py` (Task E) + unit tests. Dry-run safe by default, `--confirm` required for writes, manifest-before-execute. | ~30-45 min |
+| Both, sequentially | Tasks C (taxonomy update) + D (plan.json v3.1 rewrite) — both small (~20 min each) after B approves. | ~40 min |
+| Operator | Task E dry-run + review, then `--confirm` execute. | ~10 min |
+| Operator | Task F re-probe to verify post-migration distribution. | ~5 min |
+
+Total wall time from here to end of Phase 2.5: **~2-3 hours**, mostly operator decisions.
+
 #### Phase 2.5 — Files to create
 
-| Path | Purpose |
-|---|---|
-| `scripts/monitoring/monitor_sector_reclassification/sector_classify.py` | LLM-assisted title classifier. Reads the 510 `otros_sectoriales` doc titles + first ~2 paragraphs, asks Gemini to bucket each into one of: existing top-level topic (migration), proposed new sector topic, or `otros_sectoriales_true` (genuinely orphan). Emits `artifacts/sector_reclassification_proposal.json`. |
-| `artifacts/sector_reclassification_proposal.json` | Proposed per-doc map: `{doc_id → {proposed_topic, confidence, reasoning, current_tema}}`. Operator reviews + adjusts before anything mutates. |
-| `scripts/monitoring/monitor_sector_reclassification/apply_sector_reclassification.py` | Applies the operator-approved proposal. Two writes per doc: (1) update `documents.tema`, (2) null `documents.doc_fingerprint` (so additive reingest regenerates chunks + edges with the new topic). Same safety rails as `fingerprint_bust.py` (dry-run default, `--confirm` required, manifest-before-execute). |
-| `tests/test_sector_classify.py` | Unit tests on pure classifier helpers (prompt construction, response parsing, bucket-validation). |
-| `tests/test_apply_sector_reclassification.py` | Unit tests on the migration writer (dry-run safety, confirm-required, manifest integrity). |
+| Path | Purpose | Status |
+|---|---|---|
+| `scripts/monitoring/monitor_sector_reclassification/sector_classify.py` | Batched LLM classifier (loose + strict prompts; `--exclude-migrate-topics` flag). Outputs per-doc proposal. | ✓ shipped |
+| `scripts/monitoring/monitor_sector_reclassification/classify_orphans.py` | Rich per-doc orphan-rescue pass (closed-world target list). | ✓ shipped |
+| `scripts/monitoring/monitor_sector_reclassification/build_merge_map.py` | Deterministic collapser: 137 raw sector labels → 26 canonical groups. No LLM calls. | ✓ shipped |
+| `artifacts/sector_classification{,_strict,_orphans}/…_proposal.json` | Three per-pass proposals covering all 510 docs. | ✓ |
+| `artifacts/sector_classification/sector_merge_map.json` | Canonical-group map (operator-editable via the SYNONYM_MERGES table at the top of `build_merge_map.py`). | ✓ |
+| `scripts/monitoring/monitor_sector_reclassification/apply_sector_reclassification.py` | Applies approved proposal + merge-map. Dry-run default; `--confirm` required; manifest-before-execute; atomic batched UPDATE of `documents.tema` + `NULL` doc_fingerprint. | ⏳ not yet built |
+| `tests/test_sector_classify.py` | Unit tests on classifier helpers. | ✓ shipped (13 cases) |
+| `tests/test_apply_sector_reclassification.py` | Unit tests on the migration writer. | ⏳ not yet built |
 
 #### Phase 2.5 — Files to modify
 
@@ -735,11 +766,20 @@ phase_2_tool_and_rehearsal:
 
 **A.2 — Orphan rescue pass** *(new; operator-gated)* — the 80 effective orphans (22 disguised `sector_otros*` + 4 explicit strict + 54 first-pass) get one more pass that shows the model the **full proposed taxonomy as a closed-world list** and asks per-doc: "what is this about / does it fit any of these / if not, how would you categorize it?" Per-doc call (not batched) for context richness. Cost estimate ~$0.03-0.05; wall ~2-5 min. Output: `artifacts/sector_classification_orphans/orphan_rescue_proposal.json`.
 
-**B — Operator review of proposal** *(operator-driven; ~1-2 hrs)*
+**B-prep — canonical merge-map builder** ✓ **COMPLETED 2026-04-23 PM**
 
-* Operator reads the proposal, adjusts bucket assignments, consolidates free-form sector labels.
-* Particularly important: confirm the `confidence: low` rows and the `migrate to existing topic` rows, since those directly move docs between topic_keys (harder to undo cleanly than staying in otros_sectoriales).
-* Output: `artifacts/sector_reclassification_proposal.approved.json` with a checksum and `approved_by` field.
+* `scripts/monitoring/monitor_sector_reclassification/build_merge_map.py` — deterministic Python tool, no LLM calls.
+* Merge strategy: (1) hand-curated `SYNONYM_MERGES` dict for semantic equivalents (e.g. `sector_cultura_cine` + `sector_cine_audiovisual` → `sector_cultura`); (2) prefix-keyword fallback; (3) exclude `sector_otros*` / `sector_misc*` / `sector_varios*` disguised-catch-all labels.
+* Result: **137 raw labels → 26 canonical groups** covering 324 of 324 new-sector docs. 21 groups have ≥3 docs (covering 312 docs / 96%); 5 singletons (emprendimiento, medio_ambiente, comercio_internacional, puertos, telecomunicaciones) are legitimate small sectors.
+* Output: `artifacts/sector_classification/sector_merge_map.json`.
+* Operator can edit the `SYNONYM_MERGES` table and re-run in under a second — trivial iteration loop.
+
+**B — Operator review of merged proposal** *(operator-driven; ~20-30 min)*
+
+* Operator reviews `sector_merge_map.json` alongside the three per-pass proposals.
+* For each of the 26 canonical groups: accept, re-bucket, or split. For the 108 "migrate to existing topic" decisions: spot-check the low-confidence ones (they move rows between topic_keys — harder to undo than keeping in `otros_sectoriales`).
+* Output: `artifacts/sector_reclassification_proposal.approved.json` with checksum + `approved_by` + `approved_at` (Bogotá AM/PM).
+* Gate contract: the approved file is the only valid input to Task E (`apply_sector_reclassification.py`); raw proposals refuse at the `.approved.json` extension check.
 
 **C — Taxonomy update** *(operator-driven; ~20 min)*
 
@@ -1443,7 +1483,7 @@ phase_2_tool_and_rehearsal:
   resumption_hint: "Operator runs scripts/launch_batch.sh --batch 1 --dry-run first, then --batch 1 to execute."
 
 phase_2_5_sector_reclassification:
-  status: tasks_A_and_A2_complete_awaiting_B  # All three Gemini passes shipped 2026-04-23 PM; operator review next
+  status: tasks_A_A2_and_B_prep_complete_awaiting_operator_B  # All three Gemini passes + deterministic merge-map shipped 2026-04-23 PM; operator review next
   added_to_plan_at: 2026-04-23 (Bogotá)
   rationale: "See §2.2: 510 otros_sectoriales docs decompose into ~30-60 misclassified rows (belong in existing named topics), ~400-450 genuinely-sectoral rows (need ~12-15 new sector topics), and ~10 true orphans. Running Phase 3 without this split would encode the catch-all permanently into Falkor TopicNode/TEMA state."
   blocks: phase_3_0_quality_gate                 # not physically enforced; operator judgment. Plan text explains why.
@@ -1492,10 +1532,25 @@ phase_2_5_sector_reclassification:
       gemini_cost_usd: 0.033
       wall_minutes: 10
     interpretation: "The low 2/80 rescue rate is itself the signal: the prior two batched passes extracted everything extractable. The 78 are genuinely miscellaneous Colombian laws outside accountant scope (discapacidad, comunidades negras, electoral, violencia contra la mujer, drogas) — correctly left in otros_sectoriales."
+  sub_task_B_prep_merge_map:
+    status: completed                            # 2026-04-23 PM
+    completed_at: "2026-04-23 (Bogotá) PM"
+    script_shipped: scripts/monitoring/monitor_sector_reclassification/build_merge_map.py
+    output: artifacts/sector_classification/sector_merge_map.json
+    actuals:
+      raw_labels: 137
+      canonical_groups: 26
+      docs_covered: 324
+      meaningful_groups_ge_3_docs: 21
+      singletons_1_or_2_docs: 5                  # emprendimiento, medio_ambiente, comercio_internacional, puertos, telecomunicaciones
+      catch_all_labels_excluded: 2
+    operator_iteration_loop: "edit SYNONYM_MERGES in build_merge_map.py → re-run (<1s) → review"
   sub_task_B_operator_review:
-    status: pending
-    canonical_merge_map_needed: true             # 187 raw sector labels → ~30 canonical
+    status: pending                              # operator-driven
+    estimated_duration_minutes: 20-30
+    canonical_merge_map_ready: true              # see sub_task_B_prep_merge_map above
     approved_proposal_path: artifacts/sector_reclassification_proposal.approved.json
+    gate_contract: "apply_sector_reclassification.py refuses any input file without .approved.json extension + valid checksum"
   sub_task_C_taxonomy_update:
     status: pending
     new_topic_count_expected: "~30 (from §2.2.6 preliminary consolidation)"
