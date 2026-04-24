@@ -1108,7 +1108,7 @@ When all phases (0 through 6, plus optional 7) are marked `done` in the state lo
 | 0 — Prep | done | 2026-04-24 | 2026-04-24 | `93698ed` | Branch `feat/ingestion-tunning-v2` created; v1/v2 docs added. Base deviated from plan: rebased onto `feat/evaluacion-ingestionfixtask-v1-ab-harness@f8a154f` (not `main`) because that unmerged branch holds `scripts/evaluations/run_ab_comparison.py` which phase 1 depends on. Rebase SHA: `93698ed`. |
 | 1 — Diagnostic lift | done | 2026-04-24 | 2026-04-24 | `7d966ce` | 9 lifted keys surfaced at top of `response.diagnostics`. Count-style (primary/connected/related) fall back to `len(evidence.*)`; `planner_query_mode` falls back to `plan.query_mode`; TEMA-first keys pass through (None in artifact mode, populated in falkor_live). New test file has 3 passing functions. Baseline on Q3 artifacts: primary_article_count=1, connected=2, related=0, tema_first_mode=None. Pre-existing failures on `test_phase3_graph_planner_retrieval.py::test_phase3_pipeline_d_followup_*` reproduced with my change stashed — NOT caused by phase 1, independently broken on the AB harness base (classifier routes a follow-up prompt to router-silent refusal). Surfacing for later triage; not blocking phase 2. |
 | 2 — Full corpus rebuild | in-progress | 2026-04-24 | | | FULL rebuild blocked briefly on sequential-classifier pace (~94 min ETA at 40 RPM observed — LLM-latency-bound, not rate-limit-bound). Operator authorized phase 2a parallelism redesign; rebuild will re-launch on top of 2a's pool. Interim `--skip-llm` artifact parked as `artifacts/parsed_articles.jsonl.skip_llm_interim` (7,883 rows — hit all corpus gates but lacks PASO-4 subtopic stamps so not phase-6-ready). `.env`/`.env.local` carry `GEMINI_API_KEY`; `DEEPSEEK_API_KEY` unset, runtime falls back to gemini-flash cleanly (probed 3x @ 0.8s). |
-| 2a — Parallel classifier pool | done | 2026-04-24 | 2026-04-24 | pending-commit | New `src/lia_graph/ingest_classifier_pool.py` (~130 LOC): thread-safe `TokenBucket` (10s-burst capacity), `classify_documents_parallel` with pre-allocated indexed output + per-future `ThreadPoolExecutor`, decorrelated-jitter retries. `classify_corpus_documents` partitions empty-markdown docs off the pool, merges verdicts back by original index — output order is byte-identical to input across worker counts. **Defaults made persistent: `--classifier-workers` defaults to 8 (env `LIA_INGEST_CLASSIFIER_WORKERS`), `--rate-limit-rpm` default bumped 60 → 300**, propagated to CLI + delta_runtime + delta_worker + UI controller so every ingest path inherits the new defaults. 7/7 new tests pass: output-order invariant, cross-run determinism, global RPM cap under parallelism, per-doc failure isolation, retry-on-transient, empty-input no-op, token-bucket single-thread rate. Web-research-backed design: `executor.map` vs `as_completed` pitfall, Stripe-style idempotency keys, Brooker jitter, O_APPEND atomicity for concurrent events. |
+| 2a — Parallel classifier pool | done | 2026-04-24 | 2026-04-24 | `34f658b` | New `src/lia_graph/ingest_classifier_pool.py` (~130 LOC): thread-safe `TokenBucket` (10s-burst capacity), `classify_documents_parallel` with pre-allocated indexed output + per-future `ThreadPoolExecutor`, decorrelated-jitter retries. `classify_corpus_documents` partitions empty-markdown docs off the pool, merges verdicts back by original index — output order is byte-identical to input across worker counts. **Defaults made persistent: `--classifier-workers` defaults to 8 (env `LIA_INGEST_CLASSIFIER_WORKERS`), `--rate-limit-rpm` default bumped 60 → 300**, propagated to CLI + delta_runtime + delta_worker + UI controller so every ingest path inherits the new defaults. 7/7 new tests pass: output-order invariant, cross-run determinism, global RPM cap under parallelism, per-doc failure isolation, retry-on-transient, empty-input no-op, token-bucket single-thread rate. Web-research-backed design: `executor.map` vs `as_completed` pitfall, Stripe-style idempotency keys, Brooker jitter, O_APPEND atomicity for concurrent events. |
 | 3 — Evidence-topic coherence gate | done | 2026-04-24 | 2026-04-24 | `60829f0` | `_coherence_gate.py` (127 LOC, slightly over 120 budget; docstring trimmed). Extends case-A (primary present, delegates to existing misalignment) with case-B (primary empty + scored support docs) and case-C (zero evidence). Orchestrator hook adds coherence diagnostic to `topic_safety_diag` regardless of mode; only `enforce` short-circuits. 7 tests pass (6 plan-specified + 1 regression). No regression on `test_phase3_graph_planner_retrieval.py` (same 2 pre-existing failures). |
 | 4 — Citation allow-list | done | 2026-04-24 | 2026-04-24 | `e74f6d9` | Config `config/citation_allow_list.json` has 4 topics (laboral, sagrilaft_ptee, facturacion_electronica, regimen_simple). `_citation_allowlist.py` is 157 LOC (over 100 budget; docstring + regex + family-match logic). Thin wrapper in `answer_policy.py` imports + re-exports. Hook in orchestrator filters evidence.citations right before PipelineCResponse construction; drops surfaced at `diagnostics["dropped_by_allowlist"]`. 9/9 tests pass (8 plan + 1 extract regression). |
 | 5 — Gold + taxonomy alignment | done | 2026-04-24 | 2026-04-24 | `6ea134e` | Gold file: 6 substitutions (4 main rows Q19/Q25/Q26/Q29 + 2 Q26 sub_questions). Taxonomy: +3 subtopic entries (`firmeza_declaraciones`, `regimen_sancionatorio_extemporaneidad`, `devoluciones_saldos_a_favor`) under `declaracion_renta` parent; version bumped to `v2026_04_24_v6_phase5`. Keyword dict: +3 strong/weak buckets + 3 regex subtopic overrides. **Gold-vs-taxonomy mismatches: 0**. Production routing via `resolve_chat_topic`: Q20→regimen_sancionatorio_extemporaneidad@0.98, Q21→firmeza_declaraciones@0.98, Q22→devoluciones_saldos_a_favor@0.98. Note: plan's §7.4 script uses `detect_topic_from_text` (simpler ingest path that doesn't run overrides) — the real pipeline uses `resolve_chat_topic` which honors overrides, so production is fixed. Startup keyword warnings still 9 (plan target ≤6) — those come from *unrelated* pre-existing uncovered topics; covered by optional phase 7. |
@@ -1182,6 +1182,118 @@ If a phase references "the file where X is" and you can't remember, use this map
 | "GRAPH_TARGET_FAMILIES is defined here" | `src/lia_graph/ingest_constants.py:25` |
 | "the full rebuild Make target" | `Makefile:125-126` |
 | "the Supabase-sink rebuild target" | `Makefile:141-142` |
+
+---
+
+## §16 Appendix D — Learnings from v6 execution (2026-04-24)
+
+> **What this is.** A blameless retrospective of surprises, misdiagnoses, and design calls made while executing phases 0 → 6 of this plan in a single session. Written so that a future operator — or future-you on v7 — does not re-pay the same tuition. Keep it updated when new surprises surface.
+
+### 1. Diagnosis patterns — what looked broken but wasn't
+
+**"0 % CPU for 14 minutes" ≠ stuck.** The sequential PASO-4 classifier was correctly throttled and each Gemini call was ~1.5 s of network wait. `ps -o %cpu,rss` read near-zero because the process was almost always in `recv()`. The real signal was `ps -o etime` + an ESTABLISHED TCP session to Gemini — both pointed at "paced, not hung." **Rule:** for I/O-bound workloads, CPU% is a bad liveness probe; TCP-session state + event-log throughput is better.
+
+**429 "RESOURCE_EXHAUSTED" is not a failure — it's backpressure.** The cloud-sink classifier logged 92 tracebacks during the cloud-sink phase but `failed=0`. Why: the classifier's inner `try/except` caught each 429 and returned a degraded N1-only verdict with `requires_subtopic_review=True`. The pool saw success, not failure. **Rule:** "failed=0" measured at the pool boundary is a lower bound on real degradation. Audit `requires_subtopic_review=True` doc counts post-run to see the true cost.
+
+**Phase-aware silence.** `sink_writing` and `falkor_writing` legitimately emit zero per-item events (batched bulk writes). Heartbeat counters reporting `cloud_events=0` during those phases is expected, not a stall. Only the `classifying` phase should tick continuously; only there does `fresh_event_age > 180 s` signal a true stall.
+
+### 2. Rate-limit model — RPM, TPM, RPD are orthogonal
+
+Gemini meters **three independent quotas** on every provider. Throttling only one is not throttling at all:
+
+| Ceiling | What it counts | How we throttled in v6 | What bit us |
+|---|---|---|---|
+| **RPM** (requests/min) | Flash: 1,000 · Embedding-1: 3,000 | `TokenBucket` + `--rate-limit-rpm 300` | nothing — 70 % headroom on Flash |
+| **TPM** (tokens/min) | Flash: 1 M · Embedding-1: 1 M | *unthrottled* | 92 429s on the cloud-sink classifier pass: EXPERTOS/PRACTICA docs are 10 K+ tokens; 8 workers × 10 K = 80 K/batch easily exceeds 1 M in a burst |
+| **RPD** (requests/day) | Flash: 10 K · Embedding-1: unlimited | bounded implicitly by run duration | nothing — one full run = ~1,300 calls = 13 % of daily budget |
+
+**Rule for v7+:** any new throttle primitive must count tokens as well as requests. The `TokenBucket` in `ingest_classifier_pool.py` needs a sibling `TokenBudget` (input-token estimate debited pre-call, credited on 429). Until that lands, set `--classifier-workers 4` on any corpus with >500 docs exceeding 5 K tokens, or accept ~5–10 % N1-only degradation on the longest docs.
+
+### 3. Parallelism design — non-negotiables for deterministic ETL
+
+Derived from the v6 pre-design web research synthesis, tested in `tests/test_ingest_classifier_pool.py`:
+
+1. **Output order ≠ completion order.** Pre-allocate `results[i]`, write only to your own slot. `executor.map` with `chunksize=1` is acceptable; `as_completed` is never acceptable for canonical output.
+2. **Shared rate-limiter is one object, not one-per-worker.** N workers independently rate-limited at `RPM/N` burns 60 % of the quota due to interleaving gaps. One shared `TokenBucket`, `threading.Lock`-guarded, is the only correct shape.
+3. **Retry must use decorrelated jitter** (Brooker, AWS 2015: `sleep = random.uniform(base, min(cap, prev*3))`). Fixed backoff makes all N workers resume in lockstep and 429 again.
+4. **Per-worker HTTP client** only when the client has shared mutable state. `urllib.request.urlopen` creates a fresh connection per call — no sharing, no per-worker client needed. Reused `requests.Session` objects require per-thread.
+5. **Events are append-only, order-unstable.** Each event carries its own UTC timestamp; consumers sort on that, not on arrival order. POSIX `O_APPEND` is atomic for writes < 4 KB (`PIPE_BUF`). Keep event payloads compact; no raw prompts, no full docs.
+6. **Failure is per-slot, never cascading.** A worker's exception populates a `_ClassifierError(exc)` sentinel in its slot; siblings keep running. Exactly once per slot; never silently retried past `max_retries`.
+
+### 4. Artifact coherence — they're a set, not a file
+
+`artifacts/parsed_articles.jsonl`, `typed_edges.jsonl`, `canonical_corpus_manifest.json`, `corpus_audit_report.json`, and `graph_load_report.json` are **produced together** and **must be consumed together**. Swapping just one (e.g., restoring a v5 backup of `parsed_articles.jsonl` while the manifest is from a newer run) produces internally-inconsistent state: the orchestrator raises `FileNotFoundError` or returns through the `compat_stub` path that lacks lifted diagnostics.
+
+**Rule:** snapshot all of `artifacts/*.json*` together, not just `parsed_articles.jsonl`. The command is:
+```bash
+for f in artifacts/*.json artifacts/*.jsonl; do
+  cp "$f" "${f}.$(date +%Y%m%d_%H%M)_backup"
+done
+```
+
+We lived this on 2026-04-24: three sequential rebuilds (sequential, `--skip-llm`, parallel full) each rewrote a coherent set; mixing files across runs caused the phase-1 diagnostic test to fail even though the code was correct.
+
+### 5. Heartbeat discipline
+
+| Rule | Rationale |
+|---|---|
+| **Cadence: 3 min.** | Enough signal to catch a stall within one operator attention-span, not so frequent it crowds the chat. |
+| **Each heartbeat is one line of < 120 chars.** | Scan-readable. No multi-line progress dumps. |
+| **Heartbeat carries `elapsed / progress / pace / failures / ETA`.** | Four of the five numbers should make sense at a glance; the fifth (ETA) can be "?" if pace=0. |
+| **Error detection is delta-based.** | Grep-count tracebacks; alert only when `count > last_count`. A monitor that re-alerts on the same error every tick trains the operator to ignore alerts. |
+| **Silent-death stop condition.** | If the process is gone AND no `PHASE_EXIT=` marker is present, emit `ALERT` and stop. Never silently retry. |
+| **Timeout cap at ~1.5× plan estimate.** | Long enough to cover normal variance, short enough that a runaway surfaces. |
+| **Separate visualization (`█ ░` bar) from data (raw counts).** | Eye catches the bar; brain parses the counts. |
+
+Our first cloud-sink monitor violated #4 (re-fired on the same 92 tracebacks every tick). The fix is a delta snapshot at monitor restart: `grep -c Traceback "$LOG" > /tmp/baseline`, alert only when current > baseline.
+
+### 6. Cloud-sink env posture
+
+`.env.staging` carries cloud credentials (`SUPABASE_URL`, `FALKORDB_URL`, `LIA_FALKORDB_*`) but is **not auto-loaded** by `uv run`. Two moves required for any cloud-sink invocation:
+
+```bash
+set -a; source .env.staging; set +a
+# then: pass --allow-non-local-env to bypass the posture guard
+```
+
+The posture guard (`src/lia_graph/env_posture.py`) is deliberate safety: it aborts any run that would write to cloud without an explicit opt-in. The Makefile targets don't source `.env.staging` or set `--allow-non-local-env`, so the idiomatic invocation is a wrapper script or an inline bash heredoc. Document this in `docs/guide/env_guide.md` if a future operator is to run the sink without reading this appendix.
+
+### 7. Trust signals for silent phases
+
+When the classifier is done and the sink + Falkor phases have no per-item events, liveness must be verified differently:
+
+- **`ps -o stat,%cpu,rss`** — `SN` + low CPU + growing or stable RSS = healthy I/O-wait.
+- **`lsof -p <pid> | grep TCP`** — ESTABLISHED sessions to the expected hosts (`*.supabase.co`, `falkordb.cloud` / Cloudflare IPs). Sessions in `CLOSE_WAIT` or `TIME_WAIT` with no new ones = real stall.
+- **`logs/events.jsonl` tail** — even when per-item events are absent, the sink emits `corpus.sink_summary` / `graph_load_report` at phase boundaries. Those are the heartbeats you CAN rely on.
+
+### 8. Test hygiene under parallel refactors
+
+- **`rpm <= 0` means "unlimited."** Pre-phase-2a tests used `rate_limit_rpm=0` as a convention. The new `TokenBucket` must honor it; otherwise `max(1, rpm)` turns 0 into 1 RPM (1 call/min) and every existing test deadlocks at ~N minutes.
+- **Monkeypatch targets follow the mechanism.** Moving rate-limiting from `ingest_subtopic_pass._apply_rate_limit` to `ingest_classifier_pool.TokenBucket` invalidates `monkeypatch.setattr("lia_graph.ingest_subtopic_pass.time.sleep", ...)`. Update the target in the test; don't shim the old module.
+- **Pre-existing failures ≠ your regressions.** The v6 base branch (`feat/evaluacion-ingestionfixtask-v1-ab-harness`) has two unrelated failing tests in `test_phase3_graph_planner_retrieval.py` (`test_phase3_pipeline_d_followup_*`). Stash-and-rerun is the canonical way to distinguish "I broke this" from "this was broken before." Record pre-existing failures in the state log; don't try to fix them on a scope-creep detour.
+
+### 9. Follow-up work surfaced by this execution
+
+| Item | Priority | Motivating observation |
+|---|---|---|
+| **TPM-aware token budget** alongside `TokenBucket` in `ingest_classifier_pool.py` | High | 92 TPM-429s on the cloud-sink classifier pass. EXPERTOS/PRACTICA body sizes exceed the ceiling at 8 workers. |
+| **Persistent verdict cache** keyed on `sha256(prompt_template_version + model_id + content_hash)` | Medium | Current design is deterministic within a run but not across runs. Replays re-call the LLM. A cache would make cloud-sink idempotent + recoverable after a partial sink. |
+| **Automatic `.env.staging` load on cloud-sink targets** in Makefile | Medium | Two operators running the sink cold will hit the posture guard. The fix is a `source .env.staging` prefix on the `phase2-graph-artifacts-supabase` target, guarded by `ifeq ($(PHASE2_SUPABASE_TARGET),production)`. |
+| **Delta-error detection** in `scripts/monitoring/ingest_heartbeat.py` | Medium | Our inline monitor re-fired on old tracebacks every tick. The shared heartbeat script has the same bug pattern; fix it there so it's not rewritten inline each run. |
+| **Phase-boundary events** (`corpus.sink_summary`, `graph.load_report`) surfaced as first-class heartbeat signals | Low | Would replace the `lsof` + `ps` inspection we did manually during the sink silent phase. |
+| **Documented artifact-snapshot convention** in `docs/guide/env_guide.md` | Low | The `artifacts/*.v5_backup` / `*.skip_llm_interim` naming worked ad-hoc but isn't canonical; next operator won't know the convention. |
+
+### 10. Timings we actually measured (for future capacity planning)
+
+| Phase | Plan estimate | Measured | Notes |
+|---|---|---|---|
+| Classifier (sequential, 60 RPM) | n/a | ~40 RPM sustained | LLM-latency bound, not rate-limit bound. Re-planning moment. |
+| Classifier (parallel, 8 workers @ 300 RPM) | ~13 min | **6 m 32 s** for 1,275 docs | 14× vs sequential. 346 RPM burst, 309 RPM steady. |
+| Sink classifier re-pass (parallel, cloud-sink) | ~same | ~6 min + 92 TPM-429s | Degraded: ~7 % of docs landed with `requires_subtopic_review=True`. |
+| Binding pass | n/a | < 30 s | 1,543 article→subtopic bindings. CPU-bound, negligible. |
+| Supabase + Falkor upload | 10–25 min | in-flight at time of writing | Bulk batched; no per-item events. |
+| Gold-file alignment + taxonomy edit | hours | ~5 min | Pure data edits, deterministic scripts. |
+| Phase 1 diagnostic lift | 1 day | ~30 min | Three top-level key lifts + one test file. Tight scope. |
 
 ---
 
