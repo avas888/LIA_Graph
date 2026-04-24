@@ -20,7 +20,8 @@
 
 ### Ingestion
 - [`ingestion/corpus-completeness.md`](ingestion/corpus-completeness.md) — 2.7× corpus expansion gated every other metric.
-- [`ingestion/parallelism-and-rate-limits.md`](ingestion/parallelism-and-rate-limits.md) — `ThreadPoolExecutor`, `TokenBucket`, deterministic indexed output, TPM vs RPM quotas.
+- [`ingestion/parallelism-and-rate-limits.md`](ingestion/parallelism-and-rate-limits.md) — `ThreadPoolExecutor`, `TokenBucket`, deterministic indexed output, TPM vs RPM quotas (classifier pool / phase 2a).
+- [`ingestion/supabase-sink-parallelization.md`](ingestion/supabase-sink-parallelization.md) — parallelizing 4 sink stages by reusing the classifier pool primitive (phase 2b). Motivated by a 25-min silent stall in `load_existing_tema`.
 - [`ingestion/artifact-coherence.md`](ingestion/artifact-coherence.md) — `parsed_articles.jsonl`, `typed_edges.jsonl`, `canonical_corpus_manifest.json` are a **set**, produced and consumed together.
 
 ### Retrieval

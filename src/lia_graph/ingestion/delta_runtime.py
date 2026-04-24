@@ -178,6 +178,7 @@ def materialize_delta(
     skip_llm: bool = False,
     rate_limit_rpm: int = 300,
     classifier_workers: int | None = None,
+    supabase_workers: int | None = None,
     lock_target: str | None = None,
     created_by: str | None = None,
     force_full_classify: bool = False,
@@ -454,6 +455,7 @@ def materialize_delta(
         target=supabase_target,
         generation_id=resolved_generation_id,
         client=supabase_client,
+        worker_count=supabase_workers,
     )
     dangling_store = DanglingStore(supabase_client)
 

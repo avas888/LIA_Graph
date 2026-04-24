@@ -233,6 +233,7 @@ def materialize_graph_artifacts(
     skip_llm: bool = False,
     rate_limit_rpm: int = 300,
     classifier_workers: int | None = None,
+    supabase_workers: int | None = None,
 ) -> dict[str, Any]:
     root = Path(corpus_dir)
     artifacts_root = Path(artifacts_dir)
@@ -385,7 +386,11 @@ def materialize_graph_artifacts(
                     if did:
                         candidate_doc_ids.append((d.source_path, did))
             unique_ids = list({did for _, did in candidate_doc_ids})
-            existing_by_doc_id = _load_tema(_preserve_client, unique_ids)
+            # Phase 2b (v6): parallel load_existing_tema. Sequential version
+            # blocked the 2026-04-24 cloud sink for ~25 min.
+            existing_by_doc_id = _load_tema(
+                _preserve_client, unique_ids, worker_count=supabase_workers
+            )
             for src, did in candidate_doc_ids:
                 existing = existing_by_doc_id.get(did)
                 if existing and existing != "otros_sectoriales":
@@ -468,11 +473,13 @@ def materialize_graph_artifacts(
             sink = supabase_sink_factory(
                 target=supabase_target,
                 generation_id=generation_id,
+                worker_count=supabase_workers,
             )
         else:
             sink = SupabaseCorpusSink(
                 target=supabase_target,
                 generation_id=generation_id,
+                worker_count=supabase_workers,
             )
         knowledge_class_counts = _knowledge_class_counts(corpus_documents)
         sink.write_generation(
@@ -766,6 +773,16 @@ def parser() -> argparse.ArgumentParser:
             "to 1 to force the sequential path (debugging / regression only)."
         ),
     )
+    cli.add_argument(
+        "--supabase-workers",
+        type=int,
+        default=int(os.environ.get("LIA_SUPABASE_SINK_WORKERS", "4")),
+        help=(
+            "Parallel worker count for the Supabase sink's batched upserts "
+            "and pre-sink `load_existing_tema` scan. Default 4 — conservative "
+            "for Postgres connection pools. Phase 2b (v6) persistent default."
+        ),
+    )
     cli.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
     # Additive-corpus-v1 Phase 6 — delta-path flags.
     cli.add_argument(
@@ -876,6 +893,7 @@ def main(argv: list[str] | None = None) -> int:
                 skip_llm=bool(args.skip_llm),
                 rate_limit_rpm=int(args.rate_limit_rpm),
                 classifier_workers=int(args.classifier_workers),
+                supabase_workers=int(args.supabase_workers),
                 force_full_classify=bool(args.force_full_classify),
             )
         except (FileNotFoundError, NotADirectoryError) as exc:
@@ -934,6 +952,7 @@ def main(argv: list[str] | None = None) -> int:
             skip_llm=bool(args.skip_llm),
             rate_limit_rpm=int(args.rate_limit_rpm),
             classifier_workers=int(args.classifier_workers),
+            supabase_workers=int(args.supabase_workers),
         )
     except (FileNotFoundError, NotADirectoryError) as exc:
         payload = {"ok": False, "error": "corpus_unavailable", "message": str(exc)}

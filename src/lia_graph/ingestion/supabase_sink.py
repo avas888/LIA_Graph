@@ -29,6 +29,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import logging
+import os
 import re
 from typing import Any
 
@@ -113,6 +114,78 @@ def _iter_batches(rows: Sequence[dict[str, Any]], batch_size: int = _BATCH_SIZE)
         yield list(rows[start : start + batch_size])
 
 
+# ---------------------------------------------------------------------------
+# Phase 2b (v6) — batch-parallel execution for the sink's upsert / read loops.
+#
+# Every sink stage is "loop over independent batches, each mutating a unique
+# primary key". That shape matches the classifier pool's contract exactly,
+# so we import the same primitive (``classify_documents_parallel``) rather
+# than fork its guarantees: pre-allocated indexed output, global rate-limit
+# bucket, decorrelated-jitter retry on per-batch transient errors.
+#
+# Default worker count is conservative (4): Postgres connection pools are
+# tighter than LLM RPM ceilings, and Supabase free tier rate-caps at 100
+# req/s. 4 workers stays well under both.
+# ---------------------------------------------------------------------------
+
+
+_DEFAULT_SINK_WORKERS = 4
+
+
+def _resolve_sink_workers(explicit: int | None) -> int:
+    if explicit is not None:
+        return max(1, int(explicit))
+    raw = os.environ.get("LIA_SUPABASE_SINK_WORKERS")
+    if raw:
+        try:
+            return max(1, int(raw))
+        except ValueError:
+            pass
+    return _DEFAULT_SINK_WORKERS
+
+
+def _run_batches_parallel(
+    batches: Sequence[Any],
+    *,
+    execute_fn: Any,
+    worker_count: int,
+    rate_limit_rpm: int = 0,
+) -> list[int]:
+    """Execute ``execute_fn(index, batch) -> int`` in parallel over ``batches``.
+
+    Returns the per-batch written counts in the SAME order as ``batches``.
+    Semantics match the classifier pool: output order = input order, per-batch
+    exception isolation, retry-on-jitter for transient failures.
+
+    ``rate_limit_rpm=0`` means unlimited (Supabase writes aren't Gemini-bound).
+    """
+    from ..ingest_classifier_pool import (
+        classifier_error,
+        classify_documents_parallel,
+        is_classifier_error,
+    )
+
+    results_raw = classify_documents_parallel(
+        tuple(batches),
+        classify_fn=execute_fn,
+        worker_count=worker_count,
+        rate_limit_rpm=rate_limit_rpm,
+    )
+    out: list[int] = []
+    for idx, raw in enumerate(results_raw):
+        if is_classifier_error(raw):
+            exc = classifier_error(raw)
+            # Re-raise a wrapped exception so the caller's existing
+            # try/except semantics (load_existing_tema degrades to {}) still
+            # work. The per-batch isolation means sibling batches completed
+            # before this error surfaced.
+            raise RuntimeError(
+                f"supabase_sink batch #{idx} failed after retries: {exc!r}"
+            ) from exc
+        out.append(int(raw or 0))
+    return out
+
+
 def _sanitize_doc_id(relative_path: str) -> str:
     stem = str(relative_path or "").strip().strip("/")
     if not stem:
@@ -123,6 +196,8 @@ def _sanitize_doc_id(relative_path: str) -> str:
 def load_existing_tema(
     client: Any,
     doc_ids: Sequence[str],
+    *,
+    worker_count: int | None = None,
 ) -> dict[str, str]:
     """Pull current ``documents.tema`` for the given doc_ids.
 
@@ -132,27 +207,58 @@ def load_existing_tema(
     Returns ``{}`` on any transport error — callers degrade gracefully
     to "trust classifier" behavior when existing state is unreadable.
 
-    See v5 Phase 1 / F11 + F15.
+    Phase 2b (v6): the batches are fanned out across ``worker_count``
+    threads (default 4). This is the step that blocked the v6 cloud
+    sink for ~25 min on 2026-04-24: a ~53-batch sequential scan that
+    held the whole pipeline. Parallel is the persistent default.
+
+    See v5 Phase 1 / F11 + F15, v6 phase 2b.
     """
     ids = [d for d in doc_ids if d]
     if not ids:
         return {}
-    out: dict[str, str] = {}
     BATCH = 150
+    batches: list[list[str]] = [
+        ids[start : start + BATCH] for start in range(0, len(ids), BATCH)
+    ]
+    workers = _resolve_sink_workers(worker_count)
+
+    def _fetch(_idx: int, chunk: list[str]) -> dict[str, str]:
+        resp = (
+            client.table("documents")
+            .select("doc_id, tema")
+            .in_("doc_id", chunk)
+            .execute()
+        )
+        sub: dict[str, str] = {}
+        for row in list(getattr(resp, "data", None) or []):
+            did = row.get("doc_id")
+            tema = row.get("tema")
+            if did and tema and isinstance(tema, str):
+                sub[str(did)] = tema
+        return sub
+
+    # The public contract is: degrade to {} on ANY transport error. The
+    # parallel helper raises on per-batch failure after retries, so wrap
+    # the whole call in try/except to match the pre-phase-2b behavior.
+    from ..ingest_classifier_pool import classify_documents_parallel
+
+    out: dict[str, str] = {}
     try:
-        for start in range(0, len(ids), BATCH):
-            chunk = ids[start : start + BATCH]
-            resp = (
-                client.table("documents")
-                .select("doc_id, tema")
-                .in_("doc_id", chunk)
-                .execute()
-            )
-            for row in list(getattr(resp, "data", None) or []):
-                did = row.get("doc_id")
-                tema = row.get("tema")
-                if did and tema and isinstance(tema, str):
-                    out[str(did)] = tema
+        per_batch = classify_documents_parallel(
+            tuple(batches),
+            classify_fn=_fetch,
+            worker_count=workers,
+            rate_limit_rpm=0,  # no client-side throttle; Supabase fronts its own
+        )
+        for sub in per_batch:
+            if isinstance(sub, dict):
+                out.update(sub)
+            # _ClassifierError instances raise in _run_batches_parallel's wrapper
+            # but we're using classify_documents_parallel directly here to keep
+            # the "degrade to {}" contract — an error slot means we return {}.
+            else:
+                return {}
     except Exception:
         return {}
     return out
@@ -252,12 +358,14 @@ class SupabaseCorpusSink:
         target: str = "production",
         generation_id: str | None = None,
         client: Any | None = None,
+        worker_count: int | None = None,
     ) -> None:
         self.target = str(target or "production").strip().lower() or "production"
         self.generation_id = str(generation_id or default_generation_id()).strip()
         if not self.generation_id:
             raise ValueError("generation_id cannot be empty")
         self._client = client if client is not None else create_supabase_client_for_target(self.target)
+        self._workers = _resolve_sink_workers(worker_count)
         self._documents_written = 0
         self._chunks_written = 0
         self._edges_written = 0
@@ -449,10 +557,23 @@ class SupabaseCorpusSink:
                     }
                 )
 
-        written = 0
-        for batch in _iter_batches(rows):
-            self._client.table("documents").upsert(batch, on_conflict="doc_id").execute()
-            written += len(batch)
+        # Phase 2b (v6): parallel batched upsert. Each row has a unique
+        # ``doc_id`` so splitting rows across workers guarantees no two
+        # workers conflict on the same primary key.
+        doc_batches = list(_iter_batches(rows))
+
+        def _upsert_doc(_idx: int, batch: list[dict[str, Any]]) -> int:
+            self._client.table("documents").upsert(
+                batch, on_conflict="doc_id"
+            ).execute()
+            return len(batch)
+
+        per_batch = _run_batches_parallel(
+            doc_batches,
+            execute_fn=_upsert_doc,
+            worker_count=self._workers,
+        )
+        written = sum(per_batch)
         self._documents_written += written
 
         # Phase 7a: flush tag-review skeleton rows after documents land so
@@ -461,11 +582,19 @@ class SupabaseCorpusSink:
         # a doc that's still under open review doesn't dup the queue.
         if self._pending_tag_review_rows:
             try:
-                for batch in _iter_batches(self._pending_tag_review_rows):
+                tag_batches = list(_iter_batches(self._pending_tag_review_rows))
+
+                def _upsert_tag(_idx: int, batch: list[dict[str, Any]]) -> int:
                     self._client.table("document_tag_reviews").upsert(
-                        batch,
-                        on_conflict="review_id",
+                        batch, on_conflict="review_id"
                     ).execute()
+                    return len(batch)
+
+                _run_batches_parallel(
+                    tag_batches,
+                    execute_fn=_upsert_tag,
+                    worker_count=self._workers,
+                )
             except Exception as exc:  # noqa: BLE001 — review queue is best-effort
                 _log.warning(
                     "tag_review_skeleton_flush_failed", extra={"err": str(exc)}
@@ -519,12 +648,22 @@ class SupabaseCorpusSink:
             }
             rows.append(row)
 
-        written = 0
-        for batch in _iter_batches(rows):
+        # Phase 2b (v6): parallel batched upsert — chunks are the biggest
+        # volume (often 3-5 per doc), so this is where the speedup lands.
+        chunk_batches = list(_iter_batches(rows))
+
+        def _upsert_chunk(_idx: int, batch: list[dict[str, Any]]) -> int:
             self._client.table("document_chunks").upsert(
                 batch, on_conflict="chunk_id"
             ).execute()
-            written += len(batch)
+            return len(batch)
+
+        per_batch = _run_batches_parallel(
+            chunk_batches,
+            execute_fn=_upsert_chunk,
+            worker_count=self._workers,
+        )
+        written = sum(per_batch)
         self._chunks_written += written
         return written
 
@@ -571,12 +710,21 @@ class SupabaseCorpusSink:
                 }
             )
 
-        written = 0
-        for batch in _iter_batches(rows):
+        # Phase 2b (v6): parallel batched upsert.
+        edge_batches = list(_iter_batches(rows))
+
+        def _upsert_edge(_idx: int, batch: list[dict[str, Any]]) -> int:
             self._client.table("normative_edges").upsert(
                 batch, on_conflict="source_key,target_key,relation,generation_id"
             ).execute()
-            written += len(batch)
+            return len(batch)
+
+        per_batch = _run_batches_parallel(
+            edge_batches,
+            execute_fn=_upsert_edge,
+            worker_count=self._workers,
+        )
+        written = sum(per_batch)
         self._edges_written += written
         return written
 
