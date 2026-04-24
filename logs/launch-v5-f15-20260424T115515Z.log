@@ -1,0 +1,124 @@
+topic_router: topic 'tarifas_tasa_minima_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'renta_liquida_gravable' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'descuentos_tributarios_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'beneficio_auditoria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'rentas_exentas' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ganancia_ocasional' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'anticipos_retenciones_a_favor' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ingresos_fiscales_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'conciliacion_fiscal' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+ingestion_classifier: adapter.generate fallo
+Traceback (most recent call last):
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 1499, in connect
+    self.sock = self._context.wrap_socket(self.sock,
+                ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+                                          server_hostname=server_hostname)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/ssl.py", line 457, in wrap_socket
+    return self.sslsocket_class._create(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sock=sock,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        session=session
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/ssl.py", line 1088, in _create
+    self.do_handshake()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/ssl.py", line 1384, in do_handshake
+    self._sslobj.do_handshake()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TimeoutError: _ssl.c:1063: The handshake operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingestion_classifier.py", line 721, in _run_n2_cascade
+    raw_content = _invoke_adapter(adapter, prompt)
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingestion_classifier.py", line 410, in _invoke_adapter
+    return str(adapter.generate(prompt) or "").strip()
+               ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/gemini_runtime.py", line 64, in generate
+    data = self._request(payload)
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/gemini_runtime.py", line 48, in _request
+    with urllib.request.urlopen(req, timeout=self.timeout_seconds) as response:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error _ssl.c:1063: The handshake operation timed out>
+tag_review_skeleton_flush_failed
+{
+  "ok": true,
+  "delta_run": {
+    "delta_id": "delta_20260424_115515_d0d236",
+    "target": "production",
+    "generation_id": "gen_20260422005449",
+    "dry_run": false,
+    "baseline_generation_id": "gen_20260422005449",
+    "delta_summary": {
+      "delta_id": "delta_20260424_115515_d0d236",
+      "baseline_generation_id": "gen_20260422005449",
+      "added": 0,
+      "modified": 327,
+      "removed": 0,
+      "unchanged": 953,
+      "touched_total": 327,
+      "is_empty": false
+    },
+    "sink_result": {
+      "generation_id": "gen_20260422005449",
+      "target": "production",
+      "delta_id": "delta_20260424_115515_d0d236",
+      "documents_added": 0,
+      "documents_modified": 327,
+      "documents_retired": 0,
+      "chunks_written": 817,
+      "chunks_deleted": 0,
+      "edges_written": 1550,
+      "edges_deleted": 1790,
+      "dangling_upserted": 376,
+      "dangling_promoted": 0
+    },
+    "falkor_statements": 2005,
+    "falkor_success": 2005,
+    "falkor_failure": 0,
+    "warnings": []
+  }
+}
