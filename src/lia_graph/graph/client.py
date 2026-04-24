@@ -41,9 +41,18 @@ class GraphClientConfig:
     ) -> "GraphClientConfig":
         env = os.environ if environ is None else environ
         configured_graph_name = str(env.get("FALKORDB_GRAPH", graph_name) or graph_name).strip()
+        # Optional timeout override (default 3s is tight for large TEMA
+        # fan-outs like iva/laboral when TEMA-first retrieval is on). Any
+        # value below 1.0 is clamped up to 1.0 to avoid accidental hangs.
+        timeout_raw = str(env.get("FALKORDB_TIMEOUT_SECONDS", "") or "").strip()
+        try:
+            timeout = max(1.0, float(timeout_raw)) if timeout_raw else 3.0
+        except ValueError:
+            timeout = 3.0
         return cls(
             url=str(env.get("FALKORDB_URL", "") or "").strip(),
             graph_name=configured_graph_name or graph_name,
+            connect_timeout_seconds=timeout,
         )
 
     @property

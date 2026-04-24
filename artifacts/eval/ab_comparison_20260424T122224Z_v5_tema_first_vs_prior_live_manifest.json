@@ -1,0 +1,28 @@
+{
+  "manifest_tag": "v5_tema_first_vs_prior_live",
+  "gold_path": "evals/gold_retrieval_v1.jsonl",
+  "target": "production",
+  "run_started_at_utc": "2026-04-24T12:33:05.861689+00:00",
+  "run_completed_at_utc": "2026-04-24T12:35:28.169887+00:00",
+  "run_started_at_bogota": "2026-04-24 7:33:05 AM",
+  "run_completed_at_bogota": "2026-04-24 7:35:28 AM",
+  "questions_attempted": 18,
+  "questions_succeeded": 18,
+  "questions_failed": [],
+  "falkor_baseline": {
+    "captured_at_utc": "2026-04-24T12:22:10.394280+00:00",
+    "TopicNode": 41,
+    "TEMA_edges": 2361,
+    "ArticleNode": 9160,
+    "SubTopicNode": 87,
+    "HAS_SUBTOPIC": 432
+  },
+  "git_commit_sha": "3bfe686eb4a77be1ce582a6eda51b4b257df1135",
+  "env_flag_matrix": {
+    "modes_run": [
+      "off",
+      "on"
+    ],
+    "pre_run_env_value_LIA_TEMA_FIRST_RETRIEVAL": null
+  }
+}
