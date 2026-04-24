@@ -1,7 +1,12 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-04-22-betaflipsall`.**
+> **Env matrix version: `v2026-04-24-v6`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
+>
+> **v6 additions (2026-04-24, see `docs/next/ingestion_tunningv2.md`):**
+> - **Runtime flags.** `LIA_EVIDENCE_COHERENCE_GATE={off|shadow|enforce}` default `shadow` (phase 3 — catches contamination the misalignment detector misses). `LIA_POLICY_CITATION_ALLOWLIST={off|enforce}` default `off` (phase 4 — per-topic defensive citation filter).
+> - **Ingest-pipeline flags** (apply at `python -m lia_graph.ingest` time). `LIA_INGEST_CLASSIFIER_WORKERS` default 8 (phase 2a parallel classifier pool). `LIA_INGEST_CLASSIFIER_RPM` default **bumped 60→300** (phase 2a). `LIA_SUPABASE_SINK_WORKERS` default 4 (phase 2b parallel sink). `FALKORDB_QUERY_TIMEOUT_SECONDS` default 30 (phase 2c — per-query server-side TIMEOUT + client socket read timeout). `FALKORDB_BATCH_NODES` default 500. `FALKORDB_BATCH_EDGES` default 1000.
+> - **Diagnostic surface.** Nine retrieval-diagnostic keys lifted to top level of `response.diagnostics` (phase 1). Always present; `None` when the retriever path doesn't populate them.
 
 ## Purpose
 

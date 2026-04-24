@@ -1,0 +1,211 @@
+{
+  "version": "v3.1",
+  "generated_at": "2026-04-23",
+  "plan_version_supersedes": "v3.0",
+  "description": "11-batch plan for the ingestionfix_v3 Phase 3 topic-coverage backfill, rewritten after Phase 2.5 Task E migration shrinks otros_sectoriales from 510 to 78 docs and splits its content across 26 new sector topics + 105 migrations into existing named topics. Batch 1 is the Quality Gate batch (small, topically cohesive, low blast radius); batches 2-11 run autonomously via scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh once the gate passes. Covers all 65 top-level taxonomy entries (39 pre-v3 + 26 new sectors).",
+  "taxonomy_source": "config/topic_taxonomy.json",
+  "taxonomy_version": "ratified_v3_0_2026_04_23",
+  "taxonomy_top_level_count": 65,
+  "revisions_log": [
+    {
+      "version": "v3.0",
+      "dated": "2026-04-23",
+      "summary": "Seed plan — 8 batches, 340-doc estimate based on taxonomy-only sizing."
+    },
+    {
+      "version": "v3.1-probe",
+      "dated": "2026-04-23",
+      "summary": "Per-topic --dry-run probe (docs/next/ingestionfix_v3.md §2.1) revealed 1,319 actual classified docs vs 340 estimated (4× drift); otros_sectoriales owned 510/1,319 = 39% of classified corpus as a catch-all. Motivated the Phase 2.5 sector-reclassification insertion."
+    },
+    {
+      "version": "v3.1",
+      "dated": "2026-04-23",
+      "summary": "Post-Phase-2.5 rebalance. otros_sectoriales shrunk to 78 docs via Task E migration; 26 new sector topics distributed across 3 new batches (9-11); existing-topic batches absorb 105 migrations (presupuesto_hacienda +25, laboral +16, sagrilaft_ptee +15, comercial_societario +13, ...). Gate batch moved off otros_sectoriales onto small specialty topics per §2.1.4 (catch-all is worst gate candidate)."
+    }
+  ],
+  "post_phase_2_5_assumptions": {
+    "applies_to": "Doc counts below assume apply_sector_reclassification.py --confirm has run and documents.tema now reflects the approved proposal. Before --confirm, otros_sectoriales still owns 510 docs and batch 11 sizing is wrong.",
+    "source_artifact": "artifacts/sector_classification/sector_reclassification_proposal.approved.json",
+    "expected_migrations": {
+      "otros_sectoriales_final": 78,
+      "new_sector_topics": 26,
+      "migrations_to_existing_topics": 105,
+      "total_reclassified_rows": 432
+    }
+  },
+  "batches": [
+    {
+      "batch": 1,
+      "label": "gate",
+      "topics": [
+        "activos_exterior",
+        "emergencia_tributaria",
+        "impuestos_saludables",
+        "normas_internacionales_auditoria",
+        "perdidas_fiscales_art147",
+        "reforma_pensional"
+      ],
+      "est_doc_count": 33,
+      "est_wall_minutes": 6,
+      "rationale": "Small, topically cohesive specialty topics. Chosen as Quality Gate: low blast radius, tight cohesion, so G1-G10/M1-M3/U1-U4 can surface systemic bugs cleanly. reforma_pensional is post-migration (was 3 docs, +5 from Phase 2.5 migrations)."
+    },
+    {
+      "batch": 2,
+      "label": "small_specialties",
+      "topics": [
+        "leyes_derogadas",
+        "beneficiario_final_rub",
+        "economia_digital_criptoactivos",
+        "zonas_francas",
+        "impuesto_patrimonio_personas_naturales",
+        "regimen_tributario_especial",
+        "gravamen_movimiento_financiero_4x1000",
+        "dividendos_utilidades"
+      ],
+      "est_doc_count": 85,
+      "est_wall_minutes": 10,
+      "rationale": "Small-to-medium existing specialties. leyes_derogadas +4, beneficiario_final_rub +1, zonas_francas +1 from Phase 2.5."
+    },
+    {
+      "batch": 3,
+      "label": "regimes_and_oversight",
+      "topics": [
+        "regimen_simple",
+        "regimen_sancionatorio",
+        "impuesto_nacional_consumo",
+        "calendario_obligaciones",
+        "precios_de_transferencia",
+        "cambiario",
+        "sagrilaft_ptee",
+        "obligaciones_profesionales_contador"
+      ],
+      "est_doc_count": 114,
+      "est_wall_minutes": 12,
+      "rationale": "Regime-level + professional-oversight topics. sagrilaft_ptee +15 and obligaciones_profesionales_contador +7 are the Phase 2.5 migrations — testing that the additive path re-stamps their TEMA edges with the new tema."
+    },
+    {
+      "batch": 4,
+      "label": "operational",
+      "topics": [
+        "ica",
+        "facturacion_electronica",
+        "retencion_en_la_fuente",
+        "contratacion_estatal",
+        "informacion_exogena",
+        "datos_tecnologia"
+      ],
+      "est_doc_count": 132,
+      "est_wall_minutes": 13,
+      "rationale": "Day-to-day operational topics. contratacion_estatal +6, datos_tecnologia +4, ica +1, facturacion_electronica +1 from Phase 2.5."
+    },
+    {
+      "batch": 5,
+      "label": "core_reporting",
+      "topics": [
+        "inversiones_incentivos",
+        "presupuesto_hacienda",
+        "estados_financieros_niif",
+        "procedimiento_tributario",
+        "estatuto_tributario"
+      ],
+      "est_doc_count": 184,
+      "est_wall_minutes": 17,
+      "rationale": "Core reporting/planning heavyweights. presupuesto_hacienda +25 is the largest Phase 2.5 migration; re-sink has to handle the expanded set correctly. inversiones_incentivos +3, estados_financieros_niif +1."
+    },
+    {
+      "batch": 6,
+      "label": "reformas_tributarias",
+      "topics": [
+        "reformas_tributarias"
+      ],
+      "est_doc_count": 85,
+      "est_wall_minutes": 10,
+      "rationale": "Isolated for blast-radius control; +2 from Phase 2.5."
+    },
+    {
+      "batch": 7,
+      "label": "business_and_income",
+      "topics": [
+        "comercial_societario",
+        "declaracion_renta"
+      ],
+      "est_doc_count": 164,
+      "est_wall_minutes": 17,
+      "rationale": "Two heavyweight business/income topics. comercial_societario +13 (Ley 1328 consumer financial protection family) from Phase 2.5."
+    },
+    {
+      "batch": 8,
+      "label": "iva_laboral",
+      "topics": [
+        "iva",
+        "laboral"
+      ],
+      "est_doc_count": 117,
+      "est_wall_minutes": 13,
+      "rationale": "Highest-query-frequency topics intentionally placed last-before-sectors so any classifier/sink drift surfaces late and is contained. laboral +16 (Ley 1527 libranzas family) from Phase 2.5."
+    },
+    {
+      "batch": 9,
+      "label": "sectors_large",
+      "topics": [
+        "sector_agropecuario",
+        "sector_salud",
+        "sector_financiero",
+        "sector_vivienda",
+        "sector_cultura"
+      ],
+      "est_doc_count": 138,
+      "est_wall_minutes": 14,
+      "rationale": "First of three new-sector batches. Largest five canonical sectors (≥25 docs each). These are Phase 2.5 novel topics — post-migration, their docs have tema=<new_sector> + doc_fingerprint=NULL waiting for first classification."
+    },
+    {
+      "batch": 10,
+      "label": "sectors_medium",
+      "topics": [
+        "sector_administracion_publica",
+        "sector_profesiones_liberales",
+        "sector_educacion",
+        "sector_turismo",
+        "sector_inclusion_social",
+        "sector_servicios",
+        "sector_justicia"
+      ],
+      "est_doc_count": 122,
+      "est_wall_minutes": 13,
+      "rationale": "Mid-size new sectors (14-25 docs each)."
+    },
+    {
+      "batch": 11,
+      "label": "sectors_small_and_otros",
+      "topics": [
+        "sector_energia_mineria",
+        "sector_politico",
+        "sector_deporte",
+        "sector_desarrollo_regional",
+        "sector_ciencia",
+        "sector_infancia",
+        "sector_juegos_azar",
+        "sector_economia",
+        "sector_transporte",
+        "sector_emprendimiento",
+        "sector_medio_ambiente",
+        "sector_puertos",
+        "sector_comercio_internacional",
+        "sector_telecomunicaciones",
+        "otros_sectoriales"
+      ],
+      "est_doc_count": 145,
+      "est_wall_minutes": 14,
+      "rationale": "Small new sectors (≤12 docs each) plus the shrunken otros_sectoriales (78 docs — the 78 genuine orphans confirmed by Task A.2). Final batch: anything problematic here does not block earlier batches."
+    }
+  ],
+  "total_est_doc_count": 1319,
+  "total_est_wall_minutes": 139,
+  "total_est_wall_hours_unattended": "2.3",
+  "notes": [
+    "Per-doc classifier wall rate ~30 docs/min (observed 2026-04-23). 11 × 2-3 min sink/Falkor overhead accounts for the remaining wall budget.",
+    "declaracion_renta subtopics (patrimonio_fiscal_renta, ingresos_fiscales_renta, etc.) are not listed explicitly — the additive reclassification re-stamps their tema values on re-sink; their documents.tema stays declaracion_renta.",
+    "Ordering rationale: specialty (1-2) → regimes/oversight (3) → operational (4) → reporting (5-7) → high-frequency (8) → new sectors (9-11). Any classifier drift surfaces on small batches first, is contained by the time core taxes run in batch 8, and the new-sector batches (novel topics from Phase 2.5) run last so their TopicNode creation is the final Falkor state change.",
+    "NULL-tema rows (2 at probe time) are NOT covered by any batch. They need either a separate SUIN-style import or a dedicated Phase 4 pass — tracked as followup F5."
+  ]
+}

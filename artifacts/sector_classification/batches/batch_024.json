@@ -1,0 +1,190 @@
+{
+  "batch_num": 24,
+  "input_hash": "c1374c58681a3b5a",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_NORMATIVA_Ley-2300-2023.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-666-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-84-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-109-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-630-2000.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1697-2013.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-141-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1122-2007.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-55-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-84-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1098-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-973-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-811-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1983.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1990.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1990-2019.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-795-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1778-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-681-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-824-2003.md"
+  ],
+  "elapsed_seconds": 19.68,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_NORMATIVA_Ley-2300-2023.md",
+      "proposed_topic": "datos_tecnologia",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento indica claramente el tema de datos y tecnología.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-666-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-84-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-109-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-630-2000.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1697-2013.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-141-1994.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1122-2007.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-55-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-84-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1098-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-973-2005.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-811-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1983.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1990.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1990-2019.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-795-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1778-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-681-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-824-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    }
+  ]
+}

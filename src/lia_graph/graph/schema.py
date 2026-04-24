@@ -16,6 +16,8 @@ class NodeKind(str, Enum):
     PARAMETER = "ParameterNode"
     # ingestfix-v2 Phase 5: curated subtopic anchor.
     SUBTOPIC = "SubTopicNode"
+    # ingestionfix_v2 §4 Phase 5: curated topic anchor.
+    TOPIC = "TopicNode"
 
 
 class EdgeKind(str, Enum):
@@ -37,6 +39,9 @@ class EdgeKind(str, Enum):
     SUSPENDS = "SUSPENDS"
     # ingestfix-v2 Phase 5: doc → curated subtopic link.
     HAS_SUBTOPIC = "HAS_SUBTOPIC"
+    # ingestionfix_v2 §4 Phase 5: thematic edges.
+    TEMA = "TEMA"                    # Article/Reform → Topic
+    SUBTEMA_DE = "SUBTEMA_DE"        # SubTopic → Topic (static taxonomy)
 
 
 @dataclass(frozen=True)
@@ -45,6 +50,12 @@ class GraphNodeType:
     key_field: str
     description: str
     required_fields: tuple[str, ...] = ()
+    # v4: Properties that are declared-but-optional. Consumers reading them
+    # from Cypher must tolerate NULL. The retriever-contract tests validate
+    # every Cypher-bound property against `required_fields ∪ optional_fields
+    # ∪ {key_field}`, so any new property used by retrieval must be declared
+    # here (or in required_fields) before landing.
+    optional_fields: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -156,7 +167,20 @@ def default_graph_schema() -> GraphSchema:
             label=NodeKind.ARTICLE,
             key_field="article_id",
             description="Versionable normative unit from the shared regulatory corpus.",
-            required_fields=("article_number", "heading", "text_current", "status"),
+            # v4: `article_number` moved from required_fields → optional_fields
+            # so prose-only docs (whole-doc-fallback parser output with empty
+            # article_number) can be materialized as ArticleNodes. The loader
+            # emits an `is_prose_only` property so consumers can filter cleanly.
+            # See docs/next/ingestionfix_v4.md §2.
+            required_fields=("heading", "text_current", "status"),
+            optional_fields=(
+                "article_number",
+                "is_prose_only",
+                "source_path",
+                "paragraph_markers",
+                "reform_references",
+                "annotations",
+            ),
         ),
         NodeKind.REFORM: GraphNodeType(
             label=NodeKind.REFORM,
@@ -184,6 +208,15 @@ def default_graph_schema() -> GraphSchema:
                 "Documents link to these via HAS_SUBTOPIC for retrieval boost."
             ),
             required_fields=("sub_topic_key", "parent_topic", "label"),
+        ),
+        NodeKind.TOPIC: GraphNodeType(
+            label=NodeKind.TOPIC,
+            key_field="topic_key",
+            description=(
+                "Curated topic anchor from config/topic_taxonomy.json. "
+                "Documents link to these via TEMA for topic-first retrieval fan-out."
+            ),
+            required_fields=("topic_key", "label"),
         ),
     }
 
@@ -283,6 +316,26 @@ def default_graph_schema() -> GraphSchema:
                 "Links a document-origin node (Article/Reform/Concept) to a "
                 "curated SubTopic anchor — used by retrieval to boost chunks "
                 "under a detected subtopic intent."
+            ),
+        ),
+        EdgeKind.TEMA: GraphEdgeType(
+            label=EdgeKind.TEMA,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM, NodeKind.CONCEPT),
+            target_kinds=(NodeKind.TOPIC,),
+            description=(
+                "Chunk/article-level thematic edge to a curated Topic anchor. "
+                "Enables topic-first retrieval fan-out from ``planner.topic_hint`` "
+                "to all chunks under the topic."
+            ),
+        ),
+        EdgeKind.SUBTEMA_DE: GraphEdgeType(
+            label=EdgeKind.SUBTEMA_DE,
+            source_kinds=(NodeKind.SUBTOPIC,),
+            target_kinds=(NodeKind.TOPIC,),
+            description=(
+                "Static taxonomy edge from SubTopic → parent Topic. Emitted "
+                "once per subtopic at load time so the graph can walk "
+                "subtopic ↔ topic without consulting the JSON taxonomy."
             ),
         ),
     }

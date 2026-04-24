@@ -231,7 +231,9 @@ def materialize_graph_artifacts(
     include_suin: str | Path | None = None,
     suin_artifacts_root: Path | str = "artifacts/suin",
     skip_llm: bool = False,
-    rate_limit_rpm: int = 60,
+    rate_limit_rpm: int = 300,
+    classifier_workers: int | None = None,
+    supabase_workers: int | None = None,
 ) -> dict[str, Any]:
     root = Path(corpus_dir)
     artifacts_root = Path(artifacts_dir)
@@ -246,12 +248,15 @@ def materialize_graph_artifacts(
     # Phase A4: run PASO 4 classifier over every included doc before the
     # Supabase sink + graph load, so subtema / requires_subtopic_review are
     # populated in one pass. `--skip-llm` returns the legacy tuple unchanged.
+    # Phase 2a (v6): classifier runs in parallel by default (worker_count=8);
+    # the pool preserves input order and shares a single rate-limit bucket.
     from .ingest_subtopic_pass import classify_corpus_documents
 
     corpus_documents = classify_corpus_documents(
         legacy_corpus_documents,
         skip_llm=bool(skip_llm),
         rate_limit_rpm=int(rate_limit_rpm),
+        worker_count=classifier_workers,
     )
 
     corpus_audit_report_path = artifacts_root / "corpus_audit_report.json"
@@ -312,7 +317,16 @@ def materialize_graph_artifacts(
         )
 
     articles_base = parse_article_documents(graph_documents)
-    raw_edges = extract_edge_candidates(articles_base)
+    # ingestionfix_v2 §4 Phase 4: thread origin family into edge extraction
+    # so the classifier emits the Spanish-taxonomy edge_type + weight.
+    family_by_source_path = {
+        document.source_path: document.family
+        for document in corpus_documents
+        if document.graph_parse_ready
+    }
+    raw_edges = extract_edge_candidates(
+        articles_base, family_by_source_path=family_by_source_path
+    )
     classified_edges_base = classify_edge_candidates(raw_edges)
 
     # Phase B: SUIN merge (two-pass). See docs/next/ingestion_suin.md step #13.
@@ -339,11 +353,79 @@ def materialize_graph_artifacts(
         classified_documents=corpus_documents,
         articles=articles,
     )
+    # ingestionfix_v2 §4 Phase 5: also thread article→topic bindings so
+    # the loader emits TopicNode + TEMA + static SUBTEMA_DE edges during
+    # the same pass.
+    #
+    # v5 F15: apply the same "don't regress specific → catch-all"
+    # preservation that the Supabase sink does. When the classifier emits
+    # `otros_sectoriales` but the existing Supabase row carries a specific
+    # tema (sector_* or any named topic set by manual curation / Task E),
+    # prefer the Supabase value. Without this, Falkor TEMA edges would
+    # land on `otros_sectoriales` even though the sink writes the
+    # preserved value to `documents.tema` — causing the v5 Phase 1
+    # production re-ingest to show 322 sector docs in Supabase but only
+    # 2 sector TopicNodes in Falkor. See docs/next/ingestionfix_v5.md F15.
+    _preserved_tema_by_source_path: dict[str, str] = {}
+    if supabase_sink:
+        try:
+            from .ingestion.supabase_sink import (
+                _sanitize_doc_id as _sid,
+                load_existing_tema as _load_tema,
+            )
+            from .supabase_client import create_supabase_client_for_target
+
+            _preserve_client = create_supabase_client_for_target(
+                supabase_target or "production"
+            )
+            candidate_doc_ids: list[tuple[str, str]] = []
+            for d in corpus_documents:
+                rel = str(getattr(d, "relative_path", None) or d.source_path or "").strip()
+                if rel:
+                    did = _sid(rel)
+                    if did:
+                        candidate_doc_ids.append((d.source_path, did))
+            unique_ids = list({did for _, did in candidate_doc_ids})
+            # Phase 2b (v6): parallel load_existing_tema. Sequential version
+            # blocked the 2026-04-24 cloud sink for ~25 min.
+            existing_by_doc_id = _load_tema(
+                _preserve_client, unique_ids, worker_count=supabase_workers
+            )
+            for src, did in candidate_doc_ids:
+                existing = existing_by_doc_id.get(did)
+                if existing and existing != "otros_sectoriales":
+                    _preserved_tema_by_source_path[src] = existing
+        except Exception:  # noqa: BLE001
+            _preserved_tema_by_source_path = {}
+
+    _topic_by_source_path: dict[str, str] = {}
+    for document in corpus_documents:
+        cls_topic = document.topic_key
+        if not cls_topic:
+            continue
+        src = document.source_path
+        preserved = _preserved_tema_by_source_path.get(src)
+        if cls_topic == "otros_sectoriales" and preserved:
+            _topic_by_source_path[src] = preserved
+        else:
+            _topic_by_source_path[src] = cls_topic
+    # v4: key by the graph-layer article key (unique-per-doc for prose-only
+    # articles) so TEMA edges land on the right ArticleNode. See
+    # docs/next/ingestionfix_v4.md §5 Phase 1.
+    from .ingestion.loader import _graph_article_key
+    article_topics = {
+        _graph_article_key(article): _topic_by_source_path[
+            str(article.source_path or "")
+        ]
+        for article in articles
+        if str(article.source_path or "") in _topic_by_source_path
+    }
     load_plan = build_graph_load_plan(
         articles,
         classified_edges,
         graph_client=plan_graph_client,
         article_subtopics=article_subtopics,
+        article_topics=article_topics,
     )
     runtime_graph_client = plan_graph_client or (
         GraphClient.from_env(schema=load_plan.schema)
@@ -391,11 +473,13 @@ def materialize_graph_artifacts(
             sink = supabase_sink_factory(
                 target=supabase_target,
                 generation_id=generation_id,
+                worker_count=supabase_workers,
             )
         else:
             sink = SupabaseCorpusSink(
                 target=supabase_target,
                 generation_id=generation_id,
+                worker_count=supabase_workers,
             )
         knowledge_class_counts = _knowledge_class_counts(corpus_documents)
         sink.write_generation(
@@ -672,14 +756,84 @@ def parser() -> argparse.ArgumentParser:
     cli.add_argument(
         "--rate-limit-rpm",
         type=int,
-        default=int(os.environ.get("LIA_INGEST_CLASSIFIER_RPM", "60")),
+        default=int(os.environ.get("LIA_INGEST_CLASSIFIER_RPM", "300")),
         help=(
-            "Upper bound on PASO 4 classifier calls per minute. Default 60 "
-            "(≈22 min for a 1300-doc corpus). Gemini Flash paid tier "
-            "tolerates ~1000 rpm."
+            "Upper bound on PASO 4 classifier calls per minute. Default 300 "
+            "(≈13 min for ~3900 docs at 8 parallel workers). Gemini Flash "
+            "paid tier tolerates ~1000 rpm; 300 leaves 70%% headroom."
+        ),
+    )
+    cli.add_argument(
+        "--classifier-workers",
+        type=int,
+        default=int(os.environ.get("LIA_INGEST_CLASSIFIER_WORKERS", "8")),
+        help=(
+            "Parallel worker count for the PASO 4 classifier pass. Default "
+            "8 — the durable default for every ingest run (phase 2a). Set "
+            "to 1 to force the sequential path (debugging / regression only)."
+        ),
+    )
+    cli.add_argument(
+        "--supabase-workers",
+        type=int,
+        default=int(os.environ.get("LIA_SUPABASE_SINK_WORKERS", "4")),
+        help=(
+            "Parallel worker count for the Supabase sink's batched upserts "
+            "and pre-sink `load_existing_tema` scan. Default 4 — conservative "
+            "for Postgres connection pools. Phase 2b (v6) persistent default."
         ),
     )
     cli.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
+    # Additive-corpus-v1 Phase 6 — delta-path flags.
+    cli.add_argument(
+        "--additive",
+        action="store_true",
+        help=(
+            "Run the additive-corpus-v1 delta path: compare the on-disk "
+            "corpus against the current rolling Supabase baseline and apply "
+            "only the diff (added + modified + removed docs). Requires "
+            "--supabase-sink; --supabase-generation-id defaults to "
+            "'gen_active_rolling'. See docs/next/additive_corpusv1.md."
+        ),
+    )
+    cli.add_argument(
+        "--delta-id",
+        default=None,
+        help=(
+            "Override the auto-generated delta_id (format "
+            "'delta_YYYYMMDD_HHMMSS_xxxxxx'). Useful for replay / testing."
+        ),
+    )
+    cli.add_argument(
+        "--dry-run-delta",
+        action="store_true",
+        help=(
+            "Plan the delta + print the summary but do NOT write to Supabase "
+            "or Falkor. Only meaningful with --additive."
+        ),
+    )
+    cli.add_argument(
+        "--strict-parity",
+        action="store_true",
+        help=(
+            "Escalate any Supabase<->Falkor parity-check mismatch to a hard "
+            "block before the delta is applied. Without this flag, mismatches "
+            "beyond the default tolerance emit a warning and proceed. "
+            "(Parity check lands in Phase 7; flag is already reserved here "
+            "so Phase 8 UI can bind to it.)"
+        ),
+    )
+    cli.add_argument(
+        "--force-full-classify",
+        action="store_true",
+        help=(
+            "Bypass the fingerprint-based prematch shortcut and run the "
+            "classifier over every doc in the corpus. Used to catch up state "
+            "that a prior crashed run already fingerprinted but never finished "
+            "downstream (edges, dangling, Falkor). Only meaningful with "
+            "--additive."
+        ),
+    )
     return cli
 
 
@@ -705,6 +859,81 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 print(f"Phase 2 ingest aborted: {exc}")
             return 4
+
+    # Additive-corpus-v1 Phase 6 delta path.
+    if getattr(args, "additive", False):
+        if not args.supabase_sink:
+            msg = (
+                "--additive requires --supabase-sink; the delta path reads the "
+                "current baseline from Supabase and has nothing to do without it."
+            )
+            payload = {"ok": False, "error": "additive_requires_supabase", "message": msg}
+            if args.json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(msg)
+            return 2
+        from .ingestion.delta_runtime import materialize_delta
+
+        generation_id = str(
+            args.supabase_generation_id or "gen_active_rolling"
+        ).strip() or "gen_active_rolling"
+        try:
+            report = materialize_delta(
+                corpus_dir=Path(args.corpus_dir),
+                artifacts_dir=Path(args.artifacts_dir),
+                pattern=args.pattern,
+                supabase_target=str(args.supabase_target),
+                generation_id=generation_id,
+                delta_id=args.delta_id,
+                dry_run=bool(args.dry_run_delta),
+                execute_load=bool(args.execute_load),
+                strict_falkordb=bool(args.strict_falkordb),
+                strict_parity=bool(args.strict_parity),
+                skip_llm=bool(args.skip_llm),
+                rate_limit_rpm=int(args.rate_limit_rpm),
+                classifier_workers=int(args.classifier_workers),
+                supabase_workers=int(args.supabase_workers),
+                force_full_classify=bool(args.force_full_classify),
+            )
+        except (FileNotFoundError, NotADirectoryError) as exc:
+            payload = {
+                "ok": False,
+                "error": "corpus_unavailable",
+                "message": str(exc),
+            }
+            if args.json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(f"Additive delta aborted: {exc}")
+            return 2
+        except GraphClientError as exc:
+            payload = {
+                "ok": False,
+                "error": "graph_load_failed",
+                "message": str(exc),
+            }
+            if args.json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(f"Additive delta Falkor load failed: {exc}")
+            return 3
+        result = {"ok": True, "delta_run": report.to_dict()}
+        if args.json:
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+        else:
+            summary = report.delta_summary
+            mode = "dry-run" if report.dry_run else "applied"
+            print(
+                f"[additive {mode}] delta_id={report.delta_id} "
+                f"added={summary['added']} modified={summary['modified']} "
+                f"removed={summary['removed']} unchanged={summary['unchanged']}"
+            )
+            if report.warnings:
+                for w in report.warnings:
+                    print(f"  warn: {w}")
+        return 0
+
     try:
         result = materialize_graph_artifacts(
             corpus_dir=Path(args.corpus_dir),
@@ -722,6 +951,8 @@ def main(argv: list[str] | None = None) -> int:
             suin_artifacts_root=Path(args.suin_artifacts_root),
             skip_llm=bool(args.skip_llm),
             rate_limit_rpm=int(args.rate_limit_rpm),
+            classifier_workers=int(args.classifier_workers),
+            supabase_workers=int(args.supabase_workers),
         )
     except (FileNotFoundError, NotADirectoryError) as exc:
         payload = {"ok": False, "error": "corpus_unavailable", "message": str(exc)}

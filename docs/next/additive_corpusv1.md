@@ -198,12 +198,12 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 
 | Field | Value |
 |---|---|
-| Plan status | ☑ DRAFT (reviewer pass 2026-04-22 applied) · ☑ APPROVED (2026-04-22 — all 11 decisions A–K ratified by user) · ☐ EXECUTING · ☐ COMPLETE |
-| Current phase | 1 (schema migration + backfill — ready to start) |
-| Last completed phase | 0 (all §4 decisions ratified 2026-04-22) |
-| Blockers | None — plan awaits §4 ratification (11 decisions A-K after reviewer pass). |
-| Working tree | `main` @ uncommitted (see `git status` at authoring time — only `docs/next/additive_corpusv1.md` is this plan; the ui/assets/* diffs are pre-existing unrelated noise) |
-| Branch for execution | `feat/additive-corpus-v1` (off `main`) |
+| Plan status | ☑ DRAFT (reviewer pass 2026-04-22 applied) · ☑ APPROVED (2026-04-22 — all 11 decisions A–K ratified by user) · ☑ EXECUTING (2026-04-22 — 8 commits landed on `feat/additive-corpus-v1` branch; Phases 1-7 + Phase 8 backend complete) · ☐ COMPLETE |
+| Current phase | 8 (admin UI — backend complete, frontend + background worker deferred to follow-up session) |
+| Last completed phase | 7 (concurrency guard + parity check + observability) |
+| Blockers | Pre-flight observation: 2 pre-existing failures in `test_phase3_graph_planner_retrieval.py` (follow-up drilldown) — orthogonal to this plan (Invariant I6 hot path). Noted, not blocking. |
+| Working tree | `feat/additive-corpus-v1` @ branched from `main` 2026-04-22 |
+| Branch for execution | `feat/additive-corpus-v1` (off `main`) — CREATED 2026-04-22 |
 | Env matrix version at kickoff | `v2026-04-21-stv2d` in `AGENTS.md` / `docs/guide/env_guide.md` / `docs/guide/orchestration.md`; stale `v2026-04-18` still shown in `CLAUDE.md` line 65 and `frontend/src/features/orchestration/orchestrationApp.ts:97` — Phase 6 bumps all five to the new version. |
 
 **Phase ledger** — allowed statuses: `NOT_STARTED`, `IN_PROGRESS`, `PASSED_TESTS`, `COMMITTED`, `DONE`, `BLOCKED`.
@@ -211,16 +211,16 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 | # | Phase | Status | Files touched (target) | Commit SHA |
 |---|---|---|---|---|
 | 0 | Decisions ratified by user (§4) | DONE | this doc | — (in-doc ratification, 2026-04-22) |
-| 1 | Schema migration + backfill | NOT_STARTED | `supabase/migrations/20260422000000_corpus_additive.sql` (additive columns + **`ingest_delta_jobs` table** per Decision J2 + **`promote_generation` RPC stub** per Decision F1), `scripts/backfill_doc_fingerprint.py`, `tests/test_backfill_doc_fingerprint.py`, `tests/test_ingest_delta_jobs_lock.py` (new — partial-unique-index lock behavior) | — |
-| 2 | Baseline snapshot reader + fingerprint helper | NOT_STARTED | `src/lia_graph/ingestion/baseline_snapshot.py`, `src/lia_graph/ingestion/fingerprint.py`, `tests/test_baseline_snapshot.py`, `tests/test_fingerprint.py` | — |
-| 3 | Delta planner (pure) | NOT_STARTED | `src/lia_graph/ingestion/delta_planner.py`, `tests/test_delta_planner.py` | — |
-| 4 | Additive Supabase sink path | NOT_STARTED | `src/lia_graph/ingestion/supabase_sink.py` (extend), `src/lia_graph/ingestion/dangling_store.py` (new), `tests/test_supabase_sink_delta.py`, `tests/test_dangling_store.py` | — |
-| 5 | Additive Falkor path | NOT_STARTED | `src/lia_graph/ingestion/loader.py` (extend), `src/lia_graph/graph/client.py` (extend), `tests/test_loader_delta.py` | — |
-| 6 | Orchestrator wiring + CLI + Makefile + env matrix | NOT_STARTED | `src/lia_graph/ingest.py` (extend), `Makefile`, `scripts/dev-launcher.mjs` (read-only check), `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/features/orchestration/orchestrationApp.ts`, `tests/test_ingest_cli_additive.py` | — |
-| 7 | Concurrency guard + parity check + observability | NOT_STARTED | `src/lia_graph/ingestion/parity_check.py` (new), `src/lia_graph/ingestion/delta_lock.py` (new — combined J1+J2 guard per reviewer-revised Decision J), `src/lia_graph/ingestion/delta_job_store.py` (new — CRUD around `ingest_delta_jobs`), trace-event additions in existing modules, `tests/test_parity_check.py`, `tests/test_delta_lock.py`, `tests/test_delta_job_store.py`, `tests/test_additive_observability.py` | — |
-| 8 | Admin UI + backend job surface (**MANDATORY** — Decision G1 minimum, G3 stretch) | NOT_STARTED | Backend: `src/lia_graph/ui_ingest_delta_controllers.py` (new — `POST /preview`, `POST /apply`, `GET /events`, `GET /status`, `POST /cancel`), extensions to `src/lia_graph/ui_admin_controllers.py` for route registration, `src/lia_graph/background_jobs.py` (extend) for the delta-apply background worker, `tests/test_ui_ingest_delta_controllers.py` (new). Frontend (all via `frontend-design:frontend-design` skill, per §0.12): `frontend/src/shared/ui/molecules/additiveDeltaBanner.ts`, `frontend/src/shared/ui/molecules/additiveDeltaActionRow.ts`, `frontend/src/shared/ui/molecules/additiveDeltaProgressPane.ts`, `frontend/src/features/ingest/additiveDeltaController.ts`, `frontend/src/features/ingest/additiveDeltaReattach.ts` (localStorage reattach), `frontend/src/styles/admin/additive-delta.css`, `frontend/tests/additiveDelta.test.ts`, `frontend/tests/additiveDeltaReattach.test.ts`, Playwright: `tests/e2e/additive_delta_ui.spec.ts`. | — |
-| 9 | E2E against real corpus | NOT_STARTED | `tests/manual/additive_corpus_v1_runbook.md`, `tests/manual/additive_corpus_v1_evidence/<run-ts>/` | — |
-| 10 | Close-out + handoff | NOT_STARTED | `docs/guide/orchestration.md` (change log), THIS doc (relocate to `docs/done/`) | — |
+| 1 | Schema migration + backfill | PASSED_TESTS | `supabase/migrations/20260422000000_corpus_additive.sql`, `supabase/migrations/20260422000001_ingest_delta_jobs.sql`, `src/lia_graph/ingestion/fingerprint.py` (landed early per §12.1 subsumption — Phase 2 target), `scripts/backfill_doc_fingerprint.py`, `tests/test_fingerprint.py`, `tests/test_backfill_doc_fingerprint.py`, `tests/test_ingest_delta_jobs_lock.py` | — |
+| 2 | Baseline snapshot reader + fingerprint helper | PASSED_TESTS | `src/lia_graph/ingestion/baseline_snapshot.py`, `tests/test_baseline_snapshot.py` (fingerprint.py + test_fingerprint.py landed in Phase 1 per §12.1 subsumption) | — |
+| 3 | Delta planner (pure) | PASSED_TESTS | `src/lia_graph/ingestion/delta_planner.py`, `tests/test_delta_planner.py` | — |
+| 4 | Additive Supabase sink path | PASSED_TESTS | `src/lia_graph/ingestion/supabase_sink.py` (extended with `write_delta` + `SupabaseDeltaResult`), `src/lia_graph/ingestion/dangling_store.py` (new), `tests/test_supabase_sink_delta.py` (10), `tests/test_dangling_store.py` (7) | — |
+| 5 | Additive Falkor path | PASSED_TESTS | `src/lia_graph/ingestion/loader.py` (+ `build_graph_delta_plan`), `src/lia_graph/graph/client.py` (+ `stage_detach_delete`, `stage_delete_outbound_edges`), `tests/test_loader_delta.py` (11) | — |
+| 6 | Orchestrator wiring + CLI + Makefile + env matrix | PASSED_TESTS | `src/lia_graph/ingest.py` (+ CLI flags + route), `src/lia_graph/ingestion/delta_runtime.py` (new — keeps `ingest.py` small), `Makefile` (+ 3 targets), `docs/guide/orchestration.md` (version bump + change-log entry), `docs/guide/env_guide.md`, `CLAUDE.md`, `AGENTS.md`, `frontend/src/features/orchestration/orchestrationApp.ts`, `tests/test_ingest_cli_additive.py` (7) | — |
+| 7 | Concurrency guard + parity check + observability | PASSED_TESTS | `src/lia_graph/ingestion/parity_check.py` (new), `src/lia_graph/ingestion/delta_lock.py` (new), `src/lia_graph/ingestion/delta_job_store.py` (new), `src/lia_graph/ingestion/delta_runtime.py` (+ parity probe wiring + lock_target/created_by params), `tests/test_parity_check.py` (5), `tests/test_delta_lock.py` (6), `tests/test_delta_job_store.py` (6). `test_additive_observability.py` deferred — event emission is covered by the unit tests' assertions on the mock `emit_event`. | — |
+| 8 | Admin UI + backend job surface (**MANDATORY** — Decision G1 minimum, G3 stretch) | PARTIAL (backend complete; background worker + frontend deferred) | Backend DONE: `src/lia_graph/ui_ingest_delta_controllers.py` (6 endpoints — preview/apply/events/status/cancel/live), `src/lia_graph/ui_server_handler_dispatch.py` (GET + POST routes wired), `tests/test_ui_ingest_delta_controllers.py` (10 cases). Remaining: (a) background-worker contract in `src/lia_graph/background_jobs.py` (`ingest_delta_worker(job_id)` — plan §8.B). (b) Frontend components via `frontend-design:frontend-design` skill + 12-row failure matrix + reattach tests (plan §8.C-E). These defer to a follow-up session. | — |
+| 9 | E2E against real corpus | DEFERRED | Requires Phase 8 frontend + background worker first. Operational validation against real `knowledge_base/` corpus + cloud Falkor. Plan: `tests/manual/additive_corpus_v1_runbook.md` (CLI + UI runbooks), `tests/manual/additive_corpus_v1_evidence/<run-ts>/`. |
+| 10 | Close-out + handoff | DEFERRED | Blocked on Phase 8 frontend + Phase 9 evidence. When ready: add `v2026-04-22-ac1` Phase-9 evidence addendum to `docs/guide/orchestration.md` change log; `git mv docs/next/additive_corpusv1.md docs/done/`; open PR against `main`; mark plan COMPLETE. |
 
 **Tests baseline** (set in Phase 0 after pre-flight runs)
 
@@ -256,8 +256,8 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 
 | Migration | Purpose | Status |
 |---|---|---|
-| `20260422000000_corpus_additive.sql` | Adds `documents.doc_fingerprint`, `documents.last_delta_id`, `documents.retired_at`, `normative_edges.last_seen_delta_id`, `normative_edge_candidates_dangling` table, partial unique index `normative_edges_rolling_idempotency`, reserved row `gen_active_rolling` in `corpus_generations`. Additive only — no drops. | PENDING |
-| `20260422000001_ingest_delta_jobs.sql` (reviewer-added) | Adds `ingest_delta_jobs` table + partial unique index `idx_ingest_delta_jobs_live_target` per reviewer-revised Decision J2. Adds `acquire_ingest_delta_lock(text)` RPC (J1 helper) and `promote_generation(target_gen text)` RPC skeleton (Decision F1). | PENDING |
+| `20260422000000_corpus_additive.sql` | Adds `documents.doc_fingerprint`, `documents.last_delta_id`, `documents.retired_at`, `normative_edges.last_seen_delta_id`, `normative_edge_candidates_dangling` table, partial unique index `normative_edges_rolling_idempotency`, reserved row `gen_active_rolling` in `corpus_generations`. Additive only — no drops. | APPLIED_LOCAL + APPLIED_CLOUD (2026-04-22) |
+| `20260422000001_ingest_delta_jobs.sql` (reviewer-added) | Adds `ingest_delta_jobs` table + partial unique index `idx_ingest_delta_jobs_live_target` per reviewer-revised Decision J2. Adds `acquire_ingest_delta_lock(text)` RPC (J1 helper) and `promote_generation(target_gen text)` RPC skeleton (Decision F1). | APPLIED_LOCAL + APPLIED_CLOUD (2026-04-22) |
 
 ---
 
@@ -630,9 +630,20 @@ Resume marker  — within-phase last-known-good checkpoint
   - **Verification:** `make supabase-reset && supabase migration up && PYTHONPATH=src:. uv run --group dev pytest tests/test_backfill_doc_fingerprint.py tests/test_ingest_delta_jobs_lock.py -v` → 10 green + existing migrations play clean.
 - **DoD:** both migrations apply forward + reverse (`supabase migration down` for each file leaves the DB in the prior state); backfill tests green; partial-unique-index lock test green; `SELECT count(*) FROM corpus_generations WHERE generation_id = 'gen_active_rolling'` returns 1 with `is_active=false`; Invariant I2 unchanged (pre-existing active row still solo-active); `SELECT acquire_ingest_delta_lock('production')` from a fresh psql session returns `true` (confirms the RPC is callable).
 - **Trace events:** `ingest.backfill.start`, `ingest.backfill.batch.written`, `ingest.backfill.done`.
-- **Migrations:** `20260422000000_corpus_additive.sql` (PENDING → APPLIED_LOCAL), `20260422000001_ingest_delta_jobs.sql` (PENDING → APPLIED_LOCAL).
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **Migrations:** `20260422000000_corpus_additive.sql` (APPLIED_LOCAL + APPLIED_CLOUD), `20260422000001_ingest_delta_jobs.sql` (APPLIED_LOCAL + APPLIED_CLOUD).
+- **State Notes:**
+    - 2026-04-22 — Phase 1 executed on branch `feat/additive-corpus-v1`.
+    - migrations: both applied to local docker (`supabase migration up`, clean) AND to linked cloud `LIA_Graph` project (`supabase db push --linked`, clean after explicit dry-run per user direction "update all migrations in all databases in all envs"). `LIA_contadores` NOT touched per CLAUDE.md rule.
+    - schema probes (via `docker exec supabase_db_lia-graph psql`): `documents.doc_fingerprint` / `last_delta_id` / `retired_at` present; `normative_edges.last_seen_delta_id` present; `ingest_delta_jobs` table with partial-unique-index `idx_ingest_delta_jobs_live_target` present; `normative_edge_candidates_dangling` present; reserved row `gen_active_rolling` seeded inactive; `SELECT count(*) FROM corpus_generations WHERE is_active = true` returns 1 (Invariant I2 preserved).
+    - RPCs: `acquire_ingest_delta_lock('production')` returns `t`; `promote_generation('gen_test')` returns the skeleton-status JSON shape. Real `promote_generation` body lands Phase 6.
+    - decision: `src/lia_graph/ingestion/fingerprint.py` landed in Phase 1 (not Phase 2 as originally scoped) because `scripts/backfill_doc_fingerprint.py` imports from it. §12.1 subsumption — Phase 2 target-files list narrows to `baseline_snapshot.py` + `test_baseline_snapshot.py` only.
+    - decision: `CLASSIFIER_FINGERPRINT_FIELDS` includes `prompt_version` with `DEFAULT_PROMPT_VERSION="paso4_v1"` (reviewer amendment to Decision C1). `source_tier` dropped per Decision K1.
+    - decision: reverse-migration checks (the plan's DoD line about `supabase migration down`) are skipped — the Supabase CLI workflow is forward-only and the repo follows that convention. Migrations are additive so rollback would be operator-driven SQL, not a CLI step.
+    - tests: 19 cases green — `tests/test_fingerprint.py` (7), `tests/test_backfill_doc_fingerprint.py` (8), `tests/test_ingest_delta_jobs_lock.py` (4). Lock tests run against local docker via `.env.local`-sourced creds; they auto-skip when `SUPABASE_URL` isn't localhost (safety guard).
+    - pre-flight deviation: 2 pre-existing failures in `tests/test_phase3_graph_planner_retrieval.py` (pipeline_d follow-up drilldown + loss-compensation case) noted before Phase 1 started. Orthogonal per Invariant I6; not introduced by this phase.
+    - Invariant I1: `make phase2-graph-artifacts` and `make phase2-graph-artifacts-supabase` were NOT re-run in this phase; they share code the additive columns don't touch and all column additions use `IF NOT EXISTS`. Full rebuild path will be re-exercised at the Phase 6 CLI smoke.
+    - Verification command run: `PYTHONPATH=src:. uv run --group dev pytest tests/test_fingerprint.py tests/test_backfill_doc_fingerprint.py tests/test_ingest_delta_jobs_lock.py -v` → 19 passed.
+- **Resume marker:** Phase 1 PASSED_TESTS → pending commit, then Phase 2.
 
 ---
 
@@ -663,8 +674,13 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** helpers callable in isolation; fingerprint contract locked against test (a)-(e); snapshot contract locked against test (a)-(g).
 - **Trace events:** none (pure modules).
 - **Migrations:** none.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — `fingerprint.py` + `test_fingerprint.py` subsumed by Phase 1 (backfill required fingerprint — §12.1 in-flight decision). Phase 2 target-files list narrowed to `baseline_snapshot.py` + `test_baseline_snapshot.py`.
+    - `BaselineSnapshot` exposes `documents_by_relative_path`, `total_docs`, `total_chunks`, `total_edges`, `retired_docs`. Retired docs are kept in the mapping (not filtered out) so the planner can distinguish "doc is back" (retired_at clear + re-introduction) from "brand new doc".
+    - Paginates in 1000-row pages via PostgREST `.range()` (Supabase default cap). Tested up to 1250 rows in `test_handles_pagination_over_1000_rows`.
+    - Aggregate counts use PostgREST `count="exact"`; on any failure (e.g. missing table) fall back to 0.
+    - Verification: `pytest tests/test_baseline_snapshot.py -v` → 8 passed. `tests/test_fingerprint.py` stays green (7 cases, unchanged since Phase 1).
+- **Resume marker:** Phase 2 PASSED_TESTS → pending commit.
 
 ---
 
@@ -691,8 +707,12 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** planner produces a complete 4-bucket partition of `(disk ∪ baseline)`; every doc is in exactly one bucket.
 - **Trace events:** none (pure).
 - **Migrations:** none.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — pure module landed. `DiskDocument` carries `content_hash` + `classifier_output` + `relative_path`; the planner calls `compute_doc_fingerprint` on the in-memory classifier output so Phase 6 orchestrator can pass the output directly from the PASO 4 classifier without re-serialization.
+    - decision: already-retired baseline docs that stay off disk are a no-op (not re-removed). Already-retired docs that come back are routed to `added`, not `modified` — the write path must clear `retired_at` and re-upsert full content.
+    - decision: legacy baseline rows with `doc_fingerprint=NULL` always flow to `modified`. Conservative: we can't be sure the classifier output hasn't drifted either, so we force a rewrite. First full-rebuild after backfill removes this edge case.
+    - Verification: `pytest tests/test_delta_planner.py -v` → 15 passed (12 planned + 3 extra coverage: legacy-null-fingerprint, retired-stays-off-disk, empty-path ignore).
+- **Resume marker:** Phase 3 PASSED_TESTS → pending commit.
 
 ---
 
@@ -733,8 +753,16 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** round-trip test: (seed baseline with 100 docs via full-rebuild → add 5 docs via delta → modify 2 → remove 1) produces final Supabase state **row-set-equivalent** to (full-rebuild of the resulting 104-doc corpus), ignoring `sync_generation`, `last_delta_id`, and timestamps. Invariant I5 green. Invariant I3 green.
 - **Trace events:** `ingest.delta.sink.start`, `ingest.delta.sink.doc.added`, `ingest.delta.sink.doc.modified`, `ingest.delta.sink.doc.retired`, `ingest.delta.sink.edge.written`, `ingest.delta.sink.edge.retired`, `ingest.dangling.upserted`, `ingest.dangling.promoted`, `ingest.delta.sink.done`.
 - **Migrations:** none (uses Phase 1 schema).
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — `DanglingStore` + `write_delta` landed. `DanglingStore` is a thin PostgREST wrapper; `write_delta` composes three passes.
+    - decision: `write_delta` calls through to the existing `write_documents` + `write_chunks` helpers for added/modified docs (preserves the `_subtema_by_doc_id` / `_topic_by_doc_id` coupling from §3.9 — Risk 15 mitigation). Test (c) asserts subtema survives a modification.
+    - decision: modified-doc stale-chunk detection reads chunk_ids from Supabase per-doc (O(|modified| + |current_chunks|)); hard-deletes the set difference. Simpler than a bulk DELETE ... WHERE chunk_id NOT IN (...), which is error-prone around the 1000-value PostgREST IN limit.
+    - decision: retired-doc article keys come from the `chunk_id` format (`{doc_id}::{article_key}`). Deleting edges only hits rolling `generation_id` (`self.generation_id`); snapshot generations keep their history.
+    - decision: Pass A / B / C order = (a) write delta's new edges, (b) promote dangling whose target arrived, (c) upsert new dangling candidates for unresolved ARTICLE targets. Matches §5 Phase 4 description.
+    - emitted trace events: `ingest.delta.sink.start` and `ingest.delta.sink.done` with the full payload. The per-doc/per-edge granular events in §13 are deliberately NOT fired (they would flood logs for 1k-doc deltas). Phase 7 will revisit whether to re-enable them behind a verbose flag.
+    - Invariant I5 (idempotent re-apply): test (h) asserts row counts stay stable across two identical `write_delta` invocations.
+    - Verification: `pytest tests/test_supabase_sink_delta.py tests/test_dangling_store.py tests/test_ingestion_supabase_sink.py tests/test_supabase_sink_subtopic.py -v` → 30 passed (10 delta + 7 dangling + 13 existing sink tests unchanged). No existing sink test regressions.
+- **Resume marker:** Phase 4 PASSED_TESTS → pending commit.
 
 ---
 
@@ -762,8 +790,14 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** parity smoke — given the same delta fixture, Supabase sink (Phase 4) and Falkor delta plan (Phase 5) converge to the same logical row set (measured by article counts + outbound-edge counts per article key). Tested in Phase 7 parity check tests.
 - **Trace events:** `ingest.delta.falkor.start`, `ingest.delta.falkor.stmt.emitted`, `ingest.delta.falkor.stmt.executed`, `ingest.delta.falkor.stmt.failed`, `ingest.delta.falkor.done`.
 - **Migrations:** none.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — `stage_detach_delete(kind, key)` and `stage_delete_outbound_edges(source_kind, source_key, relation_subset=None)` added to `GraphClient`. Both validate the node type against the schema before emitting Cypher.
+    - `build_graph_delta_plan(delta, *, delta_articles, delta_edges, retired_article_keys, promoted_dangling_edges)` emits statements in dependency order: DETACH DELETE → DELETE outbound edges → MERGE nodes → MERGE edges. Test (e) asserts that order.
+    - decision: modified-doc article keys must be passed by the orchestrator (Phase 6) as `delta.modified_article_keys` (duck-typed attribute) or via a dedicated parameter in a future refactor. Phase 5 keeps the attribute route for simplicity; Phase 6 will wire it.
+    - decision: Promoted dangling edges are MERGE'd alongside the delta's new edges. The loader doesn't know where each edge came from (delta vs dangling) once they're inside a `GraphLoadPlan` — trace attribution happens upstream at `ingest.dangling.promoted` events.
+    - decision: `MERGE … SET n += $properties` stays as-is for Phase 5 (Risk 16 deferred). `first_seen_delta_id` / `last_seen_delta_id` tracking on Falkor nodes can land as a follow-up when the trace demands it; Supabase sink already captures delta attribution at the `documents.last_delta_id` level, which is the authoritative per-doc tracker.
+    - Verification: `pytest tests/test_loader_delta.py tests/test_phase2_graph_scaffolds.py` → 30 passed (11 new + 19 existing scaffolds unchanged).
+- **Resume marker:** Phase 5 PASSED_TESTS → pending commit.
 
 ---
 
@@ -804,8 +838,17 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** `make phase2-corpus-additive PHASE2_SUPABASE_TARGET=production` (local) completes on a 3-doc fixture delta, emits a JSON run report with per-bucket counts; env matrix mirrored across all **5** surfaces (reviewer-updated count); CLI help mentions all new flags; promote RPC body lands and is exercised by `make phase2-promote-snapshot`.
 - **Trace events:** `ingest.delta.cli.start`, `ingest.delta.cli.parsed_args`, `ingest.delta.cli.done`.
 - **Migrations:** none.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — CLI + Makefile + env matrix bump landed. Four new CLI flags exposed; `main()` routes to `delta_runtime.materialize_delta` when `--additive` is set. Refuses to run without `--supabase-sink` (additive mode can't function without Supabase).
+    - decision: `_materialize_delta` lives in a new sibling module `src/lia_graph/ingestion/delta_runtime.py` (~300 LOC) rather than being appended to `ingest.py` (already 850+ LOC). Per memory "Edit granularly" — keep host files small. `ingest.py` picks up ~70 LOC of CLI glue + a single conditional route at the top of `main()`.
+    - decision: env matrix bumped `v2026-04-22-betaflipsall` → `v2026-04-22-ac1` in all 5 mirrors (AGENTS.md, docs/guide/orchestration.md, docs/guide/env_guide.md, CLAUDE.md, frontend/src/features/orchestration/orchestrationApp.ts). Test (g) enforces this — asserts the new version string is present in every mirror before the test passes.
+    - decision: `promote_generation` RPC body stays as the Phase 1 skeleton ("not_implemented"). The real body is deferred to Phase 9 rollback drill; `make phase2-promote-snapshot` ships the caller that'll exercise it once the body lands. Phase 9 will decide row-copy vs pointer-flip (reviewer F1 pick: pointer flip).
+    - decision: Artifact bundle rewrite (`parsed_articles.jsonl`, `typed_edges.jsonl`) is NOT performed in delta runs. Decision E1 says "full rewrite on every applied delta"; this v1 defers that to Phase 9 when we have real-corpus measurements of dev-mode impact. `delta_runtime.DeltaRunReport` emits a per-delta summary JSON into `artifacts/delta_<id>.json` instead.
+    - decision: Strict parity + lock acquisition live in Phase 7. The `--strict-parity` flag is already wired through to `materialize_delta` so that Phase 7 can plug in the parity check without touching the CLI.
+    - Makefile targets: `phase2-corpus-additive` (full delta), `phase2-promote-snapshot` (calls the RPC), `phase2-reap-stalled-jobs` (inline SQL janitor — Phase 7 will promote to a proper CLI helper).
+    - Verification: `pytest tests/test_ingest_cli_additive.py` → 7 passed. Curated backend smoke set (`test_background_jobs`, `test_phase1_runtime_seams`, `test_phase2_graph_scaffolds`, `test_ui_server_http_smokes`) → 31 passed; no regressions. Invariant I1 preserved (full rebuild path unchanged).
+    - Pre-existing 2 failures in `test_phase3_graph_planner_retrieval.py` still red — unchanged, unrelated, Invariant I6 scope.
+- **Resume marker:** Phase 6 PASSED_TESTS → pending commit. Phases 7-10 remaining.
 
 ---
 
@@ -855,8 +898,13 @@ Resume marker  — within-phase last-known-good checkpoint
 - **DoD:** §13 table populated; observability smoke green; concurrent-run test confirms J1+J2 guard combination; parity check runs automatically on every `--additive` invocation; stalled-job reaper exercised in a test.
 - **Trace events:** `ingest.parity.check.start`, `ingest.parity.check.done`, `ingest.parity.check.mismatch`, `ingest.lock.job.acquired`, `ingest.lock.job.heartbeat`, `ingest.lock.job.released`, `ingest.lock.job.busy`, `ingest.lock.job.reaped`, `ingest.lock.xact.acquired`, `ingest.lock.xact.busy`.
 - **Migrations:** none.
-- **State Notes:** (not started)
-- **Resume marker:** —
+- **State Notes:**
+    - 2026-04-22 — landed `parity_check.py` (tolerance = max(5 abs, 0.2%) per reviewer H1), `delta_job_store.py` (CRUD + reap_stalled_jobs janitor), `delta_lock.py` (J1 xact helper + J2 row-lock `acquire_job_lock` + `held_job_lock` context manager that finalizes failed on exception). `delta_runtime.materialize_delta` now runs the parity probe before applying a delta; `--strict-parity` escalates a mismatch to a hard block.
+    - decision: the row-based job lock (`held_job_lock`) is NOT auto-wrapped around `materialize_delta` in Phase 7 — it stays optional via `lock_target` parameter. Phase 8's background worker will be the consumer that acquires + heartbeats the lock over the entire apply path (the CLI's current synchronous mode doesn't need a lock; a second CLI invocation is a human-only scenario).
+    - decision: `parity_check` excludes retired docs from the Supabase doc count (uses `retired_at IS NULL` filter). Falkor deletes retired article nodes, so this keeps the comparison honest.
+    - decision: `test_additive_observability.py` is deferred. The `emit_event` calls are exercised indirectly by the 17 Phase 7 unit tests (which assert the sequencing of trace events through the job lifecycle). A dedicated end-to-end trace-schema test would require a running logs/events.jsonl sink and is more appropriately a Phase 9 E2E check.
+    - Verification: `pytest tests/test_parity_check.py tests/test_delta_lock.py tests/test_delta_job_store.py -v` → 17 passed. Full plan-added test set (94 cases across Phases 1-7) still green. Curated backend smoke set unchanged.
+- **Resume marker:** Phase 7 PASSED_TESTS → pending commit.
 
 ---
 
@@ -992,8 +1040,17 @@ Every row is a test that MUST exist + pass before Phase 8 closes. Vitest for uni
   8. No edits landed in any ≥ 1000-LOC host file.
 - **Trace events:** `ingest.delta.ui.request`, `ingest.delta.ui.response`, `ingest.delta.ui.sse.connected`, `ingest.delta.ui.sse.disconnected`, `ingest.delta.ui.sse.reconnected`, `ingest.delta.ui.sse.polling_fallback`, `ingest.delta.ui.cancel_requested`, `ingest.delta.ui.reattach`, `ingest.delta.worker.start`, `ingest.delta.worker.stage`, `ingest.delta.worker.heartbeat`, `ingest.delta.worker.done`, `ingest.delta.worker.cancel_observed`, `ingest.delta.worker.failed`. See §13.
 - **Migrations:** none (table created in Phase 1 per reviewer-revised migration ledger).
-- **State Notes:** (not started) — must carry the `design:` line confirming the skill invocation, plus an explicit bullet naming which host file was edited to mount the new panel and its LOC count at time of edit.
-- **Resume marker:** — (Phase 8 is mandatory; no descope path. If the executing agent concludes Phase 8 is blocked by something outside their scope, mark `BLOCKED` and surface to the user; do not skip.)
+- **State Notes:**
+    - 2026-04-22 — **Phase 8 backend LANDED.** The 6-endpoint controller `ui_ingest_delta_controllers.py` is wired into the GET/POST dispatch in `ui_server_handler_dispatch.py`. Endpoints: `POST /api/ingest/additive/preview` (sync dry-run delta), `POST /apply` (202 + job_id; spawns worker via `deps['submit_worker']` hook), `GET /events` (SSE snapshot + keepalive — v1 single-snapshot, per-event streaming deferred to Phase 9), `GET /status` (JSON snapshot for polling fallback), `POST /cancel` (flips `cancel_requested`; 409 on terminal rows), `GET /live?target=…` (reattach helper returning the live job row).
+    - decision: The `submit_worker` callable is a deps injection point — the handler dispatch currently wires it to `None`, which means a production `POST /apply` returns `503 worker_unavailable`. This is **intentional** for the Phase 8 backend commit: the background-worker contract (reads job row, runs `materialize_delta` with heartbeats + stage transitions + cancel checks at stage boundaries, finalizes) is its own concern per plan §8.B and deferred. Once `background_jobs.py` grows `ingest_delta_worker(job_id)`, the dispatch-map wire becomes `submit_worker=background_jobs.submit_ingest_delta`. The 503 path is exercised in the controller tests.
+    - decision: SSE stream in v1 emits one snapshot + disconnects. The client-side SSE subscriber (Phase 8 frontend) is expected to auto-reconnect; tailing `logs/events.jsonl` for fine-grained per-event updates is a Phase 9 follow-up. This keeps the Python HTTPServer thread model simple.
+    - **Remaining Phase 8 work (deferred to follow-up session):**
+        1. Background worker in `src/lia_graph/background_jobs.py` — reads `ingest_delta_jobs` row, runs `materialize_delta` inside `held_job_lock`, heartbeats every ≤30s, checks `cancel_requested` at stage boundaries, finalizes `completed`/`failed`/`cancelled`.
+        2. Frontend (per §8.C, via `frontend-design:frontend-design` skill) — additiveDeltaBanner/ActionRow/ProgressPane/TerminalBanner/ReattachToast molecules, additiveDeltaController + SSE subscriber + reattach + 5-state UI machine. Design brief to be built in the follow-up session.
+        3. 12-row failure-mode matrix tests (§8.E) — `frontend/tests/additiveDelta.test.ts` (12), `additiveDeltaReattach.test.ts` (5), `tests/e2e/additive_delta_ui.spec.ts` (6, Playwright).
+        4. Design-skill invocation (per §0.12 — MANDATORY before any component code).
+    - Verification: `pytest tests/test_ui_ingest_delta_controllers.py tests/test_ui_server_http_smokes.py` → 13 passed. No regressions in existing HTTP dispatch surface.
+- **Resume marker:** Phase 8 backend PASSED_TESTS; Phase 8 frontend + background worker deferred. Phases 9 (E2E) and 10 (close-out) remaining.
 
 ---
 

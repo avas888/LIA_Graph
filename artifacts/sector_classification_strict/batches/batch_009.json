@@ -1,0 +1,190 @@
+{
+  "batch_num": 9,
+  "input_hash": "bdb7a9cfe1ade67f",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1727-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1731-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1735-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-174-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1755-2015.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1788-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-181-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2-1976.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-20-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1778-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2040-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2068-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2070-2020.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2130-2021.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2133-2021.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-215-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2283-2023.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-26-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-3-1991.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1971.md"
+  ],
+  "elapsed_seconds": 26.41,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1727-2014.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Normas sobre obligaciones de administradores de sociedades.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1731-2014.md",
+      "proposed_topic": "sector_transporte",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Disposiciones en materia de infraestructura de transporte.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1735-2014.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Disposiciones en materia de vivienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-174-1994.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas en materia de educación superior.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1755-2015.md",
+      "proposed_topic": "sector_derecho_administrativo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el Derecho Fundamental de Petición, procedimiento administrativo general.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1788-2016.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Establece prima especial de servicios para empleados públicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-181-1995.md",
+      "proposed_topic": "sector_deporte_recreacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomento del deporte, recreación y aprovechamiento del tiempo libre.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2-1976.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Normas sobre el ejercicio de la profesión de contador público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-20-1979.md",
+      "proposed_topic": "sector_profesiones_liberales",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas sobre el ejercicio de la profesión de abogado.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1778-2016.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Responsabilidad de personas jurídicas por corrupción transnacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2040-2020.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Medidas para impulsar el empleo juvenil.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2068-2020.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2070-2020.md",
+      "proposed_topic": "sector_reactivacion_regional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas para reactivación económica, social y ambiental de Providencia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2130-2021.md",
+      "proposed_topic": "sector_politica_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Registro Nacional de Deudores Alimentarios Morosos (REDAM).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2133-2021.md",
+      "proposed_topic": "sector_telecomunicaciones",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Protección de derechos de usuarios de servicios de telecomunicaciones.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-215-1995.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Normas sobre el régimen de las entidades sin ánimo de lucro.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2283-2023.md",
+      "proposed_topic": "sector_servicios_automotor",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la actividad de los centros de diagnóstico automotor (CDA).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-26-1989.md",
+      "proposed_topic": "sector_profesiones_liberales",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas sobre el ejercicio de la profesión de ingeniero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-3-1991.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Vivienda de Interés Social.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1971.md",
+      "proposed_topic": "sector_profesiones_liberales",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas sobre el ejercicio de la profesión de arquitecto.",
+      "title": ""
+    }
+  ]
+}

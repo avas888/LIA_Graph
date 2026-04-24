@@ -29,11 +29,16 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import logging
+import os
 import re
 from typing import Any
 
 from ..graph.schema import EdgeKind, NodeKind
 from ..ingestion.classifier import ClassifiedEdge
+from ..ingestion.fingerprint import (
+    classifier_output_from_corpus_document,
+    compute_doc_fingerprint,
+)
 from ..ingestion.parser import ParsedArticle
 from ..supabase_client import create_supabase_client_for_target
 
@@ -109,11 +114,154 @@ def _iter_batches(rows: Sequence[dict[str, Any]], batch_size: int = _BATCH_SIZE)
         yield list(rows[start : start + batch_size])
 
 
+# ---------------------------------------------------------------------------
+# Phase 2b (v6) — batch-parallel execution for the sink's upsert / read loops.
+#
+# Every sink stage is "loop over independent batches, each mutating a unique
+# primary key". That shape matches the classifier pool's contract exactly,
+# so we import the same primitive (``classify_documents_parallel``) rather
+# than fork its guarantees: pre-allocated indexed output, global rate-limit
+# bucket, decorrelated-jitter retry on per-batch transient errors.
+#
+# Default worker count is conservative (4): Postgres connection pools are
+# tighter than LLM RPM ceilings, and Supabase free tier rate-caps at 100
+# req/s. 4 workers stays well under both.
+# ---------------------------------------------------------------------------
+
+
+_DEFAULT_SINK_WORKERS = 4
+
+
+def _resolve_sink_workers(explicit: int | None) -> int:
+    if explicit is not None:
+        return max(1, int(explicit))
+    raw = os.environ.get("LIA_SUPABASE_SINK_WORKERS")
+    if raw:
+        try:
+            return max(1, int(raw))
+        except ValueError:
+            pass
+    return _DEFAULT_SINK_WORKERS
+
+
+def _run_batches_parallel(
+    batches: Sequence[Any],
+    *,
+    execute_fn: Any,
+    worker_count: int,
+    rate_limit_rpm: int = 0,
+) -> list[int]:
+    """Execute ``execute_fn(index, batch) -> int`` in parallel over ``batches``.
+
+    Returns the per-batch written counts in the SAME order as ``batches``.
+    Semantics match the classifier pool: output order = input order, per-batch
+    exception isolation, retry-on-jitter for transient failures.
+
+    ``rate_limit_rpm=0`` means unlimited (Supabase writes aren't Gemini-bound).
+    """
+    from ..ingest_classifier_pool import (
+        classifier_error,
+        classify_documents_parallel,
+        is_classifier_error,
+    )
+
+    results_raw = classify_documents_parallel(
+        tuple(batches),
+        classify_fn=execute_fn,
+        worker_count=worker_count,
+        rate_limit_rpm=rate_limit_rpm,
+    )
+    out: list[int] = []
+    for idx, raw in enumerate(results_raw):
+        if is_classifier_error(raw):
+            exc = classifier_error(raw)
+            # Re-raise a wrapped exception so the caller's existing
+            # try/except semantics (load_existing_tema degrades to {}) still
+            # work. The per-batch isolation means sibling batches completed
+            # before this error surfaced.
+            raise RuntimeError(
+                f"supabase_sink batch #{idx} failed after retries: {exc!r}"
+            ) from exc
+        out.append(int(raw or 0))
+    return out
+
+
 def _sanitize_doc_id(relative_path: str) -> str:
     stem = str(relative_path or "").strip().strip("/")
     if not stem:
         raise ValueError("cannot derive doc_id from empty relative_path")
     return _DOC_ID_SANITIZER.sub("_", stem).strip("_")
+
+
+def load_existing_tema(
+    client: Any,
+    doc_ids: Sequence[str],
+    *,
+    worker_count: int | None = None,
+) -> dict[str, str]:
+    """Pull current ``documents.tema`` for the given doc_ids.
+
+    Module-level helper (not bound to SupabaseCorpusSink) so the Falkor
+    path can call it before the sink instance exists. Batched at 150
+    keys to respect the PostgREST ``.in_()`` URL-length cliff (~200).
+    Returns ``{}`` on any transport error — callers degrade gracefully
+    to "trust classifier" behavior when existing state is unreadable.
+
+    Phase 2b (v6): the batches are fanned out across ``worker_count``
+    threads (default 4). This is the step that blocked the v6 cloud
+    sink for ~25 min on 2026-04-24: a ~53-batch sequential scan that
+    held the whole pipeline. Parallel is the persistent default.
+
+    See v5 Phase 1 / F11 + F15, v6 phase 2b.
+    """
+    ids = [d for d in doc_ids if d]
+    if not ids:
+        return {}
+    BATCH = 150
+    batches: list[list[str]] = [
+        ids[start : start + BATCH] for start in range(0, len(ids), BATCH)
+    ]
+    workers = _resolve_sink_workers(worker_count)
+
+    def _fetch(_idx: int, chunk: list[str]) -> dict[str, str]:
+        resp = (
+            client.table("documents")
+            .select("doc_id, tema")
+            .in_("doc_id", chunk)
+            .execute()
+        )
+        sub: dict[str, str] = {}
+        for row in list(getattr(resp, "data", None) or []):
+            did = row.get("doc_id")
+            tema = row.get("tema")
+            if did and tema and isinstance(tema, str):
+                sub[str(did)] = tema
+        return sub
+
+    # The public contract is: degrade to {} on ANY transport error. The
+    # parallel helper raises on per-batch failure after retries, so wrap
+    # the whole call in try/except to match the pre-phase-2b behavior.
+    from ..ingest_classifier_pool import classify_documents_parallel
+
+    out: dict[str, str] = {}
+    try:
+        per_batch = classify_documents_parallel(
+            tuple(batches),
+            classify_fn=_fetch,
+            worker_count=workers,
+            rate_limit_rpm=0,  # no client-side throttle; Supabase fronts its own
+        )
+        for sub in per_batch:
+            if isinstance(sub, dict):
+                out.update(sub)
+            # _ClassifierError instances raise in _run_batches_parallel's wrapper
+            # but we're using classify_documents_parallel directly here to keep
+            # the "degrade to {}" contract — an error slot means we return {}.
+            else:
+                return {}
+    except Exception:
+        return {}
+    return out
 
 
 def _content_hash(text: str) -> str:
@@ -126,6 +274,20 @@ def _chunk_sha(text: str) -> str:
 
 def _chunk_id(doc_id: str, article_key: str) -> str:
     return f"{doc_id}::{article_key}"
+
+
+def _derive_source_type(article_key: str, article_number: str) -> str:
+    """Map parsed-article shape → chunk source_type.
+
+    - numeric statutory article (e.g. "512-1"): "article"
+    - whole-document fallback (article_key == "doc"): "document"
+    - section slug under v2-template / práctica / interpretación fallback: "section"
+    """
+    if article_number and article_key == article_number:
+        return "article"
+    if article_key == "doc":
+        return "document"
+    return "section"
 
 
 @dataclass(frozen=True)
@@ -150,6 +312,43 @@ class SupabaseSinkResult:
         }
 
 
+@dataclass(frozen=True)
+class SupabaseDeltaResult:
+    """Per-bucket row-count report returned by ``write_delta``.
+
+    Additive-corpus-v1 Phase 4 — see ``docs/next/additive_corpusv1.md`` §5.
+    """
+
+    generation_id: str
+    target: str
+    delta_id: str
+    documents_added: int
+    documents_modified: int
+    documents_retired: int
+    chunks_written: int
+    chunks_deleted: int
+    edges_written: int
+    edges_deleted: int
+    dangling_upserted: int
+    dangling_promoted: int
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "generation_id": self.generation_id,
+            "target": self.target,
+            "delta_id": self.delta_id,
+            "documents_added": int(self.documents_added),
+            "documents_modified": int(self.documents_modified),
+            "documents_retired": int(self.documents_retired),
+            "chunks_written": int(self.chunks_written),
+            "chunks_deleted": int(self.chunks_deleted),
+            "edges_written": int(self.edges_written),
+            "edges_deleted": int(self.edges_deleted),
+            "dangling_upserted": int(self.dangling_upserted),
+            "dangling_promoted": int(self.dangling_promoted),
+        }
+
+
 class SupabaseCorpusSink:
     """Writes corpus snapshot rows into the Supabase schema."""
 
@@ -159,12 +358,14 @@ class SupabaseCorpusSink:
         target: str = "production",
         generation_id: str | None = None,
         client: Any | None = None,
+        worker_count: int | None = None,
     ) -> None:
         self.target = str(target or "production").strip().lower() or "production"
         self.generation_id = str(generation_id or default_generation_id()).strip()
         if not self.generation_id:
             raise ValueError("generation_id cannot be empty")
         self._client = client if client is not None else create_supabase_client_for_target(self.target)
+        self._workers = _resolve_sink_workers(worker_count)
         self._documents_written = 0
         self._chunks_written = 0
         self._edges_written = 0
@@ -179,6 +380,9 @@ class SupabaseCorpusSink:
         self._topic_by_doc_id: dict[str, str] = {}
         self._docs_with_subtopic = 0
         self._docs_requiring_subtopic_review = 0
+        # ingestionfix_v2 §4 Phase 7a: tag-review skeleton rows buffered
+        # during write_documents and flushed after the documents upsert.
+        self._pending_tag_review_rows: list[dict[str, Any]] = []
 
     @property
     def client(self) -> Any:
@@ -215,6 +419,13 @@ class SupabaseCorpusSink:
         self._file_list = list(payload["files"])
         self._generation_row_written = True
 
+    def _load_existing_tema(
+        self,
+        doc_ids: Sequence[str],
+    ) -> dict[str, str]:
+        """Instance-method wrapper around :func:`load_existing_tema`."""
+        return load_existing_tema(self._client, doc_ids)
+
     def write_documents(
         self,
         documents: Sequence[dict[str, Any]],
@@ -224,6 +435,24 @@ class SupabaseCorpusSink:
         doc_id_by_source_path: dict[str, str] = {}
         now = _now_iso()
         seen_doc_ids: set[str] = set()
+
+        # v5 F11 — preserve specific `tema` against classifier-regression.
+        # When the classifier outputs `otros_sectoriales` (the catch-all) but
+        # the existing Supabase row already carries a SPECIFIC tema (sector_*
+        # or any other top-level topic set by manual curation / prior Task E
+        # migration), keep the specific value. Prevents additive re-ingest
+        # from silently undoing hand-curated topic assignments.
+        # See docs/next/ingestionfix_v4.md F11 + docs/next/ingestionfix_v5.md
+        # §5 Phase 1 for the full motivation.
+        candidate_doc_ids: list[str] = []
+        for document in documents:
+            rel = str(document.get("relative_path") or document.get("source_path") or "").strip()
+            if rel:
+                did = _sanitize_doc_id(rel)
+                if did:
+                    candidate_doc_ids.append(did)
+        existing_tema_by_doc_id = self._load_existing_tema(candidate_doc_ids)
+
         for document in documents:
             source_path = str(document.get("source_path") or "").strip()
             relative_path = str(document.get("relative_path") or source_path).strip()
@@ -246,6 +475,37 @@ class SupabaseCorpusSink:
                 document.get("requires_subtopic_review") or False
             )
             topic_key = str(document.get("topic_key") or "unknown")
+
+            # v5 F11 — see comment above.
+            existing_tema = existing_tema_by_doc_id.get(doc_id)
+            if (
+                topic_key == "otros_sectoriales"
+                and existing_tema
+                and existing_tema != "otros_sectoriales"
+            ):
+                try:
+                    from ..instrumentation import emit_event as _emit
+                    _emit(
+                        "ingest.sink.tema_preserved_against_catchall",
+                        {
+                            "doc_id": doc_id,
+                            "classifier_tema": "otros_sectoriales",
+                            "preserved_tema": existing_tema,
+                        },
+                    )
+                except Exception:
+                    pass
+                topic_key = existing_tema
+            content_hash = _content_hash(markdown)
+            # ingestionfix_v2 §4 Phase 6: compute doc_fingerprint inline at
+            # write-time so future deltas can use the content-hash shortcut
+            # without a separate backfill pass. The helper picks the same
+            # subset of classifier fields that the backfill path does (see
+            # tests/test_fingerprint.py case (f) for the parity assertion).
+            doc_fingerprint = compute_doc_fingerprint(
+                content_hash=content_hash,
+                classifier_output=classifier_output_from_corpus_document(document),
+            )
             row = {
                 "doc_id": doc_id,
                 "relative_path": relative_path,
@@ -254,11 +514,14 @@ class SupabaseCorpusSink:
                 "authority": str(document.get("authority_level") or "unknown"),
                 "pais": str(document.get("pais") or "colombia"),
                 "knowledge_class": str(document.get("knowledge_class") or "unknown"),
-                "tema": document.get("topic_key"),
+                # v5 F11: use local topic_key (which may have been preserved
+                # against a catch-all classifier regression).
+                "tema": topic_key if topic_key != "unknown" else document.get("topic_key"),
                 "subtema": subtopic_key_clean,
                 "tipo_de_documento": document.get("document_archetype"),
                 "corpus": document.get("family"),
-                "content_hash": _content_hash(markdown),
+                "content_hash": content_hash,
+                "doc_fingerprint": doc_fingerprint,
                 "filename_normalized": relative_path,
                 "first_heading": str(document.get("title_hint") or "")[:500],
                 "curation_status": "raw",
@@ -276,11 +539,68 @@ class SupabaseCorpusSink:
                 self._topic_by_doc_id[doc_id] = topic_key
             rows.append(row)
 
-        written = 0
-        for batch in _iter_batches(rows):
-            self._client.table("documents").upsert(batch, on_conflict="doc_id").execute()
-            written += len(batch)
+            # ingestionfix_v2 §4 Phase 7a — tag-review skeleton row.
+            # Insert one open review row per doc whose classification needs
+            # an expert to look at it. The `/api/tags/review` endpoints
+            # surface these for curation.
+            if requires_subtopic_review:
+                self._pending_tag_review_rows.append(
+                    {
+                        "review_id": f"rev_{doc_id}_{int(datetime.now(timezone.utc).timestamp())}",
+                        "doc_id": doc_id,
+                        "trigger_reason": "requires_review_flag",
+                        "snapshot_topic": topic_key if topic_key != "unknown" else None,
+                        "snapshot_subtopic": subtopic_key_clean,
+                        "snapshot_confidence": None,
+                        "created_at": now,
+                        "updated_at": now,
+                    }
+                )
+
+        # Phase 2b (v6): parallel batched upsert. Each row has a unique
+        # ``doc_id`` so splitting rows across workers guarantees no two
+        # workers conflict on the same primary key.
+        doc_batches = list(_iter_batches(rows))
+
+        def _upsert_doc(_idx: int, batch: list[dict[str, Any]]) -> int:
+            self._client.table("documents").upsert(
+                batch, on_conflict="doc_id"
+            ).execute()
+            return len(batch)
+
+        per_batch = _run_batches_parallel(
+            doc_batches,
+            execute_fn=_upsert_doc,
+            worker_count=self._workers,
+        )
+        written = sum(per_batch)
         self._documents_written += written
+
+        # Phase 7a: flush tag-review skeleton rows after documents land so
+        # the FK constraint on document_tag_reviews.doc_id is satisfied.
+        # ON CONFLICT DO NOTHING on the partial unique index so re-ingesting
+        # a doc that's still under open review doesn't dup the queue.
+        if self._pending_tag_review_rows:
+            try:
+                tag_batches = list(_iter_batches(self._pending_tag_review_rows))
+
+                def _upsert_tag(_idx: int, batch: list[dict[str, Any]]) -> int:
+                    self._client.table("document_tag_reviews").upsert(
+                        batch, on_conflict="review_id"
+                    ).execute()
+                    return len(batch)
+
+                _run_batches_parallel(
+                    tag_batches,
+                    execute_fn=_upsert_tag,
+                    worker_count=self._workers,
+                )
+            except Exception as exc:  # noqa: BLE001 — review queue is best-effort
+                _log.warning(
+                    "tag_review_skeleton_flush_failed", extra={"err": str(exc)}
+                )
+            self._pending_tag_review_rows.clear()
+
         return doc_id_by_source_path, written
 
     def write_chunks(
@@ -311,7 +631,7 @@ class SupabaseCorpusSink:
                 "summary": article.heading or None,
                 "concept_tags": list(article.reform_references),
                 "chunk_sha256": _chunk_sha(chunk_text),
-                "source_type": "article",
+                "source_type": _derive_source_type(article.article_key, article.article_number),
                 "curation_status": "raw",
                 "topic": inherited_topic,
                 "pais": "colombia",
@@ -328,12 +648,22 @@ class SupabaseCorpusSink:
             }
             rows.append(row)
 
-        written = 0
-        for batch in _iter_batches(rows):
+        # Phase 2b (v6): parallel batched upsert — chunks are the biggest
+        # volume (often 3-5 per doc), so this is where the speedup lands.
+        chunk_batches = list(_iter_batches(rows))
+
+        def _upsert_chunk(_idx: int, batch: list[dict[str, Any]]) -> int:
             self._client.table("document_chunks").upsert(
                 batch, on_conflict="chunk_id"
             ).execute()
-            written += len(batch)
+            return len(batch)
+
+        per_batch = _run_batches_parallel(
+            chunk_batches,
+            execute_fn=_upsert_chunk,
+            worker_count=self._workers,
+        )
+        written = sum(per_batch)
         self._chunks_written += written
         return written
 
@@ -372,17 +702,442 @@ class SupabaseCorpusSink:
                     "generation_id": self.generation_id,
                     "created_at": now,
                     "basis_text": basis_text,
+                    # ingestionfix_v2 §4 Phase 4 — Spanish-taxonomy typing +
+                    # authority weight. Both nullable at the DB level so
+                    # pre-Phase-4 rows remain valid.
+                    "edge_type": edge.edge_type,
+                    "weight": float(edge.weight) if edge.weight is not None else 1.0,
                 }
             )
 
+        # Phase 2b (v6): parallel batched upsert.
+        edge_batches = list(_iter_batches(rows))
+
+        def _upsert_edge(_idx: int, batch: list[dict[str, Any]]) -> int:
+            self._client.table("normative_edges").upsert(
+                batch, on_conflict="source_key,target_key,relation,generation_id"
+            ).execute()
+            return len(batch)
+
+        per_batch = _run_batches_parallel(
+            edge_batches,
+            execute_fn=_upsert_edge,
+            worker_count=self._workers,
+        )
+        written = sum(per_batch)
+        self._edges_written += written
+        return written
+
+    # -----------------------------------------------------------------
+    # Additive-corpus-v1 Phase 4 — write_delta
+    # -----------------------------------------------------------------
+
+    def write_delta(
+        self,
+        delta: Any,  # CorpusDelta (importing delta_planner here would be circular-ish)
+        *,
+        documents: Sequence[dict[str, Any]],
+        articles: Sequence[ParsedArticle],
+        edges: Sequence[ClassifiedEdge],
+        dangling_store: Any,
+    ) -> SupabaseDeltaResult:
+        """Apply a planned ``CorpusDelta`` to the rolling generation.
+
+        * ``documents`` — full doc-payload dicts (same shape ``write_documents``
+          expects) for every doc in ``delta.added`` ∪ ``delta.modified``.
+        * ``articles`` — parsed articles belonging to delta docs (added/modified).
+        * ``edges`` — classified edges extracted from the delta articles.
+        * ``dangling_store`` — persistent store for unresolved ARTICLE targets.
+
+        See ``docs/next/additive_corpusv1.md`` §5 Phase 4 for the per-bucket
+        semantics. This method does NOT flip ``corpus_generations.is_active``;
+        the caller owns activation (``finalize(activate=True)`` or the Phase 6
+        orchestrator path).
+        """
+        from ..instrumentation import emit_event as _emit
+
+        delta_id = str(getattr(delta, "delta_id", "") or "").strip()
+        _emit(
+            "ingest.delta.sink.start",
+            {
+                "delta_id": delta_id,
+                "target": self.target,
+                "generation_id": self.generation_id,
+                "added": len(getattr(delta, "added", ())),
+                "modified": len(getattr(delta, "modified", ())),
+                "removed": len(getattr(delta, "removed", ())),
+            },
+        )
+
+        added_entries = list(getattr(delta, "added", ()) or ())
+        modified_entries = list(getattr(delta, "modified", ()) or ())
+        removed_entries = list(getattr(delta, "removed", ()) or ())
+
+        # Short-circuit on empty delta (per Decision E1 reviewer amendment:
+        # empty deltas skip downstream work altogether).
+        if not added_entries and not modified_entries and not removed_entries:
+            _emit(
+                "ingest.delta.sink.done",
+                {
+                    "delta_id": delta_id,
+                    "target": self.target,
+                    "documents_added": 0,
+                    "documents_modified": 0,
+                    "documents_retired": 0,
+                    "chunks_written": 0,
+                    "chunks_deleted": 0,
+                    "edges_written": 0,
+                    "edges_deleted": 0,
+                },
+            )
+            return SupabaseDeltaResult(
+                generation_id=self.generation_id,
+                target=self.target,
+                delta_id=delta_id,
+                documents_added=0,
+                documents_modified=0,
+                documents_retired=0,
+                chunks_written=0,
+                chunks_deleted=0,
+                edges_written=0,
+                edges_deleted=0,
+                dangling_upserted=0,
+                dangling_promoted=0,
+            )
+
+        # -------- Pass 1: upsert added + modified docs + chunks -------------
+        # Preserve _subtema_by_doc_id / _topic_by_doc_id coupling (§3.9):
+        # write_documents populates them, write_chunks consumes them.
+        doc_id_by_source_path: dict[str, str] = {}
+        if documents:
+            doc_id_by_source_path, _ = self.write_documents(documents)
+
+        # Tag added/modified docs with last_delta_id so diagnostics can trace
+        # which delta touched each row. write_documents already set
+        # sync_generation to self.generation_id; we patch last_delta_id via an
+        # update keyed on the written doc_ids.
+        touched_doc_ids = list(doc_id_by_source_path.values())
+        for chunk_batch in _iter_batches(
+            [{"doc_id": d, "last_delta_id": delta_id} for d in touched_doc_ids]
+        ):
+            if not chunk_batch:
+                continue
+            for item in chunk_batch:
+                self._client.table("documents").update(
+                    {"last_delta_id": item["last_delta_id"]}
+                ).eq("doc_id", item["doc_id"]).execute()
+
+        # For modified docs we must also remove chunks whose article_key is no
+        # longer present in the fresh parse. Compute current chunk_id set,
+        # diff against the just-written set, hard-delete the stragglers.
+        modified_doc_ids = {
+            entry.doc_id
+            for entry in modified_entries
+            if entry.doc_id
+        }
+        chunks_deleted = 0
+        if modified_doc_ids:
+            written_chunk_ids = {
+                _chunk_id(doc_id_by_source_path.get(str(a.source_path or ""), ""), a.article_key)
+                for a in articles
+                if doc_id_by_source_path.get(str(a.source_path or "")) in modified_doc_ids
+            }
+            for doc_id in modified_doc_ids:
+                resp = (
+                    self._client.table("document_chunks")
+                    .select("chunk_id")
+                    .eq("doc_id", doc_id)
+                    .execute()
+                )
+                current_ids = {
+                    str(r.get("chunk_id") or "")
+                    for r in list(getattr(resp, "data", None) or [])
+                }
+                stale = current_ids - written_chunk_ids
+                for stale_id in stale:
+                    if not stale_id:
+                        continue
+                    self._client.table("document_chunks").delete().eq(
+                        "chunk_id", stale_id
+                    ).execute()
+                    chunks_deleted += 1
+
+        # Write the fresh chunk set (idempotent upsert on chunk_id).
+        chunks_written = 0
+        if articles and doc_id_by_source_path:
+            chunks_written = self.write_chunks(
+                articles, doc_id_by_source_path=doc_id_by_source_path
+            )
+
+        # -------- Pass 2: retire removed docs --------------------------------
+        chunks_deleted_retired = 0
+        edges_deleted = 0
+        retired_doc_ids: list[str] = []
+        retired_article_keys: set[str] = set()
+        for entry in removed_entries:
+            baseline = entry.baseline
+            if baseline is None or not baseline.doc_id:
+                continue
+            retired_doc_ids.append(baseline.doc_id)
+
+        if retired_doc_ids:
+            # Find article keys owned by retired docs via chunk_id prefix.
+            for doc_id in retired_doc_ids:
+                resp = (
+                    self._client.table("document_chunks")
+                    .select("chunk_id")
+                    .eq("doc_id", doc_id)
+                    .execute()
+                )
+                for raw in list(getattr(resp, "data", None) or []):
+                    chunk_id = str(raw.get("chunk_id") or "")
+                    if "::" in chunk_id:
+                        _, _, article_key = chunk_id.partition("::")
+                        if article_key:
+                            retired_article_keys.add(article_key)
+                # Hard-delete chunks for the retired doc.
+                del_resp = (
+                    self._client.table("document_chunks")
+                    .delete()
+                    .eq("doc_id", doc_id)
+                    .execute()
+                )
+                chunks_deleted_retired += len(
+                    list(getattr(del_resp, "data", None) or [])
+                )
+                # Mark doc retired + tag with delta_id.
+                self._client.table("documents").update(
+                    {
+                        "retired_at": _now_iso(),
+                        "last_delta_id": delta_id,
+                    }
+                ).eq("doc_id", doc_id).execute()
+
+            # Delete outbound edges sourced at retired article keys on the
+            # rolling generation. Rows with other generation_ids (snapshot
+            # history) stay untouched.
+            for article_key in retired_article_keys:
+                del_resp = (
+                    self._client.table("normative_edges")
+                    .delete()
+                    .eq("source_key", article_key)
+                    .eq("generation_id", self.generation_id)
+                    .execute()
+                )
+                edges_deleted += len(list(getattr(del_resp, "data", None) or []))
+
+        # Similarly: for modified docs, wipe prior outbound edges on the
+        # rolling row before writing the fresh set. Determine their article
+        # keys from the freshly-parsed articles.
+        modified_article_keys: set[str] = set()
+        for article in articles:
+            dest_doc = doc_id_by_source_path.get(str(article.source_path or ""))
+            if dest_doc and dest_doc in modified_doc_ids:
+                modified_article_keys.add(article.article_key)
+        for article_key in modified_article_keys:
+            del_resp = (
+                self._client.table("normative_edges")
+                .delete()
+                .eq("source_key", article_key)
+                .eq("generation_id", self.generation_id)
+                .execute()
+            )
+            edges_deleted += len(list(getattr(del_resp, "data", None) or []))
+
+        # -------- Pass 3: edges (Pass A + B promotion + C) -------------------
+        # Pass A: write the delta's new edges (idempotent on rolling key).
+        edges_written = 0
+        if edges:
+            edges_written += self._write_rolling_edges(edges, delta_id=delta_id)
+
+        # Pass B: promote dangling candidates whose target arrived in this delta.
+        new_article_keys = {a.article_key for a in articles}
+        dangling_promoted = 0
+        if new_article_keys and dangling_store is not None:
+            grouped = dangling_store.load_for_target_keys(new_article_keys)
+            promoted = []
+            for key, rows in grouped.items():
+                for dang in rows:
+                    promoted.append(dang)
+            if promoted:
+                dangling_promoted = self._promote_dangling(
+                    promoted, delta_id=delta_id
+                )
+                # Remove promoted rows from the store.
+                from .dangling_store import DanglingCandidate
+
+                dangling_store.delete_promoted(
+                    [
+                        DanglingCandidate(
+                            source_key=r.source_key,
+                            target_key=r.target_key,
+                            relation=r.relation,
+                        )
+                        for r in promoted
+                    ]
+                )
+
+        # Pass C: record new dangling candidates — edges whose target_key is
+        # unknown after the delta's article set has been considered.
+        dangling_upserted = 0
+        if edges and dangling_store is not None:
+            candidates = self._classify_dangling_candidates(
+                edges,
+                known_article_keys=new_article_keys,
+            )
+            if candidates:
+                dangling_upserted = dangling_store.upsert_candidates(
+                    candidates, delta_id=delta_id
+                )
+
+        # -------- Done -------------------------------------------------------
+        result = SupabaseDeltaResult(
+            generation_id=self.generation_id,
+            target=self.target,
+            delta_id=delta_id,
+            documents_added=len(added_entries),
+            documents_modified=len(modified_entries),
+            documents_retired=len(retired_doc_ids),
+            chunks_written=chunks_written,
+            chunks_deleted=chunks_deleted + chunks_deleted_retired,
+            edges_written=edges_written + dangling_promoted,
+            edges_deleted=edges_deleted,
+            dangling_upserted=dangling_upserted,
+            dangling_promoted=dangling_promoted,
+        )
+        _emit("ingest.delta.sink.done", result.to_dict())
+        return result
+
+    def _write_rolling_edges(
+        self,
+        edges: Sequence[ClassifiedEdge],
+        *,
+        delta_id: str,
+    ) -> int:
+        """Upsert edges onto ``generation_id=self.generation_id`` with ``last_seen_delta_id``."""
+        rows: list[dict[str, Any]] = []
+        now = _now_iso()
+        seen: set[tuple[str, str, str]] = set()
+        for edge in edges:
+            kind_value = edge.record.kind.value
+            if kind_value in _RELATION_DROP:
+                self._edges_skipped_relation += 1
+                continue
+            relation = _RELATION_MAP.get(kind_value)
+            if relation is None or relation not in _ALLOWED_RELATIONS:
+                continue
+            source_key = str(edge.record.source_key or "").strip()
+            target_key = str(edge.record.target_key or "").strip()
+            if not source_key or not target_key:
+                continue
+            dedup = (source_key, target_key, relation)
+            if dedup in seen:
+                continue
+            seen.add(dedup)
+            basis_text = str(edge.record.properties.get("raw_reference") or "") or None
+            rows.append(
+                {
+                    "source_key": source_key,
+                    "target_key": target_key,
+                    "relation": relation,
+                    "confidence": float(edge.confidence or 0.0),
+                    "generation_id": self.generation_id,
+                    "last_seen_delta_id": delta_id,
+                    "created_at": now,
+                    "basis_text": basis_text,
+                }
+            )
         written = 0
         for batch in _iter_batches(rows):
+            # When the generation is gen_active_rolling, the partial unique
+            # index `normative_edges_rolling_idempotency` enforces the
+            # 3-column uniqueness; the 4-column (with generation_id) unique
+            # index still dedups for snapshot generations. Upsert on the
+            # 4-column key remains correct for both paths.
             self._client.table("normative_edges").upsert(
                 batch, on_conflict="source_key,target_key,relation,generation_id"
             ).execute()
             written += len(batch)
         self._edges_written += written
         return written
+
+    def _classify_dangling_candidates(
+        self,
+        edges: Sequence[ClassifiedEdge],
+        *,
+        known_article_keys: set[str],
+    ) -> list[Any]:
+        """Return DanglingCandidate instances for edges with unresolved ARTICLE targets.
+
+        Mirrors the §3.5 constraint: ARTICLE targets only. Other target kinds
+        are either always-present (subtopic) or minted inline elsewhere.
+        """
+        from .dangling_store import DanglingCandidate
+
+        out: list[DanglingCandidate] = []
+        for edge in edges:
+            kind_value = edge.record.kind.value
+            if kind_value in _RELATION_DROP:
+                continue
+            target_kind = edge.record.target_kind
+            # Only ARTICLE-target edges enter the dangling store.
+            if target_kind is not NodeKind.ARTICLE:
+                continue
+            target_key = str(edge.record.target_key or "").strip()
+            source_key = str(edge.record.source_key or "").strip()
+            if not target_key or not source_key:
+                continue
+            if target_key in known_article_keys:
+                continue
+            relation = _RELATION_MAP.get(kind_value)
+            if relation is None or relation not in _ALLOWED_RELATIONS:
+                continue
+            out.append(
+                DanglingCandidate(
+                    source_key=source_key,
+                    target_key=target_key,
+                    relation=relation,
+                    source_doc_id=str(edge.record.properties.get("source_doc_id") or "") or None,
+                    raw_reference=str(edge.record.properties.get("raw_reference") or "") or None,
+                )
+            )
+        return out
+
+    def _promote_dangling(
+        self,
+        rows: Sequence[Any],
+        *,
+        delta_id: str,
+    ) -> int:
+        """Promote DanglingRow instances into ``normative_edges``."""
+        now = _now_iso()
+        payloads: list[dict[str, Any]] = []
+        for r in rows:
+            if not r.source_key or not r.target_key or not r.relation:
+                continue
+            payloads.append(
+                {
+                    "source_key": r.source_key,
+                    "target_key": r.target_key,
+                    "relation": r.relation,
+                    "confidence": 1.0,
+                    "generation_id": self.generation_id,
+                    "last_seen_delta_id": delta_id,
+                    "created_at": now,
+                    "basis_text": r.raw_reference,
+                }
+            )
+        if not payloads:
+            return 0
+        written = 0
+        for batch in _iter_batches(payloads):
+            self._client.table("normative_edges").upsert(
+                batch, on_conflict="source_key,target_key,relation,generation_id"
+            ).execute()
+            written += len(batch)
+        return written
+
+    # -----------------------------------------------------------------
 
     def finalize(self, *, activate: bool) -> SupabaseSinkResult:
         if activate:
@@ -446,6 +1201,7 @@ class SupabaseCorpusSink:
 
 __all__ = [
     "SupabaseCorpusSink",
+    "SupabaseDeltaResult",
     "SupabaseSinkResult",
     "default_generation_id",
 ]

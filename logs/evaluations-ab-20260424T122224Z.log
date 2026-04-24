@@ -1,0 +1,40 @@
+topic_router: topic 'conciliacion_fiscal' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'renta_liquida_gravable' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'beneficio_auditoria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'tarifas_tasa_minima_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ingresos_fiscales_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'descuentos_tributarios_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'anticipos_retenciones_a_favor' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'rentas_exentas' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ganancia_ocasional' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+[run_ab_comparison] qid=Q1 ok=False
+[run_ab_comparison] qid=Q2 ok=True
+[run_ab_comparison] qid=Q3 ok=False
+[run_ab_comparison] qid=Q4 ok=False
+[run_ab_comparison] qid=Q5 ok=False
+[run_ab_comparison] qid=Q6 ok=False
+[run_ab_comparison] qid=Q7 ok=False
+[run_ab_comparison] qid=Q8 ok=False
+[run_ab_comparison] qid=Q9 ok=False
+[run_ab_comparison] qid=Q10 ok=True
+[run_ab_comparison] qid=Q11 ok=False
+[run_ab_comparison] qid=Q12 ok=True
+[run_ab_comparison] qid=Q13 ok=False
+[run_ab_comparison] qid=Q14 ok=False
+[run_ab_comparison] qid=Q15 ok=False
+[run_ab_comparison] qid=Q16 ok=False
+[run_ab_comparison] qid=Q17 ok=False
+[run_ab_comparison] qid=Q18 ok=True
+[run_ab_comparison] qid=Q19 ok=True
+[run_ab_comparison] qid=Q20 ok=False
+[run_ab_comparison] qid=Q21 ok=False
+[run_ab_comparison] qid=Q22 ok=False
+[run_ab_comparison] qid=Q23 ok=True
+[run_ab_comparison] qid=Q24 ok=False
+[run_ab_comparison] qid=Q25 ok=True
+[run_ab_comparison] qid=Q26 ok=True
+[run_ab_comparison] qid=Q27 ok=True
+[run_ab_comparison] qid=Q28 ok=True
+[run_ab_comparison] qid=Q29 ok=True
+[run_ab_comparison] qid=Q30 ok=True
+{"ok": true, "output_jsonl": "artifacts/eval/ab_comparison_20260424T122224Z_v5_tema_first_vs_prior_live.jsonl", "manifest": "artifacts/eval/ab_comparison_20260424T122224Z_v5_tema_first_vs_prior_live_manifest.json", "questions_attempted": 30, "questions_failed": 18, "started_bogota": "2026-04-24 7:22:24 AM", "completed_bogota": "2026-04-24 7:24:33 AM"}

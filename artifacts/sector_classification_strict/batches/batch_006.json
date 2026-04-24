@@ -1,0 +1,190 @@
+{
+  "batch_num": 6,
+  "input_hash": "932a22633d57b1a3",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-361-1997.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-38-1969.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-388-1997.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-4-1913.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-454-1998.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-510-1999.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-546-1999.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-55-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-58-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-594-2000.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-630-2000.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-643-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-666-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-67-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-67-1983.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-675-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-681-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-685-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-687-2001.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-70-1993.md"
+  ],
+  "elapsed_seconds": 30.41,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-361-1997.md",
+      "proposed_topic": "sector_inclusion_discapacidad",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece mecanismos de integración social para personas con discapacidad, creando un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-38-1969.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el Presupuesto General de la Nación, encaja en presupuesto y hacienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-388-1997.md",
+      "proposed_topic": "sector_ordenamiento_territorial",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica leyes de desarrollo y ordenamiento territorial, creando un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-4-1913.md",
+      "proposed_topic": "sector_administracion_publica_municipal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen político y municipal, un nuevo sector de administración pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-454-1998.md",
+      "proposed_topic": "sector_economia_solidaria",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la economía solidaria (cooperativas), creando un nuevo sector económico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-510-1999.md",
+      "proposed_topic": "sector_sistema_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones sobre el sistema financiero, un nuevo sector específico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-546-1999.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece normas en materia de vivienda y su financiación, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-55-1985.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el régimen de partidos políticos y elecciones, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-58-1985.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el régimen de partidos políticos y elecciones, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-594-2000.md",
+      "proposed_topic": "sector_gestion_documental_archivos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide la Ley General de Archivos, creando un nuevo sector de gestión documental.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-630-2000.md",
+      "proposed_topic": "sector_juegos_suerte_azar",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el régimen de juegos de suerte y azar, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-643-2001.md",
+      "proposed_topic": "sector_juegos_suerte_azar",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fija el régimen del monopolio de juegos de suerte y azar, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-666-2001.md",
+      "proposed_topic": "sector_salud_financiamiento",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adiciona ley relacionada con el Fondo de Solidaridad y Garantía (FOSYGA), sector salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-67-1979.md",
+      "proposed_topic": "sector_desarrollo_agricola",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Aprueba convenio constitutivo del Fondo Internacional de Desarrollo Agrícola, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-67-1983.md",
+      "proposed_topic": "sector_profesion_economista",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de economista, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-675-2001.md",
+      "proposed_topic": "sector_propiedad_horizontal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el régimen de propiedad horizontal, un nuevo sector inmobiliario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-681-2001.md",
+      "proposed_topic": "reformas_tributarias",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Modifica leyes tributarias y aduaneras, encaja en reformas tributarias.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-685-2001.md",
+      "proposed_topic": "sector_mineria",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el Código de Minas, creando un nuevo sector específico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-687-2001.md",
+      "proposed_topic": "sector_cajas_compensacion_familiar",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica ley relacionada con Cajas de Compensación Familiar, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-70-1993.md",
+      "proposed_topic": "sector_derechos_etnicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Desarrolla derechos de comunidades negras, un nuevo sector de derechos étnicos.",
+      "title": ""
+    }
+  ]
+}

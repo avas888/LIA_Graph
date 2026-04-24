@@ -77,6 +77,161 @@
   width: 100%;
 }
 
+/* Named sections — reshuffled IA (Corpus activo / Ejecutar ingesta /
+   Intake puntual / Telemetría compartida). Each section gets a scoped
+   header so operators see the three ingest workflows as peers rather
+   than as a single dense page. */
+
+.lia-ingest-shell__section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--card-bg, var(--p-navy-50));
+  border: 1px solid var(--card-border, var(--p-navy-100));
+  border-radius: 14px;
+}
+
+.lia-ingest-shell__section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--p-navy-100);
+}
+
+.lia-ingest-shell__section-eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--p-navy-500);
+  font-weight: 600;
+}
+
+.lia-ingest-shell__section-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--p-navy-900);
+  letter-spacing: -0.01em;
+}
+
+.lia-ingest-shell__section-lede {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--p-navy-700);
+  max-width: 72ch;
+}
+
+.lia-ingest-shell__section-lede strong {
+  color: var(--p-navy-900);
+  font-weight: 600;
+}
+
+/* Paso 2 flow toggle — swap active card + grey out the other. */
+.lia-ingest-shell__flow-toggle {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Highlight pulse when the intake CTA scrolls into Paso 2. */
+.lia-ingest-shell__section.is-highlighted {
+  animation: lia-ingest-section-pulse 2.4s ease-out 1;
+}
+
+@keyframes lia-ingest-section-pulse {
+  0%   { box-shadow: 0 0 0 0   var(--p-success-200); background-color: var(--p-success-50); }
+  30%  { box-shadow: 0 0 0 8px var(--p-success-200); background-color: var(--p-success-50); }
+  100% { box-shadow: 0 0 0 0   transparent;          background-color: var(--card-bg); }
+}
+
+.lia-ingest-shell__grid--flow [data-flow-card] {
+  transition: opacity 180ms ease, filter 180ms ease;
+}
+
+[data-active-flow="delta"] [data-flow-card="full"],
+[data-active-flow="full"]  [data-flow-card="delta"] {
+  opacity: 0.35;
+  filter: grayscale(0.5);
+  pointer-events: none;
+  user-select: none;
+}
+
+[data-active-flow="delta"] [data-flow-card="full"] *,
+[data-active-flow="full"]  [data-flow-card="delta"] * {
+  pointer-events: none;
+}
+
+.lia-ingest-shell__section-lede code,
+.lia-ingest-shell__howto-steps code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.84rem;
+  background: var(--p-neutral-100);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  color: var(--p-navy-700);
+}
+
+/* How-it-works explainer section — denser copy, numbered steps. */
+.lia-ingest-shell__section--howto {
+  background: var(--p-navy-50);
+  border-color: var(--p-navy-200);
+}
+
+/* Step 3 signpost — dimmer visual weight since the actual controls live
+   on another tab. */
+.lia-ingest-shell__section--promote-hint {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--p-navy-200);
+  opacity: 0.9;
+}
+
+.lia-ingest-shell__section--promote-hint .lia-ingest-shell__section-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--p-navy-600);
+  font-style: italic;
+}
+
+.lia-ingest-shell__section-title code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9em;
+  background: var(--p-navy-100);
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+}
+
+.lia-ingest-shell__howto-steps {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  counter-reset: howto;
+}
+
+.lia-ingest-shell__howto-steps li {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--p-navy-700);
+  padding-left: 0;
+}
+
+.lia-ingest-shell__howto-steps strong {
+  color: var(--p-navy-900);
+  font-weight: 600;
+}
+
+.lia-ingest-shell__howto-steps em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--p-navy-800);
+}
+
 /* Skeleton + error states for slot mounting */
 .lia-ingest-skeleton {
   background: var(--card-bg);
@@ -482,6 +637,22 @@ button.lia-generation-row:hover { background: var(--card-hover-bg); }
   font-size: 0.83rem;
   color: var(--text-secondary);
   line-height: 1.5;
+}
+
+.lia-run-trigger__safety {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--p-navy-400);
+  background: var(--p-navy-50);
+  color: var(--p-navy-800);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  border-radius: 0 6px 6px 0;
+}
+
+.lia-run-trigger__safety strong {
+  color: var(--p-navy-900);
+  font-weight: 600;
 }
 
 .lia-run-trigger__form {
@@ -994,6 +1165,9 @@ button.lia-generation-row:hover { background: var(--card-hover-bg); }
 }
 
 .lia-intake-drop-zone__approve {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background: var(--interactive-primary);
   color: var(--text-inverse);
   border: 1px solid var(--interactive-primary);
@@ -1002,7 +1176,11 @@ button.lia-generation-row:hover { background: var(--card-hover-bg); }
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 120ms ease, opacity 120ms ease;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    opacity 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .lia-intake-drop-zone__approve:hover:not(:disabled) {
@@ -1012,6 +1190,39 @@ button.lia-generation-row:hover { background: var(--card-hover-bg); }
 .lia-intake-drop-zone__approve:disabled {
   cursor: not-allowed;
   opacity: 0.55;
+}
+
+/* Analyzing state — POST in flight. Disabled, spinner inline, distinct
+   copy so the operator knows the server is working. */
+.lia-intake-drop-zone__approve--analyzing {
+  background: var(--p-navy-400);
+  border-color: var(--p-navy-400);
+  color: var(--text-inverse);
+  opacity: 1; /* override :disabled's fade — the spinner is the feedback */
+  cursor: progress;
+}
+
+.lia-intake-drop-zone__approve--analyzing:disabled {
+  opacity: 1;
+}
+
+/* Ready-green state — intake returned with placed > 0. The button is
+   primed to fire the full-rebuild run, so it goes green to signal
+   readiness (contrasts with the idle navy state). */
+.lia-intake-drop-zone__approve--ready:not(:disabled) {
+  background: var(--p-success-600);
+  border-color: var(--p-success-600);
+  color: var(--text-inverse);
+  box-shadow: 0 1px 2px var(--p-success-200);
+}
+
+.lia-intake-drop-zone__approve--ready:hover:not(:disabled) {
+  background: var(--p-success-700);
+  border-color: var(--p-success-700);
+}
+
+.lia-intake-drop-zone__approve-label {
+  line-height: 1.2;
 }
 
 /* ── Organism: .lia-run-progress-timeline ───────────── */

@@ -1,4 +1,4 @@
-.PHONY: reset-c eval-c-gold eval-c-full eval-retrieval eval-faithfulness eval-alignment ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-graph-artifacts-smoke phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy debug-query
+.PHONY: reset-c eval-c-gold eval-c-full eval-retrieval eval-faithfulness eval-alignment ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-graph-artifacts-smoke phase2-corpus-additive phase2-promote-snapshot phase2-reap-stalled-jobs phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy debug-query
 
 PHASE2_CORPUS_DIR ?= knowledge_base
 PHASE2_ARTIFACTS_DIR ?= artifacts
@@ -140,6 +140,45 @@ PHASE2_SUPABASE_SINK_FLAGS = --supabase-sink --supabase-target $(PHASE2_SUPABASE
 PHASE2_SUIN_FLAG = $(if $(INGEST_SUIN),--include-suin $(INGEST_SUIN),)
 phase2-graph-artifacts-supabase:
 	PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) $(PHASE2_SUPABASE_SINK_FLAGS) $(PHASE2_SUIN_FLAG) --json
+
+# Additive-corpus-v1 Phase 6 — delta run.
+# Applies only the on-disk-vs-Supabase diff (added + modified + removed docs)
+# onto gen_active_rolling. Full rebuild (phase2-graph-artifacts-supabase)
+# stays canonical and is always the safe fallback.
+#
+#   make phase2-corpus-additive PHASE2_SUPABASE_TARGET=production
+#   make phase2-corpus-additive PHASE2_SUPABASE_TARGET=production DELTA_DRY_RUN=1
+#
+# DELTA_ID, when set, pins the delta's identifier (otherwise auto-generated).
+# DELTA_DRY_RUN=1 plans the delta but performs zero writes.
+# STRICT_PARITY=1 escalates any Supabase<->Falkor parity mismatch to a hard block.
+DELTA_ID ?=
+DELTA_DRY_RUN ?=
+STRICT_PARITY ?=
+PHASE2_ADDITIVE_FLAGS = --additive --supabase-sink --supabase-target $(PHASE2_SUPABASE_TARGET) --supabase-generation-id gen_active_rolling --execute-load --allow-unblessed-load --strict-falkordb
+PHASE2_ADDITIVE_OPT_DELTA_ID = $(if $(DELTA_ID),--delta-id $(DELTA_ID),)
+PHASE2_ADDITIVE_OPT_DRY_RUN = $(if $(DELTA_DRY_RUN),--dry-run-delta,)
+PHASE2_ADDITIVE_OPT_STRICT_PARITY = $(if $(STRICT_PARITY),--strict-parity,)
+phase2-corpus-additive:
+	PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) $(PHASE2_ADDITIVE_FLAGS) $(PHASE2_SUIN_FLAG) $(PHASE2_ADDITIVE_OPT_DELTA_ID) $(PHASE2_ADDITIVE_OPT_DRY_RUN) $(PHASE2_ADDITIVE_OPT_STRICT_PARITY) --json
+
+# Promote a frozen `gen_<UTC>` snapshot into the active rolling position.
+# Calls the promote_generation(text) RPC. The RPC body is a skeleton in Phase 1;
+# the real promotion semantics (lock acquisition, is_active flip, diagnostics
+# payload) land in Phase 6 tail work + Phase 9 rollback drill.
+#
+#   make phase2-promote-snapshot SNAPSHOT_GEN=gen_20260430120000
+SNAPSHOT_GEN ?=
+phase2-promote-snapshot:
+	@if [ -z "$(SNAPSHOT_GEN)" ]; then \
+		echo "error: SNAPSHOT_GEN=<gen_UTC> required"; exit 2; \
+	fi
+	PYTHONPATH=src:. uv run --group dev python -c "from lia_graph.supabase_client import create_supabase_client_for_target; import json, sys; c = create_supabase_client_for_target('$(PHASE2_SUPABASE_TARGET)'); r = c.rpc('promote_generation', {'target_gen': '$(SNAPSHOT_GEN)'}).execute(); print(json.dumps(getattr(r, 'data', None), ensure_ascii=False, indent=2))"
+
+# Reap stalled ingest_delta_jobs rows (heartbeat older than 5 minutes).
+# Phase 7 will expose a janitor helper; Phase 6 ships the SQL form directly.
+phase2-reap-stalled-jobs:
+	@docker exec supabase_db_lia-graph psql -U postgres -d postgres -c "UPDATE ingest_delta_jobs SET stage = 'failed', error_class = 'heartbeat_timeout', completed_at = NOW() WHERE stage NOT IN ('completed','failed','cancelled') AND last_heartbeat_at < NOW() - interval '5 minutes' RETURNING job_id, lock_target;"
 
 # Preflight canary for the single-pass ingest. Runs against the committed
 # mini_corpus fixture (3 docs) and asserts the subtopic invariant

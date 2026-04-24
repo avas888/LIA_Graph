@@ -1,0 +1,25 @@
+{
+  "version": "v2026-04-24-v1",
+  "topics": {
+    "laboral": {
+      "allowed_et_articles": ["383", "384", "385", "387", "387-1", "388", "108", "114-1"],
+      "allowed_article_families": ["CST", "CODIGO_SUSTANTIVO_TRABAJO", "LEY_100", "PARAFISCAL"],
+      "notes": "Defensive allow-list. ET articles outside this set should be dropped as retrieval leakage (timbre/retención-fuente bleed)."
+    },
+    "sagrilaft_ptee": {
+      "allowed_et_articles": [],
+      "allowed_article_families": ["CIRCULAR_BASICA_JURIDICA", "RESOLUCION_UIAF", "SUPERSOCIEDADES", "SUPERFINANCIERA"],
+      "notes": "SAGRILAFT has no relevant ET anchors; any ET citation is leakage from 'sanción' lexical matches."
+    },
+    "facturacion_electronica": {
+      "allowed_et_articles": ["616-1", "617", "771-2"],
+      "allowed_article_families": ["RESOLUCION_DIAN", "DECRETO_358_2020", "CONCEPTO_DIAN"],
+      "notes": "Outside 616-1/617/771-2 (e.g., 516 timbre, 514 retención) is leakage."
+    },
+    "regimen_simple": {
+      "allowed_et_articles": ["903", "904", "905", "906", "907", "908", "909", "910", "911", "912", "913", "914", "915", "916"],
+      "allowed_article_families": ["DECRETO_1625_2016", "DECRETO_1091_2020", "RESOLUCION_DIAN"],
+      "notes": "Outside RST article block (903–916) leakage from retención-fuente or renta-ordinaria."
+    }
+  }
+}

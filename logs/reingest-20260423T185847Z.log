@@ -1,0 +1,116 @@
+topic_router: topic 'emergencia_tributaria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'reformas_tributarias' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'datos_tecnologia' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'precios_de_transferencia' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'reforma_pensional' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'economia_digital_criptoactivos' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ingresos_fiscales_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'estatuto_tributario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'tarifas_tasa_minima_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'beneficio_auditoria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'contratacion_estatal' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'rentas_exentas' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'activos_exterior' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'impuestos_saludables' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'cambiario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'presupuesto_hacienda' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'anticipos_retenciones_a_favor' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'inversiones_incentivos' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'otros_sectoriales' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'normas_internacionales_auditoria' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'ganancia_ocasional' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'beneficiario_final_rub' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'conciliacion_fiscal' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'descuentos_tributarios_renta' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'comercial_societario' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'renta_liquida_gravable' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'regimen_tributario_especial' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'impuesto_nacional_consumo' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+topic_router: topic 'leyes_derogadas' has no registered keywords — queries in this domain will fall through to fallback routing or be hijacked by adjacent weak hits
+ingestion_classifier: adapter.generate fallo
+Traceback (most recent call last):
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingestion_classifier.py", line 721, in _run_n2_cascade
+    raw_content = _invoke_adapter(adapter, prompt)
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/ingestion_classifier.py", line 410, in _invoke_adapter
+    return str(adapter.generate(prompt) or "").strip()
+               ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/gemini_runtime.py", line 64, in generate
+    data = self._request(payload)
+  File "/Users/ava-sensas/Developer/Lia_Graph/src/lia_graph/gemini_runtime.py", line 48, in _request
+    with urllib.request.urlopen(req, timeout=self.timeout_seconds) as response:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 487, in open
+    response = self._open(req, data)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 1369, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        context=self._context)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/urllib/request.py", line 1325, in do_open
+    r = h.getresponse()
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 1450, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 336, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/http/client.py", line 297, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/socket.py", line 725, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/ssl.py", line 1316, in recv_into
+    return self.read(nbytes, buffer)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/ava-sensas/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/ssl.py", line 1150, in read
+    return self._sslobj.read(len, buffer)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+tag_review_skeleton_flush_failed
+{
+  "ok": true,
+  "delta_run": {
+    "delta_id": "delta_20260423_185848_b357ed",
+    "target": "production",
+    "generation_id": "gen_20260422005449",
+    "dry_run": false,
+    "baseline_generation_id": "gen_20260422005449",
+    "delta_summary": {
+      "delta_id": "delta_20260423_185848_b357ed",
+      "baseline_generation_id": "gen_20260422005449",
+      "added": 0,
+      "modified": 57,
+      "removed": 0,
+      "unchanged": 1223,
+      "touched_total": 57,
+      "is_empty": false
+    },
+    "sink_result": {
+      "generation_id": "gen_20260422005449",
+      "target": "production",
+      "delta_id": "delta_20260423_185848_b357ed",
+      "documents_added": 0,
+      "documents_modified": 57,
+      "documents_retired": 0,
+      "chunks_written": 155,
+      "chunks_deleted": 0,
+      "edges_written": 241,
+      "edges_deleted": 398,
+      "dangling_upserted": 120,
+      "dangling_promoted": 15
+    },
+    "falkor_statements": 216,
+    "falkor_success": 216,
+    "falkor_failure": 0,
+    "warnings": []
+  }
+}

@@ -169,9 +169,11 @@ def test_classifier_raises_on_one_doc_others_still_classified() -> None:
 
 
 def test_rate_limit_triggers_sleeps(monkeypatch: pytest.MonkeyPatch) -> None:
+    # Phase 2a: rate-limiting moved into ``ingest_classifier_pool``'s
+    # TokenBucket. The monkeypatch target follows the mechanism.
     sleeps: list[float] = []
     monkeypatch.setattr(
-        "lia_graph.ingest_subtopic_pass.time.sleep",
+        "lia_graph.ingest_classifier_pool.time.sleep",
         lambda s: sleeps.append(s),
     )
     docs = tuple(
@@ -187,8 +189,12 @@ def test_rate_limit_triggers_sleeps(monkeypatch: pytest.MonkeyPatch) -> None:
         rate_limit_rpm=60,
         classifier=classifier,
         taxonomy_loader=lambda: taxonomy,
+        worker_count=1,  # keep the assertion deterministic vs. burst capacity
     )
-    # First doc never sleeps; subsequent docs may sleep (up to N-1 times).
+    # With worker_count=1 + rpm=60 + burst=10 (capacity=rpm//6): first 10
+    # acquire without sleeping; with 4 docs we expect zero forced sleeps.
+    # The assertion bound stays ``<= len(docs) - 1`` so this remains
+    # regression-safe if bucket params ever change.
     assert 0 <= len(sleeps) <= len(docs) - 1
 
 
@@ -388,6 +394,11 @@ def test_every_classified_doc_satisfies_topic_subtopic_invariant() -> None:
 class _FakeArticle:
     article_key: str
     source_path: str
+    # v4: _graph_article_key reads article_number to decide the graph MERGE key.
+    # Numbered articles (non-empty) keep their article_key as the graph key;
+    # prose-only (empty) remap to `whole::{source_path}`. Tests below rely on
+    # the numbered behavior, so default to a non-empty placeholder.
+    article_number: str = "1"
 
 
 @dataclass

@@ -1,0 +1,190 @@
+{
+  "batch_num": 12,
+  "input_hash": "0d60f278ab164c5e",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-795-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-833-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-814-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-768-2002.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-790-2002.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-89-1988.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-9-1979.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-9-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-902-2017.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-973-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-986-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-998-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-97-1913.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1393_2010_RentasDestinacionEspecifica.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1450_2011_PND.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_14_1983_ICA.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_160_1994_ReformaAgraria.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1955_2019_PND.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_2195_2022_TransparenciaCorrupcion.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_2381_2024_ReformaPensional.md"
+  ],
+  "elapsed_seconds": 31.29,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-795-2003.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley de reforma financiera, regula el sistema bancario y asegurador.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-833-2003.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Ciencia, Tecnología e Innovación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-814-2003.md",
+      "proposed_topic": "sector_cultura_cine",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como la 'Ley del Cine', fomenta la actividad cinematográfica.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-768-2002.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece régimen especial para el Distrito Turístico y Cultural de Cartagena.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-790-2002.md",
+      "proposed_topic": "sector_administracion_publica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el Programa de Renovación de la Administración Pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-89-1988.md",
+      "proposed_topic": "sector_salud_seguridad_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Solidaridad y Garantía (FOSYGA) del sistema de salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-9-1979.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como el Código Sanitario Nacional, regula la salud pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-9-1989.md",
+      "proposed_topic": "sector_vivienda_urbana",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como la Ley de Reforma Urbana, regula el desarrollo urbano y vivienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-902-2017.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Asumiendo relación con reforma agraria o desarrollo rural, similar a Ley 902 de 2004.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-973-2005.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Coordinación de Responsabilidad Fiscal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-986-2005.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Regula el secuestro y otras conductas punibles, no encaja en temas económicos o sectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-998-2005.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Modifica el Código Electoral, no encaja en temas económicos o sectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-97-1913.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Sobre la organización de la Hacienda Pública y el control fiscal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1393_2010_RentasDestinacionEspecifica.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Modifica el Estatuto Tributario y regula rentas de destinación específica.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1450_2011_PND.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Expide el Plan Nacional de Desarrollo, que define políticas económicas y fiscales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_14_1983_ICA.md",
+      "proposed_topic": "ica",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el Impuesto de Industria y Comercio (ICA), coincidencia exacta.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_160_1994_ReformaAgraria.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Desarrolla la reforma agraria y el desarrollo rural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1955_2019_PND.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Expide el Plan Nacional de Desarrollo, que define políticas económicas y fiscales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_2195_2022_TransparenciaCorrupcion.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Establece medidas para la transparencia y lucha contra la corrupción, relacionado con SAGRILAFT.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_2381_2024_ReformaPensional.md",
+      "proposed_topic": "reforma_pensional",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley de Reforma Pensional, coincidencia exacta con el topic.",
+      "title": ""
+    }
+  ]
+}

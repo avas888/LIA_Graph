@@ -1,0 +1,158 @@
+{
+  "batch": 1,
+  "generated_at_utc": "2026-04-24T04:00:48Z",
+  "status": "failed",
+  "auto_checks": [
+    {
+      "gate_id": "G1",
+      "passed": false,
+      "detail": "documents(tema IN 47 topics, live) = 519; manifest row_count = 526",
+      "actual": 519,
+      "expected": 526
+    },
+    {
+      "gate_id": "G2",
+      "passed": false,
+      "detail": "document_chunks distinct doc_id count = 471; manifest doc_ids = 526",
+      "actual": 471,
+      "expected": 526
+    },
+    {
+      "gate_id": "G3",
+      "passed": false,
+      "detail": "missing TopicNode for: ['sector_administracion_publica', 'sector_agropecuario', 'sector_ciencia', 'sector_comercio_internacional', 'sector_cultura', 'sector_deporte', 'sector_desarrollo_regional', 'sector_economia', 'sector_educacion', 'sector_emprendimiento', 'sector_energia_mineria', 'sector_financiero', 'sector_inclusion_social', 'sector_infancia', 'sector_juegos_azar', 'sector_justicia', 'sector_medio_ambiente', 'sector_politico', 'sector_profesiones_liberales', 'sector_puertos', 'sector_salud', 'sector_servicios', 'sector_transporte', 'sector_turismo', 'sector_vivienda']",
+      "actual": {
+        "missing": [
+          "sector_administracion_publica",
+          "sector_agropecuario",
+          "sector_ciencia",
+          "sector_comercio_internacional",
+          "sector_cultura",
+          "sector_deporte",
+          "sector_desarrollo_regional",
+          "sector_economia",
+          "sector_educacion",
+          "sector_emprendimiento",
+          "sector_energia_mineria",
+          "sector_financiero",
+          "sector_inclusion_social",
+          "sector_infancia",
+          "sector_juegos_azar",
+          "sector_justicia",
+          "sector_medio_ambiente",
+          "sector_politico",
+          "sector_profesiones_liberales",
+          "sector_puertos",
+          "sector_salud",
+          "sector_servicios",
+          "sector_transporte",
+          "sector_turismo",
+          "sector_vivienda"
+        ]
+      },
+      "expected": {
+        "missing": []
+      }
+    },
+    {
+      "gate_id": "G4",
+      "passed": false,
+      "detail": "no TEMA edges into TopicNode for: ['sector_administracion_publica', 'sector_agropecuario', 'sector_ciencia', 'sector_comercio_internacional', 'sector_cultura', 'sector_deporte', 'sector_desarrollo_regional', 'sector_economia', 'sector_educacion', 'sector_emprendimiento', 'sector_energia_mineria', 'sector_financiero', 'sector_inclusion_social', 'sector_infancia', 'sector_juegos_azar', 'sector_justicia', 'sector_medio_ambiente', 'sector_politico', 'sector_profesiones_liberales', 'sector_puertos', 'sector_salud', 'sector_servicios', 'sector_transporte', 'sector_turismo', 'sector_vivienda']",
+      "actual": {
+        "zero_edge": [
+          "sector_administracion_publica",
+          "sector_agropecuario",
+          "sector_ciencia",
+          "sector_comercio_internacional",
+          "sector_cultura",
+          "sector_deporte",
+          "sector_desarrollo_regional",
+          "sector_economia",
+          "sector_educacion",
+          "sector_emprendimiento",
+          "sector_energia_mineria",
+          "sector_financiero",
+          "sector_inclusion_social",
+          "sector_infancia",
+          "sector_juegos_azar",
+          "sector_justicia",
+          "sector_medio_ambiente",
+          "sector_politico",
+          "sector_profesiones_liberales",
+          "sector_puertos",
+          "sector_salud",
+          "sector_servicios",
+          "sector_transporte",
+          "sector_turismo",
+          "sector_vivienda"
+        ]
+      },
+      "expected": {
+        "zero_edge": []
+      }
+    },
+    {
+      "gate_id": "G5",
+      "passed": true,
+      "detail": "no failure-shaped events for delta_id=delta_20260424_033011_3d11e5",
+      "actual": {
+        "match_count": 0
+      },
+      "expected": {
+        "match_count": 0
+      }
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "detail": "dry-run bust reports 0 rows — sink idempotent",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "detail": "no doc_id overlap with next batch",
+      "actual": {
+        "overlap_count": 0
+      },
+      "expected": {
+        "overlap_count": 0
+      }
+    },
+    {
+      "gate_id": "G8",
+      "passed": true,
+      "detail": "document_chunks with NULL embedding for batch doc_ids = 0",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "gate_id": "G9",
+      "passed": false,
+      "detail": "delta elapsed = 27.5 min (expected 5-25)",
+      "actual": 27.5,
+      "expected": "[5, 25]"
+    },
+    {
+      "gate_id": "G10",
+      "passed": true,
+      "detail": "chunk_text NULL-or-empty rows for batch doc_ids = 0",
+      "actual": 0,
+      "expected": 0
+    }
+  ],
+  "manual_smokes": {
+    "M1_retrieval_spot_check": null,
+    "M2_main_chat_e2e": null,
+    "M3_eval_c_gold_delta": null
+  },
+  "ultra_tests": {
+    "U1_row_level_audit": null,
+    "U2_idempotency_rerun": null,
+    "U3_regression_suite": null,
+    "U4_chain_stop_resume": null
+  },
+  "approved_by": null,
+  "approved_at": null
+}

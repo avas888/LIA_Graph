@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 import re
 
+from collections.abc import Mapping
+
 from ..graph.schema import NodeKind
 from .parser import ParsedArticle
 
@@ -27,6 +29,10 @@ class RawEdgeCandidate:
     raw_reference: str
     context: str
     relation_hint: str | None = None
+    # ingestionfix_v2 §4 Phase 4: which corpus family produced this edge
+    # (``normativa`` / ``practica`` / ``interpretacion`` / ``expertos``).
+    # Consumed by the classifier to gate the Spanish-taxonomy edge_type.
+    source_family: str | None = None
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -37,15 +43,33 @@ class RawEdgeCandidate:
             "raw_reference": self.raw_reference,
             "context": self.context,
             "relation_hint": self.relation_hint,
+            "source_family": self.source_family,
         }
 
 
 def extract_edge_candidates(
     articles: tuple[ParsedArticle, ...] | list[ParsedArticle],
+    *,
+    family_by_source_path: Mapping[str, str] | None = None,
 ) -> tuple[RawEdgeCandidate, ...]:
+    """Extract raw edge candidates.
+
+    When ``family_by_source_path`` is supplied, each emitted candidate is
+    stamped with its origin family (from the parent article's source_path)
+    so the classifier can apply the Phase-4 edge-type taxonomy: MODIFICA /
+    DEROGA / CITA for normativa sources, PRACTICA_DE for practica,
+    INTERPRETA_A for interpretacion / expertos, MENCIONA for casual
+    mentions with no known family.
+    """
+    from dataclasses import replace
+
+    family_lookup: Mapping[str, str] = family_by_source_path or {}
     dedup: dict[tuple[str, str, str, str], RawEdgeCandidate] = {}
     for article in articles:
+        family = family_lookup.get(str(article.source_path or "")) or None
         for candidate in _extract_article_edges(article):
+            if family is not None:
+                candidate = replace(candidate, source_family=family)
             key = (
                 candidate.source_key,
                 candidate.target_kind.value,

@@ -210,6 +210,56 @@ function initApp(): void {
     mountTemplate(ingestionPanel, renderIngestionShell(i18n));
     mountOpsApp(ingestionPanel, { i18n });
 
+    // 1a. Wire the level-1 Sesiones / Promoción / Sub-temas switcher
+    //     FIRST — before any async refreshes — so tab navigation works
+    //     even if Supabase/Falkor polling later throws. Previously this
+    //     wiring lived at the bottom of ensureOpsApp(), so a single
+    //     rejected refresh would leave the tabs dead.
+    const earlySubtabBtns = ingestionPanel.querySelectorAll<HTMLButtonElement>(
+      ".ingestion-subtab",
+    );
+    const earlySections: Record<string, HTMLElement | null> = {
+      sesiones: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-sesiones"),
+      promocion: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-promocion"),
+      subtopics: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-subtopics"),
+    };
+    let subtopicsMountedEarly = false;
+    async function ensureSubtopicsMountedEarly(): Promise<void> {
+      if (subtopicsMountedEarly) return;
+      const section = earlySections.subtopics;
+      if (!section) return;
+      subtopicsMountedEarly = true;
+      const [
+        { renderSubtopicShellMarkup },
+        { createSubtopicController },
+      ] = await Promise.all([
+        import("@/app/subtopics/subtopicShell"),
+        import("@/features/subtopics/subtopicController"),
+      ]);
+      mountTemplate(section, renderSubtopicShellMarkup());
+      const shellRoot = section.querySelector<HTMLElement>("#lia-subtopic-shell");
+      if (shellRoot) {
+        const controller = createSubtopicController(shellRoot);
+        void controller.refresh();
+      }
+    }
+    earlySubtabBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const section = btn.dataset.ingestionSection ?? "sesiones";
+        earlySubtabBtns.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle("is-active", active);
+          b.setAttribute("aria-selected", String(active));
+        });
+        for (const [key, el] of Object.entries(earlySections)) {
+          if (el) el.hidden = key !== section;
+        }
+        if (section === "subtopics") {
+          void ensureSubtopicsMountedEarly();
+        }
+      });
+    });
+
     // 2. Inject the Promoción shell into its (currently hidden) section
     //    and bind the corpus-lifecycle / embeddings / re-index controllers
     //    exactly as the old top-level Operaciones tab did.
@@ -285,63 +335,26 @@ function initApp(): void {
       });
       reindexController.bindEvents();
 
-      await Promise.all([
-        corpusController.refresh(),
-        embeddingsController.refresh(),
-        reindexController.refresh(),
-      ]);
+      // Kick off the initial refreshes + polling, but swallow errors so
+      // a backend outage never kills the outer ensureOpsApp() flow (which
+      // would leave the level-1 subtabs dead — the bug the early-wire
+      // block above now prevents, but we keep the safety net too).
+      try {
+        await Promise.all([
+          corpusController.refresh(),
+          embeddingsController.refresh(),
+          reindexController.refresh(),
+        ]);
+      } catch (err) {
+        console.warn("Promoción controllers initial refresh failed:", err);
+      }
       window.setInterval(() => {
-        void corpusController.refresh();
-        void embeddingsController.refresh();
-        void reindexController.refresh();
+        void corpusController.refresh().catch(() => undefined);
+        void embeddingsController.refresh().catch(() => undefined);
+        void reindexController.refresh().catch(() => undefined);
       }, 5_000);
     }
-
-    // 3. Wire the level-1 Sesiones / Promoción / Sub-temas switcher.
-    const ingestionSubtabBtns = ingestionPanel.querySelectorAll<HTMLButtonElement>(
-      ".ingestion-subtab",
-    );
-    const ingestionSections: Record<string, HTMLElement | null> = {
-      sesiones: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-sesiones"),
-      promocion: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-promocion"),
-      subtopics: ingestionPanel.querySelector<HTMLElement>("#ingestion-section-subtopics"),
-    };
-    let subtopicsMounted = false;
-    async function ensureSubtopicsMounted(): Promise<void> {
-      if (subtopicsMounted) return;
-      const section = ingestionSections.subtopics;
-      if (!section) return;
-      subtopicsMounted = true;
-      const [
-        { renderSubtopicShellMarkup },
-        { createSubtopicController },
-      ] = await Promise.all([
-        import("@/app/subtopics/subtopicShell"),
-        import("@/features/subtopics/subtopicController"),
-      ]);
-      mountTemplate(section, renderSubtopicShellMarkup());
-      const shellRoot = section.querySelector<HTMLElement>("#lia-subtopic-shell");
-      if (shellRoot) {
-        const controller = createSubtopicController(shellRoot);
-        void controller.refresh();
-      }
-    }
-    ingestionSubtabBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const section = btn.dataset.ingestionSection ?? "sesiones";
-        ingestionSubtabBtns.forEach((b) => {
-          const active = b === btn;
-          b.classList.toggle("is-active", active);
-          b.setAttribute("aria-selected", String(active));
-        });
-        for (const [key, el] of Object.entries(ingestionSections)) {
-          if (el) el.hidden = key !== section;
-        }
-        if (section === "subtopics") {
-          void ensureSubtopicsMounted();
-        }
-      });
-    });
+    // Level-1 subtab wiring moved to step 1a above — don't re-attach here.
   }
 
   // ── Lazy-mount record tab on first visit ────────────────

@@ -1,0 +1,4187 @@
+{
+  "generated_at_utc": "2026-04-23T22:03:32Z",
+  "source_manifest": "artifacts/fingerprint_bust/20260423T211819Z_probe_otros_sectoriales.json",
+  "model": "gemini-2.5-flash",
+  "total_docs": 510,
+  "total_classified": 510,
+  "total_errors": 0,
+  "new_sector_label_counts": {
+    "sector_agropecuario": 12,
+    "sector_salud": 12,
+    "sector_cultura": 11,
+    "sector_turismo": 8,
+    "sector_educacion": 6,
+    "sector_politico_electoral": 6,
+    "sector_ciencia_tecnologia": 5,
+    "sector_vivienda": 4,
+    "sector_financiero": 4,
+    "sector_servicios_publicos": 4,
+    "sector_infancia_adolescencia": 3,
+    "sector_deporte": 2,
+    "sector_mineria": 2,
+    "sector_servicios_publicos_sociales": 2,
+    "sector_desarrollo_regional": 2,
+    "sector_genero_violencia": 2,
+    "sector_energia": 2,
+    "sector_deporte_recreacion": 2,
+    "sector_cine_audiovisual": 2,
+    "sector_justicia": 2,
+    "sector_cultura_cine": 2,
+    "sector_administracion_publica": 2,
+    "sector_salud_seguridad_social": 2,
+    "sector_vivienda_urbana": 2,
+    "sector_financiero_seguros": 2,
+    "sector_agropecuario_rural": 2,
+    "sector_planificacion_nacional": 2,
+    "sector_zonas_especiales": 1,
+    "sector_profesiones_liberales": 1,
+    "sector_psicologia": 1,
+    "sector_minero_energetico": 1,
+    "sector_cultura_espectaculos": 1,
+    "sector_financiero_credito": 1,
+    "sector_vivienda_urbano": 1,
+    "sector_propiedad_tierra": 1,
+    "sector_agrario_rural": 1,
+    "sector_transparencia_gobernanza": 1,
+    "sector_economia_solidaria": 1,
+    "sector_juegos_azar": 1,
+    "sector_archivos_publicos": 1,
+    "sector_propiedad_horizontal": 1,
+    "sector_fronteras_desarrollo_regional": 1,
+    "sector_etnias_afrocolombianas": 1,
+    "sector_contabilidad_publica": 1,
+    "sector_gobierno_territorial": 1,
+    "sector_derecho_penal": 1,
+    "sector_emprendimiento": 1,
+    "sector_medio_ambiente": 1,
+    "sector_seguridad_justicia": 1,
+    "sector_seguridad_social": 1,
+    "sector_genero_equidad": 1,
+    "sector_cultura_bibliotecas": 1,
+    "sector_energia_electrica": 1,
+    "sector_cultura_artes_escenicas": 1,
+    "sector_agropecuario_tierras": 1,
+    "sector_propiedad_inmueble": 1,
+    "sector_seguridad_emergencias": 1,
+    "sector_financiero_consumidor": 1,
+    "sector_derecho_constitucional": 1,
+    "sector_financiero_libranzas": 1,
+    "sector_proteccion_animal": 1,
+    "sector_bibliotecologia": 1,
+    "sector_administracion_publica_anticorrupcion": 1,
+    "sector_agropecuario_pesquero": 1,
+    "sector_profesion_economista": 1,
+    "sector_profesion_diseno_industrial": 1,
+    "sector_profesion_periodismo": 1,
+    "sector_archivistica_gestion_documental": 1,
+    "sector_aduanas_comercio_exterior": 1,
+    "sector_profesion_psicologia": 1
+  },
+  "migrate_target_counts": {
+    "otros_sectoriales": 242,
+    "presupuesto_hacienda": 13,
+    "comercial_societario": 9,
+    "laboral": 8,
+    "sagrilaft_ptee": 6,
+    "contratacion_estatal": 6,
+    "obligaciones_profesionales_contador": 4,
+    "reforma_pensional": 4,
+    "leyes_derogadas": 4,
+    "datos_tecnologia": 3,
+    "zonas_francas": 1,
+    "sector_infancia_adolescencia": 1,
+    "sector_ciencia_tecnologia": 1,
+    "sector_cultura": 1,
+    "estados_financieros_niif": 1,
+    "inversiones_incentivos": 1,
+    "ica": 1
+  },
+  "kind_counts": {
+    "migrate": 306,
+    "new_sector": 150,
+    "orphan": 54
+  },
+  "estimated_cost_usd": 0.001,
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-109-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1228-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-143-1994.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-16-1990.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1762-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-215-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1755-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-310-1996.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-4-1913.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-58-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-67-1979.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-687-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-79-1988.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-986-2005.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1064-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-111-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1275-2009.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1328-2009.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-939-2004.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-117-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume categoría previa por ruta de archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1536-2012.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el desarrollo rural y fomento de la agricultura familiar.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-181-1995.md",
+      "proposed_topic": "sector_deporte",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta el deporte, recreación y educación física, creando el Sistema Nacional del Deporte.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2133-2021.md",
+      "proposed_topic": "sector_zonas_especiales",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Crea régimen especial para zonas costeras, insulares y fronterizas, con incentivos económicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-30-1992.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Organiza el servicio público de la Educación Superior en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-546-1999.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre vivienda y establece mecanismos para su financiación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-685-2001.md",
+      "proposed_topic": "sector_mineria",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el Código de Minas, regulando la actividad minera en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1727-2014.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Reforma el Código de Comercio y regula las Cámaras de Comercio.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-715-2001.md",
+      "proposed_topic": "sector_servicios_publicos_sociales",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Organiza la prestación de servicios públicos de educación y salud, y asigna recursos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-808-2020.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "No se encuentra información sobre la Ley 808 de 2020 en la legislación colombiana.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-964-2005.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el manejo e inversión de recursos captados del público y vehículos de inversión.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1004_2005_Zonasfrancas.md",
+      "proposed_topic": "zonas_francas",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Modifica y regula el régimen de zonas francas en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-10-1990.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Reorganiza el Sistema Nacional de Salud en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-109-1985.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de contador público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1695-2013.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Coordinación de Responsabilidad Fiscal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1778-2016.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre responsabilidad de personas jurídicas por corrupción transnacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2070-2020.md",
+      "proposed_topic": "sector_desarrollo_regional",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Dicta normas para la reactivación económica, social y ambiental de Providencia y Santa Catalina.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-397-1997.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Desarrolla normas sobre patrimonio cultural, incentivos y el Sistema Nacional de Cultura.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-6-1975.md",
+      "proposed_topic": "sector_profesiones_liberales",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Dicta normas sobre el ejercicio de la profesión de economista.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-715-2001.md",
+      "proposed_topic": "sector_servicios_publicos_sociales",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Organiza la prestación de servicios públicos de educación y salud, y asigna recursos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1228-1995.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "No se encuentra información sobre la Ley 1228 de 1995 en la legislación colombiana.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1565-2012.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1743-2018.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1762-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-201-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1992.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-812-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-824-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-973-2005.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-16-1990.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_EXPERTOS_EXPERTOS_Ley-1480-2011.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-1480-2011.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_NORMATIVA_Ley-1480-2011.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_consolidado_Ley-1480-2011.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_LOGGRO_PRACTICA_Ley-2300-2023.md",
+      "proposed_topic": "datos_tecnologia",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_consolidado_Ley-2300-2023.md",
+      "proposed_topic": "datos_tecnologia",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1991.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-101-1993.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1014-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1064-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1066-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1090-2006.md",
+      "proposed_topic": "sector_psicologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de Psicología en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1098-2006.md",
+      "proposed_topic": "sector_infancia_adolescencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Es el Código de la Infancia y la Adolescencia, protección de derechos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1101-2006.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo, regulando el sector turístico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-111-2006.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Sin contenido y número de ley poco conocido para el año 2006.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1121-2006.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas contra la financiación del terrorismo y lavado de activos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1122-2007.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica el Sistema General de Seguridad Social en Salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-115-1994.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Es la Ley General de Educación, regulando el sistema educativo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-117-1985.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Relacionada con el Fondo Nacional de Ahorro y vivienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1175-2007.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Establece el Sistema Nacional de Ciencia, Tecnología e Innovación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1185-2008.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Cultura, fortaleciendo el sector cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-123-1994.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Crea el Sistema Nacional de Crédito Agropecuario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1233-2008.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula contribuciones parafiscales y trabajo asociado, tema laboral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1257-2008.md",
+      "proposed_topic": "sector_genero_violencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas para prevenir y sancionar la violencia contra las mujeres.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1275-2009.md",
+      "proposed_topic": "sector_infancia_adolescencia",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Prevención de explotación sexual comercial de niños, niñas y adolescentes.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1286-2009.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Fortalece el Sistema Nacional de Ciencia, Tecnología e Innovación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1328-2009.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Reforma el Estatuto Orgánico del Sistema Financiero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-137-1994.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Ley Estatutaria de los Estados de Excepción, tema constitucional, no sectorial.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1379-2010.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley de Bibliotecas Públicas, relacionada con el sector cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-141-1994.md",
+      "proposed_topic": "sector_minero_energetico",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la explotación de recursos naturales no renovables (minería, hidrocarburos).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-142-1994.md",
+      "proposed_topic": "sector_servicios_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen de los servicios públicos domiciliarios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1475-2011.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula partidos políticos y procesos electorales, un sector no cubierto por los topics existentes.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1493-2011.md",
+      "proposed_topic": "sector_cultura_espectaculos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Formaliza y otorga incentivos al sector de las artes escénicas y espectáculos públicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1527-2012.md",
+      "proposed_topic": "sector_financiero_credito",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el marco general para la libranza o descuento directo, un tema financiero específico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1536-2012.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Innovación Agropecuaria, un sector no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1537-2012.md",
+      "proposed_topic": "sector_vivienda_urbano",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Promueve el desarrollo urbano y el acceso a la vivienda, un sector no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1558-2012.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo, un sector no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1561-2012.md",
+      "proposed_topic": "sector_propiedad_tierra",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece un proceso especial para otorgar títulos de propiedad y sanear la falsa tradición.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1563-2012.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Expide el Estatuto de Arbitraje, un mecanismo de resolución de conflictos comerciales y societarios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1565-2012.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Registro Nacional de Donantes de Componentes Anatómicos, un tema de salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-160-1994.md",
+      "proposed_topic": "sector_agrario_rural",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Reforma Agraria y Desarrollo Rural Campesino.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1695-2013.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Modifica la ley de formalización y generación de empleo, directamente relacionado con temas laborales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1697-2013.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Crea la Agencia Nacional de Contratación Pública y dicta normas de presupuesto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1712-2014.md",
+      "proposed_topic": "sector_transparencia_gobernanza",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea la Ley de Transparencia y Acceso a la Información Pública Nacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1727-2014.md",
+      "proposed_topic": "estados_financieros_niif",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Reforma la Ley 1314 de 2009, relacionada con contabilidad y aseguramiento de la información (NIIF).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1735-2014.md",
+      "proposed_topic": "sector_energia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones sobre ahorro y uso eficiente de la energía, un sector no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-174-1994.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Autoriza la emisión de Títulos de Tesorería (TES), tema de presupuesto y hacienda pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1743-2018.md",
+      "proposed_topic": "n/a",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "No se encontró información sobre la Ley 1743 de 2018, imposible clasificar sin contenido.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1787-2016.md",
+      "proposed_topic": "sector_desarrollo_regional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea un fondo para el desarrollo integral del Distrito Especial de Buenaventura.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1788-2016.md",
+      "proposed_topic": "reforma_pensional",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Establece la sustitución pensional para hijos con discapacidad, tema de reforma pensional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-181-1995.md",
+      "proposed_topic": "sector_deporte_recreacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones para el fomento del deporte, la recreación y la educación física.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2-1976.md",
+      "proposed_topic": "leyes_derogadas",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume derogada por su antigüedad (1976).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1778-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (2016).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-20-1979.md",
+      "proposed_topic": "leyes_derogadas",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume derogada por su antigüedad (1979).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-201-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1995).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2040-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (2020).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2064-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (2020).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2068-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (2020).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2070-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (2020).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2133-2021.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (2021).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2283-2023.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (2023).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-26-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1989).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-3-1991.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1991).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-30-1971.md",
+      "proposed_topic": "leyes_derogadas",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume derogada por su antigüedad (1971).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-30-1988.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1988).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-30-1992.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1992).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-300-1996.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1996).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-31-1992.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1992).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-361-1997.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1997).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-38-1969.md",
+      "proposed_topic": "leyes_derogadas",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume derogada por su antigüedad (1969).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-388-1997.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido no disponible, se asume tema general por defecto (1997).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-397-1997.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece la Ley General de Cultura, creando el Ministerio de Cultura.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-454-1998.md",
+      "proposed_topic": "sector_economia_solidaria",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la economía solidaria, cooperativas y crea la Superintendencia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-510-1999.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Dicta disposiciones sobre el sistema financiero, asegurador y mercado de valores.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-33-1968.md",
+      "proposed_topic": "reforma_pensional",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Establece normas sobre el régimen de pensiones y jubilaciones de empleados oficiales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-546-1999.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas en materia de vivienda y financiación de vivienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-55-1985.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Aprueba convenio OIT sobre seguridad y salud de los trabajadores.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-6-1975.md",
+      "proposed_topic": "reforma_pensional",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre el régimen de pensiones de las Fuerzas Militares y Policía.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-643-2001.md",
+      "proposed_topic": "sector_juegos_azar",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fija el régimen del monopolio rentístico de juegos de suerte y azar.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-594-2000.md",
+      "proposed_topic": "sector_archivos_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta la Ley General de Archivos y gestión documental.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-67-1983.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "medium",
+      "reasoning": "Aprueba un convenio internacional sobre un fondo común para productos básicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-675-2001.md",
+      "proposed_topic": "sector_propiedad_horizontal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el régimen de propiedad horizontal en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-681-2001.md",
+      "proposed_topic": "sector_fronteras_desarrollo_regional",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Modifica ley de fronteras y crea fondo de compensación regional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-685-2001.md",
+      "proposed_topic": "sector_mineria",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el Código de Minas, regulando la actividad minera.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-70-1993.md",
+      "proposed_topic": "sector_etnias_afrocolombianas",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Desarrolla derechos de comunidades negras y afrocolombianas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-715-2001.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Dicta normas orgánicas sobre recursos y competencias para servicios públicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-716-2001.md",
+      "proposed_topic": "sector_contabilidad_publica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas para el saneamiento de la información contable en el sector público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-768-2002.md",
+      "proposed_topic": "sector_gobierno_territorial",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta régimen político, administrativo y fiscal de distritos y municipios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-808-2020.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Ley 808 de 2020 no existe en la legislación colombiana.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-811-2003.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica ley del sector agropecuario y crea organizaciones de cadena.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-814-2003.md",
+      "proposed_topic": "sector_cine_audiovisual",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas para el fomento de la actividad cinematográfica.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-824-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Regula el ejercicio de la profesión de Administrador de Empresas, encaja en regulaciones profesionales generales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-833-2003.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Aprueba convención contra la corrupción, directamente relacionada con la prevención de actividades ilícitas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-790-2002.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Disposiciones para la renovación de la administración pública, impacta la gestión y estructura del Estado.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-9-1979.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Código Sanitario Nacional, establece medidas y regulaciones en materia de salud pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-9-1989.md",
+      "proposed_topic": "sector_vivienda",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas sobre planes de desarrollo municipal, compraventa de bienes y reforma urbana.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-902-2017.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "No se encuentra información clara sobre esta ley con el año 2017, lo que la hace inclasificable.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-939-2004.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Estabilización de Precios del Café, directamente relacionado con el sector agropecuario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-964-2005.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Regula el mercado de valores, actividad financiera y corporativa, encaja en el ámbito comercial.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-97-1913.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Trata sobre la organización de la Hacienda Nacional, directamente relacionado con presupuesto y finanzas públicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-95-1890.md",
+      "proposed_topic": "sector_justicia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen penal, fundamental para el sector justicia y el derecho penal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-10-1991.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Organiza el Sistema Nacional de Salud, tema central del sector salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-101-1993.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley General de Desarrollo Agropecuario y Pesquero, define el marco del sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1014-2006.md",
+      "proposed_topic": "inversiones_incentivos",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Fomenta la cultura del emprendimiento, creando incentivos para nuevas empresas e inversiones.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1066-2006.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Normas para la normalización de cartera pública y racionalización de gastos, de presupuesto y hacienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1090-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Regula el ejercicio de la profesión de Psicología, encaja en regulaciones profesionales generales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1101-2006.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo, tema central del sector turismo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-10-1990.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Reorganiza el Sistema Nacional de Salud, tema central del sector salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1114-2006.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Aprueba protocolo sobre trabajo marítimo, directamente relacionado con la legislación laboral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-115-1994.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley General de Educación, establece el marco normativo del sector educativo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1185-2008.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Cultura, tema central del sector cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1228-1995.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-123-1994.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1233-2008.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1257-2008.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1121-2006.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1286-2009.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-130-1994.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-137-1994.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1379-2010.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-141-1994.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-142-1994.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-143-1994.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1475-2011.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1493-2011.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1537-2012.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1555-2012.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1558-2012.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1561-2012.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1563-2012.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1565-2012.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-160-1994.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1661-2013.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1694-2013.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1695-2013.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1712-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1731-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1735-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1743-2018.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1755-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1762-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1787-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1788-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-174-1994.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1990-2019.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-201-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2040-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2070-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2064-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-215-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2283-2023.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El ID del documento indica que la ley ya estaba clasificada bajo 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-30-1971.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-30-1988.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-31-1992.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-361-1997.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-388-1997.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-397-1997.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-4-1913.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-454-1998.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-510-1999.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-6-1975.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-630-2000.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-643-2001.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1979.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-675-2001.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-687-2001.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-7-1991.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-70-1993.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-597-2025.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-716-2001.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-79-1988.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-795-2003.md",
+      "proposed_topic": "sector_financiero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley de reforma financiera, regula el sistema bancario y asegurador.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-833-2003.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Ciencia, Tecnología e Innovación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-814-2003.md",
+      "proposed_topic": "sector_cultura_cine",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como la 'Ley del Cine', fomenta la actividad cinematográfica.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-768-2002.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece régimen especial para el Distrito Turístico y Cultural de Cartagena.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-790-2002.md",
+      "proposed_topic": "sector_administracion_publica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el Programa de Renovación de la Administración Pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-89-1988.md",
+      "proposed_topic": "sector_salud_seguridad_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Solidaridad y Garantía (FOSYGA) del sistema de salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-9-1979.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como el Código Sanitario Nacional, regula la salud pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-9-1989.md",
+      "proposed_topic": "sector_vivienda_urbana",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como la Ley de Reforma Urbana, regula el desarrollo urbano y vivienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-902-2017.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Asumiendo relación con reforma agraria o desarrollo rural, similar a Ley 902 de 2004.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-973-2005.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Coordinación de Responsabilidad Fiscal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-986-2005.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Regula el secuestro y otras conductas punibles, no encaja en temas económicos o sectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-998-2005.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Modifica el Código Electoral, no encaja en temas económicos o sectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-97-1913.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Sobre la organización de la Hacienda Pública y el control fiscal.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1393_2010_RentasDestinacionEspecifica.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Modifica el Estatuto Tributario y regula rentas de destinación específica.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1450_2011_PND.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Expide el Plan Nacional de Desarrollo, que define políticas económicas y fiscales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_14_1983_ICA.md",
+      "proposed_topic": "ica",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el Impuesto de Industria y Comercio (ICA), coincidencia exacta.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_160_1994_ReformaAgraria.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Desarrolla la reforma agraria y el desarrollo rural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1955_2019_PND.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Expide el Plan Nacional de Desarrollo, que define políticas económicas y fiscales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_2195_2022_TransparenciaCorrupcion.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Establece medidas para la transparencia y lucha contra la corrupción, relacionado con SAGRILAFT.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_2381_2024_ReformaPensional.md",
+      "proposed_topic": "reforma_pensional",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley de Reforma Pensional, coincidencia exacta con el topic.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_599_2000_CodigoPenalDelitosF.md",
+      "proposed_topic": "sector_derecho_penal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 599 de 2000 es el Código Penal, un nuevo sector legal fundamental.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-10-1991.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 10 de 1991 organiza el Sistema Nacional de Salud, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-101-1993.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 101 de 1993 es la Ley General de Desarrollo Agropecuario y Pesquero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1014-2006.md",
+      "proposed_topic": "sector_emprendimiento",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1014 de 2006 fomenta la cultura del emprendimiento, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1064-2006.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1064 de 2006 apoya la educación para el trabajo y desarrollo humano.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1066-2006.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley 1066 de 2006 dicta normas para normalización de cartera pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1098-2006.md",
+      "proposed_topic": "sector_infancia_adolescencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1098 de 2006 es el Código de la Infancia y la Adolescencia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1101-2006.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1101 de 2006 modifica la Ley General de Turismo, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1114-2006.md",
+      "proposed_topic": "sector_medio_ambiente",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1114 de 2006 aprueba el Protocolo de Kyoto sobre cambio climático.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1121-2006.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley 1121 de 2006 previene y sanciona financiación del terrorismo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-111-2006.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "No se identifica ley con ese número y año; contenido vacío.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1122-2007.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1122 de 2007 modifica el Sistema General de Seguridad Social en Salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-115-1994.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 115 de 1994 es la Ley General de Educación, un nuevo sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-117-1985.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley 117 de 1985 regula el ejercicio de la profesión de Contador Público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1175-2007.md",
+      "proposed_topic": "sector_seguridad_justicia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1175 de 2007 aprueba convenio contra delincuencia organizada transnacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1185-2008.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1185 de 2008 aprueba convención para salvaguardia patrimonio cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1228-1995.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "No se identifica ley con ese número y año; contenido vacío.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-123-1994.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley 123 de 1994 regula el ejercicio de la profesión de Contador Público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1233-2008.md",
+      "proposed_topic": "sector_seguridad_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1233 de 2008 crea el Sistema de Seguridad Social Integral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1257-2008.md",
+      "proposed_topic": "sector_genero_equidad",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Ley 1257 de 2008 dicta normas contra violencia y discriminación a mujeres.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1286-2009.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica el Sistema Nacional de Ciencia, Tecnología e Innovación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-26-1989.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de Contador Público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-130-1994.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el Estatuto Básico de partidos y movimientos políticos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1328-2009.md",
+      "proposed_topic": "sector_financiero_seguros",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas en materia financiera, de seguros y mercado de valores.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-137-1994.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Regula los estados de excepción; no es un sector ni topic contable directo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1379-2010.md",
+      "proposed_topic": "sector_cultura_bibliotecas",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Organiza la Red Nacional de Bibliotecas Públicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-142-1994.md",
+      "proposed_topic": "sector_servicios_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen de los servicios públicos domiciliarios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-143-1994.md",
+      "proposed_topic": "sector_energia_electrica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen para el sector eléctrico nacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1475-2011.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta reglas para partidos políticos y procesos electorales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1493-2011.md",
+      "proposed_topic": "sector_cultura_artes_escenicas",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta la cultura y las artes escénicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1527-2012.md",
+      "proposed_topic": "sector_financiero_seguros",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece marco general para la libranza o descuento directo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1537-2012.md",
+      "proposed_topic": "sector_agropecuario_tierras",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas para optimizar el uso de la tierra rural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1555-2012.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Estabilización de Precios del Azúcar.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1558-2012.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo, fortaleciendo el sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1561-2012.md",
+      "proposed_topic": "sector_propiedad_inmueble",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece proceso para titulación de posesión de bienes inmuebles.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1563-2012.md",
+      "proposed_topic": "sector_justicia",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Expide el Estatuto de Arbitraje Nacional e Internacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1565-2012.md",
+      "proposed_topic": "sector_seguridad_emergencias",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo Nacional de Bomberos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-16-1990.md",
+      "proposed_topic": "sector_deporte_recreacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre deporte, recreación y tiempo libre.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-160-1994.md",
+      "proposed_topic": "sector_agropecuario_rural",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Reforma Agraria y Desarrollo Rural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1694-2013.md",
+      "proposed_topic": "sector_servicios_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley 142 de 1994 sobre servicios públicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1697-2013.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1712-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1735-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-174-1994.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1743-2018.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1762-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1787-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1788-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-181-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1755-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1990-2019.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2-1976.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-20-1979.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-201-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2040-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2064-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2068-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1990-2019.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2133-2021.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-215-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual por la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2283-2023.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-26-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-3-1991.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1971.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1988.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1992.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-31-1992.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-310-1996.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-361-1997.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-38-1969.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-388-1997.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-4-1913.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-454-1998.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-510-1999.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-546-1999.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-55-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-58-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-594-2000.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-630-2000.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-643-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación precisa.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-666-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-67-1979.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-67-1983.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-675-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-681-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-685-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-687-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-70-1993.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-716-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-768-2002.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-79-1988.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-790-2002.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-795-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-808-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-811-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-814-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-824-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-833-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-84-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-3-1991.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica que ya estaba clasificada en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-9-1979.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-9-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-902-2017.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-939-2004.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-95-1890.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-964-2005.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-973-2005.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-986-2005.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-10-1990.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-10-1991.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-101-1993.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1014-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1064-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1066-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-109-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1090-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1101-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-111-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1114-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1121-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; clasificado según la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1122-2007.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el Sistema General de Seguridad Social en Salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-115-1994.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece las normas generales para regular el servicio público de la educación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-117-1985.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Crea y organiza el Sistema Nacional de Ciencia y Tecnología.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1175-2007.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el Sistema Nacional de Bibliotecas Públicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1185-2008.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica y adiciona la Ley 397 de 1997 sobre patrimonio cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-123-1994.md",
+      "proposed_topic": "sector_deporte",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional del Deporte.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1257-2008.md",
+      "proposed_topic": "sector_genero_violencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas de sensibilización, prevención y sanción de violencia contra la mujer.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1275-2009.md",
+      "proposed_topic": "sector_infancia_adolescencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Medidas de protección integral para niños, niñas y adolescentes contra explotación sexual.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1286-2009.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica el Sistema Nacional de Ciencia, Tecnología e Innovación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-130-1994.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Estatuto básico de los partidos y movimientos políticos y normas electorales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1328-2009.md",
+      "proposed_topic": "sector_financiero_consumidor",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Régimen de protección al consumidor financiero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-137-1994.md",
+      "proposed_topic": "sector_derecho_constitucional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula los estados de excepción en la Constitución Política.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1379-2010.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el depósito legal de obras en el Sistema Nacional de Bibliotecas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-142-1994.md",
+      "proposed_topic": "sector_servicios_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen de los servicios públicos domiciliarios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-143-1994.md",
+      "proposed_topic": "sector_energia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen para la generación, interconexión, transmisión, distribución y comercialización de electricidad.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1475-2011.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la organización y funcionamiento de partidos políticos y procesos electorales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1527-2012.md",
+      "proposed_topic": "sector_financiero_libranzas",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el marco general para la libranza o descuento directo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1536-2012.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Información Cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1537-2012.md",
+      "proposed_topic": "sector_agropecuario_rural",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Desarrollo Rural y Reforma Agraria.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1555-2012.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley 1379 de 2010 sobre el Sistema Nacional de Bibliotecas Públicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1558-2012.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1561-2012.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1563-2012.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-16-1990.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-160-1994.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1695-2013.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1697-2013.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1712-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1727-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1731-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1735-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-174-1994.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1755-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1788-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-181-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2-1976.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-20-1979.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1778-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2040-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2068-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Contenido de la ley no disponible para clasificación. Se mantiene en su categoría actual por defecto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2070-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2130-2021.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2133-2021.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-215-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2283-2023.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-26-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-3-1991.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1971.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1988.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-300-1996.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-31-1992.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-310-1996.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-33-1968.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-361-1997.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-38-1969.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-388-1997.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-4-1913.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-454-1998.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-510-1999.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-527-1999.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "low",
+      "reasoning": "Sin contenido, se asume pertenece a su categoría actual 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-546-1999.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-55-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-58-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-594-2000.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-6-1975.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-630-2000.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-643-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-666-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-67-1983.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-675-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-677-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-685-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-687-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-70-1993.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-67-1979.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-716-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-768-2002.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-79-1988.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-790-2002.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-795-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Contenido no disponible; inferido de la ruta del archivo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-808-2020.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el régimen de insolvencia empresarial, tema comercial y societario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-811-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Aprueba acuerdo internacional sobre lucha contra el narcotráfico, encaja en otros sectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-814-2003.md",
+      "proposed_topic": "sector_cultura_cine",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta la actividad cinematográfica, un sector específico de la cultura.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-833-2003.md",
+      "proposed_topic": "sagrilaft_ptee",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Aprueba convención contra la corrupción, alineada con prevención de actividades ilícitas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-84-1989.md",
+      "proposed_topic": "sector_proteccion_animal",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta el Estatuto Nacional de Protección de los Animales, un sector específico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-89-1988.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre destinación de partida del Presupuesto Nacional, tema de presupuesto y hacienda.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-9-1979.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como el Código Sanitario Nacional, regula temas de salud pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-9-1989.md",
+      "proposed_topic": "sector_vivienda_urbana",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Conocida como Ley de Reforma Urbana, regula temas de vivienda y desarrollo urbano.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-902-2017.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta medidas para la Reforma Rural Integral, tema agropecuario y de tierras.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-939-2004.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Estabilización de Precios del Café, un tema del sector agropecuario.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-964-2005.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Conocida como Ley del Mercado de Valores, regula aspectos financieros y comerciales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-986-2005.md",
+      "proposed_topic": "orphan",
+      "kind": "orphan",
+      "confidence": "medium",
+      "reasoning": "Adopta medidas para víctimas de secuestro, tema social específico sin topic claro.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_EXPERTOS_EXPERTOS_Ley-1474-2011.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_LOGGRO_PRACTICA_Ley-1474-2011.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_NORMATIVA_Ley-1474-2011.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_consolidado_Ley-1474-2011.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LOGGRO_LEYES_DT-2300-2023-LOGGRO.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Conocida como Ley de Desconexión Laboral, regula aspectos del derecho laboral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_NORMATIVA_LEYES_DT-2300-2023-NORMATIVA.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley de Desconexión Laboral, regula aspectos del derecho laboral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_NORMATIVA_LEYES_PF-1474-2011-NORMATIVA.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Estatuto Anticorrupción, impacta fuertemente la contratación estatal y procedimientos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_EXPERTOS_EXPERTOS_Ley-2300-2023.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Ley de Desconexión Laboral, su esencia es laboral, aunque el contexto sea digital.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_NORMATIVA_Ley-2300-2023.md",
+      "proposed_topic": "datos_tecnologia",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento indica claramente el tema de datos y tecnología.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-666-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-84-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-109-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-630-2000.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1697-2013.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-141-1994.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1122-2007.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-55-1985.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-84-1989.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1098-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-973-2005.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-811-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1983.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1990.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1990-2019.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-795-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1778-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-681-2001.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-824-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "El path del documento lo clasifica en 'otros_sectoriales' y no hay más información.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-98-1993.md",
+      "proposed_topic": "sector_bibliotecologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la profesión de bibliotecólogo, un sector específico no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-666-2001.md",
+      "proposed_topic": "sector_salud_seguridad_social",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley 100 de 1993, relacionada con el sistema de seguridad social.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LOGGRO_LEYES_PF-1474-2011-LOGGRO.md",
+      "proposed_topic": "sector_administracion_publica_anticorrupcion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece normas para combatir la corrupción y fortalecer la gestión pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_EXPERTOS_LEYES_DT-2300-2023-EXPERTOS.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el trabajo en casa, un aspecto específico del derecho laboral.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1114-2006.md",
+      "proposed_topic": "sector_administracion_publica",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Modifica ley sobre reestructuración de la rama ejecutiva del poder público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-130-1994.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el estatuto básico de partidos políticos y su financiación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1555-2012.md",
+      "proposed_topic": "sector_agropecuario_pesquero",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Desarrollo Agropecuario y Pesquero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1731-2014.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones sobre cultura y crea un fondo para su desarrollo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-20-1979.md",
+      "proposed_topic": "sector_profesion_economista",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de economista en Colombia.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2068-2020.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo, fortaleciendo la sostenibilidad del sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-300-1996.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Es la Ley General de Turismo, fundamental para el sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-310-1996.md",
+      "proposed_topic": "sector_profesion_diseno_industrial",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de diseñador industrial.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-58-1985.md",
+      "proposed_topic": "sector_profesion_periodismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de periodista.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-594-2000.md",
+      "proposed_topic": "sector_archivistica_gestion_documental",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece la Ley General de Archivos, fundamental para la gestión documental.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-812-2003.md",
+      "proposed_topic": "sector_planificacion_nacional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Aprueba el Plan Nacional de Desarrollo, que establece políticas multisectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-95-1890.md",
+      "proposed_topic": "sector_aduanas_comercio_exterior",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen de aduanas, fundamental para el comercio exterior.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1753_2015_PND.md",
+      "proposed_topic": "sector_planificacion_nacional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Expide el Plan Nacional de Desarrollo, que establece políticas multisectoriales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1090-2006.md",
+      "proposed_topic": "sector_profesion_psicologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de psicología.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1275-2009.md",
+      "proposed_topic": "sector_cine_audiovisual",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Fomento Cinematográfico, impulsando la industria del cine.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1536-2012.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones para fomentar la donación de componentes anatómicos, tema de salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1727-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1731-2014.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-300-1996.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1098-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1233-2008.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1493-2011.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1787-2016.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2064-2020.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-397-1997.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-597-2025.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc_id indica clasificación previa en 'otros_sectoriales'.",
+      "title": ""
+    }
+  ]
+}

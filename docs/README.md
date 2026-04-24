@@ -4,15 +4,18 @@ This is the active reading order for the repo.
 
 If you are reorienting after an interruption, read these in order:
 
-1. `docs/guide/orchestration.md` — end-to-end live runtime map + authoritative versioned env matrix + change log
+1. `docs/guide/orchestration.md` — end-to-end live runtime map + authoritative versioned env matrix + change log (currently **`v2026-04-24-v6`**)
 2. `docs/guide/chat-response-architecture.md` — how the `main chat` answer is shaped (and the surface boundary with `Normativa` / `Interpretación`)
 3. `docs/guide/env_guide.md` — run modes, env files, migration baseline, test accounts, corpus refresh
 4. `docs/guide/corpus.md` — corpus layers, ingest audit gate, taxonomy operations, latest run status
 5. `AGENTS.md` (root) — operating guide for AI agents (mirrors env matrix)
-6. `docs/architecture/FORK-BOUNDARY.md` — what we reuse vs. rethink
-7. `docs/state/STATE.md` — broader repo state tracker
-8. `docs/DEPENDENCIES.md` — external services needed
-9. `docs/next/decouplingv1.md` — the last active forward-looking work ledger (`ui_server.py` + `opsIngestionController.ts` graduation)
+6. `docs/learnings/README.md` — distilled learnings (ingestion + retrieval + process) — **start here for non-obvious invariants**
+7. `docs/next/ingestionfix_v6.md` — forward RAG-quality backlog (top-10 v7 items)
+8. `docs/next/ingestion_tunningv2.md` — the v6 execution plan (all phases 0–6 landed 2026-04-24)
+9. `docs/next/gui_ingestion_v1.md` — canonical GUI-ingestion learnings + §13 deficiencies-vs-CLI gap analysis
+10. `docs/architecture/FORK-BOUNDARY.md` — what we reuse vs. rethink
+11. `docs/state/STATE.md` — broader repo state tracker
+12. `docs/DEPENDENCIES.md` — external services needed
 
 ## Purpose of Each Doc
 
@@ -23,7 +26,10 @@ If you are reorienting after an interruption, read these in order:
 - `docs/architecture/FORK-BOUNDARY.md` — steering doc: what we inherit as product-shell reuse vs. what must be rethought for graph-native reasoning.
 - `docs/state/STATE.md` — broader repo state tracker; the current phase picture and active fronts.
 - `docs/DEPENDENCIES.md` — external services required to run the repo autonomously.
-- `docs/next/decouplingv1.md` — forward-looking executable plan for the final two oversized modules (`ui_server.py` ≈ 1847 LOC, `opsIngestionController.ts` ≈ 2377 LOC). Self-healing state ledger; update in-place during execution.
+- **`docs/learnings/`** — 13 distilled learning docs across `ingestion/` (corpus completeness, parallelism + rate limits, Supabase sink parallelization, Falkor bulk load, artifact coherence), `retrieval/` (diagnostic surface, coherence gate + contamination, citation allow-list + gold alignment, quality-of-results evaluation), `process/` (investigation discipline, observability patterns, heartbeat monitoring, cloud-sink execution notes). Every rule names the incident that created it.
+- **`docs/next/ingestionfix_v6.md`** — forward RAG-quality backlog, top-10 v7 items ranked across 4 lanes (retrieval quality, ingest completeness, observability/GUI, eval quality).
+- **`docs/next/ingestion_tunningv2.md`** — v6 execution plan (phases 0–6 all landed 2026-04-24). Appendix D carries the execution retrospective.
+- **`docs/next/gui_ingestion_v1.md`** — canonical GUI-ingestion doc (merged from `UI_Ingestion_learnings.md` + `deficienciesGUIingestion_v1.md`). 15-point pre-flight checklist, rescue-from-Other playbook, 15 deficiencies vs CLI path.
 
 ## Executed / Archival Material
 

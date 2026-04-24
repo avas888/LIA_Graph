@@ -21,6 +21,13 @@ from .query_decomposer import (
 )
 from .reranker import rerank_evidence_bundle
 from .retriever import retrieve_graph_evidence as _retrieve_artifacts
+from ._coherence_gate import (
+    coherence_mode as _coherence_mode,
+    detect_evidence_coherence,
+    refusal_text as _coherence_refusal_text,
+    should_refuse as _coherence_should_refuse,
+)
+from .answer_policy import citation_allowlist_mode, filter_citations_by_allowlist
 from .topic_safety import (
     abstention_text_for_misalignment,
     abstention_text_for_router_silent,
@@ -421,9 +428,40 @@ def run_pipeline_d(
             on_llm_delta=on_llm_delta,
         )
 
+    # SAFETY CHECK 3 (v6 phase 3): evidence-topic coherence gate.
+    # topic_safety short-circuits on empty primary_articles — that is the
+    # exact window the Q16 biofuel contamination slipped through. The
+    # coherence gate scores support_documents when primary is empty and
+    # refuses when no support doc matches the router topic. Flag-gated;
+    # default is ``shadow`` so the diagnostic is observed before enforced.
+    coherence_gate_mode = _coherence_mode()
+    coherence = detect_evidence_coherence(request, evidence, misalignment)
+    if coherence_gate_mode == "enforce" and _coherence_should_refuse(
+        coherence, coherence_gate_mode
+    ):
+        return _compose_topic_safety_abstention(
+            request=request,
+            index_file=index_file,
+            policy_path=policy_path,
+            runtime_config_path=runtime_config_path,
+            answer_text=_coherence_refusal_text(coherence),
+            fallback_reason=f"pipeline_d_coherence_{coherence.get('reason', 'misaligned')}",
+            confidence_mode="evidence_coherence_refusal",
+            topic_safety={
+                "router_silent": None,
+                "misalignment": misalignment,
+                "coherence": {"mode": coherence_gate_mode, **coherence},
+                "refusal_reason": coherence.get("reason"),
+                "refusal_source": coherence.get("source"),
+            },
+            backend_diagnostics=backend_diagnostics,
+            on_llm_delta=on_llm_delta,
+        )
+
     topic_safety_diag = {
         "router_silent": None,
         "misalignment": misalignment,
+        "coherence": {"mode": coherence_gate_mode, **coherence},
     }
 
     answer_mode = "graph_native"
@@ -464,6 +502,15 @@ def run_pipeline_d(
     if callable(on_llm_delta):
         on_llm_delta(answer)
 
+    # v6 phase 4 — defensive per-topic citation allow-list. In enforce mode,
+    # citations whose ET article number / family isn't allow-listed for the
+    # current topic are treated as retrieval leakage and dropped. Default
+    # mode is ``off`` so rollout is gated per-environment.
+    citation_allow_mode = citation_allowlist_mode()
+    filtered_citations, dropped_by_allowlist = filter_citations_by_allowlist(
+        evidence.citations, request.topic, citation_allow_mode
+    )
+
     return PipelineCResponse(
         trace_id=str(request.trace_id or uuid4().hex),
         run_id=f"pd_{uuid4().hex}",
@@ -473,7 +520,7 @@ def run_pipeline_d(
             "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
             "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?",
         ),
-        citations=evidence.citations,
+        citations=filtered_citations,
         confidence_score=confidence,
         confidence_mode=confidence_mode,
         answer_mode=answer_mode,
@@ -493,9 +540,48 @@ def run_pipeline_d(
             "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
             "graph_backend": backend_diagnostics.get("graph_backend"),
             "retrieval_health": retrieval_health,
+            # v6 phase 1 — lift retrieval diagnostics to top-level so the A/B
+            # harness and panel renderers don't have to drill into
+            # evidence_bundle.diagnostics. Values source from evidence.diagnostics
+            # when the retriever produced them, else None. The counts of primary
+            # / connected articles fall back to len(evidence.*) so artifact-mode
+            # runs (which don't populate the retriever-diag keys) still report
+            # a real number instead of None.
+            "primary_article_count": (
+                (evidence.diagnostics or {}).get("primary_article_count")
+                if (evidence.diagnostics or {}).get("primary_article_count") is not None
+                else len(evidence.primary_articles)
+            ),
+            "connected_article_count": (
+                (evidence.diagnostics or {}).get("connected_article_count")
+                if (evidence.diagnostics or {}).get("connected_article_count") is not None
+                else len(evidence.connected_articles)
+            ),
+            "related_reform_count": (
+                (evidence.diagnostics or {}).get("related_reform_count")
+                if (evidence.diagnostics or {}).get("related_reform_count") is not None
+                else len(evidence.related_reforms)
+            ),
+            "seed_article_keys": (evidence.diagnostics or {}).get("seed_article_keys"),
+            "planner_query_mode": (
+                (evidence.diagnostics or {}).get("planner_query_mode") or plan.query_mode
+            ),
+            "tema_first_mode": (evidence.diagnostics or {}).get("tema_first_mode"),
+            "tema_first_topic_key": (evidence.diagnostics or {}).get("tema_first_topic_key"),
+            "tema_first_anchor_count": (evidence.diagnostics or {}).get(
+                "tema_first_anchor_count"
+            ),
+            "retrieval_sub_topic_intent": (evidence.diagnostics or {}).get(
+                "retrieval_sub_topic_intent"
+            ),
+            "subtopic_anchor_keys": (evidence.diagnostics or {}).get("subtopic_anchor_keys"),
             "reranker": reranker_diagnostics,
             "topic_safety": topic_safety_diag,
             "decomposer": decomposer_diag,
+            # v6 phase 4 — per-topic citation allow-list drops surfaced for
+            # the panel; empty list in ``off`` mode.
+            "citation_allowlist_mode": citation_allow_mode,
+            "dropped_by_allowlist": dropped_by_allowlist,
         },
         llm_runtime=dict(llm_runtime_diag),
         token_usage=None,

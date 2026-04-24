@@ -1,0 +1,190 @@
+{
+  "batch_num": 3,
+  "input_hash": "1c9142cc05069459",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1565-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1743-2018.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1762-2015.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-201-1995.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1992.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-812-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-824-2003.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-973-2005.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-16-1990.md",
+    "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_EXPERTOS_EXPERTOS_Ley-1480-2011.md",
+    "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-1480-2011.md",
+    "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_NORMATIVA_Ley-1480-2011.md",
+    "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_consolidado_Ley-1480-2011.md",
+    "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_LOGGRO_PRACTICA_Ley-2300-2023.md",
+    "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_consolidado_Ley-2300-2023.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1991.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-101-1993.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1014-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1064-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1066-2006.md"
+  ],
+  "elapsed_seconds": 18.86,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1565-2012.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1743-2018.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1762-2015.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-201-1995.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1992.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-812-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-824-2003.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-973-2005.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-16-1990.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_EXPERTOS_EXPERTOS_Ley-1480-2011.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-1480-2011.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_NORMATIVA_Ley-1480-2011.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_consolidado_Ley-1480-2011.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_LOGGRO_PRACTICA_Ley-2300-2023.md",
+      "proposed_topic": "datos_tecnologia",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_consolidado_Ley-2300-2023.md",
+      "proposed_topic": "datos_tecnologia",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1991.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-101-1993.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1014-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1064-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1066-2006.md",
+      "proposed_topic": "otros_sectoriales",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Doc ID indica claramente el topic existente.",
+      "title": ""
+    }
+  ]
+}

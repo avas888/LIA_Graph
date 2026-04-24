@@ -1,0 +1,867 @@
+{
+  "generated_at_utc": "2026-04-23T22:44:19Z",
+  "sources": [
+    "artifacts/sector_classification/sector_reclassification_proposal.json",
+    "artifacts/sector_classification_strict/sector_reclassification_proposal.json",
+    "artifacts/sector_classification_orphans/orphan_rescue_proposal.json"
+  ],
+  "raw_label_count": 137,
+  "canonical_group_count": 26,
+  "catch_all_excluded": [
+    "sector_otros",
+    "sector_varios"
+  ],
+  "total_docs_covered": 324,
+  "groups": [
+    {
+      "canonical": "sector_agropecuario",
+      "doc_count": 30,
+      "absorbs": [
+        {
+          "label": "sector_agropecuario",
+          "doc_count": 18
+        },
+        {
+          "label": "sector_agropecuario_pesquero",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_agropecuario_rural",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_propiedad_tierra",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_agrario_rural",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_agropecuario_tierras",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_desarrollo_agricola",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_rural_agrario",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_cafe",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_recursos_hidricos",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1536-2012.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-123-1994.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1536-2012.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1561-2012.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-160-1994.md"
+      ]
+    },
+    {
+      "canonical": "sector_salud",
+      "doc_count": 28,
+      "absorbs": [
+        {
+          "label": "sector_salud",
+          "doc_count": 18
+        },
+        {
+          "label": "sector_proteccion_animal",
+          "doc_count": 4
+        },
+        {
+          "label": "sector_salud_seguridad_social",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_seguridad_social",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_salud_financiamiento",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_salud_publica",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_salud_cannabis",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-10-1990.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1122-2007.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1565-2012.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-89-1988.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-666-2001.md"
+      ]
+    },
+    {
+      "canonical": "sector_vivienda",
+      "doc_count": 27,
+      "absorbs": [
+        {
+          "label": "sector_vivienda",
+          "doc_count": 12
+        },
+        {
+          "label": "sector_ordenamiento_territorial",
+          "doc_count": 4
+        },
+        {
+          "label": "sector_propiedad_horizontal",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_vivienda_urbana",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_desarrollo_urbano",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_vivienda_urbano",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_propiedad_inmueble",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_vivienda_habitat",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_vivienda_interes_social",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_vivienda_social",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-546-1999.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-117-1985.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-546-1999.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1537-2012.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-675-2001.md"
+      ]
+    },
+    {
+      "canonical": "sector_financiero",
+      "doc_count": 27,
+      "absorbs": [
+        {
+          "label": "sector_financiero",
+          "doc_count": 10
+        },
+        {
+          "label": "sector_economia_solidaria",
+          "doc_count": 4
+        },
+        {
+          "label": "sector_financiero_seguros",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_cooperativo",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_financiero_credito",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_financiero_consumidor",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_financiero_libranzas",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_proteccion_consumidor",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_banca_central",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_sistema_financiero",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_cajas_compensacion_familiar",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_mercado_valores",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_reactivacion_regional",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-964-2005.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1328-2009.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-510-1999.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1527-2012.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-454-1998.md"
+      ]
+    },
+    {
+      "canonical": "sector_cultura",
+      "doc_count": 25,
+      "absorbs": [
+        {
+          "label": "sector_cultura",
+          "doc_count": 15
+        },
+        {
+          "label": "sector_cultura_cine",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_cultura_espectaculos",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_cine_audiovisual",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_cultura_bibliotecas",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_cultura_artes_escenicas",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_bibliotecologia",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-397-1997.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1185-2008.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-397-1997.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1493-2011.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1493-2011.md"
+      ]
+    },
+    {
+      "canonical": "sector_administracion_publica",
+      "doc_count": 25,
+      "absorbs": [
+        {
+          "label": "sector_administracion_publica",
+          "doc_count": 7
+        },
+        {
+          "label": "sector_gestion_documental_archivos",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_gobierno_local",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_transparencia_gobernanza",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_archivos_publicos",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_contabilidad_publica",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_gobierno_territorial",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_administracion_publica_anticorrupcion",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_archivistica_gestion_documental",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_gestion_riesgos_desastres",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_responsabilidad_social_empresarial",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_transparencia_informacion",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_transparencia_informacion_publica",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_administracion_publica_municipal",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_anticorrupcion_gobernanza",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_politica_social",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_regimen_municipal",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1712-2014.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-594-2000.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-716-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-768-2002.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-790-2002.md"
+      ]
+    },
+    {
+      "canonical": "sector_profesiones_liberales",
+      "doc_count": 19,
+      "absorbs": [
+        {
+          "label": "sector_profesiones_liberales",
+          "doc_count": 6
+        },
+        {
+          "label": "sector_regulacion_profesional",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_profesion_economista",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_zonas_especiales",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_psicologia",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_profesion_diseno_industrial",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_profesion_periodismo",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_profesion_psicologia",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_belleza_estetica",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_profesiones_salud",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_profesiones",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2133-2021.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-6-1975.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1695-2013.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1735-2014.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1090-2006.md"
+      ]
+    },
+    {
+      "canonical": "sector_educacion",
+      "doc_count": 17,
+      "absorbs": [
+        {
+          "label": "sector_educacion",
+          "doc_count": 15
+        },
+        {
+          "label": "sector_educacion_superior",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_educacion_sena",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-30-1992.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-115-1994.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-115-1994.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1988.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1233-2008.md"
+      ]
+    },
+    {
+      "canonical": "sector_turismo",
+      "doc_count": 16,
+      "absorbs": [
+        {
+          "label": "sector_turismo",
+          "doc_count": 16
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1101-2006.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1558-2012.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1101-2006.md"
+      ]
+    },
+    {
+      "canonical": "sector_inclusion_social",
+      "doc_count": 16,
+      "absorbs": [
+        {
+          "label": "sector_inclusion_social",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_genero_violencia",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_inclusion_discapacidad",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_etnias_afrocolombianas",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_genero_equidad",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_asistencia_social",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_migracion",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_memoria_victimas",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_juventud",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_derechos_etnicos",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_victimas_conflicto",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_etnico",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1257-2008.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1257-2008.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-70-1993.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1257-2008.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-986-2005.md"
+      ]
+    },
+    {
+      "canonical": "sector_servicios",
+      "doc_count": 15,
+      "absorbs": [
+        {
+          "label": "sector_servicios_publicos",
+          "doc_count": 8
+        },
+        {
+          "label": "sector_servicios_publicos_sociales",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_servicios_legales",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_servicios_profesionales",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_servicios_farmaceuticos",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_servicios_tecnologicos",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_servicios_automotor",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-715-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-715-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-142-1994.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-142-1994.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1694-2013.md"
+      ]
+    },
+    {
+      "canonical": "sector_justicia",
+      "doc_count": 14,
+      "absorbs": [
+        {
+          "label": "sector_justicia",
+          "doc_count": 4
+        },
+        {
+          "label": "sector_derecho_penal",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_seguridad_justicia",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_seguridad_emergencias",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_derecho_constitucional",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_justicia_penal",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_justicia_familiar",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_seguridad_vial",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_seguridad_internacional_derechos_humanos",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_derecho_administrativo",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_derecho_internacional",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-95-1890.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1563-2012.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-201-1995.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_599_2000_CodigoPenalDelitosF.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1175-2007.md"
+      ]
+    },
+    {
+      "canonical": "sector_energia_mineria",
+      "doc_count": 12,
+      "absorbs": [
+        {
+          "label": "sector_mineria",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_minero_energetico",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_energia",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_energia_electrica",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_energias_renovables",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_minero",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-685-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-685-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-685-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-141-1994.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-677-2001.md"
+      ]
+    },
+    {
+      "canonical": "sector_politico",
+      "doc_count": 8,
+      "absorbs": [
+        {
+          "label": "sector_politico_electoral",
+          "doc_count": 8
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1475-2011.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-130-1994.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1475-2011.md"
+      ]
+    },
+    {
+      "canonical": "sector_deporte",
+      "doc_count": 7,
+      "absorbs": [
+        {
+          "label": "sector_deporte_recreacion",
+          "doc_count": 4
+        },
+        {
+          "label": "sector_deporte",
+          "doc_count": 3
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-181-1995.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-123-1994.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-181-1995.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-181-1995.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-16-1990.md"
+      ]
+    },
+    {
+      "canonical": "sector_desarrollo_regional",
+      "doc_count": 7,
+      "absorbs": [
+        {
+          "label": "sector_desarrollo_regional",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_planificacion_nacional",
+          "doc_count": 2
+        },
+        {
+          "label": "sector_fronteras_desarrollo_regional",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_administracion_territorial",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2070-2020.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1787-2016.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2070-2020.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-681-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-812-2003.md"
+      ]
+    },
+    {
+      "canonical": "sector_ciencia",
+      "doc_count": 6,
+      "absorbs": [
+        {
+          "label": "sector_ciencia_tecnologia",
+          "doc_count": 6
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1175-2007.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-833-2003.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1286-2009.md"
+      ]
+    },
+    {
+      "canonical": "sector_infancia",
+      "doc_count": 5,
+      "absorbs": [
+        {
+          "label": "sector_infancia_adolescencia",
+          "doc_count": 5
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1098-2006.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1098-2006.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1275-2009.md"
+      ]
+    },
+    {
+      "canonical": "sector_juegos_azar",
+      "doc_count": 5,
+      "absorbs": [
+        {
+          "label": "sector_juegos_azar",
+          "doc_count": 3
+        },
+        {
+          "label": "sector_juegos_suerte_azar",
+          "doc_count": 2
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-643-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-687-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-643-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-630-2000.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-643-2001.md"
+      ]
+    },
+    {
+      "canonical": "sector_economia",
+      "doc_count": 3,
+      "absorbs": [
+        {
+          "label": "sector_economia_naranja",
+          "doc_count": 3
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1990-2019.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1990-2019.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2064-2020.md"
+      ]
+    },
+    {
+      "canonical": "sector_transporte",
+      "doc_count": 3,
+      "absorbs": [
+        {
+          "label": "sector_transporte",
+          "doc_count": 3
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1731-2014.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-666-2001.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1731-2014.md"
+      ]
+    },
+    {
+      "canonical": "sector_emprendimiento",
+      "doc_count": 2,
+      "absorbs": [
+        {
+          "label": "sector_emprendimiento",
+          "doc_count": 2
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1014-2006.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1014-2006.md"
+      ]
+    },
+    {
+      "canonical": "sector_medio_ambiente",
+      "doc_count": 2,
+      "absorbs": [
+        {
+          "label": "sector_medio_ambiente",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_medio_ambiente_fauna",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1114-2006.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1971.md"
+      ]
+    },
+    {
+      "canonical": "sector_comercio_internacional",
+      "doc_count": 2,
+      "absorbs": [
+        {
+          "label": "sector_aduanas_comercio_exterior",
+          "doc_count": 1
+        },
+        {
+          "label": "sector_comercio_internacional",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-95-1890.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1983.md"
+      ]
+    },
+    {
+      "canonical": "sector_puertos",
+      "doc_count": 2,
+      "absorbs": [
+        {
+          "label": "sector_puertos",
+          "doc_count": 2
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-26-1989.md",
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-310-1996.md"
+      ]
+    },
+    {
+      "canonical": "sector_telecomunicaciones",
+      "doc_count": 1,
+      "absorbs": [
+        {
+          "label": "sector_telecomunicaciones",
+          "doc_count": 1
+        }
+      ],
+      "example_doc_ids": [
+        "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2133-2021.md"
+      ]
+    }
+  ]
+}

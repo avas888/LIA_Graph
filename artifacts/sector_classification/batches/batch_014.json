@@ -1,0 +1,190 @@
+{
+  "batch_num": 14,
+  "input_hash": "ac120d788bd53d46",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1286-2009.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-26-1989.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-130-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1328-2009.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-137-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1379-2010.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-142-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-143-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1475-2011.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1493-2011.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1527-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1537-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1555-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1558-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1561-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1563-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1565-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-16-1990.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-160-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1694-2013.md"
+  ],
+  "elapsed_seconds": 34.76,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1286-2009.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica el Sistema Nacional de Ciencia, Tecnología e Innovación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-26-1989.md",
+      "proposed_topic": "obligaciones_profesionales_contador",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Regula el ejercicio de la profesión de Contador Público.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-130-1994.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el Estatuto Básico de partidos y movimientos políticos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1328-2009.md",
+      "proposed_topic": "sector_financiero_seguros",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas en materia financiera, de seguros y mercado de valores.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-137-1994.md",
+      "proposed_topic": "huérfano",
+      "kind": "orphan",
+      "confidence": "high",
+      "reasoning": "Regula los estados de excepción; no es un sector ni topic contable directo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1379-2010.md",
+      "proposed_topic": "sector_cultura_bibliotecas",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Organiza la Red Nacional de Bibliotecas Públicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-142-1994.md",
+      "proposed_topic": "sector_servicios_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen de los servicios públicos domiciliarios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-143-1994.md",
+      "proposed_topic": "sector_energia_electrica",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen para el sector eléctrico nacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1475-2011.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Adopta reglas para partidos políticos y procesos electorales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1493-2011.md",
+      "proposed_topic": "sector_cultura_artes_escenicas",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Fomenta la cultura y las artes escénicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1527-2012.md",
+      "proposed_topic": "sector_financiero_seguros",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece marco general para la libranza o descuento directo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1537-2012.md",
+      "proposed_topic": "sector_agropecuario_tierras",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas para optimizar el uso de la tierra rural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1555-2012.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo de Estabilización de Precios del Azúcar.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1558-2012.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo, fortaleciendo el sector.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1561-2012.md",
+      "proposed_topic": "sector_propiedad_inmueble",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece proceso para titulación de posesión de bienes inmuebles.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1563-2012.md",
+      "proposed_topic": "sector_justicia",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Expide el Estatuto de Arbitraje Nacional e Internacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1565-2012.md",
+      "proposed_topic": "sector_seguridad_emergencias",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Fondo Nacional de Bomberos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-16-1990.md",
+      "proposed_topic": "sector_deporte_recreacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta normas sobre deporte, recreación y tiempo libre.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-160-1994.md",
+      "proposed_topic": "sector_agropecuario_rural",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Reforma Agraria y Desarrollo Rural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1694-2013.md",
+      "proposed_topic": "sector_servicios_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley 142 de 1994 sobre servicios públicos.",
+      "title": ""
+    }
+  ]
+}

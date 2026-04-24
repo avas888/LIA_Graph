@@ -1,0 +1,26 @@
+{
+  "manifest_tag": "v5_dry_run",
+  "gold_path": "evals/gold_retrieval_v1.jsonl",
+  "target": "production",
+  "run_started_at_utc": "2026-04-24T12:18:23.111754+00:00",
+  "run_completed_at_utc": "2026-04-24T12:18:30.448521+00:00",
+  "run_started_at_bogota": "2026-04-24 7:18:23 AM",
+  "run_completed_at_bogota": "2026-04-24 7:18:30 AM",
+  "questions_attempted": 2,
+  "questions_succeeded": 1,
+  "questions_failed": [
+    {
+      "qid": "Q1",
+      "ok": false
+    }
+  ],
+  "falkor_baseline": null,
+  "git_commit_sha": "9723b1c0eef30afa7ba98000216322a904a6834b",
+  "env_flag_matrix": {
+    "modes_run": [
+      "off",
+      "on"
+    ],
+    "pre_run_env_value_LIA_TEMA_FIRST_RETRIEVAL": null
+  }
+}

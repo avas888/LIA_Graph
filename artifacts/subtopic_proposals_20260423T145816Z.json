@@ -1,0 +1,74 @@
+{
+  "version": "2026-04-21-v1",
+  "generated_at": "2026-04-23T14:58:16Z",
+  "source_collection_paths": [
+    "artifacts/subtopic_candidates/phase8_laboral.jsonl"
+  ],
+  "cluster_threshold": 0.78,
+  "min_cluster_size": 3,
+  "proposals": {},
+  "singletons": {
+    "laboral": [
+      {
+        "label": "Guía práctica laboral",
+        "doc_id": "sha256:dbdcbc91f6a37a042e2288bf86fd88d9",
+        "corpus_relative_path": "laboral/PRACTICA_Resolucion-532-2024.md"
+      },
+      {
+        "label": "Interpretaciones recargo nocturno laboral",
+        "doc_id": "sha256:20b8f7a6ce0f7e6036f8715454ddfe91",
+        "corpus_relative_path": "laboral/REF-E01-PATCH-recargo-nocturno-interpretaciones.md"
+      },
+      {
+        "label": "Novedades e interpretaciones de nómina electrónica",
+        "doc_id": "sha256:03e54db76450d1a0e6e06d91f10b1e49",
+        "corpus_relative_path": "laboral/NOM-E01-interpretaciones-novedades-nomina-electronica.md"
+      },
+      {
+        "label": "Novedades en Nómina Electrónica",
+        "doc_id": "sha256:b0294f46a39eae35fe40d479b083efca",
+        "corpus_relative_path": "laboral/NOM-L01-guia-practica-novedades-nomina-electronica.md"
+      },
+      {
+        "label": "Novedades marco legal nómina electrónica",
+        "doc_id": "sha256:caa3bdaa5d55bc7c9398464ed15158d0",
+        "corpus_relative_path": "laboral/NOM-N01-nomina-electronica-novedades-marco-legal.md"
+      },
+      {
+        "label": "Presunción de costos para IBC de independientes",
+        "doc_id": "sha256:1aebd5ad3a741f1e1e9ba5c04b99e799",
+        "corpus_relative_path": "laboral/Resolucion-532-2024.md"
+      },
+      {
+        "label": "Recargo nocturno y laboral",
+        "doc_id": "sha256:1e73a239a21d2400ccfabede696d3912",
+        "corpus_relative_path": "laboral/REF-L01-PATCH-recargo-nocturno-ejemplo-numerico.md"
+      },
+      {
+        "label": "Recargo nocturno y reforma laboral",
+        "doc_id": "sha256:86b36e6021e1b22e2bf38935190848ad",
+        "corpus_relative_path": "laboral/REF-N01-PATCH-recargo-nocturno-ley-2466.md"
+      },
+      {
+        "label": "Reforma Laboral Ley 2466/2025",
+        "doc_id": "sha256:b07b872cb7cd3b20e0076a8791ccef58",
+        "corpus_relative_path": "laboral/REF-L01-PATCH-dominical-festivo-acumulacion-ley2466.md"
+      },
+      {
+        "label": "Regulación laboral y seguridad social",
+        "doc_id": "sha256:5be5f6e8e2623bacb67be863d091e5d7",
+        "corpus_relative_path": "laboral/EXPERTOS_Resolucion-532-2024.md"
+      },
+      {
+        "label": "Trabajo doméstico remunerado por días",
+        "doc_id": "sha256:bcf86456c4a881c1476997d27e1c25db",
+        "corpus_relative_path": "laboral/TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md"
+      }
+    ]
+  },
+  "summary": {
+    "total_proposals": 0,
+    "total_singletons": 11,
+    "parent_topics_with_proposals": 0
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "batch_num": 8,
+  "input_hash": "c8896d1850f4ad73",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-10-1990.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-10-1991.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-101-1993.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1014-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1064-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1066-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-109-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1090-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1101-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-111-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1114-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1121-2006.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1558-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1561-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1563-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-16-1990.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-160-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1695-2013.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1697-2013.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1712-2014.md"
+  ],
+  "elapsed_seconds": 17.45,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-10-1990.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-10-1991.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-101-1993.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1014-2006.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1064-2006.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1066-2006.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-109-1985.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1090-2006.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1101-2006.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-111-2006.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1114-2006.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1121-2006.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1558-2012.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1561-2012.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1563-2012.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-16-1990.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-160-1994.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1695-2013.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1697-2013.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1712-2014.md",
+      "proposed_topic": "sector_otros",
+      "kind": "new_sector",
+      "confidence": "low",
+      "reasoning": "Contenido vacío; inferido de ruta 'otros_sectoriales', sector genérico.",
+      "title": ""
+    }
+  ]
+}

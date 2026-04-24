@@ -1,0 +1,607 @@
+/* Additive-corpus-v1 admin sub-panel styles (Phase 8).
+ *
+ * Tokens-only per frontend/tests/atomicDiscipline.test.ts. No raw hex.
+ * Uses --p-navy-*, --p-success-*, --p-warning-*, --p-danger-*, and shared
+ * spacing / font tokens. IBM Plex Sans for prose, IBM Plex Mono for
+ * delta_id / generation_id / command callouts.
+ */
+
+/* ── Titled card wrapper (peer with runTriggerCard) ─────────── */
+
+.lia-adelta-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+  padding: var(--space-4, 1rem);
+  background-color: var(--p-navy-50);
+  border: 1px solid var(--p-navy-200);
+  border-radius: var(--radius-md, 8px);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  color: var(--p-navy-900);
+}
+
+.lia-adelta-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 0.25rem);
+  padding-bottom: var(--space-3, 0.75rem);
+  border-bottom: 1px solid var(--p-navy-100);
+}
+
+.lia-adelta-card__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.lia-adelta-card__body,
+.lia-adelta-card__steps {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--p-navy-700);
+}
+
+.lia-adelta-card__steps {
+  margin-top: var(--space-2, 0.5rem);
+  padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+  border-left: 3px solid var(--p-navy-300);
+  background-color: var(--p-navy-100);
+  border-radius: 0 var(--radius-sm, 4px) var(--radius-sm, 4px) 0;
+  color: var(--p-navy-800);
+}
+
+.lia-adelta-card__body code,
+.lia-adelta-card__steps code {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.82rem;
+  background-color: var(--p-navy-100);
+  padding: 0.05rem var(--space-1, 0.25rem);
+  border-radius: var(--radius-sm, 4px);
+}
+
+.lia-adelta-card__steps code {
+  background-color: var(--p-navy-50);
+}
+
+.lia-adelta-card__mount {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+}
+
+/* The inner panel inherits the card's background — drop its own chrome
+   so the card is the visual frame. */
+.lia-adelta-card__mount .lia-adelta-panel {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  gap: var(--space-3, 0.75rem);
+}
+
+.lia-adelta-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 1rem);
+  padding: var(--space-4, 1rem);
+  background-color: var(--p-navy-50);
+  border: 1px solid var(--p-navy-100);
+  border-radius: var(--radius-md, 8px);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  color: var(--p-navy-900);
+}
+
+.lia-adelta-panel__banner,
+.lia-adelta-panel__progress,
+.lia-adelta-panel__terminal {
+  display: contents;
+}
+
+/* ── Action row ─────────────────────────────────────────────── */
+
+.lia-adelta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2, 0.5rem);
+  align-items: center;
+}
+
+.lia-adelta-actions .lia-btn.is-pending {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.lia-adelta-actions .lia-btn.is-pending::after {
+  content: "";
+  position: absolute;
+  right: var(--space-2, 0.5rem);
+  top: 50%;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-top: -0.375rem;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: lia-adelta-spin 0.8s linear infinite;
+}
+
+@keyframes lia-adelta-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Modal ──────────────────────────────────────────────────── */
+
+.lia-adelta-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--p-navy-900);
+  background-color: color-mix(in srgb, var(--p-navy-900) 55%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.lia-adelta-modal {
+  background-color: var(--p-navy-50);
+  color: var(--p-navy-900);
+  border: 1px solid var(--p-navy-200);
+  border-radius: var(--radius-md, 8px);
+  padding: var(--space-6, 1.5rem);
+  max-width: 32rem;
+  width: 90%;
+  box-shadow: 0 12px 40px -8px var(--p-navy-900);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+}
+
+.lia-adelta-modal__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.lia-adelta-modal__body {
+  margin: 0;
+  line-height: 1.55;
+  color: var(--p-navy-700);
+}
+
+.lia-adelta-modal__actions {
+  display: flex;
+  gap: var(--space-2, 0.5rem);
+  justify-content: flex-end;
+  margin-top: var(--space-2, 0.5rem);
+}
+
+/* ── Banner / buckets ───────────────────────────────────────── */
+
+.lia-adelta-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+}
+
+.lia-adelta-banner__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-2, 0.5rem);
+}
+
+.lia-adelta-bucket {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.5rem);
+  padding: var(--space-3, 0.75rem);
+  border-radius: var(--radius-sm, 6px);
+  border-width: 1px;
+  border-style: solid;
+  background-color: var(--p-navy-50);
+  border-color: var(--p-navy-100);
+}
+
+.lia-adelta-bucket--success {
+  background-color: var(--p-success-50);
+  border-color: var(--p-success-200);
+  color: var(--p-success-700);
+}
+
+.lia-adelta-bucket--warning {
+  background-color: var(--p-warning-50, var(--p-navy-50));
+  border-color: var(--p-warning-200, var(--p-navy-200));
+  color: var(--p-warning-700, var(--p-navy-700));
+}
+
+.lia-adelta-bucket--error {
+  background-color: var(--p-danger-50, var(--p-navy-50));
+  border-color: var(--p-danger-200, var(--p-navy-200));
+  color: var(--p-danger-700, var(--p-navy-700));
+}
+
+.lia-adelta-bucket--neutral {
+  background-color: var(--p-navy-50);
+  border-color: var(--p-navy-200);
+  color: var(--p-navy-700);
+}
+
+.lia-adelta-bucket__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.lia-adelta-bucket__title {
+  margin: 0;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.lia-adelta-bucket__count {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.lia-adelta-bucket__body {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.lia-adelta-bucket__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1, 0.25rem);
+}
+
+.lia-adelta-banner__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3, 0.75rem);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  color: var(--p-navy-600);
+}
+
+.lia-adelta-banner__delta-id,
+.lia-adelta-banner__baseline {
+  padding: var(--space-1, 0.25rem) var(--space-2, 0.5rem);
+  background-color: var(--p-navy-100);
+  border-radius: var(--radius-sm, 4px);
+}
+
+.lia-adelta-banner__empty {
+  padding: var(--space-4, 1rem);
+  text-align: center;
+  background-color: var(--p-navy-100);
+  border: 1px dashed var(--p-navy-200);
+  border-radius: var(--radius-sm, 6px);
+}
+
+.lia-adelta-banner__empty-title {
+  margin: 0 0 var(--space-2, 0.5rem);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.lia-adelta-banner__empty-body {
+  margin: 0;
+  color: var(--p-navy-600);
+}
+
+/* ── Activity feeler (shown while preview/apply POST is in flight) ── */
+
+.lia-adelta-feeler {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.5rem);
+  padding: var(--space-4, 1rem);
+  background-color: var(--p-success-50);
+  border: 1px solid var(--p-success-200);
+  border-radius: var(--radius-md, 8px);
+  color: var(--p-success-800, var(--p-navy-900));
+}
+
+.lia-adelta-feeler__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 0.75rem);
+}
+
+.lia-adelta-feeler__spinner {
+  color: var(--p-success-700);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lia-adelta-feeler__title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1 1 auto;
+}
+
+.lia-adelta-feeler__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.lia-adelta-feeler__elapsed {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  color: var(--p-success-700);
+  letter-spacing: 0.04em;
+}
+
+.lia-adelta-feeler__elapsed::before {
+  content: "●";
+  display: inline-block;
+  margin-right: 0.35rem;
+  color: var(--p-success-600);
+  animation: lia-adelta-elapsed-pulse 1.4s ease-in-out infinite;
+}
+
+.lia-adelta-feeler__body {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--p-navy-800);
+}
+
+.lia-adelta-feeler__live {
+  margin: 0;
+  padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.85rem;
+  color: var(--p-navy-900);
+  background-color: var(--p-navy-100);
+  border-left: 3px solid var(--p-success-600);
+  border-radius: 0 var(--radius-sm, 4px) var(--radius-sm, 4px) 0;
+}
+
+.lia-adelta-feeler__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--p-navy-600);
+  font-style: italic;
+}
+
+/* ── Progress pane ──────────────────────────────────────────── */
+
+.lia-adelta-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+  padding: var(--space-3, 0.75rem);
+  background-color: var(--p-navy-100);
+  border: 1px solid var(--p-navy-200);
+  border-radius: var(--radius-sm, 6px);
+}
+
+.lia-adelta-progress__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 0.75rem);
+  flex-wrap: wrap;
+}
+
+.lia-adelta-progress__title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lia-adelta-progress__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.lia-adelta-progress__elapsed {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: var(--p-success-700);
+  letter-spacing: 0.02em;
+}
+
+.lia-adelta-progress__elapsed::before {
+  content: "●";
+  display: inline-block;
+  margin-right: 0.3rem;
+  color: var(--p-success-600);
+  animation: lia-adelta-elapsed-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes lia-adelta-elapsed-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+.lia-adelta-progress__job {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  color: var(--p-navy-600);
+  background-color: var(--p-navy-50);
+  padding: var(--space-1, 0.25rem) var(--space-2, 0.5rem);
+  border-radius: var(--radius-sm, 4px);
+}
+
+.lia-adelta-progress__sse {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--p-navy-600);
+}
+
+.lia-adelta-progress__sse[data-status="connected"] { color: var(--p-success-600); }
+.lia-adelta-progress__sse[data-status="reconnecting"],
+.lia-adelta-progress__sse[data-status="polling"] { color: var(--p-warning-600, var(--p-navy-600)); }
+.lia-adelta-progress__sse[data-status="closed"] { color: var(--p-danger-600, var(--p-navy-600)); }
+
+.lia-adelta-progress__stages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3, 0.75rem);
+}
+
+.lia-adelta-progress__stage {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1, 0.25rem);
+  font-size: 0.8rem;
+  color: var(--p-navy-700);
+}
+
+.lia-adelta-progress__stage-label {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+}
+
+.lia-adelta-progress__bar {
+  width: 100%;
+  height: 0.5rem;
+  background-color: var(--p-navy-200);
+  border-radius: var(--radius-sm, 4px);
+  overflow: hidden;
+}
+
+.lia-adelta-progress__bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: var(--p-success-400);
+  transition: width 280ms ease-out;
+}
+
+.lia-adelta-progress__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3, 0.75rem);
+  font-size: 0.8rem;
+  color: var(--p-navy-600);
+}
+
+.lia-adelta-progress__cancel-note {
+  color: var(--p-warning-700, var(--p-danger-700, var(--p-navy-700)));
+  font-weight: 500;
+}
+
+/* ── Terminal banner ────────────────────────────────────────── */
+
+.lia-adelta-terminal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+  padding: var(--space-4, 1rem);
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--p-navy-200);
+  background-color: var(--p-navy-50);
+}
+
+.lia-adelta-terminal--success {
+  border-color: var(--p-success-200);
+  background-color: var(--p-success-50);
+  color: var(--p-success-700);
+}
+
+.lia-adelta-terminal--warning {
+  border-color: var(--p-warning-200, var(--p-navy-200));
+  background-color: var(--p-warning-50, var(--p-navy-100));
+  color: var(--p-warning-700, var(--p-navy-700));
+}
+
+.lia-adelta-terminal--danger {
+  border-color: var(--p-danger-200, var(--p-navy-200));
+  background-color: var(--p-danger-50, var(--p-navy-100));
+  color: var(--p-danger-700, var(--p-navy-700));
+}
+
+.lia-adelta-terminal--navy {
+  border-color: var(--p-navy-200);
+  background-color: var(--p-navy-100);
+  color: var(--p-navy-700);
+}
+
+.lia-adelta-terminal__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 0.5rem);
+}
+
+.lia-adelta-terminal__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: currentColor;
+  color: var(--p-navy-50);
+  font-weight: 700;
+}
+
+.lia-adelta-terminal__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.lia-adelta-terminal__delta-id {
+  margin-left: auto;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.lia-adelta-terminal__summary {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.lia-adelta-terminal__callout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.5rem);
+  padding: var(--space-3, 0.75rem);
+  background-color: var(--p-navy-50);
+  border: 1px dashed var(--p-warning-400, var(--p-navy-400));
+  border-radius: var(--radius-sm, 6px);
+}
+
+.lia-adelta-terminal__callout-body {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--p-navy-800);
+}
+
+.lia-adelta-terminal__cmd {
+  display: block;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  padding: var(--space-2, 0.5rem);
+  background-color: var(--p-navy-900);
+  color: var(--p-navy-50);
+  border-radius: var(--radius-sm, 4px);
+  font-size: 0.9rem;
+}
+
+.lia-adelta-terminal__error {
+  margin: 0;
+  padding: var(--space-2, 0.5rem);
+  background-color: var(--p-navy-900);
+  color: var(--p-navy-50);
+  border-radius: var(--radius-sm, 4px);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

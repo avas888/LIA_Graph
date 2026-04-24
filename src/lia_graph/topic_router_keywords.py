@@ -967,6 +967,787 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "gradualidad sanciones",
         ),
     },
+    "gravamen_movimiento_financiero_4x1000": {
+        "strong": (
+            "gravamen movimiento financiero 4x1000",
+            "gmf 4x1000",
+            "gmf",
+            "cuatro por mil",
+            "gravamen movimiento financiero",
+            "4x1000",
+            "cuenta exenta gmf",
+        ),
+        "weak": (
+            "gravamen",
+            "movimiento",
+            "financiero",
+            "cuatro",
+            "cuenta",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "precios_de_transferencia": {
+        "strong": (
+            "precios de transferencia",
+            "transfer pricing",
+        ),
+        "weak": (
+            "precios",
+            "transferencia",
+            "transfer",
+            "pricing",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "cambiario": {
+        "strong": (
+            "cambiario",
+            "régimen cambiario",
+            "banrep",
+            "inversion extranjera",
+        ),
+        "weak": (
+            "régimen",
+            "inversion",
+            "extranjera",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "comercial_societario": {
+        "strong": (
+            "comercial societario",
+            "comercial y societario",
+            "societario",
+            "obligaciones societarias",
+            "obligaciones mercantiles",
+        ),
+        "weak": (
+            "comercial",
+            "obligaciones",
+            "societarias",
+            "mercantiles",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "datos_tecnologia": {
+        "strong": (
+            "datos tecnologia",
+            "datos y tecnología",
+            "proteccion datos",
+            "teletrabajo",
+            "tic",
+        ),
+        "weak": (
+            "datos",
+            "tecnologia",
+            "tecnología",
+            "proteccion",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "inversiones_incentivos": {
+        "strong": (
+            "inversiones incentivos",
+            "inversiones e incentivos",
+            "incentivos inversion",
+        ),
+        "weak": (
+            "inversiones",
+            "incentivos",
+            "inversion",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "presupuesto_hacienda": {
+        "strong": (
+            "presupuesto hacienda",
+            "presupuesto y hacienda pública",
+            "hacienda publica",
+        ),
+        "weak": (
+            "presupuesto",
+            "hacienda",
+            "pública",
+            "publica",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "reformas_tributarias": {
+        "strong": (
+            "reformas tributarias",
+            "reforma tributaria",
+        ),
+        "weak": (
+            "reformas",
+            "tributarias",
+            "reforma",
+            "tributaria",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "otros_sectoriales": {
+        "strong": (
+            "otros sectoriales",
+            "otras leyes sectoriales",
+        ),
+        "weak": (
+            "otros",
+            "sectoriales",
+            "otras",
+            "leyes",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_agropecuario": {
+        "strong": (
+            "sector agropecuario",
+            "agricola",
+            "rural",
+            "agrario",
+            "pesquero",
+            "cafe",
+        ),
+        "weak": (
+            "sector",
+            "agropecuario",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_salud": {
+        "strong": (
+            "sector salud",
+            "salud",
+            "seguridad social salud",
+            "sistema salud",
+        ),
+        "weak": (
+            "sector",
+            "seguridad",
+            "social",
+            "sistema",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_vivienda": {
+        "strong": (
+            "sector vivienda",
+            "vivienda",
+            "habitacional",
+            "urbanismo",
+            "subsidio vivienda",
+        ),
+        "weak": (
+            "sector",
+            "subsidio",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_financiero": {
+        "strong": (
+            "sector financiero",
+            "financiero",
+            "banca",
+            "credito",
+            "seguros",
+            "cooperativas financieras",
+        ),
+        "weak": (
+            "sector",
+            "cooperativas",
+            "financieras",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_cultura": {
+        "strong": (
+            "sector cultura",
+            "cultura",
+            "cine",
+            "audiovisual",
+            "artes",
+            "patrimonio",
+        ),
+        "weak": (
+            "sector",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_administracion_publica": {
+        "strong": (
+            "sector administracion publica",
+            "sector administración pública",
+            "administracion publica",
+            "funcion publica",
+            "empleado publico",
+        ),
+        "weak": (
+            "sector",
+            "administracion",
+            "publica",
+            "administración",
+            "pública",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_profesiones_liberales": {
+        "strong": (
+            "sector profesiones liberales",
+            "profesiones liberales",
+            "ejercicio profesional",
+            "colegios profesionales",
+        ),
+        "weak": (
+            "sector",
+            "profesiones",
+            "liberales",
+            "ejercicio",
+            "profesional",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_educacion": {
+        "strong": (
+            "sector educacion",
+            "sector educación",
+            "educacion",
+            "docente",
+            "universitario",
+            "escuelas",
+        ),
+        "weak": (
+            "sector",
+            "educación",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_turismo": {
+        "strong": (
+            "sector turismo",
+            "turismo",
+            "hotelero",
+            "agencias viaje",
+        ),
+        "weak": (
+            "sector",
+            "agencias",
+            "viaje",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_inclusion_social": {
+        "strong": (
+            "sector inclusion social",
+            "sector inclusión social",
+            "inclusion social",
+            "discapacidad",
+            "minorias",
+            "victimas",
+            "comunidades negras",
+        ),
+        "weak": (
+            "sector",
+            "inclusion",
+            "social",
+            "inclusión",
+            "comunidades",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_servicios": {
+        # v5 Phase 2: "servicios" alone is too generic (collides with
+        # labor's "prima de servicios"). Keep only qualified phrases.
+        "strong": (
+            "sector servicios",
+            "servicios publicos domiciliarios",
+            "ley 142 de 1994",
+            "ley 142/1994",
+            "superservicios",
+        ),
+        "weak": (
+            "domiciliarios",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_justicia": {
+        "strong": (
+            "sector justicia",
+            "justicia",
+            "rama judicial",
+            "procesal penal",
+            "civil",
+        ),
+        "weak": (
+            "sector",
+            "judicial",
+            "procesal",
+            "penal",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_energia_mineria": {
+        "strong": (
+            "sector energia mineria",
+            "sector energía y minería",
+            "energia",
+            "mineria",
+            "hidrocarburos",
+            "minero energetico",
+            "energias renovables",
+        ),
+        "weak": (
+            "sector",
+            "energía",
+            "minería",
+            "minero",
+            "energetico",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_politico": {
+        "strong": (
+            "sector politico",
+            "sector político",
+            "politico",
+            "electoral",
+            "partidos politicos",
+        ),
+        "weak": (
+            "sector",
+            "político",
+            "partidos",
+            "politicos",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_deporte": {
+        "strong": (
+            "sector deporte",
+            "deporte",
+            "deportivo",
+            "actividad fisica",
+        ),
+        "weak": (
+            "sector",
+            "actividad",
+            "fisica",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_desarrollo_regional": {
+        "strong": (
+            "sector desarrollo regional",
+            "desarrollo regional",
+            "regiones",
+            "territorial",
+        ),
+        "weak": (
+            "sector",
+            "desarrollo",
+            "regional",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_ciencia": {
+        "strong": (
+            "sector ciencia",
+            "sector ciencia y tecnología",
+            "ciencia",
+            "ciencia tecnologia",
+            "investigacion",
+            "innovacion",
+        ),
+        "weak": (
+            "sector",
+            "tecnología",
+            "tecnologia",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_infancia": {
+        "strong": (
+            "sector infancia",
+            "sector infancia y adolescencia",
+            "infancia",
+            "adolescencia",
+            "menores",
+            "niñez",
+        ),
+        "weak": (
+            "sector",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_juegos_azar": {
+        "strong": (
+            "sector juegos azar",
+            "sector juegos de azar",
+            "juegos azar",
+            "loterias",
+            "apuestas",
+        ),
+        "weak": (
+            "sector",
+            "juegos",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_economia": {
+        "strong": (
+            "sector economia",
+            "sector economía",
+            "economia",
+            "macroeconomico",
+            "politica economica",
+        ),
+        "weak": (
+            "sector",
+            "economía",
+            "politica",
+            "economica",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_transporte": {
+        "strong": (
+            "sector transporte",
+            "transporte",
+            "transito",
+            "vial",
+        ),
+        "weak": (
+            "sector",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_emprendimiento": {
+        "strong": (
+            "sector emprendimiento",
+            "emprendimiento",
+            "startups",
+            "empresas pequeñas",
+        ),
+        "weak": (
+            "sector",
+            "empresas",
+            "pequeñas",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_medio_ambiente": {
+        "strong": (
+            "sector medio ambiente",
+            "medio ambiente",
+            "ambiental",
+            "recursos naturales",
+        ),
+        "weak": (
+            "sector",
+            "medio",
+            "ambiente",
+            "recursos",
+            "naturales",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_comercio_internacional": {
+        "strong": (
+            "sector comercio internacional",
+            "comercio internacional",
+            "aduanas",
+            "importaciones",
+            "exportaciones",
+        ),
+        "weak": (
+            "sector",
+            "comercio",
+            "internacional",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_puertos": {
+        "strong": (
+            "sector puertos",
+            "puertos",
+            "portuario",
+            "maritimo",
+        ),
+        "weak": (
+            "sector",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "sector_telecomunicaciones": {
+        "strong": (
+            "sector telecomunicaciones",
+            "telecomunicaciones",
+            "tic",
+            "servicios comunicaciones",
+        ),
+        "weak": (
+            "sector",
+            "servicios",
+            "comunicaciones",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "leyes_derogadas": {
+        "strong": (
+            "leyes derogadas",
+            "derogadas",
+        ),
+        "weak": (
+            "leyes",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "beneficiario_final_rub": {
+        "strong": (
+            "beneficiario final rub",
+            "beneficiario final y rub",
+            "rub",
+            "beneficiarios finales",
+        ),
+        "weak": (
+            "beneficiario",
+            "final",
+            "beneficiarios",
+            "finales",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "contratacion_estatal": {
+        "strong": (
+            "contratacion estatal",
+            "contratación estatal",
+        ),
+        "weak": (
+            "contratacion",
+            "estatal",
+            "contratación",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "economia_digital_criptoactivos": {
+        "strong": (
+            "economia digital criptoactivos",
+            "economía digital y criptoactivos",
+            "economia digital pes cripto",
+            "criptoactivos",
+            "activos digitales",
+        ),
+        "weak": (
+            "economia",
+            "digital",
+            "economía",
+            "cripto",
+            "activos",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "reforma_pensional": {
+        "strong": (
+            "reforma pensional",
+            "pensional",
+        ),
+        "weak": (
+            "reforma",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "emergencia_tributaria": {
+        "strong": (
+            "emergencia tributaria",
+            "emergencia tributaria 2026",
+            "decreto 0240",
+        ),
+        "weak": (
+            "emergencia",
+            "tributaria",
+            "decreto",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "impuestos_saludables": {
+        "strong": (
+            "impuestos saludables",
+            "ibua",
+            "icui",
+        ),
+        "weak": (
+            "impuestos",
+            "saludables",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "regimen_tributario_especial": {
+        "strong": (
+            "regimen tributario especial",
+            "régimen tributario especial",
+            "esal",
+        ),
+        "weak": (
+            "regimen",
+            "tributario",
+            "especial",
+            "régimen",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "impuesto_nacional_consumo": {
+        "strong": (
+            "impuesto nacional consumo",
+            "impuesto nacional al consumo",
+        ),
+        "weak": (
+            "impuesto",
+            "nacional",
+            "consumo",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "normas_internacionales_auditoria": {
+        "strong": (
+            "normas internacionales auditoria",
+            "normas internacionales de auditoría",
+        ),
+        "weak": (
+            "normas",
+            "internacionales",
+            "auditoria",
+            "auditoría",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "activos_exterior": {
+        "strong": (
+            "activos exterior",
+            "activos en el exterior",
+        ),
+        "weak": (
+            "activos",
+            "exterior",
+        ),
+    },
+    # ── v5 Phase 2: auto-generated keyword entries from config/topic_taxonomy.json ──
+
+    "estatuto_tributario": {
+        "strong": (
+            "estatuto tributario",
+        ),
+        "weak": (
+            "estatuto",
+            "tributario",
+        ),
+    },
+    # v6 phase 5 — procedural subtopics of declaracion_renta. v1 I2 showed
+    # Q20/Q21/Q22 collapse into the parent because these children had no
+    # keyword coverage.
+    "firmeza_declaraciones": {
+        "strong": (
+            "firmeza de la declaración",
+            "firmeza de la declaracion",
+            "declaración en firme",
+            "declaracion en firme",
+            "art. 714",
+            "firmeza tributaria",
+            "término de firmeza",
+            "termino de firmeza",
+            "firmeza de declaraciones",
+        ),
+        "weak": (
+            "firmeza",
+            "tres años firmeza",
+            "años firmeza",
+            "queda en firme",
+        ),
+    },
+    "regimen_sancionatorio_extemporaneidad": {
+        "strong": (
+            "sanción por extemporaneidad",
+            "sancion por extemporaneidad",
+            "declaración extemporánea",
+            "declaracion extemporanea",
+            "art. 641",
+            "reducción sanción extemporaneidad",
+            "reduccion sancion extemporaneidad",
+            "presentación extemporánea",
+            "presentacion extemporanea",
+        ),
+        "weak": (
+            "extemporánea",
+            "extemporanea",
+            "sanción extemporaneidad",
+            "sancion extemporaneidad",
+            "meses de retraso",
+        ),
+    },
+    "devoluciones_saldos_a_favor": {
+        "strong": (
+            "saldo a favor",
+            "devolución saldo a favor",
+            "devolucion saldo a favor",
+            "compensación saldo a favor",
+            "compensacion saldo a favor",
+            "art. 850",
+            "solicitud de devolución",
+            "solicitud de devolucion",
+            "reintegro saldo a favor",
+        ),
+        "weak": (
+            "devolución",
+            "devolucion",
+            "saldo",
+            "compensación",
+            "compensacion",
+            "devuélveme",
+            "devuelveme",
+        ),
+    },
 }
 
 _TOPIC_NOTICE_OVERRIDES = {
@@ -978,6 +1759,44 @@ _SUBTOPIC_OVERRIDE_PATTERNS: tuple[tuple[re.Pattern[str], str, tuple[str, ...]],
     # Each tuple: (compiled_regex, topic_key, search_keywords_tuple)
     # Keywords bias lexical ranking toward relevant documents within the candidate pool.
     # ── More-specific patterns first (GMF, consumo, patrimonio) ──
+
+    # v6 phase 5 — procedural children of declaracion_renta. These children
+    # can't win dict-order tie-breaks against their parent, so elevate via
+    # regex overrides. Kept before the broad renta patterns so they fire
+    # on Q20/Q21/Q22-class queries before "declaración de renta" hits
+    # the renta scorer.
+    (re.compile(
+        r"(?:"
+        r"firmeza\s+(?:de\s+(?:la\s+|las\s+)?)?declaraci[oó]n|"
+        r"declaraci[oó]n\s+en\s+firme|"
+        r"queda\s+en\s+firme|"
+        r"t[eé]rmino\s+de\s+firmeza|"
+        r"firmeza\s+tributaria|"
+        r"art[ií]culo\s+714"
+        r")", re.IGNORECASE),
+     "firmeza_declaraciones",
+     ("firmeza", "declaración en firme", "término de firmeza", "art. 714")),
+
+    (re.compile(
+        r"(?:"
+        r"sanci[oó]n\s+por\s+extemporaneidad|"
+        r"declaraci[oó]n\s+extempor[aá]nea|"
+        r"presentaci[oó]n\s+extempor[aá]nea|"
+        r"art[ií]culo\s+641"
+        r")", re.IGNORECASE),
+     "regimen_sancionatorio_extemporaneidad",
+     ("extemporaneidad", "declaración extemporánea", "art. 641", "reducción sanción")),
+
+    (re.compile(
+        r"(?:"
+        r"saldo\s+a\s+favor|"
+        r"devoluci[oó]n\s+(?:del\s+|de\s+)?saldo|"
+        r"compensaci[oó]n\s+(?:del\s+|de\s+)?saldo|"
+        r"solicito\s+la\s+devoluci[oó]n|"
+        r"art[ií]culo\s+850"
+        r")", re.IGNORECASE),
+     "devoluciones_saldos_a_favor",
+     ("saldo a favor", "devolución", "compensación", "art. 850")),
 
     # GMF (4x1000) — triggers on GMF-specific terms
     (re.compile(

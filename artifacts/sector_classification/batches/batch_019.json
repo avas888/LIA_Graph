@@ -1,0 +1,190 @@
+{
+  "batch_num": 19,
+  "input_hash": "2239c0847b640497",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1122-2007.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-115-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-117-1985.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1175-2007.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1185-2008.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-123-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1257-2008.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1275-2009.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1286-2009.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-130-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1328-2009.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-137-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1379-2010.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-142-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-143-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1475-2011.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1527-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1536-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1537-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1555-2012.md"
+  ],
+  "elapsed_seconds": 21.58,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1122-2007.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el Sistema General de Seguridad Social en Salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-115-1994.md",
+      "proposed_topic": "sector_educacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece las normas generales para regular el servicio público de la educación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-117-1985.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "medium",
+      "reasoning": "Crea y organiza el Sistema Nacional de Ciencia y Tecnología.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1175-2007.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el Sistema Nacional de Bibliotecas Públicas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1185-2008.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica y adiciona la Ley 397 de 1997 sobre patrimonio cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-123-1994.md",
+      "proposed_topic": "sector_deporte",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional del Deporte.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1257-2008.md",
+      "proposed_topic": "sector_genero_violencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Normas de sensibilización, prevención y sanción de violencia contra la mujer.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1275-2009.md",
+      "proposed_topic": "sector_infancia_adolescencia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Medidas de protección integral para niños, niñas y adolescentes contra explotación sexual.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1286-2009.md",
+      "proposed_topic": "sector_ciencia_tecnologia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica el Sistema Nacional de Ciencia, Tecnología e Innovación.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-130-1994.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Estatuto básico de los partidos y movimientos políticos y normas electorales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1328-2009.md",
+      "proposed_topic": "sector_financiero_consumidor",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Régimen de protección al consumidor financiero.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-137-1994.md",
+      "proposed_topic": "sector_derecho_constitucional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula los estados de excepción en la Constitución Política.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1379-2010.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula el depósito legal de obras en el Sistema Nacional de Bibliotecas.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-142-1994.md",
+      "proposed_topic": "sector_servicios_publicos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen de los servicios públicos domiciliarios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-143-1994.md",
+      "proposed_topic": "sector_energia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el régimen para la generación, interconexión, transmisión, distribución y comercialización de electricidad.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1475-2011.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula la organización y funcionamiento de partidos políticos y procesos electorales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1527-2012.md",
+      "proposed_topic": "sector_financiero_libranzas",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el marco general para la libranza o descuento directo.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1536-2012.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Información Cultural.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1537-2012.md",
+      "proposed_topic": "sector_agropecuario_rural",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Desarrollo Rural y Reforma Agraria.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1555-2012.md",
+      "proposed_topic": "sector_cultura",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley 1379 de 2010 sobre el Sistema Nacional de Bibliotecas Públicas.",
+      "title": ""
+    }
+  ]
+}

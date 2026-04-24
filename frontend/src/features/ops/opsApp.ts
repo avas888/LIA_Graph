@@ -22,7 +22,7 @@ export function mountOpsApp(root: HTMLElement | Document, { i18n }: { i18n: I18n
   const newIngestShell = q.querySelector<HTMLElement>("#lia-ingest-shell");
   let newIngestController: { refresh: () => Promise<void>; destroy: () => void } | null = null;
   if (newIngestShell) {
-    newIngestController = createIngestController(newIngestShell);
+    newIngestController = createIngestController(newIngestShell, { i18n });
     window.setInterval(() => {
       void newIngestController?.refresh();
     }, 30_000);

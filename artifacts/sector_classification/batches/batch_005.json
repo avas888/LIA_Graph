@@ -1,0 +1,190 @@
+{
+  "batch_num": 5,
+  "input_hash": "138bd6d978c97215",
+  "doc_ids": [
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1475-2011.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1493-2011.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1527-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1536-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1537-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1558-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1561-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1563-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1565-2012.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-160-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1695-2013.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1697-2013.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1712-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1727-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1735-2014.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-174-1994.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1743-2018.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1787-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1788-2016.md",
+    "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-181-1995.md"
+  ],
+  "elapsed_seconds": 35.82,
+  "model": "gemini-2.5-flash",
+  "results": [
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1475-2011.md",
+      "proposed_topic": "sector_politico_electoral",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Regula partidos políticos y procesos electorales, un sector no cubierto por los topics existentes.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1493-2011.md",
+      "proposed_topic": "sector_cultura_espectaculos",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Formaliza y otorga incentivos al sector de las artes escénicas y espectáculos públicos.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1527-2012.md",
+      "proposed_topic": "sector_financiero_credito",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece el marco general para la libranza o descuento directo, un tema financiero específico.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1536-2012.md",
+      "proposed_topic": "sector_agropecuario",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Innovación Agropecuaria, un sector no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1537-2012.md",
+      "proposed_topic": "sector_vivienda_urbano",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Promueve el desarrollo urbano y el acceso a la vivienda, un sector no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1558-2012.md",
+      "proposed_topic": "sector_turismo",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Modifica la Ley General de Turismo, un sector no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1561-2012.md",
+      "proposed_topic": "sector_propiedad_tierra",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Establece un proceso especial para otorgar títulos de propiedad y sanear la falsa tradición.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1563-2012.md",
+      "proposed_topic": "comercial_societario",
+      "kind": "migrate",
+      "confidence": "medium",
+      "reasoning": "Expide el Estatuto de Arbitraje, un mecanismo de resolución de conflictos comerciales y societarios.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1565-2012.md",
+      "proposed_topic": "sector_salud",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Registro Nacional de Donantes de Componentes Anatómicos, un tema de salud.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-160-1994.md",
+      "proposed_topic": "sector_agrario_rural",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea el Sistema Nacional de Reforma Agraria y Desarrollo Rural Campesino.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1695-2013.md",
+      "proposed_topic": "laboral",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Modifica la ley de formalización y generación de empleo, directamente relacionado con temas laborales.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1697-2013.md",
+      "proposed_topic": "contratacion_estatal",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Crea la Agencia Nacional de Contratación Pública y dicta normas de presupuesto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1712-2014.md",
+      "proposed_topic": "sector_transparencia_gobernanza",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea la Ley de Transparencia y Acceso a la Información Pública Nacional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1727-2014.md",
+      "proposed_topic": "estados_financieros_niif",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Reforma la Ley 1314 de 2009, relacionada con contabilidad y aseguramiento de la información (NIIF).",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1735-2014.md",
+      "proposed_topic": "sector_energia",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones sobre ahorro y uso eficiente de la energía, un sector no cubierto.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-174-1994.md",
+      "proposed_topic": "presupuesto_hacienda",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Autoriza la emisión de Títulos de Tesorería (TES), tema de presupuesto y hacienda pública.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1743-2018.md",
+      "proposed_topic": "n/a",
+      "kind": "orphan",
+      "confidence": "low",
+      "reasoning": "No se encontró información sobre la Ley 1743 de 2018, imposible clasificar sin contenido.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1787-2016.md",
+      "proposed_topic": "sector_desarrollo_regional",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Crea un fondo para el desarrollo integral del Distrito Especial de Buenaventura.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1788-2016.md",
+      "proposed_topic": "reforma_pensional",
+      "kind": "migrate",
+      "confidence": "high",
+      "reasoning": "Establece la sustitución pensional para hijos con discapacidad, tema de reforma pensional.",
+      "title": ""
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-181-1995.md",
+      "proposed_topic": "sector_deporte_recreacion",
+      "kind": "new_sector",
+      "confidence": "high",
+      "reasoning": "Dicta disposiciones para el fomento del deporte, la recreación y la educación física.",
+      "title": ""
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 Canonical operating guide for AI agents working in `Lia_Graph`.
 
-> **Env matrix version: `v2026-04-21-stv2d`.** Authoritative per-mode env table lives in [`docs/guide/orchestration.md`](./docs/guide/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags or introduce a new `LIA_*` env, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map.
+> **Env matrix version: `v2026-04-24-v6`.** Authoritative per-mode env table lives in [`docs/guide/orchestration.md`](./docs/guide/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags or introduce a new `LIA_*` env, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map. (Latest bump: `v2026-04-24-v6` — ingestion-tuning v6 plan landed (phases 0–6). Adds runtime flags `LIA_EVIDENCE_COHERENCE_GATE` (shadow default) + `LIA_POLICY_CITATION_ALLOWLIST` (off default). Adds ingest-pipeline flags `LIA_INGEST_CLASSIFIER_WORKERS` (8), `LIA_INGEST_CLASSIFIER_RPM` (bumped 60→300), `LIA_SUPABASE_SINK_WORKERS` (4), `FALKORDB_QUERY_TIMEOUT_SECONDS` (30), `FALKORDB_BATCH_NODES` (500), `FALKORDB_BATCH_EDGES` (1000). Lifts 9 retrieval-diagnostic keys to top-level `response.diagnostics` (phase 1). Full plan: `docs/next/ingestion_tunningv2.md`. Forward backlog: `docs/next/ingestionfix_v6.md`. Learnings: `docs/learnings/` (ingestion + retrieval + process lanes).)
 
 ## Start Here
 

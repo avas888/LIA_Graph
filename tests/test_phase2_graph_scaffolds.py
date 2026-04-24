@@ -85,7 +85,15 @@ def test_build_corpus_status_exposes_phase_2_graph_scaffold() -> None:
     assert "artifacts/corpus_audit_report.json" in status["audit_artifacts"]
     assert "artifacts/corpus_reconnaissance_report.json" in status["audit_artifacts"]
     assert "artifacts/canonical_corpus_manifest.json" in status["audit_artifacts"]
-    assert status["graph_target_families"] == ["normativa"]
+    # GRAPH_TARGET_FAMILIES expanded to include practica/interpretacion/expertos
+    # in v2-phase-4 (family-gated typed edges). sorted() in the report shows them
+    # alphabetically.
+    assert status["graph_target_families"] == [
+        "expertos",
+        "interpretacion",
+        "normativa",
+        "practica",
+    ]
     assert status["graph_scaffold"]["graph_name"] == "LIA_REGULATORY_GRAPH"
     assert "MODIFIES" in status["graph_scaffold"]["edge_types"]
 
@@ -478,13 +486,15 @@ La compensación procede conforme al Estatuto Tributario.
 
     assert interpretacion.ingestion_decision == "include_corpus"
     assert interpretacion.family == "interpretacion"
-    assert interpretacion.graph_target is False
-    assert interpretacion.parse_strategy == "markdown_inventory_only"
+    # v2-phase-4: interpretacion/practica/expertos now count as graph_target
+    # families and use markdown_graph_parse (numbered-article extraction) too.
+    assert interpretacion.graph_target is True
+    assert interpretacion.parse_strategy == "markdown_graph_parse"
 
     assert practica.ingestion_decision == "include_corpus"
     assert practica.family == "practica"
-    assert practica.graph_target is False
-    assert practica.parse_strategy == "markdown_inventory_only"
+    assert practica.graph_target is True
+    assert practica.parse_strategy == "markdown_graph_parse"
 
     assert fragment.ingestion_decision == "exclude_internal"
     assert fragment.decision_reason == (
@@ -795,10 +805,23 @@ Se entiende por ingreso gravado el valor sometido al impuesto.
         ".pdf": 1,
     }
     assert result["reconnaissance_quality_gate"]["status"] == "review_required"
-    assert result["graph_target_families"] == ["normativa"]
-    assert result["graph_target_document_count"] == 2
-    assert result["graph_parse_ready_document_count"] == 1
-    assert result["article_count"] == 2
+    # GRAPH_TARGET_FAMILIES expanded in v2-phase-4.
+    assert result["graph_target_families"] == [
+        "expertos",
+        "interpretacion",
+        "normativa",
+        "practica",
+    ]
+    # Fixture has 2 normativa + 1 practica + 1 interpretacion = 4 graph-target
+    # docs after v2-phase-4 expanded GRAPH_TARGET_FAMILIES. parse_ready stays
+    # at 1 (only normativa uses the numbered-article parser; practica/interp
+    # stay markdown_inventory_only).
+    assert result["graph_target_document_count"] == 4
+    assert result["graph_parse_ready_document_count"] == 3
+    # practica/interpretacion fixture docs now parse through the numbered-
+    # article path → 4 articles total (2 from normativa, 1 each from practica
+    # and interpretacion).
+    assert result["article_count"] == 4
 
     audit_report_path = artifacts_dir / "corpus_audit_report.json"
     reconnaissance_report_path = artifacts_dir / "corpus_reconnaissance_report.json"
@@ -897,8 +920,9 @@ Se entiende por ingreso gravado el valor sometido al impuesto.
     assert corpus_inventory["taxonomy_version"] == topic_taxonomy_version()
     assert corpus_inventory["topic_key_counts"]["declaracion_renta"] == 1
     assert corpus_inventory["subtopic_key_counts"]["[none]"] == 4
-    assert corpus_inventory["graph_target_document_count"] == 2
-    assert corpus_inventory["graph_parse_ready_document_count"] == 1
+    # v2-phase-4 expansion — see earlier assertions in this file for context.
+    assert corpus_inventory["graph_target_document_count"] == 4
+    assert corpus_inventory["graph_parse_ready_document_count"] == 3
     assert any(row["parse_strategy"] == "binary_inventory_only" for row in corpus_inventory["documents"])
     assert any(row["vocabulary_status"] == "ratified_v1_2" for row in corpus_inventory["documents"])
     assert all(
@@ -907,7 +931,7 @@ Se entiende por ingreso gravado el valor sometido al impuesto.
     )
     assert any(row["family"] == "interpretacion" for row in corpus_inventory["documents"])
     assert any(row["family"] == "practica" for row in corpus_inventory["documents"])
-    assert len(parsed_lines) == 2
+    assert len(parsed_lines) == 4  # v2-phase-4: practica/interpretacion now parsed too
     assert any(json.loads(line)["kind"] == "COMPUTATION_DEPENDS_ON" for line in typed_lines)
     assert load_report["executed"] is False
     assert validation_report["ok"] is True

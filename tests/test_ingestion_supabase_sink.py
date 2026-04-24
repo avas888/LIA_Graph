@@ -12,6 +12,7 @@ contract-level, not row-level.
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass
 from typing import Any
 
@@ -20,7 +21,11 @@ import pytest
 from lia_graph.graph.schema import EdgeKind, GraphEdgeRecord, NodeKind
 from lia_graph.ingestion.classifier import ClassifiedEdge
 from lia_graph.ingestion.parser import ParsedArticle
-from lia_graph.ingestion.supabase_sink import SupabaseCorpusSink, _RELATION_MAP
+from lia_graph.ingestion.supabase_sink import (
+    SupabaseCorpusSink,
+    _RELATION_MAP,
+    _derive_source_type,
+)
 
 
 # --- fake supabase-py client ------------------------------------------------
@@ -302,6 +307,177 @@ def test_activate_requires_generation_row() -> None:
     )
     with pytest.raises(RuntimeError):
         sink.finalize(activate=True)
+
+
+def test_write_documents_populates_fingerprint() -> None:
+    """ingestionfix_v2 §4 Phase 6: every newly-written document row must
+    carry a non-empty doc_fingerprint so future deltas can use the
+    content-hash shortcut without a separate backfill."""
+    client = _FakeClient()
+    sink = SupabaseCorpusSink(
+        target="production",
+        generation_id="gen_fp_inline",
+        client=client,
+    )
+    docs = [
+        _doc("a/alpha.md", "/abs/a/alpha.md"),
+        _doc("b/beta.md", "/abs/b/beta.md", family="practica"),
+    ]
+    _doc_ids, _written = sink.write_documents(docs)
+
+    upserts = [
+        call for call in client.calls if call.table == "documents" and call.op == "upsert"
+    ]
+    assert upserts
+    for call in upserts:
+        for row in call.payload:
+            fp = row.get("doc_fingerprint")
+            assert isinstance(fp, str) and len(fp) == 64, (
+                f"doc_fingerprint must be a 64-char sha256 hex, got {fp!r}"
+            )
+
+
+def test_fingerprint_stable_across_full_and_backfill_paths() -> None:
+    """The inline fingerprint (Phase 6) must byte-match what the backfill
+    path computes from the persisted document row. Guards against silent
+    drift between ingest-side + backfill-side classifier_output shapes."""
+    from lia_graph.ingestion.fingerprint import (
+        classifier_output_from_corpus_document,
+        classifier_output_from_document_row,
+        compute_doc_fingerprint,
+    )
+
+    document = _doc("a/alpha.md", "/abs/a/alpha.md")
+    document["markdown"] = "# Alpha\nContenido consistente."
+
+    # Ingest-path fingerprint — computed from the live CorpusDocument-shape.
+    content_hash = hashlib.sha256(document["markdown"].encode("utf-8")).hexdigest()
+    ingest_fp = compute_doc_fingerprint(
+        content_hash=content_hash,
+        classifier_output=classifier_output_from_corpus_document(document),
+    )
+
+    # Simulate the persisted row (shape is what write_documents writes).
+    persisted_row = {
+        "topic": document["topic_key"],
+        "tema": document["topic_key"],
+        "subtema": document["subtopic_key"],
+        "authority": document["authority_level"],
+        "tipo_de_documento": document["document_archetype"],
+        "source_type": document["source_type"],
+        "knowledge_class": document["knowledge_class"],
+        "requires_subtopic_review": False,
+    }
+    backfill_fp = compute_doc_fingerprint(
+        content_hash=content_hash,
+        classifier_output=classifier_output_from_document_row(persisted_row),
+    )
+
+    assert ingest_fp == backfill_fp, (
+        "Phase-6 inline fingerprint must equal backfill-path fingerprint."
+    )
+
+
+def test_normative_edges_include_edge_type_and_weight() -> None:
+    """ingestionfix_v2 §4 Phase 4: normative_edges rows must carry
+    the Spanish-taxonomy edge_type + authority weight."""
+    client = _FakeClient()
+    sink = SupabaseCorpusSink(
+        target="production",
+        generation_id="gen_edge_typed",
+        client=client,
+    )
+    sink.write_generation(documents=0, chunks=0)
+    edge = ClassifiedEdge(
+        record=GraphEdgeRecord(
+            kind=EdgeKind.MODIFIES,
+            source_kind=NodeKind.ARTICLE,
+            source_key="100",
+            target_kind=NodeKind.ARTICLE,
+            target_key="200",
+            properties={
+                "raw_reference": "Ley 2277 de 2022",
+                "edge_type": "MODIFICA",
+                "weight": 1.0,
+            },
+        ),
+        confidence=0.95,
+        rule="keyword_modifies",
+        edge_type="MODIFICA",
+        weight=1.0,
+    )
+    written = sink.write_normative_edges([edge])
+    assert written == 1
+
+    upserts = [
+        call for call in client.calls if call.table == "normative_edges" and call.op == "upsert"
+    ]
+    assert upserts
+    row = upserts[0].payload[0]
+    assert row["edge_type"] == "MODIFICA"
+    assert row["weight"] == 1.0
+
+
+def test_chunk_source_type_numeric_article_key() -> None:
+    assert _derive_source_type("512-1", "512-1") == "article"
+    assert _derive_source_type("147", "147") == "article"
+
+
+def test_chunk_source_type_slug_section_key() -> None:
+    assert _derive_source_type("identificacion", "") == "section"
+    assert _derive_source_type("regla-operativa-para-lia", "") == "section"
+    assert _derive_source_type("historico-de-cambios-1", "") == "section"
+
+
+def test_chunk_source_type_whole_doc_key() -> None:
+    assert _derive_source_type("doc", "") == "document"
+
+
+def test_chunk_source_type_emitted_for_mixed_article_shapes() -> None:
+    """End-to-end: a parsed-article mix should produce mixed source_type
+    values in the sink upsert payload, not a hardcoded "article"."""
+    client = _FakeClient()
+    sink = SupabaseCorpusSink(
+        target="production",
+        generation_id="gen_source_type_mix",
+        client=client,
+    )
+    docs = [
+        _doc("a/statutory.md", "/abs/a/statutory.md"),
+        _doc("b/practica.md", "/abs/b/practica.md", family="practica"),
+        _doc("c/leftover.md", "/abs/c/leftover.md", family="practica"),
+    ]
+    articles = [
+        _article("512-1", "Hecho generador", "/abs/a/statutory.md"),
+        ParsedArticle(
+            article_key="identificacion",
+            article_number="",
+            heading="Identificacion",
+            body="Body",
+            full_text="## Identificacion\nBody",
+            status="vigente",
+            source_path="/abs/b/practica.md",
+        ),
+        ParsedArticle(
+            article_key="doc",
+            article_number="",
+            heading="Documento completo",
+            body="Body",
+            full_text="Body",
+            status="vigente",
+            source_path="/abs/c/leftover.md",
+        ),
+    ]
+    sink.write_generation(documents=len(docs), chunks=len(articles))
+    doc_ids, _ = sink.write_documents(docs)
+    sink.write_chunks(articles, doc_id_by_source_path=doc_ids)
+
+    chunk_upserts = [
+        call for call in client.calls if call.table == "document_chunks" and call.op == "upsert"
+    ]
+    assert chunk_upserts, "expected at least one document_chunks upsert"
+    source_types = {row["source_type"] for call in chunk_upserts for row in call.payload}
+    assert source_types == {"article", "section", "document"}
 
 
 def test_writes_suin_relations() -> None:
