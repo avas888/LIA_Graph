@@ -273,6 +273,41 @@ class SupabaseCorpusSink:
         self._file_list = list(payload["files"])
         self._generation_row_written = True
 
+    def _load_existing_tema(
+        self,
+        doc_ids: Sequence[str],
+    ) -> dict[str, str]:
+        """Pull current ``documents.tema`` for the given doc_ids.
+
+        Chunked at 150 keys to respect the PostgREST ``.in_()`` URL-length
+        cliff (~200 keys). Returns ``{}`` on any transport error — the
+        caller degrades gracefully to "trust classifier" behavior when we
+        can't read existing state. See v5 Phase 1 / F11.
+        """
+        ids = [d for d in doc_ids if d]
+        if not ids:
+            return {}
+        out: dict[str, str] = {}
+        BATCH = 150
+        try:
+            for start in range(0, len(ids), BATCH):
+                chunk = ids[start : start + BATCH]
+                resp = (
+                    self._client.table("documents")
+                    .select("doc_id, tema")
+                    .in_("doc_id", chunk)
+                    .execute()
+                )
+                for row in list(getattr(resp, "data", None) or []):
+                    did = row.get("doc_id")
+                    tema = row.get("tema")
+                    if did and tema and isinstance(tema, str):
+                        out[str(did)] = tema
+        except Exception:
+            # Never break ingest on observability-style reads.
+            return {}
+        return out
+
     def write_documents(
         self,
         documents: Sequence[dict[str, Any]],
@@ -282,6 +317,24 @@ class SupabaseCorpusSink:
         doc_id_by_source_path: dict[str, str] = {}
         now = _now_iso()
         seen_doc_ids: set[str] = set()
+
+        # v5 F11 — preserve specific `tema` against classifier-regression.
+        # When the classifier outputs `otros_sectoriales` (the catch-all) but
+        # the existing Supabase row already carries a SPECIFIC tema (sector_*
+        # or any other top-level topic set by manual curation / prior Task E
+        # migration), keep the specific value. Prevents additive re-ingest
+        # from silently undoing hand-curated topic assignments.
+        # See docs/next/ingestionfix_v4.md F11 + docs/next/ingestionfix_v5.md
+        # §5 Phase 1 for the full motivation.
+        candidate_doc_ids: list[str] = []
+        for document in documents:
+            rel = str(document.get("relative_path") or document.get("source_path") or "").strip()
+            if rel:
+                did = _sanitize_doc_id(rel)
+                if did:
+                    candidate_doc_ids.append(did)
+        existing_tema_by_doc_id = self._load_existing_tema(candidate_doc_ids)
+
         for document in documents:
             source_path = str(document.get("source_path") or "").strip()
             relative_path = str(document.get("relative_path") or source_path).strip()
@@ -304,6 +357,27 @@ class SupabaseCorpusSink:
                 document.get("requires_subtopic_review") or False
             )
             topic_key = str(document.get("topic_key") or "unknown")
+
+            # v5 F11 — see comment above.
+            existing_tema = existing_tema_by_doc_id.get(doc_id)
+            if (
+                topic_key == "otros_sectoriales"
+                and existing_tema
+                and existing_tema != "otros_sectoriales"
+            ):
+                try:
+                    from ..instrumentation import emit_event as _emit
+                    _emit(
+                        "ingest.sink.tema_preserved_against_catchall",
+                        {
+                            "doc_id": doc_id,
+                            "classifier_tema": "otros_sectoriales",
+                            "preserved_tema": existing_tema,
+                        },
+                    )
+                except Exception:
+                    pass
+                topic_key = existing_tema
             content_hash = _content_hash(markdown)
             # ingestionfix_v2 §4 Phase 6: compute doc_fingerprint inline at
             # write-time so future deltas can use the content-hash shortcut
@@ -322,7 +396,9 @@ class SupabaseCorpusSink:
                 "authority": str(document.get("authority_level") or "unknown"),
                 "pais": str(document.get("pais") or "colombia"),
                 "knowledge_class": str(document.get("knowledge_class") or "unknown"),
-                "tema": document.get("topic_key"),
+                # v5 F11: use local topic_key (which may have been preserved
+                # against a catch-all classifier regression).
+                "tema": topic_key if topic_key != "unknown" else document.get("topic_key"),
                 "subtema": subtopic_key_clean,
                 "tipo_de_documento": document.get("document_archetype"),
                 "corpus": document.get("family"),
