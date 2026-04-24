@@ -120,6 +120,44 @@ def _sanitize_doc_id(relative_path: str) -> str:
     return _DOC_ID_SANITIZER.sub("_", stem).strip("_")
 
 
+def load_existing_tema(
+    client: Any,
+    doc_ids: Sequence[str],
+) -> dict[str, str]:
+    """Pull current ``documents.tema`` for the given doc_ids.
+
+    Module-level helper (not bound to SupabaseCorpusSink) so the Falkor
+    path can call it before the sink instance exists. Batched at 150
+    keys to respect the PostgREST ``.in_()`` URL-length cliff (~200).
+    Returns ``{}`` on any transport error — callers degrade gracefully
+    to "trust classifier" behavior when existing state is unreadable.
+
+    See v5 Phase 1 / F11 + F15.
+    """
+    ids = [d for d in doc_ids if d]
+    if not ids:
+        return {}
+    out: dict[str, str] = {}
+    BATCH = 150
+    try:
+        for start in range(0, len(ids), BATCH):
+            chunk = ids[start : start + BATCH]
+            resp = (
+                client.table("documents")
+                .select("doc_id, tema")
+                .in_("doc_id", chunk)
+                .execute()
+            )
+            for row in list(getattr(resp, "data", None) or []):
+                did = row.get("doc_id")
+                tema = row.get("tema")
+                if did and tema and isinstance(tema, str):
+                    out[str(did)] = tema
+    except Exception:
+        return {}
+    return out
+
+
 def _content_hash(text: str) -> str:
     return hashlib.sha256((text or "").encode("utf-8")).hexdigest()
 
@@ -277,36 +315,8 @@ class SupabaseCorpusSink:
         self,
         doc_ids: Sequence[str],
     ) -> dict[str, str]:
-        """Pull current ``documents.tema`` for the given doc_ids.
-
-        Chunked at 150 keys to respect the PostgREST ``.in_()`` URL-length
-        cliff (~200 keys). Returns ``{}`` on any transport error — the
-        caller degrades gracefully to "trust classifier" behavior when we
-        can't read existing state. See v5 Phase 1 / F11.
-        """
-        ids = [d for d in doc_ids if d]
-        if not ids:
-            return {}
-        out: dict[str, str] = {}
-        BATCH = 150
-        try:
-            for start in range(0, len(ids), BATCH):
-                chunk = ids[start : start + BATCH]
-                resp = (
-                    self._client.table("documents")
-                    .select("doc_id, tema")
-                    .in_("doc_id", chunk)
-                    .execute()
-                )
-                for row in list(getattr(resp, "data", None) or []):
-                    did = row.get("doc_id")
-                    tema = row.get("tema")
-                    if did and tema and isinstance(tema, str):
-                        out[str(did)] = tema
-        except Exception:
-            # Never break ingest on observability-style reads.
-            return {}
-        return out
+        """Instance-method wrapper around :func:`load_existing_tema`."""
+        return load_existing_tema(self._client, doc_ids)
 
     def write_documents(
         self,

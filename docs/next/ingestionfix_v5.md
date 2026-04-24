@@ -476,6 +476,24 @@ followups_for_later:
     description: >
       Frontend UX for topic badges on citations. Backend data shipped in
       v5; UI surfacing is a follow-on FE ticket.
+  - id: F15
+    source: v5 Phase 1 production validation
+    description: >
+      F11 sink-side preservation correctly rewrites `documents.tema` on
+      classifier catch-all regression (430 preserves fired on 2026-04-24
+      re-ingest; 322 sector docs in Supabase). But the Falkor loader path
+      reads `document.topic_key` — the raw classifier output — for
+      `article_topics` map construction in `ingest.py:359` and
+      `delta_runtime.py:490`. So Falkor still emits TEMA edges to
+      `otros_sectoriales` for sector-preserved docs. Fix: apply the
+      same preservation pre-Falkor (pass the resolved tema into
+      CorpusDocument.topic_key before calling `build_graph_load_plan`),
+      OR have the loader read `topic_key` from the sink's preserved
+      value (it can consult `_topic_by_doc_id` after sink completes).
+      Cheapest path: after `write_documents` returns, mutate each
+      CorpusDocument's topic_key to whatever the sink actually wrote.
+      Expected delta on next re-run: Falkor TopicNode 41 → 65+,
+      sector TEMA edges 65 → ~300+.
 ```
 
 ---

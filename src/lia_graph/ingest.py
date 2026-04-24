@@ -351,11 +351,55 @@ def materialize_graph_artifacts(
     # ingestionfix_v2 §4 Phase 5: also thread article→topic bindings so
     # the loader emits TopicNode + TEMA + static SUBTEMA_DE edges during
     # the same pass.
-    _topic_by_source_path = {
-        document.source_path: document.topic_key
-        for document in corpus_documents
-        if document.topic_key
-    }
+    #
+    # v5 F15: apply the same "don't regress specific → catch-all"
+    # preservation that the Supabase sink does. When the classifier emits
+    # `otros_sectoriales` but the existing Supabase row carries a specific
+    # tema (sector_* or any named topic set by manual curation / Task E),
+    # prefer the Supabase value. Without this, Falkor TEMA edges would
+    # land on `otros_sectoriales` even though the sink writes the
+    # preserved value to `documents.tema` — causing the v5 Phase 1
+    # production re-ingest to show 322 sector docs in Supabase but only
+    # 2 sector TopicNodes in Falkor. See docs/next/ingestionfix_v5.md F15.
+    _preserved_tema_by_source_path: dict[str, str] = {}
+    if supabase_sink:
+        try:
+            from .ingestion.supabase_sink import (
+                _sanitize_doc_id as _sid,
+                load_existing_tema as _load_tema,
+            )
+            from .supabase_client import create_supabase_client_for_target
+
+            _preserve_client = create_supabase_client_for_target(
+                supabase_target or "production"
+            )
+            candidate_doc_ids: list[tuple[str, str]] = []
+            for d in corpus_documents:
+                rel = str(getattr(d, "relative_path", None) or d.source_path or "").strip()
+                if rel:
+                    did = _sid(rel)
+                    if did:
+                        candidate_doc_ids.append((d.source_path, did))
+            unique_ids = list({did for _, did in candidate_doc_ids})
+            existing_by_doc_id = _load_tema(_preserve_client, unique_ids)
+            for src, did in candidate_doc_ids:
+                existing = existing_by_doc_id.get(did)
+                if existing and existing != "otros_sectoriales":
+                    _preserved_tema_by_source_path[src] = existing
+        except Exception:  # noqa: BLE001
+            _preserved_tema_by_source_path = {}
+
+    _topic_by_source_path: dict[str, str] = {}
+    for document in corpus_documents:
+        cls_topic = document.topic_key
+        if not cls_topic:
+            continue
+        src = document.source_path
+        preserved = _preserved_tema_by_source_path.get(src)
+        if cls_topic == "otros_sectoriales" and preserved:
+            _topic_by_source_path[src] = preserved
+        else:
+            _topic_by_source_path[src] = cls_topic
     # v4: key by the graph-layer article key (unique-per-doc for prose-only
     # articles) so TEMA edges land on the right ArticleNode. See
     # docs/next/ingestionfix_v4.md §5 Phase 1.
