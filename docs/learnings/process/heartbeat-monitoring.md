@@ -150,6 +150,45 @@ stat -f "%Sm" logs/events.jsonl
 
 Alarm only when **all three** show unhealthy signals (CLOSE_WAIT sockets, RSS stopped growing, events.jsonl stale > 5 min).
 
+### 6. Zsh arithmetic + `grep -c || echo 0` = double-zero
+
+**Symptom:** monitor script exits immediately with `bad math expression: operator expected at '0'`. Stuck sink keeps running while the monitor is dead.
+
+**Fix.** `grep -c X f` prints `0` on stdout **and** returns exit 1 when no matches. A `|| echo 0` composition then prints another `0` — the captured value is `"0\n0"`, and `$((A - B))` fails to parse it as an integer.
+
+Defensive pattern — strip everything non-digit and fall back:
+
+```bash
+_safe_int() { local v="$1"; v="${v//[^0-9]/}"; echo "${v:-0}"; }
+TB_NOW=$(_safe_int "$(grep -c 'Traceback' "$LOGFILE" 2>/dev/null)")
+```
+
+**Incident:** 2026-04-24 cloud-sink heartbeat v1 died at t=~30s. Sink process continued running fine. Fixed by rearming with the `_safe_int` helper (inline monitor v2).
+
+### 7. Fragile dep-health probes you never validated
+
+**Symptom:** monitor calls `scripts/monitoring/dep_health.py` periodically. The Falkor probe was silently returning `ok=False` because of a `ModuleNotFoundError` — wrong module path (`lia_graph.graph_client` instead of `lia_graph.graph.client`) and wrong API (`run_query(str)` doesn't exist; real shape is `execute(GraphWriteStatement)`). The probe reported Falkor red even while Falkor was at 779 ms latency.
+
+**Fix.** Every monitoring probe needs its own regression test. Even a 3-line smoke (`assert dep_health.probe_falkor()["ok"] is True` when env is set) would have caught this.
+
+**Incident:** 2026-04-24 — probe was broken from day one. Monitor never surfaced Falkor health because the probe never returned `ok=True`. Fixed post-stall.
+
+### 8. Per-phase stall thresholds, post-phase-2c
+
+Falkor bulk load (phase 2c, not yet landed as of 2026-04-24) will emit `graph.batch_written` events every 3–10 s. Update stall thresholds when phase 2c lands:
+
+| Phase | Expected event cadence | Stall threshold |
+|---|---|---|
+| `classifier` | per-doc (`subtopic.ingest.classified`) | 180 s |
+| `bindings` | per-binding (`subtopic.graph.binding_built`) | 120 s |
+| `load_existing_tema` (phase 2b) | per batch (50 batches) | 60 s |
+| `sink_writing` (phase 2b) | per batch upsert | 60 s |
+| `falkor_writing` (phase 2c) | per `graph.batch_written` event | 120 s |
+
+If no `graph.batch_written` event fires in 120 s during the Falkor phase **post-phase-2c**, escalate — the write is stuck server-side (`CLIENT LIST` probe on a sibling Redis connection confirms whether `cmd=graph.query` is still running).
+
+Pre-phase-2c (today): Falkor phase is silent, can legitimately be 10–15 min long, monitor cannot distinguish slow-but-progressing from stuck. Don't wire a stall alert here until phase 2c instruments the batches.
+
 ## Timeout budgets
 
 Cap every monitor at **1.5× the plan estimate**:

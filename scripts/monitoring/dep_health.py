@@ -74,20 +74,29 @@ def probe_supabase(target: str) -> dict[str, Any]:
 
 
 def probe_falkor() -> dict[str, Any]:
-    """Trivial Cypher that hits the graph. Reports latency in ms."""
+    """Trivial Cypher that hits the graph. Reports latency in ms.
+
+    Post-2026-04-24 cloud-sink stall:
+      * fixed module path ``lia_graph.graph.client`` (was ``lia_graph.graph_client``)
+      * fixed API — GraphClient uses ``execute(GraphWriteStatement)``,
+        not ``run_query(str)``
+    """
     t0 = time.monotonic()
     try:
-        from lia_graph.graph_client import GraphClient
+        from lia_graph.graph.client import GraphClient, GraphWriteStatement
 
         client = GraphClient.from_env()
-        result = client.run_query("RETURN 1 AS probe")
+        stmt = GraphWriteStatement(
+            description="dep_health_probe",
+            query="RETURN 1 AS probe",
+        )
+        result = client.execute(stmt, strict=True)
         elapsed_ms = int((time.monotonic() - t0) * 1000)
-        rows = len(list(result) if result else [])
         return {
-            "ok": True,
+            "ok": bool(getattr(result, "ok", False)),
             "latency_ms": elapsed_ms,
-            "rows": rows,
-            "graph_name": getattr(client.config, "graph_name", "?"),
+            "graph_name": getattr(getattr(client, "config", None), "graph_name", "?"),
+            "error": getattr(result, "error", None),
         }
     except Exception as exc:  # noqa: BLE001
         elapsed_ms = int((time.monotonic() - t0) * 1000)
