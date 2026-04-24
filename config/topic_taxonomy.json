@@ -1,5 +1,5 @@
 {
-  "version": "ratified_v3_0_2026_04_23",
+  "version": "v2026_04_24_v6_phase5",
   "topics": [
     {
       "key": "declaracion_renta",
@@ -1635,6 +1635,67 @@
         "CORE ya Arriba/LEYES/CATALOGO-LEYES-ET.md"
       ],
       "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "firmeza_declaraciones",
+      "label": "Firmeza de las declaraciones",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "firmeza_declaraciones",
+        "firmeza_declaracion",
+        "firmeza",
+        "declaracion_en_firme"
+      ],
+      "ingestion_aliases": [
+        "firmeza",
+        "termino_de_firmeza",
+        "firmeza_tributaria",
+        "art_714"
+      ],
+      "legacy_document_topics": [
+        "firmeza_declaraciones"
+      ],
+      "vocabulary_status": "v6_phase5"
+    },
+    {
+      "key": "regimen_sancionatorio_extemporaneidad",
+      "label": "Sanción por extemporaneidad",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "regimen_sancionatorio_extemporaneidad",
+        "extemporaneidad",
+        "sancion_extemporaneidad"
+      ],
+      "ingestion_aliases": [
+        "extemporanea",
+        "sancion_extemporaneidad",
+        "art_641",
+        "reduccion_sancion"
+      ],
+      "legacy_document_topics": [
+        "regimen_sancionatorio_extemporaneidad"
+      ],
+      "vocabulary_status": "v6_phase5"
+    },
+    {
+      "key": "devoluciones_saldos_a_favor",
+      "label": "Devolución de saldos a favor",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "devoluciones_saldos_a_favor",
+        "saldo_a_favor",
+        "devolucion_saldo"
+      ],
+      "ingestion_aliases": [
+        "saldo_a_favor",
+        "devolucion_saldo",
+        "compensacion_saldo",
+        "art_850"
+      ],
+      "legacy_document_topics": [
+        "devoluciones_saldos_a_favor"
+      ],
+      "vocabulary_status": "v6_phase5"
     }
   ]
 }

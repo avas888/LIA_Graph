@@ -1684,6 +1684,70 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "tributario",
         ),
     },
+    # v6 phase 5 — procedural subtopics of declaracion_renta. v1 I2 showed
+    # Q20/Q21/Q22 collapse into the parent because these children had no
+    # keyword coverage.
+    "firmeza_declaraciones": {
+        "strong": (
+            "firmeza de la declaración",
+            "firmeza de la declaracion",
+            "declaración en firme",
+            "declaracion en firme",
+            "art. 714",
+            "firmeza tributaria",
+            "término de firmeza",
+            "termino de firmeza",
+            "firmeza de declaraciones",
+        ),
+        "weak": (
+            "firmeza",
+            "tres años firmeza",
+            "años firmeza",
+            "queda en firme",
+        ),
+    },
+    "regimen_sancionatorio_extemporaneidad": {
+        "strong": (
+            "sanción por extemporaneidad",
+            "sancion por extemporaneidad",
+            "declaración extemporánea",
+            "declaracion extemporanea",
+            "art. 641",
+            "reducción sanción extemporaneidad",
+            "reduccion sancion extemporaneidad",
+            "presentación extemporánea",
+            "presentacion extemporanea",
+        ),
+        "weak": (
+            "extemporánea",
+            "extemporanea",
+            "sanción extemporaneidad",
+            "sancion extemporaneidad",
+            "meses de retraso",
+        ),
+    },
+    "devoluciones_saldos_a_favor": {
+        "strong": (
+            "saldo a favor",
+            "devolución saldo a favor",
+            "devolucion saldo a favor",
+            "compensación saldo a favor",
+            "compensacion saldo a favor",
+            "art. 850",
+            "solicitud de devolución",
+            "solicitud de devolucion",
+            "reintegro saldo a favor",
+        ),
+        "weak": (
+            "devolución",
+            "devolucion",
+            "saldo",
+            "compensación",
+            "compensacion",
+            "devuélveme",
+            "devuelveme",
+        ),
+    },
 }
 
 _TOPIC_NOTICE_OVERRIDES = {
@@ -1695,6 +1759,44 @@ _SUBTOPIC_OVERRIDE_PATTERNS: tuple[tuple[re.Pattern[str], str, tuple[str, ...]],
     # Each tuple: (compiled_regex, topic_key, search_keywords_tuple)
     # Keywords bias lexical ranking toward relevant documents within the candidate pool.
     # ── More-specific patterns first (GMF, consumo, patrimonio) ──
+
+    # v6 phase 5 — procedural children of declaracion_renta. These children
+    # can't win dict-order tie-breaks against their parent, so elevate via
+    # regex overrides. Kept before the broad renta patterns so they fire
+    # on Q20/Q21/Q22-class queries before "declaración de renta" hits
+    # the renta scorer.
+    (re.compile(
+        r"(?:"
+        r"firmeza\s+(?:de\s+(?:la\s+|las\s+)?)?declaraci[oó]n|"
+        r"declaraci[oó]n\s+en\s+firme|"
+        r"queda\s+en\s+firme|"
+        r"t[eé]rmino\s+de\s+firmeza|"
+        r"firmeza\s+tributaria|"
+        r"art[ií]culo\s+714"
+        r")", re.IGNORECASE),
+     "firmeza_declaraciones",
+     ("firmeza", "declaración en firme", "término de firmeza", "art. 714")),
+
+    (re.compile(
+        r"(?:"
+        r"sanci[oó]n\s+por\s+extemporaneidad|"
+        r"declaraci[oó]n\s+extempor[aá]nea|"
+        r"presentaci[oó]n\s+extempor[aá]nea|"
+        r"art[ií]culo\s+641"
+        r")", re.IGNORECASE),
+     "regimen_sancionatorio_extemporaneidad",
+     ("extemporaneidad", "declaración extemporánea", "art. 641", "reducción sanción")),
+
+    (re.compile(
+        r"(?:"
+        r"saldo\s+a\s+favor|"
+        r"devoluci[oó]n\s+(?:del\s+|de\s+)?saldo|"
+        r"compensaci[oó]n\s+(?:del\s+|de\s+)?saldo|"
+        r"solicito\s+la\s+devoluci[oó]n|"
+        r"art[ií]culo\s+850"
+        r")", re.IGNORECASE),
+     "devoluciones_saldos_a_favor",
+     ("saldo a favor", "devolución", "compensación", "art. 850")),
 
     # GMF (4x1000) — triggers on GMF-specific terms
     (re.compile(
