@@ -27,6 +27,7 @@ from ._coherence_gate import (
     refusal_text as _coherence_refusal_text,
     should_refuse as _coherence_should_refuse,
 )
+from .answer_policy import citation_allowlist_mode, filter_citations_by_allowlist
 from .topic_safety import (
     abstention_text_for_misalignment,
     abstention_text_for_router_silent,
@@ -501,6 +502,15 @@ def run_pipeline_d(
     if callable(on_llm_delta):
         on_llm_delta(answer)
 
+    # v6 phase 4 — defensive per-topic citation allow-list. In enforce mode,
+    # citations whose ET article number / family isn't allow-listed for the
+    # current topic are treated as retrieval leakage and dropped. Default
+    # mode is ``off`` so rollout is gated per-environment.
+    citation_allow_mode = citation_allowlist_mode()
+    filtered_citations, dropped_by_allowlist = filter_citations_by_allowlist(
+        evidence.citations, request.topic, citation_allow_mode
+    )
+
     return PipelineCResponse(
         trace_id=str(request.trace_id or uuid4().hex),
         run_id=f"pd_{uuid4().hex}",
@@ -510,7 +520,7 @@ def run_pipeline_d(
             "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
             "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?",
         ),
-        citations=evidence.citations,
+        citations=filtered_citations,
         confidence_score=confidence,
         confidence_mode=confidence_mode,
         answer_mode=answer_mode,
@@ -568,6 +578,10 @@ def run_pipeline_d(
             "reranker": reranker_diagnostics,
             "topic_safety": topic_safety_diag,
             "decomposer": decomposer_diag,
+            # v6 phase 4 — per-topic citation allow-list drops surfaced for
+            # the panel; empty list in ``off`` mode.
+            "citation_allowlist_mode": citation_allow_mode,
+            "dropped_by_allowlist": dropped_by_allowlist,
         },
         llm_runtime=dict(llm_runtime_diag),
         token_usage=None,

@@ -3,7 +3,13 @@ from __future__ import annotations
 import re
 import unicodedata
 
+from ._citation_allowlist import (
+    allowlist_mode as citation_allowlist_mode,
+    filter_citations as filter_citations_by_allowlist,
+)
 from .contracts import GraphEvidenceItem
+
+__all_appended_shims__ = ("filter_citations_by_allowlist", "citation_allowlist_mode")
 
 FIRST_BUBBLE_ROUTE_LIMIT = 4
 FIRST_BUBBLE_RISK_LIMIT = 3
