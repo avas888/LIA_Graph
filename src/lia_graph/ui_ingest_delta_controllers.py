@@ -125,7 +125,8 @@ def _handle_preview(handler: Any, deps: dict[str, Any]) -> bool:
             supabase_client=deps.get("supabase_client"),
             graph_client=deps.get("graph_client"),
             skip_llm=bool(deps.get("skip_llm", False)),
-            rate_limit_rpm=int(deps.get("rate_limit_rpm", 60)),
+            rate_limit_rpm=int(deps.get("rate_limit_rpm", 300)),
+            classifier_workers=deps.get("classifier_workers"),
             force_full_classify=force_full_classify,
         )
     except Exception as exc:  # noqa: BLE001

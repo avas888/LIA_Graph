@@ -140,7 +140,8 @@ def _run_delta_worker(
             supabase_client=client,
             graph_client=deps.get("graph_client"),
             skip_llm=bool(deps.get("skip_llm", False)),
-            rate_limit_rpm=int(deps.get("rate_limit_rpm", 60)),
+            rate_limit_rpm=int(deps.get("rate_limit_rpm", 300)),
+            classifier_workers=deps.get("classifier_workers"),
         )
 
         if _check_cancel(client, job_id=job_id, at_stage="finalize"):

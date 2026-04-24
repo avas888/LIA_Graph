@@ -17,31 +17,43 @@ Trace events:
 from __future__ import annotations
 
 import hashlib
+import os
 import time
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
+from .ingest_classifier_pool import (
+    classifier_error,
+    classify_documents_parallel,
+    is_classifier_error,
+)
 from .ingest_constants import CorpusDocument
 from .instrumentation import emit_event
 
 _OVERRIDE_CONFIDENCE_THRESHOLD = 0.80
 
+# Phase 2a (v6): parallelism is the durable default. The classifier is
+# I/O-bound on ~1.5 s Gemini responses, and 8 workers × 300 RPM ceiling
+# saturates the quota with safe headroom. Callers pass through their own
+# worker_count (via CLI flag / env var / delta-worker config) but the
+# library default stays at 8 so every code path inherits parallelism
+# unless someone explicitly opts out.
+_DEFAULT_WORKERS = 8
+
+
+def _resolve_worker_count(explicit: int | None) -> int:
+    if explicit is not None:
+        return max(1, int(explicit))
+    raw = os.environ.get("LIA_INGEST_CLASSIFIER_WORKERS")
+    if raw:
+        try:
+            return max(1, int(raw))
+        except ValueError:
+            pass
+    return _DEFAULT_WORKERS
+
 
 def _doc_id_hash(source_path: str) -> str:
     return hashlib.sha1(source_path.encode("utf-8"), usedforsecurity=False).hexdigest()[:12]
-
-
-def _apply_rate_limit(rpm: int, last_tick: float | None) -> float:
-    if rpm <= 0:
-        return time.monotonic()
-    min_gap = 60.0 / max(rpm, 1)
-    now = time.monotonic()
-    if last_tick is None:
-        return now
-    delta = now - last_tick
-    if delta < min_gap:
-        time.sleep(min_gap - delta)
-        return time.monotonic()
-    return now
 
 
 def _validate_against_taxonomy(
@@ -68,6 +80,87 @@ def _validate_against_taxonomy(
     return None, True
 
 
+def _resolve_legacy_key(doc: CorpusDocument, lookup_by_key: Mapping) -> str | None:
+    raw = doc.subtopic_key
+    if raw and doc.topic_key and (doc.topic_key, raw) in lookup_by_key:
+        return raw
+    return None
+
+
+def _assemble_doc_from_verdict(
+    doc: CorpusDocument,
+    verdict: Any,
+    *,
+    legacy_key: str | None,
+    taxonomy: Any,
+    override_confidence_threshold: float,
+) -> tuple[CorpusDocument, dict]:
+    """Apply taxonomy checks + override policy to a classifier verdict.
+
+    Returns ``(updated_doc, event_payload)``. The event is the
+    ``subtopic.ingest.audit_classified`` payload with ``status="ok"``;
+    the caller emits it after the worker returns.
+    """
+    n2_key_raw = getattr(verdict, "subtopic_key", None)
+    confidence = float(getattr(verdict, "subtopic_confidence", 0.0) or 0.0)
+    verdict_requires_review = bool(
+        getattr(verdict, "requires_subtopic_review", False)
+    )
+    detected_topic = getattr(verdict, "detected_topic", None) or doc.topic_key
+    if detected_topic is None:
+        from .ingest_classifiers import coerce_topic_from_path
+
+        detected_topic = coerce_topic_from_path(
+            doc.relative_path or doc.source_path
+        )
+
+    accepted_key, orphan = _validate_against_taxonomy(
+        topic_key=detected_topic,
+        subtopic_key=n2_key_raw,
+        taxonomy=taxonomy,
+    )
+
+    override_ok = (
+        accepted_key is not None
+        and confidence >= override_confidence_threshold
+        and not verdict_requires_review
+    )
+
+    topic_override: str | None = None
+    if override_ok:
+        next_key: str | None = accepted_key
+        next_review = False
+        if detected_topic and detected_topic != doc.topic_key:
+            topic_override = detected_topic
+    elif accepted_key is not None:
+        next_key = legacy_key
+        next_review = True
+    elif orphan:
+        next_key = legacy_key
+        next_review = True
+    else:
+        next_key = legacy_key
+        next_review = verdict_requires_review
+
+    event = {
+        "doc_id_hash": _doc_id_hash(doc.source_path),
+        "topic": detected_topic,
+        "subtopic_key": next_key,
+        "subtopic_confidence": round(confidence, 4),
+        "requires_subtopic_review": next_review,
+        "status": "ok",
+        "override_from_legacy": override_ok and next_key != legacy_key,
+        "orphan_dropped": orphan,
+        "topic_override_applied": topic_override is not None,
+    }
+    updated = doc.with_subtopic(
+        subtopic_key=next_key,
+        requires_subtopic_review=next_review,
+        topic_key=topic_override,
+    )
+    return updated, event
+
+
 def classify_corpus_documents(
     documents: Sequence[CorpusDocument],
     *,
@@ -76,16 +169,21 @@ def classify_corpus_documents(
     classifier: Callable[..., Any] | None = None,
     taxonomy_loader: Callable[[], Any] | None = None,
     override_confidence_threshold: float = _OVERRIDE_CONFIDENCE_THRESHOLD,
+    worker_count: int | None = None,
 ) -> tuple[CorpusDocument, ...]:
     """Run PASO 4 over every document and return replaced copies.
 
-    When ``skip_llm`` is True the input tuple is returned unchanged (the
-    legacy ``_infer_vocabulary_labels`` verdict that was already on the
-    audit record stays authoritative). This is the fast-dev / CI-smoke
-    path.
+    Parallelism is the default: ``worker_count`` resolves to the
+    ``LIA_INGEST_CLASSIFIER_WORKERS`` env var if set, else 8. Set
+    ``worker_count=1`` to force the sequential path (debugging / regression
+    only — parallel is the sanctioned default for every production run).
 
-    Per-doc classifier failures do not abort the pass. The failing doc
-    keeps its legacy subtopic_key and is flagged ``requires_subtopic_review``.
+    When ``skip_llm`` is True the input tuple is returned unchanged. Per-doc
+    classifier failures do not abort the pass; the failing doc keeps its
+    legacy subtopic_key and is flagged ``requires_subtopic_review``.
+
+    Output order is byte-identical to ``documents`` regardless of worker
+    count — the pool uses pre-allocated indexed slots.
     """
     documents_tuple = tuple(documents)
     if skip_llm:
@@ -112,42 +210,44 @@ def classify_corpus_documents(
         taxonomy_loader = _load
 
     taxonomy = taxonomy_loader()
-
+    lookup_by_key_early = getattr(taxonomy, "lookup_by_key", None) or {}
+    resolved_workers = _resolve_worker_count(worker_count)
     start = time.monotonic()
+
+    # Partition: empty-markdown docs bypass the classifier entirely, so
+    # they don't consume a worker slot. The pool only sees real work.
+    skip_indices: list[int] = []
+    work_indices: list[int] = []
+    for i, doc in enumerate(documents_tuple):
+        if not doc.markdown.strip():
+            skip_indices.append(i)
+        else:
+            work_indices.append(i)
+    work_docs = tuple(documents_tuple[i] for i in work_indices)
+
+    def _classify_one(_idx: int, doc: CorpusDocument) -> Any:
+        filename = doc.relative_path or doc.source_path
+        return classifier(filename=filename, body_text=doc.markdown)
+
+    verdicts = classify_documents_parallel(
+        work_docs,
+        classify_fn=_classify_one,
+        worker_count=resolved_workers,
+        rate_limit_rpm=rate_limit_rpm,
+    )
+
+    # Merge: assemble the final ordered tuple. Failures slot a
+    # legacy-verdict copy with requires_subtopic_review=True.
+    out: list[CorpusDocument | None] = [None] * len(documents_tuple)
     classified = 0
     failed = 0
-    last_tick: float | None = None
-
-    lookup_by_key_early = getattr(taxonomy, "lookup_by_key", None) or {}
-    out: list[CorpusDocument] = []
-    for doc in documents_tuple:
-        # The audit gate only admits graph-targeted markdown for the Falkor
-        # load, but we classify *every* included doc so the Supabase sink
-        # also gets subtema coverage (interpretacion + practica flow too).
-        if not doc.markdown.strip():
-            out.append(doc)
-            continue
-
-        last_tick = _apply_rate_limit(rate_limit_rpm, last_tick)
-        # Validate legacy regex verdict against taxonomy before treating it as
-        # a trusted fallback. `_infer_vocabulary_labels` is permissive and can
-        # produce subtopic_keys that no longer exist in the curated taxonomy.
-        raw_legacy_key = doc.subtopic_key
-        if raw_legacy_key and doc.topic_key:
-            if (doc.topic_key, raw_legacy_key) in lookup_by_key_early:
-                legacy_key = raw_legacy_key
-            else:
-                legacy_key = None
-        else:
-            legacy_key = None
-        filename = doc.relative_path or doc.source_path
-        try:
-            verdict = classifier(
-                filename=filename,
-                body_text=doc.markdown,
-            )
-        except Exception as exc:  # noqa: BLE001 — per-doc tolerance
+    for local_i, verdict in enumerate(verdicts):
+        original_idx = work_indices[local_i]
+        doc = documents_tuple[original_idx]
+        legacy_key = _resolve_legacy_key(doc, lookup_by_key_early)
+        if is_classifier_error(verdict):
             failed += 1
+            exc = classifier_error(verdict)
             emit_event(
                 "subtopic.ingest.audit_classified",
                 {
@@ -157,96 +257,30 @@ def classify_corpus_documents(
                     "subtopic_confidence": 0.0,
                     "requires_subtopic_review": True,
                     "status": "failed",
-                    "error": str(exc)[:200],
+                    "error": str(exc)[:200] if exc else "unknown",
                 },
             )
-            out.append(
-                doc.with_subtopic(
-                    subtopic_key=legacy_key,
-                    requires_subtopic_review=True,
-                )
+            out[original_idx] = doc.with_subtopic(
+                subtopic_key=legacy_key,
+                requires_subtopic_review=True,
             )
             continue
-
-        n2_key_raw = getattr(verdict, "subtopic_key", None)
-        confidence = float(getattr(verdict, "subtopic_confidence", 0.0) or 0.0)
-        verdict_requires_review = bool(
-            getattr(verdict, "requires_subtopic_review", False)
-        )
-        detected_topic = (
-            getattr(verdict, "detected_topic", None) or doc.topic_key
-        )
-        # ingestionfix_v2 §4 Phase 3 defense-in-depth: if both the legacy
-        # regex pass AND the PASO 4 LLM returned no topic, fall back to
-        # the path-inferred topic so the subtopic.ingest.audit_classified
-        # event never emits with a null topic when the folder layout is a
-        # clear signal (e.g. retencion_en_la_fuente/X.md).
-        if detected_topic is None:
-            from .ingest_classifiers import coerce_topic_from_path
-
-            detected_topic = coerce_topic_from_path(
-                doc.relative_path or doc.source_path
-            )
-
-        # Taxonomy consistency: drop orphan keys and flag.
-        accepted_key, orphan = _validate_against_taxonomy(
-            topic_key=detected_topic,
-            subtopic_key=n2_key_raw,
+        updated, event = _assemble_doc_from_verdict(
+            doc,
+            verdict,
+            legacy_key=legacy_key,
             taxonomy=taxonomy,
+            override_confidence_threshold=override_confidence_threshold,
         )
-
-        override_ok = (
-            accepted_key is not None
-            and confidence >= override_confidence_threshold
-            and not verdict_requires_review
-        )
-
-        topic_override: str | None = None
-        if override_ok:
-            next_key: str | None = accepted_key
-            next_review = False
-            # Only override topic_key when the LLM gave us a topic that
-            # is also consistent with the taxonomy (i.e. we already used
-            # (detected_topic, accepted_key) to validate). Propagate so
-            # Phase A5 binding can find (topic, subtopic) in the taxonomy.
-            if detected_topic and detected_topic != doc.topic_key:
-                topic_override = detected_topic
-        elif accepted_key is not None:
-            # Classifier returned a legit key but low confidence / review needed
-            next_key = legacy_key
-            next_review = True
-        elif orphan:
-            # Classifier hallucinated a subtopic outside the taxonomy
-            next_key = legacy_key
-            next_review = True
-        else:
-            # Classifier returned no subtopic. Preserve legacy verdict, flag for
-            # review only if classifier itself flagged.
-            next_key = legacy_key
-            next_review = verdict_requires_review
-
         classified += 1
-        emit_event(
-            "subtopic.ingest.audit_classified",
-            {
-                "doc_id_hash": _doc_id_hash(doc.source_path),
-                "topic": detected_topic,
-                "subtopic_key": next_key,
-                "subtopic_confidence": round(confidence, 4),
-                "requires_subtopic_review": next_review,
-                "status": "ok",
-                "override_from_legacy": override_ok and next_key != legacy_key,
-                "orphan_dropped": orphan,
-                "topic_override_applied": topic_override is not None,
-            },
-        )
-        out.append(
-            doc.with_subtopic(
-                subtopic_key=next_key,
-                requires_subtopic_review=next_review,
-                topic_key=topic_override,
-            )
-        )
+        emit_event("subtopic.ingest.audit_classified", event)
+        out[original_idx] = updated
+
+    for i in skip_indices:
+        out[i] = documents_tuple[i]
+
+    # Determinism invariant: every slot filled.
+    assert all(item is not None for item in out), "classifier pool left empty slots"
 
     elapsed = time.monotonic() - start
     emit_event(
@@ -257,9 +291,11 @@ def classify_corpus_documents(
             "docs_failed": failed,
             "elapsed_s": round(elapsed, 2),
             "skip_llm": False,
+            "worker_count": resolved_workers,
+            "rate_limit_rpm": rate_limit_rpm,
         },
     )
-    return tuple(out)
+    return tuple(out)  # type: ignore[arg-type]
 
 
 def build_article_subtopic_bindings(

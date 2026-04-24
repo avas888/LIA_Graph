@@ -176,7 +176,8 @@ def materialize_delta(
     supabase_client: Any | None = None,
     graph_client: Any | None = None,
     skip_llm: bool = False,
-    rate_limit_rpm: int = 60,
+    rate_limit_rpm: int = 300,
+    classifier_workers: int | None = None,
     lock_target: str | None = None,
     created_by: str | None = None,
     force_full_classify: bool = False,
@@ -342,6 +343,7 @@ def materialize_delta(
         docs_to_classify,
         skip_llm=bool(skip_llm),
         rate_limit_rpm=int(rate_limit_rpm),
+        worker_count=classifier_workers,
     )
     # Merge classified + prematched pass-through. Prematched docs keep
     # their legacy (pre-classification) form — that's safe because the

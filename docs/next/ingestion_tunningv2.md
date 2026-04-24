@@ -401,7 +401,7 @@ Phase 1 gave us the eyes. Phase 2 gives us the data to look at. Every subsequent
 ### 4.3 Pre-rebuild checklist (MUST complete before running any Make target)
 
 1. Confirm disk space: the artifact files can reach ~500 MB; Supabase sink + Falkor load streams ~1 GB over the wire.
-2. Confirm `.env.staging` contains `LIA_FALKORDB_*` and `SUPABASE_*` — the make target will fail early without them, which is the right safety behavior.
+2. Confirm `.env` / `.env.local` contain `GEMINI_API_KEY` (classifier PASO 4 needs it) and `.env.staging` contains `LIA_FALKORDB_*` + `SUPABASE_*`. The make target fails early without them.
 3. Verify the corpus root hasn't shifted: `ls "knowledge_base/CORE ya Arriba/" | wc -l` should return ~30.
 4. Snapshot the current artifact for rollback: `cp artifacts/parsed_articles.jsonl artifacts/parsed_articles.jsonl.v5_backup`.
 5. Record baseline counts in state log:
@@ -409,13 +409,31 @@ Phase 1 gave us the eyes. Phase 2 gives us the data to look at. Every subsequent
    - Current Falkor ArticleNode count (from `falkor_baseline_v5.json` or a fresh query): 9,160 as of 2026-04-24.
    - Current Supabase documents row count (if accessible): query via `psql` or the Supabase dashboard.
 
+### 4.3.1 Rate-limit settings (non-negotiable for a FULL build)
+
+After phase 2a, parallelism and throttle are **persistent defaults** — every ingest entry point inherits them without per-caller plumbing:
+
+* **Classifier (PASO 4)** — default `--rate-limit-rpm 300`, `--classifier-workers 8`. Env overrides: `LIA_INGEST_CLASSIFIER_RPM`, `LIA_INGEST_CLASSIFIER_WORKERS`. At ~1.5s Gemini latency, 8 workers saturate the ceiling and finish ~3,900 docs in ~13 min. Ceiling leaves 70% headroom on Flash's 1,000 RPM cap.
+* **Embeddings** via `scripts/embedding_ops.py --batch-size` — default 100. Gemini Embedding 1 has a hard **3,000 RPM** ceiling. Drop batch-size to **25** so the embedding pass stays comfortably below the ceiling even with the tripled corpus size.
+
+Do NOT run with `--skip-llm` unless you're explicitly debugging: skipping the classifier leaves ~3,600 new EXPERTOS/PRACTICA docs without PASO-4 subtopic/family stamps, which phase 6 retrieval needs. Do NOT set `--classifier-workers 1` unless you're regression-testing the sequential code path.
+
 ### 4.4 Rebuild sequence
 
 Step 1 — Local artifact rebuild (no cloud writes):
 ```bash
-make phase2-graph-artifacts
+# Launch detached per CLAUDE.md long-running-process pattern.
+# --rate-limit-rpm 300 so classifier pace is LLM-provider-safe but not
+# throttle-crawling.
+LOGFILE="logs/phase2_full_rebuild_$(date +%Y%m%dT%H%M%SZ).log"
+nohup bash -c "PYTHONPATH=src:. uv run python -m lia_graph.ingest \
+  --corpus-dir knowledge_base --artifacts-dir artifacts --json \
+  --rate-limit-rpm 300 > $LOGFILE 2>&1; echo PHASE2_FULL_EXIT=\$? >> $LOGFILE" \
+  > /dev/null 2>&1 &
+disown
 ```
-Expected wall time: 3–8 minutes. Watch for `graph_target_document_count` in the JSON summary; it should be >1200.
+Expected wall time at 300 RPM: **~13 min classifier + parsing/edges → ~20 min total** (not the 3–8 min early draft of this doc said; that assumed `--skip-llm`).
+Watch for `graph_target_document_count` in the JSON summary; it should be >1200. Watch `logs/events.jsonl` for `subtopic.ingest.audit_done`.
 
 Step 2 — Inspect the new artifact before any cloud write:
 ```bash
@@ -1089,10 +1107,11 @@ When all phases (0 through 6, plus optional 7) are marked `done` in the state lo
 |---|---|---|---|---|---|
 | 0 — Prep | done | 2026-04-24 | 2026-04-24 | `93698ed` | Branch `feat/ingestion-tunning-v2` created; v1/v2 docs added. Base deviated from plan: rebased onto `feat/evaluacion-ingestionfixtask-v1-ab-harness@f8a154f` (not `main`) because that unmerged branch holds `scripts/evaluations/run_ab_comparison.py` which phase 1 depends on. Rebase SHA: `93698ed`. |
 | 1 — Diagnostic lift | done | 2026-04-24 | 2026-04-24 | `7d966ce` | 9 lifted keys surfaced at top of `response.diagnostics`. Count-style (primary/connected/related) fall back to `len(evidence.*)`; `planner_query_mode` falls back to `plan.query_mode`; TEMA-first keys pass through (None in artifact mode, populated in falkor_live). New test file has 3 passing functions. Baseline on Q3 artifacts: primary_article_count=1, connected=2, related=0, tema_first_mode=None. Pre-existing failures on `test_phase3_graph_planner_retrieval.py::test_phase3_pipeline_d_followup_*` reproduced with my change stashed — NOT caused by phase 1, independently broken on the AB harness base (classifier routes a follow-up prompt to router-silent refusal). Surfacing for later triage; not blocking phase 2. |
-| 2 — Full corpus rebuild | pending | | | | Pre-check: snapshot artifact, confirm credentials. |
+| 2 — Full corpus rebuild | in-progress | 2026-04-24 | | | FULL rebuild blocked briefly on sequential-classifier pace (~94 min ETA at 40 RPM observed — LLM-latency-bound, not rate-limit-bound). Operator authorized phase 2a parallelism redesign; rebuild will re-launch on top of 2a's pool. Interim `--skip-llm` artifact parked as `artifacts/parsed_articles.jsonl.skip_llm_interim` (7,883 rows — hit all corpus gates but lacks PASO-4 subtopic stamps so not phase-6-ready). `.env`/`.env.local` carry `GEMINI_API_KEY`; `DEEPSEEK_API_KEY` unset, runtime falls back to gemini-flash cleanly (probed 3x @ 0.8s). |
+| 2a — Parallel classifier pool | done | 2026-04-24 | 2026-04-24 | pending-commit | New `src/lia_graph/ingest_classifier_pool.py` (~130 LOC): thread-safe `TokenBucket` (10s-burst capacity), `classify_documents_parallel` with pre-allocated indexed output + per-future `ThreadPoolExecutor`, decorrelated-jitter retries. `classify_corpus_documents` partitions empty-markdown docs off the pool, merges verdicts back by original index — output order is byte-identical to input across worker counts. **Defaults made persistent: `--classifier-workers` defaults to 8 (env `LIA_INGEST_CLASSIFIER_WORKERS`), `--rate-limit-rpm` default bumped 60 → 300**, propagated to CLI + delta_runtime + delta_worker + UI controller so every ingest path inherits the new defaults. 7/7 new tests pass: output-order invariant, cross-run determinism, global RPM cap under parallelism, per-doc failure isolation, retry-on-transient, empty-input no-op, token-bucket single-thread rate. Web-research-backed design: `executor.map` vs `as_completed` pitfall, Stripe-style idempotency keys, Brooker jitter, O_APPEND atomicity for concurrent events. |
 | 3 — Evidence-topic coherence gate | done | 2026-04-24 | 2026-04-24 | `60829f0` | `_coherence_gate.py` (127 LOC, slightly over 120 budget; docstring trimmed). Extends case-A (primary present, delegates to existing misalignment) with case-B (primary empty + scored support docs) and case-C (zero evidence). Orchestrator hook adds coherence diagnostic to `topic_safety_diag` regardless of mode; only `enforce` short-circuits. 7 tests pass (6 plan-specified + 1 regression). No regression on `test_phase3_graph_planner_retrieval.py` (same 2 pre-existing failures). |
 | 4 — Citation allow-list | done | 2026-04-24 | 2026-04-24 | `e74f6d9` | Config `config/citation_allow_list.json` has 4 topics (laboral, sagrilaft_ptee, facturacion_electronica, regimen_simple). `_citation_allowlist.py` is 157 LOC (over 100 budget; docstring + regex + family-match logic). Thin wrapper in `answer_policy.py` imports + re-exports. Hook in orchestrator filters evidence.citations right before PipelineCResponse construction; drops surfaced at `diagnostics["dropped_by_allowlist"]`. 9/9 tests pass (8 plan + 1 extract regression). |
-| 5 — Gold + taxonomy alignment | done | 2026-04-24 | 2026-04-24 | pending | Gold file: 6 substitutions (4 main rows Q19/Q25/Q26/Q29 + 2 Q26 sub_questions). Taxonomy: +3 subtopic entries (`firmeza_declaraciones`, `regimen_sancionatorio_extemporaneidad`, `devoluciones_saldos_a_favor`) under `declaracion_renta` parent; version bumped to `v2026_04_24_v6_phase5`. Keyword dict: +3 strong/weak buckets + 3 regex subtopic overrides. **Gold-vs-taxonomy mismatches: 0**. Production routing via `resolve_chat_topic`: Q20→regimen_sancionatorio_extemporaneidad@0.98, Q21→firmeza_declaraciones@0.98, Q22→devoluciones_saldos_a_favor@0.98. Note: plan's §7.4 script uses `detect_topic_from_text` (simpler ingest path that doesn't run overrides) — the real pipeline uses `resolve_chat_topic` which honors overrides, so production is fixed. Startup keyword warnings still 9 (plan target ≤6) — those come from *unrelated* pre-existing uncovered topics; covered by optional phase 7. |
+| 5 — Gold + taxonomy alignment | done | 2026-04-24 | 2026-04-24 | `6ea134e` | Gold file: 6 substitutions (4 main rows Q19/Q25/Q26/Q29 + 2 Q26 sub_questions). Taxonomy: +3 subtopic entries (`firmeza_declaraciones`, `regimen_sancionatorio_extemporaneidad`, `devoluciones_saldos_a_favor`) under `declaracion_renta` parent; version bumped to `v2026_04_24_v6_phase5`. Keyword dict: +3 strong/weak buckets + 3 regex subtopic overrides. **Gold-vs-taxonomy mismatches: 0**. Production routing via `resolve_chat_topic`: Q20→regimen_sancionatorio_extemporaneidad@0.98, Q21→firmeza_declaraciones@0.98, Q22→devoluciones_saldos_a_favor@0.98. Note: plan's §7.4 script uses `detect_topic_from_text` (simpler ingest path that doesn't run overrides) — the real pipeline uses `resolve_chat_topic` which honors overrides, so production is fixed. Startup keyword warnings still 9 (plan target ≤6) — those come from *unrelated* pre-existing uncovered topics; covered by optional phase 7. |
 | 6 — 30Q A/B re-run (validation) | pending | | | | HARD GATE: if contamination hasn't dropped, stop and surface. |
 | 7 — Residual keyword fills (optional) | pending | | | | Only if phase 6 surfaces remaining misroutes. |
 | Post — PR + docs sync | pending | | | | Operator-invoked `/ultrareview`. |
@@ -1101,7 +1120,8 @@ When all phases (0 through 6, plus optional 7) are marked `done` in the state lo
 
 Use this section to log anything that doesn't fit the state log table: surprises, rethinks, incident links, decisions made under uncertainty, questions for the operator. Keep entries dated.
 
-- *(none yet)*
+- **2026-04-24 — Phase 2 rate-limit calibration (FOR FUTURE OPERATORS, DO NOT RE-DEBATE).** Gemini rate limits are the governing constraint on rebuild cadence, not LLM availability. Live ceilings when the operator checked the console: Flash classifier 1,000 RPM, Flash daily 10K RPD, Embedding-1 **3,000 RPM** (hard). At the default `LIA_INGEST_CLASSIFIER_RPM=60`, the classifier phase on a ~3,900-doc PASO-4 pass takes ~65 min — idle-looking even though the pipeline is working. **Resolved to: `--rate-limit-rpm 300` for classifier, `--batch-size 25` for the embedding backfill.** This leaves 70% headroom on Flash RPM and keeps embeddings well below the 3K ceiling even on the tripled corpus. Do NOT fall back to `--skip-llm` for a "fake-fast" rebuild: it strips PASO-4 subtopic stamps and breaks phase 6's retrieval-coherence assumptions.
+- **2026-04-24 — Phase 2a parallelism (PERSISTENT DEFAULT, NOT A ONE-OFF).** Sequential PASO-4 caps at ~40 RPM even with the ceiling at 300 because each Gemini call is ~1.5s of network wait — the workload is I/O-bound. Added `ingest_classifier_pool.py`: `ThreadPoolExecutor(8)` + thread-safe `TokenBucket` + pre-allocated indexed output + decorrelated-jitter retry. Defaults wired through every ingest entry point (CLI, delta runtime, delta worker, UI controller) so every future run inherits parallelism without touching callers. Design validated via web research: `executor.map`/indexed-submit for deterministic output (not `as_completed`), Stripe-style idempotency shape, Marc Brooker "Exponential Backoff And Jitter" for retry safety, POSIX `O_APPEND` atomicity for concurrent `events.jsonl` writers (our event payloads are <4KB). Seven pool tests cover: output-order invariance, cross-run determinism (sequential vs parallel runs produce identical outputs on pure inputs), global RPM cap enforcement under 8 workers, per-doc failure isolation, retry-on-transient success, empty-input no-op, token-bucket single-thread rate. Throughput uplift: 40 RPM → ~300 RPM (7.5×); ETA on 3,900-doc pass: 94 min → ~13 min.
 
 ---
 

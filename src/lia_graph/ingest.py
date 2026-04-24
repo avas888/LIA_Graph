@@ -231,7 +231,8 @@ def materialize_graph_artifacts(
     include_suin: str | Path | None = None,
     suin_artifacts_root: Path | str = "artifacts/suin",
     skip_llm: bool = False,
-    rate_limit_rpm: int = 60,
+    rate_limit_rpm: int = 300,
+    classifier_workers: int | None = None,
 ) -> dict[str, Any]:
     root = Path(corpus_dir)
     artifacts_root = Path(artifacts_dir)
@@ -246,12 +247,15 @@ def materialize_graph_artifacts(
     # Phase A4: run PASO 4 classifier over every included doc before the
     # Supabase sink + graph load, so subtema / requires_subtopic_review are
     # populated in one pass. `--skip-llm` returns the legacy tuple unchanged.
+    # Phase 2a (v6): classifier runs in parallel by default (worker_count=8);
+    # the pool preserves input order and shares a single rate-limit bucket.
     from .ingest_subtopic_pass import classify_corpus_documents
 
     corpus_documents = classify_corpus_documents(
         legacy_corpus_documents,
         skip_llm=bool(skip_llm),
         rate_limit_rpm=int(rate_limit_rpm),
+        worker_count=classifier_workers,
     )
 
     corpus_audit_report_path = artifacts_root / "corpus_audit_report.json"
@@ -745,11 +749,21 @@ def parser() -> argparse.ArgumentParser:
     cli.add_argument(
         "--rate-limit-rpm",
         type=int,
-        default=int(os.environ.get("LIA_INGEST_CLASSIFIER_RPM", "60")),
+        default=int(os.environ.get("LIA_INGEST_CLASSIFIER_RPM", "300")),
         help=(
-            "Upper bound on PASO 4 classifier calls per minute. Default 60 "
-            "(≈22 min for a 1300-doc corpus). Gemini Flash paid tier "
-            "tolerates ~1000 rpm."
+            "Upper bound on PASO 4 classifier calls per minute. Default 300 "
+            "(≈13 min for ~3900 docs at 8 parallel workers). Gemini Flash "
+            "paid tier tolerates ~1000 rpm; 300 leaves 70%% headroom."
+        ),
+    )
+    cli.add_argument(
+        "--classifier-workers",
+        type=int,
+        default=int(os.environ.get("LIA_INGEST_CLASSIFIER_WORKERS", "8")),
+        help=(
+            "Parallel worker count for the PASO 4 classifier pass. Default "
+            "8 — the durable default for every ingest run (phase 2a). Set "
+            "to 1 to force the sequential path (debugging / regression only)."
         ),
     )
     cli.add_argument("--json", action="store_true", help="Emit machine-readable JSON.")
@@ -861,6 +875,7 @@ def main(argv: list[str] | None = None) -> int:
                 strict_parity=bool(args.strict_parity),
                 skip_llm=bool(args.skip_llm),
                 rate_limit_rpm=int(args.rate_limit_rpm),
+                classifier_workers=int(args.classifier_workers),
                 force_full_classify=bool(args.force_full_classify),
             )
         except (FileNotFoundError, NotADirectoryError) as exc:
@@ -918,6 +933,7 @@ def main(argv: list[str] | None = None) -> int:
             suin_artifacts_root=Path(args.suin_artifacts_root),
             skip_llm=bool(args.skip_llm),
             rate_limit_rpm=int(args.rate_limit_rpm),
+            classifier_workers=int(args.classifier_workers),
         )
     except (FileNotFoundError, NotADirectoryError) as exc:
         payload = {"ok": False, "error": "corpus_unavailable", "message": str(exc)}
