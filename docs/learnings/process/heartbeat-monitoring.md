@@ -173,7 +173,29 @@ TB_NOW=$(_safe_int "$(grep -c 'Traceback' "$LOGFILE" 2>/dev/null)")
 
 **Incident:** 2026-04-24 — probe was broken from day one. Monitor never surfaced Falkor health because the probe never returned `ok=True`. Fixed post-stall.
 
-### 8. Per-phase stall thresholds, post-phase-2c
+### 8. Baseline files get contaminated BEFORE the monitor reads them
+
+**Symptom:** I fixed the `grep -c || echo 0` double-output inside the monitor loop (failure mode #6), but a second monitor died on the same zsh arithmetic error. The bug had re-entered through a different path.
+
+**Root cause.** The launcher wrote the baseline with:
+```bash
+TB_CT=$(grep -c "Traceback" "$LOGFILE" 2>/dev/null || echo 0)
+echo "${TB_CT:-0}" > /tmp/phase2_sink_tb_baseline
+```
+On a fresh log with no matches, `grep -c` prints `0` and exits 1. The `|| echo 0` then prints another `0`. `TB_CT` becomes `"0\n0"`. `echo` writes it to the file with a trailing newline, so the baseline file contains **two lines of "0"**. When the monitor later read `$(cat baseline_file)` and did arithmetic, zsh rejected `"0\n0"` as an operator expression.
+
+**Fix.** Apply the same `_safe_int` helper at the READ site instead of trusting the baseline file:
+
+```bash
+_si() { local v="$1"; v="${v//[^0-9]/}"; echo "${v:-0}"; }
+TB_BASELINE=$(_si "$(cat /tmp/phase2_sink_tb_baseline 2>/dev/null)")
+```
+
+This way any upstream contamination of the baseline file (or any intermediate string that went through a `grep -c || echo 0` composition) gets sanitized at read time. Belt-and-suspenders.
+
+**Incident:** 2026-04-24 cloud-sink phase-2c monitor #2 died at t=~30s while the sink itself was running fine. Fixed by re-launching the monitor with `_si` at the read site too.
+
+### 9. Per-phase stall thresholds, post-phase-2c
 
 Falkor bulk load (phase 2c, not yet landed as of 2026-04-24) will emit `graph.batch_written` events every 3–10 s. Update stall thresholds when phase 2c lands:
 

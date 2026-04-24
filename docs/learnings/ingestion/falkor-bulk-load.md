@@ -50,10 +50,32 @@ At 25k edge-writes × 1 s each = 7 hours.
 **Fix: always `CREATE INDEX` for every MERGE label before the bulk load.** For Lia_Graph:
 
 ```cypher
-CREATE INDEX FOR (n:ArticleNode) ON (n.article_key)
+CREATE INDEX FOR (n:ArticleNode) ON (n.article_id)
 CREATE INDEX FOR (n:TopicNode) ON (n.topic_key)
-CREATE INDEX FOR (n:SubTopicNode) ON (n.subtopic_key)
+CREATE INDEX FOR (n:SubTopicNode) ON (n.sub_topic_key)
+# ... plus ReformNode, ConceptNode, ParameterNode (see schema)
 ```
+
+### ⚠️ `CREATE INDEX` is NOT idempotent in FalkorDB (correction, 2026-04-24)
+
+**Correction to an earlier draft of this doc.** We originally cited the FalkorDB docs as saying `CREATE INDEX` is idempotent. Live behavior contradicts that: the second run against an already-indexed label returns:
+
+```
+FalkorDB returned an error for CreateIndex ArticleNode.article_id:
+  Attribute 'article_id' is already indexed
+```
+
+Cloud-sink phase-2c run #1 exited code 3 on the **very first `CREATE INDEX`** because the label was already indexed from an earlier smoke test.
+
+**Handle this in the client, not in the schema code.** `src/lia_graph/graph/client.py::_is_benign_index_error` detects:
+- Statement description starts with `"CreateIndex"` (restrict scope)
+- AND error message contains `"already indexed"`
+
+…and returns a `skipped=True` result with `stats={"indices_already_present": 1}` instead of raising. Other errors on `CreateIndex` (auth, connection) still propagate; the same error text on non-`CreateIndex` statements also propagates.
+
+**Regression test.** `tests/test_graph_client_phase2c.py::test_already_indexed_error_is_benign_for_createindex` — pins the guard's specificity (correct scope on CreateIndex only, correct error-text match). See commit `bea9bf8`.
+
+**Why we didn't use `CREATE INDEX IF NOT EXISTS`.** FalkorDB's Cypher dialect doesn't support that syntax as of v4.6. `CLIENT LIST TYPE normal` + `GRAPH.EXPLAIN` style schema discovery would work but adds a round-trip per index. The catch-and-skip approach is simpler and still bounded by description-prefix + error-text.
 
 ## Anti-pattern #3 — no per-query `TIMEOUT`
 
