@@ -252,8 +252,16 @@ def build_graph_load_plan(
     edges = _dedupe_edges(edges)
     validation = validate_graph_records(nodes, edges, schema=graph_schema)
 
-    statements = tuple(client.stage_node(node) for node in nodes) + tuple(
-        client.stage_edge(edge) for edge in edges
+    # Phase 2c (v6): batched load plan. One UNWIND per N nodes + M edges,
+    # preceded by idempotent CREATE INDEX statements for every MERGE label.
+    # This replaces the pre-2c pattern of one GRAPH.QUERY per record, which
+    # produced ~28,000 round-trips on the v6 corpus and stalled silently
+    # on 2026-04-24 because each MERGE was doing an unindexed label scan.
+    # See docs/learnings/ingestion/falkor-bulk-load.md.
+    statements = _build_batched_statements(
+        client=client,
+        nodes=nodes,
+        edges=edges,
     )
     warnings: list[str] = []
     skipped_edge_count = len(classified_edges) - len(normalized_edges)
@@ -441,6 +449,76 @@ def load_graph_plan(
         plan=plan,
         connection=client.config.to_dict(),
     )
+
+
+def _build_batched_statements(
+    *,
+    client: GraphClient,
+    nodes: tuple[GraphNodeRecord, ...] | list[GraphNodeRecord],
+    edges: tuple[GraphEdgeRecord, ...] | list[GraphEdgeRecord],
+) -> tuple[GraphWriteStatement, ...]:
+    """Phase 2c (v6) — batched UNWIND load plan.
+
+    Order matters: indexes first so subsequent MERGE statements are
+    O(log N) instead of O(N). Then nodes grouped by label and batched
+    at ``config.batch_size_nodes``. Then edges grouped by
+    ``(source_kind, edge_kind, target_kind)`` and batched at
+    ``config.batch_size_edges``. Groupings keep the Cypher shape
+    constant within a batch so the planner can cache the plan across
+    batches.
+    """
+    batch_nodes = max(1, int(client.config.batch_size_nodes))
+    batch_edges = max(1, int(client.config.batch_size_edges))
+
+    # 1. CREATE INDEX preludes — idempotent on FalkorDB.
+    statements: list[GraphWriteStatement] = list(
+        client.stage_indexes_for_merge_labels()
+    )
+
+    # 2. Node batches grouped by kind.
+    nodes_by_kind: dict[NodeKind, list[Mapping[str, object]]] = {}
+    for node in nodes:
+        nodes_by_kind.setdefault(node.kind, []).append(
+            {"key": node.key, "properties": dict(node.properties)}
+        )
+    # Stable output order (predictable tests + readable logs).
+    for kind in sorted(nodes_by_kind, key=lambda k: k.value):
+        rows = nodes_by_kind[kind]
+        for start in range(0, len(rows), batch_nodes):
+            chunk = rows[start : start + batch_nodes]
+            statements.append(client.stage_node_batch(kind, chunk))
+
+    # 3. Edge batches grouped by (source_kind, edge_kind, target_kind).
+    edges_by_triple: dict[
+        tuple[NodeKind, EdgeKind, NodeKind], list[Mapping[str, object]]
+    ] = {}
+    for edge in edges:
+        triple = (edge.source_kind, edge.kind, edge.target_kind)
+        edges_by_triple.setdefault(triple, []).append(
+            {
+                "source_key": edge.source_key,
+                "target_key": edge.target_key,
+                "properties": dict(edge.properties),
+            }
+        )
+    for triple in sorted(
+        edges_by_triple,
+        key=lambda t: (t[0].value, t[1].value, t[2].value),
+    ):
+        rows = edges_by_triple[triple]
+        src_kind, edge_kind, dst_kind = triple
+        for start in range(0, len(rows), batch_edges):
+            chunk = rows[start : start + batch_edges]
+            statements.append(
+                client.stage_edge_batch(
+                    edge_kind=edge_kind,
+                    source_kind=src_kind,
+                    target_kind=dst_kind,
+                    rows=chunk,
+                )
+            )
+
+    return tuple(statements)
 
 
 def _build_article_nodes(

@@ -31,6 +31,18 @@ class GraphClientConfig:
     url: str = ""
     graph_name: str = DEFAULT_GRAPH_NAME
     connect_timeout_seconds: float = 3.0
+    # Phase 2c (v6): per-query server-side TIMEOUT and client socket read
+    # timeout. 30s default covers an UNWIND of 500 nodes + MERGE on an
+    # indexed label; tune up only if writes legitimately take longer.
+    # The 2026-04-24 cloud-sink stall was caused by the old implicit
+    # default (no TIMEOUT) making both client recv() and server-side
+    # Cypher run forever when a single MERGE happened to be slow.
+    query_timeout_seconds: float = 30.0
+    # Batch sizes for UNWIND-based bulk writes. Node batches are smaller
+    # because each row carries a properties map; edge rows only carry
+    # two keys + small props. Match FalkorDB bulk-load guidance.
+    batch_size_nodes: int = 500
+    batch_size_edges: int = 1000
 
     @classmethod
     def from_env(
@@ -49,15 +61,36 @@ class GraphClientConfig:
             timeout = max(1.0, float(timeout_raw)) if timeout_raw else 3.0
         except ValueError:
             timeout = 3.0
+        query_timeout_raw = str(env.get("FALKORDB_QUERY_TIMEOUT_SECONDS", "") or "").strip()
+        try:
+            query_timeout = max(1.0, float(query_timeout_raw)) if query_timeout_raw else 30.0
+        except ValueError:
+            query_timeout = 30.0
+        try:
+            batch_nodes = max(1, int(env.get("FALKORDB_BATCH_NODES", "") or 500))
+        except ValueError:
+            batch_nodes = 500
+        try:
+            batch_edges = max(1, int(env.get("FALKORDB_BATCH_EDGES", "") or 1000))
+        except ValueError:
+            batch_edges = 1000
         return cls(
             url=str(env.get("FALKORDB_URL", "") or "").strip(),
             graph_name=configured_graph_name or graph_name,
             connect_timeout_seconds=timeout,
+            query_timeout_seconds=query_timeout,
+            batch_size_nodes=batch_nodes,
+            batch_size_edges=batch_edges,
         )
 
     @property
     def is_configured(self) -> bool:
         return bool(self.url)
+
+    @property
+    def query_timeout_ms(self) -> int:
+        """Server-side TIMEOUT clause in milliseconds."""
+        return max(100, int(self.query_timeout_seconds * 1000))
 
     @property
     def redacted_url(self) -> str:
@@ -80,6 +113,9 @@ class GraphClientConfig:
             "url": self.redacted_url,
             "graph_name": self.graph_name,
             "connect_timeout_seconds": self.connect_timeout_seconds,
+            "query_timeout_seconds": self.query_timeout_seconds,
+            "batch_size_nodes": self.batch_size_nodes,
+            "batch_size_edges": self.batch_size_edges,
             "is_configured": self.is_configured,
         }
 
@@ -223,6 +259,125 @@ class GraphClient:
             description=f"Delete outbound edges from {source_kind.value}:{source_key}",
             query=query,
             parameters={"source_key": str(source_key)},
+        )
+
+    def stage_index(self, kind: NodeKind) -> GraphWriteStatement:
+        """Idempotent ``CREATE INDEX FOR (n:<kind>) ON (n.<key>)``.
+
+        Phase 2c (v6): must run before any bulk MERGE on this label,
+        otherwise each MERGE does a label scan (O(N)) and the total load
+        degrades quadratically with graph size. FalkorDB treats
+        ``CREATE INDEX`` as idempotent — safe to run on every ingest.
+        """
+        node_type = self.schema.node_type(kind)
+        query = f"CREATE INDEX FOR (n:{kind.value}) ON (n.{node_type.key_field})\n"
+        return GraphWriteStatement(
+            description=f"CreateIndex {kind.value}.{node_type.key_field}",
+            query=query,
+            parameters={},
+        )
+
+    def stage_indexes_for_merge_labels(self) -> tuple[GraphWriteStatement, ...]:
+        """Return one ``CREATE INDEX`` per node kind in the schema.
+
+        Called at the head of a bulk load. All schema-registered labels
+        get an index on their key field; this is the one-time setup that
+        turns the MERGE pattern from O(N) into O(log N).
+        """
+        return tuple(self.stage_index(kind) for kind in self.schema.node_types.keys())
+
+    def stage_node_batch(
+        self,
+        kind: NodeKind,
+        rows: Iterable[Mapping[str, Any]],
+    ) -> GraphWriteStatement:
+        """Stage a single UNWIND+MERGE over ``rows`` — MUCH faster than N stage_node calls.
+
+        Each row must carry ``key`` and ``properties`` (the same shape
+        ``stage_node`` consumes). The statement rewrites to:
+
+            UNWIND $rows AS r
+            MERGE (n:<kind> {<key_field>: r.key})
+            SET n += r.properties
+
+        Phase 2c (v6): one parse + one plan + one reply per batch, vs.
+        one-per-row. 50–100× throughput on batches of 500.
+        """
+        node_type = self.schema.node_type(kind)
+        rows_list = [
+            {"key": str(r.get("key", "")), "properties": dict(r.get("properties") or {})}
+            for r in rows
+        ]
+        if not rows_list:
+            return GraphWriteStatement(
+                description=f"BatchUpsert {kind.value} (empty)",
+                query="RETURN 0 AS skipped\n",
+                parameters={},
+            )
+        query = (
+            "UNWIND $rows AS r\n"
+            f"MERGE (node:{kind.value} {{{node_type.key_field}: r.key}})\n"
+            "SET node += r.properties\n"
+        )
+        return GraphWriteStatement(
+            description=f"BatchUpsert {kind.value} x{len(rows_list)}",
+            query=query,
+            parameters={"rows": rows_list},
+        )
+
+    def stage_edge_batch(
+        self,
+        *,
+        edge_kind: EdgeKind,
+        source_kind: NodeKind,
+        target_kind: NodeKind,
+        rows: Iterable[Mapping[str, Any]],
+    ) -> GraphWriteStatement:
+        """Stage a single UNWIND+MATCH+MERGE over ``rows`` — the edge analog.
+
+        Each row must carry ``source_key``, ``target_key``, and
+        ``properties``. Rewrites to:
+
+            UNWIND $rows AS r
+            MATCH (s:<source_kind> {<src_key>: r.source_key})
+            MATCH (t:<target_kind> {<dst_key>: r.target_key})
+            MERGE (s)-[rel:<edge_kind>]->(t)
+            SET rel += r.properties
+
+        Endpoints use MATCH (not MERGE) so a missing node silently
+        no-ops that row instead of creating a naked stub. This matches
+        the pre-batch ``stage_edge`` semantics.
+        """
+        source_type = self.schema.node_type(source_kind)
+        target_type = self.schema.node_type(target_kind)
+        rows_list = [
+            {
+                "source_key": str(r.get("source_key", "")),
+                "target_key": str(r.get("target_key", "")),
+                "properties": dict(r.get("properties") or {}),
+            }
+            for r in rows
+        ]
+        if not rows_list:
+            return GraphWriteStatement(
+                description=f"BatchEdge {edge_kind.value} (empty)",
+                query="RETURN 0 AS skipped\n",
+                parameters={},
+            )
+        query = (
+            "UNWIND $rows AS r\n"
+            f"MATCH (source:{source_kind.value} {{{source_type.key_field}: r.source_key}})\n"
+            f"MATCH (target:{target_kind.value} {{{target_type.key_field}: r.target_key}})\n"
+            f"MERGE (source)-[rel:{edge_kind.value}]->(target)\n"
+            "SET rel += r.properties\n"
+        )
+        return GraphWriteStatement(
+            description=(
+                f"BatchEdge {edge_kind.value}:{source_kind.value}->{target_kind.value} "
+                f"x{len(rows_list)}"
+            ),
+            query=query,
+            parameters={"rows": rows_list},
         )
 
     def stage_edge(self, record: GraphEdgeRecord) -> GraphWriteStatement:
@@ -407,6 +562,22 @@ def _open_graph_socket(
     try:
         base_socket = socket.create_connection((host, port), timeout=config.connect_timeout_seconds)
         base_socket.settimeout(config.connect_timeout_seconds)
+        # Phase 2c (v6): TCP keepalive prevents indefinite recv() blocks
+        # when a cloud NAT silently drops an idle connection mid-query.
+        # macOS/Linux both accept SO_KEEPALIVE; the per-platform TCP_* knobs
+        # are best-effort and only applied when available.
+        try:
+            base_socket.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+            if hasattr(socket, "TCP_KEEPIDLE"):
+                base_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 30)
+            if hasattr(socket, "TCP_KEEPINTVL"):
+                base_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 10)
+            if hasattr(socket, "TCP_KEEPCNT"):
+                base_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 3)
+        except (OSError, AttributeError):
+            # Keepalive is best-effort; not all platforms / sockets support
+            # every option. Don't abort the connection over it.
+            pass
         if parsed.scheme == "rediss":
             context = ssl.create_default_context()
             sock = context.wrap_socket(base_socket, server_hostname=host)
@@ -456,9 +627,37 @@ def _run_graph_query_over_socket(
         statement.parameters,
     )
     diagnostics["parameter_keys"] = sorted(statement.parameters)
+    diagnostics["query_timeout_ms"] = config.query_timeout_ms
+    # Phase 2c (v6): client-side read timeout. Before this, recv() could
+    # block forever on a slow Cypher MERGE because the connect-timeout
+    # value didn't propagate to post-auth reads. Give the server 2× its
+    # TIMEOUT budget to reply (server aborts at ``query_timeout_ms``; we
+    # wait a little longer for the error message to arrive).
+    read_budget_seconds = config.query_timeout_seconds * 2
     try:
-        sock.sendall(_resp_encode("GRAPH.QUERY", config.graph_name, rendered_query))
+        sock.settimeout(read_budget_seconds)
+    except OSError:
+        # Non-blocking SSL socket quirk; continue without raising.
+        pass
+    try:
+        # Append ``TIMEOUT <ms>`` so the server self-aborts on slow
+        # queries and rolls back partial writes. Per FalkorDB docs,
+        # GRAPH.QUERY accepts a trailing TIMEOUT argument.
+        sock.sendall(
+            _resp_encode(
+                "GRAPH.QUERY",
+                config.graph_name,
+                rendered_query,
+                "TIMEOUT",
+                str(config.query_timeout_ms),
+            )
+        )
         raw_response = _read_resp(sock)
+    except socket.timeout as exc:
+        raise GraphClientError(
+            f"FalkorDB query transport failed: read timeout after "
+            f"{read_budget_seconds:.1f}s (server TIMEOUT={config.query_timeout_ms}ms)"
+        ) from exc
     except Exception as exc:  # noqa: BLE001
         raise GraphClientError(f"FalkorDB query transport failed: {exc}") from exc
 
