@@ -25,6 +25,7 @@ flags say cloud-live.
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any
 
@@ -95,6 +96,47 @@ def retrieve_graph_evidence(
     else:
         effective_article_keys = explicit_article_keys
 
+    # v5 Phase 3 — TEMA-first retrieval. When LIA_TEMA_FIRST_RETRIEVAL is
+    # on or shadow, expand the candidate article-key set with
+    # TopicNode<-[:TEMA]- articles for the routed topic hint. This is the
+    # first time the 1,943 TEMA edges v4 populated actually steer retrieval.
+    tema_first_mode = _tema_first_mode()
+    tema_article_keys: tuple[str, ...] = ()
+    topic_for_tema = (plan.topic_hints[0] if plan.topic_hints else None)
+    if tema_first_mode in ("on", "shadow") and topic_for_tema:
+        tema_article_keys = _retrieve_tema_bound_article_keys(
+            client=client,
+            topic_key=topic_for_tema,
+            limit=max(plan.evidence_bundle_shape.primary_article_limit, 1),
+        )
+        try:
+            from ..instrumentation import emit_event as _emit
+            event_name = (
+                "retrieval.tema_first.live"
+                if tema_first_mode == "on"
+                else "retrieval.tema_first.shadow"
+            )
+            _emit(
+                event_name,
+                {
+                    "topic_key": topic_for_tema,
+                    "tema_bound_count": len(tema_article_keys),
+                    "explicit_count": len(explicit_article_keys),
+                    "subtopic_count": len(subtopic_article_keys),
+                },
+            )
+        except Exception:  # noqa: BLE001 — observability never blocks
+            pass
+        if tema_first_mode == "on" and tema_article_keys:
+            # Merge: explicit anchors first, then subtopic, then TEMA-scoped.
+            seen2: set[str] = set(effective_article_keys)
+            merged2 = list(effective_article_keys)
+            for key in tema_article_keys:
+                if key not in seen2:
+                    seen2.add(key)
+                    merged2.append(key)
+            effective_article_keys = tuple(merged2)
+
     primary_articles = _retrieve_primary_articles(
         client=client,
         plan=plan,
@@ -129,6 +171,11 @@ def retrieve_graph_evidence(
         "seed_article_keys": list(explicit_article_keys),
         "retrieval_sub_topic_intent": sub_topic_intent,
         "subtopic_anchor_keys": list(subtopic_article_keys),
+        # v5 Phase 3: surface the TEMA-first contribution so /orchestration
+        # + unit tests can verify the feature is actually steering retrieval.
+        "tema_first_mode": tema_first_mode,
+        "tema_first_topic_key": topic_for_tema,
+        "tema_first_anchor_count": len(tema_article_keys),
     }
     if not primary_articles:
         diagnostics.update(
@@ -254,6 +301,57 @@ def _retrieve_subtopic_bound_article_keys(
             "LIMIT $limit\n"
         ),
         parameters={"key": sub_topic_key, "limit": int(limit)},
+    )
+    rows = _execute(client, statement)
+    keys: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        candidate = str(row.get("article_key") or "").strip()
+        if candidate and candidate not in seen:
+            seen.add(candidate)
+            keys.append(candidate)
+    return tuple(keys)
+
+
+# v5 Phase 3 — TEMA-first retrieval ----------------------------------------
+
+
+_TEMA_FIRST_ENV = "LIA_TEMA_FIRST_RETRIEVAL"
+_TEMA_FIRST_VALID_MODES: frozenset[str] = frozenset({"off", "shadow", "on"})
+
+
+def _tema_first_mode() -> str:
+    raw = str(os.getenv(_TEMA_FIRST_ENV, "off") or "").strip().lower()
+    return raw if raw in _TEMA_FIRST_VALID_MODES else "off"
+
+
+def _retrieve_tema_bound_article_keys(
+    *,
+    client: GraphClient,
+    topic_key: str,
+    limit: int,
+) -> tuple[str, ...]:
+    """Fetch article_number values for articles with a TEMA edge to ``topic_key``.
+
+    v5 Phase 3: starts at TopicNode → <-[:TEMA]-(ArticleNode) → returns
+    article_number (which is the effective article_key consumed by the
+    rest of the retriever). Ordered by article_number for determinism.
+
+    Empty topic_key or non-positive limit return ``()``. Errors propagate
+    (Invariant I2).
+    """
+    if not topic_key or limit <= 0:
+        return ()
+    statement = GraphWriteStatement(
+        description=f"tema_bound_articles topic={topic_key} limit={limit}",
+        query=(
+            "MATCH (t:TopicNode {topic_key: $topic})<-[:TEMA]-(a:ArticleNode)\n"
+            "WHERE a.article_number IS NOT NULL AND a.article_number <> ''\n"
+            "RETURN DISTINCT a.article_number AS article_key\n"
+            "ORDER BY article_key\n"
+            "LIMIT $limit\n"
+        ),
+        parameters={"topic": topic_key, "limit": int(limit)},
     )
     rows = _execute(client, statement)
     keys: list[str] = []

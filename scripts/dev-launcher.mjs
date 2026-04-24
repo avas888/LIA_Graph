@@ -270,6 +270,16 @@ function buildRuntimeEnv(mode) {
     env.LIA_QUERY_DECOMPOSE = "on";
   }
 
+  // v5 Phase 3 — TEMA-first retrieval. When on, the Falkor retriever
+  // augments its candidate article-key set with TopicNode<-[:TEMA]-
+  // articles for the routed topic hint. Default `shadow` in dev/staging
+  // so the comparison event fires without changing user-visible
+  // behavior; flip to `on` after shadow parity looks right. Production
+  // flag is set separately in Railway env. Shell override wins.
+  if (!String(env.LIA_TEMA_FIRST_RETRIEVAL || "").trim()) {
+    env.LIA_TEMA_FIRST_RETRIEVAL = "shadow";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;
