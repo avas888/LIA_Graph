@@ -1,0 +1,106 @@
+{
+  "batch": 4,
+  "generated_at_utc": "2026-04-24T04:41:19Z",
+  "status": "passed",
+  "auto_checks": [
+    {
+      "gate_id": "G1",
+      "passed": true,
+      "detail": "documents(tema IN 6 topics, live) = 119; manifest row_count = 119",
+      "actual": 119,
+      "expected": 119
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "detail": "document_chunks distinct doc_id count = 119; manifest doc_ids = 119",
+      "actual": 119,
+      "expected": 119
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "detail": "all topics have TopicNode",
+      "actual": {
+        "missing": []
+      },
+      "expected": {
+        "missing": []
+      }
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "detail": "all topics have >= 1 TEMA edge",
+      "actual": {
+        "zero_edge": []
+      },
+      "expected": {
+        "zero_edge": []
+      }
+    },
+    {
+      "gate_id": "G5",
+      "passed": true,
+      "detail": "no failure-shaped events for delta_id=delta_20260424_042601_ce7351",
+      "actual": {
+        "match_count": 0
+      },
+      "expected": {
+        "match_count": 0
+      }
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "detail": "dry-run bust reports 0 rows — sink idempotent",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "detail": "no doc_id overlap with next batch",
+      "actual": {
+        "overlap_count": 0
+      },
+      "expected": {
+        "overlap_count": 0
+      }
+    },
+    {
+      "gate_id": "G8",
+      "passed": true,
+      "detail": "document_chunks with NULL embedding for batch doc_ids = 0",
+      "actual": 0,
+      "expected": 0
+    },
+    {
+      "gate_id": "G9",
+      "passed": true,
+      "detail": "delta elapsed = 12.2 min (expected 5-25)",
+      "actual": 12.2,
+      "expected": "[5, 25]"
+    },
+    {
+      "gate_id": "G10",
+      "passed": true,
+      "detail": "chunk_text NULL-or-empty rows for batch doc_ids = 0",
+      "actual": 0,
+      "expected": 0
+    }
+  ],
+  "manual_smokes": {
+    "M1_retrieval_spot_check": null,
+    "M2_main_chat_e2e": null,
+    "M3_eval_c_gold_delta": null
+  },
+  "ultra_tests": {
+    "U1_row_level_audit": null,
+    "U2_idempotency_rerun": null,
+    "U3_regression_suite": null,
+    "U4_chain_stop_resume": null
+  },
+  "approved_by": null,
+  "approved_at": null
+}

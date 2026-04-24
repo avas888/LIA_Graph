@@ -192,17 +192,44 @@ class DanglingStore:
         self,
         candidates: Sequence[DanglingCandidate],
     ) -> int:
-        """Delete rows matching the supplied candidate keys."""
+        """Delete rows matching the supplied candidate keys.
+
+        Best-effort: on httpx timeout for any individual DELETE, log and
+        continue. Leaving stale dangling_candidates rows is not a
+        correctness issue — the next successful run re-loads them and
+        re-promotes (idempotent on normative_edges natural key) before
+        re-attempting cleanup.
+
+        Patched in v4 Phase 4 (batch 6 triage 2026-04-24 AM Bogotá) after
+        two consecutive batch-6 runs died on the same Supabase DELETE
+        timeout mid-sink. Followup F13 tracks a proper batched-DELETE or
+        DELETE-with-composite-IN rewrite.
+        """
+        import httpx as _httpx  # local import — kept out of module top to
+                                 # avoid importing httpx for test-fixture users.
+
         n = 0
+        failed = 0
         for cand in candidates:
             if not cand.source_key or not cand.target_key or not cand.relation:
                 continue
-            self._client.table(self.TABLE_NAME).delete().eq(
-                "source_key", cand.source_key
-            ).eq("target_key", cand.target_key).eq(
-                "relation", cand.relation
-            ).execute()
-            n += 1
+            try:
+                self._client.table(self.TABLE_NAME).delete().eq(
+                    "source_key", cand.source_key
+                ).eq("target_key", cand.target_key).eq(
+                    "relation", cand.relation
+                ).execute()
+                n += 1
+            except (_httpx.ReadTimeout, _httpx.ConnectTimeout, _httpx.PoolTimeout):
+                failed += 1
+                continue
+        if failed:
+            import sys as _sys
+            print(
+                f"[dangling_store.delete_promoted] {failed} DELETEs timed out; "
+                f"{n} succeeded. Stale rows will be cleaned up on next run.",
+                file=_sys.stderr,
+            )
         return n
 
     def gc_older_than(self, delta_id_threshold: str) -> int:
