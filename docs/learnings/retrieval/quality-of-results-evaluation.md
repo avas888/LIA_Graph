@@ -140,6 +140,32 @@ That's the **minimum** surface. New features add fields; none are removed.
 - **Evaluating on the same corpus you trained on.** Not applicable to v6 (no training), but applicable to any future reranker / classifier tuning work. Keep a held-out eval set.
 - **No negative examples.** The v5 panel had 30 questions that should succeed. Future evals must include questions that should **refuse** — to verify the coherence gate and citation allow-list don't over-block.
 
+## 2026-04-24 post-phase-6 measured results
+
+Validation ran on 2026-04-24 against production Supabase + cloud Falkor with the full v6 stack (coherence gate shadow, allow-list enforce, tema-first on, rebuilt corpus). **3m21s wall time, exit 0, zero new tracebacks.**
+
+| Gate | Target | Hard gate | Measured | Status |
+|---|---|---|---|---|
+| **Contamination zero-hit (Q11/Q16/Q22/Q27)** | 4/4 | 4/4 **(non-negotiable)** | **4/4** | ✅ PASS |
+| `primary_article_count != None` | ≥25/30 | ≥20/30 | 30/30 | ✅ |
+| `primary_article_count >= 1` | ≥20/30 | ≥15/30 | 15/30 | ✅ just meets gate |
+| Mean `primary_article_count` | ≥3.0 | ≥2.0 | 1.6 | ❌ fails |
+| `tema_first_mode == "on"` | 30/30 | 28/30 | 26/30 | ❌ fails by 2 |
+| `tema_first_anchor_count >= 1` | ≥20/30 | ≥10/30 | 15/30 | ✅ |
+| `seed_article_keys` non-empty | ≥20/30 | ≥10/30 | **0/30** | ❌ fails gate |
+
+**Headline finding.** The non-negotiable contamination gate passed **without the defensive filters having to fire** — coherence gate stayed in shadow-mode-emit, citation allow-list dropped zero citations. That means the v5 contamination was not a "defense needed" problem; it was a "corpus + classifier quality" problem. v6's rebuild + phase-5 subtopic keywords + classifier refinements fixed it directly.
+
+**What this means for eval design going forward.**
+
+1. **Defensive filters are regression guards, not primary fixes.** The coherence gate and allow-list MUST stay armed (and the next cycle should flip coherence to enforce once shadow telemetry calibrates), but they're belt-and-suspenders. The real wins are upstream — corpus completeness, classifier quality, retrieval depth.
+2. **Measurement gaps mean you can't tell if a fix worked.** `seed_article_keys=0/30` says the phase-1 lift didn't reach the cloud path. Until that's fixed, we can't measure the *depth* of retrieval. Prioritize diagnostic plumbing before chasing more quality lifts.
+3. **Retrieval depth (mean primary 1.6, target 3.0) is the real v7 target.** Contamination is solved; now ensure we have enough evidence to write substantial answers.
+
+See `docs/next/ingestionfix_v6.md` §1 for the full scorecard and §2 for the retrieval-depth backlog.
+
+---
+
 ## The "am I done?" checklist for phase 6 (v6 validation)
 
 From `docs/next/ingestion_tunningv2.md` §8.5 — the v6 plan's definition of victory:

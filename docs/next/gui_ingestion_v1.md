@@ -658,6 +658,109 @@ A v2 should prove via a GUI-driven run that:
 
 ---
 
+## §13b Monitoring trace spec — what the GUI should show during an ingest
+
+Added 2026-04-24 based on the six inline monitors we built while validating v6. The `events.jsonl`-anchored progress endpoint (§13.2) should surface these signals **in this exact order**, because they fire in this order during a production ingest:
+
+### §13b.1 Phase timeline (top-of-panel)
+
+A horizontal strip showing the five phases with the current one highlighted + wall clock per phase:
+
+| # | Phase | Typical wall time | Event that closes it |
+|---|---|---|---|
+| 1 | `classifier` | ~7 min (8 workers @ 300 RPM) | `subtopic.ingest.audit_done` (count == total_docs) |
+| 2 | `bindings` | <30 s | `subtopic.graph.bindings_summary` |
+| 3 | `load_existing_tema` (phase 2b) | <1 min (parallel 4-worker SELECT) | transition to next phase (no explicit event yet; treat as "preload complete when sink upserts start") |
+| 4 | `sink_writing` | ~2–3 min (parallel 4-worker upsert, ~38 batches) | `corpus.sink_summary` |
+| 5 | `falkor_writing` | ~1–3 min post-phase-2c (batched UNWIND + 30s TIMEOUT per query) | `graph.load_report` or `graph.batch_written` (last of N) |
+
+### §13b.2 Per-phase signals
+
+**Classifier phase** — the UI shows, refreshed every 3 s:
+```
+classifier | docs=1088/1275 (85%) | pace=309 RPM | failed_hard=0 | degraded_n1_only=92 (7.2%) | ETA 1m
+```
+
+- `pace` is rolling-1-minute RPM computed from `subtopic.ingest.classified` events.
+- `failed_hard` counts pool-boundary `_ClassifierError` sentinels.
+- `degraded_n1_only` counts `requires_subtopic_review=true` events (the TPM-backpressure degradation — see `cloud-sink-execution-notes.md`).
+
+**Bindings phase** — short tick:
+```
+bindings | built=1519/1519 (100%) | elapsed 22 s
+```
+
+**load_existing_tema phase** — post-phase-2b should be <1 min:
+```
+load_existing_tema | batches=53/53 | elapsed 38 s
+```
+
+**sink_writing phase** — phase 2b parallel upsert to Supabase:
+```
+sink_writing | documents=1241 | chunks=7613 | edges=25149 | elapsed 1m52s
+```
+
+**falkor_writing phase** — phase 2c batched UNWIND:
+```
+falkor_writing | indexes=6/6 (idempotent) | nodes_batches=3/3 | edge_batches=28/28 | ArticleNode∆=+0 | TEMA∆=+569 | elapsed 52s
+```
+
+- `ArticleNode∆` surfaces the MERGE-idempotency semantic explicitly (often 0, that's correct).
+- `TEMA∆` is the interesting number — new classifier outputs landed.
+
+### §13b.3 Dep-health strip (right side of panel)
+
+Refreshed every 9 minutes via `scripts/monitoring/dep_health.py`:
+
+```
+🩺 Supabase 770 ms  |  Falkor 779 ms  |  Gemini 830 ms  (last check 14:23:05 Bogotá)
+```
+
+If any dep goes red → yellow banner + "Abort ingest" button exposed.
+
+### §13b.4 Stall signatures (should never show in happy path)
+
+These are the signals the UI should detect and surface loudly:
+
+| Signal | Meaning | UI action |
+|---|---|---|
+| `subtopic.ingest.classified` event age > 180 s during `classifier` phase | Classifier stalled (rare — likely Gemini outage) | ⚠️ yellow "Classifier stall — last event 184s ago" |
+| Any new `Traceback` in stderr (delta from baseline) | Per-doc failure crossed the retry budget | 🚨 red "Classifier error N of M — click for details" |
+| `sink_writing` elapsed > 5× median | Supabase slowdown | ⚠️ yellow + dep-health probe |
+| `falkor_writing` elapsed > 5 min without `graph.batch_written` increment (post-phase-2c) | Falkor stuck — same symptom as 2026-04-24 stall | 🚨 red "Falkor phase stall" + button to run `CLIENT LIST` probe per §13.15 |
+| Subprocess exited (`PHASE2_SINK_EXIT=N`) with N ≠ 0 | Hard failure | 🚨 red with exit code + last 20 log lines |
+
+### §13b.5 Post-run summary card
+
+When the subprocess exits (successfully or not), the UI renders:
+
+```
+✅ Ingest complete | 8m 47s total
+
+classifier     6m32s  (1275/1275, 0 hard fail, 92 degraded N1-only)
+bindings          22s  (1519 built)
+preload         38 s  (53 batches)
+sink_writing  1m52s  (+0 docs, +0 chunks, +30083 edges — idempotent)
+falkor_writing   43s  (ArticleNode Δ+0, TEMA Δ+569, HAS_SUBTOPIC Δ+81)
+
+⚠️  92 docs (7.2%) have requires_subtopic_review=true — Gemini TPM backpressure.
+    Re-run after TPM-aware limiter lands (v7 item 6) to eliminate.
+
+Panel markdown: artifacts/eval/ab_comparison_<stamp>.md
+```
+
+### §13b.6 What this spec requires the backend to emit
+
+Net-new events the pipeline should emit but doesn't yet (see §13.13):
+
+- `corpus.sink_summary` at end of `sink_writing` — rowcounts per table.
+- `graph.batch_written` per Falkor batch — `{kind: ArticleNode|TEMA, count, elapsed_ms}` payload.
+- `graph.load_report` at end of `falkor_writing` — per-label totals + indexes-skipped count.
+
+Without these, the UI degrades to the "silent phase" interpretation (see `docs/learnings/process/heartbeat-monitoring.md §5`) — correct but less useful. Phase 2c's follow-up is to emit them.
+
+---
+
 ## §14 When to update this file
 
 - After any ingestion bug that bites us in production. Add §N with the incident + the rule that prevents it.

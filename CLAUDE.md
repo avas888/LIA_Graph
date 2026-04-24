@@ -62,7 +62,7 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 - `evals/` — retrieval/gold benchmarks.
 - `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
 
-## Runtime Read Path (Env v2026-04-22-ac1)
+## Runtime Read Path (Env v2026-04-24-v6)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -72,7 +72,7 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 
 Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend` — use them to confirm which adapters served a turn. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted.
 
-Additional retrieval-tuning flags the launcher defaults to ON across all three modes (shell override still wins): `LIA_LLM_POLISH_ENABLED=1`, `LIA_RERANKER_MODE=live` (flipped from `shadow` on 2026-04-22 — internal-beta risk-forward; adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset), `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out), `LIA_SUBTOPIC_BOOST_FACTOR=1.5`. Full table in `docs/guide/orchestration.md`.
+Additional retrieval-tuning flags the launcher defaults to ON across all three modes (shell override still wins): `LIA_LLM_POLISH_ENABLED=1`, `LIA_RERANKER_MODE=live` (flipped from `shadow` on 2026-04-22 — internal-beta risk-forward; adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset), `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out), `LIA_SUBTOPIC_BOOST_FACTOR=1.5`. **v6 additions (2026-04-24):** `LIA_EVIDENCE_COHERENCE_GATE={off|shadow|enforce}` default `shadow` (phase 3 refusal gate) · `LIA_POLICY_CITATION_ALLOWLIST={off|enforce}` default `off` (phase 4 defensive citation filter). Ingest-pipeline knobs: `LIA_INGEST_CLASSIFIER_WORKERS=8`, `LIA_INGEST_CLASSIFIER_RPM=300`, `LIA_SUPABASE_SINK_WORKERS=4`, `FALKORDB_QUERY_TIMEOUT_SECONDS=30`, `FALKORDB_BATCH_NODES=500`, `FALKORDB_BATCH_EDGES=1000` (phases 2a/2b/2c). Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (phase 1). Full table in `docs/guide/orchestration.md`; forward backlog in `docs/next/ingestionfix_v6.md`.
 
 ## Hot Path (main chat)
 
