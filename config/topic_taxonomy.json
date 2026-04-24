@@ -1,5 +1,5 @@
 {
-  "version": "draft_v1_2026_04_15c",
+  "version": "ratified_v3_0_2026_04_23",
   "topics": [
     {
       "key": "declaracion_renta",
@@ -739,6 +739,584 @@
         "CORE ya Arriba/LEYES/OTROS_SECTORIALES/"
       ],
       "vocabulary_status": "ratified_v1_2"
+    },
+    {
+      "key": "sector_agropecuario",
+      "label": "Sector agropecuario",
+      "aliases": [
+        "sector_agropecuario",
+        "agricola",
+        "rural",
+        "agrario",
+        "pesquero",
+        "cafe"
+      ],
+      "ingestion_aliases": [
+        "sector_agropecuario",
+        "agricola",
+        "rural",
+        "agrario",
+        "pesquero",
+        "cafe"
+      ],
+      "legacy_document_topics": [
+        "sector_agropecuario"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_salud",
+      "label": "Sector salud",
+      "aliases": [
+        "sector_salud",
+        "salud",
+        "seguridad_social_salud",
+        "sistema_salud"
+      ],
+      "ingestion_aliases": [
+        "sector_salud",
+        "salud",
+        "seguridad_social_salud",
+        "sistema_salud"
+      ],
+      "legacy_document_topics": [
+        "sector_salud"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_vivienda",
+      "label": "Sector vivienda",
+      "aliases": [
+        "sector_vivienda",
+        "vivienda",
+        "habitacional",
+        "urbanismo",
+        "subsidio_vivienda"
+      ],
+      "ingestion_aliases": [
+        "sector_vivienda",
+        "vivienda",
+        "habitacional",
+        "urbanismo",
+        "subsidio_vivienda"
+      ],
+      "legacy_document_topics": [
+        "sector_vivienda"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_financiero",
+      "label": "Sector financiero",
+      "aliases": [
+        "sector_financiero",
+        "financiero",
+        "banca",
+        "credito",
+        "seguros",
+        "cooperativas_financieras"
+      ],
+      "ingestion_aliases": [
+        "sector_financiero",
+        "financiero",
+        "banca",
+        "credito",
+        "seguros",
+        "cooperativas_financieras"
+      ],
+      "legacy_document_topics": [
+        "sector_financiero"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_cultura",
+      "label": "Sector cultura",
+      "aliases": [
+        "sector_cultura",
+        "cultura",
+        "cine",
+        "audiovisual",
+        "artes",
+        "patrimonio"
+      ],
+      "ingestion_aliases": [
+        "sector_cultura",
+        "cultura",
+        "cine",
+        "audiovisual",
+        "artes",
+        "patrimonio"
+      ],
+      "legacy_document_topics": [
+        "sector_cultura"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_administracion_publica",
+      "label": "Sector administración pública",
+      "aliases": [
+        "sector_administracion_publica",
+        "administracion_publica",
+        "funcion_publica",
+        "empleado_publico"
+      ],
+      "ingestion_aliases": [
+        "sector_administracion_publica",
+        "administracion_publica",
+        "funcion_publica",
+        "empleado_publico"
+      ],
+      "legacy_document_topics": [
+        "sector_administracion_publica"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_profesiones_liberales",
+      "label": "Sector profesiones liberales",
+      "aliases": [
+        "sector_profesiones_liberales",
+        "profesiones_liberales",
+        "ejercicio_profesional",
+        "colegios_profesionales"
+      ],
+      "ingestion_aliases": [
+        "sector_profesiones_liberales",
+        "profesiones_liberales",
+        "ejercicio_profesional",
+        "colegios_profesionales"
+      ],
+      "legacy_document_topics": [
+        "sector_profesiones_liberales"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_educacion",
+      "label": "Sector educación",
+      "aliases": [
+        "sector_educacion",
+        "educacion",
+        "docente",
+        "universitario",
+        "escuelas"
+      ],
+      "ingestion_aliases": [
+        "sector_educacion",
+        "educacion",
+        "docente",
+        "universitario",
+        "escuelas"
+      ],
+      "legacy_document_topics": [
+        "sector_educacion"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_turismo",
+      "label": "Sector turismo",
+      "aliases": [
+        "sector_turismo",
+        "turismo",
+        "hotelero",
+        "agencias_viaje"
+      ],
+      "ingestion_aliases": [
+        "sector_turismo",
+        "turismo",
+        "hotelero",
+        "agencias_viaje"
+      ],
+      "legacy_document_topics": [
+        "sector_turismo"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_inclusion_social",
+      "label": "Sector inclusión social",
+      "aliases": [
+        "sector_inclusion_social",
+        "inclusion_social",
+        "discapacidad",
+        "minorias",
+        "victimas",
+        "comunidades_negras"
+      ],
+      "ingestion_aliases": [
+        "sector_inclusion_social",
+        "inclusion_social",
+        "discapacidad",
+        "minorias",
+        "victimas",
+        "comunidades_negras"
+      ],
+      "legacy_document_topics": [
+        "sector_inclusion_social"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_servicios",
+      "label": "Sector servicios",
+      "aliases": [
+        "sector_servicios",
+        "servicios",
+        "prestacion_servicios",
+        "servicios_publicos_domiciliarios"
+      ],
+      "ingestion_aliases": [
+        "sector_servicios",
+        "servicios",
+        "prestacion_servicios",
+        "servicios_publicos_domiciliarios"
+      ],
+      "legacy_document_topics": [
+        "sector_servicios"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_justicia",
+      "label": "Sector justicia",
+      "aliases": [
+        "sector_justicia",
+        "justicia",
+        "rama_judicial",
+        "procesal_penal",
+        "civil"
+      ],
+      "ingestion_aliases": [
+        "sector_justicia",
+        "justicia",
+        "rama_judicial",
+        "procesal_penal",
+        "civil"
+      ],
+      "legacy_document_topics": [
+        "sector_justicia"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_energia_mineria",
+      "label": "Sector energía y minería",
+      "aliases": [
+        "sector_energia_mineria",
+        "energia",
+        "mineria",
+        "hidrocarburos",
+        "minero_energetico",
+        "energias_renovables"
+      ],
+      "ingestion_aliases": [
+        "sector_energia_mineria",
+        "energia",
+        "mineria",
+        "hidrocarburos",
+        "minero_energetico",
+        "energias_renovables"
+      ],
+      "legacy_document_topics": [
+        "sector_energia_mineria"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_politico",
+      "label": "Sector político",
+      "aliases": [
+        "sector_politico",
+        "politico",
+        "electoral",
+        "partidos_politicos"
+      ],
+      "ingestion_aliases": [
+        "sector_politico",
+        "politico",
+        "electoral",
+        "partidos_politicos"
+      ],
+      "legacy_document_topics": [
+        "sector_politico"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_deporte",
+      "label": "Sector deporte",
+      "aliases": [
+        "sector_deporte",
+        "deporte",
+        "deportivo",
+        "actividad_fisica"
+      ],
+      "ingestion_aliases": [
+        "sector_deporte",
+        "deporte",
+        "deportivo",
+        "actividad_fisica"
+      ],
+      "legacy_document_topics": [
+        "sector_deporte"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_desarrollo_regional",
+      "label": "Sector desarrollo regional",
+      "aliases": [
+        "sector_desarrollo_regional",
+        "desarrollo_regional",
+        "regiones",
+        "territorial"
+      ],
+      "ingestion_aliases": [
+        "sector_desarrollo_regional",
+        "desarrollo_regional",
+        "regiones",
+        "territorial"
+      ],
+      "legacy_document_topics": [
+        "sector_desarrollo_regional"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_ciencia",
+      "label": "Sector ciencia y tecnología",
+      "aliases": [
+        "sector_ciencia",
+        "ciencia",
+        "ciencia_tecnologia",
+        "investigacion",
+        "innovacion"
+      ],
+      "ingestion_aliases": [
+        "sector_ciencia",
+        "ciencia",
+        "ciencia_tecnologia",
+        "investigacion",
+        "innovacion"
+      ],
+      "legacy_document_topics": [
+        "sector_ciencia"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_infancia",
+      "label": "Sector infancia y adolescencia",
+      "aliases": [
+        "sector_infancia",
+        "infancia",
+        "adolescencia",
+        "menores",
+        "niñez"
+      ],
+      "ingestion_aliases": [
+        "sector_infancia",
+        "infancia",
+        "adolescencia",
+        "menores",
+        "niñez"
+      ],
+      "legacy_document_topics": [
+        "sector_infancia"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_juegos_azar",
+      "label": "Sector juegos de azar",
+      "aliases": [
+        "sector_juegos_azar",
+        "juegos_azar",
+        "loterias",
+        "apuestas"
+      ],
+      "ingestion_aliases": [
+        "sector_juegos_azar",
+        "juegos_azar",
+        "loterias",
+        "apuestas"
+      ],
+      "legacy_document_topics": [
+        "sector_juegos_azar"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_economia",
+      "label": "Sector economía",
+      "aliases": [
+        "sector_economia",
+        "economia",
+        "macroeconomico",
+        "politica_economica"
+      ],
+      "ingestion_aliases": [
+        "sector_economia",
+        "economia",
+        "macroeconomico",
+        "politica_economica"
+      ],
+      "legacy_document_topics": [
+        "sector_economia"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_transporte",
+      "label": "Sector transporte",
+      "aliases": [
+        "sector_transporte",
+        "transporte",
+        "transito",
+        "vial"
+      ],
+      "ingestion_aliases": [
+        "sector_transporte",
+        "transporte",
+        "transito",
+        "vial"
+      ],
+      "legacy_document_topics": [
+        "sector_transporte"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_emprendimiento",
+      "label": "Sector emprendimiento",
+      "aliases": [
+        "sector_emprendimiento",
+        "emprendimiento",
+        "startups",
+        "empresas_pequeñas"
+      ],
+      "ingestion_aliases": [
+        "sector_emprendimiento",
+        "emprendimiento",
+        "startups",
+        "empresas_pequeñas"
+      ],
+      "legacy_document_topics": [
+        "sector_emprendimiento"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_medio_ambiente",
+      "label": "Sector medio ambiente",
+      "aliases": [
+        "sector_medio_ambiente",
+        "medio_ambiente",
+        "ambiental",
+        "recursos_naturales"
+      ],
+      "ingestion_aliases": [
+        "sector_medio_ambiente",
+        "medio_ambiente",
+        "ambiental",
+        "recursos_naturales"
+      ],
+      "legacy_document_topics": [
+        "sector_medio_ambiente"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_comercio_internacional",
+      "label": "Sector comercio internacional",
+      "aliases": [
+        "sector_comercio_internacional",
+        "comercio_internacional",
+        "aduanas",
+        "importaciones",
+        "exportaciones"
+      ],
+      "ingestion_aliases": [
+        "sector_comercio_internacional",
+        "comercio_internacional",
+        "aduanas",
+        "importaciones",
+        "exportaciones"
+      ],
+      "legacy_document_topics": [
+        "sector_comercio_internacional"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_puertos",
+      "label": "Sector puertos",
+      "aliases": [
+        "sector_puertos",
+        "puertos",
+        "portuario",
+        "maritimo"
+      ],
+      "ingestion_aliases": [
+        "sector_puertos",
+        "puertos",
+        "portuario",
+        "maritimo"
+      ],
+      "legacy_document_topics": [
+        "sector_puertos"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
+    },
+    {
+      "key": "sector_telecomunicaciones",
+      "label": "Sector telecomunicaciones",
+      "aliases": [
+        "sector_telecomunicaciones",
+        "telecomunicaciones",
+        "tic",
+        "servicios_comunicaciones"
+      ],
+      "ingestion_aliases": [
+        "sector_telecomunicaciones",
+        "telecomunicaciones",
+        "tic",
+        "servicios_comunicaciones"
+      ],
+      "legacy_document_topics": [
+        "sector_telecomunicaciones"
+      ],
+      "allowed_path_prefixes": [],
+      "vocabulary_status": "ratified_v3_0"
     },
     {
       "key": "leyes_derogadas",

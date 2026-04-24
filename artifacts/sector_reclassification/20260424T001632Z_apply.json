@@ -1,0 +1,2657 @@
+{
+  "run_id": "20260424T001632Z_apply",
+  "generated_at_utc": "20260424T001632Z",
+  "approved_source": "artifacts/sector_classification/sector_reclassification_proposal.approved.json",
+  "approved_by": "avasqueza@gmail.com",
+  "approved_at_bogota": "2026-04-23 07:09 PM",
+  "plan_version": "v3.1-B-approved",
+  "decisions_sha256": "9b91d62d874d19d8751ec9ac2f5c8291583af92872ae0c1b98ded5d87504ccf4",
+  "dry_run": true,
+  "flags": {
+    "confirm": false
+  },
+  "action_counts": {
+    "migrate_existing": 105,
+    "new_sector": 327,
+    "stay_orphan": 78
+  },
+  "new_tema_counts": {
+    "laboral": 16,
+    "comercial_societario": 13,
+    "datos_tecnologia": 4,
+    "sector_salud": 28,
+    "sector_agropecuario": 30,
+    "sector_emprendimiento": 2,
+    "sector_educacion": 17,
+    "presupuesto_hacienda": 25,
+    "obligaciones_profesionales_contador": 7,
+    "sector_profesiones_liberales": 19,
+    "sector_infancia": 6,
+    "sector_turismo": 16,
+    "facturacion_electronica": 1,
+    "sector_administracion_publica": 25,
+    "sagrilaft_ptee": 15,
+    "sector_vivienda": 27,
+    "sector_ciencia": 7,
+    "sector_cultura": 26,
+    "sector_inclusion_social": 16,
+    "sector_politico": 8,
+    "sector_financiero": 27,
+    "sector_energia_mineria": 12,
+    "sector_servicios": 15,
+    "contratacion_estatal": 6,
+    "estados_financieros_niif": 1,
+    "sector_desarrollo_regional": 7,
+    "reforma_pensional": 5,
+    "sector_deporte": 7,
+    "leyes_derogadas": 4,
+    "sector_justicia": 14,
+    "sector_juegos_azar": 5,
+    "sector_transporte": 3,
+    "inversiones_incentivos": 3,
+    "beneficiario_final_rub": 1,
+    "sector_comercio_internacional": 2,
+    "reformas_tributarias": 2,
+    "zonas_francas": 1,
+    "ica": 1,
+    "sector_medio_ambiente": 2,
+    "sector_economia": 3,
+    "sector_puertos": 2,
+    "sector_telecomunicaciones": 1
+  },
+  "write_row_count": 432,
+  "write_decisions": [
+    {
+      "doc_id": "CORE_ya_Arriba_EXPERTOS_LEYES_DT-2300-2023-EXPERTOS.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_EXPERTOS_EXPERTOS_Ley-1480-2011.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-1480-2011.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_NORMATIVA_Ley-1480-2011.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_consolidado_Ley-1480-2011.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_EXPERTOS_EXPERTOS_Ley-2300-2023.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_LOGGRO_PRACTICA_Ley-2300-2023.md",
+      "new_tema": "datos_tecnologia",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_NORMATIVA_Ley-2300-2023.md",
+      "new_tema": "datos_tecnologia",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_DATOS_TECNOLOGIA_consolidado_Ley-2300-2023.md",
+      "new_tema": "datos_tecnologia",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1990.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-10-1991.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-101-1993.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1014-2006.md",
+      "new_tema": "sector_emprendimiento",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1064-2006.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1066-2006.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-109-1985.md",
+      "new_tema": "obligaciones_profesionales_contador",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1090-2006.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1098-2006.md",
+      "new_tema": "sector_infancia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1101-2006.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-111-2006.md",
+      "new_tema": "facturacion_electronica",
+      "action": "migrate_existing",
+      "reason_tag": "orphan_rescue"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1114-2006.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1121-2006.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1122-2007.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-115-1994.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-117-1985.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1175-2007.md",
+      "new_tema": "sector_ciencia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1185-2008.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-123-1994.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1233-2008.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1257-2008.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1275-2009.md",
+      "new_tema": "sector_infancia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1286-2009.md",
+      "new_tema": "sector_ciencia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-130-1994.md",
+      "new_tema": "sector_politico",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1328-2009.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1379-2010.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-141-1994.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-142-1994.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-143-1994.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1475-2011.md",
+      "new_tema": "sector_politico",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1493-2011.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1527-2012.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1536-2012.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1537-2012.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1555-2012.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1558-2012.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1561-2012.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1563-2012.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1565-2012.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-16-1990.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-160-1994.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1695-2013.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1697-2013.md",
+      "new_tema": "contratacion_estatal",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1712-2014.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1727-2014.md",
+      "new_tema": "estados_financieros_niif",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1731-2014.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1735-2014.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-174-1994.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1762-2015.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1778-2016.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1787-2016.md",
+      "new_tema": "sector_desarrollo_regional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1788-2016.md",
+      "new_tema": "reforma_pensional",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-181-1995.md",
+      "new_tema": "sector_deporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-1990-2019.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2-1976.md",
+      "new_tema": "leyes_derogadas",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-20-1979.md",
+      "new_tema": "leyes_derogadas",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-201-1995.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2040-2020.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2064-2020.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2068-2020.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2070-2020.md",
+      "new_tema": "sector_desarrollo_regional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2133-2021.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-215-1995.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-2283-2023.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-26-1989.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-3-1991.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-30-1971.md",
+      "new_tema": "leyes_derogadas",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-30-1988.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-30-1992.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-300-1996.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-31-1992.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-310-1996.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-33-1968.md",
+      "new_tema": "reforma_pensional",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-361-1997.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-38-1969.md",
+      "new_tema": "leyes_derogadas",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-388-1997.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-397-1997.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-454-1998.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-510-1999.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-546-1999.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-55-1985.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-58-1985.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-594-2000.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-6-1975.md",
+      "new_tema": "reforma_pensional",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-630-2000.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-643-2001.md",
+      "new_tema": "sector_juegos_azar",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-666-2001.md",
+      "new_tema": "sector_transporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-67-1979.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-675-2001.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-681-2001.md",
+      "new_tema": "sector_desarrollo_regional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-685-2001.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-687-2001.md",
+      "new_tema": "sector_juegos_azar",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-70-1993.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-715-2001.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-716-2001.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-768-2002.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-79-1988.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-790-2002.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-795-2003.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-811-2003.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-814-2003.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-824-2003.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-833-2003.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-84-1989.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-9-1979.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-9-1989.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-939-2004.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-95-1890.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-964-2005.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-97-1913.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-973-2005.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_EXPERTOS_EXPERTOS_Ley-986-2005.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-10-1990.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-10-1991.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-101-1993.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1014-2006.md",
+      "new_tema": "inversiones_incentivos",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1064-2006.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1066-2006.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-109-1985.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1090-2006.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1098-2006.md",
+      "new_tema": "sector_infancia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1101-2006.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-111-2006.md",
+      "new_tema": "inversiones_incentivos",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1114-2006.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1122-2007.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-115-1994.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-117-1985.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1185-2008.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1275-2009.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1328-2009.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1536-2012.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-16-1990.md",
+      "new_tema": "sector_ciencia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-160-1994.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1661-2013.md",
+      "new_tema": "sector_desarrollo_regional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1694-2013.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1695-2013.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1697-2013.md",
+      "new_tema": "sector_deporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1712-2014.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1727-2014.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1731-2014.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1735-2014.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-174-1994.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1743-2018.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1755-2015.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1762-2015.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1778-2016.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1787-2016.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1788-2016.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-181-1995.md",
+      "new_tema": "sector_deporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-1990-2019.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-20-1979.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-201-1995.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2040-2020.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2064-2020.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2068-2020.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2070-2020.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2133-2021.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-215-1995.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-2283-2023.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-26-1989.md",
+      "new_tema": "obligaciones_profesionales_contador",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-3-1991.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-30-1971.md",
+      "new_tema": "beneficiario_final_rub",
+      "action": "migrate_existing",
+      "reason_tag": "orphan_rescue"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-30-1992.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-300-1996.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-310-1996.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-546-1999.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-55-1985.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-58-1985.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-594-2000.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-666-2001.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-67-1983.md",
+      "new_tema": "sector_comercio_internacional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-681-2001.md",
+      "new_tema": "reformas_tributarias",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-685-2001.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-715-2001.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-768-2002.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-790-2002.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-795-2003.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-811-2003.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-812-2003.md",
+      "new_tema": "sector_desarrollo_regional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-814-2003.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-824-2003.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-833-2003.md",
+      "new_tema": "sector_ciencia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-84-1989.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-89-1988.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-9-1979.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-9-1989.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-902-2017.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-939-2004.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-95-1890.md",
+      "new_tema": "sector_comercio_internacional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-964-2005.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-97-1913.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-973-2005.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_LOGGRO_PRACTICA_Ley-98-1993.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1004_2005_Zonasfrancas.md",
+      "new_tema": "zonas_francas",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1393_2010_RentasDestinacionEspecifica.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1450_2011_PND.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_14_1983_ICA.md",
+      "new_tema": "ica",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_160_1994_ReformaAgraria.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1753_2015_PND.md",
+      "new_tema": "sector_desarrollo_regional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_1955_2019_PND.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_2195_2022_TransparenciaCorrupcion.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_2381_2024_ReformaPensional.md",
+      "new_tema": "reforma_pensional",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_Ley_599_2000_CodigoPenalDelitosF.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-10-1990.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-10-1991.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-101-1993.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1014-2006.md",
+      "new_tema": "sector_emprendimiento",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1064-2006.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1066-2006.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-109-1985.md",
+      "new_tema": "obligaciones_profesionales_contador",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1090-2006.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1098-2006.md",
+      "new_tema": "sector_infancia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1101-2006.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1114-2006.md",
+      "new_tema": "sector_medio_ambiente",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1121-2006.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1122-2007.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-115-1994.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-117-1985.md",
+      "new_tema": "obligaciones_profesionales_contador",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1175-2007.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1185-2008.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-123-1994.md",
+      "new_tema": "obligaciones_profesionales_contador",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1233-2008.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1257-2008.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1275-2009.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1286-2009.md",
+      "new_tema": "sector_ciencia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-130-1994.md",
+      "new_tema": "sector_politico",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1328-2009.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1379-2010.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-141-1994.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-142-1994.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-143-1994.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1475-2011.md",
+      "new_tema": "sector_politico",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1493-2011.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1527-2012.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1536-2012.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1537-2012.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1555-2012.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1558-2012.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1561-2012.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1563-2012.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1565-2012.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-16-1990.md",
+      "new_tema": "sector_deporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-160-1994.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1694-2013.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1695-2013.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1697-2013.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1712-2014.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1727-2014.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1731-2014.md",
+      "new_tema": "sector_transporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1735-2014.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-174-1994.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1743-2018.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1755-2015.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1762-2015.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1778-2016.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1787-2016.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1788-2016.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-181-1995.md",
+      "new_tema": "sector_deporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-1990-2019.md",
+      "new_tema": "sector_economia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2-1976.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-20-1979.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-201-1995.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2040-2020.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2064-2020.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2068-2020.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2070-2020.md",
+      "new_tema": "sector_desarrollo_regional",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2133-2021.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-215-1995.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-2283-2023.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-26-1989.md",
+      "new_tema": "sector_puertos",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-3-1991.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1971.md",
+      "new_tema": "sector_medio_ambiente",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1988.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-30-1992.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-300-1996.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-31-1992.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-310-1996.md",
+      "new_tema": "sector_puertos",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-361-1997.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-38-1969.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-388-1997.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-397-1997.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-4-1913.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-454-1998.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-510-1999.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-546-1999.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-55-1985.md",
+      "new_tema": "sector_politico",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-58-1985.md",
+      "new_tema": "sector_politico",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-594-2000.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-6-1975.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-630-2000.md",
+      "new_tema": "sector_juegos_azar",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-643-2001.md",
+      "new_tema": "sector_juegos_azar",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-666-2001.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-67-1979.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-67-1983.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-675-2001.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-681-2001.md",
+      "new_tema": "reformas_tributarias",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-685-2001.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-687-2001.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-70-1993.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-715-2001.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-716-2001.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-768-2002.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-79-1988.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-790-2002.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-795-2003.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-811-2003.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-814-2003.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-824-2003.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-833-2003.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-84-1989.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-9-1979.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-9-1989.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-902-2017.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-939-2004.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-95-1890.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-964-2005.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-973-2005.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_NORMATIVA_Ley-986-2005.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1098-2006.md",
+      "new_tema": "sector_infancia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1122-2007.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-115-1994.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-117-1985.md",
+      "new_tema": "sector_ciencia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1175-2007.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1185-2008.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-123-1994.md",
+      "new_tema": "sector_deporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1233-2008.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1257-2008.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1275-2009.md",
+      "new_tema": "sector_infancia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1286-2009.md",
+      "new_tema": "sector_ciencia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-130-1994.md",
+      "new_tema": "sector_politico",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1328-2009.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-137-1994.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1379-2010.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-142-1994.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-143-1994.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1475-2011.md",
+      "new_tema": "sector_politico",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1493-2011.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1527-2012.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1536-2012.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1537-2012.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1555-2012.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1565-2012.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1727-2014.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1731-2014.md",
+      "new_tema": "sector_transporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1735-2014.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-174-1994.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1755-2015.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1762-2015.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1778-2016.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1787-2016.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1788-2016.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-181-1995.md",
+      "new_tema": "sector_deporte",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-1990-2019.md",
+      "new_tema": "sector_economia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2-1976.md",
+      "new_tema": "obligaciones_profesionales_contador",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-20-1979.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-201-1995.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2040-2020.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2064-2020.md",
+      "new_tema": "sector_economia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2068-2020.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2070-2020.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2130-2021.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2133-2021.md",
+      "new_tema": "sector_telecomunicaciones",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-215-1995.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2283-2023.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-26-1989.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-3-1991.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1971.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1988.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-30-1992.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-300-1996.md",
+      "new_tema": "sector_turismo",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-31-1992.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-310-1996.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-33-1968.md",
+      "new_tema": "reforma_pensional",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-361-1997.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-38-1969.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-388-1997.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-397-1997.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-4-1913.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-454-1998.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-510-1999.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-527-1999.md",
+      "new_tema": "datos_tecnologia",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-546-1999.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-55-1985.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-58-1985.md",
+      "new_tema": "obligaciones_profesionales_contador",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-594-2000.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-6-1975.md",
+      "new_tema": "sector_profesiones_liberales",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-630-2000.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-643-2001.md",
+      "new_tema": "sector_juegos_azar",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-666-2001.md",
+      "new_tema": "sector_servicios",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-67-1979.md",
+      "new_tema": "sector_justicia",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-67-1983.md",
+      "new_tema": "inversiones_incentivos",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-675-2001.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-677-2001.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-685-2001.md",
+      "new_tema": "sector_energia_mineria",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-687-2001.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-70-1993.md",
+      "new_tema": "sector_inclusion_social",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-716-2001.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-768-2002.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-79-1988.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-790-2002.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-795-2003.md",
+      "new_tema": "sector_financiero",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-808-2020.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-811-2003.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-812-2003.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-814-2003.md",
+      "new_tema": "sector_cultura",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-824-2003.md",
+      "new_tema": "sector_educacion",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-833-2003.md",
+      "new_tema": "sagrilaft_ptee",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-84-1989.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-89-1988.md",
+      "new_tema": "presupuesto_hacienda",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-9-1979.md",
+      "new_tema": "sector_salud",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-9-1989.md",
+      "new_tema": "sector_vivienda",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-902-2017.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-939-2004.md",
+      "new_tema": "sector_agropecuario",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-964-2005.md",
+      "new_tema": "comercial_societario",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-973-2005.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_EXPERTOS_EXPERTOS_Ley-1474-2011.md",
+      "new_tema": "contratacion_estatal",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_LOGGRO_PRACTICA_Ley-1474-2011.md",
+      "new_tema": "contratacion_estatal",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_NORMATIVA_Ley-1474-2011.md",
+      "new_tema": "contratacion_estatal",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LEYES_PROCEDIMIENTO_FISCAL_consolidado_Ley-1474-2011.md",
+      "new_tema": "contratacion_estatal",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LOGGRO_LEYES_DT-2300-2023-LOGGRO.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_LOGGRO_LEYES_PF-1474-2011-LOGGRO.md",
+      "new_tema": "sector_administracion_publica",
+      "action": "new_sector",
+      "reason_tag": "merge_map_canonical"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_NORMATIVA_LEYES_DT-2300-2023-NORMATIVA.md",
+      "new_tema": "laboral",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    },
+    {
+      "doc_id": "CORE_ya_Arriba_NORMATIVA_LEYES_PF-1474-2011-NORMATIVA.md",
+      "new_tema": "contratacion_estatal",
+      "action": "migrate_existing",
+      "reason_tag": "existing_taxonomy_key"
+    }
+  ]
+}

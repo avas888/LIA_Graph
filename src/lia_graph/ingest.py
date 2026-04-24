@@ -356,8 +356,14 @@ def materialize_graph_artifacts(
         for document in corpus_documents
         if document.topic_key
     }
+    # v4: key by the graph-layer article key (unique-per-doc for prose-only
+    # articles) so TEMA edges land on the right ArticleNode. See
+    # docs/next/ingestionfix_v4.md §5 Phase 1.
+    from .ingestion.loader import _graph_article_key
     article_topics = {
-        article.article_key: _topic_by_source_path[str(article.source_path or "")]
+        _graph_article_key(article): _topic_by_source_path[
+            str(article.source_path or "")
+        ]
         for article in articles
         if str(article.source_path or "") in _topic_by_source_path
     }

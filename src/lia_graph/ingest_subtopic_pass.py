@@ -283,7 +283,7 @@ def build_article_subtopic_bindings(
     that would have caught the B3 bug: a B3 run that shows
     ``skipped_topic_mismatch > 0`` is a red flag.
     """
-    from .ingestion.loader import SubtopicBinding
+    from .ingestion.loader import SubtopicBinding, _graph_article_key
 
     if taxonomy is None:
         if taxonomy_loader is None:
@@ -329,7 +329,11 @@ def build_article_subtopic_bindings(
             skipped["topic_subtopic_mismatch"] += 1
             continue
         label = getattr(entry, "label", "") or sub_key
-        bindings[article_key] = SubtopicBinding(
+        # v4: key bindings by graph-layer article key so HAS_SUBTOPIC edges
+        # resolve against the ArticleNode's MERGE key (which differs from
+        # `article.article_key` for prose-only docs).
+        graph_key = _graph_article_key(article)
+        bindings[graph_key] = SubtopicBinding(
             sub_topic_key=sub_key,
             parent_topic=parent_topic,
             label=label,
@@ -337,7 +341,7 @@ def build_article_subtopic_bindings(
         emit_event(
             "subtopic.graph.binding_built",
             {
-                "article_key": article_key,
+                "article_key": graph_key,
                 "sub_topic_key": sub_key,
                 "parent_topic": parent_topic,
             },

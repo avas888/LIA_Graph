@@ -50,6 +50,12 @@ class GraphNodeType:
     key_field: str
     description: str
     required_fields: tuple[str, ...] = ()
+    # v4: Properties that are declared-but-optional. Consumers reading them
+    # from Cypher must tolerate NULL. The retriever-contract tests validate
+    # every Cypher-bound property against `required_fields ∪ optional_fields
+    # ∪ {key_field}`, so any new property used by retrieval must be declared
+    # here (or in required_fields) before landing.
+    optional_fields: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -161,7 +167,20 @@ def default_graph_schema() -> GraphSchema:
             label=NodeKind.ARTICLE,
             key_field="article_id",
             description="Versionable normative unit from the shared regulatory corpus.",
-            required_fields=("article_number", "heading", "text_current", "status"),
+            # v4: `article_number` moved from required_fields → optional_fields
+            # so prose-only docs (whole-doc-fallback parser output with empty
+            # article_number) can be materialized as ArticleNodes. The loader
+            # emits an `is_prose_only` property so consumers can filter cleanly.
+            # See docs/next/ingestionfix_v4.md §2.
+            required_fields=("heading", "text_current", "status"),
+            optional_fields=(
+                "article_number",
+                "is_prose_only",
+                "source_path",
+                "paragraph_markers",
+                "reform_references",
+                "annotations",
+            ),
         ),
         NodeKind.REFORM: GraphNodeType(
             label=NodeKind.REFORM,

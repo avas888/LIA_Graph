@@ -487,8 +487,11 @@ def materialize_delta(
     _delta_topic_by_source_path = {
         d.source_path: d.topic_key for d in delta_corpus_docs if d.topic_key
     }
+    # v4: key by graph-layer article key (unique-per-doc for prose-only) so
+    # TEMA edges match ArticleNodes MERGEd in the loader.
+    from .loader import _graph_article_key
     _delta_article_topics = {
-        a.article_key: _delta_topic_by_source_path[str(a.source_path or "")]
+        _graph_article_key(a): _delta_topic_by_source_path[str(a.source_path or "")]
         for a in delta_articles
         if str(a.source_path or "") in _delta_topic_by_source_path
     }

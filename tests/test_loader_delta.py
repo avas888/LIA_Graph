@@ -313,13 +313,15 @@ def _fallback_article(key: str, source_path: str) -> ParsedArticle:
     )
 
 
-def test_falkor_staging_skips_articles_with_empty_article_number() -> None:
-    """Would have caught the 2026-04-23 Phase 9.A crash.
+def test_falkor_staging_includes_prose_only_articles_with_whole_keys() -> None:
+    """v4: prose-only articles (article_number="") are now ELIGIBLE.
 
-    A mix of proper articles (with article_number) and parser-fallback
-    articles (with article_number="") must plan successfully — fallback
-    articles are filtered out of ArticleNode staging instead of crashing
-    validate_node_record with ``missing required fields: ['article_number']``.
+    They become ArticleNodes keyed by `whole::{source_path}` (doc-scoped so
+    prose docs don't collide on the shared `WHOLE_DOC_ARTICLE_KEY`) and
+    carry `is_prose_only=True`. Proper numbered articles keep their
+    article_key-based graph key unchanged.
+
+    See docs/next/ingestionfix_v4.md §5 Phase 1.
     """
     proper = _article("123", source_path="docs/proper.md")
     fallback_section = _fallback_article("1-norma-base", source_path="docs/norma_base.md")
@@ -329,40 +331,45 @@ def test_falkor_staging_skips_articles_with_empty_article_number() -> None:
         delta_articles=(proper, fallback_section, fallback_doc),
         delta_edges=(),
     )
-    # Only the proper article becomes an ArticleNode.
     article_nodes = [n for n in plan.nodes if n.kind is NodeKind.ARTICLE]
-    assert len(article_nodes) == 1
-    assert article_nodes[0].key == "123"
-    assert article_nodes[0].properties["article_number"] == "123"
-    # Fallback article keys are not present in the plan.
-    planned_keys = {n.key for n in plan.nodes}
-    assert "1-norma-base" not in planned_keys
-    assert "doc" not in planned_keys
+    # v4: all three articles land as ArticleNodes.
+    assert len(article_nodes) == 3
+    by_key = {n.key: n for n in article_nodes}
+    assert "123" in by_key
+    assert "whole::docs/norma_base.md" in by_key
+    assert "whole::docs/whole_doc.md" in by_key
+    assert by_key["123"].properties["is_prose_only"] is False
+    assert by_key["whole::docs/norma_base.md"].properties["is_prose_only"] is True
+    assert by_key["whole::docs/whole_doc.md"].properties["is_prose_only"] is True
 
 
-def test_falkor_staging_filters_edges_sourced_at_skipped_articles() -> None:
-    """TEMA + HAS_SUBTOPIC edges must not source from skipped articles.
+def test_falkor_staging_tema_edges_include_prose_only_with_graph_key() -> None:
+    """v4: TEMA + HAS_SUBTOPIC edges fire for both numbered AND prose-only
+    articles. Prose-only edges use the `whole::{source_path}` graph key.
 
-    Keeps the Falkor statement stream free of MATCH (source:ArticleNode ...)
-    clauses that will never find a node (silent no-op in Cypher, but wasteful
-    and confusing in diagnostics).
+    Callers must key `article_topics` / `article_subtopics` by
+    `_graph_article_key(article)`, not by the raw `article.article_key`
+    (the latter would orphan against the remapped ArticleNode.key).
     """
-    from lia_graph.ingestion.loader import SubtopicBinding
+    from lia_graph.ingestion.loader import SubtopicBinding, _graph_article_key
 
     proper = _article("123", source_path="docs/proper.md")
     fallback = _fallback_article("1-norma-base", source_path="docs/norma_base.md")
+    proper_gkey = _graph_article_key(proper)          # "123"
+    fallback_gkey = _graph_article_key(fallback)      # "whole::docs/norma_base.md"
+
     plan = build_graph_delta_plan(
         _delta_with(added=("docs/proper.md", "docs/norma_base.md")),
         delta_articles=(proper, fallback),
         delta_edges=(),
-        article_topics={"123": "laboral", "1-norma-base": "laboral"},
+        article_topics={proper_gkey: "laboral", fallback_gkey: "laboral"},
         article_subtopics={
-            "123": SubtopicBinding(
+            proper_gkey: SubtopicBinding(
                 sub_topic_key="contrato_laboral",
                 parent_topic="laboral",
                 label="Contrato laboral",
             ),
-            "1-norma-base": SubtopicBinding(
+            fallback_gkey: SubtopicBinding(
                 sub_topic_key="contrato_laboral",
                 parent_topic="laboral",
                 label="Contrato laboral",
@@ -371,14 +378,16 @@ def test_falkor_staging_filters_edges_sourced_at_skipped_articles() -> None:
     )
     tema_edges = [e for e in plan.edges if e.kind is EdgeKind.TEMA]
     has_subtopic_edges = [e for e in plan.edges if e.kind is EdgeKind.HAS_SUBTOPIC]
-    # Each kind should have exactly one edge — the one sourced at "123".
-    assert {e.source_key for e in tema_edges} == {"123"}
-    assert {e.source_key for e in has_subtopic_edges} == {"123"}
+    # Both articles get TEMA and HAS_SUBTOPIC edges in v4.
+    assert {e.source_key for e in tema_edges} == {proper_gkey, fallback_gkey}
+    assert {e.source_key for e in has_subtopic_edges} == {proper_gkey, fallback_gkey}
 
 
-def test_falkor_staging_all_fallback_articles_empty_plan_ok() -> None:
-    """Edge case: an entire delta of fallback-only docs plans without error
-    and produces zero ArticleNodes (not a crash)."""
+def test_falkor_staging_all_fallback_articles_get_unique_nodes() -> None:
+    """v4: a delta of prose-only docs lands two DISTINCT ArticleNodes —
+    each scoped by source_path — not one collapsed `article_key="doc"`
+    node as the pre-v4 behavior would have produced if eligibility had
+    allowed it through."""
     articles = (
         _fallback_article("1-norma-base", source_path="docs/a.md"),
         _fallback_article("doc", source_path="docs/b.md"),
@@ -389,13 +398,15 @@ def test_falkor_staging_all_fallback_articles_empty_plan_ok() -> None:
         delta_edges=(),
     )
     article_nodes = [n for n in plan.nodes if n.kind is NodeKind.ARTICLE]
-    assert article_nodes == []
+    assert len(article_nodes) == 2
+    keys = {n.key for n in article_nodes}
+    assert keys == {"whole::docs/a.md", "whole::docs/b.md"}
 
 
-def test_falkor_staging_rejects_whitespace_only_article_number() -> None:
-    """article_number="  " (whitespace-only) must be treated the same as
-    empty — the ArticleNode schema validator would accept whitespace as
-    non-None, but semantically it's just as broken."""
+def test_falkor_staging_whitespace_article_number_treated_as_prose_only() -> None:
+    """v4: whitespace-only article_number is semantically equivalent to
+    empty — the article is eligible, gets a `whole::{source_path}` graph
+    key, and is flagged `is_prose_only=True`."""
     whitespace_article = ParsedArticle(
         article_key="ws_art",
         article_number="   ",
@@ -414,7 +425,9 @@ def test_falkor_staging_rejects_whitespace_only_article_number() -> None:
         delta_edges=(),
     )
     article_nodes = [n for n in plan.nodes if n.kind is NodeKind.ARTICLE]
-    assert article_nodes == []
+    assert len(article_nodes) == 1
+    assert article_nodes[0].key == "whole::docs/x.md"
+    assert article_nodes[0].properties["is_prose_only"] is True
 
 
 # =============================================================================
@@ -582,6 +595,11 @@ def test_edge_to_external_article_not_in_delta_is_preserved() -> None:
 # (q) #9 observability: the articles_skipped event payload must carry count +
 # sample keys. Without this lock the bare-except earlier in the file could
 # silently regress and mask a production issue.
+#
+# v4: the trigger shifted. Prose-only articles (empty article_number) no
+# longer count as skipped — they're eligible via `whole::{source_path}`
+# graph keys. The event now fires only for articles missing heading / text /
+# status, which are the genuinely malformed cases the invariant targets.
 def test_articles_skipped_event_payload_shape(monkeypatch) -> None:
     captured: list[tuple[str, dict]] = []
 
@@ -592,18 +610,28 @@ def test_articles_skipped_event_payload_shape(monkeypatch) -> None:
     monkeypatch.setattr(instr, "emit_event", _capture)
 
     proper = _article("123", source_path="docs/a.md")
-    fallback_1 = _fallback_article("1-norma-base", source_path="docs/b.md")
-    fallback_2 = _fallback_article("doc", source_path="docs/c.md")
+    # Malformed articles — missing heading. These are what the event should
+    # surface post-v4.
+    malformed_1 = ParsedArticle(
+        article_key="malf1", article_number="5", heading="", body="b",
+        full_text="b", status="vigente", source_path="docs/b.md",
+        paragraph_markers=(), reform_references=(), annotations=(),
+    )
+    malformed_2 = ParsedArticle(
+        article_key="malf2", article_number="", heading="", body="b",
+        full_text="b", status="vigente", source_path="docs/c.md",
+        paragraph_markers=(), reform_references=(), annotations=(),
+    )
     build_graph_delta_plan(
         _delta_with(added=("docs/a.md", "docs/b.md", "docs/c.md")),
-        delta_articles=(proper, fallback_1, fallback_2),
+        delta_articles=(proper, malformed_1, malformed_2),
         delta_edges=(),
     )
     events = [e for e in captured if e[0] == "ingest.graph.articles_skipped_nonschema"]
     assert len(events) == 1
     _, payload = events[0]
     assert payload["skipped"] == 2
-    assert set(payload["sample_article_keys"]) <= {"1-norma-base", "doc"}
+    assert set(payload["sample_article_keys"]) <= {"malf1", "malf2"}
     assert "reason" in payload
 
 

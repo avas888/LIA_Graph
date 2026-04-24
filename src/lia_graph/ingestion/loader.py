@@ -23,23 +23,86 @@ from .parser import ParsedArticle
 def _is_article_node_eligible(article: ParsedArticle) -> bool:
     """Return True iff the article meets the Falkor ArticleNode schema.
 
-    Two parser fallback paths (`_section_fallback`, `_whole_document_fallback`
-    in ``parser.py``) legitimately emit articles with ``article_number=""``
-    for docs that have no formal numbered article structure — heading-only
-    sections or prose-only documents. Those outputs are valid as Supabase
-    chunks (for retrieval) but cannot be materialized as ArticleNodes, which
-    ``graph/schema.py`` requires to carry ``article_number`` / ``heading`` /
-    ``text_current`` / ``status``. Filtering here keeps the Falkor staging
-    pipeline from crashing on validate_node_record while preserving the
-    chunk-level ingestion.
+    v4: ``article_number`` is no longer required — prose-only docs (whole-doc
+    fallback parser output with empty article_number) are now eligible and
+    get a doc-scoped graph key via ``_graph_article_key`` plus an
+    ``is_prose_only=True`` property so Cypher consumers can filter cleanly.
+
+    ``heading`` / ``text_current`` / ``status`` remain required; a blank on
+    any of them still indicates a malformed parse that shouldn't enter the
+    graph. See docs/next/ingestionfix_v4.md §5 Phase 1.
     """
     if not article:
         return False
-    number = str(article.article_number or "").strip()
     heading = str(article.heading or "").strip()
     text = str(article.body or article.full_text or "").strip()
     status = str(article.status or "").strip()
-    return bool(number and heading and text and status)
+    return bool(heading and text and status)
+
+
+def _graph_article_key(article: ParsedArticle) -> str:
+    """Unique-per-doc key used as ``ArticleNode.key`` in Falkor.
+
+    Distinct from ``ParsedArticle.article_key`` (which scopes Supabase
+    ``chunk_id`` and must stay stable across v4 to avoid chunk churn).
+
+    Behavior:
+
+    * Prose-only articles (empty ``article_number``) — return
+      ``f"whole::{source_path}"`` so each prose doc gets its own
+      ArticleNode rather than colliding on the shared ``WHOLE_DOC_ARTICLE_KEY``
+      ("doc") across the whole corpus.
+    * Numbered articles — return ``article.article_key`` unchanged to preserve
+      the existing 8,106 ArticleNodes' identity. Cross-doc collisions on
+      numbered articles (e.g. Article 5 of Ley 100 vs Ley 300) are a
+      separate pre-existing issue tracked as followup F8 in
+      ``docs/next/ingestionfix_v4.md §8``.
+    """
+    number = str(getattr(article, "article_number", "") or "").strip()
+    if not number:
+        source = str(getattr(article, "source_path", "") or "").strip() or "unknown"
+        return f"whole::{source}"
+    return article.article_key
+
+
+def _is_prose_only(article: ParsedArticle) -> bool:
+    """True if the article is a whole-doc / section-fallback without an article number."""
+    return not str(getattr(article, "article_number", "") or "").strip()
+
+
+def _orphaning_article_keys(
+    articles: "tuple[ParsedArticle, ...] | list[ParsedArticle]",
+) -> set[str]:
+    """Compute the set of ``article.article_key`` values whose endpoints
+    would orphan in Cypher if used by a classified or promoted edge.
+
+    Two distinct orphan cases:
+
+    1. **Ineligible** — the article failed ``_is_article_node_eligible``, so
+       no ArticleNode was staged. Any classified edge using its
+       ``article_key`` (or its ``_graph_article_key``) hits a silent no-op
+       MATCH in Cypher. Drop.
+    2. **Remapped** (v4 new case) — the article is eligible, but its graph
+       MERGE key differs from ``article.article_key`` (prose-only path:
+       classifier sees ``"doc"``, graph uses ``"whole::source_path"``). An
+       edge with endpoint = ``article.article_key`` would MATCH no node.
+       Drop those too.
+
+    Returning a single set means the existing filter helper can stay a simple
+    "endpoint key ∈ set → drop" check without learning the new distinction.
+    """
+    out: set[str] = set()
+    for a in articles:
+        if not _is_article_node_eligible(a):
+            # Pre-v4 case — both keys orphan.
+            out.add(a.article_key)
+            out.add(_graph_article_key(a))
+            continue
+        gkey = _graph_article_key(a)
+        if gkey != a.article_key:
+            # v4 remap case — only the raw key orphans; graph key resolves.
+            out.add(a.article_key)
+    return out
 
 
 def _is_subtopic_binding_eligible(binding: "SubtopicBinding | None") -> bool:
@@ -180,9 +243,9 @@ def build_graph_load_plan(
     # checks above. ``stage_edge`` uses MATCH for endpoints so these would
     # silently no-op in Cypher, but keeping them in the plan inflates stats
     # and hides real provenance loss. See the 2026-04-23 Phase 9.A triage.
-    ineligible_article_keys = {
-        a.article_key for a in articles if not _is_article_node_eligible(a)
-    }
+    # v4: also filter edges whose classifier-view key (article.article_key)
+    # differs from the graph MERGE key — prose-only remap case.
+    ineligible_article_keys = _orphaning_article_keys(articles)
     edges, dropped_edges = _filter_edges_by_article_eligibility(
         raw_edges, ineligible_article_keys
     )
@@ -318,9 +381,8 @@ def build_graph_delta_plan(
         + list(_build_article_tema_edges(delta_articles, article_topics))
         + list(_build_static_subtema_de_edges(article_subtopics))
     )
-    ineligible_article_keys = {
-        a.article_key for a in delta_articles if not _is_article_node_eligible(a)
-    }
+    # v4: same combined filter — ineligible + prose-only-remap.
+    ineligible_article_keys = _orphaning_article_keys(delta_articles)
     filtered_edges, dropped_edges = _filter_edges_by_article_eligibility(
         raw_edges, ineligible_article_keys
     )
@@ -403,10 +465,14 @@ def _build_article_nodes(
                 "section-fallback or whole-doc-fallback output.",
             },
         )
+    # Use _graph_article_key for the MERGE key so prose-only articles don't
+    # collide on the shared WHOLE_DOC_ARTICLE_KEY across the corpus. Keep
+    # `article_number` in properties even when empty so Cypher queries that
+    # read the field stay compatible.
     return tuple(
         GraphNodeRecord(
             kind=NodeKind.ARTICLE,
-            key=article.article_key,
+            key=_graph_article_key(article),
             properties={
                 "article_number": article.article_number,
                 "heading": article.heading,
@@ -416,6 +482,7 @@ def _build_article_nodes(
                 "paragraph_markers": list(article.paragraph_markers),
                 "reform_references": list(article.reform_references),
                 "annotations": list(article.annotations),
+                "is_prose_only": _is_prose_only(article),
             },
         )
         for article in eligible
@@ -496,8 +563,13 @@ def _build_article_tema_edges(
     """
     if not article_topics:
         return ()
+    # Graph-layer key set — must match the ArticleNode.key MERGE values so
+    # TEMA edges land on existing nodes. Callers populate article_topics
+    # using the SAME _graph_article_key helper.
     article_keys = {
-        article.article_key for article in articles if _is_article_node_eligible(article)
+        _graph_article_key(article)
+        for article in articles
+        if _is_article_node_eligible(article)
     }
     edges: list[GraphEdgeRecord] = []
     seen: set[tuple[str, str]] = set()
@@ -566,10 +638,14 @@ def _build_subtopic_edges(
     article_subtopics: Mapping[str, SubtopicBinding],
 ) -> tuple[GraphEdgeRecord, ...]:
     edges: list[GraphEdgeRecord] = []
-    # Only articles that became ArticleNodes can source HAS_SUBTOPIC edges;
-    # see ``_is_article_node_eligible`` for the rationale.
+    # Only articles that became ArticleNodes can source HAS_SUBTOPIC edges.
+    # v4: use graph-layer keys so prose-only articles (whose article_key was
+    # remapped from "doc" → "whole::{source_path}") match. Callers must key
+    # article_subtopics by `_graph_article_key(article)`.
     article_keys = {
-        article.article_key for article in articles if _is_article_node_eligible(article)
+        _graph_article_key(article)
+        for article in articles
+        if _is_article_node_eligible(article)
     }
     for article_key, binding in article_subtopics.items():
         if not binding.sub_topic_key or article_key not in article_keys:

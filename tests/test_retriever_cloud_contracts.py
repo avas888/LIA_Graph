@@ -157,9 +157,11 @@ def test_falkor_primary_match_uses_schema_declared_property() -> None:
     live graph — which is exactly the bug this test is the guard for."""
     schema = default_graph_schema()
     article_node_type = schema.node_types[NodeKind.ARTICLE]
-    allowed_properties = set(article_node_type.required_fields) | {
-        article_node_type.key_field
-    }
+    allowed_properties = (
+        set(article_node_type.required_fields)
+        | set(getattr(article_node_type, "optional_fields", ()) or ())
+        | {article_node_type.key_field}
+    )
 
     plan = _plan_with_anchor_147()
     recorder = _CypherRecorder({"article_number": []})  # empty graph triggers probes
@@ -190,9 +192,11 @@ def test_falkor_primary_match_uses_schema_declared_property() -> None:
 def test_falkor_connected_match_uses_schema_declared_property() -> None:
     schema = default_graph_schema()
     article_node_type = schema.node_types[NodeKind.ARTICLE]
-    allowed_properties = set(article_node_type.required_fields) | {
-        article_node_type.key_field
-    }
+    allowed_properties = (
+        set(article_node_type.required_fields)
+        | set(getattr(article_node_type, "optional_fields", ()) or ())
+        | {article_node_type.key_field}
+    )
 
     plan = _plan_with_anchor_147()
     recorder = _CypherRecorder({"article_number": []})

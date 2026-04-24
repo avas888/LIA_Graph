@@ -388,6 +388,11 @@ def test_every_classified_doc_satisfies_topic_subtopic_invariant() -> None:
 class _FakeArticle:
     article_key: str
     source_path: str
+    # v4: _graph_article_key reads article_number to decide the graph MERGE key.
+    # Numbered articles (non-empty) keep their article_key as the graph key;
+    # prose-only (empty) remap to `whole::{source_path}`. Tests below rely on
+    # the numbered behavior, so default to a non-empty placeholder.
+    article_number: str = "1"
 
 
 @dataclass
