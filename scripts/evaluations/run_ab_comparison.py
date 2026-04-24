@@ -434,7 +434,19 @@ def main(argv: Iterable[str] | None = None) -> int:
     # Record pre-run env state so the manifest is honest about what was set.
     pre_env = {
         "LIA_TEMA_FIRST_RETRIEVAL": os.environ.get("LIA_TEMA_FIRST_RETRIEVAL"),
+        "LIA_CORPUS_SOURCE": os.environ.get("LIA_CORPUS_SOURCE"),
+        "LIA_GRAPH_MODE": os.environ.get("LIA_GRAPH_MODE"),
     }
+
+    # Production-parity retrieval mode. Without these, the pipeline dispatches
+    # to the filesystem-artifact retriever (local dev default) and never hits
+    # Falkor — making the A/B comparison meaningless. Shell override wins;
+    # only default when unset.
+    if args.target == "production":
+        if not os.environ.get("LIA_CORPUS_SOURCE"):
+            os.environ["LIA_CORPUS_SOURCE"] = "supabase"
+        if not os.environ.get("LIA_GRAPH_MODE"):
+            os.environ["LIA_GRAPH_MODE"] = "falkor_live"
 
     # SIGINT: finish current pair, then exit cleanly.
     stop_flag = {"stop": False}
@@ -473,11 +485,12 @@ def main(argv: Iterable[str] | None = None) -> int:
     completed_bogota = _bogota_now()
 
     # Restore pre-run env state.
-    original = pre_env.get("LIA_TEMA_FIRST_RETRIEVAL")
-    if original is None:
-        os.environ.pop("LIA_TEMA_FIRST_RETRIEVAL", None)
-    else:
-        os.environ["LIA_TEMA_FIRST_RETRIEVAL"] = original
+    for key in ("LIA_TEMA_FIRST_RETRIEVAL", "LIA_CORPUS_SOURCE", "LIA_GRAPH_MODE"):
+        original = pre_env.get(key)
+        if original is None:
+            os.environ.pop(key, None)
+        else:
+            os.environ[key] = original
 
     _write_manifest(
         manifest_path,
