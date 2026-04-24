@@ -493,6 +493,41 @@ def run_pipeline_d(
             "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
             "graph_backend": backend_diagnostics.get("graph_backend"),
             "retrieval_health": retrieval_health,
+            # v6 phase 1 — lift retrieval diagnostics to top-level so the A/B
+            # harness and panel renderers don't have to drill into
+            # evidence_bundle.diagnostics. Values source from evidence.diagnostics
+            # when the retriever produced them, else None. The counts of primary
+            # / connected articles fall back to len(evidence.*) so artifact-mode
+            # runs (which don't populate the retriever-diag keys) still report
+            # a real number instead of None.
+            "primary_article_count": (
+                (evidence.diagnostics or {}).get("primary_article_count")
+                if (evidence.diagnostics or {}).get("primary_article_count") is not None
+                else len(evidence.primary_articles)
+            ),
+            "connected_article_count": (
+                (evidence.diagnostics or {}).get("connected_article_count")
+                if (evidence.diagnostics or {}).get("connected_article_count") is not None
+                else len(evidence.connected_articles)
+            ),
+            "related_reform_count": (
+                (evidence.diagnostics or {}).get("related_reform_count")
+                if (evidence.diagnostics or {}).get("related_reform_count") is not None
+                else len(evidence.related_reforms)
+            ),
+            "seed_article_keys": (evidence.diagnostics or {}).get("seed_article_keys"),
+            "planner_query_mode": (
+                (evidence.diagnostics or {}).get("planner_query_mode") or plan.query_mode
+            ),
+            "tema_first_mode": (evidence.diagnostics or {}).get("tema_first_mode"),
+            "tema_first_topic_key": (evidence.diagnostics or {}).get("tema_first_topic_key"),
+            "tema_first_anchor_count": (evidence.diagnostics or {}).get(
+                "tema_first_anchor_count"
+            ),
+            "retrieval_sub_topic_intent": (evidence.diagnostics or {}).get(
+                "retrieval_sub_topic_intent"
+            ),
+            "subtopic_anchor_keys": (evidence.diagnostics or {}).get("subtopic_anchor_keys"),
             "reranker": reranker_diagnostics,
             "topic_safety": topic_safety_diag,
             "decomposer": decomposer_diag,
