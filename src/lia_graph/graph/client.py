@@ -466,7 +466,19 @@ def _execute_live_statement(
     statement: GraphWriteStatement,
     config: GraphClientConfig,
 ) -> GraphQueryResult:
-    raw_response, connection_diagnostics = _run_graph_query(statement, config)
+    try:
+        raw_response, connection_diagnostics = _run_graph_query(statement, config)
+    except GraphClientError as exc:
+        if _is_benign_index_error(statement, exc):
+            return GraphQueryResult(
+                description=statement.description,
+                query=statement.query,
+                parameters=statement.parameters,
+                skipped=True,
+                stats={"indices_already_present": 1},
+                diagnostics={"reason": "index_already_exists"},
+            )
+        raise
     rows, stats, response_diagnostics = _decode_graph_query_response(raw_response)
     diagnostics = dict(connection_diagnostics)
     diagnostics.update(response_diagnostics)
@@ -478,6 +490,23 @@ def _execute_live_statement(
         stats=stats,
         diagnostics=diagnostics,
     )
+
+
+def _is_benign_index_error(
+    statement: GraphWriteStatement, exc: GraphClientError
+) -> bool:
+    """Phase 2c (v6): FalkorDB's ``CREATE INDEX`` is NOT idempotent in
+    practice — re-running a load-plan against a graph that already has
+    its indexes errors with ``Attribute '<x>' is already indexed``.
+
+    We treat that specific error as success for ``CreateIndex``
+    statements. Any other error — or that error text on a different
+    statement kind — still propagates.
+    """
+    if not statement.description.startswith("CreateIndex"):
+        return False
+    message = str(exc).lower()
+    return "already indexed" in message
 
 
 def _execute_live_statements(
@@ -517,6 +546,21 @@ def _execute_live_statements(
                     )
                 )
             except GraphClientError as exc:
+                # Phase 2c (v6): FalkorDB's CREATE INDEX is NOT idempotent —
+                # "already indexed" is the expected state on every run after
+                # the first. Treat as success + continue.
+                if _is_benign_index_error(statement, exc):
+                    results.append(
+                        GraphQueryResult(
+                            description=statement.description,
+                            query=statement.query,
+                            parameters=statement.parameters,
+                            skipped=True,
+                            stats={"indices_already_present": 1},
+                            diagnostics={"reason": "index_already_exists"},
+                        )
+                    )
+                    continue
                 if strict:
                     raise
                 results.append(_live_failure_result(statement, config, exc))

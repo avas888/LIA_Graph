@@ -182,6 +182,35 @@ def test_node_batch_preserves_input_row_order() -> None:
 # ── Executor injection still works for tests ─────────────────────────
 
 
+def test_already_indexed_error_is_benign_for_createindex() -> None:
+    """FalkorDB returns 'Attribute is already indexed' on re-runs — must be
+    treated as idempotent success, not a fatal failure.
+
+    Regression guard: 2026-04-24 cloud-sink phase-2c run #1 exited code 3
+    because my first draft of stage_index didn't handle this case.
+    """
+    from lia_graph.graph.client import (
+        GraphClient as _GC,
+        GraphClientError as _GCE,
+        _is_benign_index_error,
+    )
+
+    stmt = _GC().stage_index(NodeKind.ARTICLE)
+    assert _is_benign_index_error(
+        stmt, _GCE("FalkorDB returned an error for CreateIndex ArticleNode.article_id: Attribute 'article_id' is already indexed")
+    )
+    # But not for a different statement kind
+    from lia_graph.graph.client import GraphWriteStatement as _WS
+    other = _WS(description="BatchUpsert ArticleNode", query="")
+    assert not _is_benign_index_error(
+        other, _GCE("Attribute 'article_id' is already indexed")
+    )
+    # And not for a different error on a CreateIndex
+    assert not _is_benign_index_error(
+        stmt, _GCE("FalkorDB returned an error: some other failure")
+    )
+
+
 def test_batch_statements_route_through_injected_executor() -> None:
     captured: list[GraphWriteStatement] = []
 
