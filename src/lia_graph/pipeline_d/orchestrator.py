@@ -21,6 +21,12 @@ from .query_decomposer import (
 )
 from .reranker import rerank_evidence_bundle
 from .retriever import retrieve_graph_evidence as _retrieve_artifacts
+from ._coherence_gate import (
+    coherence_mode as _coherence_mode,
+    detect_evidence_coherence,
+    refusal_text as _coherence_refusal_text,
+    should_refuse as _coherence_should_refuse,
+)
 from .topic_safety import (
     abstention_text_for_misalignment,
     abstention_text_for_router_silent,
@@ -421,9 +427,40 @@ def run_pipeline_d(
             on_llm_delta=on_llm_delta,
         )
 
+    # SAFETY CHECK 3 (v6 phase 3): evidence-topic coherence gate.
+    # topic_safety short-circuits on empty primary_articles — that is the
+    # exact window the Q16 biofuel contamination slipped through. The
+    # coherence gate scores support_documents when primary is empty and
+    # refuses when no support doc matches the router topic. Flag-gated;
+    # default is ``shadow`` so the diagnostic is observed before enforced.
+    coherence_gate_mode = _coherence_mode()
+    coherence = detect_evidence_coherence(request, evidence, misalignment)
+    if coherence_gate_mode == "enforce" and _coherence_should_refuse(
+        coherence, coherence_gate_mode
+    ):
+        return _compose_topic_safety_abstention(
+            request=request,
+            index_file=index_file,
+            policy_path=policy_path,
+            runtime_config_path=runtime_config_path,
+            answer_text=_coherence_refusal_text(coherence),
+            fallback_reason=f"pipeline_d_coherence_{coherence.get('reason', 'misaligned')}",
+            confidence_mode="evidence_coherence_refusal",
+            topic_safety={
+                "router_silent": None,
+                "misalignment": misalignment,
+                "coherence": {"mode": coherence_gate_mode, **coherence},
+                "refusal_reason": coherence.get("reason"),
+                "refusal_source": coherence.get("source"),
+            },
+            backend_diagnostics=backend_diagnostics,
+            on_llm_delta=on_llm_delta,
+        )
+
     topic_safety_diag = {
         "router_silent": None,
         "misalignment": misalignment,
+        "coherence": {"mode": coherence_gate_mode, **coherence},
     }
 
     answer_mode = "graph_native"
