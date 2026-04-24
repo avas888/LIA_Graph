@@ -159,14 +159,24 @@ def check_g2_docs_got_chunks(
             actual=0,
             expected=0,
         )
-    resp = (
-        client.table("document_chunks")
-        .select("doc_id", count="exact")
-        .in_("doc_id", list(doc_ids))
-        .execute()
-    )
-    data = list(getattr(resp, "data", None) or [])
-    distinct_docs = {str(r.get("doc_id")) for r in data if r.get("doc_id")}
+    # PostgREST URL-length cliff (~200 keys) — batch the .in_() calls.
+    # v4-era batches can exceed 500 doc_ids (e.g. the 47-topic union bust),
+    # so a single .in_() blows the URL length budget and returns 400.
+    ids = list(doc_ids)
+    distinct_docs: set[str] = set()
+    BATCH = 150
+    for start in range(0, len(ids), BATCH):
+        chunk = ids[start : start + BATCH]
+        resp = (
+            client.table("document_chunks")
+            .select("doc_id")
+            .in_("doc_id", chunk)
+            .execute()
+        )
+        data = list(getattr(resp, "data", None) or [])
+        for r in data:
+            if r.get("doc_id"):
+                distinct_docs.add(str(r["doc_id"]))
     passed = len(distinct_docs) == len(doc_ids)
     return CheckResult(
         gate_id="G2",
@@ -322,14 +332,20 @@ def check_g8_null_embed_zero(
             actual=0,
             expected=0,
         )
-    resp = (
-        client.table("document_chunks")
-        .select("chunk_id", count="exact")
-        .in_("doc_id", list(doc_ids))
-        .is_("embedding", "null")
-        .execute()
-    )
-    actual = _count(resp)
+    # PostgREST URL-length cliff (~200 keys) — batch.
+    ids = list(doc_ids)
+    actual = 0
+    BATCH = 150
+    for start in range(0, len(ids), BATCH):
+        chunk = ids[start : start + BATCH]
+        resp = (
+            client.table("document_chunks")
+            .select("chunk_id", count="exact")
+            .in_("doc_id", chunk)
+            .is_("embedding", "null")
+            .execute()
+        )
+        actual += _count(resp)
     passed = actual == 0
     return CheckResult(
         gate_id="G8",
@@ -375,15 +391,22 @@ def check_g10_no_chunk_text_anomalies(
         )
     # Fetch only the chunk_text column; scan client-side. Supabase
     # supports `.or_()` for the empty-OR-null test but that API has known
-    # quoting quirks; easier + safer to filter here.
-    resp = (
-        client.table("document_chunks")
-        .select("chunk_text")
-        .in_("doc_id", list(doc_ids))
-        .execute()
-    )
+    # quoting quirks; easier + safer to filter here. Batch .in_() to
+    # respect the PostgREST URL-length cliff.
+    ids = list(doc_ids)
+    rows: list[dict] = []
+    BATCH = 150
+    for start in range(0, len(ids), BATCH):
+        chunk = ids[start : start + BATCH]
+        resp = (
+            client.table("document_chunks")
+            .select("chunk_text")
+            .in_("doc_id", chunk)
+            .execute()
+        )
+        rows.extend(list(getattr(resp, "data", None) or []))
     anomalies = 0
-    for row in list(getattr(resp, "data", None) or []):
+    for row in rows:
         text = row.get("chunk_text")
         if text is None or (isinstance(text, str) and text.strip() == ""):
             anomalies += 1

@@ -593,22 +593,51 @@ phase_2_consumer_audit:
   notes:
 
 phase_3_rerun_batch_1:
-  status: pending
-  started_at:
-  completed_at:
-  bust_manifest:
-  delta_id:
-  elapsed_ms:
+  status: completed_with_known_shortfall  # 2026-04-23 PM Bogotá
+  started_at: 2026-04-23 (Bogotá) PM
+  completed_at: 2026-04-23 (Bogotá) PM
+  bust_manifest: artifacts/fingerprint_bust/20260424T032934Z_v4_rerun.json
+  delta_id: delta_20260424_033011_3d11e5
+  elapsed_ms: 1652150   # 27.5 min (slightly over G9 upper bound)
   falkor_state_before:
     topic_node_count: 16
     tema_edge_count: 32
     article_nodes_without_tema: 8074
   falkor_state_after:
-    topic_node_count:
-    tema_edge_count:
-    article_nodes_without_tema:
-  gate_status:
-  notes:
+    topic_node_count: 27              # +11 (mostly pre-existing existing-topic reinforcements; only 1 sector_* landed)
+    tema_edge_count: 600              # +568 — HUGE win; prose-only fix lets existing topics finally get TEMA edges
+    article_nodes_without_tema: 7928  # -146 — direction is right; many more pending batches 2-8
+    article_nodes_total: 8528         # +422 — prose-only ArticleNodes materialized
+  gate_status: failed                 # G1/G2/G3/G4/G9 fail — see notes
+  gate_failures:
+    g1: "documents(tema IN 47 topics, live) = 519 vs manifest 526 — 7 docs re-classified out (benign drift)"
+    g2: "document_chunks distinct doc_id = 471 vs manifest 526 — 55 missing (prose docs w/ no chunks — followup F12)"
+    g3: "25 of 26 sector_* TopicNodes missing — CLASSIFIER REGRESSION (see below)"
+    g4: "Same 25 sector_* topics lack TEMA edges"
+    g9: "27.5 min elapsed vs 5-25 bound (sink+Falkor took longer than batch-1's 21.9 min because 509 docs vs 465)"
+  critical_finding: >
+    The additive ingest re-classifies docs whose fingerprint is nulled. The
+    classifier (Gemini-based, prompt built from taxonomy aliases) does NOT
+    recognize the 26 new `sector_*` topics added in v3 Phase 2.5 Task C.
+    Result: all 432 Task E-migrated docs got re-classified back to
+    `otros_sectoriales`. `documents.tema` distribution reverted from
+    otros_sectoriales=78 → 511. Task E work is effectively undone in
+    Supabase.
+    v4 prose-only fix works correctly (TEMA edges 32 → 600 for existing
+    topics) but sector TopicNode population requires classifier changes
+    (tracked as F11).
+  v4_scope_reassessment: >
+    v4 delivered its primary goal: prose-only ArticleNodes + TEMA edges
+    for all 27 currently-classifiable top-level topics. The 26 new sector
+    topics cannot populate until the classifier is taxonomy-aware. Phase 4
+    proceeds on batches 2-8 (existing-topic batches). Batches 9/10/11
+    (sector-only) are no-ops for Falkor until F11 ships.
+  notes: |
+    Validator patches shipped during this run:
+    - G2/G8/G10 batched at 150 keys/chunk to avoid PostgREST URL-length cliff.
+    Gate file: artifacts/batch_1_quality_gate.json (status: failed).
+    Operator review: the failures are real but scope-bounded; proceed to
+    Phase 4 on existing topics.
 
 phase_4_chain_2_through_11:
   status: pending
@@ -645,6 +674,33 @@ followups_for_later:
       checkpoint backfill_state.json, sleep 30s, respect STOP_BACKFILL
       sentinel). Deferred because manual per-batch iteration is fine for
       v4's first real run.
+  - id: F11
+    source: v4 §5 Phase 3 (critical finding)
+    description: >
+      Classifier is not taxonomy-aware. `config/topic_taxonomy.json` was
+      extended with 26 new `sector_*` entries in v3 Phase 2.5 Task C, but
+      the Gemini classifier prompt doesn't incorporate them. Result: any
+      additive ingest that re-classifies a Task E-migrated doc sends it
+      back to `otros_sectoriales`. Fix: wire taxonomy aliases (or at least
+      top-level keys) into the classifier prompt / few-shot examples so
+      the classifier can pick new sectors. Until F11 ships, Phase 4
+      batches 9/10/11 (sector-only) don't populate Falkor, and any bust
+      that includes a Task E destination topic reverts those migrations.
+      See also F7 in v3 §8 (prefix/alias map audit) — likely the same
+      root cause.
+  - id: F12
+    source: v4 §5 Phase 3 (G2 gate finding)
+    description: >
+      55 doc_ids from the v4 re-run manifest (526) showed no chunks
+      (471 distinct doc_ids in document_chunks). Likely prose-only docs
+      where the parser emitted ONE ParsedArticle for the whole file, the
+      sink only writes one chunk per article, but the manifest counted
+      the underlying doc_ids from the 47-topic bust (some of which may
+      have had their tema reclassified away from the busted topic set
+      during ingest, so they're no longer counted under those topics).
+      Low urgency: G2's strictness was designed for numbered articles
+      with many-articles-per-doc. Relaxing it for prose-only-dominant
+      batches is a validator tweak, not a corpus bug.
 ```
 
 ---
