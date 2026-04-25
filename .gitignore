@@ -25,7 +25,16 @@ logs/reasoning_events.jsonl
 logs/ingest_*.log
 logs/embeddings_*.log
 logs/backfill_*.log
+logs/phase2_*.log
+logs/phase6_*.log
+logs/staging_ab*.log
+logs/*.current
 frontend/logs/
+
+# --- artifact backups + skip-variants (operational temp; regenerate on ingest re-run) ---
+artifacts/_backup_*/
+artifacts/*.skip_llm_*
+artifacts/*.v5_backup
 
 # --- dev-only scaffolding (local preview pages + one-off verification scripts) ---
 frontend/preview-*.html
