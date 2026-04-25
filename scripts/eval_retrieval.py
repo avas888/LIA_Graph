@@ -1,6 +1,6 @@
 """Eval harness for `evals/gold_retrieval_v1.jsonl`.
 
-Structural backlog item #1 from `docs/next/structuralwork_v1_SEENOW.md`,
+Structural backlog item #1 from `docs/done/next/structuralwork_v1_SEENOW.md`,
 revised 2026-04-22 per senior-RAG expert verdict on `docs/next/package_expert.md`.
 
 What changed vs the first-cut harness
@@ -76,7 +76,7 @@ TOLERANCE_PP_DEFAULT = 2.0
 
 
 # Aspirational red lines from the senior RAG review in
-# `docs/next/structuralwork_v1_SEENOW.md` §#1. Shown in the report as
+# `docs/done/next/structuralwork_v1_SEENOW.md` §#1. Shown in the report as
 # targets; **not** the CI gate. CI gates on regression-vs-baseline
 # because at n=30 the ±18pp CI on r@10 makes absolute floors noise.
 ASPIRATIONAL_RED_LINES: dict[str, float] = {

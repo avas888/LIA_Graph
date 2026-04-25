@@ -14,7 +14,7 @@ Public API:
   effective record anchored on the final target. Aliases cascade, evidence
   counts sum.
 - ``build_taxonomy(decisions, *, version)`` — produce the taxonomy dict
-  matching ``docs/next/subtopic_generationv1-contracts.md``.
+  matching ``docs/done/next/subtopic_generationv1-contracts.md``.
 
 Emits ``subtopic.promote.merge_resolved`` per resolved chain via
 ``lia_graph.instrumentation.emit_event``.

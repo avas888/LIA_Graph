@@ -2,7 +2,7 @@
 
 *Living doc set. One page per theme. Every rule earns its place by naming the incident, investigation, or PR that created it. Adding a new learning? Cite the commit or the §-reference in `docs/next/ingestionfix_v{1..5}.md`, `docs/next/ingestion_tunningv{1,2}.md`, or the relevant architect study.*
 
-**Scope.** The **headless ingest pipeline** (`src/lia_graph/ingest.py`, `ingest_classifier_pool.py`, `ingest_subtopic_pass.py`, `ingestion/`), the **served retrieval path** (`src/lia_graph/pipeline_d/`), and the **process discipline** we use to run both — investigations, monitoring, cloud writes. Not scoped: UI-facing ingestion, which has its own doc at `docs/next/UI_Ingestion_learnings.md`.
+**Scope.** The **headless ingest pipeline** (`src/lia_graph/ingest.py`, `ingest_classifier_pool.py`, `ingest_subtopic_pass.py`, `ingestion/`), the **served retrieval path** (`src/lia_graph/pipeline_d/`), and the **process discipline** we use to run both — investigations, monitoring, cloud writes. Not scoped: UI-facing ingestion, which has its own doc at `docs/done/next/UI_Ingestion_learnings.md`.
 
 **Why this exists.** Between 2026-04-17 and 2026-04-24 we shipped five ingestion-fix waves (`ingestionfix_v1`–`v5`) followed by a v6 investigation+execution cycle (`ingestion_tunningv1` → `ingestion_tunningv2`). Each wave fixed a distinct class of failure. The NEXT PR that touches ingestion or retrieval is one careless code review away from bringing any of those failures back — because the fixes live in code, not in a doc the next contributor will read. These pages are that doc.
 

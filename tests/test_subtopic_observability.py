@@ -1,7 +1,7 @@
 """Phase 7 smoke test — end-to-end trace audit for subtopic_generationv1.
 
 Runs a small fixture through collect → mine → curate → promote and asserts
-every `event_type` documented in §13 of `docs/next/subtopic_generationv1.md`
+every `event_type` documented in §13 of `docs/done/next/subtopic_generationv1.md`
 fires at least once in the captured events log.
 """
 

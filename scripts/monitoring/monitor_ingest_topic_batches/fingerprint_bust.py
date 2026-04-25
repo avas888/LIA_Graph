@@ -46,7 +46,7 @@ Usage::
         --topics cambiario,activos_exterior,beneficio_auditoria \
         --confirm --force-multi
 
-See ``docs/next/ingestionfix_v3.md`` §5 Phase 2 for the canonical story.
+See ``docs/done/next/ingestionfix_v3.md`` §5 Phase 2 for the canonical story.
 """
 
 from __future__ import annotations

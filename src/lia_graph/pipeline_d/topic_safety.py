@@ -55,7 +55,7 @@ MISALIGNMENT_PROMOTE_TO_ABSTENTION_BELOW = 0.50
 # chosen topic to be flagged as misalignment. Specifically: misalignment
 # fires when ``top_score >= 3`` AND ``router_score < top_score * 0.34``.
 # Numbers tuned against the 30-gold audit — see
-# ``docs/next/structuralwork_v1_SEENOW.md`` v5.3 landed-state section.
+# ``docs/done/next/structuralwork_v1_SEENOW.md`` v5.3 landed-state section.
 _MISALIGNMENT_MIN_TOP_SCORE = 3
 _MISALIGNMENT_ROUTER_RATIO = 0.34
 

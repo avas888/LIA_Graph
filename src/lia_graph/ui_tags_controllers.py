@@ -1,7 +1,7 @@
 """Tag review admin surface — Lia_Graph (ingestionfix_v2 §4 Phase 7a).
 
 Backend endpoints for the ``Tags`` admin tab. The frontend tab itself is
-deferred (Phase 7b in ``docs/next/ingestionfix_v2.md``); these endpoints
+deferred (Phase 7b in ``docs/done/next/ingestionfix_v2.md``); these endpoints
 are fully operable via curl / Postman today, and Phase 7b will wire them
 into a proper Ops-shell tab.
 

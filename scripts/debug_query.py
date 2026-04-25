@@ -1,6 +1,6 @@
 """Trace a query through the lexical planner layers and print a JSON diagnostic.
 
-Backlog item E from `docs/next/structuralwork_v1_SEENOW.md`. Replaces the
+Backlog item E from `docs/done/next/structuralwork_v1_SEENOW.md`. Replaces the
 ad-hoc Python block that was being retyped every time we investigated a
 routing miss.
 

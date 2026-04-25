@@ -2,7 +2,7 @@
 
 This module implements the fingerprint used by the additive-corpus-v1 plan to
 decide whether a document has changed between deltas. See
-``docs/next/additive_corpusv1.md`` §0.8 and §4 Decisions C1 + K1.
+``docs/done/next/additive_corpusv1.md`` §0.8 and §4 Decisions C1 + K1.
 
 **Contract.**
 

@@ -13,7 +13,7 @@ because that single handler was 849 LOC — half of this module. It is
 re-imported below so ``from .ui_write_controllers import handle_ingestion_post``
 keeps working for `ui_server.py`'s eager import block.
 
-Architecture rules (see ``docs/next/granularization_v1.md`` §Controller
+Architecture rules (see ``docs/done/next/granularization_v1.md`` §Controller
 Surface Catalog):
 
 * Every handler takes ``(handler, path, *, deps)`` and returns ``bool``.

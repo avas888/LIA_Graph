@@ -30,7 +30,7 @@ The ten gates:
 All G-checks are pure helpers that accept mocked clients so unit tests can
 fence them without a live cloud.
 
-See ``docs/next/ingestionfix_v3.md`` §5 Phase 3.0 for the full contract.
+See ``docs/done/next/ingestionfix_v3.md`` §5 Phase 3.0 for the full contract.
 """
 
 from __future__ import annotations

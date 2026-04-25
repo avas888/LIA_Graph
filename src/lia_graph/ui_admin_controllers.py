@@ -21,7 +21,7 @@ deployment. This matches Lia_Graph's lineage split from Lia_contadores: we
 preserve contract shape without hard-depending on modules that have not yet
 been ported.
 
-See ``docs/next/granularization_v1.md`` §Controller Surface Catalog.
+See ``docs/done/next/granularization_v1.md`` §Controller Surface Catalog.
 """
 
 from __future__ import annotations

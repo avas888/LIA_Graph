@@ -185,7 +185,7 @@ _bootstrap_custom_corpora()
 def _log_topics_without_keywords() -> None:
     """Warn at boot for any supported topic with no routing keywords.
 
-    Backlog item C (docs/next/structuralwork_v1_SEENOW.md): a topic that is
+    Backlog item C (docs/done/next/structuralwork_v1_SEENOW.md): a topic that is
     registered in ``get_supported_topics()`` but has neither strong nor
     weak entries in ``_TOPIC_KEYWORDS`` cannot be picked by the keyword
     scorer. Some of these are legitimately 0/0 because they are served

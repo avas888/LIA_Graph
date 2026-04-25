@@ -14,7 +14,7 @@ currently runs earlier in ``do_GET`` and returns a simpler stub shape. The
 richer impl below is kept for contract parity with Lia_contadores and in
 case the dispatcher is re-ordered to expose the real adapter resolution.
 
-See ``docs/next/granularization_v1.md`` §Controller Surface Catalog.
+See ``docs/done/next/granularization_v1.md`` §Controller Surface Catalog.
 """
 
 from __future__ import annotations

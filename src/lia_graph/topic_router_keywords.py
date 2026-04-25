@@ -37,7 +37,7 @@ Two valid relocations:
     laboral-colloquial override already demonstrates this pattern:
     ``\\bliquid\\w*\\b[^.?!]{0,30}\\b(?:emplead[oa]|trabajador[ae]|…)``).
 
-See ``docs/next/structuralwork_v1_SEENOW.md`` (backlog item A) for the
+See ``docs/done/next/structuralwork_v1_SEENOW.md`` (backlog item A) for the
 full rationale, the list of terms already migrated, and the "Tough
 calls" section listing polysemous-but-labor-dominant terms that remain
 in ``weak`` pending adversarial evidence.
@@ -123,7 +123,7 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
         "weak": (
             # NOTE: see the module-level "Weak-bucket design rule" docstring
             # above. Removed polysemous bare entries (backlog item A —
-            # docs/next/structuralwork_v1_SEENOW.md):
+            # docs/done/next/structuralwork_v1_SEENOW.md):
             #   - "liquidar" / "liquidacion" / "liquidación": DIAN liquidación
             #     oficial, liquidación de sociedad, liquidación de contrato
             #     civil, liquidación privada. Compound labor forms survive in
@@ -145,7 +145,7 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             #     with empleado/trabajador context, caught by the override
             #     regex.
             # Kept-as-weak polysemous terms (salud, pensión, cotización,
-            # dotación) are tracked in docs/next/structuralwork_v1_SEENOW.md
+            # dotación) are tracked in docs/done/next/structuralwork_v1_SEENOW.md
             # under "Tough calls" with the criterion for promoting them later.
             "trabajador",
             "trabajadores",
@@ -640,7 +640,7 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
     #     compound instead.
     # Replicate this shape across: informacion_exogena, ganancia_ocasional,
     # regimen_simple, and the other 40+ unregistered topics flagged in
-    # docs/next/structuralwork_v1_SEENOW.md Part 1 item C.
+    # docs/done/next/structuralwork_v1_SEENOW.md Part 1 item C.
     # `retencion_en_la_fuente` (v1) bucket REMOVED 2026-04-25 per Alejandro's
     # SME spot-review (q15:A). Topic was deprecated in topic_taxonomy.json
     # (status: deprecated, merged_into: ["retencion_fuente_general"]). All
@@ -655,7 +655,7 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
     # unambiguous strong/weak vocabulary — derived from gold queries and
     # Colombian tax/compliance domain knowledge. Long-tail synonyms are
     # pending accountant review via the mining-script workflow
-    # (`scripts/mine_topic_keywords.py`). See docs/next/structuralwork_v2.md
+    # (`scripts/mine_topic_keywords.py`). See docs/done/next/structuralwork_v2.md
     # §V2-1 and the v5.4 change-log row in structuralwork_v1_SEENOW.md.
     "regimen_simple": {
         "strong": (

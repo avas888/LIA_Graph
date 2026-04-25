@@ -1,6 +1,6 @@
 # Ingestion artifacts are a SET
 
-**Source:** `docs/next/ingestion_tunningv2.md` §16 Appendix D §4; observed during v6 phase 2 execution on 2026-04-24.
+**Source:** `docs/done/next/ingestion_tunningv2.md` §16 Appendix D §4; observed during v6 phase 2 execution on 2026-04-24.
 
 ## The invariant
 
@@ -62,5 +62,5 @@ If the orchestrator returns through the `compat_stub` path (`diagnostics["pipeli
 
 ## See also
 
-- `docs/next/ingestion_tunningv2.md` §14 Appendix B — full inventory of phase-2 outputs.
+- `docs/done/next/ingestion_tunningv2.md` §14 Appendix B — full inventory of phase-2 outputs.
 - `src/lia_graph/pipeline_d/orchestrator.py:362` — the `FileNotFoundError` catch that masks artifact mismatch as compat-stub.

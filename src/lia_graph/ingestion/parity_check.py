@@ -1,6 +1,6 @@
 """Supabase ↔ FalkorDB parity probe (Phase 7 — Decision H1).
 
-See ``docs/next/additive_corpusv1.md`` §4 Decision H1 (reviewer-revised:
+See ``docs/done/next/additive_corpusv1.md`` §4 Decision H1 (reviewer-revised:
 tolerance = max(5 rows, 0.2%) absolute, ``--strict-parity`` escalates).
 Run before every ``--additive`` delta to detect drift early.
 """

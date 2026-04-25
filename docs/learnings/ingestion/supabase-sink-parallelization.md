@@ -1,6 +1,6 @@
 # Parallelizing the Supabase sink
 
-**Source:** `docs/next/ingestion_tunningv2.md` §16 Appendix D §9 (follow-up); v6 phase 2b execution 2026-04-24; commit TBD.
+**Source:** `docs/done/next/ingestion_tunningv2.md` §16 Appendix D §9 (follow-up); v6 phase 2b execution 2026-04-24; commit TBD.
 
 > **TL;DR.** The Supabase sink is four batched-upsert loops that are trivially parallelizable because every row has a unique primary key. We reused the **same** `classify_documents_parallel` primitive from `ingest_classifier_pool.py` rather than forking it. Default 4 workers (conservative for Postgres connection pools). Expected speedup on ~7,883 docs: 10–15 min → 2–3 min.
 

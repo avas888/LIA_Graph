@@ -7,8 +7,8 @@ Walks ``knowledge_base/**/*.md``, invokes
 every doc (not only on the low-confidence path), and writes one row per
 doc to ``artifacts/subtopic_candidates/collection_<UTC>.jsonl``.
 
-See ``docs/next/subtopic_generationv1.md`` §5 Phase 2 and
-``docs/next/subtopic_generationv1-contracts.md`` for the authoritative
+See ``docs/done/next/subtopic_generationv1.md`` §5 Phase 2 and
+``docs/done/next/subtopic_generationv1-contracts.md`` for the authoritative
 field schema. Exit codes: 0 success, 2 if commit mode saw any per-doc
 classification failure. Trace events use the ``subtopic.collect.*``
 namespace.

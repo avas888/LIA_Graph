@@ -1027,7 +1027,7 @@ def classify_ingestion_document(
             high-confidence; ``generated_label`` + ``rationale`` become
             pure metadata rather than a decision driver. Used by the
             subtopic-generation collection pass (see
-            ``docs/next/subtopic_generationv1.md``) where the goal is to
+            ``docs/done/next/subtopic_generationv1.md``) where the goal is to
             capture a free-form label on every doc, not to re-derive topic
             assignment. ``skip_llm=True`` wins over this flag — an
             explicit skip still skips.

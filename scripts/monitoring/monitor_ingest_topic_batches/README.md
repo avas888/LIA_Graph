@@ -3,7 +3,7 @@
 Three scripts + one canonical plan that together turn a 40-minute
 full-corpus reingest into a safe, resumable, gated chain of ~10-minute
 batches. Ships as part of `ingestionfix_v3` (see
-`docs/next/ingestionfix_v3.md` for the canonical story).
+`docs/done/next/ingestionfix_v3.md` for the canonical story).
 
 ## The flow in one screen
 
@@ -129,7 +129,7 @@ Failure / resume matrix:
 | **`fingerprint_bust` crashes during UPDATE** | Manifest already written (safety rail: manifest-before-execute). UPDATE is idempotent: re-running on already-NULL rows is a no-op. | Re-run `scripts/launch_batch.sh --batch <N>`. |
 
 This is the single-batch mirror of the autonomous chain's durability
-contract documented in `docs/next/ingestionfix_v3.md` §5 Phase 3. Same
+contract documented in `docs/done/next/ingestionfix_v3.md` §5 Phase 3. Same
 invariants; `launch_batch.sh` is what you use for manual per-batch work,
 `run_topic_backfill_chain.sh` is what you'll use once the chain loop is
 wired (Phase 3 proper).

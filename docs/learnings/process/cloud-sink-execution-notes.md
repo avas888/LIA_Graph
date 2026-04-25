@@ -1,6 +1,6 @@
 # Cloud-sink execution: env posture, degradation, recovery
 
-**Source:** `docs/next/ingestion_tunningv2.md` §16 Appendix D §§2, 6; v6 execution 2026-04-24.
+**Source:** `docs/done/next/ingestion_tunningv2.md` §16 Appendix D §§2, 6; v6 execution 2026-04-24.
 
 ## Launching the cloud sink (the right way)
 
@@ -39,7 +39,7 @@ Key elements:
 - **`--allow-non-local-env`** — explicit bypass of the posture guard. Only use this for intentional cloud writes.
 - **Detached + heartbeat** per the long-running-process pattern in `CLAUDE.md`.
 
-A follow-up item in `docs/next/ingestion_tunningv2.md` §16 Appendix D §9: add the `source .env.staging` prefix to the Make target, guarded by `ifeq ($(PHASE2_SUPABASE_TARGET),production)`, so the idiomatic invocation becomes `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production`.
+A follow-up item in `docs/done/next/ingestion_tunningv2.md` §16 Appendix D §9: add the `source .env.staging` prefix to the Make target, guarded by `ifeq ($(PHASE2_SUPABASE_TARGET),production)`, so the idiomatic invocation becomes `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production`.
 
 ## "failed=0" under LLM backpressure — the silent-degradation trap
 
@@ -103,7 +103,7 @@ psql -c "SELECT count(*) FROM chunks"             # expect +15,000 chunks
 # Expected: ArticleNode ≥ 12,500, TEMA ≥ 2,700, HAS_SUBTOPIC ≥ 450
 ```
 
-Explicit gates from `docs/next/ingestion_tunningv2.md` §4.7.
+Explicit gates from `docs/done/next/ingestion_tunningv2.md` §4.7.
 
 ## Rollback
 
@@ -115,6 +115,6 @@ Do NOT improvise a cloud rollback. If you must roll back, open a new task and su
 
 ## See also
 
-- `docs/next/ingestion_tunningv2.md` §4 (phase 2 full rebuild).
+- `docs/done/next/ingestion_tunningv2.md` §4 (phase 2 full rebuild).
 - `src/lia_graph/env_posture.py` — the guard.
 - `docs/guide/env_guide.md` — canonical env-file docs.

@@ -4,7 +4,7 @@
 
 > **TL;DR.** The v6 cloud sink stalled 15 min on the Falkor load phase writing only 85 / 3,340 ArticleNodes. Root cause is a **stack of four anti-patterns** common in first-time FalkorDB integrations: (1) redis-py default `socket_timeout=None` → indefinite client block; (2) per-record `GRAPH.QUERY` statements instead of batched `UNWIND`; (3) `MERGE` on unindexed properties → label scans that degrade quadratically with graph size; (4) no per-query `TIMEOUT` so server never self-aborts on a slow statement. Fix is phase 2c — **shipped + validated live on 2026-04-24 (commits `deb71d2`, `bea9bf8`)**.
 >
-> **Phase 2c live-fire results (cloud FalkorDB, commit `bea9bf8`):** sink completed in **7m27s exit 0**, vs the 28-min kill on the pre-2c attempt. The Falkor phase executed ~38 batched UNWIND statements against the indexed graph; per-query `TIMEOUT 30000` never fired (queries completed within budget); `CREATE INDEX` idempotency guard handled the "already indexed" error on re-runs. Net new writes: +569 TEMA edges, +81 HAS_SUBTOPIC, +5 SubTopicNodes. ArticleNode count stayed flat because the v6 corpus's article_ids collapse-onto existing Falkor nodes (per v4 `_graph_article_key` design — not a phase-2c bug). See `docs/next/ingestion_tunningv2.md §16 Appendix D` for full phase-6 scorecard.
+> **Phase 2c live-fire results (cloud FalkorDB, commit `bea9bf8`):** sink completed in **7m27s exit 0**, vs the 28-min kill on the pre-2c attempt. The Falkor phase executed ~38 batched UNWIND statements against the indexed graph; per-query `TIMEOUT 30000` never fired (queries completed within budget); `CREATE INDEX` idempotency guard handled the "already indexed" error on re-runs. Net new writes: +569 TEMA edges, +81 HAS_SUBTOPIC, +5 SubTopicNodes. ArticleNode count stayed flat because the v6 corpus's article_ids collapse-onto existing Falkor nodes (per v4 `_graph_article_key` design — not a phase-2c bug). See `docs/done/next/ingestion_tunningv2.md §16 Appendix D` for full phase-6 scorecard.
 
 ## The stall signature
 
@@ -225,4 +225,4 @@ Add these to `scripts/monitoring/ingest_heartbeat.py` and any inline monitors we
 - [`parallelism-and-rate-limits.md`](parallelism-and-rate-limits.md) — the classifier-pool design (doesn't apply to Falkor because Cypher MERGE has contention across workers).
 - [`supabase-sink-parallelization.md`](supabase-sink-parallelization.md) — phase 2b sink pool (Supabase-safe parallelism; Falkor needs different primitives).
 - [`../process/heartbeat-monitoring.md`](../process/heartbeat-monitoring.md) — heartbeat discipline updated for phase 2c.
-- `docs/next/ingestion_tunningv2.md §16 Appendix D §9` — TPM-aware limiter was already the #1 follow-up; Falkor bulk-load now joins it.
+- `docs/done/next/ingestion_tunningv2.md §16 Appendix D §9` — TPM-aware limiter was already the #1 follow-up; Falkor bulk-load now joins it.

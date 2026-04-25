@@ -108,7 +108,7 @@ The hot path is:
 
 ## HTTP Controller Topology
 
-`ui_server.py` owns dispatch + auth + response helpers only. Every `_handle_*` method on `LiaUIHandler` is a thin delegate to `handle_<domain>_<verb>(handler, …, *, deps)` in a sibling `ui_<domain>_controllers.py` module. Deps flow through `_<domain>_controller_deps()` helpers defined just above the class. **16 domain controllers** exist as of `v2026-04-21-stv2d` — see `docs/guide/orchestration.md` §HTTP Controller Topology for the full surface ↔ controller table. The original refactor play-by-play lives in `docs/next/granularization_v1.md` (executed task ledger).
+`ui_server.py` owns dispatch + auth + response helpers only. Every `_handle_*` method on `LiaUIHandler` is a thin delegate to `handle_<domain>_<verb>(handler, …, *, deps)` in a sibling `ui_<domain>_controllers.py` module. Deps flow through `_<domain>_controller_deps()` helpers defined just above the class. **16 domain controllers** exist as of `v2026-04-21-stv2d` — see `docs/guide/orchestration.md` §HTTP Controller Topology for the full surface ↔ controller table. The original refactor play-by-play lives in `docs/done/next/granularization_v1.md` (executed task ledger).
 
 ## Stable Facades vs Implementation Detail
 

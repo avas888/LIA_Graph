@@ -3,7 +3,7 @@
 These cover the ``src/lia_graph/ingestion/fingerprint.py`` contract. Phase 2
 explicitly targets this module; it landed with Phase 1 because the backfill
 script ``scripts/backfill_doc_fingerprint.py`` imports it. See
-``docs/next/additive_corpusv1.md`` §12.1 (subsumption) and the Phase 2 State
+``docs/done/next/additive_corpusv1.md`` §12.1 (subsumption) and the Phase 2 State
 Notes for the rationale.
 
 Cases map 1:1 with the plan's Phase 2 test table entries (a)-(e) plus the

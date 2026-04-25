@@ -1,6 +1,6 @@
 """HTTP front-door for Lia Graph.
 
-READ THIS BEFORE EDITING: `docs/next/granularization_v1.md` §"Controller Surface Catalog"
+READ THIS BEFORE EDITING: `docs/done/next/granularization_v1.md` §"Controller Surface Catalog"
 is the authoritative index of every domain controller, its dep-injection helper,
 and its HTTP surface. It also lists the recipe for adding new endpoints.
 

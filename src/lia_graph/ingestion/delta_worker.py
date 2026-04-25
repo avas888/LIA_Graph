@@ -1,6 +1,6 @@
 """Background worker that applies an additive-corpus-v1 delta.
 
-Phase 8 §8.B of ``docs/next/additive_corpusv1.md``. Reads the
+Phase 8 §8.B of ``docs/done/next/additive_corpusv1.md``. Reads the
 ``ingest_delta_jobs`` row the HTTP controller created, runs the full
 ``materialize_delta`` pass against live Supabase + Falkor, heartbeats the
 row every stage boundary, respects ``cancel_requested``, and finalizes

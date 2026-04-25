@@ -1,6 +1,6 @@
 """Cross-encoder reranker hook for pipeline_d (shadow / live).
 
-Structural backlog item #2 from `docs/next/structuralwork_v1_SEENOW.md`.
+Structural backlog item #2 from `docs/done/next/structuralwork_v1_SEENOW.md`.
 
 Modes
 -----

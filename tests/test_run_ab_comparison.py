@@ -5,7 +5,7 @@ and returns a deterministic response whose answer_markdown encodes the env
 value. This lets tests assert the launcher toggles the flag in the right
 order without running real retrieval.
 
-Covers §5 Phase 3 contract in docs/quality_tests/evaluacion_ingestionfixtask_v1.md.
+Covers §5 Phase 3 contract in docs/done/quality_tests/evaluacion_ingestionfixtask_v1.md.
 """
 
 from __future__ import annotations

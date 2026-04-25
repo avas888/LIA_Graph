@@ -1,6 +1,6 @@
 """Persistent dangling-edge-candidate store (Decision D1).
 
-See ``docs/next/additive_corpusv1.md`` §4 Decision D1 and §5 Phase 4.
+See ``docs/done/next/additive_corpusv1.md`` §4 Decision D1 and §5 Phase 4.
 
 Edges whose target ARTICLE key is unresolved at the moment an edge is
 extracted would, under the legacy full-rebuild, be silently dropped by

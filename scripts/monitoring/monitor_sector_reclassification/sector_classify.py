@@ -8,7 +8,7 @@ classifies each doc's sector / migration-target via Gemini.
 ## Why batching + checkpointing
 
 Mirrors the durability contract baked into ``launch_batch.sh`` (see
-docs/next/ingestionfix_v3.md §5 Phase 3). The classifier isn't a destructive
+docs/done/next/ingestionfix_v3.md §5 Phase 3). The classifier isn't a destructive
 operation — it's a read-only LLM call — but 510 API calls at ~1-2 seconds
 each is 10-20 minutes of wall time, and we don't want a network blip to
 force a full restart. So:

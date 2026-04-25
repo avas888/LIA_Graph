@@ -270,7 +270,7 @@ def run_pipeline_d(
     # If the upstream topic router returned no topic with effectively zero
     # confidence, refuse to synthesize from whatever grab-bag articles
     # fall out of general_graph_research retrieval. See topic_safety.py
-    # and `docs/next/structuralwork_v1_SEENOW.md` v5.3 landed-state.
+    # and `docs/done/next/structuralwork_v1_SEENOW.md` v5.3 landed-state.
     silent_failure = detect_router_silent_failure(request)
     if silent_failure is not None:
         return _compose_topic_safety_abstention(

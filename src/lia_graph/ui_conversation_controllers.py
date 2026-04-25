@@ -15,7 +15,7 @@ updating the dispatcher ordering or the frontend contract.
 
 All dep-injected collaborators flow through ``deps``; auth resolution and error
 mapping live on the ``handler`` (``_resolve_auth_context``, ``_send_auth_error``,
-``_admin_tenant_scope``). See ``docs/next/granularization_v1.md`` §Controller
+``_admin_tenant_scope``). See ``docs/done/next/granularization_v1.md`` §Controller
 Surface Catalog for the architecture rules.
 """
 

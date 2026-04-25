@@ -1,6 +1,6 @@
 # Citation allow-list + gold-file taxonomy alignment
 
-**Source:** `docs/next/ingestion_tunningv2.md` §6–§7 (phases 4–5); commits `e74f6d9`, `6ea134e`.
+**Source:** `docs/done/next/ingestion_tunningv2.md` §6–§7 (phases 4–5); commits `e74f6d9`, `6ea134e`.
 
 ## Part 1 — Defensive citation allow-list (phase 4)
 
@@ -82,6 +82,6 @@ The fix: regex-based `_SUBTOPIC_OVERRIDE_PATTERNS` in `topic_router_keywords.py`
 
 ## See also
 
-- `docs/next/ingestion_tunningv2.md` §6 (phase 4), §7 (phase 5).
+- `docs/done/next/ingestion_tunningv2.md` §6 (phase 4), §7 (phase 5).
 - `src/lia_graph/pipeline_d/_citation_allowlist.py` + `config/citation_allow_list.json`.
 - `src/lia_graph/topic_router_keywords.py` — `_SUBTOPIC_OVERRIDE_PATTERNS`.

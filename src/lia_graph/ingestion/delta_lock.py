@@ -1,6 +1,6 @@
 """Concurrency guard for the additive-corpus-v1 delta path.
 
-See ``docs/next/additive_corpusv1.md`` §4 Decision J (reviewer-revised:
+See ``docs/done/next/additive_corpusv1.md`` §4 Decision J (reviewer-revised:
 J1 RPC + J2 row-based-lock hybrid). The row in ``ingest_delta_jobs`` is
 the primary guard for long-running Python workers (which span many
 PostgREST HTTP calls and therefore cannot hold a session-level advisory

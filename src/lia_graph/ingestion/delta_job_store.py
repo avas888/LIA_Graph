@@ -1,6 +1,6 @@
 """CRUD helpers for the ``ingest_delta_jobs`` table.
 
-See ``docs/next/additive_corpusv1.md`` §4 Decision J2 + §5 Phase 7. The table
+See ``docs/done/next/additive_corpusv1.md`` §4 Decision J2 + §5 Phase 7. The table
 itself is the lock (partial-unique-index on live rows); this module is the
 Python-side projection of that lock + the surface the Phase 8 admin UI
 reads to render progress.

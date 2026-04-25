@@ -1,6 +1,6 @@
 """Tests for scripts/evaluations/render_ab_markdown.py — pure renderer.
 
-Locks the §5 Phase 2 contract of docs/quality_tests/evaluacion_ingestionfixtask_v1.md:
+Locks the §5 Phase 2 contract of docs/done/quality_tests/evaluacion_ingestionfixtask_v1.md:
   * Each question block carries bold mode labels.
   * Answer markdown is preserved verbatim.
   * Each block ends with a YAML `verdict:` placeholder.

@@ -1,6 +1,6 @@
 """Baseline snapshot reader for the additive-corpus-v1 delta planner.
 
-See ``docs/next/additive_corpusv1.md`` §5 Phase 2.
+See ``docs/done/next/additive_corpusv1.md`` §5 Phase 2.
 
 The baseline snapshot is the in-memory projection of whatever is currently
 persisted in Supabase for a given ``generation_id`` (typically the rolling

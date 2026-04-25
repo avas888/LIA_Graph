@@ -11,7 +11,7 @@ Pure, side-effect-free helpers consumed by
 - :func:`build_proposal_json` — ties it all together into the final
   JSON payload (does not write to disk).
 
-Contract: see ``docs/next/subtopic_generationv1-contracts.md`` — field
+Contract: see ``docs/done/next/subtopic_generationv1-contracts.md`` — field
 names and JSON shape are pinned there.
 """
 

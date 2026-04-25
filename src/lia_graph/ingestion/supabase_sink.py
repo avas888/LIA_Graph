@@ -316,7 +316,7 @@ class SupabaseSinkResult:
 class SupabaseDeltaResult:
     """Per-bucket row-count report returned by ``write_delta``.
 
-    Additive-corpus-v1 Phase 4 — see ``docs/next/additive_corpusv1.md`` §5.
+    Additive-corpus-v1 Phase 4 — see ``docs/done/next/additive_corpusv1.md`` §5.
     """
 
     generation_id: str
@@ -749,7 +749,7 @@ class SupabaseCorpusSink:
         * ``edges`` — classified edges extracted from the delta articles.
         * ``dangling_store`` — persistent store for unresolved ARTICLE targets.
 
-        See ``docs/next/additive_corpusv1.md`` §5 Phase 4 for the per-bucket
+        See ``docs/done/next/additive_corpusv1.md`` §5 Phase 4 for the per-bucket
         semantics. This method does NOT flip ``corpus_generations.is_active``;
         the caller owns activation (``finalize(activate=True)`` or the Phase 6
         orchestrator path).

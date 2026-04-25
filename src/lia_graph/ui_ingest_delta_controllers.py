@@ -1,6 +1,6 @@
 """Admin-scope HTTP controllers for the additive-corpus-v1 delta path.
 
-Phase 8 of ``docs/next/additive_corpusv1.md``. Six endpoints under
+Phase 8 of ``docs/done/next/additive_corpusv1.md``. Six endpoints under
 ``/api/ingest/additive/``:
 
 * ``POST /preview`` — synchronous delta plan (no writes). Returns per-bucket

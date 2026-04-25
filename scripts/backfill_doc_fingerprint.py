@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Backfill ``documents.doc_fingerprint`` from persisted classifier columns.
 
-Phase 1 of ``docs/next/additive_corpusv1.md``. Idempotent, pure SQL against
+Phase 1 of ``docs/done/next/additive_corpusv1.md``. Idempotent, pure SQL against
 Supabase via PostgREST — no markdown re-read, no classifier re-run.
 
 **Decision K1 (reviewer-ratified 2026-04-22).** The fingerprint formula used

@@ -1,6 +1,6 @@
 """Tests for ``scripts/promote_subtopic_decisions.py`` (Phase 6).
 
-Covers the full contract from ``docs/next/subtopic_generationv1-contracts.md``:
+Covers the full contract from ``docs/done/next/subtopic_generationv1-contracts.md``:
 
 - (a) 5 accepted proposals across 2 parents → correct grouping / ordering.
 - (b) merge chain A→B→C → single entry at C with aggregated aliases + counts.

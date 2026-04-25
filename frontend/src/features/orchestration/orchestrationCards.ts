@@ -286,7 +286,7 @@ export const moduleCards: ModuleCard[] = [
     bullets: [
       "Sirve /public, /api/chat, /api/chat/stream y /orchestration.",
       "Dispara el runtime pero no decide el shaping visible del answer.",
-      "Post-granularización v1: cada _handle_* es un delegate de 5-15 LOC a un ui_<dominio>_controllers.py (compat, public session, history, admin, runtime, reasoning, ingestion, writes, citations, form-guides, ops, source-view, eval, user-management). Ver docs/next/granularization_v1.md §Controller Surface Catalog.",
+      "Post-granularización v1: cada _handle_* es un delegate de 5-15 LOC a un ui_<dominio>_controllers.py (compat, public session, history, admin, runtime, reasoning, ingestion, writes, citations, form-guides, ops, source-view, eval, user-management). Ver docs/done/next/granularization_v1.md §Controller Surface Catalog.",
     ],
   },
   {

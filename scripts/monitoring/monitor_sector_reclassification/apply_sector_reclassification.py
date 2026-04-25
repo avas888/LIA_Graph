@@ -36,7 +36,7 @@ Usage::
       --approved artifacts/sector_classification/sector_reclassification_proposal.approved.json \\
       --confirm
 
-See ``docs/next/ingestionfix_v3.md`` §5 Phase 2.5 (Task E) for the canonical story.
+See ``docs/done/next/ingestionfix_v3.md`` §5 Phase 2.5 (Task E) for the canonical story.
 """
 
 from __future__ import annotations

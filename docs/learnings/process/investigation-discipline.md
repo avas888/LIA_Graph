@@ -1,6 +1,6 @@
 # Investigate before you execute
 
-**Source:** `docs/next/ingestion_tunningv1.md` (the entire doc); v6 cycle 2026-04-24.
+**Source:** `docs/done/next/ingestion_tunningv1.md` (the entire doc); v6 cycle 2026-04-24.
 
 ## The moment
 
@@ -52,7 +52,7 @@ The investigation document's **only output is another document**: the execution 
 
 ## Template
 
-See `docs/next/ingestion_tunningv1.md` for the shape. Each investigation fits on one page. Findings log (§0) updates as investigations close. Status table with one-line results is the first thing a reader sees.
+See `docs/done/next/ingestion_tunningv1.md` for the shape. Each investigation fits on one page. Findings log (§0) updates as investigations close. Status table with one-line results is the first thing a reader sees.
 
 ## When to skip investigation
 
@@ -64,5 +64,5 @@ Never on a failed eval. But OK:
 
 ## See also
 
-- `docs/next/ingestion_tunningv1.md` §0 and §6 (investigations I1–I7).
-- `docs/next/ingestion_tunningv2.md` §16 Appendix D §9 (follow-up items that came out of the v6 execution and will seed v7's investigations).
+- `docs/done/next/ingestion_tunningv1.md` §0 and §6 (investigations I1–I7).
+- `docs/done/next/ingestion_tunningv2.md` §16 Appendix D §9 (follow-up items that came out of the v6 execution and will seed v7's investigations).

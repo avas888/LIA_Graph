@@ -21,7 +21,7 @@ Explicitly NOT in scope:
   * Parallel execution. Env-flag toggling is process-global, so we run
     sequentially. Typical wall time: 20–30 min for 30 × 2 queries.
 
-See docs/quality_tests/evaluacion_ingestionfixtask_v1.md §5 Phase 1 for
+See docs/done/quality_tests/evaluacion_ingestionfixtask_v1.md §5 Phase 1 for
 the binding contract this file implements.
 """
 

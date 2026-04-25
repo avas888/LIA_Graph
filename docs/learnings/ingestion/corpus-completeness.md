@@ -1,6 +1,6 @@
 # Corpus completeness > retrieval tuning
 
-**Source:** `docs/next/ingestion_tunningv1.md` §0 headline findings (2026-04-24); confirmed by `docs/next/ingestion_tunningv2.md` §4 phase-2 success criteria.
+**Source:** `docs/done/next/ingestion_tunningv1.md` §0 headline findings (2026-04-24); confirmed by `docs/done/next/ingestion_tunningv2.md` §4 phase-2 success criteria.
 
 ## The finding
 
@@ -30,4 +30,4 @@ The v5 30Q A/B evaluation was interpreted as "retrieval is broken." A full inves
 
 - [`artifact-coherence.md`](artifact-coherence.md) — how to not break the artifact set while experimenting.
 - [`../retrieval/coherence-gate-and-contamination.md`](../retrieval/coherence-gate-and-contamination.md) — the retrieval-side consequence.
-- `docs/next/ingestion_tunningv1.md` §0 I1b findings.
+- `docs/done/next/ingestion_tunningv1.md` §0 I1b findings.

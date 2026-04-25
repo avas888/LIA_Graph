@@ -1,6 +1,6 @@
 # Parallelism, rate limits, and deterministic ingest
 
-**Source:** `docs/next/ingestion_tunningv2.md` §16 Appendix D; commit `34f658b` (phase 2a).
+**Source:** `docs/done/next/ingestion_tunningv2.md` §16 Appendix D; commit `34f658b` (phase 2a).
 
 ## Throughput bottleneck: LLM latency, not rate ceiling
 
@@ -72,6 +72,6 @@ To force sequential for debugging: `--classifier-workers 1`. Never do this in pr
 
 ## See also
 
-- `docs/next/ingestion_tunningv2.md` §16 Appendix D sections 2–3.
+- `docs/done/next/ingestion_tunningv2.md` §16 Appendix D sections 2–3.
 - `src/lia_graph/ingest_classifier_pool.py` — the primitives.
 - `tests/test_ingest_classifier_pool.py` — the pinned invariants.

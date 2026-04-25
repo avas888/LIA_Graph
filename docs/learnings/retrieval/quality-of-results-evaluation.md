@@ -1,6 +1,6 @@
 # Quality-of-results evaluation — designing an eval you can trust
 
-**Source:** v5 30Q A/B expert panel (2026-04-22); `docs/next/ingestion_tunningv1.md` investigations I3, I5, I6; `docs/next/ingestion_tunningv2.md` §8 phase 6 design.
+**Source:** v5 30Q A/B expert panel (2026-04-22); `docs/done/next/ingestion_tunningv1.md` investigations I3, I5, I6; `docs/done/next/ingestion_tunningv2.md` §8 phase 6 design.
 
 > **Why this doc exists.** The v5 panel's failure mode was **catastrophic and uninterpretable** — 60 result blocks all reporting `primary_article_count: 0`, `tema_first_mode: None`, three rubric categories that didn't match the actual system behavior. The week we spent rebuilding that eval taught us more about how to DESIGN an eval than about how to fix retrieval. This doc distills those rules.
 
@@ -168,7 +168,7 @@ See `docs/next/ingestionfix_v6.md` §1 for the full scorecard and §2 for the re
 
 ## The "am I done?" checklist for phase 6 (v6 validation)
 
-From `docs/next/ingestion_tunningv2.md` §8.5 — the v6 plan's definition of victory:
+From `docs/done/next/ingestion_tunningv2.md` §8.5 — the v6 plan's definition of victory:
 
 - `primary_article_count != None` in ≥ 25/30 NEW-mode rows ✅ phase 1 delivers this unconditionally
 - `tema_first_mode == "on"` in 30/30 NEW-mode rows ✅ environment set correctly
@@ -190,8 +190,8 @@ A failure on any non-negotiable stops phase 7 and surfaces to operator. Everythi
 
 ## See also
 
-- `docs/next/ingestion_tunningv1.md` §0 I3/I5/I6 — investigation of v5 eval failures.
-- `docs/next/ingestion_tunningv2.md` §8 (phase 6) and §1.5 (cumulative success criteria).
+- `docs/done/next/ingestion_tunningv1.md` §0 I3/I5/I6 — investigation of v5 eval failures.
+- `docs/done/next/ingestion_tunningv2.md` §8 (phase 6) and §1.5 (cumulative success criteria).
 - [`diagnostic-surface.md`](diagnostic-surface.md) — phase 1 lifting in detail.
 - [`coherence-gate-and-contamination.md`](coherence-gate-and-contamination.md) — phase 3 gate, rubric calibration.
 - [`citation-allowlist-and-gold-alignment.md`](citation-allowlist-and-gold-alignment.md) — phase 4+5 alignment work.

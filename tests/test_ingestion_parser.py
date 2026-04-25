@@ -2,7 +2,7 @@
 
 These lock in the behavior that enables práctica / interpretación docs
 (which lack `## Artículo N` statutory headers) to produce retrievable chunks.
-See `docs/next/ingestionfix_v2.md` §4 Phase 1.
+See `docs/done/next/ingestionfix_v2.md` §4 Phase 1.
 """
 
 from __future__ import annotations

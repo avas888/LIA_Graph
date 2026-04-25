@@ -1,6 +1,6 @@
 """Orchestrator glue for the additive-corpus-v1 delta CLI path.
 
-Phase 6 of ``docs/next/additive_corpusv1.md``. This module owns the
+Phase 6 of ``docs/done/next/additive_corpusv1.md``. This module owns the
 end-to-end wiring between the pure Phase 2-5 components and the
 ``--additive`` CLI flag in ``ingest.py``. Full rebuild stays in
 ``materialize_graph_artifacts``; this module is additive-only.

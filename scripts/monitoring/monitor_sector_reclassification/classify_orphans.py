@@ -28,7 +28,7 @@ durability shape as ``sector_classify.py`` but finer-grained.
 **Same durability contract**: atomic per-doc writes (temp+rename),
 resumable on restart, visible heartbeat every doc, SIGINT-safe.
 
-See ``docs/next/UI_Ingestion_learnings.md §11.4`` for the pipeline
+See ``docs/done/next/UI_Ingestion_learnings.md §11.4`` for the pipeline
 placement (this is "Pass 3 — rich per-doc" of the Rescue-from-Other
 playbook).
 """

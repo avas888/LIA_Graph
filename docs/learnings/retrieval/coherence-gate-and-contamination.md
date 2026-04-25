@@ -1,6 +1,6 @@
 # Contamination is a retrieval failure, not a classifier failure
 
-**Source:** `docs/next/ingestion_tunningv1.md` §0 I5/I6 findings; commit `60829f0` (v6 phase 3).
+**Source:** `docs/done/next/ingestion_tunningv1.md` §0 I5/I6 findings; commit `60829f0` (v6 phase 3).
 
 ## The Q16 biofuel incident
 
@@ -60,6 +60,6 @@ Pinned by `tests/test_coherence_gate.py` (7 tests), including the Q16-class case
 
 ## See also
 
-- `docs/next/ingestion_tunningv1.md` §0 I5 (trace) and I6 (simulation).
+- `docs/done/next/ingestion_tunningv1.md` §0 I5 (trace) and I6 (simulation).
 - `src/lia_graph/pipeline_d/_coherence_gate.py` — the primitives.
 - `src/lia_graph/pipeline_d/topic_safety.py` — the pre-existing gate this complements.

@@ -1,6 +1,6 @@
 # Measurement error vs feature break
 
-**Source:** `docs/next/ingestion_tunningv1.md` §0 I5 findings; commit `7d966ce` (v6 phase 1).
+**Source:** `docs/done/next/ingestion_tunningv1.md` §0 I5 findings; commit `7d966ce` (v6 phase 1).
 
 ## The mistake the v5 panel made
 
@@ -49,6 +49,6 @@ Any new retrieval-diagnostic field added to `evidence.diagnostics` by a retrieve
 
 ## See also
 
-- `docs/next/ingestion_tunningv1.md` §0 I5 findings — the investigation that traced this.
+- `docs/done/next/ingestion_tunningv1.md` §0 I5 findings — the investigation that traced this.
 - `scripts/evaluations/run_ab_comparison.py:162-174` — the harness read site.
 - `src/lia_graph/pipeline_d/orchestrator.py` lifted-keys block.

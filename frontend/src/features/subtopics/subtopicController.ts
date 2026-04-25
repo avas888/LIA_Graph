@@ -5,7 +5,7 @@
  * (`subtopicCurationBoard`). Read-only for non-admins (the server enforces
  * 403; the UI surfaces the error toast).
  *
- * Source-of-truth: docs/next/subtopic_generationv1.md Phase 5.
+ * Source-of-truth: docs/done/next/subtopic_generationv1.md Phase 5.
  */
 
 import { ApiError, getJson, postJson } from "@/shared/api/client";

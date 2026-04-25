@@ -793,7 +793,7 @@ def parser() -> argparse.ArgumentParser:
             "corpus against the current rolling Supabase baseline and apply "
             "only the diff (added + modified + removed docs). Requires "
             "--supabase-sink; --supabase-generation-id defaults to "
-            "'gen_active_rolling'. See docs/next/additive_corpusv1.md."
+            "'gen_active_rolling'. See docs/done/next/additive_corpusv1.md."
         ),
     )
     cli.add_argument(

@@ -45,7 +45,7 @@
 
 ### 6. Railway Project
 - **What**: Railway deployment for production (`npm run dev:production` explicitly exits with a Railway notice).
-- **Status**: scaffold only; Railway wiring is the one externally-provisioned dependency that is still a follow-up (see `docs/next/env_fixv1.md` §Follow-up item 2). Staging runs against the cloud infra locally via `npm run dev:staging`.
+- **Status**: scaffold only; Railway wiring is the one externally-provisioned dependency that is still a follow-up (see `docs/done/next/env_fixv1.md` §Follow-up item 2). Staging runs against the cloud infra locally via `npm run dev:staging`.
 
 ---
 

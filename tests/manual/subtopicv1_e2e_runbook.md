@@ -171,7 +171,7 @@ grep -c '"event_type": "subtopic.' logs/events.jsonl
 
 - [ ] Commit `config/subtopic_taxonomy.json` with message
       `feat(subtopic-v1): promote taxonomy v<date>`.
-- [ ] Flip `docs/next/subtopic_generationv1.md` §2 status from `EXECUTING` to `COMPLETE`.
+- [ ] Flip `docs/done/next/subtopic_generationv1.md` §2 status from `EXECUTING` to `COMPLETE`.
 - [ ] Move the plan doc to `docs/done/subtopic_generationv1.md`.
 - [ ] Follow-up `ingestfixv2.md` pre-conditions now satisfied — schedule its kickoff.
 

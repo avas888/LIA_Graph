@@ -49,7 +49,7 @@ If older pre-Build-V1 notes disagree with the four guides above, the guides win.
 
 ### 1. Final two LOC graduations
 
-`src/lia_graph/ui_server.py` (≈1847 LOC) and `frontend/src/features/ops/opsIngestionController.ts` (≈2377 LOC) are the last two files above the informal 1000-LOC threshold. Plan: `docs/next/decouplingv1.md`.
+`src/lia_graph/ui_server.py` (≈1847 LOC) and `frontend/src/features/ops/opsIngestionController.ts` (≈2377 LOC) are the last two files above the informal 1000-LOC threshold. Plan: `docs/done/decouplingv1.md` (closed cycle).
 
 ### 2. Railway production deploy
 
@@ -94,6 +94,6 @@ Then inspect:
 ## Historical Bridge
 
 - `docs/build/buildV1.md` + `docs/build/buildv1/` — original plan, largely materialized; useful for product rationale.
-- `docs/state/TASK-01`…`TASK-04` — per-task ledgers for the bootstrap phases (done).
-- `docs/next/env_fixv1.md`, `ingestfixv1-design-notes.md`, `granularization_v1.md`, `subtopic_generationv1.md`, `subtopic_generationv1-contracts.md` — forward-looking docs whose underlying work has shipped.
+- `docs/state/TASK-03` + `docs/state/TASK-04` (active here) and `docs/done/state/TASK-01` + `docs/done/state/TASK-02` (archived) — per-task ledgers for the bootstrap phases (all done).
+- `docs/done/next/env_fixv1.md`, `ingestfixv1-design-notes.md`, `granularization_v1.md`, `subtopic_generationv1.md`, `subtopic_generationv1-contracts.md` — forward-looking docs whose underlying work has shipped.
 - `docs/done/` — executed task records.

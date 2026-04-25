@@ -12,7 +12,7 @@ State-mutating POSTs for ingestion (upload, classify, process, retry, stop,
 auto-process, purge-and-replace) live in ``ui_write_controllers`` and are
 filled in B9 of the granularization plan. They are intentionally not in this
 module — keep the read/write split to preserve the architecture called out in
-``docs/next/granularization_v1.md`` §Controller Surface Catalog.
+``docs/done/next/granularization_v1.md`` §Controller Surface Catalog.
 
 Both the GET and DELETE paths require an admin-scope auth context. Public
 visitors never reach these surfaces because ``_resolve_auth_context(required=True)``

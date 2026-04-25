@@ -11,7 +11,7 @@ Routes::
     GET  /api/subtopics/taxonomy                      — current curated taxonomy
     POST /api/subtopics/decision                      — append curator decision
 
-Artifacts (contract pinned in docs/next/subtopic_generationv1-contracts.md):
+Artifacts (contract pinned in docs/done/next/subtopic_generationv1-contracts.md):
     artifacts/subtopic_proposals_<UTC>.json   — mining output (read)
     artifacts/subtopic_candidates/*.jsonl     — collection rows (read for evidence)
     artifacts/subtopic_decisions.jsonl        — curator decisions (append-only)
@@ -396,7 +396,7 @@ def _handle_decision_post(handler: Any, workspace_root: Path) -> None:
             return
         aliases = [str(a).strip() for a in aliases_raw if str(a).strip()]
 
-    # Per-action validation (contract docs/next/subtopic_generationv1-contracts.md).
+    # Per-action validation (contract docs/done/next/subtopic_generationv1-contracts.md).
     if action == "accept":
         if not final_key or not final_label:
             _reject_payload(

@@ -1,6 +1,6 @@
 # Observability patterns for long-running ingest
 
-**Source:** `CLAUDE.md` "Long-running Python processes" section; v6 execution 2026-04-24; `docs/next/ingestion_tunningv2.md` §16 Appendix D §§5, 7.
+**Source:** `CLAUDE.md` "Long-running Python processes" section; v6 execution 2026-04-24; `docs/done/next/ingestion_tunningv2.md` §16 Appendix D §§5, 7.
 
 ## The problem class
 
@@ -80,5 +80,5 @@ Never retry on any of these — the whole point is to surface the condition to t
 ## See also
 
 - `CLAUDE.md` — "Long-running Python processes" section (authoritative).
-- `scripts/monitoring/ingest_heartbeat.py` — the canonical heartbeat script (has the same delta-error bug as my inline monitor had; follow-up item in `docs/next/ingestion_tunningv2.md` §16 Appendix D §9).
-- `docs/next/ingestion_tunningv2.md` §16 Appendix D §5 for the tabular rules.
+- `scripts/monitoring/ingest_heartbeat.py` — the canonical heartbeat script (has the same delta-error bug as my inline monitor had; follow-up item in `docs/done/next/ingestion_tunningv2.md` §16 Appendix D §9).
+- `docs/done/next/ingestion_tunningv2.md` §16 Appendix D §5 for the tabular rules.

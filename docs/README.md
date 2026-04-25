@@ -11,8 +11,8 @@ If you are reorienting after an interruption, read these in order:
 5. `AGENTS.md` (root) — operating guide for AI agents (mirrors env matrix)
 6. `docs/learnings/README.md` — distilled learnings (ingestion + retrieval + process) — **start here for non-obvious invariants**
 7. `docs/next/ingestionfix_v6.md` — forward RAG-quality backlog (top-10 v7 items)
-8. `docs/next/ingestion_tunningv2.md` — the v6 execution plan (all phases 0–6 landed 2026-04-24)
-9. `docs/next/gui_ingestion_v1.md` — canonical GUI-ingestion learnings + §13 deficiencies-vs-CLI gap analysis
+8. `docs/done/next/ingestion_tunningv2.md` — the v6 execution plan (all phases 0–6 landed 2026-04-24)
+9. `docs/done/next/gui_ingestion_v1.md` — canonical GUI-ingestion learnings + §13 deficiencies-vs-CLI gap analysis
 10. `docs/architecture/FORK-BOUNDARY.md` — what we reuse vs. rethink
 11. `docs/state/STATE.md` — broader repo state tracker
 12. `docs/DEPENDENCIES.md` — external services needed
@@ -28,19 +28,19 @@ If you are reorienting after an interruption, read these in order:
 - `docs/DEPENDENCIES.md` — external services required to run the repo autonomously.
 - **`docs/learnings/`** — 13 distilled learning docs across `ingestion/` (corpus completeness, parallelism + rate limits, Supabase sink parallelization, Falkor bulk load, artifact coherence), `retrieval/` (diagnostic surface, coherence gate + contamination, citation allow-list + gold alignment, quality-of-results evaluation), `process/` (investigation discipline, observability patterns, heartbeat monitoring, cloud-sink execution notes). Every rule names the incident that created it.
 - **`docs/next/ingestionfix_v6.md`** — forward RAG-quality backlog, top-10 v7 items ranked across 4 lanes (retrieval quality, ingest completeness, observability/GUI, eval quality).
-- **`docs/next/ingestion_tunningv2.md`** — v6 execution plan (phases 0–6 all landed 2026-04-24). Appendix D carries the execution retrospective.
-- **`docs/next/gui_ingestion_v1.md`** — canonical GUI-ingestion doc (merged from `UI_Ingestion_learnings.md` + `deficienciesGUIingestion_v1.md`). 15-point pre-flight checklist, rescue-from-Other playbook, 15 deficiencies vs CLI path.
+- **`docs/done/next/ingestion_tunningv2.md`** — v6 execution plan (phases 0–6 all landed 2026-04-24). Appendix D carries the execution retrospective.
+- **`docs/done/next/gui_ingestion_v1.md`** — canonical GUI-ingestion doc (merged from `UI_Ingestion_learnings.md` + `deficienciesGUIingestion_v1.md`). 15-point pre-flight checklist, rescue-from-Other playbook, 15 deficiencies vs CLI path.
 
 ## Executed / Archival Material
 
 These directories describe tasks already executed — read them for archaeology, don't treat them as steering:
 
 - `docs/done/` — executed tasks: ingest v1 + v2 (maximalist), corpus Supabase cutover, SUIN harvest v1 + v2, ingestion (DIAN / MINTRABAJO / SUIN / UGPP), subtopic generation v1, curator decisions April 2026.
-- `docs/state/TASK-01`…`TASK-04` — per-task state with checkpoints for the early build phases.
+- `docs/state/TASK-03` + `docs/state/TASK-04` (active) and `docs/done/state/TASK-01` + `docs/done/state/TASK-02` (archived) — per-task state with checkpoints for the early build phases.
 - `docs/build/buildV1.md` and `docs/build/buildv1/` — the original Build V1 executive plan + phase decomposition (largely materialized; read as the product rationale).
-- `docs/guide/orchestration1.md` — archived older runtime snapshot, kept for comparison only.
-- `docs/next/env_fixv1.md`, `docs/next/ingestfixv1-design-notes.md`, `docs/next/granularization_v1.md`, `docs/next/subtopic_generationv1.md`, `docs/next/subtopic_generationv1-contracts.md` — forward-looking planning docs whose underlying work has shipped. Kept for reference.
-- `docs/quality_tests/EVALUACION-CORPUS-30-PREGUNTAS-RESPUESTAS.md` — batch evaluation output.
+- `docs/done/guide/orchestration1.md` — archived older runtime snapshot, kept for comparison only.
+- `docs/done/next/env_fixv1.md`, `docs/done/next/ingestfixv1-design-notes.md`, `docs/done/next/granularization_v1.md`, `docs/done/next/subtopic_generationv1.md`, `docs/done/next/subtopic_generationv1-contracts.md` — forward-looking planning docs whose underlying work has shipped. Kept for reference.
+- `docs/done/quality_tests/EVALUACION-CORPUS-30-PREGUNTAS-RESPUESTAS.md` — batch evaluation output.
 - `docs/deprecated/old-RAG/` — historical pre-graph-native material.
 
 ## Rule Of Thumb

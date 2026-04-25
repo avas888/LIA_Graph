@@ -1,6 +1,6 @@
 """Pure delta planner for additive-corpus-v1 (Phase 3).
 
-See ``docs/next/additive_corpusv1.md`` §5 Phase 3.
+See ``docs/done/next/additive_corpusv1.md`` §5 Phase 3.
 
 Consumes ``(on_disk_docs, baseline_snapshot)`` and emits a
 ``CorpusDelta`` bucketing every doc into added / modified / removed /

@@ -2,7 +2,7 @@
 """Pure renderer: Phase-1 JSONL + manifest → side-by-side panel markdown.
 
 Zero network. Deterministic for a given input. Output structure defined
-in docs/quality_tests/evaluacion_ingestionfixtask_v1.md §5 Phase 2.
+in docs/done/quality_tests/evaluacion_ingestionfixtask_v1.md §5 Phase 2.
 
 Each question block contains:
   * header (qid, macro_area, query_shape, type)

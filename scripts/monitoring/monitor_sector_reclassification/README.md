@@ -1,7 +1,7 @@
 # `scripts/monitoring/monitor_sector_reclassification/` — v3 Phase 2.5 tools
 
 Isolated folder for the **sector reclassification work** documented in
-`docs/next/ingestionfix_v3.md` §2.2 and §5 Phase 2.5.
+`docs/done/next/ingestionfix_v3.md` §2.2 and §5 Phase 2.5.
 
 Scoped to one job: turning the 510-doc `otros_sectoriales` catch-all into
 ~12-15 clean sector topics (+ migrating ~30-60 misclassified docs into

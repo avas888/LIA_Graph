@@ -11,7 +11,7 @@ headers manually (``text/event-stream``, ``no-cache``, ``X-Accel-Buffering: no``
 If you add another streaming endpoint in this file, follow the same header
 pattern and wrap the write loop in the same ``BrokenPipeError/OSError`` guard.
 
-See ``docs/next/granularization_v1.md`` §Controller Surface Catalog.
+See ``docs/done/next/granularization_v1.md`` §Controller Surface Catalog.
 """
 
 from __future__ import annotations

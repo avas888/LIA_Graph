@@ -11,7 +11,7 @@ The decision outcome drives whether `LIA_TEMA_FIRST_RETRIEVAL` flips from
 `shadow` (default in dev/staging, no user-visible change) to `on`
 (TEMA-first actually steers the served answer).
 
-See `docs/quality_tests/evaluacion_ingestionfixtask_v1.md` for the full
+See `docs/done/quality_tests/evaluacion_ingestionfixtask_v1.md` for the full
 plan (§0 cold-start briefing onward) and state ledger.
 
 ## What's in `artifacts/eval/`
@@ -103,7 +103,7 @@ PYTHONPATH=src:. uv run --group dev python \
 ```
 
 Detached + heartbeat recipe: see
-`docs/quality_tests/evaluacion_ingestionfixtask_v1.md §5 Phase 4`.
+`docs/done/quality_tests/evaluacion_ingestionfixtask_v1.md §5 Phase 4`.
 
 ## Known caveats
 
@@ -128,4 +128,4 @@ Detached + heartbeat recipe: see
 
 - Engineer who ran the harness: see `git_commit_sha` in the manifest +
   `git log` on `feat/evaluacion-ingestionfixtask-v1-ab-harness`.
-- Plan doc: `docs/quality_tests/evaluacion_ingestionfixtask_v1.md`.
+- Plan doc: `docs/done/quality_tests/evaluacion_ingestionfixtask_v1.md`.
