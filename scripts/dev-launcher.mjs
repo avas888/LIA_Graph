@@ -272,12 +272,38 @@ function buildRuntimeEnv(mode) {
 
   // v5 Phase 3 — TEMA-first retrieval. When on, the Falkor retriever
   // augments its candidate article-key set with TopicNode<-[:TEMA]-
-  // articles for the routed topic hint. Default `shadow` in dev/staging
-  // so the comparison event fires without changing user-visible
-  // behavior; flip to `on` after shadow parity looks right. Production
-  // flag is set separately in Railway env. Shell override wins.
+  // articles for the routed topic hint. **Default `on`** across all
+  // three modes per the 2026-04-25 re-flip (env-matrix tag
+  // `v2026-04-25-temafirst-readdressed`). The 2026-04-24 revert was
+  // unblocked by: taxonomy v2 + K2 path-veto landing (next_v3 §13.7),
+  // SME 30Q at 30/30 post Alejandro spot-review (§13.11 + §13.11.1),
+  // and operator's qualitative-pass on §8.4 gate 9
+  // (gate_9_threshold_decision.md §7). Shell / Railway override still wins.
   if (!String(env.LIA_TEMA_FIRST_RETRIEVAL || "").trim()) {
-    env.LIA_TEMA_FIRST_RETRIEVAL = "shadow";
+    env.LIA_TEMA_FIRST_RETRIEVAL = "on";
+  }
+
+  // v6 phase 3 — defensive coherence gate. Default `enforce` 2026-04-25 per
+  // operator's "no off/shadow flags" directive. Step-04 verification at
+  // would-refuse=1/30 (below [4,12] safe band) is low-risk; watch production
+  // refusal-rate, revert to `shadow` if regressions surface.
+  if (!String(env.LIA_EVIDENCE_COHERENCE_GATE || "").trim()) {
+    env.LIA_EVIDENCE_COHERENCE_GATE = "enforce";
+  }
+
+  // v6 phase 4 — per-topic citation allow-list. Default `enforce` 2026-04-25
+  // per "no off flags" directive. Higher-risk flip (not yet end-to-end
+  // verified): if accountants report missing valid cites, revert to `off`.
+  if (!String(env.LIA_POLICY_CITATION_ALLOWLIST || "").trim()) {
+    env.LIA_POLICY_CITATION_ALLOWLIST = "enforce";
+  }
+
+  // Taxonomy-aware classifier prompt + K2 path-veto (next_v3 §7 / §13.7).
+  // Default `enforce` 2026-04-25 — validated through 5 rebuilds (Cypher 6/6).
+  // Affects ingest only; runtime ignores it. Listed here so a launcher-driven
+  // ingest invocation inherits the right default.
+  if (!String(env.LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE || "").trim()) {
+    env.LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE = "enforce";
   }
 
   if (mode === "local") {

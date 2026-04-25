@@ -94,7 +94,7 @@ function renderPage(): string {
           <p>Las ventanas laterales son sibling tracks. No bloquean el bubble ni se bloquean entre sí más allá de la semilla del turno.</p>
         </article>
         <article class="orch-highlight-card">
-          <span class="orch-highlight-label">Env matrix v2026-04-22-ac1</span>
+          <span class="orch-highlight-label">Env matrix v2026-04-25-temafirst-readdressed</span>
           <h3>dev lee artifacts; dev:staging lee Supabase + FalkorDB live</h3>
           <p>LIA_CORPUS_SOURCE y LIA_GRAPH_MODE, seteados por scripts/dev-launcher.mjs, eligen el adapter por request. Tabla versionada y change log viven en docs/guide/orchestration.md.</p>
         </article>

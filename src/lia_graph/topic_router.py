@@ -430,6 +430,130 @@ def _check_subtopic_overrides(message: str) -> tuple[str, tuple[str, ...]] | Non
     return None
 
 
+# next_v3 §13.11 / SME 2026-04-25 — two registries that gate the LLM-deferral
+# path. Both are intentionally short curated lists, not exhaustive — the goal
+# is to catch the structural failure classes Alejandro identified, not enumerate
+# every phrase. Extend when a new failure class surfaces (not per-question).
+#
+# All entries here use _normalize_text form: lowercase, no accents, single space.
+
+# Class 1: phrases that signal "the LLM-with-meta-rule should arbitrate".
+# Curated from Alejandro's spot-review of q10/q13/q14/q15/q16/q26/q28 (see
+# docs/aa_next/taxonomy_v2_sme_spot_review.md + next_v3 §13.11). When ANY of
+# these appears in the normalized query, the router defers to the LLM
+# regardless of how dominant its lexical match is.
+_LLM_DEFERRAL_PHRASES: tuple[str, ...] = (
+    # Procedural artifacts (q26 family) — Libro 5 ET; topic always procedural
+    # regardless of which substantive tax (renta/IVA/timbre/retención) is being
+    # corrected. Per Alejandro's "rewrite test".
+    "emplazamiento",
+    "requerimiento especial",
+    "liquidacion oficial",
+    "corregir declaracion",
+    "corregir la declaracion",
+    "sancion por no",
+    "sancion por extemporaneidad",
+    "recurso de reconsideracion",
+    # Cross-impuesto recovery (q14 family) — IVA pagado que se recupera EN otro
+    # impuesto; topic = otro impuesto, no IVA.
+    "descuento del iva en",
+    "iva en bienes de capital",
+    "se descuenta del impuesto",
+    "imputa al impuesto de",
+    # Verb-test for regime-vs-mechanic (q28 family) — verbos de aplicación
+    # ("cual es la tarifa", "cuanto pago") implican mecánica; verbos de
+    # evaluación ("estoy pensando", "vale la pena", "como califico") implican
+    # régimen. Cuando coexisten lexicalmente régimen + mecánica, la pregunta
+    # casi siempre quiere mecánica.
+    "cual es la tarifa",
+    "cual la tarifa",
+    "cuanto pago de",
+    "como liquido",
+    # Civil-law / firmeza family (q10) — vocabulario que contadores mezclan
+    # del derecho civil al hablar de firmeza tributaria.
+    "prescribe la facultad",
+    "facultad de la dian de",
+    "cuantos anos atras",
+    "cuantos anios atras",
+    # Comparative tension (q13 family) — "X alto pero Y bajo" implica que la
+    # respuesta opera SOBRE la comparación, no sobre los conceptos definidos.
+    " alto pero ",
+    " bajo pero ",
+    " positivo pero ",
+    " negativo pero ",
+    # Recovery / cross-régimen patterns
+    "descuento del simple por",
+    "iva en obras por impuestos",
+)
+
+# Class 2: topic keys known to over-attract — querys que mencionan estos
+# topics verbatim suelen estar pidiendo OTRO topic (por la meta-regla "opera
+# vs define"). Cuando el router elige un magnet como top y hay segundo bucket
+# con CUALQUIER strong hit (más permisivo que el "competing dominantly" check),
+# defer al LLM.
+_MAGNET_TOPICS: frozenset[str] = frozenset({
+    "iva",
+    "declaracion_renta",
+    "zonas_francas",
+    "regimen_simple",
+    "impuesto_patrimonio_personas_naturales",
+    "regimen_tributario_especial_esal",
+    "facturacion_electronica",  # over-attracts on "factura" mentions
+})
+
+
+def _should_defer_to_llm(
+    *, message: str, top_topic: str, ranked: list[tuple[str, dict[str, Any]]]
+) -> bool:
+    """Generic LLM-deferral check — three independent gates.
+
+    Called AFTER the router has identified a dominant top topic, BEFORE the
+    rule-based result is returned. Each gate fires independently; any True
+    forces deferral. Designed to catch the structural failure classes from
+    Alejandro's 2026-04-25 spot-review (see next_v3 §13.11) without per-question
+    patches.
+
+    Gates:
+      1. *Trigger phrase*: the normalized query contains any phrase from
+         ``_LLM_DEFERRAL_PHRASES``. Catches comparative-tension, procedural-
+         artifact, cross-impuesto, civil-law, and verb-test queries.
+      2. *Magnet + competing strong*: top_topic is in ``_MAGNET_TOPICS`` AND
+         the second bucket has any strong hit (regardless of score). Catches
+         queries where a magnet topic is lexically dominant but a competing
+         topic is plausible by the LLM's mutex/meta-rule reasoning.
+      3. *Competing dominantly* (legacy from this same change): second bucket
+         has score >= 3 AND strong hits. Catches genuinely ambiguous lexical
+         signals that the LLM should arbitrate.
+
+    Extension policy: add a new phrase to ``_LLM_DEFERRAL_PHRASES`` only when a
+    new failure class surfaces (not per-question — for that, prefer the
+    surgical bucket fix in topic_router_keywords.py). Add a new key to
+    ``_MAGNET_TOPICS`` only when post-hoc analysis shows the topic over-attracts
+    in production logs.
+    """
+    normalized = _normalize_text(message)
+
+    # Gate 1: trigger phrase
+    for phrase in _LLM_DEFERRAL_PHRASES:
+        if phrase in normalized:
+            return True
+
+    # Gate 2: magnet + competing strong
+    if top_topic in _MAGNET_TOPICS and len(ranked) > 1:
+        second_data = ranked[1][1]
+        if second_data.get("strong_hits"):
+            return True
+
+    # Gate 3: competing dominantly (legacy from the same change)
+    if len(ranked) > 1:
+        second_score = int(ranked[1][1].get("score", 0) or 0)
+        second_strong = bool(ranked[1][1].get("strong_hits"))
+        if second_score >= 3 and second_strong:
+            return True
+
+    return False
+
+
 def _resolve_rule_based_topic(
     message: str,
     requested_topic: str | None,
@@ -476,6 +600,14 @@ def _resolve_rule_based_topic(
     )
     if not dominant:
         return None
+    # next_v3 §13.11 — generic LLM deferral checks. Three independent gates
+    # that each force the LLM path even when the router has a dominant lexical
+    # match. Goal: catch any query with a "complex linguistic structure" that
+    # the LLM-with-meta-rule + mutex rules can resolve, instead of patching
+    # individual question failures one by one. See _should_defer_to_llm docstring
+    # for the design + extension policy.
+    if _should_defer_to_llm(message=message, top_topic=top_topic, ranked=ranked):
+        return None
     return _build_rule_result(
         requested_topic=requested_topic,
         effective_topic=top_topic,
@@ -491,25 +623,74 @@ def _should_attempt_llm(message: str, requested_topic: str | None) -> bool:
     if len(scores) >= 2:
         return True
     if not scores:
-        return False
+        # next_v3 2026-04-25: when the keyword router finds zero matches,
+        # the LLM IS the only signal — don't gate it behind ambiguity. SME
+        # 30Q validation showed ~5/30 queries return nothing from lexical
+        # routing; skipping the LLM here guaranteed those questions miss
+        # their expected topic, pulling the chat-resolver accuracy below
+        # the 27/30 threshold. Prior behavior (return False) was a safeguard
+        # against cost, but LLM cost is bounded by _LLM_CONFIDENCE_THRESHOLD
+        # on the response side — a low-confidence verdict still drops to None.
+        return True
     only_topic = next(iter(scores.keys()))
     return only_topic != requested_topic
 
 
 def _build_classifier_prompt(*, message: str, requested_topic: str | None, pais: str) -> str:
-    supported_topics = ", ".join(_SUPPORTED_TOPICS)
+    """Chat-resolver LLM prompt — taxonomy-aware (v2, 2026-04-25).
+
+    Enumerates active v2 topics with one-line definitions and ships the 6
+    SME mutex rules alongside. Mirrors the taxonomy-aware ingestion-classifier
+    prompt (see ``ingestion_classifier._TAXONOMY_AWARE_PROMPT_TEMPLATE``) but
+    trimmed for query classification (no path-veto clause since queries don't
+    have a source_path, no subtopic block).
+    """
+    # Late import to avoid a circular dependency at module-load time —
+    # topic_router is imported by ingestion_classifier, which defines these
+    # builders. By the time a query hits the LLM path, both modules are loaded.
+    try:
+        from .ingestion_classifier import (
+            _build_mutex_block,
+            _build_numbered_taxonomy_block,
+        )
+        taxonomy_block = _build_numbered_taxonomy_block()
+        mutex_block = _build_mutex_block()
+    except Exception:
+        taxonomy_block = ", ".join(_SUPPORTED_TOPICS)
+        mutex_block = "(mutex rules unavailable)"
+
     return (
         "Eres un clasificador de tema para un asistente contable y legal en Colombia.\n"
-        "Tu trabajo es decidir el tema principal de la consulta y opcionalmente temas secundarios.\n"
-        "Responde SOLO JSON valido con esta forma exacta:\n"
-        '{"primary_topic":"...", "secondary_topics":["..."], "confidence":0.0, "reason":"..."}\n'
-        "Reglas:\n"
-        f"- primary_topic debe ser uno de: {supported_topics}, o cadena vacia si no hay tema dominante.\n"
-        "- secondary_topics debe contener cero a tres temas validos, sin repetir primary_topic.\n"
-        "- Si la consulta es ambigua o no es claramente de otro tema, conserva el requested_topic cuando exista.\n"
-        "- Si no existe requested_topic y no hay tema dominante, devuelve primary_topic vacio y confidence baja.\n"
-        "- Solo cambia de tema si el dominio dominante es claro.\n"
-        "- No inventes temas fuera de la lista.\n"
+        "Taxonomía v2 (2026-04-25). Decide el tema principal de la consulta.\n\n"
+                # # SME_META_RULE_OP_VS_DEF (managed by artifacts/sme_pending/apply_sme_decisions.py)
+        "═══ HEURÍSTICA META — antes de cualquier otra regla:\n\n"
+        "El TEMA es el que OPERA, no el que DEFINE. Cuando una pregunta toca\n"
+        "dos áreas, el tema es el área donde se EJECUTA la respuesta operativa,\n"
+        "no el área donde se definen los conceptos involucrados. Ejemplos:\n"
+        "  · 'Patrimonio alto pero pérdida → renta presuntiva' → opera en presuntiva (no patrimonio).\n"
+        "  · 'Descuento del IVA en bienes de capital' → opera en descuentos de renta (no iva).\n"
+        "  · 'Tarifa en zona franca' → opera en tarifas (no zonas_francas).\n"
+        "  · 'Emplazamiento sobre IVA' → opera en procedimiento (no iva).\n\n"
+        "═══ CATÁLOGO DE TEMAS (elige uno) — formato `N. key — label — definición`:\n\n"
+        f"{taxonomy_block}\n\n"
+        "REGLA POR DEFECTO — si la consulta abarca varios subtemas del mismo padre\n"
+        "top-level, devuelve el PADRE. No fuerces un subtema cuando el contenido es\n"
+        "transversal.\n\n"
+        # # SME_NO_COLLAPSE_EXCEPTIONS (managed by artifacts/sme_pending/apply_sme_decisions.py)
+        "EXCEPCIONES — los siguientes subtemas son consultados POR NOMBRE por contadores;\n"
+        "NO los colapses al padre cuando la consulta los menciona explícita o\n"
+        "implícitamente: `beneficio_auditoria`, `firmeza_declaraciones`.\n\n"
+        "═══ REGLAS DURAS DE MUTUA EXCLUSIVIDAD (no son sugerencias):\n\n"
+        f"{mutex_block}\n\n"
+        "═══ FORMATO DE RESPUESTA — SOLO JSON válido:\n"
+        '{"primary_topic":"topic_key", "secondary_topics":["topic_key", ...],\n'
+        ' "confidence":0.0, "reason":"cita la regla/mutex que aplicaste"}\n\n'
+        "Reglas operativas:\n"
+        "- primary_topic DEBE ser exactamente una de las `key` del catálogo, o cadena vacía.\n"
+        "- secondary_topics: 0–3 temas del catálogo, sin repetir primary_topic.\n"
+        "- Si la consulta es ambigua, conserva requested_topic cuando exista.\n"
+        "- Si no hay tema dominante y no hay requested_topic, primary_topic vacío + confidence baja.\n"
+        "- No inventes keys fuera del catálogo.\n\n"
         f"Pais: {pais}\n"
         f"requested_topic: {requested_topic or 'none'}\n"
         f"consulta: {message}\n"

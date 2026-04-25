@@ -42,7 +42,7 @@ Phase 3 (v6) added `src/lia_graph/pipeline_d/_coherence_gate.py`. Three cases:
 - **Case B** — primary empty, support docs present → score support docs' `topic_key` (first-class metadata) **and** fall back to lexical topic scoring against `title_hint`. Off-topic dominance triggers `reason="chunks_off_topic"`.
 - **Case C** — primary empty AND no on-topic support → refuse with `reason="zero_evidence_for_router_topic"`.
 
-Flag-gated via `LIA_EVIDENCE_COHERENCE_GATE={off|shadow|enforce}`, default `shadow` so the diagnostic is observed before enforced. In `enforce`, the orchestrator short-circuits to a refusal via the shared abstention composer.
+Flag-gated via `LIA_EVIDENCE_COHERENCE_GATE={off|shadow|enforce}`, **default `enforce` since 2026-04-25** (was `shadow` until then; flipped per operator's "no off/shadow flags" directive — verification at would-refuse=1/30 is below the [4,12] safe band but still risk-acceptable for internal beta). In `enforce`, the orchestrator short-circuits to a refusal via the shared abstention composer. Watch production refusal-rate; revert to `shadow` if regressions.
 
 Pinned by `tests/test_coherence_gate.py` (7 tests), including the Q16-class case at `test_gate_enforce_chunks_off_topic_refuses`.
 

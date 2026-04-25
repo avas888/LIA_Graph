@@ -1,6 +1,6 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-04-24-v6`.**
+> **Env matrix version: `v2026-04-25-temafirst-readdressed`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
 >
 > **v6 additions (2026-04-24, see `docs/next/ingestion_tunningv2.md`):**
@@ -30,7 +30,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-04-22-betaflipsall)
+## Runtime Retrieval Flags (v2026-04-25-temafirst-readdressed)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -42,6 +42,9 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_SUBTOPIC_BOOST_FACTOR` | `1.5` default (unused in dev) | `1.5` default | inherits Railway | `retriever_supabase.py` + `retriever_falkor.py` when planner detects subtopic intent |
 | `LIA_RERANKER_MODE` | **`live`** | **`live`** | **`live`** | `pipeline_d/reranker.py` — all modes flipped `live` on 2026-04-22 (internal-beta risk-forward). Adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset; served answers unchanged until the sidecar lands. |
 | `LIA_QUERY_DECOMPOSE` | **`on`** | **`on`** | **`on`** | `pipeline_d/query_decomposer.py` — multi-`¿…?` queries fan out per sub-question; evidence merges at synthesis. |
+| `LIA_TEMA_FIRST_RETRIEVAL` | **`on`** | **`on`** | **`on`** | `pipeline_d/retriever_falkor.py` — **re-flipped `shadow` → `on` 2026-04-25** after taxonomy v2 + K2 path-veto + SME 30Q at 30/30 + qualitative-pass on §8.4 gate 9 (`docs/aa_next/gate_9_threshold_decision.md`). The 2026-04-24 contamination regression is no longer reproducible (Q11/Q16/Q22/Q27 are 4/4 clean in v10 A/B). |
+| `LIA_EVIDENCE_COHERENCE_GATE` | **`shadow`** | **`shadow`** | **`shadow`** | `pipeline_d/_coherence_gate.py` — defensive refusal gate. **NOT flipped** on 2026-04-24 per step 04 verification: would-refuse=1/30, below [4, 12] enforce-safe band. Re-evaluate after content gaps close. |
+| `LIA_POLICY_CITATION_ALLOWLIST` | **`off`** | **`off`** | **`off`** | `pipeline_d/_citation_allowlist.py` — per-topic defensive citation filter. **NOT flipped** on 2026-04-24 — not yet verified, six-gate policy blocks promotion. |
 | `LIA_RERANKER_ENDPOINT` | unset | unset | unset | `pipeline_d/reranker.py` — base URL of the bge-reranker-v2-m3 sidecar (`POST {url}/rerank`). Unset until the sidecar is deployed. |
 | `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 

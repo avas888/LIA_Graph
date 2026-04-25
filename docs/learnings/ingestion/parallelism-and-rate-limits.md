@@ -39,6 +39,26 @@ Gemini meters **three independent ceilings**. Throttling only one is not throttl
 
 **Follow-up (prioritized):** add a `TokenBudget` sibling to `TokenBucket` that debits input-token estimates pre-call and refunds on 429. Until that lands, run with `--classifier-workers 4` on any corpus with >500 docs exceeding 5 K tokens, or accept the ~7 % N1-only degradation.
 
+### Update — 2026-04-24 §J full rebuild measurement (next_v2.md §J)
+
+The 7 % degradation rate cited above was the cloud-sink re-pass measurement. A second data point landed during the §J cloud verification rebuild (same corpus, same 8 workers, no TokenBudget primitive yet wired): **702 / 1275 = 55 % `requires_subtopic_review=true`, 144 HTTP 429s in the log, 96 tracebacks**. Eight times the prior data point and 11× the 5 % warning threshold.
+
+**What changed.** Almost certainly the upstream prompt-template change between runs — heavier prompts inflate input tokens per call, so the same 8 workers blow past the 1 M TPM ceiling much earlier. The doc's mitigation (`--classifier-workers 4`) is now a **mandatory** floor for any full-corpus rebuild against production until the TokenBudget primitive is wired into the pool.
+
+**The §J cloud verification trap.** The structural cleanup (delete-stale-TEMA-before-MERGE) ran correctly — but its inputs were ~55 % N1-only verdicts. So the new TEMA edges that replaced the wiped ones are partly based on degraded classifier output. The wrong-classification of `06_Libro1_T1_Cap5_Deducciones.md` (RENTA/Deductions chapter labeled `iva`) post-rebuild may itself be a degradation artifact, not a stable N2-refined verdict. **§K (classifier hardening) cannot be measured fairly until the rebuild is re-run with `--classifier-workers 4`.**
+
+**Updated rule.** Any full-rebuild against the v6+ corpus on production: `--classifier-workers 4` is the default, not the fallback. Going to 8 workers requires either: (a) the TokenBudget primitive being live, or (b) acceptance that ~half the corpus will land N1-only and the rebuild's TEMA edges encode degraded verdicts.
+
+### Update — 2026-04-25 taxonomy v2 landing (next_v3.md §7)
+
+The next_v3 §7 classifier prompt redesign (taxonomy-aware + 6 mutex rules + PATH VETO clause + default-to-parent) is **heavier than the v1 prompt**: it enumerates all 88 active topics with one-line definitions, numbers 6 hard mutex-rule blocks, and adds a path-veto paragraph. Input tokens per call grow materially — rough estimate +40-60 % vs the v1 prompt on the same body preview.
+
+**Implication for workers.** Enabling `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE={shadow,enforce}` on a full corpus rebuild re-enters the TPM-pressure regime that caused the §J 55 % degradation. The **`--classifier-workers 4` floor still holds** — and becomes more binding, not less. Running the v2 prompt at workers=8 against production without TokenBudget would push past 1 M TPM even faster than the v1 prompt did.
+
+**Nothing-to-see-here detail that bit us.** `nohup bash -c "..."` on macOS inherits the parent shell's exported env vars — but `ps eww -p <pid>` on macOS does **not** show subprocess env the way Linux does (it shows cmdline only). That makes it easy to launch a detached rebuild believing the flag propagated when it silently didn't, or to doubt that it did when it actually did. **Fix pattern** (landed in `scripts/launch_phase2_full_rebuild.sh` 2026-04-25): the launch script `export`s both `LIA_INGEST_CLASSIFIER_WORKERS` and `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE` explicitly inside the `nohup bash -c "..."` body, and emits a `phase2.rebuild.launch` event to `logs/events.jsonl` on startup whose payload echoes the active flag values. That gives the operator a definitive side-channel to confirm mode without relying on `ps eww`.
+
+**Rule (addendum).** Every new long-running background launcher must (a) explicitly re-export every environment variable it depends on inside the `nohup` body and (b) emit a startup marker event whose payload echoes the relevant flag values. Never rely on ambient env-inheritance for a flag whose correctness matters — cheap emit, definitive verification.
+
 ## Config surface (make sure you inherit the defaults)
 
 | Entry point | Default workers | Default RPM | Env override |

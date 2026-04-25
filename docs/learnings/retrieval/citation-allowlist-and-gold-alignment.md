@@ -32,7 +32,7 @@ Phase 4 (v6) ported the mechanism to `src/lia_graph/pipeline_d/_citation_allowli
 
 A citation passes iff **either** its ET article number is in `allowed_et_articles` **or** its authority/family matches one of `allowed_article_families`. Drops are recorded in `diagnostics["dropped_by_allowlist"]` for audit.
 
-Flag: `LIA_POLICY_CITATION_ALLOWLIST={off|enforce}`, default `off`. 9/9 tests in `tests/test_citation_allowlist.py`.
+Flag: `LIA_POLICY_CITATION_ALLOWLIST={off|enforce}`, **default `enforce` since 2026-04-25** (was `off` until then; flipped per operator's "no off flags" directive). Higher-risk flip than coherence_gate — not yet end-to-end verified per the original six-gate policy; risk-forward internal-beta posture accepts the trade-off. Watch production for over-filtered citations; if accountants report missing valid cites, revert to `off`. 14 tests in `tests/test_citation_allowlist.py` (9 ET-allowlist + 5 norm-anchor for non-ET topics).
 
 ### Rules for seeding new topic allow-lists
 

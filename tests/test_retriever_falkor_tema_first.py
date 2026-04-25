@@ -228,3 +228,71 @@ def test_retrieve_graph_evidence_no_topic_hint_no_tema_query(monkeypatch):
     assert evidence.diagnostics["tema_first_topic_key"] is None
     assert evidence.diagnostics["tema_first_anchor_count"] == 0
     assert not any("tema_bound_articles" in call for call in client.calls)
+
+
+# ── seed_article_keys contract (next_v1 step 01) ─────────────────────
+
+
+def test_seed_article_keys_includes_tema_first_anchors_in_live_mode(monkeypatch):
+    """next_v1 step 01 invariant: seed_article_keys reflects the actual BFS
+    seed set (effective_article_keys), not just planner-explicit entry
+    points. When the planner anchored nothing explicit but TEMA-first
+    expanded the key set + primary articles came back, seed_article_keys
+    must be non-empty. Regression guard for the phase-6 0/30 panel gap."""
+    monkeypatch.setenv("LIA_TEMA_FIRST_RETRIEVAL", "on")
+    client = _FakeClient(
+        {
+            "tema_bound_articles topic=laboral": [
+                {"article_key": "22"},
+                {"article_key": "65"},
+            ],
+            "primary_articles": [
+                {
+                    "article_key": "22",
+                    "heading": "Art. 22",
+                    "text_current": "Contrato laboral",
+                    "source_path": "CORE/labor/22.md",
+                    "status": "vigente",
+                },
+                {
+                    "article_key": "65",
+                    "heading": "Art. 65",
+                    "text_current": "Salarios",
+                    "source_path": "CORE/labor/65.md",
+                    "status": "vigente",
+                },
+            ],
+        }
+    )
+    plan = _make_plan(topic_hints=("laboral",))
+    _hydrated, evidence = retriever_falkor.retrieve_graph_evidence(
+        plan, graph_client=client
+    )
+    seed_keys = evidence.diagnostics["seed_article_keys"]
+    assert evidence.diagnostics["primary_article_count"] >= 1
+    # The stronger invariant: any row with primary_article_count >= 1 has
+    # a non-empty seed_article_keys list.
+    assert seed_keys, "seed_article_keys must be non-empty when primary_article_count >= 1"
+    # And it must reflect the effective BFS seeds, including TEMA-first anchors.
+    assert set(seed_keys) >= {"22", "65"}
+
+
+def test_seed_article_keys_empty_when_shadow_mode_does_not_merge(monkeypatch):
+    """Shadow mode observes but does not expand effective_article_keys, so
+    seed_article_keys stays at whatever the planner explicitly anchored.
+    With an empty entry_points plan, that's the empty list."""
+    monkeypatch.setenv("LIA_TEMA_FIRST_RETRIEVAL", "shadow")
+    client = _FakeClient(
+        {
+            "tema_bound_articles topic=laboral": [
+                {"article_key": "22"},
+            ],
+        }
+    )
+    plan = _make_plan(topic_hints=("laboral",))
+    _hydrated, evidence = retriever_falkor.retrieve_graph_evidence(
+        plan, graph_client=client
+    )
+    assert evidence.diagnostics["tema_first_mode"] == "shadow"
+    # Shadow mode does not merge → seed set stays at planner-explicit (empty here).
+    assert evidence.diagnostics["seed_article_keys"] == []

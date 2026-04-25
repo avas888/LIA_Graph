@@ -94,3 +94,23 @@ def test_lifted_keys_present_even_when_evidence_diagnostics_sparse() -> None:
     # planner_query_mode also has a plan-level fallback (plan.query_mode)
     # so it should never be None for a real run.
     assert isinstance(diag["planner_query_mode"], str) and diag["planner_query_mode"]
+
+
+def test_seed_article_keys_non_empty_when_primary_article_count_positive() -> None:
+    """next_v1 step 01 invariant: whenever BFS returned at least one
+    primary article, the seeds it started from must also be surfaced.
+
+    Pins the regression guard that phase-1 forgot: before this fix, the
+    Falkor retriever reported ``seed_article_keys = list(explicit_article_keys)``
+    which was empty on every topic-only gold question (planner anchored
+    nothing explicit, all seeds came from TEMA-first expansion), so the
+    phase-6 A/B panel showed 0/30 rows populate the field even though 15
+    of them had primary_article_count >= 1. The stronger invariant here
+    — ``primary >= 1 ⇒ seeds non-empty`` — makes the silent gap loud."""
+    diag = _run_q3()
+    if int(diag.get("primary_article_count") or 0) >= 1:
+        seeds = diag.get("seed_article_keys")
+        assert isinstance(seeds, list) and len(seeds) >= 1, (
+            "primary_article_count >= 1 but seed_article_keys is empty/None; "
+            "retriever must surface the actual BFS seed set"
+        )

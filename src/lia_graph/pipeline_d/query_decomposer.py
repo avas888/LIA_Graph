@@ -68,13 +68,15 @@ _MAX_SUB_QUERIES_SUPPORTED = 5
 
 
 def is_enabled() -> bool:
-    raw = str(os.getenv(_MODE_ENV, "off") or "").strip().lower()
+    # Default `on` 2026-04-25 (was `off`) per "no off flags" directive.
+    # Launcher has had it `on` since 2026-04-22; this aligns Python default.
+    raw = str(os.getenv(_MODE_ENV, "on") or "").strip().lower()
     return raw == "on"
 
 
 def current_mode() -> str:
-    raw = str(os.getenv(_MODE_ENV, "off") or "").strip().lower()
-    return raw if raw in VALID_MODES else "off"
+    raw = str(os.getenv(_MODE_ENV, "on") or "").strip().lower()
+    return raw if raw in VALID_MODES else "on"
 
 
 def decompose_query(message: str) -> tuple[str, ...]:

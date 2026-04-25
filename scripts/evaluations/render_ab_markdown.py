@@ -71,6 +71,9 @@ def _fmt_diagnostics(mode_data: dict[str, Any]) -> str:
         "tema_first_anchor_count",
         "planner_query_mode",
         "effective_topic",
+        "coherence_mode",
+        "coherence_misaligned",
+        "coherence_reason",
         "wall_ms",
         "trace_id",
     ):

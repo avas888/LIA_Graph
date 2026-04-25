@@ -475,6 +475,25 @@ def _build_batched_statements(
         client.stage_indexes_for_merge_labels()
     )
 
+    # 1b. TEMA cleanup pass — for every ArticleNode about to be MERGEd this
+    # run, DELETE its existing outbound TEMA edges before the new ones get
+    # MERGEd. Without this, classifier instability across runs accumulates
+    # contradictory TEMA bindings (one ArticleNode bound to two unrelated
+    # topics — the Q27 art. 148 → {iva, sagrilaft_ptee} root cause documented
+    # in next_v2 §3). Scoped to ArticleNode; other edge kinds either come from
+    # static taxonomy or have stable upstream provenance.
+    article_keys_being_merged = sorted(
+        {n.key for n in nodes if n.kind is NodeKind.ARTICLE and n.key}
+    )
+    if article_keys_being_merged:
+        statements.append(
+            client.stage_delete_outbound_edges_batch(
+                NodeKind.ARTICLE,
+                article_keys_being_merged,
+                relation=EdgeKind.TEMA,
+            )
+        )
+
     # 2. Node batches grouped by kind.
     nodes_by_kind: dict[NodeKind, list[Mapping[str, object]]] = {}
     for node in nodes:

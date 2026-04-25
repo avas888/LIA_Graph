@@ -1,5 +1,62 @@
 {
-  "version": "v2026_04_24_v6_phase5",
+  "version": "v2026_04_25_v2_taxonomy",
+  "schema_version": 2,
+  "mutex_rules": [
+    {
+      "id": 1,
+      "name": "iva_vs_procedimiento_tributario",
+      "when_iva": "hecho generador del IVA (art. 420 ET y ss.); base gravable (arts. 447-462); tarifas y bienes/servicios excluidos/exentos (arts. 468, 477, 481); responsables del IVA (arts. 437, 437-1, 437-2); reteIVA; impuestos descontables (art. 488).",
+      "when_procedimiento": "como presentar la declaracion de IVA (formulario 300); sanciones por no declarar; correccion de declaraciones de IVA; firmeza de la declaracion; devoluciones de saldos a favor IVA; cobro coactivo, embargos, recursos.",
+      "decision_rule": "'Cuanto IVA pagar' -> iva. 'Como/cuando pago, declaro o discuto' -> procedimiento_tributario.",
+      "override_explicit": "OVERRIDE EXPLÍCITO — Si la consulta menciona cualquiera de {emplazamiento, requerimiento especial, liquidación oficial, sanción, corregir declaración}, el tema es SIEMPRE procedimiento_tributario, sin importar el impuesto sustantivo (renta/IVA/ICA) que se esté corrigiendo.",
+      "rewrite_test": "TEST DE REESCRITURA — Si la pregunta puede reescribirse cambiando el impuesto sustantivo (renta/IVA/timbre/retención/ICA) sin cambiar la respuesta operativa, el topic es procedimiento_tributario."
+    },
+    {
+      "id": 2,
+      "name": "iva_vs_familia_renta",
+      "default": "ET Libro 1 (arts. 5-364-6) -> familia renta. ET Libro 3 (arts. 420-513) -> iva.",
+      "exception": "Articulos transversales de procedimiento/sanciones (Libro 5) no van a iva ni a renta - van al topico procedimental especifico.",
+      "decision_rule": "Mira el numero del articulo ET."
+    },
+    {
+      "id": 3,
+      "name": "comercial_societario_fusion",
+      "rule": "`obligaciones_mercantiles` se fusiona en `comercial_societario`. Un solo topico."
+    },
+    {
+      "id": 4,
+      "name": "facturacion_electronica_vs_impuesto_timbre",
+      "when_fe": "arts. 615, 616-1, 617, 618, 771-2 ET + Resoluciones DIAN sobre factura, nota credito/debito, RADIAN, nomina electronica, DSE.",
+      "when_timbre": "arts. 514-540 ET (Libro 4), Decreto 2076/1992, Decreto 175/2025.",
+      "decision_rule": "Libro 4 vs Libro 5 ET. Limpio, no overlap."
+    },
+    {
+      "id": 5,
+      "name": "rub_vs_rut",
+      "when_rub": "Ley 2155/2021 art. 4; Resolucion DIAN 000164/2021 y modificatorias; identificacion de beneficiarios finales; estructuras sin personeria juridica.",
+      "when_rut": "Inscripcion / actualizacion RUT; codigos de responsabilidad; seleccion y cambio CIIU; cancelacion RUT; Resolucion DIAN sobre RUT (las propias del registro)."
+    },
+    {
+      "id": 6,
+      "name": "laboral_family",
+      "rule": "Ley 2466/2025 + reglamentacion -> reforma_laboral_ley_2466. Ley 2381/2024 + reglamentacion -> reforma_pensional. Ley 100/1993, Ley 21/1982, Ley 89/1988, Ley 1607/2012 art. 25 (CREE), Decreto 1273/2018 (PILA), doctrina UGPP -> parafiscales_seguridad_social. CST (Ley 2663/1950) y reformas anteriores a 2466, Decreto 1072/2015 -> laboral."
+    },
+    {
+      "id": 7,
+      "name": "renta_presuntiva_vs_patrimonio",
+      "rule": "Renta presuntiva (art. 188 ET) y patrimonio (arts. 261 ET y patrimonio_*) son distintos. El patrimonio aparece como dato de entrada en preguntas de presuntiva — el contador ya hizo la valoración. Cuando la pregunta opera SOBRE la comparación renta_líquida vs renta_presuntiva, el topic es renta_presuntiva (o renta_liquida_gravable como cross-ref), NUNCA impuesto_patrimonio_*. Generalización: si la pregunta menciona dos cantidades en tensión comparativa, el topic es el que opera SOBRE la comparación, no el que las define."
+    },
+    {
+      "id": 8,
+      "name": "descuento_iva_bienes_capital",
+      "rule": "'Descuento del IVA en bienes de capital' (art. 258-1 ET) es 100% impuesto de renta — el IVA pagado se descuenta DEL impuesto de renta, no como IVA. Topic SIEMPRE descuentos_tributarios_renta, NUNCA iva. Generalización (cubre RST por aportes a pensión, IVA en obras por impuestos, etc.): cuando la consulta es sobre cómo el IVA pagado se RECUPERA en otro impuesto (renta, RST, ICA), el topic es el del otro impuesto."
+    },
+    {
+      "id": 9,
+      "name": "regime_vs_mechanic_routing",
+      "rule": "Cuando coexisten un régimen geográfico/sectorial (zona franca, ZESE, ZOMAC, RST, ESAL) y una mecánica fiscal (tarifa, base, exención): si la pregunta es sobre ESCOGER/EVALUAR el régimen → topic = régimen (zonas_francas, regimen_simple, regimen_tributario_especial_esal, etc.); si es sobre APLICAR la mecánica una vez ya estás en el régimen → topic = mecánica (tarifas_renta_y_ttd, etc.), con régimen como secondary. Verbo-test: 'estoy pensando / vale la pena / qué régimen / cómo califico' → régimen; 'cuál es la tarifa / cuánto pago / cómo liquido' → mecánica."
+    }
+  ],
   "topics": [
     {
       "key": "declaracion_renta",
@@ -32,7 +89,17 @@
         "normativa/renta/",
         "templates/renta_case_intake_template.md"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "patrimonio_fiscal_renta",
@@ -54,7 +121,83 @@
       "legacy_document_topics": [
         "patrimonio_fiscal_renta"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Determinacion del patrimonio fiscal en la declaracion de renta - ET arts. 261-298.",
+      "scope_in": "Patrimonio bruto, deudas, patrimonio liquido, valoracion de activos (efectivo, inventarios, propiedad planta, intangibles, inversiones), conciliacion con patrimonio contable.",
+      "scope_out": "Conciliacion contable-fiscal del patrimonio (formato 2516 seccion 2) -> conciliacion_fiscal. Impuesto al patrimonio -> impuesto_patrimonio_personas_naturales.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "patrimonio fiscal",
+        "patrimonio bruto",
+        "patrimonio liquido",
+        "valoracion de activos",
+        "art 261 ET",
+        "art 267 ET",
+        "art 277 ET",
+        "art 287 ET",
+        "deudas fiscales",
+        "valor patrimonial"
+      ],
+      "allowed_et_articles": [
+        "261",
+        "262",
+        "263",
+        "264",
+        "265",
+        "266",
+        "267",
+        "267-1",
+        "268",
+        "269",
+        "270",
+        "271",
+        "271-1",
+        "272",
+        "273",
+        "274",
+        "275",
+        "276",
+        "277",
+        "278",
+        "279",
+        "280",
+        "281",
+        "282",
+        "283",
+        "284",
+        "285",
+        "286",
+        "287",
+        "288",
+        "289",
+        "290",
+        "291",
+        "292",
+        "292-1",
+        "292-2",
+        "292-3",
+        "293",
+        "293-1",
+        "293-2",
+        "294",
+        "295",
+        "295-1",
+        "295-2",
+        "295-3",
+        "296",
+        "296-1",
+        "296-2",
+        "296-3",
+        "297",
+        "297-1",
+        "297-2",
+        "297-3",
+        "298"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "ingresos_fiscales_renta",
@@ -77,7 +220,78 @@
       "legacy_document_topics": [
         "ingresos_fiscales_renta"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Tratamiento fiscal de los ingresos en el impuesto de renta - definicion, realizacion, INCRNGO, ingresos no gravados.",
+      "scope_in": "ET arts. 26-57 (Libro 1 Cap. 1 Tit. 1) - definicion de ingreso, ingreso ordinario vs extraordinario, realizacion para obligados/no obligados a llevar contabilidad, INCRNGO.",
+      "scope_out": "Clasificacion operativa de ingresos en la declaracion -> declaracion_renta. Renta exenta -> rentas_exentas. Ganancia ocasional -> ganancia_ocasional.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "ingresos fiscales",
+        "INCRNGO",
+        "ingresos no gravados",
+        "realizacion del ingreso",
+        "art 26 ET",
+        "art 27 ET",
+        "art 28 ET",
+        "art 36 ET",
+        "art 36-3 ET",
+        "ingreso ordinario"
+      ],
+      "allowed_et_articles": [
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "33-1",
+        "33-2",
+        "33-3",
+        "33-4",
+        "33-5",
+        "34",
+        "35",
+        "35-1",
+        "36",
+        "36-1",
+        "36-2",
+        "36-3",
+        "36-4",
+        "37",
+        "38",
+        "39",
+        "40",
+        "40-1",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "46-1",
+        "47",
+        "47-1",
+        "47-2",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "56-1",
+        "57",
+        "57-1",
+        "57-2"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "costos_deducciones_renta",
@@ -103,7 +317,17 @@
       "legacy_document_topics": [
         "costos_deducciones_renta"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "rentas_exentas",
@@ -123,7 +347,17 @@
       "legacy_document_topics": [
         "rentas_exentas"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "renta_liquida_gravable",
@@ -144,29 +378,38 @@
       "legacy_document_topics": [
         "renta_liquida_gravable"
       ],
-      "vocabulary_status": "ratified_v1_2"
-    },
-    {
-      "key": "tarifas_tasa_minima_renta",
-      "label": "Tarifas e impuesto a cargo",
-      "parent_key": "declaracion_renta",
-      "aliases": [
-        "tarifas_tasa_minima_renta",
-        "tarifas_y_tasa_minima"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Determinacion de la renta liquida gravable - ET arts. 178-187.",
+      "scope_in": "Calculo de la renta liquida ordinaria, comparacion con renta presuntiva, compensacion de perdidas fiscales (art. 147), compensacion de excesos de renta presuntiva (art. 191).",
+      "scope_out": "Renta presuntiva en si (calculo del 0,25%) -> renta_presuntiva. Tarifas y TTD -> tarifas_renta_y_ttd.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "renta liquida gravable",
+        "renta liquida ordinaria",
+        "compensacion perdidas",
+        "art 147 ET",
+        "art 178 ET",
+        "exceso renta presuntiva",
+        "art 191 ET"
       ],
-      "ingestion_aliases": [
-        "tarifa_renta",
-        "tarifa_35",
-        "tasa_minima_tributacion",
-        "ttd",
-        "art_240",
-        "art_240_1",
-        "impuesto_a_cargo"
+      "allowed_et_articles": [
+        "178",
+        "179",
+        "180",
+        "181",
+        "182",
+        "183",
+        "184",
+        "185",
+        "186",
+        "187",
+        "147",
+        "191"
       ],
-      "legacy_document_topics": [
-        "tarifas_tasa_minima_renta"
-      ],
-      "vocabulary_status": "ratified_v1_2"
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "descuentos_tributarios_renta",
@@ -187,33 +430,46 @@
       "legacy_document_topics": [
         "descuentos_tributarios_renta"
       ],
-      "vocabulary_status": "ratified_v1_2"
-    },
-    {
-      "key": "anticipos_retenciones_a_favor",
-      "label": "Anticipo y retenciones a favor",
-      "parent_key": "declaracion_renta",
-      "aliases": [
-        "anticipos_retenciones_a_favor",
-        "anticipos_y_retenciones_a_favor"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Descuentos del impuesto de renta - ET arts. 254-260.",
+      "scope_in": "Descuento por impuestos pagados en el exterior (art. 254), donaciones (arts. 257, 258), CTeI (art. 256), inversion bienes de capital (art. 258-1), generacion de empleo (art. 257-1).",
+      "scope_out": "Descuento del SIMPLE -> regimen_simple. Descuentos del IVA descontable -> iva.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "descuento tributario",
+        "art 254 ET",
+        "art 256 ET",
+        "art 257 ET",
+        "art 258 ET",
+        "art 258-1 ET",
+        "donaciones descuento",
+        "CTeI descuento",
+        "impuestos exterior descuento",
+        "tax credit"
       ],
-      "ingestion_aliases": [
-        "anticipo_renta",
-        "art_807",
-        "retenciones_a_favor",
-        "retefte_a_favor",
-        "autorretenciones",
-        "saldo_a_favor"
+      "allowed_et_articles": [
+        "254",
+        "255",
+        "256",
+        "256-1",
+        "257",
+        "257-1",
+        "257-2",
+        "258",
+        "258-1",
+        "258-2",
+        "259",
+        "259-1",
+        "260"
       ],
-      "legacy_document_topics": [
-        "anticipos_retenciones_a_favor"
-      ],
-      "vocabulary_status": "ratified_v1_2"
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "ganancia_ocasional",
       "label": "Ganancia ocasional",
-      "parent_key": "declaracion_renta",
       "aliases": [
         "ganancia_ocasional"
       ],
@@ -228,12 +484,58 @@
       "legacy_document_topics": [
         "ganancia_ocasional"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Impuesto complementario de ganancias ocasionales - ET arts. 299-318.",
+      "scope_in": "Hechos gravables (venta activos fijos > 2 anios, herencias, legados, donaciones, loterias, indemnizaciones), tarifas (15%, 20% loterias), depuracion, costos fiscales especiales, exenciones.",
+      "scope_out": "Ingreso de venta < 2 anios -> renta ordinaria -> declaracion_renta. Conciliacion con NIIF -> conciliacion_fiscal.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "ganancia ocasional",
+        "art 299 ET",
+        "art 300 ET",
+        "art 311 ET",
+        "art 313 ET",
+        "tarifa 15 por ciento",
+        "venta activo fijo",
+        "herencia",
+        "donacion",
+        "loteria",
+        "indemnizacion seguro",
+        "exencion vivienda"
+      ],
+      "allowed_et_articles": [
+        "299",
+        "300",
+        "301",
+        "302",
+        "303",
+        "303-1",
+        "304",
+        "305",
+        "306",
+        "306-1",
+        "307",
+        "308",
+        "309",
+        "310",
+        "311",
+        "311-1",
+        "312",
+        "313",
+        "314",
+        "315",
+        "316",
+        "317",
+        "318"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "conciliacion_fiscal",
       "label": "Conciliación fiscal",
-      "parent_key": "declaracion_renta",
       "aliases": [
         "conciliacion_fiscal"
       ],
@@ -248,12 +550,37 @@
       "legacy_document_topics": [
         "conciliacion_fiscal"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Conciliacion fiscal - formato 2516 (PJ obligadas) y formato 2517 (PN obligadas), DUR 1625/2016 art. 1.7.1.",
+      "scope_in": "Diferencias temporarias y permanentes, llenado del formato, casos practicos (depreciaciones, deterioros, provisiones, NIIF vs ET).",
+      "scope_out": "Marco NIIF en si -> niif_pymes / niif_plenas / niif_microempresas. Impuesto diferido -> niif_pymes (Seccion 29) / niif_plenas (NIC 12).",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "conciliacion fiscal",
+        "formato 2516",
+        "formato 2517",
+        "diferencias temporarias",
+        "diferencias permanentes",
+        "DUR 1.7.1",
+        "Resolucion 000071 de 2019",
+        "Resolucion 000027 de 2024",
+        "ESF y ERI conciliacion"
+      ],
+      "allowed_et_articles": [
+        "772-1"
+      ],
+      "allowed_norm_anchors": [
+        "DUR 1625 de 2016",
+        "Resolucion DIAN 000071 de 2019",
+        "Resolucion DIAN 000027 de 2024"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "beneficio_auditoria",
       "label": "Beneficio de auditoría",
-      "parent_key": "declaracion_renta",
       "aliases": [
         "beneficio_auditoria"
       ],
@@ -266,7 +593,27 @@
       "legacy_document_topics": [
         "beneficio_auditoria"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Beneficio de auditoria - firmeza anticipada por incremento del impuesto neto de renta (ET art. 689-3).",
+      "scope_in": "Requisitos (incremento INR 25% / 35%), exclusiones, firmeza 6/12 meses, casos de no aplicacion (perdidas, INR cero, beneficio auditoria invalido), interaccion con saldos a favor.",
+      "scope_out": "Firmeza general -> firmeza_declaraciones.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "beneficio de auditoria",
+        "art 689-3 ET",
+        "firmeza anticipada",
+        "incremento INR",
+        "incremento impuesto neto renta",
+        "firmeza 6 meses",
+        "firmeza 12 meses"
+      ],
+      "allowed_et_articles": [
+        "689-3"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "gravamen_movimiento_financiero_4x1000",
@@ -287,7 +634,17 @@
       "legacy_document_topics": [
         "gravamen_movimiento_financiero_4x1000"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "iva",
@@ -313,7 +670,129 @@
         "industry_guidance/iva/",
         "templates/iva/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Impuesto sobre las Ventas (IVA) - ET Libro 3, arts. 420-513. Cubre el derecho sustantivo del impuesto: hecho generador, base, tarifa, exenciones, responsabilidad, impuestos descontables.",
+      "scope_in": "Hecho generador, sujetos, base gravable, tarifas (general 19%, diferencial 5%, exclusiones, exenciones), regimenes de responsabilidad, retencion de IVA (reteIVA), impuestos descontables (art. 488), facturacion con IVA, periodicidad (art. 600).",
+      "scope_out": "- Mecanica procesal de declaracion / correccion / firmeza / sancion IVA -> procedimiento_tributario.\n- Devolucion del saldo a favor IVA -> devoluciones_saldos_a_favor.\n- Documentacion electronica del IVA (factura) -> facturacion_electronica. Cuando la consulta es sobre cómo el IVA pagado se recupera en otro impuesto (renta, RST, ICA), el topic es el de ese otro impuesto, no IVA. El IVA aquí es un costo cuya recuperación se discute en otro régimen.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "IVA",
+        "impuesto valor agregado",
+        "art 420 ET",
+        "art 437 ET",
+        "art 437-1 ET",
+        "art 437-2 ET",
+        "art 477 ET",
+        "art 488 ET",
+        "tarifa 19",
+        "tarifa 5",
+        "reteIVA",
+        "responsable IVA",
+        "no responsable IVA",
+        "impuesto descontable",
+        "regimen comun IVA",
+        "formulario 300"
+      ],
+      "allowed_et_articles": [
+        "420",
+        "421",
+        "422",
+        "423",
+        "424",
+        "425",
+        "426",
+        "427",
+        "428",
+        "429",
+        "430",
+        "431",
+        "432",
+        "433",
+        "434",
+        "435",
+        "436",
+        "437",
+        "438",
+        "439",
+        "440",
+        "441",
+        "442",
+        "443",
+        "444",
+        "445",
+        "446",
+        "447",
+        "448",
+        "449",
+        "450",
+        "451",
+        "452",
+        "453",
+        "454",
+        "455",
+        "456",
+        "457",
+        "458",
+        "459",
+        "460",
+        "461",
+        "462",
+        "463",
+        "464",
+        "465",
+        "466",
+        "467",
+        "468",
+        "469",
+        "470",
+        "471",
+        "472",
+        "473",
+        "474",
+        "475",
+        "476",
+        "477",
+        "478",
+        "479",
+        "480",
+        "481",
+        "482",
+        "483",
+        "484",
+        "485",
+        "486",
+        "487",
+        "488",
+        "489",
+        "490",
+        "491",
+        "492",
+        "493",
+        "494",
+        "495",
+        "496",
+        "497",
+        "498",
+        "499",
+        "500",
+        "501",
+        "502",
+        "503",
+        "504",
+        "505",
+        "506",
+        "507",
+        "508",
+        "509",
+        "510",
+        "511",
+        "512",
+        "513"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "retencion_en_la_fuente",
@@ -335,7 +814,20 @@
       "legacy_document_topics": [
         "retencion_en_la_fuente"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "deprecated",
+      "merged_into": [
+        "retencion_fuente_general"
+      ]
     },
     {
       "key": "laboral",
@@ -366,7 +858,37 @@
         "CORE ya Arriba/REFORMA_LABORAL_LEY_2466/",
         "CORE ya Arriba/Documents to branch and improve/Reforma_Laboral_Ley_2466/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Regimen laboral - CST (Ley 2663/1950) y reformas anteriores a Ley 2466/2025 vigentes; contratacion, prestaciones sociales, terminacion, seguridad y salud en el trabajo (Decreto 1072/2015 Libro 2 Parte 2 Titulo 4 Capitulo 6).",
+      "scope_in": "CST (no modificado por 2466), tipos de contrato, jornada (no modificada), prestaciones sociales (cesantias, intereses, prima, vacaciones), terminacion (justas e injustas), liquidaciones, SST, conflictos laborales individuales y colectivos, querellas MinTrabajo.",
+      "scope_out": "- Modificaciones al CST por Ley 2466/2025 -> reforma_laboral_ley_2466.\n- Aportes a seguridad social y parafiscales -> parafiscales_seguridad_social.\n- Reforma pensional (Ley 2381/2024) -> reforma_pensional.\n- Nomina electronica (DSE) -> facturacion_electronica.\n- Deduccion fiscal de la nomina (art. 108 ET) -> costos_deducciones_renta.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "CST",
+        "codigo sustantivo trabajo",
+        "contrato laboral",
+        "contrato termino fijo",
+        "contrato termino indefinido",
+        "prestaciones sociales",
+        "cesantias",
+        "prima de servicios",
+        "vacaciones",
+        "liquidacion contrato",
+        "justa causa",
+        "indemnizacion despido",
+        "SST",
+        "seguridad y salud en el trabajo",
+        "Decreto 1072 de 2015"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Codigo Sustantivo del Trabajo",
+        "Ley 2663 de 1950",
+        "Decreto 1072 de 2015"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "procedimiento_tributario",
@@ -396,24 +918,34 @@
         "CORE ya Arriba/LOGGRO_LEYES/PF-",
         "to upload/URLS-PIPELINE-DIAN/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Procedimiento tributario - ET Libro 5 - fiscalizacion, recursos, sanciones, firmeza, devoluciones, cobro coactivo.",
+      "scope_in": "Marco general del Libro 5 ET; fiscalizacion (arts. 684-696); discusion (709-734); sanciones (640-658-3); firmeza (705, 705-1, 706, 714); devoluciones (850-865); cobro coactivo (823-849).",
+      "scope_out": "Derecho sustantivo de cada impuesto -> topic correspondiente (iva, declaracion_renta, etc.).",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "procedimiento tributario",
+        "Libro 5 ET",
+        "fiscalizacion",
+        "requerimiento especial",
+        "liquidacion oficial",
+        "recurso reconsideracion",
+        "art 705 ET",
+        "art 714 ET",
+        "cobro coactivo",
+        "embargo DIAN"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "estados_financieros_niif",
       "label": "NIIF y estados financieros",
-      "aliases": [
-        "estados_financieros_niif",
-        "niif",
-        "ifrs",
-        "niif_y_estados_financieros"
-      ],
-      "ingestion_aliases": [
-        "niif_y_estados_financieros",
-        "dur_2420",
-        "diferencias_niif_fiscal",
-        "impuesto_diferido",
-        "estados_financieros"
-      ],
+      "aliases": [],
+      "ingestion_aliases": [],
       "legacy_document_topics": [
         "estados_financieros_niif",
         "niif_y_estados_financieros",
@@ -426,7 +958,22 @@
         "CORE ya Arriba/EXPERTOS_LEYES/NC-",
         "CORE ya Arriba/LOGGRO_LEYES/NC-"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "deprecated",
+      "status": "deprecated",
+      "merged_into": [
+        "niif_pymes",
+        "niif_plenas",
+        "niif_microempresas"
+      ]
     },
     {
       "key": "ica",
@@ -450,7 +997,17 @@
         "normativa/ica/",
         "templates/ica/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "calendario_obligaciones",
@@ -471,7 +1028,17 @@
       "allowed_path_prefixes": [
         "calendarios/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "facturacion_electronica",
@@ -499,7 +1066,42 @@
         "CORE ya Arriba/FACTURACION_ELECTRONICA_OPERATIVA/",
         "CORE ya Arriba/to update/FE-ROADMAP-NUEVOS-DOCS-2026/FASE-1-CONTENIDO/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Facturacion electronica - arts. 615, 616-1, 617, 618, 771-2 ET + Resoluciones DIAN sobre factura, nota credito, nota debito, RADIAN, nomina electronica, DSE.",
+      "scope_in": "Factura electronica, documento soporte (DSE), RADIAN, nomina electronica, CUFE/CUDE, agentes facturadores, calendarios de implementacion, rechazos, anulaciones.",
+      "scope_out": "- Impuesto de timbre -> impuesto_timbre.\n- Procedencia del costo cuando no hay factura (art. 771-2) -> costos_deducciones_renta.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "factura electronica",
+        "facturacion electronica",
+        "RADIAN",
+        "nomina electronica",
+        "DSE",
+        "documento soporte",
+        "CUFE",
+        "CUDE",
+        "art 615 ET",
+        "art 616-1 ET",
+        "art 617 ET",
+        "art 618 ET",
+        "art 771-2 ET"
+      ],
+      "allowed_et_articles": [
+        "615",
+        "616",
+        "616-1",
+        "616-2",
+        "617",
+        "618",
+        "771-2"
+      ],
+      "allowed_norm_anchors": [
+        "Resolucion DIAN",
+        "Decreto 358 de 2020"
+      ],
+      "vigencia_window": "vigencia_anual",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "regimen_simple",
@@ -517,7 +1119,17 @@
       "legacy_document_topics": [
         "regimen_simple"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "regimen_sancionatorio",
@@ -537,7 +1149,17 @@
       "legacy_document_topics": [
         "regimen_sancionatorio"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "informacion_exogena",
@@ -557,7 +1179,17 @@
       "legacy_document_topics": [
         "informacion_exogena"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "precios_de_transferencia",
@@ -577,28 +1209,17 @@
         "CORE ya Arriba/PRECIOS_TRANSFERENCIA_SIMPLIFICADO/",
         "CORE ya Arriba/Documents to branch and improve/Precios_Transferencia/"
       ],
-      "vocabulary_status": "ratified_v1_2"
-    },
-    {
-      "key": "cambiario",
-      "label": "Régimen cambiario",
-      "aliases": [
-        "cambiario"
-      ],
-      "ingestion_aliases": [
-        "cambiario",
-        "banrep",
-        "inversion_extranjera"
-      ],
-      "legacy_document_topics": [
-        "cambiario"
-      ],
-      "allowed_path_prefixes": [
-        "CORE ya Arriba/REGIMEN_CAMBIARIO_PYME/",
-        "CORE ya Arriba/Documents to branch and improve/Regimen_Cambiario/",
-        "to upload/BRECHAS-SEMANA2-ABRIL-2026/CAM_DECLARACION_CAMBIO/"
-      ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "impuesto_patrimonio_personas_naturales",
@@ -615,7 +1236,17 @@
       "legacy_document_topics": [
         "impuesto_patrimonio_personas_naturales"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "comercial_societario",
@@ -641,7 +1272,39 @@
         "to upload/BRECHAS-SEMANA2-ABRIL-2026/SOC_OBLIGACIONES_ANUALES/",
         "to upload/BRECHAS-SEMANA2-ABRIL-2026/SOC_REFORMA_ESTATUTOS/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Regimen comercial y societario - Codigo de Comercio, Ley 222/1995, Ley 1258/2008 (SAS), Ley 1116/2006 (insolvencia), obligaciones del comerciante, libros, registro mercantil, asambleas, reformas, transformacion, fusion, escision, disolucion y liquidacion.",
+      "scope_in": "Constitucion de sociedades, tipos societarios (SAS, S.A., LTDA., E.U.), registro mercantil ante Camara de Comercio, libros oficiales, asambleas y juntas, reformas estatutarias, transformacion, fusion, escision, disolucion, liquidacion, insolvencia (Ley 1116/2006).",
+      "scope_out": "- Distribucion de utilidades / dividendos -> dividendos_y_distribucion_utilidades.\n- Constitucion de ESAL (regimen tributario) -> regimen_tributario_especial_esal.\n- Beneficiario final -> beneficiario_final_rub.\n- Libros oficiales en NIIF -> niif_pymes / niif_plenas.\n- Reforma laboral en relaciones contractuales -> laboral / reforma_laboral_ley_2466.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "Codigo de Comercio",
+        "SAS",
+        "Ley 1258 de 2008",
+        "registro mercantil",
+        "obligaciones del comerciante",
+        "libros oficiales",
+        "reforma estatutaria",
+        "transformacion sociedad",
+        "fusion sociedad",
+        "escision",
+        "disolucion",
+        "liquidacion sociedad",
+        "insolvencia",
+        "Ley 1116 de 2006",
+        "asamblea",
+        "junta directiva"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Codigo de Comercio",
+        "Ley 222 de 1995",
+        "Ley 1258 de 2008",
+        "Ley 1116 de 2006"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "datos_tecnologia",
@@ -663,7 +1326,17 @@
         "CORE ya Arriba/EXPERTOS_LEYES/DT-",
         "CORE ya Arriba/LOGGRO_LEYES/DT-"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "inversiones_incentivos",
@@ -683,7 +1356,17 @@
         "CORE ya Arriba/EXPERTOS_LEYES/II-",
         "CORE ya Arriba/LOGGRO_LEYES/II-"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "presupuesto_hacienda",
@@ -703,7 +1386,17 @@
         "CORE ya Arriba/EXPERTOS_LEYES/PH-",
         "CORE ya Arriba/LOGGRO_LEYES/PH-"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "reformas_tributarias",
@@ -721,7 +1414,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/LEYES/REFORMAS_TRIBUTARIAS/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "otros_sectoriales",
@@ -738,7 +1441,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/LEYES/OTROS_SECTORIALES/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_agropecuario",
@@ -763,7 +1476,17 @@
         "sector_agropecuario"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_salud",
@@ -784,7 +1507,17 @@
         "sector_salud"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_vivienda",
@@ -807,7 +1540,17 @@
         "sector_vivienda"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_financiero",
@@ -832,7 +1575,17 @@
         "sector_financiero"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_cultura",
@@ -857,7 +1610,17 @@
         "sector_cultura"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_administracion_publica",
@@ -878,7 +1641,17 @@
         "sector_administracion_publica"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_profesiones_liberales",
@@ -899,7 +1672,17 @@
         "sector_profesiones_liberales"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_educacion",
@@ -922,7 +1705,17 @@
         "sector_educacion"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_turismo",
@@ -943,7 +1736,17 @@
         "sector_turismo"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_inclusion_social",
@@ -968,7 +1771,17 @@
         "sector_inclusion_social"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_servicios",
@@ -989,7 +1802,17 @@
         "sector_servicios"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_justicia",
@@ -1012,7 +1835,17 @@
         "sector_justicia"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_energia_mineria",
@@ -1037,7 +1870,17 @@
         "sector_energia_mineria"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_politico",
@@ -1058,7 +1901,17 @@
         "sector_politico"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_deporte",
@@ -1079,7 +1932,17 @@
         "sector_deporte"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_desarrollo_regional",
@@ -1100,7 +1963,17 @@
         "sector_desarrollo_regional"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_ciencia",
@@ -1123,7 +1996,17 @@
         "sector_ciencia"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_infancia",
@@ -1146,7 +2029,17 @@
         "sector_infancia"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_juegos_azar",
@@ -1167,7 +2060,17 @@
         "sector_juegos_azar"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_economia",
@@ -1188,7 +2091,17 @@
         "sector_economia"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_transporte",
@@ -1209,7 +2122,17 @@
         "sector_transporte"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_emprendimiento",
@@ -1230,7 +2153,17 @@
         "sector_emprendimiento"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_medio_ambiente",
@@ -1251,7 +2184,17 @@
         "sector_medio_ambiente"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_comercio_internacional",
@@ -1274,7 +2217,17 @@
         "sector_comercio_internacional"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_puertos",
@@ -1295,7 +2248,17 @@
         "sector_puertos"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sector_telecomunicaciones",
@@ -1316,7 +2279,17 @@
         "sector_telecomunicaciones"
       ],
       "allowed_path_prefixes": [],
-      "vocabulary_status": "ratified_v3_0"
+      "vocabulary_status": "ratified_v3_0",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "leyes_derogadas",
@@ -1335,7 +2308,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/LEYES/DEROGADAS/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "beneficiario_final_rub",
@@ -1355,7 +2338,31 @@
         "CORE ya Arriba/BENEFICIARIO_FINAL_RUB/",
         "to upload/BRECHAS-SEMANA2-ABRIL-2026/BEN_BENEFICIARIOS_FINALES/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "Registro Unico de Beneficiarios Finales (RUB) - Ley 2155/2021 art. 4, Resolucion DIAN 000164/2021 y modificatorias. Identificacion de personas naturales beneficiarias finales de personas juridicas y estructuras sin personeria juridica.",
+      "scope_in": "Sujetos obligados, identificacion del BF (criterios participacion >5%, control efectivo), informacion a reportar, plazos de actualizacion, sanciones art. 658-3 ET por no actualizar.",
+      "scope_out": "- RUT general -> rut_y_responsabilidades_tributarias.\n- Regimen ESAL en si -> regimen_tributario_especial_esal.\n- Sanciones generales del 658-3 por RUT -> rut_y_responsabilidades_tributarias.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "RUB",
+        "registro unico beneficiarios",
+        "beneficiario final",
+        "Ley 2155 art 4",
+        "Resolucion 000164 de 2021",
+        "actualizacion RUB",
+        "estructura sin personeria juridica"
+      ],
+      "allowed_et_articles": [
+        "631-5",
+        "658-3"
+      ],
+      "allowed_norm_anchors": [
+        "Ley 2155 de 2021",
+        "Resolucion DIAN 000164 de 2021"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "contratacion_estatal",
@@ -1372,25 +2379,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/CONTRATACION_ESTATAL/"
       ],
-      "vocabulary_status": "ratified_v1_2"
-    },
-    {
-      "key": "dividendos_utilidades",
-      "label": "Dividendos y utilidades",
-      "aliases": [
-        "dividendos_utilidades"
-      ],
-      "ingestion_aliases": [
-        "dividendos_utilidades"
-      ],
-      "legacy_document_topics": [
-        "dividendos_utilidades"
-      ],
-      "allowed_path_prefixes": [
-        "CORE ya Arriba/DIVIDENDOS_UTILIDADES/",
-        "CORE ya Arriba/Documents to branch and improve/Tributacion_Dividendos/"
-      ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "economia_digital_criptoactivos",
@@ -1411,7 +2410,17 @@
         "CORE ya Arriba/ECONOMIA_DIGITAL_PES_CRIPTO/",
         "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/06-CRIPTOACTIVOS-ACTIVOS-DIGITALES/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "obligaciones_profesionales_contador",
@@ -1430,7 +2439,17 @@
         "CORE ya Arriba/OBLIGACIONES_PROFESIONALES_CONTADOR/",
         "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/09-OBLIGACIONES-PROFESIONALES-JCC/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "perdidas_fiscales_art147",
@@ -1449,7 +2468,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/PERDIDAS_FISCALES_ART147/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "reforma_pensional",
@@ -1467,7 +2496,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/REFORMA_PENSIONAL/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "sagrilaft_ptee",
@@ -1487,7 +2526,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/SAGRILAFT_PTEE/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "emergencia_tributaria",
@@ -1511,7 +2560,17 @@
         "CORE ya Arriba/RENTA/EXPERTOS/T03-",
         "CORE ya Arriba/RENTA/LOGGRO/seccion-21-"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "impuestos_saludables",
@@ -1530,25 +2589,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/NUEVOS-DATOS-BRECHAS-MARZO-2026/11-IMPUESTOS-SALUDABLES-IBUA-ICUI/"
       ],
-      "vocabulary_status": "ratified_v1_2"
-    },
-    {
-      "key": "regimen_tributario_especial",
-      "label": "Régimen tributario especial",
-      "aliases": [
-        "regimen_tributario_especial"
-      ],
-      "ingestion_aliases": [
-        "regimen_tributario_especial",
-        "esal"
-      ],
-      "legacy_document_topics": [
-        "regimen_tributario_especial"
-      ],
-      "allowed_path_prefixes": [
-        "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-ESAL-"
-      ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "impuesto_nacional_consumo",
@@ -1565,7 +2616,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-INC-"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "normas_internacionales_auditoria",
@@ -1582,7 +2643,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-NIA-"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "zonas_francas",
@@ -1599,7 +2670,17 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-ZF-"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "activos_exterior",
@@ -1617,7 +2698,17 @@
       "allowed_path_prefixes": [
         "to upload/AGGRANDIZEMENT-ABRIL-2026/ACTIVOS_EXTERIOR_F160/"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "estatuto_tributario",
@@ -1634,12 +2725,22 @@
       "allowed_path_prefixes": [
         "CORE ya Arriba/LEYES/CATALOGO-LEYES-ET.md"
       ],
-      "vocabulary_status": "ratified_v1_2"
+      "vocabulary_status": "ratified_v1_2",
+      "definition": "",
+      "scope_in": "",
+      "scope_out": "",
+      "typical_sources": [],
+      "keyword_anchors": [],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "firmeza_declaraciones",
       "label": "Firmeza de las declaraciones",
-      "parent_key": "declaracion_renta",
+      "parent_key": "procedimiento_tributario",
       "aliases": [
         "firmeza_declaraciones",
         "firmeza_declaracion",
@@ -1655,12 +2756,48 @@
       "legacy_document_topics": [
         "firmeza_declaraciones"
       ],
-      "vocabulary_status": "v6_phase5"
+      "vocabulary_status": "v6_phase5",
+      "definition": "Reglas de firmeza de declaraciones tributarias - plazos generales y especiales (beneficio auditoria, perdidas fiscales, precios de transferencia).",
+      "scope_in": "ET art. 714 (firmeza general), 689-3 (beneficio auditoria), art. 117 Ley 2010/2019 (firmeza perdidas), 147 ET par. (compensacion perdidas), 260-5 par. (firmeza precios transferencia), interrupcion y suspension.",
+      "scope_out": "Procedimiento de fiscalizacion (requerimientos, liquidaciones) -> procedimiento_tributario. Beneficio auditoria como mecanismo per se -> beneficio_auditoria.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "firmeza",
+        "art 714 ET",
+        "firmeza declaracion",
+        "firmeza renta",
+        "interrupcion firmeza",
+        "suspension firmeza",
+        "prescripcion fiscalizacion",
+        "firmeza perdidas fiscales",
+        "art 117 Ley 2010",
+        "prescribe",
+        "prescripcion",
+        "fiscalizacion",
+        "cuestionar",
+        "DIAN puede mirar atras",
+        "cuantos anios atras"
+      ],
+      "allowed_et_articles": [
+        "705",
+        "705-1",
+        "706",
+        "714",
+        "147",
+        "689-3",
+        "260-5"
+      ],
+      "allowed_norm_anchors": [
+        "Ley 2010 de 2019 art. 117"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "regimen_sancionatorio_extemporaneidad",
       "label": "Sanción por extemporaneidad",
-      "parent_key": "declaracion_renta",
+      "parent_key": "procedimiento_tributario",
       "aliases": [
         "regimen_sancionatorio_extemporaneidad",
         "extemporaneidad",
@@ -1675,12 +2812,64 @@
       "legacy_document_topics": [
         "regimen_sancionatorio_extemporaneidad"
       ],
-      "vocabulary_status": "v6_phase5"
+      "vocabulary_status": "v6_phase5",
+      "definition": "Regimen sancionatorio tributario - sanciones por extemporaneidad, inexactitud, no declarar, errores en informacion.",
+      "scope_in": "ET arts. 641, 642, 644, 647, 648, 651, 652, 657, 658-3, 658-1, reduccion de sanciones art. 640, gradualidad.",
+      "scope_out": "Mecanismo procesal (requerimiento, liquidacion, recurso) -> procedimiento_tributario.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "sancion por extemporaneidad",
+        "art 641 ET",
+        "art 644 ET",
+        "sancion por inexactitud",
+        "art 647 ET",
+        "art 648 ET",
+        "art 651 ET",
+        "art 652 ET",
+        "art 657 ET",
+        "art 658-3 ET",
+        "reduccion sancion",
+        "art 640 ET",
+        "gradualidad sancion"
+      ],
+      "allowed_et_articles": [
+        "640",
+        "641",
+        "642",
+        "643",
+        "644",
+        "645",
+        "646",
+        "647",
+        "647-1",
+        "648",
+        "649",
+        "650-1",
+        "650-2",
+        "651",
+        "652",
+        "652-1",
+        "653",
+        "654",
+        "655",
+        "656",
+        "657",
+        "657-1",
+        "657-2",
+        "658",
+        "658-1",
+        "658-2",
+        "658-3"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
     },
     {
       "key": "devoluciones_saldos_a_favor",
       "label": "Devolución de saldos a favor",
-      "parent_key": "declaracion_renta",
+      "parent_key": "procedimiento_tributario",
       "aliases": [
         "devoluciones_saldos_a_favor",
         "saldo_a_favor",
@@ -1695,7 +2884,987 @@
       "legacy_document_topics": [
         "devoluciones_saldos_a_favor"
       ],
-      "vocabulary_status": "v6_phase5"
+      "vocabulary_status": "v6_phase5",
+      "definition": "Devolucion y compensacion de saldos a favor en impuestos nacionales (renta, IVA, retencion) ante la DIAN.",
+      "scope_in": "ET arts. 850-865, Decreto 1206/2024 (devolucion automatica), Resolucion DIAN procedimiento, requisitos, plazos, garantias, intereses moratorios, compensacion entre impuestos.",
+      "scope_out": "Saldos que no se devuelven sino se imputan al periodo siguiente (mecanica de la declaracion) -> declaracion_renta o iva.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "devolucion saldo a favor",
+        "compensacion saldo a favor",
+        "art 850 ET",
+        "art 855 ET",
+        "art 857 ET",
+        "Decreto 1206 de 2024",
+        "devolucion automatica",
+        "intereses devolucion",
+        "garantia devolucion"
+      ],
+      "allowed_et_articles": [
+        "850",
+        "850-1",
+        "851",
+        "852",
+        "853",
+        "854",
+        "855",
+        "856",
+        "857",
+        "857-1",
+        "858",
+        "859",
+        "860",
+        "861",
+        "862",
+        "863",
+        "864",
+        "865"
+      ],
+      "allowed_norm_anchors": [
+        "Decreto 1206 de 2024"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active"
+    },
+    {
+      "key": "regimen_cambiario",
+      "label": "Regimen Cambiario (DCIN-83)",
+      "aliases": [
+        "regimen_cambiario",
+        "cambiario"
+      ],
+      "ingestion_aliases": [
+        "regimen_cambiario",
+        "cambiario",
+        "banrep",
+        "dcin_83",
+        "declaracion_cambio",
+        "inversion_extranjera"
+      ],
+      "legacy_document_topics": [
+        "regimen_cambiario",
+        "cambiario"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Regimen cambiario para operaciones de cambio (importaciones, exportaciones, inversion extranjera, endeudamiento externo) ante el Banco de la Republica.",
+      "scope_in": "- Resolucion Externa 1/2018 JDBR + DCIN-83 (compilacion).\n- Declaracion de cambio (formulario 1, 2, 3, 4, 5).\n- Inversion extranjera directa (registro, sustitucion, cancelacion).\n- Endeudamiento externo (registro, novacion, cancelacion).\n- Cuentas de compensacion.\n- Sanciones cambiarias (DIAN - cumple funcion cambiaria).",
+      "scope_out": "- Regimen tributario de la inversion extranjera -> declaracion_renta o dividendos_y_distribucion_utilidades.\n- Aspectos contables de operaciones en moneda extranjera (NIC 21) -> niif_pymes / niif_plenas.\n- Precios de transferencia -> precios_de_transferencia.",
+      "typical_sources": [
+        "Resolucion Externa 1/2018 JDBR.",
+        "DCIN-83 (Banco de la Republica).",
+        "Boletines del Banco de la Republica.",
+        "Decreto 1735/1993 (regimen cambiario base).",
+        "Decreto 1068/2015 Parte 17 Cap. 2 (Estatuto de Inversiones Internacionales).",
+        "Conceptos Banrep.",
+        "Sanciones cambiarias DIAN."
+      ],
+      "keyword_anchors": [
+        "regimen cambiario",
+        "DCIN-83",
+        "declaracion de cambio",
+        "inversion extranjera",
+        "endeudamiento externo",
+        "cuenta de compensacion",
+        "Banco de la Republica cambios",
+        "Resolucion 1 2018 JDBR",
+        "sancion cambiaria"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Resolucion Externa 1 de 2018 JDBR",
+        "DCIN-83",
+        "Decreto 1735 de 1993",
+        "Decreto 1068 de 2015"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)",
+      "renamed_from": "cambiario",
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/REGIMEN_CAMBIARIO_PYME/",
+        "CORE ya Arriba/Documents to branch and improve/Regimen_Cambiario/",
+        "to upload/BRECHAS-SEMANA2-ABRIL-2026/CAM_DECLARACION_CAMBIO/"
+      ]
+    },
+    {
+      "key": "dividendos_y_distribucion_utilidades",
+      "label": "Dividendos y Distribucion de Utilidades",
+      "aliases": [
+        "dividendos_y_distribucion_utilidades",
+        "dividendos_utilidades"
+      ],
+      "ingestion_aliases": [
+        "dividendos_y_distribucion_utilidades",
+        "dividendos_utilidades",
+        "dividendos",
+        "distribucion_utilidades"
+      ],
+      "legacy_document_topics": [
+        "dividendos_y_distribucion_utilidades",
+        "dividendos_utilidades"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Regimen tributario y societario de la distribucion de utilidades, dividendos en efectivo, en acciones, en especie. Incluye tarifas de dividendos arts. 242, 242-1, 245 ET y mecanica societaria.",
+      "scope_in": "- Arts. 48, 49 ET (utilidades no gravadas, formula art. 49).\n- Arts. 242, 242-1 ET (tarifa dividendos personas naturales residentes).\n- Art. 245 ET (tarifa dividendos extranjeros / no residentes).\n- Retencion en la fuente sobre dividendos (Decreto 1457/2020 y modificatorios).\n- Decision societaria de distribucion (Codigo de Comercio, Ley 222/1995).\n- Reservas legales y voluntarias.\n- Dividendos en especie.\n- Disminucion de capital con devolucion de aportes (vs dividendo).",
+      "scope_out": "- Calculo de la utilidad contable que origina el dividendo -> niif_pymes / niif_plenas.\n- Constitucion y reformas societarias en general -> comercial_societario.\n- Ganancia ocasional por venta de acciones -> ganancia_ocasional.",
+      "typical_sources": [
+        "ET arts. 48, 49, 242, 242-1, 245.",
+        "Decreto 1457/2020 (retencion sobre dividendos) + modificatorios.",
+        "Codigo de Comercio arts. 451-456.",
+        "Ley 222/1995.",
+        "Conceptos DIAN sobre dividendos.",
+        "Doctrina firmas (Brigard Urrutia, PHR, Big4)."
+      ],
+      "keyword_anchors": [
+        "dividendos",
+        "distribucion utilidades",
+        "tarifa dividendos",
+        "art 48 ET",
+        "art 49 ET",
+        "art 242 ET",
+        "art 242-1 ET",
+        "art 245 ET",
+        "retencion dividendos",
+        "Decreto 1457 de 2020",
+        "dividendos en especie",
+        "disminucion capital",
+        "reserva legal"
+      ],
+      "allowed_et_articles": [
+        "48",
+        "49",
+        "30",
+        "242",
+        "242-1",
+        "245",
+        "246",
+        "246-1",
+        "247",
+        "33-3"
+      ],
+      "allowed_norm_anchors": [
+        "Decreto 1457 de 2020",
+        "Ley 222 de 1995"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)",
+      "renamed_from": "dividendos_utilidades",
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/DIVIDENDOS_UTILIDADES/",
+        "CORE ya Arriba/Documents to branch and improve/Tributacion_Dividendos/"
+      ]
+    },
+    {
+      "key": "regimen_tributario_especial_esal",
+      "label": "Regimen Tributario Especial - ESAL",
+      "aliases": [
+        "regimen_tributario_especial_esal",
+        "regimen_tributario_especial",
+        "esal"
+      ],
+      "ingestion_aliases": [
+        "regimen_tributario_especial_esal",
+        "regimen_tributario_especial",
+        "esal",
+        "rte",
+        "entidades_sin_animo_de_lucro"
+      ],
+      "legacy_document_topics": [
+        "regimen_tributario_especial",
+        "regimen_tributario_especial_esal"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Regimen tributario especial aplicable a Entidades Sin Animo de Lucro (ESAL): fundaciones, corporaciones, asociaciones, cooperativas. Calificacion, permanencia, actualizacion ante la DIAN.",
+      "scope_in": "- Arts. 356-364-6 ET.\n- Decreto 2150/2017 (reglamentacion RTE).\n- Calificacion inicial al RTE (formulario web DIAN).\n- Actualizacion anual / permanencia.\n- Requisitos para acceder al beneficio.\n- Donaciones recibidas (descuento o deduccion para el donante).\n- Cooperativas (Ley 79/1988; regimen especial cooperativo art. 19-4 ET).\n- Memoria economica anual.",
+      "scope_out": "- ESAL regimen ordinario (que no califican / pierden RTE) -> declaracion_renta.\n- Donaciones - efecto en el donante -> descuentos_tributarios_renta o costos_deducciones_renta.\n- Constitucion de la entidad ESAL -> comercial_societario.",
+      "typical_sources": [
+        "ET arts. 356-364-6.",
+        "Decreto 2150/2017.",
+        "DUR 1625/2016 Seccion Regimen Tributario Especial.",
+        "Conceptos DIAN sobre RTE.",
+        "Resoluciones DIAN sobre formularios y tramites RTE.",
+        "Ley 79/1988 (cooperativas)."
+      ],
+      "keyword_anchors": [
+        "ESAL",
+        "regimen tributario especial",
+        "RTE",
+        "fundacion",
+        "asociacion sin animo de lucro",
+        "cooperativa",
+        "Decreto 2150 de 2017",
+        "art 356 ET",
+        "art 19 ET",
+        "art 19-4 ET",
+        "calificacion RTE",
+        "permanencia RTE",
+        "memoria economica",
+        "donaciones a ESAL"
+      ],
+      "allowed_et_articles": [
+        "19",
+        "19-1",
+        "19-2",
+        "19-3",
+        "19-4",
+        "19-5",
+        "356",
+        "356-1",
+        "356-2",
+        "356-3",
+        "357",
+        "358",
+        "358-1",
+        "359",
+        "360",
+        "361",
+        "362",
+        "363",
+        "364",
+        "364-1",
+        "364-2",
+        "364-3",
+        "364-4",
+        "364-5",
+        "364-6"
+      ],
+      "allowed_norm_anchors": [
+        "Decreto 2150 de 2017",
+        "Ley 79 de 1988",
+        "DUR 1625 de 2016"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)",
+      "renamed_from": "regimen_tributario_especial",
+      "allowed_path_prefixes": [
+        "CORE ya Arriba/Corpus de Contabilidad/EXPERTOS/T-ESAL-"
+      ]
+    },
+    {
+      "key": "tarifas_renta_y_ttd",
+      "label": "Tarifas de renta y TTD",
+      "aliases": [
+        "tarifas_renta_y_ttd",
+        "tarifas_tasa_minima_renta",
+        "tarifas_y_tasa_minima"
+      ],
+      "ingestion_aliases": [
+        "tarifa_renta",
+        "tarifa_35",
+        "tasa_minima_tributacion",
+        "ttd",
+        "art_240",
+        "art_240_1",
+        "impuesto_a_cargo"
+      ],
+      "legacy_document_topics": [
+        "tarifas_renta_y_ttd",
+        "tarifas_tasa_minima_renta"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Tarifas del impuesto de renta y Tasa Minima de Tributacion Depurada (TTD).",
+      "scope_in": "Tarifa general PJ (art. 240), tarifa zona franca (240-1), tarifas PN cedula general (art. 241 + 336), tarifa dividendos (242, 242-1, 245), TTD (paragrafo 6 art. 240).",
+      "scope_out": "Calculo de la TTD operativo paso a paso -> conciliacion_fiscal. Tarifa SIMPLE -> regimen_simple.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "tarifa renta",
+        "art 240 ET",
+        "art 240-1 ET",
+        "art 241 ET",
+        "tasa minima tributacion",
+        "TTD",
+        "parrafo 6 art 240",
+        "tarifa zona franca",
+        "tarifa progresiva personas naturales"
+      ],
+      "allowed_et_articles": [
+        "240",
+        "240-1",
+        "241",
+        "242",
+        "242-1",
+        "243",
+        "245"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "vigencia_anual",
+      "corpus_coverage": "active",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)",
+      "renamed_from": "tarifas_tasa_minima_renta",
+      "parent_key": "declaracion_renta"
+    },
+    {
+      "key": "retencion_fuente_general",
+      "label": "Retencion en la fuente (regimen general)",
+      "aliases": [
+        "retencion_fuente_general",
+        "anticipos_retenciones_a_favor",
+        "anticipos_y_retenciones_a_favor"
+      ],
+      "ingestion_aliases": [
+        "retencion_fuente_general",
+        "anticipo_renta",
+        "art_807",
+        "retenciones_a_favor",
+        "retefte_a_favor",
+        "autorretenciones"
+      ],
+      "legacy_document_topics": [
+        "retencion_fuente_general",
+        "anticipos_retenciones_a_favor"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Regimen general de retencion en la fuente (a titulo de renta) - ET arts. 365-419.",
+      "scope_in": "Conceptos sometidos a retencion, agentes retenedores, tarifas, autorretencion, certificados de retencion (art. 378), declaracion mensual (formulario 350), anticipo del impuesto (art. 807 ET).",
+      "scope_out": "Retencion de IVA -> iva. Retencion de timbre -> impuesto_timbre. Sanciones por no retener -> procedimiento_tributario.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "retencion en la fuente",
+        "agente retenedor",
+        "autorretencion",
+        "art 365 ET",
+        "art 368 ET",
+        "art 378 ET",
+        "certificado de retencion",
+        "formulario 350",
+        "anticipo del impuesto",
+        "art 807 ET"
+      ],
+      "allowed_et_articles": [
+        "365",
+        "366",
+        "366-1",
+        "367",
+        "368",
+        "368-1",
+        "368-2",
+        "369",
+        "370",
+        "371",
+        "372",
+        "373",
+        "374",
+        "375",
+        "376",
+        "377",
+        "378",
+        "378-1",
+        "379",
+        "380",
+        "381",
+        "382",
+        "383",
+        "384",
+        "385",
+        "386",
+        "387",
+        "387-1",
+        "388",
+        "389",
+        "390",
+        "391",
+        "392",
+        "393",
+        "394",
+        "395",
+        "396",
+        "397",
+        "398",
+        "399",
+        "400",
+        "401",
+        "401-1",
+        "401-2",
+        "401-3",
+        "402",
+        "403",
+        "404",
+        "404-1",
+        "405",
+        "406",
+        "407",
+        "408",
+        "409",
+        "410",
+        "411",
+        "412",
+        "413",
+        "414",
+        "415",
+        "416",
+        "417",
+        "418",
+        "419",
+        "807"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)",
+      "renamed_from": "anticipos_retenciones_a_favor"
+    },
+    {
+      "key": "impuesto_timbre",
+      "label": "Impuesto de Timbre Nacional",
+      "aliases": [
+        "impuesto_timbre",
+        "timbre",
+        "impuesto_de_timbre"
+      ],
+      "ingestion_aliases": [
+        "impuesto_timbre",
+        "timbre_nacional",
+        "timbre",
+        "decreto_175_2025",
+        "formulario_350_timbre"
+      ],
+      "legacy_document_topics": [
+        "impuesto_timbre"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Impuesto sobre actos juridicos formales (escrituras publicas, contratos privados, documentos sin cuantia determinada) regulado en ET Libro 4, arts. 514-540.",
+      "scope_in": "- Hecho generador del impuesto de timbre (arts. 514-519 ET).\n- Sujetos pasivos y responsables (art. 515 ET).\n- Base gravable y tarifas (arts. 519, 521 ET; Decreto 175/2025 sobre tarifa 1% reactivada bajo emergencia economica).\n- Causacion, retencion y declaracion del timbre (arts. 539-1, 539-2, 539-3 ET; formulario 350).\n- Exenciones (arts. 530, 530-1 ET).\n- Documentos sin cuantia determinada (art. 521 ET).\n- Conceptos DIAN sobre actos gravados controvertidos.",
+      "scope_out": "- Notas credito/debito en factura electronica -> facturacion_electronica.\n- Estampillas departamentales o municipales -> sector_administracion_publica (sub: estampillas).\n- Impuesto de registro (Ley 223/1995 art. 226) -> sector_administracion_publica.\n- Sanciones por no declarar timbre -> regimen_sancionatorio_extemporaneidad.",
+      "typical_sources": [
+        "ET Libro 4 (Decreto 624/1989 arts. 514-540).",
+        "Decreto 2076/1992 (reglamentacion clasica del timbre).",
+        "Decreto 175/2025 (reactivacion tarifa 1% bajo Decreto 1085/2025 - emergencia economica).",
+        "Decreto 1474/2025 (suspension / modulacion del regimen - verificar status post-Corte).",
+        "Conceptos DIAN sobre actos gravados.",
+        "Doctrina especializada: Actualicese, Legis, Brigard Urrutia, PHR sobre reactivacion 2025."
+      ],
+      "keyword_anchors": [
+        "impuesto de timbre",
+        "timbre nacional",
+        "timbre 1 por ciento",
+        "Decreto 175 de 2025",
+        "tarifa de timbre",
+        "exencion de timbre",
+        "actos sin cuantia",
+        "ET 519",
+        "ET 521",
+        "escritura publica timbre",
+        "contrato privado timbre",
+        "retencion de timbre",
+        "agente retenedor de timbre",
+        "timbre cesion de cuotas",
+        "formulario 350 timbre"
+      ],
+      "allowed_et_articles": [
+        "514",
+        "515",
+        "516",
+        "517",
+        "518",
+        "519",
+        "521",
+        "522",
+        "523",
+        "524",
+        "525",
+        "526",
+        "527",
+        "528",
+        "529",
+        "530",
+        "530-1",
+        "531",
+        "532",
+        "533",
+        "534",
+        "535",
+        "536",
+        "537",
+        "538",
+        "539",
+        "539-1",
+        "539-2",
+        "539-3",
+        "540"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "transitorio",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
+    },
+    {
+      "key": "rut_y_responsabilidades_tributarias",
+      "label": "RUT y Responsabilidades Tributarias",
+      "aliases": [
+        "rut_y_responsabilidades_tributarias",
+        "rut_responsabilidades",
+        "rut"
+      ],
+      "ingestion_aliases": [
+        "rut",
+        "codigos_de_responsabilidad",
+        "actualizacion_rut",
+        "inscripcion_rut",
+        "ciiu"
+      ],
+      "legacy_document_topics": [
+        "rut_responsabilidades",
+        "rut_y_responsabilidades_tributarias"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Registro Unico Tributario - inscripcion, actualizacion, codigos de responsabilidad y seleccion de actividad economica (CIIU). Aplicable a personas naturales y juridicas inscritas ante la DIAN.",
+      "scope_in": "- Inscripcion inicial RUT (arts. 555-1, 555-2 ET; Decreto 2460/2013).\n- Actualizacion RUT por cambio de obligaciones, direccion, representacion legal, socios.\n- Codigos de responsabilidad (catalogo: 05, 07, 11, 14, 22, 32, 33, 35, 42, etc.).\n- Seleccion y cambio de actividad economica CIIU.\n- Cancelacion RUT / suspension.\n- Sanciones del art. 658-3 ET por no inscribirse / no actualizar.",
+      "scope_out": "- Beneficiarios finales (RUB) -> beneficiario_final_rub.\n- Regimen Simple de Tributacion per se -> regimen_simple.\n- Regimen tributario especial ESAL (calificacion) -> regimen_tributario_especial_esal.\n- Facturacion electronica per se -> facturacion_electronica.",
+      "typical_sources": [
+        "ET arts. 555-1, 555-2, 658-3.",
+        "Decreto 2460/2013 + modificatorios.",
+        "DUR 1625/2016 Titulo 6 (RUT).",
+        "Resoluciones DIAN sobre RUT (000139/2012, 000060/2017, 000070/2019, 000022/2024).",
+        "Cartilla RUT de la DIAN.",
+        "Manual MUISCA RUT."
+      ],
+      "keyword_anchors": [
+        "RUT",
+        "registro unico tributario",
+        "inscripcion RUT",
+        "actualizacion RUT",
+        "codigo de responsabilidad",
+        "responsabilidad 05",
+        "responsabilidad 07",
+        "responsabilidad 11",
+        "responsabilidad 32",
+        "responsabilidad 33",
+        "responsabilidad 42",
+        "actividad economica CIIU",
+        "cambio CIIU",
+        "cancelacion RUT",
+        "art 658-3 ET",
+        "Decreto 2460 de 2013"
+      ],
+      "allowed_et_articles": [
+        "555-1",
+        "555-2",
+        "555-3",
+        "658-3"
+      ],
+      "allowed_norm_anchors": [
+        "Decreto 2460 de 2013",
+        "DUR 1625 de 2016",
+        "Resolucion DIAN 000139 de 2012",
+        "Resolucion DIAN 000060 de 2017",
+        "Resolucion DIAN 000070 de 2019",
+        "Resolucion DIAN 000022 de 2024"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
+    },
+    {
+      "key": "parafiscales_seguridad_social",
+      "label": "Parafiscales y Seguridad Social",
+      "aliases": [
+        "parafiscales_seguridad_social",
+        "parafiscales_y_seguridad_social"
+      ],
+      "ingestion_aliases": [
+        "parafiscales_seguridad_social",
+        "ugpp",
+        "pila",
+        "aportes_seguridad_social",
+        "exoneracion_114_1"
+      ],
+      "legacy_document_topics": [
+        "parafiscales_seguridad_social"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Aportes parafiscales (SENA, ICBF, Cajas de Compensacion) y aportes a seguridad social (salud, pension, ARL) para empleadores. Incluye PILA, exoneracion del art. 114-1 ET, fiscalizacion UGPP.",
+      "scope_in": "- Aportes a salud, pension, ARL del regimen contributivo (Ley 100/1993).\n- Parafiscales SENA, ICBF, Cajas (Ley 21/1982, Ley 89/1988).\n- Exoneracion del art. 114-1 ET (CREE -> Ley 1819/2016 -> Ley 2010/2019).\n- PILA (Decreto 1273/2018, Resolucion 1995/2019).\n- Bases de cotizacion (IBC), pisos, techos, aportes minimos.\n- Aportes de independientes (Ley 1955/2019 art. 244, Decreto 1601/2022).\n- Fiscalizacion UGPP (Decreto 1762/2024).\n- Sanciones UGPP (art. 179 Ley 1607/2012).",
+      "scope_out": "- Reforma laboral Ley 2466/2025 -> reforma_laboral_ley_2466.\n- Reforma pensional Ley 2381/2024 -> reforma_pensional.\n- Relacion laboral / contratacion / prestaciones sociales -> laboral.\n- Aportes deducibles en renta -> costos_deducciones_renta (efecto fiscal).\n- Nomina electronica (DSE) -> facturacion_electronica.",
+      "typical_sources": [
+        "Ley 100/1993; Ley 21/1982; Ley 89/1988.",
+        "Decreto 1273/2018 (PILA mes vencido independientes).",
+        "Decreto 1601/2022 (presuncion de costos independientes).",
+        "Decreto 1762/2024 (UGPP).",
+        "Resolucion 1995/2019 (PILA), modificatorias.",
+        "Doctrina UGPP (conceptos publicados, requerimientos tipicos).",
+        "ET art. 114-1 (exoneracion)."
+      ],
+      "keyword_anchors": [
+        "parafiscales",
+        "seguridad social",
+        "PILA",
+        "UGPP",
+        "aportes salud",
+        "aportes pension",
+        "ARL",
+        "ICBF",
+        "SENA",
+        "caja de compensacion",
+        "exoneracion 114-1",
+        "art 114-1 ET",
+        "IBC",
+        "base de cotizacion",
+        "aportes independientes",
+        "Decreto 1601 de 2022",
+        "presuncion de costos independientes",
+        "fiscalizacion UGPP"
+      ],
+      "allowed_et_articles": [
+        "108",
+        "114-1",
+        "126-1"
+      ],
+      "allowed_norm_anchors": [
+        "Ley 100 de 1993",
+        "Ley 21 de 1982",
+        "Ley 89 de 1988",
+        "Decreto 1273 de 2018",
+        "Decreto 1601 de 2022",
+        "Decreto 1762 de 2024",
+        "Resolucion 1995 de 2019"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
+    },
+    {
+      "key": "reforma_laboral_ley_2466",
+      "label": "Reforma Laboral - Ley 2466 de 2025",
+      "aliases": [
+        "reforma_laboral_ley_2466",
+        "reforma_laboral_2466"
+      ],
+      "ingestion_aliases": [
+        "reforma_laboral_ley_2466",
+        "reforma_laboral_2466",
+        "ley_2466",
+        "ley_2466_2025"
+      ],
+      "legacy_document_topics": [
+        "reforma_laboral_2466",
+        "reforma_laboral_ley_2466"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Regimen transitorio y modificaciones al CST introducidas por Ley 2466/2025 (recargos nocturnos, jornada, contratos a termino fijo, aprendices SENA, licencias, otros).",
+      "scope_in": "- Modificaciones al CST por Ley 2466/2025.\n- Decretos reglamentarios de Ley 2466/2025 emitidos por MinTrabajo.\n- Circulares MinTrabajo sobre transicion e implementacion.\n- Conceptos MinTrabajo sobre interpretacion de la reforma.\n- Sentencias de la Corte Constitucional sobre Ley 2466/2025.\n- Calendario de entrada en vigencia escalonada.",
+      "scope_out": "- CST original (Ley 2663/1950) - articulos NO modificados -> laboral.\n- Aportes y exoneracion 114-1 ET -> parafiscales_seguridad_social.\n- Reforma pensional (Ley 2381/2024) -> reforma_pensional.\n- Procedimiento ante MinTrabajo (querellas, multas) -> laboral.",
+      "typical_sources": [
+        "Ley 2466/2025 (texto sancionado).",
+        "Decretos reglamentarios MinTrabajo.",
+        "Circulares MinTrabajo 2025-2027.",
+        "Doctrina especializada: Actualicese, Legis, Godoy Hoyos, Brigard Urrutia."
+      ],
+      "keyword_anchors": [
+        "Ley 2466",
+        "reforma laboral 2025",
+        "reforma laboral 2466",
+        "recargo nocturno",
+        "jornada laboral 2466",
+        "contrato a termino fijo 2466",
+        "aprendices SENA reforma",
+        "licencia menstrual",
+        "transicion reforma laboral",
+        "MinTrabajo circular reforma"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Ley 2466 de 2025",
+        "Decreto reglamentario Ley 2466",
+        "Circular MinTrabajo"
+      ],
+      "vigencia_window": "transitorio",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)",
+      "sunset_review": "Reevaluar en v2.x cuando implementacion 2466 este completa (estimado post-2028); posible degradacion a subtopico de laboral."
+    },
+    {
+      "key": "proteccion_datos_personales",
+      "label": "Proteccion de Datos Personales (Habeas Data)",
+      "aliases": [
+        "proteccion_datos_personales",
+        "habeas_data"
+      ],
+      "ingestion_aliases": [
+        "proteccion_datos_personales",
+        "habeas_data",
+        "rnbd",
+        "ley_1581",
+        "sic_datos"
+      ],
+      "legacy_document_topics": [
+        "proteccion_datos_personales"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Regimen de proteccion de datos personales (Ley 1581/2012 + reglamentacion), aplicable a toda PYME que recolecte, almacene o trate datos de empleados, clientes, proveedores. Incluye el RNBD.",
+      "scope_in": "- Ley 1581/2012 + Decreto 1377/2013 + Decreto 1074/2015 Libro 2 Parte 2 Titulo 25.\n- Registro Nacional de Bases de Datos (RNBD) ante la SIC.\n- Politica de tratamiento de datos.\n- Autorizacion del titular.\n- Transferencia y transmision internacional de datos.\n- Sanciones SIC.\n- Habeas data financiero (Ley 1266/2008) - datos crediticios.\n- Circulares SIC (Circular Externa Unica SIC).",
+      "scope_out": "- Reserva tributaria (art. 583 ET) -> procedimiento_tributario.\n- Datos / tecnologia en general (uso de software, ciberseguridad) -> datos_tecnologia.",
+      "typical_sources": [
+        "Ley 1581/2012; Ley 1266/2008.",
+        "Decretos 1377/2013, 886/2014, 1759/2016, 090/2018.",
+        "Decreto 1074/2015 Libro 2 Parte 2 Titulo 25.",
+        "Circular Externa Unica SIC.",
+        "Sentencias Corte Constitucional sobre habeas data.",
+        "Conceptos SIC."
+      ],
+      "keyword_anchors": [
+        "habeas data",
+        "proteccion de datos",
+        "Ley 1581",
+        "RNBD",
+        "registro nacional bases de datos",
+        "SIC datos personales",
+        "politica tratamiento datos",
+        "autorizacion titular",
+        "habeas data financiero",
+        "Ley 1266",
+        "centrales de riesgo"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Ley 1581 de 2012",
+        "Ley 1266 de 2008",
+        "Decreto 1377 de 2013",
+        "Decreto 1074 de 2015",
+        "Circular Externa Unica SIC"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
+    },
+    {
+      "key": "niif_pymes",
+      "label": "NIIF para PYMES (Grupo 2)",
+      "aliases": [
+        "niif_pymes",
+        "niif_para_pymes"
+      ],
+      "ingestion_aliases": [
+        "niif_pymes",
+        "niif_para_pymes",
+        "ifrs_for_smes",
+        "grupo_2",
+        "seccion_niif_pymes"
+      ],
+      "legacy_document_topics": [
+        "niif_pymes",
+        "estados_financieros_niif",
+        "niif_y_estados_financieros",
+        "niif"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Marco tecnico normativo NIIF para PYMES - Anexo 2 del DUR 2420/2015. Aplicable a empresas Grupo 2 (PYMEs ordinarias).",
+      "scope_in": "- Las 35 secciones de NIIF para PYMES (IFRS for SMEs).\n- Decreto 3022/2013 original.\n- DUR 2420/2015 Anexo 2 (vigente).\n- Modificaciones IASB y su adopcion local.\n- Conceptos del CTCP sobre aplicacion NIIF PYMES.\n- Diferencias contables vs fiscales (cross-ref conciliacion_fiscal).",
+      "scope_out": "- NIIF Plenas (Grupo 1) -> niif_plenas.\n- Marco tecnico microempresas (Grupo 3) -> niif_microempresas.\n- Conciliacion fiscal NIIF vs base fiscal -> conciliacion_fiscal.",
+      "typical_sources": [
+        "Decreto 2420/2015 Anexo 2.",
+        "Decreto 2483/2018 (modificacion NIIF PYMES).",
+        "Conceptos CTCP.",
+        "Material IASB."
+      ],
+      "keyword_anchors": [
+        "NIIF para PYMES",
+        "Grupo 2",
+        "IFRS for SMEs",
+        "Decreto 3022",
+        "Decreto 2420 Anexo 2",
+        "Seccion 17 propiedad planta",
+        "Seccion 23 ingresos",
+        "Seccion 29 impuesto a las ganancias",
+        "CTCP NIIF PYMES"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Decreto 2420 de 2015",
+        "Decreto 3022 de 2013",
+        "Decreto 2483 de 2018",
+        "CTCP concepto",
+        "NIIF PYMES Seccion"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
+    },
+    {
+      "key": "niif_plenas",
+      "label": "NIIF Plenas (Grupo 1)",
+      "aliases": [
+        "niif_plenas",
+        "niif_full",
+        "ifrs_plenas"
+      ],
+      "ingestion_aliases": [
+        "niif_plenas",
+        "ifrs",
+        "grupo_1",
+        "nic_",
+        "niif_full"
+      ],
+      "legacy_document_topics": [
+        "niif_plenas"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Marco tecnico normativo NIIF Plenas - Anexo 1 del DUR 2420/2015. Aplicable a empresas Grupo 1 (emisores valores, entidades de interes publico, empresas grandes).",
+      "scope_in": "- NIIF Plenas (IFRS Standards completos): NIC 1-41, NIIF 1-17.\n- DUR 2420/2015 Anexo 1.\n- Modificaciones IASB y adopcion local.\n- Conceptos CTCP sobre aplicacion NIIF Plenas.",
+      "scope_out": "- NIIF para PYMES -> niif_pymes.\n- Microempresas -> niif_microempresas.",
+      "typical_sources": [
+        "Decreto 2420/2015 Anexo 1 + modificatorios.",
+        "Conceptos CTCP.",
+        "Material IASB."
+      ],
+      "keyword_anchors": [
+        "NIIF Plenas",
+        "Grupo 1",
+        "IFRS",
+        "NIC 12",
+        "NIIF 15 ingresos",
+        "NIIF 16 arrendamientos",
+        "NIIF 9 instrumentos financieros"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Decreto 2420 de 2015",
+        "NIC ",
+        "NIIF ",
+        "IFRS "
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
+    },
+    {
+      "key": "niif_microempresas",
+      "label": "Marco Tecnico Microempresas (Grupo 3)",
+      "aliases": [
+        "niif_microempresas",
+        "marco_microempresas"
+      ],
+      "ingestion_aliases": [
+        "niif_microempresas",
+        "marco_microempresas",
+        "grupo_3",
+        "decreto_2706"
+      ],
+      "legacy_document_topics": [
+        "niif_microempresas"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Marco simplificado de informacion financiera para microempresas - Anexo 3 del DUR 2420/2015.",
+      "scope_in": "- Marco tecnico Grupo 3 (simplificado).\n- DUR 2420/2015 Anexo 3.\n- Decreto 2706/2012 original.",
+      "scope_out": "- NIIF PYMES -> niif_pymes.\n- NIIF Plenas -> niif_plenas.",
+      "typical_sources": [
+        "Decreto 2706/2012.",
+        "DUR 2420/2015 Anexo 3.",
+        "Conceptos CTCP sobre microempresas."
+      ],
+      "keyword_anchors": [
+        "microempresas",
+        "Grupo 3",
+        "Decreto 2706",
+        "marco simplificado",
+        "informacion financiera microempresas"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Decreto 2420 de 2015",
+        "Decreto 2706 de 2012"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
+    },
+    {
+      "key": "renta_presuntiva",
+      "label": "Renta presuntiva",
+      "parent_key": "declaracion_renta",
+      "aliases": [
+        "renta_presuntiva"
+      ],
+      "ingestion_aliases": [
+        "renta_presuntiva",
+        "base_presuntiva"
+      ],
+      "legacy_document_topics": [
+        "renta_presuntiva"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "Renta presuntiva - ET arts. 188-191 (calculo 0,25% del patrimonio liquido).",
+      "scope_in": "Calculo, depuracion del patrimonio liquido base, exclusiones (acciones nacionales, primeros 8.000 UVT vivienda), comparacion con renta liquida ordinaria, excesos.",
+      "scope_out": "Compensacion de excesos en anios siguientes -> renta_liquida_gravable. Patrimonio fiscal -> patrimonio_fiscal_renta.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "renta presuntiva",
+        "art 188 ET",
+        "art 189 ET",
+        "0.25 por ciento patrimonio",
+        "depuracion patrimonio liquido",
+        "exclusion acciones renta presuntiva"
+      ],
+      "allowed_et_articles": [
+        "188",
+        "189",
+        "190",
+        "191"
+      ],
+      "allowed_norm_anchors": [],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "active",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
+    },
+    {
+      "key": "zomac_zese_incentivos_geograficos",
+      "label": "ZOMAC / ZESE / incentivos geograficos",
+      "parent_key": "inversiones_incentivos",
+      "aliases": [
+        "zomac_zese_incentivos_geograficos",
+        "zomac",
+        "zese"
+      ],
+      "ingestion_aliases": [
+        "zomac_zese_incentivos_geograficos",
+        "zomac",
+        "zese",
+        "zonas_especiales"
+      ],
+      "legacy_document_topics": [
+        "zomac_zese_incentivos_geograficos"
+      ],
+      "vocabulary_status": "v2_taxonomy",
+      "definition": "ZOMAC (Zonas Mas Afectadas por el Conflicto), ZESE (Zona Economica y Social Especial) y zonas francas geograficas - incentivos tributarios por ubicacion.",
+      "scope_in": "ZOMAC + ZESE + zonas francas geograficas + incentivos por ubicacion (Cucuta, San Andres, etc.). Regimen de progresividad de tarifa y requisitos de permanencia.",
+      "scope_out": "Zonas francas no-geograficas (industriales permanentes) -> zonas_francas. Descuentos tributarios genericos -> descuentos_tributarios_renta.",
+      "typical_sources": [],
+      "keyword_anchors": [
+        "ZOMAC",
+        "ZESE",
+        "zona economica especial",
+        "San Andres",
+        "Cucuta",
+        "zonas mas afectadas",
+        "incentivos por ubicacion",
+        "tarifa progresiva regional"
+      ],
+      "allowed_et_articles": [],
+      "allowed_norm_anchors": [
+        "Ley 1819 de 2016",
+        "Decreto 2235 de 2017",
+        "Ley 2238 de 2022"
+      ],
+      "vigencia_window": "evergreen",
+      "corpus_coverage": "pending",
+      "status": "active",
+      "version_added": "v2.0 (2026-04-25)"
     }
   ]
 }

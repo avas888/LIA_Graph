@@ -380,6 +380,44 @@ class GraphClient:
             parameters={"rows": rows_list},
         )
 
+    def stage_delete_outbound_edges_batch(
+        self,
+        source_kind: NodeKind,
+        source_keys: Iterable[str],
+        *,
+        relation: EdgeKind,
+    ) -> GraphWriteStatement:
+        """Stage a single batched DELETE for one outbound edge kind across many sources.
+
+        Used by the full-rebuild path to wipe stale TEMA edges before re-MERGE,
+        so a doc previously labeled topic-A and re-labeled topic-B does not
+        retain both edges in the cloud graph (next_v2 §3 root cause). Issuing
+        one statement per article would defeat the Phase 2c batched-load
+        optimization; this UNWINDs the keys instead.
+        """
+        source_type = self.schema.node_type(source_kind)
+        keys = sorted({str(k).strip() for k in source_keys if k and str(k).strip()})
+        if not keys:
+            return GraphWriteStatement(
+                description=f"BatchDeleteEdges {relation.value} from {source_kind.value} (empty)",
+                query="RETURN 0 AS skipped\n",
+                parameters={},
+            )
+        query = (
+            "UNWIND $source_keys AS k\n"
+            f"MATCH (source:{source_kind.value} {{{source_type.key_field}: k}})"
+            f"-[rel:{relation.value}]->()\n"
+            "DELETE rel\n"
+        )
+        return GraphWriteStatement(
+            description=(
+                f"BatchDeleteEdges {relation.value}:{source_kind.value}->* "
+                f"x{len(keys)}"
+            ),
+            query=query,
+            parameters={"source_keys": keys},
+        )
+
     def stage_edge(self, record: GraphEdgeRecord) -> GraphWriteStatement:
         self.schema.validate_edge_record(record)
         source_type = self.schema.node_type(record.source_kind)
@@ -462,10 +500,56 @@ class GraphClient:
         return _execute_live_statements(queued, self.config, strict=strict)
 
 
+_BATCH_WRITE_STAT_KEYS: frozenset[str] = frozenset(
+    {"nodes_created", "relationships_created", "properties_set", "labels_added"}
+)
+
+
+def _emit_batch_written_event(
+    statement: GraphWriteStatement,
+    stats: Mapping[str, object],
+    elapsed_ms: float | None,
+) -> None:
+    """Emit ``graph.batch_written`` so the `/progress` endpoint's
+    `_aggregate_phase_signals` can tick during ``falkor_writing`` and the
+    `gui_ingestion_v1.md §13b.4` stall threshold has a signal to watch.
+
+    Gated behind ``LIA_GRAPH_EMIT_BATCH_EVENTS=1`` (default on — set to ``0``
+    to mute). Only fires for statements that actually wrote something —
+    ``CreateIndex`` probes and read-only queries pass through silently so
+    the falkor_writing signal means "batched nodes/edges actually landed."
+
+    Instrumentation import is local + exception-swallowed so observability
+    never blocks the write path (Invariant I2 applies — but *this* path
+    is diagnostic, not the retrieval-outage surface the Falkor adapter
+    protects).
+    """
+    if os.getenv("LIA_GRAPH_EMIT_BATCH_EVENTS", "1").strip().lower() in {"0", "false", "off"}:
+        return
+    if not any(k in stats for k in _BATCH_WRITE_STAT_KEYS):
+        return
+    try:
+        from ..instrumentation import emit_event
+
+        emit_event(
+            "graph.batch_written",
+            {
+                "description": statement.description,
+                "stats": dict(stats),
+                "elapsed_ms": elapsed_ms,
+            },
+        )
+    except Exception:  # noqa: BLE001 — observability never blocks
+        pass
+
+
 def _execute_live_statement(
     statement: GraphWriteStatement,
     config: GraphClientConfig,
 ) -> GraphQueryResult:
+    import time as _time
+
+    _t0 = _time.perf_counter()
     try:
         raw_response, connection_diagnostics = _run_graph_query(statement, config)
     except GraphClientError as exc:
@@ -479,9 +563,11 @@ def _execute_live_statement(
                 diagnostics={"reason": "index_already_exists"},
             )
         raise
+    elapsed_ms = (_time.perf_counter() - _t0) * 1000.0
     rows, stats, response_diagnostics = _decode_graph_query_response(raw_response)
     diagnostics = dict(connection_diagnostics)
     diagnostics.update(response_diagnostics)
+    _emit_batch_written_event(statement, stats, elapsed_ms)
     return GraphQueryResult(
         description=statement.description,
         query=statement.query,

@@ -356,3 +356,77 @@ def test_log_tail_invalid_job_id_rejected(
     status, body = handler.sent[0]
     assert status == HTTPStatus.BAD_REQUEST
     assert body["error"] == "invalid_job_id"
+
+
+# ── phase_signals (next_v1 step 05) ───────────────────────────
+
+
+def test_progress_phase_signals_present_with_empty_events(
+    tmp_path: Path, _redirect_jobs_dir: Path
+) -> None:
+    _seed_job(tmp_path)
+    handler = _FakeHandler()
+    path = "/api/ingest/job/job-test-123/progress"
+    ctrl.handle_ingest_get(handler, path, urlparse(path), deps=_deps(tmp_path))
+    _status, body = handler.sent[0]
+    sig = body["phase_signals"]
+    assert sig["classifier"]["classified"] == 0
+    assert sig["classifier"]["degraded_n1_only"] == 0
+    assert sig["falkor"]["batch_events"] == 0
+    assert sig["sink"] is None
+    assert sig["events_stale_seconds"] is None
+
+
+def test_progress_phase_signals_aggregates_classifier_and_degradation(
+    tmp_path: Path, _redirect_jobs_dir: Path
+) -> None:
+    _seed_job(tmp_path)
+    events_path = tmp_path / "logs/events.jsonl"
+    _write_events(
+        events_path,
+        [
+            {
+                "ts_utc": "2026-04-20T00:00:01Z",
+                "event_type": "subtopic.ingest.classified",
+                "payload": {"doc_id": "d1", "requires_subtopic_review": False},
+            },
+            {
+                "ts_utc": "2026-04-20T00:00:02Z",
+                "event_type": "subtopic.ingest.classified",
+                "payload": {"doc_id": "d2", "requires_subtopic_review": True},
+            },
+            {
+                "ts_utc": "2026-04-20T00:00:03Z",
+                "event_type": "subtopic.ingest.classified",
+                "payload": {"doc_id": "d3", "requires_subtopic_review": True},
+            },
+            {
+                "ts_utc": "2026-04-20T00:00:04Z",
+                "event_type": "corpus.sink_summary",
+                "payload": {"documents": 3, "chunks": 12, "edges": 45},
+            },
+            {
+                "ts_utc": "2026-04-20T00:00:05Z",
+                "event_type": "graph.batch_written",
+                "payload": {"kind": "TEMA", "count": 7, "elapsed_ms": 120},
+            },
+            {
+                "ts_utc": "2026-04-20T00:00:06Z",
+                "event_type": "graph.batch_written",
+                "payload": {"kind": "ArticleNode", "count": 0, "elapsed_ms": 45},
+            },
+        ],
+    )
+    handler = _FakeHandler()
+    path = "/api/ingest/job/job-test-123/progress"
+    ctrl.handle_ingest_get(handler, path, urlparse(path), deps=_deps(tmp_path))
+    _status, body = handler.sent[0]
+    sig = body["phase_signals"]
+    assert sig["classifier"]["classified"] == 3
+    assert sig["classifier"]["degraded_n1_only"] == 2
+    assert sig["sink"] == {"documents": 3, "chunks": 12, "edges": 45}
+    assert sig["falkor"]["batch_events"] == 2
+    assert sig["last_event_ts_utc"] == "2026-04-20T00:00:06Z"
+    # events_stale_seconds is computed vs now() so must be a non-negative float
+    assert isinstance(sig["events_stale_seconds"], float)
+    assert sig["events_stale_seconds"] >= 0

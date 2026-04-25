@@ -127,6 +127,15 @@ def _assemble_doc_from_verdict(
     )
 
     topic_override: str | None = None
+    # next_v3 §13.6 — path-veto is a hard rule above the LLM. When the
+    # classifier output came from `_apply_path_veto` (classification_source
+    # == "path_veto"), force the topic propagation regardless of subtopic
+    # confidence. Without this, the path-veto'd topic gets discarded when
+    # the doc's subtopic verdict is weak — exactly the failure mode that
+    # left art. 148 still bound to `iva` after rebuild #2.
+    is_path_veto = (
+        getattr(verdict, "classification_source", None) == "path_veto"
+    )
     if override_ok:
         next_key: str | None = accepted_key
         next_review = False
@@ -141,6 +150,11 @@ def _assemble_doc_from_verdict(
     else:
         next_key = legacy_key
         next_review = verdict_requires_review
+
+    # Path-veto override fires regardless of the subtopic-side override gate.
+    # If the deterministic rule already produced a topic, it wins.
+    if is_path_veto and detected_topic and detected_topic != doc.topic_key:
+        topic_override = detected_topic
 
     event = {
         "doc_id_hash": _doc_id_hash(doc.source_path),

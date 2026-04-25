@@ -103,6 +103,11 @@ class ModeResult:
     effective_topic: str | None
     trace_id: str | None
     wall_ms: int
+    # v6 phase 3 coherence gate — signal needed to calibrate the
+    # shadow→enforce flip band (next_v1 step 04).
+    coherence_mode: str | None
+    coherence_misaligned: bool | None
+    coherence_reason: str | None
 
 
 # ── Pipeline invocation ───────────────────────────────────────────────────
@@ -155,6 +160,9 @@ def _capture_mode_result(
     """
     os.environ["LIA_TEMA_FIRST_RETRIEVAL"] = env_value
     response, diag, wall_s = _invoke_pipeline(query)
+    topic_safety = diag.get("topic_safety") or {}
+    coherence = topic_safety.get("coherence") if isinstance(topic_safety, dict) else None
+    coherence = coherence if isinstance(coherence, dict) else {}
     return ModeResult(
         mode=mode,
         env_flag_value=env_value,
@@ -172,6 +180,9 @@ def _capture_mode_result(
         effective_topic=diag.get("effective_topic"),
         trace_id=str(getattr(response, "trace_id", "") or "") or None,
         wall_ms=int(wall_s * 1000),
+        coherence_mode=coherence.get("mode"),
+        coherence_misaligned=coherence.get("misaligned"),
+        coherence_reason=coherence.get("reason"),
     )
 
 

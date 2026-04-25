@@ -155,3 +155,43 @@ def test_topic_node_pulled_from_subtopic_parent_even_without_article_topics():
     )
     topic_keys = {n.key for n in plan.nodes if n.kind is NodeKind.TOPIC}
     assert "laboral" in topic_keys
+
+
+def test_full_rebuild_emits_pre_merge_tema_cleanup_for_article_keys():
+    """next_v2 §3 root cause regression — every full rebuild must wipe stale
+    outbound TEMA edges on the ArticleNodes it is about to MERGE, otherwise
+    classifier instability across runs accumulates contradictory bindings
+    (Q27 art. 148 → {iva, sagrilaft_ptee} in cloud Falkor)."""
+    articles = [_article("1", "/abs/a.md"), _article("2", "/abs/b.md")]
+    article_topics = {"1": "laboral", "2": "iva"}
+    plan = build_graph_load_plan(articles, [], article_topics=article_topics)
+    cleanup_statements = [
+        s for s in plan.statements
+        if "DELETE rel" in s.query and "TEMA" in s.query
+    ]
+    assert len(cleanup_statements) == 1, (
+        "expected exactly one batched TEMA cleanup statement; "
+        f"got {[s.description for s in cleanup_statements]}"
+    )
+    cleanup = cleanup_statements[0]
+    assert sorted(cleanup.parameters["source_keys"]) == ["1", "2"]
+    # Cleanup must run BEFORE the TEMA edge MERGE statements, otherwise we
+    # would delete what we just inserted.
+    cleanup_idx = plan.statements.index(cleanup)
+    tema_merge_idx = next(
+        i for i, s in enumerate(plan.statements)
+        if "MERGE" in s.query and ":TEMA]" in s.query
+    )
+    assert cleanup_idx < tema_merge_idx, (
+        "TEMA cleanup must precede TEMA MERGE in the statement stream"
+    )
+
+
+def test_full_rebuild_skips_tema_cleanup_when_no_articles_present():
+    """Empty article set → cleanup statement is omitted (no UNWIND over [])."""
+    plan = build_graph_load_plan([], [])
+    cleanup_statements = [
+        s for s in plan.statements
+        if "DELETE rel" in s.query and "TEMA" in s.query
+    ]
+    assert cleanup_statements == []

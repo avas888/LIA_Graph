@@ -168,7 +168,7 @@ def retrieve_graph_evidence(
         "graph_name": client.config.graph_name,
         "planner_query_mode": plan.query_mode,
         "temporal_context": plan.temporal_context.to_dict(),
-        "seed_article_keys": list(explicit_article_keys),
+        "seed_article_keys": list(effective_article_keys),
         "retrieval_sub_topic_intent": sub_topic_intent,
         "subtopic_anchor_keys": list(subtopic_article_keys),
         # v5 Phase 3: surface the TEMA-first contribution so /orchestration
@@ -321,8 +321,10 @@ _TEMA_FIRST_VALID_MODES: frozenset[str] = frozenset({"off", "shadow", "on"})
 
 
 def _tema_first_mode() -> str:
-    raw = str(os.getenv(_TEMA_FIRST_ENV, "off") or "").strip().lower()
-    return raw if raw in _TEMA_FIRST_VALID_MODES else "off"
+    # Default `on` 2026-04-25 — re-flipped per gate_9_threshold_decision.md §7
+    # + "no off flags" directive. Aligns Python default with launcher + Railway.
+    raw = str(os.getenv(_TEMA_FIRST_ENV, "on") or "").strip().lower()
+    return raw if raw in _TEMA_FIRST_VALID_MODES else "on"
 
 
 def _retrieve_tema_bound_article_keys(

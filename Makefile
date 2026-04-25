@@ -1,4 +1,4 @@
-.PHONY: reset-c eval-c-gold eval-c-full eval-retrieval eval-faithfulness eval-alignment ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-graph-artifacts-smoke phase2-corpus-additive phase2-promote-snapshot phase2-reap-stalled-jobs phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy debug-query
+.PHONY: reset-c eval-c-gold eval-c-full eval-retrieval eval-faithfulness eval-alignment eval-taxonomy-v2 ralph-loop supabase-start supabase-stop supabase-reset supabase-status smoke-deps test-batched phase2-graph-artifacts phase2-graph-artifacts-supabase phase2-graph-artifacts-smoke phase2-corpus-additive phase2-promote-snapshot phase2-reap-stalled-jobs phase2-suin-harvest-et phase2-suin-harvest-tributario phase2-suin-harvest-laboral phase2-suin-harvest-laboral-tributario phase2-suin-harvest-jurisprudencia phase2-suin-harvest-full phase2-regrandfather-corpus phase2-collect-subtopic-candidates phase3-mine-subtopic-candidates phase2-promote-subtopic-taxonomy phase2-backfill-subtopic phase2-sync-subtopic-taxonomy debug-query
 
 PHASE2_CORPUS_DIR ?= knowledge_base
 PHASE2_ARTIFACTS_DIR ?= artifacts
@@ -8,6 +8,17 @@ reset-c:
 
 eval-c-gold:
 	PYTHONPATH=src:. uv run python scripts/eval_pipeline_c_gold.py --threshold 90
+
+# next_v3 §6 — SME taxonomy v2 validation suite (30 questions).
+# Threshold 27/30 per next_v3 §6 step 5b (chat-resolver accuracy).
+# Runs lexical router + full resolver; does NOT require cloud / LLM.
+eval-taxonomy-v2:
+	# --use-llm is required: chat-resolver path is the canonical gate-8 measurement
+	# (next_v3 §6 / §13.4). Without it, this target measures router-only and bottoms
+	# out at 15/30 instead of the actual chat-resolver baseline of 23/30 (see §13.4).
+	PYTHONPATH=src:. uv run python scripts/evaluations/run_taxonomy_v2_validation.py \
+		--gold evals/gold_taxonomy_v2_validation.jsonl \
+		--threshold 27 --verbose --use-llm
 
 eval-c-full:
 	PYTHONPATH=src:. LIA_BATCHED_RUNNER=1 uv run pytest -q
@@ -136,10 +147,26 @@ phase2-graph-artifacts:
 # at `artifacts/suin/<scope>/` merge into the same ingest run.
 PHASE2_SUPABASE_TARGET ?= production
 INGEST_SUIN ?=
-PHASE2_SUPABASE_SINK_FLAGS = --supabase-sink --supabase-target $(PHASE2_SUPABASE_TARGET) --execute-load --allow-unblessed-load --strict-falkordb
+# gui_ingestion_v1 §13.1 (next_v1 step 05): append --allow-non-local-env when
+# targeting production, because env_posture.py aborts runs whose cloud creds
+# didn't arrive via local .env files. Regression-safe: only fires on production.
+PHASE2_SUPABASE_SINK_FLAGS = --supabase-sink --supabase-target $(PHASE2_SUPABASE_TARGET) --execute-load --allow-unblessed-load --strict-falkordb $(if $(filter production,$(PHASE2_SUPABASE_TARGET)),--allow-non-local-env,)
 PHASE2_SUIN_FLAG = $(if $(INGEST_SUIN),--include-suin $(INGEST_SUIN),)
+
+# next_v1 step 10: auto-source .env.staging when targeting production so
+# `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production`
+# works in a bare shell without the operator prepending `set -a; source
+# .env.staging; set +a`. 2026-04-24 cloud-sink session proved the manual
+# prefix is easy to forget; Makefile owns the target → Makefile owns the
+# env load. No-op for non-production targets. Bash is required for
+# `source`; Make's default shell is `/bin/sh` but the recipe line uses
+# `bash -c` implicitly via `.SHELLFLAGS`/`SHELL` if overridden. To avoid
+# a hard dependency on the operator's `SHELL` override, we invoke bash
+# explicitly inside the recipe command string.
+PHASE2_ENV_LOAD = $(if $(filter production,$(PHASE2_SUPABASE_TARGET)),set -a && . ./.env.staging && set +a &&,)
+
 phase2-graph-artifacts-supabase:
-	PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) $(PHASE2_SUPABASE_SINK_FLAGS) $(PHASE2_SUIN_FLAG) --json
+	$(PHASE2_ENV_LOAD) PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) $(PHASE2_SUPABASE_SINK_FLAGS) $(PHASE2_SUIN_FLAG) --json
 
 # Additive-corpus-v1 Phase 6 — delta run.
 # Applies only the on-disk-vs-Supabase diff (added + modified + removed docs)
@@ -155,12 +182,12 @@ phase2-graph-artifacts-supabase:
 DELTA_ID ?=
 DELTA_DRY_RUN ?=
 STRICT_PARITY ?=
-PHASE2_ADDITIVE_FLAGS = --additive --supabase-sink --supabase-target $(PHASE2_SUPABASE_TARGET) --supabase-generation-id gen_active_rolling --execute-load --allow-unblessed-load --strict-falkordb
+PHASE2_ADDITIVE_FLAGS = --additive --supabase-sink --supabase-target $(PHASE2_SUPABASE_TARGET) --supabase-generation-id gen_active_rolling --execute-load --allow-unblessed-load --strict-falkordb $(if $(filter production,$(PHASE2_SUPABASE_TARGET)),--allow-non-local-env,)
 PHASE2_ADDITIVE_OPT_DELTA_ID = $(if $(DELTA_ID),--delta-id $(DELTA_ID),)
 PHASE2_ADDITIVE_OPT_DRY_RUN = $(if $(DELTA_DRY_RUN),--dry-run-delta,)
 PHASE2_ADDITIVE_OPT_STRICT_PARITY = $(if $(STRICT_PARITY),--strict-parity,)
 phase2-corpus-additive:
-	PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) $(PHASE2_ADDITIVE_FLAGS) $(PHASE2_SUIN_FLAG) $(PHASE2_ADDITIVE_OPT_DELTA_ID) $(PHASE2_ADDITIVE_OPT_DRY_RUN) $(PHASE2_ADDITIVE_OPT_STRICT_PARITY) --json
+	$(PHASE2_ENV_LOAD) PYTHONPATH=src:. uv run python -m lia_graph.ingest --corpus-dir $(PHASE2_CORPUS_DIR) --artifacts-dir $(PHASE2_ARTIFACTS_DIR) $(PHASE2_ADDITIVE_FLAGS) $(PHASE2_SUIN_FLAG) $(PHASE2_ADDITIVE_OPT_DELTA_ID) $(PHASE2_ADDITIVE_OPT_DRY_RUN) $(PHASE2_ADDITIVE_OPT_STRICT_PARITY) --json
 
 # Promote a frozen `gen_<UTC>` snapshot into the active rolling position.
 # Calls the promote_generation(text) RPC. The RPC body is a skeleton in Phase 1;

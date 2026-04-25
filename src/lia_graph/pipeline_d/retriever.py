@@ -322,6 +322,7 @@ def _retrieve_from_resolved_entries(
             "resolved_entry_count": 0,
             "planner_query_mode": plan.query_mode,
             "temporal_context": plan.temporal_context.to_dict(),
+            "seed_article_keys": [],
         }
         return GraphEvidenceBundle(
             primary_articles=(),
@@ -444,6 +445,7 @@ def _retrieve_from_resolved_entries(
         "discovered_node_count": len(distances),
         "planner_query_mode": plan.query_mode,
         "temporal_context": plan.temporal_context.to_dict(),
+        "seed_article_keys": list(seed_articles),
     }
     return GraphEvidenceBundle(
         primary_articles=primary_articles,

@@ -30,8 +30,12 @@ _CONFIG_PATH_ENV = "LIA_CITATION_ALLOWLIST_CONFIG"
 
 
 def allowlist_mode() -> str:
-    raw = (os.getenv("LIA_POLICY_CITATION_ALLOWLIST") or "off").strip().lower()
-    return raw if raw in ("off", "enforce") else "off"
+    # Default `enforce` 2026-04-25 per operator's "no off/shadow flags" directive.
+    # Higher-risk flip than coherence_gate: not yet end-to-end verified per the
+    # six-gate policy. Watch production for over-filtered citations; if accountants
+    # report missing valid cites, revert to `off` and revisit verification.
+    raw = (os.getenv("LIA_POLICY_CITATION_ALLOWLIST") or "enforce").strip().lower()
+    return raw if raw in ("off", "enforce") else "enforce"
 
 
 def _default_config_path() -> Path:
@@ -79,31 +83,61 @@ def _citation_family(citation) -> str | None:
     return None
 
 
+def _citation_text_blob(citation) -> str:
+    """Concatenated text from a citation's user-visible reference fields.
+
+    Used by the non-ET ``allowed_norm_anchors`` check (SME §4.1): for
+    topics whose authority isn't the Estatuto Tributario (laboral, NIIF,
+    cambiario, datos, parafiscales), match canonical norm patterns like
+    "CST art. 64" or "Decreto 1072 de 2015" against this text blob.
+    """
+    parts = []
+    for attr in ("legal_reference", "search_query", "source_label"):
+        value = getattr(citation, attr, None) or ""
+        if value:
+            parts.append(str(value))
+    return " ".join(parts).lower()
+
+
 def _is_allowed(citation, rule: dict[str, Any]) -> bool:
     """True iff the citation passes the topic's allow rule.
 
-    A citation is allowed when EITHER its ET article number is in the
-    topic's allowed_et_articles list OR its family/authority matches one
-    of allowed_article_families. Citations with neither an ET article
-    match nor a family match are dropped.
+    A citation is allowed when any of the following match:
+      - its ET article number is in ``allowed_et_articles`` (SME ET-centric);
+      - its family/authority matches ``allowed_article_families``;
+      - the citation's reference text contains any ``allowed_norm_anchors``
+        pattern (SME §4.1 — for non-ET topics like laboral/NIIF/cambiario).
+
+    Citations with no match against any configured rule are dropped.
+    If the topic declares none of the three rule-types, everything is kept
+    (conservative fallback; the rule is effectively disabled for that topic).
     """
     allowed_articles = {str(a).lower() for a in (rule.get("allowed_et_articles") or ())}
     allowed_families = {
         str(f).upper().replace(" ", "_") for f in (rule.get("allowed_article_families") or ())
     }
+    allowed_norm_anchors = tuple(str(n).lower() for n in (rule.get("allowed_norm_anchors") or ()))
+
     article = extract_et_article(citation)
     if article and article in allowed_articles:
         return True
+
     family = _citation_family(citation)
     if family:
-        # Allow exact match or prefix match (RESOLUCION_DIAN_165 matches RESOLUCION_DIAN)
         for allowed in allowed_families:
             if family == allowed or family.startswith(allowed + "_") or allowed in family:
                 return True
-    # No ET article and no family match → drop as leakage.
-    if article is None and not allowed_families:
-        # Topic has no family allow-list and the citation has no article
-        # reference → nothing to check against; keep conservatively.
+
+    if allowed_norm_anchors:
+        text_blob = _citation_text_blob(citation)
+        if text_blob:
+            for anchor in allowed_norm_anchors:
+                if anchor and anchor in text_blob:
+                    return True
+
+    # No article match, no family match, no norm-anchor match.
+    if article is None and not allowed_families and not allowed_norm_anchors:
+        # Topic has no rules at all → keep conservatively.
         return True
     return False
 

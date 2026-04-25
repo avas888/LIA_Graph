@@ -65,8 +65,14 @@ a pure-Python scorer to exercise the shadow/live branches without a server.
 
 
 def current_mode() -> str:
-    raw = str(os.getenv(_MODE_ENV, "off") or "").strip().lower()
-    return raw if raw in VALID_MODES else "off"
+    # Default `live` 2026-04-25 (was `off`) per "no off flags" directive.
+    # Already at `live` in launcher since 2026-04-22; this aligns the Python
+    # default with the launcher + Railway env. Adapter falls back to hybrid when
+    # LIA_RERANKER_ENDPOINT is unset, so served answers are unchanged until the
+    # bge-reranker-v2-m3 sidecar is deployed — flag tracks methodology, not
+    # behavior, until then.
+    raw = str(os.getenv(_MODE_ENV, "live") or "").strip().lower()
+    return raw if raw in VALID_MODES else "live"
 
 
 def _topk() -> int:

@@ -24,18 +24,22 @@
 - [`ingestion/supabase-sink-parallelization.md`](ingestion/supabase-sink-parallelization.md) — parallelizing 4 sink stages by reusing the classifier pool primitive (phase 2b). Motivated by a 25-min silent stall in `load_existing_tema`.
 - [`ingestion/falkor-bulk-load.md`](ingestion/falkor-bulk-load.md) — why our 2026-04-24 Falkor load stalled at 85 / 3,340 ArticleNodes. Four-anti-pattern stack: `socket_timeout=None` + per-node `GRAPH.QUERY` + MERGE-without-index + no per-query `TIMEOUT`. Pre-phase-2c design.
 - [`ingestion/artifact-coherence.md`](ingestion/artifact-coherence.md) — `parsed_articles.jsonl`, `typed_edges.jsonl`, `canonical_corpus_manifest.json` are a **set**, produced and consumed together.
+- [`ingestion/path-veto-rule-based-classifier-correction.md`](ingestion/path-veto-rule-based-classifier-correction.md) — Option K2: when an LLM classifier ignores in-prompt path-veto clauses on a non-trivial fraction of docs, ship a Python regex layer above the LLM. Includes the 3-rebuild debugging arc that taught us "rule_matched=True even on no-op agreement is critical for downstream propagation."
 
 ### Retrieval
 - [`retrieval/diagnostic-surface.md`](retrieval/diagnostic-surface.md) — the v5 30Q panel's "0 primary articles everywhere" was a harness-side measurement bug, not a retrieval failure.
 - [`retrieval/coherence-gate-and-contamination.md`](retrieval/coherence-gate-and-contamination.md) — evidence-topic coherence catches the case where classifier confidence is 1.00 but retrieval leaked.
 - [`retrieval/citation-allowlist-and-gold-alignment.md`](retrieval/citation-allowlist-and-gold-alignment.md) — defensive citation filter (ported from Lia Contadores) + gold-file taxonomy-key alignment.
 - [`retrieval/quality-of-results-evaluation.md`](retrieval/quality-of-results-evaluation.md) — the six failure modes a RAG eval can exhibit; how to design an eval you can trust.
+- [`retrieval/router-llm-deferral-architecture.md`](retrieval/router-llm-deferral-architecture.md) — when a fast lexical router short-circuits the LLM despite the LLM having the right heuristics in its prompt: the 3-gate `_should_defer_to_llm` pattern (trigger phrase / magnet topic / competing strong). Closed gate-8 of next_v3.
+- [`retrieval/operates-not-defines-heuristic.md`](retrieval/operates-not-defines-heuristic.md) — Alejandro's meta-rule for resolving "topic A vs topic B" ambiguities; the single most generalizable insight from the next_v3 cycle. With 5 derived sub-tests.
 
 ### Process
 - [`process/investigation-discipline.md`](process/investigation-discipline.md) — a week of read-only investigation beats a week of wrong code.
 - [`process/observability-patterns.md`](process/observability-patterns.md) — principles: heartbeat cadence, silent-death stop, delta-based error detection, phase-aware silence.
 - [`process/heartbeat-monitoring.md`](process/heartbeat-monitoring.md) — tactical field manual: script shape, metric formulas, the five failure modes I actually hit.
 - [`process/cloud-sink-execution-notes.md`](process/cloud-sink-execution-notes.md) — env posture, sourcing `.env.staging`, interpreting "failed=0" under LLM backpressure.
+- [`process/aspirational-thresholds-and-qualitative-pass.md`](process/aspirational-thresholds-and-qualitative-pass.md) — how to handle a measurement that misses an absolute threshold without normalizing the miss into a new (lower) threshold. Three-rule policy: keep the threshold, document each exception per-case, gates evaluate independently.
 
 ---
 

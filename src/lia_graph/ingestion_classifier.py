@@ -21,9 +21,12 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import re
 import unicodedata
 from dataclasses import dataclass
+from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
 from .subtopic_taxonomy_loader import (
@@ -33,7 +36,10 @@ from .subtopic_taxonomy_loader import (
 )
 from .topic_guardrails import get_supported_topics, get_topic_label
 from .topic_router import detect_topic_from_text
-from .topic_taxonomy import iter_topic_taxonomy_entries
+from .topic_taxonomy import (
+    DEFAULT_TOPIC_TAXONOMY_PATH,
+    iter_topic_taxonomy_entries,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +47,97 @@ _CONFIDENCE_THRESHOLD = 0.95
 _SYNONYM_HIGH = 0.80
 _SYNONYM_MEDIUM = 0.50
 _BODY_PREVIEW_CHARS = 2048
+
+# next_v3 §7 — taxonomy-aware classifier prompt (redesigned per SME §1.3 mutex
+# rules + §2 per-topic definitions). Off-by-default flag; promote via
+# ``LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE={off|shadow|enforce}``. Note per
+# ``docs/learnings/ingestion/parallelism-and-rate-limits.md`` — the new prompt
+# is heavier (full taxonomy enumeration + 6 mutex rules + path-veto clause),
+# so any full-corpus rebuild with this flag enabled should stay at
+# ``--classifier-workers 4`` until the TokenBudget primitive lands.
+_TAXONOMY_AWARE_FLAG = "LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE"
+
+
+def classifier_taxonomy_mode() -> str:
+    # Default `enforce` 2026-04-25 — validated through 5 rebuilds in next_v3 §13
+    # (Cypher 6/6 binding, audit-clean rebuild). Operator's "no off flags"
+    # directive applied. Heavier prompt → keep workers=4 until TokenBudget lands.
+    raw = (os.getenv(_TAXONOMY_AWARE_FLAG) or "enforce").strip().lower()
+    return raw if raw in ("off", "shadow", "enforce") else "enforce"
+
+
+# ---------------------------------------------------------------------------
+# next_v3 §13.6 Option K2 — rule-based path-veto layer above the LLM.
+#
+# 2026-04-25 Cypher verification (§13.3) showed the taxonomy-aware prompt
+# couldn't override pre-existing wrong verdicts on 4 of 5 flip rows — the
+# LLM treats the PATH VETO clause as guidance, not a hard constraint. This
+# is the SME-predicted Option K2 (next_v2.md §K): a deterministic post-LLM
+# sanity check that forces the correct topic when the source_path carries
+# unambiguous signal.
+#
+# Rules fire only when the path substring is present. Outside of the
+# RENTA/NORMATIVA/Normativa/ tree the LLM verdict is left untouched.
+# ---------------------------------------------------------------------------
+
+# Tuples of (path-substring, canonical_topic). Most-specific patterns MUST
+# appear before less-specific ones — first match wins.
+_PATH_VETO_RULES: tuple[tuple[str, str], ...] = (
+    # --- ET Libro 1 (renta family), chapter-by-chapter ---
+    ("02_Libro1_T1_Cap1_Ingresos",              "ingresos_fiscales_renta"),
+    ("03_Libro1_T1_Cap2_Costos",                "costos_deducciones_renta"),
+    ("04_Libro1_T1_Cap3_Renta_Bruta",           "declaracion_renta"),
+    ("05_Libro1_T1_Cap4_Renta_Liquida",         "renta_liquida_gravable"),
+    ("06_Libro1_T1_Cap5_Deducciones",           "costos_deducciones_renta"),
+    ("07_Libro1_T1_Cap6_Rentas_Especiales_Presuntiva", "renta_presuntiva"),
+    ("08_Libro1_T1_Cap7_Rentas_Exentas",        "rentas_exentas"),
+    ("09_Libro1_T1_Caps8a11",                   "declaracion_renta"),
+    ("10_Libro1_T2_Patrimonio",                 "patrimonio_fiscal_renta"),
+    ("11_Libro1_T3_Ganancias_Ocasionales",      "ganancia_ocasional"),
+    ("12_Libro1_T4_Remesas",                    "declaracion_renta"),
+    ("13_Libro1_T5_Ajustes_Inflacion",          "declaracion_renta"),
+    ("14_Libro1_T6_Regimen_Especial",           "regimen_tributario_especial_esal"),
+    ("01_Libro1_T1_Sujetos_Pasivos",            "declaracion_renta"),
+    ("00_Titulo_Preliminar",                    "declaracion_renta"),
+    # --- ET other books ---
+    ("15_Libro2_Retencion_Fuente",              "retencion_fuente_general"),
+    ("16_Libro3_IVA",                           "iva"),
+    ("17_Libro4_Timbre",                        "impuesto_timbre"),
+    ("18_Libro5_Procedimiento_P1",              "procedimiento_tributario"),
+    ("19_Libro5_Procedimiento_P2",              "procedimiento_tributario"),
+    ("20_Libro6_GMF",                           "gravamen_movimiento_financiero_4x1000"),
+    ("21_Libro7_ECE_CHC",                       "declaracion_renta"),
+    ("22_Libro8_SIMPLE",                        "regimen_simple"),
+)
+
+
+def _apply_path_veto(
+    filename: str, llm_verdict: str | None
+) -> tuple[str | None, str | None, bool]:
+    """Force the canonical topic for clear path-based signals.
+
+    Returns ``(final_topic, veto_reason, rule_matched)``.
+
+    - ``rule_matched`` is True when ANY rule in ``_PATH_VETO_RULES`` matches
+      the filename, regardless of whether the LLM verdict was already correct.
+      Downstream consumers MUST honor a matched rule by treating
+      ``final_topic`` as authoritative against the document's legacy
+      ``topic_key`` (which may carry stale path-inferred or alias-inferred
+      values from before classification).
+    - ``veto_reason`` is non-None only when the rule actually overrode a
+      different LLM verdict — that is the signal to emit the
+      ``classifier.path_veto_applied`` instrumentation event.
+    """
+    if not filename:
+        return llm_verdict, None, False
+    for needle, canonical in _PATH_VETO_RULES:
+        if needle in filename:
+            if llm_verdict == canonical:
+                # Rule matched but LLM already correct — assert canonical
+                # topic anyway so the doc.topic_key gets propagated.
+                return canonical, None, True
+            return canonical, f"path_veto:{needle}:{canonical}", True
+    return llm_verdict, None, False
 
 VALID_TYPES: frozenset[str] = frozenset(
     {"normative_base", "interpretative_guidance", "practica_erp"}
@@ -367,9 +464,169 @@ def _build_subtopic_list_for_prompt(
 def _build_n2_prompt(filename: str, body_text: str) -> str:
     body_preview = (body_text or "")[:_BODY_PREVIEW_CHARS]
     taxonomy = _get_cached_subtopic_taxonomy()
+    if classifier_taxonomy_mode() != "off":
+        return _build_taxonomy_aware_prompt(
+            filename=filename,
+            body_preview=body_preview,
+            subtopic_taxonomy=taxonomy,
+        )
     return _AUTOGENERAR_PROMPT_TEMPLATE.format(
         topic_list_with_labels=_build_topic_list_for_prompt(),
         subtopic_list_with_labels=_build_subtopic_list_for_prompt(taxonomy),
+        filename=filename,
+        body_preview=body_preview,
+    )
+
+
+# ---------------------------------------------------------------------------
+# next_v3 §7 — taxonomy-aware prompt template (SME deliverable 2026-04-25).
+#
+# The v1 prompt is topic-label-only and path-blind; SME §4.2 identified three
+# upgrades:
+#   1. Pick-from-list with full taxonomy + one-line definition per topic (not
+#      just the label) — the LLM sees scope prose, not just the key name.
+#   2. 6 mutex rules encoded as HARD constraints (IVA vs procedimiento, IVA
+#      vs renta, societario-fusion, FE vs timbre, RUB vs RUT, laboral family).
+#   3. Path-aware sanity check — a doc rooted under ``RENTA/NORMATIVA/`` must
+#      default to the renta-family topic unless the body clearly overrides.
+#
+# Output schema is identical to the v1 prompt so downstream parsers
+# (``_parse_n2_verdict``) don't need to change.
+# ---------------------------------------------------------------------------
+
+_TAXONOMY_AWARE_PROMPT_TEMPLATE = """\
+Eres un clasificador de documentos para el corpus legal y contable \
+colombiano (taxonomía v2, 2026-04-25).
+
+Tu tarea: asignar UN `topic_key` al documento, eligiéndolo de la lista \
+enumerada más abajo. Sigue las 6 REGLAS DURAS de mutua exclusividad y el \
+PATH VETO antes de emitir la etiqueta final.
+
+═══ PASO 1 — Lee el fragmento y genera una etiqueta libre (2-5 palabras, \
+es-CO) que describa el propósito del documento.
+
+═══ PASO 2 — Elige el `topic_key` de la lista oficial (formato `N. key — \
+label — definición`):
+
+{numbered_taxonomy}
+
+REGLA POR DEFECTO — si el documento abarca varios SUBTEMAS de un mismo padre \
+top-level, devuelve el PADRE. No fuerces un subtema específico si el \
+contenido es transversal.
+
+═══ PASO 3 — REGLAS DURAS DE MUTUA EXCLUSIVIDAD (no son sugerencias).
+
+{mutex_block}
+
+═══ PASO 4 — PATH VETO (heurística del ruta-en-el-repositorio).
+
+Si `filename` contiene `RENTA/NORMATIVA/Normativa/` y el número del artículo \
+que ves en el fragmento está en ET Libro 1 (arts. 5-364-6), el topic DEBE ser \
+de la familia renta (`declaracion_renta`, `costos_deducciones_renta`, \
+`ingresos_fiscales_renta`, `patrimonio_fiscal_renta`, `rentas_exentas`, \
+`renta_liquida_gravable`, `renta_presuntiva`, `tarifas_renta_y_ttd`, \
+`descuentos_tributarios_renta`, `ganancia_ocasional`). NUNCA `iva` ni \
+`sagrilaft_ptee` para documentos rooted en `RENTA/`.
+
+Si el filename / path indica Libro 3 ET (IVA, arts. 420-513) → `iva`. \
+Si Libro 4 (timbre, arts. 514-540) → `impuesto_timbre`. \
+Si Libro 5 (procedimiento + sanciones) → `procedimiento_tributario`.
+
+═══ PASO 5 — Tipo de documento (igual que v1):
+- normative_base: leyes, decretos, resoluciones, artículos del ET
+- interpretative_guidance: conceptos DIAN, doctrina, análisis experto
+- practica_erp: guías prácticas, checklists, paso a paso, plantillas
+
+═══ PASO 6 — Subtema (opcional) desde esta lista (formato: tema → subtemas):
+{subtopic_list_with_labels}
+
+Si encaja con un subtema existente, mapea a ese `sub_topic_key`. Si no, \
+devuelve `subtopic_resolved_to_existing: null`. Si el doc es transversal al \
+padre (varios subtemas), devuelve null — ver regla por defecto de PASO 2.
+
+═══ RESPUESTA — SOLO JSON válido, exactos estos campos:
+
+{{"generated_label": "...", "rationale": "indica qué regla / path / mutex \
+aplicaste", "resolved_to_existing": "topic_key_o_null", \
+"synonym_confidence": 0.0, "is_new_topic": false, \
+"suggested_key": "slug_si_es_nuevo_o_null", "detected_type": "normative_base", \
+"subtopic_resolved_to_existing": "sub_key_o_null", \
+"subtopic_synonym_confidence": 0.0, "subtopic_is_new": false, \
+"subtopic_suggested_key": "slug_subtopic_o_null", "subtopic_label": \
+"etiqueta_humana_o_null"}}
+
+Archivo: {filename}
+Fragmento:
+{body_preview}
+"""
+
+
+@lru_cache(maxsize=1)
+def _load_taxonomy_payload() -> dict[str, Any]:
+    """Load the full taxonomy JSON (incl. definitions + mutex_rules)."""
+    override = os.getenv("LIA_TOPIC_TAXONOMY_PATH", "").strip()
+    path = Path(override) if override else DEFAULT_TOPIC_TAXONOMY_PATH
+    if not path.exists():
+        # Walk up from the module directory to find repo root copy.
+        candidate = Path(__file__).resolve().parents[2] / DEFAULT_TOPIC_TAXONOMY_PATH
+        if candidate.exists():
+            path = candidate
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _build_numbered_taxonomy_block() -> str:
+    """Numbered `N. key — label — definition` list of all active topics."""
+    payload = _load_taxonomy_payload()
+    lines: list[str] = []
+    idx = 0
+    for topic in payload.get("topics", []):
+        if topic.get("status") == "deprecated":
+            continue
+        idx += 1
+        key = topic.get("key", "").strip()
+        label = topic.get("label", "").strip() or key
+        definition = (topic.get("definition") or "").strip()
+        parent = topic.get("parent_key")
+        parent_note = f" (subtema de {parent})" if parent else ""
+        if definition:
+            # Keep the definition short — single line.
+            short_def = definition.split("\n", 1)[0].strip()
+            lines.append(f"{idx}. {key} — {label}{parent_note} — {short_def}")
+        else:
+            lines.append(f"{idx}. {key} — {label}{parent_note}")
+    return "\n".join(lines)
+
+
+def _build_mutex_block() -> str:
+    """Render the 6 SME mutex rules as hard constraints numbered 1..6."""
+    payload = _load_taxonomy_payload()
+    rules = payload.get("mutex_rules", [])
+    blocks: list[str] = []
+    for rule in rules:
+        rid = rule.get("id")
+        name = rule.get("name", "").replace("_", " ")
+        parts = [f"REGLA {rid} — {name}"]
+        for key in ("when_iva", "when_procedimiento", "when_fe", "when_timbre",
+                    "when_rub", "when_rut", "rule", "default", "exception",
+                    "decision_rule"):
+            val = rule.get(key)
+            if val:
+                parts.append(f"  · {key}: {val}")
+        blocks.append("\n".join(parts))
+    return "\n\n".join(blocks)
+
+
+def _build_taxonomy_aware_prompt(
+    *,
+    filename: str,
+    body_preview: str,
+    subtopic_taxonomy: SubtopicTaxonomy | None,
+) -> str:
+    """Assemble the taxonomy-aware prompt (next_v3 §7)."""
+    return _TAXONOMY_AWARE_PROMPT_TEMPLATE.format(
+        numbered_taxonomy=_build_numbered_taxonomy_block(),
+        mutex_block=_build_mutex_block(),
+        subtopic_list_with_labels=_build_subtopic_list_for_prompt(subtopic_taxonomy),
         filename=filename,
         body_preview=body_preview,
     )
@@ -851,6 +1108,46 @@ def classify_ingestion_document(
         else:
             classification_source = "keywords"
 
+    # --- next_v3 §13.6 Option K2 — path-veto layer above the LLM --------
+    # Applied regardless of the taxonomy-aware-prompt flag. The veto is a
+    # deterministic safety net for cases the LLM mis-routes despite the
+    # PATH VETO clause in the v2 prompt (SME-predicted in next_v2.md §K).
+    #
+    # When a rule matches we ALWAYS mark the verdict as path_veto-sourced —
+    # not just when it overrode a wrong LLM verdict — because the document's
+    # legacy `topic_key` (path-inferred / alias-inferred from the deterministic
+    # pre-classifier pass) may still carry a stale value that the subtopic
+    # pass would otherwise leave in place. Honoring the matched rule end-to-end
+    # is the only way to guarantee the canonical topic propagates to Supabase.
+    pre_veto_topic = detected_topic
+    post_veto_topic, veto_reason, veto_rule_matched = _apply_path_veto(
+        filename, detected_topic
+    )
+    if veto_rule_matched:
+        detected_topic = post_veto_topic
+        classification_source = "path_veto"
+        # Bump confidence to signal the verdict is now deterministic, not
+        # the blended N1/N2 fuse. Downstream `requires_review` logic uses
+        # combined to decide if the row needs manual curation — a path-veto
+        # match should ship without manual review.
+        combined = max(combined, _CONFIDENCE_THRESHOLD)
+        topic_confidence = max(topic_confidence, _CONFIDENCE_THRESHOLD)
+        if veto_reason is not None:
+            try:
+                from .instrumentation import emit_event as _emit_veto
+
+                _emit_veto(
+                    "classifier.path_veto_applied",
+                    {
+                        "filename": filename,
+                        "llm_verdict": pre_veto_topic,
+                        "final_verdict": detected_topic,
+                        "reason": veto_reason,
+                    },
+                )
+            except Exception:  # pragma: no cover — instrumentation best-effort
+                pass
+
     is_raw = combined < _CONFIDENCE_THRESHOLD
     exact_match = combined >= _CONFIDENCE_THRESHOLD
     requires_review = is_raw and not exact_match
@@ -957,6 +1254,9 @@ def classify_ingestion_document(
 
 
 __all__ = [
+    "classifier_taxonomy_mode",
+    "_apply_path_veto",
+    "_PATH_VETO_RULES",
     "AutogenerarResult",
     "classify_ingestion_document",
 ]

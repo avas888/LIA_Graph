@@ -26,7 +26,7 @@ export function renderOrchestrationShell(i18n: I18nRuntime): string {
           </div>
           <div class="orch-status-card">
             <span class="orch-status-label">Env matrix</span>
-            <strong>v2026-04-22-betaflipsall</strong>
+            <strong>v2026-04-25-temafirst-readdressed</strong>
           </div>
           <div class="orch-status-card">
             <span class="orch-status-label">Retrieval (dev / staging)</span>

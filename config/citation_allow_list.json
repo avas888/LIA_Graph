@@ -1,10 +1,18 @@
 {
-  "version": "v2026-04-24-v1",
+  "version": "v2026-04-25-v2",
   "topics": {
     "laboral": {
       "allowed_et_articles": ["383", "384", "385", "387", "387-1", "388", "108", "114-1"],
       "allowed_article_families": ["CST", "CODIGO_SUSTANTIVO_TRABAJO", "LEY_100", "PARAFISCAL"],
-      "notes": "Defensive allow-list. ET articles outside this set should be dropped as retrieval leakage (timbre/retención-fuente bleed)."
+      "allowed_norm_anchors": [
+        "cst art",
+        "codigo sustantivo del trabajo",
+        "código sustantivo del trabajo",
+        "ley 2663 de 1950",
+        "decreto 1072 de 2015",
+        "ley 100 de 1993"
+      ],
+      "notes": "Defensive allow-list. ET articles outside retención-fuente-laboral + 108/114-1 cross-refs are leakage (timbre/renta bleed). Non-ET norms per SME §4.1."
     },
     "sagrilaft_ptee": {
       "allowed_et_articles": [],
@@ -20,6 +28,102 @@
       "allowed_et_articles": ["903", "904", "905", "906", "907", "908", "909", "910", "911", "912", "913", "914", "915", "916"],
       "allowed_article_families": ["DECRETO_1625_2016", "DECRETO_1091_2020", "RESOLUCION_DIAN"],
       "notes": "Outside RST article block (903–916) leakage from retención-fuente or renta-ordinaria."
+    },
+    "parafiscales_seguridad_social": {
+      "allowed_et_articles": ["108", "114-1", "126-1"],
+      "allowed_article_families": ["LEY_100", "LEY_21", "LEY_89", "UGPP", "PILA"],
+      "allowed_norm_anchors": [
+        "ley 100 de 1993",
+        "ley 21 de 1982",
+        "ley 89 de 1988",
+        "decreto 1273 de 2018",
+        "decreto 1601 de 2022",
+        "decreto 1762 de 2024",
+        "resolucion 1995 de 2019",
+        "resolución 1995 de 2019"
+      ],
+      "notes": "SME §2.1. ET cross-refs limited to 108/114-1/126-1; UGPP + Ley 100/21/89 + PILA regulatory sources."
+    },
+    "proteccion_datos_personales": {
+      "allowed_et_articles": [],
+      "allowed_article_families": ["LEY_1581", "LEY_1266", "SIC", "CIRCULAR_EXTERNA_SIC"],
+      "allowed_norm_anchors": [
+        "ley 1581 de 2012",
+        "ley 1266 de 2008",
+        "decreto 1377 de 2013",
+        "decreto 1074 de 2015",
+        "circular externa unica sic",
+        "circular externa única sic"
+      ],
+      "notes": "SME §2.1. No ET anchors; Ley 1581 + 1266 + SIC circulars."
+    },
+    "regimen_cambiario": {
+      "allowed_et_articles": [],
+      "allowed_article_families": ["JDBR", "BANREP", "DCIN_83"],
+      "allowed_norm_anchors": [
+        "resolucion externa 1 de 2018 jdbr",
+        "resolución externa 1 de 2018 jdbr",
+        "dcin-83",
+        "dcin 83",
+        "decreto 1735 de 1993",
+        "decreto 1068 de 2015"
+      ],
+      "notes": "SME §2.1. Banrep/JDBR/DCIN anchors; no ET."
+    },
+    "reforma_laboral_ley_2466": {
+      "allowed_et_articles": [],
+      "allowed_article_families": ["LEY_2466", "MINTRABAJO", "CIRCULAR_MINTRABAJO"],
+      "allowed_norm_anchors": [
+        "ley 2466 de 2025",
+        "decreto reglamentario ley 2466",
+        "circular mintrabajo"
+      ],
+      "notes": "SME §2.1. Transitional — sunset review post-2028 per sunset_review field."
+    },
+    "niif_pymes": {
+      "allowed_et_articles": [],
+      "allowed_article_families": ["DECRETO_2420", "DECRETO_3022", "CTCP", "IASB"],
+      "allowed_norm_anchors": [
+        "decreto 2420 de 2015",
+        "decreto 3022 de 2013",
+        "decreto 2483 de 2018",
+        "ctcp concepto",
+        "niif pymes seccion",
+        "niif pymes sección"
+      ],
+      "notes": "SME §2.1. No ET; Decreto 2420 Anexo 2 + CTCP conceptos."
+    },
+    "niif_plenas": {
+      "allowed_et_articles": [],
+      "allowed_article_families": ["DECRETO_2420", "IASB", "CTCP"],
+      "allowed_norm_anchors": [
+        "decreto 2420 de 2015",
+        "nic ",
+        "niif ",
+        "ifrs "
+      ],
+      "notes": "SME §2.1. Anexo 1 of Decreto 2420."
+    },
+    "niif_microempresas": {
+      "allowed_et_articles": [],
+      "allowed_article_families": ["DECRETO_2420", "DECRETO_2706", "CTCP"],
+      "allowed_norm_anchors": [
+        "decreto 2420 de 2015",
+        "decreto 2706 de 2012"
+      ],
+      "notes": "SME §2.1. Anexo 3 of Decreto 2420 / Decreto 2706 origen."
+    },
+    "comercial_societario": {
+      "allowed_et_articles": [],
+      "allowed_article_families": ["CODIGO_DE_COMERCIO", "LEY_222", "LEY_1258", "LEY_1116", "SUPERSOCIEDADES"],
+      "allowed_norm_anchors": [
+        "codigo de comercio",
+        "código de comercio",
+        "ley 222 de 1995",
+        "ley 1258 de 2008",
+        "ley 1116 de 2006"
+      ],
+      "notes": "SME §2.3. Magnet redefinition — fused with obligaciones_mercantiles."
     }
   }
 }

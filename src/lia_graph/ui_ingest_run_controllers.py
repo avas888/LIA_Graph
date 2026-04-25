@@ -348,6 +348,121 @@ def _aggregate_stage_progress(
     return stages
 
 
+def _aggregate_phase_signals(events_path: Path) -> dict[str, Any]:
+    """Surface §13b per-phase signals the UI needs for stall detection.
+
+    Added by next_v1 step 05 to give the `/progress` endpoint parity with
+    `gui_ingestion_v1.md §13b` — classifier pace + degraded count, sink
+    rowcounts, falkor batch counts, plus ``events_stale_seconds`` for
+    ``§13b.4`` stall thresholds. Scoped to the whole events.jsonl (not
+    per-job) because the ingest CLI's per-phase events don't carry
+    ``job_id``; the job-scoped stages live under ``ingest.run.stage.*`` and
+    are aggregated separately by ``_aggregate_stage_progress``. The two
+    together feed the /progress response.
+    """
+    classifier_total = 0
+    classifier_degraded = 0
+    classifier_failed_hard = 0
+    sink_summary: dict[str, Any] | None = None
+    graph_load_report: dict[str, Any] | None = None
+    graph_batch_written_count = 0
+    bindings_summary: dict[str, Any] | None = None
+    last_event_ts_utc: str | None = None
+    classifier_sample_ts: list[str] = []  # for rolling-RPM calc
+
+    if not events_path.exists():
+        return {
+            "classifier": {
+                "classified": 0,
+                "degraded_n1_only": 0,
+                "failed_hard": 0,
+                "rpm_recent": 0.0,
+            },
+            "bindings": None,
+            "sink": None,
+            "falkor": {"batch_events": 0, "load_report": None},
+            "last_event_ts_utc": None,
+            "events_stale_seconds": None,
+        }
+
+    try:
+        with events_path.open("r", encoding="utf-8") as handle:
+            for line in handle:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    event = json.loads(line)
+                except (json.JSONDecodeError, ValueError):
+                    continue
+                if not isinstance(event, dict):
+                    continue
+                event_type = str(event.get("event_type") or "").strip()
+                payload = event.get("payload") or {}
+                if not isinstance(payload, dict):
+                    payload = {}
+                ts = str(event.get("ts_utc") or "").strip()
+                if ts:
+                    last_event_ts_utc = ts
+                if event_type == "subtopic.ingest.classified":
+                    classifier_total += 1
+                    if bool(payload.get("requires_subtopic_review")):
+                        classifier_degraded += 1
+                    if ts:
+                        classifier_sample_ts.append(ts)
+                elif event_type in {"subtopic.ingest.failed", "ingest.classifier.failed"}:
+                    classifier_failed_hard += 1
+                elif event_type == "subtopic.graph.bindings_summary":
+                    bindings_summary = dict(payload)
+                elif event_type == "corpus.sink_summary":
+                    sink_summary = dict(payload)
+                elif event_type == "graph.batch_written":
+                    graph_batch_written_count += 1
+                elif event_type == "graph.load_report":
+                    graph_load_report = dict(payload)
+    except OSError as exc:
+        _log.warning("ingest.progress.phase_signals: events read failed: %s", exc)
+
+    rpm_recent = 0.0
+    events_stale_seconds: float | None = None
+    if last_event_ts_utc:
+        try:
+            last_dt = datetime.fromisoformat(last_event_ts_utc.replace("Z", "+00:00"))
+            now_dt = datetime.now(timezone.utc)
+            events_stale_seconds = max(0.0, (now_dt - last_dt).total_seconds())
+        except (TypeError, ValueError):
+            events_stale_seconds = None
+    if classifier_sample_ts:
+        try:
+            latest = datetime.fromisoformat(classifier_sample_ts[-1].replace("Z", "+00:00"))
+            window_start = latest.timestamp() - 60.0
+            in_window = sum(
+                1
+                for t in classifier_sample_ts
+                if datetime.fromisoformat(t.replace("Z", "+00:00")).timestamp() >= window_start
+            )
+            rpm_recent = float(in_window)
+        except (TypeError, ValueError):
+            rpm_recent = 0.0
+
+    return {
+        "classifier": {
+            "classified": classifier_total,
+            "degraded_n1_only": classifier_degraded,
+            "failed_hard": classifier_failed_hard,
+            "rpm_recent": rpm_recent,
+        },
+        "bindings": bindings_summary,
+        "sink": sink_summary,
+        "falkor": {
+            "batch_events": graph_batch_written_count,
+            "load_report": graph_load_report,
+        },
+        "last_event_ts_utc": last_event_ts_utc,
+        "events_stale_seconds": events_stale_seconds,
+    }
+
+
 def _read_log_tail(
     log_path: Path,
     *,
@@ -552,6 +667,10 @@ def handle_ingest_get(
         events_path = workspace_root / DEFAULT_LOG_PATH
         stages = _aggregate_stage_progress(events_path, job_id=job_id)
         overall = _derive_overall_status(record, stages)
+        # next_v1 step 05: surface §13b per-phase signals so the UI can
+        # detect stalls + render phase-labeled counters instead of polling
+        # stdout via /log/tail.
+        phase_signals = _aggregate_phase_signals(events_path)
         handler._send_json(
             HTTPStatus.OK,
             {
@@ -559,6 +678,7 @@ def handle_ingest_get(
                 "job_id": job_id,
                 "status": overall,
                 "stages": stages,
+                "phase_signals": phase_signals,
             },
         )
         return True

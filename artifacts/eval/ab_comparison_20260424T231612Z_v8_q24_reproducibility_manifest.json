@@ -1,0 +1,28 @@
+{
+  "manifest_tag": "v8_q24_reproducibility",
+  "gold_path": "evals/gold_retrieval_v1.jsonl",
+  "target": "production",
+  "run_started_at_utc": "2026-04-24T23:16:12.514471+00:00",
+  "run_completed_at_utc": "2026-04-24T23:19:17.992191+00:00",
+  "run_started_at_bogota": "2026-04-24 6:16:12 PM",
+  "run_completed_at_bogota": "2026-04-24 6:19:17 PM",
+  "questions_attempted": 30,
+  "questions_succeeded": 30,
+  "questions_failed": [],
+  "falkor_baseline": {
+    "captured_at_utc": "2026-04-24T12:22:10.394280+00:00",
+    "TopicNode": 41,
+    "TEMA_edges": 2361,
+    "ArticleNode": 9160,
+    "SubTopicNode": 87,
+    "HAS_SUBTOPIC": 432
+  },
+  "git_commit_sha": "2cebf9cd095e46217031909f08c135acf88462e2",
+  "env_flag_matrix": {
+    "modes_run": [
+      "off",
+      "on"
+    ],
+    "pre_run_env_value_LIA_TEMA_FIRST_RETRIEVAL": null
+  }
+}

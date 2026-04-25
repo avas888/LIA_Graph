@@ -26,8 +26,13 @@ _SUPPORT_DOC_TOPIC_KEY_MATCH_MIN = 2
 
 
 def coherence_mode() -> str:
-    raw = (os.getenv("LIA_EVIDENCE_COHERENCE_GATE") or "shadow").strip().lower()
-    return raw if raw in ("off", "shadow", "enforce") else "shadow"
+    # Default `enforce` 2026-04-25 per operator's "no off/shadow flags" directive
+    # (risk-forward internal-beta stance). Step-04 verification measured
+    # would-refuse=1/30, well below the [4,12] safe band — meaning enforce mode
+    # at the current threshold refuses ~3% of queries with low contamination
+    # upside. Watch production refusal-rate; revert to `shadow` if regressions.
+    raw = (os.getenv("LIA_EVIDENCE_COHERENCE_GATE") or "enforce").strip().lower()
+    return raw if raw in ("off", "shadow", "enforce") else "enforce"
 
 
 def _support_doc_topic_scoring_text(evidence: GraphEvidenceBundle) -> str:
