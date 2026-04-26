@@ -4,7 +4,7 @@
 
 **Scope.** The **headless ingest pipeline** (`src/lia_graph/ingest.py`, `ingest_classifier_pool.py`, `ingest_subtopic_pass.py`, `ingestion/`), the **served retrieval path** (`src/lia_graph/pipeline_d/`), and the **process discipline** we use to run both — investigations, monitoring, cloud writes. Not scoped: UI-facing ingestion, which has its own doc at `docs/done/next/UI_Ingestion_learnings.md`.
 
-**Why this exists.** Between 2026-04-17 and 2026-04-24 we shipped five ingestion-fix waves (`ingestionfix_v1`–`v5`) followed by a v6 investigation+execution cycle (`ingestion_tunningv1` → `ingestion_tunningv2`). Each wave fixed a distinct class of failure. The NEXT PR that touches ingestion or retrieval is one careless code review away from bringing any of those failures back — because the fixes live in code, not in a doc the next contributor will read. These pages are that doc.
+**Why this exists.** Between 2026-04-17 and 2026-04-24 we shipped five ingestion-fix waves (`ingestionfix_v1`–`v5`) followed by a v6 investigation+execution cycle (`ingestion_tunningv1` → `ingestion_tunningv2`). The next_v3 close (2026-04-25) added taxonomy v2 + classifier rewrite + K2 path-veto. The next_v4 same-day ship (2026-04-25) added the conversational-memory staircase Levels 1+2 and the `comparative_regime_chain` query mode. Each wave fixed a distinct class of failure. The NEXT PR that touches ingestion or retrieval is one careless code review away from bringing any of those failures back — because the fixes live in code, not in a doc the next contributor will read. These pages are that doc.
 
 **Reading order for a cold engineer.**
 
@@ -33,6 +33,8 @@
 - [`retrieval/quality-of-results-evaluation.md`](retrieval/quality-of-results-evaluation.md) — the six failure modes a RAG eval can exhibit; how to design an eval you can trust.
 - [`retrieval/router-llm-deferral-architecture.md`](retrieval/router-llm-deferral-architecture.md) — when a fast lexical router short-circuits the LLM despite the LLM having the right heuristics in its prompt: the 3-gate `_should_defer_to_llm` pattern (trigger phrase / magnet topic / competing strong). Closed gate-8 of next_v3.
 - [`retrieval/operates-not-defines-heuristic.md`](retrieval/operates-not-defines-heuristic.md) — Alejandro's meta-rule for resolving "topic A vs topic B" ambiguities; the single most generalizable insight from the next_v3 cycle. With 5 derived sub-tests.
+- [`retrieval/conversational-memory-staircase.md`](retrieval/conversational-memory-staircase.md) — when the classifier is stateless but the retriever is stateful, ambiguous follow-ups produce coherence-gate refusals on legitimate queries. Three-frontier mental model (FE payload / state schema / classifier signature). The 3-level staircase (FE topic propagation → structured ConversationState extension → free-text LLM summary deferred). Why H1 (lower abstention threshold) is the wrong fix.
+- [`retrieval/pre-classifier-query-mode-branch.md`](retrieval/pre-classifier-query-mode-branch.md) — the `comparative_regime_chain` pattern: distinctive cue + config-driven pair lookup that overrides `query_mode` BEFORE the standard classifier dilutes a domain shape. Plus decomposer fan-out suppression for comparative parents and the anti-hallucination companions (`ARTICLE_GUIDANCE` + polish prompt rule preserving tables verbatim).
 
 ### Process
 - [`process/investigation-discipline.md`](process/investigation-discipline.md) — a week of read-only investigation beats a week of wrong code.
@@ -40,7 +42,8 @@
 - [`process/heartbeat-monitoring.md`](process/heartbeat-monitoring.md) — tactical field manual: script shape, metric formulas, the five failure modes I actually hit.
 - [`process/cloud-sink-execution-notes.md`](process/cloud-sink-execution-notes.md) — env posture, sourcing `.env.staging`, interpreting "failed=0" under LLM backpressure.
 - [`process/aspirational-thresholds-and-qualitative-pass.md`](process/aspirational-thresholds-and-qualitative-pass.md) — how to handle a measurement that misses an absolute threshold without normalizing the miss into a new (lower) threshold. Three-rule policy: keep the threshold, document each exception per-case, gates evaluate independently.
+- [`process/deep-trace-before-hypothesis-debate.md`](process/deep-trace-before-hypothesis-debate.md) — when the entire causal path from input to symptom is in code you can read, a code-anchored end-to-end trace often collapses competing hypotheses faster than empirical A/B testing. The next_v4 §3 trace ruled out H1 and structurally confirmed Frontiers 1+2+3 in one pass.
 
 ---
 
-*Last updated: 2026-04-24 during v6 execution (phase 0 → phase 6 in a single session). Keep entries terse; volume is a signal of poor editing.*
+*Last updated: 2026-04-25 after the next_v3 close + next_v4 §3+§4+§5 same-day ship cycle. Keep entries terse; volume is a signal of poor editing.*
