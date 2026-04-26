@@ -8,17 +8,45 @@
 
 ---
 
-## §1 Coherence-gate calibration diagnostic (carried from v4 §1)
+## §1 Coherence-gate calibration diagnostic — ✅ Phase 1+2 complete 2026-04-26
 
-**Status:** 💡 idea — opened 2026-04-25, not yet started. Awaits next_v3 close.
+**Status:** ✅ **diagnostic complete in target environment 2026-04-26.** Phase 1 (thin-corpus inventory) + Phase 2 (cross-topic dependency) both ran against staging cloud. Decision: **HYBRID — multi-topic ArticleNode metadata + chunk-precedence on retrieval.**
 
-**One-sentence idea.** Measure whether the 11 `coherence_misaligned=True` questions concentrate in topics with thin corpus coverage (corpus problem) or distribute across topics evenly (calibration problem) — diagnose before intervening (`feedback_diagnose_before_intervene`).
+### Findings (binding, with numbers)
 
-**Full plan + measurement set + early signal:** see [v4 §1](./next_v4.md#1-coherence-gate-calibration-diagnostic-operator-scoped-2026-04-25). The 11-Q fixture and the `corpus_coverage` taxonomy flags are unchanged.
+- **89 registered topics**; **12 are thin-corpus** (chunks ≥ 10, native_articles < 5) → **13,5% structural risk surface**.
+- **12/12 thin-corpus topics show 100% cross-topic dependency** — every single one has its primary article references owned by OTHER topics.
+- **16 distinct cross-topic owners**, but **top 5 carry 74% of mentions** (Pareto). The strict-threshold verdict says "distributed"; the empirical shape is concentrated enough for a bounded curation effort.
+- **FIRMEZA anomaly**: `firmeza_declaraciones` is healthy by Phase-1 metrics (12 native articles post-FIR-N02 ingest) yet the chat still refuses. Root cause traced to **chunk-level cross-topic mix** (legacy chunks from `09_Libro1_T1_Caps8a11.md` tagged `declaracion_renta` compete with new FIR-N02 chunks tagged `firmeza_declaraciones` in hybrid_search). Article-level metadata alone is insufficient.
 
-**Why it's still here.** Diagnostic instrumentation (chunk-level coherence scores) hasn't been written. SME-binding chunk-pair inspection hasn't run. Decision rule unchanged: concentrated → corpus expansion (free, per §10.5); distributed → coherence-gate recalibration (real engineering).
+Full numbers + samples + per-topic article tables: [`docs/learnings/ingestion/coherence-gate-thin-corpus-diagnostic-2026-04-26.md`](../learnings/ingestion/coherence-gate-thin-corpus-diagnostic-2026-04-26.md).
 
-**Effort:** ~1-2 days engineering + ~3-5 hours SME + ~half day aggregation.
+### Recommended fix path — opens §1.A and §1.B
+
+**§1.A — Multi-topic ArticleNode metadata (structural, ~3-5 days)**
+- Add `secondary_topics: text[]` to `:ArticleNode` schema in Falkor + the loader's MERGE writes.
+- SME-curated mapping of ~30-50 high-traffic articles to their secondary topics (Art. 689-3 + `[firmeza_declaraciones, beneficio_auditoria]`, Art. 49 + `[ingresos_fiscales_renta, dividendos_y_distribucion_utilidades]`, etc.).
+- Coherence-gate code: accept primary if `query_topic ∈ {primary.topic} ∪ primary.secondary_topics`.
+
+**§1.B — Chunk-precedence on hybrid_search (FIRMEZA case, ~2-3 days)**
+- When a new doc covers articles already chunked under another topic, decide which chunk set takes retrieval precedence. Three options scoped in the learnings doc.
+- Implementation choice depends on Phase-1.B investigation (~1 day): how often does this dilution actually fire vs the article-mapping case?
+
+### What this rules OUT (binding)
+
+- **Pure curation without metadata changes** — would be unbounded across the ET's umbrella topics.
+- **Lowering the coherence-gate threshold** — `feedback_thresholds_no_lower`.
+- **Disabling cross-topic refusal entirely** — re-introduces Q1-class contamination guard.
+
+### Original (now-superseded) plan
+
+The original v4 §1 plan focused on the 11 `coherence_misaligned=True` questions from gate-9. That fixture is still useful for §1.B verification but no longer drives §1's decision — Phase 1+2 measurements gave a more definitive answer at the structural level. The 11-Q fixture survives as a regression check after §1.A + §1.B ship.
+
+### Effort summary
+
+- §1.A: 3-5 days (schema + loader + SME curation + verification).
+- §1.B: 2-3 days (investigation + implementation + verification).
+- Total: ~5-8 days serialized; some parallelism possible if SME curation runs alongside the §1.B investigation.
 
 ---
 
