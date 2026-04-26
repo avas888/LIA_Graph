@@ -166,3 +166,75 @@ def test_path_veto_all_targets_are_valid_taxonomy_keys() -> None:
         assert canonical in valid_keys, (
             f"veto target {canonical!r} is not a valid v2 taxonomy key"
         )
+
+
+# ---------------------------------------------------------------------------
+# BRECHAS-SEMANA gap-fill rules (added 2026-04-26 after the FIRMEZA verification
+# round surfaced LLM mis-classification — `iva`/`ica`/`procedimiento_tributario`
+# instead of `firmeza_declaraciones`). Per the operator's state.md, 5 trilogies
+# share this pattern; pin all 5 here so a regression on any of them surfaces.
+# ---------------------------------------------------------------------------
+
+
+BRECHAS_TRILOGY_ROWS = (
+    # FIRMEZA — the case that surfaced the gap. LLM put NORMATIVA→iva,
+    # PRACTICA→ica, EXPERTOS→procedimiento_tributario. Path veto fixes all.
+    (
+        "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/NORMATIVA/NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "iva",
+        "firmeza_declaraciones",
+    ),
+    (
+        "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/EXPERTOS/EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+        "procedimiento_tributario",
+        "firmeza_declaraciones",
+    ),
+    (
+        "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/PRACTICA/PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+        "ica",
+        "firmeza_declaraciones",
+    ),
+    # The other 4 trilogies (not yet authored per state.md) — pin the
+    # contract anyway so when they ship the routing is locked.
+    (
+        "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/REGIMEN_SANCIONATORIO_EXTEMPORANEIDAD/NORMATIVA/SAN-N02.md",
+        "iva",  # plausible LLM drift
+        "regimen_sancionatorio_extemporaneidad",
+    ),
+    (
+        "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/DEVOLUCIONES_SALDOS_FAVOR/PRACTICA/DEV-L02.md",
+        "iva",
+        "devoluciones_saldos_a_favor",
+    ),
+    (
+        "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/COSTOS_DEDUCCIONES_RENTA/NORMATIVA/CYD-N01.md",
+        "declaracion_renta",
+        "costos_deducciones_renta",
+    ),
+    (
+        "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/BENEFICIOS_TRIBUTARIOS_AMBIENTALES/EXPERTOS/AMB-E01.md",
+        "declaracion_renta",
+        "sector_medio_ambiente",
+    ),
+)
+
+
+@pytest.mark.parametrize("path,llm_verdict,expected_final", BRECHAS_TRILOGY_ROWS)
+def test_brechas_trilogy_paths_route_to_canonical(
+    path: str, llm_verdict: str, expected_final: str
+) -> None:
+    """Pin each of the 5 BRECHAS-SEMANA trilogy folders to its canonical topic.
+
+    Surface: any future change that drops or renames these folders without
+    updating `_PATH_VETO_RULES` fails this test.
+    """
+    final, reason, rule_matched = _apply_path_veto(path, llm_verdict)
+    assert final == expected_final, (
+        f"BRECHAS path {path!r} (LLM={llm_verdict}) must route to "
+        f"{expected_final!r}, got {final!r}"
+    )
+    assert rule_matched is True
+    # Every BRECHAS row in this fixture starts with a wrong LLM verdict, so
+    # we expect a non-None reason explaining the override.
+    assert reason is not None
+    assert expected_final in reason

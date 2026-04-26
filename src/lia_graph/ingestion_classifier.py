@@ -108,6 +108,18 @@ _PATH_VETO_RULES: tuple[tuple[str, str], ...] = (
     ("20_Libro6_GMF",                           "gravamen_movimiento_financiero_4x1000"),
     ("21_Libro7_ECE_CHC",                       "declaracion_renta"),
     ("22_Libro8_SIMPLE",                        "regimen_simple"),
+    # --- BRECHAS-SEMANA gap-fill folders (operator's state.md tracks 5 trilogies).
+    # Each trilogy folder IS the topic boundary — the LLM classifier was drifting
+    # to adjacent topics (`iva`, `ica`, `procedimiento_tributario` etc.) on the
+    # FIRMEZA trilogy because the body content cites cross-topic articles.
+    # Per `docs/learnings/ingestion/path-veto-rule-based-classifier-correction.md`:
+    # the path encodes ground truth; the override is the right tool. Added
+    # 2026-04-26 after the FIRMEZA verification round.
+    ("FIRMEZA_DECLARACIONES",                   "firmeza_declaraciones"),
+    ("REGIMEN_SANCIONATORIO_EXTEMPORANEIDAD",   "regimen_sancionatorio_extemporaneidad"),
+    ("DEVOLUCIONES_SALDOS_FAVOR",               "devoluciones_saldos_a_favor"),
+    ("COSTOS_DEDUCCIONES_RENTA",                "costos_deducciones_renta"),
+    ("BENEFICIOS_TRIBUTARIOS_AMBIENTALES",      "sector_medio_ambiente"),
 )
 
 
