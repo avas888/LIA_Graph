@@ -61,12 +61,12 @@ All of these are independent of the flag flip and stay in place:
 
 **2.2.1 · `scripts/dev-launcher.mjs`.** Find the `// v5 Phase 3 — TEMA-first retrieval.` block (~line 273). Change `env.LIA_TEMA_FIRST_RETRIEVAL = "on"` back to `"shadow"`. Replace the "Default flipped from `shadow` to `on` on 2026-04-24" comment with: *"Default stays `shadow`. Briefly flipped `on` 2026-04-24 and reverted same day per next_v2 §2 — staging A/B showed Q27 `art. 148` contamination in `on` mode (absent in `shadow`). Re-flip blocked on next_v2 §H + §I closing."* Shell / Railway override still wins.
 
-**2.2.2 · `docs/guide/orchestration.md`.** Three edits:
+**2.2.2 · `docs/orchestration/orchestration.md`.** Three edits:
 - Line ~732 version: `v2026-04-24-temafirston` → `v2026-04-24-temafirst-revert`.
 - Matrix row for `LIA_TEMA_FIRST_RETRIEVAL` (~line 747): all three mode columns → **`shadow`**. Description prose: *"Default `shadow` across all three modes. Briefly flipped `on` on 2026-04-24 per next_v1 step 01 verification; reverted same day after staging A/B (next_v1 §7 action A) showed Q27 contamination. Re-flip gated on next_v2 §H + §I."*
 - New change-log entry just below the current top row:
   ```
-  | `v2026-04-24-temafirst-revert` | 2026-04-24 | Reverted `LIA_TEMA_FIRST_RETRIEVAL` launcher default from `on` back to `shadow` after same-day staging A/B (next_v1 §7 action A) showed Q27 contamination regression (`art. 148 ET` leaking into SAGRILAFT answer when `on`, absent in `shadow`). The +15-row retrieval-rescue lift TEMA-first=on demonstrated (0/30 → 15/30 non-zero primary) is retained as the re-flip target once next_v2 §H + §I close. Step-01 diagnostic fix retained unchanged. | `scripts/dev-launcher.mjs`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts` |
+  | `v2026-04-24-temafirst-revert` | 2026-04-24 | Reverted `LIA_TEMA_FIRST_RETRIEVAL` launcher default from `on` back to `shadow` after same-day staging A/B (next_v1 §7 action A) showed Q27 contamination regression (`art. 148 ET` leaking into SAGRILAFT answer when `on`, absent in `shadow`). The +15-row retrieval-rescue lift TEMA-first=on demonstrated (0/30 → 15/30 non-zero primary) is retained as the re-flip target once next_v2 §H + §I close. Step-01 diagnostic fix retained unchanged. | `scripts/dev-launcher.mjs`, `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts` |
   ```
 
 **2.2.3 · `docs/guide/env_guide.md`.** Three edits:
@@ -82,7 +82,7 @@ All of these are independent of the flag flip and stay in place:
 
 ### §2.3 Verify
 
-1. `grep -n "LIA_TEMA_FIRST_RETRIEVAL" scripts/dev-launcher.mjs docs/guide/orchestration.md docs/guide/env_guide.md CLAUDE.md frontend/src/app/orchestration/shell.ts` → launcher shows `"shadow"`, matrix rows show `shadow`, no unpaired `on`-flip reference without its revert clause.
+1. `grep -n "LIA_TEMA_FIRST_RETRIEVAL" scripts/dev-launcher.mjs docs/orchestration/orchestration.md docs/guide/env_guide.md CLAUDE.md frontend/src/app/orchestration/shell.ts` → launcher shows `"shadow"`, matrix rows show `shadow`, no unpaired `on`-flip reference without its revert clause.
 2. `node -e "import('./scripts/dev-launcher.mjs').then(() => console.log('ok'))"` → no parse errors.
 3. *(optional)* Limited staging re-run with `--limit 5 --manifest-tag v7_tema_reverted` — only to confirm no residual drift; the `npm run dev:staging` path is the primary user of this default and §2.3.1 / §2.3.2 already confirm it.
 

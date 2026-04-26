@@ -135,7 +135,7 @@ Phase A is a prerequisite for Phase B — B has nothing to read until A runs at 
     - The Supabase test uses the local docker Supabase seeded from the baseline + Phase A sink fixture rows.
     - The Falkor test uses the local docker Falkor (`lia-graph-falkor-dev`) with a seeded tiny graph.
 
-13. **`docs/guide/orchestration.md`** — flip the paragraph at line ~1006 that currently says Falkor "is not yet the live per-request traversal engine." Replace with the new runtime split (artifacts in dev, supabase+falkor in staging) and reference the `LIA_CORPUS_SOURCE` / `LIA_GRAPH_MODE` flags. Per `AGENTS.md`, also update the `/orchestration` HTML map in `frontend/src/app/orchestration/shell.ts` and `frontend/src/features/orchestration/orchestrationApp.ts` in the same change.
+13. **`docs/orchestration/orchestration.md`** — flip the paragraph at line ~1006 that currently says Falkor "is not yet the live per-request traversal engine." Replace with the new runtime split (artifacts in dev, supabase+falkor in staging) and reference the `LIA_CORPUS_SOURCE` / `LIA_GRAPH_MODE` flags. Per `AGENTS.md`, also update the `/orchestration` HTML map in `frontend/src/app/orchestration/shell.ts` and `frontend/src/features/orchestration/orchestrationApp.ts` in the same change.
 
 ### Acceptance (Phase B)
 
@@ -160,6 +160,6 @@ Concrete, must all pass:
 Before handing to the implementing agent:
 
 - Read this doc top to bottom.
-- Read `docs/guide/orchestration.md` and `docs/guide/env_guide.md` for the runtime and env context.
+- Read `docs/orchestration/orchestration.md` and `docs/guide/env_guide.md` for the runtime and env context.
 - Confirm the cloud DB is already linked (`supabase/.temp/project-ref` exists). If not, run `supabase link --project-ref utjndyxgfhkfcrjmtdqz --password '<pw>'` first. The current DB password was rotated after the prior session — ask the owner.
 - Phase A must go first and be green in tests before touching Phase B.

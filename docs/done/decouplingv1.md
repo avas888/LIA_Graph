@@ -180,7 +180,7 @@ Controller-local mutable state (`intakeEntries`, `preflightDebounce`, etc.) live
 ### 4.5 Commit cadence and changelog
 
 - **One commit per phase.** Phase 0 (baseline) and Phase 13 (verification) may produce no code commits if they only update docs.
-- **Changelog entries** live in `docs/guide/orchestration.md` under the existing `v<YYYY-MM-DD>-uiN` scheme. Each phase drafts its entry in the phase's `Changelog Draft` block; Phase 13 publishes them in a single docs commit.
+- **Changelog entries** live in `docs/orchestration/orchestration.md` under the existing `v<YYYY-MM-DD>-uiN` scheme. Each phase drafts its entry in the phase's `Changelog Draft` block; Phase 13 publishes them in a single docs commit.
 - **Mirror updates** required per AGENTS.md: after Phases 5 and 12, update `docs/guide/env_guide.md` (no env change, but LOC references may appear in the mirror table) and `CLAUDE.md` only if architecture changes. No env version bump is required — this refactor is not an env change.
 
 ---
@@ -610,7 +610,7 @@ _(fill in during execution)_
 - [ ] Working tree clean
 
 **Files to modify (optional):**
-- `docs/guide/orchestration.md` — interim update (Phase 13 does the full publish; this one appends a "pending graduation" note if helpful).
+- `docs/orchestration/orchestration.md` — interim update (Phase 13 does the full publish; this one appends a "pending graduation" note if helpful).
 
 **Work items:**
 - [ ] Confirm `wc -l src/lia_graph/ui_server.py` ≤ 320.
@@ -619,7 +619,7 @@ _(fill in during execution)_
 - [ ] Start `npm run dev` — verify `diagnostics.retrieval_backend == "artifacts"` via a POST to `/api/chat`.
 - [ ] Start `npm run dev:staging` — verify `diagnostics.retrieval_backend == "supabase"` and `diagnostics.graph_backend == "falkor_live"`.
 - [ ] `npm run dev:production` — verify it exits locally with code 2 (expected behavior; prod runs on Railway).
-- [ ] Commit doc-only if anything in `docs/guide/orchestration.md` or `CLAUDE.md` needs an interim note (otherwise skip).
+- [ ] Commit doc-only if anything in `docs/orchestration/orchestration.md` or `CLAUDE.md` needs an interim note (otherwise skip).
 
 **Targeted tests:**
 ```bash
@@ -1079,14 +1079,14 @@ _(fill in during execution — confirm back-compat mechanism chosen)_
 - [ ] Both host files are within target: `ui_server.py` ≤ 320 and `opsIngestionController.ts` ≤ 150
 
 **Files to modify:**
-1. `docs/guide/orchestration.md` — append all drafted changelog entries from Phases 1-12 (v2026-04-20-ui14 through v2026-04-21-ui4). Ensure every `<prev>` / `<actual>` placeholder is filled with the real numbers captured in each phase's State Notes.
+1. `docs/orchestration/orchestration.md` — append all drafted changelog entries from Phases 1-12 (v2026-04-20-ui14 through v2026-04-21-ui4). Ensure every `<prev>` / `<actual>` placeholder is filled with the real numbers captured in each phase's State Notes.
 2. `CLAUDE.md` — no change (no architectural or env change).
 3. `docs/guide/env_guide.md` — no change (no env change); if the env-guide has a LOC mirror table, update it.
 4. `docs/next/decouplingv1.md` — set plan status to `COMPLETE` in the Dashboard; set Phase 13 status to `DONE`; record final LOC snapshot in a new "Summary of landed changes" section appended at the top.
 
 **Work items:**
 - [ ] Verify all phase changelog drafts have real numbers (no remaining `<prev>`/`<actual>` placeholders).
-- [ ] Append the changelog block to `docs/guide/orchestration.md` in the correct location (after the existing v2026-04-20-ui13 entry).
+- [ ] Append the changelog block to `docs/orchestration/orchestration.md` in the correct location (after the existing v2026-04-20-ui13 entry).
 - [ ] Run `make test-batched` — expect exactly baseline.
 - [ ] Run `cd frontend && npm run test:all` — expect all green.
 - [ ] Run the three run-mode smokes again:
@@ -1110,7 +1110,7 @@ cd /Users/ava-sensas/Developer/Lia_Graph && npm run dev:check
 docs: publish decouplingv1 changelog + close decoupling campaign
 
 Append v2026-04-20-ui14 through v2026-04-21-ui4 changelog entries to
-docs/guide/orchestration.md. Mark docs/next/decouplingv1.md as
+docs/orchestration/orchestration.md. Mark docs/next/decouplingv1.md as
 COMPLETE. ui_server.py graduated 1669→<actual>; opsIngestion
 Controller.ts graduated 2327→<actual>. Both below 1000 LOC.
 
@@ -1176,7 +1176,7 @@ All of the following must be true at Phase 13 exit:
 - `python -m lia_graph.ui_server --help` exits 0
 - `npm run dev:check` passes
 - `npm run dev:staging:check` passes with node_count ≥ 500
-- `docs/guide/orchestration.md` has entries v2026-04-20-ui14 through v2026-04-21-ui4 with real LOC numbers
+- `docs/orchestration/orchestration.md` has entries v2026-04-20-ui14 through v2026-04-21-ui4 with real LOC numbers
 - `opsApp.ts` continues to call `ingestionController.bindEvents()` without modification (or is updated in Phase 12)
 - Plan status in this doc = `COMPLETE`
 

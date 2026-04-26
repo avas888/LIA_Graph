@@ -71,7 +71,7 @@ If it is about retrieval, indexing, tagging, vocab, orchestration, reranking, or
 
 ## Ingestion Boundary
 
-When touching corpus ingestion, assume these rules unless the active guides (`docs/guide/orchestration.md`, `docs/guide/corpus.md`) explicitly revise them:
+When touching corpus ingestion, assume these rules unless the active guides (`docs/orchestration/orchestration.md`, `docs/guide/corpus.md`) explicitly revise them:
 
 - audit the whole source-asset surface before corpus admission
 - classify every scanned file as `include_corpus`, `revision_candidate`, or `exclude_internal`

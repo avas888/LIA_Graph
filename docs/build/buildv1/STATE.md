@@ -5,7 +5,7 @@
 > **Status**: PHASE_3_LIVE_WITH_STAGING_CUTOVER
 > **Current phase**: 3 — Graph Planner, Retrieval, and Productization (dev + staging runtimes diverged)
 > **Next action**: Harden the first visible accountant answer by advancing retrieval precision, practical workflows, and published answer quality together, while keeping the dev (artifacts) and staging (cloud Supabase + FalkorDB live) adapters behavior-equivalent
-> **Env matrix version**: `v2026-04-18` — authoritative table in `docs/guide/orchestration.md#runtime-env-matrix-versioned`
+> **Env matrix version**: `v2026-04-18` — authoritative table in `docs/orchestration/orchestration.md#runtime-env-matrix-versioned`
 
 ## Current Snapshot
 
@@ -114,7 +114,7 @@
 
 **Status:** freshly realigned
 
-- `docs/guide/orchestration.md` now documents the current runtime plus the raw-corpus ingestion lane that produces its artifacts
+- `docs/orchestration/orchestration.md` now documents the current runtime plus the raw-corpus ingestion lane that produces its artifacts
 - `frontend/src/features/orchestration/graph/pipelineGraph.ts` still renders the current served runtime only
 - orchestration frontend test now guards the live-route depiction from drifting
 - remaining work:
@@ -206,7 +206,7 @@ PYTHONPATH=src:. uv run --group dev pytest tests/test_phase3_graph_planner_retri
 - `src/lia_graph/pipeline_d/planner.py`
 - `src/lia_graph/pipeline_d/retriever.py`
 - `src/lia_graph/pipeline_d/orchestrator.py`
-- `docs/guide/orchestration.md`
+- `docs/orchestration/orchestration.md`
 - `frontend/src/features/orchestration/graph/pipelineGraph.ts`
 - `tests/test_phase3_graph_planner_retrieval.py`
 
@@ -228,7 +228,7 @@ PYTHONPATH=src:. uv run --group dev pytest tests/test_phase3_graph_planner_retri
 
 1. Read `docs/build/buildv1/NEXT.md`
 2. Read this `STATE.md`
-3. Read `docs/guide/orchestration.md`
+3. Read `docs/orchestration/orchestration.md`
 4. Inspect the active Phase 3 files:
    - planner
    - retriever

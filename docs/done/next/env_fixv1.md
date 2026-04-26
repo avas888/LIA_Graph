@@ -37,7 +37,7 @@ Login with `admin@lia.dev / Test123!` must succeed on every greenlit mode.
    - `npm run dev` boots, preflight green for Supabase + FalkorDB + Gemini, login `admin@lia.dev / Test123!` returns 200.
    - `npm run dev:staging` boots unchanged, login still works.
    - `npm run dev:production` exits non-zero with the Railway message.
-8. Update documentation: `docs/guide/env_guide.md`, `AGENTS.md`, `CLAUDE.md`, and cross-references in `docs/guide/orchestration.md`.
+8. Update documentation: `docs/guide/env_guide.md`, `AGENTS.md`, `CLAUDE.md`, and cross-references in `docs/orchestration/orchestration.md`.
 
 ## Design Choices
 

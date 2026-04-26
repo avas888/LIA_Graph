@@ -207,7 +207,7 @@ Single commit spans this entire session's work across the ingestfix-v2 maximalis
 - `Makefile` (`phase2-graph-artifacts-smoke` + `phase2-backfill-subtopic` updates)
 - `tests/*` (30+ new unit tests; 5 new files)
 - `tests/integration/*` (5 case suite)
-- `docs/guide/orchestration.md` (versions `v2026-04-21-stv2b/c/d`)
+- `docs/orchestration/orchestration.md` (versions `v2026-04-21-stv2b/c/d`)
 - `CLAUDE.md` (PASO 4 inline note)
 - `docs/done/ingestfixv2.md` (superseded banner)
 - `docs/done/ingestfixv2-maximalist.md` (relocated COMPLETE plan)
@@ -220,6 +220,6 @@ Single commit spans this entire session's work across the ingestfix-v2 maximalis
 - **Expert memo source:** `/Users/ava-sensas/Library/CloudStorage/Dropbox/AAA_LOGGRO Ongoing/AI/LIA_contadores/Corpus/taxonomy/`
 - **Predecessor plan:** `docs/done/ingestfixv2-maximalist.md`
 - **First-attempt retrospective:** `docs/done/ingestfixv2.md`
-- **Orchestration change log:** `docs/guide/orchestration.md` → `v2026-04-21-stv2d` row
+- **Orchestration change log:** `docs/orchestration/orchestration.md` → `v2026-04-21-stv2d` row
 - **Canonical taxonomy file:** `config/subtopic_taxonomy.json` (v2)
 - **Admin UI that surfaces flagged docs:** `frontend/src/features/ingest/ingestController.ts` → `ingestShell.ts`

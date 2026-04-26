@@ -330,7 +330,7 @@ Do NOT change `answer_assembly.py`. Per the product memory, the multi-question b
 
 Before implementing:
 
-- Read `AGENTS.md`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, and `docs/next/corpus_supabase_cutover.md`. SUIN ingestion sits on top of the latter; the cutover's Phase A + B are already live per the 2026-04-19 health check (cloud Supabase populated, cloud Falkor populated, retriever cutover wired).
+- Read `AGENTS.md`, `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`, and `docs/next/corpus_supabase_cutover.md`. SUIN ingestion sits on top of the latter; the cutover's Phase A + B are already live per the 2026-04-19 health check (cloud Supabase populated, cloud Falkor populated, retriever cutover wired).
 - Skim the "Pre-implementation health check" section above. Four gaps were identified:
   - Gap #1 (`_RELATION_DROP`) → resolved in Phase B step #12.
   - Gap #2 (unresolved edge drop) → resolved in Phase B step #13 via the two-pass merge.

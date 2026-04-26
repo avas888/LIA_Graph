@@ -117,5 +117,5 @@ The corrected pattern: **a GUI button means exactly what it says, with no surpri
 
 - Code: `src/lia_graph/ingestion/delta_runtime.py::materialize_delta`, `src/lia_graph/ingest.py` (`--allow-retirements` flag), `frontend/src/shared/ui/molecules/additiveDeltaBanner.ts` (yellow diagnostic), `frontend/src/shared/ui/organisms/additiveDeltaCard.ts` (body copy).
 - Non-negotiable in `CLAUDE.md` and `AGENTS.md` (2026-04-26 entries).
-- Env-matrix change-log: `docs/guide/orchestration.md` row `v2026-04-26-additive-no-retire`.
+- Env-matrix change-log: `docs/orchestration/orchestration.md` row `v2026-04-26-additive-no-retire`.
 - GUI ingestion learnings catalog: `docs/done/next/gui_ingestion_v1.md §15`.

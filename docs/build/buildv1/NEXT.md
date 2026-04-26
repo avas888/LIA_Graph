@@ -261,7 +261,7 @@ The next model should think in **parallel workstreams**, not one giant linear ba
 
 **Healthy now:**
 
-- `docs/guide/orchestration.md` describes the current runtime and the build-time ingestion lane that produces its artifact inputs
+- `docs/orchestration/orchestration.md` describes the current runtime and the build-time ingestion lane that produces its artifact inputs
 - `/orchestration` now depicts the live Pipeline D procedure only
 - frontend test now guards the live-route depiction from drifting
 
@@ -278,7 +278,7 @@ The next model should think in **parallel workstreams**, not one giant linear ba
 
 **Primary files:**
 
-- `docs/guide/orchestration.md`
+- `docs/orchestration/orchestration.md`
 - `frontend/src/features/orchestration/graph/pipelineGraph.ts`
 - `frontend/tests/orchestrationApp.test.ts`
 
@@ -395,7 +395,7 @@ If resuming cold, read these in order:
 ```bash
 sed -n '1,260p' docs/build/buildv1/NEXT.md
 sed -n '1,260p' docs/build/buildv1/STATE.md
-sed -n '1,260p' docs/guide/orchestration.md
+sed -n '1,260p' docs/orchestration/orchestration.md
 sed -n '1,360p' src/lia_graph/pipeline_d/planner.py
 sed -n '1,520p' src/lia_graph/pipeline_d/retriever.py
 sed -n '1,360p' src/lia_graph/pipeline_d/orchestrator.py

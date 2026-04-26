@@ -118,7 +118,7 @@ The decision is yes/no; nothing else needs to change.
 
 **Operator-specified conditions (binding):**
 
-1. **Change-log row must be specific, not generic.** When the re-flip eventually ships (after gate 8 also clears), the change-log row in `docs/guide/orchestration.md` must read **verbatim**:
+1. **Change-log row must be specific, not generic.** When the re-flip eventually ships (after gate 8 also clears), the change-log row in `docs/orchestration/orchestration.md` must read **verbatim**:
 
    > Re-flipped on qualitative-pass of §8.4. v10 strict improvement vs v9 (seeds 14→18, mean primary 1.53→1.93, contamination 4/4, 0 regressions). Absolute thresholds 1 & 2 deferred to next_v4 coherence-gate calibration diagnostic, tracked against 11 enumerated `coherence_misaligned=True` questions: Q12, Q18, Q20, Q21, Q22, Q23, Q25, Q26, Q27, Q28, Q29 (Q10 routing-fail tracked separately under `facturacion_electronica` vocabulary gap).
 

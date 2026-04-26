@@ -2,7 +2,7 @@
 
 > Archived snapshot kept for comparison only.
 > Do not use this file as the current runtime truth.
-> For the live runtime read `docs/guide/orchestration.md`.
+> For the live runtime read `docs/orchestration/orchestration.md`.
 > For the response-shaping source of truth read `docs/guide/chat-response-architecture.md`.
 
 ## Purpose

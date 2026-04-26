@@ -33,7 +33,7 @@ Authority, top wins:
 |---|---|
 | `CLAUDE.md` (repo root) | Hard rules: pipeline_d granularity deliberate; Falkor adapter must propagate outages, not silently fall back; granular edits over monolithic rewrites. |
 | `AGENTS.md` (repo root) | Repo-level operating guide when `CLAUDE.md` is silent. |
-| `docs/guide/orchestration.md` | End-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv2`. |
+| `docs/orchestration/orchestration.md` | End-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv2`. |
 | `docs/guide/env_guide.md` | Run modes, env files, test accounts, corpus refresh. |
 | `docs/done/ingestfixv2.md` | The **first attempt** at ingestfix-v2. Phases 1–10 shipped code + unit tests but integration was broken (see §1). THIS plan corrects it. |
 | `docs/done/subtopic_generationv1.md` | Produced `config/subtopic_taxonomy.json` (86 subtopics × 37 parent topics). THIS plan consumes it. |
@@ -203,7 +203,7 @@ Expected: branch clean-ish (uncommitted v2 first-attempt files present), taxonom
 | A8 | Delete `scripts/sync_subtopic_edges_to_falkor.py` | NOT_STARTED | that file + any refs | — |
 | A9 | Integration test — real Falkor + fake Supabase single-pass | NOT_STARTED | `tests/integration/test_single_pass_ingest.py` (new), `tests/conftest.py` (add `integration` marker) | — |
 | A10 | Schema-consistency test — every subtema exists in taxonomy | NOT_STARTED | `tests/integration/test_subtema_taxonomy_consistency.py` (new) | — |
-| A11 | Full suite green + orchestration.md update | NOT_STARTED | `docs/guide/orchestration.md` (bump change log), `CLAUDE.md` (minor) | — |
+| A11 | Full suite green + orchestration.md update | NOT_STARTED | `docs/orchestration/orchestration.md` (bump change log), `CLAUDE.md` (minor) | — |
 | B1 | Supabase db reset (WIP) | NOT_STARTED (*user-gated*) | n/a (command) | — |
 | B2 | Sync taxonomy to WIP | NOT_STARTED | n/a (command) | — |
 | B3 | Full single-pass ingest (includes PASO 4 + Falkor subtopic edges) | NOT_STARTED | n/a (command) | — |
@@ -481,7 +481,7 @@ Resume marker — within-phase last-known-good checkpoint
 - **Goal:** every test (unit + integration) passes on `feat/suin-ingestion` HEAD. Docs reflect the new architecture.
 - **Files create:** none.
 - **Files modify:**
-  - `docs/guide/orchestration.md` — new change-log entry `v2026-04-21-stv2b` (or -stv3) describing the correction: "Single-pass ingest now writes SubTopicNodes + HAS_SUBTOPIC edges directly; backfill demoted to maintenance; env-posture guard added; three new integration tests catch prior defect class." Bump "Current version" header.
+  - `docs/orchestration/orchestration.md` — new change-log entry `v2026-04-21-stv2b` (or -stv3) describing the correction: "Single-pass ingest now writes SubTopicNodes + HAS_SUBTOPIC edges directly; backfill demoted to maintenance; env-posture guard added; three new integration tests catch prior defect class." Bump "Current version" header.
   - `CLAUDE.md` — add one line under "Runtime Read Path" noting PASO 4 now runs during bulk ingest (default) with `--skip-llm` override for dev.
   - `docs/done/ingestfixv2.md` — add a top-of-doc banner: "Superseded by `docs/next/ingestfixv2.md` after integration gaps discovered 2026-04-21. This doc records the first-attempt state only."
 - **Tests add:** none (integration done in A9/A10).
@@ -681,7 +681,7 @@ If the working tree is unrecognizable:
 - `docs/done/ingestfixv2.md` — first-attempt v2 (superseded, but useful as context for decisions A–J and phase structure).
 - `docs/done/subtopic_generationv1.md` — taxonomy producer.
 - `docs/next/subtopic_generationv1-contracts.md` — pinned schemas.
-- `docs/guide/orchestration.md` — env matrix + change log. Current version `v2026-04-21-stv2`; Phase A11 bumps to `v2026-04-21-stv2b`.
+- `docs/orchestration/orchestration.md` — env matrix + change log. Current version `v2026-04-21-stv2`; Phase A11 bumps to `v2026-04-21-stv2b`.
 - `CLAUDE.md` — Lia_Graph hard rules.
 - `src/lia_graph/ingestion_classifier.py:classify_ingestion_document` — PASO 4 entry.
 - `src/lia_graph/ingest.py:materialize_graph_artifacts` — what A4 + A5 modify.
@@ -791,7 +791,7 @@ Tests:
 - Plus updates to `tests/test_phase2_graph_scaffolds.py`, `tests/test_backfill_subtopic.py`.
 
 Docs:
-- `docs/guide/orchestration.md` — bumped to `v2026-04-21-stv2c` with 2 new rows (stv2b + stv2c retro).
+- `docs/orchestration/orchestration.md` — bumped to `v2026-04-21-stv2c` with 2 new rows (stv2b + stv2c retro).
 - `CLAUDE.md` — added line about PASO 4 running during bulk ingest.
 - `docs/done/ingestfixv2.md` — superseded banner.
 - `docs/next/ingestfixv2.md` — this document, now COMPLETE.

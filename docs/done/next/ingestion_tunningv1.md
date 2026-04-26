@@ -381,7 +381,7 @@ End of week: execution begins with evidence, not instinct.
 
 ### In this repo
 - `docs/next/ingestionfix_v5.md` — most recent prior design, introduced TEMA-first.
-- `docs/guide/orchestration.md` — authoritative env/flag matrix and hot-path description.
+- `docs/orchestration/orchestration.md` — authoritative env/flag matrix and hot-path description.
 - `src/lia_graph/pipeline_d/retriever_falkor.py:99–139` — TEMA-first implementation.
 - `src/lia_graph/pipeline_d/topic_safety.py:102–152` — the misalignment detector that worked.
 - `src/lia_graph/pipeline_d/answer_support.py:284–417` — the contamination vector.

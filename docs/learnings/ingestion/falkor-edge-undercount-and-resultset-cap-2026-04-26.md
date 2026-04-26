@@ -131,5 +131,5 @@ The operator surfaced a perfect verification fixture: the `BRECHAS-SEMANA4-ABRIL
 - Plan: `docs/aa_next/next_v5.md §6.2 + §6.3` (forward), `docs/aa_next/next_v4.md §6.5` (history).
 - Diagnostic script: `scripts/diag_falkor_edge_undercount.py`.
 - Related design doc on the loader's endpoint filter: `loader.py:43-65` (the prose-only `whole::{source_path}` keying that drives bucket-(a)).
-- Related env-matrix entry: `docs/guide/orchestration.md` will need a row for `FALKORDB_RESULTSET_SIZE_CAP` if anyone ever overrides the default.
+- Related env-matrix entry: `docs/orchestration/orchestration.md` will need a row for `FALKORDB_RESULTSET_SIZE_CAP` if anyone ever overrides the default.
 - Meta-lesson on key-form parity: [`edge-key-form-discipline.md`](edge-key-form-discipline.md) — the generalized rule we extracted from this incident.

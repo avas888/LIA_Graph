@@ -64,7 +64,7 @@ This lets a future operator (or a future you) reconstruct where execution was. D
 
 Read these if a decision in this plan conflicts with the codebase. In priority order:
 
-1. `docs/guide/orchestration.md` — authoritative env/flag matrix and hot-path map. If code and this doc disagree, reconcile to orchestration.md.
+1. `docs/orchestration/orchestration.md` — authoritative env/flag matrix and hot-path map. If code and this doc disagree, reconcile to orchestration.md.
 2. `docs/guide/chat-response-architecture.md` — how the main-chat answer is shaped.
 3. `docs/guide/env_guide.md` — run modes, env files, squashed migration baseline, test accounts, corpus refresh playbook.
 4. `AGENTS.md` — repo-level operating guide.
@@ -1079,7 +1079,7 @@ When all phases (0 through 6, plus optional 7) are marked `done` in the state lo
 1. Regenerate `docs/next/ingestion_tunningv1.md` findings log so the Open Questions list is resolved.
 2. Open PR: title `feat(ingestionfix-v6): lifted diagnostics + corpus rebuild + coherence gate + citation allow-list`. Body references this doc, v1, and the phase-6 panel doc.
 3. Request ultrareview via `/ultrareview` — **operator only; do not self-invoke**.
-4. After merge: update `docs/guide/orchestration.md` env matrix with the new flags (`LIA_EVIDENCE_COHERENCE_GATE`, `LIA_POLICY_CITATION_ALLOWLIST`). Bump matrix version.
+4. After merge: update `docs/orchestration/orchestration.md` env matrix with the new flags (`LIA_EVIDENCE_COHERENCE_GATE`, `LIA_POLICY_CITATION_ALLOWLIST`). Bump matrix version.
 5. Archive this doc: `git mv docs/next/ingestion_tunningv2.md docs/done/ingestion_tunningv2.md`.
 
 ---

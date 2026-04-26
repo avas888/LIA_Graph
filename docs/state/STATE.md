@@ -1,7 +1,7 @@
 # LIA_Graph — Master State
 
 > **Last updated**: 2026-04-25
-> **Env matrix version**: `v2026-04-25-comparative-regime` (see `docs/guide/orchestration.md`)
+> **Env matrix version**: `v2026-04-25-comparative-regime` (see `docs/orchestration/orchestration.md`)
 > **Status**: Build V1 fully materialized; pipeline_d is the served default in every mode; Railway production deploy is the only externally-blocked follow-up (see `docs/DEPENDENCIES.md` §6)
 
 ## Current Truth
@@ -18,7 +18,7 @@ LIA_Graph is past repository bootstrap. The served product path is live in two m
 
 The canonical reading order is now:
 
-1. `docs/guide/orchestration.md` — authoritative live-runtime + env matrix
+1. `docs/orchestration/orchestration.md` — authoritative live-runtime + env matrix
 2. `docs/guide/chat-response-architecture.md` — visible answer shaping
 3. `docs/guide/env_guide.md` — run modes, preflight, corpus refresh
 4. `docs/guide/corpus.md` — corpus audit gate + taxonomy operations
@@ -95,7 +95,7 @@ Sesiones (Lia_Graph-native rewire), Sub-temas curation board, 6-stage progress t
 
 Start here when resuming:
 
-1. `docs/guide/orchestration.md`
+1. `docs/orchestration/orchestration.md`
 2. `docs/guide/chat-response-architecture.md`
 3. `docs/guide/env_guide.md`
 

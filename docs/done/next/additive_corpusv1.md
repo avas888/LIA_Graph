@@ -21,7 +21,7 @@ This section is for an LLM agent that opens this doc with no conversation histor
 - **Working directory:** `/Users/ava-sensas/Developer/Lia_Graph`
 - **Branch this plan executes against:** TBD at Phase 0 ratification. Recommended: `feat/additive-corpus-v1` off `main`. Do NOT reuse `feat/suin-ingestion` — that branch belongs to a closed-out plan.
 - **Main branch (used for PRs):** `main`
-- **Last shipped change pre-plan:** env matrix at `v2026-04-21-stv2d` per `AGENTS.md` header, `CLAUDE.md` (§Runtime Read Path, line 65: "Env v2026-04-18" — stale; see reviewer note below), `docs/guide/orchestration.md` §"Current version", `docs/guide/env_guide.md` line 3. **Reviewer-verified drift:** `frontend/src/features/orchestration/orchestrationApp.ts:97` still shows `v2026-04-18`. This is one of the mirrors Phase 6 must bump. Do NOT assume all mirrors are currently in sync at kickoff — run the pre-flight grep in §0.5 first.
+- **Last shipped change pre-plan:** env matrix at `v2026-04-21-stv2d` per `AGENTS.md` header, `CLAUDE.md` (§Runtime Read Path, line 65: "Env v2026-04-18" — stale; see reviewer note below), `docs/orchestration/orchestration.md` §"Current version", `docs/guide/env_guide.md` line 3. **Reviewer-verified drift:** `frontend/src/features/orchestration/orchestrationApp.ts:97` still shows `v2026-04-18`. This is one of the mirrors Phase 6 must bump. Do NOT assume all mirrors are currently in sync at kickoff — run the pre-flight grep in §0.5 first.
 
 ### 0.3 Source-of-truth document map (READ THESE BEFORE WRITING CODE)
 Hierarchy of authority — when documents disagree, the higher one wins:
@@ -30,7 +30,7 @@ Hierarchy of authority — when documents disagree, the higher one wins:
 |---|---|
 | `CLAUDE.md` (repo root) | Quickstart for Claude-family agents. Hard rules: don't touch `Lia_contadores` cloud resources; `pipeline_d` organization is deliberate; Falkor adapter must propagate cloud outages, not silently fall back to artifacts; granular edits over monolithic rewrites. Carries env-matrix version mirror. |
 | `AGENTS.md` (repo root) | Repo-level operating guide. If `CLAUDE.md` is silent on something, `AGENTS.md` is canonical. **Also carries env-matrix version in its header frontmatter** — reviewer-verified 2026-04-22; the plan originally missed this mirror. |
-| `docs/guide/orchestration.md` | THE end-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv2d`. Lane 0 (build-time ingestion) is the relevant lane for this plan. |
+| `docs/orchestration/orchestration.md` | THE end-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv2d`. Lane 0 (build-time ingestion) is the relevant lane for this plan. |
 | `docs/guide/env_guide.md` | Operational counterpart to orchestration.md. Run modes + env files + test accounts + corpus refresh workflow. |
 | `docs/guide/chat-response-architecture.md` | Answer-shaping policy. Only relevant to this plan if the additive path surfaces retired chunks at retrieval time (§8.2). |
 | `supabase/migrations/20260417000000_baseline.sql` | Squashed Supabase baseline. Source of truth for the `documents` / `document_chunks` / `normative_edges` / `corpus_generations` table contracts + indexes. Read it before writing any migration. |
@@ -67,7 +67,7 @@ cd /Users/ava-sensas/Developer/Lia_Graph && \
   grep -c "sync_generation" supabase/migrations/20260417000000_baseline.sql && \
   grep -c "idx_corpus_generations_single_active" supabase/migrations/20260417000000_baseline.sql && \
   grep -c "normative_edges_idempotency" supabase/migrations/20260418000000_normative_edges_unique.sql && \
-  grep -n "Env matrix version" AGENTS.md docs/guide/env_guide.md docs/guide/orchestration.md && \
+  grep -n "Env matrix version" AGENTS.md docs/guide/env_guide.md docs/orchestration/orchestration.md && \
   grep -n "Env matrix v2026" frontend/src/features/orchestration/orchestrationApp.ts && \
   ls src/lia_graph/ui_ingest_run_controllers.py src/lia_graph/jobs_store.py src/lia_graph/background_jobs.py && \
   PYTHONPATH=src:. uv run --group dev pytest \
@@ -81,7 +81,7 @@ cd /Users/ava-sensas/Developer/Lia_Graph && \
 - Working tree on whichever branch §0.2 names (or `main` if branch not yet created).
 - Baseline migration contains `content_hash`, `chunk_sha256`, `sync_generation`, `idx_corpus_generations_single_active` (≥1 hit each). If any is missing, the baseline drifted and the whole plan's premise is invalid; STOP.
 - `20260418000000_normative_edges_unique.sql` contains the `normative_edges_idempotency` unique index (reviewer-confirmed column order: `source_key, target_key, relation, generation_id`). If it is renamed or dropped, Phase 1's additional partial-unique index cannot coexist; STOP.
-- Matrix-version mirror grep shows `v2026-04-21-stv2d` in `AGENTS.md`, `docs/guide/env_guide.md`, `docs/guide/orchestration.md`. **Known drift:** `frontend/src/features/orchestration/orchestrationApp.ts` prints `v2026-04-18` as of plan authoring. `CLAUDE.md §Runtime Read Path` also still reads "Env v2026-04-18". Treat these two stale mirrors as pre-existing debt; Phase 6 bumps everyone to the new version simultaneously.
+- Matrix-version mirror grep shows `v2026-04-21-stv2d` in `AGENTS.md`, `docs/guide/env_guide.md`, `docs/orchestration/orchestration.md`. **Known drift:** `frontend/src/features/orchestration/orchestrationApp.ts` prints `v2026-04-18` as of plan authoring. `CLAUDE.md §Runtime Read Path` also still reads "Env v2026-04-18". Treat these two stale mirrors as pre-existing debt; Phase 6 bumps everyone to the new version simultaneously.
 - `ui_ingest_run_controllers.py`, `jobs_store.py`, `background_jobs.py` all exist (Phase 8 + async job surface depend on them).
 - All three curated backend tests green.
 - `make supabase-status` reports the local Docker stack running. If not, run `make supabase-start` first.
@@ -204,7 +204,7 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 | Blockers | Pre-flight observation: 2 pre-existing failures in `test_phase3_graph_planner_retrieval.py` (follow-up drilldown) — orthogonal to this plan (Invariant I6 hot path). Noted, not blocking. |
 | Working tree | `feat/additive-corpus-v1` @ branched from `main` 2026-04-22 |
 | Branch for execution | `feat/additive-corpus-v1` (off `main`) — CREATED 2026-04-22 |
-| Env matrix version at kickoff | `v2026-04-21-stv2d` in `AGENTS.md` / `docs/guide/env_guide.md` / `docs/guide/orchestration.md`; stale `v2026-04-18` still shown in `CLAUDE.md` line 65 and `frontend/src/features/orchestration/orchestrationApp.ts:97` — Phase 6 bumps all five to the new version. |
+| Env matrix version at kickoff | `v2026-04-21-stv2d` in `AGENTS.md` / `docs/guide/env_guide.md` / `docs/orchestration/orchestration.md`; stale `v2026-04-18` still shown in `CLAUDE.md` line 65 and `frontend/src/features/orchestration/orchestrationApp.ts:97` — Phase 6 bumps all five to the new version. |
 
 **Phase ledger** — allowed statuses: `NOT_STARTED`, `IN_PROGRESS`, `PASSED_TESTS`, `COMMITTED`, `DONE`, `BLOCKED`.
 
@@ -216,11 +216,11 @@ Phase 8 is mandatory (Decision G, reviewer-revised). Any UI component MUST be pr
 | 3 | Delta planner (pure) | PASSED_TESTS | `src/lia_graph/ingestion/delta_planner.py`, `tests/test_delta_planner.py` | — |
 | 4 | Additive Supabase sink path | PASSED_TESTS | `src/lia_graph/ingestion/supabase_sink.py` (extended with `write_delta` + `SupabaseDeltaResult`), `src/lia_graph/ingestion/dangling_store.py` (new), `tests/test_supabase_sink_delta.py` (10), `tests/test_dangling_store.py` (7) | — |
 | 5 | Additive Falkor path | PASSED_TESTS | `src/lia_graph/ingestion/loader.py` (+ `build_graph_delta_plan`), `src/lia_graph/graph/client.py` (+ `stage_detach_delete`, `stage_delete_outbound_edges`), `tests/test_loader_delta.py` (11) | — |
-| 6 | Orchestrator wiring + CLI + Makefile + env matrix | PASSED_TESTS | `src/lia_graph/ingest.py` (+ CLI flags + route), `src/lia_graph/ingestion/delta_runtime.py` (new — keeps `ingest.py` small), `Makefile` (+ 3 targets), `docs/guide/orchestration.md` (version bump + change-log entry), `docs/guide/env_guide.md`, `CLAUDE.md`, `AGENTS.md`, `frontend/src/features/orchestration/orchestrationApp.ts`, `tests/test_ingest_cli_additive.py` (7) | — |
+| 6 | Orchestrator wiring + CLI + Makefile + env matrix | PASSED_TESTS | `src/lia_graph/ingest.py` (+ CLI flags + route), `src/lia_graph/ingestion/delta_runtime.py` (new — keeps `ingest.py` small), `Makefile` (+ 3 targets), `docs/orchestration/orchestration.md` (version bump + change-log entry), `docs/guide/env_guide.md`, `CLAUDE.md`, `AGENTS.md`, `frontend/src/features/orchestration/orchestrationApp.ts`, `tests/test_ingest_cli_additive.py` (7) | — |
 | 7 | Concurrency guard + parity check + observability | PASSED_TESTS | `src/lia_graph/ingestion/parity_check.py` (new), `src/lia_graph/ingestion/delta_lock.py` (new), `src/lia_graph/ingestion/delta_job_store.py` (new), `src/lia_graph/ingestion/delta_runtime.py` (+ parity probe wiring + lock_target/created_by params), `tests/test_parity_check.py` (5), `tests/test_delta_lock.py` (6), `tests/test_delta_job_store.py` (6). `test_additive_observability.py` deferred — event emission is covered by the unit tests' assertions on the mock `emit_event`. | — |
 | 8 | Admin UI + backend job surface (**MANDATORY** — Decision G1 minimum, G3 stretch) | PARTIAL (backend complete; background worker + frontend deferred) | Backend DONE: `src/lia_graph/ui_ingest_delta_controllers.py` (6 endpoints — preview/apply/events/status/cancel/live), `src/lia_graph/ui_server_handler_dispatch.py` (GET + POST routes wired), `tests/test_ui_ingest_delta_controllers.py` (10 cases). Remaining: (a) background-worker contract in `src/lia_graph/background_jobs.py` (`ingest_delta_worker(job_id)` — plan §8.B). (b) Frontend components via `frontend-design:frontend-design` skill + 12-row failure matrix + reattach tests (plan §8.C-E). These defer to a follow-up session. | — |
 | 9 | E2E against real corpus | DEFERRED | Requires Phase 8 frontend + background worker first. Operational validation against real `knowledge_base/` corpus + cloud Falkor. Plan: `tests/manual/additive_corpus_v1_runbook.md` (CLI + UI runbooks), `tests/manual/additive_corpus_v1_evidence/<run-ts>/`. |
-| 10 | Close-out + handoff | DEFERRED | Blocked on Phase 8 frontend + Phase 9 evidence. When ready: add `v2026-04-22-ac1` Phase-9 evidence addendum to `docs/guide/orchestration.md` change log; `git mv docs/next/additive_corpusv1.md docs/done/`; open PR against `main`; mark plan COMPLETE. |
+| 10 | Close-out + handoff | DEFERRED | Blocked on Phase 8 frontend + Phase 9 evidence. When ready: add `v2026-04-22-ac1` Phase-9 evidence addendum to `docs/orchestration/orchestration.md` change log; `git mv docs/next/additive_corpusv1.md docs/done/`; open PR against `main`; mark plan COMPLETE. |
 
 **Tests baseline** (set in Phase 0 after pre-flight runs)
 
@@ -817,7 +817,7 @@ Resume marker  — within-phase last-known-good checkpoint
       - Adjust `normative_edges_rolling_idempotency` partial index predicate to match the currently-active generation, OR (simpler, reviewer-preferred): keep the idempotency index partial on `generation_id = 'gen_active_rolling'` and document that snapshot promotion swaps the rolling row's **data** (via `UPDATE corpus_generations SET is_active = false, activated_at = NOW() WHERE generation_id = 'gen_active_rolling'; UPDATE corpus_generations SET is_active = true, activated_at = NOW() WHERE generation_id = $snapshot`). In this design `gen_active_rolling` becomes dormant after a promotion from a snapshot, and subsequent additive deltas write into whatever is_active currently points at. **This changes the rolling-generation semantics from "always `gen_active_rolling`" to "the current is_active row".** Phase 6 State Notes must record whichever of these two options was picked; update §0.8 glossary accordingly at phase close-out.
       - Return a JSON report: `{"previous_gen": ..., "new_gen": ..., "row_count_changes": {...}, "duration_ms": ...}`.
     - Add target `phase2-reap-stalled-jobs` (reviewer-added, per Decision J2) that runs the janitor SQL for `ingest_delta_jobs` rows with `last_heartbeat_at < NOW() - interval '5 minutes'`. Operator-manual for v1; cron-friendly for follow-up.
-  - `docs/guide/orchestration.md`:
+  - `docs/orchestration/orchestration.md`:
     - Bump env matrix version from `v2026-04-21-stv2d` to `v2026-04-22-ac1`.
     - Add change-log row (per reviewer's ratification cadence — name Decisions A-K, the new migrations, the `ingest_delta_jobs` table, and the Phase 8 admin-UI endpoints).
     - Add lane-0 subsection describing additive vs full-rebuild paths.
@@ -832,7 +832,7 @@ Resume marker  — within-phase last-known-good checkpoint
   - (c) `--additive` without `--supabase-sink` errors with a clear message (additive mode requires Supabase to be meaningful).
   - (d) `--additive` run ends with exit code 0 on a clean no-op delta (disk matches baseline exactly).
   - (e) `--additive` run on a 3-doc add against a 10-doc baseline produces the expected 13-doc final state (row-count probe).
-  - (f) env matrix version string appears in **all five** mirror surfaces (reviewer-updated count): `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `AGENTS.md`, `frontend/src/features/orchestration/orchestrationApp.ts`. Grep cross-check returns ≥ 5 hits for the new version.
+  - (f) env matrix version string appears in **all five** mirror surfaces (reviewer-updated count): `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `AGENTS.md`, `frontend/src/features/orchestration/orchestrationApp.ts`. Grep cross-check returns ≥ 5 hits for the new version.
   - (g) reviewer-added: `make phase2-promote-snapshot SNAPSHOT_GEN=gen_<UTC>` completes on a seeded baseline and returns the JSON report shape defined in the Phase 6 Makefile bullet.
   - **Verification:** `PYTHONPATH=src:. uv run --group dev pytest tests/test_ingest_cli_additive.py -v && npm run test:backend` → all green; `grep -rl "v2026-04-22-ac1" docs/guide CLAUDE.md AGENTS.md frontend/src | wc -l` → ≥ 5.
 - **DoD:** `make phase2-corpus-additive PHASE2_SUPABASE_TARGET=production` (local) completes on a 3-doc fixture delta, emits a JSON run report with per-bucket counts; env matrix mirrored across all **5** surfaces (reviewer-updated count); CLI help mentions all new flags; promote RPC body lands and is exercised by `make phase2-promote-snapshot`.
@@ -841,7 +841,7 @@ Resume marker  — within-phase last-known-good checkpoint
 - **State Notes:**
     - 2026-04-22 — CLI + Makefile + env matrix bump landed. Four new CLI flags exposed; `main()` routes to `delta_runtime.materialize_delta` when `--additive` is set. Refuses to run without `--supabase-sink` (additive mode can't function without Supabase).
     - decision: `_materialize_delta` lives in a new sibling module `src/lia_graph/ingestion/delta_runtime.py` (~300 LOC) rather than being appended to `ingest.py` (already 850+ LOC). Per memory "Edit granularly" — keep host files small. `ingest.py` picks up ~70 LOC of CLI glue + a single conditional route at the top of `main()`.
-    - decision: env matrix bumped `v2026-04-22-betaflipsall` → `v2026-04-22-ac1` in all 5 mirrors (AGENTS.md, docs/guide/orchestration.md, docs/guide/env_guide.md, CLAUDE.md, frontend/src/features/orchestration/orchestrationApp.ts). Test (g) enforces this — asserts the new version string is present in every mirror before the test passes.
+    - decision: env matrix bumped `v2026-04-22-betaflipsall` → `v2026-04-22-ac1` in all 5 mirrors (AGENTS.md, docs/orchestration/orchestration.md, docs/guide/env_guide.md, CLAUDE.md, frontend/src/features/orchestration/orchestrationApp.ts). Test (g) enforces this — asserts the new version string is present in every mirror before the test passes.
     - decision: `promote_generation` RPC body stays as the Phase 1 skeleton ("not_implemented"). The real body is deferred to Phase 9 rollback drill; `make phase2-promote-snapshot` ships the caller that'll exercise it once the body lands. Phase 9 will decide row-copy vs pointer-flip (reviewer F1 pick: pointer flip).
     - decision: Artifact bundle rewrite (`parsed_articles.jsonl`, `typed_edges.jsonl`) is NOT performed in delta runs. Decision E1 says "full rewrite on every applied delta"; this v1 defers that to Phase 9 when we have real-corpus measurements of dev-mode impact. `delta_runtime.DeltaRunReport` emits a per-delta summary JSON into `artifacts/delta_<id>.json` instead.
     - decision: Strict parity + lock acquisition live in Phase 7. The `--strict-parity` flag is already wired through to `materialize_delta` so that Phase 7 can plug in the parity check without touching the CLI.
@@ -1083,7 +1083,7 @@ Every row is a test that MUST exist + pass before Phase 8 closes. Vitest for uni
 ### Phase 10 — Close-out + handoff
 - **Goal:** land the final change-log entry; relocate this doc to `docs/done/`; open the PR; mark plan COMPLETE.
 - **Files modify:**
-  - `docs/guide/orchestration.md` — add `v2026-04-22-ac1` change-log entry referencing Phase 9 evidence.
+  - `docs/orchestration/orchestration.md` — add `v2026-04-22-ac1` change-log entry referencing Phase 9 evidence.
   - THIS doc — §2 Plan status → `COMPLETE`; `git mv docs/next/additive_corpusv1.md docs/done/additive_corpusv1.md`.
 - **DoD:** PR open against `main`; all phase ledger rows `DONE`; change-log landed; doc relocated.
 - **State Notes:** (not started)
@@ -1155,7 +1155,7 @@ Every row is a test that MUST exist + pass before Phase 8 closes. Vitest for uni
 
 - `CLAUDE.md` (repo root) — Claude-family agent quickstart.
 - `AGENTS.md` (repo root) — canonical operating guide.
-- `docs/guide/orchestration.md` — runtime map + versioned env matrix.
+- `docs/orchestration/orchestration.md` — runtime map + versioned env matrix.
 - `docs/guide/env_guide.md` — operational run-mode guide.
 - `docs/next/subtopic_generationv1.md` — plan template shape.
 - `docs/next/ingestfixv1-design-notes.md` — admin UI atomic-design conventions.

@@ -678,7 +678,7 @@ def _spawn_ingest_subprocess(
     The split keeps ``embedding_ops.py`` and the make target individually
     invokable while the shell wrapper owns the UI-orchestration concern.
 
-    See ``docs/guide/orchestration.md`` Lane 0 + the change-log entry that
+    See ``docs/orchestration/orchestration.md`` Lane 0 + the change-log entry that
     introduced this UI surface.
     """
     log_dir = workspace_root / "artifacts" / "jobs" / "ingest_runs"

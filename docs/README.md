@@ -4,7 +4,7 @@ This is the active reading order for the repo.
 
 If you are reorienting after an interruption, read these in order:
 
-1. `docs/guide/orchestration.md` — end-to-end live runtime map + authoritative versioned env matrix + change log (currently **`v2026-04-25-comparative-regime`**)
+1. `docs/orchestration/orchestration.md` — end-to-end live runtime map + authoritative versioned env matrix + change log (currently **`v2026-04-25-comparative-regime`**)
 2. `docs/guide/chat-response-architecture.md` — how the `main chat` answer is shaped (and the surface boundary with `Normativa` / `Interpretación`)
 3. `docs/guide/env_guide.md` — run modes, env files, migration baseline, test accounts, corpus refresh
 4. `docs/guide/corpus.md` — corpus layers, ingest audit gate, taxonomy operations, latest run status
@@ -22,7 +22,7 @@ If you are reorienting after an interruption, read these in order:
 
 ## Purpose of Each Doc
 
-- `docs/guide/orchestration.md` — the main critical file: end-to-end runtime map, HTTP controller topology, information-architecture contracts, build-time ingestion lane (single-pass subtopic-aware classifier + sink + Falkor loader), serve-time retrieval dispatch, versioned per-mode env matrix + change log.
+- `docs/orchestration/orchestration.md` — the main critical file: end-to-end runtime map, HTTP controller topology, information-architecture contracts, build-time ingestion lane (single-pass subtopic-aware classifier + sink + Falkor loader), serve-time retrieval dispatch, versioned per-mode env matrix + change log.
 - `docs/guide/chat-response-architecture.md` — primary source of truth for how `main chat` answers are shaped. Stable facades (`answer_synthesis.py`, `answer_assembly.py`) vs. focused submodules; surface-boundary rules that keep `Normativa` and `Interpretación` from drifting back into `main chat` assembly; optional LLM polish (`answer_llm_polish.py`).
 - `docs/guide/env_guide.md` — operational counterpart: three run modes, env files, preflight checks, seed-users workflow, squashed migration baseline, corpus refresh commands, file pointers.
 - `docs/guide/corpus.md` — source-of-truth for corpus layers (source assets → canonical → reasoning inputs), audit-first admission, taxonomy operations (topic + curated subtopic, version `2026-04-21-v2`), latest run status, refresh procedure.

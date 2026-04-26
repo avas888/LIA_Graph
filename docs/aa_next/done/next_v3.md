@@ -162,7 +162,7 @@ Each row that doesn't flip = a defect. All 5 flip rows must pass; the unchanged 
 
 ### §8.5 Re-flip TEMA-first to `on`
 
-Per next_v2 §2 in reverse — flip launcher default `shadow` → `on`, bump env-matrix tag to `v2026-05-xx-temafirst-readdressed`, update all 5 mirror surfaces (`scripts/dev-launcher.mjs`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`). Add change-log row noting the v2 taxonomy + structural fixes that made re-flip safe.
+Per next_v2 §2 in reverse — flip launcher default `shadow` → `on`, bump env-matrix tag to `v2026-05-xx-temafirst-readdressed`, update all 5 mirror surfaces (`scripts/dev-launcher.mjs`, `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`). Add change-log row noting the v2 taxonomy + structural fixes that made re-flip safe.
 
 ---
 
@@ -435,7 +435,7 @@ Audit verdict on rebuild #4 was **`degraded`** due to 2 SSL handshake timeouts o
 1. **One clean rebuild re-run** to clear the audit verdict (~7 min, no engineering needed). Rebuild #4's `degraded` verdict came from 2 transient SSL handshake timeouts on Gemini, not classifier quality. A retry should land `clean` and close §9 gate 6. — **landed 2026-04-25 7:24 AM Bogotá, see §13.10.**
 2. **SME spot-review of 7 questions** (~30 min SME time). The seven 30Q failures are documented in §13.4. Includes 5-min decision on `retencion_en_la_fuente` vs `retencion_fuente_general` (q15), default-to-parent carve-outs for `firmeza_declaraciones` / `beneficio_auditoria` (q10/q16), mutex-rule strengthening for IVA-vs-procedimiento (q26), and `ambiguous_acceptable` adjudication on q13 / q14 / q28. Closes §9 gate 8. — **packet drafted 2026-04-25, see `taxonomy_v2_sme_spot_review.md`.**
 3. **Fix vector-dim issue in A/B harness** (~1 hour engineering). The `hybrid_search` Postgres function expects 1536-dim query embeddings; `_zero_embedding()` in `retriever_supabase.py:394` returns 768. Either (a) update `_zero_embedding()` to match the live schema dim, or (b) re-migrate the column to 768 and run the embedding backfill. Closes §9 gate 9. — **DISPROVED 2026-04-25: live RPC succeeds with 768-dim zero vector; the §13.5 mismatch was a transient cloud incident, not a schema/code bug. No engineering needed. See §13.10 for the full A/B re-run + qualitative gate read.**
-4. **Then re-flip with all gates green.** All 9 hard gates from §9 will be ✅; flip launcher default `shadow` → `on`, bump env-matrix tag to `v2026-05-xx-temafirst-readdressed`, update the 5 mirror surfaces (`scripts/dev-launcher.mjs`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`), and add a change-log row noting the v2 taxonomy + K2 path-veto + 30Q SME approval as the joint unblocker.
+4. **Then re-flip with all gates green.** All 9 hard gates from §9 will be ✅; flip launcher default `shadow` → `on`, bump env-matrix tag to `v2026-05-xx-temafirst-readdressed`, update the 5 mirror surfaces (`scripts/dev-launcher.mjs`, `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`), and add a change-log row noting the v2 taxonomy + K2 path-veto + 30Q SME approval as the joint unblocker.
 
 ---
 
@@ -551,7 +551,7 @@ The prudent call is the **strict reading**: re-flip stays blocked on §9 gate 9 
    - **q15:A follow-up** (corpus-side, not SME-blocking): production has **14 docs** bound to v1 key `retencion_en_la_fuente` and **1 doc** on v2 key `retencion_fuente_general`. Deprecating v1 in the taxonomy is correct per SME spec (line 184: *"Renombrar a `retencion_fuente_general`"*) but the 14 docs need rebinding. Suggested follow-up: add a rule to `_apply_path_veto` mapping legacy `retencion_en_la_fuente` → `retencion_fuente_general`, then re-run the workers=4 rebuild.
    - **Corpus-thinness flag for q10/q16**: `firmeza_declaraciones` has **0 docs** and `beneficio_auditoria` has **2 docs** in production (despite both being `corpus_coverage: active`). Routing right is correct intent, but downstream retrieval will return empty seeds. These are part of the **next_v4 §1 coherence-gate diagnostic measurement set** (Q21 specifically — same pattern, more topics).
 2. ~~Decide gate 9 read.~~ **DONE 2026-04-25** — operator chose qualitative; conditions recorded in `gate_9_threshold_decision.md` §7. Gate 9 → ✅.
-3. **Then re-flip.** Per §13.9 item 4 — flip launcher default `shadow` → `on`, bump env-matrix tag, update 5 mirror surfaces (`scripts/dev-launcher.mjs`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`), and add the change-log row **verbatim** as specified in `gate_9_threshold_decision.md` §7 condition 1 — enumerating the 11 deferred-debt question IDs and the v10-vs-v9 deltas.
+3. **Then re-flip.** Per §13.9 item 4 — flip launcher default `shadow` → `on`, bump env-matrix tag, update 5 mirror surfaces (`scripts/dev-launcher.mjs`, `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`), and add the change-log row **verbatim** as specified in `gate_9_threshold_decision.md` §7 condition 1 — enumerating the 11 deferred-debt question IDs and the v10-vs-v9 deltas.
 
 The classifier-document-side work is **done**. Gate 9 is **closed**. The taxonomy v2 + K2 path-veto + audit-gated rebuild + Cypher binding + A/B-strict-improvement + qualitative-pass story is complete. **The single remaining item is the SME 30Q reply** — it mechanically clears gate 8, and the moment that lands, item 3 above ships the re-flip with the verbatim change-log row.
 
@@ -620,7 +620,7 @@ PASS
 
 ### §13.12 Change-log row for the re-flip (verbatim — operator-bound)
 
-When the launcher flag flips `shadow` → `on`, the change-log row added to `docs/guide/orchestration.md` reads, verbatim per `gate_9_threshold_decision.md §7` condition 1:
+When the launcher flag flips `shadow` → `on`, the change-log row added to `docs/orchestration/orchestration.md` reads, verbatim per `gate_9_threshold_decision.md §7` condition 1:
 
 > Re-flipped on qualitative-pass of §8.4. v10 strict improvement vs v9 (seeds 14→18, mean primary 1.53→1.93, contamination 4/4, 0 regressions). Absolute thresholds 1 & 2 deferred to next_v4 coherence-gate calibration diagnostic, tracked against 11 enumerated `coherence_misaligned=True` questions: Q12, Q18, Q20, Q21, Q22, Q23, Q25, Q26, Q27, Q28, Q29 (Q10 routing-fail tracked separately under `facturacion_electronica` vocabulary gap). Gate 8 (SME 30Q) cleared at 29/30 post Alejandro 2026-04-25 spot-review + applier + router-side fixes (taxonomy_v2_sme_spot_review.md / §13.11).
 

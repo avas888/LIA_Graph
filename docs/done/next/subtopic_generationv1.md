@@ -21,7 +21,7 @@ This section is for an LLM agent that opens this doc with no conversation histor
 - **Working directory:** `/Users/ava-sensas/Developer/Lia_Graph`
 - **Branch this plan executes against:** `feat/suin-ingestion` (inherited from `ingestfixv1`)
 - **Main branch (used for PRs):** `main`
-- **Last shipped change pre-plan:** `v2026-04-20-ui15` (see `docs/guide/orchestration.md` change log) — the drag-to-ingest + AUTOGENERAR + 6-stage progress surface. AUTOGENERAR's `autogenerar_label` was captured only when N1 combined confidence < 0.95 triggered the N2 LLM. This plan made the label-emission pass ALWAYS-ON (for the one-shot collection run) and built the downstream mining + curation loop.
+- **Last shipped change pre-plan:** `v2026-04-20-ui15` (see `docs/orchestration/orchestration.md` change log) — the drag-to-ingest + AUTOGENERAR + 6-stage progress surface. AUTOGENERAR's `autogenerar_label` was captured only when N1 combined confidence < 0.95 triggered the N2 LLM. This plan made the label-emission pass ALWAYS-ON (for the one-shot collection run) and built the downstream mining + curation loop.
 - **Current tree context (set by refresh pass):** `feat/suin-ingestion` is now at commit `4b7a277` with env matrix `v2026-04-21-stv2c`. The consumer plan `ingestfixv2` has already shipped and landed in `docs/done/ingestfixv2-maximalist.md` — so the hand-off this plan was written to deliver is already in production use. A cold-start agent resuming today should expect to find Phases 1-9 essentially complete and only the physical relocation of this doc + a final close-out commit outstanding (see §2).
 
 ### 0.3 Source-of-truth document map (READ THESE BEFORE WRITING CODE)
@@ -31,7 +31,7 @@ Hierarchy of authority — when documents disagree, the higher one wins:
 |---|---|
 | `CLAUDE.md` (repo root) | Quickstart for Claude-family agents. Hard rules: don't touch Lia_contadores cloud resources; pipeline_d organization is deliberate; Falkor adapter must propagate outages, not silently fall back to artifacts; granular edits over monolithic rewrites. |
 | `AGENTS.md` (repo root) | Repo-level operating guide. If `CLAUDE.md` is silent on something, `AGENTS.md` is canonical. |
-| `docs/guide/orchestration.md` | THE end-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv2c` (was `v2026-04-18` when this plan was authored — the bumps at stv1, stv2, stv2b, stv2c all happened after approval). Lane 0 (build-time ingestion) is the relevant lane. |
+| `docs/orchestration/orchestration.md` | THE end-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv2c` (was `v2026-04-18` when this plan was authored — the bumps at stv1, stv2, stv2b, stv2c all happened after approval). Lane 0 (build-time ingestion) is the relevant lane. |
 | `docs/guide/env_guide.md` | Operational counterpart to orchestration.md. Run modes + env files + test accounts + corpus refresh. |
 | `docs/done/ingestfixv1.md` | Immediate predecessor plan (shipped as `v2026-04-20-ui15`). Describes AUTOGENERAR cascade, intake sidecar JSONL shape, classifier API, regrandfather script — all direct dependencies of THIS plan. |
 | `docs/done/ingestfixv2.md` + `docs/done/ingestfixv2-maximalist.md` | The *consumer* of what this plan produces. Shipped after this plan — v2 writes subtopic tagging at intake (Supabase `documents.subtema` + Falkor `SubTopicNode` / `HAS_SUBTOPIC`) and the retriever prefers subtopic-anchored evidence. v2 already reads `config/subtopic_taxonomy.json` v2026-04-21-v1 in production, so the hand-off this plan promised has been honored. |
@@ -179,7 +179,7 @@ Real-corpus inputs live at `knowledge_base/**/*.md` (1313 docs as of the 2026-04
 | 6 | Promote decisions → `subtopic_taxonomy.json` | COMMITTED | `scripts/promote_subtopic_decisions.py`, `src/lia_graph/subtopic_taxonomy_builder.py`, `tests/test_promote_subtopic_decisions.py` | `83019a6` |
 | 7 | Observability + trace schema (§13) | COMMITTED | §13 filled; `tests/test_subtopic_observability.py` | `83019a6` |
 | 8 | E2E — run against real corpus, curate, promote | DONE (with caveat) | Outputs landed: `artifacts/subtopic_candidates/collection_20260421T140152Z.jsonl` (1313 docs), `artifacts/subtopic_proposals_20260421T150424Z.json`, `artifacts/subtopic_decisions.jsonl` (87 rows), `config/subtopic_taxonomy.json` v2026-04-21-v1 (37×86). Caveat: `tests/manual/subtopicv1_evidence/<run>/` is stub-only — see Blockers row above. | `83019a6` |
-| 9 | Close-out + handoff update to `ingestfixv2.md` | IN_PROGRESS | `docs/guide/orchestration.md` gained `v2026-04-21-stv1` change-log entry (line 273) and `config/subtopic_taxonomy.json` is now cited as a corpus invariant. The v2 consumer plan (`docs/done/ingestfixv2-maximalist.md`) already lists this plan's output in its source-of-truth table. **Remaining:** physical `git mv docs/next/subtopic_generationv1.md docs/done/subtopic_generationv1.md` + companion move of `docs/next/subtopic_generationv1-contracts.md` + a `feat(subtopic-v1-phase-9): close-out` commit. | pending commit |
+| 9 | Close-out + handoff update to `ingestfixv2.md` | IN_PROGRESS | `docs/orchestration/orchestration.md` gained `v2026-04-21-stv1` change-log entry (line 273) and `config/subtopic_taxonomy.json` is now cited as a corpus invariant. The v2 consumer plan (`docs/done/ingestfixv2-maximalist.md`) already lists this plan's output in its source-of-truth table. **Remaining:** physical `git mv docs/next/subtopic_generationv1.md docs/done/subtopic_generationv1.md` + companion move of `docs/next/subtopic_generationv1-contracts.md` + a `feat(subtopic-v1-phase-9): close-out` commit. | pending commit |
 
 **Tests baseline** (set in Phase 0)
 
@@ -554,7 +554,7 @@ Resume marker  — within-phase last-known-good checkpoint
 - **Goal:** update the v2 stub to reflect that the seed list now exists; add a change-log entry in `orchestration.md`; flip this doc to COMPLETE.
 - **Files modify:**
   - `docs/next/ingestfixv2.md` — update "Pre-conditions" + "Seed list source" sections to point at `config/subtopic_taxonomy.json` with its version. (**Done transitively:** v2 itself shipped and now lives at `docs/done/ingestfixv2-maximalist.md`, which already cites this plan's `config/subtopic_taxonomy.json` v2026-04-21-v1 in its source-of-truth table.)
-  - `docs/guide/orchestration.md` — add `v2026-MM-DD-stv1` change-log entry (no env-matrix change; admin-scope surface + new artifacts path). (**Done:** line 273 names "86 subtopics × 37 parent topics, shipped by `v2026-04-21-stv1`".)
+  - `docs/orchestration/orchestration.md` — add `v2026-MM-DD-stv1` change-log entry (no env-matrix change; admin-scope surface + new artifacts path). (**Done:** line 273 names "86 subtopics × 37 parent topics, shipped by `v2026-04-21-stv1`".)
   - THIS doc — dashboard to COMPLETE; move to `docs/done/subtopic_generationv1.md`. (**Remaining:** physical file move + close-out commit.)
 - **DoD:** v2 stub explicitly references the real seed file; orchestration.md entry landed; plan-doc relocated to docs/done/.
 - **State Notes:** in progress as of the 2026-04-21 refresh pass. Two of three sub-tasks were completed transitively (ingestfixv2 shipped; orchestration.md change log has the stv1 entry). The remaining sub-task is mechanical: `git mv docs/next/subtopic_generationv1.md docs/done/subtopic_generationv1.md` (and the same for the `-contracts.md` sibling), bump the `**Last edited:**` line, and land a `feat(subtopic-v1-phase-9): close-out + relocate plan` commit. **Do not perform this mv until the stakeholder has approved the refreshed plan** per §0.11 (final taxonomy-commit gate applies by extension to the doc-relocation commit).
@@ -617,7 +617,7 @@ Resume marker  — within-phase last-known-good checkpoint
 - `docs/done/ingestfixv1.md` — shipped predecessor; defines `classify_ingestion_document`, intake sidecar shape, regrandfather script.
 - `docs/done/ingestfixv2.md` + `docs/done/ingestfixv2-maximalist.md` — shipped consumer of this plan's output. The maximalist version reads `config/subtopic_taxonomy.json` v2026-04-21-v1 in production.
 - `docs/next/subtopic_generationv1-contracts.md` — sibling contract doc pinning the JSONL / proposal / taxonomy schemas. Moves to `docs/done/` alongside this plan at close-out.
-- `docs/guide/orchestration.md` — Lane 0 (build-time ingestion), Controller Surface table, Change log. Current env matrix `v2026-04-21-stv2c`. The `v2026-04-21-stv1` change-log entry is this plan's landmark (line 273).
+- `docs/orchestration/orchestration.md` — Lane 0 (build-time ingestion), Controller Surface table, Change log. Current env matrix `v2026-04-21-stv2c`. The `v2026-04-21-stv1` change-log entry is this plan's landmark (line 273).
 - `src/lia_graph/ingestion_classifier.py:AutogenerarResult` — the field shape this plan extended with the `always_emit_label` kwarg.
 - `src/lia_graph/topic_taxonomy.py` + `config/topic_taxonomy.json` — the parallel canonical topic spec.
 - `scripts/regrandfather_corpus.py` — walk pattern reused by the collection script via `src/lia_graph/corpus_walk.py`.
@@ -736,7 +736,7 @@ For the avoidance of doubt: this plan is **successful** when the following exist
 3. `artifacts/subtopic_proposals_<ts>.json` — the mining output that seeded curation.
 4. `artifacts/subtopic_decisions.jsonl` — the full audit trail of every curator action.
 5. `tests/manual/subtopicv1_evidence/<run>/` — evidence bundle from the real run.
-6. A change-log entry in `docs/guide/orchestration.md`.
+6. A change-log entry in `docs/orchestration/orchestration.md`.
 7. `docs/next/ingestfixv2.md` updated to cite the now-existing seed file.
 
 Anything beyond that (v2 prompt extension, retrieval changes) is explicitly the next plan's problem.

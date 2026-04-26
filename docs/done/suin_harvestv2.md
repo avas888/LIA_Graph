@@ -646,7 +646,7 @@ Surface this in the report `totals` block. Failure threshold: Phase 2 should fli
 
 Before implementing:
 
-- Read `AGENTS.md`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`.
+- Read `AGENTS.md`, `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`.
 - Read v1's state tracker to confirm `gen_suin_prod_v1` is live and all v1 rows are `done`.
 - Confirm `cache/suin/` is still gitignored.
 - Confirm `feat/suin-ingestion-v2` branch exists off `feat/suin-ingestion`; the v1 branch stays untouched.

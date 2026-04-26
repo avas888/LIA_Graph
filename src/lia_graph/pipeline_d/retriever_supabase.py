@@ -62,6 +62,18 @@ def retrieve_graph_evidence(
     # depend on luck of the ranker.
     anchor_rows = _fetch_anchor_article_rows(db, plan)
     chunk_rows = _merge_rows_prefer_anchors(anchor_rows, chunk_rows)
+    # v5 §1.B — supplementary topic-filtered fetch was attempted here on
+    # 2026-04-26 evening. Empirically regressed 2 topics
+    # (impuesto_patrimonio_pn + conciliacion_fiscal) from `chunks_off_topic`
+    # to `pipeline_d_no_graph_primary_articles` because the supplementary
+    # chunks crowded out the anchor-rows that were providing primary
+    # articles, even with anchor-prefix ordering. Removed the call until
+    # the proper fix lands at `_collect_support` level (reserve slots for
+    # router-topic docs without disrupting primary classification).
+    # Helper `_augment_with_topic_supplementary` kept in this file for
+    # reference + unit tests; not invoked. See
+    # `docs/learnings/ingestion/coherence-gate-thin-corpus-diagnostic-
+    # 2026-04-26.md` L8 for the open issue.
 
     documents_by_doc_id = _load_documents_for_rows(db, chunk_rows)
 
@@ -340,6 +352,104 @@ def _fetch_anchor_article_rows(
             row.setdefault("fts_rank", 1.0)
             rows.append(row)
     return rows
+
+
+def _augment_with_topic_supplementary(
+    db: Any,
+    plan: GraphRetrievalPlan,
+    query_text: str,
+    chunk_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """v5 §1.B — guarantee router-topic representation in chunk_rows.
+
+    For thin-corpus topics, hybrid_search ranks narrow-topic docs below
+    umbrella-topic chunks despite the corpus containing relevant content.
+    This pulls a small supplementary set (filter_topic=router_topic) and
+    appends any chunks not already present, so support_documents has the
+    chance to include 2+ router-topic docs (the coherence-gate threshold).
+
+    No-op when:
+      * the plan has no router topic (plan.topic_hints is empty);
+      * the router topic already has ≥ 2 unique docs in chunk_rows
+        (threshold already satisfiable from hybrid_search alone).
+    """
+    router_topic = next(iter(plan.topic_hints), None) if plan.topic_hints else None
+    if not router_topic:
+        return chunk_rows
+    # Count distinct doc_ids tagged with router_topic in current rows.
+    existing_router_doc_ids = {
+        str(row.get("doc_id") or "")
+        for row in chunk_rows
+        if (row.get("topic") or "").strip() == router_topic and row.get("doc_id")
+    }
+    if len(existing_router_doc_ids) >= 2:
+        return chunk_rows  # threshold already satisfiable.
+
+    # Supplementary fetch with topic filter.
+    payload: dict[str, Any] = {
+        "query_embedding": _zero_embedding(),
+        "query_text": query_text,
+        "filter_topic": router_topic,
+        "filter_pais": "colombia",
+        "match_count": 12,  # small set; we only need 1-2 more docs.
+        "filter_knowledge_class": None,
+        "filter_sync_generation": None,
+        "fts_query": _build_fts_or_query(query_text),
+        "filter_effective_date_max": plan.temporal_context.cutoff_date or None,
+    }
+    try:
+        response = db.rpc("hybrid_search", payload).execute()
+    except Exception:  # noqa: BLE001 — supplementary fetch is best-effort.
+        return chunk_rows
+    raw = getattr(response, "data", None) or []
+    if not isinstance(raw, list):
+        return chunk_rows
+
+    existing_chunk_ids = {
+        str(row.get("chunk_id") or "") for row in chunk_rows if row.get("chunk_id")
+    }
+    supplementary: list[dict[str, Any]] = []
+    seen_doc_ids: set[str] = set()
+    for row in raw:
+        if not isinstance(row, dict):
+            continue
+        cid = str(row.get("chunk_id") or "")
+        did = str(row.get("doc_id") or "")
+        if not cid or cid in existing_chunk_ids:
+            continue
+        if did in seen_doc_ids:
+            # 1 chunk per doc is enough — we want doc-level coverage,
+            # not chunk flooding. Hybrid_search rows downstream will
+            # provide more chunks per doc if relevant.
+            continue
+        # Tag with synthetic rrf_score below anchor priority but above
+        # any hybrid_search result that might tie at zero — this keeps
+        # the supplementary docs near the front when ranked.
+        clone = dict(row)
+        clone.setdefault("rrf_score", 0.95)
+        clone.setdefault("fts_rank", 0.95)
+        supplementary.append(clone)
+        existing_chunk_ids.add(cid)
+        seen_doc_ids.add(did)
+        if len(supplementary) >= 3:
+            break
+    if not supplementary:
+        return chunk_rows
+    # Insert supplementary AFTER any anchor rows (rrf_score == 1.0 from
+    # `_fetch_anchor_article_rows`) but BEFORE hybrid_search rows. Anchors
+    # must keep priority for primary_articles classification; supplementary
+    # is only meant to widen support_documents coverage.
+    anchor_prefix: list[dict[str, Any]] = []
+    rest: list[dict[str, Any]] = []
+    for row in chunk_rows:
+        # Anchors are tagged with rrf_score=1.0 (line 350 in
+        # `_fetch_anchor_article_rows`). FTS rows have lower rrf_score
+        # (typically << 1.0 from the RRF formula). 0.99+ is anchor-band.
+        if float(row.get("rrf_score") or 0) >= 0.99:
+            anchor_prefix.append(row)
+        else:
+            rest.append(row)
+    return anchor_prefix + supplementary + rest
 
 
 def _merge_rows_prefer_anchors(

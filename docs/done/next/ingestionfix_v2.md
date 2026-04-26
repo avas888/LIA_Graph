@@ -35,7 +35,7 @@ Lia_Graph is a **graph-native RAG product** serving Colombian SMB accountants. N
 | `artifacts/` | Built corpus bundle (dev mode serves from here). |
 | `tests/` | Pytest. **Run only via `make test-batched`** (conftest aborts on > 20 files without `LIA_BATCHED_RUNNER=1`). |
 | `evals/` | Retrieval / gold benchmarks. |
-| `docs/guide/orchestration.md` | **Canonical** runtime map + versioned env/flag matrix. Reconcile code to this doc, never the reverse. |
+| `docs/orchestration/orchestration.md` | **Canonical** runtime map + versioned env/flag matrix. Reconcile code to this doc, never the reverse. |
 | `docs/guide/chat-response-architecture.md` | Main-chat answer shape. |
 | `docs/guide/env_guide.md` | Run modes, env files, test accounts, corpus refresh. |
 | `AGENTS.md`, `CLAUDE.md` | Repo operating guides. |
@@ -87,7 +87,7 @@ Lia_Graph is a **graph-native RAG product** serving Colombian SMB accountants. N
 
 ### 0.7 Source-of-truth pointers
 
-- Runtime semantics → `docs/guide/orchestration.md`.
+- Runtime semantics → `docs/orchestration/orchestration.md`.
 - Hot path (main chat) → §Hot Path in `CLAUDE.md`.
 - Decision log for additive-corpus-v1 → `docs/next/additive_corpusv1.md`.
 - Surface boundaries (main chat vs normativa vs interpretación) → `AGENTS.md` + `CLAUDE.md`.
@@ -742,7 +742,7 @@ npm run dev:staging &
 **Goal.** Bump docs + env matrix + hand off.
 
 **Files — modify.**
-- `docs/guide/orchestration.md` — bump env matrix version, note any new flags (e.g. `LIA_TAG_REPORT_LLM_PROVIDER` if Phase 7 introduced one). Add change-log row.
+- `docs/orchestration/orchestration.md` — bump env matrix version, note any new flags (e.g. `LIA_TAG_REPORT_LLM_PROVIDER` if Phase 7 introduced one). Add change-log row.
 - `docs/guide/env_guide.md` — mirror the update.
 - `CLAUDE.md` — mirror.
 - `frontend/src/app/orchestration/shell.ts` + `frontend/src/features/orchestration/orchestrationApp.ts` — update the `/orchestration` HTML map status card.

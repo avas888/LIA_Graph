@@ -11,7 +11,7 @@
 **Mandatory six-gate lifecycle** for every pipeline change (step / item / proposed fix) in any `aa_next/**` document. **Every gate must be written explicitly in the plan doc before any code is written.** A plan missing any gate is not a plan.
 
 1. **Describe the "good idea."** One sentence: what the change is + what behavior it's supposed to alter. No jargon. If the idea can't survive the sentence, it's not ready.
-2. **Plan how to implement.** Name the narrowest module(s) that own the behavior + the specific edits or new primitives. Reference the existing architecture (`docs/guide/orchestration.md`, related learnings).
+2. **Plan how to implement.** Name the narrowest module(s) that own the behavior + the specific edits or new primitives. Reference the existing architecture (`docs/orchestration/orchestration.md`, related learnings).
 3. **Define a minimum success criterion.** Measurable, with numbers, at a specific layer. No vibes ("better answers"), no proxies-only ("tests pass"). If the criterion is "mean primary_article_count ≥ 3.0 on the 30-gold A/B", that's the gate.
 4. **Define HOW to test the criterion — the test plan is part of the plan, not an afterthought.** This gate is about the *test* itself. For each of the two required signals (technical + end-user, see gate 5), spell out:
    - **Development needed.** What code has to be written for the test to even exist? New harness? Extended fixture? New diagnostic field? (E.g., "the A/B harness must capture `coherence_misaligned` before step 04 is testable.")

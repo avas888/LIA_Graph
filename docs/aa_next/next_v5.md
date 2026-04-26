@@ -141,6 +141,95 @@ Effort: 1 day operator (the two runs + spot-checks + commit).
 
 ---
 
+## §1.C Open difficulties from §1.A + §1.B deployment (catalogued 2026-04-26 evening)
+
+> **Reason for cataloging in detail.** §1.A + §1.B shipped end-to-end on 2026-04-26 and unblocked **8 of 12 thin-corpus topics** in the chat. The 4 remaining topics refuse for distinct structural reasons that aren't obvious from the code. This section captures every failure mode + every attempted fix + every hypothesis for the next attempt, so we don't forget the dead ends and re-walk them.
+>
+> **Status:** 💡 idea — open, blocked on understanding the retrieval pipeline at runbook-level depth (in progress as `docs/orchestration/` 2026-04-26).
+
+### The 4 stuck topics — by failure mode
+
+#### Topic 1 — `precios_de_transferencia` → `pipeline_d_coherence_primary_off_topic`
+
+**What's failing.** The router routes correctly to `precios_de_transferencia`. The planner pulls primary articles from Falkor. The lexical-scoring inside `detect_topic_misalignment` scores those articles' titles+excerpts against topic keywords, and the lexical winner is **NOT** `precios_de_transferencia`.
+
+**Why §1.A's short-circuit didn't fire.** §1.A short-circuits when `router_topic ∈ primary_article.secondary_topics`. Currently `Art. 260-5` has `secondary_topics=["firmeza_declaraciones"]` — does NOT include `precios_de_transferencia` because the SME-validated mapping was a) Art. 260-5's canonical owner is precios; b) it ALSO serves firmeza. The reverse direction (some other article whose canonical owner is firmeza or declaracion_renta but which is the canonical for precios queries) hasn't been curated.
+
+**Attempted fix.** None yet specifically for this. §1.A seed didn't add a precios entry beyond Art. 260-5.
+
+**Hypothesis for next attempt.** Curate canonical precios articles with `secondary_topics=["precios_de_transferencia"]` — Art. 260, 260-1, 260-2, 260-3, 260-7, 260-9 etc. Per `pt_normativa_precios_transferencia.md` (728 lines covering 260-1 through 260-11), all 11 should probably have precios as a secondary if their primary owner doc is something else (e.g., declaracion_renta umbrella). Empirical check: query Falkor for `MATCH (a:ArticleNode) WHERE a.article_id STARTS WITH '260' RETURN a.article_id, a.source_path, a.secondary_topics` to see which need curation.
+
+**Risk of fix.** Low — adding `precios_de_transferencia` as secondary to articles that genuinely cover precios topics is curation, not relaxation.
+
+#### Topic 2 — `regimen_cambiario` → `pipeline_d_coherence_chunks_off_topic`
+
+**What's failing.** Hybrid_search returns 5 support_documents. Diagnostic shows `topic_key_matches: 1`, `dominant_topic: retencion_fuente_general`, `top_lexical_score: 8`. The narrow topic has 6 docs in Supabase but hybrid_search ranks them below 4 retencion-tagged chunks for this query.
+
+**Why §1.B didn't fire.** §1.B's `compatible_doc_topics` config initially had `regimen_cambiario → ["cambiario"]`, but `cambiario` is NOT a registered topic in `topic_taxonomy.json` — only `regimen_cambiario` is. The Supabase docs that show up as the hybrid_search winners are tagged with `retencion_fuente_general`, an umbrella retention topic that's NOT a SME-validated adjacency for cambiario operations.
+
+**Attempted fix.** Added `cambiario` to compatible_topics → dropped at validation (taxonomy didn't have it). Without a valid compatible topic, §1.B is no-op for this query.
+
+**Hypothesis for next attempt.** Three branches:
+1. Add a `cambiario` topic to `topic_taxonomy.json` (umbrella for currency/exchange controls) and curate `regimen_cambiario.compatible_topics = ["cambiario"]`. Requires SME approval of the new umbrella topic.
+2. Add a hybrid_search topic-aware boost (server-side SQL change) so chunks with `chunk.topic = router_topic` are scored higher in RRF. This is the Lia-wide fix, not just for cambiario.
+3. Reserve slots in `_collect_support` for router-topic docs (2-pass selection): pick first N high-rank docs, then fill remaining slots with router-topic docs if they exist anywhere in chunk_rows.
+
+Branch 2 is the most general; branches 1 + 3 are targeted.
+
+**Risk of each.** Branch 1: low (just data). Branch 2: medium (SQL migration to staging + production Supabase). Branch 3: low-medium (Python only, but needs care to not regress primary_articles classification).
+
+#### Topic 3 — `impuesto_patrimonio_personas_naturales` → `pipeline_d_coherence_chunks_off_topic`
+
+**What's failing.** Same shape as cambiario. 4 docs exist, hybrid_search pulls 1, gate refuses. Phase-2 measured the cross-topic owner is `patrimonio_fiscal_renta` (33 mentions, 94% of cross-topic refs).
+
+**Why §1.B didn't fire fully.** `compatible_doc_topics` includes `patrimonio_fiscal_renta` — that part works. But the dominant lexical winner from the support_documents text is also `retencion_fuente_general` (same pattern as cambiario, the retention dump dominates lexical scoring on titles).
+
+**Attempted fix.** §1.B added `patrimonio_fiscal_renta` + `declaracion_renta` to compatible_topics. Doesn't help because the support_documents pulled aren't tagged with EITHER — they're retention.
+
+**Hypothesis for next attempt.** Same as cambiario branches 2 or 3. The compatible_topics list can't widen indefinitely without becoming contamination. The architectural fix is at the ranking layer.
+
+#### Topic 4 — `conciliacion_fiscal` → `pipeline_d_coherence_chunks_off_topic`
+
+**What's failing.** Conciliacion has only 2 .md docs total (the third is a PDF that the .md-only ingest pattern excluded). Even if both made it into support_documents, that's the bare-minimum threshold. Hybrid_search currently pulls 1; the other 1 doesn't make it.
+
+**Why §1.B didn't fire fully.** §1.B added `procedimiento_tributario`, `declaracion_renta`, `costos_deducciones_renta` to compatible_topics. These topics have lots of docs but the hybrid_search query for "formato 2516 conciliar diferencias contables fiscales" doesn't pull them either — it pulls retention-tagged chunks.
+
+**Attempted fix.** Same compatible_topics widening, didn't help.
+
+**Hypothesis for next attempt.** Same structural fix as cambiario/patrimonio. Plus: investigate why the second conciliacion .md doc isn't ranked into support_documents — it might score poorly on FTS for this specific query phrasing.
+
+### The supplementary-fetch attempt (failed)
+
+Tried in `retriever_supabase.py` — added `_augment_with_topic_supplementary` that, when fewer than 2 router-topic docs were present in chunk_rows, did a second hybrid_search call with `filter_topic=router_topic` and prepended the results.
+
+**What broke.** Empirically REGRESSED `impuesto_patrimonio_pn` and `conciliacion_fiscal` from `chunks_off_topic` to `pipeline_d_no_graph_primary_articles`. Root cause: prepending supplementary chunks pushed the anchor-row chunks (which provide primary_articles via `_classify_article_rows`) further down in chunk_rows, and the classifier's primary-article extraction stopped finding them within its scan window.
+
+Mitigation tried: reorder so supplementary goes AFTER anchor_prefix but before fts_rows. Same regression. The classifier seems to prefer earlier rows for primary_articles regardless of anchor tagging.
+
+**Status.** Helper `_augment_with_topic_supplementary` is kept in the file (docstring explains why) but **not invoked**. Re-enabling requires fixing `_collect_support` to do 2-pass selection that decouples support_doc choice from chunk_rows order.
+
+### Architectural gap surfaced
+
+Lia's hybrid_search has a `subtopic_boost` (RRF formula multiplier when `chunk.subtema = filter_subtopic`) but NO `topic_boost`. So the ONLY signals shaping retrieval ranking are FTS (term match in chunk_text/search_vector) + vector (semantic similarity to the query embedding) + RRF combination. Topic is purely informational on the result set, not used to rank. This is the deliberate design (per `retriever_supabase.py:138-141` comment: "topic is a planner-side signal, not a recall predicate"). But the consequence is exactly what we measured: when the retention dump's chunks score higher lexically/semantically than narrow-topic chunks, the narrow topic's docs get crowded out.
+
+**The general fix candidate.** Add `topic_boost` parameter to `hybrid_search` SQL, default 1.0. Multiply RRF by `topic_boost` when `chunk.topic = filter_topic`. Plumb from the planner. Per `feedback_thresholds_no_lower`: this widens recall for the router topic without lowering any threshold.
+
+This is a **structural Lia change**, not just a §1.B patch. Would also help any future thin-corpus topic without per-topic curation. Estimated effort: SQL migration (1 day) + Python wiring (0.5 day) + verification (0.5 day) = ~2 days.
+
+### What this section is NOT
+
+- A claim that §1.A or §1.B failed. Both shipped correctly + 8/12 unblocked is real progress.
+- A request to lower thresholds. The 2-doc threshold + lexical scoring rules stay intact.
+- A request to add `retencion_fuente_general` to compatible_doc_topics. That would be Q1-class contamination relaxation.
+
+### Next-step priority (suggested)
+
+1. Read `docs/orchestration/` deep runbooks (in progress) to understand the retrieval flow at line-level. Will likely surface additional fix candidates.
+2. After reading: pick one fix and execute. Most-promising at this hour: hybrid_search topic_boost (general structural).
+3. For topic 1 (precios), the curation fix is independent and can ship in parallel.
+
+---
+
 ## §6 Falkor parity + corpus-grow safety (carried from v4 §6.5)
 
 **Status mix:** §6.5.A 💡 idea; §6.5.B 🧪 verified locally with qualitative-pass on bucket (b)=54; §6.5.D 💡 idea; §6.5.E 🧪 verified locally (5/5 guard tests, audit complete). Full record + bucket numbers + samples in `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md`.

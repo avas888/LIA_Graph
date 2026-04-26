@@ -1,7 +1,7 @@
 # Environment Guide
 
 > **Env matrix version: `v2026-04-26-additive-no-retire`.**
-> This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
+> This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/orchestration/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
 >
 > **2026-04-25 cumulative ship state (next_v3 close + next_v4 §3/§4/§5):**
 > - **All "no off flags" promotions in effect.** `LIA_TEMA_FIRST_RETRIEVAL=on`, `LIA_EVIDENCE_COHERENCE_GATE=enforce`, `LIA_POLICY_CITATION_ALLOWLIST=enforce`, `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce`, `LIA_RERANKER_MODE=live`, `LIA_QUERY_DECOMPOSE=on`, `LIA_LLM_POLISH_ENABLED=1` — all three modes.
@@ -14,7 +14,7 @@
 
 ## Purpose
 
-This guide defines the three run modes of `Lia_Graph`, the env files they load, the workflow for seeding users, the corpus refresh that primes the cloud retriever, and the migration baseline. It is the operational counterpart to `docs/guide/orchestration.md`.
+This guide defines the three run modes of `Lia_Graph`, the env files they load, the workflow for seeding users, the corpus refresh that primes the cloud retriever, and the migration baseline. It is the operational counterpart to `docs/orchestration/orchestration.md`.
 
 ## Run Modes
 
@@ -55,7 +55,7 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 
 Every chat response carries the active values under `response.diagnostics.retrieval_backend`, `response.diagnostics.graph_backend`, and — when the planner detects a curated subtopic — `response.diagnostics.retrieval_sub_topic_intent` + `response.diagnostics.subtopic_anchor_keys`. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted — fix the env before shipping.
 
-Full table with every `LIA_*` env, owners, and version history lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned).
+Full table with every `LIA_*` env, owners, and version history lives in [`docs/orchestration/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned).
 
 ## Env Files
 
@@ -174,7 +174,7 @@ Local developers do NOT need to run the sink. `npm run dev` reads from the files
 
 ### Single-Pass Ingest (Since `v2026-04-21-stv2b`)
 
-The bulk ingest runs the PASO 4 LLM subtopic classifier inline between audit and sink, so `documents.subtema` + Falkor `SubTopicNode` / `HAS_SUBTOPIC` edges land in the same `make phase2-graph-artifacts-supabase` run — no separate backfill step. See `docs/guide/orchestration.md` §0.4 for the full module decomposition. `scripts/backfill_subtopic.py` is now maintenance-only (default filter: `requires_subtopic_review=true OR subtema IS NULL`).
+The bulk ingest runs the PASO 4 LLM subtopic classifier inline between audit and sink, so `documents.subtema` + Falkor `SubTopicNode` / `HAS_SUBTOPIC` edges land in the same `make phase2-graph-artifacts-supabase` run — no separate backfill step. See `docs/orchestration/orchestration.md` §0.4 for the full module decomposition. `scripts/backfill_subtopic.py` is now maintenance-only (default filter: `requires_subtopic_review=true OR subtema IS NULL`).
 
 ### Embedding + Promotion Auto-Chain
 

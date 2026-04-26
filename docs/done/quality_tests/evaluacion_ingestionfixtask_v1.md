@@ -99,7 +99,7 @@ logs/
 |---|---|
 | Pipeline entry point for one query | `scripts/eval_retrieval.py:310-340` — shows the `resolve_chat_topic` → `PipelineCRequest` → `run_pipeline_d` pattern |
 | Feature flag parsing | `src/lia_graph/pipeline_d/retriever_falkor.py::_tema_first_mode()` |
-| Env matrix | `docs/guide/orchestration.md` (versioned; current v2026-04-22-ac1+) |
+| Env matrix | `docs/orchestration/orchestration.md` (versioned; current v2026-04-22-ac1+) |
 | Detached-launcher template | `scripts/launch_phase9a.sh` (shell) + CLAUDE.md §"Long-running Python processes" |
 | Heartbeat renderer | `scripts/monitoring/ingest_heartbeat.py` |
 | Bogotá AM/PM convention | user memory `feedback_time_format_bogota.md` + applied repo-wide |
@@ -996,7 +996,7 @@ PYTHONPATH=src:. uv run python scripts/evaluations/render_ab_markdown.py \
 - **`scripts/eval_retrieval.py`** — precedent pattern for the `resolve_chat_topic → PipelineCRequest → run_pipeline_d` invocation; copy the shape, don't re-invent.
 - **`docs/quality_tests/EVALUACION-CORPUS-30-PREGUNTAS-RESPUESTAS.md`** — the human-readable twin of `evals/gold_retrieval_v1.jsonl`. Informational for panel reviewers if they want the reference answers; the launcher reads only the JSONL.
 - **CLAUDE.md §"Long-running Python processes"** — detached-launch contract; Phase 4 follows it.
-- **`docs/guide/orchestration.md` env matrix** — not modified by this task (no new flags introduced).
+- **`docs/orchestration/orchestration.md` env matrix** — not modified by this task (no new flags introduced).
 
 ---
 

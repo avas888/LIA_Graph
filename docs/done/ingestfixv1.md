@@ -21,7 +21,7 @@ This section is for an LLM agent that opens this doc with no conversation histor
 - **Working directory:** `/Users/ava-sensas/Developer/Lia_Graph`
 - **Branch this plan executes against:** `feat/suin-ingestion`
 - **Main branch (used for PRs):** `main`
-- **Last shipped change pre-plan:** `v2026-04-20-ui14` (see `docs/guide/orchestration.md` change log) — that change introduced the new Sesiones admin surface (`/api/ingest/state`, `/api/ingest/generations`, `POST /api/ingest/run`) but did NOT include drag-to-ingest, AUTOGENERAR, per-stage progress, log tail, or embedding auto-chain. THIS plan adds those.
+- **Last shipped change pre-plan:** `v2026-04-20-ui14` (see `docs/orchestration/orchestration.md` change log) — that change introduced the new Sesiones admin surface (`/api/ingest/state`, `/api/ingest/generations`, `POST /api/ingest/run`) but did NOT include drag-to-ingest, AUTOGENERAR, per-stage progress, log tail, or embedding auto-chain. THIS plan adds those.
 
 ### 0.3 Source-of-truth document map (READ THESE BEFORE WRITING CODE)
 Hierarchy of authority — when documents disagree, the higher one wins:
@@ -30,7 +30,7 @@ Hierarchy of authority — when documents disagree, the higher one wins:
 |---|---|
 | `CLAUDE.md` (repo root) | Quickstart for Claude-family agents. Hard rules: don't touch Lia_contadores cloud resources; pipeline_d organization is deliberate; Falkor adapter must propagate outages, not silently fall back to artifacts; granular edits over monolithic rewrites. |
 | `AGENTS.md` (repo root) | Repo-level operating guide. If `CLAUDE.md` is silent on something, `AGENTS.md` is canonical. |
-| `docs/guide/orchestration.md` | THE end-to-end runtime + information-architecture map. Contains the authoritative per-mode env/flag versioning table (currently `v2026-04-18`). Lane 0 (build-time ingestion) section is directly relevant to this plan. ANY change to env/launcher/sink behavior requires a version bump + change-log entry there. |
+| `docs/orchestration/orchestration.md` | THE end-to-end runtime + information-architecture map. Contains the authoritative per-mode env/flag versioning table (currently `v2026-04-18`). Lane 0 (build-time ingestion) section is directly relevant to this plan. ANY change to env/launcher/sink behavior requires a version bump + change-log entry there. |
 | `docs/guide/env_guide.md` | Operational counterpart to orchestration.md. Defines the three run modes (`npm run dev`, `dev:staging`, `dev:production`), env files loaded per mode, squashed migration baseline, test accounts, corpus refresh workflow. |
 | `docs/guide/chat-response-architecture.md` | Read-time pipeline (not directly relevant here but useful context). |
 | THIS doc (`docs/next/ingestfixv1.md`) | The active plan. State Dashboard (§2) is the live status. |
@@ -113,7 +113,7 @@ The skill output INFORMS the code; it does not generate the code directly. Atomi
 ### 0.12 What to ABSOLUTELY NOT do
 - Do not modify cloud Supabase (`utjndyxgfhkfcrjmtdqz`) or cloud FalkorDB outside the planned Phase 8 cloud pass. All earlier phases are local-only.
 - Do not delete files in `docs/done/` or move them back to `docs/next/`.
-- Do not rewrite or reformat `CLAUDE.md`, `AGENTS.md`, or `docs/guide/orchestration.md` beyond the specific change-log entry the plan calls for.
+- Do not rewrite or reformat `CLAUDE.md`, `AGENTS.md`, or `docs/orchestration/orchestration.md` beyond the specific change-log entry the plan calls for.
 - Do not skip the user-approval gate for Phase 1 start. Plan status MUST be `APPROVED` first.
 - Do not bypass the atomic-design discipline test (`frontend/tests/atomicDiscipline.test.ts`).
 - Do not commit `.env*` files, secrets, or anything in `logs/` unless explicitly requested.
@@ -627,7 +627,7 @@ Resume marker  — within-phase last-known-good checkpoint string. Empty → sta
   - **NEW Makefile target:** `phase2-regrandfather-corpus` → invokes `python scripts/regrandfather_corpus.py --dry-run|--commit`.
 - **Files modify:**
   - `Makefile` — append the new target.
-  - `docs/guide/orchestration.md` — Lane 0 section gets a paragraph on regrandfathering (when run, what it does).
+  - `docs/orchestration/orchestration.md` — Lane 0 section gets a paragraph on regrandfathering (when run, what it does).
 - **Tests add:** dry-run tests verify no FS mutation when `--dry-run`. **Verification:** `make phase2-regrandfather-corpus DRY_RUN=1` against a 10-doc fixture corpus → expected coverage report.
 - **DoD:** dry-run report shows expected % coercion methods; commit run on a fixture corpus produces canonical output; `documents.coercion_method` populated for all rows.
 - **Trace events:** `ingest.regrandfather.{start,doc.processed,done,failed}`.
@@ -696,7 +696,7 @@ Resume marker  — within-phase last-known-good checkpoint string. Empty → sta
 ### Phase 9 — Final close-out + change-log entry
 - **Goal:** `v2026-04-20-ui15` change-log entry in `orchestration.md`; `Plan status = COMPLETE` in §2.
 - **Files modify:**
-  - `docs/guide/orchestration.md` — add `v2026-04-20-ui15` entry summarizing the new ingest surface + invariants.
+  - `docs/orchestration/orchestration.md` — add `v2026-04-20-ui15` entry summarizing the new ingest surface + invariants.
   - This doc — flip dashboard to COMPLETE; update final test counts in §2 baseline table.
 - **DoD:** orchestration.md updated; dashboard COMPLETE; full Python + frontend test suites pass.
 - **State Notes:** (not started)
@@ -751,7 +751,7 @@ Resume marker  — within-phase last-known-good checkpoint string. Empty → sta
 ---
 
 ## 10. References
-- `docs/guide/orchestration.md` — Lane 0 (build-time ingestion), Runtime Env Matrix, Controller Surface table (entry for `ui_ingest_run_controllers.py` added in v2026-04-20-ui14).
+- `docs/orchestration/orchestration.md` — Lane 0 (build-time ingestion), Runtime Env Matrix, Controller Surface table (entry for `ui_ingest_run_controllers.py` added in v2026-04-20-ui14).
 - `docs/guide/env_guide.md` — `make phase2-graph-artifacts-supabase` workflow + `PHASE2_SUPABASE_SINK_FLAGS` = `--supabase-sink --supabase-target {wip,production} --execute-load --allow-unblessed-load --strict-falkordb`.
 - `docs/next/decouplingv1.md` — `opsIngestionController.ts` (2327 LOC) is on the kill list; this plan supersedes it for the Sesiones surface.
 - `docs/done/ingestion_suin.md` — frozen SUIN infrastructure (Phase A + B). **Phase 5b of THIS plan refactors `src/lia_graph/ingestion/suin/bridge.py` to emit the canonical 8-section template** (Decision C2.c.now); the harvest tooling itself is untouched.

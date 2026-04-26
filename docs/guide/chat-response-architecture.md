@@ -58,7 +58,7 @@ Source of truth (planner + shared support):
 - `src/lia_graph/pipeline_d/planner_query_modes.py` — query-mode classifier + `_detect_sub_topic_intent`
 - `src/lia_graph/pipeline_d/retrieval_support.py`
 
-Source of truth (retrieval adapters — orchestrator picks per request based on `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE`; see `docs/guide/orchestration.md` for the versioned env matrix):
+Source of truth (retrieval adapters — orchestrator picks per request based on `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE`; see `docs/orchestration/orchestration.md` for the versioned env matrix):
 
 - `src/lia_graph/pipeline_d/retriever.py` — artifact BFS. Active in `dev`.
 - `src/lia_graph/pipeline_d/retriever_supabase.py` — cloud Supabase `hybrid_search` RPC + `documents` lookup. Active in `dev:staging` for the chunks half. Passes `filter_subtopic` + `subtopic_boost` (floor 1.0, default 1.5 from `LIA_SUBTOPIC_BOOST_FACTOR`) when the planner emits `sub_topic_intent`.
@@ -290,7 +290,7 @@ The post-answer runtime order is:
 2. prime the `Normativa` track
 3. prime the `Interpretación` track
 
-But that ordering does not mean deep blocking. `Normativa` and `Interpretación` should both start from the same minimal turn kernel (`trace_id`, user message, published answer, normalized topic/country, cited-anchor snapshot) and run independently. `Interpretación` must not wait for full `Normativa` retrieval to finish before starting its own retrieval. Full concurrency rules live in `docs/guide/orchestration.md` §Post-Answer Surface Concurrency.
+But that ordering does not mean deep blocking. `Normativa` and `Interpretación` should both start from the same minimal turn kernel (`trace_id`, user message, published answer, normalized topic/country, cited-anchor snapshot) and run independently. `Interpretación` must not wait for full `Normativa` retrieval to finish before starting its own retrieval. Full concurrency rules live in `docs/orchestration/orchestration.md` §Post-Answer Surface Concurrency.
 
 Editing rule:
 
@@ -341,7 +341,7 @@ To keep the repo understandable over time:
 - do not keep two “current runtime” docs alive at the same time
 - when a guide becomes historical, mark it explicitly as archived
 - do not branch answer-shaping logic on `LIA_CORPUS_SOURCE` / `LIA_GRAPH_MODE` — those flags belong to retrieval dispatch only; synthesis and assembly must stay backend-agnostic
-- when retrieval contract or env flags change, bump the env matrix version in `docs/guide/orchestration.md`
+- when retrieval contract or env flags change, bump the env matrix version in `docs/orchestration/orchestration.md`
 
 ## Practical Tuning Checklist
 

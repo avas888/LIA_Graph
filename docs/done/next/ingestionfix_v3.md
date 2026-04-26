@@ -111,7 +111,7 @@ logs/
 |---|---|
 | v2's historical triage (3 crashes, their fixes, lessons) | `docs/next/ingestionfix_v2.md §7 run_log_2026_04_23` |
 | Repo-level operating guide | `AGENTS.md` + `CLAUDE.md` (top of repo) |
-| Runtime env matrix (LIA_* flags, run modes) | `docs/guide/orchestration.md` (versioned; env matrix v2026-04-22-ac1 at time of writing) |
+| Runtime env matrix (LIA_* flags, run modes) | `docs/orchestration/orchestration.md` (versioned; env matrix v2026-04-22-ac1 at time of writing) |
 | Detached-launch pattern + heartbeat cron recipe | `scripts/monitoring/README.md` |
 | Long-running Python process default pattern | `CLAUDE.md §"Long-running Python processes"` |
 | Graph schema required_fields | `src/lia_graph/graph/schema.py` (search `required_fields`) |
@@ -513,7 +513,7 @@ Phases 1, 2, 2.5, 3.0, 3, 5 close v3. Phase 4 is tracked separately.
 | `docs/next/ingestionfix_v2.md §7 phase_10_verification.graph_smoke_result` | Remove "will NOT pass" framing; point to v3 §2 as the resolution path |
 | `docs/next/ingestionfix_v2.md §7 plan_version` | Bump to `2.5` with a note: "Phase 10.3 acceptance amended; v3 covers the coverage gap" |
 | `docs/next/ingestionfix_v2.md §7` | Add `closed_out_at: 2026-04-<NN>` stamp once Phase 12 finishes |
-| `docs/guide/orchestration.md` env matrix | Bump version per matrix change-log convention (only if v3 introduces new flags — likely none; confirm) |
+| `docs/orchestration/orchestration.md` env matrix | Bump version per matrix change-log convention (only if v3 introduces new flags — likely none; confirm) |
 | `docs/guide/env_guide.md` env matrix mirror | Mirror orchestration.md |
 | `CLAUDE.md` env matrix mirror (top of repo) | Mirror (already partially updated in v2 for long-running-process guidance) |
 | `frontend/src/app/orchestration/shell.ts` | Update `/orchestration` HTML map status card |
@@ -547,7 +547,7 @@ $EDITOR frontend/tests/additiveDeltaControllerTerminalVm.test.ts
 npm run test:frontend -- additiveDeltaControllerTerminalVm
 
 # 1c — doc mirrors
-$EDITOR docs/guide/orchestration.md
+$EDITOR docs/orchestration/orchestration.md
 $EDITOR docs/guide/env_guide.md
 $EDITOR CLAUDE.md
 $EDITOR frontend/src/app/orchestration/shell.ts
@@ -1451,7 +1451,7 @@ phase_1_paperwork:
   tests_passing:
     - additiveDeltaControllerTerminalVm            # 5 cases green; aggregated with chat/thinking/orchestration smokes (15 total)
   notes: >
-    v3 introduces zero runtime env changes, so `docs/guide/orchestration.md`,
+    v3 introduces zero runtime env changes, so `docs/orchestration/orchestration.md`,
     `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`,
     and `frontend/src/features/orchestration/orchestrationApp.ts` env-matrix mirrors
     are untouched (per §5 Phase 1 guidance — matrix bump only required when new flags land).
@@ -1774,7 +1774,7 @@ git commit -am "docs(ingestionfix-v3): close-out — all phases green"
 
 - **v2 triage history** — `docs/next/ingestionfix_v2.md §7 run_log_2026_04_23` is the authoritative record of the 4×40-min pain that motivated v3's chunked, gated, resumable design. Do not duplicate content; link.
 - **SUIN import pipeline** — `scripts/fire_suin_cloud.sh`, `scripts/verify_suin_merge.py`. Phase 4 (orphan backfill) may need to wire against SUIN if option 4b is chosen.
-- **Env matrix versioning** — `docs/guide/orchestration.md`. If v3 introduces any new `LIA_*` env or launcher flag, bump the matrix version and mirror to `docs/guide/env_guide.md` + `CLAUDE.md` per repo convention.
+- **Env matrix versioning** — `docs/orchestration/orchestration.md`. If v3 introduces any new `LIA_*` env or launcher flag, bump the matrix version and mirror to `docs/guide/env_guide.md` + `CLAUDE.md` per repo convention.
 - **Long-running process pattern** — `CLAUDE.md` §"Long-running Python processes" (landed in v2 today). v3 builds on this; no new conventions expected.
 - **Frontend tests** — `frontend/tests/additiveDeltaControllerTerminalVm.test.ts` for the Phase 1 banner fix.
 

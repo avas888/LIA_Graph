@@ -33,7 +33,7 @@ Three concrete signals during v4 showed the graph isn't feeding retrieval:
 - **Feature-flag every new Cypher path.** Old retrieval stays as fallback until operator validates.
 
 ### 0.5 Non-negotiables
-- `docs/guide/orchestration.md` env matrix gets bumped for any new `LIA_*` flag (per CLAUDE.md rule).
+- `docs/orchestration/orchestration.md` env matrix gets bumped for any new `LIA_*` flag (per CLAUDE.md rule).
 - Retriever changes land behind `LIA_TEMA_FIRST_RETRIEVAL=on|off` (default off → on after ±2 hours of shadow metrics).
 - Every new Cypher query passes the `test_retriever_cloud_contracts.py` schema-whitelist gate.
 - Keep `main chat`, `Normativa`, `Interpretación` surface boundaries intact — don't fold.
@@ -261,7 +261,7 @@ LIMIT $limit
 | `src/lia_graph/pipeline_d/retriever_falkor.py` | Add `tema_first_match()` helper + flag dispatch. Emit `retrieval.tema_first.returned` event with node count. |
 | `src/lia_graph/pipeline_d/orchestrator.py` | Read `LIA_TEMA_FIRST_RETRIEVAL` and pass into retriever. |
 | `scripts/dev-launcher.mjs` | Default `LIA_TEMA_FIRST_RETRIEVAL=shadow` in dev/staging; flipped to `on` after shadow review (beta risk-forward memo). |
-| `docs/guide/orchestration.md` env matrix | Bump version + add row. |
+| `docs/orchestration/orchestration.md` env matrix | Bump version + add row. |
 | `docs/guide/env_guide.md` env matrix mirror | Mirror. |
 | `CLAUDE.md` env matrix mirror | Mirror. |
 | `frontend/src/app/orchestration/shell.ts` + `frontend/src/features/orchestration/orchestrationApp.ts` | Add the flag to the /orchestration HTML map status card. |

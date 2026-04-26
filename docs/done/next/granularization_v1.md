@@ -1,7 +1,7 @@
 # `ui_server.py` Granularization — v1
 
 **Status:** planning → in progress. Owner: refactor of `src/lia_graph/ui_server.py` (2180 LOC → target ≤ 1400 LOC).
-**Reference:** `docs/guide/orchestration.md` v2026-04-18 env/flag table. Must be preserved.
+**Reference:** `docs/orchestration/orchestration.md` v2026-04-18 env/flag table. Must be preserved.
 **Baseline commit:** `3c15f28` (chore: tighten return types + extend supabase retriever test coverage).
 
 ---
@@ -20,7 +20,7 @@
 | Track A net effect | `ui_server.py` 2180 → 1899 LOC (−281, includes +36 LOC module docstring that signposts the architecture); 2 new controller modules (`ui_frontend_compat_controllers.py`, `ui_public_session_controllers.py`) |
 | Track B net effect | 7 stubs filled: `ui_conversation_controllers.py`, `ui_admin_controllers.py`, `ui_runtime_controllers.py`, `ui_reasoning_controllers.py`, `ui_ingestion_controllers.py` GET+DELETE, `ui_write_controllers.py` (13 handlers), plus `ui_form_guide_helpers.py` (pre-B0) |
 | Regression | 165+ tests green; only pre-existing `test_platform_seed_users` failure remains (missing migration SQL, unrelated) |
-| Docs sync | `docs/guide/orchestration.md` §HTTP Controller Topology added + v2026-04-18-ui1 changelog entry; `AGENTS.md` pointer added; `frontend/src/features/orchestration/orchestrationApp.ts` module card bullet added. HTML shells (`ui/orchestration.html`, `frontend/orchestration.html`) unchanged — they are TS mount points, not static diagrams |
+| Docs sync | `docs/orchestration/orchestration.md` §HTTP Controller Topology added + v2026-04-18-ui1 changelog entry; `AGENTS.md` pointer added; `frontend/src/features/orchestration/orchestrationApp.ts` module card bullet added. HTML shells (`ui/orchestration.html`, `frontend/orchestration.html`) unchanged — they are TS mount points, not static diagrams |
 | Last clean commit | `3c15f28` |
 | Working-tree clean? | **no** — see baseline + parallel-work snapshot below |
 | Can resume from cold restart? | **yes** — follow `Resume protocol` |
@@ -66,7 +66,7 @@ Harmonization rule: when committing, stage by scope. Never `git add -A`. Use exp
 | B8 — ingestion | `completed` | uncommitted | `ui_ingestion_controllers.py` stub → real GET+DELETE. POSTs re-homed to `ui_write_controllers` per Lia_contadores architecture; the ingestion controller's POST is a passthrough stub retained for test compat. Test `test_ui_ingestion_controllers.py` updated to pass explicit parsed+deps. |
 | B9 — writes ×13 | `completed` | uncommitted | `ui_write_controllers.py` stub → real (~1350 LOC). 13 handlers: platform, form_guides, chat_run, terms_feedback, contributions, ingestion, corpus_sync_to_wip, corpus_operation, embedding_operation, reindex_operation, rollback, promote, reindex. |
 | Final gate | `in_progress` | — | full pytest 165 passed (1 pre-existing skip) |
-| Final docs | `pending` | — | sync `docs/guide/orchestration.md` (+ env/flag table bump), `ui/orchestration.html`, `frontend/orchestration.html`, re-check `AGENTS.md` / `CLAUDE.md` |
+| Final docs | `pending` | — | sync `docs/orchestration/orchestration.md` (+ env/flag table bump), `ui/orchestration.html`, `frontend/orchestration.html`, re-check `AGENTS.md` / `CLAUDE.md` |
 
 ### PRIOR state (entering B2)
 
@@ -129,7 +129,7 @@ Harmonization rule: when committing, stage by scope. Never `git add -A`. Use exp
 
 The following files were already modified/untracked at refactor start — leave them alone unless they appear in a batch's `Touched files` table:
 
-- Modified: `.env.staging`, `artifacts/canonical_corpus_manifest.json`, `artifacts/corpus_audit_report.json`, `artifacts/corpus_inventory.json`, `artifacts/corpus_reconnaissance_report.json`, `artifacts/excluded_files.json`, `docs/guide/orchestration.md`, `frontend/src/features/auth/loginApp.ts`, `logs/api_audit.jsonl`, `logs/chat_verbose.jsonl`, `logs/events.jsonl`, `logs/reasoning_events.jsonl`, `scripts/dev-launcher.mjs`, `src/lia_graph/gemini_runtime.py`, `src/lia_graph/graph/client.py`, `src/lia_graph/llm_runtime.py`, `src/lia_graph/pipeline_d/orchestrator.py`, `src/lia_graph/pipeline_d/retriever_falkor.py`, `src/lia_graph/pipeline_d/retriever_supabase.py`, `src/lia_graph/ui_chat_payload.py`, `supabase/config.toml`, `tests/test_retriever_supabase.py`, `ui/form-guide.html`, `ui/login.html`.
+- Modified: `.env.staging`, `artifacts/canonical_corpus_manifest.json`, `artifacts/corpus_audit_report.json`, `artifacts/corpus_inventory.json`, `artifacts/corpus_reconnaissance_report.json`, `artifacts/excluded_files.json`, `docs/orchestration/orchestration.md`, `frontend/src/features/auth/loginApp.ts`, `logs/api_audit.jsonl`, `logs/chat_verbose.jsonl`, `logs/events.jsonl`, `logs/reasoning_events.jsonl`, `scripts/dev-launcher.mjs`, `src/lia_graph/gemini_runtime.py`, `src/lia_graph/graph/client.py`, `src/lia_graph/llm_runtime.py`, `src/lia_graph/pipeline_d/orchestrator.py`, `src/lia_graph/pipeline_d/retriever_falkor.py`, `src/lia_graph/pipeline_d/retriever_supabase.py`, `src/lia_graph/ui_chat_payload.py`, `supabase/config.toml`, `tests/test_retriever_supabase.py`, `ui/form-guide.html`, `ui/login.html`.
 - Deleted (expected): `ui/assets/form-guide-h20S5fE-.js`, `ui/assets/login-DPeTVaWo.js` (old hashed bundles).
 - Untracked: many `artifacts/jobs/runtime/*.json` (runtime outputs, ignore).
 
@@ -333,7 +333,7 @@ Rationale: keeping constants as top-level names in `ui_server.py` preserves the 
 | 1 | **Monkeypatched module globals silently no-op.** `tests/test_ui_server_http_smokes.py:79-82` patches `PUBLIC_MODE_ENABLED`, `PUBLIC_CAPTCHA_ENABLED`, `run_pipeline_c`, `run_pipeline_d` on `ui_server`. | All such constants/functions stay defined as top-level names in `ui_server.py`. Inject into controllers via `deps`. Never import them directly from the controller. Add a pre-commit `grep` guard that `ui_*_controllers.py` does not `from .ui_server import`. |
 | 2 | **Circular imports.** | Controllers must NEVER `from .ui_server import ...`. Pure-function deps live in small helper modules (`ui_form_guide_helpers.py` reference); stateful deps flow through the `deps={}` dict. |
 | 3 | **`_*_controller_deps()` convention.** L573 / L617 / L658 already establish it — rebuild the dict per request so monkeypatched overrides are seen. | Follow verbatim for any new helper (e.g. `_frontend_compat_controller_deps()` in B2). No module-level frozen dicts. |
-| 4 | **Env-gated adapter selection** (`LIA_CORPUS_SOURCE`, `LIA_GRAPH_MODE`). `docs/guide/orchestration.md` v2026-04-18 requires this remain consulted at the chat surface, not in a controller. | Out of scope for B1–B3. For B8, adapter resolution stays in the runtime modules; the ingestion controller only hands requests to `IngestionRuntime`. |
+| 4 | **Env-gated adapter selection** (`LIA_CORPUS_SOURCE`, `LIA_GRAPH_MODE`). `docs/orchestration/orchestration.md` v2026-04-18 requires this remain consulted at the chat surface, not in a controller. | Out of scope for B1–B3. For B8, adapter resolution stays in the runtime modules; the ingestion controller only hands requests to `IngestionRuntime`. |
 | 5 | **`_resolve_auth_context` (L813).** Called by B2 and many writes (B9). | Stays on the class. Controllers call it via `handler._resolve_auth_context(...)`. Extraction to `ui_auth.py` is a **follow-up**, not this refactor. |
 | 6 | **Reload watcher (L466).** Snapshots `src/lia_graph/**` mtimes. | Every new module lives under `src/lia_graph/`. Run `scripts/dev-launcher.mjs` once per batch to confirm reload still triggers. |
 | 7 | **Shared mutable state on `self`** — `_api_log_*`, `_SUSPENDED_CACHE` + `_SUSPENDED_CACHE_LOCK`, `_RATE_LIMITER`. | Never thread through `deps`. Controllers call `handler._start_api_request_log`, `handler._check_rate_limit` as methods. `_SUSPENDED_CACHE` stays a module global on `ui_server`. |
@@ -404,7 +404,7 @@ For the `response.diagnostics.retrieval_backend` check: after B1–B3 the field 
 - `src/lia_graph/ui_runtime_controllers.py`
 - `src/lia_graph/ui_ingestion_controllers.py`
 - `tests/test_ui_server_http_smokes.py` (monkeypatch-trap authority)
-- `docs/guide/orchestration.md` v2026-04-18 (env/flag table — do not drift)
+- `docs/orchestration/orchestration.md` v2026-04-18 (env/flag table — do not drift)
 
 Lineage reference for stub ports (read-only, per `project_lia_graph_lineage.md`):
 

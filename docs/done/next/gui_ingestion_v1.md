@@ -573,7 +573,7 @@ if health.returncode != 0:
 
 ### §13.10 [P3] Ingest env vars missing from orchestration matrix
 
-**Deficiency.** `docs/guide/orchestration.md` §Env-v2026-04-22-ac1 lists all `LIA_*` flags for the served runtime. Ingest-side flags are not there. Production operators tuning the UI runtime have to grep.
+**Deficiency.** `docs/orchestration/orchestration.md` §Env-v2026-04-22-ac1 lists all `LIA_*` flags for the served runtime. Ingest-side flags are not there. Production operators tuning the UI runtime have to grep.
 
 **Fix.** Add an "Ingest-pipeline env vars" subsection including `LIA_INGEST_CLASSIFIER_RPM`, `LIA_INGEST_CLASSIFIER_WORKERS`, `LIA_SUPABASE_SINK_WORKERS`, `FALKORDB_QUERY_TIMEOUT_SECONDS`, `FALKORDB_BATCH_NODES`, `FALKORDB_BATCH_EDGES`.
 

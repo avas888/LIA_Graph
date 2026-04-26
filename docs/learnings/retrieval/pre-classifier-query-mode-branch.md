@@ -85,7 +85,7 @@ Each is a `config/comparative_regime_pairs.json` entry once SME reviews the dime
 ## See also
 
 - `docs/aa_next/next_v4.md §5` — the binding case + plan + status
-- `docs/guide/orchestration.md §3.1` — query mode list with `comparative_regime_chain` at the top
-- `docs/guide/orchestration.md §6.6b` — the renderer
+- `docs/orchestration/orchestration.md §3.1` — query mode list with `comparative_regime_chain` at the top
+- `docs/orchestration/orchestration.md §6.6b` — the renderer
 - `config/comparative_regime_pairs.json` — the pair config; current version `v2026-04-25-v1` with one entry
 - `tests/test_phase3_graph_planner_retrieval.py::test_phase3_pipeline_d_comparative_regime_pre2017_followup_renders_table` — the binding regression test

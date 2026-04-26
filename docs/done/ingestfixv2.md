@@ -7,7 +7,7 @@
 > NULL and FalkorDB carried zero `SubTopicNode` / `HAS_SUBTOPIC` state
 > after a `make phase2-graph-artifacts-supabase` run. The correction plan
 > is `docs/next/ingestfixv2.md` (Phases A1–A11 + B1–B6); version
-> `v2026-04-21-stv2b` in `docs/guide/orchestration.md`. Treat this doc as
+> `v2026-04-21-stv2b` in `docs/orchestration/orchestration.md`. Treat this doc as
 > historical context only.
 
 **Last edited:** 2026-04-21 (plan rewritten from stub to full implementation plan)
@@ -32,7 +32,7 @@ This section is for an LLM agent that opens this doc with no conversation histor
 - **Working directory:** `/Users/ava-sensas/Developer/Lia_Graph`
 - **Branch this plan executes against:** `feat/suin-ingestion` (or a fresh `feat/ingestfix-v2` branched off main if preferred — commit `83019a6` is the subtopic v1 baseline)
 - **Main branch (used for PRs):** `main`
-- **Last shipped change pre-plan:** `v2026-04-21-stv1` (see `docs/guide/orchestration.md` change log) — subtopic_generationv1 phases 1-7 + curated `config/subtopic_taxonomy.json`. This plan consumes that file.
+- **Last shipped change pre-plan:** `v2026-04-21-stv1` (see `docs/orchestration/orchestration.md` change log) — subtopic_generationv1 phases 1-7 + curated `config/subtopic_taxonomy.json`. This plan consumes that file.
 
 ### 0.3 Source-of-truth document map (READ THESE BEFORE WRITING CODE)
 Hierarchy of authority — when documents disagree, the higher one wins:
@@ -41,7 +41,7 @@ Hierarchy of authority — when documents disagree, the higher one wins:
 |---|---|
 | `CLAUDE.md` (repo root) | Quickstart for Claude-family agents. Hard rules: don't touch Lia_contadores cloud resources; pipeline_d organization is deliberate; Falkor adapter must propagate outages, not silently fall back to artifacts; granular edits over monolithic rewrites. |
 | `AGENTS.md` (repo root) | Repo-level operating guide. If `CLAUDE.md` is silent on something, `AGENTS.md` is canonical. |
-| `docs/guide/orchestration.md` | THE end-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv1`. Lane 0 (build-time ingestion) + retrieval adapters section are relevant. |
+| `docs/orchestration/orchestration.md` | THE end-to-end runtime + information-architecture map. Env matrix version is currently `v2026-04-21-stv1`. Lane 0 (build-time ingestion) + retrieval adapters section are relevant. |
 | `docs/guide/env_guide.md` | Operational counterpart to orchestration.md. Run modes + env files + test accounts + corpus refresh. |
 | `docs/done/ingestfixv1.md` | Predecessor plan. Describes AUTOGENERAR cascade, intake sidecar JSONL shape, classifier API — direct dependencies of THIS plan. |
 | `docs/done/subtopic_generationv1.md` *(moved here after v1 Phase 9 close-out)* | Immediate predecessor. Describes how `config/subtopic_taxonomy.json` was produced — THIS plan consumes that file. |
@@ -680,7 +680,7 @@ Resume marker  — within-phase last-known-good checkpoint
 ### Phase 10 — Close-out
 - **Goal:** orchestration change log + relocate this doc.
 - **Files modify:**
-  - `docs/guide/orchestration.md` — new change-log entry `v2026-MM-DD-stv2` documenting the pipeline extension + the new RPC param + the SubTopic FalkorDB nodes/edges + any env var (`LIA_SUBTOPIC_BOOST_FACTOR`).
+  - `docs/orchestration/orchestration.md` — new change-log entry `v2026-MM-DD-stv2` documenting the pipeline extension + the new RPC param + the SubTopic FalkorDB nodes/edges + any env var (`LIA_SUBTOPIC_BOOST_FACTOR`).
   - `CLAUDE.md` — minor addition: the subtopic intent propagation in diagnostics.
   - THIS doc — dashboard to COMPLETE; move to `docs/done/ingestfixv2.md`.
 - **DoD:** orchestration.md entry landed; plan relocated; CLAUDE.md updated.
@@ -745,7 +745,7 @@ Resume marker  — within-phase last-known-good checkpoint
 - `docs/done/ingestfixv1.md` — AUTOGENERAR cascade + classifier API shipped.
 - `docs/next/subtopic_generationv1.md` (will move to `docs/done/` post v1 close-out) — taxonomy producer.
 - `docs/next/subtopic_generationv1-contracts.md` — canonical schemas.
-- `docs/guide/orchestration.md` Lane 0 + retrieval adapters section.
+- `docs/orchestration/orchestration.md` Lane 0 + retrieval adapters section.
 - `CLAUDE.md` — Lia_Graph hard rules (no silent Falkor fallback, pipeline_d granularity).
 - `src/lia_graph/ingestion_classifier.py:AutogenerarResult` — the shape Phase 3 extends.
 - `src/lia_graph/ingestion/supabase_sink.py:write_documents` — already reads `subtopic_key`, Phase 4 wires the producer.
@@ -847,7 +847,7 @@ This plan is **successful** when:
 1. `classify_ingestion_document` returns a `subtopic_key` for ≥90% of docs in the active corpus generation (measurable via `SELECT COUNT(*) FILTER (WHERE subtema IS NOT NULL) / COUNT(*) FROM documents WHERE sync_generation=<active>`).
 2. FalkorDB contains `SubTopic` nodes and `HAS_SUBTOPIC` edges linking documents to them (measurable via `MATCH (s:SubTopicNode) RETURN count(s)` > 0 AND `MATCH ()-[e:HAS_SUBTOPIC]->() RETURN count(e)` > 0).
 3. A chat query like `"cómo liquido parafiscales ICBF"` produces `response.diagnostics.retrieval_sub_topic_intent = "aporte_parafiscales_icbf"` AND the top chunk is one tagged with that subtema.
-4. `docs/guide/orchestration.md` has a `v2026-MM-DD-stv2` change-log entry.
+4. `docs/orchestration/orchestration.md` has a `v2026-MM-DD-stv2` change-log entry.
 5. Phase 9 E2E runbook completed with evidence bundle; stakeholder signed off.
 6. The plan doc is relocated to `docs/done/ingestfixv2.md` with the final dashboard showing COMPLETE.
 
