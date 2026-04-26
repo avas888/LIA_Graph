@@ -220,3 +220,79 @@ def test_classifier_preserves_edge_kind_while_adding_edge_type():
         # record.properties must carry edge_type + weight for loader consumption
         assert "edge_type" in e.record.properties
         assert "weight" in e.record.properties
+
+
+# ---------------------------------------------------------------------------
+# v5 §6.3 — prose-only sources emit edges using the Falkor MERGE form.
+# Without this, edges from interpretation/expert-comment files (which lack
+# article_number) carry the legacy `article_key` slug as `source_key` and
+# fail to MATCH any :ArticleNode in Falkor — measured at 99,1% of bucket-(a)
+# loss in v5 §6.2 (`docs/learnings/ingestion/falkor-edge-undercount-and-
+# resultset-cap-2026-04-26.md`).
+# ---------------------------------------------------------------------------
+
+
+def _prose_only_article(
+    *,
+    article_key: str,
+    source_path: str,
+    body: str,
+    heading: str = "Norma base",
+) -> ParsedArticle:
+    """Mirror of `_article` but with `article_number=""` so the article is
+    classified as prose-only by `loader._is_prose_only` / `graph_article_key`."""
+    full_text = f"# {heading}\n{body}"
+    return ParsedArticle(
+        article_key=article_key,
+        article_number="",  # the prose-only marker
+        heading=heading,
+        body=body,
+        full_text=full_text,
+        status="vigente",
+        source_path=source_path,
+    )
+
+
+def test_prose_only_source_uses_graph_article_key():
+    """A prose-only article must emit edges whose source_key is the
+    `whole::{source_path}` form — matching the loader's MERGE key — so the
+    downstream Falkor MATCH succeeds instead of silently filtering the edge.
+    """
+    src_path = "/abs/interpretacion/T-REF-LABORAL-expertos.md"
+    articles = [
+        _prose_only_article(
+            article_key="10-fuentes-y-referencias",
+            source_path=src_path,
+            body="Ver Articulo 147 ET sobre perdidas. Ley 1819 de 2016.",
+        ),
+    ]
+    raw = extract_edge_candidates(articles)
+    assert raw, "prose-only article should still emit edges"
+    # Every emitted candidate must have the graph-article-key form for source.
+    expected_src = f"whole::{src_path}"
+    for c in raw:
+        assert c.source_key == expected_src, (
+            f"prose-only source must use {expected_src!r}, "
+            f"got {c.source_key!r}"
+        )
+    # Targets are unchanged — numbered article ref → "147"; reform ref → "LEY-1819-2016".
+    target_keys = {c.target_key for c in raw}
+    assert "147" in target_keys
+    assert "LEY-1819-2016" in target_keys
+
+
+def test_numbered_source_unchanged_by_v5_6_3():
+    """Numbered articles continue to use article_key as source_key — the v5
+    §6.3 change must not regress the existing 19.815 working edges."""
+    articles = [
+        _article(
+            article_key="100",
+            source_path="/abs/normativa/ley.md",
+            body="Modificase el Articulo 37 del Estatuto Tributario.",
+        ),
+    ]
+    raw = extract_edge_candidates(articles)
+    assert raw
+    assert all(c.source_key == "100" for c in raw), (
+        "numbered article source_key must stay unchanged at the article number"
+    )

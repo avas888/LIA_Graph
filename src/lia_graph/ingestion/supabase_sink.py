@@ -881,6 +881,28 @@ class SupabaseCorpusSink:
             retired_doc_ids.append(baseline.doc_id)
 
         if retired_doc_ids:
+            # v5 §6.3: also fetch relative_path per doc — prose-only edges
+            # write `source_key=whole::{relative_path}`, so retire-cleanup must
+            # delete those rows too. Without this, retiring a prose-only doc
+            # would leave its outbound edges in normative_edges (Falkor would
+            # also be inconsistent because the loader DETACH DELETEs the
+            # ArticleNode but the broken Supabase rows would linger).
+            doc_paths: dict[str, str] = {}
+            try:
+                docs_resp = (
+                    self._client.table("documents")
+                    .select("doc_id, relative_path")
+                    .in_("doc_id", list(retired_doc_ids))
+                    .execute()
+                )
+                for raw in list(getattr(docs_resp, "data", None) or []):
+                    did = str(raw.get("doc_id") or "").strip()
+                    rp = str(raw.get("relative_path") or "").strip()
+                    if did and rp:
+                        doc_paths[did] = rp
+            except Exception:  # noqa: BLE001 — non-fatal: cleanup degrades to slug-only.
+                doc_paths = {}
+
             # Find article keys owned by retired docs via chunk_id prefix.
             for doc_id in retired_doc_ids:
                 resp = (
@@ -895,6 +917,10 @@ class SupabaseCorpusSink:
                         _, _, article_key = chunk_id.partition("::")
                         if article_key:
                             retired_article_keys.add(article_key)
+                # v5 §6.3: also include the prose-only graph_article_key form.
+                rp = doc_paths.get(doc_id)
+                if rp:
+                    retired_article_keys.add(f"whole::{rp}")
                 # Hard-delete chunks for the retired doc.
                 del_resp = (
                     self._client.table("document_chunks")
@@ -930,10 +956,19 @@ class SupabaseCorpusSink:
         # rolling row before writing the fresh set. Determine their article
         # keys from the freshly-parsed articles.
         modified_article_keys: set[str] = set()
+        # v5 §6.3: prose-only edges write source_key=whole::{source_path}; the
+        # cleanup must also include the graph_article_key form so MODIFY
+        # doesn't leak stale edges from the previous classify of a prose-only
+        # doc. Lazy import — `loader` indirectly pulls `classifier` which
+        # pulls `linker`, and we want to avoid widening that import graph.
+        from .loader import graph_article_key
         for article in articles:
             dest_doc = doc_id_by_source_path.get(str(article.source_path or ""))
             if dest_doc and dest_doc in modified_doc_ids:
                 modified_article_keys.add(article.article_key)
+                gk = graph_article_key(article)
+                if gk != article.article_key:
+                    modified_article_keys.add(gk)
         for article_key in modified_article_keys:
             del_resp = (
                 self._client.table("normative_edges")

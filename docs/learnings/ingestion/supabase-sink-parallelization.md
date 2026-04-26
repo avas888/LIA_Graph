@@ -108,6 +108,7 @@ Uses a thread-safe `_FakeClient` that records every `.upsert(...)` and `.select(
 - **Parallelizing stages with non-unique keys.** If a new stage writes on a composite key that can collide across workers (e.g., a staging table without a unique constraint), parallel upserts will cause lost updates. Check the `on_conflict=` clause.
 - **Running 8+ workers on free tier.** Saturates the 15-connection pool, starves app traffic. Stick with 4 unless you know the tier.
 - **Silencing batch failures.** The wrapper raises `RuntimeError("supabase_sink batch #N ...")` specifically so callers notice. Don't catch-and-ignore unless you're in `load_existing_tema`-style best-effort paths.
+- **Changing a write-time key-form without updating cleanup paths.** Parallelism safety doesn't help if `WHERE source_key = …` queries on retire / modify still match the old form. The write-path and delete-path must mirror each other in lockstep. See [`edge-key-form-discipline.md`](edge-key-form-discipline.md) for the triage checklist — surfaced by the v5 §6.3 prose-only-edges fix where the linker started writing `whole::` keys but `_handle_apply` cleanup paths kept matching the legacy slug, leaving stale rows on every modify of a prose-only doc.
 
 ## Follow-ups
 

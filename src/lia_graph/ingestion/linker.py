@@ -9,6 +9,8 @@ from collections.abc import Mapping
 
 from ..graph.schema import NodeKind
 from .parser import ParsedArticle
+# `graph_article_key` is imported lazily inside `_extract_article_edges`
+# to avoid a circular: linker → loader → classifier → linker.
 
 ARTICLE_REFERENCE_RE = re.compile(
     r"(?i)\b(?:art(?:[ií]culo)?|art\.)\s*(?P<number>\d+(?:-\d+)?)\b"
@@ -86,6 +88,17 @@ def extract_edge_candidates(
 
 
 def _extract_article_edges(article: ParsedArticle) -> list[RawEdgeCandidate]:
+    # v5 §6.3 — emit the Falkor MERGE form for the source key. For numbered
+    # articles `graph_article_key()` returns `article.article_key` unchanged
+    # (no behavioral change). For prose-only articles it returns
+    # `whole::{source_path}`, matching what `loader.py` actually MERGEs into
+    # Falkor — which fixes the 99,1% of bucket-(a) edge loss measured in
+    # v5 §6.2 (where source_keys like `'10-fuentes-y-referencias'` failed
+    # to MATCH any ArticleNode because the MERGE happened under the
+    # `whole::` form). Lazy import — see module-level note.
+    from .loader import graph_article_key
+
+    src_key = graph_article_key(article)
     candidates: list[RawEdgeCandidate] = []
     for match in ARTICLE_REFERENCE_RE.finditer(article.full_text):
         target_key = match.group("number").strip()
@@ -95,7 +108,7 @@ def _extract_article_edges(article: ParsedArticle) -> list[RawEdgeCandidate]:
         candidates.append(
             RawEdgeCandidate(
                 source_kind=NodeKind.ARTICLE,
-                source_key=article.article_key,
+                source_key=src_key,
                 target_kind=NodeKind.ARTICLE,
                 target_key=target_key,
                 raw_reference=match.group(0).strip(),
@@ -114,7 +127,7 @@ def _extract_article_edges(article: ParsedArticle) -> list[RawEdgeCandidate]:
             candidates.append(
                 RawEdgeCandidate(
                     source_kind=NodeKind.ARTICLE,
-                    source_key=article.article_key,
+                    source_key=src_key,
                     target_kind=NodeKind.REFORM,
                     target_key=target_key,
                     raw_reference=match.group(0).strip(),

@@ -79,9 +79,44 @@ All eight sampled (a1) edges share **the same source document**: `T-REF-LABORAL-
 
 (a2) at 86 is below the watchlist threshold and is "expected loss confirmed" per the loader's schema gate. (a3) at 0 means there's no missing-ReformNode investigation to open right now.
 
+## v5 §6.3 fix — outcome (2026-04-26, same day as the diagnostic)
+
+The §6.2 sub-bucketing recommended opening §6.3 with the (a1) recovery hypothesis. The fix landed the same day with two parts — the second only became visible AFTER reading the existing learnings docs (`supabase-sink-parallelization.md` flagged the cleanup-key contract that would have leaked silently).
+
+### Part 1 — Linker emits `graph_article_key()` for prose-only sources
+
+`src/lia_graph/ingestion/linker.py::_extract_article_edges` now calls `graph_article_key(article)` for the `source_key` instead of using `article.article_key` raw. For numbered articles the function is a no-op (returns the same value). For prose-only articles it returns `whole::{source_path}` — matching what `loader.py` already MERGEs as the Falkor `:ArticleNode {article_id: …}` key.
+
+`_graph_article_key` was renamed to public `graph_article_key` in `loader.py`; `_graph_article_key = graph_article_key` alias preserved so the existing 5+ underscore-imports keep working without a refactor PR.
+
+Lazy import inside `_extract_article_edges` to avoid the `linker → loader → classifier → linker` circular at module-import time.
+
+### Part 2 — Supabase sink cleanup paths must mirror the new key form
+
+**This is the part the existing learnings docs caught.** `supabase-sink-parallelization.md` documents that `normative_edges` upserts on `(source_key, target_key, relation, generation_id)`. After Part 1's WRITE change, the source_key value for prose-only edges flips from the slug form (`'10-fuentes-y-referencias'`) to the graph form (`'whole::knowledge_base/...md'`). But two DELETE call sites used the slug form and would silently miss the new rows:
+
+- `supabase_sink.py:919-927` — retire path. Deletes `normative_edges` where `source_key = article_key` of retired docs. Without the v5 §6.3 update, retiring a prose-only doc would leave its (post-fix) outbound edges in `normative_edges` even though the loader would `DETACH DELETE` the corresponding `:ArticleNode` from Falkor → Supabase / Falkor inconsistency.
+- `supabase_sink.py:937-945` — modify path. Same shape. Stale edges from a previous classify of a modified prose-only doc would not be cleaned up.
+
+Fix: both paths now also include the `graph_article_key` form in their delete keyset. The retire path fetches `documents.relative_path` for each retired doc once (cheap one-shot batched query) and adds `whole::{relative_path}` alongside the slug. The modify path uses the in-memory `ParsedArticle` and adds `graph_article_key(article)` if it differs from `article.article_key`. Both fetches degrade gracefully on transport failure (to slug-only) so a flaky `documents` query doesn't break ingestion.
+
+### Tests landed (gate 4a)
+
+- `tests/test_edge_extractor.py::test_prose_only_source_uses_graph_article_key` — asserts edges from a prose-only article carry `source_key='whole::{source_path}'`.
+- `tests/test_edge_extractor.py::test_numbered_source_unchanged_by_v5_6_3` — asserts numbered articles' source_key stays unchanged (regression guard for the 19,815 working edges).
+
+### What's still pending (gate 4b)
+
+End-to-end verification needs an operator-driven additive delta that touches at least one prose-only document. The v5 §6.2 re-run after that delta should show:
+- "Present in Falkor" count grows by approximately the count of edges from the touched prose-only doc.
+- Sub-bucket (a1) for the touched doc drops to 0 (its edges land correctly).
+
+The 9,848 already-broken legacy rows in Supabase stay until either (a) their source documents are individually re-classified (modified) or (b) a forced full reclassify runs. They're functionally invisible to the runtime (Falkor doesn't see them) but they bloat the table. A separate one-shot migration could clean them up; not in scope for §6.3.
+
 ## Cross-references
 
 - Plan: `docs/aa_next/next_v5.md §6.2 + §6.3` (forward), `docs/aa_next/next_v4.md §6.5` (history).
 - Diagnostic script: `scripts/diag_falkor_edge_undercount.py`.
 - Related design doc on the loader's endpoint filter: `loader.py:43-65` (the prose-only `whole::{source_path}` keying that drives bucket-(a)).
 - Related env-matrix entry: `docs/guide/orchestration.md` will need a row for `FALKORDB_RESULTSET_SIZE_CAP` if anyone ever overrides the default.
+- Meta-lesson on key-form parity: [`edge-key-form-discipline.md`](edge-key-form-discipline.md) — the generalized rule we extracted from this incident.

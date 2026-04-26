@@ -40,7 +40,7 @@ def _is_article_node_eligible(article: ParsedArticle) -> bool:
     return bool(heading and text and status)
 
 
-def _graph_article_key(article: ParsedArticle) -> str:
+def graph_article_key(article: ParsedArticle) -> str:
     """Unique-per-doc key used as ``ArticleNode.key`` in Falkor.
 
     Distinct from ``ParsedArticle.article_key`` (which scopes Supabase
@@ -57,12 +57,21 @@ def _graph_article_key(article: ParsedArticle) -> str:
       numbered articles (e.g. Article 5 of Ley 100 vs Ley 300) are a
       separate pre-existing issue tracked as followup F8 in
       ``docs/next/ingestionfix_v4.md §8``.
+
+    Public from v5 §6.3 (2026-04-26) so the linker can emit edges using the
+    graph key form for prose-only sources, fixing the 99,1% of bucket-(a)
+    edge loss measured in v5 §6.2. The ``_graph_article_key`` alias below
+    keeps existing imports working without a churn refactor.
     """
     number = str(getattr(article, "article_number", "") or "").strip()
     if not number:
         source = str(getattr(article, "source_path", "") or "").strip() or "unknown"
         return f"whole::{source}"
     return article.article_key
+
+
+# Back-compat alias — pre-v5 §6.3 imports use the underscore name.
+_graph_article_key = graph_article_key
 
 
 def _is_prose_only(article: ParsedArticle) -> bool:

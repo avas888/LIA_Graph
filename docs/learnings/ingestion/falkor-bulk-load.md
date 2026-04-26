@@ -224,5 +224,7 @@ Add these to `scripts/monitoring/ingest_heartbeat.py` and any inline monitors we
 
 - [`parallelism-and-rate-limits.md`](parallelism-and-rate-limits.md) — the classifier-pool design (doesn't apply to Falkor because Cypher MERGE has contention across workers).
 - [`supabase-sink-parallelization.md`](supabase-sink-parallelization.md) — phase 2b sink pool (Supabase-safe parallelism; Falkor needs different primitives).
+- [`falkor-edge-undercount-and-resultset-cap-2026-04-26.md`](falkor-edge-undercount-and-resultset-cap-2026-04-26.md) — the v5 §6.2/§6.3 investigation that exposed two adjacent issues: a label-name bug in the parity probe + a 33% prose-only edge-key mismatch (the linker was writing the slug form to `normative_edges.source_key` while Falkor MERGEd under the `whole::` form per `_graph_article_key`).
+- [`edge-key-form-discipline.md`](edge-key-form-discipline.md) — the meta-lesson distilled from §6.3: write-path and delete-path key-forms must mirror each other.
 - [`../process/heartbeat-monitoring.md`](../process/heartbeat-monitoring.md) — heartbeat discipline updated for phase 2c.
 - `docs/done/next/ingestion_tunningv2.md §16 Appendix D §9` — TPM-aware limiter was already the #1 follow-up; Falkor bulk-load now joins it.
