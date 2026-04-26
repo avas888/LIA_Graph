@@ -145,6 +145,127 @@
   color: var(--text-secondary);
 }
 
+/* ── Tables (markdown / GFM) ────────────────────────────────────
+ * Refined treatment for tabular content in assistant answers.
+ * Tuned for the comparative_regime_chain output (3 columns, dense
+ * legal text, multi-line cells with article references) but works
+ * for any GFM table the synthesizer or LLM polish emits.
+ *
+ * Aesthetic intent (matches the bubble's existing system):
+ *  • Warm-cream header band (--fg-warm-bg-strong) pulls the
+ *    paper-report feel a contador knows from financial statements.
+ *  • Header labels are uppercase + tracked, mirroring .bubble-role
+ *    so the table reads as a native section, not an embedded grid.
+ *  • Header bottom edge gets the accent-bar (teal/blue) — same
+ *    visual language as the panel headers across the rest of the UI.
+ *  • Row dividers stay quiet (neutral-150, the same token ops
+ *    tables use) so eyes scan rows without grid noise.
+ *  • First column reads as a row-label: semibold, secondary text
+ *    color. The value columns (col 2+ for comparative tables) lead.
+ *  • Subtle left border on col 3 marks the pre/post boundary on
+ *    comparative tables. Harmless on tables with fewer/more cols.
+ *  • Tabular-nums lock year alignment (2017 vs 2029 etc.).
+ *  • Outer rounded border + overflow:hidden clips dividers cleanly
+ *    to the corners.
+ */
+
+.bubble-text table {
+  width: 100%;
+  margin: 1rem 0 1.15rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--p-neutral-200);
+  border-radius: 0.62rem;
+  overflow: hidden;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+  background: var(--chat-bubble-assistant-bg);
+  box-shadow: 0 1px 2px rgba(15, 25, 45, 0.04);
+}
+
+.bubble-text thead {
+  background: var(--fg-warm-bg-strong);
+}
+
+.bubble-text thead th {
+  padding: 0.66rem 0.92rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--p-navy-700);
+  border-bottom: 1.5px solid var(--accent-bar);
+  vertical-align: bottom;
+}
+
+.bubble-text tbody td {
+  padding: 0.7rem 0.92rem;
+  vertical-align: top;
+  color: var(--text-primary);
+}
+
+/* Quiet row dividers — top-border on every row except the first. */
+.bubble-text tbody tr + tr td {
+  border-top: 1px solid var(--p-neutral-150);
+}
+
+/* First column = row label. Semibold + secondary color so the
+ * comparative value columns lead. Width hint keeps it from
+ * collapsing too narrow when content is long. */
+.bubble-text tbody td:first-child {
+  font-weight: 600;
+  color: var(--text-secondary);
+  width: 22%;
+  min-width: 9rem;
+}
+
+/* Pre/post boundary marker — discreet vertical rule at column 3.
+ * On 2-col tables there is no col 3 so the rule is invisible.
+ * On 4+ col tables it still reads as a soft section break. */
+.bubble-text thead th:nth-child(3) {
+  border-left: 1px solid var(--p-neutral-200);
+}
+.bubble-text tbody td:nth-child(3) {
+  border-left: 1px solid var(--p-neutral-150);
+}
+
+/* Inline emphasis inside cells — strong picks up navy-800 to
+ * match the article-reference treatment used elsewhere
+ * (e.g. "art. 290 #5 ET" reads as the same bold register
+ * whether it's in a paragraph or a table cell). */
+.bubble-text table strong {
+  color: var(--p-navy-800);
+  font-weight: 650;
+}
+
+.bubble-text table code {
+  padding: 0.05rem 0.36rem;
+  font-size: 0.86em;
+}
+
+/* User bubbles rarely contain tables, but if they do, neutralize
+ * the warm header tint so it matches the user-bubble palette. */
+.bubble-user .bubble-text thead {
+  background: color-mix(in srgb, var(--chat-bubble-user-bg) 60%, white 40%);
+}
+
+@media (max-width: 720px) {
+  .bubble-text table {
+    font-size: 0.88rem;
+    margin: 0.85rem -0.2rem 1rem;
+  }
+  .bubble-text thead th,
+  .bubble-text tbody td {
+    padding: 0.55rem 0.66rem;
+  }
+  .bubble-text tbody td:first-child {
+    min-width: 7rem;
+    width: 26%;
+  }
+}
+
 .bubble-text a {
   color: var(--chat-bubble-link);
   text-decoration: underline;
