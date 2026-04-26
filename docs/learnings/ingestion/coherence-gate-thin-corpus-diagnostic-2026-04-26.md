@@ -159,6 +159,31 @@ Operator's binding rule (2026-04-26): "todo mapee a nuestra taxonomy base princi
 
 `detect_topic_misalignment` had 5 return paths pre-§1.A; only 3 set a `reason` key. Adding `secondary_topic_match` would have made it 4-of-6. I added `reason` to the lexical paths too (`lexical_aligned` / `lexical_misaligned`), making it always-present. Saves callers from defensive `.get("reason")` everywhere and gives observability tools a clean histogram of branch frequencies. Generalizes: when adding a new branch to a multi-branch return contract, walk the existing branches and bring missing fields up to parity.
 
+### L8 — §1.B's compatible-topic mechanism is correct; the remaining 4 refusals are corpus-deficit OR ranking, not gate problems (2026-04-26 evening)
+
+§1.B shipped: `config/compatible_doc_topics.json` + `pipeline_d/compatible_doc_topics.py` + extended `_count_support_topic_key_matches`. 27/27 unit tests green. Seed config covers `conciliacion_fiscal`, `impuesto_patrimonio_personas_naturales`, `precios_de_transferencia` with SME-validated adjacencies derived from Phase-2 §6.2.
+
+Post-deployment chat probe: **same 4/12 refused as before §1.B**. Diagnostics show:
+
+| Topic | Refusal | dominant_topic (lexical winner) | topic_key_matches |
+|---|---|---|---:|
+| conciliacion_fiscal | chunks_off_topic | retencion_fuente_general (score 8) | 1 |
+| regimen_cambiario | chunks_off_topic | retencion_fuente_general (score 8) | 1 |
+| impuesto_patrimonio_pn | chunks_off_topic | (similar pattern) | (similar) |
+| precios_de_transferencia | primary_off_topic | (different mechanism — needs more curation) | n/a |
+
+**The shape of the failure**: hybrid_search returns 5 support_documents. Of those, ONE is tagged with the narrow topic (the seed config's compatible_topics widening counted it correctly — that's the `topic_key_matches: 1`). Four are tagged with `retencion_fuente_general` or similar umbrella topics whose CHUNK content lexically wins the scoring against the question text. The 2-doc threshold isn't met because the narrow topic's docs aren't ranked high enough by hybrid_search — they exist (Phase-1 confirmed: 6 docs for regimen_cambiario, 3 for conciliacion_fiscal, 4 for impuesto_patrimonio_pn) but get out-ranked in retrieval.
+
+**This is NOT a coherence-gate fix any more.** It's one of:
+
+1. **Corpus deficit** — the 3-6 narrow-topic docs don't actually contain answers to the question. Adding more SME-authored content is the fix. SME must read the existing docs and judge.
+2. **Ranking issue** — the docs DO answer the question but hybrid_search's vector+FTS ranking doesn't surface them. Fix: tune the ranker, or add a topic-aware boost on filter_topic match.
+3. **Vocabulary mismatch** — the user's question vocabulary doesn't match the doc vocabulary. Fix: add keyword anchors to the topic taxonomy.
+
+Without SME judgment on the existing docs, we can't tell which. **Operator decision required**: review the existing docs for these 4 topics and report back which case applies.
+
+**Do NOT keep adding to compatible_doc_topics.json without SME validation.** Specifically, do NOT add `retencion_fuente_general` to conciliacion_fiscal's compatible list just because it shows up as the lexical winner — that would be a contamination relaxation (Q1-class concern from `next_v3 §13`). The retention dump appearing as the lexical winner is the SYMPTOM, not the cause.
+
 ### L7 — Post-deployment empirical: §1.A fixes primary_off_topic only; §1.B is a distinct gate (2026-04-26 evening)
 
 After §1.A shipped + 36 SME-validated entries synced to Falkor + server restart, I probed all 12 thin-corpus topics. **7/12 SERVED, 4/12 REFUSED, 1 transient error.**

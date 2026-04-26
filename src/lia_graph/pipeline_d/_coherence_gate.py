@@ -46,9 +46,21 @@ def _support_doc_topic_scoring_text(evidence: GraphEvidenceBundle) -> str:
 def _count_support_topic_key_matches(
     evidence: GraphEvidenceBundle, router_topic: str
 ) -> int:
+    """Count support docs whose topic_key matches router_topic OR is in
+    the curated set of compatible doc topics for the router (v5 §1.B).
+
+    The compatible-set widens WHAT counts as a topic_key match without
+    lowering the existing 2-doc threshold (`feedback_thresholds_no_lower`).
+    Per `config/compatible_doc_topics.json`, e.g. for router_topic =
+    `regimen_cambiario`, docs tagged `cambiario` count as matches.
+    """
+    from .compatible_doc_topics import get_compatible_topics
+
+    compatibles = get_compatible_topics(router_topic)
+    accepted = {router_topic} | set(compatibles)
     return sum(
         1 for doc in evidence.support_documents
-        if (doc.topic_key or "").strip() == router_topic
+        if (doc.topic_key or "").strip() in accepted
     )
 
 

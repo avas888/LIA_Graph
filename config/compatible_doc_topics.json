@@ -1,0 +1,30 @@
+{
+  "version": "v1",
+  "schema": "v5_§1.B_2026-04-26",
+  "description": "Compatible doc topics for the coherence gate's chunks_off_topic path. Each entry maps a NARROW topic to a list of broader/adjacent topics whose docs the gate should accept as on-topic. Used by `pipeline_d/_coherence_gate.py::_count_support_topic_key_matches` to widen the topic_key match without lowering the existing threshold.",
+  "rationale": "The 2026-04-26 thin-corpus diagnostic + §1.A deployment measured that 4/12 thin-corpus topics still refuse with `chunks_off_topic` even after §1.A's article-level fix. Root cause: those topics have 3-6 native docs in Supabase, but hybrid_search ranking pushes broader-topic chunks above them, so the support_documents bundle rarely contains 2+ docs tagged with the narrow topic. This config tells the gate 'docs tagged with topic X are also acceptable evidence for queries routed to narrow topic Y'.",
+  "curation_policy": {
+    "scope": "Only SME-validated topical adjacencies. Each entry should reflect 'a senior contador would consider docs of topic A as legitimate evidence for a question about topic B'. NOT a contamination relaxation — the existing 2-doc match threshold still applies.",
+    "key": "narrow topic key (matches `topic_taxonomy.json`).",
+    "value": "list of broader/adjacent topic keys that count as 'compatible evidence'.",
+    "review": "Every entry should reference its evidence source (Phase-2 cross-topic measurement OR SME response).",
+    "non_relaxation": "The 2-doc threshold (_SUPPORT_DOC_TOPIC_KEY_MATCH_MIN) is unchanged. We only widen WHAT counts as a match. Per `feedback_thresholds_no_lower`."
+  },
+  "topics": {
+    "conciliacion_fiscal": {
+      "compatible_topics": ["procedimiento_tributario", "declaracion_renta", "costos_deducciones_renta"],
+      "rationale": "Conciliación fiscal es transversal — toca procedimiento (formato 2516, plazos), declaracion_renta (libro 1 base gravable) y costos_deducciones_renta (diferencias contables vs fiscales). Phase-2 measured 44 mentions in procedimiento_tributario, 17 in declaracion_renta, 7 in costos_deducciones_renta — los tres son los top-3 owners de cross-topic refs en chunks de conciliacion_fiscal.",
+      "evidence_source": "Phase-2 §6.2 (artifacts/diag_thin_corpus_xref.json)"
+    },
+    "impuesto_patrimonio_personas_naturales": {
+      "compatible_topics": ["patrimonio_fiscal_renta", "declaracion_renta"],
+      "rationale": "El SME response line 178 explicitly said 'incluir conexión con conciliación 2516 (campo F2 patrimonio)'. Phase-2 measured patrimonio_fiscal_renta as 33 mentions (94% de cross-topic refs), declaracion_renta 1 mention. Ambos son legitimate evidence para una pregunta sobre impuesto al patrimonio de personas naturales.",
+      "evidence_source": "Phase-2 §6.2 + SME response line 178"
+    },
+    "precios_de_transferencia": {
+      "compatible_topics": ["declaracion_renta", "renta_liquida_gravable"],
+      "rationale": "Precios de transferencia es sub-régimen de declaracion_renta (Art. 260 ss del ET). Phase-2 measured declaracion_renta as 111 mentions (76% de cross-topic refs), renta_liquida_gravable 21. Aceptamos ambos como evidence compatible.",
+      "evidence_source": "Phase-2 §6.2"
+    }
+  }
+}
