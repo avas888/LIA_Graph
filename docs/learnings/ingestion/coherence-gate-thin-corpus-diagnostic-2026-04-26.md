@@ -159,6 +159,23 @@ Operator's binding rule (2026-04-26): "todo mapee a nuestra taxonomy base princi
 
 `detect_topic_misalignment` had 5 return paths pre-§1.A; only 3 set a `reason` key. Adding `secondary_topic_match` would have made it 4-of-6. I added `reason` to the lexical paths too (`lexical_aligned` / `lexical_misaligned`), making it always-present. Saves callers from defensive `.get("reason")` everywhere and gives observability tools a clean histogram of branch frequencies. Generalizes: when adding a new branch to a multi-branch return contract, walk the existing branches and bring missing fields up to parity.
 
+### L7 — Post-deployment empirical: §1.A fixes primary_off_topic only; §1.B is a distinct gate (2026-04-26 evening)
+
+After §1.A shipped + 36 SME-validated entries synced to Falkor + server restart, I probed all 12 thin-corpus topics. **7/12 SERVED, 4/12 REFUSED, 1 transient error.**
+
+The 4 refusals split cleanly into two reasons:
+
+| Refusal type | Topics | What's failing | Fix |
+|---|---|---|---|
+| `pipeline_d_coherence_primary_off_topic` | precios_de_transferencia | The primary article the planner pulled doesn't have the matching secondary_topic in its `:ArticleNode.secondary_topics`. Either the article isn't curated yet, or the planner pulled a different article than I curated. | Add more entries to `config/article_secondary_topics.json` for that topic. Bounded curation. |
+| `pipeline_d_coherence_chunks_off_topic` | impuesto_patrimonio_personas_naturales, regimen_cambiario, conciliacion_fiscal | The CHUNKS retrieved (Supabase hybrid_search output) carry a different topic than the router topic. §1.A operates on ArticleNodes only — chunks live one layer below. | §1.B (chunk-precedence on retrieval) — separate scope, not a curation problem. |
+
+This is the empirical confirmation of the Phase-1+2 prediction in this same doc: §1.A and §1.B are **structurally different gates** that target different layers of the pipeline. Curation alone (§1.A) fixes the article-level mismatch. To unblock the remaining 4 topics, the chunk-level gate has to be addressed too.
+
+**Quantitatively**: §1.A's expected hit rate per the Phase-2 measurement (12 topics × 100% cross-topic dependency) was the upper bound. Empirically, ~58% of those topics were unblocked with article-only curation. The remaining ~33-42% need §1.B regardless of how exhaustively §1.A's config is expanded.
+
+**Practical implication**: don't keep adding to `article_secondary_topics.json` expecting to chase down the chunk_off_topic refusals — they won't resolve without §1.B. Watch the `fallback_reason` field in production telemetry; route `primary_off_topic` cases to curation backlog and `chunks_off_topic` cases to the §1.B scope.
+
 ### L6 — SME-validated mappings already exist; reuse them
 
 The §1.A seed config could have been speculative. But `docs/aa_next/taxonomy_v2_expert_brief.md §5.2` and `docs/aa_next/taxonomy_v2_sme_response.md §1.4` already had **explicit SME-validated `allowed_et_articles` per empty topic slot** (e.g., line 769 of the SME response: `firmeza_declaraciones.allowed_et_articles = ["705", "705-1", "706", "714", "147", "689-3", "260-5"]`). Future expansion of `article_secondary_topics.json` should pull from those documented mappings before asking the SME again. Avoids re-litigation of decisions that were already made.

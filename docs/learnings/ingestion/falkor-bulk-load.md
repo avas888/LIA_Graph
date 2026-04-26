@@ -220,11 +220,83 @@ Add these to `scripts/monitoring/ingest_heartbeat.py` and any inline monitors we
 - redis-py issues [#2243](https://github.com/redis/redis-py/issues/2243), [#1232](https://github.com/redis/redis-py/issues/1232)
 - Cloud tiers: [Free](https://docs.falkordb.com/cloud/free-tier.html), [Startup](https://docs.falkordb.com/cloud/startup-tier.html)
 
+## ⚠ FalkorDB returns array properties as bracketed strings (2026-04-26)
+
+> **Captured 2026-04-26 — VERY IMPORTANT, operator-flagged.** This silently destroyed v5 §1.A's first run end-to-end. Wasted ~30 min of debugging because the lookup, the schema, the loader, the contracts, and the gate were ALL correct in isolation — the bug was a single line in the retriever where we expected Python-list and got a string instead.
+
+### The behavior
+
+When you `SET n.foo = ["a", "b", "c"]` via Cypher and later `RETURN n.foo`, FalkorDB serializes the array over the RESP protocol **as a bracketed string**: `"[a, b, c]"`. Not a real Python list, not a JSON-encoded string, just a Cypher-debug-formatted bracketed representation.
+
+```python
+# What you write (loader.py):
+"secondary_topics": ["beneficio_auditoria"]
+
+# What you read (retriever.py):
+row.get("secondary_topics")  # → str: "[beneficio_auditoria]"
+#                                ^^^ NOT a list. NOT JSON. A bracketed string.
+```
+
+If your reader code does `if isinstance(value, list)` → branch never fires → property silently arrives empty downstream. The whole pipeline goes inert with no error and no warning. Tests pass (because tests use mocks that return lists). Production refuses queries because the gate sees no metadata. Operator wonders why the feature does nothing.
+
+### Why this is silent
+
+- The Cypher MERGE `SET n.x = $list` looks correct.
+- The Falkor query `RETURN n.x` looks correct.
+- The Python value `row["x"]` is a non-empty truthy thing — `bool(row["x"])` is True.
+- Only when you actually try to iterate / membership-check it as a list does the failure surface.
+- The bug class is "wrong type, not wrong value" — covered by integration tests but not unit tests.
+
+### Verification
+
+Run any read of an array property against a real Falkor and inspect the type:
+
+```python
+res = gc.execute(GraphWriteStatement(
+    description="probe",
+    query="MATCH (a:ArticleNode {article_id: '689-3'}) RETURN a.secondary_topics AS s",
+    parameters={},
+), strict=False)
+for row in res.rows:
+    print(type(row["s"]), repr(row["s"]))
+# <class 'str'> '[beneficio_auditoria]'    ← string, not list
+```
+
+### The defensive parser pattern
+
+Every site that reads a Falkor array property must handle both shapes — native list (in case future FalkorDB versions or other clients normalize) AND bracketed string (current behavior):
+
+```python
+raw = row.get("secondary_topics")
+out: tuple[str, ...] = ()
+if isinstance(raw, (list, tuple)):
+    out = tuple(str(x).strip() for x in raw if isinstance(x, str) and str(x).strip())
+elif isinstance(raw, str):
+    s = raw.strip()
+    if s.startswith("[") and s.endswith("]"):
+        inner = s[1:-1].strip()
+        if inner:
+            out = tuple(p.strip() for p in inner.split(",") if p.strip())
+```
+
+Caveat: the bracketed-string format does NOT escape commas inside elements. If your array values can contain commas (e.g., free-text), `inner.split(",")` will split mid-value. For Lia Graph's case (topic keys are slugs without commas), this is safe. If you ever store free-text arrays, use a delimiter that can't appear in values OR JSON-encode at write time and `json.loads` at read time.
+
+### Where this currently applies in Lia Graph
+
+- `:ArticleNode.secondary_topics` (v5 §1.A) — parsed in `pipeline_d/retriever_falkor.py::_retrieve_primary_articles`.
+- `:ArticleNode.paragraph_markers`, `.reform_references`, `.annotations` — these are read in retriever paths; if any consumer expects them as lists, audit for the same bug. As of 2026-04-26 the consumers I checked treat them as strings or don't iterate, so they didn't surface.
+- Any future array-typed `:ArticleNode` / `:TopicNode` / `:ReformNode` property must use the defensive parser at every read site.
+
+### Generalizes to: trust the wire format, not the schema declaration
+
+The root cause is: we declared the field as a list in `graph/schema.py::optional_fields`, wrote it as a list in `loader.py`, and the reader code reasonably assumed it would come back as a list. But the wire format (RESP) doesn't preserve the type — it serializes whatever Falkor's `to_string` of the property returns, and for arrays that's a bracketed-string. **Always test the actual wire type with `type(row[key])` before branching on isinstance.**
+
 ## See also
 
 - [`parallelism-and-rate-limits.md`](parallelism-and-rate-limits.md) — the classifier-pool design (doesn't apply to Falkor because Cypher MERGE has contention across workers).
 - [`supabase-sink-parallelization.md`](supabase-sink-parallelization.md) — phase 2b sink pool (Supabase-safe parallelism; Falkor needs different primitives).
 - [`falkor-edge-undercount-and-resultset-cap-2026-04-26.md`](falkor-edge-undercount-and-resultset-cap-2026-04-26.md) — the v5 §6.2/§6.3 investigation that exposed two adjacent issues: a label-name bug in the parity probe + a 33% prose-only edge-key mismatch (the linker was writing the slug form to `normative_edges.source_key` while Falkor MERGEd under the `whole::` form per `_graph_article_key`).
 - [`edge-key-form-discipline.md`](edge-key-form-discipline.md) — the meta-lesson distilled from §6.3: write-path and delete-path key-forms must mirror each other.
+- [`coherence-gate-thin-corpus-diagnostic-2026-04-26.md`](coherence-gate-thin-corpus-diagnostic-2026-04-26.md) — v5 §1.A; the array-as-string bug surfaced here.
 - [`../process/heartbeat-monitoring.md`](../process/heartbeat-monitoring.md) — heartbeat discipline updated for phase 2c.
 - `docs/done/next/ingestion_tunningv2.md §16 Appendix D §9` — TPM-aware limiter was already the #1 follow-up; Falkor bulk-load now joins it.

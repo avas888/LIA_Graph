@@ -15,7 +15,10 @@ from .citation_resolution import (
     reference_detail_title as _shared_reference_detail_title,
     resolve_normative_mentions,
 )
-from .normative_references import reference_identity as _reference_detail_identity
+from .normative_references import (
+    reference_identity as _reference_detail_identity,
+    extract_normative_reference_mentions,
+)
 from .normative_taxonomy import classify_normative_document
 
 
