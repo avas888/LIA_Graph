@@ -40,6 +40,7 @@ import {
   createGenerationsList,
 } from "@/shared/ui/organisms/generationsList";
 import { createRunTriggerCard } from "@/shared/ui/organisms/runTriggerCard";
+import { createAdditiveDeltaCard } from "@/shared/ui/organisms/additiveDeltaCard";
 import {
   createIntakeDropZone,
   type IntakeDropZoneFile,
@@ -616,40 +617,18 @@ export function createIngestController(
     flowToggleSlot.replaceChildren(toggle.element);
   }
 
-  // Additive-corpus-v1 sub-panel (Phase 8). Renders a titled card that
-  // mirrors the visual weight of the "Iniciar nueva ingesta" card so the
-  // operator sees both ingest flows as peers.
+  // Additive-corpus-v1 sub-panel (Phase 8). Visual peer of `runTriggerCard`
+  // — both cards are organisms so the two ingest flows render at the same
+  // atomic level.
   let additiveDelta: AdditiveDeltaControllerHandle | null = null;
   const additiveSlot = rootElement.querySelector<HTMLElement>("[data-slot=additive-delta]");
   if (additiveSlot) {
-    const card = document.createElement("article");
-    card.className = "lia-adelta-card";
-    card.setAttribute("data-lia-component", "additive-delta-card");
-    card.innerHTML = `
-      <header class="lia-adelta-card__header">
-        <h3 class="lia-adelta-card__title">Delta aditivo</h3>
-        <p class="lia-adelta-card__body">
-          Lee <code>knowledge_base/</code> en disco, lo compara contra la base
-          ya publicada y procesa <strong>solo los archivos nuevos, modificados
-          o borrados</strong>. No hay upload: primero pon los archivos en esa
-          carpeta (paso 3 abajo), después aquí.
-        </p>
-        <p class="lia-adelta-card__steps">
-          <strong>Previsualizar</strong> te muestra el diff sin escribir nada.
-          <strong>Aplicar</strong> procesa el delta con una confirmación
-          explícita. Rápido — minutos, no horas.
-        </p>
-      </header>
-    `;
-    const mount = document.createElement("div");
-    mount.className = "lia-adelta-card__mount";
-    card.appendChild(mount);
-    additiveSlot.replaceChildren(card);
+    const { element, mount } = createAdditiveDeltaCard();
+    additiveSlot.replaceChildren(element);
     additiveDelta = bindAdditiveDelta({
       rootElement: mount,
       target: "production",
       onError: (message) => _toast(message),
-      confirmDestructive: toastConfirmDestructive,
     });
   }
 

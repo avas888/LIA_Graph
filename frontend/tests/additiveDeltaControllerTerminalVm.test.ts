@@ -117,4 +117,61 @@ describe("buildAdditiveDeltaTerminalVm", () => {
     expect(vm.report).toBeNull();
     expect(vm.deltaId).toBe("d");
   });
+
+  it("surfaces classifier_summary peer slice (degraded N1-only count)", () => {
+    const vm = buildAdditiveDeltaTerminalVm({
+      stage: "completed",
+      jobId: "job_xyz",
+      reportJson: {
+        delta_id: "delta_with_degraded",
+        target: "production",
+        sink_result: {
+          documents_added: 20,
+          documents_modified: 0,
+          documents_retired: 0,
+          chunks_written: 84,
+          chunks_deleted: 0,
+          edges_written: 31,
+          edges_deleted: 0,
+        },
+        classifier_summary: {
+          classified_new_count: 20,
+          prematched_count: 1300,
+          degraded_n1_only: 3,
+        },
+      },
+      errorClass: null,
+      errorMessage: null,
+    });
+
+    expect(vm.classifierSummary?.degraded_n1_only).toBe(3);
+    expect(vm.classifierSummary?.classified_new_count).toBe(20);
+    expect(vm.classifierSummary?.prematched_count).toBe(1300);
+    // Slice isolation: classifier_summary fields must NOT bleed into report.
+    expect(vm.report).not.toHaveProperty("degraded_n1_only");
+    expect(vm.report).not.toHaveProperty("classified_new_count");
+  });
+
+  it("classifier_summary absent ⇒ field is null (back-compat)", () => {
+    const vm = buildAdditiveDeltaTerminalVm({
+      stage: "completed",
+      jobId: "job_legacy",
+      reportJson: {
+        delta_id: "delta_legacy",
+        sink_result: {
+          documents_added: 5,
+          documents_modified: 0,
+          documents_retired: 0,
+          chunks_written: 10,
+          chunks_deleted: 0,
+          edges_written: 4,
+          edges_deleted: 0,
+        },
+      },
+      errorClass: null,
+      errorMessage: null,
+    });
+    expect(vm.classifierSummary).toBeNull();
+    expect(vm.report?.documents_added).toBe(5);
+  });
 });
