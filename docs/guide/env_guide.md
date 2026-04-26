@@ -1,6 +1,6 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-04-25-comparative-regime`.**
+> **Env matrix version: `v2026-04-26-additive-no-retire`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
 >
 > **2026-04-25 cumulative ship state (next_v3 close + next_v4 §3/§4/§5):**
@@ -34,7 +34,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-04-25-comparative-regime)
+## Runtime Retrieval Flags (v2026-04-26-additive-no-retire)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 

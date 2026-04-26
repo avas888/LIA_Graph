@@ -44,9 +44,13 @@
 
 ## Current version
 
-**[`next_v2.md`](./next_v2.md)** — forward-only working set opened 2026-04-24 after next_v1's action A (staging A/B) returned ↩ regressed. Includes the revert runbook (ready to execute), two new investigations (§H Q27 leak, §I Q24 regression), and the queued items that weren't executed in next_v1.
+**[`next_v5.md`](./next_v5.md)** — forward plan opened 2026-04-26. Carries the still-pending verifications from v4 (conversational-memory L2 staging harness, comparative-regime SME validation, 100-Q first baseline + judge spot-check) plus the deferred-but-still-relevant items (Falkor parity follow-ups in correct diagnose-before-intervene order, v3 §10 carries) and §7: retrieval-depth envelope calibration through the 100-Q gauge — a new operator-surfaced design question.
 
-**Archive:** [`next_v1/README.md`](./next_v1/README.md) — historical + outcome record of the 2026-04-24 work (steps 01/02/04/05/06/07/10 + the six-gate policy that landed with them). Don't update next_v1 for new work; update next_v2 (or open next_v3 if it superseded).
+**Archives (read-only records):**
+- [`next_v4.md`](./next_v4.md) — record of the 2026-04-25/26 ship cycle (conversational-memory L1+L2 shipped, comparative-regime mode shipped, 100-Q gauge code landed, parity-probe diagnostic + 10k cap audit closed).
+- [`next_v1/README.md`](./next_v1/README.md) — historical + outcome record of the 2026-04-24 work.
+
+Don't update v4 / v1 for new work; update v5 (or open v6 if it supersedes).
 
 ## The pattern
 

@@ -48,6 +48,22 @@ def _require_admin(handler: Any) -> None:
         )
 
 
+def _maybe_inject_token_from_query(handler: Any, parsed: Any) -> None:
+    """EventSource cannot send `Authorization` headers, so the SSE caller
+    passes the bearer via `?token=...`. If the header is absent, lift the
+    query-param token into the header so the existing `_require_admin`
+    flow validates it normally — no parallel auth path to maintain.
+    """
+    existing = (handler.headers.get("Authorization") or "").strip()
+    if existing:
+        return
+    query = parse_qs(parsed.query)
+    token = (query.get("token") or [""])[0].strip()
+    if not token:
+        return
+    handler.headers["Authorization"] = f"Bearer {token}"
+
+
 def _actor_id(handler: Any) -> str:
     try:
         return str(getattr(handler._resolve_auth_context(required=False), "user_id", "") or "anonymous")
@@ -129,6 +145,12 @@ def _handle_preview(handler: Any, deps: dict[str, Any]) -> bool:
             classifier_workers=deps.get("classifier_workers"),
             supabase_workers=deps.get("supabase_workers"),
             force_full_classify=force_full_classify,
+            # Asymmetric-retirement safety — GUI flow is structurally
+            # incapable of retiring cloud docs. See
+            # `docs/learnings/ingestion/asymmetric-retirement-safety.md`.
+            # Explicit-False (not relying on the default) makes the contract
+            # self-evident at this call site and grep-greppable.
+            allow_retirements=False,
         )
     except Exception as exc:  # noqa: BLE001
         _emit_response("preview", 500, started, error=str(exc))
@@ -149,11 +171,18 @@ def _handle_preview(handler: Any, deps: dict[str, Any]) -> bool:
 
 
 def _sample_chips_from_report(report: Any) -> dict[str, list[str]]:
-    """Unused in Phase 8 v1 — Phase 9 will populate sample chips once the
-    preview path surfaces the per-bucket doc list. Reserved key on the
-    response so the UI contract is stable today.
+    """Read per-bucket filename samples from the delta report.
+
+    Populated via `DeltaRunReport.delta_doc_samples` (capped at 6 per bucket
+    in `materialize_delta`). Closes the operator's "RETIRADOS=5, what 5?"
+    trap by surfacing the actual filenames in the preview banner.
     """
-    return {"added": [], "modified": [], "removed": []}
+    samples = getattr(report, "delta_doc_samples", None) or {}
+    return {
+        "added": list(samples.get("added") or []),
+        "modified": list(samples.get("modified") or []),
+        "removed": list(samples.get("removed") or []),
+    }
 
 
 def _handle_apply(handler: Any, deps: dict[str, Any]) -> bool:
@@ -318,13 +347,95 @@ def _handle_live(handler: Any, parsed: Any, deps: dict[str, Any]) -> bool:
     return True
 
 
-def _handle_events(handler: Any, parsed: Any, deps: dict[str, Any]) -> bool:
-    """SSE stream for job events.
+_SSE_TAIL_MAX_DURATION_S = 1800  # 30 min hard cap per connection
+_SSE_TAIL_KEEPALIVE_S = 15
+_SSE_TAIL_POLL_INTERVAL_S = 0.5
+_SSE_TERMINAL_EVENT_TYPES = frozenset(
+    {
+        "ingest.delta.worker.done",
+        "ingest.delta.worker.failed",
+        "ingest.delta.cli.done",
+    }
+)
+# Event types the SSE stream forwards even when they don't carry a job_id
+# or delta_id payload tag (the classifier emits per-doc events without a
+# delta tag because it predates the additive runtime). The lock prevents
+# concurrent jobs against the same target so the cross-job confusion risk
+# is bounded.
+_SSE_GLOBAL_PASSTHROUGH_EVENT_TYPES = frozenset(
+    {
+        "subtopic.ingest.classified",
+        "subtopic.graph.binding_built",
+        "subtopic.graph.bindings_summary",
+        "ingest.delta.classifier.summary",
+        "ingest.delta.parity.check.start",
+        "ingest.delta.parity.check.done",
+        "ingest.delta.parity.check.mismatch",
+        "ingest.delta.falkor.indexes_verified",
+        "ingest.delta.falkor.indexes_skipped",
+    }
+)
+# Event-type prefixes considered "ingest progress." Anything else is
+# filtered out so the consumer doesn't see chat / API noise mixed into the
+# delta progress stream.
+_SSE_RELEVANT_EVENT_PREFIXES = ("ingest.delta.", "subtopic.")
 
-    v1 ships a minimal "snapshot + keepalive" stream: emit the current row
-    once as an SSE event, then short-lived keepalive comments at 5s intervals
-    until the job reaches terminal. Real per-event streaming (driven by
-    logs/events.jsonl tailing) is a Phase 9 follow-up.
+
+def _events_jsonl_path(deps: dict[str, Any]) -> Any:
+    """Resolve the canonical events.jsonl path. Mirrors the heuristic in
+    `_handle_preview_progress`: corpus_dir's parent (so that running with
+    corpus_dir=knowledge_base/ still finds logs/events.jsonl in the repo
+    root). Tests inject `events_log_path` directly.
+    """
+    from pathlib import Path
+
+    explicit = deps.get("events_log_path")
+    if explicit is not None:
+        return Path(explicit)
+    workspace_root = deps.get("corpus_dir") or Path.cwd()
+    if hasattr(workspace_root, "name") and workspace_root.name == "knowledge_base":
+        workspace_root = workspace_root.parent
+    return Path(workspace_root) / "logs" / "events.jsonl"
+
+
+def _sse_event_matches_job(
+    event_type: str,
+    payload: dict[str, Any],
+    *,
+    job_id: str,
+    delta_id: str,
+) -> bool:
+    """Filter rule for the SSE tail.
+
+    - Worker events carry `job_id` → must match.
+    - Runtime events carry `delta_id` → must match.
+    - Global pass-through events (per-doc classifier emissions without a
+      delta tag) flow through whenever the job is active.
+    - Anything else with neither tag is dropped.
+    """
+    if not any(event_type.startswith(p) for p in _SSE_RELEVANT_EVENT_PREFIXES):
+        return False
+    event_job_id = str(payload.get("job_id") or "")
+    if event_job_id:
+        return event_job_id == job_id
+    event_delta_id = str(payload.get("delta_id") or "")
+    if event_delta_id:
+        return event_delta_id == delta_id
+    return event_type in _SSE_GLOBAL_PASSTHROUGH_EVENT_TYPES
+
+
+def _handle_events(handler: Any, parsed: Any, deps: dict[str, Any]) -> bool:
+    """SSE stream for a delta job — Fase C (real-time).
+
+    Sends the initial row snapshot, then tails `logs/events.jsonl` and
+    forwards every event tagged with this `job_id` / `delta_id` plus a
+    bounded set of per-doc classifier events. Closes when a terminal worker
+    event lands, when the client disconnects (broken pipe), or after a
+    30-minute hard cap.
+
+    Auth: EventSource cannot send `Authorization` headers, so the caller
+    may pass the bearer via `?token=...`. The query-param shim lifts it
+    into the header before `_require_admin` validates.
     """
     query = parse_qs(parsed.query)
     job_id = (query.get("job_id") or [""])[0]
@@ -342,28 +453,112 @@ def _handle_events(handler: Any, parsed: Any, deps: dict[str, Any]) -> bool:
         _emit_response("events", 404, started, job_id=job_id)
         return True
 
+    delta_id = str(getattr(row, "delta_id", "") or "")
+
     handler.send_response(HTTPStatus.OK)
     handler.send_header("Content-Type", "text/event-stream")
     handler.send_header("Cache-Control", "no-cache")
     handler.send_header("Connection", "keep-alive")
+    handler.send_header("X-Accel-Buffering", "no")  # disable nginx buffering
     handler.end_headers()
-    snapshot = json.dumps(_row_to_dict(row))
-    handler.wfile.write(f"retry: 5000\n\n".encode("utf-8"))
-    handler.wfile.write(f"event: snapshot\ndata: {snapshot}\n\n".encode("utf-8"))
-    handler.wfile.flush()
+    snapshot = json.dumps(_row_to_dict(row), ensure_ascii=False)
+    try:
+        handler.wfile.write(b"retry: 5000\n\n")
+        handler.wfile.write(f"event: snapshot\ndata: {snapshot}\n\n".encode("utf-8"))
+        handler.wfile.flush()
+    except (BrokenPipeError, ConnectionResetError):
+        emit_event(
+            "ingest.delta.ui.sse.disconnected",
+            {"job_id": job_id, "reason": "client_gone_before_snapshot"},
+        )
+        return True
+
     emit_event(
         "ingest.delta.ui.sse.connected",
-        {"job_id": job_id},
+        {"job_id": job_id, "delta_id": delta_id, "mode": "tail"},
     )
-    _emit_response("events", 200, started, job_id=job_id)
-    # Note: v1 does NOT tail events.jsonl — the client is expected to
-    # reconnect (and/or fall back to /status polling) for progress updates.
-    # Closing the stream here avoids holding the worker thread on the tiny
-    # Python HTTPServer. The admin UI's SSE subscriber auto-reconnects.
-    emit_event(
-        "ingest.delta.ui.sse.disconnected",
-        {"job_id": job_id, "reason": "v1_single_snapshot"},
+    _emit_response("events", 200, started, job_id=job_id, mode="tail")
+
+    events_path = _events_jsonl_path(deps)
+    if not events_path.exists():
+        try:
+            err = json.dumps({"reason": "events_log_missing"}, ensure_ascii=False)
+            handler.wfile.write(f"event: error\ndata: {err}\n\n".encode("utf-8"))
+            handler.wfile.flush()
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+        emit_event(
+            "ingest.delta.ui.sse.disconnected",
+            {"job_id": job_id, "reason": "events_log_missing"},
+        )
+        return True
+
+    last_keepalive = time.monotonic()
+    terminal_seen = False
+    disconnect_reason = "timeout"
+    sleep_fn = deps.get("sse_sleep_fn") or time.sleep
+    max_duration_s = float(deps.get("sse_max_duration_s") or _SSE_TAIL_MAX_DURATION_S)
+    keepalive_interval_s = float(
+        deps.get("sse_keepalive_interval_s") or _SSE_TAIL_KEEPALIVE_S
     )
+    poll_interval_s = float(
+        deps.get("sse_poll_interval_s") or _SSE_TAIL_POLL_INTERVAL_S
+    )
+    max_iterations = deps.get("sse_max_iterations")  # test-only escape hatch
+
+    iteration = 0
+    seek_to_end = bool(deps.get("sse_seek_to_end", True))
+    try:
+        with events_path.open("rb") as fh:
+            if seek_to_end:
+                fh.seek(0, 2)  # tail from end — we already sent the snapshot
+            while not terminal_seen and (time.monotonic() - started) < max_duration_s:
+                iteration += 1
+                if max_iterations is not None and iteration > int(max_iterations):
+                    disconnect_reason = "max_iterations_test_only"
+                    break
+                line = fh.readline()
+                if not line:
+                    if time.monotonic() - last_keepalive > keepalive_interval_s:
+                        try:
+                            handler.wfile.write(b": keepalive\n\n")
+                            handler.wfile.flush()
+                            last_keepalive = time.monotonic()
+                        except (BrokenPipeError, ConnectionResetError):
+                            disconnect_reason = "client_gone"
+                            break
+                    sleep_fn(poll_interval_s)
+                    continue
+                try:
+                    ev = json.loads(line.decode("utf-8"))
+                except (json.JSONDecodeError, UnicodeDecodeError):
+                    continue
+                event_type = str(ev.get("event_type") or "")
+                payload = ev.get("payload") or {}
+                if not isinstance(payload, dict):
+                    continue
+                if not _sse_event_matches_job(
+                    event_type, payload, job_id=job_id, delta_id=delta_id
+                ):
+                    continue
+                data = json.dumps(ev, ensure_ascii=False)
+                try:
+                    handler.wfile.write(
+                        f"event: {event_type}\ndata: {data}\n\n".encode("utf-8")
+                    )
+                    handler.wfile.flush()
+                    last_keepalive = time.monotonic()
+                except (BrokenPipeError, ConnectionResetError):
+                    disconnect_reason = "client_gone"
+                    break
+                if event_type in _SSE_TERMINAL_EVENT_TYPES:
+                    terminal_seen = True
+                    disconnect_reason = "terminal"
+    finally:
+        emit_event(
+            "ingest.delta.ui.sse.disconnected",
+            {"job_id": job_id, "reason": disconnect_reason},
+        )
     return True
 
 
@@ -546,6 +741,11 @@ def handle_ingest_delta_get(
 ) -> bool:
     if not path.startswith(API_PREFIX):
         return False
+    # The SSE /events endpoint is consumed via EventSource which cannot
+    # send Authorization headers; lift `?token=...` into the header BEFORE
+    # the auth gate runs so the standard validation handles it.
+    if path == API_PREFIX + "events":
+        _maybe_inject_token_from_query(handler, parsed)
     try:
         _require_admin(handler)
     except PlatformAuthError as exc:

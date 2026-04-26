@@ -3,6 +3,24 @@
 See ``docs/done/next/additive_corpusv1.md`` §4 Decision H1 (reviewer-revised:
 tolerance = max(5 rows, 0.2%) absolute, ``--strict-parity`` escalates).
 Run before every ``--additive`` delta to detect drift early.
+
+Asymmetry note (2026-04-26). Supabase tracks every row by ``sync_generation``
+and the probe filters its three counts to the active generation. Falkor, on
+the other hand, has no per-generation tag on ``ArticleNode`` (the schema
+only carries ``article_id``, ``article_number``, ``heading``, ``text_current``
+etc. — not ``sync_generation``), so the Falkor-side counts are necessarily
+generation-agnostic. As a consequence:
+
+* ``falkor_docs`` is a proxy: ``count(DISTINCT ArticleNode.source_path)``
+  over the whole graph, not just the active gen. Lingering sources from
+  previous generations (never explicitly retired) inflate it.
+* ``falkor_articles`` counts every ``:ArticleNode`` ever materialized.
+* ``chunks_vs_articles`` is intentionally coarse — Supabase ``document_chunks``
+  are token windows, Falkor ``ArticleNode`` is article-level. A persistent
+  delta here is expected, not corruption.
+
+Closing this asymmetry requires propagating ``sync_generation`` to every
+node Falkor writes; tracked in ``docs/aa_next/next_v4.md §6``.
 """
 
 from __future__ import annotations
@@ -193,13 +211,17 @@ def check_parity(
     )
 
     # Falkor counts — by label. Articles stand in for chunks at the graph side.
+    # Schema (`graph/schema.py`) defines the article label as ``ArticleNode``
+    # (no plain ``:Article`` / ``:Document`` exists). Falkor has no node-level
+    # ``sync_generation`` tag yet, so these counts span every generation
+    # currently materialized — see the module docstring for the implication.
     falkor_docs = _falkor_count(
         graph_client,
-        "MATCH (d:Document) RETURN count(d) AS n",
+        "MATCH (a:ArticleNode) RETURN count(DISTINCT a.source_path) AS n",
     )
     falkor_articles = _falkor_count(
         graph_client,
-        "MATCH (a:Article) RETURN count(a) AS n",
+        "MATCH (a:ArticleNode) RETURN count(a) AS n",
     )
     falkor_edges = _falkor_count(
         graph_client,

@@ -6,7 +6,7 @@
     "build:public": "node ./scripts/build-public.mjs",
     "test": "npm run test:health",
     "test:all": "vitest run --config ./vitest.config.ts",
-    "test:health": "vitest run --config ./vitest.config.ts tests/chatSurfaceController.test.ts tests/thinkingOverlay.test.ts tests/orchestrationApp.test.ts",
+    "test:health": "vitest run --config ./vitest.config.ts tests/chatSurfaceController.test.ts tests/thinkingOverlay.test.ts tests/orchestrationApp.test.ts tests/additiveDeltaControllerTerminalVm.test.ts tests/additiveDeltaReattach.test.ts tests/additiveDeltaSse.test.ts tests/corpusHealthCard.test.ts tests/corpusHealthMetric.test.ts",
     "test:e2e": "playwright test --config ./playwright.config.ts",
     "test:e2e:protected": "playwright test --config ./playwright.protected.config.ts",
     "test:e2e:install": "playwright install chromium"

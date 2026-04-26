@@ -447,11 +447,25 @@ class GraphClient:
         *,
         strict: bool = False,
     ) -> GraphQueryResult:
+        from .result_guard import check_resultset_cap
+
         if self._executor is not None:
-            return self._executor(statement, self.config)
+            result = self._executor(statement, self.config)
+            check_resultset_cap(
+                description=statement.description,
+                query=statement.query,
+                row_count=len(result.rows or ()),
+            )
+            return result
         if self.config.is_configured:
             try:
-                return _execute_live_statement(statement, self.config)
+                result = _execute_live_statement(statement, self.config)
+                check_resultset_cap(
+                    description=statement.description,
+                    query=statement.query,
+                    row_count=len(result.rows or ()),
+                )
+                return result
             except GraphClientError as exc:
                 if strict:
                     raise

@@ -41,6 +41,7 @@ import {
 } from "@/shared/ui/organisms/generationsList";
 import { createRunTriggerCard } from "@/shared/ui/organisms/runTriggerCard";
 import { createAdditiveDeltaCard } from "@/shared/ui/organisms/additiveDeltaCard";
+import { createCorpusHealthCard, type CorpusHealthCardHandle } from "@/shared/ui/organisms/corpusHealthCard";
 import {
   createIntakeDropZone,
   type IntakeDropZoneFile,
@@ -185,6 +186,7 @@ export function createIngestController(
   rootElement: HTMLElement,
   options: CreateIngestControllerOptions = {},
 ): IngestController {
+  const healthSlot = rootElement.querySelector<HTMLElement>("[data-slot=corpus-health]");
   const overviewSlot = rootElement.querySelector<HTMLElement>("[data-slot=corpus-overview]");
   const triggerSlot = rootElement.querySelector<HTMLElement>("[data-slot=run-trigger]");
   const generationsSlot = rootElement.querySelector<HTMLElement>("[data-slot=generations-list]");
@@ -632,15 +634,31 @@ export function createIngestController(
     });
   }
 
+  // Fase D — corpus health dashboard. Persistent at the top of Contexto.
+  // Auto-refreshes every 60s; refresh button forces an immediate fetch.
+  let corpusHealth: CorpusHealthCardHandle | null = null;
+  if (healthSlot) {
+    corpusHealth = createCorpusHealthCard();
+    healthSlot.replaceChildren(corpusHealth.element);
+  }
+
   return {
     async refresh(): Promise<void> {
-      await Promise.all([_renderOverview(), _renderGenerations()]);
+      await Promise.all([
+        _renderOverview(),
+        _renderGenerations(),
+        corpusHealth?.refresh() ?? Promise.resolve(),
+      ]);
     },
     destroy(): void {
       _stopPolling();
       if (additiveDelta) {
         additiveDelta.destroy();
         additiveDelta = null;
+      }
+      if (corpusHealth) {
+        corpusHealth.destroy();
+        corpusHealth = null;
       }
     },
   };

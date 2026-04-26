@@ -28,6 +28,7 @@ export function renderIngestShellMarkup(): string {
           <p class="lia-ingest-shell__section-eyebrow">Contexto</p>
           <h2 class="lia-ingest-shell__section-title">Corpus activo</h2>
         </header>
+        <div class="lia-ingest-shell__row" data-slot="corpus-health"></div>
         <div class="lia-ingest-shell__row" data-slot="corpus-overview"></div>
       </section>
 

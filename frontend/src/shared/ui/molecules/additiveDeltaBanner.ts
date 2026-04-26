@@ -126,11 +126,15 @@ export function createAdditiveDeltaBanner(
       },
       {
         key: "removed",
-        title: "Retirados",
-        tone: "error",
+        title: "Faltan en disco (no se retiran)",
+        tone: "warning",
         count: vm.counts.removed,
         samples: vm.samples?.removed ?? [],
-        description: "Documentos que ya no existen en disco.",
+        description:
+          "Estos archivos están en la base publicada pero no en disco. " +
+          "Por seguridad, este flujo NO los retira de Supabase + Falkor. " +
+          "Si genuinamente querés retirarlos, hacelo por CLI explícito: " +
+          "`lia-graph-artifacts --additive --allow-retirements`.",
       },
       {
         key: "unchanged",

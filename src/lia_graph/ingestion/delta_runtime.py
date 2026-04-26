@@ -71,6 +71,9 @@ class DeltaRunReport:
     falkor_success: int = 0
     falkor_failure: int = 0
     classifier_summary: dict[str, Any] | None = None
+    retirements_allowed: bool = False
+    diagnostic_removed_count: int = 0
+    delta_doc_samples: dict[str, list[str]] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -183,6 +186,7 @@ def materialize_delta(
     lock_target: str | None = None,
     created_by: str | None = None,
     force_full_classify: bool = False,
+    allow_retirements: bool = False,
 ) -> DeltaRunReport:
     """Plan + apply a corpus delta against the rolling generation.
 
@@ -396,6 +400,46 @@ def materialize_delta(
         },
     )
 
+    # Capture the removed filenames BEFORE the retirement-strip so the GUI
+    # preview can show which docs are missing on disk even when the strip
+    # zeroes the bucket. This list feeds `delta_doc_samples["removed"]`
+    # below; the strip itself follows the operator-directive logic.
+    sample_cap = 6
+    removed_relative_paths = [e.relative_path for e in delta.removed[:sample_cap]]
+
+    # Asymmetric safety per operator directive (2026-04-26): adding to the
+    # corpus is the friendly path; deleting from cloud Supabase + Falkor must
+    # be explicit. The disk-vs-baseline diff cannot silently retire docs that
+    # happen to be missing locally — that's a footgun (out-of-sync local
+    # knowledge_base, partial Dropbox sync, machine swap). When
+    # `allow_retirements=False` (default), we keep the `removed` bucket in the
+    # report for diagnostic visibility but strip it from the delta so the sink
+    # and Falkor never act on it. Retirements happen only via the explicit CLI
+    # path (`lia-graph-artifacts --additive --allow-retirements`).
+    diagnostic_removed_count = len(delta.removed)
+    if not allow_retirements and diagnostic_removed_count > 0:
+        emit_event(
+            "ingest.delta.retirements.blocked",
+            {
+                "delta_id": delta.delta_id,
+                "would_retire_count": diagnostic_removed_count,
+                "reason": "allow_retirements=False (GUI default)",
+            },
+        )
+        # CorpusDelta is frozen; mirror the existing object.__setattr__ pattern
+        # used a few lines below for `modified_article_keys`.
+        object.__setattr__(delta, "removed", ())
+
+    # Per-bucket sample filenames so the GUI preview can show real names
+    # instead of just counts. Capped per `sample_cap` above. `removed` was
+    # captured pre-strip so the diagnostic chip can show WHICH docs are
+    # missing on disk even when retirements are disabled.
+    delta_doc_samples: dict[str, list[str]] = {
+        "added": [e.relative_path for e in delta.added[:sample_cap]],
+        "modified": [e.relative_path for e in delta.modified[:sample_cap]],
+        "removed": removed_relative_paths,
+    }
+
     report = DeltaRunReport(
         delta_id=delta.delta_id,
         target=supabase_target,
@@ -404,7 +448,17 @@ def materialize_delta(
         baseline_generation_id=baseline.generation_id,
         delta_summary=summary,
         classifier_summary=classifier_summary,
+        retirements_allowed=bool(allow_retirements),
+        diagnostic_removed_count=int(diagnostic_removed_count),
+        delta_doc_samples=delta_doc_samples,
     )
+    if not allow_retirements and diagnostic_removed_count > 0:
+        report.warnings.append(
+            f"{diagnostic_removed_count} docs están en la base pero faltan en "
+            "disco. Este flujo NO los retira (allow_retirements=False). Para "
+            "retirar explícitamente, usá: "
+            "lia-graph-artifacts --additive --allow-retirements"
+        )
 
     if dry_run:
         _write_summary_artifact(artifacts_root, report)

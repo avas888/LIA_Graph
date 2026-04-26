@@ -1,8 +1,14 @@
-# next_v4 — forward plan after the 2026-04-25 gate-9 qualitative-pass
+# next_v4 — record of the 2026-04-25/26 ship cycle (closed forward; see v5 for active work)
 
-> **Opened 2026-04-25** when the operator accepted gate-9 on qualitative basis (see `gate_9_threshold_decision.md` §7). next_v4 inherits one explicitly-scoped item from gate-9's deferred debt and otherwise stays open until next_v3 closes (re-flip ships once gate 8 also clears).
+> **Opened 2026-04-25** when the operator accepted gate-9 on qualitative basis (see `gate_9_threshold_decision.md` §7). next_v4 inherited one explicitly-scoped item from gate-9's deferred debt + the 2026-04-25/26 ship cycle (conversational-memory staircase, comparative-regime mode, 100-Q gauge code, parity-probe diagnostic, 10k cap audit).
 >
-> **Policy (carries from next_v3).** Every item below uses the mandatory six-gate lifecycle per `docs/aa_next/README.md`: 💡 idea → 🛠 code landed → 🧪 verified locally → ✅ verified in target env → ↩ regressed-discarded.
+> ### ⚠ This file is now historical. Active forward work has moved to [`next_v5.md`](./next_v5.md) as of 2026-04-26.
+>
+> Forward-facing items still pending verification or with open success-criterion measurements were migrated to v5 §1-§7. v5 also carries one new investigation surfaced 2026-04-26: retrieval-depth envelope calibration.
+>
+> v4 stays in this folder as the **record of what was done in this cycle** — every "code landed" / "verified locally" / "shipped" line below remains true and the implementation references stay accurate. Do not add new forward work here; open it in v5.
+>
+> **Policy (carries from next_v3, applies to v5 too).** Every item used the mandatory six-gate lifecycle per `docs/aa_next/README.md`: 💡 idea → 🛠 code landed → 🧪 verified locally → ✅ verified in target env → ↩ regressed-discarded.
 
 ---
 
@@ -478,6 +484,199 @@ If the dev baseline and the staging baseline differ meaningfully (e.g., > 3pp ma
 
 - Ten reference rows have `reference_sources: []` despite citing norms in-text (`AQ_017, AQ_038, AQ_041, AQ_056, AQ_067, AQ_075, AQ_076, AQ_087, AQ_088, AQ_093`). This shows up in the judge prompt as "(la referencia no listó fuentes — apóyate en el cuerpo)". Cosmetic; the judge handles it. A v5+ cleanup PR can fill them in by parsing the answer text.
 - The runner currently records `retrieval_backend = null` / `graph_backend = null` for some turns where Lia's `diagnostics` object is `None` (e.g., coherence-gate refusals where the pipeline short-circuits). That's faithful capture, not a runner bug. If the macro gauge later wants to slice "judge score conditional on backend served the answer", we'd need Lia to populate those keys even on refused turns — separate ticket.
+
+---
+
+## §6.5 Parity probe asymmetry — propagate `sync_generation` to Falkor + investigate edge undercount (operator-surfaced 2026-04-26)
+
+> **Context.** GUI ingestion's "Salud del corpus" tarjeta showed `Parity Supabase ↔ Falkor: Desfasada` with deltas equal to ~the entire corpus (`docs Δ1278, chunks_vs_articles Δ7842, edges Δ5229`). Diagnosis (2026-04-26): the probe was querying labels that don't exist in Falkor (`:Document`, `:Article` — the schema uses `:ArticleNode`). **Short-term fix landed same day** in `src/lia_graph/ingestion/parity_check.py`: queries point at `ArticleNode` and use `count(DISTINCT a.source_path)` as the docs proxy. Tests updated, 5/5 green.
+>
+> **Post-fix real numbers (against staging cloud, 2026-04-26):**
+> - `docs`: Supabase 1.278 (active gen) vs Falkor 3.248 (DISTINCT source_path, gen-agnostic) → +1.970 lingering on Falkor.
+> - `chunks_vs_articles`: Supabase 7.842 vs Falkor 9.247 → +1.405 lingering on Falkor.
+> - `edges`: Supabase ~30.103 vs Falkor 24.874 → **−5.229 missing on Falkor**.
+>
+> The card will keep showing "Desfasada" until both items below land. That's the honest signal — the bug noise is gone, the real drift remains.
+
+### Item §6.5.A — Propagate `sync_generation` to Falkor nodes
+
+#### Gate 1 — Idea (one sentence)
+
+Tag every `ArticleNode` (and every other node Falkor materializes) with `sync_generation` at MERGE time, so the parity probe and any future generation-scoped query can filter Falkor counts to the active generation just like it already does on Supabase.
+
+#### Gate 2 — Plan (narrowest module)
+
+- **Schema layer.** `src/lia_graph/graph/schema.py` — add `sync_generation` to the property set the loader writes for `ArticleNode`, `TopicNode`, `SubTopicNode`, `ReformNode`, `ConceptNode`, `ParameterNode` (six labels, one new property each).
+- **Loader.** `src/lia_graph/ingestion/loader.py` — every MERGE that creates or touches a node must `SET n.sync_generation = $generation_id` from the active delta context. The generation_id already lives in `delta_runtime.materialize_delta` and on the loader's call-site.
+- **Probe symmetry.** `src/lia_graph/ingestion/parity_check.py` — once nodes carry `sync_generation`, swap the gen-agnostic counts for `MATCH (a:ArticleNode {sync_generation: $gen}) …`. Drop the asymmetry note in the docstring.
+- **Backfill.** One-shot script `scripts/backfill_sync_generation_falkor.py` that walks every existing node (9.247 ArticleNode + 81 + 94 + 1.860 + …) and SET their `sync_generation` to the generation that originally wrote them. The originating gen can be inferred from `documents.sync_generation` joined on `source_path` for ArticleNode; for derived nodes (Topic/SubTopic/Concept/Parameter) the inference rule is "active generation when the connected ArticleNode was written" — needs a design pass.
+- **Retire policy follow-up (out of scope here).** Once gen-tag exists, a separate plan can decide whether/how to retire nodes whose `sync_generation` is older than active. Today the corpus is **append-only on Falkor side** (per the operator's "additive is the friendly path" directive in `CLAUDE.md`); explicit retirement stays opt-in via the `--allow-retirements` CLI flag, but it should at least *be possible* to identify them.
+
+#### Gate 3 — Minimum success criterion (measurable)
+
+After the change ships and a fresh `make phase2-graph-artifacts-supabase` runs against staging:
+
+- `MATCH (a:ArticleNode) WHERE a.sync_generation IS NULL RETURN count(a) AS n` ⇒ `n = 0` (no untagged nodes).
+- The corpus health card's three Supabase-vs-Falkor deltas all fall **inside** the parity tolerance (±5 absolute / ±0.2%), so the card flips from "Desfasada" to "Alineada ✓" without changing tolerance values.
+- Ingest events emit one `ingest.parity.check.done` per `--additive` run with `ok=True`.
+
+#### Gate 4 — Test plan
+
+- **Development needed.** (a) Schema + loader edits behind a single feature flag `LIA_FALKOR_NODE_GENERATION_TAG=on` (so the change can ship and bake without immediately triggering the backfill). (b) Backfill script with `--dry-run` mode that prints "would tag N nodes with gen X" without writing. (c) New unit test in `tests/test_parity_check.py` covering the gen-scoped query path with a fake Falkor that respects the `{sync_generation: $gen}` filter. (d) New ingest contract test verifying that after a `delta_runtime.materialize_delta` invocation, every newly-MERGEd node has `sync_generation` set.
+- **Conceptualization.** "All nodes carry the gen tag" means the parity probe finally has matching reference frames on both sides — Supabase active-gen counts vs Falkor active-gen counts. That eliminates the structural asymmetry; any remaining delta is real drift.
+- **Running environment.** Unit + ingest tests in `make test-batched`. End-to-end verification needs a staging-cloud run of `make phase2-graph-artifacts-supabase` + the backfill script, both observed via `logs/events.jsonl`.
+- **Actors.** Engineer ships code + unit tests. Operator runs the staging hydration + backfill (production credentials). No SME / end-user actor needed — this is plumbing.
+- **Decision rule.** Pass = all three Gate-3 numeric checks succeed. Fail = any one missing → discard the loader edits, keep the schema change inert, leave the asymmetry note in place.
+
+#### Gate 5 — Greenlight
+
+Requires both signals: (a) unit + ingest tests green; (b) operator-run hydration shows `Alineada ✓` on the GUI card.
+
+#### Gate 6 — Refine-or-discard
+
+If end-to-end shows Falkor still drifts post-tag, the discard path is to revert the loader edits, leave the schema field nullable + unused, and reopen with the assumption that gen-tagging alone isn't sufficient (i.e., the writer is dropping nodes silently, not failing to tag them).
+
+#### Status
+
+💡 **idea** — opened 2026-04-26 from the GUI parity-probe diagnostic. Code not written.
+
+---
+
+### Item §6.5.B — Investigate the −5.229 missing edges on Falkor — **🧪 verified locally, mostly closed**
+
+> **Outcome (2026-04-26).** Diagnostic ran via `scripts/diag_falkor_edge_undercount.py` against staging cloud. Real picture:
+> - 65,8% of Supabase edges (19.815) **present** in Falkor.
+> - 33,0% (9.934) endpoint-missing — bucket (a), expected loss by loader design but proportion warrants follow-up → **Item §6.5.D opened.**
+> - 1,0% (300) type-mismatch — bucket (c), Falkor *richer* than Supabase (`references → REQUIRES/COMPUTATION_DEPENDS_ON`); not a drop, not a problem.
+> - 0,18% (54) silent-drop — bucket (b), all `references → CITA`. Threshold was ≤ 50; numerically 54 is above but semantically a single concentrated pattern at < 0,2%. **Qualitative-pass per case** (`feedback_thresholds_no_lower`): threshold not relaxed, this run is the recorded exception, watchlist for next ingest.
+> - 0% unknown relation — mapping complete.
+>
+> Plus lateral finding promoted to its own item: FalkorDB server caps RESP responses at 10.000 rows silently → **Item §6.5.E opened and 🧪 verified locally same day.**
+>
+> Full bucket details, samples, and decision rationale in `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md`.
+
+#### Gate 1 — Idea
+
+Find out why Supabase `normative_edges` for the active generation has ~30.103 rows but Falkor only materialized 24.874 — specifically, whether the 5.229 missing edges are the **expected** loss from the loader's "skip unresolved ArticleNode endpoint" filter (`loader.py:271, 276, 412`), or whether some other class of edges is being dropped silently.
+
+#### Gate 2 — Plan
+
+- **Diagnostic, not intervention** (per the user's `feedback_diagnose_before_intervene` memory). Before touching the writer, measure where the 5.229 missing edges concentrate.
+- **Probe.** Single-shot script `scripts/diag_falkor_edge_undercount.py` that:
+  1. Pulls every row from Supabase `normative_edges` for the active generation (paginate).
+  2. For each row, checks whether the `(source_article_id, target_article_id, edge_type)` triple exists in Falkor.
+  3. Buckets the missing edges by edge_type, by source_article materialization status, by target_article materialization status.
+- **Cross-reference.** Read the existing `loader.py` skip counters that already log `skipped_edge_count` and `dropped_edges` (`loader.py:271-279, 276-280, 412-415`). Sum across the last `delta_jobs` row's events; the sum should equal 5.229 if the loss is fully accounted for.
+
+#### Gate 3 — Minimum success criterion
+
+A short report (`docs/learnings/ingestion/falkor-edge-undercount-2026-04-26.md`) that classifies the 5.229 missing edges into:
+- (a) edges deliberately skipped by the loader's endpoint filter (expected),
+- (b) edges silently dropped by an unidentified path (problem),
+with a count for each bucket and at least 5 sample edges per bucket. Decision rule: if (b) ≤ 50 edges, close as "expected loss". If (b) > 50, open a follow-up item targeting the specific drop path.
+
+#### Gate 4 — Test plan
+
+- **Development needed.** The diagnostic script (above) and the delta_jobs event-log aggregator. No production-code changes for this gate; everything is read-only.
+- **Conceptualization.** Each bucket maps to a different remediation: (a) is "documented behavior, leave it"; (b) is "real bug to chase". Without the bucketing, the −5.229 number is just noise.
+- **Running environment.** Local execution (`uv run`) reading from staging-cloud Supabase + Falkor. Read-only, no writes anywhere.
+- **Actors.** Engineer runs the script, reads logs, writes the learnings doc.
+- **Decision rule.** Bucket-(b) ≤ 50 → close. > 50 → escalate to a new §6.5.C item with its own six gates.
+
+#### Gate 5 — Greenlight
+
+Doc landed in `docs/learnings/ingestion/`. No end-user signal needed because this gate is investigation, not change.
+
+#### Gate 6 — Refine-or-discard
+
+If the script can't reach a clean bucket count (e.g., the join on triple keys is itself ambiguous), discard the bucketing approach and reopen with a different methodology.
+
+#### Status
+
+🧪 **verified locally** — opened and resolved 2026-04-26. Diagnostic ran, buckets recorded, watchlist active. ✅ **verified in target env** pending: re-run after the next staging delta to confirm bucket (b) doesn't grow.
+
+---
+
+### Item §6.5.D — Investigate the 33% endpoint-missing bucket (opened 2026-04-26)
+
+#### Gate 1 — Idea
+
+The §6.5.B diagnostic showed **9.934 of 30.103 Supabase edges (33%) reach Falkor with at least one endpoint not materialized**. The dominant pattern in samples is source articles using the legacy `article_key` form (e.g. `'10-fuentes-y-referencias'`) whose Falkor MERGE key is actually `whole::{source_path}` because the article is prose-only with no `article_number`. The loader filters these edges out by design (`loader.py:43-65, 271-279`). Investigate whether the **classifier** could emit edges using the graph key (`_graph_article_key()`) from the start, so prose-only articles' edges land in Falkor instead of being filtered downstream.
+
+#### Gate 2 — Plan (narrowest module)
+
+- **Diagnostic first** (`feedback_diagnose_before_intervene`). Add a sub-bucketing pass to `scripts/diag_falkor_edge_undercount.py` that splits bucket (a) into:
+  - (a1) prose-only key mismatch (`source_key` resolves to `whole::{source_path}` if reformulated)
+  - (a2) genuinely orphaned endpoints (article was filtered out for any reason)
+  - (a3) reform-side missing (`source_key` looks like `DECRETO-XXX` but no `:ReformNode` exists)
+  Ship the sub-bucketing as part of the same script; run it; record proportions.
+- **Decision branches based on sub-buckets:**
+  - If (a1) ≥ 70% of bucket (a): the fix is in `pipeline_d/classifier.py` (or wherever classifier emits the `source_key`/`target_key` for `normative_edges` writes). Change the classifier to emit `_graph_article_key()` for prose-only articles. Estimated upside: ≤ 9.934 edges recovered.
+  - If (a3) is dominant: the fix is in the ReformNode materialization path; out of scope of the classifier change.
+  - If (a2) is dominant: the loader filter is doing the right thing; close §6.5.D as "expected loss confirmed".
+
+#### Gate 3 — Minimum success criterion
+
+Sub-bucketing produces percentages summing to bucket (a) total (9.934). Branch decision recorded in the learnings doc. If the (a1) branch is taken, the implementation criterion is: **after a fresh staging hydration, the §6.5.B diagnostic shows bucket (a) decreased by ≥ 50%** without any increase in bucket (b) or (c).
+
+#### Gate 4 — Test plan
+
+- **Development needed.** Sub-bucketing logic in the existing diagnostic script (~30 LoC). If the (a1) branch lands, a new ingest contract test that emits a prose-only article + an edge whose `source_key` would be the legacy form, and asserts the classifier writes `_graph_article_key()`.
+- **Conceptualization.** Bucket (a1) ≥ 70% → keying mismatch is the dominant cause and a fix in the classifier directly recovers most of the 33%. (a2) dominance means the loader is doing what it should and §6.5.D closes as "no fix available without weakening the corpus".
+- **Running environment.** Sub-bucket diagnostic locally (read-only). If a code change ships, the validation needs a staging hydration run.
+- **Actors.** Engineer for the diagnostic. Operator for any staging hydration.
+- **Decision rule.** ≥ 50% bucket-(a) decrease in the post-fix re-run = pass. < 50% = revert + reopen.
+
+#### Gate 5 — Greenlight
+
+If §6.5.D triggers a code change, both signals must clear: unit/contract tests + the staging-hydration delta measurement.
+
+#### Gate 6 — Refine-or-discard
+
+If sub-bucketing reveals the dominant cause is something else (a3 or a different pattern), close §6.5.D and open a new item targeting the actual cause. The learnings doc keeps the (a1) hypothesis as a recorded null-result if it doesn't pan out.
+
+#### Status
+
+💡 **idea** — opened 2026-04-26 from §6.5.B sub-bucketing. Sub-bucketing pass not written.
+
+---
+
+### Item §6.5.E — FalkorDB 10.000-row resultset cap audit (opened + resolved 2026-04-26)
+
+#### Gate 1 — Idea
+
+FalkorDB caps RESP responses at `MAX_RESULTSET_SIZE = 10000` and silently truncates the tail. The §6.5.B diagnostic discovered this when its first un-paginated pull returned exactly 10.000 rows. **Audit every runtime query** to confirm none can hit the cap; add a defensive guard so future regressions surface immediately.
+
+#### Gate 2 — Plan (narrowest module)
+
+- Read-only audit of every Falkor query in `pipeline_d/retriever_falkor.py` (the only runtime file outside ingestion that queries Falkor).
+- For each query, record the bound mechanism (`count()` agg, explicit `LIMIT`, input slice) and realistic max-row scenario.
+- Add `src/lia_graph/graph/result_guard.py` (new sibling module — `client.py` is at 1.033 LoC, over the granular-edits threshold) that emits `graph.resultset_cap_reached` when a query returns ≥ cap rows. Configurable via `FALKORDB_RESULTSET_SIZE_CAP`.
+- Hook the guard into `GraphClient.execute` at every successful-result return point.
+
+#### Gate 3 — Minimum success criterion
+
+Audit table covers all 9 runtime queries with a bound mechanism for each. Guard emits the structured event under unit-test conditions when row count == cap. No current query is shown to risk the cap.
+
+#### Gate 4 — Test plan
+
+- **Development needed.** Audit performed by reading code; recorded in the learnings doc. Guard logic + 5 unit tests (below cap, at cap, custom cap via env, query truncation in payload, emit-failure swallowed).
+- **Conceptualization.** "All runtime queries safe today AND any future regression is caught by the structured event" is the durable outcome; the audit alone would have been point-in-time only.
+- **Running environment.** `pytest` for the guard. Audit table is in the learnings doc.
+- **Actors.** Engineer.
+- **Decision rule.** Audit shows zero current risk + 5/5 guard tests green = pass. Anything less = block and address.
+
+#### Gate 5 — Greenlight
+
+Both signals: 5/5 guard tests + audit table covering all 9 runtime queries.
+
+#### Gate 6 — Refine-or-discard
+
+If a future query shows up that legitimately needs > 10.000 rows, the guard's event will surface it; the response is to paginate the query (not to silence the guard). The guard has no behavior change risk — it never blocks, raises, or modifies results.
+
+#### Status
+
+🧪 **verified locally** — audit complete, guard shipped + tested. Test count 5/5 green. ✅ **verified in target env** pending: any production-staging query in real conditions would be a confirming signal but the guard's no-op-when-below-cap design makes target-env verification mostly redundant. Mark ✅ when at least one operator-driven staging session has run with the guard in place and emitted no `graph.resultset_cap_reached` events (expected silence = positive evidence).
 
 ---
 

@@ -121,6 +121,166 @@ def _query_active_generation() -> dict[str, Any] | None:
         return None
 
 
+def _build_corpus_health_payload() -> dict[str, Any]:
+    """Aggregate health snapshot for the persistent corpus dashboard.
+
+    Reads cheap-to-fetch signals so the operator can answer "is the corpus
+    in a state I can ingest into right now" without running anything:
+    active generation + counts, parity Supabase ↔ Falkor, embeddings
+    pending, last completed delta. Each subquery is independently
+    exception-shielded — a single broken probe degrades to a `null` field
+    in the payload but never sinks the whole endpoint.
+    """
+    from .supabase_client import get_supabase_client
+
+    payload: dict[str, Any] = {
+        "generation": {
+            "id": None,
+            "activated_at": None,
+            "documents": 0,
+            "chunks": 0,
+            "knowledge_class_counts": {},
+        },
+        "parity": {"ok": None, "mismatches": []},
+        "embeddings": {"pending_chunks": None, "pct_complete": None},
+        "last_delta": None,
+        "checked_at_utc": datetime.now(timezone.utc).isoformat(),
+    }
+
+    client = None
+    try:
+        client = get_supabase_client()
+    except Exception as exc:  # noqa: BLE001
+        _log.warning("corpus_health: supabase client unavailable: %s", exc)
+
+    if client is None:
+        return payload
+
+    # Active generation row.
+    active_id: str | None = None
+    try:
+        gen_resp = (
+            client.table("corpus_generations")
+            .select(
+                "generation_id, activated_at, documents, chunks, "
+                "knowledge_class_counts"
+            )
+            .eq("is_active", True)
+            .order("activated_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        rows = list(gen_resp.data or [])
+        if rows:
+            row = rows[0]
+            active_id = str(row.get("generation_id") or "") or None
+            payload["generation"] = {
+                "id": active_id,
+                "activated_at": row.get("activated_at"),
+                "documents": int(row.get("documents") or 0),
+                "chunks": int(row.get("chunks") or 0),
+                "knowledge_class_counts": (
+                    row.get("knowledge_class_counts") or {}
+                ),
+            }
+    except Exception as exc:  # noqa: BLE001
+        _log.warning("corpus_health: active-generation query failed: %s", exc)
+
+    # Parity Supabase ↔ Falkor.
+    try:
+        from .ingestion.parity_check import check_parity
+        from .graph.client import GraphClient
+
+        graph_client: Any = None
+        try:
+            graph_client = GraphClient.from_env()
+        except Exception as exc:  # noqa: BLE001
+            _log.info("corpus_health: GraphClient.from_env unavailable: %s", exc)
+
+        if active_id and graph_client is not None:
+            report = check_parity(client, graph_client, generation_id=active_id)
+            payload["parity"] = {
+                "ok": bool(report.ok),
+                "supabase_docs": report.supabase_docs,
+                "falkor_docs": report.falkor_docs,
+                "supabase_chunks": report.supabase_chunks,
+                "falkor_articles": report.falkor_articles,
+                "supabase_edges": report.supabase_edges,
+                "falkor_edges": report.falkor_edges,
+                "mismatches": [m.to_dict() for m in report.mismatches],
+            }
+    except Exception as exc:  # noqa: BLE001
+        _log.warning("corpus_health: parity probe failed: %s", exc)
+
+    # Embeddings pending: chunks without an embedding under the active gen.
+    if active_id:
+        try:
+            null_resp = (
+                client.table("document_chunks")
+                .select("chunk_id", count="exact")
+                .eq("sync_generation", active_id)
+                .is_("embedding", "null")
+                .range(0, 0)
+                .execute()
+            )
+            pending = int(getattr(null_resp, "count", None) or 0)
+            total = int(payload["generation"]["chunks"]) or 0
+            pct = (
+                round(100.0 * (total - pending) / total, 2)
+                if total > 0
+                else None
+            )
+            payload["embeddings"] = {
+                "pending_chunks": pending,
+                "pct_complete": pct,
+            }
+        except Exception as exc:  # noqa: BLE001
+            _log.warning(
+                "corpus_health: embeddings-pending probe failed: %s", exc
+            )
+
+    # Last completed delta job.
+    try:
+        last_resp = (
+            client.table("ingest_delta_jobs")
+            .select(
+                "job_id, delta_id, stage, completed_at, started_at, "
+                "report_json, lock_target"
+            )
+            .eq("stage", "completed")
+            .order("completed_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        last_rows = list(last_resp.data or [])
+        if last_rows:
+            row = last_rows[0]
+            sink_result = (
+                ((row.get("report_json") or {}).get("sink_result")) or {}
+                if isinstance(row.get("report_json"), dict)
+                else {}
+            )
+            payload["last_delta"] = {
+                "job_id": row.get("job_id"),
+                "delta_id": row.get("delta_id"),
+                "completed_at": row.get("completed_at"),
+                "started_at": row.get("started_at"),
+                "target": row.get("lock_target"),
+                "documents_added": int(sink_result.get("documents_added") or 0),
+                "documents_modified": int(
+                    sink_result.get("documents_modified") or 0
+                ),
+                "documents_retired": int(
+                    sink_result.get("documents_retired") or 0
+                ),
+                "chunks_written": int(sink_result.get("chunks_written") or 0),
+            }
+    except Exception as exc:  # noqa: BLE001
+        _log.warning("corpus_health: last-delta query failed: %s", exc)
+
+    return payload
+
+
 def _query_generations(limit: int = 20) -> list[dict[str, Any]]:
     try:
         from .supabase_client import get_supabase_client
@@ -617,6 +777,20 @@ def handle_ingest_get(
                 "documents": payload["corpus"]["documents"],
                 "audit_scanned": payload["audit"]["scanned"],
                 "graph_ok": payload["graph"]["ok"],
+            },
+        )
+        handler._send_json(HTTPStatus.OK, {"ok": True, **payload})
+        return True
+
+    if path == "/api/ingest/corpus_health":
+        _trace("ingest.corpus_health.requested", {"path": path})
+        payload = _build_corpus_health_payload()
+        _trace(
+            "ingest.corpus_health.served",
+            {
+                "active_generation_id": payload["generation"]["id"],
+                "parity_ok": payload["parity"]["ok"],
+                "embeddings_pending": payload["embeddings"]["pending_chunks"],
             },
         )
         handler._send_json(HTTPStatus.OK, {"ok": True, **payload})

@@ -63,9 +63,11 @@ class _FakeGraphClient:
 
     def execute(self, statement, *, strict: bool = False):
         q = statement.query
-        if "(d:Document)" in q:
+        # Order matters: the DISTINCT-source_path query also matches
+        # "(a:ArticleNode)", so check the docs proxy first.
+        if "DISTINCT a.source_path" in q:
             return _FalkorResult(rows=({"n": self._label_counts.get("docs", 0)},))
-        if "(a:Article)" in q:
+        if "(a:ArticleNode)" in q:
             return _FalkorResult(rows=({"n": self._label_counts.get("articles", 0)},))
         if "()-[r]->()" in q:
             return _FalkorResult(rows=({"n": self._label_counts.get("edges", 0)},))

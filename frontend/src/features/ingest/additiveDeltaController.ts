@@ -40,8 +40,10 @@ import {
 } from "@/features/ingest/additiveDeltaReattach";
 import {
   subscribeJobEvents,
+  type AdditiveDeltaProgressEvent,
   type AdditiveDeltaSseEvent,
   type AdditiveDeltaSseHandle,
+  type AdditiveDeltaSseHealthInfo,
   type AdditiveDeltaSseOptions,
   type AdditiveDeltaSseStatus,
 } from "@/features/ingest/additiveDeltaSse";
@@ -137,6 +139,77 @@ const TERMINAL_STAGES: readonly AdditiveDeltaTerminalStage[] = [
 
 function isTerminalStage(stage: string): stage is AdditiveDeltaTerminalStage {
   return (TERMINAL_STAGES as readonly string[]).includes(stage);
+}
+
+// Pure helper: format a progress event into a one-line live-activity
+// description for the progress pane. Exported for unit coverage. Returns
+// null for events that don't have a useful one-liner — the caller falls
+// back to keeping whatever line was there before.
+export function formatProgressEvent(
+  ev: AdditiveDeltaProgressEvent,
+): string | null {
+  const p = ev.payload;
+  switch (ev.eventType) {
+    case "subtopic.ingest.classified": {
+      const filename = String(p.filename ?? p.relative_path ?? "").trim();
+      const topic = String(p.topic_key ?? "").trim();
+      if (filename) {
+        return topic
+          ? `Clasificando: ${filename} → ${topic}`
+          : `Clasificando: ${filename}`;
+      }
+      return null;
+    }
+    case "subtopic.graph.binding_built":
+      return `Vinculando subtema → artículo`;
+    case "subtopic.graph.bindings_summary": {
+      const built = Number(p.built ?? 0);
+      const total = Number(p.total ?? built);
+      return `Vínculos subtema/artículo: ${built}/${total}`;
+    }
+    case "ingest.delta.parity.check.start":
+      return "Verificando parity Supabase ↔ Falkor…";
+    case "ingest.delta.parity.check.done": {
+      const ok = Boolean(p.ok ?? true);
+      return ok
+        ? "Parity Supabase ↔ Falkor: ✓ alineada"
+        : "Parity Supabase ↔ Falkor: desfasada (revisá warnings)";
+    }
+    case "ingest.delta.parity.check.mismatch": {
+      const field = String(p.field ?? "?");
+      return `Parity mismatch en ${field}`;
+    }
+    case "ingest.delta.classifier.summary": {
+      const total = Number(p.classified_new_count ?? 0);
+      const skipped = Number(p.prematched_count ?? 0);
+      const degraded = Number(p.degraded_n1_only ?? 0);
+      const tail = degraded > 0 ? ` · ${degraded} con review` : "";
+      return `Classifier: ${total} re-clasificados, ${skipped} con shortcut${tail}`;
+    }
+    case "ingest.delta.shortcut.computed": {
+      const skipped = Number(p.prematched_count ?? 0);
+      const toClassify = Number(p.classifier_input_count ?? 0);
+      return `Shortcut: ${skipped} skipped, ${toClassify} pendientes de LLM`;
+    }
+    case "ingest.delta.plan.computed": {
+      const a = Number(p.added ?? 0);
+      const m = Number(p.modified ?? 0);
+      const r = Number(p.removed ?? 0);
+      return `Plan listo: +${a} / ~${m} / -${r}`;
+    }
+    case "ingest.delta.falkor.indexes_verified":
+      return "Falkor: índices verificados";
+    case "ingest.delta.falkor.indexes_skipped":
+      return "Falkor: índices saltados (best-effort, ver warnings)";
+    case "ingest.delta.worker.stage": {
+      const stage = String(p.stage ?? "");
+      return stage ? `Stage → ${stage}` : null;
+    }
+    case "ingest.delta.worker.heartbeat":
+      return null; // too chatty to render
+    default:
+      return null;
+  }
 }
 
 // Pure helper: build the terminal-banner VM from an SSE event. The backend
@@ -532,6 +605,9 @@ export function bindAdditiveDelta(
         onSnapshot: (ev) => renderSseSnapshot(ev),
         onStatusChange: (status) => renderSseStatus(status),
         onTerminal: (ev) => renderTerminal(ev),
+        onHealthIssue: (info) => renderHealthIssue(info),
+        onHealthOk: () => renderHealthOk(),
+        onProgressEvent: (ev) => renderProgressEvent(ev),
       },
       opts.sseOptions ?? {},
     );
@@ -553,7 +629,31 @@ export function bindAdditiveDelta(
       lastHeartbeatAt: ev.lastHeartbeatAt ?? null,
       sseStatus: "connected",
       cancelRequested: ev.cancelRequested,
+      // Preserve health-chip + live-activity across snapshots; only the
+      // dedicated callbacks clear them.
+      healthIssue: currentProgressVm?.healthIssue ?? null,
+      liveActivity: currentProgressVm?.liveActivity ?? null,
     };
+    progressHandle.update(currentProgressVm);
+  }
+
+  function renderHealthIssue(info: AdditiveDeltaSseHealthInfo): void {
+    if (!progressHandle || !currentProgressVm) return;
+    currentProgressVm = { ...currentProgressVm, healthIssue: info };
+    progressHandle.update(currentProgressVm);
+  }
+
+  function renderHealthOk(): void {
+    if (!progressHandle || !currentProgressVm) return;
+    currentProgressVm = { ...currentProgressVm, healthIssue: null };
+    progressHandle.update(currentProgressVm);
+  }
+
+  function renderProgressEvent(ev: AdditiveDeltaProgressEvent): void {
+    if (!progressHandle || !currentProgressVm) return;
+    const line = formatProgressEvent(ev);
+    if (!line) return;
+    currentProgressVm = { ...currentProgressVm, liveActivity: line };
     progressHandle.update(currentProgressVm);
   }
 

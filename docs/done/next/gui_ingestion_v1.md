@@ -761,6 +761,35 @@ Without these, the UI degrades to the "silent phase" interpretation (see `docs/l
 
 ---
 
+## §15 Asymmetric corpus-mutation safety (added 2026-04-26)
+
+**Operator directive (binding):** *"Lo que ya entra al corpus debe salir por CLI; no por 'volver a cargar un corpus' más débil. Si ya está en DB Supabase + Falkor en la nube, el borrado de un archivo debe ser absolutamente explícito. Para adicionar debe ser un procedimiento más ameno."*
+
+**Rule.** Adding to the cloud corpus is the friendly path (GUI drag-drop intake → additive delta `Previsualizar` → `Aplicar`). Deleting from the cloud corpus is CLI-explicit only. The default behavior of every non-CLI ingestion path MUST be `allow_retirements=False`.
+
+**Mechanism.** `src/lia_graph/ingestion/delta_runtime.py::materialize_delta` accepts `allow_retirements: bool = False`. When False:
+- The disk-vs-baseline diff still computes `delta.removed` (so the operator sees what's missing).
+- BEFORE the sink's Pass 2 (soft-retire + chunk delete) and BEFORE the Falkor `DETACH DELETE` plan, `delta.removed` is stripped to `()` via `object.__setattr__` (mirroring the existing pattern for `modified_article_keys`).
+- `DeltaRunReport` carries `retirements_allowed: bool` + `diagnostic_removed_count: int` + a warning string + an `ingest.delta.retirements.blocked` event.
+- The sink and Falkor see an empty `removed` bucket and produce zero retirement statements.
+
+**Why.** The disk-vs-baseline diff treats local `knowledge_base/` as the source of truth. That assumption breaks under any of these very common conditions: (a) operator on a different machine with stale local files; (b) Dropbox sync in progress and partial; (c) someone deleted files locally for an unrelated reason; (d) a test/scratch run that wrote a smaller `knowledge_base/` left behind. Under any of those, a naïve additive-delta apply would silently retire production docs that nobody asked to remove. The asymmetric default removes that footgun.
+
+**Where it's enforced.**
+- `src/lia_graph/ingest.py` — `--allow-retirements` CLI flag, default False; must be typed by the operator.
+- `src/lia_graph/ui_ingest_delta_controllers.py` — `_handle_preview` does NOT pass `allow_retirements` (uses False).
+- `src/lia_graph/ingestion/delta_worker.py` — `_run_delta_worker` does NOT pass `allow_retirements` (uses False). The GUI apply path is structurally incapable of retiring.
+- `frontend/src/shared/ui/molecules/additiveDeltaBanner.ts` — the `removed` bucket renders as a **yellow diagnostic** ("Faltan en disco (no se retiran)") with copy pointing at the CLI flag, NOT as a red delete-action card.
+- `frontend/src/shared/ui/organisms/additiveDeltaCard.ts` — body copy includes the "nunca retira docs de producción" sentence so it's visible BEFORE the operator clicks Previsualizar.
+
+**For new ingestion entrypoints.** If you add another HTTP handler, background job, or scheduled script that calls `materialize_delta`, default `allow_retirements=False` and **never** wire it to True from a non-CLI surface. If a future feature genuinely needs cloud retirement automation, design a separate explicit flow (named retirement intent, doc_id manifest, operator confirmation) — do not piggyback on the additive-delta apply.
+
+**Code pointer.** The strip happens in `materialize_delta` immediately after `summarize_delta`; search for the comment `# Asymmetric safety per operator directive`.
+
+**Companion cut.** The "Análisis profundo" GUI button was removed in the same cycle. Its preview-only deep-reclassify served no actionable purpose distinct from `Ingesta completa` (same LLM cost; results not committable through `Aplicar` because `Aplicar` uses the content-hash shortcut). The additive card now ships with 4 buttons: Previsualizar / Aplicar / Cancelar / Nuevo delta.
+
+---
+
 ## §14 When to update this file
 
 - After any ingestion bug that bites us in production. Add §N with the incident + the rule that prevents it.

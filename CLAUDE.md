@@ -62,7 +62,7 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 - `evals/` — retrieval/gold benchmarks.
 - `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
 
-## Runtime Read Path (Env v2026-04-25-comparative-regime)
+## Runtime Read Path (Env v2026-04-26-additive-no-retire)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -112,6 +112,7 @@ Facade implementation modules (edit the narrow one that owns the behavior):
 - If architecture changes, update `docs/guide/orchestration.md` (including the versioned env matrix) **in the same task** as the code change.
 - If a `LIA_*` env or launcher flag changes, bump the env matrix version in the orchestration guide, add a change-log row, and update the mirror tables in `docs/guide/env_guide.md`, this file, and the `/orchestration` status card.
 - The Falkor adapter must keep propagating cloud outages — **no silent artifact fallback** on staging.
+- **Cloud retirements are CLI-explicit only.** Once a doc lives in cloud Supabase + Falkor, removing it requires `lia-graph-artifacts --additive --allow-retirements` from a CLI typed by an operator. The GUI additive flow (`/api/ingest/additive/preview` + `/apply`) and any non-explicit CLI invocation MUST pass `allow_retirements=False` (the default). Adding to the corpus is the friendly path; deletion is the deliberate one. Out-of-sync local `knowledge_base/`, partial Dropbox sync, machine swaps and similar local-disk drift must NEVER silently retire production docs. The disk-vs-baseline `removed` bucket surfaces as a yellow diagnostic in the preview, not as a delete action. Enforced at `src/lia_graph/ingestion/delta_runtime.py::materialize_delta` (parameter `allow_retirements`, defaults to False; strips `delta.removed` to `()` before sink + Falkor when False).
 - `PipelineCResponse.diagnostics` must always carry `retrieval_backend` and `graph_backend`.
 - Never run the full pytest suite in one process — use `make test-batched`. The `tests/` conftest guard aborts without `LIA_BATCHED_RUNNER=1`.
 - Do not inherit old-RAG assumptions (indexing, tagging, vocab design, reranking, chunk orchestration, cache strategy). Old-RAG docs under `docs/deprecated/` are archaeology, not active steering.

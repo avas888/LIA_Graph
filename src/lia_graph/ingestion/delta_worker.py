@@ -143,6 +143,12 @@ def _run_delta_worker(
             rate_limit_rpm=int(deps.get("rate_limit_rpm", 300)),
             classifier_workers=deps.get("classifier_workers"),
             supabase_workers=deps.get("supabase_workers"),
+            # Asymmetric-retirement safety — GUI apply path is structurally
+            # incapable of retiring cloud docs. See
+            # `docs/learnings/ingestion/asymmetric-retirement-safety.md`.
+            # Explicit-False (not relying on the default) makes the contract
+            # self-evident at this call site and grep-greppable.
+            allow_retirements=False,
         )
 
         if _check_cancel(client, job_id=job_id, at_stage="finalize"):

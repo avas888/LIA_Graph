@@ -1358,3 +1358,105 @@ button.lia-generation-row:hover { background: var(--card-hover-bg); }
   color: var(--text-tertiary);
   line-height: 1.4;
 }
+
+/* ── Corpus health dashboard (Fase D) ────────────────────────── */
+
+.lia-corpus-health {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background-color: var(--card-bg, var(--p-navy-50));
+  border: 1px solid var(--p-navy-200);
+  border-radius: 8px;
+}
+
+.lia-corpus-health__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lia-corpus-health__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--p-navy-900);
+  flex-grow: 0;
+}
+
+.lia-corpus-health__checked-at {
+  flex-grow: 1;
+  font-size: 0.78rem;
+  color: var(--p-navy-600);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.lia-corpus-health__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+/* Molecule: corpus-health-metric (`shared/ui/molecules/corpusHealthMetric.ts`).
+   Stylesheet kept here next to its parent organism's grid for proximity;
+   if other organisms ever consume the molecule, lift to a dedicated file. */
+
+.lia-corpus-health-metric {
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 6px;
+  border-left: 3px solid var(--p-navy-300);
+}
+
+.lia-corpus-health-metric--ok {
+  border-left-color: var(--p-success-500, #22c55e);
+}
+
+.lia-corpus-health-metric--warning {
+  border-left-color: var(--p-warning-500, #f59e0b);
+}
+
+.lia-corpus-health-metric--danger {
+  border-left-color: var(--p-danger-500, #ef4444);
+}
+
+.lia-corpus-health-metric--neutral {
+  border-left-color: var(--p-navy-400);
+}
+
+.lia-corpus-health-metric__title {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--p-navy-600);
+}
+
+.lia-corpus-health-metric__primary {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--p-navy-900);
+  word-break: break-word;
+}
+
+.lia-corpus-health-metric__secondary {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--p-navy-700);
+  line-height: 1.4;
+}
+
+.lia-corpus-health__empty {
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: var(--p-navy-700);
+  text-align: center;
+}
+
+.lia-corpus-health__empty--error {
+  color: var(--p-danger-700, var(--p-navy-900));
+}

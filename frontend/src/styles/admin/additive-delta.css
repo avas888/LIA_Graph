@@ -496,6 +496,32 @@
   font-weight: 500;
 }
 
+.lia-adelta-progress__live-activity {
+  margin: var(--space-2, 0.5rem) 0 0;
+  padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+  background-color: var(--p-navy-50);
+  border-radius: var(--radius-sm, 6px);
+  color: var(--p-navy-800);
+  font-size: 0.85rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.lia-adelta-progress__health-slot {
+  /* Layout-only — the chip atom owns all visual treatment. */
+  flex-basis: 100%;
+  margin-top: var(--space-2, 0.5rem);
+}
+
+.lia-adelta-progress__health-chip {
+  /* Allow the chip to wrap long messages within the slot. */
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.4;
+}
+
 /* ── Terminal banner ────────────────────────────────────────── */
 
 .lia-adelta-terminal {

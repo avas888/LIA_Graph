@@ -7,6 +7,8 @@
  */
 
 import { createProgressDot, type ProgressDotStatus } from "@/shared/ui/atoms/progressDot";
+import { createChip, type LiaChipTone } from "@/shared/ui/atoms/chip";
+import type { AdditiveDeltaSseHealthInfo } from "@/features/ingest/additiveDeltaSse";
 
 export type AdditiveDeltaStage =
   | "queued"
@@ -51,6 +53,15 @@ export interface AdditiveDeltaProgressViewModel {
   lastHeartbeatAt?: string | null;
   sseStatus: AdditiveDeltaSseStatus;
   cancelRequested: boolean;
+  /** Set when the polling layer crosses its failure / stall threshold.
+   * Null when the channel is healthy. Renders as a colored chip in the
+   * footer so operators stop staring at silent spinners. */
+  healthIssue?: AdditiveDeltaSseHealthInfo | null;
+  /** Live one-line description of what the worker is doing right now
+   * (per-doc classifier event, parity check passing, etc.). Updated by
+   * the controller from `onProgressEvent` callbacks. Null = no live
+   * line, just the static stage dots. */
+  liveActivity?: string | null;
 }
 
 export interface AdditiveDeltaProgressHandle {
@@ -173,15 +184,26 @@ export function createAdditiveDeltaProgressPane(
   progressFill.className = "lia-adelta-progress__bar-fill";
   progressBar.appendChild(progressFill);
 
+  const liveActivityEl = document.createElement("p");
+  liveActivityEl.className = "lia-adelta-progress__live-activity";
+  liveActivityEl.setAttribute("aria-live", "polite");
+  liveActivityEl.hidden = true;
+
   const footer = document.createElement("footer");
   footer.className = "lia-adelta-progress__footer";
   const heartbeatEl = document.createElement("span");
   heartbeatEl.className = "lia-adelta-progress__heartbeat";
   const cancelNote = document.createElement("span");
   cancelNote.className = "lia-adelta-progress__cancel-note";
-  footer.append(heartbeatEl, cancelNote);
+  // Slot for the health chip — atom-based, swapped on every health
+  // update so we don't accumulate stale class state. Hidden when there's
+  // no issue.
+  const healthChipSlot = document.createElement("span");
+  healthChipSlot.className = "lia-adelta-progress__health-slot";
+  healthChipSlot.hidden = true;
+  footer.append(heartbeatEl, cancelNote, healthChipSlot);
 
-  root.append(header, stageRow, progressBar, footer);
+  root.append(header, stageRow, progressBar, liveActivityEl, footer);
 
   function update(vm: AdditiveDeltaProgressViewModel): void {
     jobBadge.textContent = vm.jobId ? `job_id=${vm.jobId}` : "";
@@ -202,6 +224,38 @@ export function createAdditiveDeltaProgressPane(
     cancelNote.textContent = vm.cancelRequested
       ? "Cancelación solicitada — finalizará en el próximo punto seguro."
       : "";
+    const live = (vm.liveActivity ?? "").trim();
+    if (live) {
+      liveActivityEl.hidden = false;
+      liveActivityEl.textContent = live;
+    } else {
+      liveActivityEl.hidden = true;
+      liveActivityEl.textContent = "";
+    }
+    if (vm.healthIssue) {
+      const tone: LiaChipTone =
+        vm.healthIssue.kind === "stall" ? "warning" : "error";
+      const prefix = vm.healthIssue.kind === "stall" ? "⚠" : "⛔";
+      const attempts = vm.healthIssue.attemptsSinceLastSuccess;
+      const tail =
+        vm.healthIssue.kind !== "stall" && attempts > 0
+          ? ` (${attempts} intentos fallidos consecutivos)`
+          : "";
+      const chip = createChip({
+        label: `${prefix} ${vm.healthIssue.message}${tail}`,
+        tone,
+        emphasis: "soft",
+        dataComponent: "additive-delta-health-chip",
+        className: "lia-adelta-progress__health-chip",
+      });
+      // Pin the kind via dataset so test selectors can target by issue type.
+      chip.dataset.kind = vm.healthIssue.kind;
+      healthChipSlot.replaceChildren(chip);
+      healthChipSlot.hidden = false;
+    } else {
+      healthChipSlot.replaceChildren();
+      healthChipSlot.hidden = true;
+    }
   }
 
   // Wall-clock "alive" indicator. Independent of server events — ticks

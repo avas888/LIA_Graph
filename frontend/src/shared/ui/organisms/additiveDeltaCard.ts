@@ -34,10 +34,13 @@ export function createAdditiveDeltaCard(): AdditiveDeltaCardHandles {
   body.className = "lia-adelta-card__body";
   body.innerHTML =
     "Compara <code>knowledge_base/</code> contra la base ya publicada y " +
-    "procesa <strong>solo los archivos nuevos, modificados o borrados</strong>. " +
-    "Esta tarjeta procesa lo que ya esté en la carpeta — los archivos llegan " +
-    "ahí en el <strong>Paso 1 arriba</strong> (arrastre, Dropbox o editor " +
-    "directo).";
+    "procesa <strong>solo agregados y modificados</strong>. Los archivos " +
+    "llegan a la carpeta en el <strong>Paso 1 arriba</strong> (arrastre, " +
+    "Dropbox o editor directo). " +
+    "<strong>Nunca retira docs de producción</strong>: si un archivo está " +
+    "en la base pero falta en disco, este flujo lo marca como diagnóstico " +
+    "y sigue. El borrado de cloud es CLI-only y explícito " +
+    "(<code>--allow-retirements</code>).";
   header.appendChild(body);
 
   const steps = document.createElement("p");

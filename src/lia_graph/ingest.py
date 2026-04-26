@@ -834,6 +834,20 @@ def parser() -> argparse.ArgumentParser:
             "--additive."
         ),
     )
+    cli.add_argument(
+        "--allow-retirements",
+        action="store_true",
+        help=(
+            "Explicitly authorize the additive delta to retire docs that exist "
+            "in the published baseline but are missing from the on-disk corpus. "
+            "Default is OFF — the GUI flow and any non-explicit CLI invocation "
+            "will NEVER silently retire cloud docs (out-of-sync local "
+            "knowledge_base, partial Dropbox sync, machine swap are all "
+            "footguns). Adding to the corpus is the friendly path; deletion "
+            "from cloud Supabase + Falkor must be explicit. Only meaningful "
+            "with --additive."
+        ),
+    )
     return cli
 
 
@@ -895,6 +909,7 @@ def main(argv: list[str] | None = None) -> int:
                 classifier_workers=int(args.classifier_workers),
                 supabase_workers=int(args.supabase_workers),
                 force_full_classify=bool(args.force_full_classify),
+                allow_retirements=bool(args.allow_retirements),
             )
         except (FileNotFoundError, NotADirectoryError) as exc:
             payload = {

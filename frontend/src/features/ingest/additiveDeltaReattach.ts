@@ -17,7 +17,16 @@ export interface AdditiveDeltaReattachStore {
 export function createAdditiveDeltaReattachStore(
   storage?: Storage | null,
 ): AdditiveDeltaReattachStore {
-  const resolved = storage ?? (typeof localStorage !== "undefined" ? localStorage : null);
+  // Differentiate "not passed" (use default localStorage) from "explicitly
+  // null" (caller wants the noop store, e.g. SSR / tests). `??` collapsed
+  // both — that masked a real test for years until it landed in the
+  // curated health suite.
+  const resolved =
+    storage === undefined
+      ? typeof localStorage !== "undefined"
+        ? localStorage
+        : null
+      : storage;
   if (!resolved) {
     // Non-browser / disabled storage — return a noop store so mount logic
     // stays linear. Tests can inject a fake Storage.
