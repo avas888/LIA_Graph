@@ -119,6 +119,13 @@ def detect_topic_misalignment(
     Returns an always-populated diagnostics dict with ``misaligned: bool``
     and the raw scores. The orchestrator decides what to do with the
     signal (abstain vs hedge vs ignore) based on other context.
+
+    v5 §1.A — Multi-topic ArticleNode override: if any primary article
+    declares the router_topic in its `secondary_topics` (set via
+    `config/article_secondary_topics.json`), treat as on-topic regardless
+    of lexical scoring. This is the structural fix for the
+    thin-corpus-topic + cross-topic-primary-article pattern measured in
+    `docs/learnings/ingestion/coherence-gate-thin-corpus-diagnostic-2026-04-26.md`.
     """
     router_topic = (request.topic or "").strip()
     if not router_topic or not evidence.primary_articles:
@@ -127,6 +134,25 @@ def detect_topic_misalignment(
             "router_topic": router_topic or None,
             "articles_top_topic": None,
             "reason": "no_router_topic" if not router_topic else "no_primary_articles",
+        }
+
+    # v5 §1.A — short-circuit on secondary_topics match BEFORE lexical scoring.
+    # If even one primary article is curated as also serving the router topic,
+    # the article-evidence is by-construction on-topic. Lexical scoring stays
+    # the fallback for un-curated articles, which preserves Q1-class
+    # contamination guard for the long tail.
+    matching_secondary_articles = tuple(
+        item.node_key
+        for item in evidence.primary_articles
+        if router_topic in tuple(getattr(item, "secondary_topics", ()) or ())
+    )
+    if matching_secondary_articles:
+        return {
+            "misaligned": False,
+            "router_topic": router_topic,
+            "articles_top_topic": router_topic,
+            "reason": "secondary_topic_match",
+            "secondary_topic_matches": list(matching_secondary_articles),
         }
 
     text = _evidence_topic_scoring_text(evidence)
@@ -160,6 +186,9 @@ def detect_topic_misalignment(
         "router_score_on_articles": router_score,
         "top_score_on_articles": top_score,
         "ranked_article_topics": scored[:5],
+        # v5 §1.A — uniformise the contract so callers can rely on
+        # `result['reason']` regardless of which branch fired.
+        "reason": "lexical_misaligned" if misaligned else "lexical_aligned",
     }
 
 

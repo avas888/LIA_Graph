@@ -121,10 +121,57 @@ Effort: 1-2 days investigation + ~2 days implementation depending on chosen path
 - Top-5 cross-topic owners cover 74% of mentions
 - 16 distinct cross-topic owners across all 12 thin-corpus topics
 
+## v5 §1.A implementation — lessons (same day, 2026-04-26)
+
+After the diagnostic settled, §1.A landed the structural code change: multi-topic ArticleNode metadata + coherence-gate update. Lessons extracted that generalize beyond this specific fix — saved here so a future engineer reading the diagnostic doesn't have to relearn them.
+
+### L1 — Multi-topic metadata at the node level (not chunk, not doc)
+
+When the corpus has umbrella topics (`declaracion_renta`) and specific-context topics (`beneficio_auditoria`) that legitimately reference the same article, single-topic-per-node fails. Tagging at the document level over-broadens (whole doc tagged with N topics); at the chunk level under-targets (chunks vary wildly per article). The right granularity is the **article node itself** — same level the coherence gate uses to compare.
+
+### L2 — Config-file-driven curation beats schema migration
+
+For SME-owned curation surfaces that change weekly, a `config/article_secondary_topics.json` file beats a Supabase column or Falkor schema field:
+
+- Reviewable in git diff / PR (no schema-replay).
+- SME edits without engineer help.
+- Tests can pin the contract directly (e.g., "every entry's topic must be a valid taxonomy key").
+- No DB migration needed; the loader picks up the config on next ingest.
+
+The same lesson powered the v3 path-veto rule pattern (`path-veto-rule-based-classifier-correction.md`). When you find yourself thinking "let me add a column to ArticleNode for this curation," consider a JSON config first.
+
+### L3 — Validate every config value against the canonical taxonomy
+
+Operator's binding rule (2026-04-26): "todo mapee a nuestra taxonomy base principal". Without validation, typos in a curation file silently match nothing OR worse, accidentally route to a bogus topic. Two layers of defense:
+
+- **Runtime drop + warn**: `_load_lookup` in `ingestion/article_secondary_topics.py` drops unknown topic keys with a stderr warning so the typo is visible during ingest.
+- **Test-time pin**: `tests/test_article_secondary_topics.py::test_default_seed_topics_all_in_canonical_taxonomy` asserts the committed config validates. Mirrors the existing `test_path_veto_all_targets_are_valid_taxonomy_keys` — same discipline, different config surface.
+
+### L4 — Short-circuit BEFORE lexical scoring, not after
+
+`detect_topic_misalignment` originally only used lexical scoring on the article text. Adding the `secondary_topics` check BEFORE the lexical path (rather than as a post-filter) gives:
+
+- One curated entry beats any number of lexical false-positives.
+- Pre-§1.A behavior preserved for un-curated articles (Q1 contamination guard intact for the long tail).
+- The fix is bounded — only SME-approved entries get the override.
+
+### L5 — Uniformise return-value contracts when adding branches
+
+`detect_topic_misalignment` had 5 return paths pre-§1.A; only 3 set a `reason` key. Adding `secondary_topic_match` would have made it 4-of-6. I added `reason` to the lexical paths too (`lexical_aligned` / `lexical_misaligned`), making it always-present. Saves callers from defensive `.get("reason")` everywhere and gives observability tools a clean histogram of branch frequencies. Generalizes: when adding a new branch to a multi-branch return contract, walk the existing branches and bring missing fields up to parity.
+
+### L6 — SME-validated mappings already exist; reuse them
+
+The §1.A seed config could have been speculative. But `docs/aa_next/taxonomy_v2_expert_brief.md §5.2` and `docs/aa_next/taxonomy_v2_sme_response.md §1.4` already had **explicit SME-validated `allowed_et_articles` per empty topic slot** (e.g., line 769 of the SME response: `firmeza_declaraciones.allowed_et_articles = ["705", "705-1", "706", "714", "147", "689-3", "260-5"]`). Future expansion of `article_secondary_topics.json` should pull from those documented mappings before asking the SME again. Avoids re-litigation of decisions that were already made.
+
 ## Cross-references
 
 - Plan: `docs/aa_next/next_v5.md §1` (calibration diagnostic — this fulfills its measurement gate).
 - Diagnostic scripts (read-only): `scripts/diag_thin_corpus_topics.py` (Phase 1), `scripts/diag_thin_corpus_xref.py` (Phase 2).
 - JSON output: `artifacts/diag_thin_corpus_xref.json` (full per-topic detail).
 - The §6.3 fix that surfaced this: `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md`.
+- §1.A code surface: `src/lia_graph/ingestion/article_secondary_topics.py` (lookup), `src/lia_graph/graph/schema.py` (schema field), `src/lia_graph/ingestion/loader.py` (write to Falkor), `src/lia_graph/pipeline_d/retriever_falkor.py` (read from Falkor), `src/lia_graph/pipeline_d/topic_safety.py` (gate consumes it).
+- §1.A config: `config/article_secondary_topics.json`.
+- §1.A tests: `tests/test_article_secondary_topics.py`, `tests/test_topic_safety_secondary_topics.py`.
+- SME-validated allowed-articles mappings (curation source-of-truth): `docs/aa_next/taxonomy_v2_expert_brief.md §5.2` + `docs/aa_next/taxonomy_v2_sme_response.md §1.4`.
+- Sibling pattern (config-driven LLM/lexical override): `docs/learnings/ingestion/path-veto-rule-based-classifier-correction.md`.
 - Related: `docs/aa_next/done/next_v3.md §13` (coherence-gate Q1 contamination guard — the right behavior we don't want to break).

@@ -151,6 +151,12 @@ class GraphEvidenceItem:
     hop_distance: int
     why: str | None = None
     relation_path: tuple[GraphPathStep, ...] = ()
+    # v5 §1.A — additional topics this article serves under, beyond the
+    # canonical owner. Read by `topic_safety.detect_topic_misalignment` so
+    # the coherence-gate accepts the article as on-topic for any router
+    # topic in this set. Source: `config/article_secondary_topics.json`,
+    # written to `:ArticleNode.secondary_topics` by the loader.
+    secondary_topics: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -163,6 +169,7 @@ class GraphEvidenceItem:
             "hop_distance": int(self.hop_distance),
             "why": self.why,
             "relation_path": [step.to_dict() for step in self.relation_path],
+            "secondary_topics": list(self.secondary_topics),
         }
 
 

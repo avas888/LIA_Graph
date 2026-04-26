@@ -575,6 +575,11 @@ def _build_article_nodes(
     # collide on the shared WHOLE_DOC_ARTICLE_KEY across the corpus. Keep
     # `article_number` in properties even when empty so Cypher queries that
     # read the field stay compatible.
+    # v5 §1.A — attach secondary_topics from the config curation file when
+    # the article_id has an entry. Empty tuple for unknown article_ids → the
+    # property is set to [] so consumers don't have to handle missing keys.
+    from .article_secondary_topics import get_secondary_topics
+
     return tuple(
         GraphNodeRecord(
             kind=NodeKind.ARTICLE,
@@ -589,6 +594,12 @@ def _build_article_nodes(
                 "reform_references": list(article.reform_references),
                 "annotations": list(article.annotations),
                 "is_prose_only": _is_prose_only(article),
+                # v5 §1.A — multi-topic metadata. Lookup is by article_id
+                # (matches how the SME edits the curation config). For
+                # prose-only articles where article_id is `whole::path`,
+                # the lookup falls through to () because no SME would
+                # curate by file-path.
+                "secondary_topics": list(get_secondary_topics(article.article_number or "")),
             },
         )
         for article in eligible

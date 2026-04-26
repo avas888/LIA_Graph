@@ -416,7 +416,11 @@ def _retrieve_primary_articles(
             # property — querying it was a silent no-op across the whole corpus.
             "MATCH (node:ArticleNode {article_number: key})\n"
             "RETURN key AS article_key, node.heading AS heading, node.text_current AS text_current,"
-            " node.source_path AS source_path, node.status AS status\n"
+            " node.source_path AS source_path, node.status AS status,"
+            # v5 §1.A — multi-topic metadata. Falkor returns NULL when the
+            # property hasn't been written (pre-§1.A nodes); the parser
+            # below normalises that to ().
+            " node.secondary_topics AS secondary_topics\n"
         ),
         parameters={"keys": list(article_keys[:limit])},
     )
@@ -428,6 +432,13 @@ def _retrieve_primary_articles(
             continue
         text_current = str(row.get("text_current") or "")
         excerpt = text_current[: plan.evidence_bundle_shape.snippet_char_limit]
+        # v5 §1.A — defensive parse: Falkor may return None, "", or a list.
+        sec_raw = row.get("secondary_topics")
+        secondary_topics: tuple[str, ...] = ()
+        if isinstance(sec_raw, (list, tuple)):
+            secondary_topics = tuple(
+                str(t).strip() for t in sec_raw if isinstance(t, str) and str(t).strip()
+            )
         items.append(
             GraphEvidenceItem(
                 node_kind="ArticleNode",
@@ -439,6 +450,7 @@ def _retrieve_primary_articles(
                 hop_distance=0,
                 why=None,
                 relation_path=(),
+                secondary_topics=secondary_topics,
             )
         )
     return tuple(items)

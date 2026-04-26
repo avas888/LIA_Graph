@@ -80,6 +80,22 @@ When **not** to use it:
 
 - `src/lia_graph/ingestion_classifier.py` — `_apply_path_veto` + `PATH_VETO_RULES` + `_TAXONOMY_AWARE_FLAG`
 - `src/lia_graph/ingest_subtopic_pass.py` — `evaluate_doc_verdict` honoring `classification_source == "path_veto"`
-- `tests/test_classifier_path_veto.py` — 36 tests
+- `tests/test_classifier_path_veto.py` — 49 tests as of 2026-04-26 (added 13 BRECHAS-SEMANA + new-trilogy contract tests)
 - `scripts/diagnostics/probe_taxonomy_v2.py` — Cypher verification gate
 - `docs/aa_next/done/next_v3.md §13.7` — the full debugging arc captured in real time
+
+## Sibling pattern — same shape applied at retrieval-time (v5 §1.A, 2026-04-26)
+
+The path-veto pattern overrides the LLM's **classification** verdict at ingest time when a path encodes ground truth. v5 §1.A (`docs/learnings/ingestion/coherence-gate-thin-corpus-diagnostic-2026-04-26.md` "v5 §1.A implementation — lessons" section) applies the same shape at **retrieval time**: a config-driven structural override of the lexical scoring used by the coherence gate.
+
+Both patterns share the discipline:
+
+| Property | path-veto (ingest) | secondary_topics (retrieval) |
+|---|---|---|
+| Surface | `config/topic_taxonomy.json` ← regex needles in `_PATH_VETO_RULES` | `config/article_secondary_topics.json` |
+| Override of | LLM classifier's topic verdict | Lexical-scoring's misalignment verdict |
+| Lifecycle | At ingest, before Supabase write | At retrieval, before coherence-gate refusal |
+| Validation | Every target topic in `topic_taxonomy.json` | Every primary/secondary topic in `topic_taxonomy.json` |
+| Test discipline | `test_path_veto_all_targets_are_valid_taxonomy_keys` | `test_default_seed_topics_all_in_canonical_taxonomy` |
+
+**Lesson on combining the two**: prefer ingest-time fixes (path-veto) when the issue is "the wrong topic was assigned to the doc". Prefer retrieval-time fixes (secondary_topics) when the issue is "the article legitimately serves multiple topical lenses and reclassifying the doc would be wrong" (e.g., Art. 689-3 lives in the ET Cap8a11 doc with dozens of other articles; reclassifying that whole doc as `beneficio_auditoria` would mis-label the others). When in doubt: the SME tells you whether the doc OR the article is the right granularity.

@@ -23,10 +23,25 @@ Full numbers + samples + per-topic article tables: [`docs/learnings/ingestion/co
 
 ### Recommended fix path — opens §1.A and §1.B
 
-**§1.A — Multi-topic ArticleNode metadata (structural, ~3-5 days)**
-- Add `secondary_topics: text[]` to `:ArticleNode` schema in Falkor + the loader's MERGE writes.
-- SME-curated mapping of ~30-50 high-traffic articles to their secondary topics (Art. 689-3 + `[firmeza_declaraciones, beneficio_auditoria]`, Art. 49 + `[ingresos_fiscales_renta, dividendos_y_distribucion_utilidades]`, etc.).
-- Coherence-gate code: accept primary if `query_topic ∈ {primary.topic} ∪ primary.secondary_topics`.
+**§1.A — Multi-topic ArticleNode metadata (🛠 code landed 2026-04-26)**
+
+Status: structural plumbing shipped + 82 tests green. Awaiting (a) re-ingest to write `secondary_topics` props on existing :ArticleNodes, (b) operator-authorized expansion of the seed config from the 1 entry (Art. 689-3) to the SME-validated mapping in `taxonomy_v2_sme_response.md §1.4`.
+
+Code surface:
+- `config/article_secondary_topics.json` — curation config (seed: 1 entry).
+- `src/lia_graph/ingestion/article_secondary_topics.py` — lookup module with taxonomy validation + degrade-to-empty on errors.
+- `src/lia_graph/graph/schema.py` — `secondary_topics` declared on `:ArticleNode.optional_fields`.
+- `src/lia_graph/ingestion/loader.py` — writes `secondary_topics` prop at MERGE time.
+- `src/lia_graph/pipeline_d/contracts.py::GraphEvidenceItem` — carries the field through retrieval.
+- `src/lia_graph/pipeline_d/retriever_falkor.py` — pulls the prop in primary_articles query.
+- `src/lia_graph/pipeline_d/topic_safety.py::detect_topic_misalignment` — short-circuits BEFORE lexical scoring when `router_topic ∈ primary.secondary_topics`.
+
+What's pending (gate 4b):
+1. Re-ingest the prose-only FIRMEZA trilogy + at least one numbered-article doc that touches Art. 689-3 (e.g., NORMATIVA_FIR-N02 already in cloud) so the new `secondary_topics` prop lands on the ArticleNode.
+2. Re-ask the firmeza+beneficio chat question. Pre-§1.A: refused with `pipeline_d_coherence_primary_off_topic`. Post-§1.A: should pass `secondary_topic_match` and serve the answer.
+3. Operator authorizes seed-config expansion from 1 entry to the ~30-50 SME-validated mappings.
+
+Lessons captured: `docs/learnings/ingestion/coherence-gate-thin-corpus-diagnostic-2026-04-26.md` "v5 §1.A implementation — lessons" section (L1-L6). Sibling pattern cross-referenced from `docs/learnings/ingestion/path-veto-rule-based-classifier-correction.md`.
 
 **§1.B — Chunk-precedence on hybrid_search (FIRMEZA case, ~2-3 days)**
 - When a new doc covers articles already chunked under another topic, decide which chunk set takes retrieval precedence. Three options scoped in the learnings doc.

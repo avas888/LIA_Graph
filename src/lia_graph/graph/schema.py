@@ -180,6 +180,13 @@ def default_graph_schema() -> GraphSchema:
                 "paragraph_markers",
                 "reform_references",
                 "annotations",
+                # v5 §1.A — secondary topics this article serves under, in
+                # addition to its canonical owner topic. Populated from
+                # `config/article_secondary_topics.json` at ingest time.
+                # Consumed by `topic_safety.detect_topic_misalignment` so the
+                # coherence-gate accepts queries routed to either the canonical
+                # owner topic OR any of these secondary topics.
+                "secondary_topics",
             ),
         ),
         NodeKind.REFORM: GraphNodeType(

@@ -1,0 +1,20 @@
+{
+  "version": "v1",
+  "schema": "v5_§1.A_2026-04-26",
+  "description": "Multi-topic ArticleNode metadata. Each entry maps an article_id to a list of secondary topics it serves under, in addition to its canonical owner topic. The coherence-gate's misalignment detector accepts a query routed to any of those secondary topics as on-topic for that article.",
+  "rationale": "The 2026-04-26 thin-corpus diagnostic (docs/learnings/ingestion/coherence-gate-thin-corpus-diagnostic-2026-04-26.md) measured 12/89 topics structurally at risk of false-positive coherence-gate refusals because their canonical articles live under broader 'umbrella' topics. This config is the structural fix's data side: the SME curates which articles are legitimately served under multiple topical lenses.",
+  "curation_policy": {
+    "scope": "Only articles that genuinely serve multiple SME-validated topical lenses. NOT a contamination relaxation — see docs/aa_next/done/next_v3.md §13 (Q1-class guard).",
+    "key": "article_id (matches ArticleNode.article_id in Falkor and source_key in normative_edges).",
+    "review": "Every entry should be SME-reviewable. Avoid blanket 'X also serves Y' without a written rationale.",
+    "cross_doc_collision_note": "Numbered article_ids collapse across docs (per loader.py F8). Adding secondary_topics for 'Art. 49' applies corpus-wide. Acceptable for current entries; revisit if cross-doc collision becomes a real concern."
+  },
+  "articles": [
+    {
+      "article_id": "689-3",
+      "primary_topic": "firmeza_declaraciones",
+      "secondary_topics": ["beneficio_auditoria"],
+      "rationale": "Art. 689-3 ET creates and governs the beneficio de auditoría. It is structurally the canonical reference for both the 'firmeza_declaraciones' (its parent system) AND 'beneficio_auditoria' (the user-facing topic). The 2026-04-26 chat verification round refused on this exact article."
+    }
+  ]
+}
