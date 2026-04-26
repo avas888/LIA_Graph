@@ -62,7 +62,7 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 - `evals/` — retrieval/gold benchmarks.
 - `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
 
-## Runtime Read Path (Env v2026-04-25-temafirst-readdressed)
+## Runtime Read Path (Env v2026-04-25-comparative-regime)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -72,7 +72,7 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 
 Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend` — use them to confirm which adapters served a turn. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted.
 
-Additional retrieval-tuning flags the launcher defaults to ON across all three modes (shell override still wins): `LIA_LLM_POLISH_ENABLED=1`, `LIA_RERANKER_MODE=live` (flipped from `shadow` on 2026-04-22 — internal-beta risk-forward; adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset), `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out), `LIA_SUBTOPIC_BOOST_FACTOR=1.5`, **`LIA_TEMA_FIRST_RETRIEVAL=on` (re-flipped 2026-04-25 — see `docs/aa_next/gate_9_threshold_decision.md` + `next_v3 §13.11`)**. **v6 additions (2026-04-24, audited 2026-04-25 per "no off flags" directive):** `LIA_EVIDENCE_COHERENCE_GATE={off|shadow|enforce}` and `LIA_POLICY_CITATION_ALLOWLIST={off|enforce}` — see env_guide.md / orchestration.md for current defaults; status reflects the active flag-audit cycle. Ingest-pipeline knobs: `LIA_INGEST_CLASSIFIER_WORKERS=8`, `LIA_INGEST_CLASSIFIER_RPM=300`, `LIA_SUPABASE_SINK_WORKERS=4`, `FALKORDB_QUERY_TIMEOUT_SECONDS=30`, `FALKORDB_BATCH_NODES=500`, `FALKORDB_BATCH_EDGES=1000` (phases 2a/2b/2c), `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce` (next_v3 §7 — taxonomy-aware classifier prompt + K2 path-veto). Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (phase 1). Full table in `docs/guide/orchestration.md`; closed forward-plans archived in `docs/aa_next/next_done.md`; active backlog in `docs/aa_next/next_v4.md`.
+Additional retrieval-tuning flags the launcher defaults to ON across all three modes (shell override still wins): `LIA_LLM_POLISH_ENABLED=1`, `LIA_RERANKER_MODE=live` (flipped from `shadow` on 2026-04-22 — internal-beta risk-forward; adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset), `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out), `LIA_SUBTOPIC_BOOST_FACTOR=1.5`, **`LIA_TEMA_FIRST_RETRIEVAL=on` (re-flipped 2026-04-25 — see `docs/aa_next/gate_9_threshold_decision.md` + `docs/aa_next/next_done.md`)**, **`LIA_EVIDENCE_COHERENCE_GATE=enforce` (flipped 2026-04-25 — operator's "no off flags" directive)**, **`LIA_POLICY_CITATION_ALLOWLIST=enforce` (flipped 2026-04-25 — same directive)**, **`LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce` (default 2026-04-25 — next_v3 §7 path-veto + 6 mutex rules)**. Ingest-pipeline knobs: `LIA_INGEST_CLASSIFIER_WORKERS=4` (held at 4 until `TokenBudget` primitive ships per next_v4 §10.1), `LIA_INGEST_CLASSIFIER_RPM=300`, `LIA_SUPABASE_SINK_WORKERS=4`, `FALKORDB_QUERY_TIMEOUT_SECONDS=30`, `FALKORDB_BATCH_NODES=500`, `FALKORDB_BATCH_EDGES=1000` (phases 2a/2b/2c). Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (phase 1). **2026-04-25 runtime-shape additions (no env flag):** conversational-memory staircase Levels 1+2 (`ConversationState.prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`; classifier soft-tiebreaker on `prior_topic`) per `next_v4 §3 + §4`; `comparative_regime_chain` query mode (`config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py`) per `next_v4 §5`. Full table in `docs/guide/orchestration.md`; closed forward-plans archived in `docs/aa_next/next_done.md`; active backlog in `docs/aa_next/next_v4.md`.
 
 ## Hot Path (main chat)
 
@@ -90,7 +90,7 @@ Additional retrieval-tuning flags the launcher defaults to ON across all three m
 9. `pipeline_d/answer_assembly.py` — **stable facade** for assembly
 
 Facade implementation modules (edit the narrow one that owns the behavior):
-`answer_synthesis_sections.py`, `answer_synthesis_helpers.py`, `answer_first_bubble.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_shared.py`, `answer_policy.py`.
+`answer_synthesis_sections.py`, `answer_synthesis_helpers.py`, `answer_first_bubble.py`, `answer_followup.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_comparative_regime.py` (next_v4 §5 — `comparative_regime_chain` table renderer), `answer_shared.py`, `answer_policy.py`.
 
 ## Fast Decision Rule
 

@@ -61,8 +61,8 @@
 | Artifact | Where it lives |
 |---|---|
 | **The current forward plan** (top-10 steps with why + success) | `docs/aa_next/next_vN.md` (this folder) |
-| **The full idea backlog** (30+ items, ranked) | `docs/next/ingestionfix_vN.md` |
-| **Execution plans** (when a step-group becomes a 6-phase execution cycle) | `docs/next/ingestion_tunningvN.md` |
+| **The full idea backlog** (30+ items, ranked) | `docs/done/next/ingestionfix_vN.md` (last live: `ingestionfix_v6.md`, archived 2026-04-25 after the next_v1+v2+v3 cycles absorbed it) |
+| **Execution plans** (when a step-group becomes a 6-phase execution cycle) | `docs/done/next/ingestion_tunningvN.md` (last live: `ingestion_tunningv2.md`, the v6 phases 0-6 plan that closed 2026-04-24) |
 | **Learnings** (non-obvious invariants earned through incidents) | `docs/learnings/` |
 | **Historical executed plans** | `docs/done/` |
 

@@ -112,6 +112,7 @@ Source of truth:
 - `src/lia_graph/pipeline_d/answer_followup.py`
 - `src/lia_graph/pipeline_d/answer_inline_anchors.py`
 - `src/lia_graph/pipeline_d/answer_historical_recap.py`
+- `src/lia_graph/pipeline_d/answer_comparative_regime.py` (next_v4 §5 — pre/post-reform table renderer for `comparative_regime_chain`)
 - `src/lia_graph/pipeline_d/answer_shared.py`
 - `src/lia_graph/pipeline_d/answer_llm_polish.py` (optional post-assembly polish; gated by `LIA_LLM_POLISH_ENABLED=1`)
 - `src/lia_graph/pipeline_d/orchestrator.py`
@@ -149,6 +150,11 @@ Division of responsibility:
   - reform-chain summary lines
   - chronological ordering
   - recap line wording
+- `answer_comparative_regime.py` (next_v4 §5, 2026-04-25) owns the `comparative_regime_chain` rendering path:
+  - cue detection (`detect_comparative_regime_cue` — runs before the standard query-mode classifier)
+  - pair lookup against `config/comparative_regime_pairs.json`
+  - verdict line ("Sí cambia" / "No cambia") + side-by-side markdown table (≥3 rows: plazo / fórmula-o-tope / reajuste-o-ajuste) + Riesgos + Soportes wrapping below
+  - LLM polish preserves the table verbatim
 - `answer_shared.py` owns shared publication/rendering helpers for main chat:
   - normalization
   - publication filters
@@ -221,7 +227,7 @@ Under those stable contracts, the current `main chat` implementation modules are
 | Facade | Internal implementation modules |
 | --- | --- |
 | `answer_synthesis.py` | `answer_synthesis_sections.py`, `answer_synthesis_helpers.py` |
-| `answer_assembly.py` | `answer_first_bubble.py`, `answer_followup.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_shared.py` |
+| `answer_assembly.py` | `answer_first_bubble.py`, `answer_followup.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_comparative_regime.py`, `answer_shared.py` |
 
 Design rule:
 
@@ -233,7 +239,7 @@ Design rule:
 The current split is intentionally `main chat` specific.
 
 - `answer_policy.py` + `answer_synthesis.py` + `answer_assembly.py` are the stable entrypoints for live chat answer behavior.
-- `answer_synthesis_sections.py`, `answer_synthesis_helpers.py`, `answer_first_bubble.py`, `answer_followup.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, and `answer_shared.py` hold the focused implementation modules behind those facades.
+- `answer_synthesis_sections.py`, `answer_synthesis_helpers.py`, `answer_first_bubble.py`, `answer_followup.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_comparative_regime.py`, and `answer_shared.py` hold the focused implementation modules behind those facades.
 - `Normativa` now has its own surface package under `src/lia_graph/normativa/`.
 - `Interpretación` now has its own surface package under `src/lia_graph/interpretacion/`.
 
@@ -315,6 +321,7 @@ Use this as the quickest reliable map when you need to tune the chat runtime:
 - `answer_followup.py`: publishes second-plus answers, distinguishing focused double-clicks from broader follow-ups.
 - `answer_inline_anchors.py`: chooses which legal references should attach inline to each first-bubble line.
 - `answer_historical_recap.py`: decides whether historical recap should appear and how reform chains are narrated.
+- `answer_comparative_regime.py`: handles the `comparative_regime_chain` query mode (next_v4 §5) — detects pre/post-reform comparison cues, looks up the matching pair in `config/comparative_regime_pairs.json`, renders verdict + side-by-side markdown table.
 - `answer_shared.py`: common normalization, publication filtering, deduplication, change-intent detection, and markdown section rendering.
 - `answer_llm_polish.py`: optional senior-accountant voice rewrite of the deterministic template answer. Preserves inline legal anchors and `Respuestas directas` sub-question structure. Gated by `LIA_LLM_POLISH_ENABLED` (default `1`).
 - `answer_policy.py`: declarative product voice and workflow blueprint policy.

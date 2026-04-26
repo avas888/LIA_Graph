@@ -4,13 +4,14 @@
 
 ## Active artifacts (not consolidated, still in use)
 
-- **`next_v4.md`** — active forward plan. Item §1: coherence-gate calibration diagnostic against the 11 measurement-set questions (operator-scoped 2026-04-25).
+- **`next_v4.md`** — active forward plan. Items: §1 coherence-gate calibration diagnostic (operator-scoped 2026-04-25 — 💡 idea, code not started); §2 carries from next_v3 §10 (parallel tracks); §3 stateless-classifier vs stateful-retriever follow-up coherence-gate refusal (🛠 code landed 2026-04-25 — Frontiers 1+2+3 closed via Option A + C as defense-in-depth); §4 conversational-memory three-level staircase (Levels 1+2 🛠 code landed 2026-04-25; Level 3 deferred); §5 comparative-regime planner mode (🧪 verified locally 2026-04-25 — staging SME validation pending).
 - **`gate_9_threshold_decision.md`** — operator's 2026-04-25 decision record on the §8.4 qualitative-pass + binding conditions (verbatim change-log row, no threshold-lowering, gates evaluate independently).
 - **`taxonomy_v2_sme_response.md`** — Alejandro's 2026-04-25 SME deliverable on the v2 taxonomy spec.
 - **`taxonomy_v2_sme_spot_review.md`** — the 7-question packet that closed gate 8 (after Alejandro's reply).
 - **`taxonomy_v2_expert_brief.md`** — context doc shipped to Alejandro before the SME conversation.
-- **`structural_groundtruth_v1.md`** — first-principles audit that opened the next_v3 work.
 - **`README.md`** — six-gate lifecycle policy that governs every change to the served runtime.
+
+> Note: `structural_groundtruth_v1.md` and the next_v1/v2/v3 archive moved into `done/` (`docs/aa_next/done/`). This digest carries the cycle-level summary; the full text is in git.
 
 ## Cycle 1 — `next_v1` (closed 2026-04-24)
 
@@ -56,6 +57,8 @@
 **Re-flip executed 2026-04-25**: `LIA_TEMA_FIRST_RETRIEVAL` flipped `shadow → on` across all 5 mirror surfaces (`scripts/dev-launcher.mjs`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts`). Env-matrix tag bumped to `v2026-04-25-temafirst-readdressed`. Change-log row landed verbatim per gate_9 §7. Same session: operator's "no off flags" directive applied — `LIA_EVIDENCE_COHERENCE_GATE=enforce`, `LIA_POLICY_CITATION_ALLOWLIST=enforce`, `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce` (Python defaults + launcher), aligned with the existing `LIA_RERANKER_MODE=live` + `LIA_QUERY_DECOMPOSE=on` + `LIA_TEMA_FIRST_RETRIEVAL=on` + `LIA_LLM_POLISH_ENABLED=1` defaults.
 
 **What got deferred to next_v4 (§1):** coherence-gate calibration diagnostic — measure whether the 11 `coherence_misaligned=True` questions concentrate in thin-corpus topics (fix = corpus expansion, free) or distribute across topics (fix = gate recalibration). Diagnose-before-intervene.
+
+**What landed in next_v4 same-day (2026-04-25, no env-flag changes):** §3+§4 conversational-memory staircase Levels 1+2 (FE→`payload.topic`, `ConversationState.prior_topic`+`topic_trajectory`, classifier soft-tiebreaker on prior topic; 13 unit tests + multi-turn harness shipped — staging baseline run still pending). §5 `comparative_regime_chain` query mode (`pipeline_d/answer_comparative_regime.py` + `config/comparative_regime_pairs.json` v1; binding test green, SME pass on adjacent pairs pending). Both rolled into env tag `v2026-04-25-comparative-regime` per the change-log row in `docs/guide/orchestration.md`.
 
 ## Decision genealogy — what to look up where
 

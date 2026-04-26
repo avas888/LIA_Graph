@@ -162,7 +162,7 @@ Validation ran on 2026-04-24 against production Supabase + cloud Falkor with the
 2. **Measurement gaps mean you can't tell if a fix worked.** `seed_article_keys=0/30` says the phase-1 lift didn't reach the cloud path. Until that's fixed, we can't measure the *depth* of retrieval. Prioritize diagnostic plumbing before chasing more quality lifts.
 3. **Retrieval depth (mean primary 1.6, target 3.0) is the real v7 target.** Contamination is solved; now ensure we have enough evidence to write substantial answers.
 
-See `docs/next/ingestionfix_v6.md` §1 for the full scorecard and §2 for the retrieval-depth backlog.
+See `docs/done/next/ingestionfix_v6.md` §1 for the full scorecard and §2 for the retrieval-depth backlog (archived 2026-04-25 after the next_v1+v2+v3 cycles absorbed it).
 
 ---
 

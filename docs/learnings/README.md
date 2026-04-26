@@ -1,6 +1,6 @@
 # Ingestion & retrieval learnings — index
 
-*Living doc set. One page per theme. Every rule earns its place by naming the incident, investigation, or PR that created it. Adding a new learning? Cite the commit or the §-reference in `docs/next/ingestionfix_v{1..5}.md`, `docs/next/ingestion_tunningv{1,2}.md`, or the relevant architect study.*
+*Living doc set. One page per theme. Every rule earns its place by naming the incident, investigation, or PR that created it. Adding a new learning? Cite the commit or the §-reference in `docs/done/next/ingestionfix_v{1..6}.md`, `docs/done/next/ingestion_tunningv{1,2}.md`, the active forward plan `docs/aa_next/next_vN.md`, or the relevant architect study.*
 
 **Scope.** The **headless ingest pipeline** (`src/lia_graph/ingest.py`, `ingest_classifier_pool.py`, `ingest_subtopic_pass.py`, `ingestion/`), the **served retrieval path** (`src/lia_graph/pipeline_d/`), and the **process discipline** we use to run both — investigations, monitoring, cloud writes. Not scoped: UI-facing ingestion, which has its own doc at `docs/done/next/UI_Ingestion_learnings.md`.
 

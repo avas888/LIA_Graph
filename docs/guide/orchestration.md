@@ -1,6 +1,6 @@
 # Orchestration Guide
 
-> **Env matrix version: `v2026-04-25-temafirst-readdressed`.** Authoritative table lives in [Runtime Env Matrix (Versioned)](#runtime-env-matrix-versioned). Bump the version and extend the change log whenever `scripts/dev-launcher.mjs` flips a flag, a new `LIA_*` env is introduced, or a mode's read path changes. (Latest bump: `v2026-04-25-temafirst-readdressed` — same-session flips: `LIA_TEMA_FIRST_RETRIEVAL` `shadow → on`, `LIA_EVIDENCE_COHERENCE_GATE` `shadow → enforce`, `LIA_POLICY_CITATION_ALLOWLIST` `off → enforce`, `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE` default → `enforce` — all per operator's "no off flags" directive after taxonomy v2 + K2 path-veto + SME 30Q at 30/30 + qualitative-pass on §8.4 gate 9. See change-log row + `docs/aa_next/next_done.md` (digest of closed cycles next_v1+v2+v3) + `docs/aa_next/gate_9_threshold_decision.md`. Prior bump: `v2026-04-24-v6` — ingestion-tuning v6 plan landed. Adds **runtime** flags `LIA_EVIDENCE_COHERENCE_GATE` (default `shadow`, phase 3) and `LIA_POLICY_CITATION_ALLOWLIST` (default `off`, phase 4). Adds **ingest-pipeline** env vars `LIA_INGEST_CLASSIFIER_WORKERS` (default 8, phase 2a), `LIA_INGEST_CLASSIFIER_RPM` (default bumped 60→300, phase 2a), `LIA_SUPABASE_SINK_WORKERS` (default 4, phase 2b), `FALKORDB_QUERY_TIMEOUT_SECONDS` (default 30, phase 2c), `FALKORDB_BATCH_NODES` (default 500, phase 2c), `FALKORDB_BATCH_EDGES` (default 1000, phase 2c). Nine lifted diagnostic keys now live at top level of `response.diagnostics` (phase 1 — `primary_article_count`, `connected_article_count`, `related_reform_count`, `seed_article_keys`, `planner_query_mode`, `tema_first_mode`, `tema_first_topic_key`, `tema_first_anchor_count`, `retrieval_sub_topic_intent`, `subtopic_anchor_keys`). See `docs/done/next/ingestion_tunningv2.md` + `docs/next/ingestionfix_v6.md` forward backlog.)
+> **Env matrix version: `v2026-04-25-comparative-regime`.** Authoritative table lives in [Runtime Env Matrix (Versioned)](#runtime-env-matrix-versioned). Bump the version and extend the change log whenever `scripts/dev-launcher.mjs` flips a flag, a new `LIA_*` env is introduced, a `query_mode` ships, or a mode's read path changes. (Latest bump: `v2026-04-25-comparative-regime` — runtime-shape changes shipped same day from `next_v4`: (1) **conversational-memory staircase Levels 1+2** (`next_v4 §3` Option A + `§4`) closes the three serial frontier breaks identified in the stateless-classifier vs stateful-retriever deep trace — FE forwards `payload.topic` from prior assistant turn, `ConversationState` gained `prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`, `resolve_chat_topic` accepts an optional `conversation_state` and uses `prior_topic` as a soft tiebreaker; no env flag introduced; (2) **`comparative_regime_chain` query_mode** (`next_v4 §5`) — new planner mode that detects pre/post-reform comparison cues, anchors both articles via `comparative_regime_anchor`, and routes assembly to `compose_comparative_regime_answer` for a side-by-side markdown table; cue detection runs before standard classifier; orchestrator suppresses decomposer fan-out when the parent message itself is comparative; (3) **coherence-gate hardening + follow-up handling** in pipeline_d. No env-flag changes; the version bump reflects new runtime modules + a new query mode. Prior bump: `v2026-04-25-temafirst-readdressed` — same-session flips: `LIA_TEMA_FIRST_RETRIEVAL` `shadow → on`, `LIA_EVIDENCE_COHERENCE_GATE` `shadow → enforce`, `LIA_POLICY_CITATION_ALLOWLIST` `off → enforce`, `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE` default → `enforce` — all per operator's "no off flags" directive after taxonomy v2 + K2 path-veto + SME 30Q at 30/30 + qualitative-pass on §8.4 gate 9. See change-log rows + `docs/aa_next/next_v4.md` (active items) + `docs/aa_next/next_done.md` (digest of closed cycles next_v1+v2+v3) + `docs/aa_next/gate_9_threshold_decision.md`. Prior bump: `v2026-04-24-v6` — ingestion-tuning v6 plan landed. Adds **runtime** flags `LIA_EVIDENCE_COHERENCE_GATE` (default `shadow`, phase 3) and `LIA_POLICY_CITATION_ALLOWLIST` (default `off`, phase 4). Adds **ingest-pipeline** env vars `LIA_INGEST_CLASSIFIER_WORKERS` (default 8, phase 2a), `LIA_INGEST_CLASSIFIER_RPM` (default bumped 60→300, phase 2a), `LIA_SUPABASE_SINK_WORKERS` (default 4, phase 2b), `FALKORDB_QUERY_TIMEOUT_SECONDS` (default 30, phase 2c), `FALKORDB_BATCH_NODES` (default 500, phase 2c), `FALKORDB_BATCH_EDGES` (default 1000, phase 2c). Nine lifted diagnostic keys now live at top level of `response.diagnostics` (phase 1 — `primary_article_count`, `connected_article_count`, `related_reform_count`, `seed_article_keys`, `planner_query_mode`, `tema_first_mode`, `tema_first_topic_key`, `tema_first_anchor_count`, `retrieval_sub_topic_intent`, `subtopic_anchor_keys`). See `docs/done/next/ingestion_tunningv2.md` + `docs/done/next/ingestionfix_v6.md` (RAG-quality backlog absorbed by next_v1+v2+v3 cycles, archived 2026-04-25).)
 
 ## Purpose
 
@@ -80,7 +80,7 @@ Public request path:
 
 Internal Pipeline D execution path:
 
-1. `pipeline_d/planner.py` (+ `planner_query_modes.py` for the 9 `query_mode` values and subtopic-intent detection)
+1. `pipeline_d/planner.py` (+ `planner_query_modes.py` for the 10 `query_mode` values and subtopic-intent detection; `next_v4 §5` added `comparative_regime_chain` 2026-04-25)
 2. adapter dispatch (`retriever.py` | `retriever_supabase.py` | `retriever_falkor.py`) keyed off `LIA_CORPUS_SOURCE` + `LIA_GRAPH_MODE`
 3. `pipeline_d/answer_synthesis.py` (stable facade) + `answer_support.py` enrichment
 4. `pipeline_d/answer_assembly.py` (stable facade)
@@ -91,13 +91,14 @@ Behind the two stable facades, the `main chat` implementation modules are:
 - `answer_synthesis_sections.py`, `answer_synthesis_helpers.py`
 - `answer_first_bubble.py`, `answer_followup.py`
 - `answer_inline_anchors.py`, `answer_historical_recap.py`
+- `answer_comparative_regime.py` — `next_v4 §5` (2026-04-25). Loader for `config/comparative_regime_pairs.json`, cue detector (`detect_comparative_regime_cue`), pair matcher, and table-renderer (`compose_comparative_regime_answer`). Used when `planner_query_mode == "comparative_regime_chain"`.
 - `answer_shared.py`
 - `answer_policy.py` — cupos, límites operativos (`FIRST_BUBBLE_ROUTE_LIMIT`, planning-mode shapes), `ARTICLE_GUIDANCE`
 
 Shared pipeline_d modules outside the `main chat` facades but still on the hot path:
 
 - `pipeline_d/contracts.py` — `GraphEvidenceBundle`, `GraphRetrievalPlan` (carries `sub_questions` and `sub_topic_intent`), `GraphNativeAnswerParts`
-- `pipeline_d/planner_query_modes.py` — the 9 query modes + 15 marker tuples + `_detect_sub_topic_intent`
+- `pipeline_d/planner_query_modes.py` — the 10 query modes + 15 marker tuples + `_detect_sub_topic_intent`
 - `pipeline_d/retrieval_support.py` — ranking and selection of support docs
 
 Rule: other runtime modules should prefer importing the stable facades (`answer_synthesis.py`, `answer_assembly.py`); deeper modules are implementation detail for `main chat`.
@@ -438,7 +439,7 @@ Subtopic override patterns live in `_SUBTOPIC_OVERRIDE_PATTERNS` (compiled regex
 
 `build_graph_retrieval_plan()` converts the user question into a `GraphRetrievalPlan`:
 
-- `query_mode` — one of 9 modes (see 3.1)
+- `query_mode` — one of 10 modes (see 3.1)
 - `entry_points` — explicit articles, reforms, topic-hinted anchors, lexical search strings
 - `traversal_budget`
 - `evidence_bundle_shape`
@@ -452,21 +453,23 @@ Subtopic override patterns live in `_SUBTOPIC_OVERRIDE_PATTERNS` (compiled regex
 
 Classified in this order (first match wins):
 
-1. `historical_reform_chain`
-2. `historical_graph_research`
-3. `reform_chain`
-4. `strategy_chain`
-5. `definition_chain`
-6. `obligation_chain`
-7. `computation_chain`
-8. `article_lookup`
-9. `general_graph_research`
+1. `comparative_regime_chain` — pre-classifier branch in `planner.py`. Fires when the message carries a temporal-cutoff cue ("antes de 2017", "qué cambió con la reforma", "régimen de transición") AND `config/comparative_regime_pairs.json` has a matching `(domain, cutoff_year)` pair AND the conversation_state carries article anchors. See `next_v4 §5`.
+2. `historical_reform_chain`
+3. `historical_graph_research`
+4. `reform_chain`
+5. `strategy_chain`
+6. `definition_chain`
+7. `obligation_chain`
+8. `computation_chain`
+9. `article_lookup`
+10. `general_graph_research`
 
 Design intent:
 - reform/historical prompts should be explicit
 - workflow prompts should not be misread as historical just because they say `antes de...`
 - accountant-style operational questions should still land in a mode with enough support budget
 - advisory prompts about lawful tax planning vs abuse/simulation trigger a dedicated `strategy_chain` lane instead of collapsing into generic renta anchors
+- pre/post-reform comparison prompts ("cuanto cambia si parte es pre-2017?") trigger `comparative_regime_chain` so the answer renders as a side-by-side table instead of dissolving into prose; the orchestrator suppresses decomposer fan-out when the parent message itself is comparative
 
 ### 3.2 Historical Intent
 
@@ -673,6 +676,10 @@ Turns answer parts into the visible markdown. `main chat` specific.
 
 `answer_historical_recap.py` owns recap visibility, reform-chain extraction from primary article excerpts, chronological sorting of mentions, recap wording for one-/two-/three-step chains (narrated from newer to older evidence).
 
+### 6.6b Comparative Regime Renderer
+
+`answer_comparative_regime.py` owns the `comparative_regime_chain` rendering path (`next_v4 §5`, 2026-04-25). When `planner_query_mode == "comparative_regime_chain"` and a `(domain, cutoff_year)` pair matched `config/comparative_regime_pairs.json`, `compose_main_chat_answer` short-circuits to `compose_comparative_regime_answer`, which emits a verdict line ("Sí cambia" / "No cambia") + a markdown table (≥3 rows comparing pre-cutoff vs vigente across plazo / fórmula-o-tope / reajuste-o-ajuste) + standard Riesgos + Soportes sections wrapping below. The LLM polish pass preserves the table verbatim.
+
 ### 6.7 Visible Shapes
 
 Two live shapes at first turn.
@@ -729,7 +736,7 @@ Outage semantics: the Falkor adapter propagates errors instead of silently falli
 
 This is the authoritative per-mode env matrix. The version number is monotonic — any change to what the launcher sets for `dev`, `dev:staging`, or `dev:production`, or any new `LIA_*` env that gates behavior, requires a version bump plus an entry in the change log.
 
-### Current version: `v2026-04-25-temafirst-readdressed`
+### Current version: `v2026-04-25-comparative-regime`
 
 | Env | `npm run dev` | `npm run dev:staging` | `npm run dev:production` | Owner / consumer |
 |---|---|---|---|---|
@@ -770,6 +777,7 @@ If the values in diagnostics do not match the table for the mode you are running
 
 | Version | Date | Change | Affected files |
 |---|---|---|---|
+| `v2026-04-25-comparative-regime` | 2026-04-25 | **`comparative_regime_chain` query mode + coherence-gate hardening + follow-up handling (next_v4 §5).** New planner mode that detects pre/post-reform comparison cues (`\b(antes de|anterior a|pre-?)(\d{4})\b`, "qué cambió con la reforma", "régimen de transición") and routes synthesis to a side-by-side markdown table renderer instead of dissolving the comparison into prose. (1) **Detection** — `detect_comparative_regime_cue` in `pipeline_d/answer_comparative_regime.py` runs in `planner.build_graph_retrieval_plan` BEFORE the standard query-mode classifier so the comparative cue wins over `article_lookup`. (2) **Anchoring** — when a `(domain, cutoff_year)` pair matches `config/comparative_regime_pairs.json`, planner emits two `entry_points` with `source="comparative_regime_anchor"` (current article + transition article + transition numeral). Initial config carries `perdidas_fiscales_2017` (147 ↔ 290 #5, 4 dimensions, verdict + action + risks + supports). (3) **Synthesis** — `compose_comparative_regime_answer` renders verdict ("Sí cambia" / "No cambia") + a markdown table (≥3 rows: plazo / fórmula-o-tope / reajuste-o-ajuste) + Riesgos + Soportes wrapping below. (4) **Decomposer suppression** — `orchestrator.py` sets `decomposer_diag["fanout_suppressed_reason"] = "comparative_regime_parent"` when the parent message itself is comparative, preventing the decomposer from splitting the cue across sub-queries where only one carries it. (5) **LLM-polish rule** — `answer_llm_polish.py` preserves markdown tables verbatim (no reflow into prose). (6) **Anti-hallucination patches** — `ARTICLE_GUIDANCE["290"]` numeral-5 entry landed same day; polish prompt hardened against invented article descriptions. New test: `test_phase3_pipeline_d_comparative_regime_pre2017_followup_renders_table` — three pre-existing follow-up tests updated to assert the new comparative output. Total query_mode count: **10** (was 9). No env-flag introduced; behavior is unconditional once the cue + pair match. Status: 🧪 verified locally; ✅ pending staging end-to-end SME validation on the binding case + adjacent comparative scenarios. | `src/lia_graph/pipeline_d/answer_comparative_regime.py` (new), `config/comparative_regime_pairs.json` (new — `v2026-04-25-v1`), `src/lia_graph/pipeline_d/planner.py` (+ `comparative_regime_chain` budget + cue-detection branch), `src/lia_graph/pipeline_d/orchestrator.py` (+ decomposer fan-out suppression), `src/lia_graph/pipeline_d/answer_assembly.py` (+ comparative-regime route), `src/lia_graph/pipeline_d/answer_llm_polish.py` (+ table-preservation rule), `src/lia_graph/pipeline_d/answer_policy.py` (`ARTICLE_GUIDANCE["290"]`), `tests/test_phase3_graph_planner_retrieval.py` (3 updated + 1 new), `docs/aa_next/next_v4.md` |
 | `v2026-04-25-priortopic-wiring` | 2026-04-25 | **Conversational-memory staircase Levels 1+2 landed (next_v4 §3 Option A + §4 Levels 1+2).** Closes the three serial frontier breaks the 2026-04-25 deep trace identified in the stateless-classifier vs stateful-retriever interaction. (1) **FE (frontier 1)** — `frontend/src/features/chat/requestController.ts` now forwards the most recent assistant turn's `effectiveTopic` as `payload.topic` on `/api/chat`. (2) **State schema (frontier 2)** — `ConversationState` gained `prior_topic`, `prior_subtopic`, `topic_trajectory`, `prior_secondary_topics`; round-trip extended; `build_conversation_state` reads `effective_topic` / `secondary_topics` / `effective_subtopic` from each assistant turn's `turn_metadata` (the persistence layer already wrote these). (3) **Classifier (frontier 3)** — `_build_classifier_prompt`, `_classify_topic_with_llm`, `resolve_chat_topic` accept optional `conversation_state`. The prompt embeds `prior_topic` as a soft hint mirroring the existing `requested_topic` retention rule. A strict tiebreaker fires only when lexical scoring is empty AND the LLM diverges from `prior_topic` AND the prior is in `_SUPPORTED_TOPICS` — returns the prior with confidence boosted +0.15 capped at 0.85, mode `prior_state_tiebreaker`. Last-chance `prior_state_fallback` covers the LLM-unreachable + no-requested-topic + lexical-empty edge case. (4) **Wiring** — `ui_chat_payload.py` does a best-effort early `load_session` peek to extract `conversation_state` before `resolve_chat_topic`; loaded session is cached on `request_context` so `_ensure_conversation_session_loaded` later doesn't double-pay the IO. Skips entirely when the FE didn't send `session_id` (first turn). Tests: `tests/test_conversation_state_prior_topic.py` (5 cases) + `tests/test_topic_router_with_state.py` (8 cases) — all 13 pass. Harness: `scripts/evaluations/run_multiturn_dialogue_harness.py` (HTTP-based T1→T2 runner) + `evals/multiturn_dialogue_v1.jsonl` (10 ambiguous-verb dialogues). No env-flag introduced; behavior is conditional on the new state slots being populated, which only happens once a session has at least one assistant turn. | `frontend/src/features/chat/requestController.ts`, `src/lia_graph/pipeline_c/conversation_state.py`, `src/lia_graph/topic_router.py`, `src/lia_graph/ui_chat_payload.py`, `tests/test_conversation_state_prior_topic.py` (new), `tests/test_topic_router_with_state.py` (new), `scripts/evaluations/run_multiturn_dialogue_harness.py` (new), `evals/multiturn_dialogue_v1.jsonl` (new), `docs/aa_next/next_v4.md` |
 | `v2026-04-25-temafirst-readdressed` | 2026-04-25 | **Re-flipped `LIA_TEMA_FIRST_RETRIEVAL` `shadow` → `on` across all three modes.** Re-flipped on qualitative-pass of §8.4. v10 strict improvement vs v9 (seeds 14→18, mean primary 1.53→1.93, contamination 4/4, 0 regressions). Absolute thresholds 1 & 2 deferred to next_v4 coherence-gate calibration diagnostic, tracked against 11 enumerated `coherence_misaligned=True` questions: Q12, Q18, Q20, Q21, Q22, Q23, Q25, Q26, Q27, Q28, Q29 (Q10 routing-fail tracked separately under `facturacion_electronica` vocabulary gap). Gate 8 (SME 30Q) cleared at **30/30** post Alejandro 2026-04-25 spot-review + applier + router-side surgical fixes + generic LLM-deferral intervention (`taxonomy_v2_sme_spot_review.md` / `next_v3 §13.11` + `§13.11.1`). | `scripts/dev-launcher.mjs`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts` |
 | `v2026-04-24-temafirst-revert` | 2026-04-24 | Reverted `LIA_TEMA_FIRST_RETRIEVAL` launcher default from `on` back to `shadow` after same-day staging A/B (next_v1 §7 action A) showed Q27 contamination regression (`art. 148 ET` leaking into SAGRILAFT answer when `on`, absent in `shadow`). The +15-row retrieval-rescue lift TEMA-first=on demonstrated (0/30 → 15/30 non-zero primary) is retained as the re-flip target once next_v2 §H + §I close. Step-01 diagnostic fix retained unchanged. | `scripts/dev-launcher.mjs`, `docs/guide/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/app/orchestration/shell.ts` |
@@ -892,7 +900,7 @@ Build-time:
 - `src/lia_graph/ingestion/loader.py`
 - `src/lia_graph/graph/schema.py`
 - `src/lia_graph/subtopic_taxonomy_loader.py`
-- `config/topic_taxonomy.json`, `config/subtopic_taxonomy.json`
+- `config/topic_taxonomy.json`, `config/subtopic_taxonomy.json`, `config/comparative_regime_pairs.json` (`next_v4 §5`)
 - `docs/guide/corpus.md`, `docs/guide/env_guide.md`
 - `Makefile` (`phase2-graph-artifacts-supabase`, `phase2-graph-artifacts-smoke`, `phase2-backfill-subtopic`, `phase2-sync-subtopic-taxonomy`, `phase2-regrandfather-corpus`)
 
@@ -905,7 +913,8 @@ Runtime:
 - `src/lia_graph/pipeline_d/retriever.py`, `retriever_supabase.py`, `retriever_falkor.py`, `retrieval_support.py`
 - `src/lia_graph/pipeline_d/answer_support.py`
 - `src/lia_graph/pipeline_d/answer_synthesis.py`, `answer_synthesis_sections.py`, `answer_synthesis_helpers.py`
-- `src/lia_graph/pipeline_d/answer_assembly.py`, `answer_first_bubble.py`, `answer_followup.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_shared.py`, `answer_policy.py`, `answer_llm_polish.py`
+- `src/lia_graph/pipeline_d/answer_assembly.py`, `answer_first_bubble.py`, `answer_followup.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_comparative_regime.py`, `answer_shared.py`, `answer_policy.py`, `answer_llm_polish.py`
+- `src/lia_graph/pipeline_c/conversation_state.py` — extended 2026-04-25 with `prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics` (next_v4 §3 + §4 Levels 1+2)
 - `src/lia_graph/pipeline_d/orchestrator.py`
 - `src/lia_graph/dependency_smoke.py`
 - `src/lia_graph/ui_ingest_run_controllers.py`, `ui_subtopic_controllers.py`
