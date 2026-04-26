@@ -105,13 +105,26 @@ Fix: both paths now also include the `graph_article_key` form in their delete ke
 - `tests/test_edge_extractor.py::test_prose_only_source_uses_graph_article_key` — asserts edges from a prose-only article carry `source_key='whole::{source_path}'`.
 - `tests/test_edge_extractor.py::test_numbered_source_unchanged_by_v5_6_3` — asserts numbered articles' source_key stays unchanged (regression guard for the 19,815 working edges).
 
-### What's still pending (gate 4b)
+### Gate 4b verification — applied 2026-04-26 same day
 
-End-to-end verification needs an operator-driven additive delta that touches at least one prose-only document. The v5 §6.2 re-run after that delta should show:
-- "Present in Falkor" count grows by approximately the count of edges from the touched prose-only doc.
-- Sub-bucket (a1) for the touched doc drops to 0 (its edges land correctly).
+The operator surfaced a perfect verification fixture: the `BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES` trilogy from Dropbox (3 docs: NORMATIVA + EXPERTOS + PRACTICA). All three were prose-only by structure (zero `# Art N` headings) but rich in citations. Copied into `knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/{NORMATIVA,EXPERTOS,PRACTICA}/`. Ingested via CLI (`lia-graph-artifacts --additive --execute-load --pattern '**/*.md'`) against staging cloud. Pre-ingest snapshot captured for comparison.
 
-The 9,848 already-broken legacy rows in Supabase stay until either (a) their source documents are individually re-classified (modified) or (b) a forced full reclassify runs. They're functionally invisible to the runtime (Falkor doesn't see them) but they bloat the table. A separate one-shot migration could clean them up; not in scope for §6.3.
+**Empirical results:**
+
+| Metric | Pre | Post | Δ | Verdict |
+|---|---:|---:|---:|---|
+| Falkor edges total | 24.874 | 24.973 | +99 | edges landed |
+| "Present in Falkor" | 19.815 | 19.894 | **+79** | whole:: source_keys MATCHed |
+| **(a1) prose-only key mismatch** | 9.848 | **9.848** | **0** | ✅ gate-3 pass — no new slug-form rows |
+| (a2) genuinely orphaned | 86 | 87 | +1 | acceptable noise |
+| `:ArticleNode whole::*` | 1.141 | 1.143 | +2 | 2 prose-only docs materialized |
+| Edges from SEMANA4 sources | 0 | **38** | +38 | direct proof |
+
+**Surprise — only 2/3 docs as new ArticleNodes.** NORMATIVA_FIR-N02 has internal "PARTE 1 — ARTÍCULO 714 ET" structure that the parser correctly detected as a numbered-article structure → emitted 10 numbered ArticleNodes (Art. 147, 260, 588, 589, 689-3, 705, 705-1, 706, 714, …). These collapsed onto existing Falkor `:ArticleNode {article_id: …}` nodes via the F8 article_id-collision design (`falkor-bulk-load.md` line 7). The doc IS present in Falkor — just as updates to existing nodes, not as a single new `whole::` node. Both behaviors are correct.
+
+**Side-finding noted but not §6.3-blocking.** Bucket (b) silent-drop grew 54 → 75 (+21). All new (b) edges trace back to NORMATIVA_FIR-N02's numbered articles citing target articles whose `article_id` doesn't materialize as `:ArticleNode` in Falkor (the F8 issue). Below the 100-edge watchlist. Pattern-tracked; if the next four trilogies (REGIMEN_SANCIONATORIO, DEVOLUCIONES, COSTOS_DEDUCCIONES, BENEFICIOS_AMBIENTALES per the operator's `state.md`) also push (b) up by ~20 each, that's a §6.6-worth investigation.
+
+**The 9.848 legacy rows in Supabase** (slug-form source_key, written before the fix) stay until either (a) their source documents are individually re-classified or (b) a forced full reclassify runs. Functionally invisible to runtime retrieval; cleanup is optional and out of §6.3 scope.
 
 ## Cross-references
 

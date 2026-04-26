@@ -172,7 +172,24 @@ Both signals: (a) math-check passes (sub-buckets sum to bucket (a) total) AND (b
 
 #### §6.3 — Fix: classifier emits `_graph_article_key()` for prose-only edges
 
-**Status:** 💡 **idea — activated 2026-04-26** when §6.2 returned (a1) = 99,1%. Code not written. Recovery upside: ≤ 9.848 edges into Falkor (per §6.2 measurement).
+**Status:** ✅ **verified in target environment 2026-04-26** — code shipped + tests green + applied against staging cloud via the `BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES` trilogy (3 docs). Gate-3 numeric criteria all passed.
+
+**Empirical verification numbers** (pre vs post the FIRMEZA trilogy ingest):
+
+| Metric | Pre | Post | Δ | Verdict |
+|---|---:|---:|---:|---|
+| Falkor edges total | 24.874 | 24.973 | +99 | new edges landed |
+| "Present in Falkor" | 19.815 | 19.894 | **+79** | new whole:: source_keys MATCHed |
+| **(a1) prose-only key mismatch** | 9.848 | **9.848** | **0** | ✅ **gate-3 binding pass** — no new slug-form rows |
+| (a2) genuinely orphaned | 86 | 87 | +1 | acceptable noise |
+| Falkor `:ArticleNode` `whole::*` | 1.141 | 1.143 | +2 | 2 prose-only docs landed |
+| Edges from SEMANA4 sources | 0 | **38** | +38 | direct proof: whole:: source edges MATCHed |
+
+The 9.848 legacy rows in `normative_edges` (slug-form source_key, written before the fix) stay until either (a) their source documents are individually re-classified or (b) a forced full reclassify runs. They're functionally invisible to runtime retrieval; cleanup is optional and out of §6.3 scope.
+
+**Side-finding (not §6.3-related):** bucket (b) silent-drop grew 54 → 75 (+21). The new edges all originate from NORMATIVA_FIR-N02's numbered articles (Art. 147, 705, 689-3, …) referencing other articles whose target `article_id` doesn't exist in Falkor due to the known F8 article_id-collision issue (per `docs/learnings/ingestion/falkor-bulk-load.md`). Below the 100-edge watchlist threshold, not blocking §6.3. Worth a §6.6 if the pattern repeats on the next 4 trilogies.
+
+Full empirical numbers + samples + the unexpected NORMATIVA-doc-materialization-as-numbered-articles outcome live in `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md` — "v5 §6.3 fix — outcome" section.
 
 ##### Gate 1 — Idea (one sentence)
 
