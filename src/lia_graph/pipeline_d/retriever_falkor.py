@@ -432,13 +432,28 @@ def _retrieve_primary_articles(
             continue
         text_current = str(row.get("text_current") or "")
         excerpt = text_current[: plan.evidence_bundle_shape.snippet_char_limit]
-        # v5 §1.A — defensive parse: Falkor may return None, "", or a list.
+        # v5 §1.A — defensive parse. FalkorDB returns array-typed properties
+        # over the RESP wire as bracketed strings (e.g. `"[a, b]"`) rather than
+        # native Python lists. Handle both shapes so the §1.A short-circuit
+        # actually fires in production. Verified empirically 2026-04-26 against
+        # staging cloud after the structural plumbing landed but before this
+        # parse fix shipped.
         sec_raw = row.get("secondary_topics")
         secondary_topics: tuple[str, ...] = ()
         if isinstance(sec_raw, (list, tuple)):
             secondary_topics = tuple(
                 str(t).strip() for t in sec_raw if isinstance(t, str) and str(t).strip()
             )
+        elif isinstance(sec_raw, str):
+            s = sec_raw.strip()
+            if s.startswith("[") and s.endswith("]"):
+                inner = s[1:-1].strip()
+                if inner:
+                    secondary_topics = tuple(
+                        part.strip()
+                        for part in inner.split(",")
+                        if part.strip()
+                    )
         items.append(
             GraphEvidenceItem(
                 node_kind="ArticleNode",

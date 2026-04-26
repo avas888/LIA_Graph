@@ -7,14 +7,267 @@
     "scope": "Only articles that genuinely serve multiple SME-validated topical lenses. NOT a contamination relaxation — see docs/aa_next/done/next_v3.md §13 (Q1-class guard).",
     "key": "article_id (matches ArticleNode.article_id in Falkor and source_key in normative_edges).",
     "review": "Every entry should be SME-reviewable. Avoid blanket 'X also serves Y' without a written rationale.",
-    "cross_doc_collision_note": "Numbered article_ids collapse across docs (per loader.py F8). Adding secondary_topics for 'Art. 49' applies corpus-wide. Acceptable for current entries; revisit if cross-doc collision becomes a real concern."
+    "cross_doc_collision_note": "Numbered article_ids collapse across docs (per loader.py F8). Adding secondary_topics for 'Art. 49' applies corpus-wide. Acceptable for current entries; revisit if cross-doc collision becomes a real concern.",
+    "source_of_truth": "docs/aa_next/taxonomy_v2_sme_response.md §1.4 — 'allowed_et_articles' per registered topic, SME-validated 2026-04-25. Each entry below cites the SME line that authorized it."
   },
   "articles": [
     {
       "article_id": "689-3",
       "primary_topic": "firmeza_declaraciones",
       "secondary_topics": ["beneficio_auditoria"],
-      "rationale": "Art. 689-3 ET creates and governs the beneficio de auditoría. It is structurally the canonical reference for both the 'firmeza_declaraciones' (its parent system) AND 'beneficio_auditoria' (the user-facing topic). The 2026-04-26 chat verification round refused on this exact article."
+      "rationale": "Art. 689-3 ET creates and governs the beneficio de auditoría. Lives in firmeza_declaraciones (its parent system) AND beneficio_auditoria (the user-facing topic). Verified: 2026-04-26 chat refused on this exact article pre-§1.A.",
+      "sme_source": "taxonomy_v2_sme_response.md line 186 + line 769"
+    },
+
+    {
+      "article_id": "705",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["firmeza_declaraciones"],
+      "rationale": "TÉRMINO PARA NOTIFICAR EL REQUERIMIENTO ESPECIAL. Procedural by nature but core to firmeza per SME's allowed_et_articles.",
+      "sme_source": "taxonomy_v2_sme_response.md line 769"
+    },
+    {
+      "article_id": "705-1",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["firmeza_declaraciones"],
+      "rationale": "TÉRMINO PARA NOTIFICAR REQUERIMIENTO EN VENTAS Y RETENCIÓN. Sibling to 705.",
+      "sme_source": "taxonomy_v2_sme_response.md line 769"
+    },
+    {
+      "article_id": "706",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["firmeza_declaraciones"],
+      "rationale": "SUSPENSIÓN DEL TÉRMINO PARA NOTIFICAR EL REQUERIMIENTO ESPECIAL. Direct firmeza implication.",
+      "sme_source": "taxonomy_v2_sme_response.md line 769"
+    },
+    {
+      "article_id": "147",
+      "primary_topic": "perdidas_fiscales_art147",
+      "secondary_topics": ["firmeza_declaraciones"],
+      "rationale": "Compensación de pérdidas fiscales — has its own topic, but its parágrafo extends firmeza for declaraciones que compensen pérdidas (Ley 2010/2019 Art. 117).",
+      "sme_source": "taxonomy_v2_sme_response.md line 766"
+    },
+    {
+      "article_id": "714",
+      "primary_topic": "firmeza_declaraciones",
+      "secondary_topics": ["firmeza_declaraciones"],
+      "rationale": "FIRMEZA GENERAL DE LAS DECLARACIONES TRIBUTARIAS — anchor del topic. Aunque su owner doc en Falkor es el FIR-N02 (firmeza_declaraciones), el lexical scoring de su texto cae en declaracion_renta por la densidad de keywords renta/declaracion/contribuyente. Forzamos el match estructural via secondary_topics para que el gate acepte queries firmeza explícitas.",
+      "sme_source": "taxonomy_v2_sme_response.md line 769"
+    },
+    {
+      "article_id": "260-5",
+      "primary_topic": "precios_de_transferencia",
+      "secondary_topics": ["firmeza_declaraciones"],
+      "rationale": "Parágrafo amplía la firmeza de declaraciones con obligación de precios de transferencia.",
+      "sme_source": "taxonomy_v2_sme_response.md line 766"
+    },
+
+    {
+      "article_id": "48",
+      "primary_topic": "ingresos_fiscales_renta",
+      "secondary_topics": ["dividendos_y_distribucion_utilidades"],
+      "rationale": "Participaciones y dividendos — definición INCRNGO. Core de la determinación del ingreso por dividendos.",
+      "sme_source": "taxonomy_v2_sme_response.md line 631"
+    },
+    {
+      "article_id": "49",
+      "primary_topic": "ingresos_fiscales_renta",
+      "secondary_topics": ["dividendos_y_distribucion_utilidades"],
+      "rationale": "Determinación de los dividendos no gravados (utilidad fiscal vs comercial). Eje del cálculo de tributación de dividendos.",
+      "sme_source": "taxonomy_v2_sme_response.md line 631"
+    },
+    {
+      "article_id": "242",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["dividendos_y_distribucion_utilidades"],
+      "rationale": "Tarifa especial dividendos personas naturales residentes.",
+      "sme_source": "taxonomy_v2_sme_response.md line 631"
+    },
+    {
+      "article_id": "242-1",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["dividendos_y_distribucion_utilidades"],
+      "rationale": "Tarifa especial dividendos sociedades nacionales.",
+      "sme_source": "taxonomy_v2_sme_response.md line 631"
+    },
+    {
+      "article_id": "245",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["dividendos_y_distribucion_utilidades"],
+      "rationale": "Tarifa especial dividendos sociedades extranjeras y no residentes.",
+      "sme_source": "taxonomy_v2_sme_response.md line 631"
+    },
+
+    {
+      "article_id": "640",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["regimen_sancionatorio_extemporaneidad"],
+      "rationale": "Reducción de sanciones — base operativa para extemporaneidad y correcciones.",
+      "sme_source": "taxonomy_v2_sme_response.md line 188"
+    },
+    {
+      "article_id": "641",
+      "primary_topic": "regimen_sancionatorio",
+      "secondary_topics": ["regimen_sancionatorio_extemporaneidad"],
+      "rationale": "Sanción por extemporaneidad antes del emplazamiento — canonical anchor del topic, no requiere secondary.",
+      "sme_source": "taxonomy_v2_sme_response.md line 188"
+    },
+    {
+      "article_id": "642",
+      "primary_topic": "regimen_sancionatorio",
+      "secondary_topics": ["regimen_sancionatorio_extemporaneidad"],
+      "rationale": "Sanción por extemporaneidad posterior al emplazamiento — canonical.",
+      "sme_source": "taxonomy_v2_sme_response.md line 188"
+    },
+    {
+      "article_id": "644",
+      "primary_topic": "regimen_sancionatorio",
+      "secondary_topics": ["regimen_sancionatorio_extemporaneidad"],
+      "rationale": "Sanción por corrección — canonical en el topic.",
+      "sme_source": "taxonomy_v2_sme_response.md line 188"
+    },
+    {
+      "article_id": "647",
+      "primary_topic": "regimen_sancionatorio",
+      "secondary_topics": ["regimen_sancionatorio_extemporaneidad"],
+      "rationale": "Sanción por inexactitud — canonical.",
+      "sme_source": "taxonomy_v2_sme_response.md line 188"
+    },
+    {
+      "article_id": "648",
+      "primary_topic": "regimen_sancionatorio",
+      "secondary_topics": ["regimen_sancionatorio_extemporaneidad"],
+      "rationale": "Sanción por inexactitud — canonical (continuación).",
+      "sme_source": "taxonomy_v2_sme_response.md line 188"
+    },
+
+    {
+      "article_id": "850",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Devolución de saldos a favor — anchor del topic devoluciones.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "855",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Término para efectuar la devolución.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "857",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Suspensión del término para devolver.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "859",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Verificación de las devoluciones.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "860",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Garantía a favor de la nación.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "861",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Compensación previa a la devolución.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "862",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Mecanismos para efectuar la devolución (TIDIS / abono cuenta).",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "863",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Intereses a favor del contribuyente.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "864",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Tasa para liquidar intereses.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+    {
+      "article_id": "865",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["devoluciones_saldos_a_favor"],
+      "rationale": "Improcedencia parcial — sanción asociada a devolución.",
+      "sme_source": "taxonomy_v2_sme_response.md line 180"
+    },
+
+    {
+      "article_id": "256",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["descuentos_tributarios_renta"],
+      "rationale": "Descuento por inversiones en CTeI — canonical descuento de renta.",
+      "sme_source": "taxonomy_v2_sme_response.md line 183"
+    },
+    {
+      "article_id": "257",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["descuentos_tributarios_renta"],
+      "rationale": "Descuento por donaciones a ESAL — canonical.",
+      "sme_source": "taxonomy_v2_sme_response.md line 183"
+    },
+    {
+      "article_id": "258-1",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["descuentos_tributarios_renta"],
+      "rationale": "Descuento del IVA por bienes de capital — canonical.",
+      "sme_source": "taxonomy_v2_sme_response.md line 183"
+    },
+    {
+      "article_id": "260",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["descuentos_tributarios_renta"],
+      "rationale": "Limitación a los descuentos tributarios.",
+      "sme_source": "taxonomy_v2_sme_response.md line 183"
+    },
+
+    {
+      "article_id": "240",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["tarifas_renta_y_ttd"],
+      "rationale": "Tarifa general renta personas jurídicas + parágrafo 6 TTD.",
+      "sme_source": "taxonomy_v2_sme_response.md line 185"
+    },
+    {
+      "article_id": "240-1",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["tarifas_renta_y_ttd"],
+      "rationale": "Tarifa zonas francas.",
+      "sme_source": "taxonomy_v2_sme_response.md line 185"
+    },
+    {
+      "article_id": "241",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["tarifas_renta_y_ttd"],
+      "rationale": "Tarifa renta personas naturales residentes.",
+      "sme_source": "taxonomy_v2_sme_response.md line 185"
+    },
+    {
+      "article_id": "243",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["tarifas_renta_y_ttd"],
+      "rationale": "Aportes para subsidio de educación + nivelación tarifa renta.",
+      "sme_source": "taxonomy_v2_sme_response.md line 185"
     }
   ]
 }
