@@ -406,7 +406,82 @@ If SME flags the table format as too rigid for qualitative comparative cases (e.
 
 ---
 
-## §6 What's NOT here (deliberately)
+## §6 100-Q quality gauge — first baseline + delta tool (operator-surfaced 2026-04-26)
+
+### Why
+
+The repo carries `evals/100qs_accountant.jsonl` (100 unique Qs across 28 categories and 4 evaluation profiles) plus `evals/100qs_rubric.yaml` (7 weighted dimensions: exactitud_normativa 0.25, aplicabilidad_operativa 0.20, completitud 0.15, actualizacion 0.12, claridad_profesional 0.10, prudencia_fiscal 0.10, soporte_documental 0.08; profile_overrides bias toward the dimension that matters per profile). The structural audit on 2026-04-26 confirmed: 100/100 unique IDs, 100/100 non-empty references, 79/100 cite Art. # in-text, 19/100 reference 2026 UVT, ten rows have empty `reference_sources` (cosmetic; bodies cite norms). The dataset is fit-for-gauge but no runner consumes it — we cannot answer "did this pipeline change improve or regress Lia" with a number.
+
+### Idea (one sentence)
+
+Run the 100 Qs end-to-end through `/api/chat`, score with Claude-as-judge against the existing rubric, and produce a single repeatable macro-pass-percent number plus per-dimension/per-category breakdowns that move when pipeline knobs flip.
+
+### Status (2026-04-26)
+
+🛠 **code landed 2026-04-26** — `scripts/run_100qs_eval.py` + `scripts/judge_100qs.py` (unauthenticated public-session HTTP path; resumable per-ID; Sonnet 4.6 judge with `cache_control: ephemeral` on the static system prompt + 7-dim rubric block; aggregator computes macro-pass-%, weighted per-profile, per-category, weak-questions, weak-dimensions, corpus-gap clusters via `corpus_gap_min_cluster_size` from rubric).
+
+🧪 **partially verified locally 2026-04-26 around 7:00 AM Bogotá**:
+- Offline checks pass — fixture loader (100/100), resume-skip logic, prompt build (system 6196 chars, user template 2079 chars on a representative row), `_extract_json` against fenced/raw/embedded JSON, profile-aware weight resolution (calculative biases `exactitud_normativa` over procedural; renormalizes to 1.0), aggregation math (synthetic 4/5+5/5+2/5 → 73.33% macro, weak-Q + corpus-gap-cluster detection both fire).
+- Live runner smoke 3/3 OK against `http://localhost:8787` (dev artifact mode), 2618–6047 ms/Q, output at `evals/runs/100qs_dev_smoke_20260426T115529Z.jsonl`. AQ_001 returned partial-coverage notice; AQ_002 returned a substantive multi-bullet answer; AQ_003 hit the v6 evidence-coherence-gate refusal as expected (the gate is doing its job, not a bug).
+- **Live judge unverified** — needs `ANTHROPIC_API_KEY` (none found in env files). Not a code blocker.
+
+### Plan §6.1 — first baseline run (the actual measurement)
+
+Once `ANTHROPIC_API_KEY` is available:
+
+1. **Dev artifact baseline.** `npm run dev` → `run_100qs_eval.py --tag dev_baseline` (~15-20 min) → `judge_100qs.py --run-file …` (~$2-4 USD; ~15-20 min). Commit the `__summary.json` to `evals/runs/`.
+2. **Staging cloud baseline.** Same against `npm run dev:staging` (Supabase + cloud Falkor). Commit summary.
+3. **Spot-validate the judge.** Operator/SME picks 5-10 lowest-scoring questions from each summary and reads them independently against Lia's actual answer. If the judge's verdict matches the operator's gut on ≥ 80% of spot-checks → judge is trustworthy enough to use as the gauge. If < 80% match → refine `judge_system_prompt` first (gate 6), don't trust the macro number yet.
+
+### Plan §6.2 — `summary_diff.py` (only if §6.1 produces actionable spread)
+
+If the dev baseline and the staging baseline differ meaningfully (e.g., > 3pp macro-pass spread, or one or more dimensions diverging by > 0.05 in mean), build `scripts/summary_diff.py` (~50 LOC): takes two `__summary.json` paths and prints a ranked table of dimension/category deltas with sign markers. If §6.1 shows dev ≈ staging within noise, defer §6.2 — the tool only earns its keep when there's drift to track.
+
+### Success criterion (gate 3)
+
+§6.1: two `__summary.json` files in `evals/runs/` (one per mode) with `n_judged_ok ≥ 95` (allows ≤5 judge failures), `macro_pass_percent` populated, per-dimension means populated, ≥ 1 corpus_gap_cluster surfaced (the dataset is large enough that something will cluster). Spot-check agreement ≥ 80% on 5-10 weakest Qs in each summary.
+
+§6.2: ships only if §6.1 spread ≥ 3pp macro OR ≥ 1 dimension diverges ≥ 0.05.
+
+### How to test (gate 4)
+
+- **Engineer** runs the runner + judge in both modes and posts the two summaries.
+- **Operator/SME (Alejandro)** spot-checks 5-10 weakest Qs in each summary against Lia's actual answers (10-15 min per mode). The criterion is "does the judge's verdict on this Q match what an experienced contador would say?" — not "is Lia's answer good." We're validating the judge, not Lia.
+- **Decision rule (gate 5):** ≥ 80% spot-check agreement → publish the macro number as Lia's first quality baseline; flip to "this number is the gauge" mode for future changes. < 80% → judge prompt refinement before publishing any number.
+
+### Refine-or-discard (gate 6)
+
+- If the judge is too generous (spot-checks find Lia answers worse than the score suggests) → tighten `judge_system_prompt` "no seas indulgente" wording + add explicit anti-bias examples.
+- If the judge is too harsh (spot-checks find Lia answers better than the score suggests) → audit whether the rubric's "reference is just a factual anchor, not a quality model" instruction is being honored; the judge may be marking down LIA for not matching reference verbatim.
+- If macro-pass varies > 5pp between two judge runs of the same answers (prompt-cache off + temperature noise) → run twice with different seeds and report mean ± half-spread; if half-spread > 2pp the gauge isn't useful as a single number.
+- Discard only if spot-check agreement stays < 60% after two prompt-refinement passes.
+
+### Effort
+
+- §6.1: 1 day (one operator afternoon for the two runs + the spot-checks + commit).
+- §6.2: 0.5 day, conditional on §6.1 producing drift.
+
+### Dependencies
+
+- `ANTHROPIC_API_KEY` available to the operator running the judge.
+- Both `dev` and `dev:staging` modes operational on the operator's machine (Supabase docker + cloud Falkor reachable for `dev:staging`).
+- §3 Level 1 multi-turn baseline does NOT block this — single-turn 100-Q gauge is independent.
+
+### What this is NOT
+
+- **Not a head-to-head Claude-with-web baseline.** The rubric describes a 30-Q sample (`comparison_sample_size: 30`, `comparison_seed: 42`) with `research_*_template` and `comparison_*_template` prompts. That's deferred to v5+ — useful for diagnosing "is this a corpus gap or a pipeline gap?" but not needed to establish the baseline.
+- **Not a per-topic statistical claim.** 100 Qs / 28 categories ≈ 2-7 per category. The macro number is reliable; per-category deltas < 5pp are noise. Use the gauge for "did Lia get better overall" and "is dimension X weak globally"; do not use it for "did IVA improve."
+- **Not a substitute for the existing eval suites.** `make eval-c-gold`, retrieval eval, multiturn dialogue harness all measure narrower things. The 100-Q gauge is the answer-quality layer, complementary to those.
+- **Not a release gate.** The rubric's `pass_threshold_percent: 75.0` is an aspirational anchor, not a CI fail-threshold. Per the "thresholds — no lower" memory: if a run lands below 75 we record the exception per case, never relax the threshold.
+
+### Notes from the structural audit
+
+- Ten reference rows have `reference_sources: []` despite citing norms in-text (`AQ_017, AQ_038, AQ_041, AQ_056, AQ_067, AQ_075, AQ_076, AQ_087, AQ_088, AQ_093`). This shows up in the judge prompt as "(la referencia no listó fuentes — apóyate en el cuerpo)". Cosmetic; the judge handles it. A v5+ cleanup PR can fill them in by parsing the answer text.
+- The runner currently records `retrieval_backend = null` / `graph_backend = null` for some turns where Lia's `diagnostics` object is `None` (e.g., coherence-gate refusals where the pipeline short-circuits). That's faithful capture, not a runner bug. If the macro gauge later wants to slice "judge score conditional on backend served the answer", we'd need Lia to populate those keys even on refused turns — separate ticket.
+
+---
+
+## §7 What's NOT here (deliberately)
 
 - Re-flip mechanics — those belong in `next_v3.md §13.10.7` item 3 and ship the moment SME closes gate 8.
 - Anything that reopens settled six-gate decisions without new evidence.
@@ -416,4 +491,4 @@ If SME flags the table format as too rigid for qualitative comparative cases (e.
 
 ---
 
-*Opened 2026-04-25 after operator's qualitative-pass on gate 9 with explicit scoping for the deferred debt. §3 added 2026-04-25 from a live two-turn UI session that surfaced the stateless-classifier vs stateful-retriever interaction with the v6 coherence gate; deep-traced same day to confirm three serial frontier breaks (FE payload, ConversationState schema, classifier signature) and to rule out H1 (LLM-confidence threshold tuning). §4 added 2026-04-25 to capture the conversational-memory architecture as a three-level staircase: Level 1 = §3 Option A (committed, immediate), Level 2 = `ConversationState` extension with classifier-aware fields (committed conditional on Level 1 measurement), Level 3 = free-text LLM rolling summary (deferred to v5+ with binding reopen conditions). §5 added 2026-04-25 from a live three-turn session where a follow-up "cuanto cambia si parte es pre-2017?" returned an evasive answer with a hallucinated Art. 290 description; corto-plazo content patches landed same day (`ARTICLE_GUIDANCE["290"]` + polish-prompt anti-hallucination rule), §5 plans the structural `comparative_regime_chain` planner mode. See `gate_9_threshold_decision.md` §7 for the binding decision record and `next_v3.md §13.10.8` for the cross-reference.*
+*Opened 2026-04-25 after operator's qualitative-pass on gate 9 with explicit scoping for the deferred debt. §3 added 2026-04-25 from a live two-turn UI session that surfaced the stateless-classifier vs stateful-retriever interaction with the v6 coherence gate; deep-traced same day to confirm three serial frontier breaks (FE payload, ConversationState schema, classifier signature) and to rule out H1 (LLM-confidence threshold tuning). §4 added 2026-04-25 to capture the conversational-memory architecture as a three-level staircase: Level 1 = §3 Option A (committed, immediate), Level 2 = `ConversationState` extension with classifier-aware fields (committed conditional on Level 1 measurement), Level 3 = free-text LLM rolling summary (deferred to v5+ with binding reopen conditions). §5 added 2026-04-25 from a live three-turn session where a follow-up "cuanto cambia si parte es pre-2017?" returned an evasive answer with a hallucinated Art. 290 description; corto-plazo content patches landed same day (`ARTICLE_GUIDANCE["290"]` + polish-prompt anti-hallucination rule), §5 plans the structural `comparative_regime_chain` planner mode. §6 added 2026-04-26 — `scripts/run_100qs_eval.py` + `scripts/judge_100qs.py` landed and offline-verified; live runner smoke 3/3 OK against `localhost:8787`; live judge run pending an `ANTHROPIC_API_KEY` for the operator's first baseline. See `gate_9_threshold_decision.md` §7 for the binding decision record and `next_v3.md §13.10.8` for the cross-reference.*
