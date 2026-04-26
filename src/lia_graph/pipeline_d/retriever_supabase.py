@@ -147,22 +147,22 @@ def _hybrid_search(
         + plan.evidence_bundle_shape.support_document_limit,
         24,
     )
-    # Topic is a planner-side signal, not a recall predicate. Cross-topic
-    # anchors (e.g. Art. 147 ET catalogued under IVA but load-bearing for a
-    # declaracion_renta query) must stay reachable — topic only shapes ranking
-    # via `query_text` terms, never the WHERE clause.
-    #
-    # The RPC defaults to `plainto_tsquery` on `query_text`, which builds an
-    # AND across every term. Our `query_text` concatenates ~50 planner tokens
-    # (topic hints + article numbers + lexical searches + raw message), so an
-    # AND never matches anything. Build an explicit OR `fts_query` to force
-    # OR semantics; FTS ranking still prefers chunks that hit more terms.
+    # Topic was historically a pure planner-side signal; v5 §1.D introduces
+    # a SOFT boost — chunks where chunk.topic == router_topic get their RRF
+    # multiplied. The boost is OFF when either filter_topic_boost == 1.0
+    # (default) or filter_topic IS NULL, so back-compat is preserved.
+    # Cross-topic anchors stay reachable because the SQL function drops the
+    # WHERE clause for filter_topic when filter_topic_boost > 1.0 (see
+    # `supabase/migrations/20260427000000_topic_boost.sql`). Per the
+    # retrieval-runbook gap #1 + next_v5 §1.D plan.
     sub_topic_intent = getattr(plan, "sub_topic_intent", None)
     subtopic_boost = _resolve_subtopic_boost_factor()
+    router_topic = next(iter(plan.topic_hints), None) if plan.topic_hints else None
+    topic_boost = _resolve_topic_boost_factor()
     payload: dict[str, Any] = {
         "query_embedding": _zero_embedding(),
         "query_text": query_text,
-        "filter_topic": None,
+        "filter_topic": router_topic if (router_topic and topic_boost > 1.0) else None,
         "filter_pais": "colombia",
         "match_count": match_count,
         "filter_knowledge_class": None,
@@ -177,16 +177,31 @@ def _hybrid_search(
     if sub_topic_intent:
         payload["filter_subtopic"] = sub_topic_intent
         payload["subtopic_boost"] = subtopic_boost
+    # v5 §1.D — topic boost. Only include when the migration is expected
+    # to be applied; the try/except fallback below strips it for older
+    # deployments.
+    if router_topic and topic_boost > 1.0:
+        payload["filter_topic_boost"] = topic_boost
     try:
         response = db.rpc("hybrid_search", payload).execute()
     except Exception:
-        # Older DBs reject unknown params. Retry without the subtopic args
-        # and apply the boost client-side so retrieval still responds.
-        if sub_topic_intent:
+        # Older DBs reject unknown params. First try dropping the v5 §1.D
+        # topic boost; if still failing, drop the subtopic boost too.
+        # Both fallbacks degrade ranking quality but keep retrieval alive.
+        recovered = False
+        if "filter_topic_boost" in payload:
+            payload.pop("filter_topic_boost", None)
+            payload["filter_topic"] = None  # restore strict no-filter
+            try:
+                response = db.rpc("hybrid_search", payload).execute()
+                recovered = True
+            except Exception:
+                pass
+        if not recovered and sub_topic_intent:
             payload.pop("filter_subtopic", None)
             payload.pop("subtopic_boost", None)
             response = db.rpc("hybrid_search", payload).execute()
-        else:
+        elif not recovered:
             raise
     rows = getattr(response, "data", None) or []
     if not isinstance(rows, list):
@@ -206,6 +221,25 @@ def _resolve_subtopic_boost_factor() -> float:
     (Invariant I5).
     """
     raw = os.getenv("LIA_SUBTOPIC_BOOST_FACTOR")
+    if raw is None or not str(raw).strip():
+        return 1.5
+    try:
+        parsed = float(raw)
+    except (TypeError, ValueError):
+        return 1.5
+    return max(parsed, 1.0)
+
+
+def _resolve_topic_boost_factor() -> float:
+    """v5 §1.D — Read ``LIA_TOPIC_BOOST_FACTOR`` env; default 1.5.
+
+    Mirrors `_resolve_subtopic_boost_factor` shape but applies to the
+    chunk-level topic match (not subtopic). Floors at 1.0 (Invariant I5,
+    never penalize). When the value is exactly 1.0, the boost is OFF and
+    `filter_topic` stays None in the RPC payload — preserving pre-§1.D
+    behavior. Set to 1.5+ to enable the boost.
+    """
+    raw = os.getenv("LIA_TOPIC_BOOST_FACTOR")
     if raw is None or not str(raw).strip():
         return 1.5
     try:

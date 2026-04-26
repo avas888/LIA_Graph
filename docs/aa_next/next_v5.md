@@ -230,6 +230,111 @@ This is a **structural Lia change**, not just a §1.B patch. Would also help any
 
 ---
 
+## §1.D Topic-aware boost in hybrid_search (opened 2026-04-26 evening)
+
+> **Status:** 💡 idea — opened 2026-04-26 after the docs/orchestration/ runbooks made the architectural gap visible. This is the candidate gap-#1 fix surfaced in `retrieval-runbook.md`.
+
+### Gate 1 — Idea (one sentence)
+
+Add a `filter_topic_boost` parameter to the `hybrid_search` SQL RPC (default 1.0, no-op when unset) so chunks tagged with `chunk.topic = filter_topic` get their RRF score multiplied by the boost factor — analogous to the existing `filter_subtopic` + `subtopic_boost` mechanism — letting narrow-topic chunks rank above umbrella-topic chunks for the 3 thin-corpus topics still refusing with `chunks_off_topic` in §1.C without lowering any threshold.
+
+### Gate 2 — Plan (narrowest scope)
+
+1. **New Supabase migration** at `supabase/migrations/20260427000000_topic_boost.sql`:
+   - Drop + recreate `hybrid_search` adding `filter_topic_boost double precision DEFAULT 1.0` parameter.
+   - Modify the RRF formula in CTE `combined`: when `filter_topic IS NOT NULL AND chunk.topic = filter_topic`, multiply RRF by `topic_boost`.
+   - Preserve the existing `filter_subtopic` + `subtopic_boost` boost (compose multiplicatively).
+   - Invariant I5 carry-over: never penalize. Boost < 1.0 coerced to 1.0.
+
+2. **Python wiring** at `src/lia_graph/pipeline_d/retriever_supabase.py::_hybrid_search`:
+   - Read `LIA_TOPIC_BOOST_FACTOR` env (default 1.5, mirroring subtopic_boost default).
+   - Determine `router_topic = next(iter(plan.topic_hints), None)`.
+   - When `router_topic` is set, pass `filter_topic=router_topic` AND `filter_topic_boost=topic_boost_factor` in the RPC payload. Keep the older comment at line 138-141 accurate: filter_topic is a BOOST signal here, not a recall predicate. The SQL function only filters when `filter_topic` is paired with `filter_topic_strict=true` (NEW param too, default false). When strict=false, filter_topic is treated as a boost target, not a WHERE clause.
+   - Try/except retry without the new params for older Supabase deployments (mirrors the existing subtopic-fallback pattern at line 168-178).
+
+3. **Migration safety**:
+   - Use `CREATE OR REPLACE FUNCTION` (Supabase migrations are idempotent on functions).
+   - Add a smoke test that hits the new function shape from Python (probe an old query against the new RPC, verify it returns chunks).
+
+4. **Tests**:
+   - Update existing `test_hybrid_search_*.py` (if any) to verify the new RRF formula on a fixture.
+   - Add `test_topic_boost.py` with 3 cases: (a) topic_boost=1.0 → identical to pre-§1.D ranking; (b) topic_boost=1.5 → narrow-topic chunk ranks above umbrella when both have similar FTS rank; (c) `filter_topic` is None → no boost applied (back-compat).
+
+### Gate 3 — Minimum success criterion (measurable)
+
+After the migration is applied to staging cloud Supabase + the Python wiring lands + a server restart picks up the new env default:
+
+- **3 of the 4 currently-failing topics flip from `chunks_off_topic` (or `primary_off_topic`) to SERVED** in the chat probe (`bash /tmp/probe_topics.sh`):
+  - `regimen_cambiario` → SERVED
+  - `impuesto_patrimonio_personas_naturales` → SERVED
+  - `conciliacion_fiscal` → SERVED
+  - (`precios_de_transferencia` is not addressed by this fix — it's `primary_off_topic` and needs §1.A curation expansion. Out of scope here.)
+
+- **No regression on the 8 currently-SERVED topics.** All 8 remain SERVED with same or higher citation counts.
+
+- **No regression on the 30-Q gold set** (when next operator runs `make eval-c-gold`). This is a soft signal; the chat probe is the binding gate.
+
+### Gate 4 — Test plan
+
+- **Development needed.**
+  - SQL migration file (~100 LoC).
+  - Python wiring (~30 LoC + 1 fallback try/except branch).
+  - Unit tests for the boost behavior (~150 LoC across 3 cases).
+  - Smoke probe against staging Supabase post-migration (~30 LoC, read-only).
+- **Conceptualization.** "Narrow-topic chunks should outrank umbrella-topic chunks when topically relevant" is the structural goal. The boost factor is a tuning knob; 1.5 is the inherited default from subtopic_boost (which has been stable since 2026-04-21). Per the precedent of `subtopic_boost`, this won't introduce contamination because the boost only fires when `chunk.topic = filter_topic` exactly — same chunks the gate already accepts as on-topic.
+- **Running environment.**
+  - Unit tests via `make test-batched`.
+  - Migration applied to staging cloud Supabase (via `make supabase-start` locally first to validate, then via `supabase db push` against staging — operator-explicit per the cloud-write contract).
+  - End-to-end verification via `bash /tmp/probe_topics.sh` against `dev:staging` server.
+- **Actors + interventions required.**
+  - Engineer (Claude): migration file + Python + unit tests + smoke probe against local Supabase.
+  - Operator: explicit `supabase db push` to staging cloud (cloud-write — per `feedback_diagnose_before_intervene` and the operator's general no-cloud-writes-without-authorization rule).
+  - Server restart: automated via my `Bash(pkill / npm run dev:*)` permission rule.
+  - SME: not needed for this gate; gate 4b is binary (chat probes).
+- **Decision rule.**
+  - **Pass:** 3/4 currently-failing topics flip to SERVED + 0/8 SERVED topics regress.
+  - **Partial pass (1 or 2 of the 3 flip):** investigate which topic still refuses and why; may need topic-specific tuning of `LIA_TOPIC_BOOST_FACTOR` per topic (env override). Iterate.
+  - **No flips OR regressions appear:** revert the migration (idempotent — re-deploy the pre-§1.D function definition) and reopen with a different hypothesis.
+
+### Gate 5 — Greenlight
+
+Both signals required:
+1. Unit tests green (the SQL boost + Python wiring + back-compat fallback).
+2. End-user chat probe shows the 3-of-4 flip target met against staging cloud.
+
+### Gate 6 — Refine-or-discard
+
+- **If the boost is too aggressive (regresses adjacent topics):** lower `LIA_TOPIC_BOOST_FACTOR` from 1.5 to 1.2 or 1.1. The factor is env-overridable, so no code change to iterate.
+- **If the boost is too weak (no flips):** raise to 2.0 or 2.5. Bounded by Invariant I5 (never penalize, always >=1.0).
+- **If specific topics need different boost factors:** add a per-topic override config (`config/topic_boost_factors.json`) — only do this if a single global factor can't satisfy 3-of-4 simultaneously.
+- **Discard path:** if neither single-factor nor per-topic overrides give a consistent 3/4 flip, revert the migration. The boost mechanism is principled (mirrors subtopic) but if it doesn't produce empirical movement, it's not the right fix and we explore §1.B's gap #2 (2-pass `_collect_support`) instead.
+
+### Effort
+
+Total: ~1 working day end-to-end.
+- 0.25d SQL migration draft + local-Supabase smoke.
+- 0.25d Python wiring + unit tests.
+- 0.25d operator-driven staging migration apply + server restart.
+- 0.25d chat probe re-run + post-mortem.
+
+### Dependencies — strict
+
+- **§1.A and §1.B must remain shipped.** §1.D layers on top; doesn't replace.
+- **Operator action required for staging migration.** The Python wiring can ship to main but is no-op until the migration applies.
+- **No SME involvement needed.** This is structural, not curation.
+
+### What this is NOT
+
+- **Not a relaxation of any threshold.** The 2-doc topic_key match minimum stays at 2. The lexical scoring rules unchanged. Boost only affects chunk rank ordering before the gate.
+- **Not a new compatibility map.** §1.B's `compatible_doc_topics.json` is unchanged.
+- **Not a switch from "topic as informational" to "topic as filter".** Per the existing comment at `retriever_supabase.py:138-141`, topic stays a planner-side signal. Boost ≠ filter — chunks of all topics still come back; narrow-topic chunks just rank higher among them.
+
+### Status
+
+💡 **idea** — opened 2026-04-26 from `docs/orchestration/retrieval-runbook.md` gap #1. Plan above is binding; code not yet written. Next step: implement gate 4a (migration + wiring + tests).
+
+---
+
 ## §6 Falkor parity + corpus-grow safety (carried from v4 §6.5)
 
 **Status mix:** §6.5.A 💡 idea; §6.5.B 🧪 verified locally with qualitative-pass on bucket (b)=54; §6.5.D 💡 idea; §6.5.E 🧪 verified locally (5/5 guard tests, audit complete). Full record + bucket numbers + samples in `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md`.
