@@ -121,24 +121,10 @@ export interface AdditiveDeltaBindingOptions {
   storage?: Storage | null;
   sseOptions?: AdditiveDeltaSseOptions;
   onError?: (message: string) => void;
-  /** Optional toast-based confirm bridge (same shape as the one the
-   * intake drop zone consumes). When present, the deep-preview path uses
-   * it instead of the native ``window.confirm()``. */
-  confirmDestructive?: (opts: {
-    title: string;
-    message: string;
-    confirmLabel: string;
-    cancelLabel: string;
-  }) => Promise<boolean>;
 }
 
 export interface AdditiveDeltaControllerHandle {
   destroy: () => void;
-  /** Programmatically trigger Previsualizar (as if the user clicked it).
-   * Used by the intake drop-zone when flow="delta" is selected — the
-   * operator expects "approve" to map to "preview the delta" then explicit
-   * Aplicar confirmation, not silent apply. */
-  preview: () => Promise<void>;
 }
 
 // ── Controller ──────────────────────────────────────────────────
@@ -154,8 +140,9 @@ function isTerminalStage(stage: string): stage is AdditiveDeltaTerminalStage {
 }
 
 // Pure helper: build the terminal-banner VM from an SSE event. The backend
-// nests per-sink counters under ``report_json.sink_result`` so the banner
-// must read that child, not the envelope. Exported for unit coverage.
+// nests per-sink counters under ``report_json.sink_result`` and per-classifier
+// counters under ``report_json.classifier_summary`` (peer slices, NOT
+// envelope-flat). Read each child directly. Exported for unit coverage.
 export function buildAdditiveDeltaTerminalVm(
   ev: Pick<
     AdditiveDeltaSseEvent,
@@ -165,10 +152,14 @@ export function buildAdditiveDeltaTerminalVm(
   const report =
     (ev.reportJson?.sink_result as AdditiveDeltaTerminalViewModel["report"]) ??
     null;
+  const classifierSummary =
+    (ev.reportJson?.classifier_summary as AdditiveDeltaTerminalViewModel["classifierSummary"]) ??
+    null;
   return {
     stage: ev.stage as AdditiveDeltaTerminalStage,
     deltaId: (ev.reportJson?.delta_id as string) ?? ev.jobId,
     report,
+    classifierSummary,
     errorClass: ev.errorClass,
     errorMessage: ev.errorMessage,
   };
@@ -197,8 +188,7 @@ export function bindAdditiveDelta(
   const action = createAdditiveDeltaActionRow(
     { state: "idle" },
     {
-      onPreview: () => void runPreview({ deepScan: false }),
-      onDeepPreview: () => void runDeepPreviewWithConfirm(),
+      onPreview: () => void runPreview(),
       onApply: () => void runApply(),
       onCancel: () => void runCancel(),
       onReset: () => resetToIdle(),
@@ -307,32 +297,23 @@ export function bindAdditiveDelta(
 
   // ── actions ──────────────────────────────────────────────────
 
-  async function runPreview(opts: { deepScan: boolean }): Promise<void> {
+  async function runPreview(): Promise<void> {
     inFlight = "preview";
     setState("pending");
-    if (opts.deepScan) {
-      showFeeler(
-        "Análisis profundo del corpus…",
-        "Lia está re-clasificando TODOS los ~1.3k documentos con el LLM (PASO 4) para detectar drift del clasificador sobre archivos byte-idénticos. Tarda 20–25 minutos y cuesta ~US$ 6-16 en Gemini. Avance en vivo abajo.",
-        true,
-      );
-    } else {
-      showFeeler(
-        "Analizando delta…",
-        "Lia compara los archivos de knowledge_base/ contra la base ya publicada por content_hash. Solo re-clasifica los archivos genuinamente nuevos o editados — los demás reutilizan su fingerprint anterior. Rápido para deltas pequeños.",
-        true,
-      );
-    }
+    showFeeler(
+      "Analizando delta…",
+      "Lia compara los archivos de knowledge_base/ contra la base ya publicada por content_hash. Solo re-clasifica los archivos genuinamente nuevos o editados — los demás reutilizan su fingerprint anterior. Rápido para deltas pequeños.",
+      true,
+    );
     try {
       // Use the shared postJson helper so the Bearer token from localStorage
       // lands in the Authorization header — otherwise admin-gated endpoints
       // return 401 and the user has no clue why.
       const { response, data } = await postJson<
         PreviewResponse,
-        { target: string; force_full_classify: boolean }
+        { target: string }
       >("/api/ingest/additive/preview", {
         target,
-        force_full_classify: opts.deepScan,
       });
       // If the user clicked Cancelar while we were waiting for this
       // response, inFlight was cleared — don't mutate UI state, just
@@ -427,30 +408,6 @@ export function bindAdditiveDelta(
       surfaceError(String(err));
       setState("previewed");
     }
-  }
-
-  async function runDeepPreviewWithConfirm(): Promise<void> {
-    // Opt-in confirm before the expensive path. Uses the shared
-    // transversal toast confirm (getToastController.confirm) when the
-    // controller was wired with i18n; native window.confirm fallback
-    // otherwise (tests / fixtures).
-    const confirmFn = opts.confirmDestructive ?? ((o) =>
-      Promise.resolve(window.confirm(`${o.title}\n\n${o.message}`)));
-    const ok = await confirmFn({
-      title: "Procedimiento largo — ¿estás seguro?",
-      message:
-        "El análisis profundo re-clasifica los ~1.300 documentos del corpus " +
-        "con el LLM completo (PASO 4). Esto es un procedimiento LARGO: tarda " +
-        "20–25 minutos de reloj real y cuesta aprox. US$ 6–16 en Gemini. " +
-        "Úsalo solo cuando cambie el prompt del clasificador o la taxonomía " +
-        "de subtemas; para uploads rutinarios, la Previsualización normal " +
-        "(ruta rápida) ya detecta archivos nuevos y editados en segundos. " +
-        "¿Quieres continuar con el análisis profundo?",
-      confirmLabel: "Sí, correr análisis profundo",
-      cancelLabel: "Cancelar",
-    });
-    if (!ok) return;
-    void runPreview({ deepScan: true });
   }
 
   async function runCancel(): Promise<void> {

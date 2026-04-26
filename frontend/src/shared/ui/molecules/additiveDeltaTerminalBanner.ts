@@ -24,6 +24,11 @@ export interface AdditiveDeltaTerminalViewModel {
     edges_deleted?: number;
     new_chunks_count?: number;
   } | null;
+  classifierSummary?: {
+    classified_new_count?: number;
+    prematched_count?: number;
+    degraded_n1_only?: number;
+  } | null;
   errorClass?: string | null;
   errorMessage?: string | null;
 }
@@ -104,6 +109,21 @@ export function createAdditiveDeltaTerminalBanner(
     summary.className = "lia-adelta-terminal__summary";
     summary.textContent = summarySentence(vm);
     root.appendChild(summary);
+
+    const degraded = Number(vm.classifierSummary?.degraded_n1_only ?? 0);
+    const classifiedNew = Number(vm.classifierSummary?.classified_new_count ?? 0);
+    if (degraded > 0) {
+      const degradedNote = document.createElement("p");
+      degradedNote.className = "lia-adelta-terminal__degraded";
+      degradedNote.setAttribute("data-degraded-count", String(degraded));
+      const denominator = classifiedNew > 0 ? classifiedNew : degraded;
+      degradedNote.textContent =
+        `${degraded} de ${denominator} documentos clasificados quedaron con ` +
+        `requires_subtopic_review=true (verdicto N1 solamente). ` +
+        `Causa típica: backpressure de TPM en Gemini o casos genuinamente ambiguos. ` +
+        `Revisa esos doc_ids antes de dar el ingest por cerrado.`;
+      root.appendChild(degradedNote);
+    }
 
     const needsEmbed =
       (vm.report?.new_chunks_count ?? vm.report?.chunks_written ?? 0) > 0;

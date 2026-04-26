@@ -55,3 +55,8 @@ artifacts/jobs/runtime/
 # --- additive-corpus delta runtime output (regenerate each ingest run) ---
 artifacts/intake/intake_*.jsonl
 artifacts/delta_delta_*.json
+
+# --- 100-Q eval raw runs (volatile; only __summary.json is tracked, per next_v4 §6) ---
+evals/runs/*.jsonl
+evals/runs/*_manifest.json
+!evals/runs/*__summary.json

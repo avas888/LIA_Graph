@@ -19,11 +19,6 @@ export type AdditiveDeltaUiState =
 
 export interface AdditiveDeltaActionRowCallbacks {
   onPreview: () => void;
-  /** Opt-in deep scan. Re-classifies every doc (20-25 min, ~US$6-16 in
-   * Gemini). Used after prompt/taxonomy changes when drift detection on
-   * byte-identical docs matters. See plan Decision D.
-   */
-  onDeepPreview: () => void;
   onApply: () => void;
   onCancel: () => void;
   onReset: () => void;
@@ -100,18 +95,6 @@ export function createAdditiveDeltaActionRow(
     tone: "secondary",
     onClick: () => callbacks.onPreview(),
   });
-  const deepPreviewBtn = createButton({
-    label: "Análisis profundo",
-    tone: "ghost",
-    className: "lia-adelta-action-row__deep",
-    attrs: {
-      title:
-        "Re-clasifica los ~1.3k documentos con el LLM completo. " +
-        "Úsalo cuando cambie el prompt del clasificador o la taxonomía. " +
-        "Tarda 20-25 min y cuesta ~US$ 6-16 en Gemini.",
-    },
-    onClick: () => callbacks.onDeepPreview(),
-  });
   const applyBtn = createButton({
     label: "Aplicar",
     tone: "primary",
@@ -138,7 +121,7 @@ export function createAdditiveDeltaActionRow(
     }));
   });
 
-  root.append(previewBtn, deepPreviewBtn, applyBtn, cancelBtn, resetBtn);
+  root.append(previewBtn, applyBtn, cancelBtn, resetBtn);
 
   let currentVm: AdditiveDeltaActionRowViewModel = initial;
 
@@ -146,11 +129,6 @@ export function createAdditiveDeltaActionRow(
     currentVm = vm;
     const { state } = vm;
     previewBtn.disabled = state === "running" || state === "pending";
-    // Deep preview shares disable gating with the normal preview and
-    // also hides once we're past idle/previewed — no point offering it
-    // while a job is running.
-    deepPreviewBtn.disabled = state === "running" || state === "pending";
-    deepPreviewBtn.hidden = state === "running" || state === "terminal";
     applyBtn.disabled = state !== "previewed";
     applyBtn.classList.toggle("is-pending", state === "pending");
     cancelBtn.hidden = state !== "running" && state !== "pending";

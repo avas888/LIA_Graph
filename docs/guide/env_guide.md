@@ -1,12 +1,16 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-04-25-temafirst-readdressed`.**
+> **Env matrix version: `v2026-04-25-comparative-regime`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/guide/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
 >
-> **v6 additions (2026-04-24, see `docs/done/next/ingestion_tunningv2.md`):**
-> - **Runtime flags.** `LIA_EVIDENCE_COHERENCE_GATE={off|shadow|enforce}` default `shadow` (phase 3 — catches contamination the misalignment detector misses). `LIA_POLICY_CITATION_ALLOWLIST={off|enforce}` default `off` (phase 4 — per-topic defensive citation filter).
-> - **Ingest-pipeline flags** (apply at `python -m lia_graph.ingest` time). `LIA_INGEST_CLASSIFIER_WORKERS` default 8 (phase 2a parallel classifier pool). `LIA_INGEST_CLASSIFIER_RPM` default **bumped 60→300** (phase 2a). `LIA_SUPABASE_SINK_WORKERS` default 4 (phase 2b parallel sink). `FALKORDB_QUERY_TIMEOUT_SECONDS` default 30 (phase 2c — per-query server-side TIMEOUT + client socket read timeout). `FALKORDB_BATCH_NODES` default 500. `FALKORDB_BATCH_EDGES` default 1000.
-> - **Diagnostic surface.** Nine retrieval-diagnostic keys lifted to top level of `response.diagnostics` (phase 1). Always present; `None` when the retriever path doesn't populate them.
+> **2026-04-25 cumulative ship state (next_v3 close + next_v4 §3/§4/§5):**
+> - **All "no off flags" promotions in effect.** `LIA_TEMA_FIRST_RETRIEVAL=on`, `LIA_EVIDENCE_COHERENCE_GATE=enforce`, `LIA_POLICY_CITATION_ALLOWLIST=enforce`, `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce`, `LIA_RERANKER_MODE=live`, `LIA_QUERY_DECOMPOSE=on`, `LIA_LLM_POLISH_ENABLED=1` — all three modes.
+> - **Conversational-memory staircase Levels 1+2 (next_v4 §3 + §4).** No env flag. FE forwards `payload.topic` from prior assistant turn; `ConversationState` carries `prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`; `resolve_chat_topic` consumes `conversation_state` as a soft tiebreaker.
+> - **`comparative_regime_chain` query mode (next_v4 §5).** No env flag. New planner mode + `config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py`.
+> - **v6 additions (2026-04-24, see `docs/done/next/ingestion_tunningv2.md`):**
+>   - **Runtime flags.** `LIA_EVIDENCE_COHERENCE_GATE={off|shadow|enforce}` default `enforce` (phase 3 — catches contamination the misalignment detector misses; flipped `shadow → enforce` 2026-04-25). `LIA_POLICY_CITATION_ALLOWLIST={off|enforce}` default `enforce` (phase 4 — per-topic defensive citation filter; flipped `off → enforce` 2026-04-25).
+>   - **Ingest-pipeline flags** (apply at `python -m lia_graph.ingest` time). `LIA_INGEST_CLASSIFIER_WORKERS` default 4 (phase 2a parallel classifier pool; held at 4 until `TokenBudget` primitive ships). `LIA_INGEST_CLASSIFIER_RPM` default **bumped 60→300** (phase 2a). `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE` default `enforce` (next_v3 §7 — taxonomy-aware classifier prompt + K2 path-veto). `LIA_SUPABASE_SINK_WORKERS` default 4 (phase 2b parallel sink). `FALKORDB_QUERY_TIMEOUT_SECONDS` default 30 (phase 2c — per-query server-side TIMEOUT + client socket read timeout). `FALKORDB_BATCH_NODES` default 500. `FALKORDB_BATCH_EDGES` default 1000.
+>   - **Diagnostic surface.** Nine retrieval-diagnostic keys lifted to top level of `response.diagnostics` (phase 1). Always present; `None` when the retriever path doesn't populate them.
 
 ## Purpose
 
@@ -30,7 +34,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-04-25-temafirst-readdressed)
+## Runtime Retrieval Flags (v2026-04-25-comparative-regime)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -43,8 +47,9 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_RERANKER_MODE` | **`live`** | **`live`** | **`live`** | `pipeline_d/reranker.py` — all modes flipped `live` on 2026-04-22 (internal-beta risk-forward). Adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset; served answers unchanged until the sidecar lands. |
 | `LIA_QUERY_DECOMPOSE` | **`on`** | **`on`** | **`on`** | `pipeline_d/query_decomposer.py` — multi-`¿…?` queries fan out per sub-question; evidence merges at synthesis. |
 | `LIA_TEMA_FIRST_RETRIEVAL` | **`on`** | **`on`** | **`on`** | `pipeline_d/retriever_falkor.py` — **re-flipped `shadow` → `on` 2026-04-25** after taxonomy v2 + K2 path-veto + SME 30Q at 30/30 + qualitative-pass on §8.4 gate 9 (`docs/aa_next/gate_9_threshold_decision.md`). The 2026-04-24 contamination regression is no longer reproducible (Q11/Q16/Q22/Q27 are 4/4 clean in v10 A/B). |
-| `LIA_EVIDENCE_COHERENCE_GATE` | **`shadow`** | **`shadow`** | **`shadow`** | `pipeline_d/_coherence_gate.py` — defensive refusal gate. **NOT flipped** on 2026-04-24 per step 04 verification: would-refuse=1/30, below [4, 12] enforce-safe band. Re-evaluate after content gaps close. |
-| `LIA_POLICY_CITATION_ALLOWLIST` | **`off`** | **`off`** | **`off`** | `pipeline_d/_citation_allowlist.py` — per-topic defensive citation filter. **NOT flipped** on 2026-04-24 — not yet verified, six-gate policy blocks promotion. |
+| `LIA_EVIDENCE_COHERENCE_GATE` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/_coherence_gate.py` — defensive refusal gate. **Flipped `shadow → enforce` 2026-04-25** per operator's "no off flags" directive. ~3% refusal rate; revert to `shadow` if regressions surface. |
+| `LIA_POLICY_CITATION_ALLOWLIST` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/_citation_allowlist.py` — per-topic defensive citation filter. **Flipped `off → enforce` 2026-04-25** per operator's "no off flags" directive. Higher-risk flip (not end-to-end verified per the original six-gate policy); risk-forward internal-beta posture accepts the trade-off. |
+| `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE` | **`enforce`** | **`enforce`** | **`enforce`** | `ingestion_classifier.py` — taxonomy-aware classifier prompt + 6 mutex rules + K2 path-veto. Affects ingest only; runtime ignores it. |
 | `LIA_RERANKER_ENDPOINT` | unset | unset | unset | `pipeline_d/reranker.py` — base URL of the bge-reranker-v2-m3 sidecar (`POST {url}/rerank`). Unset until the sidecar is deployed. |
 | `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 

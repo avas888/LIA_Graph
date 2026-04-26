@@ -70,6 +70,7 @@ class DeltaRunReport:
     falkor_statements: int = 0
     falkor_success: int = 0
     falkor_failure: int = 0
+    classifier_summary: dict[str, Any] | None = None
     warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -361,6 +362,23 @@ def materialize_delta(
     )
     corpus_documents = tuple(classified_new) + pass_through
 
+    # Surface the degraded-classification count so the UI terminal banner can
+    # show "X of Y docs landed N1-only — Gemini TPM backpressure or genuinely
+    # ambiguous". Counts only docs that went through the LLM this run; the
+    # prematched pass-through docs reuse their previous fingerprint and
+    # therefore inherit (not regenerate) any prior review flag.
+    degraded_n1_only = sum(
+        1
+        for doc in classified_new
+        if bool(getattr(doc, "requires_subtopic_review", False))
+    )
+    classifier_summary = {
+        "classified_new_count": len(classified_new),
+        "prematched_count": len(prematched_paths),
+        "degraded_n1_only": int(degraded_n1_only),
+    }
+    emit_event("ingest.delta.classifier.summary", classifier_summary)
+
     # -------- plan delta --------
     disk_docs = _disk_documents_from_corpus(corpus_documents)
     delta: CorpusDelta = plan_delta(
@@ -385,6 +403,7 @@ def materialize_delta(
         dry_run=dry_run,
         baseline_generation_id=baseline.generation_id,
         delta_summary=summary,
+        classifier_summary=classifier_summary,
     )
 
     if dry_run:
@@ -515,6 +534,30 @@ def materialize_delta(
     )
     if execute_load:
         from .loader import load_graph_plan
+
+        # Pre-flight: ensure the schema-registered indexes exist before the
+        # delta MERGEs run. CREATE INDEX is idempotent (~2s), but without
+        # this every MERGE label-scans linearly — pre-phase-2c stall pattern.
+        # build_graph_load_plan emits these for full rebuilds; the additive
+        # plan does not, so we cover the gap here. Only the apply path; dry
+        # runs return earlier.
+        try:
+            preflight_client = graph_client
+            if preflight_client is None:
+                from ..graph.client import GraphClient
+
+                preflight_client = GraphClient.from_env()
+            index_stmts = preflight_client.stage_indexes_for_merge_labels()
+            preflight_client.execute_many(index_stmts, strict=False)
+            emit_event(
+                "ingest.delta.falkor.indexes_verified",
+                {"delta_id": delta.delta_id, "index_count": len(index_stmts)},
+            )
+        except Exception as exc:  # noqa: BLE001 — pre-flight is best-effort
+            emit_event(
+                "ingest.delta.falkor.indexes_skipped",
+                {"delta_id": delta.delta_id, "reason": str(exc)},
+            )
 
         execution = load_graph_plan(
             falkor_plan,

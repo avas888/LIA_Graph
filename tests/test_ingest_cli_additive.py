@@ -80,29 +80,47 @@ def test_delta_id_defaults_none() -> None:
     assert args.delta_id is None
 
 
-# (g) env-matrix version string appears in all 5 mirror surfaces after Phase 6.
+# (g) env-matrix version stays in sync across the 5 mirror surfaces.
+# Source of truth: docs/guide/orchestration.md `### Current version:` line
+# (per CLAUDE.md — code/docs reconcile to orchestration.md, never the other
+# way around). Test derives the expected version from that anchor so a
+# version bump only requires updating orchestration.md + propagating to the
+# other 4 mirrors; no manual test edit needed.
 def test_env_matrix_version_landed_across_mirrors() -> None:
-    """Phase 6 bumps the env matrix version to v2026-04-22-ac1 across:
-    AGENTS.md, docs/guide/orchestration.md, docs/guide/env_guide.md,
-    CLAUDE.md, frontend/src/features/orchestration/orchestrationApp.ts.
-    """
+    import re
     from pathlib import Path
 
     repo_root = Path(__file__).resolve().parent.parent
-    expected_version = "v2026-04-22-ac1"
-    expected_files = [
+    orchestration_path = repo_root / "docs" / "guide" / "orchestration.md"
+    assert orchestration_path.exists(), f"missing source-of-truth file: {orchestration_path}"
+
+    orchestration_text = orchestration_path.read_text(encoding="utf-8")
+    match = re.search(
+        r"^### Current version:\s*`(v\d{4}-\d{2}-\d{2}-[a-z0-9-]+)`",
+        orchestration_text,
+        re.MULTILINE,
+    )
+    assert match, (
+        "Could not locate `### Current version: `<version>`` anchor in "
+        f"{orchestration_path}. Update the regex if the heading shape changed."
+    )
+    expected_version = match.group(1)
+
+    mirror_files = [
         repo_root / "AGENTS.md",
-        repo_root / "docs" / "guide" / "orchestration.md",
         repo_root / "docs" / "guide" / "env_guide.md",
         repo_root / "CLAUDE.md",
         repo_root / "frontend" / "src" / "features" / "orchestration" / "orchestrationApp.ts",
     ]
     misses: list[str] = []
-    for path in expected_files:
+    for path in mirror_files:
         if not path.exists():
             misses.append(f"missing file: {path}")
             continue
         text = path.read_text(encoding="utf-8")
         if expected_version not in text:
             misses.append(f"{path} does not contain {expected_version!r}")
-    assert not misses, "Env-matrix version not fully propagated:\n" + "\n".join(misses)
+    assert not misses, (
+        f"Env-matrix version {expected_version!r} (from orchestration.md) "
+        "not propagated to all mirrors:\n" + "\n".join(misses)
+    )

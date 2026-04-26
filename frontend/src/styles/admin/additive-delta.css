@@ -568,6 +568,17 @@
   line-height: 1.5;
 }
 
+.lia-adelta-terminal__degraded {
+  margin: 0;
+  padding: var(--space-3, 0.75rem);
+  background-color: var(--p-warning-50, var(--p-navy-50));
+  border-left: 3px solid var(--p-warning-500, var(--p-navy-500));
+  border-radius: var(--radius-sm, 6px);
+  color: var(--p-navy-900);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .lia-adelta-terminal__callout {
   display: flex;
   flex-direction: column;
