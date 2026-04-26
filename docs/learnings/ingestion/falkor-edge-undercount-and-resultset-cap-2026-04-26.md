@@ -56,9 +56,32 @@ The server applies `MAX_RESULTSET_SIZE = 10000` (FalkorDB default). When a query
 | `scripts/diag_falkor_edge_undercount.py` | New diagnostic — paginated Falkor pull + 4-bucket classification. Read-only. |
 | `docs/aa_next/next_v4.md §6.5` | New section: items A (gen-tag propagation), B (silent-drop watchlist), D (33% endpoint-missing investigation), E (cap audit, this finding) — all with full six-gate templates. |
 
+## Sub-bucketing of bucket (a) — v5 §6.2 ran 2026-04-26
+
+After the §6.5.B initial bucketing, v5 §6.2 ran a sub-bucketing pass on the 9.934 edges in bucket (a) "endpoint not materialized in Falkor" to identify the dominant cause. The script extension (~80 LoC in `scripts/diag_falkor_edge_undercount.py`) split (a) using three lookups: Supabase `parsed_articles.jsonl` (`article_key → article_number, source_path`), Falkor's `whole::*` keyset (paginated), and Falkor's `:ReformNode.reform_id` keyset (paginated). Classification priority **(a1) > (a3) > (a2)** with a math-check on the sum.
+
+### Result (against staging cloud, 2026-04-26)
+
+| Sub-bucket | Count | % of (a) | Reading |
+|---|---:|---:|---|
+| **(a1) prose-only key mismatch** | **9.848** | **99,1%** | Source/target uses the legacy article_key slug (e.g. `'10-fuentes-y-referencias'`) but Falkor has the article under `whole::{source_path}`. **Dominant.** |
+| (a2) genuinely orphaned | 86 | 0,9% | Article was filtered by loader's schema gate; edge correctly dropped. |
+| (a3) reform-side missing | 0 | 0,0% | No edge has a reform-id source/target that's missing from Falkor. |
+| **sum (math-check)** | **9.934** | 100% | Matches bucket (a) total. ✓ |
+
+### Pattern observation (operator-relevant)
+
+All eight sampled (a1) edges share **the same source document**: `T-REF-LABORAL-reforma-laboral-interpretaciones-expertos.md` (an interpretation/expert-comment file with no article structure → prose-only). This suggests the loss concentrates heavily in **interpretation/expert-comment files**, which are the files most likely to lack `article_number` and so most likely to MERGE into Falkor under the `whole::{source_path}` form. Numbered-article docs (the bulk of `:ArticleNode` entities) are unaffected.
+
+### Decision (Gate 3, v5 §6.2)
+
+**(a1) ≥ 70% → OPEN §6.3.** The fix is to have the classifier emit `_graph_article_key()` for prose-only edges (`whole::{source_path}` form) instead of the legacy `article_key` slug. Recovery upside: **≤ 9.848 edges** recovered into Falkor without any change to the retirement-safety contract.
+
+(a2) at 86 is below the watchlist threshold and is "expected loss confirmed" per the loader's schema gate. (a3) at 0 means there's no missing-ReformNode investigation to open right now.
+
 ## Cross-references
 
-- Plan: `docs/aa_next/next_v4.md §6.5`.
+- Plan: `docs/aa_next/next_v5.md §6.2 + §6.3` (forward), `docs/aa_next/next_v4.md §6.5` (history).
 - Diagnostic script: `scripts/diag_falkor_edge_undercount.py`.
 - Related design doc on the loader's endpoint filter: `loader.py:43-65` (the prose-only `whole::{source_path}` keying that drives bucket-(a)).
 - Related env-matrix entry: `docs/guide/orchestration.md` will need a row for `FALKORDB_RESULTSET_SIZE_CAP` if anyone ever overrides the default.

@@ -109,15 +109,121 @@ Schema + loader + backfill + flag `LIA_FALKOR_NODE_GENERATION_TAG`. Closes the p
 
 **Recommended order:** §6.2 (sub-bucketing) FIRST per `feedback_diagnose_before_intervene`; §6.1 only if §6.2 shows the gen-tag is needed for the right reason.
 
-#### §6.2 (carries v4 §6.5.D) — Sub-bucket the 33% endpoint-missing
-Sub-bucketing pass on `scripts/diag_falkor_edge_undercount.py`: split bucket (a) (9.934 edges) into (a1) prose-only key mismatch / (a2) genuinely orphaned / (a3) reform-side missing. Decision: if (a1) ≥ 70% → fix the classifier to emit `_graph_article_key()`; recovery upside ≤ 9.934 edges. Full plan: [v4 §6.5.D](./next_v4.md#item-65d--investigate-the-33-endpoint-missing-bucket-opened-2026-04-26).
+#### §6.2 — Sub-bucket the 33% endpoint-missing (read-only diagnostic, opened 2026-04-26)
 
-**Effort:** ~30 LoC sub-bucketing + diagnostic re-run (~1 hour). Decision-branch follow-up: ~1-2 days if (a1) dominates.
+**Status:** ✅ **verified in target environment 2026-04-26** — diagnostic ran against staging cloud. Result: **(a1) = 99,1% (9.848/9.934)**, (a2) = 0,9%, (a3) = 0%. Math-check passes. **Decision branch fired: open §6.3** with recovery upside ≤ 9.848 edges. Full numbers + samples + pattern observation in `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md`.
 
-#### §6.3 (carries v4 §6.5.B watchlist) — Silent-drop bucket re-measurement
-Bucket (b) = 54 (`references → CITA`, < 0,2%) recorded as qualitative-pass per case. **Re-run the diagnostic after the next staging delta** (§6.2 sub-bucketing already requires this anyway). Decision: if (b) grows > 100 → escalate to a §6.4 writer-investigation; if stays ≤ 100 → close §6.3 as expected variance.
+> **Pattern note (operator-relevant).** All sampled (a1) edges share the same source document: an interpretation/expert-comment file (`T-REF-LABORAL-reforma-laboral-interpretaciones-expertos.md`). The loss concentrates heavily in **prose-only interpretation/expert files**, which lack `article_number` and so MERGE into Falkor under the `whole::{source_path}` form. Numbered-article docs are unaffected.
 
-#### §6.4 (carries v4 §6.5.E) — Operator-staging silence verification
+##### Gate 1 — Idea (one sentence)
+
+Take the 9.934 edges in bucket (a) "endpoint not materialized in Falkor" and split them into three sub-buckets — **(a1)** prose-only key mismatch (source `article_key` is the legacy slug form like `'10-fuentes-y-referencias'` while Falkor has the article under `whole::{source_path}`), **(a2)** genuinely filtered (article was rejected by `loader.py`'s schema gate, edge correctly dropped), **(a3)** reform-side missing (source_key looks like `DECRETO-XXX-…` but no `:ReformNode` exists) — so the next intervention targets the actually-dominant cause instead of guessing.
+
+##### Gate 2 — Plan (narrowest scope, no production code touched)
+
+All work in `scripts/diag_falkor_edge_undercount.py`. Read-only. ~40-50 LoC additions, no new dependencies.
+
+1. **Pull a Supabase chunks lookup table.** Paginated `SELECT article_key, article_number, source_path, is_prose_only FROM document_chunks WHERE sync_generation = $active_gen` → in-memory dict keyed by `article_key`. Gives the classifier's view of "is this article prose-only and where does it live on disk".
+2. **Pull Falkor's `whole::*` keys.** `MATCH (a:ArticleNode) WHERE a.article_id STARTS WITH 'whole::' RETURN a.article_id` — paginated using the existing helper from §6.5.E learnings. Gives the set of prose-only articles that DID land in Falkor (under the alternate key form).
+3. **Pull a reform-id pattern set.** Single regex applied to bucket-(a) source_keys: `^(DECRETO|LEY|RESOLUCION|CIRCULAR|SENTENCIA|CONCEPTO)-\d+(-\w+)?$`. If matched and the key isn't in the Falkor `:ReformNode` keyset (already pulled in §6.5.B), → (a3).
+4. **Bucket (a) edges into (a1)/(a2)/(a3) using the three lookup sets.** Classification rule for each missing-endpoint edge's source_key:
+   - matches reform-id regex AND not in `:ReformNode` keyset → **(a3)**
+   - in chunks lookup AND `is_prose_only=true` AND `whole::{chunks[key].source_path}` IS in Falkor → **(a1)**
+   - in chunks lookup AND not prose-only OR Falkor doesn't have the `whole::` form → **(a2)**
+   - not in chunks lookup at all → **(a2)** (article never made it to Supabase chunks either)
+5. **Print sub-bucket counts + 5+ samples per bucket.**
+6. **Compute recovery upside per bucket.** (a1) upside = count(a1). (a3) upside = N/A unless a separate §6.X opens for ReformNode hydration. (a2) upside = 0 (loader is doing what it should).
+7. **Append sub-bucket section to** `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md` with the numbers and decision branch.
+
+##### Gate 3 — Minimum success criterion (measurable, numeric)
+
+After the diagnostic re-runs against staging cloud:
+- (a1) + (a2) + (a3) sums to 9.934 (math check; misclassifications must not silently drop edges).
+- Each sub-bucket has ≥ 5 distinct sample edges printed.
+- Decision branch named in the learnings doc:
+  - **(a1) ≥ 70% of bucket (a)** → open §6.3 to fix the classifier; recovery upside ≤ 9.934 edges in Falkor.
+  - **(a3) ≥ 50% of bucket (a)** → open §6.X for ReformNode hydration (separate from §6.3).
+  - **(a2) ≥ 50% AND (a1) < 30%** → close as "expected loss confirmed", document and stop.
+  - **No single bucket > 50%** → close as "diffuse cause"; the 9.934 number is heterogeneous and a single fix won't dent it materially. Document the null-result and don't pursue.
+
+##### Gate 4 — Test plan
+
+- **Development needed.** ~40-50 LoC in the diagnostic script (chunks-pull helper, reform-regex, three-way classifier, sample collector, recovery-upside math, learnings-doc append). The existing pagination helpers from §6.5.E are reused.
+- **Conceptualization.** "Sub-bucket dominance ≥ 70% means a single intervention recovers most of the loss" — that's the threshold that makes a follow-up worth scoping. < 70% means the cause is heterogeneous and we're better off stopping.
+- **Running environment.** Local execution (`uv run` against staging cloud read endpoints). Read-only — no Supabase or Falkor writes. ~1 hour wall time including the script run + learnings doc write-up.
+- **Actors.** Engineer runs and writes up. **No SME or operator action needed for this gate.**
+- **Decision rule.** Numeric, per Gate 3 thresholds. AND-conjoined with the math-check (sub-buckets sum to 9.934).
+
+##### Gate 5 — Greenlight
+
+Both signals: (a) math-check passes (sub-buckets sum to bucket (a) total) AND (b) decision branch is unambiguously identified per the Gate 3 threshold rules. If the result is "diffuse cause" or "(a2) dominates", that's a legitimate close per gate-6 — not a failure.
+
+##### Gate 6 — Refine-or-discard
+
+- If the chunks lookup + Falkor `whole::` enumeration reveals data inconsistencies that block clean classification (e.g., the chunks table doesn't track `is_prose_only` for some rows), narrow the diagnostic to just the rows where the metadata is clean and report partial. Don't overstate.
+- If the script can't reach a clean bucketing (heterogeneous samples, no clear pattern), discard the bucketing approach and reopen with a different hypothesis (perhaps inspecting the loader's per-edge skip log directly instead of comparing endpoint sets).
+- A "diffuse cause" outcome is itself a successful gate-6 close — it tells us not to invest engineering in a fix that won't help.
+
+##### Effort
+
+~1 hour engineering + ~5-10 minutes wall time for the diagnostic to actually run. Decision-branch follow-up scoped only after this gate clears.
+
+---
+
+#### §6.3 — Fix: classifier emits `_graph_article_key()` for prose-only edges
+
+**Status:** 💡 **idea — activated 2026-04-26** when §6.2 returned (a1) = 99,1%. Code not written. Recovery upside: ≤ 9.848 edges into Falkor (per §6.2 measurement).
+
+##### Gate 1 — Idea (one sentence)
+
+When the classifier writes `normative_edges` rows for edges whose source or target is a prose-only article, emit the `_graph_article_key()` form (`whole::{source_path}`) directly into `source_key` / `target_key` — instead of the legacy `article_key` slug — so the loader's downstream MATCH against Falkor finds the endpoint instead of filtering the edge out.
+
+##### Gate 2 — Plan (narrowest scope)
+
+1. **Locate the classifier site that writes `normative_edges` source/target keys.** Likely in `src/lia_graph/ingestion/classifier.py` or `linker.py`. Read-trace required before code changes.
+2. **Single change.** When the article is prose-only (`article_number` empty), substitute `_graph_article_key()` (already exists at `loader.py:43-65`) for the raw `article_key` when constructing the edge row.
+3. **New ingest contract test.** Build a fixture: one prose-only article + one numbered article + one edge between them. Assert the classifier writes the edge with `source_key='whole::…'` (or whatever the prose side is), and assert the loader MATCH succeeds.
+4. **Re-run §6.2 sub-bucketing as the verification harness.** The same diagnostic script is the gate-3 measurement tool.
+
+##### Gate 3 — Minimum success criterion
+
+After the fix ships and the next staging delta runs:
+- §6.2 sub-bucketing re-run shows **bucket (a1) drops by ≥ 70%** (i.e., the fix recovered most of the prose-key-mismatch loss).
+- Bucket (a2) does NOT increase (we didn't accidentally orphan more articles).
+- Bucket (b) silent-drop count stays ≤ 100 (we didn't introduce a new silent-drop pattern).
+- Total Falkor edges count increases by approximately the bucket-(a1) drop.
+
+##### Gate 4 — Test plan
+
+- **Development needed.** Read-trace + ~10-30 LoC change in the classifier + 1 new ingest contract test.
+- **Conceptualization.** "Bucket (a1) drops by ≥ 70%" is the fix actually working at the layer where the loss happens. Bucket (a2) staying flat confirms we didn't trade one loss for another.
+- **Running environment.** Unit + ingest contract tests via `make test-batched`. End-to-end verification needs a staging hydration of at least one prose-only document with measurable edges, ideally the next operator-driven additive delta.
+- **Actors.** Engineer ships code + tests. Operator triggers the staging delta. No SME involvement (this is plumbing, not content).
+- **Decision rule.** All three Gate-3 numeric checks pass = ship. Any single failure = revert + reopen with a different hypothesis.
+
+##### Gate 5 — Greenlight
+
+Both: (a) unit + ingest tests green, (b) post-staging-delta §6.2 re-run shows the (a1) drop AND no (a2)/(b) regressions.
+
+##### Gate 6 — Refine-or-discard
+
+If the staging re-run shows the (a1) drop happened but (a2) or (b) increased, **investigate which articles got newly-orphaned** before discarding. The rollback is simple (revert the classifier change), but we should understand why before reverting in case the (a2) increase is itself a different fixable bug.
+
+If the (a1) drop doesn't materialize at all, the hypothesis was wrong — discard the change and reopen §6.2 with a different sub-bucketing rule.
+
+##### Effort (only counted if §6.2 says go)
+
+~1-2 days end-to-end on the optimistic path: ~0.5d for read-trace + locate the classifier site + understand the data flow, ~0.5d for the code change + unit + contract tests, ~0.5d operator-triggered staging delta + §6.2 re-run for verification.
+
+##### Dependencies — strict
+
+- **§6.2 must clear gate-3 with bucket (a1) ≥ 70%.** This is the only path that opens §6.3.
+- §6.1 (sync_generation propagation) is **independent** — neither blocks the other.
+
+#### §6.4 (carries v4 §6.5.B watchlist) — Silent-drop bucket re-measurement
+Bucket (b) = 54 (`references → CITA`, < 0,2%) recorded as qualitative-pass per case. **Re-run the diagnostic after the next staging delta** (§6.2 sub-bucketing already requires this anyway). Decision: if (b) grows > 100 → escalate to a §6.6 writer-investigation; if stays ≤ 100 → close §6.4 as expected variance.
+
+#### §6.5 (carries v4 §6.5.E) — Operator-staging silence verification
 Guard at `src/lia_graph/graph/result_guard.py` is shipped + 5/5 tests green. ✅ **target-env verification:** any operator-driven staging session running with the guard in place that emits **no** `graph.resultset_cap_reached` events is a positive signal. Mark ✅ once the §3 multi-turn harness or the §5 100-Q gauge runs through the guard.
 
 ---
