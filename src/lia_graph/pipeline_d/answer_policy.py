@@ -12,7 +12,7 @@ from .contracts import GraphEvidenceItem
 __all_appended_shims__ = ("filter_citations_by_allowlist", "citation_allowlist_mode")
 
 FIRST_BUBBLE_ROUTE_LIMIT = 4
-FIRST_BUBBLE_RISK_LIMIT = 3
+FIRST_BUBBLE_RISK_LIMIT = 4
 FIRST_BUBBLE_SUPPORT_LIMIT = 2
 FIRST_BUBBLE_RECAP_LIMIT = 3
 
@@ -201,6 +201,21 @@ ARTICLE_GUIDANCE: dict[str, dict[str, tuple[str, ...]]] = {
             "Si el cliente volvió a tener renta líquida positiva, esta es la norma base para bajar la base gravable con pérdidas acumuladas dentro del marco vigente.",
         ),
     },
+    "290": {
+        "recommendation": (
+            "El art. 290 #5 ET es el régimen de transición de la Ley 1819 de 2016 para pérdidas fiscales acumuladas a 31 de diciembre de 2016: no es depreciación de activos, no es renta exenta, es específicamente la fórmula que ajusta esas pérdidas históricas al cambio de tarifa.",
+            "Antes de tocar la regla de los 12 años del art. 147 ET vigente, valida si el saldo del cliente nació pre-2017; si sí nació pre-2017, ese saldo se rige por el art. 290 #5 ET y necesita el ajuste de tarifa antes de compensarse.",
+        ),
+        "procedure": (
+            "Aplica la fórmula del art. 290 #5 ET para convertir la pérdida pre-2017 en una pérdida ajustada compensable: VPF ajustada = (pérdida fiscal acumulada al 31-dic-2016 × tarifa anterior 33 %) ÷ tarifa de renta del año en que se compensa.",
+            "Para pérdidas pre-2017 ya no aplica el reajuste fiscal anual: el último reajuste con efecto fiscal fue al 31 de diciembre de 2016; a partir de 2017 el saldo se trabaja con la fórmula de tarifa, no con un nuevo reajuste.",
+            "Separa claramente en el papel de trabajo: pérdidas pre-2017 (régimen art. 290 #5: ajuste por tarifa, sin reajuste fiscal) versus pérdidas post-2017 (régimen art. 147 vigente: 12 años, sin reajuste, sin tope porcentual).",
+        ),
+        "precaution": (
+            "No mezcles el numeral 5 del art. 290 con otros numerales del mismo artículo (depreciación de activos, créditos fiscales, contratos de leasing): el art. 290 ET es un transitorio multi-tema y solo el numeral 5 cubre pérdidas fiscales.",
+            "No apliques la regla de los 12 años del art. 147 vigente directamente sobre pérdidas pre-2017 sin pasar antes por el ajuste de tarifa del art. 290 #5; saltarse ese paso sobreestima o subestima el monto realmente compensable.",
+        ),
+    },
     "807": {
         "recommendation": (
             "Define primero cuál es el impuesto neto de renta que sirve de base del anticipo y qué porcentaje aplica según la antigüedad del contribuyente.",
@@ -267,10 +282,37 @@ TITLE_GUIDANCE: tuple[tuple[tuple[str, ...], dict[str, tuple[str, ...]]], ...] =
 )
 
 
+_GUIDANCE_TITLE_ARTICLE_RX = re.compile(r"art\.?\s*(\d+(?:-\d+)?)\s*et", re.IGNORECASE)
+
+
+def _guidance_keys_for_item(item: GraphEvidenceItem) -> tuple[str, ...]:
+    """Return ARTICLE_GUIDANCE lookup keys for an evidence item.
+
+    Real article nodes carry the article number directly in node_key.
+    Topic-chunk nodes carry a slug whose underlying article lives in the
+    title (e.g. "26.8. Firmeza de las Declaraciones — Art. 714 ET"); we
+    additionally look up the extracted article so the firmeza/Art-714
+    recommendations and precautions still flow into the answer.
+    """
+    keys: list[str] = []
+    node_key = str(item.node_key or "").strip()
+    if node_key:
+        keys.append(node_key)
+    title_match = _GUIDANCE_TITLE_ARTICLE_RX.search(str(item.title or ""))
+    if title_match:
+        article_number = title_match.group(1)
+        if article_number and article_number not in keys:
+            keys.append(article_number)
+    return tuple(keys)
+
+
 def guidance_for_item(item: GraphEvidenceItem) -> dict[str, tuple[str, ...]]:
     merged: dict[str, list[str]] = {}
     title = _normalize_text(item.title)
-    for source in (ARTICLE_GUIDANCE.get(item.node_key, {}), *matched_title_guidance(title)):
+    article_sources = tuple(
+        ARTICLE_GUIDANCE[key] for key in _guidance_keys_for_item(item) if key in ARTICLE_GUIDANCE
+    )
+    for source in (*article_sources, *matched_title_guidance(title)):
         for field, lines in source.items():
             merged.setdefault(field, [])
             for line in lines:

@@ -1,4 +1,4 @@
-import{g as y}from"./client-OE0sHIIg.js";import{T as p}from"./brandMark-dOoUqzyG.js";import{c as h}from"./badge-UV61UhzD.js";import{c as d}from"./factCard-Cu0UJHPY.js";import{c as v}from"./stateBlock-Dqw5sa9X.js";import"./bootstrap-BApbUZ11.js";import"./index-DF3uq1vv.js";import"./authGate-Bb2S6efH.js";import"./format-CYFfBTRg.js";import"./icons-BZwBwwSI.js";import"./button-1yFzSXrY.js";import"./input-Byu2cnK9.js";import"./toasts-Dx3CUztl.js";import"./chip-Bjq03GaS.js";function f(){return`
+import{g as y}from"./client-OE0sHIIg.js";import{T as p}from"./brandMark-BuBogt-x.js";import{c as h}from"./badge-UV61UhzD.js";import{c as d}from"./factCard-Cu0UJHPY.js";import{c as v}from"./stateBlock-Dqw5sa9X.js";import"./bootstrap-BApbUZ11.js";import"./index-DF3uq1vv.js";import"./authGate-Bb2S6efH.js";import"./format-CYFfBTRg.js";import"./icons-BZwBwwSI.js";import"./button-1yFzSXrY.js";import"./input-Byu2cnK9.js";import"./toasts-Dx3CUztl.js";import"./chip-Bjq03GaS.js";function f(){return`
     <div class="activity-panel-shell">
       <header class="activity-panel-header">
         <h1>Actividad de Usuarios</h1>

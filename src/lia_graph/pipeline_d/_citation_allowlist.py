@@ -99,7 +99,7 @@ def _citation_text_blob(citation) -> str:
     return " ".join(parts).lower()
 
 
-def _is_allowed(citation, rule: dict[str, Any]) -> bool:
+def _is_allowed(citation, rule: dict[str, Any], request_topic: str | None = None) -> bool:
     """True iff the citation passes the topic's allow rule.
 
     A citation is allowed when any of the following match:
@@ -139,6 +139,20 @@ def _is_allowed(citation, rule: dict[str, Any]) -> bool:
     if article is None and not allowed_families and not allowed_norm_anchors:
         # Topic has no rules at all → keep conservatively.
         return True
+
+    # Topic-match fallback for article-less citations: when the citation
+    # carries no extractable ET article (operational/pedagogical docs that
+    # don't quote "art. NNN" in legal_reference) AND its own topic field
+    # matches the request topic, trust the corpus tagging. Without this,
+    # topics whose canonical sources use generic authority strings like
+    # "DIAN / fuente oficial" lose all citations under enforce mode. The
+    # 514-timbre / 148-laboral leakage defense is preserved because those
+    # citations DO expose an extractable article and short-circuit above.
+    if article is None and request_topic:
+        citation_topic = (getattr(citation, "topic", None) or "").strip().lower()
+        if citation_topic and citation_topic == request_topic.strip().lower():
+            return True
+
     return False
 
 
@@ -168,7 +182,7 @@ def filter_citations(
     kept: list = []
     dropped: list[dict[str, Any]] = []
     for citation in citations_tuple:
-        if _is_allowed(citation, rule):
+        if _is_allowed(citation, rule, topic):
             kept.append(citation)
             continue
         dropped.append(

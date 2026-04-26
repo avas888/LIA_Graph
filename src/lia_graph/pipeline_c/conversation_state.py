@@ -108,6 +108,15 @@ class ConversationState:
     working_assumptions: tuple[str, ...] = ()
     carry_forward_facts: tuple[str, ...] = ()
     turn_count: int = 0
+    # next_v4 §4 Level 2 — classifier-aware fields. The persistence layer
+    # (ui_chat_persistence._build_turn_metadata) already writes effective_topic
+    # and secondary_topics into each assistant turn's turn_metadata; these
+    # slots make that data first-class on the state so resolve_chat_topic can
+    # use it as a soft prior. See topic_router.resolve_chat_topic.
+    prior_topic: str | None = None
+    prior_subtopic: str | None = None
+    topic_trajectory: tuple[str, ...] = ()
+    prior_secondary_topics: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -118,6 +127,10 @@ class ConversationState:
             "working_assumptions": list(self.working_assumptions),
             "carry_forward_facts": list(self.carry_forward_facts),
             "turn_count": int(self.turn_count),
+            "prior_topic": self.prior_topic,
+            "prior_subtopic": self.prior_subtopic,
+            "topic_trajectory": list(self.topic_trajectory),
+            "prior_secondary_topics": list(self.prior_secondary_topics),
         }
 
     def to_context_text(self) -> str | None:
@@ -141,6 +154,8 @@ def conversation_state_from_dict(payload: dict[str, Any] | None) -> Conversation
     if not isinstance(payload, dict):
         return None
     goal = str(payload.get("goal") or "").strip() or None
+    prior_topic_raw = str(payload.get("prior_topic") or "").strip() or None
+    prior_subtopic_raw = str(payload.get("prior_subtopic") or "").strip() or None
     return ConversationState(
         goal=goal,
         open_subquestions=_dedupe_keep_order(tuple(payload.get("open_subquestions") or ()), limit=4),
@@ -149,6 +164,10 @@ def conversation_state_from_dict(payload: dict[str, Any] | None) -> Conversation
         working_assumptions=_dedupe_keep_order(tuple(payload.get("working_assumptions") or ()), limit=4),
         carry_forward_facts=_dedupe_keep_order(tuple(payload.get("carry_forward_facts") or ()), limit=6),
         turn_count=int(payload.get("turn_count") or 0),
+        prior_topic=prior_topic_raw,
+        prior_subtopic=prior_subtopic_raw,
+        topic_trajectory=_dedupe_keep_order(tuple(payload.get("topic_trajectory") or ()), limit=4),
+        prior_secondary_topics=_dedupe_keep_order(tuple(payload.get("prior_secondary_topics") or ()), limit=4),
     )
 
 
@@ -162,6 +181,15 @@ def build_conversation_state(session: Any) -> ConversationState | None:
     normative_anchors: list[str] = []
     entities: list[str] = []
     carry_forward_facts: list[str] = []
+    # next_v4 §4 Level 2 — collect topic continuity from per-turn metadata.
+    # ui_chat_persistence._build_turn_metadata writes effective_topic /
+    # secondary_topics on each assistant turn; walk oldest-to-newest so the
+    # last non-empty value wins as `prior_topic`, and the trajectory captures
+    # actual movement (consecutive duplicates compressed).
+    topic_trajectory_raw: list[str] = []
+    prior_topic: str | None = None
+    prior_subtopic: str | None = None
+    prior_secondary_topics: tuple[str, ...] = ()
 
     for turn in turns:
         role = str(getattr(turn, "role", "")).strip().lower()
@@ -194,6 +222,20 @@ def build_conversation_state(session: Any) -> ConversationState | None:
                             )
                         )
                     )
+                effective_topic = str(turn_metadata.get("effective_topic") or "").strip()
+                if effective_topic:
+                    if not topic_trajectory_raw or topic_trajectory_raw[-1] != effective_topic:
+                        topic_trajectory_raw.append(effective_topic)
+                    prior_topic = effective_topic
+                    secondaries_raw = turn_metadata.get("secondary_topics") or ()
+                    if isinstance(secondaries_raw, (list, tuple)):
+                        prior_secondary_topics = _dedupe_keep_order(
+                            [str(item).strip() for item in secondaries_raw if str(item).strip()],
+                            limit=4,
+                        )
+                effective_subtopic = str(turn_metadata.get("effective_subtopic") or "").strip()
+                if effective_subtopic:
+                    prior_subtopic = effective_subtopic
 
     state = ConversationState(
         goal=last_user_goal,
@@ -203,6 +245,10 @@ def build_conversation_state(session: Any) -> ConversationState | None:
         working_assumptions=(),
         carry_forward_facts=_dedupe_keep_order(carry_forward_facts, limit=6),
         turn_count=len(turns),
+        prior_topic=prior_topic,
+        prior_subtopic=prior_subtopic,
+        topic_trajectory=_dedupe_keep_order(topic_trajectory_raw, limit=4),
+        prior_secondary_topics=prior_secondary_topics,
     )
     return state if any(state.to_dict().values()) else None
 

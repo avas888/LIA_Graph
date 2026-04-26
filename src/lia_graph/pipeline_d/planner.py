@@ -22,6 +22,10 @@ from .contracts import (
 # style imports in answer_first_bubble / answer_synthesis_helpers /
 # answer_support keep working, and so internal call sites in this
 # module (below) can reference them without qualification.
+from .answer_comparative_regime import (
+    detect_comparative_regime_cue,
+    match_regime_pair_for_request,
+)
 from .planner_query_modes import (  # noqa: F401  — re-exported
     _CORRECTION_FIRMNESS_CONTEXT_MARKERS,
     _CORRECTION_FIRMNESS_MARKERS,
@@ -116,6 +120,19 @@ _BUDGETS: dict[str, tuple[TraversalBudget, EvidenceBundleShape]] = {
             related_reform_limit=2,
             support_document_limit=4,
             snippet_char_limit=220,
+        ),
+    ),
+    # next_v4 §5 — comparative regime mode. Two anchors (current + transition)
+    # plus a couple of connected refs are sufficient; the synthesis renders
+    # from the matched pair config, not from a wide graph traversal.
+    "comparative_regime_chain": (
+        TraversalBudget(max_hops=1, max_nodes=8, max_edges=12, max_paths=4, max_support_documents=4),
+        EvidenceBundleShape(
+            primary_article_limit=4,
+            connected_article_limit=4,
+            related_reform_limit=3,
+            support_document_limit=4,
+            snippet_char_limit=240,
         ),
     ),
     "definition_chain": (
@@ -276,13 +293,38 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
         historical_intent=historical_intent,
         inferred_consulta=inferred_consulta,
     )
-    query_mode = _classify_query_mode(
-        normalized_message=normalized_message,
-        article_refs=article_refs,
-        reform_refs=reform_refs,
-        temporal_context=temporal_context,
-        followup_focus=followup_focus,
-    )
+    # next_v4 §5 — comparative-regime detection. Runs BEFORE the standard
+    # classifier so a follow-up like "cuanto cambia si parte es pre-2017?"
+    # gets routed to the table renderer instead of the generic article_lookup
+    # synthesis (which dissolves the pre/post structure into prose). Three
+    # gating conditions must all hold: (1) the message carries a
+    # comparative cue, (2) the conversation already established normative
+    # anchors (this is a follow-up, not a first-turn historical query),
+    # (3) a regime pair from config matches one of those anchors. If any
+    # fails, fall through to the standard classifier.
+    comparative_pair: dict[str, object] | None = None
+    if not temporal_context.historical_query_intent:
+        state_obj = request.conversation_state
+        state = state_obj if isinstance(state_obj, dict) else {}
+        anchors = state.get("normative_anchors") if state else None
+        has_anchors = isinstance(anchors, (list, tuple)) and any(
+            isinstance(a, str) and a.strip() for a in anchors
+        )
+        if has_anchors:
+            cue_matched, _ = detect_comparative_regime_cue(message)
+            if cue_matched:
+                comparative_pair = match_regime_pair_for_request(request)
+
+    if comparative_pair is not None:
+        query_mode = "comparative_regime_chain"
+    else:
+        query_mode = _classify_query_mode(
+            normalized_message=normalized_message,
+            article_refs=article_refs,
+            reform_refs=reform_refs,
+            temporal_context=temporal_context,
+            followup_focus=followup_focus,
+        )
     traversal_budget, evidence_shape = _BUDGETS[query_mode]
 
     entry_points: list[PlannerEntryPoint] = []
@@ -323,6 +365,38 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
                 resolved_key=topic_hint,
             )
         )
+    if comparative_pair is not None:
+        # Anchor BOTH sides of the regime pair so the retriever surfaces the
+        # current article and the transition article as primary evidence.
+        # Source tag distinguishes these from the standard explicit refs
+        # so downstream consumers (notably the synthesis) know this plan
+        # is comparative-shaped without re-matching the config.
+        existing_article_keys = {e.resolved_key for e in entry_points if e.kind == "article"}
+        primary_articles_for_anchor = comparative_pair.get(
+            "primary_articles_for_anchor"
+        )
+        if not isinstance(primary_articles_for_anchor, (list, tuple)):
+            primary_articles_for_anchor = (
+                comparative_pair.get("current_article"),
+                comparative_pair.get("transition_article"),
+            )
+        for article_key in primary_articles_for_anchor:
+            if not article_key:
+                continue
+            article_key_str = str(article_key).strip()
+            if not article_key_str or article_key_str in existing_article_keys:
+                continue
+            existing_article_keys.add(article_key_str)
+            entry_points.append(
+                PlannerEntryPoint(
+                    kind="article",
+                    lookup_value=article_key_str,
+                    source="comparative_regime_anchor",
+                    confidence=0.94,
+                    label=f"Art. {article_key_str}",
+                    resolved_key=article_key_str,
+                )
+            )
     if not article_refs and not reform_refs and _looks_like_loss_compensation_case(normalized_message):
         entry_points.append(
             PlannerEntryPoint(
@@ -334,6 +408,23 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
                 resolved_key="147",
             )
         )
+    if not article_refs and not reform_refs and _looks_like_refund_balance_case(normalized_message):
+        # Anchor the canonical refund/correction articles so the operational
+        # guidance (50/30/20-day timeframes from Art. 850, sequence and
+        # plazo from Art. 589) flows into the answer. Without these the
+        # retriever hits 854/815 and chunks but skips 850/589, leaving the
+        # accountant without the timeframe anchor they actually need.
+        for article_key in ("850", "589"):
+            entry_points.append(
+                PlannerEntryPoint(
+                    kind="article",
+                    lookup_value=article_key,
+                    source="refund_balance_anchor",
+                    confidence=0.9,
+                    label=f"Art. {article_key}",
+                    resolved_key=article_key,
+                )
+            )
     if not article_refs and not reform_refs and _looks_like_tax_planning_case(normalized_message):
         for article_key in ("869", "869-1", "869-2"):
             entry_points.append(

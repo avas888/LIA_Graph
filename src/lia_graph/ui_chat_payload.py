@@ -299,12 +299,60 @@ def parse_api_chat_request(handler: Any, *, t_api_chat: float, deps: dict[str, A
     message = str(payload.get("message", "")).strip()
     normalized_pais = deps["normalize_pais"](payload.get("pais")) or "colombia"
     requested_topic_raw = deps["normalize_topic_key"](payload.get("topic"))
+
+    # next_v4 §4 Level 2 — best-effort prior-state peek for the soft-prior
+    # tiebreaker. Only fires when the FE supplied a session_id (i.e. this is
+    # a continuing turn). Failures fall through to None — the classifier still
+    # works, just without the structural prior. The loaded session is cached
+    # on request_context below so _ensure_conversation_session_loaded doesn't
+    # re-pay the IO later in _build_pipeline_request.
+    prior_conversation_session: Any = None
+    prior_conversation_state: dict[str, Any] | None = None
+    load_session_fn = deps.get("load_session")
+    if load_session_fn is not None and raw_session_id:
+        try:
+            prior_tenant_id = (
+                str(getattr(probe_ctx, "tenant_id", "") or "").strip() or "public"
+                if probe_ctx is not None
+                else "public"
+            )
+            prior_user_id = (
+                str(getattr(probe_ctx, "user_id", "") or "").strip() or None
+                if probe_ctx is not None
+                else None
+            )
+            prior_company_id = (
+                str(getattr(probe_ctx, "company_id", "") or "").strip() or None
+                if probe_ctx is not None
+                else None
+            )
+            prior_conversation_session = load_session_fn(
+                tenant_id=prior_tenant_id,
+                session_id=session_id,
+                user_id=prior_user_id,
+                company_id=prior_company_id,
+                base_dir=deps["conversations_path"],
+            )
+        except Exception:  # noqa: BLE001
+            prior_conversation_session = None
+        if prior_conversation_session is not None:
+            try:
+                from .pipeline_c.conversation_state import (
+                    build_conversation_state as _build_state,
+                )
+                _state = _build_state(prior_conversation_session)
+                if _state is not None:
+                    prior_conversation_state = _state.to_dict()
+            except Exception:  # noqa: BLE001
+                prior_conversation_state = None
+
     topic_routing = deps["resolve_chat_topic"](
         message=message,
         requested_topic=requested_topic_raw,
         pais=normalized_pais,
         runtime_config_path=deps.get("llm_runtime_config_path"),
         preserve_requested_topic_as_secondary=requested_topic_raw is not None,
+        conversation_state=prior_conversation_state,
     )
     effective_topic = deps["normalize_topic_key"](getattr(topic_routing, "effective_topic", requested_topic_raw)) or requested_topic_raw
     secondary_topics = tuple(getattr(topic_routing, "secondary_topics", ()) or ())
@@ -397,6 +445,12 @@ def parse_api_chat_request(handler: Any, *, t_api_chat: float, deps: dict[str, A
         "company_context_payload": company_context_payload,
         "clarification_state": None,
         "clear_clarification_on_success": False,
+        # next_v4 §4 Level 2 — pre-loaded session + state from the soft-prior
+        # peek above. ui_chat_persistence._ensure_conversation_session_loaded
+        # short-circuits when conversation_session is already populated, so
+        # this avoids paying the IO twice.
+        "conversation_session": prior_conversation_session,
+        "conversation_state": prior_conversation_state,
     }
 
 

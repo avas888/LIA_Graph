@@ -24,10 +24,13 @@ re-export registry in `ui_server.py` stays the single source of truth.
 
 from __future__ import annotations
 
+import logging
 import re
 from typing import Any
 
 from .form_guides import resolve_guide
+
+logger = logging.getLogger(__name__)
 
 
 _CITATION_PROFILE_FORM_RE = re.compile(
@@ -150,6 +153,20 @@ def _deterministic_form_citation_profile(context: dict[str, Any]) -> dict[str, A
         getattr(guide_package, "citation_profile", None) if guide_package is not None else None
     )
     if citation_profile is None:
+        if str(context.get("document_family") or "").strip().lower() == "formulario":
+            citation = dict(context.get("citation") or {})
+            reference_key = str(citation.get("reference_key") or "").strip()
+            reason = (
+                "guide_package_missing"
+                if guide_package is None
+                else "citation_profile_json_missing"
+            )
+            logger.warning(
+                "formulario citation modal will render empty body: reference_key=%r reason=%s "
+                "(expected knowledge_base/form_guides/<dir>/<profile>/citation_profile.json + guide_manifest.json)",
+                reference_key,
+                reason,
+            )
         return None
 
     title = _ui()._normalize_citation_profile_text(context.get("title"), max_chars=160)

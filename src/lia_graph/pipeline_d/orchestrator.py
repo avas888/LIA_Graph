@@ -13,6 +13,10 @@ from .answer_llm_polish import polish_graph_native_answer
 from .answer_synthesis import build_graph_native_answer_parts
 from .contracts import GraphEvidenceBundle, GraphRetrievalPlan
 from .planner import build_graph_retrieval_plan
+from .answer_comparative_regime import (
+    detect_comparative_regime_cue as _detect_comparative_regime_cue,
+    match_regime_pair_for_request as _match_regime_pair_for_request,
+)
 from .query_decomposer import (
     build_sub_query_request,
     decompose_query,
@@ -287,6 +291,11 @@ def run_pipeline_d(
         )
 
     decomposer_diag: dict[str, Any] = {"enabled": _decompose_enabled(), "sub_queries": []}
+    # Per-sub-query (request, bundle) pairs feed the multi-question safety
+    # path: the coherence gate must evaluate each sub-bundle against its OWN
+    # routed topic. Evaluating the merged bundle against the parent topic is
+    # a guaranteed false positive whenever sub-questions span topics.
+    per_sq_for_safety: list[tuple[PipelineCRequest, GraphEvidenceBundle]] = []
     try:
         artifacts_dir = _artifacts_dir_from_index_file(index_file)
         if sink is not None and callable(status):
@@ -300,6 +309,21 @@ def run_pipeline_d(
         if _decompose_enabled():
             sub_queries = decompose_query(request.message)
             decomposer_diag["sub_queries"] = list(sub_queries)
+
+        # next_v4 §5 — skip fan-out when the parent message itself is a
+        # comparative-regime query. The decomposer naively splits things
+        # like "cuanto cambia esto? Solo cambia si pre-2017..." into two
+        # sub-queries where only the SECOND carries the cue, so the first
+        # sub-query's plan (article_lookup) ends up dominating downstream
+        # and the comparative table is never rendered. When the parent
+        # matches comparative-regime AND a config pair matches, the single
+        # comparative answer is strictly better than a fanned-out one.
+        if sub_queries:
+            parent_cue, _ = _detect_comparative_regime_cue(request.message)
+            if parent_cue and _match_regime_pair_for_request(request) is not None:
+                sub_queries = ()
+                decomposer_diag["sub_queries"] = []
+                decomposer_diag["fanout_suppressed_reason"] = "comparative_regime_parent"
 
         if sub_queries:
             from ..topic_router import resolve_chat_topic as _resolve
@@ -321,6 +345,7 @@ def run_pipeline_d(
                     sq_plan, artifacts_dir=artifacts_dir
                 )
                 per_bundles.append(sq_evidence)
+                per_sq_for_safety.append((sq_request, sq_evidence))
                 provenance.append(
                     {
                         "sub_query": sq,
@@ -435,7 +460,53 @@ def run_pipeline_d(
     # refuses when no support doc matches the router topic. Flag-gated;
     # default is ``shadow`` so the diagnostic is observed before enforced.
     coherence_gate_mode = _coherence_mode()
-    coherence = detect_evidence_coherence(request, evidence, misalignment)
+    if per_sq_for_safety:
+        # Multi-question fan-out: each sub-query was routed and retrieved
+        # against its OWN topic. The gate is globally coherent if ANY
+        # sub-question is coherent with its own topic; the merged bundle
+        # vs. the parent topic would always misfire on legitimate
+        # multi-topic queries (e.g. pérdidas fiscales + firmeza).
+        sub_coherences: list[dict[str, Any]] = []
+        for sq_request, sq_bundle in per_sq_for_safety:
+            sq_misalign = detect_topic_misalignment(sq_request, sq_bundle)
+            sub_coherences.append(
+                detect_evidence_coherence(sq_request, sq_bundle, sq_misalign)
+            )
+        any_coherent = any(not c.get("misaligned") for c in sub_coherences)
+        representative = next(
+            (c for c in sub_coherences if not c.get("misaligned")),
+            sub_coherences[0],
+        )
+        coherence = {
+            **representative,
+            "fanout_evaluated": True,
+            "fanout_any_coherent": any_coherent,
+            "sub_coherences": sub_coherences,
+        }
+        if any_coherent:
+            coherence["misaligned"] = False
+    else:
+        coherence = detect_evidence_coherence(request, evidence, misalignment)
+        # Follow-up turns anchored on conversation_state.normative_anchors
+        # are retrieved by the planner against those anchors, not against
+        # the (often diluted) router topic. Treating the router topic as
+        # ground truth here misfires whenever the accountant drills into a
+        # specific aspect of the prior turn ("¿hay límite anual?", "¿cuánto
+        # cambia?"). Mirror the bypass already present in
+        # detect_router_silent_failure: register the diagnostic but do not
+        # refuse when the conversation has already established anchors.
+        state = request.conversation_state or {}
+        anchors = state.get("normative_anchors") if isinstance(state, dict) else None
+        has_conversation_anchors = isinstance(anchors, (list, tuple)) and any(
+            isinstance(a, str) and a.strip() for a in anchors
+        )
+        if has_conversation_anchors and coherence.get("misaligned"):
+            coherence = {
+                **coherence,
+                "bypass_reason": "conversation_state_anchored",
+                "router_topic_observed": coherence.get("router_topic"),
+                "misaligned": False,
+            }
     if coherence_gate_mode == "enforce" and _coherence_should_refuse(
         coherence, coherence_gate_mode
     ):
@@ -484,13 +555,19 @@ def run_pipeline_d(
         confidence = min(confidence, 0.55)
         confidence_mode = "topic_misalignment_hedged"
 
+    # Fan-out path: the parent's sub-questions (sub_queries) drive the
+    # multi-question answer shape. plan is the FIRST sub-query's plan and
+    # its sub_questions tuple is empty (atomic sub-queries have no further
+    # ¿…? splits), so reusing it would suppress the Respuestas directas
+    # section that build_direct_answers needs len(sub_questions) >= 2 to emit.
+    effective_sub_questions = sub_queries if sub_queries else plan.sub_questions
     answer = _compose_graph_native_answer(
         request=request,
         answer_mode=answer_mode,
         planner_query_mode=plan.query_mode,
         temporal_context=plan.temporal_context.to_dict(),
         evidence=evidence,
-        sub_questions=plan.sub_questions,
+        sub_questions=effective_sub_questions,
     )
     polished_answer, llm_runtime_diag = polish_graph_native_answer(
         request=request,

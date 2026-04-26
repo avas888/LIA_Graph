@@ -79,6 +79,32 @@ def append_inline_anchor(
     return line.rstrip(".") + f" ({render_article_anchor_phrase(anchors)})."
 
 
+_ARTICLE_NUMBER_RX = re.compile(r"^\d+(?:-\d+)?$")
+_TITLE_ARTICLE_RX = re.compile(r"art\.?\s*(\d+(?:-\d+)?)\s*et", re.IGNORECASE)
+
+
+def _anchor_label_for_item(item: GraphEvidenceItem) -> str:
+    """Resolve the inline-citation label for an evidence item.
+
+    Real article nodes carry the article number directly in ``node_key``
+    (e.g. ``"589"`` or ``"771-2"``). Topic-chunk nodes carry a slug
+    (e.g. ``"26-8-firmeza-de-las-declaraciones-art-714-et"``) whose
+    underlying article number lives in the title (``"... Art. 714 ET"``).
+    Without extracting it, render_article_anchor_phrase emits
+    ``"art. 26-8-firmeza-... ET"`` — a slug rendered as if it were an
+    article number, which both reads wrong and hides the real article
+    from a reader scanning for ``"714"``.
+    """
+    article_key = str(item.node_key or "").strip()
+    if _ARTICLE_NUMBER_RX.match(article_key):
+        return article_key
+    title = str(item.title or "")
+    match = _TITLE_ARTICLE_RX.search(title)
+    if match:
+        return match.group(1)
+    return article_key
+
+
 def select_inline_anchors(
     value: str,
     *,
@@ -97,6 +123,9 @@ def select_inline_anchors(
         article_key = str(item.node_key or "").strip()
         if not article_key:
             continue
+        anchor_label = _anchor_label_for_item(item)
+        if not anchor_label:
+            continue
         title_tokens = anchor_query_tokens(normalize_text(item.title))
         excerpt_tokens = anchor_query_tokens(normalize_text(str(item.excerpt or ""))) or ()
         score = 0.0
@@ -108,13 +137,13 @@ def select_inline_anchors(
             score += max(0.2, 0.9 - (index * 0.15))
         if int(item.hop_distance or 0) == 0:
             score += 0.4
-        scored.append((score, article_key))
+        scored.append((score, anchor_label))
     ranked = [key for score, key in sorted(scored, key=lambda item: (-item[0], item[1])) if score > 0.75]
     if not ranked:
         ranked = [
-            str(item.node_key or "").strip()
+            _anchor_label_for_item(item)
             for item in primary_articles[:max_refs]
-            if str(item.node_key or "").strip()
+            if _anchor_label_for_item(item)
         ]
     return tuple(dict.fromkeys(ranked[:max_refs]))
 

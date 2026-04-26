@@ -636,7 +636,13 @@ def _should_attempt_llm(message: str, requested_topic: str | None) -> bool:
     return only_topic != requested_topic
 
 
-def _build_classifier_prompt(*, message: str, requested_topic: str | None, pais: str) -> str:
+def _build_classifier_prompt(
+    *,
+    message: str,
+    requested_topic: str | None,
+    pais: str,
+    conversation_state: dict[str, Any] | None = None,
+) -> str:
     """Chat-resolver LLM prompt — taxonomy-aware (v2, 2026-04-25).
 
     Enumerates active v2 topics with one-line definitions and ships the 6
@@ -644,6 +650,11 @@ def _build_classifier_prompt(*, message: str, requested_topic: str | None, pais:
     prompt (see ``ingestion_classifier._TAXONOMY_AWARE_PROMPT_TEMPLATE``) but
     trimmed for query classification (no path-veto clause since queries don't
     have a source_path, no subtopic block).
+
+    next_v4 §4 Level 2 — when ``conversation_state`` carries a ``prior_topic``,
+    surface it to the LLM as a soft hint mirroring the existing
+    ``requested_topic`` retention rule. Reads the field from conversation_state
+    only — the dataclass shape is owned by pipeline_c.conversation_state.
     """
     # Late import to avoid a circular dependency at module-load time —
     # topic_router is imported by ingestion_classifier, which defines these
@@ -658,6 +669,16 @@ def _build_classifier_prompt(*, message: str, requested_topic: str | None, pais:
     except Exception:
         taxonomy_block = ", ".join(_SUPPORTED_TOPICS)
         mutex_block = "(mutex rules unavailable)"
+
+    prior_topic_line = ""
+    if isinstance(conversation_state, dict):
+        prior_topic_normalized = normalize_topic_key(conversation_state.get("prior_topic"))
+        if prior_topic_normalized and prior_topic_normalized in _SUPPORTED_TOPICS:
+            prior_topic_line = (
+                f"prior_topic (turno anterior): {prior_topic_normalized}\n"
+                "Si la consulta actual es ambigua y plausiblemente continúa el mismo hilo, "
+                "conserva prior_topic como primary_topic.\n"
+            )
 
     return (
         "Eres un clasificador de tema para un asistente contable y legal en Colombia.\n"
@@ -693,6 +714,7 @@ def _build_classifier_prompt(*, message: str, requested_topic: str | None, pais:
         "- No inventes keys fuera del catálogo.\n\n"
         f"Pais: {pais}\n"
         f"requested_topic: {requested_topic or 'none'}\n"
+        f"{prior_topic_line}"
         f"consulta: {message}\n"
     )
 
@@ -722,11 +744,17 @@ def _classify_topic_with_llm(
     pais: str,
     runtime_config_path: Path,
     preserve_requested_topic_as_secondary: bool = True,
+    conversation_state: dict[str, Any] | None = None,
 ) -> TopicRoutingResult | None:
     adapter, runtime = resolve_llm_adapter(runtime_config_path=runtime_config_path)
     if adapter is None:
         return None
-    prompt = _build_classifier_prompt(message=message, requested_topic=requested_topic, pais=pais)
+    prompt = _build_classifier_prompt(
+        message=message,
+        requested_topic=requested_topic,
+        pais=pais,
+        conversation_state=conversation_state,
+    )
     try:
         if hasattr(adapter, "generate_with_options"):
             result = adapter.generate_with_options(  # type: ignore[attr-defined]
@@ -785,7 +813,17 @@ def resolve_chat_topic(
     pais: str = "colombia",
     runtime_config_path: Path | str | None = None,
     preserve_requested_topic_as_secondary: bool = True,
+    conversation_state: dict[str, Any] | None = None,
 ) -> TopicRoutingResult:
+    """Resolve the topic for a chat message.
+
+    next_v4 §4 Level 2 — when ``conversation_state`` is supplied with a
+    ``prior_topic``, the classifier prompt receives it as a soft hint AND
+    a strict tiebreaker fires after the LLM verdict: if lexical scoring
+    found nothing AND the LLM disagreed with prior_topic, the prior topic
+    wins with a small confidence boost (capped to 0.85). Tiebreaker only.
+    Never override a confident lexical signal pointing at a different topic.
+    """
     normalized_requested = normalize_topic_key(requested_topic)
     rule_result = _resolve_rule_based_topic(
         message,
@@ -795,6 +833,14 @@ def resolve_chat_topic(
     if rule_result is not None:
         return rule_result
 
+    prior_topic = (
+        normalize_topic_key((conversation_state or {}).get("prior_topic"))
+        if isinstance(conversation_state, dict)
+        else None
+    )
+    if prior_topic not in _SUPPORTED_TOPICS:
+        prior_topic = None
+
     if runtime_config_path is not None and _should_attempt_llm(message, normalized_requested):
         llm_result = _classify_topic_with_llm(
             message=message,
@@ -802,8 +848,34 @@ def resolve_chat_topic(
             pais=pais,
             runtime_config_path=Path(runtime_config_path),
             preserve_requested_topic_as_secondary=preserve_requested_topic_as_secondary,
+            conversation_state=conversation_state,
         )
         if llm_result is not None:
+            # Soft prior tiebreaker. The plan binds this narrowly: trip only
+            # when the LLM disagreed with prior_topic AND the message had no
+            # dominant lexical signal (i.e. truly ambiguous from the rule
+            # router's perspective). Confident lexical topic-switch signals
+            # would have been caught by _resolve_rule_based_topic above; the
+            # check here protects the rare case where _score_topic_keywords
+            # had a non-empty bucket but didn't produce a dominant winner.
+            if (
+                prior_topic
+                and llm_result.effective_topic != prior_topic
+                and not _score_topic_keywords(message)
+            ):
+                boosted = min(0.85, max(_LLM_CONFIDENCE_THRESHOLD, llm_result.confidence) + 0.15)
+                adjusted = prior_topic != normalized_requested
+                return TopicRoutingResult(
+                    requested_topic=normalized_requested,
+                    effective_topic=prior_topic,
+                    secondary_topics=(),
+                    topic_adjusted=adjusted,
+                    confidence=boosted,
+                    reason="tiebreaker:prior_topic_from_conversation_state",
+                    topic_notice=_build_topic_notice(prior_topic) if adjusted else None,
+                    mode="prior_state_tiebreaker",
+                    llm_runtime=llm_result.llm_runtime,
+                )
             return llm_result
 
     if normalized_requested is None:
@@ -822,6 +894,22 @@ def resolve_chat_topic(
                 reason="fallback:auto_detected_from_keywords",
                 topic_notice=_build_topic_notice(top_topic),
                 mode="fallback",
+            )
+        # next_v4 §4 Level 2 — last-chance prior_topic fallback. When the LLM
+        # adapter is unreachable AND lexical produced nothing AND the FE didn't
+        # send requested_topic, prior_topic is the only structural signal we
+        # have left. Keep confidence modest so downstream gates can still
+        # abstain in extreme cases; this is wiring continuity, not authority.
+        if prior_topic:
+            return TopicRoutingResult(
+                requested_topic=None,
+                effective_topic=prior_topic,
+                secondary_topics=(),
+                topic_adjusted=True,
+                confidence=0.5,
+                reason="fallback:prior_topic_from_conversation_state",
+                topic_notice=_build_topic_notice(prior_topic),
+                mode="prior_state_fallback",
             )
         return TopicRoutingResult(
             requested_topic=None,

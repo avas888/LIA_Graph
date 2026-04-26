@@ -69,6 +69,17 @@ def detect_router_silent_failure(request: PipelineCRequest) -> dict[str, Any] | 
     topic = (request.topic or "").strip()
     confidence = float(request.topic_router_confidence or 0.0)
     if not topic and confidence <= ROUTER_SILENT_CONFIDENCE_THRESHOLD:
+        # Follow-up turns that quote a prior answer often dilute the topic
+        # signal (the quoted text dominates the lexical surface). When the
+        # caller carried forward normative anchors via conversation_state,
+        # the planner has enough to ground the answer via article_lookup
+        # without trusting the router's silent verdict.
+        state = request.conversation_state or {}
+        anchors = state.get("normative_anchors") if isinstance(state, dict) else None
+        if isinstance(anchors, (list, tuple)) and any(
+            isinstance(a, str) and a.strip() for a in anchors
+        ):
+            return None
         return {
             "kind": "router_silent_failure",
             "confidence": confidence,

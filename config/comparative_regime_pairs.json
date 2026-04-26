@@ -1,0 +1,50 @@
+{
+  "version": "v2026-04-25-v1",
+  "_doc": "Pairs of (current-regime, transition-article) used by pipeline_d's comparative_regime_chain planner mode. Each pair is selected when (a) a comparative cue is detected in the message ('antes de YYYY', 'pre-YYYY', 'régimen de transición', etc.) AND (b) at least one of the pair's trigger_anchors matches the conversation_state.normative_anchors or the message itself.",
+  "pairs": {
+    "perdidas_fiscales_2017": {
+      "domain": "perdidas_fiscales",
+      "domain_label": "Compensación de pérdidas fiscales",
+      "cutoff_year": 2017,
+      "current_article": "147",
+      "transition_article": "290",
+      "transition_numeral": "5",
+      "trigger_anchors": ["Art. 147 ET", "Art. 290 ET", "147", "290", "perdidas fiscales", "perdida fiscal"],
+      "dimensions": [
+        {
+          "label": "Plazo de compensación",
+          "pre": "8 años desde el origen (Ley 1111/2006). Pérdidas 2003-2006: 8 años con tope 25% anual (Ley 788/2002). Pérdidas pre-2003: 5 años (Ley 75/1986)",
+          "post": "12 años desde el origen, sin tope porcentual anual (Ley 1819/2016)"
+        },
+        {
+          "label": "Reajuste fiscal anual",
+          "pre": "Sí — la pérdida se reajustaba anualmente (último reajuste con efecto fiscal: 31-dic-2016)",
+          "post": "No aplica — el saldo se trabaja con la fórmula de ajuste por tarifa, no con un nuevo reajuste"
+        },
+        {
+          "label": "Fórmula de ajuste pre→post",
+          "pre": "VPF ajustada = (pérdida acumulada al 31-dic-2016 × tarifa anterior 33 %) ÷ tarifa de renta del año en que se compensa (art. 290 #5 ET)",
+          "post": "No aplica — compensación directa contra renta líquida ordinaria (art. 147 ET)"
+        },
+        {
+          "label": "Cohortes vivas en 2026",
+          "pre": "1987-2002: TODAS expiradas. 2003-2006: TODAS expiradas. 2007-2014: TODAS expiradas. 2015-2016: expiradas en 2023-2024",
+          "post": "2017 en adelante: vivas (la del 2017 expira en 2029, la del 2025 en 2037)"
+        }
+      ],
+      "verdict_yes": "Sí cambia. El régimen pre-2017 trabaja por fórmula de ajuste de tarifa (art. 290 #5 ET); el vigente compensa directo contra renta líquida ordinaria (art. 147 ET).",
+      "verdict_no": "No cambia.",
+      "action_line": "Inventaria las pérdidas por año de origen, marca cuáles están bajo art. 290 #5 ET (pre-2017) y cuáles bajo art. 147 ET vigente (2017 en adelante), y aplica la fórmula de ajuste de tarifa al subconjunto pre-2017 antes de absorber contra renta líquida.",
+      "primary_articles_for_anchor": ["147", "290"],
+      "support_lines": [
+        "Conserva por al menos 12 años contados desde el origen de cada pérdida la declaración de origen (F.110), el F.2516, la conciliación fiscal y los soportes que expliquen el nacimiento de la pérdida (arts. 147 y 290 ET).",
+        "Para pérdidas pre-2017, conserva además el último valor reajustado al 31-dic-2016 — es la base sobre la que se aplica la fórmula del art. 290 #5 ET."
+      ],
+      "risk_lines": [
+        "No mezcles el numeral 5 del art. 290 con otros numerales del mismo artículo (depreciación, leasing, créditos fiscales). El art. 290 ET es un transitorio multi-tema y solo el #5 cubre pérdidas fiscales.",
+        "No apliques la regla de los 12 años del art. 147 vigente directamente sobre saldos pre-2017 sin pasar por el ajuste de tarifa del art. 290 #5; saltarse ese paso sobreestima o subestima el monto realmente compensable.",
+        "El término de firmeza de declaraciones que originen o compensen pérdidas es de 6 años (art. 147 ET), independiente del régimen aplicable a la pérdida."
+      ]
+    }
+  }
+}

@@ -773,7 +773,12 @@ def test_phase3_planner_followup_with_numeric_period_echo_keeps_case_anchors() -
 
     anchored_articles = [entry.lookup_value for entry in plan.entry_points if entry.kind == "article"]
 
-    assert plan.query_mode == "article_lookup"
+    # next_v4 §5 — when the follow-up carries a comparative cue ("pre-2017")
+    # AND the conversation_state has the anchor pair (147, 290), the planner
+    # routes to the new comparative_regime_chain mode that produces a side-by-side
+    # table instead of the prose-style article_lookup answer. The article
+    # anchors themselves are preserved (carried forward from conversation state).
+    assert plan.query_mode == "comparative_regime_chain"
     assert "147" in anchored_articles
     assert "290" in anchored_articles
     assert "12" not in anchored_articles
@@ -815,10 +820,18 @@ def test_phase3_pipeline_d_followup_with_embedded_prior_answer_drills_into_new_p
         )
     )
 
+    # next_v4 §5 — the response must drill into the new point (pre-2017)
+    # rather than repeating the prior turn's "no hay tope" content. With
+    # comparative_regime_chain mode, the verdict + side-by-side table is the
+    # idiomatic answer. The legacy prose markers ("Solo cambia si", "En la
+    # práctica,") were tied to the older article_lookup synthesis that
+    # handled this query as a generic followup.
     assert not response.answer_markdown.startswith("No, no hay un tope o porcentaje anual adicional;")
-    assert "pre-2017" in response.answer_markdown or "régimen congelado" in response.answer_markdown
-    assert "Solo cambia si" in response.answer_markdown or "Sí cambia si" in response.answer_markdown
-    assert "En la práctica," in response.answer_markdown
+    assert "pre-2017" in response.answer_markdown
+    assert "Sí cambia" in response.answer_markdown
+    assert "**Acción inmediata.**" in response.answer_markdown
+    # Comparative table renders the pre-vs-vigente structure directly.
+    assert response.answer_markdown.count("|") >= 12  # ≥ header + sep + 3 data rows × 4 pipes
 
 
 def test_phase3_pipeline_d_followup_with_numeric_period_echo_stays_on_loss_compensation_case() -> None:
@@ -843,11 +856,107 @@ def test_phase3_pipeline_d_followup_with_numeric_period_echo_stays_on_loss_compe
         )
     )
 
-    assert "pre-2017" in response.answer_markdown or "régimen congelado" in response.answer_markdown
-    assert "Solo cambia si" in response.answer_markdown or "Sí cambia si" in response.answer_markdown
-    assert "En la práctica," in response.answer_markdown
+    # next_v4 §5 — the comparative cue ("pre-2017") + carried anchors
+    # (147, 290) route to the new comparative_regime_chain mode. The
+    # essential intent — stay on the loss-compensation case, NOT drift
+    # into aportes/patrimonio — is preserved by the regime pair config
+    # (which only references 147 and 290).
+    assert "pre-2017" in response.answer_markdown
+    assert "Sí cambia" in response.answer_markdown
+    assert "147" in response.answer_markdown
+    assert "290" in response.answer_markdown
     assert "aportes en especie" not in response.answer_markdown.lower()
     assert "patrimonio relevante" not in response.answer_markdown.lower()
+
+
+def test_phase3_pipeline_d_comparative_regime_pre2017_followup_renders_table() -> None:
+    """next_v4 §5 binding case: a follow-up asking how a regime differs across
+    a temporal cutoff ("¿cuánto cambia si parte del saldo es pre-2017?")
+    must render a side-by-side comparison — verdict line + markdown table
+    + action line + risk/support — instead of dissolving into evasive prose.
+    """
+    response = run_pipeline_d(
+        PipelineCRequest(
+            message="cuanto cambia esto si alguna parte del saldo es de pre 2017?",
+            conversation_context=(
+                "Objetivo vigente: Mi cliente acumuló pérdidas fiscales en años anteriores y en AG 2025 "
+                "tiene renta líquida positiva. ¿Cuál es el régimen legal de compensación de pérdidas "
+                "fiscales? ¿Hay límite anual? ¿Cómo afecta la compensación al término de firmeza de la "
+                "declaración y qué precauciones debo tomar?"
+            ),
+            conversation_state={
+                "turn_count": 2,
+                "normative_anchors": ["Art. 147 ET", "Art. 290 ET"],
+                "carry_forward_facts": ["AG 2025"],
+            },
+        )
+    )
+
+    answer = response.answer_markdown
+
+    # Planner must classify this as the new comparative_regime_chain mode.
+    assert response.diagnostics is not None
+    assert response.diagnostics["planner"]["query_mode"] == "comparative_regime_chain"
+
+    # Verdict line lands at the top — first non-empty line should affirm
+    # that the regime changes (the question's premise is "does it change?").
+    first_lines = [line for line in answer.splitlines() if line.strip()][:2]
+    assert any(
+        "Sí cambia" in line or "Sí, cambia" in line for line in first_lines
+    ), f"Expected affirming verdict in first 2 lines, got: {first_lines}"
+
+    # Markdown table with at least 3 comparative rows + header + separator.
+    table_rows = [line for line in answer.splitlines() if line.strip().startswith("|")]
+    assert len(table_rows) >= 5, (
+        f"Expected ≥5 table lines (header + separator + ≥3 data rows), got {len(table_rows)}"
+    )
+
+    # The table must compare pre-2017 vs vigente.
+    assert "pre-2017" in answer.lower() or "Pre-2017" in answer
+    assert "vigente" in answer.lower()
+
+    # ≥3 inline ET article references including the numeral-specific
+    # citation that distinguishes Art 290 #5 from other Art 290 numerals.
+    assert "147" in answer
+    assert "290" in answer
+    assert "art. 290 #5 ET" in answer
+
+    # Standard sections present below the table.
+    assert "**Acción inmediata.**" in answer
+    assert "**Riesgos y condiciones**" in answer
+    assert "**Soportes clave**" in answer
+
+
+def test_phase3_pipeline_d_short_followup_with_anchors_does_not_trip_coherence_gate() -> None:
+    """Regression: a short follow-up like "¿hay límite de monto?" used to be
+    refused by the coherence gate because the router classified it weakly
+    (firmeza_declaraciones) while the planner correctly used the
+    conversation_state.normative_anchors to pull Art. 147 (pérdidas fiscales).
+    The gate saw router_topic≠primary_topic and aborted, even though the
+    planner had already done the right thing. Bypass mirrors the one in
+    detect_router_silent_failure: anchors-in-conversation_state means the
+    planner is the authority, not the router.
+    """
+    response = run_pipeline_d(
+        PipelineCRequest(
+            message="existe algun limite de monto de dinero a descontar por año?",
+            conversation_context=(
+                "Objetivo vigente: Mi cliente acumuló pérdidas fiscales en años anteriores y en AG 2025 "
+                "tiene renta líquida positiva. ¿Cuál es el régimen legal de compensación de pérdidas "
+                "fiscales? ¿Hay límite anual? ¿Cómo afecta la compensación al término de firmeza de la "
+                "declaración y qué precauciones debo tomar?"
+            ),
+            conversation_state={
+                "turn_count": 2,
+                "normative_anchors": ["Art. 147 ET", "Art. 290 ET"],
+                "carry_forward_facts": ["AG 2025"],
+            },
+        )
+    )
+
+    assert "artículos primarios recuperados pertenecen al tema" not in response.answer_markdown
+    assert response.fallback_reason != "pipeline_d_coherence_primary_off_topic"
+    assert response.confidence_mode != "evidence_coherence_refusal"
 
 
 def test_phase3_orchestrator_default_mode_reports_artifact_diagnostics(monkeypatch) -> None:

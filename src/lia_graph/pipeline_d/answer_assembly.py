@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from .answer_comparative_regime import (
+    compose_comparative_regime_answer,
+    match_regime_pair_for_request,
+)
 from .answer_first_bubble import PreparedAnswerLine, compose_first_bubble_answer
 from .answer_followup import compose_followup_answer
 from .answer_shared import (
@@ -31,6 +35,18 @@ def compose_main_chat_answer(
     evidence: GraphEvidenceBundle,
     answer_parts: GraphNativeAnswerParts,
 ) -> str:
+    # next_v4 §5 — comparative-regime mode produces a side-by-side
+    # markdown table directly from the matched pair config; bypass the
+    # first-bubble / followup paths whose prose-merging dissolves the
+    # comparative structure. If the planner classified the turn as
+    # comparative but no pair config matches the request anymore (e.g.
+    # config drift between planner and synthesis), fall through to the
+    # standard composer rather than emit an empty answer.
+    if planner_query_mode == "comparative_regime_chain":
+        pair = match_regime_pair_for_request(request)
+        if pair is not None:
+            return compose_comparative_regime_answer(request=request, pair=pair)
+
     if should_use_first_bubble_format(request):
         return compose_first_bubble_answer(
             request=request,

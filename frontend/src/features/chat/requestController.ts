@@ -229,6 +229,18 @@ export function createChatRequestController({
     const activeSessionId = getActiveSessionId();
     if (activeSessionId) payload.session_id = activeSessionId;
 
+    // next_v4 §3 Option A / §4 Level 1 — when a prior assistant turn anchored
+    // a topic, forward it as `topic` so a short follow-up ("¿hay límite anual?")
+    // doesn't get re-classified from scratch and trip the v6 coherence gate's
+    // primary_off_topic refusal. The backend already treats this as
+    // `requested_topic` (a soft hint, not an override) — see
+    // src/lia_graph/topic_router.py:691 for the existing retention rule.
+    const priorQuestionEntries = Array.isArray(state.questionEntries) ? state.questionEntries : [];
+    for (let i = priorQuestionEntries.length - 1; i >= 0; i -= 1) {
+      const candidate = String(priorQuestionEntries[i]?.effectiveTopic || "").trim();
+      if (candidate) { payload.topic = candidate; break; }
+    }
+
     if (!isRetryAttempt) await addBubble("user", visibleMessage);
     citationCtrl.resetDeferredCitationsContext();
     setCitationsStatus(i18n.t("chat.citations.waitingTurn"));
