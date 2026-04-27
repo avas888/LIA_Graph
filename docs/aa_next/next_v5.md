@@ -335,6 +335,172 @@ Total: ~1 working day end-to-end.
 
 ---
 
+## ⚡ Execution priority order (2026-04-26 evening)
+
+The next-task ordering operator-fixed 2026-04-26 evening:
+
+1. **`§1.G` — SME validation run** (36 questions, ready). HUMAN EVIDENCE FIRST. Tells us whether the 11/12 are actually USEFUL or just `not refused`.
+2. **`§1.F` — Investigate impuesto_patrimonio_personas_naturales regression**. Last remaining 1/12 refusal. Diagnostic-first. Only after §1.G clarifies whether the 11/12 are quality-pass.
+3. **(After both)** revisit anything §1.G surfaced as "served but weak quality" — likely curation work, possibly content gaps requiring SME-authored material.
+
+The order is binding because the SME has already authored the 36 questions — they're the rate-limited resource. Process them first while §1.F is purely engineering work that can wait.
+
+---
+
+## §1.G SME-authored validation run (opened 2026-04-26 evening, OPERATOR PRIORITY 1)
+
+> **For an LLM with zero context taking this task on later:** read [`thin_corpus_validation_sme_brief.md`](thin_corpus_validation_sme_brief.md) first — that's the brief the SME used to author the questions. Then read this section in full.
+
+### Status: 💡 idea — opened 2026-04-26 evening. Waiting on operator to paste the 36 SME-authored questions.
+
+### Gate 1 — Idea (one sentence)
+
+Run the 36 SME-authored questions (3 per topic × 12 topics, each labeled `P1 directa` / `P2 operativa` / `P3 borde`) against the live staging chat at `http://127.0.0.1:8787/api/chat`, classify each response by served/refused + citation count + quality class, and produce a per-topic + per-profile aggregate report so the operator + SME can see which topics genuinely answer well, which respond but weakly, and which still refuse.
+
+### Gate 2 — Plan (narrowest scope)
+
+#### Phase A — Ingest the questions
+
+The operator pastes the 36 questions as plain text in this format (mirroring the brief's spec):
+
+```
+TEMA: <topic_key>
+P1 (directa): <pregunta>
+P2 (operativa): <pregunta>
+P3 (borde): <pregunta>
+
+TEMA: <next topic_key>
+...
+```
+
+Save the operator's paste to `evals/sme_validation_v1/questions_2026-04-26.txt`. Build a tiny parser that splits on `TEMA:` blocks + extracts the `P1/P2/P3` lines into a normalized JSONL at `evals/sme_validation_v1/questions_2026-04-26.jsonl`:
+
+```json
+{"qid": "regimen_cambiario_P1", "topic_key": "regimen_cambiario", "profile": "P1_directa", "message": "..."}
+```
+
+12 topics × 3 profiles = 36 records. Topic keys MUST match `topic_taxonomy.json` registered keys exactly (validate via `tests/test_article_secondary_topics.py` style assertion). The 12 valid keys are listed in `thin_corpus_validation_sme_brief.md`.
+
+#### Phase B — Build the runner
+
+Create `scripts/eval/run_sme_validation.py`. It must:
+
+1. Load `evals/sme_validation_v1/questions_2026-04-26.jsonl`.
+2. Iterate over each record. For each:
+   - POST `http://127.0.0.1:8787/api/chat` with body `{"message": <message>, "pais": "colombia"}`. Timeout 90s per request.
+   - Capture: `answer_mode`, `fallback_reason`, `effective_topic`, `citations[].label`, `len(answer_markdown)`, `compose_quality`, latency_ms.
+   - Store the full response in `evals/sme_validation_v1/runs/<utc_iso>__<qid>.json`.
+   - Append a one-line summary to `evals/sme_validation_v1/runs/<utc_iso>__summary.jsonl`.
+3. Pacing: 1 second sleep between requests so the server doesn't thrash. Total wall ≈ 36 × 15s ≈ 9 minutes.
+4. Resume on Ctrl-C: skip qids whose response file already exists in the run dir.
+5. Emit a single STATE line at the end: `STATE: served=X/36 partial=Y refused=Z`.
+
+Use stdlib only (`urllib.request` + `json`). No new pip deps.
+
+#### Phase C — Classify each response
+
+For each qid, classify into one of:
+
+| Class | Criteria |
+|---|---|
+| **`served_strong`** | `answer_mode == "graph_native"` AND `citations >= 3` AND `len(answer_markdown) >= 1500` AND `effective_topic == expected topic_key` |
+| **`served_acceptable`** | `answer_mode in ("graph_native", "graph_native_partial")` AND `citations >= 1` AND `len(answer_markdown) >= 600` |
+| **`served_weak`** | `answer_mode in ("graph_native", "graph_native_partial")` AND `len(answer_markdown) < 600` (mode is served but answer is too thin) |
+| **`served_off_topic`** | served BUT `effective_topic != expected topic_key` (the router picked a different topic than the SME labeled) |
+| **`refused`** | `answer_mode == "topic_safety_abstention"` |
+
+The `expected topic_key` for each qid comes from the parser (Phase A). Save classifications to `evals/sme_validation_v1/runs/<utc_iso>__classified.jsonl`.
+
+#### Phase D — Aggregate report
+
+Build `scripts/eval/sme_validation_report.py` that reads the latest classified.jsonl + writes a markdown report at `evals/sme_validation_v1/runs/<utc_iso>__report.md` with these sections:
+
+1. **Overall** — counts by class across all 36 (`served_strong`, `served_acceptable`, etc.).
+2. **Per topic** — 12 rows, each with the 3 profiles × class. Format:
+   ```
+   | topic | P1 | P2 | P3 |
+   |---|---|---|---|
+   | beneficio_auditoria | served_strong | served_strong | served_acceptable |
+   ```
+3. **Per profile** — group by `P1/P2/P3`, count by class. Tells us if directa is hardest, operativa, or borde.
+4. **Routing accuracy** — for each qid, did `effective_topic` match the SME's expected topic? Topic-routing is upstream of all the §1.A-E work; this surfaces if the router is the bottleneck rather than the gate.
+5. **Topics flagged for follow-up** — any topic with ≥ 1 of its 3 questions in `served_weak` or `served_off_topic` or `refused`. List the qids + the specific question text + the response head (first 300 chars).
+6. **Decision summary at the bottom** — apply Gate 3 numeric rule (below) and print PASS / PARTIAL / FAIL.
+
+Also emit `STATE:` first line for cron-friendly polling: `STATE: pass=N partial=M fail=K`.
+
+#### Phase E — Operator + SME review
+
+After the report lands, the operator and/or SME inspects the "topics flagged for follow-up" section. Decisions per topic:
+- **All 3 served_strong** → topic is production-ready.
+- **Mix of strong + acceptable** → topic is OK; consider curation tuning if SME notes weak phrasing.
+- **Any served_weak** → answer is thin; flag for content expansion (corpus deficit) OR for `answer_synthesis` tuning.
+- **Any served_off_topic** → router is wrong; flag for `path-veto-rule-based-classifier-correction.md` extension OR `topic_taxonomy.json` keyword_anchors expansion.
+- **Any refused** → either the §1.E/§1.F still has scope, OR a deeper structural fix is needed.
+
+### Gate 3 — Minimum success criterion (numeric)
+
+After the run + report:
+
+- **PASS** = at least 22/36 questions are `served_strong` OR `served_acceptable` (≈ 60% threshold; 22 covers ~7 fully-passing topics × 3 + a couple partials).
+- **PARTIAL** = 14/36 to 21/36 served_acceptable+. The 11/12 metric still holds at the topic level but quality is uneven.
+- **FAIL** = ≤ 13/36 served_acceptable+. The §1.A-E work is not delivering useful answers; reopen with quality-focused investigation before declaring victory.
+
+**Cross-checks** (binding regardless of overall):
+- The single still-refusing topic (`impuesto_patrimonio_personas_naturales`) should refuse all 3 of its questions — confirms §1.F is needed AND that the refusal is consistent (not flaky).
+- The 11 currently-SERVED topics in the heartbeat baseline should NOT see all 3 questions refused — that would mean the heartbeat baseline question was unrepresentative and we have hidden refusals.
+
+### Gate 4 — Test plan
+
+- **Development needed.** ~150 LoC across `run_sme_validation.py` (parser + runner + classifier) and `sme_validation_report.py` (aggregator). Plus a directory `evals/sme_validation_v1/` with the question fixture. No new tests required — the script is its own test (output is the artifact); but a smoke unit test for the parser (handles empty TEMA blocks, missing P-lines, etc.) is good practice (~30 LoC).
+- **Conceptualization.** "Served + cites + length" is a cheap proxy for quality. The SME's eyes on the flagged topics are the actual quality measurement; the script just funnels their attention to the topics that need it.
+- **Running environment.** Local Python (stdlib + the existing repo). The chat server must be running at `http://127.0.0.1:8787` with §1.A + §1.B + §1.D + §1.E all live (heartbeat baseline shows 11/12 with `precios_de_transferencia: ✅` after §1.E ship). If the heartbeat shows < 11/12 at the start of the run, abort + investigate before running the SME questions.
+- **Actors + interventions.**
+  - **Operator** pastes the 36 questions in the format above and runs the runner (≈ 9 minutes).
+  - **Engineer (Claude)** wrote the runner + report scripts; reviews the report; flags any pattern the SME should review.
+  - **SME (optional)** reviews the "topics flagged for follow-up" section + sample answers from `served_weak` / `served_off_topic` / `refused`.
+- **Decision rule.** Apply Gate 3 numeric thresholds + cross-checks. Print PASS/PARTIAL/FAIL in the report.
+
+### Gate 5 — Greenlight
+
+PASS or PARTIAL → §1.G is closed; proceed to §1.F.
+
+FAIL → reopen with the report data. Likely causes: §1.A/§1.E curation gaps surfaced (more articles need secondary_topics), router_topic mis-classification dominates (path-veto extension needed), or `answer_synthesis` shortcuts a topic.
+
+### Gate 6 — Refine-or-discard
+
+If the report shows that 1-2 specific topics fail consistently, drill into those:
+- Re-read the topic's docs (`docs/learnings/ingestion/coherence-gate-thin-corpus-diagnostic-2026-04-26.md` has the corpus inventory).
+- Pick the highest-leverage fix (curation, `compatible_doc_topics.json`, etc.).
+- Re-run only the 3 affected qids (the runner supports resume).
+- Iterate until the 3 hit at least `served_acceptable`.
+
+If 5+ topics fail consistently, that's a structural issue beyond what §1.A-E is designed to fix. Pause the SME validation track and reopen with a different hypothesis (likely: corpus quality, not retrieval architecture).
+
+### Dependencies — strict
+
+- The operator pastes 36 questions in the format spec'd in Phase A.
+- Server is running + heartbeat shows 11/12 SERVED at run start.
+- All §1.A + §1.D + §1.E work is shipped + verified (it is, as of 2026-04-26 evening).
+- No SME action required at runtime; SME reads the report after.
+
+### Effort
+
+- Phase A (parser): ~30 min
+- Phase B (runner): ~45 min
+- Phase C (classifier): ~30 min
+- Phase D (aggregator + report): ~45 min
+- Phase E (operator/SME review): operator-driven, async
+- Total engineering: ~2.5 hrs of code + ~10 min runtime + SME review time
+
+### What this is NOT
+
+- **Not** a substitute for the existing 100-Q gauge in §5 — that's a different scope (100 Qs across 28 categories, broader). §1.G is targeted at the 12 thin-corpus topics specifically.
+- **Not** a regression check on the 30-Q gold set — that's `make eval-c-gold`, runs against staging cloud already.
+- **Not** a release gate. We're not blocking anything on this; it's diagnostic + quality-assurance for the 12-topic flip we just did.
+
+---
+
 ## §1.E Precios de transferencia — curación expandida de §1.A (opened 2026-04-26 evening)
 
 > **Status:** 💡 idea — opened after §1.D verification surfaced this as the only remaining `primary_off_topic` refusal among the 12 thin-corpus topics. §1.D doesn't address it; §1.A does, but the seed config (36 entries) didn't cover the precios family.
@@ -401,7 +567,11 @@ If the response IS served but the QUALITY is poor (SME spot-check): the corpus m
 
 ---
 
-## §1.F Impuesto patrimonio PN — investigar regresión causada por §1.D (opened 2026-04-26 evening)
+## §1.F Impuesto patrimonio PN — investigar regresión causada por §1.D (opened 2026-04-26 evening, OPERATOR PRIORITY 2)
+
+> **Execution order:** AFTER `§1.G` (SME validation). The SME-authored questions may surface that the impuesto_patrimonio failure is broader than the single probe suggests, OR may reveal it's contained — that signal informs how aggressive §1.F's fix needs to be.
+>
+> **For an LLM with zero context taking this task on later:** read `docs/orchestration/coherence-gate-runbook.md` (the `coherence_zero_evidence_for_router_topic` decision-tree branch) and `docs/orchestration/retrieval-runbook.md` (gap #4: vector path inert with zero embeddings, and the §1.D boost SQL formula in detail) before starting. Also read `next_v5.md §1.D` for what the boost migration changed.
 
 > **Status:** 💡 idea — opened after §1.D shipped and `impuesto_patrimonio_personas_naturales` REGRESSED from `chunks_off_topic` (its §1.B-era state) to `coherence_zero_evidence_for_router_topic`. §1.D's boost factor 1.5 caused the SQL function to return zero evidence for this specific topic.
 
