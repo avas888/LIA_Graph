@@ -335,6 +335,137 @@ Total: ~1 working day end-to-end.
 
 ---
 
+## §1.E Precios de transferencia — curación expandida de §1.A (opened 2026-04-26 evening)
+
+> **Status:** 💡 idea — opened after §1.D verification surfaced this as the only remaining `primary_off_topic` refusal among the 12 thin-corpus topics. §1.D doesn't address it; §1.A does, but the seed config (36 entries) didn't cover the precios family.
+
+### Gate 1 — Idea (one sentence)
+
+Add the canonical Art. 260-N family (260-1 through 260-11) to `config/article_secondary_topics.json` with `secondary_topics=["precios_de_transferencia"]` so when a user asks about a precios topic and the planner pulls one of those articles as a primary, the §1.A short-circuit fires and the gate accepts the article as on-topic.
+
+### Gate 2 — Plan (narrowest scope)
+
+1. **Identify which articles to add.** SME-validated source: `pt_normativa_precios_transferencia.md` (728 lines covering Art. 260-1 through 260-11) + `taxonomy_v2_sme_response.md` line 766 (allowed_et_articles for precios). Concrete list:
+   - Art. 260-1 (operaciones entre vinculados — definición y alcance)
+   - Art. 260-2 (principio de plena competencia)
+   - Art. 260-3 (cinco métodos para aplicar plena competencia)
+   - Art. 260-4 (criterios de comparabilidad)
+   - Art. 260-5 (already in config with secondary `firmeza_declaraciones` — extend to also include `precios_de_transferencia`)
+   - Art. 260-6 (criterios de vinculación)
+   - Art. 260-7 (vinculación con jurisdicciones de baja o nula imposición)
+   - Art. 260-8 (registro de operaciones de cambio)
+   - Art. 260-9 (declaración informativa)
+   - Art. 260-10 (acuerdos anticipados de precios)
+   - Art. 260-11 (sanciones por incumplimiento de obligaciones de precios de transferencia)
+
+2. **Edit the JSON config.** ~11 entries. Each cites its SME source + rationale.
+
+3. **Verify via `tests/test_article_secondary_topics.py::test_default_seed_topics_all_in_canonical_taxonomy`.** All new topic refs must be `precios_de_transferencia` (already a registered taxonomy key — confirmed earlier).
+
+4. **Sync to Falkor via the existing one-shot script.** `scripts/sync_article_secondary_topics_to_falkor.py` is idempotent — re-runs the full config and updates only the changed/new entries.
+
+### Gate 3 — Minimum success criterion
+
+After config update + sync to Falkor + (no server restart needed — config is read at request time):
+
+- The `precios_de_transferencia` probe in `bash /tmp/probe_topics.sh` flips from `pipeline_d_coherence_primary_off_topic` to **SERVED** (mode `graph_native` or `graph_native_partial`).
+- No regression on the other 11 topics in the heartbeat (`scripts/monitoring/thin_corpus_heartbeat.py` exits with status 0).
+- The current 10/12 baseline becomes 11/12.
+
+### Gate 4 — Test plan
+
+- **Development needed.** Edit JSON + run sync script. ~30 min total. No code change.
+- **Conceptualization.** Adding precios_de_transferencia as a secondary topic on canonical 260-N articles tells the gate: "even if these articles' canonical owner doc is `declaracion_renta` (or whatever umbrella), they ALSO serve precios queries." Same mechanism §1.A used to unblock 7 topics.
+- **Running environment.** Local edit + sync to staging cloud Falkor (read-only of taxonomy.json + write of `secondary_topics` props on existing nodes). No SQL migration. No server restart.
+- **Actors.** Engineer (Claude) edits + syncs. Operator confirms by running the heartbeat.
+- **Decision rule.** Pass = `precios_de_transferencia` flips to SERVED + heartbeat shows 11/12 + 0 regressions. Fail = something else regressed; revert.
+
+### Gate 5 — Greenlight
+
+Both: (a) `tests/test_article_secondary_topics.py` green (8 cases including taxonomy validation); (b) chat probe of precios_de_transferencia returns a `graph_native*` response with citations.
+
+### Gate 6 — Refine-or-discard
+
+If the probe still refuses post-curation: investigate which specific Art. 260-N the planner is pulling as primary. The curation only helps if THAT article is in the secondary_topics map. If a different article (not in 260-1..260-11) is the primary, expand the curation list further.
+
+If the response IS served but the QUALITY is poor (SME spot-check): the corpus may be thin on the actual answer content; that's a §1.E.B follow-up (add content, not just curation metadata).
+
+### Effort
+
+~30 min of curation + ~5 min running the sync script + ~2 min running the heartbeat. ~40 min total.
+
+### Dependencies — strict
+
+- **§1.A must remain shipped** (it is — 8/12 baseline still SERVED via §1.A + §1.D combo).
+- **No SME involvement needed for the structural curation.** The article→topic mapping is unambiguous from the SME-validated `taxonomy_v2_sme_response.md` line 766.
+
+---
+
+## §1.F Impuesto patrimonio PN — investigar regresión causada por §1.D (opened 2026-04-26 evening)
+
+> **Status:** 💡 idea — opened after §1.D shipped and `impuesto_patrimonio_personas_naturales` REGRESSED from `chunks_off_topic` (its §1.B-era state) to `coherence_zero_evidence_for_router_topic`. §1.D's boost factor 1.5 caused the SQL function to return zero evidence for this specific topic.
+
+### Gate 1 — Idea (one sentence)
+
+Investigate why §1.D's topic boost causes the `hybrid_search` SQL to return zero rows for `impuesto_patrimonio_personas_naturales` queries (instead of the expected behavior of "narrow-topic chunks rank higher among returned rows"), then fix without breaking the 2-of-3 §1.D successes.
+
+### Gate 2 — Plan (narrowest scope)
+
+This is a **diagnostic** first, not an intervention. Per `feedback_diagnose_before_intervene`:
+
+1. **Direct SQL probe** (read-only, no migration):
+   - Run the `hybrid_search` RPC manually for the impuesto_patrimonio probe message with `filter_topic_boost=1.5` AND `filter_topic="impuesto_patrimonio_personas_naturales"`.
+   - Run the same RPC with `filter_topic_boost=1.0` (effectively pre-§1.D).
+   - Diff the row counts + ranking. Where does the difference originate? FTS CTE? Semantic CTE? Combined?
+
+2. **Hypothesis space:**
+   - **H1 (FTS cutoff):** with the topic boost active, the FTS CTE's `LIMIT match_count` cuts off after the boosted narrow-topic chunks but the FTS rank itself isn't actually higher for them — so they fail the `search_vector @@ effective_tsq` predicate at the top, and the boost can't help because they're not in the candidate pool.
+   - **H2 (zero-embedding interaction):** with `query_embedding = _zero_embedding()`, the semantic CTE returns chunks ranked essentially randomly. The boost in `combined` re-ranks but if the FTS CTE has zero impuesto_patrimonio chunks, the only chunks for that topic come from semantic — and there might not be enough.
+   - **H3 (SQL bug):** the CASE WHEN chunk.topic = filter_topic check has a typo or misses something subtle. Re-read the migration carefully.
+
+3. **Decision after diagnosis:**
+   - If H1: lower the boost factor for this topic only (per-topic config), OR pre-seed the CTE with the topic-specific chunks before the FTS filter applies.
+   - If H2: hand the planner a real embedding (via Gemini embed call) so the semantic CTE actually contributes ranking. This is a bigger lift but unlocks more than just this topic.
+   - If H3: fix the SQL.
+
+### Gate 3 — Minimum success criterion
+
+After the fix lands:
+
+- The `impuesto_patrimonio_personas_naturales` probe flips back to SERVED (mode `graph_native*`).
+- The other 9 currently-served topics (firmeza, regimen_sancionatorio, descuentos, tarifas, dividendos, devoluciones, perdidas, regimen_cambiario, conciliacion) stay SERVED — no regression.
+- `beneficio_auditoria` stays SERVED.
+- Net: 11/12 (assuming §1.E not yet shipped) or 12/12 (if §1.E ships first).
+
+### Gate 4 — Test plan
+
+- **Development needed.** Diagnostic SQL probe script (~20 LoC). Possibly per-topic boost factor config OR embedding wiring depending on H1/H2/H3 verdict.
+- **Conceptualization.** A boost should NEVER reduce evidence — that's Invariant I5 violation in spirit (even if not letter; the boost is ≥1.0 by construction). If the boost causes evidence reduction, the SQL is interacting with the cutoff incorrectly.
+- **Running environment.** Diagnostic probe runs locally against staging Supabase (read-only). Any fix that requires a SQL migration → operator-explicit `supabase db push`. Python-only fix → server restart.
+- **Actors.** Engineer (Claude) runs diagnostic + writes fix + tests. Operator applies migration if needed. SME not involved.
+- **Decision rule.** Pass = impuesto_patrimonio probe flips to SERVED + heartbeat shows 0 regressions. Fail = revert the §1.D boost factor for this topic only via per-topic env override OR revert §1.D entirely.
+
+### Gate 5 — Greenlight
+
+Both: (a) diagnostic identifies the root cause (H1, H2, or H3) with measured numbers; (b) chosen fix delivers SERVED for impuesto_patrimonio + 0 regressions in heartbeat.
+
+### Gate 6 — Refine-or-discard
+
+If neither H1, H2, nor H3 fix the issue: per-topic boost factor override (`config/topic_boost_overrides.json`). Set boost to 1.0 (off) for impuesto_patrimonio specifically. The other 11 topics keep the global 1.5. This is a fallback, not a clean fix — record explicitly as such.
+
+If even per-topic override doesn't help: revert §1.D entirely. Net cost: regimen_cambiario + conciliacion_fiscal flip back to refused. We accept 8/12 + figure out a different structural fix (§1.B's gap #2: `_collect_support` 2-pass selection).
+
+### Effort
+
+~1-2 hours diagnostic + ~1-3 hours fix + ~30 min verification = ~3-5 hours total.
+
+### Dependencies — strict
+
+- **§1.D must remain in production** (revert is the ultimate fallback, not the preferred path).
+- **No SME involvement.** This is structural debugging.
+
+---
+
 ## §6 Falkor parity + corpus-grow safety (carried from v4 §6.5)
 
 **Status mix:** §6.5.A 💡 idea; §6.5.B 🧪 verified locally with qualitative-pass on bucket (b)=54; §6.5.D 💡 idea; §6.5.E 🧪 verified locally (5/5 guard tests, audit complete). Full record + bucket numbers + samples in `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md`.
