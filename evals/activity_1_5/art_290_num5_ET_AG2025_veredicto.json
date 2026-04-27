@@ -1,0 +1,80 @@
+{
+  "case_id": "art_290_num5_ET_AG2025_2026-04-26",
+  "extracted_at_utc": "2026-04-26T22:40:00Z",
+  "extracted_at_bogota": "2026-04-26 5:40:00 PM Bogotá",
+  "extraction_method": "manual_skill_protocol_walkthrough",
+  "extracted_by": "claude-opus-4-7 acting as vigencia-checker skill operator",
+  "norm_type": "articulo_et",
+  "norm_id": "Art. 290 ET",
+  "norm_full_label": "Art. 290 ET — Régimen de transición (numeral 5: pérdidas fiscales generadas hasta AG 2016)",
+  "parágrafo": "numeral 5",
+  "periodo_consultado": {
+    "impuesto": "renta",
+    "year": 2025,
+    "period_label": "AG 2025"
+  },
+  "veredicto": {
+    "state": "V",
+    "vigente_desde": "2017-01-01",
+    "vigente_hasta": null,
+    "derogado_por": null,
+    "modificado_por": [],
+    "suspension": null,
+    "inexequibilidad": null,
+    "condicionamiento": null,
+    "regimen_transicion": {
+      "norm_type": "ley",
+      "norm_id": "Ley 1819 de 2016",
+      "article": "Art. 123 (que adicionó el Art. 290 al ET)",
+      "fecha": "2016-12-29",
+      "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1819_2016.html",
+      "tipo": "régimen de transición plurianual",
+      "alcance": "Numeral 5: pérdidas netas pre-2017 (acumuladas hasta 31-dic-2016) se compensan contra rentas líquidas futuras según fórmula específica que neutraliza el cambio de tarifa (renta 25%→34%) y la eliminación del CREE (9%)",
+      "interpretacion_constitucional": {
+        "sentencia": "C-087 de 2019",
+        "alcance": "Confirmó la constitucionalidad del régimen de transición para pérdidas pre-2017"
+      }
+    },
+    "fuentes_primarias_consultadas": [
+      {
+        "norm_type": "url",
+        "norm_id": "suin_juriscol_C087_2019",
+        "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30036343",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (SUIN-Juriscol)",
+        "verified_via_websearch": true
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "corte_constitucional_C087_19",
+        "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/2019/C-087-19.htm",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (Corte Constitucional relatoría)",
+        "verified_via_websearch": true
+      }
+    ],
+    "extraction_audit": {
+      "skill_version": "vigencia-checker@1.0",
+      "method": "manual walkthrough; WebSearch as primary-source proxy",
+      "tool_iterations": 1,
+      "wall_seconds": 60,
+      "limitations_acknowledged": ["Direct DIAN concept fetch deferred to Fix 1B-α scrapers"]
+    }
+  },
+  "applies_to_periodo": {
+    "aplica": "Sí",
+    "justificacion": "El régimen de transición del Art. 290 #5 sigue vigente y aplica a cualquier período donde se compense una pérdida fiscal generada antes del 31-dic-2016. Para AG 2025: si el contribuyente todavía tiene pérdidas pre-2017 sin compensar (dentro del plazo de 12 años desde generación, prorrogable bajo Art. 147 ET reformado), aplica la fórmula de transición de Art. 290 #5.",
+    "norm_version_aplicable": "Texto original (Art. 123 Ley 1819/2016) — el régimen de transición no ha sido modificado",
+    "fecha_caducidad_uso_efectivo": "Las pérdidas más antiguas (de AG 2014) llegan a su límite de 12 años en AG 2026; AG 2025 es el penúltimo año en que pueden compensarse pérdidas de 2014 bajo este régimen"
+  },
+  "riesgo_de_error": "Bajo",
+  "recomendacion_para_el_contador": "El régimen de transición del Art. 290 #5 sigue vigente para AG 2025. Aplicar la fórmula específica para pérdidas pre-2017 (no la del Art. 147 ET reformado) — la fórmula de transición compensa el cambio de tarifa renta 25%→34% y la eliminación del CREE. Verificar el plazo de compensación: pérdidas de 2014 vencen en AG 2026 (último año útil); pérdidas de 2015 vencen en AG 2027; pérdidas de 2016 vencen en AG 2028.",
+  "fix_5_skill_eval_seed": {
+    "case_purpose": "Validates skill on a V case with régimen_transicion populated — distinguishes 'vigente sin modificaciones' from 'vigente modificada'",
+    "expected_state": "V",
+    "expected_regimen_transicion_present": true,
+    "expected_min_primary_sources": 2,
+    "expected_must_cite": ["Art. 290 #5 ET", "Ley 1819/2016", "Sentencia C-087/2019"],
+    "expected_must_say": ["régimen de transición", "pérdidas pre-2017", "fórmula de transición"]
+  }
+}

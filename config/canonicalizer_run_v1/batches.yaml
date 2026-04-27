@@ -1,0 +1,1191 @@
+# canonicalizer_runv1.md — batch definitions
+# ==========================================
+# This is the canonical config for `scripts/extract_vigencia.py --batch-id <X>`
+# and `scripts/run_batch_tests.py --batch-id <X>`.
+#
+# Each entry defines:
+#   - batch_id          unique short id (A1, B7, ...)
+#   - phase             A | B | C | D | E | F | G | H | I | J | K | L
+#   - title             human-readable label
+#   - wall_minutes_target  expected upper-bound (the runner does NOT enforce)
+#   - depends_on        list of batch_ids that must complete first
+#   - norm_filter       how to derive this batch's input set (see schema below)
+#   - test_questions    list of accountant-style probes that exercise THIS batch
+#
+# norm_filter shapes:
+#   type: prefix          { prefix: "ley.2277.2022." }                    # all norms whose canonical id starts with prefix
+#   type: regex           { pattern: "^et\\.art\\.(5[5-7]\\d|580|580-2)$" }
+#   type: et_article_range  { from: 555, to: "580-2" }                    # ET articles, inclusive (handles ET dashes)
+#   type: explicit_list   { norm_ids: [...] }                             # exact list, useful for sub-units
+#
+# test_questions shape:
+#   q                     accountant-phrased question (Spanish)
+#   must_cite             optional list of norm_ids that should appear in the answer's citations
+#   must_not_cite         optional list of norm_ids that must NOT appear (regression guards)
+#   must_not_say          optional list of substrings that must NOT appear in the answer
+#                         (e.g. "6 años" for the firmeza regression marker)
+#   expected_chip_state   optional dict {norm_id: state} — the chip's `data-vigencia-state`
+#                         that should render on the cited document's chip
+#   notes                 free-form context for SME / engineer
+#
+# A test question PASSES when every must_cite norm appears AND no must_not_cite
+# norm appears AND no must_not_say substring appears AND every expected chip
+# matches. Soft FAILS (e.g. expected chip absent because the underlying norm
+# wasn't in the batch yet) are logged as DEFERRED, not failed.
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE A — Procedimiento tributario foundation
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: A1
+  phase: A
+  title: "ET procedimiento — declaraciones, RUT, plazos"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: et_article_range
+    from: 555
+    to: "580-2"
+  test_questions:
+    - q: "¿Qué obligaciones impone el RUT a una S.A.S. nueva?"
+      must_cite: ["et.art.555-2"]
+    - q: "¿Quiénes están obligados a declarar renta para AG 2025?"
+      must_cite: ["et.art.591", "et.art.592", "et.art.594-3"]
+    - q: "¿Una persona natural extranjera sin residencia en Colombia debe presentar RUT?"
+      must_cite: ["et.art.555-2"]
+    - q: "¿Cuál es el formulario para personas jurídicas en renta?"
+      must_cite: ["et.art.578"]
+
+- batch_id: A2
+  phase: A
+  title: "ET firmeza, correcciones, beneficio de auditoría (689-3 VM)"
+  wall_minutes_target: 15
+  depends_on: [A1]
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - et.art.588
+      - et.art.589
+      - et.art.590
+      - et.art.594-1
+      - et.art.594-3
+      - et.art.689-1
+      - et.art.689-3
+      - et.art.705
+      - et.art.714
+  test_questions:
+    - q: "¿Cuál es el plazo de firmeza de una declaración de renta con pérdidas?"
+      must_not_say: ["6 años"]
+      must_cite: ["et.art.147", "et.art.714"]
+      notes: "§1.G regression marker — must NOT cite '6 años' for firmeza con pérdidas."
+    - q: "¿Cómo corrijo una declaración para aumentar el saldo a pagar?"
+      must_cite: ["et.art.588"]
+    - q: "¿Aplica el beneficio de auditoría para AG 2025?"
+      must_cite: ["et.art.689-3"]
+      must_not_cite: ["et.art.689-1"]
+      expected_chip_state:
+        et.art.689-3: VM
+      notes: "§1.G regression marker — Art. 689-1 was derogated by Ley 2155/2021; never cite as vigente."
+    - q: "¿Qué término tiene la DIAN para revisar una declaración?"
+      must_cite: ["et.art.705", "et.art.714"]
+
+- batch_id: A3
+  phase: A
+  title: "ET sanciones (régimen general)"
+  wall_minutes_target: 20
+  depends_on: [A1]
+  norm_filter:
+    type: et_article_range
+    from: 634
+    to: 682
+  test_questions:
+    - q: "¿Cuánto es la sanción por inexactitud?"
+      must_cite: ["et.art.647", "et.art.648"]
+    - q: "¿Cómo calculo la sanción por extemporaneidad sin requerimiento?"
+      must_cite: ["et.art.641"]
+    - q: "¿Hay reducción por aceptación de sanción?"
+      must_cite: ["et.art.709", "et.art.713"]
+    - q: "¿Sanción por no enviar información en medios magnéticos?"
+      must_cite: ["et.art.651"]
+
+- batch_id: A4
+  phase: A
+  title: "ET devoluciones, compensaciones, intereses"
+  wall_minutes_target: 15
+  depends_on: [A1]
+  norm_filter:
+    type: et_article_range
+    from: 815
+    to: 866
+  test_questions:
+    - q: "¿Cómo solicito devolución de saldo a favor de IVA?"
+      must_cite: ["et.art.815", "et.art.850"]
+    - q: "¿Qué interés moratorio aplica a un pago tardío de retención?"
+      must_cite: ["et.art.634", "et.art.635"]
+    - q: "¿Puedo compensar saldo a favor de renta con IVA por pagar?"
+      must_cite: ["et.art.815"]
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE B — ET Renta (the heart of the corpus)
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: B1
+  phase: B
+  title: "ET renta — sujetos pasivos + residencia"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: et_article_range
+    from: 7
+    to: 25
+  test_questions:
+    - q: "¿Cuándo una persona natural extranjera es residente fiscal en Colombia?"
+      must_cite: ["et.art.10"]
+    - q: "¿Una sociedad sin domicilio en Colombia paga renta en el país?"
+      must_cite: ["et.art.12"]
+    - q: "¿Qué ingresos de fuente extranjera tributan en Colombia?"
+      must_cite: ["et.art.24", "et.art.25"]
+
+- batch_id: B2
+  phase: B
+  title: "ET renta — ingresos brutos + INR (dividendos for_period)"
+  wall_minutes_target: 20
+  depends_on: [B1]
+  norm_filter:
+    type: et_article_range
+    from: 26
+    to: 57
+  test_questions:
+    - q: "¿La tarifa de retención sobre dividendos para personas naturales en AG 2024?"
+      must_cite: ["et.art.242"]
+      must_not_say: ["10% dividendo"]
+      notes: "§1.G regression marker — pre-Ley 2277 the rate was different; for AG 2023+ the new rate applies via Art. 338 CP."
+    - q: "¿Las indemnizaciones laborales tributan?"
+      must_cite: ["et.art.27"]
+    - q: "¿Los dividendos de personas naturales son INR (no constitutivos de renta)?"
+      must_cite: ["et.art.48", "et.art.49"]
+
+- batch_id: B3
+  phase: B
+  title: "ET renta — costos"
+  wall_minutes_target: 20
+  depends_on: [B2]
+  norm_filter:
+    type: et_article_range
+    from: 58
+    to: 88
+  test_questions:
+    - q: "¿Cómo se determina el costo fiscal de inventarios?"
+      must_cite: ["et.art.62"]
+    - q: "¿Costo fiscal de venta de acciones?"
+      must_cite: ["et.art.74"]
+    - q: "¿Qué costos son deducibles para renta presuntiva?"
+      must_cite: ["et.art.87"]
+
+- batch_id: B4
+  phase: B
+  title: "ET renta — deducciones generales"
+  wall_minutes_target: 20
+  depends_on: [B3]
+  norm_filter:
+    type: et_article_range
+    from: 104
+    to: "131-3"
+  test_questions:
+    - q: "¿Qué requisitos debe cumplir un gasto para ser deducible?"
+      must_cite: ["et.art.107"]
+    - q: "¿Cuánto puedo deducir por intereses sobre préstamos? (subcapitalización)"
+      must_cite: ["et.art.117", "et.art.118-1"]
+    - q: "¿El ICA pagado es deducible o descontable?"
+      must_cite: ["et.art.115"]
+
+- batch_id: B5
+  phase: B
+  title: "ET renta — deducciones especiales (158-1 DE; CTeI)"
+  wall_minutes_target: 20
+  depends_on: [B4]
+  norm_filter:
+    type: et_article_range
+    from: 158
+    to: 178
+  test_questions:
+    - q: "¿Puedo deducir inversiones en CTeI bajo Art. 158-1 ET en AG 2025?"
+      must_cite: ["et.art.158-1"]
+      must_not_say: ["sigue vigente", "se puede aplicar"]
+      expected_chip_state:
+        et.art.158-1: DE
+      notes: "§1.G acid test — Art. 158-1 was DEROGATED by Ley 2277/2022 Art. 96 with effects 2023-01-01. Must answer NO with red DE chip."
+    - q: "¿Aún aplica la deducción por donaciones?"
+      must_cite: ["et.art.125", "et.art.257"]
+    - q: "¿Hay descuento por inversión en CTeI ahora?"
+      must_cite: ["et.art.256"]
+      notes: "Verifies the deduction-side correctly redirects to the descuento-side replacement."
+
+- batch_id: B6
+  phase: B
+  title: "ET renta líquida especial + ganancias ocasionales"
+  wall_minutes_target: 25
+  depends_on: [B5]
+  norm_filter:
+    type: et_article_range
+    from: 179
+    to: 318
+  test_questions:
+    - q: "¿Cuál es la renta presuntiva mínima para AG 2025?"
+      must_cite: ["et.art.188"]
+      notes: "Tarifa fue eliminada efectivamente por Ley 2010/2019 (0%); answer must reflect this."
+    - q: "¿Qué rentas exentas tienen las personas naturales?"
+      must_cite: ["et.art.206"]
+    - q: "¿Cómo calcular ganancia ocasional por herencia?"
+      must_cite: ["et.art.302", "et.art.303"]
+    - q: "¿Tarifa de ganancia ocasional para sucesiones en AG 2024?"
+      must_cite: ["et.art.313", "et.art.314"]
+
+- batch_id: B7
+  phase: B
+  title: "ET renta — tarifas (240 VM; 240-1 EC; the for_period acid test)"
+  wall_minutes_target: 10
+  depends_on: [B6]
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - et.art.240
+      - et.art.240-1
+      - et.art.241
+      - et.art.242
+      - et.art.243
+      - et.art.244
+      - et.art.245
+      - et.art.246
+      - et.art.247
+  test_questions:
+    - q: "¿Cuál es la tarifa de renta para una S.A.S. en AG 2025?"
+      must_cite: ["et.art.240"]
+      expected_chip_state:
+        et.art.240: VM
+      notes: "Modificación por Ley 2277/2022 — chip blue."
+    - q: "¿Aplicaba esa tarifa para AG 2022?"
+      notes: "Acid test for resolver-2: Art. 338 CP shifts; AG 2022 must use the PRE-reform rate (33%)."
+    - q: "¿Tarifa para usuarios industriales de zona franca que cumplieron antes del 13-dic-2022?"
+      must_cite: ["et.art.240-1", "ley.2277.2022.art.11"]
+      expected_chip_state:
+        et.art.240-1: EC
+      notes: "Sentencia C-384/2023 condicionó. Chip purple with literal Court text on hover."
+
+- batch_id: B8
+  phase: B
+  title: "ET renta — descuentos tributarios"
+  wall_minutes_target: 15
+  depends_on: [B7]
+  norm_filter:
+    type: et_article_range
+    from: 249
+    to: "260-11"
+  test_questions:
+    - q: "¿Hay descuento por inversión en CTeI ahora?"
+      must_cite: ["et.art.256"]
+    - q: "¿Descuento por donaciones a entidades sin ánimo de lucro?"
+      must_cite: ["et.art.257"]
+    - q: "¿Requisitos para el descuento por IVA en bienes de capital?"
+      must_cite: ["et.art.258-1"]
+
+- batch_id: B9
+  phase: B
+  title: "ET renta — régimen de personas jurídicas + ESAL"
+  wall_minutes_target: 20
+  depends_on: [B8]
+  norm_filter:
+    type: et_article_range
+    from: 19
+    to: "33-5"
+  test_questions:
+    - q: "¿Una fundación tributa como ESAL?"
+      must_cite: ["et.art.19"]
+    - q: "¿Una S.A.S. del régimen simple paga renta?"
+      must_cite: ["et.art.19-4"]
+    - q: "¿Régimen de transición para entidades del régimen tributario especial?"
+      must_cite: ["et.art.19-5"]
+
+- batch_id: B10
+  phase: B
+  title: "ET — Régimen de transición Art. 290 (V validation; sub-unit-rich)"
+  wall_minutes_target: 10
+  depends_on: [B9]
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - et.art.290
+      - et.art.290.num.5
+      - et.art.290.num.6
+  test_questions:
+    - q: "¿Cómo trato pérdidas fiscales acumuladas antes de 2017?"
+      must_cite: ["et.art.290.num.5"]
+      expected_chip_state:
+        et.art.290.num.5: V
+      notes: "V state — no chip on default vigente. Validates V path end-to-end."
+    - q: "¿Régimen de transición de descuentos no aplicados?"
+      must_cite: ["et.art.290.num.6"]
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE C — IVA, Retefuente, GMF, Patrimonio
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: C1
+  phase: C
+  title: "ET IVA — hechos generadores + bases gravables"
+  wall_minutes_target: 20
+  depends_on: []
+  norm_filter:
+    type: et_article_range
+    from: 420
+    to: 447
+  test_questions:
+    - q: "¿La venta de un activo fijo genera IVA?"
+      must_cite: ["et.art.420"]
+    - q: "¿La importación de servicios genera IVA?"
+      must_cite: ["et.art.420", "et.art.437-2"]
+    - q: "¿Base gravable en venta de inmuebles?"
+      must_cite: ["et.art.447"]
+
+- batch_id: C2
+  phase: C
+  title: "ET IVA — tarifas, exclusiones, exenciones"
+  wall_minutes_target: 20
+  depends_on: [C1]
+  norm_filter:
+    type: et_article_range
+    from: "462-1"
+    to: 498
+  test_questions:
+    - q: "¿Tarifa de IVA para servicios profesionales?"
+      must_cite: ["et.art.468"]
+    - q: "¿IVA en alimentos básicos?"
+      must_cite: ["et.art.477", "et.art.481"]
+    - q: "¿IVA en libros impresos?"
+      must_cite: ["et.art.478"]
+
+- batch_id: C3
+  phase: C
+  title: "ET — Retención en la fuente"
+  wall_minutes_target: 25
+  depends_on: []
+  norm_filter:
+    type: et_article_range
+    from: 365
+    to: 419
+  test_questions:
+    - q: "¿Tarifa de retefuente para honorarios?"
+      must_cite: ["et.art.392"]
+    - q: "¿Quién es agente retenedor?"
+      must_cite: ["et.art.368", "et.art.368-2"]
+    - q: "¿Cuándo declaro retención mensualmente?"
+      must_cite: ["et.art.604"]
+
+- batch_id: C4
+  phase: C
+  title: "ET — GMF + Patrimonio + Timbre"
+  wall_minutes_target: 20
+  depends_on: []
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - et.art.870
+      - et.art.871
+      - et.art.879
+      - et.art.881
+      - et.art.292-3
+      - et.art.295-3
+      - et.art.296-3
+      - et.art.297-3
+      - et.art.298-8
+      - et.art.519
+  test_questions:
+    - q: "¿GMF aplica a transferencias entre cuentas propias del mismo titular?"
+      must_cite: ["et.art.871", "et.art.879"]
+    - q: "¿Quién paga impuesto al patrimonio en 2025?"
+      must_cite: ["et.art.292-3"]
+    - q: "¿Hay impuesto de timbre en arrendamientos comerciales?"
+      must_cite: ["et.art.519"]
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE D — Reformas tributarias por ley
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: D1
+  phase: D
+  title: "Ley 2277/2022 (Reforma Tributaria 2022; includes EC validation)"
+  wall_minutes_target: 30
+  depends_on: [B7]
+  norm_filter:
+    type: prefix
+    prefix: "ley.2277.2022."
+  test_questions:
+    - q: "¿Qué artículo de la Ley 2277 modificó la tarifa renta de S.A.S.?"
+      must_cite: ["ley.2277.2022.art.10"]
+    - q: "¿Art. 11 Ley 2277 sobre zonas francas — está vigente?"
+      must_cite: ["ley.2277.2022.art.11"]
+      expected_chip_state:
+        ley.2277.2022.art.11: EC
+    - q: "¿Art. 96 Ley 2277 derogó cuáles artículos del ET?"
+      must_cite: ["ley.2277.2022.art.96", "et.art.158-1"]
+    - q: "¿Qué impuesto al patrimonio creó la Ley 2277?"
+      must_cite: ["ley.2277.2022.art.35"]
+
+- batch_id: D2
+  phase: D
+  title: "Ley 2155/2021 (Reforma Tributaria 2021)"
+  wall_minutes_target: 25
+  depends_on: []
+  norm_filter:
+    type: prefix
+    prefix: "ley.2155.2021."
+  test_questions:
+    - q: "¿Régimen simple modificaciones Ley 2155?"
+      must_cite: ["ley.2155.2021.art.41", "ley.2155.2021.art.42"]
+    - q: "¿Beneficio de auditoría — qué ley lo creó originalmente?"
+      must_cite: ["ley.2155.2021.art.51"]
+
+- batch_id: D3
+  phase: D
+  title: "Ley 2010/2019 (Crecimiento Económico)"
+  wall_minutes_target: 30
+  depends_on: []
+  norm_filter:
+    type: prefix
+    prefix: "ley.2010.2019."
+  test_questions:
+    - q: "¿Qué de la Ley 1943/2018 retomó la Ley 2010/2019?"
+      must_cite: ["ley.2010.2019"]
+    - q: "¿Régimen simple modificaciones Ley 2010?"
+      must_cite: ["ley.2010.2019.art.74"]
+
+- batch_id: D4a
+  phase: D
+  title: "Ley 1819/2016 — primera mitad (procedimiento + sujetos/ingresos)"
+  wall_minutes_target: 30
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^ley\\.1819\\.2016\\.art\\.([1-9]|[1-9]\\d|1[0-8]\\d|190)$"
+  test_questions:
+    - q: "¿Ley 1819 cómo modificó la residencia fiscal?"
+      must_cite: ["ley.1819.2016.art.25"]
+    - q: "¿Régimen ESAL post Ley 1819?"
+      must_cite: ["ley.1819.2016.art.140"]
+
+- batch_id: D4b
+  phase: D
+  title: "Ley 1819/2016 — segunda mitad (IVA + retefuente + sanciones)"
+  wall_minutes_target: 30
+  depends_on: [D4a]
+  norm_filter:
+    type: regex
+    pattern: "^ley\\.1819\\.2016\\.art\\.(19[1-9]|[2-3]\\d{2}|[4-9]\\d{2})$"
+  test_questions:
+    - q: "¿Ley 1819 modificó la sanción por inexactitud?"
+      must_cite: ["ley.1819.2016.art.287"]
+
+- batch_id: D5
+  phase: D
+  title: "Ley 1943/2018 (cascade trigger; IE → reviviscencia)"
+  wall_minutes_target: 25
+  depends_on: []
+  norm_filter:
+    type: prefix
+    prefix: "ley.1943.2018."
+  test_questions:
+    - q: "¿Ley 1943/2018 está vigente?"
+      must_cite: ["ley.1943.2018", "sent.cc.C-481.2019"]
+      expected_chip_state:
+        ley.1943.2018: IE
+      notes: "Acid test — every cited article must show IE chip + sentencia C-481/2019. Cascade orchestrator should fire."
+    - q: "¿Tarifa renta Ley 1943 sigue aplicando?"
+      notes: "Must explain that post-IE the rates fell; current rates come from Ley 2010/2019 + Ley 2277/2022."
+
+- batch_id: D6a
+  phase: D
+  title: "Ley 1607/2012 — primera mitad"
+  wall_minutes_target: 25
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^ley\\.1607\\.2012\\.art\\.([1-9]|[1-9]\\d|100)$"
+  test_questions:
+    - q: "¿CREE estaba en la Ley 1607?"
+      must_cite: ["ley.1607.2012.art.20"]
+      notes: "CREE was created by Ley 1607 then derogated by Ley 1819/2016."
+
+- batch_id: D6b
+  phase: D
+  title: "Ley 1607/2012 — segunda mitad"
+  wall_minutes_target: 25
+  depends_on: [D6a]
+  norm_filter:
+    type: regex
+    pattern: "^ley\\.1607\\.2012\\.art\\.(10[1-9]|1[1-9]\\d|2\\d{2})$"
+  test_questions:
+    - q: "¿Ganancias ocasionales tarifa pre-Ley 1607?"
+      must_cite: ["ley.1607.2012.art.104"]
+
+- batch_id: D7
+  phase: D
+  title: "Ley 1739/2014 (mini-reforma)"
+  wall_minutes_target: 25
+  depends_on: []
+  norm_filter:
+    type: prefix
+    prefix: "ley.1739.2014."
+  test_questions:
+    - q: "¿Qué creó la Ley 1739/2014 sobre el impuesto a la riqueza?"
+      must_cite: ["ley.1739.2014"]
+
+- batch_id: D8a
+  phase: D
+  title: "Ley 2294/2023 (PND) — capítulo tributario A"
+  wall_minutes_target: 25
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^ley\\.2294\\.2023\\.art\\.([1-9]|[1-9]\\d|1[0-2]\\d)$"
+  test_questions:
+    - q: "¿La Ley 2294/2023 prorrogó el beneficio de auditoría?"
+      must_cite: ["ley.2294.2023.art.69", "et.art.689-3"]
+
+- batch_id: D8b
+  phase: D
+  title: "Ley 2294/2023 — capítulo tributario B"
+  wall_minutes_target: 25
+  depends_on: [D8a]
+  norm_filter:
+    type: regex
+    pattern: "^ley\\.2294\\.2023\\.art\\.(13\\d|1[4-9]\\d|2[0-4]\\d)$"
+  test_questions:
+    - q: "¿Qué incentivos verdes introdujo el PND 2022-2026?"
+      must_cite: ["ley.2294.2023"]
+
+- batch_id: D8c
+  phase: D
+  title: "Ley 2294/2023 — capítulo tributario C"
+  wall_minutes_target: 25
+  depends_on: [D8b]
+  norm_filter:
+    type: regex
+    pattern: "^ley\\.2294\\.2023\\.art\\.(2[5-9]\\d|3\\d{2})$"
+  test_questions:
+    - q: "¿Modificaciones a impuestos saludables en el PND?"
+      must_cite: ["ley.2294.2023"]
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE E — Decretos reglamentarios (DUR + DUR laboral + decretos legislativos)
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: E1a
+  phase: E
+  title: "DUR 1625/2016 — Libro 1 renta · sub-libro 1.1 + 1.2"
+  wall_minutes_target: 25
+  depends_on: [B1]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.(1|2)\\."
+  test_questions:
+    - q: "¿Cómo se reglamenta la depuración de la renta?"
+      must_cite: ["decreto.1625.2016"]
+
+- batch_id: E1b
+  phase: E
+  title: "DUR 1625/2016 — Libro 1 renta · sub-libro 1.3 + 1.4 (deducciones reglamentadas)"
+  wall_minutes_target: 25
+  depends_on: [E1a, B4, B5]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.(3|4)\\."
+  test_questions:
+    - q: "¿Cómo se prueba el cumplimiento de requisitos de Art. 107 ET?"
+      must_cite: ["decreto.1625.2016"]
+
+- batch_id: E1c
+  phase: E
+  title: "DUR 1625/2016 — Libro 1 renta · sub-libro 1.5 (descuentos)"
+  wall_minutes_target: 25
+  depends_on: [E1b, B8]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.5\\."
+
+- batch_id: E1d
+  phase: E
+  title: "DUR 1625/2016 — Libro 1 renta · sub-libro 1.6 (procedimiento)"
+  wall_minutes_target: 25
+  depends_on: [E1c, A1]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.6\\."
+
+- batch_id: E1e
+  phase: E
+  title: "DUR 1625/2016 — Libro 1 renta · sub-libro 1.7 (régimen especial)"
+  wall_minutes_target: 25
+  depends_on: [E1d, B9]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.7\\."
+
+- batch_id: E1f
+  phase: E
+  title: "DUR 1625/2016 — Libro 1 renta · sub-libro 1.8+ (residual renta)"
+  wall_minutes_target: 25
+  depends_on: [E1e]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.([89]|1[0-9])\\."
+
+- batch_id: E2a
+  phase: E
+  title: "DUR 1625/2016 — Libro 2 IVA · primera parte"
+  wall_minutes_target: 25
+  depends_on: [C1, C2]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.3\\.(1|2|3)\\."
+
+- batch_id: E2b
+  phase: E
+  title: "DUR 1625/2016 — Libro 2 IVA · segunda parte"
+  wall_minutes_target: 25
+  depends_on: [E2a]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.3\\.(4|5)\\."
+
+- batch_id: E2c
+  phase: E
+  title: "DUR 1625/2016 — retefuente reglamentado"
+  wall_minutes_target: 25
+  depends_on: [C3]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.2\\.4\\."
+
+- batch_id: E3a
+  phase: E
+  title: "DUR 1625/2016 — Libro 5 procedimiento · primera parte"
+  wall_minutes_target: 25
+  depends_on: [A1, A2, A3]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.5\\.(1|2|3)\\."
+
+- batch_id: E3b
+  phase: E
+  title: "DUR 1625/2016 — Libro 5 procedimiento · segunda parte"
+  wall_minutes_target: 25
+  depends_on: [E3a]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1625\\.2016\\.art\\.1\\.5\\.([4-9]|1[0-9])\\."
+
+- batch_id: E4
+  phase: E
+  title: "Decreto 1474/2025 + autos relacionados (IE validation)"
+  wall_minutes_target: 10
+  depends_on: []
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - decreto.1474.2025
+      - sent.cc.C-079.2026
+      - auto.ce.082.2026.04.15
+      - auto.ce.084.2026.04.15
+  test_questions:
+    - q: "¿Decreto 1474 de 2025 está vigente?"
+      must_cite: ["decreto.1474.2025", "sent.cc.C-079.2026"]
+      expected_chip_state:
+        decreto.1474.2025: IE
+      notes: "Acid test for IE state — sentencia C-079/2026 declared IE."
+
+- batch_id: E5
+  phase: E
+  title: "Decretos legislativos COVID + emergencia tributaria"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.(417|444|535|568|573|772)\\.2020"
+
+- batch_id: E6a
+  phase: E
+  title: "DUR 1072/2015 (laboral) · parte 1"
+  wall_minutes_target: 25
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1072\\.2015\\.art\\.2\\.2\\.(1|2|3)\\."
+
+- batch_id: E6b
+  phase: E
+  title: "DUR 1072/2015 (laboral) · parte 2"
+  wall_minutes_target: 25
+  depends_on: [E6a]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1072\\.2015\\.art\\.2\\.2\\.(4|5)\\."
+
+- batch_id: E6c
+  phase: E
+  title: "DUR 1072/2015 (laboral) · parte 3 (SST)"
+  wall_minutes_target: 25
+  depends_on: [E6b]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1072\\.2015\\.art\\.2\\.2\\.4\\."
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE F — Resoluciones DIAN clave
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: F1
+  phase: F
+  title: "Resoluciones UVT + calendario tributario por año"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^res\\.dian\\..*(uvt|plazos|calendario)"
+  test_questions:
+    - q: "¿UVT 2025?"
+      must_cite: ["res.dian"]
+    - q: "¿UVT 2018 para revisar declaración antigua?"
+      notes: "Validates for_period at the parameter-resolution layer."
+    - q: "¿Plazos declaración renta personas jurídicas AG 2025?"
+      must_cite: ["res.dian"]
+
+- batch_id: F2
+  phase: F
+  title: "Resoluciones factura electrónica + nómina electrónica"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^res\\.dian\\.(165\\.2023|2275\\.2023|042\\.2020|13\\.2021)"
+  test_questions:
+    - q: "¿Quiénes están obligados a facturar electrónicamente?"
+      must_cite: ["res.dian.165.2023"]
+
+- batch_id: F3
+  phase: F
+  title: "Resoluciones régimen simple"
+  wall_minutes_target: 10
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^res\\.dian\\..*(simple|sintributario)"
+
+- batch_id: F4
+  phase: F
+  title: "Resoluciones cambiario + RUT + obligados"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^res\\.dian\\..*(rut|obligados|cambiario)"
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE G — Conceptos DIAN unificados
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: G1
+  phase: G
+  title: "Concepto unificado IVA"
+  wall_minutes_target: 20
+  depends_on: [C1, C2]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\.001\\.2003"  # placeholder — adjust to actual concepto unificado IVA id
+
+- batch_id: G2
+  phase: G
+  title: "Concepto unificado renta"
+  wall_minutes_target: 25
+  depends_on: [B1, B2, B3, B4]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\..*(renta|0912)"
+
+- batch_id: G3
+  phase: G
+  title: "Concepto unificado retención en la fuente"
+  wall_minutes_target: 20
+  depends_on: [C3]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\..*(retencion|retefuente)"
+
+- batch_id: G4
+  phase: G
+  title: "Concepto unificado procedimiento + sanciones"
+  wall_minutes_target: 20
+  depends_on: [A1, A3]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\..*(procedimiento|sanciones)"
+
+- batch_id: G5
+  phase: G
+  title: "Concepto unificado régimen simple"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\..*simple"
+
+- batch_id: G6
+  phase: G
+  title: "Concepto 100208192-202 IA en dividendos NCRGO (SP validation)"
+  wall_minutes_target: 10
+  depends_on: []
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - concepto.dian.100208192-202
+      - concepto.dian.100208192-202.num.20
+      - concepto.dian.100208192-202.num.12
+      - auto.ce.28920.2024.12.16
+      - sent.ce.28920.2025.07.03
+  test_questions:
+    - q: "¿Puedo aplicar el numeral 20 del Concepto 100208192-202 sobre IA en dividendos para AG 2025?"
+      must_cite: ["concepto.dian.100208192-202.num.20", "auto.ce.28920.2024.12.16"]
+      expected_chip_state:
+        concepto.dian.100208192-202.num.20: SP
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE H — Conceptos DIAN individuales (long tail)
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: H1
+  phase: H
+  title: "Conceptos régimen simple"
+  wall_minutes_target: 15
+  depends_on: [G5]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\..*simple"
+
+- batch_id: H2
+  phase: H
+  title: "Conceptos retención en la fuente"
+  wall_minutes_target: 15
+  depends_on: [G3]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\..*(retefuente|retencion)"
+
+- batch_id: H3a
+  phase: H
+  title: "Conceptos renta — parte 1"
+  wall_minutes_target: 20
+  depends_on: [G2]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\.(0|1|2|3|4)\\d{4}"
+
+- batch_id: H3b
+  phase: H
+  title: "Conceptos renta — parte 2"
+  wall_minutes_target: 20
+  depends_on: [H3a]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\.(5|6|7|8|9)\\d{4}"
+
+- batch_id: H4a
+  phase: H
+  title: "Conceptos IVA — parte 1"
+  wall_minutes_target: 20
+  depends_on: [G1]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\.(0|1|2|3|4)\\d{4}.*iva"
+
+- batch_id: H4b
+  phase: H
+  title: "Conceptos IVA — parte 2"
+  wall_minutes_target: 20
+  depends_on: [H4a]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\.(5|6|7|8|9)\\d{4}.*iva"
+
+- batch_id: H5
+  phase: H
+  title: "Conceptos procedimiento (correcciones, firmeza, devoluciones)"
+  wall_minutes_target: 15
+  depends_on: [G4]
+  norm_filter:
+    type: regex
+    pattern: "^concepto\\.dian\\..*(correccion|firmeza|devolucion)"
+
+- batch_id: H6
+  phase: H
+  title: "Oficios DIAN recurrentes"
+  wall_minutes_target: 10
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^oficio\\.dian"
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE I — Jurisprudencia (CC + CE)
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: I1
+  phase: I
+  title: "Sentencias CC sobre reformas tributarias (cascade triggers)"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - sent.cc.C-481.2019
+      - sent.cc.C-079.2026
+      - sent.cc.C-384.2023
+      - sent.cc.C-101.2025
+      - sent.cc.C-540.2023
+  test_questions:
+    - q: "¿Qué declaró C-481/2019 sobre la Ley 1943?"
+      must_cite: ["sent.cc.C-481.2019", "ley.1943.2018"]
+    - q: "¿Qué declaró C-079/2026 sobre Decreto 1474?"
+      must_cite: ["sent.cc.C-079.2026", "decreto.1474.2025"]
+    - q: "¿Qué condicionó C-384/2023 sobre zonas francas?"
+      must_cite: ["sent.cc.C-384.2023"]
+
+- batch_id: I2
+  phase: I
+  title: "Sentencias CC sobre principios constitucionales"
+  wall_minutes_target: 10
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^sent\\.cc\\.C-.*338\\.2[0-1]"
+  test_questions:
+    - q: "¿Cómo aplica Art. 338 CP a impuestos de período?"
+      notes: "Validates the principle the for_period resolver enforces."
+
+- batch_id: I3
+  phase: I
+  title: "Sentencias CE de unificación (Sección Cuarta) — DT validation"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^sent\\.ce\\..*2022.*"
+  test_questions:
+    - q: "¿Sentencia 2022CE-SUJ-4-002 sobre correcciones de imputación de saldos a favor?"
+      must_cite: ["sent.ce.2022CE-SUJ-4-002", "et.art.588", "et.art.589"]
+      expected_chip_state:
+        et.art.588: DT
+
+- batch_id: I4
+  phase: I
+  title: "Autos CE de suspensión provisional"
+  wall_minutes_target: 10
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^auto\\.ce\\."
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE J — Régimen laboral (CST + Ley 100 + parafiscales + DUR 1072)
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: J1
+  phase: J
+  title: "CST contratos individuales (Arts. 22-50)"
+  wall_minutes_target: 15
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^cst\\.art\\.(2[2-9]|3\\d|4\\d|50)$"
+  test_questions:
+    - q: "¿Período de prueba máximo en contrato indefinido?"
+      must_cite: ["cst.art.78"]
+    - q: "¿Cuántas veces puedo renovar un contrato a término fijo?"
+      must_cite: ["cst.art.46"]
+
+- batch_id: J2
+  phase: J
+  title: "CST prestaciones sociales (Arts. 51-101)"
+  wall_minutes_target: 20
+  depends_on: [J1]
+  norm_filter:
+    type: regex
+    pattern: "^cst\\.art\\.(5[1-9]|[6-9]\\d|10[01])$"
+
+- batch_id: J3
+  phase: J
+  title: "CST jornada + descansos (Arts. 158-200)"
+  wall_minutes_target: 20
+  depends_on: [J1]
+  norm_filter:
+    type: regex
+    pattern: "^cst\\.art\\.(1[5-9]\\d|200)$"
+  test_questions:
+    - q: "¿Cuántas horas máximas semanales en 2025?"
+      notes: "Must reflect Ley 2101/2021 transición a 42h."
+
+- batch_id: J4
+  phase: J
+  title: "CST conflictos colectivos (Arts. 416+)"
+  wall_minutes_target: 20
+  depends_on: [J1]
+  norm_filter:
+    type: regex
+    pattern: "^cst\\.art\\.(4[1-9]\\d|5\\d{2})$"
+
+- batch_id: J5
+  phase: J
+  title: "Ley 100/1993 régimen pensional + reformas"
+  wall_minutes_target: 20
+  depends_on: []
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - ley.100.1993
+      - ley.797.2003
+      - ley.2381.2024
+  test_questions:
+    - q: "¿Régimen pensional vigente con la reforma 2024?"
+      must_cite: ["ley.2381.2024"]
+
+- batch_id: J6
+  phase: J
+  title: "Ley 100/1993 régimen de salud"
+  wall_minutes_target: 15
+  depends_on: [J5]
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - ley.100.1993
+      - ley.1438.2011
+      - ley.1751.2015
+
+- batch_id: J7
+  phase: J
+  title: "Parafiscales + licencias (Ley 789/2002 + Ley 1822/2017 + Ley 2114/2021)"
+  wall_minutes_target: 20
+  depends_on: []
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - ley.789.2002
+      - ley.1822.2017
+      - ley.2114.2021
+  test_questions:
+    - q: "¿Días de licencia de paternidad?"
+      must_cite: ["ley.2114.2021"]
+
+- batch_id: J8a
+  phase: J
+  title: "DUR 1072/2015 — laboral · parte 1 (general)"
+  wall_minutes_target: 25
+  depends_on: [E6a, J1, J2]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1072\\.2015\\.art\\.2\\.2\\.1\\."
+
+- batch_id: J8b
+  phase: J
+  title: "DUR 1072/2015 — laboral · parte 2 (riesgos)"
+  wall_minutes_target: 25
+  depends_on: [J8a]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1072\\.2015\\.art\\.2\\.2\\.4\\."
+
+- batch_id: J8c
+  phase: J
+  title: "DUR 1072/2015 — laboral · parte 3 (SST + reglamento)"
+  wall_minutes_target: 25
+  depends_on: [J8b]
+  norm_filter:
+    type: regex
+    pattern: "^decreto\\.1072\\.2015\\.art\\.2\\.2\\.5\\."
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE K — Cambiario + comercial + societario
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: K1
+  phase: K
+  title: "Resolución Externa 1/2018 JDBR (cambiario)"
+  wall_minutes_target: 20
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^res\\.banrep\\.1\\.2018"
+
+- batch_id: K2
+  phase: K
+  title: "DCIN-83 (cambiario operativo)"
+  wall_minutes_target: 15
+  depends_on: [K1]
+  norm_filter:
+    type: regex
+    pattern: "^dcin\\.83"
+
+- batch_id: K3
+  phase: K
+  title: "Código de Comercio — sociedades"
+  wall_minutes_target: 20
+  depends_on: []
+  norm_filter:
+    type: regex
+    pattern: "^cco\\.art\\.([1-9]|[1-9]\\d|[1-3]\\d{2})$"
+
+- batch_id: K4
+  phase: K
+  title: "Ley 222/1995 + Ley 1258/2008 (S.A.S.)"
+  wall_minutes_target: 25
+  depends_on: []
+  norm_filter:
+    type: explicit_list
+    norm_ids:
+      - ley.222.1995
+      - ley.1258.2008
+
+# ────────────────────────────────────────────────────────────────────────────
+# PHASE L — Refusal triage + cleanup (SME-led)
+# ────────────────────────────────────────────────────────────────────────────
+
+- batch_id: L1
+  phase: L
+  title: "SME triage — refusals from Phases A–E"
+  wall_minutes_target: 30
+  depends_on: [E6c]
+  norm_filter:
+    type: explicit_list
+    norm_ids: []  # SME populates from refusal queue
+  test_questions: []
+  notes: "SME-driven; engineer wires. Reads `evals/canonicalizer_refusals_v1/refusals.jsonl`."
+
+- batch_id: L2
+  phase: L
+  title: "SME triage — refusals from Phases F–I"
+  wall_minutes_target: 30
+  depends_on: [L1, I4]
+  norm_filter:
+    type: explicit_list
+    norm_ids: []
+
+- batch_id: L3
+  phase: L
+  title: "Re-extract previously-refused norms after canonicalizer rule additions"
+  wall_minutes_target: 20
+  depends_on: [L1, L2]
+  norm_filter:
+    type: explicit_list
+    norm_ids: []  # populated by L1 + L2 outcomes
+  notes: |
+    THIS BATCH IS THE ONLY EXCEPTION TO THE NO-DOUBLE-EXTRACTION RULE.
+    Per §9.7 of canonicalizer_runv1.md, this re-runs the skill ONLY on norms
+    whose previous refusal was due to a canonicalizer rule that has since
+    been extended via SME triage. Operator approval per-norm-list required.

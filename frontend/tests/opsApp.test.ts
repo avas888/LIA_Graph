@@ -120,7 +120,7 @@ describe("ops app", () => {
   });
 
   // Skipped: tests the legacy kanban ingestion controller. The Sesiones surface
-  // was rewritten in v2026-04-20-ui14 (see docs/guide/orchestration.md) and the
+  // was rewritten in v2026-04-20-ui14 (see docs/orchestration/orchestration.md) and the
   // kanban is no longer mounted when `#lia-ingest-shell` is present. The
   // ingestion path is now covered by `tests/ingestOrganisms.test.ts` +
   // `tests/test_ui_ingest_run_controllers.py`.

@@ -1,0 +1,333 @@
+{
+  "qid": "regimen_cambiario_P2",
+  "topic_key_expected": "regimen_cambiario",
+  "profile": "P2_operativa",
+  "message": "Mi cliente, una SAS importadora, le va a pagar $80.000 USD a un proveedor en Alemania por una máquina que importó. ¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién? ¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?",
+  "http_status": 200,
+  "latency_ms": 9479,
+  "captured_utc": "2026-04-27T02:23:05.733118+00:00",
+  "response": {
+    "trace_id": "9339f5b0-e56b-425d-a511-1861f3f84029",
+    "run_id": "pd_1004165c4fd84396b43564de8278f9d9",
+    "answer_markdown": "**Respuestas directas**\n- **¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?**\n  - La declaración de cambio debe contener la información mínima establecida en el (art. 26-35 ET).\n- **¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?**\n  - Cobertura pendiente para esta sub-pregunta.\n\n**Ruta sugerida**\n1. Presentar la declaración de cambio con el contenido mínimo requerido (art. 26-35 ET).\n\n**Riesgos y condiciones**\n- La cobertura quedó parcial.\n\n**Soportes clave**\n| Tipo de Soporte | Descripción |\n|---|---|\n| Normativa | Régimen Cambiario Colombiano — Marco Normativo Integral |\n| Normativa | DECRETO 624 DE 1989 - Colombia | SUIN Juriscol |",
+    "answer_concise": "**Respuestas directas**\n- **¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?**\n  - La declaración de cambio debe contener la información mínima establecida en el (art. 26-35 ET).\n- **¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?**\n  - Cobertura pendiente para esta sub-pregunta.\n\n**Ruta sugerida**\n1. Presentar la declaración de cambio con el contenido mínimo requerido (art. 26-35 ET).\n\n**Riesgos y condiciones**\n- La cobertura quedó parcial.\n\n**Soportes clave**\n| Tipo de Soporte | Descripción |\n|---|---|\n| Normativa | Régimen Cambiario Colombiano — Marco Normativo Integral |\n| Normativa | DECRETO 624 DE 1989 - Colombia | SUIN Juriscol |",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "legal_reference": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "search_query": "Régimen Cambiario Colombiano — Marco Normativo Integral DIAN / fuente oficial colombia Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Soportes clave** | Tipo de Soporte | Descripción | |---|---| | Normativa | Régimen Cambiario Colombiano — Marco Normativo Integral | | Normativa | DECRETO 624 DE 1989 - Colombia | SUIN Juriscol |",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "authority": "Loggro",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Regimen cambiario (Loggro)",
+        "legal_reference": "Regimen cambiario (Loggro)",
+        "search_query": "Regimen cambiario (Loggro) Loggro colombia Régimen Cambiario — Guía Práctica para el Contador de PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Soportes clave** | Tipo de Soporte | Descripción | |---|---| | Normativa | Régimen Cambiario Colombiano — Marco Normativo Integral | | Normativa | DECRETO 624 DE 1989 - Colombia | SUIN Juriscol |",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "logical_doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "authority": "Loggro",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Regimen cambiario (Loggro)",
+        "legal_reference": "Regimen cambiario (Loggro)",
+        "search_query": "Regimen cambiario (Loggro) Loggro colombia L01 — Guía Práctica: Régimen Cambiario para PYMEs Colombianas",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Soportes clave** | Tipo de Soporte | Descripción | |---|---| | Normativa | Régimen Cambiario Colombiano — Marco Normativo Integral | | Normativa | DECRETO 624 DE 1989 - Colombia | SUIN Juriscol |",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "authority": "Fuente expertos",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "legal_reference": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "search_query": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos Fuente expertos colombia CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "analysis",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "Fuente expertos",
+        "source_provider_url": null,
+        "usage_context": "**Soportes clave** | Tipo de Soporte | Descripción | |---|---| | Normativa | Régimen Cambiario Colombiano — Marco Normativo Integral | | Normativa | DECRETO 624 DE 1989 - Colombia | SUIN Juriscol |",
+        "usage_intents": [
+          "requisitos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.42,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native_partial",
+    "compose_quality": 0.45,
+    "fallback_reason": "pipeline_d_no_graph_primary_articles",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 7,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 17,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 50,
+        "output_tokens": 113,
+        "total_tokens": 163,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "regimen_cambiario",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de regimen cambiario, por lo cual utilizaremos nuestra base de datos regimen cambiario.",
+    "topic_adjustment_reason": "rule:regimen_cambiario matched declaracion de cambio, declaración de cambio, cuenta de compensacion, cuenta de compensación",
+    "coverage_notice": "La ruta graph-native no encontro articulos ancla suficientes; se devolvio la mejor evidencia parcial disponible. Causa: el planner no pudo anclar articulos explicitos para esta consulta (empty_reason=no_explicit_article_keys_in_plan).",
+    "topic": "regimen_cambiario",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_c2acbc1b2c75",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 50,
+        "output_tokens": 113,
+        "total_tokens": 163
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "9339f5b0-e56b-425d-a511-1861f3f84029",
+      "last_run_id": "pd_1004165c4fd84396b43564de8278f9d9",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_c2acbc1b2c75",
+    "chat_run_id": "cr_20260427_022256_f72e392a",
+    "metrics": {
+      "latency_ms": 8044.57,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 50,
+          "output_tokens": 113,
+          "total_tokens": 163,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native_partial",
+      "compose_quality": 0.45,
+      "fallback_reason": "pipeline_d_no_graph_primary_articles",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_c2acbc1b2c75",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 50,
+          "output_tokens": 113,
+          "total_tokens": 163
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "9339f5b0-e56b-425d-a511-1861f3f84029",
+        "last_run_id": "pd_1004165c4fd84396b43564de8278f9d9",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "decreto:624:1989"
+        ],
+        "normative_scaffolding_ms": 3.2
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "regimen_cambiario",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "be387a6169a447208d1c214af8ae4c1c"
+  }
+}

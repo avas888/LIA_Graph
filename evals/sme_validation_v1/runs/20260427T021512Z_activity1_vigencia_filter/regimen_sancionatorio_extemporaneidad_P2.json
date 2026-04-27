@@ -1,0 +1,182 @@
+{
+  "qid": "regimen_sancionatorio_extemporaneidad_P2",
+  "topic_key_expected": "regimen_sancionatorio_extemporaneidad",
+  "profile": "P2_operativa",
+  "message": "Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera vez que esto le pasa?",
+  "http_status": 200,
+  "latency_ms": 7655,
+  "captured_utc": "2026-04-27T02:17:25.187671+00:00",
+  "response": {
+    "trace_id": "95f8374d-5636-4b4c-b8e4-765dde3c3f81",
+    "run_id": "pd_3e96cce1dbe149a39437355667403fbf",
+    "answer_markdown": "No pude ubicar evidencia del tema **regimen_sancionatorio_extemporaneidad** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "answer_concise": "No pude ubicar evidencia del tema **regimen_sancionatorio_extemporaneidad** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+    "evidence_snippets": [],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 50,
+        "output_tokens": 37,
+        "total_tokens": 87,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "regimen_sancionatorio_extemporaneidad",
+    "secondary_topics": [
+      "declaracion_renta",
+      "procedimiento_tributario"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de regimen sancionatorio extemporaneidad, por lo cual utilizaremos nuestra base de datos regimen sancionatorio extemporaneidad.",
+    "topic_adjustment_reason": "La consulta es directamente sobre el cálculo de la sanción por extemporaneidad y los intereses moratorios, así como la posibilidad de reducción por primera vez, lo cual encaja perfectamente con la definición de regimen_sancionatorio_extemporaneidad. Aunque menciona la declaración de renta, el foco operativo es la sanción y el procedimiento para su cálculo y posible reducción.",
+    "coverage_notice": "No pude ubicar evidencia del tema **regimen_sancionatorio_extemporaneidad** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "topic": "regimen_sancionatorio_extemporaneidad",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_22d3e15ec100",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 50,
+        "output_tokens": 37,
+        "total_tokens": 87
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "95f8374d-5636-4b4c-b8e4-765dde3c3f81",
+      "last_run_id": "pd_3e96cce1dbe149a39437355667403fbf",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_22d3e15ec100",
+    "chat_run_id": "cr_20260427_021719_c8fb38f1",
+    "metrics": {
+      "latency_ms": 6328.82,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 50,
+          "output_tokens": 37,
+          "total_tokens": 87,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_22d3e15ec100",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 50,
+          "output_tokens": 37,
+          "total_tokens": 87
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "95f8374d-5636-4b4c-b8e4-765dde3c3f81",
+        "last_run_id": "pd_3e96cce1dbe149a39437355667403fbf",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "regimen_sancionatorio_extemporaneidad",
+        "secondary_topics": [
+          "declaracion_renta",
+          "procedimiento_tributario"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "be59864172b9485e8d7c3ddda6b3cd3f"
+  }
+}

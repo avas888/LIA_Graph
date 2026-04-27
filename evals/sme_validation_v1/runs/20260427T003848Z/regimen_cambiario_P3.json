@@ -1,0 +1,338 @@
+{
+  "qid": "regimen_cambiario_P3",
+  "topic_key_expected": "regimen_cambiario",
+  "profile": "P3_borde",
+  "message": "Mi cliente recibió en 2025 una inversión extranjera directa de $500.000 USD de un fondo en Países Bajos para capitalización de la SAS. Hicieron la transferencia pero nadie se acordó de hacer el registro ante el Banco de la República. Estamos en marzo de 2026. ¿Qué riesgo hay, todavía se puede regularizar, y qué pasa con los dividendos que eventualmente quieran girarle al inversionista si nunca se registró la inversión?",
+  "http_status": 200,
+  "latency_ms": 12315,
+  "captured_utc": "2026-04-27T00:44:34.288884+00:00",
+  "response": {
+    "trace_id": "3e4effc1-2d00-44d9-b637-c70546ec256c",
+    "run_id": "pd_d6d600df1ee54d488d0c16e48b480f2c",
+    "answer_markdown": "**Ruta sugerida**\n1. PYME Importadora — Qué hacer paso a paso Situación (art. paso-a-paso-pr-ctico ET).\n\n**Riesgos y condiciones**\n- La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.",
+    "answer_concise": "**Ruta sugerida**\n1. PYME Importadora — Qué hacer paso a paso Situación (art. paso-a-paso-pr-ctico ET).\n\n**Riesgos y condiciones**\n- La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "legal_reference": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "search_query": "Régimen Cambiario Colombiano — Marco Normativo Integral DIAN / fuente oficial colombia Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "PYME Importadora — Qué hacer paso a paso Situación (art. paso-a-paso-pr-ctico ET).",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "authority": "Loggro",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Regimen cambiario (Loggro)",
+        "legal_reference": "Regimen cambiario (Loggro)",
+        "search_query": "Regimen cambiario (Loggro) Loggro colombia Régimen Cambiario — Guía Práctica para el Contador de PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "PYME Importadora — Qué hacer paso a paso Situación (art. paso-a-paso-pr-ctico ET).",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "logical_doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "authority": "Loggro",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Regimen cambiario (Loggro)",
+        "legal_reference": "Regimen cambiario (Loggro)",
+        "search_query": "Regimen cambiario (Loggro) Loggro colombia L01 — Guía Práctica: Régimen Cambiario para PYMEs Colombianas",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "PYME Importadora — Qué hacer paso a paso Situación (art. paso-a-paso-pr-ctico ET).",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "authority": "Fuente expertos",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "legal_reference": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "search_query": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos Fuente expertos colombia CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "analysis",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "Fuente expertos",
+        "source_provider_url": null,
+        "usage_context": "PYME Importadora — Qué hacer paso a paso Situación (art. paso-a-paso-pr-ctico ET).",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.42,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native_partial",
+    "compose_quality": 0.45,
+    "fallback_reason": "pipeline_d_no_graph_primary_articles",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 18,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 70,
+        "output_tokens": 37,
+        "total_tokens": 107,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "regimen_cambiario",
+    "secondary_topics": [
+      "comercial_societario",
+      "dividendos_y_distribucion_utilidades"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de regimen cambiario, por lo cual utilizaremos nuestra base de datos regimen cambiario.",
+    "topic_adjustment_reason": "La consulta se centra en las implicaciones de no registrar una inversión extranjera directa ante el Banco de la República y la posibilidad de regularizarla, así como el impacto en el giro de dividendos. Esto cae directamente bajo el régimen cambiario (DCIN-83) que regula las operaciones de cambio, incluyendo la inversión extranjera.",
+    "coverage_notice": "La ruta graph-native no encontro articulos ancla suficientes; se devolvio la mejor evidencia parcial disponible. Causa: el planner no pudo anclar articulos explicitos para esta consulta (empty_reason=no_explicit_article_keys_in_plan).",
+    "topic": "regimen_cambiario",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_f89d56ed6d6a",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 70,
+        "output_tokens": 37,
+        "total_tokens": 107
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "3e4effc1-2d00-44d9-b637-c70546ec256c",
+      "last_run_id": "pd_d6d600df1ee54d488d0c16e48b480f2c",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_f89d56ed6d6a",
+    "chat_run_id": "cr_20260427_004424_63a95e97",
+    "metrics": {
+      "latency_ms": 10992.9,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 70,
+          "output_tokens": 37,
+          "total_tokens": 107,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native_partial",
+      "compose_quality": 0.45,
+      "fallback_reason": "pipeline_d_no_graph_primary_articles",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_f89d56ed6d6a",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 70,
+          "output_tokens": 37,
+          "total_tokens": 107
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "3e4effc1-2d00-44d9-b637-c70546ec256c",
+        "last_run_id": "pd_d6d600df1ee54d488d0c16e48b480f2c",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 1,
+        "mentions_unique": 1,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 1,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et"
+        ],
+        "normative_scaffolding_ms": 0.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "regimen_cambiario",
+        "secondary_topics": [
+          "comercial_societario",
+          "dividendos_y_distribucion_utilidades"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "7f75952e346e454eaf25a292fe8b6bef"
+  }
+}

@@ -1,0 +1,223 @@
+"""Sub-fix 1B-α scraper smoke tests.
+
+H0 tests: cache CRUD + URL resolution + parse-fixture round-trip. Live HTTP
+tests gated behind LIA_LIVE_SCRAPER_TESTS=1 (run only on demand).
+"""
+
+from __future__ import annotations
+
+import tempfile
+from pathlib import Path
+
+import pytest
+
+from lia_graph.scrapers import ScraperCache, ScraperRegistry
+from lia_graph.scrapers.consejo_estado import ConsejoEstadoScraper
+from lia_graph.scrapers.corte_constitucional import CorteConstitucionalScraper
+from lia_graph.scrapers.dian_normograma import DianNormogramaScraper
+from lia_graph.scrapers.secretaria_senado import SecretariaSenadoScraper
+from lia_graph.scrapers.suin_juriscol import SuinJuriscolScraper
+
+
+@pytest.fixture
+def cache(tmp_path: Path) -> ScraperCache:
+    return ScraperCache(tmp_path / "test_scraper_cache.db")
+
+
+# ---------------------------------------------------------------------------
+# Cache CRUD
+# ---------------------------------------------------------------------------
+
+
+def test_cache_put_get_round_trip(cache: ScraperCache):
+    cache.put(
+        source="secretaria_senado",
+        url="https://example.com/ley_2277_2022.html",
+        content=b"<html>...</html>",
+        status_code=200,
+        canonical_norm_id="ley.2277.2022",
+        content_type="text/html",
+        parsed_text="Ley 2277 de 2022",
+        parsed_meta={"modification_notes": []},
+    )
+    entry = cache.get("secretaria_senado", "https://example.com/ley_2277_2022.html")
+    assert entry is not None
+    assert entry.canonical_norm_id == "ley.2277.2022"
+    assert entry.parsed_text == "Ley 2277 de 2022"
+    assert entry.status_code == 200
+    assert entry.content_sha256  # populated
+
+
+def test_cache_get_by_canonical(cache: ScraperCache):
+    cache.put(
+        source="secretaria_senado",
+        url="https://example.com/a",
+        content=b"a",
+        status_code=200,
+        canonical_norm_id="ley.2277.2022",
+    )
+    cache.put(
+        source="dian_normograma",
+        url="https://example.com/b",
+        content=b"b",
+        status_code=200,
+        canonical_norm_id="ley.2277.2022",
+    )
+    entries = cache.get_by_canonical("ley.2277.2022")
+    sources = {e.source for e in entries}
+    assert sources == {"secretaria_senado", "dian_normograma"}
+
+
+def test_cache_upsert_replaces(cache: ScraperCache):
+    cache.put(source="x", url="u", content=b"v1", status_code=200)
+    cache.put(source="x", url="u", content=b"v2", status_code=200)
+    entry = cache.get("x", "u")
+    assert entry is not None
+    assert entry.content == b"v2"
+
+
+def test_cache_attach_canonical_norm_id(cache: ScraperCache):
+    cache.put(source="x", url="u", content=b"v", status_code=200)
+    cache.attach_canonical_norm_id(source="x", url="u", canonical_norm_id="ley.1.2026")
+    entries = cache.get_by_canonical("ley.1.2026")
+    assert len(entries) == 1
+
+
+def test_cache_stats(cache: ScraperCache):
+    cache.put(source="x", url="u1", content=b"a", status_code=200, canonical_norm_id="ley.1.2026")
+    cache.put(source="x", url="u2", content=b"b", status_code=200)
+    stats = cache.stats()
+    assert stats["total_rows"] == 2
+    assert stats["rows_with_canonical_id"] == 1
+    assert stats["by_source"] == {"x": 2}
+
+
+# ---------------------------------------------------------------------------
+# URL resolution
+# ---------------------------------------------------------------------------
+
+
+def test_secretaria_senado_url_for_et():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("et")
+    assert url is not None
+    assert "estatuto_tributario" in url
+
+
+def test_secretaria_senado_url_for_et_article():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("et.art.689-3")
+    assert url is not None
+    assert "estatuto_tributario" in url
+
+
+def test_secretaria_senado_url_for_ley():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("ley.2277.2022")
+    assert url is not None
+    assert "ley_2277_2022" in url
+
+
+def test_dian_normograma_url_for_decreto():
+    s = DianNormogramaScraper(ScraperCache(":memory:"))
+    assert s._resolve_url("decreto.1474.2025") is not None
+
+
+def test_dian_normograma_url_for_concepto():
+    s = DianNormogramaScraper(ScraperCache(":memory:"))
+    assert s._resolve_url("concepto.dian.100208192-202") is not None
+
+
+def test_corte_constitucional_url_for_sentencia():
+    s = CorteConstitucionalScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("sent.cc.C-481.2019")
+    assert url is not None
+    assert "c-481-19" in url
+
+
+def test_consejo_estado_url_for_auto():
+    s = ConsejoEstadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("auto.ce.28920.2024.12.16")
+    assert url is not None
+
+
+def test_suin_juriscol_url():
+    s = SuinJuriscolScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("ley.2277.2022")
+    assert url is not None
+    assert "ley.2277.2022" in url
+
+
+def test_scraper_does_not_handle_unrelated_norm_type():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    assert s._resolve_url("sent.cc.C-481.2019") is None
+
+
+# ---------------------------------------------------------------------------
+# Registry
+# ---------------------------------------------------------------------------
+
+
+def test_registry_routes_law_to_senado_and_suin(cache: ScraperCache):
+    registry = ScraperRegistry([
+        SecretariaSenadoScraper(cache),
+        DianNormogramaScraper(cache),
+        SuinJuriscolScraper(cache),
+        CorteConstitucionalScraper(cache),
+        ConsejoEstadoScraper(cache),
+    ])
+    scrapers = registry.for_norm("ley.2277.2022")
+    sources = {s.source_id for s in scrapers}
+    assert "secretaria_senado" in sources
+    assert "suin_juriscol" in sources
+    assert "corte_constitucional" not in sources
+
+
+def test_registry_routes_sentencia_cc(cache: ScraperCache):
+    registry = ScraperRegistry([
+        SecretariaSenadoScraper(cache),
+        CorteConstitucionalScraper(cache),
+    ])
+    scrapers = registry.for_norm("sent.cc.C-481.2019")
+    sources = {s.source_id for s in scrapers}
+    assert "corte_constitucional" in sources
+    assert "secretaria_senado" not in sources
+
+
+def test_fetch_returns_none_when_cache_miss_and_no_live_fetch(cache: ScraperCache):
+    s = SecretariaSenadoScraper(cache, live_fetch=False)
+    res = s.fetch("ley.9999.2030")
+    assert res is None
+
+
+def test_fetch_returns_cached_entry(cache: ScraperCache):
+    s = SecretariaSenadoScraper(cache, live_fetch=False)
+    url = s._resolve_url("ley.2277.2022")
+    cache.put(
+        source="secretaria_senado",
+        url=url,  # type: ignore[arg-type]
+        content=b"<html>Ley 2277 de 2022</html>",
+        status_code=200,
+        canonical_norm_id="ley.2277.2022",
+        parsed_text="Ley 2277 de 2022",
+    )
+    res = s.fetch("ley.2277.2022")
+    assert res is not None
+    assert res.cache_hit is True
+    assert res.parsed_text == "Ley 2277 de 2022"
+
+
+# ---------------------------------------------------------------------------
+# HTML parser smoke
+# ---------------------------------------------------------------------------
+
+
+def test_secretaria_senado_html_to_text_extracts_modification_notes():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    html = (
+        b"<html><body><p>Art. 158-1 ET. <em>Modificado por la Ley 2277 de 2022, "
+        b"Art. 96.</em></p></body></html>"
+    )
+    text, meta = s._parse_html(html)
+    assert "Art. 158-1 ET" in text
+    assert any("Modificado por" in note for note in meta["modification_notes"])

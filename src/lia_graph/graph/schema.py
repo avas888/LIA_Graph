@@ -18,6 +18,8 @@ class NodeKind(str, Enum):
     SUBTOPIC = "SubTopicNode"
     # ingestionfix_v2 §4 Phase 5: curated topic anchor.
     TOPIC = "TopicNode"
+    # fixplan_v3 §0.3.2 — first-class norm node, mirrors `norms` catalog.
+    NORM = "Norm"
 
 
 class EdgeKind(str, Enum):
@@ -42,6 +44,18 @@ class EdgeKind(str, Enum):
     # ingestionfix_v2 §4 Phase 5: thematic edges.
     TEMA = "TEMA"                    # Article/Reform → Topic
     SUBTEMA_DE = "SUBTEMA_DE"        # SubTopic → Topic (static taxonomy)
+    # fixplan_v3 §0.3.2 — directional pairs for norm-keyed vigencia mirror.
+    # The `(:Norm)` node is added as a separate kind below; these edges
+    # connect a `(:Norm)` to its source artifact `(:Norm)`.
+    MODIFIED_BY = "MODIFIED_BY"
+    DEROGATED_BY = "DEROGATED_BY"
+    SUSPENDED_BY = "SUSPENDED_BY"
+    INEXEQUIBLE_BY = "INEXEQUIBLE_BY"
+    CONDITIONALLY_EXEQUIBLE_BY = "CONDITIONALLY_EXEQUIBLE_BY"
+    MODULATED_BY = "MODULATED_BY"
+    REVIVED_BY = "REVIVED_BY"
+    CITES = "CITES"
+    IS_SUB_UNIT_OF = "IS_SUB_UNIT_OF"
 
 
 @dataclass(frozen=True)
@@ -225,6 +239,23 @@ def default_graph_schema() -> GraphSchema:
             ),
             required_fields=("topic_key", "label"),
         ),
+        NodeKind.NORM: GraphNodeType(
+            label=NodeKind.NORM,
+            key_field="norm_id",
+            description=(
+                "fixplan_v3 §0.3.2 — first-class legal norm. Mirrors `norms` catalog. "
+                "Edges (MODIFIED_BY / DEROGATED_BY / etc.) carry the v3 vigencia history."
+            ),
+            required_fields=("norm_id", "norm_type", "display_label"),
+            optional_fields=(
+                "parent_norm_id",
+                "is_sub_unit",
+                "sub_unit_kind",
+                "emisor",
+                "fecha_emision",
+                "canonical_url",
+            ),
+        ),
     }
 
     article_targets = (NodeKind.ARTICLE, NodeKind.REFORM, NodeKind.CONCEPT, NodeKind.PARAMETER)
@@ -344,6 +375,61 @@ def default_graph_schema() -> GraphSchema:
                 "once per subtopic at load time so the graph can walk "
                 "subtopic ↔ topic without consulting the JSON taxonomy."
             ),
+        ),
+        # fixplan_v3 §0.3.2 — Norm-keyed vigencia mirror edges.
+        EdgeKind.MODIFIED_BY: GraphEdgeType(
+            label=EdgeKind.MODIFIED_BY,
+            source_kinds=(NodeKind.NORM,),
+            target_kinds=(NodeKind.NORM,),
+            description="Norm modified by another Norm (typically a posterior reforma).",
+        ),
+        EdgeKind.DEROGATED_BY: GraphEdgeType(
+            label=EdgeKind.DEROGATED_BY,
+            source_kinds=(NodeKind.NORM,),
+            target_kinds=(NodeKind.NORM,),
+            description="Norm derogated (expresa or tácita) by another Norm.",
+        ),
+        EdgeKind.SUSPENDED_BY: GraphEdgeType(
+            label=EdgeKind.SUSPENDED_BY,
+            source_kinds=(NodeKind.NORM,),
+            target_kinds=(NodeKind.NORM,),
+            description="Norm under suspensión provisional by an auto/sentencia.",
+        ),
+        EdgeKind.INEXEQUIBLE_BY: GraphEdgeType(
+            label=EdgeKind.INEXEQUIBLE_BY,
+            source_kinds=(NodeKind.NORM,),
+            target_kinds=(NodeKind.NORM,),
+            description="Norm declared inexequible by a sentencia C-.",
+        ),
+        EdgeKind.CONDITIONALLY_EXEQUIBLE_BY: GraphEdgeType(
+            label=EdgeKind.CONDITIONALLY_EXEQUIBLE_BY,
+            source_kinds=(NodeKind.NORM,),
+            target_kinds=(NodeKind.NORM,),
+            description="Norm declared exequibilidad condicionada (EC) by a sentencia C-.",
+        ),
+        EdgeKind.MODULATED_BY: GraphEdgeType(
+            label=EdgeKind.MODULATED_BY,
+            source_kinds=(NodeKind.NORM,),
+            target_kinds=(NodeKind.NORM,),
+            description="Norm under non-CC modulación (VC) — concepto DIAN posterior, doctrina, etc.",
+        ),
+        EdgeKind.REVIVED_BY: GraphEdgeType(
+            label=EdgeKind.REVIVED_BY,
+            source_kinds=(NodeKind.NORM,),
+            target_kinds=(NodeKind.NORM,),
+            description="Norm revivida tras inexequibilidad de la norma derogante (RV).",
+        ),
+        EdgeKind.CITES: GraphEdgeType(
+            label=EdgeKind.CITES,
+            source_kinds=(NodeKind.ARTICLE, NodeKind.REFORM, NodeKind.CONCEPT, NodeKind.NORM),
+            target_kinds=(NodeKind.NORM,),
+            description="A document chunk / article cites a canonical Norm (with role + anchor_strength on the edge).",
+        ),
+        EdgeKind.IS_SUB_UNIT_OF: GraphEdgeType(
+            label=EdgeKind.IS_SUB_UNIT_OF,
+            source_kinds=(NodeKind.NORM,),
+            target_kinds=(NodeKind.NORM,),
+            description="Sub-unit norm (parágrafo / inciso / numeral / literal) → its parent norm.",
         ),
     }
 

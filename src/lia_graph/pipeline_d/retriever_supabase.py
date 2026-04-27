@@ -25,7 +25,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 import re
-from typing import Any
+from typing import Any, Mapping
 
 from ..contracts import Citation, DocumentRecord
 from ..supabase_client import get_supabase_client
@@ -62,6 +62,13 @@ def retrieve_graph_evidence(
     # depend on luck of the ranker.
     anchor_rows = _fetch_anchor_article_rows(db, plan)
     chunk_rows = _merge_rows_prefer_anchors(anchor_rows, chunk_rows)
+
+    # fixplan_v3 sub-fix 1B-ε — apply the v3 vigencia gate as a post-pass.
+    # Drops chunks whose anchor citation is in {DE,SP,IE,VL}; demotes
+    # contested-DT (factor 0.3); annotates kept chunks with `vigencia_v3`
+    # so the chat-response payload can render the chip. No-op when
+    # `norm_citations` is empty for the chunk set.
+    chunk_rows, demotion_diagnostics = _apply_v3_vigencia_demotion(db, plan, chunk_rows)
     # v5 §1.B — supplementary topic-filtered fetch was attempted here on
     # 2026-04-26 evening. Empirically regressed 2 topics
     # (impuesto_patrimonio_pn + conciliacion_fiscal) from `chunks_off_topic`
@@ -98,6 +105,7 @@ def retrieve_graph_evidence(
         "planner_query_mode": plan.query_mode,
         "temporal_context": plan.temporal_context.to_dict(),
         "retrieval_sub_topic_intent": getattr(plan, "sub_topic_intent", None),
+        "vigencia_v3_demotion": demotion_diagnostics,
     }
     if not chunk_rows:
         diagnostics.update(_diagnose_empty_chunks(db))
@@ -503,6 +511,85 @@ def _merge_rows_prefer_anchors(
     return merged
 
 
+def _apply_v3_vigencia_demotion(
+    db: Any,
+    plan: GraphRetrievalPlan,
+    chunk_rows: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """fixplan_v3 sub-fix 1B-ε — gate retrieval results through the v3
+    norm-keyed vigencia layer.
+
+    Calls `chunk_vigencia_gate_at_date` (or `_for_period`) with the chunk_ids
+    + the planner's vigencia query payload, then multiplies each chunk's
+    `rrf_score` by the anchor's `demotion_factor` and drops chunks whose
+    anchor returns 0.0 (DE / SP / IE / VL / DI-expired).
+
+    The pass is best-effort: if the RPC is unavailable (env without v3
+    schema) it returns the input untouched plus a `disabled` diagnostic.
+    """
+
+    if not chunk_rows:
+        return chunk_rows, {"status": "no_chunks", "kept": 0, "dropped": 0}
+
+    try:
+        from lia_graph.pipeline_d.vigencia_demotion import (
+            apply_demotion as _apply,
+            run_demotion_pass as _run_pass,
+        )
+    except Exception as err:  # pragma: no cover
+        return chunk_rows, {"status": "import_error", "error": str(err)}
+
+    chunk_ids = [str(row.get("chunk_id") or "") for row in chunk_rows if row.get("chunk_id")]
+    if not chunk_ids:
+        return chunk_rows, {"status": "no_chunk_ids", "kept": len(chunk_rows), "dropped": 0}
+
+    def _at_date(ids: list[str], as_of: str):
+        try:
+            resp = db.rpc(
+                "chunk_vigencia_gate_at_date",
+                {"chunk_ids": ids, "as_of_date": as_of},
+            ).execute()
+        except Exception:  # pragma: no cover — env-dependent
+            return []
+        return getattr(resp, "data", None) or []
+
+    def _for_period(ids: list[str], impuesto: str, periodo_year: int, periodo_label: Any):
+        try:
+            resp = db.rpc(
+                "chunk_vigencia_gate_for_period",
+                {
+                    "chunk_ids": ids,
+                    "impuesto": impuesto,
+                    "periodo_year": int(periodo_year),
+                    "periodo_label": periodo_label,
+                },
+            ).execute()
+        except Exception:  # pragma: no cover
+            return []
+        return getattr(resp, "data", None) or []
+
+    try:
+        result = _run_pass(
+            plan=plan,
+            chunk_ids=chunk_ids,
+            rpc_at_date_fn=_at_date,
+            rpc_for_period_fn=_for_period,
+        )
+    except Exception as err:  # pragma: no cover
+        return chunk_rows, {"status": "pass_error", "error": str(err)}
+
+    new_rows = _apply(chunk_rows, result)
+    return new_rows, {
+        "status": "ok",
+        "rpc_kind": result.rpc_kind,
+        "rpc_payload": dict(result.rpc_payload or {}),
+        "chunks_seen": result.chunks_seen,
+        "chunks_kept": result.chunks_kept,
+        "chunks_dropped": result.chunks_dropped,
+        "chunks_demoted": result.chunks_demoted,
+    }
+
+
 def _diagnose_empty_chunks(db: Any) -> dict[str, Any]:
     """Classify why `hybrid_search` came back empty.
 
@@ -597,6 +684,10 @@ def _classify_article_rows(
         relative_path = str(document_row.get("relative_path") or row.get("relative_path") or "")
         chunk_text = str(row.get("chunk_text") or row.get("summary") or "")
         snippet = chunk_text[: plan.evidence_bundle_shape.snippet_char_limit]
+        # fixplan_v3 sub-fix 1B-ε — propagate the v3 vigencia annotation
+        # attached during _apply_v3_vigencia_demotion. None when chunk has
+        # no anchor citation (passthrough).
+        vigencia_v3_payload = row.get("vigencia_v3")
         item = GraphEvidenceItem(
             node_kind="ArticleNode",
             node_key=article_key,
@@ -607,6 +698,7 @@ def _classify_article_rows(
             hop_distance=0 if article_key in explicit_set else 1,
             why=None,
             relation_path=(),
+            vigencia_v3=dict(vigencia_v3_payload) if isinstance(vigencia_v3_payload, dict) else None,
         )
         if article_key in explicit_set:
             primary.append(item)
@@ -689,16 +781,32 @@ def _collect_support(
     # Preserve the order chunks arrived in (ranked by hybrid_search).
     ordered_doc_ids: list[str] = []
     seen: set[str] = set()
+    # fixplan_v3 sub-fix 1B-ε — aggregate the most-restrictive vigencia_v3
+    # annotation per doc_id (across that doc's chunks). Chip rendering on
+    # the citation list reads from this map.
+    vigencia_v3_by_doc: dict[str, dict[str, Any]] = {}
     for row in chunk_rows:
         doc_id = str(row.get("doc_id") or "")
-        if not doc_id or doc_id in seen:
+        if not doc_id:
+            continue
+        v3_payload = row.get("vigencia_v3")
+        if isinstance(v3_payload, dict):
+            existing = vigencia_v3_by_doc.get(doc_id)
+            if existing is None or _v3_more_restrictive(v3_payload, existing):
+                vigencia_v3_by_doc[doc_id] = dict(v3_payload)
+        if doc_id in seen:
             continue
         if doc_id not in documents_by_doc_id:
             continue
         seen.add(doc_id)
         ordered_doc_ids.append(doc_id)
         if len(ordered_doc_ids) >= limit:
-            break
+            # Note: don't break — continue iterating to finish the v3
+            # aggregation across all chunks (cheap; no extra IO).
+            pass
+
+    # Re-trim ordered_doc_ids to the limit
+    ordered_doc_ids = ordered_doc_ids[:limit]
 
     supports: list[GraphSupportDocument] = []
     citations: list[Citation] = []
@@ -719,8 +827,37 @@ def _collect_support(
                 reason="supabase_hybrid_search_hit",
             )
         )
-        citations.append(Citation.from_document(_document_record_from_row(row)))
+        citation = Citation.from_document(_document_record_from_row(row))
+        # Replace with the v3 vigencia annotation if any of this doc's chunks
+        # produced one (frozen-dataclass-safe via dataclasses.replace).
+        v3 = vigencia_v3_by_doc.get(doc_id)
+        if v3 is not None:
+            from dataclasses import replace as _replace
+            citation = _replace(citation, vigencia_v3=v3)
+        citations.append(citation)
     return tuple(supports), tuple(citations)
+
+
+# Lower demotion_factor → more restrictive. Tie-break on state ordering.
+_V3_STATE_RANK = {
+    "DE": 0, "SP": 0, "IE": 0, "VL": 0,
+    "DI": 1, "DT": 1,
+    "VC": 2, "EC": 2,
+    "VM": 3, "RV": 3,
+    "V": 4,
+}
+
+
+def _v3_more_restrictive(a: Mapping[str, Any], b: Mapping[str, Any]) -> bool:
+    """True iff `a` represents a more restrictive vigencia state than `b`."""
+
+    fa = float(a.get("demotion_factor") if a.get("demotion_factor") is not None else 1.0)
+    fb = float(b.get("demotion_factor") if b.get("demotion_factor") is not None else 1.0)
+    if fa != fb:
+        return fa < fb
+    ra = _V3_STATE_RANK.get(str(a.get("anchor_state") or ""), 5)
+    rb = _V3_STATE_RANK.get(str(b.get("anchor_state") or ""), 5)
+    return ra < rb
 
 
 def _document_record_from_row(row: dict[str, Any]) -> DocumentRecord:

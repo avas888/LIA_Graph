@@ -1,0 +1,76 @@
+{
+  "case_id": "art_689_3_ET_AG2025_2026-04-26",
+  "extracted_at_utc": "2026-04-26T22:30:00Z",
+  "extracted_at_bogota": "2026-04-26 5:30:00 PM Bogotá",
+  "extraction_method": "manual_skill_protocol_walkthrough",
+  "extracted_by": "claude-opus-4-7 acting as vigencia-checker skill operator",
+  "norm_type": "articulo_et",
+  "norm_id": "Art. 689-3 ET",
+  "norm_full_label": "Art. 689-3 ET — Beneficio de auditoría",
+  "parágrafo": null,
+  "periodo_consultado": {
+    "impuesto": "renta",
+    "year": 2025,
+    "period_label": "AG 2025"
+  },
+  "veredicto": {
+    "state": "VM",
+    "vigente_desde": "2021-09-14",
+    "vigente_hasta": null,
+    "derogado_por": null,
+    "modificado_por": [
+      {
+        "norm_type": "ley",
+        "norm_id": "Ley 2294 de 2023",
+        "article": "Art. 69",
+        "fecha": "2023-05-19",
+        "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr028.html",
+        "scope": "prorrogó el beneficio para los AG 2024, 2025 y 2026 (originalmente era solo AG 2022-2023 per Ley 2155/2021)"
+      }
+    ],
+    "suspension": null,
+    "inexequibilidad": null,
+    "condicionamiento": null,
+    "regimen_transicion": null,
+    "fuentes_primarias_consultadas": [
+      {
+        "norm_type": "url",
+        "norm_id": "secretaria_senado_ET_pr028",
+        "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr028.html",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (Secretaría del Senado — versión oficial del ET)",
+        "verified_via_websearch": true
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "actualicese_capitulo_12_beneficio_auditoria",
+        "primary_source_url": "https://actualicese.com/rutas/books/guia-para-preparar-y-presentar-declaraciones-de-renta-de-personas-naturales-ano-gravable-2023-con-formatos-2516-y-2517/page/capitulo-12-beneficio-de-auditoria-del-articulo-689-3-del-estatuto-tributario-para-el-cierre-del-ano-gravable-2023",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 3a (compilador curado — orienta búsqueda)",
+        "verified_via_websearch": true
+      }
+    ],
+    "extraction_audit": {
+      "skill_version": "vigencia-checker@1.0",
+      "method": "manual walkthrough; WebSearch as primary-source proxy",
+      "tool_iterations": 1,
+      "wall_seconds": 60,
+      "limitations_acknowledged": ["Did not directly fetch DIAN Normograma URL — would be required by full Fix 1B-α scrapers"]
+    }
+  },
+  "applies_to_periodo": {
+    "aplica": "Sí",
+    "justificacion": "Vigente desde 2021-09-14 (creación por Art. 51 Ley 2155/2021). Modificado por Art. 69 Ley 2294/2023 que prorrogó el beneficio para AG 2024, 2025 y 2026. Aplica plenamente al AG 2025.",
+    "norm_version_aplicable": "Texto modificado por Ley 2294/2023 — vigente desde 2023-05-19, aplicable a AG 2024-2026"
+  },
+  "riesgo_de_error": "Bajo",
+  "recomendacion_para_el_contador": "El beneficio de auditoría del Art. 689-3 ET aplica para AG 2025 con la prórroga de Ley 2294/2023. Citar SIEMPRE la combinación: matriz original (Ley 2155/2021 Art. 51) + prórroga (Ley 2294/2023 Art. 69). NO citar Art. 689-1 ET — ese es el régimen histórico (Ley 2010/2019), reemplazado.",
+  "fix_5_skill_eval_seed": {
+    "case_purpose": "Validates skill on a clean VM case with single modification chain",
+    "expected_state": "VM",
+    "expected_modificado_por_count": 1,
+    "expected_min_primary_sources": 2,
+    "expected_must_cite": ["Ley 2155/2021", "Ley 2294/2023", "Art. 689-3 ET"],
+    "expected_must_not_cite": ["Art. 689-1 ET"]
+  }
+}

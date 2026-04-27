@@ -183,9 +183,9 @@ Lines 279-316. Returns chunks ordered by `rrf_score DESC LIMIT match_count`. Eac
 
 The Supabase retriever returns chunks. The Falkor retriever ALSO runs (in `falkor_live` mode) and returns articles + connected articles via Cypher BFS. The orchestrator merges both. See `pipeline_d/retriever_falkor.py` for the Cypher queries; key audited in `docs/learnings/ingestion/falkor-edge-undercount-and-resultset-cap-2026-04-26.md` (Falkor 10k row cap, defensive guard).
 
-## Known structural gaps (open as of 2026-04-26)
+## Known structural gaps (open as of 2026-04-27)
 
-1. **No topic boost in hybrid_search.** Subtopic has a multiplier; topic doesn't. This is the root of the 4 thin-corpus topic refusals catalogued in `next_v5.md §1.C`. Fix candidate: SQL migration adds `topic_boost` parameter analogous to `subtopic_boost`.
+1. ~~**No topic boost in hybrid_search.**~~ **CLOSED 2026-04-27** — `v5 §1.D` shipped `filter_topic_boost` (migration `supabase/migrations/20260427000000_topic_boost.sql`, default 1.5 in launcher when `LIA_TEMA_FIRST_RETRIEVAL=on`). Same-day footnote: that migration left an orphan 14-arg `hybrid_search` overload behind that caused intermittent HTTP 500s on payloads omitting `filter_topic_boost`; cleared by `20260428000000_drop_legacy_hybrid_search.sql` after the §1.G SME validation surfaced 15/36 failures. See `docs/learnings/retrieval/hybrid_search-overload-2026-04-27.md` for the pattern (`CREATE OR REPLACE FUNCTION` does NOT replace different-signature overloads — every parameter-list change must explicit-`DROP` the prior signature).
 
 2. **`_collect_support` selects strictly by chunk_rows order.** No reservation for router-topic docs. A narrow-topic doc that ranks 6th-of-20 won't make the support_document bundle. Fix candidate: 2-pass selection — first pass picks first N by rank, second pass fills remaining slots with router-topic docs found anywhere downstream.
 

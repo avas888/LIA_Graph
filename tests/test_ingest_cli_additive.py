@@ -81,7 +81,7 @@ def test_delta_id_defaults_none() -> None:
 
 
 # (g) env-matrix version stays in sync across the 5 mirror surfaces.
-# Source of truth: docs/guide/orchestration.md `### Current version:` line
+# Source of truth: docs/orchestration/orchestration.md `### Current version:` line
 # (per CLAUDE.md — code/docs reconcile to orchestration.md, never the other
 # way around). Test derives the expected version from that anchor so a
 # version bump only requires updating orchestration.md + propagating to the

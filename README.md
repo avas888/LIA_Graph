@@ -31,7 +31,7 @@ Query → Intake (shared) → Topic Router (shared) → Graph Planner (new)
 
 ## Status
 
-Build V1 Phases 1–3 are live: the graph is green, `pipeline_d` is the served default, `dev:staging` walks cloud Supabase + cloud FalkorDB on every request, and the corpus sink + Gemini embeddings round-trip through one `make phase2-graph-artifacts-supabase` run. See `docs/guide/orchestration.md` (env matrix + change log) for the authoritative live-state map, and `docs/state/STATE.md` for the broader repo ledger.
+Build V1 Phases 1–3 are live: the graph is green, `pipeline_d` is the served default, `dev:staging` walks cloud Supabase + cloud FalkorDB on every request, and the corpus sink + Gemini embeddings round-trip through one `make phase2-graph-artifacts-supabase` run. See `docs/orchestration/orchestration.md` (env matrix + change log) for the authoritative live-state map, and `docs/state/STATE.md` for the broader repo ledger.
 
 ## Dev Commands
 
@@ -50,7 +50,7 @@ Notes:
 
 ## Docs
 
-- `docs/guide/orchestration.md` — End-to-end live runtime map + authoritative env matrix & change log (read this first)
+- `docs/orchestration/orchestration.md` — End-to-end live runtime map + authoritative env matrix & change log (read this first)
 - `docs/guide/chat-response-architecture.md` — How the `main chat` answer is shaped
 - `docs/guide/env_guide.md` — Run modes, env files, migration baseline, test accounts, corpus refresh
 - `docs/guide/corpus.md` — Corpus layers, ingestion audit gate, latest run stats

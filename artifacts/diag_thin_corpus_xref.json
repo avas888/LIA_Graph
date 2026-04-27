@@ -1,0 +1,789 @@
+{
+  "rows": [
+    {
+      "topic": "precios_de_transferencia",
+      "chunks_sampled": 42,
+      "distinct_refs": 25,
+      "total_mentions": 151,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "declaracion_renta": 111,
+        "renta_liquida_gravable": 21,
+        "cambiario": 14,
+        "patrimonio_fiscal_renta": 3,
+        "regimen_simple": 2
+      },
+      "per_ref_top": [
+        {
+          "art_id": "260-1",
+          "mentions": 24,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "118-1",
+          "mentions": 21,
+          "owner_topic": "renta_liquida_gravable",
+          "same_topic": false
+        },
+        {
+          "art_id": "260-7",
+          "mentions": 20,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "260-5",
+          "mentions": 18,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "260-2",
+          "mentions": 14,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "260-11",
+          "mentions": 14,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "1",
+          "mentions": 14,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "260-9",
+          "mentions": 10,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "impuesto_patrimonio_personas_naturales",
+      "chunks_sampled": 38,
+      "distinct_refs": 9,
+      "total_mentions": 39,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 87.2,
+      "unknown_pct": 12.8,
+      "top_cross_owners": {
+        "patrimonio_fiscal_renta": 33,
+        "declaracion_renta": 1
+      },
+      "per_ref_top": [
+        {
+          "art_id": "272",
+          "mentions": 8,
+          "owner_topic": "patrimonio_fiscal_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "295-3",
+          "mentions": 7,
+          "owner_topic": "patrimonio_fiscal_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "292-3",
+          "mentions": 6,
+          "owner_topic": "patrimonio_fiscal_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "298-3",
+          "mentions": 5,
+          "owner_topic": "patrimonio_fiscal_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "294-3",
+          "mentions": 5,
+          "owner_topic": "patrimonio_fiscal_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "296-3",
+          "mentions": 5,
+          "owner_topic": "?unknown?",
+          "same_topic": false
+        },
+        {
+          "art_id": "298-8",
+          "mentions": 1,
+          "owner_topic": "patrimonio_fiscal_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "19",
+          "mentions": 1,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "regimen_cambiario",
+      "chunks_sampled": 34,
+      "distinct_refs": 37,
+      "total_mentions": 75,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 94.7,
+      "unknown_pct": 5.3,
+      "top_cross_owners": {
+        "laboral": 21,
+        "retencion_fuente_general": 13,
+        "declaracion_renta": 10,
+        "cambiario": 8,
+        "patrimonio_fiscal_renta": 6
+      },
+      "per_ref_top": [
+        {
+          "art_id": "2",
+          "mentions": 21,
+          "owner_topic": "laboral",
+          "same_topic": false
+        },
+        {
+          "art_id": "3",
+          "mentions": 8,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "288",
+          "mentions": 6,
+          "owner_topic": "patrimonio_fiscal_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "95",
+          "mentions": 6,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "407",
+          "mentions": 5,
+          "owner_topic": "retencion_fuente_general",
+          "same_topic": false
+        },
+        {
+          "art_id": "408",
+          "mentions": 5,
+          "owner_topic": "retencion_fuente_general",
+          "same_topic": false
+        },
+        {
+          "art_id": "87",
+          "mentions": 5,
+          "owner_topic": "costos_deducciones_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "2024",
+          "mentions": 4,
+          "owner_topic": "?unknown?",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "perdidas_fiscales_art147",
+      "chunks_sampled": 32,
+      "distinct_refs": 33,
+      "total_mentions": 132,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "declaracion_renta": 67,
+        "firmeza_declaraciones": 35,
+        "procedimiento_tributario": 13,
+        "regimen_simple": 10,
+        "cambiario": 7
+      },
+      "per_ref_top": [
+        {
+          "art_id": "319-4",
+          "mentions": 35,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "290",
+          "mentions": 18,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "147",
+          "mentions": 15,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        },
+        {
+          "art_id": "707",
+          "mentions": 11,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        },
+        {
+          "art_id": "906",
+          "mentions": 10,
+          "owner_topic": "regimen_simple",
+          "same_topic": false
+        },
+        {
+          "art_id": "240",
+          "mentions": 10,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "714",
+          "mentions": 9,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        },
+        {
+          "art_id": "1",
+          "mentions": 7,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "beneficio_auditoria",
+      "chunks_sampled": 22,
+      "distinct_refs": 12,
+      "total_mentions": 48,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "firmeza_declaraciones": 37,
+        "procedimiento_tributario": 5,
+        "declaracion_renta": 3,
+        "renta_presuntiva": 1,
+        "ingresos_fiscales_renta": 1
+      },
+      "per_ref_top": [
+        {
+          "art_id": "689-3",
+          "mentions": 29,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        },
+        {
+          "art_id": "714",
+          "mentions": 5,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        },
+        {
+          "art_id": "689-2",
+          "mentions": 3,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "240",
+          "mentions": 2,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "580",
+          "mentions": 2,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "365",
+          "mentions": 1,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "854",
+          "mentions": 1,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        },
+        {
+          "art_id": "588",
+          "mentions": 1,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "normas_internacionales_auditoria",
+      "chunks_sampled": 22,
+      "distinct_refs": 11,
+      "total_mentions": 36,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "rentas_exentas": 18,
+        "procedimiento_tributario": 4,
+        "renta_presuntiva": 4,
+        "declaracion_renta": 4,
+        "cambiario": 3
+      },
+      "per_ref_top": [
+        {
+          "art_id": "207",
+          "mentions": 14,
+          "owner_topic": "rentas_exentas",
+          "same_topic": false
+        },
+        {
+          "art_id": "658-1",
+          "mentions": 4,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "203",
+          "mentions": 4,
+          "owner_topic": "renta_presuntiva",
+          "same_topic": false
+        },
+        {
+          "art_id": "1",
+          "mentions": 3,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "13",
+          "mentions": 3,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "208",
+          "mentions": 2,
+          "owner_topic": "rentas_exentas",
+          "same_topic": false
+        },
+        {
+          "art_id": "211",
+          "mentions": 2,
+          "owner_topic": "rentas_exentas",
+          "same_topic": false
+        },
+        {
+          "art_id": "25",
+          "mentions": 1,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "conciliacion_fiscal",
+      "chunks_sampled": 21,
+      "distinct_refs": 32,
+      "total_mentions": 89,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "procedimiento_tributario": 44,
+        "cambiario": 18,
+        "declaracion_renta": 17,
+        "costos_deducciones_renta": 7,
+        "patrimonio_fiscal_renta": 3
+      },
+      "per_ref_top": [
+        {
+          "art_id": "655",
+          "mentions": 12,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "1",
+          "mentions": 12,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "651",
+          "mentions": 12,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "772-1",
+          "mentions": 11,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "137",
+          "mentions": 9,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "240",
+          "mentions": 8,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "3",
+          "mentions": 6,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "644",
+          "mentions": 5,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "impuestos_saludables",
+      "chunks_sampled": 21,
+      "distinct_refs": 5,
+      "total_mentions": 5,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "procedimiento_tributario": 4,
+        "iva": 1
+      },
+      "per_ref_top": [
+        {
+          "art_id": "640",
+          "mentions": 1,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "598",
+          "mentions": 1,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "637",
+          "mentions": 1,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "648",
+          "mentions": 1,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "513-2",
+          "mentions": 1,
+          "owner_topic": "iva",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "sector_telecomunicaciones",
+      "chunks_sampled": 21,
+      "distinct_refs": 69,
+      "total_mentions": 73,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "declaracion_renta": 30,
+        "firmeza_declaraciones": 13,
+        "regimen_simple": 13,
+        "procedimiento_tributario": 8,
+        "cambiario": 6
+      },
+      "per_ref_top": [
+        {
+          "art_id": "240",
+          "mentions": 16,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "689-3",
+          "mentions": 8,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        },
+        {
+          "art_id": "807",
+          "mentions": 8,
+          "owner_topic": "procedimiento_tributario",
+          "same_topic": false
+        },
+        {
+          "art_id": "1",
+          "mentions": 6,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "107",
+          "mentions": 6,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "147",
+          "mentions": 5,
+          "owner_topic": "firmeza_declaraciones",
+          "same_topic": false
+        },
+        {
+          "art_id": "908",
+          "mentions": 5,
+          "owner_topic": "regimen_simple",
+          "same_topic": false
+        },
+        {
+          "art_id": "909",
+          "mentions": 4,
+          "owner_topic": "regimen_simple",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "dividendos_y_distribucion_utilidades",
+      "chunks_sampled": 17,
+      "distinct_refs": 38,
+      "total_mentions": 127,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "declaracion_renta": 72,
+        "ingresos_fiscales_renta": 35,
+        "renta_liquida_gravable": 16,
+        "retencion_fuente_general": 4
+      },
+      "per_ref_top": [
+        {
+          "art_id": "49",
+          "mentions": 31,
+          "owner_topic": "ingresos_fiscales_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "118-1",
+          "mentions": 16,
+          "owner_topic": "renta_liquida_gravable",
+          "same_topic": false
+        },
+        {
+          "art_id": "242-1",
+          "mentions": 15,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "242",
+          "mentions": 13,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "245",
+          "mentions": 11,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "254",
+          "mentions": 10,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "254-1",
+          "mentions": 9,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "243",
+          "mentions": 5,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "parafiscales_seguridad_social",
+      "chunks_sampled": 15,
+      "distinct_refs": 43,
+      "total_mentions": 32,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "declaracion_renta": 9,
+        "facturacion_electronica": 8,
+        "comercial_societario": 7,
+        "cambiario": 2,
+        "ingresos_fiscales_renta": 2
+      },
+      "per_ref_top": [
+        {
+          "art_id": "616-1",
+          "mentions": 8,
+          "owner_topic": "facturacion_electronica",
+          "same_topic": false
+        },
+        {
+          "art_id": "26",
+          "mentions": 3,
+          "owner_topic": "comercial_societario",
+          "same_topic": false
+        },
+        {
+          "art_id": "13",
+          "mentions": 3,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "37",
+          "mentions": 2,
+          "owner_topic": "comercial_societario",
+          "same_topic": false
+        },
+        {
+          "art_id": "1",
+          "mentions": 2,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "9",
+          "mentions": 2,
+          "owner_topic": "comercial_societario",
+          "same_topic": false
+        },
+        {
+          "art_id": "16",
+          "mentions": 2,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "7",
+          "mentions": 2,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        }
+      ]
+    },
+    {
+      "topic": "sector_economia",
+      "chunks_sampled": 12,
+      "distinct_refs": 9,
+      "total_mentions": 9,
+      "same_topic_pct": 0.0,
+      "cross_topic_pct": 100.0,
+      "unknown_pct": 0.0,
+      "top_cross_owners": {
+        "cambiario": 4,
+        "declaracion_renta": 2,
+        "laboral": 1,
+        "comercial_societario": 1,
+        "rentas_exentas": 1
+      },
+      "per_ref_top": [
+        {
+          "art_id": "1",
+          "mentions": 1,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "2",
+          "mentions": 1,
+          "owner_topic": "laboral",
+          "same_topic": false
+        },
+        {
+          "art_id": "3",
+          "mentions": 1,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "4",
+          "mentions": 1,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "5",
+          "mentions": 1,
+          "owner_topic": "comercial_societario",
+          "same_topic": false
+        },
+        {
+          "art_id": "6",
+          "mentions": 1,
+          "owner_topic": "cambiario",
+          "same_topic": false
+        },
+        {
+          "art_id": "7",
+          "mentions": 1,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        },
+        {
+          "art_id": "107",
+          "mentions": 1,
+          "owner_topic": "declaracion_renta",
+          "same_topic": false
+        }
+      ]
+    }
+  ],
+  "all_cross_owners": {
+    "declaracion_renta": 326,
+    "renta_liquida_gravable": 37,
+    "cambiario": 62,
+    "patrimonio_fiscal_renta": 45,
+    "regimen_simple": 25,
+    "laboral": 22,
+    "retencion_fuente_general": 17,
+    "firmeza_declaraciones": 85,
+    "procedimiento_tributario": 78,
+    "renta_presuntiva": 5,
+    "ingresos_fiscales_renta": 38,
+    "rentas_exentas": 19,
+    "costos_deducciones_renta": 7,
+    "iva": 1,
+    "facturacion_electronica": 8,
+    "comercial_societario": 8
+  }
+}

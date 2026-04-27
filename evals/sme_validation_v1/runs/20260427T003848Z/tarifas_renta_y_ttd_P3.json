@@ -1,0 +1,180 @@
+{
+  "qid": "tarifas_renta_y_ttd_P3",
+  "topic_key_expected": "tarifas_renta_y_ttd",
+  "profile": "P3_borde",
+  "message": "Tengo un cliente hotel pequeño ubicado en un municipio de 80 mil habitantes que abrió en 2023. Le vienen vendiendo la idea de que tiene tarifa preferencial del 9% o 15%. ¿Cuál de las dos aplica realmente, qué requisitos tiene que cumplir, y queda excluido del cálculo de la TTD?",
+  "http_status": 200,
+  "latency_ms": 8504,
+  "captured_utc": "2026-04-27T00:41:36.005796+00:00",
+  "response": {
+    "trace_id": "942d55c6-64ab-4c18-8ace-8ffa7a1e9f0d",
+    "run_id": "pd_9564ebcd91c44c949a36541fdd50f3ce",
+    "answer_markdown": "No pude ubicar evidencia del tema **tarifas_renta_y_ttd** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "answer_concise": "No pude ubicar evidencia del tema **tarifas_renta_y_ttd** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+    "evidence_snippets": [],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 50,
+        "output_tokens": 37,
+        "total_tokens": 87,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "tarifas_renta_y_ttd",
+    "secondary_topics": [
+      "inversiones_incentivos"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+    "topic_adjustment_reason": "La consulta es sobre la aplicación de una tarifa preferencial de renta (9% o 15%) y su impacto en la TTD, lo cual se clasifica bajo tarifas_renta_y_ttd. Aunque menciona un incentivo por ubicación/sector, la pregunta operativa es sobre la tarifa y su cálculo, no sobre la elección o calificación del régimen en sí. La regla 9 (regime vs mechanic routing) indica que si la pregunta es sobre APLICAR la mecánica una vez ya estás en el régimen, el topic es la mecánica. El incentivo es un secondary topic.",
+    "coverage_notice": "No pude ubicar evidencia del tema **tarifas_renta_y_ttd** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "topic": "tarifas_renta_y_ttd",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_428656ce228e",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 50,
+        "output_tokens": 37,
+        "total_tokens": 87
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "942d55c6-64ab-4c18-8ace-8ffa7a1e9f0d",
+      "last_run_id": "pd_9564ebcd91c44c949a36541fdd50f3ce",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_428656ce228e",
+    "chat_run_id": "cr_20260427_004130_1c769741",
+    "metrics": {
+      "latency_ms": 7218.87,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 50,
+          "output_tokens": 37,
+          "total_tokens": 87,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_428656ce228e",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 50,
+          "output_tokens": 37,
+          "total_tokens": 87
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "942d55c6-64ab-4c18-8ace-8ffa7a1e9f0d",
+        "last_run_id": "pd_9564ebcd91c44c949a36541fdd50f3ce",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "tarifas_renta_y_ttd",
+        "secondary_topics": [
+          "inversiones_incentivos"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "c28cf20e94b84b1b8604dfbbcbc65d2b"
+  }
+}

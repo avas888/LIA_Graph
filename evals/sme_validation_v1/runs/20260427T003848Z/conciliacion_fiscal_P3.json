@@ -1,0 +1,342 @@
+{
+  "qid": "conciliacion_fiscal_P3",
+  "topic_key_expected": "conciliacion_fiscal",
+  "profile": "P3_borde",
+  "message": "Una clienta tiene un contrato de arrendamiento de bodega que bajo NIIF 16 reconoció como activo por derecho de uso de $300 millones y un pasivo por arrendamiento de $290 millones. Fiscalmente entiendo que esas figuras no existen y que solo se deduce el canon pagado en el año. ¿Cómo concilio eso en el 2516, cómo afecta el patrimonio fiscal, y si más adelante la DIAN me hace comparación patrimonial cómo justifico la diferencia?",
+  "http_status": 200,
+  "latency_ms": 17353,
+  "captured_utc": "2026-04-27T00:45:06.445973+00:00",
+  "response": {
+    "trace_id": "da8411b2-ec7f-4f1c-96f5-517eec38b59c",
+    "run_id": "pd_16c5e1cab0634fdfbe92a3f9dfabf9a2",
+    "answer_markdown": "**Respuestas directas**\n\n*   **¿Cómo concilio el reconocimiento del activo por derecho de uso y el pasivo por arrendamiento bajo NIIF 16 con la normativa fiscal en el formato 2516?**\n\n    *   Fiscalmente, el activo por derecho de uso y el pasivo por arrendamiento no se reconocen. El tratamiento fiscal se limita a la deducción de los cánones de arrendamiento efectivamente pagados en el año gravable (art. 263 ET).\n    *   En el formato 2516, la conciliación se realiza ajustando el patrimonio fiscal para eliminar el impacto de estos reconocimientos NIIF.\n\n*   **¿Cómo afecta el patrimonio fiscal la diferencia entre el tratamiento NIIF 16 y el fiscal?**\n\n    *   El patrimonio fiscal se determina por los bienes y derechos apreciables en dinero poseídos al cierre del año gravable (art. 261 ET).\n    *   Dado que el activo por derecho de uso no es un bien poseído fiscalmente ni un derecho apreciable en dinero para efectos tributarios (art. 262 ET), no forma parte del patrimonio fiscal.\n    *   El pasivo por arrendamiento tampoco se reconoce fiscalmente como una obligación que disminuya el patrimonio.\n    *   La diferencia entre el patrimonio contable (NIIF) y el patrimonio fiscal se reflejará en la conciliación fiscal.\n\n*   **Si más adelante la DIAN me hace comparación patrimonial, ¿cómo justifico la diferencia?**\n\n    *   La justificación se basa en la diferencia de marcos normativos: NIIF para contabilidad y Estatuto Tributario para fiscalidad.\n    *   Se debe demostrar que la diferencia patrimonial proviene del reconocimiento de activos y pasivos bajo NIIF 16 que no tienen correlato fiscal, y no de rentas no declaradas.\n    *   La conciliación fiscal (formato 2516) es la herramienta principal para soportar estas diferencias.\n\n**Ruta sugerida**\n\n1.  **Determinación del Patrimonio Fiscal:**\n    *   Para efectos fiscales, el activo por derecho de uso de $300 millones y el pasivo por arrendamiento de $290 millones no se incluyen en el patrimonio.\n    *   El patrimonio fiscal se construye exclusivamente con los bienes y derechos apreciables en dinero que cumplen con los criterios del Estatuto Tributario (arts. 261, 262 y 263 ET).\n2.  **Conciliación Fiscal (Formato 2516):**\n    *   En el formato 2516, se debe realizar un ajuste para eliminar el efecto del activo por derecho de uso y el pasivo por arrendamiento del patrimonio contable para llegar al patrimonio fiscal.\n    *   La deducción fiscal se limitará a los cánones de arrendamiento efectivamente pagados durante el periodo gravable.\n\n**Riesgos y condiciones**\n\n*   **Riesgo de desconocimiento de la deducción:** Si se intenta deducir la depreciación del activo por derecho de uso o los intereses implícitos del pasivo, la DIAN desconocerá estas deducciones por no estar soportadas en el ET. La deducción se limita al canon pagado.\n*   **Riesgo en comparación patrimonial:** La DIAN podría cuestionar el incremento patrimonial si no se tiene una conciliación fiscal robusta que explique las diferencias entre el patrimonio contable (NIIF) y el fiscal.\n*   **Condición clave:** Mantener una documentación clara y detallada de los contratos de arrendamiento y los cálculos NIIF 16, así como la conciliación fiscal, es fundamental para cualquier requerimiento de la DIAN.\n\n**Soportes clave**\n\n*   **Contrato de arrendamiento:** Documento base para el reconocimiento NIIF y la deducción fiscal del canon.\n*   **Cálculos NIIF 16:** Detalle del reconocimiento del activo por derecho de uso y el pasivo por arrendamiento.\n*   **Extractos bancarios y comprobantes de pago:** Para soportar los cánones de arrendamiento efectivamente pagados y deducidos fiscalmente.\n*   **Formato 2516 – Conciliación Fiscal:** Es el soporte principal para justificar las diferencias entre el patrimonio contable y el fiscal.\n*   **Estatuto Tributario:** Artículos 261, 262 y 263, que definen el patrimonio bruto, los derechos apreciables en dinero y la posesión fiscal.",
+    "answer_concise": "**Respuestas directas**\n\n*   **¿Cómo concilio el reconocimiento del activo por derecho de uso y el pasivo por arrendamiento bajo NIIF 16 con la normativa fiscal en el formato 2516?**\n\n    *   Fiscalmente, el activo por derecho de uso y el pasivo por arrendamiento no se reconocen. El tratamiento fiscal se limita a la deducción de los cánones de arrendamiento efectivamente pagados en el año gravable (art. 263 ET).\n    *   En el formato 2516, la conciliación se realiza ajustando el patrimonio fiscal para eliminar el impacto de estos reconocimientos NIIF.\n\n*   **¿Cómo afecta el patrimonio fiscal la diferencia entre el tratamiento NIIF 16 y el fiscal?**\n\n    *   El patrimonio fiscal se determina por los bienes y derechos apreciables en dinero poseídos al cierre del año gravable (art. 261 ET).\n    *   Dado que el activo por derecho de uso no es un bien poseído fiscalmente ni un derecho apreciable en dinero para efectos tributarios (art. 262 ET), no forma parte del patrimonio fiscal.\n    *   El pasivo por arrendamiento tampoco se reconoce fiscalmente como una obligación que disminuya el patrimonio.\n    *   La diferencia entre el patrimonio contable (NIIF) y el patrimonio fiscal se reflejará en la conciliación fiscal.\n\n*   **Si más adelante la DIAN me hace comparación patrimonial, ¿cómo justifico la diferencia?**\n\n    *   La justificación se basa en la diferencia de marcos normativos: NIIF para contabilidad y Estatuto Tributario para fiscalidad.\n    *   Se debe demostrar que la diferencia patrimonial proviene del reconocimiento de activos y pasivos bajo NIIF 16 que no tienen correlato fiscal, y no de rentas no declaradas.\n    *   La conciliación fiscal (formato 2516) es la herramienta principal para soportar estas diferencias.\n\n**Ruta sugerida**\n\n1.  **Determinación del Patrimonio Fiscal:**\n    *   Para efectos fiscales, el activo por derecho de uso de $300 millones y el pasivo por arrendamiento de $290 millones no se incluyen en el patrimonio.\n    *   El patrimonio fiscal se construye exclusivamente con los bienes y derechos apreciables en dinero que cumplen con los criterios del Estatuto Tributario (arts. 261, 262 y 263 ET).\n2.  **Conciliación Fiscal (Formato 2516):**\n    *   En el formato 2516, se debe realizar un ajuste para eliminar el efecto del activo por derecho de uso y el pasivo por arrendamiento del patrimonio contable para llegar al patrimonio fiscal.\n    *   La deducción fiscal se limitará a los cánones de arrendamiento efectivamente pagados durante el periodo gravable.\n\n**Riesgos y condiciones**\n\n*   **Riesgo de desconocimiento de la deducción:** Si se intenta deducir la depreciación del activo por derecho de uso o los intereses implícitos del pasivo, la DIAN desconocerá estas deducciones por no estar soportadas en el ET. La deducción se limita al canon pagado.\n*   **Riesgo en comparación patrimonial:** La DIAN podría cuestionar el incremento patrimonial si no se tiene una conciliación fiscal robusta que explique las diferencias entre el patrimonio contable (NIIF) y el fiscal.\n*   **Condición clave:** Mantener una documentación clara y detallada de los contratos de arrendamiento y los cálculos NIIF 16, así como la conciliación fiscal, es fundamental para cualquier requerimiento de la DIAN.\n\n**Soportes clave**\n\n*   **Contrato de arrendamiento:** Documento base para el reconocimiento NIIF y la deducción fiscal del canon.\n*   **Cálculos NIIF 16:** Detalle del reconocimiento del activo por derecho de uso y el pasivo por arrendamiento.\n*   **Extractos bancarios y comprobantes de pago:** Para soportar los cánones de arrendamiento efectivamente pagados y deducidos fiscalmente.\n*   **Formato 2516 – Conciliación Fiscal:** Es el soporte principal para justificar las diferencias entre el patrimonio contable y el fiscal.\n*   **Estatuto Tributario:** Artículos 261, 262 y 263, que definen el patrimonio bruto, los derechos apreciables en dinero y la posesión fiscal.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Si más adelante la DIAN me hace comparación patrimonial, ¿cómo justifico la diferencia?** La justificación se basa en la diferencia de marcos normativos: NIIF para contabilidad y Estatuto Tributario para fiscalidad.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Si más adelante la DIAN me hace comparación patrimonial, ¿cómo justifico la diferencia?** La justificación se basa en la diferencia de marcos normativos: NIIF para contabilidad y Estatuto Tributario para fiscalidad.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Si más adelante la DIAN me hace comparación patrimonial, ¿cómo justifico la diferencia?** La justificación se basa en la diferencia de marcos normativos: NIIF para contabilidad y Estatuto Tributario para fiscalidad.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "gravamen_movimiento_financiero_4x1000",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "legal_reference": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "search_query": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF) DIAN / fuente oficial colombia Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Si más adelante la DIAN me hace comparación patrimonial, ¿cómo justifico la diferencia?** La justificación se basa en la diferencia de marcos normativos: NIIF para contabilidad y Estatuto Tributario para fiscalidad.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Fuente original compilada: L. 9/83 Art. 38*\n\nEl patrimonio bruto está constituido por el total de los bienes y derechos apreciables en dinero poseídos por el contribuyente en el último día del año o período gravable.\n\n<Inciso modificado po",
+      "Son derechos apreciables en dinero, los reales y personales, en cuanto sean susceptibles de ser utilizados en cualquier forma para la obtención de una renta.\n\n**Doctrina Concordante:**\n> * [Oficio DIAN 910054 de 2021](https://normograma.dia",
+      "*Fuente original compilada: D.2053/74 Art. 110*\n\nSe entiende por posesión, el aprovechamiento económico, potencial o real, de cualquier bien en beneficio del contribuyente.\n\nSe presume que quien aparezca como propietario o usufructuario de "
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "261",
+          "262",
+          "263"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "definition_chain"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 74,
+        "output_tokens": 596,
+        "total_tokens": 670,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "patrimonio_fiscal_renta",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de patrimonio fiscal renta, por lo cual utilizaremos nuestra base de datos patrimonio fiscal renta.",
+    "topic_adjustment_reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+    "coverage_notice": null,
+    "topic": "patrimonio_fiscal_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_157e6ed4a22a",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 74,
+        "output_tokens": 596,
+        "total_tokens": 670
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "da8411b2-ec7f-4f1c-96f5-517eec38b59c",
+      "last_run_id": "pd_16c5e1cab0634fdfbe92a3f9dfabf9a2",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_157e6ed4a22a",
+    "chat_run_id": "cr_20260427_004449_2acce625",
+    "metrics": {
+      "latency_ms": 16022.77,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 74,
+          "output_tokens": 596,
+          "total_tokens": 670,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_157e6ed4a22a",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 74,
+          "output_tokens": 596,
+          "total_tokens": 670
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "da8411b2-ec7f-4f1c-96f5-517eec38b59c",
+        "last_run_id": "pd_16c5e1cab0634fdfbe92a3f9dfabf9a2",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "formulario:2516",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 6.9
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "patrimonio_fiscal_renta",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "7901e52c63f14c82a6a599c56f66b790"
+  }
+}

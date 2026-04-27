@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Mapping
 
 from ..contracts import Citation
 
@@ -105,6 +105,15 @@ class GraphRetrievalPlan:
     # ingestfix-v2 Phase 6: curated subtopic intent detected in the user
     # query, used by retrievers to boost chunks with matching `subtema`.
     sub_topic_intent: str | None = None
+    # fixplan_v3 §0.6.3 — vigencia resolver cue.
+    # `vigencia_query_kind` is one of {'at_date', 'for_period', None}.
+    # Default (None) means "resolve at today's date via norm_vigencia_at_date".
+    # `for_period` is set when the query references a fiscal period (Art. 338 CP).
+    vigencia_query_kind: str | None = None
+    # Type-aware payload:
+    #   {'as_of_date': 'YYYY-MM-DD'}                                      ← at_date
+    #   {'impuesto': str, 'periodo_year': int, 'periodo_label': str|None} ← for_period
+    vigencia_query_payload: Mapping[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -117,6 +126,10 @@ class GraphRetrievalPlan:
             "planner_notes": list(self.planner_notes),
             "sub_questions": list(self.sub_questions),
             "sub_topic_intent": self.sub_topic_intent,
+            "vigencia_query_kind": self.vigencia_query_kind,
+            "vigencia_query_payload": dict(self.vigencia_query_payload)
+            if self.vigencia_query_payload
+            else None,
         }
 
 
@@ -157,6 +170,22 @@ class GraphEvidenceItem:
     # topic in this set. Source: `config/article_secondary_topics.json`,
     # written to `:ArticleNode.secondary_topics` by the loader.
     secondary_topics: tuple[str, ...] = ()
+    # fixplan_v3 sub-fix 1B-ε / 1D — v3 vigencia annotation propagated from
+    # the retriever's demotion pass. None when the chunk has no anchor
+    # citation in `norm_citations` (passthrough). Read by the chat-response
+    # builder to render the `vigenciaChip` on the citation.
+    #
+    # Shape (when present):
+    #   {
+    #     "anchor_norm_id": str,
+    #     "anchor_state": str,                 # one of V/VM/DE/DT/SP/IE/EC/VC/VL/DI/RV
+    #     "anchor_strength": str,              # ley|decreto|res_dian|concepto_dian|jurisprudencia
+    #     "demotion_factor": float,            # 0.0–1.0
+    #     "interpretive_constraint": dict|None,
+    #     "record_id": str|None,
+    #     "art_338_cp_applied": bool,
+    #   }
+    vigencia_v3: Mapping[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -170,6 +199,7 @@ class GraphEvidenceItem:
             "why": self.why,
             "relation_path": [step.to_dict() for step in self.relation_path],
             "secondary_topics": list(self.secondary_topics),
+            "vigencia_v3": dict(self.vigencia_v3) if self.vigencia_v3 else None,
         }
 
 

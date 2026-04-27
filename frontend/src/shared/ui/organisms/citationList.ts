@@ -1,6 +1,10 @@
 import { createListSectionHeading } from "@/shared/ui/molecules/listSection";
 import { createStateBlock } from "@/shared/ui/molecules/stateBlock";
 import { icons } from "@/shared/ui/icons";
+import {
+  createVigenciaChip,
+  type VigenciaChipOptions,
+} from "@/shared/ui/atoms/vigenciaChip";
 
 export type CitationActionKind = "modal" | "external" | "none";
 
@@ -23,6 +27,13 @@ export interface CitationItemViewModel {
   preview?: boolean;
   rawCitation?: Record<string, unknown> | null;
   title: string;
+  /**
+   * fixplan_v3 §0.4 / sub-fix 1D — v3 vigencia chip annotation. When present,
+   * `createDesktopCitationItem` appends a `<span data-lia-component=
+   * "vigencia-chip">` to the body. None for chunks whose anchor is V (no
+   * chip) or whose document has no anchor citation in `norm_citations`.
+   */
+  vigenciaV3?: VigenciaChipOptions | null;
 }
 
 export interface CitationGroupViewModel {
@@ -63,6 +74,12 @@ function createMetaNode(meta: string): HTMLElement | null {
   node.className = "citation-meta";
   node.textContent = meta;
   return node;
+}
+
+function maybeAppendVigenciaChip(parent: HTMLElement, opts: VigenciaChipOptions | null | undefined): void {
+  if (!opts || !opts.state) return;
+  const chip = createVigenciaChip(opts);
+  if (chip) parent.appendChild(chip);
 }
 
 function createDesktopCitationItem(
@@ -123,6 +140,7 @@ function createDesktopCitationItem(
     body.appendChild(titleEl);
     const meta = createMetaNode(item.meta);
     if (meta) body.appendChild(meta);
+    maybeAppendVigenciaChip(body, item.vigenciaV3);
     button.appendChild(body);
 
     const cta = document.createElement("span");
@@ -163,6 +181,7 @@ function createDesktopCitationItem(
     const meta = createMetaNode(item.meta);
     if (meta) link.appendChild(meta);
     li.appendChild(link);
+    maybeAppendVigenciaChip(li, item.vigenciaV3);
 
     if (item.externalHint) {
       const hint = document.createElement("span");
@@ -181,6 +200,7 @@ function createDesktopCitationItem(
 
   const meta = createMetaNode(item.meta);
   if (meta) li.appendChild(meta);
+  maybeAppendVigenciaChip(li, item.vigenciaV3);
 
   if (item.hint) {
     const hint = document.createElement("span");

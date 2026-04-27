@@ -1,0 +1,180 @@
+{
+  "qid": "descuentos_tributarios_renta_P1",
+  "topic_key_expected": "descuentos_tributarios_renta",
+  "profile": "P1_directa",
+  "message": "Si una PYME compra una máquina nueva para su producción este año, ¿qué puede hacer con el IVA que pagó en esa compra a nivel del impuesto de renta?",
+  "http_status": 200,
+  "latency_ms": 8069,
+  "captured_utc": "2026-04-27T02:17:49.035694+00:00",
+  "response": {
+    "trace_id": "5967ba79-7014-461f-871b-3132b5cc5f8e",
+    "run_id": "pd_ec87d2cb683e4733ae36c69e8cede633",
+    "answer_markdown": "No pude ubicar evidencia del tema **descuentos_tributarios_renta** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "answer_concise": "No pude ubicar evidencia del tema **descuentos_tributarios_renta** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+    "evidence_snippets": [],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 29,
+        "output_tokens": 37,
+        "total_tokens": 66,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "descuentos_tributarios_renta",
+    "secondary_topics": [
+      "iva"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de descuentos tributarios renta, por lo cual utilizaremos nuestra base de datos descuentos tributarios renta.",
+    "topic_adjustment_reason": "Regla 8 - La consulta es sobre cómo el IVA pagado se recupera en el impuesto de renta, específicamente el descuento del IVA en bienes de capital (art. 258-1 ET). El tema operativo es el descuento tributario en renta, no el IVA en sí.",
+    "coverage_notice": "No pude ubicar evidencia del tema **descuentos_tributarios_renta** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "topic": "descuentos_tributarios_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_5ef08b843dde",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 29,
+        "output_tokens": 37,
+        "total_tokens": 66
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "5967ba79-7014-461f-871b-3132b5cc5f8e",
+      "last_run_id": "pd_ec87d2cb683e4733ae36c69e8cede633",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_5ef08b843dde",
+    "chat_run_id": "cr_20260427_021743_faca4781",
+    "metrics": {
+      "latency_ms": 6633.1,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 29,
+          "output_tokens": 37,
+          "total_tokens": 66,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_5ef08b843dde",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 29,
+          "output_tokens": 37,
+          "total_tokens": 66
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "5967ba79-7014-461f-871b-3132b5cc5f8e",
+        "last_run_id": "pd_ec87d2cb683e4733ae36c69e8cede633",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "descuentos_tributarios_renta",
+        "secondary_topics": [
+          "iva"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "e65622e3a3c84590a9a16e7f0014cfda"
+  }
+}

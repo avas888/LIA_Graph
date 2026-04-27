@@ -1,0 +1,135 @@
+{
+  "case_id": "arts_588_589_ET_correcciones_imputacion_AG2025_2026-04-26",
+  "extracted_at_utc": "2026-04-27T00:25:00Z",
+  "extracted_at_bogota": "2026-04-26 7:25:00 PM Bogotá",
+  "extraction_method": "manual_skill_protocol_walkthrough",
+  "extracted_by": "claude-opus-4-7 acting as vigencia-checker skill operator",
+  "norm_type": "articulo_et",
+  "norm_id": "Arts. 588 y 589 ET (en su aplicación a correcciones de imputación de saldos a favor)",
+  "norm_full_label": "Arts. 588 y 589 del Estatuto Tributario — términos para corregir declaraciones, EN SU APLICACIÓN al supuesto específico de correcciones por imputación de saldos a favor entre períodos del Art. 43 de la Ley 962 de 2005 (Ley Antitrámites). DT parcial: los Arts. 588-589 ET siguen vigentes y aplicables al resto de correcciones tributarias; lo desplazado tácitamente es su aplicación a este supuesto específico.",
+  "parágrafo": "alcance limitado: aplicación de Arts. 588-589 ET a correcciones de imputación de saldos a favor",
+  "periodo_consultado": {
+    "impuesto": "renta_y_iva",
+    "year": 2025,
+    "period_label": "AG 2025 (post-unificación 2022)",
+    "period_start": "2025-01-01",
+    "period_end": "2025-12-31"
+  },
+  "veredicto": {
+    "state": "DT",
+    "vigente_desde": "1989-03-30",
+    "vigente_hasta": null,
+    "estado_aclaratorio": "Los Arts. 588 y 589 ET están plenamente VIGENTES en el ordenamiento. Lo que está DEROGADO TÁCITAMENTE es su APLICACIÓN al supuesto específico de correcciones por imputación de saldos a favor — desplazamiento determinado por sentencia de unificación del Consejo de Estado.",
+    "derogado_por": null,
+    "derogacion_tacita_aplicacion_a_supuesto_especifico": {
+      "norm_type": "ley",
+      "norm_id": "Ley 962 de 2005, Art. 43 (Ley Antitrámites)",
+      "fecha": "2005-07-08",
+      "primary_source_url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=17004",
+      "alcance": "El Art. 43 Ley 962/2005 establece un procedimiento autónomo de corrección de declaraciones tributarias para errores en la imputación de saldos a favor entre períodos. La regulación es integral y autosuficiente para ese supuesto, lo que excluye someterla a los términos generales de los Arts. 588-589 ET.",
+      "principio_juridico": "Lex posterior derogat priori en lo incompatible (Arts. 71 y 72 Código Civil; Art. 3 Ley 153 de 1887)"
+    },
+    "modificado_por": [],
+    "suspension": null,
+    "inexequibilidad": null,
+    "condicionamiento": null,
+    "regimen_transicion": null,
+    "pronunciamiento_oficial_confirmatorio": {
+      "norm_type": "sentencia_unificacion_consejo_de_estado",
+      "norm_id": "Sentencia de Unificación 2022CE-SUJ-4-002 del 8 de septiembre de 2022",
+      "fecha": "2022-09-08",
+      "expediente": "25000-23-37-000-2014-00507-01(23854)",
+      "magistrado_ponente": "Julio Roberto Piza Rodríguez",
+      "autoridad": "Consejo de Estado, Sala de lo Contencioso Administrativo, Sección Cuarta",
+      "primary_source_url": "https://normograma.dian.gov.co/dian/compilacion/docs/25000-23-37-000-2014-00507-01(23854)_2022CE-SUJ-4-002.htm",
+      "regla_unificada_principal": "Las correcciones de imputación de saldos a favor del Art. 43 Ley 962/2005 NO están sometidas al límite del término de firmeza de las declaraciones tributarias NI a los términos de oportunidad de los Arts. 588 y 589 ET.",
+      "regla_unificada_secundaria": "El procedimiento especial de corrección del Art. 43 Ley 962/2005 permite modificaciones a la declaración tributaria para aumentar o disminuir las sumas imputadas de un período declarado al siguiente.",
+      "ambito_temporal": "Las reglas jurisprudenciales unificadas aplican a los procedimientos pendientes de resolver en sede administrativa y judicial.",
+      "texto_operativo_relevante": "someter las solicitudes de corrección previstas en el artículo 43 de la Ley 962 de 2005 al plazo que para otro tipo de correcciones preceptúa el artículo 589 del ET contraviene la literalidad",
+      "adopcion_dian": {
+        "norm_type": "concepto_dian",
+        "norm_id": "Oficio/Concepto DIAN 3285 de 2023",
+        "primary_source_url": "https://www.gydconsulting.com/correccion-de-declaraciones-tributarias-sentencia-de-unificacion-2022ce-suj-4-002-oficio-dian-3285/",
+        "alcance": "DIAN adoptó la jurisprudencia unificada vía concepto/oficio interno; cesó la objeción administrativa que originó el caso"
+      }
+    },
+    "fuentes_primarias_consultadas": [
+      {
+        "norm_type": "url",
+        "norm_id": "dian_normograma_sentencia_2022CE_SUJ_4_002",
+        "primary_source_url": "https://normograma.dian.gov.co/dian/compilacion/docs/25000-23-37-000-2014-00507-01(23854)_2022CE-SUJ-4-002.htm",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (DIAN Normograma — compilación oficial de la sentencia)",
+        "verified_via_websearch": true
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "incp_unificacion_correcciones_2023",
+        "primary_source_url": "https://incp.org.co/agendatributariaincp/noticias/2023/02/consejo-de-estado-unifico-la-jurisprudencia-relacionada-con-el-plazo-para-corregir-las-declaraciones-tributarias/",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 3a (compilador profesional INCP)",
+        "verified_via_websearch": true
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "consejo_de_estado_news_unificacion_correcciones",
+        "primary_source_url": "https://www.consejodeestado.gov.co/news/20-oct-2022.htm",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (Consejo de Estado — comunicado oficial)",
+        "verified_via_websearch": true
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "funcion_publica_ley_962_art_43",
+        "primary_source_url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=17004",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (Función Pública — Gestor Normativo, texto oficial Ley 962/2005)",
+        "verified_via_websearch": true
+      }
+    ],
+    "extraction_audit": {
+      "skill_version": "vigencia-checker@1.0",
+      "method": "manual walkthrough; WebSearch + WebFetch as primary-source proxy (Fix 1B-α scrapers not yet operational)",
+      "tool_iterations": 4,
+      "wall_seconds": 300,
+      "limitations_acknowledged": [
+        "Texto verbatim del Oficio DIAN 3285/2023 no fue extraído directamente del DIAN Normograma (referenciado vía compilador secundario gydconsulting.com); para producción Fix 1B-α DIAN scraper debe re-fetchearlo",
+        "El número de oficio/concepto DIAN 3285/2023 está respaldado por dos compiladores secundarios (gydconsulting + accounter); número canónico en DIAN puede llevar prefijo distinto"
+      ]
+    }
+  },
+  "applies_to_periodo": {
+    "aplica": "Sí, en su redacción literal — pero NO al supuesto específico de correcciones de imputación",
+    "justificacion": "Los Arts. 588 y 589 ET están vigentes y aplicables a la generalidad de correcciones tributarias en AG 2025. Sin embargo, para el supuesto específico de correcciones por imputación de saldos a favor entre períodos: aplica el procedimiento autónomo del Art. 43 Ley 962/2005, que NO está sometido a los límites temporales de los Arts. 588-589 ET. Esta DT parcial está confirmada por la sentencia de unificación 2022CE-SUJ-4-002 y adoptada por la DIAN vía Oficio 3285/2023.",
+    "norm_version_aplicable": "Texto vigente Arts. 588-589 ET — pero excluido para correcciones de imputación de saldos a favor",
+    "regimen_aplicable_en_su_lugar_para_supuesto_DT": "Para correcciones por imputación de saldos a favor entre períodos: Art. 43 Ley 962/2005 (procedimiento autónomo sin límite temporal de los Arts. 588-589 ET, pero sí sujeto al término de firmeza de la declaración base, según interpretación CE)"
+  },
+  "riesgo_de_error": "Medio",
+  "recomendacion_para_el_contador": "ATENCIÓN — DT PARCIAL: Los Arts. 588 y 589 ET siguen siendo la norma aplicable a la GENERALIDAD de correcciones tributarias. PERO para el supuesto específico de correcciones por imputación de saldos a favor (saldos a favor de un período arrastrados al período siguiente), aplica el procedimiento autónomo del Art. 43 Ley 962/2005 — confirmado por sentencia de unificación 2022CE-SUJ-4-002 del Consejo de Estado y adoptado por DIAN vía Oficio 3285/2023. Si el cliente tiene declaraciones con errores de imputación de saldos a favor: NO citar el plazo de los Arts. 588-589 ET como impedimento; el contribuyente puede solicitar la corrección por imputación bajo el Art. 43 Ley 962/2005 sin sujetarse a esos términos. La DIAN no debe rechazar la corrección por extemporaneidad bajo Art. 589 ET.",
+  "fix_5_skill_eval_seed": {
+    "case_purpose": "Validates skill on a clean DT case — skill must (1) detect that the DT is PARCIAL (no se deroga la norma completa, solo su aplicación a supuesto específico), (2) cite the Sentencia de Unificación + Oficio DIAN adoptante (pronunciamiento oficial confirmatorio), (3) NOT emit a wholesale 'Arts. 588-589 derogados' veredicto, (4) explicitly call out the legal basis (Arts. 71/72 CC + Art. 3 Ley 153/1887)",
+    "expected_state": "DT",
+    "expected_pronunciamiento_oficial_present": true,
+    "expected_min_primary_sources": 2,
+    "expected_must_cite": [
+      "Arts. 588 y 589 ET",
+      "Art. 43 Ley 962/2005",
+      "Sentencia de Unificación 2022CE-SUJ-4-002",
+      "Consejo de Estado, Sección Cuarta",
+      "Oficio DIAN 3285/2023"
+    ],
+    "expected_must_say": [
+      "derogación tácita parcial",
+      "correcciones de imputación de saldos a favor",
+      "procedimiento autónomo",
+      "no sujeto al plazo del Art. 589 ET"
+    ],
+    "expected_must_not_say": [
+      "Arts. 588-589 ET totalmente derogados",
+      "no se pueden corregir declaraciones tributarias",
+      "el plazo del Art. 589 ET aplica a todas las correcciones"
+    ],
+    "expected_advertencia_DT_parcial_present": true,
+    "expected_legal_basis_cited": ["Arts. 71/72 Código Civil", "Art. 3 Ley 153 de 1887"]
+  }
+}

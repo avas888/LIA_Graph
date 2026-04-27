@@ -232,7 +232,7 @@ Copy `tests/manual/ingestfixv2_evidence/TEMPLATE/` to
 Once steps 0–8 are green and the evidence bundle is complete, continue
 with Phase 10 of `docs/next/ingestfixv2.md`:
 
-- update `docs/guide/orchestration.md` change log with `v2026-MM-DD-stv2`
+- update `docs/orchestration/orchestration.md` change log with `v2026-MM-DD-stv2`
 - move this plan to `docs/done/ingestfixv2.md`
 - cut the PR off `feat/suin-ingestion`
 

@@ -26,6 +26,46 @@ import {
   extractYearFromReferenceKey,
   extractYearFromText,
 } from "@/shared/utils/citationDateExtraction";
+import type { VigenciaChipOptions, VigenciaState } from "@/shared/ui/atoms/vigenciaChip";
+
+const _VIGENCIA_STATES: VigenciaState[] = [
+  "V", "VM", "DE", "DT", "SP", "IE", "EC", "VC", "VL", "DI", "RV",
+];
+
+/**
+ * fixplan_v3 §0.4 / sub-fix 1D — extract chip props from the v3 vigencia
+ * annotation the retriever attached to each Citation. Returns null when:
+ *  - the annotation is missing (chunk had no anchor citation), OR
+ *  - the anchor state is V (no chip on default vigente).
+ */
+function deriveVigenciaV3ChipOptions(citation: any): VigenciaChipOptions | null {
+  const v3 = citation?.vigencia_v3;
+  if (!v3 || typeof v3 !== "object") return null;
+  const stateRaw = String(v3.anchor_state || "").trim();
+  if (!stateRaw) return null;
+  const state = _VIGENCIA_STATES.find((s) => s === stateRaw);
+  if (!state) return null;
+  if (state === "V") return null; // V renders no chip
+  const interpretive =
+    v3.interpretive_constraint && typeof v3.interpretive_constraint === "object"
+      ? String(v3.interpretive_constraint.texto_literal || "")
+      : "";
+  const cs = v3.change_source && typeof v3.change_source === "object" ? v3.change_source : null;
+  return {
+    state,
+    sourceNormId: String(v3.anchor_norm_id || cs?.source_norm_id || "") || null,
+    sourceLabel: null,
+    stateFrom: v3.state_from ? String(v3.state_from) : null,
+    stateUntil: v3.state_until ? String(v3.state_until) : null,
+    interpretiveConstraintText: interpretive || null,
+    rigeDesde: v3.rige_desde ? String(v3.rige_desde) : null,
+    revivesTextVersion: v3.revives_text_version ? String(v3.revives_text_version) : null,
+    revivedTriggerNormId:
+      cs?.effect_payload?.triggering_sentencia_norm_id
+        ? String(cs.effect_payload.triggering_sentencia_norm_id)
+        : null,
+  };
+}
 
 export interface CitationRendererDeps {
   citationsList: HTMLElement;
@@ -274,6 +314,7 @@ export function createCitationRenderer(deps: CitationRendererDeps) {
       meta: formatCitationMeta(tier, provider),
       rawCitation: citation as Record<string, unknown>,
       title,
+      vigenciaV3: deriveVigenciaV3ChipOptions(citation),
     };
   }
 

@@ -1,0 +1,83 @@
+{
+  "norm_id": "concepto.dian.100208192-202.num.20",
+  "norm_type": "concepto_dian_numeral",
+  "parent_norm_id": "concepto.dian.100208192-202",
+  "is_sub_unit": true,
+  "sub_unit_kind": "numeral",
+  "extraction_run_id": "v2-to-v3-upgrade-2026-04-27",
+  "extracted_at_utc": "2026-04-27T07:07:14.228861+00:00",
+  "result": {
+    "veredicto": {
+      "state": "SP",
+      "state_from": "2024-03-22",
+      "state_until": null,
+      "applies_to_kind": "per_period",
+      "applies_to_payload": {
+        "year_start": 2026,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": "2026-01-01",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "auto_ce_suspension",
+        "source_norm_id": "auto.ce.99999.1900.01.01",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "autoridad": "Consejo de Estado, Sala de lo Contencioso Administrativo, Sección Cuarta",
+          "alcance": "suspensión provisional del Numeral 20: la Sala determinó que el Art. 49 ET no contempla que el Impuesto Adicional (IA) de la TTD se sume al Impuesto Básico de Renta, por lo que su inclusión reduce injustificadamente el valor máximo de dividendos no constitutivos de renta para los socios — afectando la tributación del accionista sin sustento legal"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": {
+        "norm_id": "Sentencia/Auto 28920 del 16 de diciembre de 2024",
+        "norm_type": "auto_consejo_de_estado",
+        "article": null,
+        "fecha": "2024-12-16",
+        "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2025/01/consejo-de-estado-suspende-efectos-del-concepto-de-la-dian-sobre-la-tasa-minima-de-tributacion/"
+      },
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "incp_consejo_estado_suspende_concepto_TTD",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2025/01/consejo-de-estado-suspende-efectos-del-concepto-de-la-dian-sobre-la-tasa-minima-de-tributacion/"
+        },
+        {
+          "norm_id": "incp_levantamiento_parcial_suspension_TTD",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/08/se-levanto-la-suspension-temporal-a-concepto-de-la-dian-sobre-la-tasa-de-tributacion-depurada/"
+        },
+        {
+          "norm_id": "actualicese_suspension_concepto_TTD",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://siemprealdia.co/colombia/impuestos/suspension-concepto-tasa-minima-de-tributacion/"
+        }
+      ],
+      "extraction_audit": {
+        "skill_version": "vigencia-checker@1.0",
+        "model": null,
+        "tool_iterations": 3,
+        "wall_ms": null,
+        "cost_usd_estimate": null,
+        "run_id": "v2-to-v3-upgrade-2026-04-27",
+        "method": "v2_to_v3_upgrade"
+      }
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": []
+  }
+}

@@ -1,0 +1,372 @@
+{
+  "qid": "conciliacion_fiscal_P1",
+  "topic_key_expected": "conciliacion_fiscal",
+  "profile": "P1_directa",
+  "message": "¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal y cuándo se entrega?",
+  "http_status": 200,
+  "latency_ms": 11051,
+  "captured_utc": "2026-04-27T02:23:32.223385+00:00",
+  "response": {
+    "trace_id": "7432a923-f244-4f91-a661-41f48751f539",
+    "run_id": "pd_3e66a105bc8449409c5a23a74b897b88",
+    "answer_markdown": "**Respuestas directas**\n\n*   **¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal?**\n    *   Están obligados a presentar el formato 2516 los contribuyentes del impuesto sobre la renta y complementarios que, durante el año gravable, cumplan con los siguientes requisitos:\n        *   Personas jurídicas y asimiladas.\n        *   Personas naturales y asimiladas, así como los regímenes especiales, que en el año gravable anterior o en el año gravable en curso hayan obtenido ingresos brutos fiscales iguales o superiores a 45.000 UVT (art. 1.7.2. del Decreto 1625 de 2016).\n    *   No están obligados a presentar el formato 2516 los contribuyentes que pertenezcan al Régimen Simple de Tributación (SIMPLE) (art. 1.7.2. del Decreto 1625 de 2016).\n\n*   **¿Cuándo se entrega el formato 2516 de conciliación fiscal?**\n    *   El formato 2516 se debe presentar en las mismas fechas de vencimiento establecidas para la declaración del impuesto sobre la renta y complementarios, según el último dígito del NIT del contribuyente (art. 1.7.3. del Decreto 1625 de 2016).\n\n**Ruta sugerida**\n\n1.  **Verificar ingresos brutos:** Determinar si los ingresos brutos fiscales del contribuyente en el año gravable anterior o en el año en curso superan las 45.000 UVT.\n2.  **Identificar tipo de contribuyente:** Confirmar si el contribuyente es persona jurídica, asimilada, persona natural, o régimen especial.\n3.  **Excluir Régimen Simple:** Asegurarse de que el contribuyente no pertenece al Régimen Simple de Tributación.\n4.  **Preparar formato 2516:** Diligenciar el formato 2516 de conciliación fiscal, asegurando la correspondencia entre la información contable y fiscal.\n5.  **Presentar en plazo:** Presentar el formato 2516 electrónicamente a través de los servicios informáticos de la DIAN, dentro de los plazos establecidos para la declaración de renta.\n\n**Riesgos y condiciones**\n\n*   La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.\n*   La no presentación del formato 2516, o su presentación con errores, puede acarrear sanciones por no enviar información o enviarla con errores (art. 651 ET).\n*   Es crucial mantener la coherencia entre la contabilidad y la información fiscal para evitar inconsistencias que puedan generar requerimientos de la DIAN.\n\n**Soportes clave**\n\n*   Decreto 1625 de 2016, artículos 1.7.2. y 1.7.3.\n*   Estatuto Tributario, artículo 651.",
+    "answer_concise": "**Respuestas directas**\n\n*   **¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal?**\n    *   Están obligados a presentar el formato 2516 los contribuyentes del impuesto sobre la renta y complementarios que, durante el año gravable, cumplan con los siguientes requisitos:\n        *   Personas jurídicas y asimiladas.\n        *   Personas naturales y asimiladas, así como los regímenes especiales, que en el año gravable anterior o en el año gravable en curso hayan obtenido ingresos brutos fiscales iguales o superiores a 45.000 UVT (art. 1.7.2. del Decreto 1625 de 2016).\n    *   No están obligados a presentar el formato 2516 los contribuyentes que pertenezcan al Régimen Simple de Tributación (SIMPLE) (art. 1.7.2. del Decreto 1625 de 2016).\n\n*   **¿Cuándo se entrega el formato 2516 de conciliación fiscal?**\n    *   El formato 2516 se debe presentar en las mismas fechas de vencimiento establecidas para la declaración del impuesto sobre la renta y complementarios, según el último dígito del NIT del contribuyente (art. 1.7.3. del Decreto 1625 de 2016).\n\n**Ruta sugerida**\n\n1.  **Verificar ingresos brutos:** Determinar si los ingresos brutos fiscales del contribuyente en el año gravable anterior o en el año en curso superan las 45.000 UVT.\n2.  **Identificar tipo de contribuyente:** Confirmar si el contribuyente es persona jurídica, asimilada, persona natural, o régimen especial.\n3.  **Excluir Régimen Simple:** Asegurarse de que el contribuyente no pertenece al Régimen Simple de Tributación.\n4.  **Preparar formato 2516:** Diligenciar el formato 2516 de conciliación fiscal, asegurando la correspondencia entre la información contable y fiscal.\n5.  **Presentar en plazo:** Presentar el formato 2516 electrónicamente a través de los servicios informáticos de la DIAN, dentro de los plazos establecidos para la declaración de renta.\n\n**Riesgos y condiciones**\n\n*   La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.\n*   La no presentación del formato 2516, o su presentación con errores, puede acarrear sanciones por no enviar información o enviarla con errores (art. 651 ET).\n*   Es crucial mantener la coherencia entre la contabilidad y la información fiscal para evitar inconsistencias que puedan generar requerimientos de la DIAN.\n\n**Soportes clave**\n\n*   Decreto 1625 de 2016, artículos 1.7.2. y 1.7.3.\n*   Estatuto Tributario, artículo 651.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "authority": "Loggro",
+        "topic": "conciliacion_fiscal",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Conciliacion fiscal (Loggro)",
+        "legal_reference": "Conciliacion fiscal (Loggro)",
+        "search_query": "Conciliacion fiscal (Loggro) Loggro colombia Sección 11 — Conciliación Fiscal (Formatos 2516 y 2517)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal?** Están obligados a presentar el formato 2516 los contribuyentes del impuesto sobre la renta y complementarios",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal?** Están obligados a presentar el formato 2516 los contribuyentes del impuesto sobre la renta y complementarios",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Presentar en plazo:** Presentar el formato 2516 electrónicamente a través de los servicios informáticos de la DIAN, dentro de los plazos establecidos para la declaración de renta.",
+        "usage_intents": [
+          "plazos",
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Presentar en plazo:** Presentar el formato 2516 electrónicamente a través de los servicios informáticos de la DIAN, dentro de los plazos establecidos para la declaración de renta.",
+        "usage_intents": [
+          "plazos",
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Presentar en plazo:** Presentar el formato 2516 electrónicamente a través de los servicios informáticos de la DIAN, dentro de los plazos establecidos para la declaración de renta.",
+        "usage_intents": [
+          "plazos",
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.42,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native_partial",
+    "compose_quality": 0.45,
+    "fallback_reason": "pipeline_d_no_graph_primary_articles",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 16,
+        "output_tokens": 361,
+        "total_tokens": 377,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "conciliacion_fiscal",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de conciliacion fiscal, por lo cual utilizaremos nuestra base de datos conciliacion fiscal.",
+    "topic_adjustment_reason": "rule:conciliacion_fiscal matched conciliacion fiscal, conciliación fiscal, formato 2516",
+    "coverage_notice": "La ruta graph-native no encontro articulos ancla suficientes; se devolvio la mejor evidencia parcial disponible. Causa: el planner no pudo anclar articulos explicitos para esta consulta (empty_reason=no_explicit_article_keys_in_plan).",
+    "topic": "conciliacion_fiscal",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_7135912d56b8",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 16,
+        "output_tokens": 361,
+        "total_tokens": 377
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "7432a923-f244-4f91-a661-41f48751f539",
+      "last_run_id": "pd_3e66a105bc8449409c5a23a74b897b88",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_7135912d56b8",
+    "chat_run_id": "cr_20260427_022321_770c351a",
+    "metrics": {
+      "latency_ms": 9629.5,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 16,
+          "output_tokens": 361,
+          "total_tokens": 377,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native_partial",
+      "compose_quality": 0.45,
+      "fallback_reason": "pipeline_d_no_graph_primary_articles",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_7135912d56b8",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 16,
+          "output_tokens": 361,
+          "total_tokens": 377
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "7432a923-f244-4f91-a661-41f48751f539",
+        "last_run_id": "pd_3e66a105bc8449409c5a23a74b897b88",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 5,
+        "mentions_unique": 5,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 5,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "formulario:2516",
+          "et",
+          "decreto:1625:2016",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 6.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "conciliacion_fiscal",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "8c245a0402834d028773730549ad2354"
+  }
+}

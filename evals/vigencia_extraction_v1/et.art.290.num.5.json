@@ -1,0 +1,68 @@
+{
+  "norm_id": "et.art.290.num.5",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et.art.290",
+  "is_sub_unit": true,
+  "sub_unit_kind": "numeral",
+  "extraction_run_id": "v2-to-v3-upgrade-2026-04-27",
+  "extracted_at_utc": "2026-04-27T07:07:14.227310+00:00",
+  "result": {
+    "veredicto": {
+      "state": "V",
+      "state_from": "2017-01-01",
+      "state_until": null,
+      "applies_to_kind": "per_period",
+      "applies_to_payload": {
+        "year_start": 2025,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": "2025-01-01",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": null,
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": {
+        "norm_id": "ley.1819.2016.art.123",
+        "norm_type": "ley",
+        "article": "Art. 123 (que adicionó el Art. 290 al ET)",
+        "fecha": "2016-12-29",
+        "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1819_2016.html"
+      },
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol_C087_2019",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30036343"
+        },
+        {
+          "norm_id": "corte_constitucional_C087_19",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/2019/C-087-19.htm"
+        }
+      ],
+      "extraction_audit": {
+        "skill_version": "vigencia-checker@1.0",
+        "model": null,
+        "tool_iterations": 1,
+        "wall_ms": null,
+        "cost_usd_estimate": null,
+        "run_id": "v2-to-v3-upgrade-2026-04-27",
+        "method": "v2_to_v3_upgrade"
+      }
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": []
+  }
+}

@@ -7,11 +7,11 @@ Execution guide for Codex-family agents working in `Lia_Graph`.
 Start with:
 
 1. `AGENTS.md`
-2. `docs/guide/orchestration.md`
+2. `docs/orchestration/orchestration.md`
 3. `docs/guide/chat-response-architecture.md`
 
 `AGENTS.md` is the canonical repo-level agent guide.
-`docs/guide/orchestration.md` is the main critical runtime map.
+`docs/orchestration/orchestration.md` is the main critical runtime map.
 
 ## Working Rules
 
@@ -35,7 +35,7 @@ Start with:
 
 If you change the runtime information architecture, update the same truth in:
 
-1. `docs/guide/orchestration.md`
+1. `docs/orchestration/orchestration.md`
 2. `docs/guide/chat-response-architecture.md`
 3. the `/orchestration` frontend map
 

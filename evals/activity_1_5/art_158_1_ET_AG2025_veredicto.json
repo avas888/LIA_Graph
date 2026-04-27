@@ -1,0 +1,76 @@
+{
+  "case_id": "art_158_1_ET_AG2025_2026-04-26",
+  "extracted_at_utc": "2026-04-26T22:35:00Z",
+  "extracted_at_bogota": "2026-04-26 5:35:00 PM Bogotá",
+  "extraction_method": "manual_skill_protocol_walkthrough",
+  "extracted_by": "claude-opus-4-7 acting as vigencia-checker skill operator",
+  "norm_type": "articulo_et",
+  "norm_id": "Art. 158-1 ET",
+  "norm_full_label": "Art. 158-1 ET — Deducción por donaciones e inversiones en investigación, desarrollo tecnológico o innovación (CTeI)",
+  "parágrafo": null,
+  "periodo_consultado": {
+    "impuesto": "renta",
+    "year": 2025,
+    "period_label": "AG 2025"
+  },
+  "veredicto": {
+    "state": "DE",
+    "vigente_desde": null,
+    "vigente_hasta": "2022-12-31",
+    "derogado_por": {
+      "norm_type": "ley",
+      "norm_id": "Ley 2277 de 2022",
+      "article": "Art. 96",
+      "fecha": "2022-12-13",
+      "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr006.html",
+      "alcance": "derogatoria expresa total",
+      "fecha_efectos": "2023-01-01"
+    },
+    "modificado_por": [],
+    "suspension": null,
+    "inexequibilidad": null,
+    "condicionamiento": null,
+    "regimen_transicion": null,
+    "fuentes_primarias_consultadas": [
+      {
+        "norm_type": "url",
+        "norm_id": "secretaria_senado_ET_pr006",
+        "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr006.html",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (Secretaría del Senado)",
+        "verified_via_websearch": true
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "actualicese_estatuto_158_1",
+        "primary_source_url": "https://actualicese.com/estatutotributario/158-1/",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 3a (compilador curado)",
+        "verified_via_websearch": true
+      }
+    ],
+    "extraction_audit": {
+      "skill_version": "vigencia-checker@1.0",
+      "method": "manual walkthrough; WebSearch as primary-source proxy",
+      "tool_iterations": 1,
+      "wall_seconds": 60,
+      "limitations_acknowledged": ["Search did not surface Sentencia C- specifically declaring Art. 96 Ley 2277/2022 inexequible (which the SME inventory implied may exist); the binding fact is the expressa derogatoria, regardless of any constitutional challenge"]
+    }
+  },
+  "applies_to_periodo": {
+    "aplica": "No",
+    "justificacion": "Derogada expresa por Art. 96 Ley 2277/2022 con efectos desde 2023-01-01. NO aplica para AG 2023 en adelante. Por ultractividad podría aplicar a AG 2022 y anteriores para hechos económicos generados durante su vigencia.",
+    "norm_version_aplicable": null,
+    "regimen_aplicable_en_su_lugar": "Para inversiones en CTeI desde AG 2023: revisar el descuento (no deducción) del Art. 256 ET, modificado también por Ley 2277/2022. La tipología cambió de 'deducción' a 'descuento del impuesto', y ahora coexiste con el tope del 25% del Art. 258 ET."
+  },
+  "riesgo_de_error": "Bajo",
+  "recomendacion_para_el_contador": "NO citar Art. 158-1 ET como vigente para AG 2023 en adelante. El régimen actual de beneficios CTeI es vía descuento (Art. 256 ET). Si el cliente generó hechos económicos durante AG 2022 o anteriores que aún no han sido declarados, aplica la versión anterior por ultractividad — verificar que no haya pasado el plazo de firmeza.",
+  "fix_5_skill_eval_seed": {
+    "case_purpose": "Validates skill on a clean DE case — skill must NOT cite as vigente",
+    "expected_state": "DE",
+    "expected_derogado_por_norm_id": "Ley 2277/2022",
+    "expected_min_primary_sources": 2,
+    "expected_must_cite": ["Art. 96 Ley 2277/2022", "Art. 158-1 ET (derogado)"],
+    "expected_must_not_say": ["158-1 vigente", "se puede deducir 100% CTeI"]
+  }
+}

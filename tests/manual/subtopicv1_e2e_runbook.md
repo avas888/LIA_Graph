@@ -194,5 +194,5 @@ Per plan §14:
 3. `artifacts/subtopic_proposals_<UTC>.json` — mining output.
 4. `artifacts/subtopic_decisions.jsonl` — full audit trail.
 5. `tests/manual/subtopicv1_evidence/<run>/` — evidence bundle.
-6. Change-log entry in `docs/guide/orchestration.md`.
+6. Change-log entry in `docs/orchestration/orchestration.md`.
 7. `docs/next/ingestfixv2.md` updated to cite the seed file.

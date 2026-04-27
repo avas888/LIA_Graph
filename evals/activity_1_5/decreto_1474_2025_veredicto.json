@@ -1,0 +1,142 @@
+{
+  "case_id": "decreto_1474_2025_2026-04-26",
+  "extracted_at_utc": "2026-04-26T22:00:00Z",
+  "extracted_at_bogota": "2026-04-26 5:00:00 PM Bogotá",
+  "extraction_method": "manual_skill_protocol_walkthrough",
+  "extracted_by": "claude-opus-4-7 (acting as vigencia-checker skill operator; full harness Fix 1B-β not yet built)",
+  "norm_type": "decreto",
+  "norm_id": "Decreto Legislativo 1474 de 2025",
+  "norm_full_label": "Decreto Legislativo 1474 del 29 de diciembre de 2025 — medidas tributarias de emergencia económica",
+  "parágrafo": null,
+  "periodo_consultado": {
+    "impuesto": "renta",
+    "year": 2026,
+    "period_label": "AG 2026 (vigencia actual)",
+    "applies_to_any_AG": "checked across AG 2025 + AG 2026"
+  },
+  "veredicto": {
+    "state": "IE",
+    "vigente_desde": "2025-12-30",
+    "vigente_hasta": "2026-04-15",
+    "derogado_por": null,
+    "modificado_por": [],
+    "suspension": {
+      "norm_type": "auto_corte_constitucional",
+      "norm_id": "Auto 082/2026 + Auto 084/2026",
+      "article": "Sala Plena (votación 6-2)",
+      "fecha": "2026-01-29",
+      "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/Autos/2026/A082-26.htm",
+      "scope": "wholesale — suspendió todos los efectos del Decreto 1474 como consecuencia directa de suspender el Decreto 1390/2025 (emergencia económica subyacente)",
+      "note": "esta SP fue superseded por la sentencia de fondo (ver inexequibilidad)"
+    },
+    "inexequibilidad": {
+      "norm_type": "sentencia_corte_constitucional",
+      "norm_id": "Sentencia C-079/2026",
+      "article": "Sala Plena",
+      "fecha": "2026-04-15",
+      "primary_source_url_pending": "https://www.corteconstitucional.gov.co/relatoria/2026/C-079-26.htm (no verificada en esta sesión — pendiente Fix 1B-α scrapers)",
+      "alcance": "total — declaró inexequible el Decreto Legislativo 1474/2025 en su integridad",
+      "efectos": {
+        "tipo": "inmediatos + retroactivos",
+        "descripcion": "DIAN debe devolver los impuestos recaudados bajo este Decreto durante su vigencia efectiva (dic 30 2025 — ene 29 2026). Plazo: 30 días desde notificación de la sentencia para que la DIAN aplique mecanismos legales existentes o adopte uno específico."
+      },
+      "sentencia_conexa": "Sentencia C-075/2026 (9 abril 2026) declaró inexequible el Decreto 1390/2025 de emergencia económica subyacente"
+    },
+    "condicionamiento": null,
+    "regimen_transicion": null,
+    "fuentes_primarias_consultadas": [
+      {
+        "norm_type": "url",
+        "norm_id": "corte_constitucional_auto_082_2026",
+        "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/Autos/2026/A082-26.htm",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (oficial del emisor)",
+        "verified_via_websearch": true,
+        "directly_fetched": false
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "incp_comunicado_sentencia_c079_2026",
+        "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/2026/04/corte-constitucional-declaro-inexequible-el-decreto-legislativo-1474-de-2025/",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 3b (análisis profesional especializado autorizado — INCP es el Instituto Nacional de Contadores Públicos)",
+        "verified_via_websearch": true,
+        "directly_fetched": false
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "perez_llorca_boletin_c079_2026",
+        "primary_source_url": "https://www.perezllorca.com/es-co/actualidad/boletin/corte-constitucional-tumba-el-decreto-1474-se-caen-las-medidas-tributarias-de-la-emergencia-economica/",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 3b (firma jurídica)",
+        "verified_via_websearch": true,
+        "directly_fetched": false
+      }
+    ],
+    "extraction_audit": {
+      "skill_version": "vigencia-checker@1.0",
+      "model": "claude-opus-4-7",
+      "method": "manual walkthrough of SKILL.md flow with WebSearch as primary-source proxy (Fix 1B-α scrapers not yet built)",
+      "tool_iterations": 2,
+      "wall_seconds": 180,
+      "cost_usd_estimate": 0.0,
+      "limitations_acknowledged": [
+        "No directly fetched the Corte Constitucional Auto 082 URL (only confirmed via WebSearch summary)",
+        "No directly fetched a primary source for Sentencia C-079/2026 (relied on INCP + Pérez-Llorca summaries)",
+        "Per skill's fuentes-primarias.md §'Cuándo la doble fuente primaria es imposible o impráctica' — three independent sources (Corte URL via search + INCP + big-firm boletín) converge on the same facts; treating as adequate verification this round, but Fix 1B-α scrapers should re-verify"
+      ]
+    }
+  },
+  "applies_to_periodo": {
+    "aplica": "No",
+    "justificacion": "Sentencia C-079/2026 (15 abril 2026) declaró el Decreto inexequible con efectos inmediatos + retroactivos. La DIAN debe devolver los impuestos recaudados durante la vigencia efectiva (dic 30 2025 — ene 29 2026). Para ningún período fiscal este Decreto es aplicable.",
+    "norm_version_aplicable": null,
+    "regimen_aplicable_en_su_lugar": "Para impuesto al patrimonio AG 2025: Ley 2277/2022 (umbral 72.000 UVT, tarifa hasta 1,5%). Para tarifa ordinaria de renta: Decreto 624/1989 ET Art. 240 + Ley 2277/2022 modificación (35% PJ)."
+  },
+  "remision_t_series": {
+    "t_i_path": "knowledge_base/CORE ya Arriba/RENTA/EXPERTOS/T-I-decreto-1474-2025-estado-post-suspension-corte-constitucional.md",
+    "t_i_status": "STALE — captura SP de Auto 082/2026 pero no refleja IE de Sentencia C-079/2026 (15 abril 2026); requiere actualización editorial Fix 6"
+  },
+  "riesgo_de_error": "Bajo",
+  "recomendacion_para_el_contador": "El Decreto 1474/2025 NO se aplica para ningún período fiscal. Si el cliente pagó impuestos bajo este Decreto durante enero 2026 (los 29 días de vigencia efectiva), tiene derecho a devolución por DIAN — debe radicar solicitud dentro de los 30 días posteriores a la notificación de la Sentencia C-079/2026. Las medidas tributarias del Decreto (IVA 19% licores/vinos/juegos, normalización 19%, sobretasas sectoriales, reducción umbral patrimonio, beneficios de mora) NO pueden aplicarse.",
+  "alertas_operativas": [
+    "El régimen de impuesto al patrimonio para AG 2025 vuelve al de Ley 2277/2022 (umbral 72.000 UVT, tarifa hasta 1,5%).",
+    "Las declaraciones presentadas bajo el Decreto 1474 entre dic 30 2025 y ene 29 2026 deben revisarse para determinar si procede devolución.",
+    "El corpus interno tiene DOS documentos sobre este Decreto que requieren actualización: EME-A01 contiene contenido fabricado ('Sentencia C-077/2025' no existe); T-I está stale (captura SP, no IE)."
+  ],
+  "fix_6_findings": [
+    {
+      "finding_id": "EME_A01_hallucinated_content",
+      "severity": "CRITICO",
+      "description": "El archivo `EME-A01-addendum-estado-actual-decretos-1474-240-2026.md` afirma que el Decreto 1474/2025 fue expedido en julio 2025 y modificado por 'Sentencia C-077/2025' de noviembre 2025. AMBAS afirmaciones son falsas: el Decreto fue expedido el 29 de diciembre de 2025, y no existe 'Sentencia C-077/2025'. La sentencia real es C-079/2026 de abril 15 de 2026. Probable hallucination durante ingestion o autoría inicial.",
+      "remediacion": "Reescribir EME-A01 con datos correctos verificados contra fuentes primarias. Auditar otros archivos 'addendum' / 'estado-actual' por patrones similares de fabricación.",
+      "next_action": "Workstream Fix 6 editorial pass — semana 11"
+    },
+    {
+      "finding_id": "T_I_stale_state",
+      "severity": "MAYOR",
+      "description": "El archivo `T-I-decreto-1474-2025-estado-post-suspension-corte-constitucional.md` (v2.0 marzo 20 2026) captura correctamente la SP via Auto 082/084 (enero 29 2026) pero no refleja la IE posterior via Sentencia C-079/2026 (abril 15 2026). El archivo es ~6 semanas stale en una sentencia de alto impacto.",
+      "remediacion": "Actualizar T-I con la transición SP → IE. Agregar sección final sobre devoluciones DIAN. Marcar la versión actual como `superseded_by` la nueva.",
+      "next_action": "Workstream Fix 6 editorial pass — semana 11; también activar Re-Verify Cron como gate de detección automática de sentencias-de-fondo posteriores"
+    }
+  ],
+  "tranches_de_correccion_pendientes": [
+    {
+      "trigger": "Si LIA fue preguntado sobre Decreto 1474/2025 durante o despues de abril 15 2026 y respondió con 'suspendido' (basado en T-I) en vez de 'inexequible' (estado actual)",
+      "tranche_classification": "INCOMPLETO",
+      "gravedad": "MAYOR",
+      "correccion": "Citar Sentencia C-079/2026 + ordenar devolución vs solo mencionar la suspensión Auto 082/084"
+    },
+    {
+      "trigger": "Si LIA fue preguntado sobre Decreto 1474/2025 y respondió con 'declarado inexequible parcialmente' (basado en EME-A01 hallucinated content)",
+      "tranche_classification": "INCORRECTO",
+      "gravedad": "CRITICO",
+      "correccion": "El Decreto fue declarado inexequible EN SU TOTALIDAD por C-079/2026, no parcialmente. La afirmación parcial proviene de contenido fabricado en el corpus."
+    }
+  ],
+  "supabase_update_decision": {
+    "applied": false,
+    "reason": "El corpus no contiene el TEXTO del Decreto 1474/2025 mismo; solo contiene documentos de INTERPRETACIÓN sobre su estado (EME-A01, T-I, IVA-E02). Marcar estos documentos de interpretación como `vigencia=derogada` los retiraría del retrieval — pero son útiles para explicar el estado IE al usuario. La acción correcta es editorial (Fix 6), no metadata-flag (Activity 1.5).",
+    "what_would_happen_if_naive_wholesale_flag": "Si Activity 1.5 hubiese marcado wholesale los 5+ docs que mencionan D. 1474 como `derogada`, habríamos perdido toda capacidad de explicar al usuario por qué el Decreto no aplica + el derecho a devolución. La skill correctamente discrimina entre 'documento que ES el Decreto' vs 'documento QUE EXPLICA el Decreto'."
+  }
+}

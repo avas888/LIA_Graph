@@ -8,7 +8,7 @@ The canonical repo-level guidance for all agents now lives in:
 
 The main critical architecture file every agent should read before changing the served runtime is:
 
-- `docs/guide/orchestration.md`
+- `docs/orchestration/orchestration.md`
 
 The companion source of truth for live chat-answer shaping is:
 

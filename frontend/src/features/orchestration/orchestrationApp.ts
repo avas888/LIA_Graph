@@ -96,7 +96,7 @@ function renderPage(): string {
         <article class="orch-highlight-card">
           <span class="orch-highlight-label">Env matrix v2026-04-26-additive-no-retire</span>
           <h3>dev lee artifacts; dev:staging lee Supabase + FalkorDB live</h3>
-          <p>LIA_CORPUS_SOURCE y LIA_GRAPH_MODE, seteados por scripts/dev-launcher.mjs, eligen el adapter por request. Tabla versionada y change log viven en docs/guide/orchestration.md.</p>
+          <p>LIA_CORPUS_SOURCE y LIA_GRAPH_MODE, seteados por scripts/dev-launcher.mjs, eligen el adapter por request. Tabla versionada y change log viven en docs/orchestration/orchestration.md.</p>
         </article>
       </div>
     </section>

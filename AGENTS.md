@@ -2,19 +2,19 @@
 
 Canonical operating guide for AI agents working in `Lia_Graph`.
 
-> **Env matrix version: `v2026-04-26-additive-no-retire`.** Authoritative per-mode env table lives in [`docs/guide/orchestration.md`](./docs/guide/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags, introduce a new `LIA_*` env, or ship a new `query_mode`, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map. (Latest bump: `v2026-04-26-additive-no-retire` — runtime-shape changes from `next_v4`: (1) **conversational-memory staircase Levels 1+2** (next_v4 §3 + §4) — FE forwards `payload.topic` from prior assistant turn, `ConversationState` carries `prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`, `resolve_chat_topic` consumes `conversation_state` as a soft tiebreaker; (2) **`comparative_regime_chain` query mode** (next_v4 §5) — new planner mode + `config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py` for side-by-side pre/post-reform table rendering; (3) coherence-gate hardening + follow-up handling. No env-flag changes. Prior bump: `v2026-04-25-temafirst-readdressed` — operator's "no off flags" directive: `LIA_TEMA_FIRST_RETRIEVAL` flipped `shadow → on`, `LIA_EVIDENCE_COHERENCE_GATE` flipped `shadow → enforce`, `LIA_POLICY_CITATION_ALLOWLIST` flipped `off → enforce`, `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE` default → `enforce`. All four after taxonomy v2 + K2 path-veto + SME 30Q at 30/30 + qualitative-pass on §8.4 gate 9. See `docs/aa_next/next_v4.md` (active items) + `docs/aa_next/next_done.md` (digest of closed cycles next_v1+v2+v3) + `docs/aa_next/gate_9_threshold_decision.md`. Closed-cycle archive: `docs/aa_next/done/`. Learnings from the next_v3 close: `docs/learnings/retrieval/router-llm-deferral-architecture.md`, `docs/learnings/retrieval/operates-not-defines-heuristic.md`, `docs/learnings/process/aspirational-thresholds-and-qualitative-pass.md`, `docs/learnings/ingestion/path-veto-rule-based-classifier-correction.md`. Learnings from the next_v4 same-day ship (2026-04-25): `docs/learnings/retrieval/conversational-memory-staircase.md`, `docs/learnings/retrieval/pre-classifier-query-mode-branch.md`, `docs/learnings/process/deep-trace-before-hypothesis-debate.md`.)
+> **Env matrix version: `v2026-04-26-additive-no-retire`.** Authoritative per-mode env table lives in [`docs/orchestration/orchestration.md`](./docs/orchestration/orchestration.md#runtime-env-matrix-versioned). If you change launcher flags, introduce a new `LIA_*` env, or ship a new `query_mode`, bump the version and update the mirror tables in `docs/guide/env_guide.md`, `CLAUDE.md`, and the `/orchestration` HTML map. (Latest bump: `v2026-04-26-additive-no-retire` — runtime-shape changes from `next_v4`: (1) **conversational-memory staircase Levels 1+2** (next_v4 §3 + §4) — FE forwards `payload.topic` from prior assistant turn, `ConversationState` carries `prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`, `resolve_chat_topic` consumes `conversation_state` as a soft tiebreaker; (2) **`comparative_regime_chain` query mode** (next_v4 §5) — new planner mode + `config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py` for side-by-side pre/post-reform table rendering; (3) coherence-gate hardening + follow-up handling. No env-flag changes. Prior bump: `v2026-04-25-temafirst-readdressed` — operator's "no off flags" directive: `LIA_TEMA_FIRST_RETRIEVAL` flipped `shadow → on`, `LIA_EVIDENCE_COHERENCE_GATE` flipped `shadow → enforce`, `LIA_POLICY_CITATION_ALLOWLIST` flipped `off → enforce`, `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE` default → `enforce`. All four after taxonomy v2 + K2 path-veto + SME 30Q at 30/30 + qualitative-pass on §8.4 gate 9. See `docs/aa_next/next_v4.md` (active items) + `docs/aa_next/next_done.md` (digest of closed cycles next_v1+v2+v3) + `docs/aa_next/gate_9_threshold_decision.md`. Closed-cycle archive: `docs/aa_next/done/`. Learnings from the next_v3 close: `docs/learnings/retrieval/router-llm-deferral-architecture.md`, `docs/learnings/retrieval/operates-not-defines-heuristic.md`, `docs/learnings/process/aspirational-thresholds-and-qualitative-pass.md`, `docs/learnings/ingestion/path-veto-rule-based-classifier-correction.md`. Learnings from the next_v4 same-day ship (2026-04-25): `docs/learnings/retrieval/conversational-memory-staircase.md`, `docs/learnings/retrieval/pre-classifier-query-mode-branch.md`, `docs/learnings/process/deep-trace-before-hypothesis-debate.md`.)
 
 ## Start Here
 
 Before changing the served runtime, read these in order:
 
-1. `docs/guide/orchestration.md` (includes the versioned env matrix + change log)
+1. `docs/orchestration/orchestration.md` (includes the versioned env matrix + change log)
 2. `docs/guide/chat-response-architecture.md`
 3. `docs/guide/env_guide.md`
 4. `frontend/src/app/orchestration/shell.ts`
 5. `frontend/src/features/orchestration/orchestrationApp.ts`
 
-`docs/guide/orchestration.md` is the main critical file for agents.
+`docs/orchestration/orchestration.md` is the main critical file for agents.
 It is the end-to-end map of the live runtime, the information architecture, the versioned per-mode env matrix, and the boundary between shared graph logic and surface-specific orchestration.
 
 `docs/guide/chat-response-architecture.md` is the companion source of truth for how the `main chat` answer is shaped.
@@ -52,7 +52,7 @@ Rules:
 - The Falkor adapter must keep propagating errors — no silent fallback to artifacts on staging. Operators must see cloud outages.
 - Do NOT hardcode `LIA_CORPUS_SOURCE` / `LIA_GRAPH_MODE` into `.env.local` or `.env.staging`. The launcher owns them so the values stay tied to the run command.
 - Alias lists in `config/subtopic_taxonomy.json` are deliberately wide (semantic-expansion fuel). Do not auto-tighten them.
-- Before changing a flag's default or adding a new one, bump the version in `docs/guide/orchestration.md` and update the mirror tables.
+- Before changing a flag's default or adding a new one, bump the version in `docs/orchestration/orchestration.md` and update the mirror tables.
 
 ## Corpus Refresh (Required Before Staging Cutover)
 
@@ -108,7 +108,7 @@ The hot path is:
 
 ## HTTP Controller Topology
 
-`ui_server.py` owns dispatch + auth + response helpers only. Every `_handle_*` method on `LiaUIHandler` is a thin delegate to `handle_<domain>_<verb>(handler, …, *, deps)` in a sibling `ui_<domain>_controllers.py` module. Deps flow through `_<domain>_controller_deps()` helpers defined just above the class. **16 domain controllers** exist as of `v2026-04-21-stv2d` — see `docs/guide/orchestration.md` §HTTP Controller Topology for the full surface ↔ controller table. The original refactor play-by-play lives in `docs/done/next/granularization_v1.md` (executed task ledger).
+`ui_server.py` owns dispatch + auth + response helpers only. Every `_handle_*` method on `LiaUIHandler` is a thin delegate to `handle_<domain>_<verb>(handler, …, *, deps)` in a sibling `ui_<domain>_controllers.py` module. Deps flow through `_<domain>_controller_deps()` helpers defined just above the class. **16 domain controllers** exist as of `v2026-04-21-stv2d` — see `docs/orchestration/orchestration.md` §HTTP Controller Topology for the full surface ↔ controller table. The original refactor play-by-play lives in `docs/done/next/granularization_v1.md` (executed task ledger).
 
 ## Stable Facades vs Implementation Detail
 
@@ -230,7 +230,7 @@ Do not use it as the default place to fix visible answer quality.
 
 When changing live chat behavior:
 
-- start from `docs/guide/orchestration.md`, not from guesswork
+- start from `docs/orchestration/orchestration.md`, not from guesswork
 - preserve the “senior accountant guiding you” target
 - keep legal grounding inline with practical advice
 - prefer small focused module changes over broad cross-cutting edits
@@ -264,7 +264,7 @@ This matters immediately for the `Normativa` port:
 
 If you change the runtime information architecture, update all three together in the same task:
 
-1. `docs/guide/orchestration.md`
+1. `docs/orchestration/orchestration.md`
 2. `docs/guide/chat-response-architecture.md`
 3. the `/orchestration` HTML map:
    - `frontend/src/app/orchestration/shell.ts`
@@ -274,7 +274,7 @@ The docs and the architecture page should explain the same runtime truth.
 
 If you change envs or launcher flags (anything under `LIA_*`, anything in `scripts/dev-launcher.mjs`, anything in `dependency_smoke.py` that gates preflight), you must:
 
-1. Bump the env matrix version in `docs/guide/orchestration.md` → "Runtime Env Matrix (Versioned)".
+1. Bump the env matrix version in `docs/orchestration/orchestration.md` → "Runtime Env Matrix (Versioned)".
 2. Add a Change Log row with the exact files touched.
 3. Update the mirror tables in `docs/guide/env_guide.md` and `CLAUDE.md`.
 4. Update the status card in `frontend/src/app/orchestration/shell.ts`.
@@ -309,7 +309,7 @@ Check these before closing the task:
 
 - the change lives in the correct layer
 - no contradictory instructions were introduced
-- `docs/guide/orchestration.md` still describes reality (including the versioned env matrix)
+- `docs/orchestration/orchestration.md` still describes reality (including the versioned env matrix)
 - `docs/guide/chat-response-architecture.md` still matches the live `main chat`
 - the `/orchestration` page still maps the same architecture
 - `Normativa` and `Interpretación` boundaries did not get blurred by convenience edits

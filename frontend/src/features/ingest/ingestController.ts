@@ -5,7 +5,7 @@
  * The job-status poll piggybacks on the existing /api/jobs/{id} surface
  * already used by Promoción.
  *
- * Source-of-truth for the orchestration path: docs/guide/orchestration.md
+ * Source-of-truth for the orchestration path: docs/orchestration/orchestration.md
  * Lane 0 (Raw → snapshot → ingest → WIP Supabase + local Falkor → Promoción
  * → Cloud Supabase + Cloud Falkor).
  */

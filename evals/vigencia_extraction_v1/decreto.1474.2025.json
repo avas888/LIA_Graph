@@ -1,0 +1,88 @@
+{
+  "norm_id": "decreto.1474.2025",
+  "norm_type": "decreto",
+  "parent_norm_id": null,
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": "v2-to-v3-upgrade-2026-04-27",
+  "extracted_at_utc": "2026-04-27T07:07:14.229273+00:00",
+  "result": {
+    "veredicto": {
+      "state": "IE",
+      "state_from": "2025-12-30",
+      "state_until": null,
+      "applies_to_kind": "per_period",
+      "applies_to_payload": {
+        "year_start": 2026,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": "2026-01-01",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "sentencia_cc",
+        "source_norm_id": "sent.cc.C-079.2026",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha_sentencia": "2026-04-15"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": {
+        "norm_id": "Auto 082/2026 + Auto 084/2026",
+        "norm_type": "auto_corte_constitucional",
+        "article": "Sala Plena (votación 6-2)",
+        "fecha": "2026-01-29",
+        "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/Autos/2026/A082-26.htm"
+      },
+      "inexequibilidad": {
+        "norm_id": "sent.cc.C-079.2026",
+        "norm_type": "sentencia_corte_constitucional",
+        "article": "Sala Plena",
+        "fecha": "2026-04-15",
+        "primary_source_url": null
+      },
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "corte_constitucional_auto_082_2026",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/Autos/2026/A082-26.htm"
+        },
+        {
+          "norm_id": "incp_comunicado_sentencia_c079_2026",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/2026/04/corte-constitucional-declaro-inexequible-el-decreto-legislativo-1474-de-2025/"
+        },
+        {
+          "norm_id": "perez_llorca_boletin_c079_2026",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://www.perezllorca.com/es-co/actualidad/boletin/corte-constitucional-tumba-el-decreto-1474-se-caen-las-medidas-tributarias-de-la-emergencia-economica/"
+        }
+      ],
+      "extraction_audit": {
+        "skill_version": "vigencia-checker@1.0",
+        "model": null,
+        "tool_iterations": 2,
+        "wall_ms": null,
+        "cost_usd_estimate": null,
+        "run_id": "v2-to-v3-upgrade-2026-04-27",
+        "method": "v2_to_v3_upgrade"
+      }
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": []
+  }
+}

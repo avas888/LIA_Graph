@@ -1,0 +1,176 @@
+{
+  "qid": "perdidas_fiscales_art147_P1",
+  "topic_key_expected": "perdidas_fiscales_art147",
+  "profile": "P1_directa",
+  "message": "¿Cuántos años hacia adelante puedo arrastrar una pérdida fiscal generada por una SAS para compensarla con utilidades futuras?",
+  "http_status": 200,
+  "latency_ms": 7640,
+  "captured_utc": "2026-04-27T02:20:55.957528+00:00",
+  "response": {
+    "trace_id": "95664ab7-d332-47a3-a542-6251be2cd6c7",
+    "run_id": "pd_efc65ebd271540c18af30a6fad13ff1f",
+    "answer_markdown": "Evidencia insuficiente para responder con respaldo normativo en el tema **perdidas_fiscales_art147**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "answer_concise": "Evidencia insuficiente para responder con respaldo normativo en el tema **perdidas_fiscales_art147**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_zero_evidence_for_router_topic",
+    "evidence_snippets": [],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 18,
+        "output_tokens": 22,
+        "total_tokens": 40,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "perdidas_fiscales_art147",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de perdidas fiscales art147, por lo cual utilizaremos nuestra base de datos perdidas fiscales art147.",
+    "topic_adjustment_reason": "La consulta pregunta específicamente sobre el arrastre de pérdidas fiscales para compensar utilidades futuras, lo cual es el objeto del tema 'pérdidas fiscales art. 147'.",
+    "coverage_notice": "Evidencia insuficiente para responder con respaldo normativo en el tema **perdidas_fiscales_art147**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "topic": "perdidas_fiscales_art147",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_02a07e4a579e",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 18,
+        "output_tokens": 22,
+        "total_tokens": 40
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "95664ab7-d332-47a3-a542-6251be2cd6c7",
+      "last_run_id": "pd_efc65ebd271540c18af30a6fad13ff1f",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_02a07e4a579e",
+    "chat_run_id": "cr_20260427_022050_18eb41b1",
+    "metrics": {
+      "latency_ms": 6335.48,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 18,
+          "output_tokens": 22,
+          "total_tokens": 40,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_zero_evidence_for_router_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_02a07e4a579e",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 18,
+          "output_tokens": 22,
+          "total_tokens": 40
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "95664ab7-d332-47a3-a542-6251be2cd6c7",
+        "last_run_id": "pd_efc65ebd271540c18af30a6fad13ff1f",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "perdidas_fiscales_art147",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "f3243303c1694b6fb5fa509a1a9ff86f"
+  }
+}

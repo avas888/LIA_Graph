@@ -107,9 +107,16 @@ class _FakeClient:
         self.last_rpc_payload: dict[str, Any] | None = None
 
     def rpc(self, name: str, payload: dict[str, Any]) -> _FakeRpc:
-        assert name == "hybrid_search"
-        self.last_rpc_payload = dict(payload)
-        return _FakeRpc(self._hybrid_rows)
+        # fixplan_v3 sub-fix 1B-ε — `_apply_v3_vigencia_demotion` calls
+        # `chunk_vigencia_gate_at_date` after `hybrid_search`. Return an
+        # empty result set for the v3 gate so the demotion pass is a no-op
+        # (no chunks dropped). Records `last_rpc_payload` only for hybrid_search.
+        if name == "hybrid_search":
+            self.last_rpc_payload = dict(payload)
+            return _FakeRpc(self._hybrid_rows)
+        if name in ("chunk_vigencia_gate_at_date", "chunk_vigencia_gate_for_period"):
+            return _FakeRpc([])
+        raise AssertionError(f"Unexpected RPC name: {name!r}")
 
     def table(self, name: str) -> _FakeTable:
         if name == "documents":

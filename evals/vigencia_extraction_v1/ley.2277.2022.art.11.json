@@ -1,0 +1,88 @@
+{
+  "norm_id": "ley.2277.2022.art.11",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.2277.2022",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": "v2-to-v3-upgrade-2026-04-27",
+  "extracted_at_utc": "2026-04-27T07:07:14.226055+00:00",
+  "result": {
+    "veredicto": {
+      "state": "EC",
+      "state_from": "2022-12-13",
+      "state_until": null,
+      "applies_to_kind": "per_period",
+      "applies_to_payload": {
+        "year_start": 2023,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": "2023-01-01",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "sentencia_cc",
+        "source_norm_id": "sent.cc.C-384.2023",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha_sentencia": "2023-10-02",
+          "condicionamiento_literal": "Exequibilidad condicionada de numerales 1, 2 y 3 y parágrafo 6 del Art. 11 Ley 2277/2022. La Corte halló que los principios de buena fe y confianza legítima resultan vulnerados por la modificación abrupta del régimen tarifario para usuarios industriales de zona franca calificados antes del 13-dic-2022."
+        }
+      },
+      "interpretive_constraint": {
+        "sentencia_norm_id": "sent.cc.C-384.2023",
+        "fecha_sentencia": "2023-10-02",
+        "texto_literal": "Exequibilidad condicionada de numerales 1, 2 y 3 y parágrafo 6 del Art. 11 Ley 2277/2022. La Corte halló que los principios de buena fe y confianza legítima resultan vulnerados por la modificación abrupta del régimen tarifario para usuarios industriales de zona franca calificados antes del 13-dic-2022.",
+        "fuente_verificada_directo": false
+      },
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": {
+        "norm_id": "ley.1819.2016.art.101",
+        "norm_type": "ley",
+        "article": null,
+        "fecha": "2016-12-29",
+        "primary_source_url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_1819_2016_pr002.html#101"
+      },
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "corte_constitucional_relatoria_C384_23",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/2023/c-384-23.htm"
+        },
+        {
+          "norm_id": "corte_constitucional_comunicado_36_2023",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://www.corteconstitucional.gov.co/comunicados/comunicado%2036%20-%20octubre%202%20de%202023.pdf"
+        },
+        {
+          "norm_id": "dian_normograma_C384_2023",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://normograma.dian.gov.co/dian/compilacion/docs/c-384_2023.htm"
+        }
+      ],
+      "extraction_audit": {
+        "skill_version": "vigencia-checker@1.0",
+        "model": null,
+        "tool_iterations": 5,
+        "wall_ms": null,
+        "cost_usd_estimate": null,
+        "run_id": "v2-to-v3-upgrade-2026-04-27",
+        "method": "v2_to_v3_upgrade"
+      }
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": []
+  }
+}

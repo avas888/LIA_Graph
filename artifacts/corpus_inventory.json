@@ -1,16 +1,16 @@
 {
   "corpus_dir": "knowledge_base",
   "taxonomy_version": "v2026_04_25_v2_taxonomy",
-  "scanned_file_count": 1449,
+  "scanned_file_count": 1460,
   "decision_counts": {
-    "exclude_internal": 154,
-    "include_corpus": 1280,
+    "exclude_internal": 159,
+    "include_corpus": 1286,
     "revision_candidate": 15
   },
   "extension_counts": {
     ".js": 2,
-    ".json": 20,
-    ".md": 1391,
+    ".json": 23,
+    ".md": 1399,
     ".pdf": 5,
     ".png": 20,
     ".py": 2,
@@ -20,12 +20,12 @@
   },
   "parse_strategy_counts": {
     "binary_inventory_only": 5,
-    "excluded_internal": 154,
-    "markdown_graph_parse": 1275,
+    "excluded_internal": 159,
+    "markdown_graph_parse": 1281,
     "revision_merge_candidate": 15
   },
   "document_archetype_counts": {
-    "base_doc": 1280,
+    "base_doc": 1286,
     "binary_asset": 27,
     "deprecated_copy": 42,
     "derogated_law": 22,
@@ -33,61 +33,62 @@
     "governance_doc": 1,
     "helper_asset": 5,
     "revision_patch": 15,
-    "structural_manifest": 20,
-    "working_note": 28
+    "structural_manifest": 23,
+    "working_note": 30
   },
-  "document_count": 1280,
+  "document_count": 1286,
   "family_counts": {
-    "interpretacion": 104,
-    "normativa": 1004,
-    "practica": 167,
+    "interpretacion": 105,
+    "normativa": 1007,
+    "practica": 169,
     "unknown": 5
   },
   "knowledge_class_counts": {
-    "interpretative_guidance": 104,
-    "normative_base": 1004,
-    "practica_erp": 167,
+    "interpretative_guidance": 105,
+    "normative_base": 1007,
+    "practica_erp": 169,
     "unknown": 5
   },
   "source_type_counts": {
     "analysis": 31,
     "calendario": 11,
-    "checklist": 63,
+    "checklist": 64,
     "commentary": 2,
     "concepto": 2,
     "decreto": 15,
     "formulario_oficial": 20,
-    "guia_operativa": 93,
-    "ley": 960,
-    "official_primary": 4,
-    "official_secondary": 71,
+    "guia_operativa": 94,
+    "ley": 962,
+    "official_primary": 5,
+    "official_secondary": 72,
     "resolucion": 3,
     "unknown": 5
   },
   "source_tier_counts": {
-    "expertos": 104,
-    "loggro": 167,
-    "normativo": 1004,
+    "expertos": 105,
+    "loggro": 169,
+    "normativo": 1007,
     "unknown": 5
   },
   "authority_level_counts": {
     "authority_unknown": 5,
     "expert_interpretive_authority": 33,
-    "operational_practice_authority": 167,
-    "primary_legal_authority": 1004,
-    "secondary_official_authority": 71
+    "operational_practice_authority": 169,
+    "primary_legal_authority": 1007,
+    "secondary_official_authority": 72
   },
-  "graph_parse_ready_document_count": 1275,
+  "graph_parse_ready_document_count": 1281,
   "vocabulary_status_counts": {
-    "ratified_v1_2": 1245,
+    "ratified_v1_2": 1249,
     "ratified_v3_0": 2,
     "unassigned": 9,
-    "v2_taxonomy": 24
+    "v2_taxonomy": 24,
+    "v6_phase5": 2
   },
   "review_priority_counts": {
     "critical": 5,
     "medium": 8,
-    "none": 1267
+    "none": 1273
   },
   "ambiguity_flag_counts": {
     "family_unknown": 5,
@@ -100,129 +101,129 @@
     "activos_exterior": 6,
     "beneficiario_final_rub": 13,
     "beneficio_auditoria": 2,
-    "calendario_obligaciones": 8,
+    "calendario_obligaciones": 7,
     "cambiario": 6,
-    "comercial_societario": 79,
+    "comercial_societario": 76,
     "conciliacion_fiscal": 3,
-    "contratacion_estatal": 9,
-    "costos_deducciones_renta": 4,
-    "datos_tecnologia": 36,
-    "declaracion_renta": 55,
+    "contratacion_estatal": 8,
+    "costos_deducciones_renta": 2,
+    "datos_tecnologia": 33,
+    "declaracion_renta": 52,
+    "devoluciones_saldos_a_favor": 2,
     "dividendos_utilidades": 3,
     "dividendos_y_distribucion_utilidades": 3,
-    "economia_digital_criptoactivos": 6,
+    "economia_digital_criptoactivos": 5,
     "emergencia_tributaria": 12,
-    "estados_financieros_niif": 9,
+    "estados_financieros_niif": 11,
     "estatuto_tributario": 1,
     "facturacion_electronica": 18,
+    "firmeza_declaraciones": 6,
     "ganancia_ocasional": 3,
-    "gravamen_movimiento_financiero_4x1000": 5,
-    "ica": 24,
-    "impuesto_nacional_consumo": 6,
+    "gravamen_movimiento_financiero_4x1000": 4,
+    "ica": 25,
+    "impuesto_nacional_consumo": 5,
     "impuesto_patrimonio_personas_naturales": 4,
     "impuesto_timbre": 1,
     "impuestos_saludables": 2,
     "informacion_exogena": 14,
     "ingresos_fiscales_renta": 1,
     "inversiones_incentivos": 34,
-    "iva": 15,
+    "iva": 18,
     "laboral": 74,
-    "leyes_derogadas": 3,
+    "leyes_derogadas": 4,
     "normas_internacionales_auditoria": 3,
-    "obligaciones_profesionales_contador": 20,
-    "otros_sectoriales": 557,
+    "obligaciones_profesionales_contador": 13,
+    "otros_sectoriales": 583,
     "parafiscales_seguridad_social": 1,
     "patrimonio_fiscal_renta": 1,
     "perdidas_fiscales_art147": 3,
     "precios_de_transferencia": 5,
-    "presupuesto_hacienda": 36,
-    "procedimiento_tributario": 44,
+    "presupuesto_hacienda": 29,
+    "procedimiento_tributario": 42,
     "reforma_pensional": 3,
     "reformas_tributarias": 82,
     "regimen_cambiario": 6,
     "regimen_sancionatorio": 6,
-    "regimen_simple": 8,
+    "regimen_simple": 9,
     "regimen_tributario_especial_esal": 7,
     "renta_liquida_gravable": 1,
     "renta_presuntiva": 1,
-    "rentas_exentas": 5,
-    "retencion_en_la_fuente": 14,
+    "rentas_exentas": 4,
+    "retencion_en_la_fuente": 13,
     "retencion_fuente_general": 1,
     "sagrilaft_ptee": 4,
     "sector_telecomunicaciones": 1,
-    "zonas_francas": 5
+    "zonas_francas": 3
   },
   "subtopic_key_counts": {
-    "[none]": 993,
-    "acceso_financiero_sector_minero": 2,
-    "actualizacion_normativa_informacion_exogena": 2,
+    "[none]": 1069,
+    "acceso_financiero_sector_minero": 1,
+    "actualizacion_normativa_informacion_exogena": 1,
     "ajuste_de_sanciones_por_inflacion": 2,
     "analisis_ley_tributaria_derogada": 3,
-    "anticorrupcion_sagrilaft_ley_1474_2011": 9,
-    "aplicacion_codigo_de_comercio_pymes": 4,
-    "asistencia_administrativa_mutua_fiscal_internacional": 3,
-    "asociaciones_publico_privadas_app": 4,
-    "beneficio_tributario_donaciones_becas_fuerzas_armadas": 3,
-    "beneficios_tributarios_zonas_de_frontera": 3,
-    "calendario_tributario_y_plazos": 3,
-    "codigo_general_proceso_ley_1564_2012": 7,
-    "comercio_electronico_y_firmas_digitales": 3,
-    "comparacion_regimen_simple_vs_ordinario": 1,
-    "constitucion_y_regulacion_de_sas": 7,
+    "anticorrupcion_sagrilaft_ley_1474_2011": 6,
+    "aplicabilidad_y_derogacion_de_ley_disciplinaria": 1,
+    "aplicacion_codigo_de_comercio_pymes": 3,
+    "asistencia_administrativa_mutua_fiscal_internacional": 2,
+    "asociaciones_publico_privadas_app": 3,
+    "beneficio_tributario_donaciones_becas_fuerzas_armadas": 1,
+    "beneficios_tributarios_sector_editorial": 1,
+    "beneficios_tributarios_zonas_de_frontera": 1,
+    "calendario_tributario_y_plazos": 2,
+    "codigo_general_proceso_ley_1564_2012": 6,
+    "comercio_electronico_y_firmas_digitales": 1,
+    "constitucion_y_regulacion_de_sas": 6,
     "contratacion_de_entidades_estatales": 2,
-    "contrato_de_aparceria_y_explotacion_rural": 3,
-    "cpaca_ley_1437_2011": 11,
-    "cronograma_documentos_electronicos_dian": 2,
-    "cumplimiento_normativo_comunidades_negras": 4,
-    "cumplimiento_normativo_sectorial_pymes": 38,
+    "contratacion_y_liquidacion_laboral_tiempo_parcial": 1,
+    "contrato_de_aparceria_y_explotacion_rural": 2,
+    "cpaca_ley_1437_2011": 8,
+    "cronograma_documentos_electronicos_dian": 1,
+    "cumplimiento_ley_antisoborno_pymes": 1,
+    "cumplimiento_normativo_comunidades_negras": 2,
+    "cumplimiento_normativo_sectorial_pymes": 20,
     "declaracion_activos_exterior_formulario_160": 4,
-    "declaracion_de_renta_personas_juridicas": 1,
-    "depreciacion_fiscal_pyme": 3,
-    "derechos_y_garantias_personas_con_enanismo": 3,
-    "distribucion_de_competencias_fiscales": 4,
+    "declaracion_de_renta_personas_juridicas": 2,
+    "depreciacion_fiscal_pyme": 2,
+    "derechos_y_garantias_personas_con_enanismo": 2,
+    "distribucion_de_competencias_fiscales": 2,
     "documentacion_y_obligaciones_de_precios_de_transferencia": 3,
-    "eliminacion_impuesto_de_timbre": 2,
+    "eliminacion_impuesto_de_timbre": 1,
     "estatuto_consumidor_ley_1480_2011": 3,
-    "exencion_de_renta_por_donaciones_culturales": 4,
-    "factura_como_titulo_valor": 4,
+    "exencion_de_renta_por_donaciones_culturales": 3,
+    "factura_como_titulo_valor": 3,
     "financiamiento_sistemas_transporte_masivo": 1,
-    "fnce_ley_1715_2014_energia_renovable": 6,
+    "fnce_ley_1715_2014_energia_renovable": 5,
     "funciones_y_responsabilidades_del_revisor_fiscal": 3,
     "garantias_mobiliarias_para_acceso_a_credito": 4,
-    "implementacion_retencion_en_la_fuente_pyme": 2,
-    "impuesto_al_consumo_de_licores": 2,
+    "impuesto_al_consumo_de_licores": 1,
     "impuesto_al_patrimonio_excepcional_2011": 1,
-    "incentivos_tributarios_por_donacion_de_alimentos": 2,
-    "inclusion_financiera_y_sedpe": 3,
-    "ley_paez_218_1995": 9,
+    "inclusion_financiera_y_sedpe": 1,
+    "ley_paez_218_1995": 7,
     "marco_general_de_libranzas_y_descuentos_directos_de_nomina": 1,
-    "marco_legal_gmf_4x1000": 2,
-    "marco_legal_impuesto_industria_y_comercio": 2,
-    "matricula_y_renovacion_mercantil": 9,
-    "obligaciones_profesionales_del_contador_publico": 8,
+    "marco_legal_gmf_4x1000": 1,
+    "marco_legal_impuesto_industria_y_comercio": 3,
+    "matricula_y_renovacion_mercantil": 8,
+    "obligaciones_profesionales_del_contador_publico": 4,
     "obras_por_impuestos_sector_minero_e_hidrocarburos": 1,
-    "plan_nacional_de_desarrollo": 12,
-    "presupuesto_de_ingresos_y_egresos": 8,
-    "prevencion_financiacion_terrorismo": 1,
+    "plan_nacional_de_desarrollo": 9,
+    "presupuesto_de_ingresos_y_egresos": 7,
     "proceso_de_insolvencia_empresarial": 6,
-    "progresividad_ley_1429_2010_formalizacion": 6,
-    "proteccion_consumidor_comunicaciones_no_deseadas": 5,
-    "proteccion_consumidor_financiero": 1,
+    "progresividad_ley_1429_2010_formalizacion": 5,
+    "proteccion_consumidor_comunicaciones_no_deseadas": 6,
+    "proteccion_consumidor_financiero": 2,
     "proteccion_de_datos_personales": 2,
-    "recurso_sancion_exogena_art_651_ET": 2,
-    "reforma_estatutos_y_aumento_capital_social": 6,
-    "reforma_tributaria_gmf_y_facturacion": 2,
+    "recurso_sancion_exogena_art_651_ET": 3,
+    "reforma_estatutos_y_aumento_capital_social": 4,
+    "reforma_tributaria_gmf_y_facturacion": 3,
     "regimen_de_sociedades_comerciales_y_grupos_economicos": 2,
     "regimen_disciplinario_servidores_publicos": 1,
     "regimen_emprendimiento_ley_2069_2020": 2,
     "regimen_mipyme_ley_590_905": 8,
     "registro_unico_de_beneficiarios_finales": 2,
-    "regulacion_de_criptoactivos_y_servicios_virtuales": 2,
-    "regulacion_tic_ley_1341_2009": 1,
-    "saneamiento_contable_sector_publico": 4,
+    "regulacion_de_criptoactivos_y_servicios_virtuales": 1,
+    "saneamiento_contable_sector_publico": 2,
     "simplificacion_tramites_tributarios_y_administrativos": 1,
-    "sistema_general_regalias_ley_1530_2012": 1,
-    "teletrabajo_ley_1221_2008": 2,
+    "teletrabajo_ley_1221_2008": 1,
     "transicion_energetica_ley_2099_2021": 5,
     "uvt_y_topes_declaracion_de_renta": 2
   },
@@ -248,9 +249,9 @@
     },
     "calendario_obligaciones": {
       "direct_document_count": 4,
-      "subtopic_document_count": 4,
+      "subtopic_document_count": 3,
       "subtopic_counts": {
-        "calendario_tributario_y_plazos": 3,
+        "calendario_tributario_y_plazos": 2,
         "simplificacion_tramites_tributarios_y_administrativos": 1
       }
     },
@@ -260,15 +261,15 @@
       "subtopic_counts": {}
     },
     "comercial_societario": {
-      "direct_document_count": 31,
-      "subtopic_document_count": 48,
+      "direct_document_count": 33,
+      "subtopic_document_count": 43,
       "subtopic_counts": {
-        "aplicacion_codigo_de_comercio_pymes": 4,
-        "constitucion_y_regulacion_de_sas": 7,
+        "aplicacion_codigo_de_comercio_pymes": 3,
+        "constitucion_y_regulacion_de_sas": 6,
         "garantias_mobiliarias_para_acceso_a_credito": 4,
-        "matricula_y_renovacion_mercantil": 9,
+        "matricula_y_renovacion_mercantil": 8,
         "proceso_de_insolvencia_empresarial": 6,
-        "reforma_estatutos_y_aumento_capital_social": 6,
+        "reforma_estatutos_y_aumento_capital_social": 4,
         "regimen_de_sociedades_comerciales_y_grupos_economicos": 2,
         "regimen_emprendimiento_ley_2069_2020": 2,
         "regimen_mipyme_ley_590_905": 8
@@ -281,39 +282,40 @@
     },
     "contratacion_estatal": {
       "direct_document_count": 3,
-      "subtopic_document_count": 6,
+      "subtopic_document_count": 5,
       "subtopic_counts": {
-        "asociaciones_publico_privadas_app": 4,
+        "asociaciones_publico_privadas_app": 3,
         "contratacion_de_entidades_estatales": 2
       }
     },
     "costos_deducciones_renta": {
       "direct_document_count": 2,
-      "subtopic_document_count": 2,
-      "subtopic_counts": {
-        "incentivos_tributarios_por_donacion_de_alimentos": 2
-      }
+      "subtopic_document_count": 0,
+      "subtopic_counts": {}
     },
     "datos_tecnologia": {
-      "direct_document_count": 28,
-      "subtopic_document_count": 8,
+      "direct_document_count": 29,
+      "subtopic_document_count": 4,
       "subtopic_counts": {
-        "comercio_electronico_y_firmas_digitales": 3,
+        "comercio_electronico_y_firmas_digitales": 1,
         "proteccion_de_datos_personales": 2,
-        "regulacion_tic_ley_1341_2009": 1,
-        "teletrabajo_ley_1221_2008": 2
+        "teletrabajo_ley_1221_2008": 1
       }
     },
     "declaracion_renta": {
       "direct_document_count": 45,
-      "subtopic_document_count": 10,
+      "subtopic_document_count": 7,
       "subtopic_counts": {
-        "beneficio_tributario_donaciones_becas_fuerzas_armadas": 3,
-        "comparacion_regimen_simple_vs_ordinario": 1,
-        "declaracion_de_renta_personas_juridicas": 1,
-        "depreciacion_fiscal_pyme": 3,
+        "beneficio_tributario_donaciones_becas_fuerzas_armadas": 1,
+        "declaracion_de_renta_personas_juridicas": 2,
+        "depreciacion_fiscal_pyme": 2,
         "uvt_y_topes_declaracion_de_renta": 2
       }
+    },
+    "devoluciones_saldos_a_favor": {
+      "direct_document_count": 2,
+      "subtopic_document_count": 0,
+      "subtopic_counts": {}
     },
     "dividendos_utilidades": {
       "direct_document_count": 3,
@@ -327,9 +329,9 @@
     },
     "economia_digital_criptoactivos": {
       "direct_document_count": 4,
-      "subtopic_document_count": 2,
+      "subtopic_document_count": 1,
       "subtopic_counts": {
-        "regulacion_de_criptoactivos_y_servicios_virtuales": 2
+        "regulacion_de_criptoactivos_y_servicios_virtuales": 1
       }
     },
     "emergencia_tributaria": {
@@ -338,7 +340,7 @@
       "subtopic_counts": {}
     },
     "estados_financieros_niif": {
-      "direct_document_count": 9,
+      "direct_document_count": 11,
       "subtopic_document_count": 0,
       "subtopic_counts": {}
     },
@@ -348,12 +350,17 @@
       "subtopic_counts": {}
     },
     "facturacion_electronica": {
-      "direct_document_count": 12,
-      "subtopic_document_count": 6,
+      "direct_document_count": 14,
+      "subtopic_document_count": 4,
       "subtopic_counts": {
-        "cronograma_documentos_electronicos_dian": 2,
-        "factura_como_titulo_valor": 4
+        "cronograma_documentos_electronicos_dian": 1,
+        "factura_como_titulo_valor": 3
       }
+    },
+    "firmeza_declaraciones": {
+      "direct_document_count": 6,
+      "subtopic_document_count": 0,
+      "subtopic_counts": {}
     },
     "ganancia_ocasional": {
       "direct_document_count": 3,
@@ -362,23 +369,23 @@
     },
     "gravamen_movimiento_financiero_4x1000": {
       "direct_document_count": 3,
-      "subtopic_document_count": 2,
+      "subtopic_document_count": 1,
       "subtopic_counts": {
-        "marco_legal_gmf_4x1000": 2
+        "marco_legal_gmf_4x1000": 1
       }
     },
     "ica": {
       "direct_document_count": 22,
-      "subtopic_document_count": 2,
+      "subtopic_document_count": 3,
       "subtopic_counts": {
-        "marco_legal_impuesto_industria_y_comercio": 2
+        "marco_legal_impuesto_industria_y_comercio": 3
       }
     },
     "impuesto_nacional_consumo": {
       "direct_document_count": 4,
-      "subtopic_document_count": 2,
+      "subtopic_document_count": 1,
       "subtopic_counts": {
-        "impuesto_al_consumo_de_licores": 2
+        "impuesto_al_consumo_de_licores": 1
       }
     },
     "impuesto_patrimonio_personas_naturales": {
@@ -402,8 +409,8 @@
       "direct_document_count": 10,
       "subtopic_document_count": 4,
       "subtopic_counts": {
-        "actualizacion_normativa_informacion_exogena": 2,
-        "recurso_sancion_exogena_art_651_ET": 2
+        "actualizacion_normativa_informacion_exogena": 1,
+        "recurso_sancion_exogena_art_651_ET": 3
       }
     },
     "ingresos_fiscales_renta": {
@@ -412,33 +419,36 @@
       "subtopic_counts": {}
     },
     "inversiones_incentivos": {
-      "direct_document_count": 7,
-      "subtopic_document_count": 27,
+      "direct_document_count": 10,
+      "subtopic_document_count": 24,
       "subtopic_counts": {
-        "fnce_ley_1715_2014_energia_renovable": 6,
-        "ley_paez_218_1995": 9,
+        "beneficios_tributarios_sector_editorial": 1,
+        "fnce_ley_1715_2014_energia_renovable": 5,
+        "ley_paez_218_1995": 7,
         "obras_por_impuestos_sector_minero_e_hidrocarburos": 1,
-        "progresividad_ley_1429_2010_formalizacion": 6,
+        "progresividad_ley_1429_2010_formalizacion": 5,
         "transicion_energetica_ley_2099_2021": 5
       }
     },
     "iva": {
-      "direct_document_count": 15,
+      "direct_document_count": 18,
       "subtopic_document_count": 0,
       "subtopic_counts": {}
     },
     "laboral": {
-      "direct_document_count": 73,
-      "subtopic_document_count": 1,
+      "direct_document_count": 72,
+      "subtopic_document_count": 2,
       "subtopic_counts": {
+        "contratacion_y_liquidacion_laboral_tiempo_parcial": 1,
         "marco_general_de_libranzas_y_descuentos_directos_de_nomina": 1
       }
     },
     "leyes_derogadas": {
       "direct_document_count": 0,
-      "subtopic_document_count": 3,
+      "subtopic_document_count": 4,
       "subtopic_counts": {
-        "analisis_ley_tributaria_derogada": 3
+        "analisis_ley_tributaria_derogada": 3,
+        "aplicabilidad_y_derogacion_de_ley_disciplinaria": 1
       }
     },
     "normas_internacionales_auditoria": {
@@ -447,29 +457,29 @@
       "subtopic_counts": {}
     },
     "obligaciones_profesionales_contador": {
-      "direct_document_count": 9,
-      "subtopic_document_count": 11,
+      "direct_document_count": 6,
+      "subtopic_document_count": 7,
       "subtopic_counts": {
         "funciones_y_responsabilidades_del_revisor_fiscal": 3,
-        "obligaciones_profesionales_del_contador_publico": 8
+        "obligaciones_profesionales_del_contador_publico": 4
       }
     },
     "otros_sectoriales": {
-      "direct_document_count": 481,
-      "subtopic_document_count": 76,
+      "direct_document_count": 535,
+      "subtopic_document_count": 48,
       "subtopic_counts": {
-        "acceso_financiero_sector_minero": 2,
-        "anticorrupcion_sagrilaft_ley_1474_2011": 9,
-        "contrato_de_aparceria_y_explotacion_rural": 3,
-        "cumplimiento_normativo_comunidades_negras": 4,
-        "cumplimiento_normativo_sectorial_pymes": 38,
-        "derechos_y_garantias_personas_con_enanismo": 3,
+        "acceso_financiero_sector_minero": 1,
+        "anticorrupcion_sagrilaft_ley_1474_2011": 6,
+        "contrato_de_aparceria_y_explotacion_rural": 2,
+        "cumplimiento_normativo_comunidades_negras": 2,
+        "cumplimiento_normativo_sectorial_pymes": 20,
+        "derechos_y_garantias_personas_con_enanismo": 2,
         "estatuto_consumidor_ley_1480_2011": 3,
         "financiamiento_sistemas_transporte_masivo": 1,
-        "inclusion_financiera_y_sedpe": 3,
-        "proteccion_consumidor_comunicaciones_no_deseadas": 5,
-        "proteccion_consumidor_financiero": 1,
-        "saneamiento_contable_sector_publico": 4
+        "inclusion_financiera_y_sedpe": 1,
+        "proteccion_consumidor_comunicaciones_no_deseadas": 6,
+        "proteccion_consumidor_financiero": 2,
+        "saneamiento_contable_sector_publico": 2
       }
     },
     "parafiscales_seguridad_social": {
@@ -496,21 +506,20 @@
     },
     "presupuesto_hacienda": {
       "direct_document_count": 11,
-      "subtopic_document_count": 25,
+      "subtopic_document_count": 18,
       "subtopic_counts": {
-        "distribucion_de_competencias_fiscales": 4,
-        "plan_nacional_de_desarrollo": 12,
-        "presupuesto_de_ingresos_y_egresos": 8,
-        "sistema_general_regalias_ley_1530_2012": 1
+        "distribucion_de_competencias_fiscales": 2,
+        "plan_nacional_de_desarrollo": 9,
+        "presupuesto_de_ingresos_y_egresos": 7
       }
     },
     "procedimiento_tributario": {
-      "direct_document_count": 23,
-      "subtopic_document_count": 21,
+      "direct_document_count": 26,
+      "subtopic_document_count": 16,
       "subtopic_counts": {
-        "asistencia_administrativa_mutua_fiscal_internacional": 3,
-        "codigo_general_proceso_ley_1564_2012": 7,
-        "cpaca_ley_1437_2011": 11
+        "asistencia_administrativa_mutua_fiscal_internacional": 2,
+        "codigo_general_proceso_ley_1564_2012": 6,
+        "cpaca_ley_1437_2011": 8
       }
     },
     "reforma_pensional": {
@@ -522,8 +531,8 @@
       "direct_document_count": 78,
       "subtopic_document_count": 4,
       "subtopic_counts": {
-        "eliminacion_impuesto_de_timbre": 2,
-        "reforma_tributaria_gmf_y_facturacion": 2
+        "eliminacion_impuesto_de_timbre": 1,
+        "reforma_tributaria_gmf_y_facturacion": 3
       }
     },
     "regimen_cambiario": {
@@ -540,7 +549,7 @@
       }
     },
     "regimen_simple": {
-      "direct_document_count": 8,
+      "direct_document_count": 9,
       "subtopic_document_count": 0,
       "subtopic_counts": {}
     },
@@ -561,17 +570,15 @@
     },
     "rentas_exentas": {
       "direct_document_count": 1,
-      "subtopic_document_count": 4,
+      "subtopic_document_count": 3,
       "subtopic_counts": {
-        "exencion_de_renta_por_donaciones_culturales": 4
+        "exencion_de_renta_por_donaciones_culturales": 3
       }
     },
     "retencion_en_la_fuente": {
-      "direct_document_count": 12,
-      "subtopic_document_count": 2,
-      "subtopic_counts": {
-        "implementacion_retencion_en_la_fuente_pyme": 2
-      }
+      "direct_document_count": 13,
+      "subtopic_document_count": 0,
+      "subtopic_counts": {}
     },
     "retencion_fuente_general": {
       "direct_document_count": 1,
@@ -582,7 +589,7 @@
       "direct_document_count": 3,
       "subtopic_document_count": 1,
       "subtopic_counts": {
-        "prevencion_financiacion_terrorismo": 1
+        "cumplimiento_ley_antisoborno_pymes": 1
       }
     },
     "sector_telecomunicaciones": {
@@ -592,9 +599,9 @@
     },
     "zonas_francas": {
       "direct_document_count": 2,
-      "subtopic_document_count": 3,
+      "subtopic_document_count": 1,
       "subtopic_counts": {
-        "beneficios_tributarios_zonas_de_frontera": 3
+        "beneficios_tributarios_zonas_de_frontera": 1
       }
     }
   },
@@ -604,7 +611,7 @@
     "normativa",
     "practica"
   ],
-  "graph_target_document_count": 1275,
+  "graph_target_document_count": 1281,
   "documents": [
     {
       "source_origin": "core_ya_arriba",
@@ -723,8 +730,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "comercial_societario",
-      "subtopic_key": null,
+      "topic_key": "leyes_derogadas",
+      "subtopic_key": "analisis_ley_tributaria_derogada",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -1325,7 +1332,7 @@
       "authority_level": "secondary_official_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "procedimiento_tributario",
+      "topic_key": "devoluciones_saldos_a_favor",
       "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
@@ -1350,7 +1357,7 @@
       "authority_level": "operational_practice_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "procedimiento_tributario",
+      "topic_key": "devoluciones_saldos_a_favor",
       "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
@@ -1556,7 +1563,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -2176,7 +2183,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "inversiones_incentivos",
-      "subtopic_key": null,
+      "subtopic_key": "transicion_energetica_ley_2099_2021",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -2575,7 +2582,7 @@
       "authority_level": "secondary_official_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "obligaciones_profesionales_contador",
+      "topic_key": "firmeza_declaraciones",
       "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
@@ -2600,7 +2607,7 @@
       "authority_level": "operational_practice_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "obligaciones_profesionales_contador",
+      "topic_key": "firmeza_declaraciones",
       "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
@@ -2625,7 +2632,7 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "obligaciones_profesionales_contador",
+      "topic_key": "firmeza_declaraciones",
       "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
@@ -3581,7 +3588,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -4626,12 +4633,12 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "datos_tecnologia",
-      "subtopic_key": null,
+      "subtopic_key": "proteccion_de_datos_personales",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -4651,7 +4658,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "datos_tecnologia",
-      "subtopic_key": "regulacion_tic_ley_1341_2009",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -4700,13 +4707,13 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "datos_tecnologia",
-      "subtopic_key": null,
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": "proteccion_consumidor_comunicaciones_no_deseadas",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -4950,13 +4957,13 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "datos_tecnologia",
-      "subtopic_key": null,
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": "proteccion_consumidor_comunicaciones_no_deseadas",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -5756,7 +5763,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -6706,8 +6713,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "presupuesto_hacienda",
-      "subtopic_key": "sistema_general_regalias_ley_1530_2012",
+      "topic_key": "iva",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -7095,7 +7102,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -7315,7 +7322,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": null,
+      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -7895,7 +7902,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -8089,8 +8096,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "comercial_societario",
-      "subtopic_key": "matricula_y_renovacion_mercantil",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8140,7 +8147,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "inclusion_financiera_y_sedpe",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8165,7 +8172,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8265,7 +8272,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "anticorrupcion_sagrilaft_ley_1474_2011",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8364,8 +8371,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "impuesto_nacional_consumo",
-      "subtopic_key": "impuesto_al_consumo_de_licores",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8395,7 +8402,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -8420,7 +8427,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -8639,8 +8646,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "procedimiento_tributario",
-      "subtopic_key": "cpaca_ley_1437_2011",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8664,8 +8671,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "declaracion_renta",
-      "subtopic_key": "beneficio_tributario_donaciones_becas_fuerzas_armadas",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8690,7 +8697,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "acceso_financiero_sector_minero",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8739,8 +8746,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "reformas_tributarias",
-      "subtopic_key": "eliminacion_impuesto_de_timbre",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8764,8 +8771,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "inversiones_incentivos",
-      "subtopic_key": "ley_paez_218_1995",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8814,8 +8821,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "costos_deducciones_renta",
-      "subtopic_key": "incentivos_tributarios_por_donacion_de_alimentos",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8839,8 +8846,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "economia_digital_criptoactivos",
-      "subtopic_key": "regulacion_de_criptoactivos_y_servicios_virtuales",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -8895,7 +8902,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -9114,8 +9121,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "presupuesto_hacienda",
-      "subtopic_key": "distribucion_de_competencias_fiscales",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -9389,8 +9396,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "datos_tecnologia",
-      "subtopic_key": "comercio_electronico_y_firmas_digitales",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -9440,7 +9447,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -9490,7 +9497,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -9514,8 +9521,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "obligaciones_profesionales_contador",
-      "subtopic_key": "obligaciones_profesionales_del_contador_publico",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -9545,7 +9552,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -9714,8 +9721,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "zonas_francas",
-      "subtopic_key": "beneficios_tributarios_zonas_de_frontera",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -9745,7 +9752,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -9840,7 +9847,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_comunidades_negras",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -9890,7 +9897,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "saneamiento_contable_sector_publico",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10064,8 +10071,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "presupuesto_hacienda",
-      "subtopic_key": "plan_nacional_de_desarrollo",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10114,8 +10121,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "rentas_exentas",
-      "subtopic_key": "exencion_de_renta_por_donaciones_culturales",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10140,7 +10147,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10190,7 +10197,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10245,7 +10252,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -10265,7 +10272,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10390,7 +10397,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10539,8 +10546,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "presupuesto_hacienda",
-      "subtopic_key": "presupuesto_de_ingresos_y_egresos",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10590,7 +10597,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -10670,7 +10677,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -10720,7 +10727,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -11190,12 +11197,12 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": null,
+      "subtopic_key": "proteccion_consumidor_financiero",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -11570,7 +11577,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -11595,7 +11602,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -11690,7 +11697,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -11770,7 +11777,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -11915,7 +11922,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -11940,7 +11947,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -12495,7 +12502,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -12514,13 +12521,13 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "costos_deducciones_renta",
-      "subtopic_key": "incentivos_tributarios_por_donacion_de_alimentos",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -12589,13 +12596,13 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "otros_sectoriales",
-      "subtopic_key": null,
+      "topic_key": "leyes_derogadas",
+      "subtopic_key": "aplicabilidad_y_derogacion_de_ley_disciplinaria",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -12670,7 +12677,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -12845,7 +12852,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -12864,13 +12871,13 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "retencion_en_la_fuente",
-      "subtopic_key": "implementacion_retencion_en_la_fuente_pyme",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -12920,7 +12927,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -12995,7 +13002,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -13140,7 +13147,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": null,
+      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13190,7 +13197,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13345,7 +13352,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -13390,7 +13397,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13439,8 +13446,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "zonas_francas",
-      "subtopic_key": "beneficios_tributarios_zonas_de_frontera",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13465,7 +13472,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": null,
+      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13615,7 +13622,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": null,
+      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13720,7 +13727,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -13764,8 +13771,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "presupuesto_hacienda",
-      "subtopic_key": "plan_nacional_de_desarrollo",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13790,7 +13797,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13840,7 +13847,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13890,7 +13897,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13945,7 +13952,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -13965,7 +13972,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -13990,7 +13997,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -14020,7 +14027,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -14090,7 +14097,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -14165,7 +14172,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -14215,7 +14222,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -14239,8 +14246,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "presupuesto_hacienda",
-      "subtopic_key": "presupuesto_de_ingresos_y_egresos",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -14515,7 +14522,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "anticorrupcion_sagrilaft_ley_1474_2011",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -15070,7 +15077,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -15095,7 +15102,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -15115,7 +15122,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "derechos_y_garantias_personas_con_enanismo",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -15195,7 +15202,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -15389,8 +15396,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "contratacion_estatal",
-      "subtopic_key": "asociaciones_publico_privadas_app",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -15664,8 +15671,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "procedimiento_tributario",
-      "subtopic_key": "asistencia_administrativa_mutua_fiscal_internacional",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -15840,7 +15847,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "inclusion_financiera_y_sedpe",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -15965,7 +15972,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "anticorrupcion_sagrilaft_ley_1474_2011",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -16120,7 +16127,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -16339,8 +16346,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "procedimiento_tributario",
-      "subtopic_key": "cpaca_ley_1437_2011",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -16364,8 +16371,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "declaracion_renta",
-      "subtopic_key": "beneficio_tributario_donaciones_becas_fuerzas_armadas",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -16445,7 +16452,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -17089,8 +17096,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "datos_tecnologia",
-      "subtopic_key": "comercio_electronico_y_firmas_digitales",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -17214,8 +17221,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "obligaciones_profesionales_contador",
-      "subtopic_key": "obligaciones_profesionales_del_contador_publico",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -17240,7 +17247,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "contrato_de_aparceria_y_explotacion_rural",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -17420,7 +17427,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -17470,7 +17477,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -17540,7 +17547,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_comunidades_negras",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -17564,8 +17571,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "presupuesto_hacienda",
-      "subtopic_key": "distribucion_de_competencias_fiscales",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -17590,7 +17597,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": "saneamiento_contable_sector_publico",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -17945,7 +17952,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -18089,8 +18096,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "leyes_derogadas",
-      "subtopic_key": "analisis_ley_tributaria_derogada",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -18970,7 +18977,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -19270,7 +19277,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -19389,8 +19396,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "gravamen_movimiento_financiero_4x1000",
-      "subtopic_key": "marco_legal_gmf_4x1000",
+      "topic_key": "reformas_tributarias",
+      "subtopic_key": "reforma_tributaria_gmf_y_facturacion",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -19620,7 +19627,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -19664,8 +19671,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "otros_sectoriales",
-      "subtopic_key": "anticorrupcion_sagrilaft_ley_1474_2011",
+      "topic_key": "sagrilaft_ptee",
+      "subtopic_key": "cumplimiento_ley_antisoborno_pymes",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -19695,7 +19702,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -19970,7 +19977,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -20764,8 +20771,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "sagrilaft_ptee",
-      "subtopic_key": "prevencion_financiacion_terrorismo",
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -20970,7 +20977,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -21590,7 +21597,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "otros_sectoriales",
-      "subtopic_key": null,
+      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -21889,13 +21896,13 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "otros_sectoriales",
-      "subtopic_key": null,
+      "topic_key": "inversiones_incentivos",
+      "subtopic_key": "beneficios_tributarios_sector_editorial",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -21920,7 +21927,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -22015,7 +22022,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "presupuesto_hacienda",
-      "subtopic_key": null,
+      "subtopic_key": "presupuesto_de_ingresos_y_egresos",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -22389,8 +22396,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "topic_key": "procedimiento_tributario",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -23420,7 +23427,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -23470,7 +23477,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -24665,7 +24672,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "datos_tecnologia",
-      "subtopic_key": "teletrabajo_ley_1221_2008",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24690,7 +24697,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "datos_tecnologia",
-      "subtopic_key": "proteccion_de_datos_personales",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24745,7 +24752,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -24764,8 +24771,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "otros_sectoriales",
-      "subtopic_key": "proteccion_consumidor_comunicaciones_no_deseadas",
+      "topic_key": "datos_tecnologia",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24790,7 +24797,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "inversiones_incentivos",
-      "subtopic_key": "progresividad_ley_1429_2010_formalizacion",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24815,7 +24822,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "inversiones_incentivos",
-      "subtopic_key": "fnce_ley_1715_2014_energia_renovable",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24840,7 +24847,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "inversiones_incentivos",
-      "subtopic_key": "transicion_energetica_ley_2099_2021",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24865,7 +24872,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "inversiones_incentivos",
-      "subtopic_key": "ley_paez_218_1995",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24895,7 +24902,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -24914,8 +24921,8 @@
       "authority_level": "operational_practice_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "comercial_societario",
-      "subtopic_key": "aplicacion_codigo_de_comercio_pymes",
+      "topic_key": "estados_financieros_niif",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24964,8 +24971,8 @@
       "authority_level": "operational_practice_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "obligaciones_profesionales_contador",
-      "subtopic_key": "obligaciones_profesionales_del_contador_publico",
+      "topic_key": "estados_financieros_niif",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -24990,7 +24997,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "procedimiento_tributario",
-      "subtopic_key": "cpaca_ley_1437_2011",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -25014,8 +25021,8 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "otros_sectoriales",
-      "subtopic_key": "cumplimiento_normativo_sectorial_pymes",
+      "topic_key": "procedimiento_tributario",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -25065,7 +25072,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "procedimiento_tributario",
-      "subtopic_key": "codigo_general_proceso_ley_1564_2012",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -25115,7 +25122,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "presupuesto_hacienda",
-      "subtopic_key": "plan_nacional_de_desarrollo",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -25689,13 +25696,13 @@
       "authority_level": "primary_legal_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "procedimiento_tributario",
-      "subtopic_key": null,
+      "topic_key": "otros_sectoriales",
+      "subtopic_key": "anticorrupcion_sagrilaft_ley_1474_2011",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -25920,7 +25927,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -25945,7 +25952,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -27339,8 +27346,8 @@
       "authority_level": "secondary_official_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "calendario_obligaciones",
-      "subtopic_key": "calendario_tributario_y_plazos",
+      "topic_key": "iva",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -28140,7 +28147,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "declaracion_renta",
-      "subtopic_key": null,
+      "subtopic_key": "declaracion_de_renta_personas_juridicas",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -28164,13 +28171,13 @@
       "authority_level": "operational_practice_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "declaracion_renta",
-      "subtopic_key": "comparacion_regimen_simple_vs_ordinario",
+      "topic_key": "regimen_simple",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "core_ya_arriba",
@@ -28665,7 +28672,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "informacion_exogena",
-      "subtopic_key": "actualizacion_normativa_informacion_exogena",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -29295,7 +29302,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "core_ya_arriba",
@@ -30190,7 +30197,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "comercial_societario",
-      "subtopic_key": "constitucion_y_regulacion_de_sas",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -30374,6 +30381,31 @@
     },
     {
       "source_origin": "declaracion_renta",
+      "source_path": "knowledge_base/declaracion_renta/EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+      "relative_path": "declaracion_renta/EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+      "title_hint": "Metadata v2",
+      "extension": ".md",
+      "text_extractable": true,
+      "parse_strategy": "markdown_graph_parse",
+      "document_archetype": "base_doc",
+      "taxonomy_version": "v2026_04_25_v2_taxonomy",
+      "family": "normativa",
+      "knowledge_class": "normative_base",
+      "source_type": "ley",
+      "source_tier": "normativo",
+      "authority_level": "primary_legal_authority",
+      "graph_target": true,
+      "graph_parse_ready": true,
+      "topic_key": "procedimiento_tributario",
+      "subtopic_key": null,
+      "vocabulary_status": "v6_phase5",
+      "ambiguity_flags": [],
+      "review_priority": "none",
+      "needs_manual_review": false,
+      "requires_subtopic_review": false
+    },
+    {
+      "source_origin": "declaracion_renta",
       "source_path": "knowledge_base/declaracion_renta/SOC-E04-interpretaciones-obligaciones-anuales-combinadas.md",
       "relative_path": "declaracion_renta/SOC-E04-interpretaciones-obligaciones-anuales-combinadas.md",
       "title_hint": "Metadata v2",
@@ -30490,12 +30522,12 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "declaracion_renta",
-      "subtopic_key": "depreciacion_fiscal_pyme",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "estados_financieros_niif",
@@ -30515,12 +30547,12 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "declaracion_renta",
-      "subtopic_key": "depreciacion_fiscal_pyme",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "estados_financieros_niif",
@@ -30886,7 +30918,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "ica",
-      "subtopic_key": null,
+      "subtopic_key": "marco_legal_impuesto_industria_y_comercio",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -31236,7 +31268,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "laboral",
-      "subtopic_key": null,
+      "subtopic_key": "contratacion_y_liquidacion_laboral_tiempo_parcial",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -31270,6 +31302,56 @@
     },
     {
       "source_origin": "procedimiento_tributario",
+      "source_path": "knowledge_base/procedimiento_tributario/NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+      "relative_path": "procedimiento_tributario/NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+      "title_hint": "Metadata v2",
+      "extension": ".md",
+      "text_extractable": true,
+      "parse_strategy": "markdown_graph_parse",
+      "document_archetype": "base_doc",
+      "taxonomy_version": "v2026_04_25_v2_taxonomy",
+      "family": "normativa",
+      "knowledge_class": "normative_base",
+      "source_type": "official_primary",
+      "source_tier": "normativo",
+      "authority_level": "primary_legal_authority",
+      "graph_target": true,
+      "graph_parse_ready": true,
+      "topic_key": "iva",
+      "subtopic_key": null,
+      "vocabulary_status": "ratified_v1_2",
+      "ambiguity_flags": [],
+      "review_priority": "none",
+      "needs_manual_review": false,
+      "requires_subtopic_review": false
+    },
+    {
+      "source_origin": "procedimiento_tributario",
+      "source_path": "knowledge_base/procedimiento_tributario/PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+      "relative_path": "procedimiento_tributario/PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+      "title_hint": "Metadata v2",
+      "extension": ".md",
+      "text_extractable": true,
+      "parse_strategy": "markdown_graph_parse",
+      "document_archetype": "base_doc",
+      "taxonomy_version": "v2026_04_25_v2_taxonomy",
+      "family": "practica",
+      "knowledge_class": "practica_erp",
+      "source_type": "checklist",
+      "source_tier": "loggro",
+      "authority_level": "operational_practice_authority",
+      "graph_target": true,
+      "graph_parse_ready": true,
+      "topic_key": "ica",
+      "subtopic_key": null,
+      "vocabulary_status": "ratified_v1_2",
+      "ambiguity_flags": [],
+      "review_priority": "none",
+      "needs_manual_review": false,
+      "requires_subtopic_review": true
+    },
+    {
+      "source_origin": "procedimiento_tributario",
       "source_path": "knowledge_base/procedimiento_tributario/PRO-E01-recurso-sancion-exogena-interpretaciones.md",
       "relative_path": "procedimiento_tributario/PRO-E01-recurso-sancion-exogena-interpretaciones.md",
       "title_hint": "Metadata v2",
@@ -31286,12 +31368,12 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "informacion_exogena",
-      "subtopic_key": null,
+      "subtopic_key": "recurso_sancion_exogena_art_651_ET",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "regimen_simple",
@@ -31416,7 +31498,7 @@
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "retencion_en_la_fuente",
@@ -31436,12 +31518,12 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "retencion_en_la_fuente",
-      "subtopic_key": "implementacion_retencion_en_la_fuente_pyme",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": false
+      "requires_subtopic_review": true
     },
     {
       "source_origin": "retencion_en_la_fuente",
@@ -31586,12 +31668,12 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "declaracion_renta",
-      "subtopic_key": null,
+      "subtopic_key": "depreciacion_fiscal_pyme",
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
       "needs_manual_review": false,
-      "requires_subtopic_review": true
+      "requires_subtopic_review": false
     },
     {
       "source_origin": "to_upload",
@@ -32061,7 +32143,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "facturacion_electronica",
-      "subtopic_key": "cronograma_documentos_electronicos_dian",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -32086,7 +32168,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "facturacion_electronica",
-      "subtopic_key": "factura_como_titulo_valor",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -32511,7 +32593,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "comercial_societario",
-      "subtopic_key": "reforma_estatutos_y_aumento_capital_social",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -32536,7 +32618,7 @@
       "graph_target": true,
       "graph_parse_ready": true,
       "topic_key": "comercial_societario",
-      "subtopic_key": "reforma_estatutos_y_aumento_capital_social",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -32562,6 +32644,81 @@
       "graph_parse_ready": true,
       "topic_key": "comercial_societario",
       "subtopic_key": "reforma_estatutos_y_aumento_capital_social",
+      "vocabulary_status": "ratified_v1_2",
+      "ambiguity_flags": [],
+      "review_priority": "none",
+      "needs_manual_review": false,
+      "requires_subtopic_review": false
+    },
+    {
+      "source_origin": "to_upload",
+      "source_path": "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/EXPERTOS/EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+      "relative_path": "to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/EXPERTOS/EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+      "title_hint": "FIR-E01 — Firmeza de Declaraciones y Beneficio de Auditoría: Interpretaciones de Expertos",
+      "extension": ".md",
+      "text_extractable": true,
+      "parse_strategy": "markdown_graph_parse",
+      "document_archetype": "base_doc",
+      "taxonomy_version": "v2026_04_25_v2_taxonomy",
+      "family": "interpretacion",
+      "knowledge_class": "interpretative_guidance",
+      "source_type": "official_secondary",
+      "source_tier": "expertos",
+      "authority_level": "secondary_official_authority",
+      "graph_target": true,
+      "graph_parse_ready": true,
+      "topic_key": "firmeza_declaraciones",
+      "subtopic_key": null,
+      "vocabulary_status": "v6_phase5",
+      "ambiguity_flags": [],
+      "review_priority": "none",
+      "needs_manual_review": false,
+      "requires_subtopic_review": false
+    },
+    {
+      "source_origin": "to_upload",
+      "source_path": "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/NORMATIVA/NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+      "relative_path": "to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/NORMATIVA/NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+      "title_hint": "FIR-N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+      "extension": ".md",
+      "text_extractable": true,
+      "parse_strategy": "markdown_graph_parse",
+      "document_archetype": "base_doc",
+      "taxonomy_version": "v2026_04_25_v2_taxonomy",
+      "family": "normativa",
+      "knowledge_class": "normative_base",
+      "source_type": "ley",
+      "source_tier": "normativo",
+      "authority_level": "primary_legal_authority",
+      "graph_target": true,
+      "graph_parse_ready": true,
+      "topic_key": "firmeza_declaraciones",
+      "subtopic_key": null,
+      "vocabulary_status": "ratified_v1_2",
+      "ambiguity_flags": [],
+      "review_priority": "none",
+      "needs_manual_review": false,
+      "requires_subtopic_review": false
+    },
+    {
+      "source_origin": "to_upload",
+      "source_path": "knowledge_base/to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/PRACTICA/PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+      "relative_path": "to upload/BRECHAS-SEMANA4-ABRIL-2026/FIRMEZA_DECLARACIONES/PRACTICA/PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+      "title_hint": "FIR-L01 — Guía Práctica: Calcular la Firmeza y Decidir el Beneficio de Auditoría en PYMEs (AG 2025 / Declaración 2026)",
+      "extension": ".md",
+      "text_extractable": true,
+      "parse_strategy": "markdown_graph_parse",
+      "document_archetype": "base_doc",
+      "taxonomy_version": "v2026_04_25_v2_taxonomy",
+      "family": "practica",
+      "knowledge_class": "practica_erp",
+      "source_type": "guia_operativa",
+      "source_tier": "loggro",
+      "authority_level": "operational_practice_authority",
+      "graph_target": true,
+      "graph_parse_ready": true,
+      "topic_key": "firmeza_declaraciones",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",
@@ -32635,8 +32792,8 @@
       "authority_level": "operational_practice_authority",
       "graph_target": true,
       "graph_parse_ready": true,
-      "topic_key": "obligaciones_profesionales_contador",
-      "subtopic_key": "obligaciones_profesionales_del_contador_publico",
+      "topic_key": "procedimiento_tributario",
+      "subtopic_key": null,
       "vocabulary_status": "ratified_v1_2",
       "ambiguity_flags": [],
       "review_priority": "none",

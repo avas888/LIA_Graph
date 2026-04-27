@@ -1,0 +1,329 @@
+{
+  "qid": "dividendos_y_distribucion_utilidades_P1",
+  "topic_key_expected": "dividendos_y_distribucion_utilidades",
+  "profile": "P1_directa",
+  "message": "Cuando una SAS reparte dividendos a su socio persona natural residente, ¿desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados?",
+  "http_status": 200,
+  "latency_ms": 9319,
+  "captured_utc": "2026-04-27T02:19:06.255535+00:00",
+  "response": {
+    "trace_id": "bc14b246-f454-44e6-a58c-b012d2bb91f7",
+    "run_id": "pd_282c1247ac7e4e8bb51f791459231355",
+    "answer_markdown": "**Respuestas directas**\n\n*   **¿Desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados a una persona natural residente?**\n    *   Los dividendos no gravados distribuidos a personas naturales residentes están sujetos a una tarifa del 10% sobre el monto que exceda las 1.090 UVT (art. 242 ET). Para 2024, este umbral es de $48.210.000 (1.090 UVT \\* $44.769).\n\n**Ruta sugerida**\n\n1.  **Determinar la naturaleza del dividendo:**\n    *   Identificar si el dividendo proviene de utilidades gravadas o no gravadas a nivel de la sociedad (art. 48 ET).\n    *   Para dividendos no gravados, verificar que la sociedad haya cumplido con los requisitos de depuración de utilidades.\n2.  **Calcular el monto sujeto a retención:**\n    *   Restar el umbral de 1.090 UVT al valor total de los dividendos no gravados recibidos por la persona natural residente.\n    *   Aplicar la tarifa del 10% al excedente (art. 242 ET).\n3.  **Aplicar la retención en la fuente:**\n    *   La sociedad que distribuye los dividendos debe practicar la retención en la fuente correspondiente.\n\n**Riesgos y condiciones**\n\n*   La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.\n\n**Soportes clave**\n\n*   **Estatuto Tributario (ET):**\n    *   Art. 48 ET: \"Dividendos y participaciones no gravados\".\n    *   Art. 242 ET: \"Tarifa especial para dividendos y participaciones recibidos por personas naturales residentes\".\n*   **Unidad de Valor Tributario (UVT):** Valor anual establecido por la DIAN.",
+    "answer_concise": "**Respuestas directas**\n\n*   **¿Desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados a una persona natural residente?**\n    *   Los dividendos no gravados distribuidos a personas naturales residentes están sujetos a una tarifa del 10% sobre el monto que exceda las 1.090 UVT (art. 242 ET). Para 2024, este umbral es de $48.210.000 (1.090 UVT \\* $44.769).\n\n**Ruta sugerida**\n\n1.  **Determinar la naturaleza del dividendo:**\n    *   Identificar si el dividendo proviene de utilidades gravadas o no gravadas a nivel de la sociedad (art. 48 ET).\n    *   Para dividendos no gravados, verificar que la sociedad haya cumplido con los requisitos de depuración de utilidades.\n2.  **Calcular el monto sujeto a retención:**\n    *   Restar el umbral de 1.090 UVT al valor total de los dividendos no gravados recibidos por la persona natural residente.\n    *   Aplicar la tarifa del 10% al excedente (art. 242 ET).\n3.  **Aplicar la retención en la fuente:**\n    *   La sociedad que distribuye los dividendos debe practicar la retención en la fuente correspondiente.\n\n**Riesgos y condiciones**\n\n*   La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.\n\n**Soportes clave**\n\n*   **Estatuto Tributario (ET):**\n    *   Art. 48 ET: \"Dividendos y participaciones no gravados\".\n    *   Art. 242 ET: \"Tarifa especial para dividendos y participaciones recibidos por personas naturales residentes\".\n*   **Unidad de Valor Tributario (UVT):** Valor anual establecido por la DIAN.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+        "authority": "Loggro",
+        "topic": "dividendos_y_distribucion_utilidades",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Dividendos y distribucion utilidades (Loggro)",
+        "legal_reference": "Dividendos y distribucion utilidades (Loggro)",
+        "search_query": "Dividendos y distribucion utilidades (Loggro) Loggro colombia Tributación de Dividendos — Guía Práctica para el Contador de PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "Para dividendos no gravados, verificar que la sociedad haya cumplido con los requisitos de depuración de utilidades.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_Base_div_normativa_dividendos.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_Base_div_normativa_dividendos.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "dividendos_y_distribucion_utilidades",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_Base_div_normativa_dividendos.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_Base_div_normativa_dividendos.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_Base_div_normativa_dividendos.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_Base_div_normativa_dividendos.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Tributación de Dividendos y Distribución de Utilidades — Marco Normativo",
+        "legal_reference": "Tributación de Dividendos y Distribución de Utilidades — Marco Normativo",
+        "search_query": "Tributación de Dividendos y Distribución de Utilidades — Marco Normativo DIAN / fuente oficial colombia Tributación de Dividendos y Distribución de Utilidades — Marco Normativo",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Para dividendos no gravados, verificar que la sociedad haya cumplido con los requisitos de depuración de utilidades.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Aplicar la retención en la fuente:** La sociedad que distribuye los dividendos debe practicar la retención en la fuente correspondiente.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados a una persona natural residente?",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.42,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native_partial",
+    "compose_quality": 0.45,
+    "fallback_reason": "pipeline_d_no_graph_primary_articles",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 4,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 24,
+        "output_tokens": 231,
+        "total_tokens": 255,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "dividendos_y_distribucion_utilidades",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+    "topic_adjustment_reason": "rule:dividendos_y_distribucion_utilidades matched dividendos",
+    "coverage_notice": "La ruta graph-native no encontro articulos ancla suficientes; se devolvio la mejor evidencia parcial disponible. Causa: el planner no pudo anclar articulos explicitos para esta consulta (empty_reason=no_explicit_article_keys_in_plan).",
+    "topic": "dividendos_y_distribucion_utilidades",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_297fc6386054",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 24,
+        "output_tokens": 231,
+        "total_tokens": 255
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "bc14b246-f454-44e6-a58c-b012d2bb91f7",
+      "last_run_id": "pd_282c1247ac7e4e8bb51f791459231355",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_297fc6386054",
+    "chat_run_id": "cr_20260427_021857_a3d10da9",
+    "metrics": {
+      "latency_ms": 7890.91,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 24,
+          "output_tokens": 231,
+          "total_tokens": 255,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native_partial",
+      "compose_quality": 0.45,
+      "fallback_reason": "pipeline_d_no_graph_primary_articles",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_297fc6386054",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 24,
+          "output_tokens": 231,
+          "total_tokens": 255
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "bc14b246-f454-44e6-a58c-b012d2bb91f7",
+        "last_run_id": "pd_282c1247ac7e4e8bb51f791459231355",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 5.6
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "dividendos_y_distribucion_utilidades",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "a3b02a0a32014eef9db65aaba4b14d34"
+  }
+}

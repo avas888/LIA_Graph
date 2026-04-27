@@ -10,7 +10,7 @@
  *
  * If you add or rename a backend surface/module, update the relevant card
  * here so the architecture page stays aligned — see the update rule in
- * `docs/guide/orchestration.md` §Non-Negotiables.
+ * `docs/orchestration/orchestration.md` §Non-Negotiables.
  */
 
 export type ContractCard = {
@@ -228,7 +228,7 @@ export const laneCards: LaneCard[] = [
     id: "lane-4",
     number: "4",
     title: "Retrieval (env-gated)",
-    summary: "Resuelve anclas, camina el grafo y arma el evidence bundle. El orchestrator elige adapter por request según LIA_CORPUS_SOURCE + LIA_GRAPH_MODE (ver matriz v2026-04-25-temafirst-readdressed en docs/guide/orchestration.md).",
+    summary: "Resuelve anclas, camina el grafo y arma el evidence bundle. El orchestrator elige adapter por request según LIA_CORPUS_SOURCE + LIA_GRAPH_MODE (ver matriz v2026-04-25-temafirst-readdressed en docs/orchestration/orchestration.md).",
     bullets: [
       "dev: retriever.py sobre artifacts locales + local Falkor docker (parity).",
       "dev:staging: retriever_supabase.py (hybrid_search RPC) + retriever_falkor.py (Cypher BFS sobre LIA_REGULATORY_GRAPH).",

@@ -1,0 +1,120 @@
+{
+  "case_id": "concepto_dian_100208192_202_num20_AG2026_2026-04-26",
+  "extracted_at_utc": "2026-04-26T23:30:00Z",
+  "extracted_at_bogota": "2026-04-26 6:30:00 PM Bogotá",
+  "extraction_method": "manual_skill_protocol_walkthrough",
+  "extracted_by": "claude-opus-4-7 acting as vigencia-checker skill operator",
+  "norm_type": "concepto",
+  "norm_id": "Concepto DIAN 100208192-202 de 2024 — Numeral 20",
+  "norm_full_label": "Numeral 20 del Concepto DIAN 100208192-202 del 22 de marzo de 2024 — interpretación según la cual el Impuesto Adicional (IA) de la Tasa Mínima de Tributación (TTD) integra el Impuesto Básico de Renta para efectos del cálculo del dividendo no constitutivo de renta (Art. 49 ET)",
+  "parágrafo": "numeral 20",
+  "periodo_consultado": {
+    "impuesto": "renta",
+    "year": 2026,
+    "period_label": "AG 2026",
+    "period_start": "2026-01-01",
+    "period_end": "2026-12-31"
+  },
+  "veredicto": {
+    "state": "SP",
+    "vigente_desde": "2024-03-22",
+    "vigente_hasta": null,
+    "derogado_por": null,
+    "modificado_por": [],
+    "suspension": {
+      "norm_type": "auto_consejo_de_estado",
+      "norm_id": "Sentencia/Auto 28920 del 16 de diciembre de 2024",
+      "article": null,
+      "fecha": "2024-12-16",
+      "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2025/01/consejo-de-estado-suspende-efectos-del-concepto-de-la-dian-sobre-la-tasa-minima-de-tributacion/",
+      "autoridad": "Consejo de Estado, Sala de lo Contencioso Administrativo, Sección Cuarta",
+      "consejero_ponente": "Milton Chaves García",
+      "alcance": "suspensión provisional del Numeral 20: la Sala determinó que el Art. 49 ET no contempla que el Impuesto Adicional (IA) de la TTD se sume al Impuesto Básico de Renta, por lo que su inclusión reduce injustificadamente el valor máximo de dividendos no constitutivos de renta para los socios — afectando la tributación del accionista sin sustento legal",
+      "auto_posterior_decisivo": {
+        "norm_id": "Sentencia 28920 del 3 de julio de 2025",
+        "fecha": "2025-07-03",
+        "alcance": "Resolvió el recurso de súplica DIAN: REVOCÓ la suspensión del numeral 12 (pérdidas contables) — DIAN ganó este punto. MANTUVO la suspensión del numeral 20 (dividendos no constitutivos de renta) — punto del veredicto actual.",
+        "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/08/se-levanto-la-suspension-temporal-a-concepto-de-la-dian-sobre-la-tasa-de-tributacion-depurada/"
+      },
+      "estado_judicial_actual_consultado_2026_04_26": "Suspensión provisional del numeral 20 SIGUE VIGENTE. No se ha proferido sentencia de fondo de nulidad/legalidad. La medida cautelar permanece hasta que la Sección Cuarta resuelva el fondo del proceso de nulidad."
+    },
+    "inexequibilidad": null,
+    "condicionamiento": null,
+    "regimen_transicion": null,
+    "fuentes_primarias_consultadas": [
+      {
+        "norm_type": "url",
+        "norm_id": "incp_consejo_estado_suspende_concepto_TTD",
+        "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2025/01/consejo-de-estado-suspende-efectos-del-concepto-de-la-dian-sobre-la-tasa-minima-de-tributacion/",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 3a (compilador profesional INCP citando sentencia)",
+        "verified_via_websearch": true,
+        "anchors_primary_doc": "Sentencia 28920 del 16 de diciembre de 2024 (Consejero Milton Chaves García)"
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "incp_levantamiento_parcial_suspension_TTD",
+        "primary_source_url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/08/se-levanto-la-suspension-temporal-a-concepto-de-la-dian-sobre-la-tasa-de-tributacion-depurada/",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 3a (compilador profesional INCP citando sentencia)",
+        "verified_via_websearch": true,
+        "anchors_primary_doc": "Sentencia 28920 del 3 de julio de 2025 (mantiene suspensión del numeral 20; revoca la del numeral 12)"
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "actualicese_suspension_concepto_TTD",
+        "primary_source_url": "https://siemprealdia.co/colombia/impuestos/suspension-concepto-tasa-minima-de-tributacion/",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 3a (compilador profesional Legis/Siempre al Día)",
+        "verified_via_websearch": true
+      }
+    ],
+    "extraction_audit": {
+      "skill_version": "vigencia-checker@1.0",
+      "method": "manual walkthrough; WebSearch as primary-source proxy (Fix 1B-α scrapers not yet operational)",
+      "tool_iterations": 3,
+      "wall_seconds": 240,
+      "limitations_acknowledged": [
+        "Direct fetch of the Auto 28920 PDF from Consejo de Estado relatoría deferred to Fix 1B-α scrapers",
+        "Three credentialed compilers (INCP × 2, Legis Siempre al Día × 1) cited consistently — meets skill's burden-of-proof for a high-confidence SP veredicto"
+      ]
+    }
+  },
+  "applies_to_periodo": {
+    "aplica": "No",
+    "justificacion": "Numeral 20 está SUSPENDIDO provisionalmente desde el 16-dic-2024 por Auto 28920 del Consejo de Estado, Sección Cuarta (Consejero Milton Chaves García). La suspensión sigue vigente al 26-abr-2026 — no hay sentencia de fondo. NO se debe aplicar la interpretación del numeral 20 (sumar el IA al Impuesto Básico de Renta para calcular dividendos no constitutivos) durante la suspensión.",
+    "norm_version_aplicable": null,
+    "regimen_aplicable_en_su_lugar": "Para el cálculo de dividendos no constitutivos de renta del Art. 49 ET en sociedades sujetas a TTD: aplicar el Impuesto Básico de Renta SIN incluir el Impuesto Adicional (IA) generado por la TTD, conforme a la interpretación que mantiene el Consejo de Estado mientras dura la medida cautelar."
+  },
+  "riesgo_de_error": "Bajo",
+  "recomendacion_para_el_contador": "ATENCIÓN: El numeral 20 del Concepto DIAN 100208192-202 de 2024 (interpretación que sumaba el IA-TTD al Impuesto Básico de Renta para cálculo de dividendos no constitutivos) está SUSPENDIDO provisionalmente por el Consejo de Estado desde el 16-dic-2024 y mantenido en suspensión por Sentencia 28920 del 3-jul-2025. NO aplicar esta interpretación. Para sociedades obligadas a TTD que distribuyen dividendos en AG 2026: calcular el dividendo no constitutivo de renta del Art. 49 ET tomando ÚNICAMENTE el Impuesto Básico de Renta — NO sumar el Impuesto Adicional (IA) por TTD. Si el cliente ya aplicó la interpretación suspendida en presentaciones anteriores, evaluar corrección — la medida cautelar protege al contribuyente contra la interpretación más gravosa.",
+  "fix_5_skill_eval_seed": {
+    "case_purpose": "Validates skill on a clean SP case — skill must (1) detect the medida cautelar, (2) cite the specific auto + magistrado + autoridad, (3) emit mandatory advertencia, (4) preserve the partial-lift information (numeral 12 revoked but numeral 20 maintained)",
+    "expected_state": "SP",
+    "expected_suspension_present": true,
+    "expected_suspension_norm_id_substr": "28920",
+    "expected_suspension_autoridad_substr": "Consejo de Estado",
+    "expected_min_primary_sources": 2,
+    "expected_must_cite": [
+      "Concepto DIAN 100208192-202 de 2024",
+      "Numeral 20",
+      "Sentencia 28920 del 16 de diciembre de 2024",
+      "Sentencia 28920 del 3 de julio de 2025",
+      "Sección Cuarta",
+      "Milton Chaves"
+    ],
+    "expected_must_say": [
+      "suspendido provisionalmente",
+      "no aplicar",
+      "Art. 49 ET",
+      "dividendos no constitutivos de renta"
+    ],
+    "expected_must_not_say": [
+      "vigente sin reservas",
+      "el Concepto 100208192-202 está plenamente vigente",
+      "se debe sumar el Impuesto Adicional"
+    ],
+    "expected_advertencia_obligatoria_present": true,
+    "expected_remite_a_T_series_si_existe": true
+  }
+}

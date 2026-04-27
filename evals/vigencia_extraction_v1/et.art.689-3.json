@@ -1,0 +1,77 @@
+{
+  "norm_id": "et.art.689-3",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": "v2-to-v3-upgrade-2026-04-27",
+  "extracted_at_utc": "2026-04-27T07:07:14.227732+00:00",
+  "result": {
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2021-09-14",
+      "state_until": null,
+      "applies_to_kind": "per_period",
+      "applies_to_payload": {
+        "year_start": 2025,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": "2025-01-01",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "ley.2294.2023.art.69",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2023-05-19"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "ley.2294.2023.art.69",
+          "norm_type": "ley",
+          "article": "Art. 69",
+          "fecha": "2023-05-19",
+          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr028.html"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "secretaria_senado_ET_pr028",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr028.html"
+        },
+        {
+          "norm_id": "actualicese_capitulo_12_beneficio_auditoria",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": "https://actualicese.com/rutas/books/guia-para-preparar-y-presentar-declaraciones-de-renta-de-personas-naturales-ano-gravable-2023-con-formatos-2516-y-2517/page/capitulo-12-beneficio-de-auditoria-del-articulo-689-3-del-estatuto-tributario-para-el-cierre-del-ano-gravable-2023"
+        }
+      ],
+      "extraction_audit": {
+        "skill_version": "vigencia-checker@1.0",
+        "model": null,
+        "tool_iterations": 1,
+        "wall_ms": null,
+        "cost_usd_estimate": null,
+        "run_id": "v2-to-v3-upgrade-2026-04-27",
+        "method": "v2_to_v3_upgrade"
+      }
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": []
+  }
+}

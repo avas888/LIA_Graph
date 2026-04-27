@@ -9,11 +9,11 @@ Quickstart for Claude-family agents working in `Lia_Graph`, a graph-native RAG p
 Read these before changing the served runtime:
 
 1. `AGENTS.md` — canonical repo-level operating guide (layer ownership, surface boundaries, doc discipline)
-2. `docs/guide/orchestration.md` — end-to-end runtime map + **authoritative** versioned env/flag matrix + change log
+2. `docs/orchestration/orchestration.md` — end-to-end runtime map + **authoritative** versioned env/flag matrix + change log
 3. `docs/guide/chat-response-architecture.md` — companion source of truth for how the `main chat` answer is shaped
 4. `docs/guide/env_guide.md` — operational counterpart: run modes, env files, squashed migration baseline, test accounts, corpus refresh
 
-If code and docs disagree, reconcile to `docs/guide/orchestration.md` — never the other way around.
+If code and docs disagree, reconcile to `docs/orchestration/orchestration.md` — never the other way around.
 
 ## Commands
 
@@ -72,7 +72,7 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 
 Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend` — use them to confirm which adapters served a turn. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted.
 
-Additional retrieval-tuning flags the launcher defaults to ON across all three modes (shell override still wins): `LIA_LLM_POLISH_ENABLED=1`, `LIA_RERANKER_MODE=live` (flipped from `shadow` on 2026-04-22 — internal-beta risk-forward; adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset), `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out), `LIA_SUBTOPIC_BOOST_FACTOR=1.5`, **`LIA_TEMA_FIRST_RETRIEVAL=on` (re-flipped 2026-04-25 — see `docs/aa_next/gate_9_threshold_decision.md` + `docs/aa_next/next_done.md`)**, **`LIA_EVIDENCE_COHERENCE_GATE=enforce` (flipped 2026-04-25 — operator's "no off flags" directive)**, **`LIA_POLICY_CITATION_ALLOWLIST=enforce` (flipped 2026-04-25 — same directive)**, **`LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce` (default 2026-04-25 — next_v3 §7 path-veto + 6 mutex rules)**. Ingest-pipeline knobs: `LIA_INGEST_CLASSIFIER_WORKERS=4` (held at 4 until `TokenBudget` primitive ships per next_v4 §10.1), `LIA_INGEST_CLASSIFIER_RPM=300`, `LIA_SUPABASE_SINK_WORKERS=4`, `FALKORDB_QUERY_TIMEOUT_SECONDS=30`, `FALKORDB_BATCH_NODES=500`, `FALKORDB_BATCH_EDGES=1000` (phases 2a/2b/2c). Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (phase 1). **2026-04-25 runtime-shape additions (no env flag):** conversational-memory staircase Levels 1+2 (`ConversationState.prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`; classifier soft-tiebreaker on `prior_topic`) per `next_v4 §3 + §4`; `comparative_regime_chain` query mode (`config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py`) per `next_v4 §5`. Full table in `docs/guide/orchestration.md`; closed forward-plans archived in `docs/aa_next/next_done.md`; active backlog in `docs/aa_next/next_v4.md`.
+Additional retrieval-tuning flags the launcher defaults to ON across all three modes (shell override still wins): `LIA_LLM_POLISH_ENABLED=1`, `LIA_RERANKER_MODE=live` (flipped from `shadow` on 2026-04-22 — internal-beta risk-forward; adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset), `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out), `LIA_SUBTOPIC_BOOST_FACTOR=1.5`, **`LIA_TEMA_FIRST_RETRIEVAL=on` (re-flipped 2026-04-25 — see `docs/aa_next/gate_9_threshold_decision.md` + `docs/aa_next/next_done.md`)**, **`LIA_EVIDENCE_COHERENCE_GATE=enforce` (flipped 2026-04-25 — operator's "no off flags" directive)**, **`LIA_POLICY_CITATION_ALLOWLIST=enforce` (flipped 2026-04-25 — same directive)**, **`LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce` (default 2026-04-25 — next_v3 §7 path-veto + 6 mutex rules)**. Ingest-pipeline knobs: `LIA_INGEST_CLASSIFIER_WORKERS=4` (held at 4 until `TokenBudget` primitive ships per next_v4 §10.1), `LIA_INGEST_CLASSIFIER_RPM=300`, `LIA_SUPABASE_SINK_WORKERS=4`, `FALKORDB_QUERY_TIMEOUT_SECONDS=30`, `FALKORDB_BATCH_NODES=500`, `FALKORDB_BATCH_EDGES=1000` (phases 2a/2b/2c). Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (phase 1). **2026-04-25 runtime-shape additions (no env flag):** conversational-memory staircase Levels 1+2 (`ConversationState.prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`; classifier soft-tiebreaker on `prior_topic`) per `next_v4 §3 + §4`; `comparative_regime_chain` query mode (`config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py`) per `next_v4 §5`. Full table in `docs/orchestration/orchestration.md`; closed forward-plans archived in `docs/aa_next/next_done.md`; active backlog in `docs/aa_next/next_v4.md`.
 
 ## Hot Path (main chat)
 
@@ -98,7 +98,7 @@ Facade implementation modules (edit the narrow one that owns the behavior):
 - right evidence but weak practical substance → `answer_support.py`
 - wrong tone, shape, or visible organization → `answer_policy.py` or the `main chat` assembly/synthesis modules
 - runtime wiring change → `orchestrator.py` (and only then)
-- dev ≠ staging → check `response.diagnostics.retrieval_backend` / `graph_backend`, then `scripts/dev-launcher.mjs` + the env matrix in `docs/guide/orchestration.md`
+- dev ≠ staging → check `response.diagnostics.retrieval_backend` / `graph_backend`, then `scripts/dev-launcher.mjs` + the env matrix in `docs/orchestration/orchestration.md`
 - `Normativa` / `Interpretación` UX work → their own packages (`src/lia_graph/normativa/`, `src/lia_graph/interpretacion/`). **Never** route their requirements into `main chat` assembly.
 
 ## Surface Boundaries
@@ -109,7 +109,7 @@ Facade implementation modules (edit the narrow one that owns the behavior):
 
 - Keep docs, code, and the `/orchestration` HTML map (`frontend/src/app/orchestration/shell.ts`, `frontend/src/features/orchestration/orchestrationApp.ts`) aligned.
 - Prefer focused module edits over monolithic rewrites. Make changes in the narrowest module that owns the behavior.
-- If architecture changes, update `docs/guide/orchestration.md` (including the versioned env matrix) **in the same task** as the code change.
+- If architecture changes, update `docs/orchestration/orchestration.md` (including the versioned env matrix) **in the same task** as the code change.
 - If a `LIA_*` env or launcher flag changes, bump the env matrix version in the orchestration guide, add a change-log row, and update the mirror tables in `docs/guide/env_guide.md`, this file, and the `/orchestration` status card.
 - The Falkor adapter must keep propagating cloud outages — **no silent artifact fallback** on staging.
 - **Cloud retirements are CLI-explicit only.** Once a doc lives in cloud Supabase + Falkor, removing it requires `lia-graph-artifacts --additive --allow-retirements` from a CLI typed by an operator. The GUI additive flow (`/api/ingest/additive/preview` + `/apply`) and any non-explicit CLI invocation MUST pass `allow_retirements=False` (the default). Adding to the corpus is the friendly path; deletion is the deliberate one. Out-of-sync local `knowledge_base/`, partial Dropbox sync, machine swaps and similar local-disk drift must NEVER silently retire production docs. The disk-vs-baseline `removed` bucket surfaces as a yellow diagnostic in the preview, not as a delete action. Enforced at `src/lia_graph/ingestion/delta_runtime.py::materialize_delta` (parameter `allow_retirements`, defaults to False; strips `delta.removed` to `()` before sink + Falkor when False).

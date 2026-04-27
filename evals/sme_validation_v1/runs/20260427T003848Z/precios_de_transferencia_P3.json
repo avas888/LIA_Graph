@@ -1,0 +1,176 @@
+{
+  "qid": "precios_de_transferencia_P3",
+  "topic_key_expected": "precios_de_transferencia",
+  "profile": "P3_borde",
+  "message": "Mi cliente, una PYME de $1.500 millones en ingresos, le compró mercancía durante 2025 a un proveedor en Hong Kong por $400 millones. Hasta donde tenía entendido Hong Kong era jurisdicción no cooperante y eso lo metía en precios de transferencia sin importar montos. ¿Sigue siendo así para la declaración que voy a presentar este año?",
+  "http_status": 200,
+  "latency_ms": 6347,
+  "captured_utc": "2026-04-27T00:43:42.013853+00:00",
+  "response": {
+    "trace_id": "e0b85619-c600-44ed-a194-eb5c15ba5b3a",
+    "run_id": "pd_8fb2fca1dbac47418d0e31ee5a0bd04a",
+    "answer_markdown": "Evidencia insuficiente para responder con respaldo normativo en el tema **precios_de_transferencia**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "answer_concise": "Evidencia insuficiente para responder con respaldo normativo en el tema **precios_de_transferencia**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_zero_evidence_for_router_topic",
+    "evidence_snippets": [],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 56,
+        "output_tokens": 22,
+        "total_tokens": 78,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "precios_de_transferencia",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+    "topic_adjustment_reason": "rule:precios_de_transferencia matched precios de transferencia, precios, transferencia",
+    "coverage_notice": "Evidencia insuficiente para responder con respaldo normativo en el tema **precios_de_transferencia**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "topic": "precios_de_transferencia",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_ecaa62651d89",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 56,
+        "output_tokens": 22,
+        "total_tokens": 78
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "e0b85619-c600-44ed-a194-eb5c15ba5b3a",
+      "last_run_id": "pd_8fb2fca1dbac47418d0e31ee5a0bd04a",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_ecaa62651d89",
+    "chat_run_id": "cr_20260427_004336_f912fdea",
+    "metrics": {
+      "latency_ms": 5033.36,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 56,
+          "output_tokens": 22,
+          "total_tokens": 78,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_zero_evidence_for_router_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_ecaa62651d89",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 56,
+          "output_tokens": 22,
+          "total_tokens": 78
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "e0b85619-c600-44ed-a194-eb5c15ba5b3a",
+        "last_run_id": "pd_8fb2fca1dbac47418d0e31ee5a0bd04a",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "precios_de_transferencia",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "c4350f00841541b1a09a872d2d5bbda0"
+  }
+}

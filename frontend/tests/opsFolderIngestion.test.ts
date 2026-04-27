@@ -111,7 +111,7 @@ async function flushUi(): Promise<void> {
 
 // Skipped: this entire suite tests the legacy kanban folder-upload flow.
 // The Sesiones surface was rewritten in v2026-04-20-ui14 (see
-// docs/guide/orchestration.md change log) and `renderIngestionShell` no longer
+// docs/orchestration/orchestration.md change log) and `renderIngestionShell` no longer
 // emits the kanban DOM (`#ingestion-folder-input`, `#ingestion-select-folder`,
 // `#ingestion-kanban`, etc.). The new Sesiones flow runs ingestion via
 // `make phase2-graph-artifacts-supabase` against `knowledge_base/`, not via

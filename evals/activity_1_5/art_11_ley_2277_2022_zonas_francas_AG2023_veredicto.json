@@ -1,0 +1,121 @@
+{
+  "case_id": "art_11_ley_2277_2022_zonas_francas_AG2023_2026-04-26",
+  "extracted_at_utc": "2026-04-26T23:55:00Z",
+  "extracted_at_bogota": "2026-04-26 6:55:00 PM Bogotá",
+  "extraction_method": "manual_skill_protocol_walkthrough",
+  "extracted_by": "claude-opus-4-7 acting as vigencia-checker skill operator",
+  "norm_type": "ley",
+  "norm_id": "Art. 11 Ley 2277/2022 (numerales 1, 2, 3 y parágrafo 6) — modifica Art. 240-1 ET",
+  "norm_full_label": "Art. 11 Ley 2277 de 2022 — numerales 1, 2 y 3 y parágrafo 6 (modifica Art. 240-1 ET, tarifa renta para usuarios industriales de zona franca: condicionamiento del requisito de exportación)",
+  "parágrafo": "numerales 1, 2, 3 y parágrafo 6",
+  "periodo_consultado": {
+    "impuesto": "renta",
+    "year": 2023,
+    "period_label": "AG 2023 (primera vigencia con condicionamiento)",
+    "period_start": "2023-01-01",
+    "period_end": "2023-12-31"
+  },
+  "veredicto": {
+    "state": "EC",
+    "vigente_desde": "2022-12-13",
+    "vigente_hasta": null,
+    "derogado_por": null,
+    "modificado_por": [],
+    "suspension": null,
+    "inexequibilidad": null,
+    "condicionamiento": {
+      "norm_type": "sentencia_corte_constitucional",
+      "norm_id": "Sentencia C-384 de 2023",
+      "fecha": "2023-10-02",
+      "expediente": "D-15143",
+      "magistrados_ponentes": ["Diana Fajardo Rivera", "Alejandro Linares Cantillo"],
+      "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/2023/c-384-23.htm",
+      "comunicado_url": "https://www.corteconstitucional.gov.co/comunicados/comunicado%2036%20-%20octubre%202%20de%202023.pdf",
+      "alcance": "Exequibilidad condicionada de numerales 1, 2 y 3 y parágrafo 6 del Art. 11 Ley 2277/2022. La Corte halló que los principios de buena fe y confianza legítima resultan vulnerados por la modificación abrupta del régimen tarifario para usuarios industriales de zona franca calificados antes del 13-dic-2022.",
+      "texto_literal_condicionamiento": "EXEQUIBLES, en el entendido que el régimen tarifario establecido en el artículo 101 de la Ley 1819 de 2016 [tarifa renta 20% sin requisito de exportación] continuará rigiendo para los contribuyentes que hubieran cumplido las condiciones para acceder a este antes del 13 de diciembre de 2022, fecha en la que entró en vigor la Ley 2277 de 2022.",
+      "texto_literal_verificado_directo_corte_url": false,
+      "texto_literal_convergencia_fuentes_secundarias": "Wording converges across (1) Cámara de Comercio Colombo-Americana / AmCham boletín, (2) consultorcontable.com, (3) Deloitte SLATAM, (4) AsuntosLegales.co, (5) Nexia Montes, (6) DIAN Normograma — coincidencia textual sobre la fórmula 'en el entendido que el régimen tarifario establecido en el artículo 101 de la Ley 1819 de 2016 continuará rigiendo para los contribuyentes que hubieran cumplido las condiciones para acceder a este antes del 13 de diciembre de 2022'. La verificación contra la versión literal de la Corte (Nivel 1) queda diferida a Fix 1B-α scrapers.",
+      "primer_cargo_de_inconstitucionalidad_legalidad": "DESESTIMADO — la Corte halló que los principios de legalidad y certeza tributaria NO fueron vulnerados",
+      "segundo_cargo_buena_fe_confianza_legitima": "ACOGIDO — vulneración a la confianza legítima de usuarios industriales calificados antes del 13-dic-2022; de allí el condicionamiento"
+    },
+    "regimen_transicion": {
+      "norm_type": "ley",
+      "norm_id": "Ley 1819 de 2016, Art. 101",
+      "fecha": "2016-12-29",
+      "tipo": "régimen anterior preservado por exequibilidad condicionada",
+      "alcance": "El régimen del Art. 101 Ley 1819/2016 (tarifa renta 20% sin requisito de exportación) continúa rigiendo para usuarios industriales de zona franca que hubieran cumplido las condiciones de acceso antes del 13-dic-2022. Para usuarios calificados desde el 13-dic-2022 en adelante: aplica el régimen del Art. 11 Ley 2277/2022 con su requisito de ingresos por exportación.",
+      "primary_source_url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_1819_2016_pr002.html#101"
+    },
+    "fuentes_primarias_consultadas": [
+      {
+        "norm_type": "url",
+        "norm_id": "corte_constitucional_relatoria_C384_23",
+        "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/2023/c-384-23.htm",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (Corte Constitucional relatoría — sumilla; resuelve no extraído verbatim por limitaciones del proxy)",
+        "verified_via_websearch": true
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "corte_constitucional_comunicado_36_2023",
+        "primary_source_url": "https://www.corteconstitucional.gov.co/comunicados/comunicado%2036%20-%20octubre%202%20de%202023.pdf",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (Comunicado oficial Corte Constitucional — PDF binario, no extraído verbatim por proxy)",
+        "verified_via_websearch": true
+      },
+      {
+        "norm_type": "url",
+        "norm_id": "dian_normograma_C384_2023",
+        "primary_source_url": "https://normograma.dian.gov.co/dian/compilacion/docs/c-384_2023.htm",
+        "fecha_consulta": "2026-04-26",
+        "nivel_per_skill_fuentes_primarias": "Nivel 1 (DIAN Normograma compilando la sentencia)",
+        "verified_via_websearch": true
+      }
+    ],
+    "extraction_audit": {
+      "skill_version": "vigencia-checker@1.0",
+      "method": "manual walkthrough; WebSearch + WebFetch as primary-source proxy (Fix 1B-α scrapers not yet operational)",
+      "tool_iterations": 5,
+      "wall_seconds": 360,
+      "limitations_acknowledged": [
+        "Verbatim 'RESUELVE' del comunicado oficial PDF de la Corte no fue extraído (binario rendido); el wording del condicionamiento se reconstruyó a partir de coincidencia textual entre 6 fuentes secundarias autorizadas (Nivel 3a/3b: AmCham, Deloitte, ConsultorContable, AsuntosLegales, Nexia Montes, DIAN Normograma sumilla)",
+        "Fix 1B-α scrapers de Corte Constitucional + DIAN Normograma deben re-verificar el texto literal para producción; este fixture es seed; no se debe persistir a Supabase/Falkor sin re-verificación de Nivel 1"
+      ]
+    }
+  },
+  "applies_to_periodo": {
+    "aplica": "Sí, con condicionamiento literal",
+    "justificacion": "El Art. 11 Ley 2277/2022 (numerales 1, 2, 3 y parágrafo 6) está vigente desde 2022-12-13, pero su exequibilidad fue condicionada por Sentencia C-384 de 2023. Para AG 2023 en adelante: (a) usuarios industriales de zona franca CALIFICADOS antes del 13-dic-2022 → aplica el régimen anterior del Art. 101 Ley 1819/2016 (tarifa renta 20% sin requisito de exportación); (b) usuarios calificados desde el 13-dic-2022 → aplica el régimen del Art. 11 Ley 2277/2022 (requisito de ingresos por exportación para acceder a la tarifa preferencial).",
+    "norm_version_aplicable": "Texto literal Art. 11 Ley 2277/2022 + condicionamiento literal Sentencia C-384/2023",
+    "regimen_aplicable_en_su_lugar": "Para usuarios industriales de zona franca calificados antes del 13-dic-2022: Art. 101 Ley 1819/2016 (tarifa renta 20%) — preservado por la exequibilidad condicionada."
+  },
+  "riesgo_de_error": "Medio",
+  "recomendacion_para_el_contador": "ATENCIÓN: El Art. 11 Ley 2277/2022 (que modificó el régimen tarifario de renta para usuarios industriales de zona franca) tiene EXEQUIBILIDAD CONDICIONADA por Sentencia C-384 de 2023 (Corte Constitucional). NUNCA citar esta norma como vigente plena sin mencionar el condicionamiento literal. Para asesorar a un cliente usuario industrial de zona franca: (1) Determinar la fecha de calificación del cliente. (2) Si la calificación es ANTERIOR al 13-dic-2022 → aplica el régimen del Art. 101 Ley 1819/2016 (tarifa 20% sin requisito de exportación) por el condicionamiento. (3) Si la calificación es DESDE el 13-dic-2022 → aplica el Art. 11 Ley 2277/2022 con el requisito de ingresos por exportación. (4) En todo caso: citar la sentencia C-384 de 2023 como fundamento del régimen aplicable a los pre-13-dic-2022.",
+  "fix_5_skill_eval_seed": {
+    "case_purpose": "Validates skill on a clean EC case — skill must (1) detect the condicionamiento, (2) cite the literal Court text 'en el entendido que...', (3) NOT paraphrase the condicionamiento, (4) emit a per-cohort recommendation (pre vs post 13-dic-2022)",
+    "expected_state": "EC",
+    "expected_condicionamiento_present": true,
+    "expected_condicionamiento_substr_literal": "en el entendido que el régimen tarifario establecido en el artículo 101 de la Ley 1819 de 2016",
+    "expected_min_primary_sources": 2,
+    "expected_must_cite": [
+      "Sentencia C-384 de 2023",
+      "Art. 11 Ley 2277/2022",
+      "Art. 101 Ley 1819 de 2016",
+      "13 de diciembre de 2022"
+    ],
+    "expected_must_say": [
+      "exequibilidad condicionada",
+      "en el entendido que",
+      "usuarios industriales de zona franca",
+      "buena fe",
+      "confianza legítima"
+    ],
+    "expected_must_not_say": [
+      "Art. 11 Ley 2277/2022 plenamente vigente",
+      "todos los usuarios de zona franca deben cumplir requisito de exportación",
+      "exequible sin reservas"
+    ],
+    "expected_per_cohort_recomendacion_present": true,
+    "expected_no_paraphrase_of_condicionamiento": true
+  }
+}

@@ -497,6 +497,11 @@ class Citation:
     usage_context: str | None = None
     usage_intents: tuple[str, ...] | None = None
     tipo_de_documento: str | None = None
+    # fixplan_v3 sub-fix 1B-ε / 1D — most-restrictive v3 vigencia annotation
+    # across the cited document's chunks. None when none of the doc's chunks
+    # carry an anchor citation in `norm_citations`. Frontend chip atom reads
+    # `anchor_state` + `interpretive_constraint` from this dict.
+    vigencia_v3: Any = None
 
     @classmethod
     def from_document(cls, doc: DocumentRecord) -> "Citation":
@@ -564,6 +569,7 @@ class Citation:
             "curation_status": self.curation_status,
             "usage_context": self.usage_context,
             "usage_intents": list(self.usage_intents) if self.usage_intents else None,
+            "vigencia_v3": dict(self.vigencia_v3) if isinstance(self.vigencia_v3, dict) else None,
         }
 
     def to_public_dict(self) -> dict[str, Any]:

@@ -1,7 +1,7 @@
 /**
  * 3-stage Lia_Graph ingestion pipeline visualization.
  *
- * Source-of-truth: docs/guide/orchestration.md Lane 0.
+ * Source-of-truth: docs/orchestration/orchestration.md Lane 0.
  *   knowledge_base/  →  ingest (WIP Supabase + local Falkor)  →  Promoción (Cloud Supabase + cloud Falkor)
  */
 

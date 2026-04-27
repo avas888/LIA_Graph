@@ -1,0 +1,176 @@
+{
+  "qid": "beneficio_auditoria_P1",
+  "topic_key_expected": "beneficio_auditoria",
+  "profile": "P1_directa",
+  "message": "Si una empresa quiere acogerse al beneficio de auditoría este año, ¿cuánto tiene que subir el impuesto frente al año pasado y cuánto se reduce el plazo de firmeza?",
+  "http_status": 200,
+  "latency_ms": 7627,
+  "captured_utc": "2026-04-27T02:15:19.924842+00:00",
+  "response": {
+    "trace_id": "27f11584-d45f-48e6-9b92-2df507fe938d",
+    "run_id": "pd_58e756bd48204d38b8bb3e2c225b5cbc",
+    "answer_markdown": "No pude ubicar evidencia del tema **beneficio_auditoria** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "answer_concise": "No pude ubicar evidencia del tema **beneficio_auditoria** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+    "evidence_snippets": [],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 29,
+        "output_tokens": 37,
+        "total_tokens": 66,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "beneficio_auditoria",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de beneficio auditoria, por lo cual utilizaremos nuestra base de datos beneficio auditoria.",
+    "topic_adjustment_reason": "La consulta pregunta explícitamente sobre el 'beneficio de auditoría' y sus condiciones (incremento del impuesto, reducción del plazo de firmeza), lo cual corresponde directamente a este tema. La excepción de no colapsar este subtema al padre aplica aquí.",
+    "coverage_notice": "No pude ubicar evidencia del tema **beneficio_auditoria** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "topic": "beneficio_auditoria",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_284f4977af69",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 29,
+        "output_tokens": 37,
+        "total_tokens": 66
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "27f11584-d45f-48e6-9b92-2df507fe938d",
+      "last_run_id": "pd_58e756bd48204d38b8bb3e2c225b5cbc",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_284f4977af69",
+    "chat_run_id": "cr_20260427_021514_591c3986",
+    "metrics": {
+      "latency_ms": 6285.73,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 29,
+          "output_tokens": 37,
+          "total_tokens": 66,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_284f4977af69",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 29,
+          "output_tokens": 37,
+          "total_tokens": 66
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "27f11584-d45f-48e6-9b92-2df507fe938d",
+        "last_run_id": "pd_58e756bd48204d38b8bb3e2c225b5cbc",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.4
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "beneficio_auditoria",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "1818732c3d9a48728e3022b8702fd7bf"
+  }
+}
