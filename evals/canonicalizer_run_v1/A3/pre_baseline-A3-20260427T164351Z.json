@@ -1,0 +1,264 @@
+{
+  "ts_bogota": "2026-04-27 11:44:28 AM Bogotá",
+  "batch_id": "A3",
+  "mode": "pre",
+  "run_id": "baseline-A3-20260427T164351Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Cuánto es la sanción por inexactitud?",
+      "expected": {
+        "q": "¿Cuánto es la sanción por inexactitud?",
+        "must_cite": [
+          "et.art.647",
+          "et.art.648"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "Evidencia insuficiente para responder con respaldo normativo en el tema **regimen_sancionatorio**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+      "answer_concise": "Evidencia insuficiente para responder con respaldo normativo en el tema **regimen_sancionatorio**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 6979
+    },
+    {
+      "index": 2,
+      "question": "¿Cómo calculo la sanción por extemporaneidad sin requerimiento?",
+      "expected": {
+        "q": "¿Cómo calculo la sanción por extemporaneidad sin requerimiento?",
+        "must_cite": [
+          "et.art.641"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "No pude ubicar evidencia del tema **regimen_sancionatorio_extemporaneidad** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "answer_concise": "No pude ubicar evidencia del tema **regimen_sancionatorio_extemporaneidad** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 7276
+    },
+    {
+      "index": 3,
+      "question": "¿Hay reducción por aceptación de sanción?",
+      "expected": {
+        "q": "¿Hay reducción por aceptación de sanción?",
+        "must_cite": [
+          "et.art.709",
+          "et.art.713"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "Evidencia insuficiente para responder con respaldo normativo en el tema **regimen_sancionatorio**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+      "answer_concise": "Evidencia insuficiente para responder con respaldo normativo en el tema **regimen_sancionatorio**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 8591
+    },
+    {
+      "index": 4,
+      "question": "¿Sanción por no enviar información en medios magnéticos?",
+      "expected": {
+        "q": "¿Sanción por no enviar información en medios magnéticos?",
+        "must_cite": [
+          "et.art.651"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "**Respuestas directas**\n\n*   **¿Cuál es la sanción por no enviar información en medios magnéticos?**\n    La sanción por no enviar información exógena, enviarla con errores o de forma incompleta se rige por el (art. 651 ET).\n\n*   **¿Cómo se calcula la sanción?**\n    La sanción se calcula sobre el valor de las sumas respecto de las cuales no se suministró la información, se suministró de forma errónea o incompleta. El (art. 651 ET) establece los siguientes porcentajes:\n\n    | Infracción",
+      "answer_concise": "**Respuestas directas**\n\n*   **¿Cuál es la sanción por no enviar información en medios magnéticos?**\n    La sanción por no enviar información exógena, enviarla con errores o de forma incompleta se rige por el (art. 651 ET).\n\n*   **¿Cómo se calcula la sanción?**\n    La sanción se calcula sobre el valor de las sumas respecto de las cuales no se suministró la información, se suministró de forma errónea o incompleta. El (art. 651 ET) establece los siguientes porcentajes:\n\n    | Infracción",
+      "citations": [
+        {
+          "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-25-informacion-exogena.md",
+          "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-25-informacion-exogena.md",
+          "authority": "Loggro",
+          "topic": "informacion_exogena",
+          "pais": "colombia",
+          "url": null,
+          "official_url": null,
+          "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-25-informacion-exogena.md",
+          "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-25-informacion-exogena.md",
+          "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-25-informacion-exogena.md&view=normalized&format=pdf",
+          "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-25-informacion-exogena.md&view=normalized&format=md",
+          "download_original_url": null,
+          "is_local_upload": false,
+          "source_label": "Actualizacion normativa informacion exogena (Loggro)",
+          "legal_reference": "Actualizacion normativa informacion exogena (Loggro)",
+          "search_query": "Actualizacion normativa informacion exogena (Loggro) Loggro colombia Sección 25 — Información Exógena — La Brújula de la DIAN",
+          "reference_key": null,
+          "reference_type": null,
+          "reference_detail": null,
+          "knowledge_class": "practica_erp",
+          "source_type": "guia_operativa",
+          "cross_topic": false,
+          "topic_domains": [],
+          "primary_role": "practica",
+          "source_tier": "Fuente Loggro",
+          "source_provider": "Fuente Loggro",
+          "source_provider_url": null,
+          "usage_context": "**Respuestas directas** **¿Cuál es la sanción por no enviar información en medios magnéticos?** La sanción por no enviar información exógena, enviarla con errores o de forma incompleta se rige por el (art. 651 ET).",
+          "usage_intents": [
+            "riesgos"
+          ]
+        },
+        {
+          "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_PROCEDIMIENTO_RECURSO_EXOGENA_NORMATIVA_PRO-N01-recurso-sancion-exogena-art-651-ET.md",
+          "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_PROCEDIMIENTO_RECURSO_EXOGENA_NORMATIVA_PRO-N01-recurso-sancion-exogena-art-651-ET.md",
+          "authority": "DIAN / fuente oficial",
+          "topic": "informacion_exogena",
+          "pais": "colombia",
+          "url": null,
+          "official_url": null,
+          "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_PROCEDIMIENTO_RECURSO_EXOGENA_NORMATIVA_PRO-N01-recurso-sancion-exogena-art-651-ET.md",
+          "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_PROCEDIMIENTO_RECURSO_EXOGENA_NORMATIVA_PRO-N01-recurso-sancion-exogena-art-651-ET.md",
+          "download_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_PROCEDIMIENTO_RECURSO_EXOGENA_NORMATIVA_PRO-N01-recurso-sancion-exogena-art-651-ET.md&view=normalized&format=pdf",
+          "download_md_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_PROCEDIMIENTO_RECURSO_EXOGENA_NORMATIVA_PRO-N01-recurso-sancion-exogena-art-651-ET.md&view=normalized&format=md",
+          "download_original_url": null,
+          "is_local_upload": false,
+          "source_label": "PRO N01 — Sanciones por Información Exógena: Art. 651 ET, Recurso de Reconsideración Arts. 72...",
+          "legal_reference": "PRO N01 — Sanciones por Información Exógena: Art. 651 ET, Recurso de Reconsideración Arts. 720 734",
+          "search_query": "PRO N01 — Sanciones por Información Exógena: Art. 651 ET, Recurso de Reconsideración Arts. 720 734 DIAN / fuente oficial colombia PRO N01 — Sanciones por Información Exógena: Art. 651 ET, Recurso de Reconsideración Arts.",
+          "reference_key": "et",
+          "reference_type": "et",
+          "reference_detail": {
+            "locator_text": "Artículos 651",
+            "locator_kind": "articles",
+            "locator_start": "651",
+            "locator_end": null
+          },
+          "knowledge_class": "normative_base",
+          "source_type": "ley",
+          "cross_topic": false,
+          "topic_domains": [],
+          "primary_role": "normativa",
+          "source_tier": "Fuente Normativa",
+          "source_provider": "DIAN / fuente oficial",
+          "source_provider_url": null,
+          "usage_context": "**Respuestas directas** **¿Cuál es la sanción por no enviar información en medios magnéticos?** La sanción por no enviar información exógena, enviarla con errores o de forma incompleta se rige por el (art. 651 ET).",
+          "usage_intents": [
+            "riesgos"
+          ]
+        },
+        {
+          "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+          "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+          "authority": "DIAN / fuente oficial",
+          "topic": "declaracion_renta",
+          "pais": "colombia",
+          "url": null,
+          "official_url": null,
+          "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+          "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+          "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+          "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+          "download_original_url": null,
+          "is_local_upload": false,
+          "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+          "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+          "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+          "reference_key": null,
+          "reference_type": null,
+          "reference_detail": null,
+          "knowledge_class": "normative_base",
+          "source_type": "ley",
+          "cross_topic": false,
+          "topic_domains": [],
+          "primary_role": "normativa",
+          "source_tier": "Fuente Normativa",
+          "source_provider": "DIAN / fuente oficial",
+          "source_provider_url": null,
+          "usage_context": "**Respuestas directas** **¿Cuál es la sanción por no enviar información en medios magnéticos?** La sanción por no enviar información exógena, enviarla con errores o de forma incompleta se rige por el (art. 651 ET).",
+          "usage_intents": [
+            "riesgos"
+          ]
+        },
+        {
+          "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+          "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+          "authority": "DIAN / fuente oficial",
+          "topic": "inversiones_incentivos",
+          "pais": "colombia",
+          "url": null,
+          "official_url": null,
+          "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+          "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+          "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+          "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+          "download_original_url": null,
+          "is_local_upload": false,
+          "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+          "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+          "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+          "reference_key": "ley:1429:2010",
+          "reference_type": "ley",
+          "reference_detail": null,
+          "knowledge_class": "normative_base",
+          "source_type": "ley",
+          "cross_topic": false,
+          "topic_domains": [],
+          "primary_role": "normativa",
+          "source_tier": "Fuente Normativa",
+          "source_provider": "DIAN / fuente oficial",
+          "source_provider_url": null,
+          "usage_context": "**Respuestas directas** **¿Cuál es la sanción por no enviar información en medios magnéticos?** La sanción por no enviar información exógena, enviarla con errores o de forma incompleta se rige por el (art. 651 ET).",
+          "usage_intents": [
+            "riesgos"
+          ]
+        },
+        {
+          "doc_id": "suin_1132325",
+          "logical_doc_id": "suin_1132325",
+          "authority": "DIAN / fuente oficial",
+          "topic": "unknown",
+          "pais": "colombia",
+          "url": null,
+          "official_url": null,
+          "source_view_url": "/source-view?doc_id=suin_1132325",
+          "open_url": "/source-view?doc_id=suin_1132325",
+          "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+          "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+          "download_original_url": null,
+          "is_local_upload": false,
+          "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+          "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+          "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+          "reference_key": "decreto:624:1989",
+          "reference_type": "decreto",
+          "reference_detail": null,
+          "knowledge_class": "normative_base",
+          "source_type": "suin_norma",
+          "cross_topic": false,
+          "topic_domains": [],
+          "primary_role": "normativa",
+          "source_tier": "Fuente Normativa",
+          "source_provider": "DIAN / fuente oficial",
+          "source_provider_url": null,
+          "usage_context": "**Respuestas directas** **¿Cuál es la sanción por no enviar información en medios magnéticos?** La sanción por no enviar información exógena, enviarla con errores o de forma incompleta se rige por el (art. 651 ET).",
+          "usage_intents": [
+            "riesgos"
+          ]
+        }
+      ],
+      "diagnostics": {
+        "retrieval_health": {
+          "retrieval_backend": "supabase",
+          "graph_backend": "falkor_live",
+          "primary_article_count": 0,
+          "connected_article_count": 0,
+          "support_document_count": 5,
+          "empty_reason": "no_explicit_article_keys_in_plan",
+          "chunks_empty_reason": "ok",
+          "graph_empty_reason": "no_explicit_article_keys_in_plan",
+          "seed_article_keys": [],
+          "chunk_row_count": 24,
+          "document_row_count": 15,
+          "related_reform_count": 0,
+          "graph_name": "LIA_REGULATORY_GRAPH",
+          "planner_query_mode": "obligation_chain",
+          "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+        }
+      },
+      "wall_ms": 13986
+    }
+  ]
+}
