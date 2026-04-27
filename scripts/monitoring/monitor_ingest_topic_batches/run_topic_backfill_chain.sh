@@ -112,8 +112,8 @@ case "$MODE" in
         Wire-up lands in ingestionfix_v3 Phase 3 proper. For now, run
         batch 1 manually via the per-batch launcher:
 
-          bash scripts/launch_batch.sh --batch 1 --dry-run    # preview
-          bash scripts/launch_batch.sh --batch 1              # real run
+          bash scripts/ingestion/launch_batch.sh --batch 1 --dry-run    # preview
+          bash scripts/ingestion/launch_batch.sh --batch 1              # real run
           # ... wait for ingest.delta.cli.done in logs/events.jsonl ...
           python scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py \
             --batch 1 --gate --manifest <latest bust manifest> \

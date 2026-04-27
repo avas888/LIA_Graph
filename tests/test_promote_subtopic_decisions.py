@@ -1,4 +1,4 @@
-"""Tests for ``scripts/promote_subtopic_decisions.py`` (Phase 6).
+"""Tests for ``scripts/ingestion/promote_subtopic_decisions.py`` (Phase 6).
 
 Covers the full contract from ``docs/done/next/subtopic_generationv1-contracts.md``:
 

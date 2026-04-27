@@ -34,10 +34,10 @@ Adjacent launchers (kept at repo root so they're visible next to `dev-launcher.m
 
 | Path | Role |
 |---|---|
-| `scripts/launch_batch.sh` | **NEW** — per-batch detached launcher (pairs with `fingerprint_bust.py`). Use this for v3 backfills so you never re-classify 1,200+ docs in a single run. |
-| `scripts/launch_phase9a.sh` | Full-corpus detached additive reingest. |
-| `scripts/launch_phase9a_force.sh` | Full-corpus + `--force-full-classify`. Use only when a total re-classification is truly needed. |
-| `scripts/launch_phase9b.sh` | Detached embedding backfill. |
+| `scripts/ingestion/launch_batch.sh` | **NEW** — per-batch detached launcher (pairs with `fingerprint_bust.py`). Use this for v3 backfills so you never re-classify 1,200+ docs in a single run. |
+| `scripts/ingestion/launch_phase9a.sh` | Full-corpus detached additive reingest. |
+| `scripts/ingestion/launch_phase9a_force.sh` | Full-corpus + `--force-full-classify`. Use only when a total re-classification is truly needed. |
+| `scripts/ingestion/launch_phase9b.sh` | Detached embedding backfill. |
 
 ## Why this exists
 
@@ -72,8 +72,8 @@ This directory standardizes three things so neither failure mode repeats:
 
 1. **Launch detached**:
    ```bash
-   bash scripts/launch_phase9a.sh          # normal additive run
-   bash scripts/launch_phase9a_force.sh    # bypass the fingerprint shortcut
+   bash scripts/ingestion/launch_phase9a.sh          # normal additive run
+   bash scripts/ingestion/launch_phase9a_force.sh    # bypass the fingerprint shortcut
    ```
 
 2. **Capture the delta_id + start timestamp** once the run emits its first

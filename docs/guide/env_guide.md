@@ -174,13 +174,13 @@ Local developers do NOT need to run the sink. `npm run dev` reads from the files
 
 ### Single-Pass Ingest (Since `v2026-04-21-stv2b`)
 
-The bulk ingest runs the PASO 4 LLM subtopic classifier inline between audit and sink, so `documents.subtema` + Falkor `SubTopicNode` / `HAS_SUBTOPIC` edges land in the same `make phase2-graph-artifacts-supabase` run — no separate backfill step. See `docs/orchestration/orchestration.md` §0.4 for the full module decomposition. `scripts/backfill_subtopic.py` is now maintenance-only (default filter: `requires_subtopic_review=true OR subtema IS NULL`).
+The bulk ingest runs the PASO 4 LLM subtopic classifier inline between audit and sink, so `documents.subtema` + Falkor `SubTopicNode` / `HAS_SUBTOPIC` edges land in the same `make phase2-graph-artifacts-supabase` run — no separate backfill step. See `docs/orchestration/orchestration.md` §0.4 for the full module decomposition. `scripts/ingestion/backfill_subtopic.py` is now maintenance-only (default filter: `requires_subtopic_review=true OR subtema IS NULL`).
 
 ### Embedding + Promotion Auto-Chain
 
 Embeddings are populated by `src/lia_graph/embedding_ops.py` on a follow-up pass against the same Supabase target; the sink intentionally writes `embedding = NULL` so one concern stays in one place. Two env vars chain extra work onto `POST /api/ingest/run`:
 
-- `INGEST_AUTO_EMBED=1` — after the sink completes, `scripts/ingest_run_full.sh` invokes `embedding_ops.py` against the just-written generation.
+- `INGEST_AUTO_EMBED=1` — after the sink completes, `scripts/ingestion/ingest_run_full.sh` invokes `embedding_ops.py` against the just-written generation.
 - `INGEST_AUTO_PROMOTE=1` — after embeddings land, re-run the pipeline with `PHASE2_SUPABASE_TARGET=production` to promote WIP → production.
 
 Both are opt-in and propagated from the admin `POST /api/ingest/run` body (`auto_embed`, `auto_promote`), not from launcher env.

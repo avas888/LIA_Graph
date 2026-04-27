@@ -1,7 +1,20 @@
 """Scraper for https://normograma.dian.gov.co/.
 
-Coverage: Decretos tributarios + resoluciones DIAN + conceptos DIAN.
-Primary source for any `decreto.*`, `res.dian.*`, `concepto.dian.*` norm_id.
+Coverage:
+  * Decretos tributarios + resoluciones DIAN + conceptos DIAN
+  * **Estatuto Tributario** — DIAN hosts the full ET as one large page
+    (`estatuto_tributario.htm`, ~3.9 MB). We use it as the SECOND primary
+    source for every `et.*` norm_id, complementing
+    `secretariasenado.gov.co` on the first source.
+
+Article-scoped slicing for ET: the full DIAN ET page is too large for a
+Gemini prompt context. We pre-inject ``[[ART:N]]`` markers at every
+``<a name="N">`` anchor during parse, store the marked text in the
+cache once, and then slice down to the requested article in
+``fetch()``. See `docs/learnings/sites/normograma-dian.md`.
+
+Primary source for `decreto.*`, `res.dian.*`, `concepto.dian.*`,
+and `et.*` norm_ids.
 """
 
 from __future__ import annotations
@@ -9,11 +22,53 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from lia_graph.scrapers.base import Scraper
+from lia_graph.scrapers.base import Scraper, ScraperFetchResult
 from lia_graph.scrapers.secretaria_senado import _html_to_text
 
 
 _BASE_URL = "https://normograma.dian.gov.co/dian/compilacion/docs"
+_ET_FULL_URL = f"{_BASE_URL}/estatuto_tributario.htm"
+
+# Inserted into parsed_text at every <a name="ART"> anchor. Preserves the
+# article boundary across the cache layer.
+_ART_MARKER_RX = re.compile(r"\[\[ART:([0-9]+(?:-[0-9]+)?)\]\]")
+_ANCHOR_RX = re.compile(
+    r'<a\s+[^>]*name="([0-9]+(?:-[0-9]+)?)"[^>]*>',
+    re.IGNORECASE,
+)
+
+
+def _inject_article_markers(html: str) -> str:
+    """Replace each `<a name="N">` with `<a name="N">\n[[ART:N]]\n` so the
+    article boundary survives the HTML→text parse."""
+
+    return _ANCHOR_RX.sub(
+        lambda m: f'<a name="{m.group(1)}">\n[[ART:{m.group(1)}]]\n',
+        html,
+    )
+
+
+def _slice_article(text: str, article: str) -> str | None:
+    """Return the substring containing exactly the requested article.
+
+    For an ET sub-unit like ``689-3``, slice that sub-unit's segment;
+    if the sub-unit isn't anchored separately, fall back to the parent
+    article's segment (which contains all sub-units inline).
+    """
+
+    targets = [article]
+    if "-" in article:
+        targets.append(article.split("-")[0])
+    for target in targets:
+        marker = f"[[ART:{target}]]"
+        start_idx = text.find(marker)
+        if start_idx < 0:
+            continue
+        # End is the next [[ART:M]] marker (any M, including sub-units).
+        nxt = _ART_MARKER_RX.search(text, start_idx + len(marker))
+        end_idx = nxt.start() if nxt else len(text)
+        return text[start_idx:end_idx].strip()
+    return None
 
 
 class DianNormogramaScraper(Scraper):
@@ -26,9 +81,15 @@ class DianNormogramaScraper(Scraper):
         "res_articulo",
         "concepto_dian",
         "concepto_dian_numeral",
+        "estatuto",
+        "articulo_et",
     }
 
     def _resolve_url(self, norm_id: str) -> str | None:
+        # ET — the entire ET is on one page; same URL for every article.
+        # Article-scoped slicing happens in `fetch()` below.
+        if norm_id == "et" or norm_id.startswith("et."):
+            return _ET_FULL_URL
         if norm_id.startswith("decreto."):
             parts = norm_id.split(".")
             if len(parts) < 3:
@@ -47,7 +108,11 @@ class DianNormogramaScraper(Scraper):
         return None
 
     def _parse_html(self, content: bytes) -> tuple[str, dict[str, Any]]:
-        text = _html_to_text(content.decode("utf-8", errors="ignore"))
+        # Inject [[ART:N]] markers BEFORE stripping HTML so the article
+        # boundary survives into parsed_text. The cache stores the full
+        # marked text; per-article slicing happens at fetch time.
+        html = content.decode("utf-8", errors="ignore")
+        text = _html_to_text(_inject_article_markers(html))
         # DIAN normograma renders a "Notas de vigencia" panel — extract it.
         notes_match = re.search(
             r"Notas?\s+de\s+Vigencia[\s\S]{0,2000}?(?=Notas?\s+del\s+Editor|$)",
@@ -56,6 +121,38 @@ class DianNormogramaScraper(Scraper):
         )
         notes = notes_match.group(0).strip() if notes_match else ""
         return text, {"vigencia_notes": notes}
+
+    def fetch(self, norm_id: str) -> ScraperFetchResult | None:
+        # Get the full document via the base implementation — single cache
+        # hit serves every ET article.
+        result = super().fetch(norm_id)
+        if result is None:
+            return None
+        if not (norm_id == "et" or norm_id.startswith("et.art.")):
+            return result
+        if norm_id == "et":
+            return result  # full ET requested — return the whole document
+        article = norm_id.split(".", 2)[2]
+        sliced = _slice_article(result.parsed_text or "", article)
+        if not sliced:
+            # No anchor found for this article — return the original (full)
+            # text rather than failing; the prompt can still try to find it.
+            return result
+        # Build a new ScraperFetchResult with sliced parsed_text + a
+        # parsed_meta key noting the slice provenance.
+        new_meta = dict(result.parsed_meta)
+        new_meta["sliced_article"] = article
+        new_meta["sliced_chars"] = len(sliced)
+        return ScraperFetchResult(
+            norm_id=result.norm_id,
+            source=result.source,
+            url=result.url,
+            fetched_at_utc=result.fetched_at_utc,
+            status_code=result.status_code,
+            parsed_text=sliced,
+            parsed_meta=new_meta,
+            cache_hit=result.cache_hit,
+        )
 
 
 __all__ = ["DianNormogramaScraper"]

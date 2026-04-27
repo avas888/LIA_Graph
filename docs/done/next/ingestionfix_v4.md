@@ -62,7 +62,7 @@ docs/next/
 - Tests: single `uv run pytest` calls; full suite via `make test-batched` (never direct pytest on full suite — conftest guard).
 - Supabase: production writes gated. Source `.env.staging` first.
 - Falkor: `FALKORDB_URL` in `.env.staging`; graph `LIA_REGULATORY_GRAPH`.
-- Detached launch pattern: `scripts/launch_batch.sh` (nohup + disown + no tee). 3-min heartbeat via CronCreate.
+- Detached launch pattern: `scripts/ingestion/launch_batch.sh` (nohup + disown + no tee). 3-min heartbeat via CronCreate.
 
 ### 0.6 Glossary (v4-specific)
 
@@ -439,8 +439,8 @@ Decision: **manual batch-by-batch for v4**. Upgrade to autonomous loop becomes v
 
 ```bash
 # For each N in 2..11:
-bash scripts/launch_batch.sh --batch $N --dry-run   # preview
-bash scripts/launch_batch.sh --batch $N             # real
+bash scripts/ingestion/launch_batch.sh --batch $N --dry-run   # preview
+bash scripts/ingestion/launch_batch.sh --batch $N             # real
 # arm heartbeat cron with the new delta_id and --total from shortcut.computed
 # wait for cli.done
 PYTHONPATH=src:. uv run python scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py \
@@ -538,7 +538,7 @@ PYTHONPATH=src:. uv run python scripts/monitoring/monitor_ingest_topic_batches/v
   --dry-run-row-count-after 0 --target production
 
 # --- Phase 4: chain batches 2-11 (~2-2.5 hr unattended) ---
-# Per-batch: bash scripts/launch_batch.sh --batch N → heartbeat → validate
+# Per-batch: bash scripts/ingestion/launch_batch.sh --batch N → heartbeat → validate
 ```
 
 ---
@@ -729,7 +729,7 @@ set -a; source .env.staging; set +a
 PYTHONPATH=src:. uv run python scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py \
   --topics <48-topic union> --target production --confirm --force-multi --tag v4_rerun
 
-bash scripts/launch_batch.sh --batch 1    # (or the detached nohup pattern from Phase 3)
+bash scripts/ingestion/launch_batch.sh --batch 1    # (or the detached nohup pattern from Phase 3)
 
 # arm heartbeat cron; wait for cli.done
 
@@ -739,8 +739,8 @@ PYTHONPATH=src:. uv run python scripts/monitoring/monitor_ingest_topic_batches/v
 
 # v4 Phase 4 — batches 2..11 (per-batch)
 for N in 2 3 4 5 6 7 8 9 10 11; do
-  bash scripts/launch_batch.sh --batch $N --dry-run
-  bash scripts/launch_batch.sh --batch $N
+  bash scripts/ingestion/launch_batch.sh --batch $N --dry-run
+  bash scripts/ingestion/launch_batch.sh --batch $N
   # heartbeat + validate after each cli.done
 done
 

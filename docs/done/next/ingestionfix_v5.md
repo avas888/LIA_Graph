@@ -172,7 +172,7 @@ PYTHONPATH=src:. uv run python scripts/monitoring/monitor_ingest_topic_batches/f
   --topics "$TOPICS" --target production --confirm --force-multi --tag v5_sectors
 
 # detached additive ingest (same pattern as v4 Phase 4)
-bash scripts/launch_batch.sh --topics "$TOPICS"
+bash scripts/ingestion/launch_batch.sh --topics "$TOPICS"
 # or use the sector batches 9/10/11 in plan.json
 ```
 
@@ -361,7 +361,7 @@ PYTHONPATH=src:. uv run python scripts/monitoring/monitor_sector_reclassificatio
   --approved artifacts/sector_classification/sector_reclassification_proposal.approved.json --confirm
 PYTHONPATH=src:. uv run python scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py \
   --topics "<26 sectors>" --target production --confirm --force-multi --tag v5_sectors
-bash scripts/launch_batch.sh --topics "<26 sectors>"   # detached; heartbeat cron
+bash scripts/ingestion/launch_batch.sh --topics "<26 sectors>"   # detached; heartbeat cron
 # wait for cli.done; validate Falkor TopicNode + TEMA bumps
 
 git commit -am "feat(ingestionfix-v5-phase-1): classifier taxonomy-aware; 26 sectors populate"

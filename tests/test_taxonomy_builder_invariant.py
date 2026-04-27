@@ -7,7 +7,7 @@ Covers:
 - ``validate_no_empty_parents`` is silent when every known parent has at
   least one entry.
 - The ``--allow-empty-parents`` CLI flag on
-  ``scripts/promote_subtopic_decisions.py`` bypasses the invariant.
+  ``scripts/ingestion/promote_subtopic_decisions.py`` bypasses the invariant.
 - When the invariant fires, an existing ``config/subtopic_taxonomy.json``
   on disk is NOT overwritten and the script exits with code 1.
 

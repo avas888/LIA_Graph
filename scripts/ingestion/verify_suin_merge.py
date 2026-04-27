@@ -22,11 +22,11 @@ Exit codes:
 
 Invocation examples:
 
-    PYTHONPATH=src:. uv run python scripts/verify_suin_merge.py \
+    PYTHONPATH=src:. uv run python scripts/ingestion/verify_suin_merge.py \
         --target wip --generation gen_suin_wip_20260419 \
         --scope-dir artifacts/suin/laboral-tributario
 
-    PYTHONPATH=src:. uv run python scripts/verify_suin_merge.py \
+    PYTHONPATH=src:. uv run python scripts/ingestion/verify_suin_merge.py \
         --target production --generation gen_suin_prod_v1 \
         --scope-dir artifacts/suin/laboral-tributario artifacts/suin/laboral \
         artifacts/suin/tributario artifacts/suin/jurisprudencia --json

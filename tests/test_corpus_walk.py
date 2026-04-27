@@ -1,8 +1,8 @@
 """Unit tests for ``lia_graph.corpus_walk`` (Phase 2 shared walker).
 
 Exercises the filter + ordering + parent-topic-derivation rules that
-both ``scripts/regrandfather_corpus.py`` and
-``scripts/collect_subtopic_candidates.py`` rely on:
+both ``scripts/ingestion/regrandfather_corpus.py`` and
+``scripts/ingestion/collect_subtopic_candidates.py`` rely on:
 
   (a) hidden dirs (``.git`` etc.) are pruned
   (b) sentinel filenames (``readme.md`` / ``state.md`` / ``claude.md``)

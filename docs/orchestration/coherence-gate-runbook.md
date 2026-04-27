@@ -77,7 +77,7 @@ fallback_reason == "pipeline_d_coherence_primary_off_topic"
       • CURATION: add the router_topic to the article's `secondary_topics`
         in `config/article_secondary_topics.json` (per the SME-validated
         mappings in `taxonomy_v2_sme_response.md §1.4`). Run
-        `scripts/sync_article_secondary_topics_to_falkor.py` to write to
+        `scripts/ingestion/sync_article_secondary_topics_to_falkor.py` to write to
         Falkor without re-ingest.
       • If the curation is correct but the SHORT-CIRCUIT still doesn't fire:
         check that the Falkor node has `secondary_topics` written (via

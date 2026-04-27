@@ -414,7 +414,7 @@ Phase 1 gave us the eyes. Phase 2 gives us the data to look at. Every subsequent
 After phase 2a, parallelism and throttle are **persistent defaults** — every ingest entry point inherits them without per-caller plumbing:
 
 * **Classifier (PASO 4)** — default `--rate-limit-rpm 300`, `--classifier-workers 8`. Env overrides: `LIA_INGEST_CLASSIFIER_RPM`, `LIA_INGEST_CLASSIFIER_WORKERS`. At ~1.5s Gemini latency, 8 workers saturate the ceiling and finish ~3,900 docs in ~13 min. Ceiling leaves 70% headroom on Flash's 1,000 RPM cap.
-* **Embeddings** via `scripts/embedding_ops.py --batch-size` — default 100. Gemini Embedding 1 has a hard **3,000 RPM** ceiling. Drop batch-size to **25** so the embedding pass stays comfortably below the ceiling even with the tripled corpus size.
+* **Embeddings** via `scripts/ingestion/embedding_ops.py --batch-size` — default 100. Gemini Embedding 1 has a hard **3,000 RPM** ceiling. Drop batch-size to **25** so the embedding pass stays comfortably below the ceiling even with the tripled corpus size.
 
 Do NOT run with `--skip-llm` unless you're explicitly debugging: skipping the classifier leaves ~3,600 new EXPERTOS/PRACTICA docs without PASO-4 subtopic/family stamps, which phase 6 retrieval needs. Do NOT set `--classifier-workers 1` unless you're regression-testing the sequential code path.
 

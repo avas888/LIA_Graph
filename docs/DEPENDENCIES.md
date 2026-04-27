@@ -36,7 +36,7 @@
 ### 4. Corpus Files Access
 - **What**: Colombian accountant corpus under `CORE ya Arriba`, `to upload`, and `to_upload_graph/` in the Dropbox source root.
 - **Why**: source material for the audit-first ingestion, the canonical corpus manifest, the graph, and Supabase chunk rows.
-- **How it's wired**: `scripts/sync_corpus_snapshot.sh` copies the three roots into the gitignored `knowledge_base/` directory before `make phase2-graph-artifacts-supabase`.
+- **How it's wired**: `scripts/ingestion/sync_corpus_snapshot.sh` copies the three roots into the gitignored `knowledge_base/` directory before `make phase2-graph-artifacts-supabase`.
 - **Status**: mounted from the host Dropbox. `to_upload_graph/` was added in `v2026-04-20-ui15` to back the admin drag-to-ingest UI.
 
 ### 5. Eval Golden Set

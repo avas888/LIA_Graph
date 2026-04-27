@@ -9,9 +9,9 @@ filesystem.
 
 Usage:
 
-    python scripts/regrandfather_corpus.py --dry-run
-    python scripts/regrandfather_corpus.py --commit --limit 10
-    python scripts/regrandfather_corpus.py --dry-run --only-topic laboral --skip-llm
+    python scripts/ingestion/regrandfather_corpus.py --dry-run
+    python scripts/ingestion/regrandfather_corpus.py --commit --limit 10
+    python scripts/ingestion/regrandfather_corpus.py --dry-run --only-topic laboral --skip-llm
 
 Exit codes:
     0   — success (all docs processed without exceptions)
@@ -37,8 +37,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable, Sequence
 
-# Keep the script runnable both as ``python scripts/regrandfather_corpus.py``
-# and as ``PYTHONPATH=src:. python scripts/regrandfather_corpus.py``.
+# Keep the script runnable both as ``python scripts/ingestion/regrandfather_corpus.py``
+# and as ``PYTHONPATH=src:. python scripts/ingestion/regrandfather_corpus.py``.
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _SRC_DIR = _REPO_ROOT / "src"
 for candidate in (_SRC_DIR, _REPO_ROOT):

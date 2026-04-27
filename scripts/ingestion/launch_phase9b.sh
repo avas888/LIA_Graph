@@ -9,7 +9,7 @@
 # direct redirect (NO tee pipe) so closing any parent terminal cannot
 # SIGPIPE the python child.
 #
-# Exit codes (from scripts/embedding_ops.py):
+# Exit codes (from scripts/ingestion/embedding_ops.py):
 #   0  NULL-embedding count reached 0
 #   1  completed but nulls remain
 #   2  job failed
@@ -23,7 +23,7 @@ nohup bash -c '
   set -a
   source .env.staging
   set +a
-  exec env PYTHONPATH=src:. uv run python scripts/embedding_ops.py \
+  exec env PYTHONPATH=src:. uv run python scripts/ingestion/embedding_ops.py \
     --target production \
     --generation gen_20260422005449 \
     --json

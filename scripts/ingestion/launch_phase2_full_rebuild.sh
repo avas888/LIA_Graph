@@ -26,7 +26,7 @@
 # docs/learnings/process/cloud-sink-execution-notes.md).
 #
 # Usage:
-#   bash scripts/launch_phase2_full_rebuild.sh
+#   bash scripts/ingestion/launch_phase2_full_rebuild.sh
 #
 # Reads LOG path back to caller for cron arming + post-run inspection.
 set -euo pipefail

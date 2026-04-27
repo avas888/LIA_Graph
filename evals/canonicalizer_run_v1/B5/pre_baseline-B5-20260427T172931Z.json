@@ -1,0 +1,67 @@
+{
+  "ts_bogota": "2026-04-27 12:30:32 PM Bogotá",
+  "batch_id": "B5",
+  "mode": "pre",
+  "run_id": "baseline-B5-20260427T172931Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Puedo deducir inversiones en CTeI bajo Art. 158-1 ET en AG 2025?",
+      "expected": {
+        "q": "¿Puedo deducir inversiones en CTeI bajo Art. 158-1 ET en AG 2025?",
+        "must_cite": [
+          "et.art.158-1"
+        ],
+        "must_not_say": [
+          "sigue vigente",
+          "se puede aplicar"
+        ],
+        "expected_chip_state": {
+          "et.art.158-1": "DE"
+        },
+        "notes": "§1.G acid test — Art. 158-1 was DEROGATED by Ley 2277/2022 Art. 96 with effects 2023-01-01. Must answer NO with red DE chip."
+      },
+      "http_status": 200,
+      "answer_markdown": "Detecté que los artículos primarios recuperados pertenecen al tema **retencion_fuente_general**, no al tema clasificado **costos_deducciones_renta**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+      "answer_concise": "Detecté que los artículos primarios recuperados pertenecen al tema **retencion_fuente_general**, no al tema clasificado **costos_deducciones_renta**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 20047
+    },
+    {
+      "index": 2,
+      "question": "¿Aún aplica la deducción por donaciones?",
+      "expected": {
+        "q": "¿Aún aplica la deducción por donaciones?",
+        "must_cite": [
+          "et.art.125",
+          "et.art.257"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "Detecté que los artículos primarios recuperados pertenecen al tema **retencion_fuente_general**, no al tema clasificado **costos_deducciones_renta**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+      "answer_concise": "Detecté que los artículos primarios recuperados pertenecen al tema **retencion_fuente_general**, no al tema clasificado **costos_deducciones_renta**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 24484
+    },
+    {
+      "index": 3,
+      "question": "¿Hay descuento por inversión en CTeI ahora?",
+      "expected": {
+        "q": "¿Hay descuento por inversión en CTeI ahora?",
+        "must_cite": [
+          "et.art.256"
+        ],
+        "notes": "Verifies the deduction-side correctly redirects to the descuento-side replacement."
+      },
+      "http_status": 200,
+      "answer_markdown": "No pude ubicar evidencia del tema **inversiones_incentivos** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **regimen_cambiario**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "answer_concise": "No pude ubicar evidencia del tema **inversiones_incentivos** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **regimen_cambiario**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 16984
+    }
+  ]
+}

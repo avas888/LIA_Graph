@@ -2,7 +2,7 @@
 
 Reads each `evals/activity_1_5/*_veredicto.json` (v2 shape per Activity
 1.5/1.6/1.7) and produces a v3 `Vigencia` JSON suitable for
-`scripts/ingest_vigencia_veredictos.py`.
+`scripts/canonicalizer/ingest_vigencia_veredictos.py`.
 
 Mapping (v2 → v3):
   * `veredicto.state` → `state` (already aligned for V/VM/DE/DT/SP/IE/EC).

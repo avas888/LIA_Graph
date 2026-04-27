@@ -20,11 +20,11 @@ this backfill NOT mark every row ``modified`` spuriously. Test
 Usage::
 
     # Preview counts without writing:
-    PYTHONPATH=src:. uv run --group dev python scripts/backfill_doc_fingerprint.py \\
+    PYTHONPATH=src:. uv run --group dev python scripts/ingestion/backfill_doc_fingerprint.py \\
         --target production --dry-run
 
     # Commit fingerprints for the active generation:
-    PYTHONPATH=src:. uv run --group dev python scripts/backfill_doc_fingerprint.py \\
+    PYTHONPATH=src:. uv run --group dev python scripts/ingestion/backfill_doc_fingerprint.py \\
         --target production --commit
 
 Exit codes:

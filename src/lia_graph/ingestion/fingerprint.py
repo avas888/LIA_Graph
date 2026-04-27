@@ -103,7 +103,7 @@ def compute_doc_fingerprint(
 def classifier_output_from_document_row(row: Mapping[str, Any]) -> dict[str, Any]:
     """Reconstruct a classifier-output shape from a persisted ``documents`` row.
 
-    Used by ``scripts/backfill_doc_fingerprint.py``. Per Decision K1, some
+    Used by ``scripts/ingestion/backfill_doc_fingerprint.py``. Per Decision K1, some
     source fields collapse during persistence:
 
     * ``document_archetype`` is stored in ``tipo_de_documento`` (fallback

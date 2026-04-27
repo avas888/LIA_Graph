@@ -53,7 +53,7 @@ Hierarchy of authority — when documents disagree, the higher one wins:
 - **Frontend:** Vite + TypeScript + vitest. Tests: `cd frontend && npx vitest run [test-pattern]`.
 - **Dev server:** `npm run dev` (local docker Supabase + Falkor) at `http://127.0.0.1:8787/`. `npm run dev:staging` (cloud Supabase + cloud FalkorDB) for live parity.
 - **LLM runtime:** `src/lia_graph/llm_runtime.py` exposes `resolve_llm_adapter()` returning `(adapter, diagnostics)`. Adapter has `.generate(prompt)` + `.generate_with_options(prompt, *, temperature, max_tokens, timeout_seconds)`. Gemini Flash default.
-- **Embeddings:** `src/lia_graph/embeddings.py` + `scripts/embedding_ops.py`. Gemini `text-embedding-004`, 768 dims.
+- **Embeddings:** `src/lia_graph/embeddings.py` + `scripts/ingestion/embedding_ops.py`. Gemini `text-embedding-004`, 768 dims.
 - **Supabase migrations:** live in `supabase/migrations/`. Add new SQL files dated `YYYYMMDDNNNNNN_<slug>.sql`. Squashed baseline is `20260417000000_baseline.sql` (already carries `documents.subtema` + `document_chunks.subtema` columns — see §3.2).
 - **FalkorDB schema:** defined in `src/lia_graph/graph/schema.py` via `NodeKind` + `EdgeKind` enums. Adding a SubTopic node requires extending both enums + `default_graph_schema()`.
 - **Rate limits:** Gemini Flash ~60 req/min. Backfill pass ≈ 1313 docs × 1 call = ~22 min theoretical, ~35-60 min realistic.
@@ -186,7 +186,7 @@ Out of scope — belongs elsewhere:
 | 5 | FalkorDB SubTopic node + edges + bridge | PASSED_TESTS | `graph/schema.py`, `graph/validators.py`, `ingestion/loader.py`, tests | — |
 | 6 | Planner intent + retriever boost | PASSED_TESTS | `pipeline_d/planner_query_modes.py`, `retriever_supabase.py`, `retriever_falkor.py`, tests | — |
 | 7 | UI: subtopic chip in intake preview + subtopic column in Generaciones row | PASSED_TESTS | 1 molecule + `intakeFileRow.ts` + `generationRow.ts` updates, tests | — |
-| 8 | Backfill: re-classify corpus for subtopic | PASSED_TESTS | `scripts/backfill_subtopic.py` (new), Makefile target, tests | — |
+| 8 | Backfill: re-classify corpus for subtopic | PASSED_TESTS | `scripts/ingestion/backfill_subtopic.py` (new), Makefile target, tests | — |
 | 9 | E2E runbook + evidence | PASSED_TESTS | `tests/manual/ingestfixv2_e2e_runbook.md` (new), evidence dirs | — |
 | 10 | Close-out + `orchestration.md` change-log entry `v2026-04-21-stv2` | DONE | `orchestration.md`, `CLAUDE.md`, this doc relocates to `docs/done/` | — |
 
@@ -467,10 +467,10 @@ Resume marker  — within-phase last-known-good checkpoint
     - `CREATE INDEX ix_sub_topic_taxonomy_parent ON sub_topic_taxonomy (parent_topic_key)`.
     - `CREATE INDEX ix_sub_topic_taxonomy_aliases ON sub_topic_taxonomy USING GIN (aliases)`.
     - `CREATE OR REPLACE FUNCTION hybrid_search(...)` — same signature as today PLUS a new `filter_subtopic TEXT DEFAULT NULL` param. Body adds a boost: `rrf_score * (1.5 ^ (1 if subtema = filter_subtopic else 0))`.
-  - `scripts/sync_subtopic_taxonomy_to_supabase.py` (~140 LOC) — reads `config/subtopic_taxonomy.json`, upserts rows to `sub_topic_taxonomy`. CLI flags `--target {wip|production}`, `--dry-run`.
+  - `scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py` (~140 LOC) — reads `config/subtopic_taxonomy.json`, upserts rows to `sub_topic_taxonomy`. CLI flags `--target {wip|production}`, `--dry-run`.
   - `tests/test_subtopic_taxonomy_sync.py` (~5 cases).
 - **Files modify:**
-  - `scripts/promote_subtopic_decisions.py` — add `--sync-supabase {wip|production}` flag that invokes the sync script after writing the JSON.
+  - `scripts/ingestion/promote_subtopic_decisions.py` — add `--sync-supabase {wip|production}` flag that invokes the sync script after writing the JSON.
 - **Tests add:**
   - (a) `sync_subtopic_taxonomy_to_supabase.py --dry-run` against a stub taxonomy → echoes 86 rows without writing.
   - (b) `sync_subtopic_taxonomy_to_supabase.py --target wip` (mocked Supabase client) → upserts 86 rows.
@@ -644,7 +644,7 @@ Resume marker  — within-phase last-known-good checkpoint
 ### Phase 8 — Backfill
 - **Goal:** re-classify every doc in the active `corpus_generations` row so historical docs get `subtema` populated.
 - **Files create:**
-  - `scripts/backfill_subtopic.py` (~260 LOC). CLI flags: `--dry-run | --commit`, `--limit N`, `--only-topic SLUG`, `--rate-limit-rpm 60`, `--generation-id ID` (defaults to active), `--resume-from CHECKPOINT`. Walks documents by generation_id, loads markdown from storage, reruns classifier (topic + subtopic), updates `documents.subtema` + `document_chunks.subtema` + emits FalkorDB HAS_SUBTOPIC edges.
+  - `scripts/ingestion/backfill_subtopic.py` (~260 LOC). CLI flags: `--dry-run | --commit`, `--limit N`, `--only-topic SLUG`, `--rate-limit-rpm 60`, `--generation-id ID` (defaults to active), `--resume-from CHECKPOINT`. Walks documents by generation_id, loads markdown from storage, reruns classifier (topic + subtopic), updates `documents.subtema` + `document_chunks.subtema` + emits FalkorDB HAS_SUBTOPIC edges.
   - `tests/test_backfill_subtopic.py` (~6 cases).
 - **Files modify:**
   - `Makefile` — add `phase2-backfill-subtopic` target (mirrors `phase2-regrandfather-corpus` style).

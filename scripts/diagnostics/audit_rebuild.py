@@ -10,7 +10,7 @@ Pinned thresholds — kept here (single source of truth) and pytest-tested in
 `tests/test_audit_rebuild.py`. Loosen these only with a same-PR justification
 and corresponding test update.
 
-Designed to be invoked at the end of `scripts/launch_phase2_full_rebuild.sh`,
+Designed to be invoked at the end of `scripts/ingestion/launch_phase2_full_rebuild.sh`,
 inline in the same nohup-bash block, so the rebuild and its audit share a
 process group and produce a single PHASE2_AUDIT_VERDICT= marker.
 """

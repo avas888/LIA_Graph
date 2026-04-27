@@ -673,7 +673,7 @@ def _spawn_ingest_subprocess(
     """Trigger the ingest pipeline — with optional embedding + promotion chain.
 
     When ``auto_embed`` or ``auto_promote`` are set, dispatches to
-    ``scripts/ingest_run_full.sh`` which orchestrates make → embeddings →
+    ``scripts/ingestion/ingest_run_full.sh`` which orchestrates make → embeddings →
     optional production pass. Otherwise falls back to calling ``make`` directly.
     The split keeps ``embedding_ops.py`` and the make target individually
     invokable while the shell wrapper owns the UI-orchestration concern.
@@ -689,7 +689,7 @@ def _spawn_ingest_subprocess(
 
     chained = auto_embed or auto_promote
     if chained:
-        cmd = ["bash", "scripts/ingest_run_full.sh"]
+        cmd = ["bash", "scripts/ingestion/ingest_run_full.sh"]
     else:
         cmd = [
             "make",

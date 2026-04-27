@@ -1,6 +1,6 @@
 """Tests for the Phase 6 auto-chain dispatch in ``_spawn_ingest_subprocess``.
 
-We don't actually invoke ``make`` or ``bash scripts/ingest_run_full.sh`` here —
+We don't actually invoke ``make`` or ``bash scripts/ingestion/ingest_run_full.sh`` here —
 ``subprocess.run`` is monkeypatched. The tests lock down the routing decision
 (make vs bash wrapper), env-var handoff, and trace-event emission.
 """
@@ -80,7 +80,7 @@ def test_auto_embed_flag_dispatches_bash_wrapper(
         auto_promote=False,
     )
     cmd = _captured_subprocess[0]["cmd"]
-    assert cmd[:2] == ["bash", "scripts/ingest_run_full.sh"]
+    assert cmd[:2] == ["bash", "scripts/ingestion/ingest_run_full.sh"]
     env = _captured_subprocess[0]["env"]
     assert env["PHASE2_SUPABASE_TARGET"] == "wip"
     assert env["INGEST_SUIN"] == "tributario"
@@ -101,7 +101,7 @@ def test_auto_promote_flag_dispatches_bash_wrapper(
         auto_promote=True,
     )
     cmd = _captured_subprocess[0]["cmd"]
-    assert cmd[:2] == ["bash", "scripts/ingest_run_full.sh"]
+    assert cmd[:2] == ["bash", "scripts/ingestion/ingest_run_full.sh"]
     env = _captured_subprocess[0]["env"]
     assert env["INGEST_AUTO_PROMOTE"] == "1"
 

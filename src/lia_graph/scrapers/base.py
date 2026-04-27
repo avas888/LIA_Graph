@@ -22,6 +22,31 @@ from lia_graph.scrapers.cache import CacheEntry, ScraperCache
 
 LOGGER = logging.getLogger(__name__)
 
+_SSL_CONTEXT_CACHE: Any = None
+
+
+def _ssl_context_with_certifi() -> Any:
+    """SSL context that trusts the certifi CA bundle if available.
+
+    SUIN-Juriscol and other gov.co sites use Sectigo-issued certs that
+    Python's default OpenSSL bundle on macOS doesn't always trust. The
+    `certifi` package ships a maintained CA list; we prefer it when present
+    and fall back to `ssl.create_default_context()` otherwise. See
+    `docs/learnings/sites/suin-juriscol.md`.
+    """
+
+    global _SSL_CONTEXT_CACHE
+    if _SSL_CONTEXT_CACHE is not None:
+        return _SSL_CONTEXT_CACHE
+    import ssl
+    try:
+        import certifi  # type: ignore
+        _SSL_CONTEXT_CACHE = ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        LOGGER.info("certifi not installed — using OS default SSL trust store")
+        _SSL_CONTEXT_CACHE = ssl.create_default_context()
+    return _SSL_CONTEXT_CACHE
+
 
 # ---------------------------------------------------------------------------
 # Result shapes
@@ -130,19 +155,61 @@ class Scraper(ABC):
     # ------------------------------------------------------------------
 
     def _http_get(self, url: str) -> tuple[bytes, int, str | None]:
-        """Live HTTP GET. Stdlib only — no external requests dep."""
+        """Live HTTP GET with retries, certifi-backed SSL, and browser UA.
 
+        See `docs/learnings/sites/README.md` for why we override the default
+        urllib SSL context and user-agent.
+        """
+
+        import urllib.error
         import urllib.request
 
+        ctx = _ssl_context_with_certifi()
+        # Browser-shaped UA — gov.co sites occasionally rate-limit / 403
+        # bare scraper UAs. See learning doc for context.
         req = urllib.request.Request(
             url,
-            headers={"User-Agent": "Lia-Graph/1.0 (compliance scraper)"},
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36 "
+                    "Lia-Graph/1.0 (compliance scraper)"
+                ),
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "es-CO,es;q=0.9,en;q=0.8",
+            },
         )
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            content = resp.read()
-            status_code = int(resp.status)
-            content_type = resp.headers.get("Content-Type")
-        return content, status_code, content_type
+
+        last_err: Exception | None = None
+        # Three attempts: 0s / 2s / 6s back-off — covers transient timeouts
+        # and brief site-side throttles without burning per-batch budget.
+        for attempt, backoff in enumerate((0, 2, 6)):
+            if backoff:
+                time.sleep(backoff)
+            try:
+                opener_kwargs: dict[str, Any] = {"timeout": 30}
+                if url.startswith("https://"):
+                    opener_kwargs["context"] = ctx
+                with urllib.request.urlopen(req, **opener_kwargs) as resp:
+                    content = resp.read()
+                    status_code = int(resp.status)
+                    content_type = resp.headers.get("Content-Type")
+                return content, status_code, content_type
+            except urllib.error.HTTPError as err:
+                # 4xx is terminal (don't retry — the URL is wrong); 5xx retry.
+                if 500 <= err.code < 600 and attempt < 2:
+                    last_err = err
+                    LOGGER.info("HTTP %d for %s — retry %d/3", err.code, url, attempt + 2)
+                    continue
+                raise
+            except (urllib.error.URLError, TimeoutError, OSError) as err:
+                last_err = err
+                if attempt < 2:
+                    LOGGER.info("HTTP transient %s for %s — retry %d/3", type(err).__name__, url, attempt + 2)
+                    continue
+                raise
+        # Unreachable in practice (loop always returns or raises).
+        raise last_err  # type: ignore[misc]
 
     def _throttle(self) -> None:
         delta = time.monotonic() - self._last_fetch_ts

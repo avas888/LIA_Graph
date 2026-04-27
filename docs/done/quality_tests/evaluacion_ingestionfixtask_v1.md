@@ -100,7 +100,7 @@ logs/
 | Pipeline entry point for one query | `scripts/eval_retrieval.py:310-340` — shows the `resolve_chat_topic` → `PipelineCRequest` → `run_pipeline_d` pattern |
 | Feature flag parsing | `src/lia_graph/pipeline_d/retriever_falkor.py::_tema_first_mode()` |
 | Env matrix | `docs/orchestration/orchestration.md` (versioned; current v2026-04-22-ac1+) |
-| Detached-launcher template | `scripts/launch_phase9a.sh` (shell) + CLAUDE.md §"Long-running Python processes" |
+| Detached-launcher template | `scripts/ingestion/launch_phase9a.sh` (shell) + CLAUDE.md §"Long-running Python processes" |
 | Heartbeat renderer | `scripts/monitoring/ingest_heartbeat.py` |
 | Bogotá AM/PM convention | user memory `feedback_time_format_bogota.md` + applied repo-wide |
 | v5 Phase 3 background | `docs/next/ingestionfix_v5.md §5 Phase 3` — TEMA-first design + rollout plan |

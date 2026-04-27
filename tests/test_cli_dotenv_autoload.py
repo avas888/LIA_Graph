@@ -118,7 +118,7 @@ def test_sentinel_var_from_dotenv_reaches_subprocess(tmp_path: Path) -> None:
 
 
 def test_embedding_ops_reads_gemini_from_dotenv_on_invocation(tmp_path: Path) -> None:
-    """Regression: ``scripts/embedding_ops.py`` used to fail with
+    """Regression: ``scripts/ingestion/embedding_ops.py`` used to fail with
     ``GEMINI_API_KEY not set`` when invoked without first sourcing
     ``.env.local``. After A2, invoking ``main()`` triggers autoload and
     the sentinel GEMINI_API_KEY becomes visible.

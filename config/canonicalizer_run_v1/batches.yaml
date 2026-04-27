@@ -1,7 +1,7 @@
 # canonicalizer_runv1.md — batch definitions
 # ==========================================
-# This is the canonical config for `scripts/extract_vigencia.py --batch-id <X>`
-# and `scripts/run_batch_tests.py --batch-id <X>`.
+# This is the canonical config for `scripts/canonicalizer/extract_vigencia.py --batch-id <X>`
+# and `scripts/canonicalizer/run_batch_tests.py --batch-id <X>`.
 #
 # Each entry defines:
 #   - batch_id          unique short id (A1, B7, ...)

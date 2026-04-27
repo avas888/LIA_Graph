@@ -62,7 +62,7 @@ The cloud Supabase retriever reads rows that the build-time sink must have popul
 - Source: `src/lia_graph/ingestion/supabase_sink.py`. Writes `documents` (now including `subtema` + `requires_subtopic_review`) / `document_chunks` / `corpus_generations` (with exactly-one active row) / `normative_edges` / `sub_topic_taxonomy`. Leaves embeddings NULL; `embedding_ops.py` fills them on a follow-up pass.
 - Since `v2026-04-21-stv2b` the ingest is **single-pass**: the PASO 4 subtopic classifier runs inline between audit and sink, and Falkor receives `SubTopicNode` + `HAS_SUBTOPIC` edges in the same invocation via `src/lia_graph/ingest_subtopic_pass.py`. No separate backfill required.
 - `src/lia_graph/env_posture.py` guards against silent cloud writes from a "local" run — pass `--allow-non-local-env` on the CLI when intentional.
-- `scripts/backfill_subtopic.py` is now maintenance-only (default filter: `requires_subtopic_review=true OR subtema IS NULL`); emits `SubTopicNode` + `HAS_SUBTOPIC` MERGE to Falkor per updated doc.
+- `scripts/ingestion/backfill_subtopic.py` is now maintenance-only (default filter: `requires_subtopic_review=true OR subtema IS NULL`); emits `SubTopicNode` + `HAS_SUBTOPIC` MERGE to Falkor per updated doc.
 - `make phase2-graph-artifacts-smoke` is the 30-second canary against the committed `mini_corpus` fixture — run it before a full-corpus re-ingest.
 - The refresh is additive, not a replacement — artifacts on disk stay authoritative for dev.
 

@@ -11,11 +11,12 @@ norm_id (article OR sub-unit) cited anywhere in the corpus:
      refusal with structured reason.
 
 The harness has no DB knowledge. It produces JSON files; the 1B-γ sink
-(`scripts/ingest_vigencia_veredictos.py`) reads them and writes to
+(`scripts/canonicalizer/ingest_vigencia_veredictos.py`) reads them and writes to
 `norm_vigencia_history`.
 
 Env requirements:
-  * `LIA_GEMINI_API_KEY` — set in staging + production per CLAUDE.md.
+  * `GEMINI_API_KEY` (preferred — matches the rest of the repo) or
+    `LIA_GEMINI_API_KEY` (legacy alias, still honored).
 """
 
 from __future__ import annotations
@@ -88,7 +89,7 @@ class VigenciaSkillHarness:
     """Single Python entry point for invoking vigencia-checker.
 
     Callers:
-      * `scripts/extract_vigencia.py` — batch driver (1B-β corpus pass).
+      * `scripts/canonicalizer/extract_vigencia.py` — batch driver (1B-β corpus pass).
       * `cron/cascade_consumer.py` — re-verify queue consumer (1F).
       * Activity 1.5/1.6/1.7 manual fixtures — recorded as JSON files (no
         live API call needed).
@@ -117,7 +118,11 @@ class VigenciaSkillHarness:
         self.scrapers = scrapers
         self.canonicalize_fn = canonicalize_fn
         self.model = model
-        self.api_key = api_key or os.getenv("LIA_GEMINI_API_KEY")
+        self.api_key = (
+            api_key
+            or os.getenv("GEMINI_API_KEY")
+            or os.getenv("LIA_GEMINI_API_KEY")  # back-compat: legacy alias
+        )
         self.base_url = base_url
         self.max_tool_iterations = int(max_tool_iterations)
         self.timeout_seconds = float(timeout_seconds)
@@ -200,7 +205,12 @@ class VigenciaSkillHarness:
         )
 
     def write_result(self, result: VigenciaResult, *, norm_id: str, output_dir: Path | None = None) -> Path:
-        """Persist a VigenciaResult to `evals/vigencia_extraction_v1/<norm_id>.json`."""
+        """Persist a VigenciaResult to `evals/vigencia_extraction_v1/<norm_id>.json`.
+
+        Uses atomic temp+rename + fsync so a crash / power-loss mid-write
+        cannot leave a half-written JSON. Each veredicto is durable on
+        disk before the harness moves to the next norm.
+        """
 
         target_dir = output_dir or DEFAULT_OUTPUT_DIR
         target_dir.mkdir(parents=True, exist_ok=True)
@@ -215,7 +225,19 @@ class VigenciaSkillHarness:
             "extracted_at_utc": datetime.now(timezone.utc).isoformat(),
             "result": result.to_dict(),
         }
-        path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+        body = json.dumps(payload, indent=2, ensure_ascii=False)
+        tmp_path = path.with_suffix(path.suffix + ".tmp")
+        # Write to temp, fsync, then atomic rename. POSIX guarantees the
+        # rename is atomic within the same filesystem — a reader can NEVER
+        # see a partial JSON.
+        with tmp_path.open("w", encoding="utf-8") as fh:
+            fh.write(body)
+            fh.flush()
+            try:
+                os.fsync(fh.fileno())
+            except OSError:
+                pass  # fsync isn't available on all filesystems; rename still atomic
+        os.replace(tmp_path, path)
         return path
 
     # ------------------------------------------------------------------
@@ -237,12 +259,21 @@ class VigenciaSkillHarness:
             if not self.api_key:
                 return VigenciaResult(
                     veredicto=None,
-                    refusal_reason="missing_LIA_GEMINI_API_KEY",
+                    refusal_reason="missing_GEMINI_API_KEY",
                     audit=ExtractionAudit(skill_version=SKILL_VERSION, method="harness"),
                 )
             adapter = self._default_adapter()
 
         prompt = self._build_prompt(norm_id=norm_id, periodo=periodo, as_of=as_of, sources=sources)
+        # Cross-process throttle: respects the project-wide Gemini RPM cap
+        # so concurrent harnesses (parallel runner) don't burst past 150
+        # RPM (Tier 1 hard limit on gemini-2.5-pro). Skip via
+        # `LIA_GEMINI_GLOBAL_DISABLED=1` for single-batch runs.
+        try:
+            from lia_graph.gemini_throttle import acquire_token
+            acquire_token()
+        except Exception as err:
+            LOGGER.debug("Gemini throttle acquire skipped: %s", err)
         start = time.monotonic()
         try:
             raw = adapter.generate(prompt)
@@ -257,6 +288,7 @@ class VigenciaSkillHarness:
         return self._parse_skill_output(
             raw,
             wall_ms=wall_ms,
+            norm_id=norm_id,
         )
 
     def _default_adapter(self) -> Any:
@@ -277,8 +309,11 @@ class VigenciaSkillHarness:
         as_of: date,
         sources: Sequence[ScraperFetchResult],
     ) -> str:
+        # 16000 chars per source — fits the DIAN article-slice (typically
+        # 2–9 KB) plus the Senado segment page (typically 30–50 KB
+        # truncated to 16 KB of the relevant article block).
         sources_block = "\n\n".join(
-            f"## Fuente {i+1}: {s.source} — {s.url}\n\n{s.parsed_text[:6000]}"
+            f"## Fuente {i+1}: {s.source} — {s.url}\n\n{(s.parsed_text or '')[:16000]}"
             for i, s in enumerate(sources)
         )
         periodo_block = (
@@ -287,9 +322,152 @@ class VigenciaSkillHarness:
             else "null"
         )
         return f"""You are the `vigencia-checker@2.0` skill. Produce a v3 Vigencia
-JSON object for the norm_id below. State must be one of
-V/VM/DE/DT/SP/IE/EC/VC/VL/DI/RV. Refuse with `refusal_reason` if you do
-not have ≥ 2 primary sources or if their evidence is contradictory.
+JSON object for the norm_id below.
+
+# Hard rules — read carefully
+
+1. **Output ONLY a single JSON object.** No prose, no markdown fences, no
+   explanation. The very first character of your output must be `{{` and the
+   last must be `}}`.
+
+2. **Every date field must be `YYYY-MM-DD`.** NEVER put a norm_id, a free
+   text date, or `null` as a string into a date field. If you don't know
+   the date, omit the field or use the literal `null` (no quotes).
+
+3. **`state` must be one of**: `V`, `VM`, `DE`, `DT`, `SP`, `IE`, `EC`,
+   `VC`, `VL`, `DI`, `RV`.
+
+3a. **For state `V` (vigente, never modified)**: `change_source` MUST be
+    `null`. Do NOT invent a `compilacion`-style change_source for an
+    article that's been in force unchanged since enactment. Use
+    `state_from` = the date the article was first issued.
+
+3b. **For EVERY OTHER state** (`VM`, `DE`, `DT`, `SP`, `IE`, `EC`, `VC`,
+    `VL`, `DI`, `RV`): `change_source` is REQUIRED — it must be a
+    non-null JSON object. The state-to-type alignment is:
+      - `VM` → `change_source.type = "reforma"`
+      - `DE` → `change_source.type = "derogacion_expresa"`
+      - `DT` → `change_source.type = "derogacion_tacita"`
+      - `SP` → `change_source.type = "auto_ce_suspension"`
+      - `IE` → `change_source.type = "sentencia_cc"` or `"sentencia_ce_nulidad"`
+      - `EC` → `change_source.type = "sentencia_cc"`
+      - `VC` → `change_source.type = "modulacion_doctrinaria"` or `"concepto_dian_modificatorio"`
+      - `VL` → `change_source.type = "vacatio"`
+      - `DI` → `change_source.type = "sentencia_cc"`
+      - `RV` → `change_source.type = "reviviscencia"`
+
+4. **`state_from` is required** and must be the date the current state
+   took effect (e.g. for `VM`, the date of the modification; for `V`,
+   the date the article was originally issued).
+
+5. **`change_source` must be a JSON object**, NEVER a bare string. Its
+   shape is `{{"type": "...", "source_norm_id": "...", "effect_type": "...", "effect_payload": {{...}}}}`.
+
+6. **`change_source.type` must be EXACTLY one of these values** (lowercase, snake_case):
+     - `reforma` — a `ley` modified the norm (state VM)
+     - `derogacion_expresa` — explicit derogation by ley/decreto (state DE)
+     - `derogacion_tacita` — implicit/tacit derogation by later ley (state DT)
+     - `sentencia_cc` — Corte Constitucional sentencia (state IE / EC / DI)
+     - `auto_ce_suspension` — Consejo de Estado suspension (state SP)
+     - `sentencia_ce_nulidad` — Consejo de Estado nullity (state IE)
+     - `reviviscencia` — revival after IE (state RV)
+     - `vacatio` — vacatio legis pending (state VL)
+     - `concepto_dian_modificatorio` — DIAN concept modulation (state VC)
+     - `modulacion_doctrinaria` — doctrinal modulation (state VC)
+   NEVER invent new types like `compilacion`, `adopcion`, `sustitucion`, etc.
+   When a norm is modified by another ley, use `reforma`. When it's republished in
+   a compilation (e.g. DUR), the underlying state is whatever the original change
+   was — use that change_source type, NOT `compilacion`.
+
+7. **`effect_type` must be one of**: `pro_futuro`, `retroactivo`,
+   `diferido`, `per_period`. (For `reforma`, default is `pro_futuro`.)
+
+8. **`applies_to_kind` must be one of**: `always`, `per_year`, `per_period`.
+   NEVER use `general`, `universal`, `tributario`, etc. If the norm applies
+   regardless of fiscal year (e.g. procedimiento articles like RUT,
+   firmeza, sanciones), use `always`. If it varies by año gravable, use
+   `per_year`. If it varies by period within a year (e.g. monthly IVA),
+   use `per_period`.
+
+9. **`fuentes_primarias_consultadas` is a list of objects**, each with at
+   least `{{"norm_id": "...", "norm_type": "url"}}` — never a list of strings.
+
+10. **Citation shape**. The fields `inexequibilidad`, `suspension`,
+    `regimen_transicion`, and every item in `derogado_por`,
+    `modificado_por`, `fuentes_primarias_consultadas` use ONE shape — the
+    Citation: `{{"norm_id": "...", "norm_type": "...", "article": "...",
+    "fecha": "YYYY-MM-DD", "primary_source_url": "..."}}`. Only `norm_id`
+    is required; the others are optional.
+    NEVER invent fields like `type`, `condicion`, `source_norm_id`,
+    `effect_type` inside a Citation. Those belong in `change_source`,
+    not in citations.
+
+11. **`interpretive_constraint` is NEVER a plain string.** It is either
+    `null` (the common case) OR a JSON object with EXACTLY these four
+    fields:
+      - `sentencia_norm_id` — the C-/T-/SU-/auto.ce.* id whose text imposes the constraint
+      - `fecha_sentencia` — `YYYY-MM-DD`
+      - `texto_literal` — the verbatim "en el entendido que…" passage from the sentencia
+      - `fuente_verificada_directo` — `true` if you saw the literal text in the consulted sentencia source, `false` if you inferred from a secondary source
+    Set `interpretive_constraint` to a non-null object ONLY when the state
+    is `EC` or `VC` AND a sentencia constrains how the article must be
+    interpreted. For ALL other cases (V, VM, DE, DT, IE, SP, RV, VL, DI),
+    `interpretive_constraint` MUST be `null`. NEVER use this field for
+    free-text editorial notes, transitory comments, or paraphrases.
+
+6. **Refuse only when forced.** If you don't have ≥ 2 primary sources
+   with evidence about the norm, return:
+   `{{"refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES", "missing_sources": ["..."]}}`.
+   Do NOT refuse just because the evidence is "complex" or "ambiguous" —
+   pick the best-supported state and explain via `interpretive_constraint`.
+
+# Output schema (literal example — match this shape)
+
+```
+{{
+  "state": "VM",
+  "state_from": "2023-05-19",
+  "state_until": null,
+  "applies_to_kind": "per_period",
+  "applies_to_payload": {{
+    "year_start": 2023,
+    "year_end": null,
+    "impuesto": "renta",
+    "period_start": "2023-01-01",
+    "period_end": null,
+    "art_338_cp_shift": false
+  }},
+  "change_source": {{
+    "type": "reforma",
+    "source_norm_id": "ley.2294.2023.art.69",
+    "effect_type": "pro_futuro",
+    "effect_payload": {{"fecha": "2023-05-19"}}
+  }},
+  "interpretive_constraint": null,
+  "derogado_por": null,
+  "modificado_por": [
+    {{
+      "norm_id": "ley.2294.2023.art.69",
+      "norm_type": "ley",
+      "article": "Art. 69",
+      "fecha": "2023-05-19",
+      "primary_source_url": "..."
+    }}
+  ],
+  "suspension": null,
+  "inexequibilidad": null,
+  "regimen_transicion": null,
+  "revives_text_version": null,
+  "rige_desde": null,
+  "fuentes_primarias_consultadas": [
+    {{"norm_id": "<source-id-or-url-key>", "norm_type": "url", "url": "..."}},
+    {{"norm_id": "<source-id-or-url-key>", "norm_type": "url", "url": "..."}}
+  ]
+}}
+```
+
+The `extraction_audit` field is NOT your responsibility — the harness
+fills it. Do not include it.
 
 # Input
 
@@ -307,12 +485,9 @@ as_of: {as_of.isoformat()}
 
 # Output
 
-Return ONLY a JSON object matching the v3 Vigencia schema (state /
-state_from / state_until / applies_to_kind / applies_to_payload /
-change_source / interpretive_constraint / fuentes_primarias_consultadas /
-extraction_audit). No prose. No markdown fences."""
+A single JSON object matching the schema above. Nothing else."""
 
-    def _parse_skill_output(self, raw: str, *, wall_ms: int) -> VigenciaResult:
+    def _parse_skill_output(self, raw: str, *, wall_ms: int, norm_id: str | None = None) -> VigenciaResult:
         text = raw.strip()
         if text.startswith("```"):
             # Strip code fences if the model added them
@@ -321,6 +496,7 @@ extraction_audit). No prose. No markdown fences."""
         try:
             blob = json.loads(text)
         except json.JSONDecodeError as err:
+            _log_raw_skill_output(norm_id, raw, error=f"non_json: {err}")
             return VigenciaResult(
                 veredicto=None,
                 refusal_reason=f"non_json_skill_output: {err}",
@@ -344,6 +520,10 @@ extraction_audit). No prose. No markdown fences."""
         try:
             veredicto = Vigencia.from_dict(blob)
         except Exception as err:
+            # Persist the raw blob so we can debug the shape mismatch without
+            # re-running the (expensive) Gemini call. See
+            # `docs/learnings/canonicalizer/`.
+            _log_raw_skill_output(norm_id, raw, error=f"invalid_shape: {err}")
             return VigenciaResult(
                 veredicto=None,
                 refusal_reason=f"invalid_vigencia_shape: {err}",
@@ -372,6 +552,36 @@ def _slug(norm_id: str) -> str:
     """Filename-safe representation of a canonical norm_id."""
 
     return norm_id.replace("/", "_")
+
+
+def _log_raw_skill_output(norm_id: str | None, raw: str, *, error: str) -> None:
+    """Persist the raw Gemini output that failed to validate.
+
+    These dumps go to ``evals/vigencia_extraction_v1/_debug/<norm_id>.json``
+    (a flat directory — easy to grep when triaging shape patterns). The
+    caller continues — this is best-effort logging, not the critical
+    path. See `docs/learnings/canonicalizer/`.
+    """
+
+    debug_dir = Path("evals/vigencia_extraction_v1/_debug")
+    try:
+        debug_dir.mkdir(parents=True, exist_ok=True)
+    except Exception:
+        return
+    slug = _slug(norm_id or "unknown_norm")
+    blob = {
+        "norm_id": norm_id,
+        "ts_utc": datetime.now(timezone.utc).isoformat(),
+        "error": error,
+        "raw_output": raw,
+        "raw_output_len": len(raw),
+    }
+    try:
+        path = debug_dir / f"{slug}.json"
+        path.write_text(json.dumps(blob, ensure_ascii=False, indent=2), encoding="utf-8")
+    except Exception:
+        # Never let logging interfere with the extraction outcome.
+        return
 
 
 __all__ = [

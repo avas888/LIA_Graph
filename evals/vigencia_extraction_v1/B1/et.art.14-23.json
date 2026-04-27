@@ -1,0 +1,27 @@
+{
+  "norm_id": "et.art.14-23",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-27T17:25:24.630629+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "The norm_id 'et.art.14-23' appears to be a range of articles, not a single article. A single vigencia status cannot be determined for a range where individual articles have different modification histories. No primary source was found for a single article with this identifier."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 57787,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

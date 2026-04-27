@@ -1,4 +1,4 @@
-"""Tests for scripts/embedding_ops.py (thin CLI over lia_graph.embedding_ops).
+"""Tests for scripts/ingestion/embedding_ops.py (thin CLI over lia_graph.embedding_ops).
 
 Mocks the runner + status function so the CLI contract can be exercised
 without talking to Supabase or Gemini.

@@ -130,7 +130,7 @@ The verify track. Each step gated on the previous.
 
 ### §8.1 Rebuild
 
-`bash scripts/launch_phase2_full_rebuild.sh` — already wired with `LIA_INGEST_CLASSIFIER_WORKERS=4` default + audit guardrail (next_v2 §J.2). Wall ~15 min. Audit verdict at log tail must read `PHASE2_AUDIT_VERDICT=clean`.
+`bash scripts/ingestion/launch_phase2_full_rebuild.sh` — already wired with `LIA_INGEST_CLASSIFIER_WORKERS=4` default + audit guardrail (next_v2 §J.2). Wall ~15 min. Audit verdict at log tail must read `PHASE2_AUDIT_VERDICT=clean`.
 
 ### §8.2 Cypher verification
 
@@ -263,7 +263,7 @@ Single-session landing of items 1–6 of §1 plus item 4's alignment CI gate. 99
 
 **Launched 2026-04-25 · log `logs/phase2_full_rebuild_20260425T024039Z.log`.**
 
-Detached via `scripts/launch_phase2_full_rebuild.sh` with:
+Detached via `scripts/ingestion/launch_phase2_full_rebuild.sh` with:
 - `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce`
 - `LIA_INGEST_CLASSIFIER_WORKERS=4`
 
@@ -472,7 +472,7 @@ After that lands, re-run the 30Q (independent — router/query side, not documen
 
 ### §13.10.1 Rebuild #5 — clean ✅
 
-`bash scripts/launch_phase2_full_rebuild.sh` with `LIA_INGEST_CLASSIFIER_WORKERS=4` + `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce`. Detached PID 75453, log `logs/phase2_full_rebuild_20260425T122426Z.log`. Wall ~7-8 min.
+`bash scripts/ingestion/launch_phase2_full_rebuild.sh` with `LIA_INGEST_CLASSIFIER_WORKERS=4` + `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce`. Detached PID 75453, log `logs/phase2_full_rebuild_20260425T122426Z.log`. Wall ~7-8 min.
 
 | metric | rebuild #5 |
 |---|---|

@@ -14,7 +14,7 @@ pain so expensive.
 This tool is the cheaper escape: null out ``doc_fingerprint`` for the
 small subset of docs belonging to a given topic (or explicit ``--force-multi``
 set of topics), so the next additive run reclassifies + re-sinks only that
-subset. Pair it with ``scripts/launch_phase9a.sh`` for a full per-topic pass.
+subset. Pair it with ``scripts/ingestion/launch_phase9a.sh`` for a full per-topic pass.
 
 Safety rules (strict on purpose — this is a production Supabase write):
 

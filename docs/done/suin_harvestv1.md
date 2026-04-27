@@ -134,14 +134,14 @@ Every phase mutates this table at `in_progress` and `done`. If an agent restarts
 
 | # | Phase | Status | Proof-of-completion | Updated |
 |---|---|---|---|---|
-| 0 | Scope refactor in `harvest.py` + `Makefile` (add `tributario`, `laboral`, `laboral-tributario`, rename `et`→deprecated alias, keep `jurisprudencia`, keep `full`) | done | scope refactor in `harvest.py`/`fetcher.py`/`Makefile`; four scripts (`scripts/verify_suin_merge.py`, `scripts/supabase_flip_active_generation.py`, `scripts/embedding_ops.py`, `scripts/fire_suin_cloud.sh`); 10 chat_regression fixtures under `tests/fixtures/chat_regressions/` with shape tests; new tests in `test_suin_fetcher.py`, `test_verify_suin_merge.py`, `test_flip_active_generation.py`, `test_embedding_ops_cli.py`; cumulative-count fix documented as final-pass approach in Phase 0 deliverable #3; direct pytest green (214 passed; `make test-batched` target is broken independently via missing `scripts/run_tests_batched.py`, and `tests/test_platform_seed_users.py` is pre-existing-broken on a missing migration) | 2026-04-19T21:15Z |
+| 0 | Scope refactor in `harvest.py` + `Makefile` (add `tributario`, `laboral`, `laboral-tributario`, rename `et`→deprecated alias, keep `jurisprudencia`, keep `full`) | done | scope refactor in `harvest.py`/`fetcher.py`/`Makefile`; four scripts (`scripts/ingestion/verify_suin_merge.py`, `scripts/ingestion/supabase_flip_active_generation.py`, `scripts/ingestion/embedding_ops.py`, `scripts/ingestion/fire_suin_cloud.sh`); 10 chat_regression fixtures under `tests/fixtures/chat_regressions/` with shape tests; new tests in `test_suin_fetcher.py`, `test_verify_suin_merge.py`, `test_flip_active_generation.py`, `test_embedding_ops_cli.py`; cumulative-count fix documented as final-pass approach in Phase 0 deliverable #3; direct pytest green (214 passed; `make test-batched` target is broken independently via missing `scripts/run_tests_batched.py`, and `tests/test_platform_seed_users.py` is pre-existing-broken on a missing migration) | 2026-04-19T21:15Z |
 | 1 | Seed-URL catalog + robots check + dry-run fetch validation on `laboral-tributario` (cap `--max-documents 5`) | done | **TLS fix shipped** — added `truststore` dep + 6-line patch to `SuinFetcher._ensure_client` so Python TLS delegates to macOS Keychain (matches curl). Dry-run completed `rps=0.5`: 5 URLs crawled, 5 docs parsed, 31 articles parsed, **0 unknown_verb_failures**, robots.txt allow confirmed. Zero edges because the first 5 sitemap entries (`id=30045102…1686483`) are pre-1970 laws (one is literal 1800s criminal-code text) that carry only document-level `<div id="{doc}ResumenAfectacionesJurisp">` summaries — not the per-article `<ul id="NotasDestino*">` blocks the parser extracts. Confirmed via DOM grep on all 5 cached HTML files: zero `NotasDestino*`/`NotasOrigen*`/`leg_ant` ULs. This is a sampling artifact of SEED_URLS being empty; Phase 2's full scope walk will hit ET/Ley 1607/Ley 1819 which do carry per-article blocks. Live snapshot saved at `tests/fixtures/suin/live_snapshot_20260419/`. Manifest at `artifacts/suin/laboral-tributario/_harvest_manifest.json`. | 2026-04-19T21:45Z |
-| 2 | Full `laboral-tributario` harvest → merge into WIP (local docker Supabase + local Falkor) | done (collapsed 2–5 via forward-from-today seeds) | Using WebSearch to find 9 spine-doc SUIN URLs (ET, CST, CST-consolidado, Ley 100, DUR 1072, DUR 1625, Ley 2466, Ley 2381, Ley 2277) populated into `SEED_URLS["laboral-tributario"]`. Harvest strict-mode clean: 9 docs / 12,579 articles / **11,947 edges** / zero unknown_verb_failures. Required two follow-on parser patches landed in the same phase: (a) `_container_kind_from_class` now recognises SUIN's post-2025 `<ul class="resumenvigencias">` containers (the old `<ul id="NotasDestino*">` blocks are gone from current SUIN HTML — the original parser would have emitted zero edges forever); (b) stem-based fallback in `normalize_verb` with ~35 new phrasings (Agrega, Suprimido, Corregido yerro, Denegada la pretensión, Incorporado, Reformado, Desarrollado por, …) so conditional/qualified verbs never halt a crawl. WIP merge wrote: 9 `suin_norma` + 1,054 `suin_stub` docs (auto-resolved ancestors), 25,611 edges (modifies 8362, references 14838, complements 390, derogates 569, struck_down_by 170, revokes 27, exception_for 68), `unresolved_after_stub: 0`. `scripts/verify_suin_merge.py --target wip --generation gen_suin_wip_20260419` returns `ok: true`. | 2026-04-19T22:10Z |
+| 2 | Full `laboral-tributario` harvest → merge into WIP (local docker Supabase + local Falkor) | done (collapsed 2–5 via forward-from-today seeds) | Using WebSearch to find 9 spine-doc SUIN URLs (ET, CST, CST-consolidado, Ley 100, DUR 1072, DUR 1625, Ley 2466, Ley 2381, Ley 2277) populated into `SEED_URLS["laboral-tributario"]`. Harvest strict-mode clean: 9 docs / 12,579 articles / **11,947 edges** / zero unknown_verb_failures. Required two follow-on parser patches landed in the same phase: (a) `_container_kind_from_class` now recognises SUIN's post-2025 `<ul class="resumenvigencias">` containers (the old `<ul id="NotasDestino*">` blocks are gone from current SUIN HTML — the original parser would have emitted zero edges forever); (b) stem-based fallback in `normalize_verb` with ~35 new phrasings (Agrega, Suprimido, Corregido yerro, Denegada la pretensión, Incorporado, Reformado, Desarrollado por, …) so conditional/qualified verbs never halt a crawl. WIP merge wrote: 9 `suin_norma` + 1,054 `suin_stub` docs (auto-resolved ancestors), 25,611 edges (modifies 8362, references 14838, complements 390, derogates 569, struck_down_by 170, revokes 27, exception_for 68), `unresolved_after_stub: 0`. `scripts/ingestion/verify_suin_merge.py --target wip --generation gen_suin_wip_20260419` returns `ok: true`. | 2026-04-19T22:10Z |
 | 3 | Full `laboral` harvest (CST + Ley 100 + Ley 2466 + Ley 2381 + Ley 1562 + DUR 1072 + reform chain) → merge into same WIP generation | done (collapsed into row 2) | CST (Decreto 2663/1950 + consolidado id=30019323), Ley 100/1993, Ley 2466/2025, Ley 2381/2024, DUR 1072/2015 are part of the 9-seed union crawled in row 2. Ley 1562/2012 + older reform chain arrive as stub docs via the two-pass merge (referenced by CST/Ley 100 `NotasDestino` → `suin_stub` rows for graph node identity; no separate crawl needed under the forward-from-today policy). | 2026-04-19T22:10Z |
 | 4 | Full `tributario` harvest (ET + reform chain + DUR 1625) → merge into same WIP generation | done (collapsed into row 2) | ET (Decreto 624/1989), DUR 1625/2016, Ley 2277/2022 are part of the 9-seed union crawled in row 2. Ley 1607/2012, 1819/2016, 1943/2018, 2010/2019, 2155/2021, 1739/2014 arrive as stub docs via the two-pass merge — their text isn't needed since the ET's consolidated view already carries their modification chain as edges. | 2026-04-19T22:10Z |
 | 5 | `jurisprudencia` harvest (Consejo de Estado + Corte Constitucional cross-refs) → merge into same WIP generation | done (collapsed into row 2) | 170 `struck_down_by` + 1,092 `declara_exequible` + 279 `estarse_a_lo_resuelto` + 614 `inhibida` edges already written in row 2 point at sentencia targets; those sentencias are stubbed in `documents` as `suin_stub`. A dedicated jurisprudencia crawl of `sitemapconsejoestado.xml` would add sentencia full text but the spine-driven merge already populates the cross-reference edges downstream retrieval needs. Deferred as "explore later". | 2026-04-19T22:10Z |
 | 6 | Embedding backfill against WIP for the merged generation (fills every SUIN chunk + the 2,064 pre-existing un-embedded rows) | pending | `SELECT count(*) FROM document_chunks WHERE embedding IS NULL AND sync_generation=<gen>` → 0 on WIP; eval-c-gold dry-run shows measurable lift | — |
-| 7 | **Production push (end-to-end into active)** — one confirmed sequence: write SUIN to cloud Supabase + cloud FalkorDB, run cloud embedding backfill, activate `gen_suin_prod_v1`. No dormant window. | done | `scripts/fire_suin_cloud.sh --target production --generation gen_suin_prod_v1 --scopes laboral-tributario --activate --confirm` exited 0. Start 2026-04-19T19:49:34Z, activation flip 2026-04-19T20:36:05Z, total ~46 min. Deltas: `documents` 1,292→2,355 (+1,063 = 9 suin_norma + 1,054 suin_stub); `document_chunks` 2,064→8,427 (+6,363); `normative_edges` 19,903→45,514 (+25,611 in-gen); NULL embeddings cloud-wide 2,064→**0** (backfill covered SUIN + legacy); cloud FalkorDB `MATCH (n) RETURN count(n)` 2,568→6,169 (+3,601); `corpus_generations.gen_suin_prod_v1.is_active=true`, prior `gen_20260418035334.is_active=false`. Post-activation regression (shape-only) green. | 2026-04-19T22:40Z |
+| 7 | **Production push (end-to-end into active)** — one confirmed sequence: write SUIN to cloud Supabase + cloud FalkorDB, run cloud embedding backfill, activate `gen_suin_prod_v1`. No dormant window. | done | `scripts/ingestion/fire_suin_cloud.sh --target production --generation gen_suin_prod_v1 --scopes laboral-tributario --activate --confirm` exited 0. Start 2026-04-19T19:49:34Z, activation flip 2026-04-19T20:36:05Z, total ~46 min. Deltas: `documents` 1,292→2,355 (+1,063 = 9 suin_norma + 1,054 suin_stub); `document_chunks` 2,064→8,427 (+6,363); `normative_edges` 19,903→45,514 (+25,611 in-gen); NULL embeddings cloud-wide 2,064→**0** (backfill covered SUIN + legacy); cloud FalkorDB `MATCH (n) RETURN count(n)` 2,568→6,169 (+3,601); `corpus_generations.gen_suin_prod_v1.is_active=true`, prior `gen_20260418035334.is_active=false`. Post-activation regression (shape-only) green. | 2026-04-19T22:40Z |
 
 ### Cloud baselines (filled in at the start of Phase 7 pre-flight — copy exact numbers)
 
@@ -343,18 +343,18 @@ Replace the current `{et, tax-laws, jurisprudence, full}` scopes with the topic-
 
 ### Files to create
 
-- `scripts/verify_suin_merge.py` — shared verification script used by phases 2–5 (against WIP) and phase 7 (against production). Takes `--target` and `--generation`; prints pass/fail per contract defined in "Shared WIP merge contract" above.
-- `scripts/supabase_flip_active_generation.py` — thin CLI wrapper over the sink's two-step activation flow. Requires `--confirm` to prevent accidental flips. Used internally by `fire_suin_cloud.sh` in both the activation and the auto-rollback paths.
-- `scripts/fire_suin_cloud.sh` — **the single production-push orchestrator** used in Phase 7. Runs the seven-step sequence documented in the Phase 7 section (scope merges → cumulative count update → verify → embed → null-embedding gate → activate → regression → auto-rollback on regression failure). Requires `--confirm` and `--activate` to proceed. Exits non-zero on any halt; only exits 0 after activation + green regression.
+- `scripts/ingestion/verify_suin_merge.py` — shared verification script used by phases 2–5 (against WIP) and phase 7 (against production). Takes `--target` and `--generation`; prints pass/fail per contract defined in "Shared WIP merge contract" above.
+- `scripts/ingestion/supabase_flip_active_generation.py` — thin CLI wrapper over the sink's two-step activation flow. Requires `--confirm` to prevent accidental flips. Used internally by `fire_suin_cloud.sh` in both the activation and the auto-rollback paths.
+- `scripts/ingestion/fire_suin_cloud.sh` — **the single production-push orchestrator** used in Phase 7. Runs the seven-step sequence documented in the Phase 7 section (scope merges → cumulative count update → verify → embed → null-embedding gate → activate → regression → auto-rollback on regression failure). Requires `--confirm` and `--activate` to proceed. Exits non-zero on any halt; only exits 0 after activation + green regression.
 - **Decision recorded:** `--include-suin` stays single-valued. Sequential merges under the same generation_id is simpler, matches current CLI, and is naturally idempotent.
 
 ### Hard deliverables Phase 0 must resolve before any harvest
 
 Phase 0 also performs these discovery tasks. Each has a "must produce X" contract — if the repo already has X, the task is a no-op; if not, Phase 0 **builds** X before any harvest runs.
 
-1. **Confirm or build `scripts/embedding_ops.py`.**
+1. **Confirm or build `scripts/ingestion/embedding_ops.py`.**
    - Required contract: `--target {wip,production} --generation <id> [--batch-size N] [--json]` — backfills the `embedding` column on `document_chunks` rows belonging to the generation.
-   - Check first: `ls scripts/embedding_ops.py 2>/dev/null || echo MISSING`.
+   - Check first: `ls scripts/ingestion/embedding_ops.py 2>/dev/null || echo MISSING`.
    - If missing: build a minimal version that batches over rows with NULL embedding and the matching `sync_generation`, calls the configured embedding provider (check `CLAUDE.md` / `.env.staging` for the provider key), upserts the resulting vector back. Log a manifest at `artifacts/suin/_embedding_<target>_<ts>.json`.
    - Add `tests/test_embedding_ops.py` that mocks the provider and asserts per-batch upsert + final NULL count drop.
 2. **Confirm or build `tests/fixtures/chat_regressions/`.**
@@ -363,7 +363,7 @@ Phase 0 also performs these discovery tasks. Each has a "must produce X" contrac
    - If missing: create the 10 fixtures with expected-answer skeleton. The fixtures are product-content and should be reviewed by the user before Phase 9 runs — flag this in the Phase 9 row so the user knows to review.
 3. **Fix the `corpus_generations` cumulative-count subtlety for Phase 7.**
    - When Phase 7 fires four sequential `--include-suin <scope>` calls against the same `--supabase-generation-id gen_suin_prod_v1`, each call invokes `SupabaseCorpusSink.write_generation()` with *its own* `documents` and `chunks` counts, overwriting the row's metadata with the last scope's numbers.
-   - **Decision (Phase 0, 2026-04-19):** picked the simpler "final-pass" approach — `scripts/fire_suin_cloud.sh` runs a short Python snippet after all four scope merges that recomputes `documents` and `chunks` via `SELECT count(*) WHERE sync_generation=<gen>` and upserts the true cumulative numbers back onto `corpus_generations`. Rejected the `--supabase-skip-generation-row-after-first` flag variant because it adds an ingest-time state machine for a one-shot concern that can be repaired after the fact.
+   - **Decision (Phase 0, 2026-04-19):** picked the simpler "final-pass" approach — `scripts/ingestion/fire_suin_cloud.sh` runs a short Python snippet after all four scope merges that recomputes `documents` and `chunks` via `SELECT count(*) WHERE sync_generation=<gen>` and upserts the true cumulative numbers back onto `corpus_generations`. Rejected the `--supabase-skip-generation-row-after-first` flag variant because it adds an ingest-time state machine for a one-shot concern that can be repaired after the fact.
 4. **Verify Ley 2466/2025 and Ley 2381/2024 are reachable on SUIN** (Phase 1 dry run covers this — but Phase 0 should pre-flight the doc_ids so Phase 1 knows what to expect). If SUIN has not yet published them, Phase 3's seed list must add a "known-missing" flag so the harvest does not fail loud when they're not found. Do not silently skip — the flag must surface in the manifest.
 
 ### Failure-to-safe-state rule for Phase 0
@@ -480,7 +480,7 @@ LIA_ENV=staging \
     --json | tee artifacts/suin/<scope>/_ingest_wip_<ts>.log
 ```
 
-**Shared verification script** `scripts/verify_suin_merge.py` (**file to create in Phase 0**) takes `--target {wip|production} --generation <id>` and prints pass/fail on:
+**Shared verification script** `scripts/ingestion/verify_suin_merge.py` (**file to create in Phase 0**) takes `--target {wip|production} --generation <id>` and prints pass/fail on:
 
 - every SUIN doc_id in the scope's manifest is present in `documents` for that generation
 - chunk count ≥ articles count in the manifest
@@ -659,11 +659,11 @@ Populate the `embedding` column for every SUIN chunk written in phases 2–5 **p
 
 ### Command
 
-(exact script path confirmed in Phase 0 — `scripts/embedding_ops.py` is the expected location based on the codebase convention; alternative paths captured here if discovered during Phase 0)
+(exact script path confirmed in Phase 0 — `scripts/ingestion/embedding_ops.py` is the expected location based on the codebase convention; alternative paths captured here if discovered during Phase 0)
 
 ```
 LIA_ENV=staging \
-  PYTHONPATH=src:. uv run python scripts/embedding_ops.py \
+  PYTHONPATH=src:. uv run python scripts/ingestion/embedding_ops.py \
   --target wip \
   --generation <rolling_wip_gen_id> \
   --batch-size 100 \
@@ -685,7 +685,7 @@ Row 6 → `done`.
 
 ### What this phase does, in one run
 
-The orchestrator `scripts/fire_suin_cloud.sh` runs the following sequence. It aborts on the first non-zero exit.
+The orchestrator `scripts/ingestion/fire_suin_cloud.sh` runs the following sequence. It aborts on the first non-zero exit.
 
 1. **Cloud write per scope** — four sequential ingest calls, one per scope, all under the same `--supabase-generation-id gen_suin_prod_v1`:
    - `--include-suin laboral-tributario`
@@ -697,9 +697,9 @@ The orchestrator `scripts/fire_suin_cloud.sh` runs the following sequence. It ab
 
 2. **Cumulative generation-row update** — after the four scope merges succeed, the orchestrator recomputes the true `documents` / `chunks` counts from the tables and upserts them back into `corpus_generations.gen_suin_prod_v1`.
 
-3. **Cloud verification** — `scripts/verify_suin_merge.py --target production --generation gen_suin_prod_v1` runs. If it fails the orchestrator halts before embedding and before activation.
+3. **Cloud verification** — `scripts/ingestion/verify_suin_merge.py --target production --generation gen_suin_prod_v1` runs. If it fails the orchestrator halts before embedding and before activation.
 
-4. **Cloud embedding backfill** — `scripts/embedding_ops.py --target production --generation gen_suin_prod_v1` fills the `embedding` column for every SUIN chunk plus the 2,064 cloud chunks that were NULL at handoff.
+4. **Cloud embedding backfill** — `scripts/ingestion/embedding_ops.py --target production --generation gen_suin_prod_v1` fills the `embedding` column for every SUIN chunk plus the 2,064 cloud chunks that were NULL at handoff.
 
 5. **Null-embedding gate** — `SELECT count(*) FROM document_chunks WHERE embedding IS NULL` on cloud must return `0`. If it does not, the orchestrator halts before activation.
 
@@ -722,7 +722,7 @@ The orchestrator `scripts/fire_suin_cloud.sh` runs the following sequence. It ab
 
 - [ ] All four harvest phases (2, 3, 4, 5) are `done` in the state tracker.
 - [ ] Phase 6 embedding backfill is `done` on WIP.
-- [ ] `scripts/verify_suin_merge.py --target wip --generation <rolling_wip_gen_id>` passes.
+- [ ] `scripts/ingestion/verify_suin_merge.py --target wip --generation <rolling_wip_gen_id>` passes.
 - [ ] Cloud baselines captured in the "Cloud baselines" table at the top of this doc.
 - [ ] `cache/suin/` warm — the production push does not hit SUIN at all; it reads from `artifacts/suin/*/`.
 - [ ] `tests/fixtures/chat_regressions/` exists (built in Phase 0) and has been reviewed by the user.
@@ -732,7 +732,7 @@ The orchestrator `scripts/fire_suin_cloud.sh` runs the following sequence. It ab
 
 ```
 LIA_ENV=staging \
-  PYTHONPATH=src:. ./scripts/fire_suin_cloud.sh \
+  PYTHONPATH=src:. ./scripts/ingestion/fire_suin_cloud.sh \
     --target production \
     --generation gen_suin_prod_v1 \
     --scopes laboral-tributario,laboral,tributario,jurisprudencia \

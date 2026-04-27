@@ -5,7 +5,7 @@ and runs the canonicalizer over every chunk's prose. Outputs a deduplicated
 list of (article + sub-unit) `norm_id`s ready for the extractor batch.
 
 Usage:
-  PYTHONPATH=src:. uv run python scripts/build_extraction_input_set.py \\
+  PYTHONPATH=src:. uv run python scripts/canonicalizer/build_extraction_input_set.py \\
       --output evals/vigencia_extraction_v1/input_set.jsonl \\
       [--source artifacts]      # default: read from artifacts JSONL
       [--limit 1000]

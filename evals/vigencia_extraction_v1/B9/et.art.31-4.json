@@ -1,0 +1,27 @@
+{
+  "norm_id": "et.art.31-4",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-27T17:51:11.081249+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "A primary source that contains the text or history of 'et.art.31-4', as the provided sources only reference 'et.art.31'."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 73796,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

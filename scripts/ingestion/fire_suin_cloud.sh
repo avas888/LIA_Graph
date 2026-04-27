@@ -8,10 +8,10 @@
 #      (one per scope: laboral-tributario, laboral, tributario, jurisprudencia).
 #   2. Cumulative generation-row update (true documents/chunks counts from
 #      the tables themselves — fixes the "last call wins" subtlety).
-#   3. Cloud verification (scripts/verify_suin_merge.py --target production).
-#   4. Cloud embedding backfill (scripts/embedding_ops.py --target production).
+#   3. Cloud verification (scripts/ingestion/verify_suin_merge.py --target production).
+#   4. Cloud embedding backfill (scripts/ingestion/embedding_ops.py --target production).
 #   5. Null-embedding gate (SELECT count(*) WHERE embedding IS NULL → 0).
-#   6. Activation flip (scripts/supabase_flip_active_generation.py).
+#   6. Activation flip (scripts/ingestion/supabase_flip_active_generation.py).
 #   7. Post-activation regression (10-question suite). On failure, auto-roll
 #      back the activation flip (re-activate the prior generation).
 #
@@ -72,7 +72,7 @@ if [[ "$ROLLBACK" == "true" ]]; then
     exit 2
   fi
   echo ">> ROLLBACK path — reactivating $PREVIOUS_GENERATION on $TARGET"
-  PYTHONPATH=src:. uv run python scripts/supabase_flip_active_generation.py \
+  PYTHONPATH=src:. uv run python scripts/ingestion/supabase_flip_active_generation.py \
     --target "$TARGET" \
     --generation "$GENERATION" \
     --previous-generation "$PREVIOUS_GENERATION" \
@@ -161,13 +161,13 @@ SCOPE_DIR_ARGS=()
 for scope in "${SCOPE_ARRAY[@]}"; do
   SCOPE_DIR_ARGS+=(--scope-dir "$ARTIFACTS_DIR/$scope")
 done
-PYTHONPATH=src:. uv run python scripts/verify_suin_merge.py \
+PYTHONPATH=src:. uv run python scripts/ingestion/verify_suin_merge.py \
   --target "$TARGET" --generation "$GENERATION" \
   "${SCOPE_DIR_ARGS[@]}" --json 2>&1 | tee -a "$LOG"
 
 # Step 4: cloud embedding backfill.
 log ">> Step 4 — embedding_ops"
-PYTHONPATH=src:. uv run python scripts/embedding_ops.py \
+PYTHONPATH=src:. uv run python scripts/ingestion/embedding_ops.py \
   --target "$TARGET" --generation "$GENERATION" --json 2>&1 | tee -a "$LOG"
 
 # Step 5: null-embedding gate (embedding_ops already exits non-zero if NULLs remain).
@@ -184,7 +184,7 @@ print(rows[0]["generation_id"] if rows else "")
 PY
 )
 log "   previous active: '${PREV_ACTIVE:-<none>}'"
-PYTHONPATH=src:. uv run python scripts/supabase_flip_active_generation.py \
+PYTHONPATH=src:. uv run python scripts/ingestion/supabase_flip_active_generation.py \
   --target "$TARGET" --generation "$GENERATION" --confirm --json 2>&1 | tee -a "$LOG"
 
 # Step 7: post-activation regression.
@@ -192,7 +192,7 @@ log ">> Step 7 — post-activation regression (${REGRESSIONS_DIR})"
 if [[ ! -d "$REGRESSIONS_DIR" ]]; then
   log "   regressions dir missing — auto-rollback"
   if [[ -n "$PREV_ACTIVE" ]]; then
-    PYTHONPATH=src:. uv run python scripts/supabase_flip_active_generation.py \
+    PYTHONPATH=src:. uv run python scripts/ingestion/supabase_flip_active_generation.py \
       --target "$TARGET" --generation "$GENERATION" \
       --previous-generation "$PREV_ACTIVE" --rollback --confirm --json 2>&1 | tee -a "$LOG"
   fi
@@ -207,7 +207,7 @@ set -e
 if [[ $RC -ne 0 ]]; then
   log "   regression FAILED rc=$RC — auto-rollback"
   if [[ -n "$PREV_ACTIVE" ]]; then
-    PYTHONPATH=src:. uv run python scripts/supabase_flip_active_generation.py \
+    PYTHONPATH=src:. uv run python scripts/ingestion/supabase_flip_active_generation.py \
       --target "$TARGET" --generation "$GENERATION" \
       --previous-generation "$PREV_ACTIVE" --rollback --confirm --json 2>&1 | tee -a "$LOG"
   else

@@ -29,7 +29,17 @@ logs/phase2_*.log
 logs/phase6_*.log
 logs/staging_ab*.log
 logs/*.current
+logs/canonicalizer_*.log
+logs/launch_*.log
+logs/parallel_extract_*.log
+logs/phase_*.log
+logs/corpus_sync_*.log
+logs/user_errors.jsonl
 frontend/logs/
+
+# --- local scraper / runtime caches (volatile; regenerate on demand) ---
+var/
+frontend/var/
 
 # --- artifact backups + skip-variants (operational temp; regenerate on ingest re-run) ---
 artifacts/_backup_*/

@@ -6,7 +6,7 @@
 
 ## What broke
 
-The `scripts/backfill_norm_citations.py` 1B-δ loop and the new
+The `scripts/ingestion/backfill_norm_citations.py` 1B-δ loop and the new
 `tests/integration/test_v3_persistence_e2e.py::test_chunk_vigencia_gate_*`
 test both UPSERT into `norm_citations` with
 `ON CONFLICT (chunk_id, norm_id, role)`. Against the live DB this raised:

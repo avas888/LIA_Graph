@@ -2,16 +2,16 @@
 """Phase 3 — subtopic candidate mining CLI.
 
 Reads one or more collection JSONL files (produced by Phase 2's
-``scripts/collect_subtopic_candidates.py``), clusters the
+``scripts/ingestion/collect_subtopic_candidates.py``), clusters the
 ``autogenerar_label`` values per ``parent_topic``, and writes the
 proposal JSON consumed by Phase 4's curation UI.
 
 Usage::
 
-    python scripts/mine_subtopic_candidates.py \\
+    python scripts/ingestion/mine_subtopic_candidates.py \\
         --input 'artifacts/subtopic_candidates/collection_*.jsonl'
 
-    python scripts/mine_subtopic_candidates.py \\
+    python scripts/ingestion/mine_subtopic_candidates.py \\
         --input artifacts/subtopic_candidates/collection_20260421T142200Z.jsonl \\
         --output artifacts/subtopic_proposals_manual.json \\
         --cluster-threshold 0.85 --min-cluster-size 5
@@ -37,8 +37,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Iterable, Sequence
 
-# Keep the script runnable both as ``python scripts/mine_subtopic_candidates.py``
-# and as ``PYTHONPATH=src:. python scripts/mine_subtopic_candidates.py``.
+# Keep the script runnable both as ``python scripts/ingestion/mine_subtopic_candidates.py``
+# and as ``PYTHONPATH=src:. python scripts/ingestion/mine_subtopic_candidates.py``.
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _SRC_DIR = _REPO_ROOT / "src"
 for candidate in (_SRC_DIR, _REPO_ROOT):

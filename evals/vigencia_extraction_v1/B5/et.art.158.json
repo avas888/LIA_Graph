@@ -1,0 +1,77 @@
+{
+  "norm_id": "et.art.158",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-27T17:30:50.688053+00:00",
+  "result": {
+    "veredicto": {
+      "state": "DE",
+      "state_from": "2016-12-29",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "derogacion_expresa",
+        "source_norm_id": "ley.1819.2016.art.376",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2016-12-29"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": {
+        "norm_id": "ley.1819.2016.art.376",
+        "norm_type": "ley",
+        "article": "Art. 376",
+        "fecha": "2016-12-29",
+        "primary_source_url": null
+      },
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "secretaria_senado.estatuto_tributario_pr006",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_normograma.estatuto_tributario",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 16494,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

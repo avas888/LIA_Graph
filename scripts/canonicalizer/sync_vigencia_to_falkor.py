@@ -6,7 +6,7 @@ INEXEQUIBLE_BY / CONDITIONALLY_EXEQUIBLE_BY / MODULATED_BY / REVIVED_BY /
 IS_SUB_UNIT_OF) into the regulatory graph.
 
 Usage:
-  PYTHONPATH=src:. uv run python scripts/sync_vigencia_to_falkor.py [options]
+  PYTHONPATH=src:. uv run python scripts/canonicalizer/sync_vigencia_to_falkor.py [options]
 
 Options:
   --target {production|staging|local}    Supabase target (default: staging)

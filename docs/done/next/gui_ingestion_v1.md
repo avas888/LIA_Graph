@@ -2,7 +2,7 @@
 
 > **Merged 2026-04-24 from** `docs/next/UI_Ingestion_learnings.md` **and** `docs/next/deficienciesGUIingestion_v1.md`. Both are superseded by this file — treat those as redirects.
 >
-> **Scope.** The **browser-facing ingestion flow** — `frontend/src/features/ingest/` + `src/lia_graph/ui_ingestion_controllers.py` + `ui_ingest_delta_controllers.py` + `ui_ingest_run_controllers.py` — and everything it invokes via `subprocess` (`make phase2-graph-artifacts-supabase`, `scripts/ingest_run_full.sh`) or in-process (`ingestion.delta_runtime.materialize_delta`). Not scoped: the headless pipeline itself (that lives in `docs/next/ingestionfix_v{1..5}.md` + `docs/next/ingestion_tunningv2.md`).
+> **Scope.** The **browser-facing ingestion flow** — `frontend/src/features/ingest/` + `src/lia_graph/ui_ingestion_controllers.py` + `ui_ingest_delta_controllers.py` + `ui_ingest_run_controllers.py` — and everything it invokes via `subprocess` (`make phase2-graph-artifacts-supabase`, `scripts/ingestion/ingest_run_full.sh`) or in-process (`ingestion.delta_runtime.materialize_delta`). Not scoped: the headless pipeline itself (that lives in `docs/next/ingestionfix_v{1..5}.md` + `docs/next/ingestion_tunningv2.md`).
 >
 > **Why this doc exists.** Between 2026-04-21 and 2026-04-24 we shipped five ingestion-fix waves + a v6 investigation/execution cycle. Each wave resolved a distinct class of failure. The next UI feature that touches ingestion is one careless code review away from bringing any of those failures back — because the fixes live in pipeline code, not in a doc the next contributor will read. **This file is that doc.**
 >
@@ -133,7 +133,7 @@ Stick this at the top of every PR description that touches UI ingestion. Items m
 
 **Rule for UI.** `--force-full-classify` is NEVER offered as a button. The UI offers topic-scoped `fingerprint_bust` instead. If the operator genuinely wants a full reclassify, they run it from the CLI with all the attention costs that entails — not one misclick from a UI button.
 
-**Code pointer.** `scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py` + `scripts/launch_batch.sh`.
+**Code pointer.** `scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py` + `scripts/ingestion/launch_batch.sh`.
 
 ### §5.2 Cross-batch isolation is the default, not an option
 
@@ -169,7 +169,7 @@ Stick this at the top of every PR description that touches UI ingestion. Items m
 
 This is user-facing trust-building — accountants stop panicking when they see this and a batch fails.
 
-**Code pointer.** `scripts/launch_batch.sh` header + the batch_pipeline README mirror this contract verbatim; UI should reuse the same wording.
+**Code pointer.** `scripts/ingestion/launch_batch.sh` header + the batch_pipeline README mirror this contract verbatim; UI should reuse the same wording.
 
 ---
 
@@ -273,7 +273,7 @@ These files are where the raw triage + decisions were captured in real time. If 
 | Banner VM field path | `docs/next/ingestionfix_v2.md §4 Phase 11` + v3 Phase 1 fix |
 | Size estimates vs live probes | `docs/next/ingestionfix_v3.md §2.1` |
 | Catch-all bucket hazards | `docs/next/ingestionfix_v3.md §2.2` |
-| Durability contract / resumable batches | `docs/next/ingestionfix_v3.md §5 Phase 3` + `scripts/launch_batch.sh` header |
+| Durability contract / resumable batches | `docs/next/ingestionfix_v3.md §5 Phase 3` + `scripts/ingestion/launch_batch.sh` header |
 | Heartbeat design | `scripts/monitoring/README.md` + `scripts/monitoring/ingest_heartbeat.py` + `docs/learnings/process/heartbeat-monitoring.md` |
 | Fingerprint as partial-completion guard | `docs/next/ingestionfix_v2.md §7 run_log_2026_04_23.lessons_learned` |
 | **[v6]** Parallel classifier design | `docs/learnings/ingestion/parallelism-and-rate-limits.md` + commit `34f658b` |
@@ -491,7 +491,7 @@ GET /api/ingest/job/{id}/progress
 
 **Deficiency.** `ui_ingest_run_controllers._spawn_ingest_subprocess` line 462: `timeout=60 * 60`. Post-v6 corpus total wall time is 22–37 min baseline, with TPM-pressure retry waits adding up to 45 min. Kills mid-sink.
 
-**Fix.** Raise `timeout=` to `90 * 60` (90 min) for the non-chained path, `120 * 60` (2h) for `scripts/ingest_run_full.sh` (which includes embeddings). Emit timeout into a distinct UI state ("timed out — run may have landed partial cloud writes, click resume").
+**Fix.** Raise `timeout=` to `90 * 60` (90 min) for the non-chained path, `120 * 60` (2h) for `scripts/ingestion/ingest_run_full.sh` (which includes embeddings). Emit timeout into a distinct UI state ("timed out — run may have landed partial cloud writes, click resume").
 
 +5 LOC.
 

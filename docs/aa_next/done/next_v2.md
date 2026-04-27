@@ -256,7 +256,7 @@ Unchanged from next_v1. Full six-gate block in [`next_v1/README.md` §7.G](./nex
 - Tests: `tests/test_falkor_loader_thematic.py` — 2 new regression tests, 9/9 green; sibling loader suites — 57/57 green.
 
 **Cloud rebuild:**
-- Launcher: `scripts/launch_phase2_full_rebuild.sh` (mirrors `launch_phase9a.sh` shape — nohup + disown + direct redirect, no tee pipe).
+- Launcher: `scripts/ingestion/launch_phase2_full_rebuild.sh` (mirrors `launch_phase9a.sh` shape — nohup + disown + direct redirect, no tee pipe).
 - Run: detached 2026-04-24 23:29:01 UTC (06:29 PM Bogotá), PID 82826 reparented to PPID=1, log `logs/phase2_full_rebuild_20260424T232901Z.log`.
 - Wall time: ~4 minutes (much faster than the 1 hr estimate — heavy classifier short-circuit thanks to the fingerprint-prematch shortcut for unchanged docs; full re-classify would have been an hour).
 - Summary block: `documents_written=1280 chunks_written=7838 edges_written=30083 activated=true`. Generation `gen_20260424233329`.
@@ -280,7 +280,7 @@ Post-rebuild audit surfaced TPM-pressure-driven silent degradation, exactly the 
 
 **Operational fixes landed alongside the audit:**
 
-- `scripts/launch_phase2_full_rebuild.sh` — added the `PHASE2_FULL_REBUILD_EXIT=$?` log marker (per `docs/learnings/process/observability-patterns.md`); next launch will emit an unambiguous terminal-state signal.
+- `scripts/ingestion/launch_phase2_full_rebuild.sh` — added the `PHASE2_FULL_REBUILD_EXIT=$?` log marker (per `docs/learnings/process/observability-patterns.md`); next launch will emit an unambiguous terminal-state signal.
 - `docs/learnings/ingestion/parallelism-and-rate-limits.md` — added the 2026-04-24 §J data point (55 % degradation at 8 workers) and made `--classifier-workers 4` the new default for production full-rebuilds.
 
 **Re-flip gate update.** From "blocked on §K only" → "blocked on (§K + a clean rebuild at `--classifier-workers 4`)." Order of operations: workers=4 rebuild first, THEN the §K design call against a clean baseline, THEN §K code, THEN re-run staging A/B, THEN flip.
@@ -298,7 +298,7 @@ Post-rebuild audit surfaced TPM-pressure-driven silent degradation, exactly the 
   - `PHASE2_FULL_REBUILD_EXIT=0` marker present
   - top-level `--json` summary block present
 - `tests/test_audit_rebuild.py` — 11 pytest cases, all green. Pinned: clean run passes, today's 27.5%-degradation case fails with all three operationally-actionable messages, silent-death case fails on missing marker, non-zero exit fails, stale events from prior runs ignored, threshold boundary 5.0%-passes-but-6.0%-fails, JSON output round-trips, exit codes 0/2.
-- `scripts/launch_phase2_full_rebuild.sh` — defaults `LIA_INGEST_CLASSIFIER_WORKERS=4`, invokes `audit_rebuild.py` inline after the rebuild, writes `PHASE2_AUDIT_VERDICT=clean|degraded` to the log tail. **That marker — not the rebuild's own exit code — is the trustworthy success signal.**
+- `scripts/ingestion/launch_phase2_full_rebuild.sh` — defaults `LIA_INGEST_CLASSIFIER_WORKERS=4`, invokes `audit_rebuild.py` inline after the rebuild, writes `PHASE2_AUDIT_VERDICT=clean|degraded` to the log tail. **That marker — not the rebuild's own exit code — is the trustworthy success signal.**
 
 **Self-test.** Running the audit against the 23:29 UTC rebuild log (the actual degraded run) returned exit 2 with all four expected failures named. Audit demonstrably catches the case it was designed for.
 
@@ -306,7 +306,7 @@ Post-rebuild audit surfaced TPM-pressure-driven silent degradation, exactly the 
 
 ### §J.3 Workers=4 re-run — outcome (2026-04-24 23:55 UTC · 06:55 PM Bogotá · ✅ §J cloud-verified, this time on a non-degraded classifier pass)
 
-Re-launched via the now-audit-gated launcher (`scripts/launch_phase2_full_rebuild.sh`, defaults `LIA_INGEST_CLASSIFIER_WORKERS=4`). Run finished 7m 43s wall, exit 0.
+Re-launched via the now-audit-gated launcher (`scripts/ingestion/launch_phase2_full_rebuild.sh`, defaults `LIA_INGEST_CLASSIFIER_WORKERS=4`). Run finished 7m 43s wall, exit 0.
 
 **First audit verdict: ❌ degraded.** Surfaced a refinement we needed: the audit's 5% degradation gate was over-broad. The workers=4 rebuild had **0 tracebacks, 0 HTTP 429s, but 30.4% `requires_subtopic_review=true`**. That's not TPM-induced degradation — that's the N2 cascade running cleanly and the LLM honestly returning "I can't pick a confident subtopic" for ambiguous docs. The cloud-sink-execution-notes original rule (5% → TPM pressure) was scoped to runs WHERE 429s were also present; my first-pass audit logic missed the pairing.
 

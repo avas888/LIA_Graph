@@ -192,8 +192,8 @@ The skill output INFORMS the code; it does not generate the code directly. Atomi
 | 4 | Frontend atoms + molecules | DONE | 5 new components, `docs/next/ingestfixv1-design-notes.md`, `ingestPhase4{Atoms,Molecules}.test.ts` (28 cases) | uncommitted |
 | 5 | Frontend organisms + controller wiring | DONE | 3 organisms + controller + shell + CSS; `ingestPhase5Organisms.test.ts` (17 cases green) | uncommitted |
 | 5b | SUIN bridge refactor → canonical 8-section template | DONE | `ingestion/suin/bridge.py` `synthesize_canonical_markdown`, `tests/test_suin_bridge_canonical.py` (12 cases green) | uncommitted |
-| 5c | Regrandfather pass (re-chunk 1246 existing docs) | DONE | `scripts/regrandfather_corpus.py`, Makefile target, `tests/test_regrandfather_dry_run.py` (7 cases green) | uncommitted |
-| 6 | Embedding + Promoción auto-chain | DONE | `scripts/ingest_run_full.sh`, controller wiring, `tests/test_ingest_run_full_orchestrator.py` (6 cases green) | uncommitted |
+| 5c | Regrandfather pass (re-chunk 1246 existing docs) | DONE | `scripts/ingestion/regrandfather_corpus.py`, Makefile target, `tests/test_regrandfather_dry_run.py` (7 cases green) | uncommitted |
+| 6 | Embedding + Promoción auto-chain | DONE | `scripts/ingestion/ingest_run_full.sh`, controller wiring, `tests/test_ingest_run_full_orchestrator.py` (6 cases green) | uncommitted |
 | 6.5 | DEFERRED — F2 per-doc accept/edit modal | DEFERRED | n/a (out of v1) | — |
 | 7 | Observability hardening + trace schema (§13) | DONE | §13 authoritative schema, `tests/test_ingest_observability.py` (6 cases green) | uncommitted |
 | 8 | E2E acceptance test (Env-A: dev + dev:staging) | DONE (runbook) | `tests/manual/phase8_e2e_runbook.md` — manual execution pending stakeholder | uncommitted |
@@ -335,13 +335,13 @@ When the user drops a folder, where do the files land on disk before the make ta
 
 ### Decision B — `to_upload_graph/` Dropbox bucket
 
-The user dropped 3 test docs in `to_upload_graph/` — outside `scripts/sync_corpus_snapshot.sh`'s scope. Two options:
+The user dropped 3 test docs in `to_upload_graph/` — outside `scripts/ingestion/sync_corpus_snapshot.sh`'s scope. Two options:
 
 **B1 (recommended):** Add `"to_upload_graph"` to `sync_corpus_snapshot.sh:48`. Document as the **Lia_Graph-specific** Dropbox upload bucket (vs. shared `to upload/`). Reason: signals separation per the Lia_Graph ↔ Lia_contadores boundary in user memory.
 
 **B2:** Use existing `to upload/` instead. Cleaner if no separation needed.
 
-**RATIFIED 2026-04-20: B1.** `to_upload_graph/` is the Lia_Graph-specific Dropbox bucket. Action items: (1) add `"to_upload_graph"` to `scripts/sync_corpus_snapshot.sh:48`; (2) intake endpoint dual-writes (knowledge_base/ + Dropbox/to_upload_graph/); (3) document the bucket in `orchestration.md` Lane 0 section.
+**RATIFIED 2026-04-20: B1.** `to_upload_graph/` is the Lia_Graph-specific Dropbox bucket. Action items: (1) add `"to_upload_graph"` to `scripts/ingestion/sync_corpus_snapshot.sh:48`; (2) intake endpoint dual-writes (knowledge_base/ + Dropbox/to_upload_graph/); (3) document the bucket in `orchestration.md` Lane 0 section.
 
 ### Decision C — Chunker model
 
@@ -537,7 +537,7 @@ Resume marker  — within-phase last-known-good checkpoint string. Empty → sta
 - **Files modify:**
   - `src/lia_graph/ui_ingest_run_controllers.py` — add `_handle_ingest_intake_post(handler, deps)`. Multipart parsing → per-file: classify (Phase 1) → coerce (Phase 1.5) → validate (Phase 1.7) → place at `knowledge_base/<resolved_topic>/<original_filename>` AND mirror to Dropbox `to_upload_graph/<resolved_topic>/<original_filename>` (per B1) → write sidecar `artifacts/intake/<batch_id>.jsonl` with all 7 `autogenerar_*` fields + coercion_method + validation_result. Returns `{batch_id, files: [...], summary: {...}}`.
   - `src/lia_graph/ui_server.py` — wire POST `/api/ingest/intake` into the dispatch table.
-  - `scripts/sync_corpus_snapshot.sh` — add `"to_upload_graph"` to the source-root list at line 48 (per B1).
+  - `scripts/ingestion/sync_corpus_snapshot.sh` — add `"to_upload_graph"` to the source-root list at line 48 (per B1).
 - **Tests add:** `tests/test_ingest_intake_controller.py` covering: (a) 403 for non-admin, (b) rejects empty multipart, (c) rejects unsupported extensions, (d) classifies + places fixture file (FS assertion), (e) sidecar JSONL written with all fields, (f) `X-Upload-Relative-Path` honored for nested folder structure, (g) SHA-256 dedup against existing `documents.checksum` skips placement, (h) Dropbox mirror write succeeds (mocked FS), (i) trace events emitted in expected order, (j) low-confidence file gets `requires_review=true`, (k) coercion_method propagates correctly, (l) validation failure flagged in response. **Verification:** `pytest tests/test_ingest_intake_controller.py -v` → green.
 - **DoD:** `curl -F "files[]=@NORMATIVA.md" -F "files[]=@EXPERTOS.md" -F "files[]=@LOGGRO.md" .../api/ingest/intake` returns 200 with the expected JSON shape; the 3 files exist on disk under `knowledge_base/laboral/`; sidecar JSONL written; **invariant I1 holds (Phase 5 will exercise this endpoint from the UI before this phase exits DONE)**.
 - **Trace events:** `ingest.intake.received`, `ingest.intake.classified.<filename>`, `ingest.intake.coerced.<filename>`, `ingest.intake.validated.<filename>`, `ingest.intake.placed`, `ingest.intake.failed`.
@@ -622,9 +622,9 @@ Resume marker  — within-phase last-known-good checkpoint string. Empty → sta
 ### Phase 5c — Regrandfather pass (re-chunk all 1246 existing docs per C2.b.regrandfather)
 - **Goal:** apply the canonical 8-section template + new chunker across the existing corpus so chunk_section_type tags are consistent corpus-wide.
 - **Files create:**
-  - `scripts/regrandfather_corpus.py` (~200 LOC) — iterates `knowledge_base/**/*.md`, runs Phase 1.5 coercer + Phase 1.6 chunker, rewrites under the canonical template, marks `documents.coercion_method = "regrandfathered"`.
+  - `scripts/ingestion/regrandfather_corpus.py` (~200 LOC) — iterates `knowledge_base/**/*.md`, runs Phase 1.5 coercer + Phase 1.6 chunker, rewrites under the canonical template, marks `documents.coercion_method = "regrandfathered"`.
   - `tests/test_regrandfather_dry_run.py` (~6 cases).
-  - **NEW Makefile target:** `phase2-regrandfather-corpus` → invokes `python scripts/regrandfather_corpus.py --dry-run|--commit`.
+  - **NEW Makefile target:** `phase2-regrandfather-corpus` → invokes `python scripts/ingestion/regrandfather_corpus.py --dry-run|--commit`.
 - **Files modify:**
   - `Makefile` — append the new target.
   - `docs/orchestration/orchestration.md` — Lane 0 section gets a paragraph on regrandfathering (when run, what it does).
@@ -639,10 +639,10 @@ Resume marker  — within-phase last-known-good checkpoint string. Empty → sta
 ### Phase 6 — Embedding + Promoción auto-chain (per D1)
 - **Goal:** single button press takes a dropped folder all the way through to embeddings populated + (optionally) promoted to cloud.
 - **Files create:**
-  - `scripts/ingest_run_full.sh` (~100 LOC) — orchestrates: `make phase2-graph-artifacts-supabase` → `python -m lia_graph.embedding_ops --target=<wip|production>` → (if `auto_promote`) `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production` + embedding pass.
+  - `scripts/ingestion/ingest_run_full.sh` (~100 LOC) — orchestrates: `make phase2-graph-artifacts-supabase` → `python -m lia_graph.embedding_ops --target=<wip|production>` → (if `auto_promote`) `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=production` + embedding pass.
   - `tests/test_ingest_run_full_orchestrator.py` (~6 cases — mock subprocess).
 - **Files modify:**
-  - `src/lia_graph/ui_ingest_run_controllers.py` — replace direct `make` invocation in `_spawn_ingest_subprocess` with `bash scripts/ingest_run_full.sh` + new env vars `INGEST_AUTO_EMBED`, `INGEST_AUTO_PROMOTE`.
+  - `src/lia_graph/ui_ingest_run_controllers.py` — replace direct `make` invocation in `_spawn_ingest_subprocess` with `bash scripts/ingestion/ingest_run_full.sh` + new env vars `INGEST_AUTO_EMBED`, `INGEST_AUTO_PROMOTE`.
   - Frontend `runTriggerCard` organism (Phase 5) — add "Saltar embeddings" + "Promover a cloud al terminar" checkboxes.
 - **Tests add:** as above + extend `frontend/tests/ingestPhase5Organisms.test.ts` with checkbox-toggle case. **Verification:** `pytest tests/test_ingest_run_full_orchestrator.py -v` + frontend test green.
 - **DoD:** end-to-end timing: drop 3 files → click Aprobar → 60-90s later, chunks have embeddings + (if auto_promote) cloud has new active generation; **invariant I1 holds (checkboxes wired to real env vars)**.

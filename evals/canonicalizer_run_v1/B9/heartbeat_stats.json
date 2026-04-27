@@ -1,0 +1,44 @@
+{
+  "ts_utc": "2026-04-27T17:52:00.066173+00:00",
+  "ts_bogota": "2026-04-27 12:52:00 PM Bogotá",
+  "batch_id": "B9",
+  "run_id": "canonicalizer-B9-20260427T174037Z",
+  "phase": "complete",
+  "state": "complete",
+  "headline": "26/26 done · 100.0% · 25 ✅ · 1 🛑 · 0 ❌ · ETA — · 0.04 norms/sec",
+  "total": 26,
+  "processed": 26,
+  "pending": 0,
+  "skipped": 0,
+  "successes": 25,
+  "refusals": 1,
+  "errors": 0,
+  "percent": 100.0,
+  "rate_norms_per_sec": 0.0381,
+  "rate_norms_per_min": 2.28,
+  "eta": "—",
+  "elapsed": "11m 23s",
+  "elapsed_seconds": 683,
+  "fresh_seconds": 10,
+  "fresh_label": "FRESH ✅ (≤ 180s)",
+  "last_event_ts_utc": "2026-04-27T17:51:49.919576+00:00",
+  "state_counts": {
+    "VM": 13,
+    "V": 10,
+    "DE": 1,
+    "EC": 1
+  },
+  "refusal_reasons_top": {
+    "INSUFFICIENT_PRIMARY_SOURCES": 1
+  },
+  "errors_recent": [],
+  "files_written": 26,
+  "process_alive": null,
+  "cli_done_summary": {
+    "successes": 25,
+    "refusals": 1,
+    "errors": 0,
+    "skipped": 0
+  },
+  "refusal_rate": 0.0385
+}

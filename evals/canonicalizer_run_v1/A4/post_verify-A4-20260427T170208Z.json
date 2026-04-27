@@ -1,0 +1,59 @@
+{
+  "ts_bogota": "2026-04-27 12:18:20 PM Bogotá",
+  "batch_id": "A4",
+  "mode": "post",
+  "run_id": "verify-A4-20260427T170208Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Cómo solicito devolución de saldo a favor de IVA?",
+      "expected": {
+        "q": "¿Cómo solicito devolución de saldo a favor de IVA?",
+        "must_cite": [
+          "et.art.815",
+          "et.art.850"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "Evidencia insuficiente para responder con respaldo normativo en el tema **devoluciones_saldos_a_favor**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+      "answer_concise": "Evidencia insuficiente para responder con respaldo normativo en el tema **devoluciones_saldos_a_favor**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 6067
+    },
+    {
+      "index": 2,
+      "question": "¿Qué interés moratorio aplica a un pago tardío de retención?",
+      "expected": {
+        "q": "¿Qué interés moratorio aplica a un pago tardío de retención?",
+        "must_cite": [
+          "et.art.634",
+          "et.art.635"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "Detecté que los artículos primarios recuperados pertenecen al tema **sector_infancia**, no al tema clasificado **procedimiento_tributario**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+      "answer_concise": "Detecté que los artículos primarios recuperados pertenecen al tema **sector_infancia**, no al tema clasificado **procedimiento_tributario**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 13187
+    },
+    {
+      "index": 3,
+      "question": "¿Puedo compensar saldo a favor de renta con IVA por pagar?",
+      "expected": {
+        "q": "¿Puedo compensar saldo a favor de renta con IVA por pagar?",
+        "must_cite": [
+          "et.art.815"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "No pude ubicar evidencia del tema **devoluciones_saldos_a_favor** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "answer_concise": "No pude ubicar evidencia del tema **devoluciones_saldos_a_favor** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 6125
+    }
+  ]
+}

@@ -528,7 +528,7 @@ Add the canonical Art. 260-N family (260-1 through 260-11) to `config/article_se
 
 3. **Verify via `tests/test_article_secondary_topics.py::test_default_seed_topics_all_in_canonical_taxonomy`.** All new topic refs must be `precios_de_transferencia` (already a registered taxonomy key — confirmed earlier).
 
-4. **Sync to Falkor via the existing one-shot script.** `scripts/sync_article_secondary_topics_to_falkor.py` is idempotent — re-runs the full config and updates only the changed/new entries.
+4. **Sync to Falkor via the existing one-shot script.** `scripts/ingestion/sync_article_secondary_topics_to_falkor.py` is idempotent — re-runs the full config and updates only the changed/new entries.
 
 ### Gate 3 — Minimum success criterion
 

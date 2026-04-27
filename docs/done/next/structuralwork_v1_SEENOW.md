@@ -169,7 +169,7 @@ Tooling absence compounds. Every time any of items A-D comes back (during advers
 
 ### Where to intervene
 
-New file: `scripts/debug_query.py`. Existing `scripts/` convention (sibling to `scripts/backfill_subtopic.py`, `scripts/mine_subtopic_candidates.py`, etc.) is standalone Python scripts with argparse. Target shape:
+New file: `scripts/debug_query.py`. Existing `scripts/` convention (sibling to `scripts/ingestion/backfill_subtopic.py`, `scripts/ingestion/mine_subtopic_candidates.py`, etc.) is standalone Python scripts with argparse. Target shape:
 
 ```python
 # scripts/debug_query.py
@@ -516,7 +516,7 @@ The curation pattern across the whole file is: take the document's formal title,
    - Sample N=100-200 queries from `logs/chat_verbose.jsonl` across the last quarter.
    - For each query, run it through `scripts/debug_query.py` (from item E) and flag any that produce `sub_topic_intent=None` despite having clear domain intent.
    - Group the flagged queries by domain/facet. Each cluster where no existing subtopic semantically covers the facet is a **new-subtopic candidate** — not an alias addition.
-   - Feed those candidates into the existing curator-decisions workflow (`scripts/promote_subtopic_decisions.py`).
+   - Feed those candidates into the existing curator-decisions workflow (`scripts/ingestion/promote_subtopic_decisions.py`).
 
 5. **Where *not* to edit.** Do not touch `label`. Labels are the human-readable display string used by the admin UI at `ui/assets/subtopicShell-*.js` (the admin review path). Mutating labels will churn the UI and break curator recognition.
 

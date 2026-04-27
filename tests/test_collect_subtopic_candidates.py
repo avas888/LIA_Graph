@@ -1,4 +1,4 @@
-"""Tests for ``scripts/collect_subtopic_candidates.py`` (Phase 2).
+"""Tests for ``scripts/ingestion/collect_subtopic_candidates.py`` (Phase 2).
 
 Stages a synthetic ``knowledge_base`` under ``tmp_path``, monkeypatches
 the script module's ``classify_ingestion_document`` import to return a

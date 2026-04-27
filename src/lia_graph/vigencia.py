@@ -467,21 +467,13 @@ class Vigencia:
             interpretive_constraint=InterpretiveConstraint.from_dict(data["interpretive_constraint"])
             if data.get("interpretive_constraint")
             else None,
-            derogado_por=Citation.from_dict(data["derogado_por"])
-            if data.get("derogado_por")
-            else None,
+            derogado_por=_first_citation(data.get("derogado_por")),
             modificado_por=tuple(
                 Citation.from_dict(c) for c in (data.get("modificado_por") or ())
             ),
-            suspension=Citation.from_dict(data["suspension"])
-            if data.get("suspension")
-            else None,
-            inexequibilidad=Citation.from_dict(data["inexequibilidad"])
-            if data.get("inexequibilidad")
-            else None,
-            regimen_transicion=Citation.from_dict(data["regimen_transicion"])
-            if data.get("regimen_transicion")
-            else None,
+            suspension=_first_citation(data.get("suspension")),
+            inexequibilidad=_first_citation(data.get("inexequibilidad")),
+            regimen_transicion=_first_citation(data.get("regimen_transicion")),
             revives_text_version=data.get("revives_text_version"),
             rige_desde=_parse_date(data.get("rige_desde")),
             fuentes_primarias_consultadas=tuple(
@@ -571,6 +563,31 @@ def map_v2_state(label: str) -> VigenciaState:
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
+
+def _first_citation(value: Any) -> Citation | None:
+    """Tolerate both single-Citation dict and list-of-Citations input.
+
+    Gemini sometimes emits `derogado_por` / `inexequibilidad` /
+    `suspension` / `regimen_transicion` as a list (because conceptually a
+    norm could have multiple of these), but the v3 schema models each as
+    a single Citation — the most recent / authoritative one. This helper
+    accepts either shape: dict → that Citation; list → the first item;
+    None / empty → None.
+    """
+
+    if not value:
+        return None
+    if isinstance(value, list):
+        if not value:
+            return None
+        head = value[0]
+        if not isinstance(head, dict):
+            return None
+        return Citation.from_dict(head)
+    if isinstance(value, dict):
+        return Citation.from_dict(value)
+    return None
 
 
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")

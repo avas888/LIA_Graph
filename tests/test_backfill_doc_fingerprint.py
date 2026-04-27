@@ -1,4 +1,4 @@
-"""Tests for ``scripts/backfill_doc_fingerprint.py`` (Phase 1).
+"""Tests for ``scripts/ingestion/backfill_doc_fingerprint.py`` (Phase 1).
 
 All cases run against an in-memory fake Supabase client; no network.
 """
@@ -20,7 +20,7 @@ from lia_graph.ingestion.fingerprint import (
 
 
 def _load_backfill_module() -> Any:
-    """Import ``scripts/backfill_doc_fingerprint.py`` as a module."""
+    """Import ``scripts/ingestion/backfill_doc_fingerprint.py`` as a module."""
     spec_path = Path(__file__).resolve().parent.parent / "scripts" / "backfill_doc_fingerprint.py"
     spec = importlib.util.spec_from_file_location("backfill_doc_fingerprint", spec_path)
     assert spec is not None and spec.loader is not None

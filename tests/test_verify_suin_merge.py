@@ -1,4 +1,4 @@
-"""Tests for scripts/verify_suin_merge.py.
+"""Tests for scripts/ingestion/verify_suin_merge.py.
 
 Loads the script as a module via importlib, mocks a Supabase client, and
 asserts the verification contract returns the right pass/fail branches.

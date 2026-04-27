@@ -1,0 +1,7 @@
+{
+  "norm_id": "et.art.40-1",
+  "ts_utc": "2026-04-27T17:26:20.587580+00:00",
+  "error": "invalid_shape: state=RV requires revives_text_version",
+  "raw_output": "```json\n{\n  \"state\": \"RV\",\n  \"state_from\": \"2019-12-27\",\n  \"state_until\": null,\n  \"applies_to_kind\": \"per_year\",\n  \"applies_to_payload\": {\n    \"year_start\": 2020,\n    \"year_end\": null,\n    \"impuesto\": \"renta\",\n    \"period_start\": null,\n    \"period_end\": null,\n    \"art_338_cp_shift\": false\n  },\n  \"change_source\": {\n    \"type\": \"reviviscencia\",\n    \"source_norm_id\": \"ley.2010.2019.art.160\",\n    \"effect_type\": \"pro_futuro\",\n    \"effect_payload\": {\n      \"fecha\": \"2019-12-27\"\n    }\n  },\n  \"interpretive_constraint\": null,\n  \"derogado_por\": null,\n  \"modificado_por\": null,\n  \"suspension\": null,\n  \"inexequibilidad\": null,\n  \"regimen_transicion\": null,\n  \"revives_text_version\": null,\n  \"rige_desde\": \"1986-12-23\",\n  \"fuentes_primarias_consultadas\": [\n    {\n      \"norm_id\": \"secretaria_senado.estatuto_tributario_pr002\",\n      \"norm_type\": \"url\",\n      \"url\": \"http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr002.html\"\n    },\n    {\n      \"norm_id\": \"dian_normograma.estatuto_tributario\",\n      \"norm_type\": \"url\",\n      \"url\": \"https://normograma.dian.gov.co/dian/compilacion/docs/estatuto_tributario.htm\"\n    }\n  ]\n}\n```",
+  "raw_output_len": 1145
+}

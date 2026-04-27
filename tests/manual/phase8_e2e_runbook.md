@@ -70,7 +70,7 @@ print({'docs_found': len(docs.data or []), 'rows': [(r['doc_id'], r['topic']) fo
 - [ ] `embedding` column non-NULL for those rows.
 
 ```bash
-PYTHONPATH=src:. uv run python scripts/verify_suin_merge.py --target wip --generation <gen_id> --json | jq .
+PYTHONPATH=src:. uv run python scripts/ingestion/verify_suin_merge.py --target wip --generation <gen_id> --json | jq .
 ```
 
 ## 6. Switch to cloud (dev:staging) pass

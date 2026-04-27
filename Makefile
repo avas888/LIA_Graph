@@ -251,7 +251,7 @@ phase2-suin-harvest-full:
 #   make phase2-regrandfather-corpus LIMIT=10 SKIP_LLM=1
 #   make phase2-regrandfather-corpus ONLY_TOPIC=laboral
 phase2-regrandfather-corpus:
-	PYTHONPATH=src:. uv run python scripts/regrandfather_corpus.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SKIP_LLM),--skip-llm,)
+	PYTHONPATH=src:. uv run python scripts/ingestion/regrandfather_corpus.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SKIP_LLM),--skip-llm,)
 
 # ---- subtopic_generationv1 ------------------------------------------------
 # Phase 2: one-shot collection pass that records `autogenerar_label` for every
@@ -264,7 +264,7 @@ phase2-regrandfather-corpus:
 #   make phase2-collect-subtopic-candidates ONLY_TOPIC=laboral    # scoped run
 #   make phase2-collect-subtopic-candidates                       # full corpus commit
 phase2-collect-subtopic-candidates:
-	PYTHONPATH=src:. uv run python scripts/collect_subtopic_candidates.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SKIP_LLM),--skip-llm,) $(if $(BATCH_ID),--batch-id $(BATCH_ID),) $(if $(RESUME_FROM),--resume-from $(RESUME_FROM),) $(if $(RATE_LIMIT_RPM),--rate-limit-rpm $(RATE_LIMIT_RPM),)
+	PYTHONPATH=src:. uv run python scripts/ingestion/collect_subtopic_candidates.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SKIP_LLM),--skip-llm,) $(if $(BATCH_ID),--batch-id $(BATCH_ID),) $(if $(RESUME_FROM),--resume-from $(RESUME_FROM),) $(if $(RATE_LIMIT_RPM),--rate-limit-rpm $(RATE_LIMIT_RPM),)
 
 # Phase 3: mine collection JSONL(s) → proposal clusters per parent_topic.
 # Writes `artifacts/subtopic_proposals_<UTC>.json`. Safe to run offline — the
@@ -275,7 +275,7 @@ phase2-collect-subtopic-candidates:
 #   make phase3-mine-subtopic-candidates INPUT=... CLUSTER_THRESHOLD=0.85
 #   make phase3-mine-subtopic-candidates INPUT=... ONLY_TOPIC=laboral SKIP_EMBED=1
 phase3-mine-subtopic-candidates:
-	PYTHONPATH=src:. uv run python scripts/mine_subtopic_candidates.py --input '$(INPUT)' $(if $(OUTPUT),--output $(OUTPUT),) $(if $(CLUSTER_THRESHOLD),--cluster-threshold $(CLUSTER_THRESHOLD),) $(if $(MIN_CLUSTER_SIZE),--min-cluster-size $(MIN_CLUSTER_SIZE),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SLUG_STEM_RULES),--slug-stem-rules $(SLUG_STEM_RULES),) $(if $(SKIP_EMBED),--skip-embed,)
+	PYTHONPATH=src:. uv run python scripts/ingestion/mine_subtopic_candidates.py --input '$(INPUT)' $(if $(OUTPUT),--output $(OUTPUT),) $(if $(CLUSTER_THRESHOLD),--cluster-threshold $(CLUSTER_THRESHOLD),) $(if $(MIN_CLUSTER_SIZE),--min-cluster-size $(MIN_CLUSTER_SIZE),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(SLUG_STEM_RULES),--slug-stem-rules $(SLUG_STEM_RULES),) $(if $(SKIP_EMBED),--skip-embed,)
 
 # Phase 6: promote `artifacts/subtopic_decisions.jsonl` → `config/subtopic_taxonomy.json`.
 # DRY_RUN=1 prints a diff without writing. Stakeholder sign-off gate — see
@@ -285,7 +285,7 @@ phase3-mine-subtopic-candidates:
 #   make phase2-promote-subtopic-taxonomy DRY_RUN=1
 #   make phase2-promote-subtopic-taxonomy VERSION=2026-04-21-v1
 phase2-promote-subtopic-taxonomy:
-	PYTHONPATH=src:. uv run python scripts/promote_subtopic_decisions.py $(if $(DRY_RUN),--dry-run,) $(if $(DECISIONS),--decisions $(DECISIONS),) $(if $(OUTPUT),--output $(OUTPUT),) $(if $(VERSION),--version $(VERSION),) $(if $(SYNC_SUPABASE),--sync-supabase $(SYNC_SUPABASE),)
+	PYTHONPATH=src:. uv run python scripts/ingestion/promote_subtopic_decisions.py $(if $(DRY_RUN),--dry-run,) $(if $(DECISIONS),--decisions $(DECISIONS),) $(if $(OUTPUT),--output $(OUTPUT),) $(if $(VERSION),--version $(VERSION),) $(if $(SYNC_SUPABASE),--sync-supabase $(SYNC_SUPABASE),)
 
 # ---- ingestfix-v2 --------------------------------------------------------
 # Phase 2 (v2) sync: mirror config/subtopic_taxonomy.json into Supabase.
@@ -296,7 +296,7 @@ phase2-promote-subtopic-taxonomy:
 #   make phase2-sync-subtopic-taxonomy TARGET=wip
 #   make phase2-sync-subtopic-taxonomy TARGET=production
 phase2-sync-subtopic-taxonomy:
-	PYTHONPATH=src:. uv run python scripts/sync_subtopic_taxonomy_to_supabase.py $(if $(DRY_RUN),--dry-run,) $(if $(TARGET),--target $(TARGET),) $(if $(TAXONOMY),--taxonomy $(TAXONOMY),)
+	PYTHONPATH=src:. uv run python scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py $(if $(DRY_RUN),--dry-run,) $(if $(TARGET),--target $(TARGET),) $(if $(TAXONOMY),--taxonomy $(TAXONOMY),)
 
 # Maintenance-only backfill of documents.subtema via PASO 4. After
 # ingestfix-v2-maximalist (docs/next/ingestfixv2.md), the normal
@@ -310,7 +310,7 @@ phase2-sync-subtopic-taxonomy:
 #   make phase2-backfill-subtopic DRY_RUN=1 ONLY_REQUIRES_REVIEW=1
 #   make phase2-backfill-subtopic LIMIT=50            # --commit
 phase2-backfill-subtopic:
-	PYTHONPATH=src:. uv run python scripts/backfill_subtopic.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(RATE_LIMIT_RPM),--rate-limit-rpm $(RATE_LIMIT_RPM),) $(if $(GENERATION_ID),--generation-id $(GENERATION_ID),) $(if $(RESUME_FROM),--resume-from $(RESUME_FROM),) $(if $(REFRESH_EXISTING),--refresh-existing,) $(if $(ONLY_REQUIRES_REVIEW),--only-requires-review,) $(if $(NO_FALKOR),--no-falkor-emit,)
+	PYTHONPATH=src:. uv run python scripts/ingestion/backfill_subtopic.py $(if $(DRY_RUN),--dry-run,--commit) $(if $(LIMIT),--limit $(LIMIT),) $(if $(ONLY_TOPIC),--only-topic $(ONLY_TOPIC),) $(if $(RATE_LIMIT_RPM),--rate-limit-rpm $(RATE_LIMIT_RPM),) $(if $(GENERATION_ID),--generation-id $(GENERATION_ID),) $(if $(RESUME_FROM),--resume-from $(RESUME_FROM),) $(if $(REFRESH_EXISTING),--refresh-existing,) $(if $(ONLY_REQUIRES_REVIEW),--only-requires-review,) $(if $(NO_FALKOR),--no-falkor-emit,)
 
 # Trace a query through the lexical planner layers (topic router + subtopic
 # classifier + sub-question splitter). No Supabase, no Falkor, no LLM — safe

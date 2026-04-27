@@ -57,7 +57,7 @@ Merge path: `scripts/curator-decisions-abril-2026/apply_patches.py` — reads `a
 ### 2.3 Prefix → parent_topic lookup (kills 39 known misrouteos)
 
 - New file: `config/prefix_parent_topic_map.json` with 39 filename-prefix mappings (II-, PF-, PH-, DT-, RET-, PAT-, GMF-, FE-, RUT-, DON-, ZF-, NC-, ICA-, AEX-, SOC-, CAM-, CST-, etc.)
-- New generator: `scripts/build_prefix_parent_map.py` walks `knowledge_base/`, emits observed prefixes + counts, diffs against the config JSON, proposes updates
+- New generator: `scripts/ingestion/build_prefix_parent_map.py` walks `knowledge_base/`, emits observed prefixes + counts, diffs against the config JSON, proposes updates
 - Wire-in: short-circuit at top of `_infer_vocabulary_labels` in `src/lia_graph/ingest_classifiers.py`. Lazy-loaded via `lru_cache(maxsize=1)` so the JSON is parsed once per process.
 - **Why**: expert memo §2.2 — PASO 1's numeric-substring heuristic was misrouting 39 files (e.g., `II-1429-2010-NORMATIVA.md` → `iva` via the "1" in the law number). The static prefix table is a zero-LLM, zero-heuristic override that resolves them correctly before classification.
 
@@ -72,7 +72,7 @@ Merge path: `scripts/curator-decisions-abril-2026/apply_patches.py` — reads `a
 ### 2.5 Taxonomy-generator invariant (no parent with zero subtopics)
 
 - `src/lia_graph/subtopic_taxonomy_builder.validate_no_empty_parents()` — raises `EmptyParentTopicError` listing offenders
-- `scripts/promote_subtopic_decisions.py` now calls the validator after `build_taxonomy` and before the JSON write; fails loudly with clear message
+- `scripts/ingestion/promote_subtopic_decisions.py` now calls the validator after `build_taxonomy` and before the JSON write; fails loudly with clear message
 - Opt-out: `--allow-empty-parents` for bootstrapping scenarios
 - **Why**: expert memo closer — "3 of the parent_topics were empty of subtopics — that's why their docs fell to PASO 4. Having at least one subtopic seed per parent_topic from day 1 would avoid that pattern." The invariant enforces exactly this; running it today surfaces 6 current offenders (3 the memo named + 3 more: `estatuto_tributario`, `normas_internacionales_auditoria`, `perdidas_fiscales_art147`, `reforma_pensional`). Those are the next curator targets.
 
@@ -164,7 +164,7 @@ Exists because legacy regex produced `conciliacion_fiscal` as a subtopic_key; in
 Only 275 of 2073 chunks carry `subtema`. Root cause: most subtopic-tagged docs are practica/interpretacion (LOGGRO/EXPERTOS paths) which don't produce article chunks. The normative docs that DO produce chunks are concentrated in a few parents (the ET Libros, core Laboral laws) where misrouting persists. The `declaracion_renta.declaracion_de_renta_personas_juridicas` subtopic got 12 new aliases from the curator (seccion_07 through seccion_27) but those aliases are LOGGRO section names; the `ET/Libro*` NORMATIVA files use different naming. A follow-up batch_inherit similar to §3.4 of the memo — this time scoping to `%/RENTA/NORMATIVA/%` — would lift that coverage from 13% toward ~70%.
 
 ### 6.4 Taxonomy-invariant-flagged empty parents (still 6 in v2)
-Running `python scripts/promote_subtopic_decisions.py --dry-run` against the current decisions ledger fails the new invariant with 6 offenders:
+Running `python scripts/ingestion/promote_subtopic_decisions.py --dry-run` against the current decisions ledger fails the new invariant with 6 offenders:
 - `estatuto_tributario`, `normas_internacionales_auditoria`, `perdidas_fiscales_art147`, `reforma_pensional`, `regimen_simple`, `sagrilaft_ptee`
 
 These are parent topics in `topic_taxonomy.py` that have zero subtopics even in v2. For the next iteration: either add at least one subtopic each or remove them from the active topic taxonomy. Running the generator today requires `--allow-empty-parents`; that's the intentional gating signal.
@@ -199,11 +199,11 @@ Single commit spans this entire session's work across the ingestfix-v2 maximalis
 - `src/lia_graph/ingest_subtopic_pass.py` (new)
 - `src/lia_graph/env_posture.py` (new)
 - `scripts/curator-decisions-abril-2026/*` (directory: memo, SQL, JSON patches, apply_*.py scripts)
-- `scripts/build_prefix_parent_map.py` (new)
-- `scripts/promote_subtopic_decisions.py` (`--allow-empty-parents` + invariant call)
-- `scripts/backfill_subtopic.py` (maintenance demotion + Falkor emit + ArticleNode key fix)
-- `scripts/embedding_ops.py` + `scripts/sync_subtopic_taxonomy_to_supabase.py` (dotenv autoload)
-- `scripts/repair_falkor_subtopic.py` (new, one-shot)
+- `scripts/ingestion/build_prefix_parent_map.py` (new)
+- `scripts/ingestion/promote_subtopic_decisions.py` (`--allow-empty-parents` + invariant call)
+- `scripts/ingestion/backfill_subtopic.py` (maintenance demotion + Falkor emit + ArticleNode key fix)
+- `scripts/ingestion/embedding_ops.py` + `scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py` (dotenv autoload)
+- `scripts/ingestion/repair_falkor_subtopic.py` (new, one-shot)
 - `Makefile` (`phase2-graph-artifacts-smoke` + `phase2-backfill-subtopic` updates)
 - `tests/*` (30+ new unit tests; 5 new files)
 - `tests/integration/*` (5 case suite)

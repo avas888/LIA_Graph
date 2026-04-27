@@ -1,4 +1,4 @@
-"""Tests for ``scripts/mine_subtopic_candidates.py`` + ``subtopic_miner``.
+"""Tests for ``scripts/ingestion/mine_subtopic_candidates.py`` + ``subtopic_miner``.
 
 Phase 3 of ``docs/done/next/subtopic_generationv1.md``. All tests inject a
 deterministic ``embed_fn`` so clustering is reproducible without any

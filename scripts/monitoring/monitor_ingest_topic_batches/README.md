@@ -23,7 +23,7 @@ batches. Ships as part of `ingestionfix_v3` (see
                                 │
                                 ▼
  ┌──────────────────────────────────────────────────────────────────┐
- │  scripts/launch_batch.sh       (2)                                │
+ │  scripts/ingestion/launch_batch.sh       (2)                                │
  │   nohup + disown the additive reingest for the busted slice.     │
  │   No --force-full-classify — the fingerprint bust is the only    │
  │   thing that makes docs look changed.                            │
@@ -63,9 +63,9 @@ Adjacent files at the repo level:
 
 | Path | Role |
 |---|---|
-| `scripts/launch_batch.sh` | Detached per-batch reingest launcher — pairs with `fingerprint_bust.py`. |
-| `scripts/launch_phase9a.sh` | Full-corpus detached reingest (use when a whole re-classification is truly needed). |
-| `scripts/launch_phase9b.sh` | Detached embedding backfill. |
+| `scripts/ingestion/launch_batch.sh` | Detached per-batch reingest launcher — pairs with `fingerprint_bust.py`. |
+| `scripts/ingestion/launch_phase9a.sh` | Full-corpus detached reingest (use when a whole re-classification is truly needed). |
+| `scripts/ingestion/launch_phase9b.sh` | Detached embedding backfill. |
 | `scripts/monitoring/ingest_heartbeat.py` | 3-minute heartbeat renderer (supports `--chain-state-file` for chain-aware output). |
 | `artifacts/fingerprint_bust/plan.json` | Canonical 8-batch plan covering all 39 top-level topics. |
 
@@ -84,10 +84,10 @@ prior batches are written in stone.
 set -a; source .env.staging; set +a
 
 # 1. Dry-run batch 1 to see what would mutate.
-bash scripts/launch_batch.sh --batch 1 --dry-run
+bash scripts/ingestion/launch_batch.sh --batch 1 --dry-run
 
 # 2. Real run (fingerprint_bust + detached ingest).
-bash scripts/launch_batch.sh --batch 1
+bash scripts/ingestion/launch_batch.sh --batch 1
 
 # 3. Arm a 3-minute heartbeat cron for progress visibility.
 #    See scripts/monitoring/README.md for the canonical cron prompt.
@@ -117,16 +117,16 @@ work:
 |---|---|
 | **Topic-level cross-batch isolation** | `fingerprint_bust` filters by `tema IN (this_batch_topics)` — it is structurally incapable of touching another batch's docs. Prior batches' `doc_fingerprint` stays freshly stamped from their successful runs, so the additive planner keeps seeing them as unchanged. |
 | **Row-level idempotency** | Every write layer idempotents on its natural key: `documents.doc_id`, `document_chunks.chunk_id`, `normative_edges.(source_key,target_key,relation,generation_id)`, Falkor `MERGE`. A kill -9 mid-UPDATE and an orderly retry converge on the same final state. |
-| **State-file checkpoint BEFORE destructive work** | `scripts/launch_batch.sh` writes `artifacts/launch_batch_state_<N>.json` with `status=in_flight` before calling `fingerprint_bust`. Atomic temp+rename so partial writes can't corrupt it. |
+| **State-file checkpoint BEFORE destructive work** | `scripts/ingestion/launch_batch.sh` writes `artifacts/launch_batch_state_<N>.json` with `status=in_flight` before calling `fingerprint_bust`. Atomic temp+rename so partial writes can't corrupt it. |
 
 Failure / resume matrix:
 
 | Scenario | What happens | On resume |
 |---|---|---|
 | **Clean success** | state: launched → operator flips to `completed` after validator passes. | No action needed; advance to the next batch. |
-| **Mid-batch crash** (reingest dies, OOM, reboot) | state remains `launched` / `in_flight`; sink writes are idempotent upserts; Falkor uses MERGE. | Re-run `scripts/launch_batch.sh --batch <N>`. The retry warning fires; prior batches stay untouched. |
+| **Mid-batch crash** (reingest dies, OOM, reboot) | state remains `launched` / `in_flight`; sink writes are idempotent upserts; Falkor uses MERGE. | Re-run `scripts/ingestion/launch_batch.sh --batch <N>`. The retry warning fires; prior batches stay untouched. |
 | **Operator nuke** (`pkill -f lia_graph.ingest`) | Same as mid-batch crash. | Same recovery path. |
-| **`fingerprint_bust` crashes during UPDATE** | Manifest already written (safety rail: manifest-before-execute). UPDATE is idempotent: re-running on already-NULL rows is a no-op. | Re-run `scripts/launch_batch.sh --batch <N>`. |
+| **`fingerprint_bust` crashes during UPDATE** | Manifest already written (safety rail: manifest-before-execute). UPDATE is idempotent: re-running on already-NULL rows is a no-op. | Re-run `scripts/ingestion/launch_batch.sh --batch <N>`. |
 
 This is the single-batch mirror of the autonomous chain's durability
 contract documented in `docs/done/next/ingestionfix_v3.md` §5 Phase 3. Same

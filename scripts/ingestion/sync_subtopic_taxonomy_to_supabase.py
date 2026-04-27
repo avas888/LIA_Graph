@@ -2,14 +2,14 @@
 """Sync ``config/subtopic_taxonomy.json`` into Supabase ``sub_topic_taxonomy``.
 
 Ingestfix-v2 Phase 2 companion to
-``scripts/promote_subtopic_decisions.py`` — the file remains the source of
+``scripts/ingestion/promote_subtopic_decisions.py`` — the file remains the source of
 truth (Decision B1); this script materializes the file into the DB.
 
 Usage::
 
-    python scripts/sync_subtopic_taxonomy_to_supabase.py --dry-run
-    python scripts/sync_subtopic_taxonomy_to_supabase.py --target wip
-    python scripts/sync_subtopic_taxonomy_to_supabase.py --target production
+    python scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py --dry-run
+    python scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py --target wip
+    python scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py --target production
 
 Exit codes:
     0   success

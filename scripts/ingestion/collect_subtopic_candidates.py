@@ -25,8 +25,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
-# Keep runnable both as ``python scripts/collect_subtopic_candidates.py``
-# and as ``PYTHONPATH=src:. python scripts/collect_subtopic_candidates.py``.
+# Keep runnable both as ``python scripts/ingestion/collect_subtopic_candidates.py``
+# and as ``PYTHONPATH=src:. python scripts/ingestion/collect_subtopic_candidates.py``.
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _SRC_DIR = _REPO_ROOT / "src"
 for candidate in (_SRC_DIR, _REPO_ROOT):

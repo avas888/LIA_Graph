@@ -1,0 +1,57 @@
+{
+  "ts_bogota": "2026-04-27 12:36:49 PM Bogotá",
+  "batch_id": "B8",
+  "mode": "pre",
+  "run_id": "baseline-B8-20260427T173627Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Hay descuento por inversión en CTeI ahora?",
+      "expected": {
+        "q": "¿Hay descuento por inversión en CTeI ahora?",
+        "must_cite": [
+          "et.art.256"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "No pude ubicar evidencia del tema **inversiones_incentivos** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **regimen_cambiario**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "answer_concise": "No pude ubicar evidencia del tema **inversiones_incentivos** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **regimen_cambiario**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 6924
+    },
+    {
+      "index": 2,
+      "question": "¿Descuento por donaciones a entidades sin ánimo de lucro?",
+      "expected": {
+        "q": "¿Descuento por donaciones a entidades sin ánimo de lucro?",
+        "must_cite": [
+          "et.art.257"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "No pude ubicar evidencia del tema **descuentos_tributarios_renta** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "answer_concise": "No pude ubicar evidencia del tema **descuentos_tributarios_renta** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 7689
+    },
+    {
+      "index": 3,
+      "question": "¿Requisitos para el descuento por IVA en bienes de capital?",
+      "expected": {
+        "q": "¿Requisitos para el descuento por IVA en bienes de capital?",
+        "must_cite": [
+          "et.art.258-1"
+        ]
+      },
+      "http_status": 200,
+      "answer_markdown": "No pude ubicar evidencia del tema **descuentos_tributarios_renta** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "answer_concise": "No pude ubicar evidencia del tema **descuentos_tributarios_renta** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+      "citations": [],
+      "diagnostics": {},
+      "wall_ms": 7044
+    }
+  ]
+}

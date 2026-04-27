@@ -139,7 +139,7 @@ Twelve phases. Each is independently shippable and leaves the system in a consis
 | 3 | Topic null coercion (path-inferred) | Fallback topic from filename path when classifier returns null. |
 | 4 | Edge extraction gating + typed edges | `MODIFICA`/`DEROGA`/`CITA` only for normativa; `PRACTICA_DE`/`INTERPRETA_A`/`MENCIONA` for others; weights. |
 | 5 | Thematic graph edges (TEMA / SUBTEMA) | Topic + subtopic nodes in FalkorDB; edges from every chunk. |
-| 6 | `doc_fingerprint` persistence on sink | Sink writes the column; drop reliance on `scripts/backfill_doc_fingerprint.py`. |
+| 6 | `doc_fingerprint` persistence on sink | Sink writes the column; drop reliance on `scripts/ingestion/backfill_doc_fingerprint.py`. |
 | 7a | `Tags` admin endpoints (backend only) | Migration + 5 HTTP endpoints + LLM report builder + sink skeleton-insert. **Frontend deferred → 7b.** |
 | 7b | `Tags` admin tab (frontend) | New tab in Ops shell; curation UI for the 7a endpoints. **Deferred to follow-up.** |
 | 8 | Subtopic-miner (partial pass: `laboral` only; 38 topics cataloged for overnight batch) | Taxonomy unchanged (current 106-entry snapshot deemed fresh for Phase 9). See §4 Phase 8 for the punted topic list. |
@@ -516,7 +516,7 @@ Everything in this subsection is explicitly punted to a follow-up. Phase 7a back
 
 **Miner output for `laboral` (ran 2026-04-23):**
 - 11 docs collected, 11 classified labels captured in `artifacts/subtopic_candidates/phase8_laboral.jsonl`.
-- Mining (`scripts/mine_subtopic_candidates.py --skip-embed`) produced **0 cluster proposals** + 11 singletons (didn't cluster because `--skip-embed` uses one-hot vectors).
+- Mining (`scripts/ingestion/mine_subtopic_candidates.py --skip-embed`) produced **0 cluster proposals** + 11 singletons (didn't cluster because `--skip-embed` uses one-hot vectors).
 - Manual inspection of singleton labels against the existing 5 laboral subtopics (`novedades_en_nomina_electronica`, `reforma_laboral_ley_2466_2025`, `contratacion_y_liquidacion_laboral_tiempo_parcial`, `marco_general_de_libranzas_y_descuentos_directos_de_nomina`, `aporte_parafiscales_icbf`): **every singleton is already covered**. No taxonomy change required.
 
 **Implication.** Current laboral taxonomy is fresh. Other topics *probably* similar quality (taxonomy curated 2 days ago), but unverified until mined. Post-Phase-9, any mis-classified doc will land in the Phase-7a tag-review queue and can be resolved then.
@@ -528,10 +528,10 @@ Each of the 38 parent topics below has NOT been mined in 2026-04-23. When the op
 ```bash
 # Per-topic mining recipe:
 set -a; source .env.local; set +a
-PYTHONPATH=src:. uv run python scripts/collect_subtopic_candidates.py \
+PYTHONPATH=src:. uv run python scripts/ingestion/collect_subtopic_candidates.py \
     --commit --only-topic <TOPIC> --rate-limit-rpm 120 \
     --batch-id phase8_<TOPIC>
-PYTHONPATH=src:. uv run python scripts/mine_subtopic_candidates.py \
+PYTHONPATH=src:. uv run python scripts/ingestion/mine_subtopic_candidates.py \
     --input artifacts/subtopic_candidates/phase8_<TOPIC>.jsonl \
     --only-topic <TOPIC>
 # Review artifacts/subtopic_proposals_<UTC>.json, then if accepted:
@@ -606,7 +606,7 @@ git add config/subtopic_taxonomy.json && git commit
 
 **Operational discipline — read before running 9.A (added 2026-04-23 after three consecutive crashes):**
 
-1. **Launch detached, never via `| tee`.** Use `scripts/launch_phase9a.sh` (or `scripts/launch_phase9a_force.sh` for catch-up runs). They use `nohup + disown + >log 2>&1` so the process survives CLI close, Claude restart, and shell disconnect. A `tee` pipe will SIGPIPE the python child when its parent terminal closes — this cost a multi-hour run on 2026-04-23.
+1. **Launch detached, never via `| tee`.** Use `scripts/ingestion/launch_phase9a.sh` (or `scripts/ingestion/launch_phase9a_force.sh` for catch-up runs). They use `nohup + disown + >log 2>&1` so the process survives CLI close, Claude restart, and shell disconnect. A `tee` pipe will SIGPIPE the python child when its parent terminal closes — this cost a multi-hour run on 2026-04-23.
 2. **Monitor via `scripts/monitoring/ingest_heartbeat.py` on a 3-min cron.** Anchor progress on `logs/events.jsonl` (not the `--json` summary log, which buffers until termination). Phase-aware — respects sink/Falkor silence. See `scripts/monitoring/README.md` for the full cron prompt template.
 3. **Partial-completion recovery uses `--force-full-classify`.** If a run crashes after fingerprints land but before Falkor, the next incremental run will see everything as "unchanged" and skip recovery. Use the force-full launcher to bypass the fingerprint shortcut.
 4. **Three crash classes to know about (now all regression-tested — see §7 run_log_2026_04_23 for details):**
@@ -1002,7 +1002,7 @@ phase_09_full_reingest:
     4. If counts unchanged: re-run the command from scratch.
     5. After command completes with outcome != "ok_empty", run embedding backfill:
          PYTHONPATH=src:. uv run python -m lia_graph.embedding_ops --target production
-       (or `scripts/embedding_ops.py --target production` — grep for the entry-point).
+       (or `scripts/ingestion/embedding_ops.py --target production` — grep for the entry-point).
     6. Verify no chunks with NULL embedding remain:
          supabase-py: c.table('document_chunks').select('chunk_id', count='exact').is_('embedding', 'null').execute().count
     7. Phase 10 verification (§4 Phase 10).
@@ -1021,7 +1021,7 @@ phase_09_full_reingest:
     completed_bogota: "~3:07 PM (between 3:06:31 and 3:09:31 ticks)"
     wall_time_minutes: "~5-7"
     rate_chunks_per_min: "~1000 (Gemini embedding endpoint)"
-    launcher: scripts/launch_phase9b.sh
+    launcher: scripts/ingestion/launch_phase9b.sh
     result:
       ok: true
       target: production
@@ -1117,8 +1117,8 @@ phase_09_full_reingest:
       - tests/test_loader_delta.py: "11 new tests covering empty article_number skip, fallback article TEMA/HAS_SUBTOPIC edge drop, empty SubTopicNode fields, empty ReformNode citation, classifier edges pointing at or from skipped articles, promoted_dangling_edges with ineligible endpoints, external-article edges preserved, articles_skipped event payload shape, and retired_article_keys whitespace filter."
 
     new_reusable_tools:
-      - scripts/launch_phase9a.sh: "Normal additive launcher. nohup + disown + direct redirect (NO tee pipe) so the process survives terminal close."
-      - scripts/launch_phase9a_force.sh: "Same but with `--force-full-classify` to bypass the fingerprint-shortcut when catching up partial-completion state."
+      - scripts/ingestion/launch_phase9a.sh: "Normal additive launcher. nohup + disown + direct redirect (NO tee pipe) so the process survives terminal close."
+      - scripts/ingestion/launch_phase9a_force.sh: "Same but with `--force-full-classify` to bypass the fingerprint-shortcut when catching up partial-completion state."
       - scripts/monitoring/ingest_heartbeat.py: "Reusable 3-min cron heartbeat renderer. Emits machine-parseable STATE|PHASE first-line + Bogotá AM/PM markdown table. Phase-aware silence tolerance (sink/Falkor phases legitimately emit no per-item events). See scripts/monitoring/README.md for the full recipe."
       - CLAUDE.md: "New 'Long-running Python processes' section — default pattern is detached launch + 3-min heartbeat cron + event-stream anchored progress. No need for operator to ask."
       - src/lia_graph/ingest.py: "New `--force-full-classify` CLI flag wires through to `materialize_delta` (previously only reachable via direct Python call)."
@@ -1200,7 +1200,7 @@ Remaining work to close out the ingestionfix_v2 plan:
 
 ### Next-1: Phase 9.B — embedding backfill (~~operator~~ ✓ SHIPPED 2026-04-23 ~3:07 PM)
 
-Launched via `scripts/launch_phase9b.sh` (detached; nohup + disown; see scripts/monitoring/README.md). Result:
+Launched via `scripts/ingestion/launch_phase9b.sh` (detached; nohup + disown; see scripts/monitoring/README.md). Result:
 
 ```json
 {"ok": true, "target": "production", "generation": "gen_20260422005449",

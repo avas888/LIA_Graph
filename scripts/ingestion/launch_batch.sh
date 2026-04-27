@@ -49,13 +49,13 @@
 # What to do when a batch fails:
 #   1. Inspect logs/launch-batch-<N>-*.log and logs/events.jsonl.
 #   2. If the crash is fixable in-code, patch + retest.
-#   3. Re-run `bash scripts/launch_batch.sh --batch <N>`. Prior batches
+#   3. Re-run `bash scripts/ingestion/launch_batch.sh --batch <N>`. Prior batches
 #      are untouched; only batch <N> re-processes.
 #
 # Usage:
-#   bash scripts/launch_batch.sh --batch 1                 # bust + run batch 1
-#   bash scripts/launch_batch.sh --batch 3 --dry-run       # plan only, no writes
-#   bash scripts/launch_batch.sh --topics laboral,iva      # ad-hoc multi-topic
+#   bash scripts/ingestion/launch_batch.sh --batch 1                 # bust + run batch 1
+#   bash scripts/ingestion/launch_batch.sh --batch 3 --dry-run       # plan only, no writes
+#   bash scripts/ingestion/launch_batch.sh --topics laboral,iva      # ad-hoc multi-topic
 #                                                          #   (skips plan.json lookup)
 #
 # Requires:

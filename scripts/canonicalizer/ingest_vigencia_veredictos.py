@@ -3,12 +3,12 @@
 Reads JSON files from `evals/vigencia_extraction_v1/<norm_id>.json` (the
 1B-β output) and writes them to:
   * Supabase: `norms` + `norm_vigencia_history` via `NormHistoryWriter`.
-  * Falkor: `(:Norm)` + structured edges via `scripts/sync_vigencia_to_falkor.py`.
+  * Falkor: `(:Norm)` + structured edges via `scripts/canonicalizer/sync_vigencia_to_falkor.py`.
 
 Idempotent — re-running with the same `--run-id` skips rows already inserted.
 
 Usage:
-  PYTHONPATH=src:. uv run python scripts/ingest_vigencia_veredictos.py \\
+  PYTHONPATH=src:. uv run python scripts/canonicalizer/ingest_vigencia_veredictos.py \\
       --target staging \\
       --run-id 1Bbeta-batch-2026-05-15 \\
       --extracted-by ingest@v1 \\

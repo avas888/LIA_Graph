@@ -1,6 +1,6 @@
 """Deterministic builder for ``config/subtopic_taxonomy.json`` (Phase 6).
 
-Pure module consumed by ``scripts/promote_subtopic_decisions.py``. No I/O
+Pure module consumed by ``scripts/ingestion/promote_subtopic_decisions.py``. No I/O
 beyond the single ``load_decisions`` helper that reads the append-only
 ``artifacts/subtopic_decisions.jsonl`` file.
 

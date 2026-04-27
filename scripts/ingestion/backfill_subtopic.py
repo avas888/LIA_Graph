@@ -20,9 +20,9 @@ updates, matching what the single-pass ingest emits.
 
 Usage::
 
-    python scripts/backfill_subtopic.py --dry-run --limit 5
-    python scripts/backfill_subtopic.py --commit --only-requires-review
-    python scripts/backfill_subtopic.py --commit --refresh-existing
+    python scripts/ingestion/backfill_subtopic.py --dry-run --limit 5
+    python scripts/ingestion/backfill_subtopic.py --commit --only-requires-review
+    python scripts/ingestion/backfill_subtopic.py --commit --refresh-existing
 
 Exit codes:
     0   success

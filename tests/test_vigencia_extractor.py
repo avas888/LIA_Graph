@@ -1,7 +1,8 @@
 """H0 tests for the vigencia extractor harness — sub-fix 1B-β.
 
 Uses a fake adapter (no live Gemini call) and a fake scraper registry that
-returns canned ScraperFetchResults. Production runs require LIA_GEMINI_API_KEY.
+returns canned ScraperFetchResults. Production runs require GEMINI_API_KEY
+(legacy alias `LIA_GEMINI_API_KEY` still honored as a fallback).
 """
 
 from __future__ import annotations
@@ -185,14 +186,17 @@ def test_no_api_key_returns_refusal_when_no_adapter_factory():
     """Production safety: harness must not blow up without an API key."""
 
     import os
-    saved = os.environ.pop("LIA_GEMINI_API_KEY", None)
+    saved_canonical = os.environ.pop("GEMINI_API_KEY", None)
+    saved_legacy = os.environ.pop("LIA_GEMINI_API_KEY", None)
     try:
         harness = VigenciaSkillHarness(
             scrapers=_registry_with(_result("a"), _result("b")),
         )
         result = harness.verify_norm(norm_id="et.art.689-3")
         assert result.veredicto is None
-        assert "missing_LIA_GEMINI_API_KEY" in (result.refusal_reason or "")
+        assert "missing_GEMINI_API_KEY" in (result.refusal_reason or "")
     finally:
-        if saved is not None:
-            os.environ["LIA_GEMINI_API_KEY"] = saved
+        if saved_canonical is not None:
+            os.environ["GEMINI_API_KEY"] = saved_canonical
+        if saved_legacy is not None:
+            os.environ["LIA_GEMINI_API_KEY"] = saved_legacy

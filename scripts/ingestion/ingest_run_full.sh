@@ -4,7 +4,7 @@
 # Invoked by ``ui_ingest_run_controllers._spawn_ingest_subprocess`` when
 # `INGEST_AUTO_EMBED` or `INGEST_AUTO_PROMOTE` env vars are truthy. Preserves
 # the single-source orchestration rule: each step delegates to its canonical
-# entry point (`make`, `scripts/embedding_ops.py`) so there is no duplicated
+# entry point (`make`, `scripts/ingestion/embedding_ops.py`) so there is no duplicated
 # pipeline knowledge.
 #
 # Env contract (all optional; sensible defaults):
@@ -46,11 +46,11 @@ make phase2-graph-artifacts-supabase \
   INGEST_SUIN="$suin_scope"
 
 if [[ "$auto_embed" == "1" ]]; then
-  log ">> Step 2 — scripts/embedding_ops.py --target $target"
+  log ">> Step 2 — scripts/ingestion/embedding_ops.py --target $target"
   # --generation is discovered from the most recent corpus_generations row by
   # the CLI; passing the explicit flag is optional. We keep the call minimal
   # to avoid divergence from fire_suin_cloud.sh's known-good shape.
-  PYTHONPATH=src:. uv run python scripts/embedding_ops.py \
+  PYTHONPATH=src:. uv run python scripts/ingestion/embedding_ops.py \
     --target "$target" --json
 else
   log ">> Step 2 — embeddings skipped (INGEST_AUTO_EMBED=0)"
@@ -63,7 +63,7 @@ if [[ "$auto_promote" == "1" && "$target" == "wip" ]]; then
     INGEST_SUIN="$suin_scope"
   if [[ "$auto_embed" == "1" ]]; then
     log ">> Step 4 — embeddings on production"
-    PYTHONPATH=src:. uv run python scripts/embedding_ops.py \
+    PYTHONPATH=src:. uv run python scripts/ingestion/embedding_ops.py \
       --target production --json
   fi
 else

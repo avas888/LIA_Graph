@@ -2,7 +2,7 @@
 
 **⚠️ Product review required before firing Phase 7.** These 10 JSON fixtures
 are the regression suite the SUIN production-push orchestrator
-(`scripts/fire_suin_cloud.sh`) runs after the activation flip. A failure
+(`scripts/ingestion/fire_suin_cloud.sh`) runs after the activation flip. A failure
 auto-rolls back the flip.
 
 ## Coverage (per `docs/next/suin_harvestv1.md` Phase 0 deliverable #2)

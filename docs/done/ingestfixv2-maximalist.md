@@ -46,7 +46,7 @@ Authority, top wins:
 - **Dev server:** `npm run dev` (local docker Supabase + Falkor) at `http://127.0.0.1:8787/`.
 - **LLM runtime:** `src/lia_graph/llm_runtime.py` exposes `resolve_llm_adapter()`. Gemini 2.0 Flash default.
 - **Classifier entry:** `src/lia_graph/ingestion_classifier.classify_ingestion_document(filename, body_text, …)` — returns `AutogenerarResult` with `subtopic_key`, `subtopic_label`, `subtopic_confidence`, `requires_subtopic_review` fields (PASO 4 wired in the first attempt).
-- **Embeddings:** `src/lia_graph/embeddings.py` + `scripts/embedding_ops.py`. Gemini `text-embedding-004`, 768 dims, batched via `batchEmbedContents`.
+- **Embeddings:** `src/lia_graph/embeddings.py` + `scripts/ingestion/embedding_ops.py`. Gemini `text-embedding-004`, 768 dims, batched via `batchEmbedContents`.
 - **Supabase migrations:** `supabase/migrations/`. Squashed baseline is `20260417000000_baseline.sql`. Subtopic migration `20260421000000_sub_topic_taxonomy.sql` is already applied (WIP DB was reset this session).
 - **FalkorDB schema:** `src/lia_graph/graph/schema.py` — `NodeKind.SUBTOPIC` + `EdgeKind.HAS_SUBTOPIC` already defined.
 - **Local docker endpoints:** Supabase at `http://127.0.0.1:54321`, Falkor at `redis://localhost:6389`. `.env.local` now points ONLY at these (rewritten this session; cloud values preserved in `.env.local.cloud.bak.2026-04-21`).
@@ -97,7 +97,7 @@ Expected: branch clean-ish (uncommitted v2 first-attempt files present), taxonom
 - **HAS_SUBTOPIC edge** — FalkorDB edge `ArticleNode --[HAS_SUBTOPIC]--> SubTopicNode`, emitted per classified article.
 - **`article_subtopics`** — optional parameter on `build_graph_load_plan(articles, edges, article_subtopics=...)` that accepts a `Mapping[str, SubtopicBinding]` keyed by `article_key`. Currently unwired in production — Phase A5 wires it.
 - **`_infer_vocabulary_labels`** — legacy deterministic regex in `src/lia_graph/ingest_classifiers.py` that tags topic/subtopic via filename + markdown keywords. Today it is authoritative during bulk ingest (BAD — ignores PASO 4's richer verdict). This plan demotes it to a fallback.
-- **Backfill script** — `scripts/backfill_subtopic.py`. After this plan, it is a maintenance-only utility for re-classifying changed docs or after taxonomy revisions; NOT part of the happy path.
+- **Backfill script** — `scripts/ingestion/backfill_subtopic.py`. After this plan, it is a maintenance-only utility for re-classifying changed docs or after taxonomy revisions; NOT part of the happy path.
 - **WIP target** — Supabase target resolved from `SUPABASE_WIP_URL` + `SUPABASE_WIP_SERVICE_ROLE_KEY`. `.env.local` now points both at local docker.
 - **Production target** — `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`. In `.env.local` these also point at local docker (user requested `.env.local` be local-only). Cloud creds are in `.env.staging`.
 
@@ -194,12 +194,12 @@ Expected: branch clean-ish (uncommitted v2 first-attempt files present), taxonom
 | # | Phase | Status | Files touched (target) | Commit SHA |
 |---|---|---|---|---|
 | A1 | `__main__` guard + CLI-help smoke test | NOT_STARTED (*code already landed; need smoke test*) | `src/lia_graph/ingest.py`, `tests/test_ingest_cli_entry.py` (new) | — |
-| A2 | Autoload dotenv in CLI scripts | NOT_STARTED | `scripts/embedding_ops.py`, `scripts/backfill_subtopic.py`, `scripts/sync_subtopic_taxonomy_to_supabase.py`, tests | — |
+| A2 | Autoload dotenv in CLI scripts | NOT_STARTED | `scripts/ingestion/embedding_ops.py`, `scripts/ingestion/backfill_subtopic.py`, `scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py`, tests | — |
 | A3 | Local-env posture guard | NOT_STARTED | `src/lia_graph/env_posture.py` (new), hook into `ingest.py` + `backfill_subtopic.py`, tests | — |
 | A4 | Classifier wired into audit pass (PASO 4 during bulk ingest) | NOT_STARTED | `src/lia_graph/ingest_classifiers.py` or new `ingest_subtopic_pass.py`, `src/lia_graph/ingest.py`, tests | — |
 | A5 | `build_graph_load_plan` emits SubTopicNode + HAS_SUBTOPIC from ingest | NOT_STARTED | `src/lia_graph/ingest.py` (construct `article_subtopics`), `src/lia_graph/ingestion/loader.py` (already accepts it), tests | — |
 | A6 | `--rate-limit-rpm` + `--skip-llm` flags on ingest CLI | NOT_STARTED | `src/lia_graph/ingest.py`, tests | — |
-| A7 | Demote `backfill_subtopic.py` to maintenance | NOT_STARTED | `scripts/backfill_subtopic.py`, `Makefile`, docs | — |
+| A7 | Demote `backfill_subtopic.py` to maintenance | NOT_STARTED | `scripts/ingestion/backfill_subtopic.py`, `Makefile`, docs | — |
 | A8 | Delete `scripts/sync_subtopic_edges_to_falkor.py` | NOT_STARTED | that file + any refs | — |
 | A9 | Integration test — real Falkor + fake Supabase single-pass | NOT_STARTED | `tests/integration/test_single_pass_ingest.py` (new), `tests/conftest.py` (add `integration` marker) | — |
 | A10 | Schema-consistency test — every subtema exists in taxonomy | NOT_STARTED | `tests/integration/test_subtema_taxonomy_consistency.py` (new) | — |
@@ -296,13 +296,13 @@ Resume marker — within-phase last-known-good checkpoint
 - **Files create:**
   - `tests/test_cli_dotenv_autoload.py` (~3 cases).
 - **Files modify:**
-  - `scripts/embedding_ops.py` — near the top, after the `_REPO_ROOT`/`sys.path` block, add `from lia_graph.env_loader import load_dotenv_if_present; load_dotenv_if_present()`.
-  - `scripts/backfill_subtopic.py` — same.
-  - `scripts/sync_subtopic_taxonomy_to_supabase.py` — same.
+  - `scripts/ingestion/embedding_ops.py` — near the top, after the `_REPO_ROOT`/`sys.path` block, add `from lia_graph.env_loader import load_dotenv_if_present; load_dotenv_if_present()`.
+  - `scripts/ingestion/backfill_subtopic.py` — same.
+  - `scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py` — same.
 - **Tests add:**
   - (a) monkeypatch `env_loader.load_dotenv_if_present` with a spy, import each of the three scripts fresh, assert the spy was called once per script.
-  - (b) invoke `scripts/embedding_ops.py --help` in a subprocess with a temp cwd containing a `.env.local` that sets a sentinel var; assert the sentinel is readable to the subprocess (integration-style).
-  - (c) regression: invoke `scripts/embedding_ops.py --target wip --generation gen_test --batch-size 1` in a subprocess without pre-exporting GEMINI_API_KEY but with `.env.local` set; assert the script does not fail with "GEMINI_API_KEY not set" (the failure that bit us this session).
+  - (b) invoke `scripts/ingestion/embedding_ops.py --help` in a subprocess with a temp cwd containing a `.env.local` that sets a sentinel var; assert the sentinel is readable to the subprocess (integration-style).
+  - (c) regression: invoke `scripts/ingestion/embedding_ops.py --target wip --generation gen_test --batch-size 1` in a subprocess without pre-exporting GEMINI_API_KEY but with `.env.local` set; assert the script does not fail with "GEMINI_API_KEY not set" (the failure that bit us this session).
   - **Verification:** `PYTHONPATH=src:. uv run --group dev pytest tests/test_cli_dotenv_autoload.py -v` → 3/3 green.
 - **DoD:** all three CLI scripts load dotenv on import; the regression test catches a future `_get_api_key() == ""` failure.
 - **Trace events:** none.
@@ -322,7 +322,7 @@ Resume marker — within-phase last-known-good checkpoint
   - `tests/test_env_posture.py` (~4 cases).
 - **Files modify:**
   - `src/lia_graph/ingest.py` — at the top of `main()`, call `assert_local_posture()` UNLESS `--supabase-target production` AND `FALKORDB_URL` contains `.cloud` / `.aws` (i.e. cloud-intended runs opt out). Add `--allow-non-local-env` flag for explicit cloud runs.
-  - `scripts/backfill_subtopic.py` — same guard call, gated by `--target`.
+  - `scripts/ingestion/backfill_subtopic.py` — same guard call, gated by `--target`.
 - **Tests add:**
   - (a) URL `http://127.0.0.1:54321` → posture="local", no raise.
   - (b) URL `https://xxx.supabase.co` → posture="cloud", `assert_local_posture()` raises.
@@ -404,7 +404,7 @@ Resume marker — within-phase last-known-good checkpoint
 - **Goal:** backfill is no longer part of the happy path. It stays available for "re-classify docs flagged for review" and "re-classify after taxonomy version bump" use cases.
 - **Files create:** none.
 - **Files modify:**
-  - `scripts/backfill_subtopic.py`:
+  - `scripts/ingestion/backfill_subtopic.py`:
     - Default filter flips. Current: `--refresh-existing` required to touch non-NULL. New default: `WHERE requires_subtopic_review = true OR subtema IS NULL`. A new `--only-requires-review` flag narrows further.
     - Add post-Supabase-write step: for every updated doc, also emit `SubTopicNode` + `HAS_SUBTOPIC` via `GraphClient.from_env()` (idempotent MERGE). Mirror what Phase A5 does at ingest time.
     - Top-of-file docstring updated: "maintenance utility; normal flow is single-pass ingest (see `docs/next/ingestfixv2.md`)".
@@ -574,7 +574,7 @@ Resume marker — within-phase last-known-good checkpoint
 - **Command:**
 
   ```bash
-  PYTHONPATH=src:. uv run python scripts/embedding_ops.py \
+  PYTHONPATH=src:. uv run python scripts/ingestion/embedding_ops.py \
     --target wip --generation <latest> --batch-size 50
   ```
 
@@ -773,11 +773,11 @@ Code:
 - `src/lia_graph/ingest_subtopic_pass.py` (new) — `classify_corpus_documents` + `build_article_subtopic_bindings` + `bindings_summary` trace.
 - `src/lia_graph/ingest_constants.py` — `CorpusDocument.requires_subtopic_review` field + `with_subtopic(topic_key=...)` helper for classifier overrides.
 - `src/lia_graph/env_posture.py` (new) — `EnvPostureError` + `assert_local_posture()` + `describe_posture()`.
-- `scripts/backfill_subtopic.py` — demoted to maintenance; default filter flipped; Falkor emit added; fixed ArticleNode key property (`article_id` not `article_key`).
-- `scripts/embedding_ops.py` — dotenv autoload inside `main()` (not module-top-level).
-- `scripts/sync_subtopic_taxonomy_to_supabase.py` — dotenv autoload inside `main()`.
+- `scripts/ingestion/backfill_subtopic.py` — demoted to maintenance; default filter flipped; Falkor emit added; fixed ArticleNode key property (`article_id` not `article_key`).
+- `scripts/ingestion/embedding_ops.py` — dotenv autoload inside `main()` (not module-top-level).
+- `scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py` — dotenv autoload inside `main()`.
 - `scripts/sync_subtopic_edges_to_falkor.py` — deleted (superseded).
-- `scripts/repair_falkor_subtopic.py` (new) — one-shot post-hoc Falkor repair tool.
+- `scripts/ingestion/repair_falkor_subtopic.py` (new) — one-shot post-hoc Falkor repair tool.
 - `Makefile` — `phase2-graph-artifacts-smoke` target; `phase2-backfill-subtopic` help + flags.
 
 Tests:

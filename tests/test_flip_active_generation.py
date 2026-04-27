@@ -1,4 +1,4 @@
-"""Tests for scripts/supabase_flip_active_generation.py.
+"""Tests for scripts/ingestion/supabase_flip_active_generation.py.
 
 Loads the script as a module via importlib and asserts:
 - Refuses to run without --confirm (exits 1).

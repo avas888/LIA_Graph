@@ -2,8 +2,8 @@
 
 Centralizes the filter + ordering rules for enumerating corpus markdown
 files under ``knowledge_base/``. Extracted so both
-``scripts/regrandfather_corpus.py`` and
-``scripts/collect_subtopic_candidates.py`` stay in lock-step on:
+``scripts/ingestion/regrandfather_corpus.py`` and
+``scripts/ingestion/collect_subtopic_candidates.py`` stay in lock-step on:
 
 - hidden-directory pruning (anything starting with ``.`` — ``.git``,
   ``.ds_store``, etc.)

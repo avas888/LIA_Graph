@@ -1,0 +1,27 @@
+{
+  "norm_id": "et.art.266-1",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-27T17:56:29.794118+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "Fuente primaria (ley, decreto, sentencia) que establezca la existencia y el estado de vigencia del artículo et.art.266-1."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 33024,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

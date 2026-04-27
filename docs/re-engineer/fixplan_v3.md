@@ -693,7 +693,7 @@ The skill's invocation mechanics are unchanged from v2 §0.8.1–§0.8.2: Gemini
 
 **Per-article extraction cost (re-estimate for v3):** ~$0.045 with Gemini 2.5 Pro. Slightly higher than v2's $0.039 because the v3 veredicto schema is wider (more fields, longer output). For 7,883 articles: ~$355 total. For sub-units (every parágrafo / numeral cited in the corpus, conservatively ~3× article count): ~$1,065 incremental. Total Fix 1B-β LLM spend: ~$1,420 — still trivial against the envelope; reserve absorbs.
 
-**API key (unchanged):** `LIA_GEMINI_API_KEY` per existing convention.
+**API key (unchanged):** `GEMINI_API_KEY` per existing convention (legacy alias `LIA_GEMINI_API_KEY` still honored as a fallback).
 
 ### §0.11.2 — Harness API (extended for v3)
 
@@ -1145,8 +1145,8 @@ The agent loop per norm_id:
 **Effort.** 1 senior engineer × 2 weeks (week 4–6).
 
 **Files.**
-- *Read first:* `.claude/skills/vigencia-checker/SKILL.md` + all checklists; `src/lia_graph/ingestion_classifier.py` (precedent for LLM-call-with-structured-output discipline); `scripts/launch_phase9a.sh` + `scripts/monitoring/ingest_heartbeat.py` (the long-running-job launcher pattern); `artifacts/parsed_articles.jsonl` (the corpus to iterate over); `src/lia_graph/scrapers/` (1B-α infrastructure); `src/lia_graph/canon.py` (1A canonicalizer — produces the input set).
-- *Create:* `src/lia_graph/vigencia_extractor.py` (the agent loop module, v3 shape); `scripts/extract_vigencia.py` (the batch driver — launched detached per long-running-job convention); `scripts/build_extraction_input_set.py` (walks corpus chunks, runs canonicalizer, produces deduplicated norm_id list); `evals/vigencia_extraction_v1/` (output dir); `scripts/audit_vigencia_extraction.py` (the bucket reporter, broken out by article vs sub-unit); `Makefile` target `phase2-extract-vigencia`.
+- *Read first:* `.claude/skills/vigencia-checker/SKILL.md` + all checklists; `src/lia_graph/ingestion_classifier.py` (precedent for LLM-call-with-structured-output discipline); `scripts/ingestion/launch_phase9a.sh` + `scripts/monitoring/ingest_heartbeat.py` (the long-running-job launcher pattern); `artifacts/parsed_articles.jsonl` (the corpus to iterate over); `src/lia_graph/scrapers/` (1B-α infrastructure); `src/lia_graph/canon.py` (1A canonicalizer — produces the input set).
+- *Create:* `src/lia_graph/vigencia_extractor.py` (the agent loop module, v3 shape); `scripts/canonicalizer/extract_vigencia.py` (the batch driver — launched detached per long-running-job convention); `scripts/canonicalizer/build_extraction_input_set.py` (walks corpus chunks, runs canonicalizer, produces deduplicated norm_id list); `evals/vigencia_extraction_v1/` (output dir); `scripts/audit_vigencia_extraction.py` (the bucket reporter, broken out by article vs sub-unit); `Makefile` target `phase2-extract-vigencia`.
 - *Modify:* `src/lia_graph/scrapers/cache.py` (already touched in 1B-α for the canonical_norm_id column).
 
 **Long-running-job protocol.** The 30,000-norm batch runs ~12-18 hours wall time. Per `CLAUDE.md`'s long-running-job section: `nohup` + `disown` + direct `>log 2>&1` (NO tee), 3-minute heartbeat via `scripts/monitoring/ingest_heartbeat.py` template, anchor progress to `logs/events.jsonl`, render in Bogotá AM/PM. The `cli.done` event signals completion; absent it after process death = silent failure → STOP loop, do NOT retry.
@@ -1165,7 +1165,7 @@ The agent loop per norm_id:
 
 A sixth migration drops the old columns once 1B-ε ships and the deprecation window closes (target: week 11).
 
-**Idempotent veredicto ingest.** The 1B-β output (`evals/vigencia_extraction_v1/<norm_id>.json`) feeds a sink (`scripts/ingest_vigencia_veredictos.py`) that:
+**Idempotent veredicto ingest.** The 1B-β output (`evals/vigencia_extraction_v1/<norm_id>.json`) feeds a sink (`scripts/canonicalizer/ingest_vigencia_veredictos.py`) that:
 
 1. Upserts `norms` rows for every norm_id (and parent norm_ids walked recursively).
 2. INSERT (never UPDATE) into `norm_vigencia_history` — even on re-runs. Idempotency comes from a deterministic `extracted_via.run_id` check: if a row exists with the same `(norm_id, run_id, change_source.source_norm_id)`, skip the insert.
@@ -1214,8 +1214,8 @@ The directional pair (e.g., MODIFIES / MODIFIED_BY) is intentional: `MODIFIES` (
 **Effort.** 1 senior engineer × 1 week (week 6–7).
 
 **Files.**
-- *Read first:* `src/lia_graph/ingestion/supabase_sink.py:639,646` (where binary vigencia is written today — to be deprecated); `src/lia_graph/ingestion/loader.py` (Falkor loader); `src/lia_graph/graph/client.py` (`stage_detach_delete` + `stage_delete_outbound_edges` patterns from v5 §6.5); `scripts/sync_article_secondary_topics_to_falkor.py` (precedent for "back-fill a property to existing Falkor nodes via Cypher MERGE without re-ingest"); `evals/activity_1_5/persistence_audit.jsonl` (the Activity 1.5b write log — the v3 sink upgrades these via the audit).
-- *Create:* the 5 migrations listed above; `scripts/ingest_vigencia_veredictos.py` (the sink); `src/lia_graph/persistence/norm_history_writer.py` (the in-process API used by the sink and by the cron); `scripts/sync_vigencia_to_falkor.py` (Falkor mirror — extends existing sync pattern); `tests/test_norms_catalog.py`, `tests/test_norm_vigencia_history_append_only.py`, `tests/test_falkor_norm_mirror.py`, `tests/test_v2_to_v3_veredicto_upgrade.py`.
+- *Read first:* `src/lia_graph/ingestion/supabase_sink.py:639,646` (where binary vigencia is written today — to be deprecated); `src/lia_graph/ingestion/loader.py` (Falkor loader); `src/lia_graph/graph/client.py` (`stage_detach_delete` + `stage_delete_outbound_edges` patterns from v5 §6.5); `scripts/ingestion/sync_article_secondary_topics_to_falkor.py` (precedent for "back-fill a property to existing Falkor nodes via Cypher MERGE without re-ingest"); `evals/activity_1_5/persistence_audit.jsonl` (the Activity 1.5b write log — the v3 sink upgrades these via the audit).
+- *Create:* the 5 migrations listed above; `scripts/canonicalizer/ingest_vigencia_veredictos.py` (the sink); `src/lia_graph/persistence/norm_history_writer.py` (the in-process API used by the sink and by the cron); `scripts/canonicalizer/sync_vigencia_to_falkor.py` (Falkor mirror — extends existing sync pattern); `tests/test_norms_catalog.py`, `tests/test_norm_vigencia_history_append_only.py`, `tests/test_falkor_norm_mirror.py`, `tests/test_v2_to_v3_veredicto_upgrade.py`.
 - *Modify:* `src/lia_graph/graph/schema.py` (extend `EdgeKind` enum); `src/lia_graph/ingestion/supabase_sink.py` (the existing per-doc vigencia write becomes a no-op once the deprecation view ships, but stays in place for one release).
 - **Convention reminder:** explicit `DROP FUNCTION IF EXISTS` before any SQL function change; per `hybrid_search-overload-2026-04-27.md`.
 
@@ -1270,14 +1270,14 @@ SME triages weekly; resolved patterns are baked into the canonicalizer's rules. 
 - SME spot-check: 50 random `norm_citations` rows; ≥ 47 correctly identified.
 
 **How to test.**
-- `scripts/audit_norm_citations.py` reports: total chunks, % with ≥ 1 citation, % refused, anchor-strength distribution.
+- `scripts/ingestion/audit_norm_citations.py` reports: total chunks, % with ≥ 1 citation, % refused, anchor-strength distribution.
 - `tests/test_role_inference.py` over a curated 20-chunk sample.
 
 **Effort.** 0.5 senior engineer × 1 week (week 6–7, parallel with 1B-γ).
 
 **Files.**
 - *Read first:* `src/lia_graph/canon.py` (1A); `artifacts/parsed_articles.jsonl` (corpus structure); `src/lia_graph/ingestion/supabase_sink.py` (chunk-write site for sample chunk_text shape).
-- *Create:* `scripts/backfill_norm_citations.py` (the backfill loop); `src/lia_graph/citations.py` (role + anchor-strength inference); `scripts/audit_norm_citations.py`; `tests/test_role_inference.py`; `evals/canonicalizer_refusals_v1/` (output dir).
+- *Create:* `scripts/ingestion/backfill_norm_citations.py` (the backfill loop); `src/lia_graph/citations.py` (role + anchor-strength inference); `scripts/ingestion/audit_norm_citations.py`; `tests/test_role_inference.py`; `evals/canonicalizer_refusals_v1/` (output dir).
 - *Modify:* `src/lia_graph/canon.py` (gets new rules from SME triage as backfill progresses).
 
 ### 2.6 Sub-fix 1B-ε — Retriever rewire to resolver functions (was Fix 1C in v2)
@@ -1450,7 +1450,7 @@ Step 4: retrieval automatically picks up the change on next query
 **Effort.** 0.5 senior engineer × 6 weeks intermittent (weeks 4–10), cumulative ~3 FTE-weeks. Hosted by Re-Verify Cron infrastructure (no separate hosting line).
 
 **Files.**
-- *Read first:* `scripts/monitoring/ingest_heartbeat.py` (the cron / heartbeat shape); `scripts/sync_article_secondary_topics_to_falkor.py` (precedent for cron-driven Falkor writes); `src/lia_graph/pipeline_d/answer_synthesis.py` (where `detect_inconsistency` is consumed); `docs/orchestration/coherence-gate-runbook.md` (where `vigencia_inconsistency` fallback_reason gets registered).
+- *Read first:* `scripts/monitoring/ingest_heartbeat.py` (the cron / heartbeat shape); `scripts/ingestion/sync_article_secondary_topics_to_falkor.py` (precedent for cron-driven Falkor writes); `src/lia_graph/pipeline_d/answer_synthesis.py` (where `detect_inconsistency` is consumed); `docs/orchestration/coherence-gate-runbook.md` (where `vigencia_inconsistency` fallback_reason gets registered).
 - *Create:* `src/lia_graph/pipeline_d/vigencia_cascade.py` (the orchestrator class); `cron/cascade_consumer.py` (cron entry point for re-verify queue consumption); `cron/state_flip_notifier.py` (future-dated alerts); `tests/test_vigencia_cascade_*.py`; `docs/orchestration/cascade-runbook.md` (operator-facing).
 - *Modify:* `src/lia_graph/pipeline_d/answer_synthesis.py` (detection-only consumer); `src/lia_graph/pipeline_d/answer_policy.py` (refusal mode for `vigencia_inconsistency`); `docs/orchestration/coherence-gate-runbook.md` (new fallback_reason).
 

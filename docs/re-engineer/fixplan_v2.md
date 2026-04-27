@@ -178,7 +178,7 @@ class VigenciaSkillHarness:
         *,
         scrapers: ScraperRegistry,
         model: str = "gemini-2.5-pro",
-        api_key: str,                          # from env LIA_GEMINI_API_KEY
+        api_key: str,                          # from env GEMINI_API_KEY (legacy alias LIA_GEMINI_API_KEY also honored)
         base_url: str = DEFAULT_GEMINI_OPENAI_BASE_URL,
         max_tool_iterations: int = 10,
         timeout_seconds: float = 60.0,
@@ -227,7 +227,7 @@ class VigenciaResult:
 - Tool results are accumulated into the conversation as `role=tool` messages; the skill's final assistant message is parsed for the structured veredicto block (the bordered `═══...═══` format from `patrones-citacion.md`).
 - `temperature=0.1` — verification is not creative work; the model should be deterministic about reading sources.
 
-**API key.** Read from `LIA_GEMINI_API_KEY` env var, set per the existing `.env.local` / `.env.staging` convention (same key already used by classifier + planner). No new credential to provision.
+**API key.** Read from `GEMINI_API_KEY` env var (legacy alias `LIA_GEMINI_API_KEY` still honored as a fallback), set per the existing `.env.local` / `.env.staging` convention (same key already used by classifier + planner). No new credential to provision.
 
 **Output parsing.** The skill produces the veredicto in the format defined in `patrones-citacion.md` §"Output mínimo." The harness regexes the bordered block (`═══...═══`) and parses each labeled line into the `Vigencia` dataclass.
 
@@ -532,7 +532,7 @@ The 5 scrapers:
 **Effort.** 1 senior engineer × 3 weeks (week 1–4 — overlaps Fix 1A weeks 1–2).
 
 **Files.**
-- *Read first:* `.claude/skills/vigencia-checker/references/fuentes-primarias.md` (the source hierarchy + URLs + selection rules); `scripts/sync_subtopic_taxonomy_to_supabase.py` (precedent for "external-source-fetch + cache + sync" Python module); any existing scraping or HTTP-cache code in the repo (`grep -r "requests" src/`).
+- *Read first:* `.claude/skills/vigencia-checker/references/fuentes-primarias.md` (the source hierarchy + URLs + selection rules); `scripts/ingestion/sync_subtopic_taxonomy_to_supabase.py` (precedent for "external-source-fetch + cache + sync" Python module); any existing scraping or HTTP-cache code in the repo (`grep -r "requests" src/`).
 - *Create:* `src/lia_graph/scrapers/__init__.py`, `src/lia_graph/scrapers/{secretaria_senado,dian_normograma,suin_juriscol,corte_constitucional,consejo_estado}.py`, `src/lia_graph/scrapers/cache.py` (SQLite-backed, shared by all 5), `tests/scrapers/test_*.py` (one per scraper + smoke fixtures under `tests/scrapers/fixtures/`), `scripts/scrapers/probe_all.py`, `Makefile` target `scrapers-probe`.
 - *Modify:* `pyproject.toml` (add `requests`, `beautifulsoup4`, `lxml` if not already present), `.gitignore` (exclude `var/scraper_cache.db`).
 
@@ -569,8 +569,8 @@ The agent loop per article:
 **Effort.** 1 senior engineer × 2 weeks (week 4–6).
 
 **Files.**
-- *Read first:* `.claude/skills/vigencia-checker/SKILL.md` + all checklists; `src/lia_graph/ingestion_classifier.py` (precedent for LLM-call-with-structured-output discipline); `scripts/launch_phase9a.sh` + `scripts/monitoring/ingest_heartbeat.py` (the long-running-job launcher pattern); `artifacts/parsed_articles.jsonl` (the corpus to iterate over); `src/lia_graph/scrapers/` (your new infra from 1B-α).
-- *Create:* `src/lia_graph/vigencia_extractor.py` (the agent loop module), `scripts/extract_vigencia.py` (one-off batch driver, launched detached per long-running-job convention), `evals/vigencia_extraction_v1/` (output dir), `scripts/audit_vigencia_extraction.py` (the bucket reporter), `Makefile` target `phase2-extract-vigencia`.
+- *Read first:* `.claude/skills/vigencia-checker/SKILL.md` + all checklists; `src/lia_graph/ingestion_classifier.py` (precedent for LLM-call-with-structured-output discipline); `scripts/ingestion/launch_phase9a.sh` + `scripts/monitoring/ingest_heartbeat.py` (the long-running-job launcher pattern); `artifacts/parsed_articles.jsonl` (the corpus to iterate over); `src/lia_graph/scrapers/` (your new infra from 1B-α).
+- *Create:* `src/lia_graph/vigencia_extractor.py` (the agent loop module), `scripts/canonicalizer/extract_vigencia.py` (one-off batch driver, launched detached per long-running-job convention), `evals/vigencia_extraction_v1/` (output dir), `scripts/audit_vigencia_extraction.py` (the bucket reporter), `Makefile` target `phase2-extract-vigencia`.
 - *Modify:* none in this sub-fix; Fix 1B-γ does the writes.
 
 ### 2.4 Sub-fix 1B-γ — Materialize vigencia in Supabase + Falkor (was Fix 1C in v1)
@@ -590,8 +590,8 @@ The agent loop per article:
 **Effort.** 1 senior engineer × 1 week (week 6–7).
 
 **Files.**
-- *Read first:* `src/lia_graph/ingestion/supabase_sink.py:639,646` (where binary vigencia is written today — extend); `src/lia_graph/ingestion/loader.py` (Falkor loader); `src/lia_graph/graph/client.py` (`stage_detach_delete` + `stage_delete_outbound_edges` patterns from v5 §6.5); `scripts/sync_article_secondary_topics_to_falkor.py` (precedent for "back-fill a property to existing Falkor nodes without re-ingest").
-- *Create:* `supabase/migrations/20260YYYY000000_vigencia_structural.sql` (adds `vigente_desde`, `vigente_hasta`, `modificado_por jsonb`, `suspension_actual jsonb`, `inexequibilidad jsonb`, `condicionamiento text`, `regimen_transicion jsonb` columns + populates from extraction output), `scripts/sync_vigencia_to_falkor.py` (mirrors `sync_article_secondary_topics_to_falkor.py`), `scripts/audit_vigencia_integrity.py`.
+- *Read first:* `src/lia_graph/ingestion/supabase_sink.py:639,646` (where binary vigencia is written today — extend); `src/lia_graph/ingestion/loader.py` (Falkor loader); `src/lia_graph/graph/client.py` (`stage_detach_delete` + `stage_delete_outbound_edges` patterns from v5 §6.5); `scripts/ingestion/sync_article_secondary_topics_to_falkor.py` (precedent for "back-fill a property to existing Falkor nodes without re-ingest").
+- *Create:* `supabase/migrations/20260YYYY000000_vigencia_structural.sql` (adds `vigente_desde`, `vigente_hasta`, `modificado_por jsonb`, `suspension_actual jsonb`, `inexequibilidad jsonb`, `condicionamiento text`, `regimen_transicion jsonb` columns + populates from extraction output), `scripts/canonicalizer/sync_vigencia_to_falkor.py` (mirrors `sync_article_secondary_topics_to_falkor.py`), `scripts/audit_vigencia_integrity.py`.
 - *Modify:* `src/lia_graph/ingestion/supabase_sink.py` (write all vigencia fields), `src/lia_graph/ingestion/loader.py` (emit structured edges with full properties).
 - **Convention reminder:** explicit `DROP FUNCTION IF EXISTS` before any SQL function change; per `hybrid_search-overload-2026-04-27.md`.
 
@@ -894,7 +894,7 @@ This Activity bridges the gap: persist the 4 veredictos to staging now (small, v
 **Cost.** $1K from reserve (was $4K after Activities 1.7 + 1.8; now $3K after 1.5b).
 
 **Files.**
-- *Read first:* the 4 veredicto fixtures in `evals/activity_1_5/`; `src/lia_graph/ingestion/supabase_sink.py:639,646` (current vigencia write site — mirror the column-write pattern); `scripts/sync_article_secondary_topics_to_falkor.py` (precedent for "back-fill a property to existing Falkor nodes via Cypher MERGE without re-ingest").
+- *Read first:* the 4 veredicto fixtures in `evals/activity_1_5/`; `src/lia_graph/ingestion/supabase_sink.py:639,646` (current vigencia write site — mirror the column-write pattern); `scripts/ingestion/sync_article_secondary_topics_to_falkor.py` (precedent for "back-fill a property to existing Falkor nodes via Cypher MERGE without re-ingest").
 - *Create:* `scripts/persist_veredictos_to_staging.py` (the one-shot persistence script); `evals/activity_1_5/persistence_audit.jsonl` (the rollback-ready log).
 - *Modify:* staging cloud Supabase `documents` table (4 rows); staging cloud Falkor (4 nodes' `vigencia` property + 4–8 new edges).
 

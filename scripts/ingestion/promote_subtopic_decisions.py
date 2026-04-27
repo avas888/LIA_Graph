@@ -7,9 +7,9 @@ Consumes the append-only audit trail at
 
 Usage:
 
-    python scripts/promote_subtopic_decisions.py --dry-run
-    python scripts/promote_subtopic_decisions.py
-    python scripts/promote_subtopic_decisions.py \
+    python scripts/ingestion/promote_subtopic_decisions.py --dry-run
+    python scripts/ingestion/promote_subtopic_decisions.py
+    python scripts/ingestion/promote_subtopic_decisions.py \
         --decisions artifacts/subtopic_decisions.jsonl \
         --output config/subtopic_taxonomy.json \
         --version 2026-04-21-v1
@@ -33,8 +33,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Sequence
 
-# Keep the script runnable both as ``python scripts/promote_subtopic_decisions.py``
-# and as ``PYTHONPATH=src:. python scripts/promote_subtopic_decisions.py``.
+# Keep the script runnable both as ``python scripts/ingestion/promote_subtopic_decisions.py``
+# and as ``PYTHONPATH=src:. python scripts/ingestion/promote_subtopic_decisions.py``.
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _SRC_DIR = _REPO_ROOT / "src"
 _SCRIPTS_DIR = _REPO_ROOT / "scripts"

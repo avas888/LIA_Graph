@@ -66,8 +66,8 @@ Every batch follows the same protocol. If you understand one, you understand all
 ```bash
 set -a; . .env.local; set +a
 nohup env SUPABASE_URL=$SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY \
-        LIA_GEMINI_API_KEY=$LIA_GEMINI_API_KEY \
-        PYTHONPATH=src:. uv run python scripts/extract_vigencia.py \
+        GEMINI_API_KEY=${GEMINI_API_KEY:-${LIA_GEMINI_API_KEY:-}} \
+        PYTHONPATH=src:. uv run python scripts/canonicalizer/extract_vigencia.py \
         --batch-id A1 \
         --run-id canonicalizer-A1-$(date +%Y%m%dT%H%M%SZ) \
         --output-dir evals/vigencia_extraction_v1/A1 \
@@ -636,7 +636,7 @@ When writing test questions for a new batch, follow these rules so the test clea
 - All operations on local Supabase + local Falkor only. No staging writes during this run.
 - Every long-running batch follows the long-running-job protocol: detached, heartbeat every 3 min, kill-switches, no `tee` pipes.
 - Every batch's veredicto JSON files commit to `evals/vigencia_extraction_v1/<batch_id>/` so they're reviewable later.
-- Cron orchestrator (sub-fix 1F) re-verifies cascading effects after each batch — but the cron is NOT yet deployed locally; we run cascade synchronously per batch via `scripts/sync_vigencia_to_falkor.py` + manual reviviscencia handler when D5 (Ley 1943/2018 IE) lands.
+- Cron orchestrator (sub-fix 1F) re-verifies cascading effects after each batch — but the cron is NOT yet deployed locally; we run cascade synchronously per batch via `scripts/canonicalizer/sync_vigencia_to_falkor.py` + manual reviviscencia handler when D5 (Ley 1943/2018 IE) lands.
 - Update `state_fixplan_v3.md` §10 run log with one entry per phase (not per batch — too noisy), summarizing batch outcomes + any bugs found + delta on the cumulative coverage projection.
 - Capture every bug into `docs/learnings/` as it surfaces, in real time.
 
@@ -702,12 +702,12 @@ Step 1.A — Apply v3 migrations to local Supabase docker (already done 2026-04-
         ✓ supabase db reset --local
 
 Step 1.B — Run the batch (the only Gemini call).
-        ✓ scripts/extract_vigencia.py --batch-id <X> --run-id canonicalizer-<X>-<ts> ...
+        ✓ scripts/canonicalizer/extract_vigencia.py --batch-id <X> --run-id canonicalizer-<X>-<ts> ...
         ✓ Veredictos write to evals/vigencia_extraction_v1/<batch_id>/.
 
 Step 1.C — Replay to local docker Supabase + Falkor.
-        ✓ scripts/ingest_vigencia_veredictos.py --target wip ...
-        ✓ scripts/sync_vigencia_to_falkor.py --target wip
+        ✓ scripts/canonicalizer/ingest_vigencia_veredictos.py --target wip ...
+        ✓ scripts/canonicalizer/sync_vigencia_to_falkor.py --target wip
         ✓ "wip" = local docker per supabase_client target config.
 
 Step 1.D — Per-batch verify (4–6 test questions).
@@ -737,7 +737,7 @@ Step 2.A — Apply v3 migrations to cloud staging.
         ✓ Schema only — same migrations that ran locally.
 
 Step 2.B — Replay the canonical veredicto JSONs into cloud staging Supabase.
-        ✓ scripts/ingest_vigencia_veredictos.py \
+        ✓ scripts/canonicalizer/ingest_vigencia_veredictos.py \
               --target production \              # `production` = staging cloud per supabase_client config
               --run-id canonicalizer-run-v1-promote-cloud-<ts> \
               --extracted-by v2_to_v3_upgrade \   # NOT "ingest@v1" — this is a replay, not a fresh run
@@ -746,7 +746,7 @@ Step 2.B — Replay the canonical veredicto JSONs into cloud staging Supabase.
         ✓ NO Gemini API call fires here.
 
 Step 2.C — Sync the Falkor :Norm mirror to staging FalkorDB.
-        ✓ scripts/sync_vigencia_to_falkor.py --target production --rebuild-from-postgres --confirm
+        ✓ scripts/canonicalizer/sync_vigencia_to_falkor.py --target production --rebuild-from-postgres --confirm
 
 Step 2.D — Re-baseline the SME 36-question validation against cloud staging.
         ✓ `npm run dev:staging` (now reads from cloud, not local docker).
@@ -781,7 +781,7 @@ Step 3.D — Operator green-light + Railway deploy.
 
 Three layers of protection, in order of strictness:
 
-1. **Process discipline.** `scripts/extract_vigencia.py` writes its `--run-id` into every veredicto. Before launching a batch, the engineer checks `evals/vigencia_extraction_v1/<batch_id>/` exists and is non-empty. If it is, the batch was already run — do NOT launch again. The engineer's launch checklist explicitly asks: "is `evals/vigencia_extraction_v1/<batch_id>/` empty? If no — STOP, this batch already ran."
+1. **Process discipline.** `scripts/canonicalizer/extract_vigencia.py` writes its `--run-id` into every veredicto. Before launching a batch, the engineer checks `evals/vigencia_extraction_v1/<batch_id>/` exists and is non-empty. If it is, the batch was already run — do NOT launch again. The engineer's launch checklist explicitly asks: "is `evals/vigencia_extraction_v1/<batch_id>/` empty? If no — STOP, this batch already ran."
 
 2. **Idempotency at the writer.** `NormHistoryWriter.bulk_insert_run` uses `(norm_id, run_id, source_norm_id)` as the idempotency key. Re-running the *same* run_id is a no-op. So even if someone accidentally launches a batch twice with the same id, no duplicate rows land.
 

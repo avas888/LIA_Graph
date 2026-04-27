@@ -2,7 +2,7 @@
 
 These tests run under `make test-batched` to catch malformed or incomplete
 fixtures early. The full answer-generation gate runs inside
-`scripts/fire_suin_cloud.sh` and requires the live retrieval stack — it is
+`scripts/ingestion/fire_suin_cloud.sh` and requires the live retrieval stack — it is
 not invoked from here.
 """
 

@@ -75,7 +75,7 @@ def test_article_node_key_field_is_article_id_specifically() -> None:
     article_type = schema.node_types[NodeKind.ARTICLE]
     assert article_type.key_field == "article_id", (
         "ArticleNode key_field changed — update all external queries that "
-        "use `a.article_id` (including scripts/repair_falkor_subtopic.py)."
+        "use `a.article_id` (including scripts/ingestion/repair_falkor_subtopic.py)."
     )
 
 

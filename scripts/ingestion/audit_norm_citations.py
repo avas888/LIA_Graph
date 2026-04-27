@@ -4,7 +4,7 @@ Reports: total chunks, % with ≥ 1 citation, % refused, anchor-strength
 distribution. Per fixplan_v3 §2.5 success criteria.
 
 Usage:
-  PYTHONPATH=src:. uv run python scripts/audit_norm_citations.py \\
+  PYTHONPATH=src:. uv run python scripts/ingestion/audit_norm_citations.py \\
       --target staging \\
       [--refusal-log evals/canonicalizer_refusals_v1/refusals.jsonl] \\
       [--output evals/canonicalizer_refusals_v1/audit_report.json]

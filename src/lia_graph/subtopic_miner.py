@@ -1,7 +1,7 @@
 """Subtopic mining primitives (Phase 3 of subtopic_generationv1).
 
 Pure, side-effect-free helpers consumed by
-``scripts/mine_subtopic_candidates.py``:
+``scripts/ingestion/mine_subtopic_candidates.py``:
 
 - :func:`normalize_label` — Spanish-slug normalization + light stemming.
 - :func:`cluster_labels_by_parent_topic` — group candidate labels per

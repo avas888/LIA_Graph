@@ -5,11 +5,11 @@ Two-step deactivate-then-activate flow honoring
 `idx_corpus_generations_single_active` (partial unique index allowing exactly
 one row with `is_active=true`). Mirrors the activation path inside
 `SupabaseCorpusSink.finalize(activate=True)` but runs standalone so the SUIN
-production push (`scripts/fire_suin_cloud.sh`) can flip an existing generation
+production push (`scripts/ingestion/fire_suin_cloud.sh`) can flip an existing generation
 without repeating the sink's ingest path.
 
 Invocation:
-    PYTHONPATH=src:. uv run python scripts/supabase_flip_active_generation.py \
+    PYTHONPATH=src:. uv run python scripts/ingestion/supabase_flip_active_generation.py \
         --target production --generation gen_suin_prod_v1 --confirm
 
 The `--confirm` flag is required. Without it the script prints the planned

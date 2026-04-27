@@ -180,7 +180,7 @@ What an LLM **cannot** do: own the makeorbreak decision, replace the SME's domai
 
 - Apply migrations `20260501000000_*` through `20260501000005_*` to local Supabase docker, then staging.
 - Pre-warm the scraper cache (run `nlm`/manual seeding for the 7 known fixtures).
-- Run `scripts/build_extraction_input_set.py` against the corpus to produce the deduplicated norm_id set.
+- Run `scripts/canonicalizer/build_extraction_input_set.py` against the corpus to produce the deduplicated norm_id set.
 
 The next planned starts (gated on operator sign-off):
 
@@ -199,7 +199,7 @@ The next planned starts (gated on operator sign-off):
 | Operator sign-off on v3 plan + state file | All week-1 starts | Operator | **PENDING** (this file just landed) |
 | SME availability for ontology session | Fix 1A gate-2 (week 1) | SME | not yet scheduled |
 | SME picks for VC/VL/DI/RV canonical norms | Activity 1.7b | SME | not yet picked |
-| `LIA_GEMINI_API_KEY` env vars in staging + production | Fix 1B-β (week 4-6) | Operator | already set per CLAUDE.md; verify before week 4 |
+| `GEMINI_API_KEY` env vars in staging + production | Fix 1B-β (week 4-6) | Operator | already set per CLAUDE.md; verify before week 4 |
 
 No technical blockers; all blockers are on operator + SME availability for the green-light + ontology session.
 
@@ -250,7 +250,7 @@ The LLM picking this up cold proceeds to step 3 and 6 once steps 1, 2, 4, 5 land
 |---|---|---|---|---|---|
 | **Fix 1A** — ontology (11 states) + ChangeSource discriminated union + canonicalizer | 🧪 (H0 verified) | claude-opus-4-7 | 2026-04-27 evening Bogotá | `src/lia_graph/vigencia.py` + `src/lia_graph/canon.py`; 142 unit tests pass (`tests/test_vigencia_v3_ontology.py`, `tests/test_canon.py`); covers 11 states, ChangeSource discriminated union, §0.5.4 round-trip + 4 refusal cases, sub-unit grammar | SME ontology session for skill v2.0 prompt update; Activity 6 50-chunk pilot still pending |
 | **Fix 1B-α** — scraper + cache infra (5 sources) | 🧪 (H0 verified) | claude-opus-4-7 | 2026-04-27 evening Bogotá | `src/lia_graph/scrapers/{base,cache,secretaria_senado,dian_normograma,suin_juriscol,corte_constitucional,consejo_estado}.py`; 19 H0 tests pass (`tests/test_scrapers.py`) — cache CRUD, URL resolution per source, registry routing, cache-only fetch path | Live HTTP smoke (gated `LIA_LIVE_SCRAPER_TESTS=1`) needs operator green-light + per-source rate-limit verification |
-| **Fix 1B-β** — skill-guided extractor batch (articles + sub-units) | 🧪 (H0 verified) | claude-opus-4-7 | 2026-04-27 evening Bogotá | `src/lia_graph/vigencia_extractor.py` (VigenciaSkillHarness + adapter_factory test seam); `scripts/{build_extraction_input_set,extract_vigencia}.py`; 8 H0 tests (`tests/test_vigencia_extractor.py`) | Real Gemini run gated on `LIA_GEMINI_API_KEY`; corpus input set requires `parsed_articles.jsonl` walk |
+| **Fix 1B-β** — skill-guided extractor batch (articles + sub-units) | 🧪 (H0 verified) | claude-opus-4-7 | 2026-04-27 evening Bogotá | `src/lia_graph/vigencia_extractor.py` (VigenciaSkillHarness + adapter_factory test seam); `scripts/{build_extraction_input_set,extract_vigencia}.py`; 8 H0 tests (`tests/test_vigencia_extractor.py`) | Real Gemini run gated on `GEMINI_API_KEY`; corpus input set requires `parsed_articles.jsonl` walk |
 | **Fix 1B-γ** — `norms` + `norm_vigencia_history` + `norm_citations` tables + Falkor mirror | 🧪 (H0 verified) | claude-opus-4-7 | 2026-04-27 evening Bogotá | 4 migrations `20260501000000-3` (catalog + append-only history + citations + resolvers); `src/lia_graph/persistence/norm_history_writer.py` (sole sanctioned writer); `scripts/{ingest_vigencia_veredictos,sync_vigencia_to_falkor}.py`; Falkor `:Norm` node + 9 v3 edge kinds added to `graph/schema.py`; 13 writer tests + 8 migration shape tests pass | Apply migrations to dev docker → staging cloud; sync 7 fixture veredictos as smoke per §0.11.5 |
 | **Fix 1B-δ** — `norm_citations` link backfill via canonicalizer over existing chunks | 🧪 (H0 verified) | claude-opus-4-7 | 2026-04-27 evening Bogotá | `src/lia_graph/citations.py` (role + anchor-strength inference); `scripts/{backfill_norm_citations,audit_norm_citations}.py`; 11 inference tests pass (`tests/test_role_inference.py`) | Run against cloud staging chunks once 1B-γ migrations applied; SME triage of refusal queue |
 | **Fix 1B-ε** — retriever rewire to resolver functions (was 1C in v2) | 🧪 (H0 verified) | claude-opus-4-7 | 2026-04-27 evening Bogotá | `src/lia_graph/pipeline_d/{vigencia_resolver,vigencia_demotion}.py` + `GraphRetrievalPlan.vigencia_query_kind/payload`; new RPC `chunk_vigencia_gate_at_date` + `chunk_vigencia_gate_for_period` (migration `20260501000004`); 18 tests pass (`test_vigencia_resolver.py`, `test_vigencia_demotion.py`) | Wire `apply_demotion` into `retriever_supabase.py` post-hybrid_search; H2 cluster smoke against §1.G fixture |
@@ -346,10 +346,10 @@ When taking on a sub-fix, copy the template below into your gate-1 sketch (`docs
 
 | Script | Class | Forward action | Reverse action (cleanup) | Tracking key | Failure-mid-run state | Recovery |
 |---|---|---|---|---|---|---|
-| `scripts/extract_vigencia.py` (1B-β extractor batch) | R2 | writes JSON files to `evals/vigencia_extraction_v1/<norm_id>.json` | delete files matching `<run_id>` from manifest | `extraction_run_id` in audit log | partial files written for some norms; manifest records what completed | re-run with `--resume <run_id>`; skips norms whose JSON exists with same `run_id` |
-| `scripts/ingest_vigencia_veredictos.py` (1B-γ sink) | R2 | UPSERTs `norms`; INSERTs `norm_vigencia_history`; MERGEs Falkor `(:Norm)` + edges | delete `norm_vigencia_history` rows where `extracted_via->>'run_id' = '<bad_run>'`; Falkor `MATCH (n:Norm) WHERE n.extracted_via_run_id = '<bad_run>' DETACH DELETE n` | `extracted_via.run_id` (every row carries it) | partial: some history rows + some Falkor nodes for a run | run cleanup script `scripts/rollback_ingest_run.py --run-id <bad_run>`; resume sink with new `run_id` |
-| `scripts/backfill_norm_citations.py` (1B-δ backfill) | R2 | INSERTs `norm_citations` rows | delete `norm_citations` rows where `extracted_via = '<bad_run>'` | `extracted_via` (run id) | partial rows inserted for some chunks | cleanup by run; canonicalizer refusal queue may also have stale entries — clear `evals/canonicalizer_refusals_v1/<bad_run>/` |
-| `scripts/sync_vigencia_to_falkor.py` | R2 | MERGEs `(:Norm)` + edges into Falkor mirroring `norm_vigencia_history` rows | DETACH DELETE nodes by `record_id` property | edge / node `record_id` property = Postgres row UUID | partial Falkor sync | re-run with `--from-record-id <ts>` to rebuild from a checkpoint |
+| `scripts/canonicalizer/extract_vigencia.py` (1B-β extractor batch) | R2 | writes JSON files to `evals/vigencia_extraction_v1/<norm_id>.json` | delete files matching `<run_id>` from manifest | `extraction_run_id` in audit log | partial files written for some norms; manifest records what completed | re-run with `--resume <run_id>`; skips norms whose JSON exists with same `run_id` |
+| `scripts/canonicalizer/ingest_vigencia_veredictos.py` (1B-γ sink) | R2 | UPSERTs `norms`; INSERTs `norm_vigencia_history`; MERGEs Falkor `(:Norm)` + edges | delete `norm_vigencia_history` rows where `extracted_via->>'run_id' = '<bad_run>'`; Falkor `MATCH (n:Norm) WHERE n.extracted_via_run_id = '<bad_run>' DETACH DELETE n` | `extracted_via.run_id` (every row carries it) | partial: some history rows + some Falkor nodes for a run | run cleanup script `scripts/rollback_ingest_run.py --run-id <bad_run>`; resume sink with new `run_id` |
+| `scripts/ingestion/backfill_norm_citations.py` (1B-δ backfill) | R2 | INSERTs `norm_citations` rows | delete `norm_citations` rows where `extracted_via = '<bad_run>'` | `extracted_via` (run id) | partial rows inserted for some chunks | cleanup by run; canonicalizer refusal queue may also have stale entries — clear `evals/canonicalizer_refusals_v1/<bad_run>/` |
+| `scripts/canonicalizer/sync_vigencia_to_falkor.py` | R2 | MERGEs `(:Norm)` + edges into Falkor mirroring `norm_vigencia_history` rows | DETACH DELETE nodes by `record_id` property | edge / node `record_id` property = Postgres row UUID | partial Falkor sync | re-run with `--from-record-id <ts>` to rebuild from a checkpoint |
 | `scripts/persist_veredictos_to_staging.py` (Activity 1.5b — already shipped) | R2 historical | wrote 4 `documents.vigencia` UPDATEs + 4-8 Falkor edges | reverse via `evals/activity_1_5/persistence_audit.jsonl` (rollback-ready per Activity 1.5b spec) | `activity = '1.5b'` in audit lines | n/a (already shipped without partial state) | for v3 re-persistence: 1B-γ sink reads the audit log, supersedes the 4 staging rows with v3-shaped history rows |
 
 ### §5.3 — Persistence write reversibility (the writer module)
@@ -409,7 +409,7 @@ python scripts/rollback_ingest_run.py --run-id <bad_run>
 # Falkor MATCH (n:Norm) WHERE n.extracted_via_run_id = '<bad_run>' DETACH DELETE n.
 
 # 4. Iterate skill prompt or harness; re-run with new run_id.
-python scripts/extract_vigencia.py --run-id <new_run> --resume-from-checkpoint
+python scripts/canonicalizer/extract_vigencia.py --run-id <new_run> --resume-from-checkpoint
 ```
 
 #### Recipe B — "1B-γ migrations applied to staging but the schema is wrong"
@@ -490,7 +490,7 @@ GRAPH.QUERY LIA_REGULATORY_GRAPH "MATCH (n:Norm) RETURN COUNT(n)"
 psql "$STAGING_SUPABASE_URL" -c "SELECT COUNT(*) FROM norms;"
 
 # 3. Wholesale rebuild Falkor :Norm subgraph from Supabase.
-python scripts/sync_vigencia_to_falkor.py --rebuild-from-postgres --confirm
+python scripts/canonicalizer/sync_vigencia_to_falkor.py --rebuild-from-postgres --confirm
 # Internally: MATCH (n:Norm) DETACH DELETE n  (all Norm nodes + their edges)
 #             then re-MERGE every (:Norm) and its edges from norms + norm_vigencia_history.
 
@@ -684,7 +684,7 @@ A green here means "this sub-fix passes its H1 tests in this env." Updated as su
 |---|---|---|---|
 | 1A | ✅ H0 + ✅ H1 + ✅ H2 (canonicalizer ran over 7,877 corpus chunks; 11,384 norms cataloged; doc-anchor recovery dropped refusal rate 226→127 on sample) | not_started | not_started |
 | 1B-α | ✅ H0 (URL resolution + cache CRUD; live HTTP still gated on `LIA_LIVE_SCRAPER_TESTS=1`) | not_started | not_started |
-| 1B-β | ✅ H0 (harness + adapter test seam); live skill needs `LIA_GEMINI_API_KEY` | not_started | not_started |
+| 1B-β | ✅ H0 (harness + adapter test seam); live skill needs `GEMINI_API_KEY` | not_started | not_started |
 | 1B-γ | ✅ H0 + ✅ H1 + ✅ H2 (6 migrations applied; 7 fixture veredictos landed in `norm_vigencia_history`; CHECK constraints + INSERT-only grants exercised) | not_started | not_started |
 | 1B-δ | ✅ H0 + ✅ H1 + ✅ H2 (4,757 / 7,877 chunks have ≥ 1 citation; 40,835 citation rows; UNIQUE INDEX + dedup + doc-anchor recovery all live) | not_started | not_started |
 | 1B-ε | ✅ H0 + ✅ H1 + ✅ H2 (`apply_demotion` wired into served `retrieve_graph_evidence`; `vigencia_v3` propagates to GraphEvidenceItem + Citation; per-turn diagnostic block live) | not_started | not_started |
@@ -722,7 +722,7 @@ Production deploys (Railway) require operator green-light AND require staging to
 **Diagnosis steps:**
 1. Check whether the norm's primary sources changed between runs (`scraper_cache.db` `fetched_at_utc`).
 2. Check whether the skill prompt was revised between runs (git log on `.claude/skills/vigencia-checker/`).
-3. Check whether the `LIA_GEMINI_API_KEY` model version changed (`gemini-2.5-pro` revisions are silent server-side).
+3. Check whether the `GEMINI_API_KEY` model version changed (`gemini-2.5-pro` revisions are silent server-side).
 4. Run the same norm with `temperature=0.0` (deterministic mode) — if results converge, the issue is sampling variance; if they still diverge, the issue is upstream.
 
 **Recipe:**
@@ -781,14 +781,14 @@ Production deploys (Railway) require operator green-light AND require staging to
 
 **Diagnosis steps:**
 1. Count both backends; identify divergence direction (Falkor ahead → Postgres rolled back without Falkor cleanup; Postgres ahead → Falkor sync failed mid-run).
-2. Check `scripts/sync_vigencia_to_falkor.py` last-run timestamp + exit code.
+2. Check `scripts/canonicalizer/sync_vigencia_to_falkor.py` last-run timestamp + exit code.
 3. Sample 5 random norms; check round-trip identity.
 
 **Recipe** (Recipe D from §5.6):
 1. Pause the syncer.
 2. Wholesale rebuild Falkor `(:Norm)` subgraph from Postgres:
    ```bash
-   python scripts/sync_vigencia_to_falkor.py --rebuild-from-postgres --confirm
+   python scripts/canonicalizer/sync_vigencia_to_falkor.py --rebuild-from-postgres --confirm
    ```
 3. Verify counts match.
 4. Resume writers.
@@ -838,7 +838,7 @@ Production deploys (Railway) require operator green-light AND require staging to
 - If planner cue extraction wrong: extend the regex/heuristics in `pipeline_d/planner.py`; add a unit test for the missed cue.
 - If resolver returns wrong row: validate `applies_to_payload` for the relevant history rows; SME may need to correct data via a new history row (NOT an UPDATE).
 - If `norm_citations` wrong: re-run 1B-δ canonicalizer for the affected chunks (per Recipe in §8.6).
-- If Falkor side wrong: re-run `scripts/sync_vigencia_to_falkor.py` for the affected norms.
+- If Falkor side wrong: re-run `scripts/canonicalizer/sync_vigencia_to_falkor.py` for the affected norms.
 
 **Verify recovery.** Re-run the offending query 5 times; same chunks each time; SME spot-checks the period-applicability.
 
@@ -896,7 +896,7 @@ Is the failure data corruption (wrong veredictos, wrong rows)?
 | Q5 | Engineer assignment for Fix 1B-α (scrapers, parallel critical path)? | Operator | Fix 1B-α gate-1 sketch | 2026-04-27 evening (Bogotá) | OPEN |
 | Q6 | SME picks for 4 canonical norms covering VC / VL / DI / RV state seeding? | SME | Activity 1.7b ship | 2026-04-27 evening (Bogotá) | OPEN |
 | Q7 | Frontend engineer assignment for Fix 1D (11 chip variants, weeks 9-10)? | Operator | Fix 1D gate-1 (can defer until week 7) | 2026-04-27 evening (Bogotá) | OPEN |
-| Q8 | Verify `LIA_GEMINI_API_KEY` is set in staging + production environments? | Operator | Fix 1B-β (week 4-6) | 2026-04-27 evening (Bogotá) | OPEN |
+| Q8 | Verify `GEMINI_API_KEY` is set in staging + production environments? | Operator | Fix 1B-β (week 4-6) | 2026-04-27 evening (Bogotá) | OPEN |
 | Q9 | Confirm budget envelope re-allocation tolerance for sub-unit extraction (§11.3 risk 1)? | Operator | Fix 1B-β scope decision (articles-only first vs articles+sub-units in same pass) | 2026-04-27 evening (Bogotá) | OPEN |
 | Q10 | Decide whether the Re-Verify Cron deploys to staging in week 4-5 or only after 1B-γ ships in week 6-7? | Operator + tech lead | Re-Verify Cron deploy schedule | 2026-04-27 evening (Bogotá) | OPEN |
 
@@ -945,11 +945,11 @@ End-to-end wiring of every Fix 1 sub-fix through the served chat path against th
 
 **1. Corpus refresh (1,286 docs, 7,877 chunks, 28,181 typed edges).** `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET=wip` against local Supabase docker (port 54322); local FalkorDB (port 6389) loaded with 2,444 :ArticleNode + 1,788 :ReformNode + 69 :SubTopicNode + 56 :TopicNode.
 
-**2. 1B-δ backfill ran live** (`scripts/backfill_norm_citations.py --target wip --run-id local-backfill-full`): 4,757 of 7,877 chunks (60.4%) have ≥ 1 citation, 11,384 norms cataloged, 40,835 citation rows. Anchor-strength distribution: ley=16,078; concepto_dian=16,758; decreto=5,614; res_dian=2,214; jurisprudencia=171.
+**2. 1B-δ backfill ran live** (`scripts/ingestion/backfill_norm_citations.py --target wip --run-id local-backfill-full`): 4,757 of 7,877 chunks (60.4%) have ≥ 1 citation, 11,384 norms cataloged, 40,835 citation rows. Anchor-strength distribution: ley=16,078; concepto_dian=16,758; decreto=5,614; res_dian=2,214; jurisprudencia=171.
 
-**3. 7 fixture veredictos landed in `norm_vigencia_history`** via `scripts/upgrade_v2_veredictos_to_v3.py` + `scripts/ingest_vigencia_veredictos.py --target wip --run-id v2-to-v3-upgrade-2026-04-27 --extracted-by v2_to_v3_upgrade`. Final state: V (et.art.290.num.5), VM (et.art.689-3), DE (et.art.158-1), DT (et.art.588), SP (concepto.dian.100208192-202.num.20), IE (decreto.1474.2025), EC (ley.2277.2022.art.11) — all 7 v2 states represented.
+**3. 7 fixture veredictos landed in `norm_vigencia_history`** via `scripts/upgrade_v2_veredictos_to_v3.py` + `scripts/canonicalizer/ingest_vigencia_veredictos.py --target wip --run-id v2-to-v3-upgrade-2026-04-27 --extracted-by v2_to_v3_upgrade`. Final state: V (et.art.290.num.5), VM (et.art.689-3), DE (et.art.158-1), DT (et.art.588), SP (concepto.dian.100208192-202.num.20), IE (decreto.1474.2025), EC (ley.2277.2022.art.11) — all 7 v2 states represented.
 
-**4. Falkor (:Norm) mirror synced** (`scripts/sync_vigencia_to_falkor.py --target wip`): 11,389 (:Norm) nodes, 35 IS_SUB_UNIT_OF edges, 1 MODIFIED_BY, 2 DEROGATED_BY, 1 SUSPENDED_BY, 1 INEXEQUIBLE_BY, 1 CONDITIONALLY_EXEQUIBLE_BY = 41 transition+structural edges all live in `LIA_REGULATORY_GRAPH`.
+**4. Falkor (:Norm) mirror synced** (`scripts/canonicalizer/sync_vigencia_to_falkor.py --target wip`): 11,389 (:Norm) nodes, 35 IS_SUB_UNIT_OF edges, 1 MODIFIED_BY, 2 DEROGATED_BY, 1 SUSPENDED_BY, 1 INEXEQUIBLE_BY, 1 CONDITIONALLY_EXEQUIBLE_BY = 41 transition+structural edges all live in `LIA_REGULATORY_GRAPH`.
 
 **5. Demotion pass wired into served retrieval.** `src/lia_graph/pipeline_d/retriever_supabase.py::_apply_v3_vigencia_demotion` runs immediately after `hybrid_search` + anchor merge. Pulls `chunk_vigencia_gate_at_date` (or `_for_period` when planner cue present), drops factor=0.0 chunks, scales kept chunks by demotion_factor, annotates `vigencia_v3` on each kept row. Added `vigencia_v3` field to `GraphEvidenceItem` and `Citation` (frozen-dataclass-safe via `dataclasses.replace`); `_collect_support` aggregates the most-restrictive annotation per doc. Diagnostics surface `vigencia_v3_demotion` block per turn.
 
@@ -992,7 +992,7 @@ End-to-end wiring of every Fix 1 sub-fix through the served chat path against th
 
 **What's still gated on operator green-light (per §2.4):**
 - Staging migration apply (`supabase db push --linked` against staging cloud).
-- 1B-β corpus extraction batch (`LIA_GEMINI_API_KEY`-gated).
+- 1B-β corpus extraction batch (`GEMINI_API_KEY`-gated).
 - Re-Verify Cron deploy to Railway staging.
 - SME ontology session for skill v2.0 prompt update + Activity 1.7b VC/VL/DI/RV norm picks.
 
@@ -1042,7 +1042,7 @@ These four findings are summarized in `docs/learnings/process/h0-fakes-vs-live-d
 
 **What's still gated:**
 - Staging deploy of migrations (operator: `supabase db push --linked`).
-- Skill harness live run (`LIA_GEMINI_API_KEY`).
+- Skill harness live run (`GEMINI_API_KEY`).
 - 1B-β corpus extraction batch (needs API key + warmed scraper cache).
 - 1F Re-Verify Cron deployed to Railway staging.
 - SME ontology session for skill v2.0 prompt update + Activity 1.7b canonical-norm picks.
@@ -1087,7 +1087,7 @@ Net: ~3,800 LOC of src; ~2,600 LOC of tests; 222 unit tests pass; 0 fail. All su
 
 **What's gated on operator / SME (next session):**
 1. Operator: `supabase db reset` (local docker) → `supabase db push --linked` (staging) for the 6 v3 migrations.
-2. Operator: confirm `LIA_GEMINI_API_KEY` in staging env so 1B-β can run live.
+2. Operator: confirm `GEMINI_API_KEY` in staging env so 1B-β can run live.
 3. SME (Alejandro): ontology session for skill v2.0 prompt update + Activity 1.7b canonical-norm picks.
 4. Operator + SME: pre-warm the scraper cache for the 7 known fixtures so the H1 v2-to-v3 upgrade smoke can run without live HTTP.
 5. Operator: deploy cron workers to Railway staging once 1B-γ migrations apply (Fix 1F has no DB to write to until then).

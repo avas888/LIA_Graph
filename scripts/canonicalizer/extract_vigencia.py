@@ -4,7 +4,7 @@ Detached + heartbeat-friendly: launches read input set → invokes harness
 per norm → writes per-norm JSON. Resumable via `--resume-from-checkpoint`.
 
 Usage (per CLAUDE.md long-running-job convention):
-  nohup PYTHONPATH=src:. uv run python scripts/extract_vigencia.py \\
+  nohup PYTHONPATH=src:. uv run python scripts/canonicalizer/extract_vigencia.py \\
       --input-set evals/vigencia_extraction_v1/input_set.jsonl \\
       --output-dir evals/vigencia_extraction_v1 \\
       --run-id 1Bbeta-batch-2026-05-15 \\
@@ -41,7 +41,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--corpus-input-set",
                    default="evals/vigencia_extraction_v1/input_set.jsonl",
                    help="The corpus-wide deduplicated norm_id set (built by "
-                        "scripts/build_extraction_input_set.py). Used as the source "
+                        "scripts/canonicalizer/build_extraction_input_set.py). Used as the source "
                         "from which --batch-id slices.")
     p.add_argument("--output-dir", default="evals/vigencia_extraction_v1")
     p.add_argument("--run-id", required=True)
@@ -86,7 +86,7 @@ def main(argv: list[str] | None = None) -> int:
             "REFUSING to launch — %s already has veredicto JSONs. "
             "The Gemini extraction is a ONE-TIME operation per the operator directive. "
             "Either: (a) you mean to RE-PLAY existing JSONs, in which case run "
-            "scripts/ingest_vigencia_veredictos.py --input-dir %s instead; "
+            "scripts/canonicalizer/ingest_vigencia_veredictos.py --input-dir %s instead; "
             "or (b) you really need to re-extract, in which case pass --allow-rerun "
             "AND get explicit operator approval first.",
             out_dir,
@@ -230,7 +230,7 @@ def _resolve_batch_input_set(
         if not corpus_input_set.is_file():
             LOGGER.warning(
                 "Corpus input set %s not found — falling back to filter-as-direct-list (won't work for prefix/regex). "
-                "Run `scripts/build_extraction_input_set.py` first.",
+                "Run `scripts/canonicalizer/build_extraction_input_set.py` first.",
                 corpus_input_set,
             )
             return []

@@ -16,19 +16,19 @@ Outputs land at:
 Usage (per the protocol in docs/re-engineer/canonicalizer_runv1.md §0):
 
   # Step 1 — baseline
-  PYTHONPATH=src:. uv run python scripts/run_batch_tests.py \\
+  PYTHONPATH=src:. uv run python scripts/canonicalizer/run_batch_tests.py \\
       --batch-id A2 --mode pre --base-url http://127.0.0.1:8787 \\
       --run-id baseline-A2-$(date +%Y%m%dT%H%M%SZ)
 
   # Step 2 — extract + ingest the batch (separate scripts)
 
   # Step 3 — verify
-  PYTHONPATH=src:. uv run python scripts/run_batch_tests.py \\
+  PYTHONPATH=src:. uv run python scripts/canonicalizer/run_batch_tests.py \\
       --batch-id A2 --mode post --base-url http://127.0.0.1:8787 \\
       --run-id verify-A2-$(date +%Y%m%dT%H%M%SZ)
 
   # Step 4 — score the delta
-  PYTHONPATH=src:. uv run python scripts/run_batch_tests.py \\
+  PYTHONPATH=src:. uv run python scripts/canonicalizer/run_batch_tests.py \\
       --batch-id A2 --mode score
 """
 
@@ -47,7 +47,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 LOGGER = logging.getLogger("run_batch_tests")
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]  # repo root (was scripts/ pre-move; now scripts/canonicalizer/)
 BOGOTA_TZ = timezone(timedelta(hours=-5))
 
 
@@ -71,6 +71,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--topic", default=None,
                    help="Optional topic hint to include in the chat payload.")
     p.add_argument("--timeout", type=float, default=120.0)
+    p.add_argument("--extraction-stats", default=None,
+                   help="Path to a heartbeat_stats.json snapshot. "
+                        "If supplied, the score step merges extraction stats "
+                        "(veredictos / refusals / state_counts / wall_seconds) "
+                        "into the ledger row per canonicalizer_runv1.md §4.")
+    p.add_argument("--attested-by", default=None,
+                   help="Engineer/agent attestation for the §4 ledger row "
+                        "(e.g. 'claude-opus-4-7').")
+    p.add_argument("--extraction-run-id", default=None,
+                   help="Pass-through of the extract phase's run_id so the "
+                        "ledger row can cross-reference the heartbeat / event log.")
     p.add_argument("-v", "--verbose", action="store_true")
     return p.parse_args(argv)
 
@@ -177,6 +188,8 @@ class _QuestionVerdict:
     post_pass: bool
     delta: str
     failures: list[str] = field(default_factory=list)
+    deferred: bool = False
+    deferred_reasons: list[str] = field(default_factory=list)
 
 
 def _score_batch(args: argparse.Namespace, batch: dict[str, Any], questions: list[dict[str, Any]]) -> int:
@@ -200,6 +213,18 @@ def _score_batch(args: argparse.Namespace, batch: dict[str, Any], questions: lis
     pre_by_q = {q["index"]: q for q in (pre_blob.get("questions") if pre_blob else [])}
     post_by_q = {q["index"]: q for q in post_blob.get("questions", [])}
 
+    # ── DEFERRED-rule preconditions (state_canonicalizer_runv1.md §6) ──
+    # A question DEFERS instead of FAILing when its must_cite / chip-state
+    # references a norm that's neither in this batch's slice nor already
+    # ingested by a prior batch (extracted to disk).
+    this_batch_norms = _resolve_this_batch_norms(args, batch)
+    extracted_norms = _scan_extracted_norms(Path(args.output_dir).parent / "vigencia_extraction_v1")
+    coverage = _NormCoverage(
+        this_batch=this_batch_norms,
+        extracted=extracted_norms,
+        batch_id=args.batch_id,
+    )
+
     verdicts: list[_QuestionVerdict] = []
     for q in questions:
         idx = questions.index(q) + 1
@@ -209,15 +234,21 @@ def _score_batch(args: argparse.Namespace, batch: dict[str, Any], questions: lis
             verdicts.append(_QuestionVerdict(
                 index=idx,
                 question=q["q"],
-                pre_pass=_score_question(pre, q) if pre else None,
+                pre_pass=_score_question(pre, q, coverage) if pre else None,
                 post_pass=False,
                 delta="MISSING_POST",
                 failures=["post run missing this question"],
             ))
             continue
-        pre_pass = _score_question(pre, q) if pre else None
-        post_pass, post_failures = _score_question_detailed(post, q)
-        delta = _delta_label(pre_pass, post_pass)
+        pre_pass = _score_question(pre, q, coverage) if pre else None
+        post_pass, post_failures, deferred_reasons = _score_question_detailed(post, q, coverage)
+        # If post passes (or only "fails" on missing dependencies), and at least
+        # one expectation was deferred, mark the whole question DEFERRED.
+        is_deferred = bool(deferred_reasons) and not post_failures
+        if is_deferred:
+            delta = "DEFERRED"
+        else:
+            delta = _delta_label(pre_pass, post_pass)
         verdicts.append(_QuestionVerdict(
             index=idx,
             question=q["q"],
@@ -225,35 +256,91 @@ def _score_batch(args: argparse.Namespace, batch: dict[str, Any], questions: lis
             post_pass=post_pass,
             delta=delta,
             failures=post_failures,
+            deferred=is_deferred,
+            deferred_reasons=deferred_reasons,
         ))
 
-    passed = sum(1 for v in verdicts if v.post_pass)
-    failed = len(verdicts) - passed
-    moved_to_pass = sum(1 for v in verdicts if v.pre_pass is False and v.post_pass is True)
-    regressions = sum(1 for v in verdicts if v.pre_pass is True and v.post_pass is False)
+    passed = sum(1 for v in verdicts if v.post_pass and not v.deferred)
+    deferred_count = sum(1 for v in verdicts if v.deferred)
+    failed = sum(1 for v in verdicts if not v.post_pass and not v.deferred)
+    moved_to_pass = sum(1 for v in verdicts if v.pre_pass is False and v.post_pass is True and not v.deferred)
+    regressions = sum(1 for v in verdicts if v.pre_pass is True and v.post_pass is False and not v.deferred)
 
     print()
     print(f"=== Batch {args.batch_id} score @ {_now_bogota()} ===")
     for v in verdicts:
-        print(f"  Q{v.index} [{v.delta}] {'PASS' if v.post_pass else 'FAIL'}: {v.question[:90]}")
+        if v.deferred:
+            label = "DEFER"
+        elif v.post_pass:
+            label = "PASS "
+        else:
+            label = "FAIL "
+        print(f"  Q{v.index} [{v.delta}] {label}: {v.question[:90]}")
         for f in v.failures:
-            print(f"      ↳ {f}")
+            print(f"      ↳ FAIL: {f}")
+        for d in v.deferred_reasons:
+            print(f"      ↳ DEFER: {d}")
     print()
-    print(f"  Total: passed={passed} failed={failed} moved_to_pass={moved_to_pass} regressions={regressions}")
+    print(
+        f"  Total: passed={passed} failed={failed} deferred={deferred_count} "
+        f"moved_to_pass={moved_to_pass} regressions={regressions}"
+    )
     print()
 
-    # Append to ledger
+    # ── §4 consolidated ledger row ──────────────────────────────────────
+    # Merges extraction stats (from heartbeat_stats.json snapshot) with test
+    # stats. Schema per docs/re-engineer/canonicalizer_runv1.md §4.
+    extraction_stats = _load_extraction_stats(args.extraction_stats)
+
+    def _pre_label(q_yaml: dict[str, Any], idx: int) -> str:
+        pre_payload = pre_by_q.get(idx)
+        if pre_payload is None:
+            return "MISSING"
+        return "PASS" if _score_question(pre_payload, q_yaml, coverage) else "FAIL"
+
+    pre_results = {f"q{i + 1}": _pre_label(q, i + 1) for i, q in enumerate(questions)}
+    post_results = {f"q{v.index}": ("DEFER" if v.deferred else ("PASS" if v.post_pass else "FAIL")) for v in verdicts}
+
+    delta_summary = _summarize_delta(verdicts)
+
     ledger_row = {
-        "ts_bogota": _now_bogota(),
+        # Core identity
         "batch_id": args.batch_id,
         "phase": batch.get("phase"),
         "title": batch.get("title"),
+        "extraction_run_id": args.extraction_run_id or extraction_stats.get("run_id"),
+
+        # Wall-clock (Bogotá per the time-format convention)
+        "started_bogota": extraction_stats.get("started_bogota") or _started_bogota_from_elapsed(extraction_stats),
+        "ended_bogota": _now_bogota(),
+        "wall_seconds": extraction_stats.get("elapsed_seconds"),
+
+        # Extraction stats
+        "norms_targeted": extraction_stats.get("total"),
+        "veredictos": extraction_stats.get("successes"),
+        "refusals": extraction_stats.get("refusals"),
+        "errors": extraction_stats.get("errors"),
+        "states_observed": extraction_stats.get("state_counts") or {},
+        "refusal_reasons_top": extraction_stats.get("refusal_reasons_top") or {},
+
+        # Test stats
+        "pre_test_results": pre_results,
+        "post_test_results": post_results,
+        "delta": delta_summary,
         "questions_total": len(verdicts),
         "questions_passed": passed,
         "questions_failed": failed,
+        "questions_deferred": deferred_count,
         "moved_to_pass": moved_to_pass,
         "regressions": regressions,
+
+        # Verdict + provenance
         "verdict": "PASS" if (failed == 0 and regressions == 0) else "FAIL",
+        "next_batch_unblocked": (failed == 0 and regressions == 0),
+        "engineer_attest": args.attested_by,
+        "sme_spot_check": None,
+
+        # Detail per-question (for triage)
         "per_question": [
             {
                 "index": v.index,
@@ -261,10 +348,16 @@ def _score_batch(args: argparse.Namespace, batch: dict[str, Any], questions: lis
                 "pre_pass": v.pre_pass,
                 "post_pass": v.post_pass,
                 "delta": v.delta,
+                "deferred": v.deferred,
+                "deferred_reasons": v.deferred_reasons,
                 "failures": v.failures,
             }
             for v in verdicts
         ],
+
+        # Score timestamp (machine ISO + human Bogotá)
+        "ts_bogota": _now_bogota(),
+        "ts_utc": datetime.now(timezone.utc).isoformat(),
     }
     ledger_path = Path(args.ledger)
     ledger_path.parent.mkdir(parents=True, exist_ok=True)
@@ -276,27 +369,73 @@ def _score_batch(args: argparse.Namespace, batch: dict[str, Any], questions: lis
     return 0 if ledger_row["verdict"] == "PASS" else 1
 
 
-def _score_question(question_payload: dict[str, Any] | None, expected: dict[str, Any]) -> bool | None:
+@dataclass
+class _NormCoverage:
+    """What's been ingested so the score routine can DEFER missing-dependency cases."""
+
+    this_batch: set[str] = field(default_factory=set)
+    extracted: set[str] = field(default_factory=set)
+    batch_id: str = ""
+
+    def is_owned_by_this_batch(self, norm_id: str) -> bool:
+        return norm_id in self.this_batch
+
+    def is_already_extracted(self, norm_id: str) -> bool:
+        return norm_id in self.extracted
+
+    def is_deferrable(self, norm_id: str) -> bool:
+        """A norm whose absence shouldn't fail this batch — neither in this
+        batch's slice nor in any prior batch's extracted output."""
+
+        return (
+            not self.is_owned_by_this_batch(norm_id)
+            and not self.is_already_extracted(norm_id)
+        )
+
+
+def _score_question(
+    question_payload: dict[str, Any] | None,
+    expected: dict[str, Any],
+    coverage: _NormCoverage | None = None,
+) -> bool | None:
     if question_payload is None:
         return None
-    return _score_question_detailed(question_payload, expected)[0]
+    return _score_question_detailed(question_payload, expected, coverage)[0]
 
 
-def _score_question_detailed(payload: dict[str, Any], expected: dict[str, Any]) -> tuple[bool, list[str]]:
-    """Return (passed, list_of_failure_reasons)."""
+def _score_question_detailed(
+    payload: dict[str, Any],
+    expected: dict[str, Any],
+    coverage: _NormCoverage | None = None,
+) -> tuple[bool, list[str], list[str]]:
+    """Return (passed, hard_failures, deferred_reasons).
+
+    A `must_cite` / `expected_chip_state` miss whose target norm is *not*
+    covered by this batch's slice and *not* extracted by any prior batch
+    is recorded in ``deferred_reasons`` instead of ``hard_failures`` —
+    per the §6 DEFERRED rule. The verdict is determined by the caller.
+    """
 
     failures: list[str] = []
+    deferred: list[str] = []
     if payload.get("error"):
         failures.append(f"chat call errored: {payload['error']}")
-        return False, failures
+        return False, failures, deferred
 
     answer = (payload.get("answer_markdown") or "").lower()
     citations = payload.get("citations") or []
     cited_norm_ids = _extract_norm_ids_from_citations(citations)
 
+    cov = coverage or _NormCoverage()  # all norms treated as covered
+
     must_cite = expected.get("must_cite") or []
     for needed in must_cite:
-        if not _norm_in_set(needed, cited_norm_ids, answer):
+        if _norm_in_set(needed, cited_norm_ids, answer):
+            continue
+        # Missing — deferred if dependency is from a future batch, else fail.
+        if cov.is_deferrable(needed):
+            deferred.append(f"must_cite {needed} not yet covered by an extracted batch")
+        else:
             failures.append(f"must_cite missing: {needed}")
 
     must_not_cite = expected.get("must_not_cite") or []
@@ -313,13 +452,96 @@ def _score_question_detailed(payload: dict[str, Any], expected: dict[str, Any]) 
     for norm_id, expected_state in expected_chips.items():
         actual_state = _find_chip_state(citations, norm_id)
         if actual_state is None:
-            failures.append(f"expected chip state {expected_state} on {norm_id}, but no vigencia_v3 annotation found")
+            if cov.is_deferrable(norm_id):
+                deferred.append(
+                    f"expected chip state {expected_state} on {norm_id} — norm not yet extracted"
+                )
+            else:
+                failures.append(
+                    f"expected chip state {expected_state} on {norm_id}, but no vigencia_v3 annotation found"
+                )
         elif str(actual_state).upper() != str(expected_state).upper():
             failures.append(
                 f"chip state mismatch on {norm_id}: expected {expected_state}, got {actual_state}"
             )
 
-    return (len(failures) == 0), failures
+    return (len(failures) == 0), failures, deferred
+
+
+def _resolve_this_batch_norms(args: argparse.Namespace, batch: dict[str, Any]) -> set[str]:
+    """Replay the launcher's slice resolution to know what THIS batch owns."""
+
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from extract_vigencia import _resolve_batch_input_set  # type: ignore
+    except Exception as err:
+        LOGGER.warning("Cannot import extract_vigencia._resolve_batch_input_set: %s", err)
+        return set()
+    norm_ids = _resolve_batch_input_set(
+        batches_config=Path(args.batches_config),
+        batch_id=str(batch.get("batch_id") or args.batch_id),
+        corpus_input_set=Path("evals/vigencia_extraction_v1/input_set.jsonl"),
+        limit=None,
+    )
+    return set(norm_ids)
+
+
+def _load_extraction_stats(path: str | None) -> dict[str, Any]:
+    if not path:
+        return {}
+    p = Path(path)
+    if not p.is_file():
+        LOGGER.warning("Extraction stats file not found: %s", p)
+        return {}
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception as err:
+        LOGGER.warning("Could not load %s: %s", p, err)
+        return {}
+
+
+def _started_bogota_from_elapsed(stats: dict[str, Any]) -> str | None:
+    """Derive the start-time Bogotá string from end-now minus elapsed_seconds."""
+
+    secs = stats.get("elapsed_seconds")
+    if not isinstance(secs, (int, float)) or secs <= 0:
+        return None
+    started = datetime.now(BOGOTA_TZ) - timedelta(seconds=int(secs))
+    return started.strftime("%Y-%m-%d %I:%M:%S %p Bogotá")
+
+
+def _summarize_delta(verdicts: list[_QuestionVerdict]) -> str:
+    moved = sum(1 for v in verdicts if v.pre_pass is False and v.post_pass is True and not v.deferred)
+    regressed = sum(1 for v in verdicts if v.pre_pass is True and v.post_pass is False and not v.deferred)
+    deferred = sum(1 for v in verdicts if v.deferred)
+    parts: list[str] = []
+    if moved:
+        parts.append(f"+{moved} moved FAIL→PASS")
+    if regressed:
+        parts.append(f"-{regressed} regressed PASS→FAIL")
+    if deferred:
+        parts.append(f"{deferred} deferred (cross-batch dependencies)")
+    if not parts:
+        parts.append("no change")
+    return "; ".join(parts)
+
+
+def _scan_extracted_norms(extraction_root: Path) -> set[str]:
+    """All norm_ids whose veredicto JSONs already exist on disk.
+
+    Looks at every per-batch sub-directory under
+    ``evals/vigencia_extraction_v1/`` plus the legacy root-level JSONs
+    (the v2→v3 fixture upgrade landed there before the per-batch layout).
+    """
+
+    out: set[str] = set()
+    if not extraction_root.is_dir():
+        return out
+    for path in extraction_root.glob("**/*.json"):
+        if path.name == "audit.jsonl":
+            continue
+        out.add(path.stem.replace("_", "/"))
+    return out
 
 
 def _norm_in_set(needed: str, cited_norm_ids: set[str], answer_text: str) -> bool:

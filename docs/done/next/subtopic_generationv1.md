@@ -42,7 +42,7 @@ Hierarchy of authority — when documents disagree, the higher one wins:
 - **Frontend:** Vite + TypeScript + vitest. Tests: `cd frontend && npx vitest run [test-pattern]`.
 - **Dev server:** `npm run dev` (local docker Supabase + Falkor) at `http://127.0.0.1:8787/`.
 - **LLM runtime:** `src/lia_graph/llm_runtime.py` exposes `resolve_llm_adapter()` returning an `LLMAdapter` with `.generate(prompt)` + `.generate_with_options(...)`. Configured via `config/llm_runtime.json` + env keys (Gemini default per project config).
-- **Embeddings:** `src/lia_graph/embeddings.py` + `scripts/embedding_ops.py` use Gemini `text-embedding-004`. Keep the same model for label clustering so vector-space stays consistent with chunk embeddings.
+- **Embeddings:** `src/lia_graph/embeddings.py` + `scripts/ingestion/embedding_ops.py` use Gemini `text-embedding-004`. Keep the same model for label clustering so vector-space stays consistent with chunk embeddings.
 - **Rate limits:** Gemini Flash is ~60 req/min on the project key. 1246 docs × 1 LLM call ≈ 21 min if perfectly serial; plan for ~35 min with retries/backoff.
 
 ### 0.5 Pre-flight check (run before Phase 1)
@@ -172,11 +172,11 @@ Real-corpus inputs live at `knowledge_base/**/*.md` (1313 docs as of the 2026-04
 |---|---|---|---|---|
 | 0 | Decisions ratified by user (§4) | DONE | this doc | — (in-doc ratification) |
 | 1 | Classifier emits label always | COMMITTED | `ingestion_classifier.py`, `tests/test_ingest_classifier.py` | `83019a6` |
-| 2 | Corpus-wide collection script | COMMITTED | `scripts/collect_subtopic_candidates.py`, `src/lia_graph/corpus_walk.py`, `Makefile`, `tests/test_collect_subtopic_candidates.py`, `tests/test_corpus_walk.py` | `83019a6` |
-| 3 | Mining / clustering script | COMMITTED | `scripts/mine_subtopic_candidates.py`, `src/lia_graph/subtopic_miner.py`, `tests/test_mine_subtopic_candidates.py` | `83019a6` |
+| 2 | Corpus-wide collection script | COMMITTED | `scripts/ingestion/collect_subtopic_candidates.py`, `src/lia_graph/corpus_walk.py`, `Makefile`, `tests/test_collect_subtopic_candidates.py`, `tests/test_corpus_walk.py` | `83019a6` |
+| 3 | Mining / clustering script | COMMITTED | `scripts/ingestion/mine_subtopic_candidates.py`, `src/lia_graph/subtopic_miner.py`, `tests/test_mine_subtopic_candidates.py` | `83019a6` |
 | 4 | Curation backend endpoints | COMMITTED | `src/lia_graph/ui_subtopic_controllers.py`, `src/lia_graph/ui_server.py`, `tests/test_ui_subtopic_controllers.py` | `83019a6` |
 | 5 | Curation UI (admin tab) | COMMITTED | `frontend/src/app/subtopics/subtopicShell.ts`, `frontend/src/features/subtopics/subtopicController.ts`, 2 molecules + 1 organism, `frontend/src/styles/admin/subtopics.css`, `frontend/tests/subtopicCuration.test.ts` | `83019a6` |
-| 6 | Promote decisions → `subtopic_taxonomy.json` | COMMITTED | `scripts/promote_subtopic_decisions.py`, `src/lia_graph/subtopic_taxonomy_builder.py`, `tests/test_promote_subtopic_decisions.py` | `83019a6` |
+| 6 | Promote decisions → `subtopic_taxonomy.json` | COMMITTED | `scripts/ingestion/promote_subtopic_decisions.py`, `src/lia_graph/subtopic_taxonomy_builder.py`, `tests/test_promote_subtopic_decisions.py` | `83019a6` |
 | 7 | Observability + trace schema (§13) | COMMITTED | §13 filled; `tests/test_subtopic_observability.py` | `83019a6` |
 | 8 | E2E — run against real corpus, curate, promote | DONE (with caveat) | Outputs landed: `artifacts/subtopic_candidates/collection_20260421T140152Z.jsonl` (1313 docs), `artifacts/subtopic_proposals_20260421T150424Z.json`, `artifacts/subtopic_decisions.jsonl` (87 rows), `config/subtopic_taxonomy.json` v2026-04-21-v1 (37×86). Caveat: `tests/manual/subtopicv1_evidence/<run>/` is stub-only — see Blockers row above. | `83019a6` |
 | 9 | Close-out + handoff update to `ingestfixv2.md` | IN_PROGRESS | `docs/orchestration/orchestration.md` gained `v2026-04-21-stv1` change-log entry (line 273) and `config/subtopic_taxonomy.json` is now cited as a corpus invariant. The v2 consumer plan (`docs/done/ingestfixv2-maximalist.md`) already lists this plan's output in its source-of-truth table. **Remaining:** physical `git mv docs/next/subtopic_generationv1.md docs/done/subtopic_generationv1.md` + companion move of `docs/next/subtopic_generationv1-contracts.md` + a `feat(subtopic-v1-phase-9): close-out` commit. | pending commit |
@@ -225,7 +225,7 @@ These are the architectural calls. Each needs an explicit yes/no/modify from the
 
 ### Decision A — Script pattern: extend regrandfather OR new sibling?
 
-**A1 (recommended):** New sibling `scripts/collect_subtopic_candidates.py` with its own CLI + report path. Cleaner separation: regrandfather is "re-chunk existing corpus"; collection is "record label metadata." Shared walk/filter helpers go into `src/lia_graph/corpus_walk.py` (new utility) so both scripts import the same logic. Pro: cleaner concerns, separate exit codes, separate trace event namespace (`ingest.subtopic_collect.*` vs `ingest.regrandfather.*`). Con: duplicate CLI args until the shared walker exists.
+**A1 (recommended):** New sibling `scripts/ingestion/collect_subtopic_candidates.py` with its own CLI + report path. Cleaner separation: regrandfather is "re-chunk existing corpus"; collection is "record label metadata." Shared walk/filter helpers go into `src/lia_graph/corpus_walk.py` (new utility) so both scripts import the same logic. Pro: cleaner concerns, separate exit codes, separate trace event namespace (`ingest.subtopic_collect.*` vs `ingest.regrandfather.*`). Con: duplicate CLI args until the shared walker exists.
 
 **A2:** Extend `regrandfather_corpus.py` with `--emit-subtopic-candidates` flag. Pro: zero new script. Con: conflates two concerns, bloats `regrandfather_corpus.py` past its current ~370 LOC.
 
@@ -400,14 +400,14 @@ Resume marker  — within-phase last-known-good checkpoint
 ### Phase 2 — Corpus-wide collection script
 - **Goal:** iterate `knowledge_base/**/*.md`, invoke classifier with `always_emit_label=True, skip_llm=False`, write per-doc row to `artifacts/subtopic_candidates/collection_<UTC>.jsonl`.
 - **Files create:**
-  - `scripts/collect_subtopic_candidates.py` (~280 LOC) — CLI with flags `--dry-run | --commit`, `--limit N`, `--only-topic SLUG`, `--knowledge-base PATH`, `--batch-id ID`, `--resume-from CHECKPOINT`, `--rate-limit-rpm 60`.
+  - `scripts/ingestion/collect_subtopic_candidates.py` (~280 LOC) — CLI with flags `--dry-run | --commit`, `--limit N`, `--only-topic SLUG`, `--knowledge-base PATH`, `--batch-id ID`, `--resume-from CHECKPOINT`, `--rate-limit-rpm 60`.
   - `src/lia_graph/corpus_walk.py` (~100 LOC) — shared walker utility extracted for reuse by regrandfather + this script (filter hidden/__MACOSX/readme.md/etc., topic-dir mapping).
   - `tests/test_collect_subtopic_candidates.py` (~8 cases).
   - `tests/test_corpus_walk.py` (~6 cases).
   - `artifacts/subtopic_candidates/.gitkeep`.
 - **Files modify:**
   - `Makefile` — add `phase2-collect-subtopic-candidates` target.
-  - `scripts/regrandfather_corpus.py` — refactor to import `corpus_walk` (zero behavior change; tests stay green).
+  - `scripts/ingestion/regrandfather_corpus.py` — refactor to import `corpus_walk` (zero behavior change; tests stay green).
 - **Tests add:**
   - `tests/test_collect_subtopic_candidates.py` covering: (a) empty corpus → 0 rows emitted; (b) 3-doc fixture → 3 rows with `autogenerar_label` populated (mocked classifier); (c) dry-run writes no files; (d) `--limit 1` stops after first doc; (e) `--only-topic laboral` restricts walk; (f) resume-from checkpoint skips already-processed doc_ids; (g) rate limit honored (sleep between calls); (h) LLM failure on one doc logs `subtopic.collect.doc.failed` + continues.
   - `tests/test_corpus_walk.py` covering: (a) filters hidden dirs, (b) filters readme.md/claude.md/state.md, (c) preserves topic dir prefix, (d) respects `knowledge_base` override, (e) yields relative paths, (f) stable ordering.
@@ -422,7 +422,7 @@ Resume marker  — within-phase last-known-good checkpoint
 ### Phase 3 — Mining / clustering script
 - **Goal:** read the collection JSONL(s), normalize slugs, embed labels, cluster per parent_topic, emit `artifacts/subtopic_proposals_<ts>.json`.
 - **Files create:**
-  - `scripts/mine_subtopic_candidates.py` (~320 LOC) — CLI: `--input JSONL|glob`, `--output PATH`, `--cluster-threshold FLOAT` (default 0.78), `--min-cluster-size INT` (default 3), `--only-topic SLUG`, `--slug-stem-rules PATH` (override default Spanish stemming rules).
+  - `scripts/ingestion/mine_subtopic_candidates.py` (~320 LOC) — CLI: `--input JSONL|glob`, `--output PATH`, `--cluster-threshold FLOAT` (default 0.78), `--min-cluster-size INT` (default 3), `--only-topic SLUG`, `--slug-stem-rules PATH` (override default Spanish stemming rules).
   - `src/lia_graph/subtopic_miner.py` (~200 LOC) — pure module: `normalize_label`, `cluster_labels_by_parent_topic`, `rank_proposals` (reusable by tests + callable from scripts).
   - `tests/test_mine_subtopic_candidates.py` (~10 cases).
 - **Files modify:**
@@ -501,7 +501,7 @@ Resume marker  — within-phase last-known-good checkpoint
 ### Phase 6 — Promote decisions → `subtopic_taxonomy.json`
 - **Goal:** deterministic build of the curated taxonomy file from the decisions JSONL.
 - **Files create:**
-  - `scripts/promote_subtopic_decisions.py` (~180 LOC) — reads `artifacts/subtopic_decisions.jsonl`, resolves merges/renames/splits, writes `config/subtopic_taxonomy.json`. CLI: `--decisions PATH`, `--output PATH`, `--dry-run`, `--version SLUG` (defaults to UTC date).
+  - `scripts/ingestion/promote_subtopic_decisions.py` (~180 LOC) — reads `artifacts/subtopic_decisions.jsonl`, resolves merges/renames/splits, writes `config/subtopic_taxonomy.json`. CLI: `--decisions PATH`, `--output PATH`, `--dry-run`, `--version SLUG` (defaults to UTC date).
   - `src/lia_graph/subtopic_taxonomy_builder.py` (~120 LOC) — pure module for decision resolution logic.
   - `tests/test_promote_subtopic_decisions.py` (~6 cases).
 - **Files modify:**
@@ -526,7 +526,7 @@ Resume marker  — within-phase last-known-good checkpoint
 - **Files create:**
   - `tests/test_subtopic_observability.py` (~5 cases).
 - **Files modify:**
-  - `scripts/collect_subtopic_candidates.py`, `scripts/mine_subtopic_candidates.py`, `scripts/promote_subtopic_decisions.py`, `src/lia_graph/ui_subtopic_controllers.py` — audit every entry/exit/error path for `emit_event`.
+  - `scripts/ingestion/collect_subtopic_candidates.py`, `scripts/ingestion/mine_subtopic_candidates.py`, `scripts/ingestion/promote_subtopic_decisions.py`, `src/lia_graph/ui_subtopic_controllers.py` — audit every entry/exit/error path for `emit_event`.
   - THIS doc §13 — fill in the authoritative table.
 - **Tests add:** smoke test runs one fixture through collect → mine → curate → promote and asserts every documented event_type fires in `logs/events.jsonl`.
   - **Verification:** `pytest tests/test_subtopic_observability.py -v` → 5 green.
@@ -620,8 +620,8 @@ Resume marker  — within-phase last-known-good checkpoint
 - `docs/orchestration/orchestration.md` — Lane 0 (build-time ingestion), Controller Surface table, Change log. Current env matrix `v2026-04-21-stv2c`. The `v2026-04-21-stv1` change-log entry is this plan's landmark (line 273).
 - `src/lia_graph/ingestion_classifier.py:AutogenerarResult` — the field shape this plan extended with the `always_emit_label` kwarg.
 - `src/lia_graph/topic_taxonomy.py` + `config/topic_taxonomy.json` — the parallel canonical topic spec.
-- `scripts/regrandfather_corpus.py` — walk pattern reused by the collection script via `src/lia_graph/corpus_walk.py`.
-- `scripts/embedding_ops.py` — embedding infra reused by the mining script.
+- `scripts/ingestion/regrandfather_corpus.py` — walk pattern reused by the collection script via `src/lia_graph/corpus_walk.py`.
+- `scripts/ingestion/embedding_ops.py` — embedding infra reused by the mining script.
 - `config/subtopic_taxonomy.json` — the output of this plan (37×86, version `2026-04-21-v1`).
 - `artifacts/subtopic_candidates/collection_20260421T140152Z.jsonl` + `_latest.json` — Phase 2 collection output.
 - `artifacts/subtopic_proposals_20260421T150424Z.json` — Phase 3 mining output.

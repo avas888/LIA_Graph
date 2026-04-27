@@ -1,0 +1,45 @@
+{
+  "ts_utc": "2026-04-27T17:40:33.290619+00:00",
+  "ts_bogota": "2026-04-27 12:40:33 PM Bogotá",
+  "batch_id": "B4",
+  "run_id": "canonicalizer-B4-20260427T172926Z",
+  "phase": "complete",
+  "state": "complete",
+  "headline": "38/38 done · 100.0% · 18 ✅ · 20 🛑 · 0 ❌ · ETA — · 0.06 norms/sec",
+  "total": 38,
+  "processed": 38,
+  "pending": 0,
+  "skipped": 0,
+  "successes": 18,
+  "refusals": 20,
+  "errors": 0,
+  "percent": 100.0,
+  "rate_norms_per_sec": 0.0569,
+  "rate_norms_per_min": 3.42,
+  "eta": "—",
+  "elapsed": "11m 07s",
+  "elapsed_seconds": 667,
+  "fresh_seconds": 12,
+  "fresh_label": "FRESH ✅ (≤ 180s)",
+  "last_event_ts_utc": "2026-04-27T17:40:21.133712+00:00",
+  "state_counts": {
+    "VM": 16,
+    "DE": 1,
+    "V": 1
+  },
+  "refusal_reasons_top": {
+    "adapter_error: Gemini HTTP 503: [{\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n]": 18,
+    "invalid_vigencia_shape: state=RV requires revives_text_version": 1,
+    "INSUFFICIENT_PRIMARY_SOURCES": 1
+  },
+  "errors_recent": [],
+  "files_written": 38,
+  "process_alive": null,
+  "cli_done_summary": {
+    "successes": 18,
+    "refusals": 20,
+    "errors": 0,
+    "skipped": 0
+  },
+  "refusal_rate": 0.5263
+}

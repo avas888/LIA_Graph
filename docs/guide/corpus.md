@@ -17,7 +17,7 @@ We intentionally do not ingest the whole Dropbox parent directory in one pass. T
 ## Local Snapshot
 
 - Local snapshot root: `knowledge_base/`
-- Snapshot command: `scripts/sync_corpus_snapshot.sh`
+- Snapshot command: `scripts/ingestion/sync_corpus_snapshot.sh`
 - Current filtered snapshot size:
   - `knowledge_base/CORE ya Arriba`: 1255 files
   - `knowledge_base/to upload`: 64 files
@@ -81,7 +81,7 @@ These are not just filing conventions. They help the audit and inventory step pr
 - `config/prefix_parent_topic_map.json` short-circuits filename-prefix → parent-topic inference inside the classifier (e.g., `II-1429-2010` → `impuestos_descontables_iva`; stops mis-routeos documented in the April curator memo).
 - `python -m lia_graph.ingest` emits `taxonomy_version`, `topic_key_counts`, `subtopic_key_counts`, and `topic_subtopic_coverage` into the audit, reconnaissance, inventory, revision, and canonical-manifest artifacts.
 - Parent/child materialization happens during ingest: direct parent matches keep `subtopic_key = null`, while child matches keep the parent in `topic_key` and materialize the child into `subtopic_key`. The invariant `(topic_key, subtopic_key) ∈ taxonomy.lookup_by_key` is enforced at the classifier boundary (`ingest_subtopic_pass.py`) — orphan pairs are nulled.
-- Since `v2026-04-21-stv2b`, the PASO 4 LLM classifier runs **inline in the same ingest invocation**, between audit and sink. `documents.subtema` and Falkor `SubTopicNode` + `HAS_SUBTOPIC` edges land in the same pass — no separate backfill step. `scripts/backfill_subtopic.py` is maintenance-only.
+- Since `v2026-04-21-stv2b`, the PASO 4 LLM classifier runs **inline in the same ingest invocation**, between audit and sink. `documents.subtema` and Falkor `SubTopicNode` + `HAS_SUBTOPIC` edges land in the same pass — no separate backfill step. `scripts/ingestion/backfill_subtopic.py` is maintenance-only.
 - `src/lia_graph/subtopic_taxonomy_builder.validate_no_empty_parents()` raises `EmptyParentTopicError` when a parent topic has zero subtopics (enforced at the end of `promote_subtopic_decisions.main`; bypass via `--allow-empty-parents`).
 
 ## Management Workflow
@@ -90,7 +90,7 @@ These are not just filing conventions. They help the audit and inventory step pr
 2. Keep corpus documents in `CORE ya Arriba`.
 3. Put patch, errata, and pending revision work in `to upload`.
 4. Keep planning files, state files, and governance notes out of the corpus roots when possible.
-5. Rebuild the local snapshot with `scripts/sync_corpus_snapshot.sh`.
+5. Rebuild the local snapshot with `scripts/ingestion/sync_corpus_snapshot.sh`.
 6. Run the audit-first materializer:
    `make phase2-graph-artifacts PHASE2_CORPUS_DIR=knowledge_base`
 7. Review these artifacts first:
@@ -150,7 +150,7 @@ Single-pass ingest outcome:
 The next operational step is therefore routine maintenance rather than cleanup:
 
 - when a future patch/upsert/errata file appears, merge it into the target doc promptly and archive the standalone revision file under `deprecated/`
-- rerun `scripts/sync_corpus_snapshot.sh` and `make phase2-graph-artifacts PHASE2_CORPUS_DIR=knowledge_base` after each editorial tranche so the blessing gate stays green
+- rerun `scripts/ingestion/sync_corpus_snapshot.sh` and `make phase2-graph-artifacts PHASE2_CORPUS_DIR=knowledge_base` after each editorial tranche so the blessing gate stays green
 
 ## Practical Rules
 
@@ -248,9 +248,9 @@ Current upload batches in the filtered snapshot:
 
 When the Dropbox corpus changes:
 
-1. Run `scripts/sync_corpus_snapshot.sh` (pulls `CORE ya Arriba` + `to upload` + `to_upload_graph/`).
+1. Run `scripts/ingestion/sync_corpus_snapshot.sh` (pulls `CORE ya Arriba` + `to upload` + `to_upload_graph/`).
 2. Dry-smoke the canary: `make phase2-graph-artifacts-smoke`.
 3. Re-run the full build: `make phase2-graph-artifacts PHASE2_CORPUS_DIR=knowledge_base` (local-only) or `make phase2-graph-artifacts-supabase PHASE2_SUPABASE_TARGET={wip|production}` (cloud sink + Falkor load in the same pass).
 4. Review the audit, reconnaissance, and subtopic-bindings outputs (`artifacts/corpus_audit_report.json`, `corpus_reconnaissance_report.json`, `canonical_corpus_manifest.json`, `graph_validation_report.json`, plus the `subtopic.graph.bindings_summary` trace in `logs/events.jsonl`) before relying on any downstream graph artifacts.
 5. If `docs/guide/env_guide.md`'s `Corpus Refresh` section shows the staging runtime depends on cloud Supabase + cloud Falkor, promote WIP → production via the Promoción surface (`/api/ops/corpus/rebuild-from-wip`) or an explicit `PHASE2_SUPABASE_TARGET=production` rerun.
-6. Embeddings are populated on a follow-up pass by `scripts/embedding_ops.py` (or chain them automatically via `INGEST_AUTO_EMBED=1` on `POST /api/ingest/run`).
+6. Embeddings are populated on a follow-up pass by `scripts/ingestion/embedding_ops.py` (or chain them automatically via `INGEST_AUTO_EMBED=1` on `POST /api/ingest/run`).

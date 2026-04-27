@@ -40,7 +40,7 @@ the real write step (`apply_sector_reclassification.py`).
 
 ## Durability contract
 
-Same philosophy as `scripts/launch_batch.sh` (see v3 §5 Phase 3):
+Same philosophy as `scripts/ingestion/launch_batch.sh` (see v3 §5 Phase 3):
 
 1. **Per-batch atomic checkpoint** before any external call — temp+rename.
 2. **Resume-aware** — on restart, skip batches already marked `status=done`.

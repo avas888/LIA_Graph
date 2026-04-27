@@ -17,9 +17,9 @@ helper, not the authoritative source.
 
 Usage::
 
-    python scripts/build_prefix_parent_map.py --dry-run
-    python scripts/build_prefix_parent_map.py --dry-run --min-count 3
-    python scripts/build_prefix_parent_map.py --write --output path.json
+    python scripts/ingestion/build_prefix_parent_map.py --dry-run
+    python scripts/ingestion/build_prefix_parent_map.py --dry-run --min-count 3
+    python scripts/ingestion/build_prefix_parent_map.py --write --output path.json
 
 Exit codes:
     0   success

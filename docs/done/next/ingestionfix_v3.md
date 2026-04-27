@@ -323,7 +323,7 @@ Total: 1,319 docs across 9 batches. Gate batch is 28 docs (small enough to itera
 
 1. Operator reviews the v3.1 proposal above.
 2. If accepted, update `artifacts/fingerprint_bust/plan.json` + the `est_wall_minutes` / `est_doc_count` fields + add a `plan_version: v3.1` marker + a `revisions_log` block documenting this probe.
-3. Re-run `bash scripts/launch_batch.sh --batch 1 --dry-run` against the new batch 1 composition; expect `row_count: 28`.
+3. Re-run `bash scripts/ingestion/launch_batch.sh --batch 1 --dry-run` against the new batch 1 composition; expect `row_count: 28`.
 4. Proceed to real-run Phase-2 rehearsal — **but see §2.2 first**: subsequent inspection of `otros_sectoriales` content showed the catch-all is really a mix of misclassified rows + 12-15 genuine sectors, so Phase 2.5 (sector reclassification) should land BEFORE Phase 3 chain runs, otherwise the 510-doc quarantine batch permanently encodes bad taxonomy.
 
 ---
@@ -623,7 +623,7 @@ phase_1_paperwork:
 | `test_safety_threshold_rejects_huge_count` | tests/test_fingerprint_bust.py | Row count > 200 without `--confirm` raises | `PYTHONPATH=src:. uv run pytest tests/test_fingerprint_bust.py -k safety_threshold -v` |
 | `test_manifest_written_before_execute` | tests/test_fingerprint_bust.py | If UPDATE crashes, manifest exists for audit | `PYTHONPATH=src:. uv run pytest tests/test_fingerprint_bust.py -k manifest -v` |
 | `test_heartbeat_chain_state_enrichment` | tests/test_ingest_heartbeat.py (new or extend) | When `--chain-state-file` present, output includes `Chain progress` + `Total ETA` rows | `PYTHONPATH=src:. uv run pytest tests/test_ingest_heartbeat.py -k chain_state -v` |
-| Rehearsal end-to-end | Manual | Bust `laboral`, run `scripts/launch_phase9a.sh` (additive), verify Falkor `TopicNode{topic_key:"laboral"}` + TEMA edges appear | Manual (~30 min wall) |
+| Rehearsal end-to-end | Manual | Bust `laboral`, run `scripts/ingestion/launch_phase9a.sh` (additive), verify Falkor `TopicNode{topic_key:"laboral"}` + TEMA edges appear | Manual (~30 min wall) |
 
 #### Phase 2 — Run
 
@@ -651,7 +651,7 @@ PYTHONPATH=src:. uv run pytest tests/test_ingest_heartbeat.py -k chain_state -v
 set -a; source .env.staging; set +a
 python scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py --topic laboral --dry-run
 python scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py --topic laboral --confirm
-bash scripts/launch_phase9a.sh
+bash scripts/ingestion/launch_phase9a.sh
 # arm heartbeat cron (3m) with --chain-state-file=artifacts/backfill_state.json
 
 # Verify Falkor growth
@@ -741,7 +741,7 @@ Phase 2.5 is closed. Supabase state is clean; Falkor state is unchanged because 
 
 | Step | Who | What | Blocks |
 |---|---|---|---|
-| **Phase 2 rehearsal** (optional) | Operator | Run `bash scripts/launch_batch.sh --batch 1 --dry-run` against the new `plan.json` v3.1 gate batch (6 topics, 33 docs expected) to confirm counts match. Then optionally run it for real as a rehearsal before 3.0. | Phase 3.0 (soft) |
+| **Phase 2 rehearsal** (optional) | Operator | Run `bash scripts/ingestion/launch_batch.sh --batch 1 --dry-run` against the new `plan.json` v3.1 gate batch (6 topics, 33 docs expected) to confirm counts match. Then optionally run it for real as a rehearsal before 3.0. | Phase 3.0 (soft) |
 | **Phase 3.0 — Batch 1 Quality Gate** | Operator + Claude | Run gate batch (33 docs across 6 specialty topics) via `run_topic_backfill_chain.sh --gate-only`; execute G1-G10 via `validate_batch.py`; operator completes M1-M3 + U1-U4 checks; stamp `batch_1_quality_gate.json` with `status: passed`. | Phase 3 batches 2-11 |
 | **Phase 3 — autonomous chain** | Claude (launch) + heartbeat | `bash run_topic_backfill_chain.sh` (no `--gate-only`). Chain runs batches 2-11 unattended, ~2.3 hr. 3-min heartbeat cron anchored on `logs/events.jsonl`. Anything problematic contained by late-batch ordering: iva/laboral in batch 8, new sectors in 9-11, shrunken otros_sectoriales last. | Phase 5 |
 | **Phase 5 — operator browser smokes** | Operator | `npm run dev:staging` → login → spot-check main chat for a laboral query (should hit new TEMA edges) + visit Tags admin tab. | v3 close-out |
@@ -808,7 +808,7 @@ Expected v3 close-out after Phase 5: Falkor `TopicNode` goes 10 → **65+** (39 
 * Replace `otros_sectoriales` batch 9 entry with new per-sector batches.
 * Recompute batch sizes using the approved proposal.
 * Add `plan_version: v3.1` + `revisions_log` citing §2.1 + §2.2.
-* Re-run `bash scripts/launch_batch.sh --batch 1 --dry-run` to confirm counts still match expectations.
+* Re-run `bash scripts/ingestion/launch_batch.sh --batch 1 --dry-run` to confirm counts still match expectations.
 
 **E — `tema` migration** *(`apply_sector_reclassification.py`; ~5 min wall; production write — gated by `--confirm`)*
 
@@ -935,7 +935,7 @@ phase_2_5_sector_reclassification:
 | ID | Check |
 |---|---|
 | U1 | Row-level materialization audit — for every `doc_id` in manifest: (a) `documents` row exists with non-NULL `doc_fingerprint`, (b) `document_chunks` count > 0, (c) ≥1 `normative_edges` row prefixed by the doc's article keys, (d) Falkor ArticleNode exists for every article key. Emits `artifacts/batch_1_ultra_audit.jsonl` |
-| U2 | Re-run idempotency — `scripts/launch_phase9a.sh` again; expected `touched_total ≤ 5`, `chunks_written == 0` |
+| U2 | Re-run idempotency — `scripts/ingestion/launch_phase9a.sh` again; expected `touched_total ≤ 5`, `chunks_written == 0` |
 | U3 | Regression suite replay — `PYTHONPATH=src:. uv run pytest tests/test_dangling_store.py tests/test_loader_delta.py tests/test_falkor_loader_thematic.py tests/test_ingest_cli_additive.py -v` → 90+ tests, 0 failures |
 | U4 | Heartbeat + chain stop-resume integration — `touch artifacts/STOP_BACKFILL` during a 30s yield window; chain halts; state file shows `done_batches_log[0].batch==1`; resume via `rm STOP_BACKFILL && bash scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh` advances to batch 2 |
 
@@ -1203,7 +1203,7 @@ The orphans are cloud-only rows from older ingests whose chunk/edge phase never 
 | Option | Approach | Cost |
 |---|---|---|
 | 4a | Write a Supabase-sourced Falkor loader — rebuild from cloud state | ~1–2 days of code + tests |
-| 4b | Reimport via SUIN pipeline (`scripts/verify_suin_merge.py` + friends) | ~1 day |
+| 4b | Reimport via SUIN pipeline (`scripts/ingestion/verify_suin_merge.py` + friends) | ~1 day |
 | 4c | Accept the orphan count; revisit when orphan % breaches threshold (e.g. >25%) | ~0 (just doc update) |
 
 **Recommendation**: defer to follow-up ticket. Orphans don't block users (search works on the 5,207 docs with chunks).
@@ -1321,7 +1321,7 @@ PYTHONPATH=src:. uv run pytest tests/test_fingerprint_bust.py tests/test_ingest_
 # Rehearse on laboral
 set -a; source .env.staging; set +a
 python scripts/monitoring/monitor_ingest_topic_batches/fingerprint_bust.py --topic laboral --confirm
-bash scripts/launch_phase9a.sh
+bash scripts/ingestion/launch_phase9a.sh
 # arm heartbeat cron per scripts/monitoring/README.md
 # Verify Falkor growth
 git commit -am "feat(ingestionfix-v3-phase-2): fingerprint_bust tool + chain skeleton + heartbeat chain-mode"
@@ -1469,7 +1469,7 @@ phase_2_tool_and_rehearsal:
     - scripts/monitoring/monitor_ingest_topic_batches/validate_batch.py
     - scripts/monitoring/monitor_ingest_topic_batches/run_topic_backfill_chain.sh
     - scripts/monitoring/monitor_ingest_topic_batches/README.md
-    - scripts/launch_batch.sh                     # per-batch detached launcher (no more 1200+ docs per run)
+    - scripts/ingestion/launch_batch.sh                     # per-batch detached launcher (no more 1200+ docs per run)
     - artifacts/fingerprint_bust/plan.json        # 8-batch plan covering all 39 top-level topics
     - artifacts/fingerprint_bust/.gitkeep
     - tests/test_fingerprint_bust.py              # 9 cases
@@ -1515,7 +1515,7 @@ phase_2_tool_and_rehearsal:
     stone) baked into launch_batch.sh header + README mirror. Bundled a smoke dry-run of
     batch 1 during the rename fix: reports 552 docs in the 5 batch-1 topics (vs the
     20-doc estimate in plan.json — update estimate before rehearsal runs for real).
-  resumption_hint: "Operator runs scripts/launch_batch.sh --batch 1 --dry-run first, then --batch 1 to execute."
+  resumption_hint: "Operator runs scripts/ingestion/launch_batch.sh --batch 1 --dry-run first, then --batch 1 to execute."
 
 phase_2_5_sector_reclassification:
   status: completed                                         # Tasks A, A.2, B-prep, B, C, D, E, F all shipped 2026-04-23 PM
@@ -1773,7 +1773,7 @@ git commit -am "docs(ingestionfix-v3): close-out — all phases green"
 ## §11 Connections to adjacent work
 
 - **v2 triage history** — `docs/next/ingestionfix_v2.md §7 run_log_2026_04_23` is the authoritative record of the 4×40-min pain that motivated v3's chunked, gated, resumable design. Do not duplicate content; link.
-- **SUIN import pipeline** — `scripts/fire_suin_cloud.sh`, `scripts/verify_suin_merge.py`. Phase 4 (orphan backfill) may need to wire against SUIN if option 4b is chosen.
+- **SUIN import pipeline** — `scripts/ingestion/fire_suin_cloud.sh`, `scripts/ingestion/verify_suin_merge.py`. Phase 4 (orphan backfill) may need to wire against SUIN if option 4b is chosen.
 - **Env matrix versioning** — `docs/orchestration/orchestration.md`. If v3 introduces any new `LIA_*` env or launcher flag, bump the matrix version and mirror to `docs/guide/env_guide.md` + `CLAUDE.md` per repo convention.
 - **Long-running process pattern** — `CLAUDE.md` §"Long-running Python processes" (landed in v2 today). v3 builds on this; no new conventions expected.
 - **Frontend tests** — `frontend/tests/additiveDeltaControllerTerminalVm.test.ts` for the Phase 1 banner fix.

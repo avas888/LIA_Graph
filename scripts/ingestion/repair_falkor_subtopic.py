@@ -11,7 +11,7 @@ in ~30-60 seconds against the local WIP stack. Safe to re-run (idempotent
 MERGE).
 
 Usage:
-    python scripts/repair_falkor_subtopic.py --target wip
+    python scripts/ingestion/repair_falkor_subtopic.py --target wip
 """
 from __future__ import annotations
 

@@ -10,7 +10,7 @@ Refusals from the canonicalizer log to a SME-triage queue at
 `evals/canonicalizer_refusals_v1/refusals.jsonl`.
 
 Usage:
-  PYTHONPATH=src:. uv run python scripts/backfill_norm_citations.py \\
+  PYTHONPATH=src:. uv run python scripts/ingestion/backfill_norm_citations.py \\
       --target staging \\
       --run-id backfill-1Bdelta-2026-05-15 \\
       [--limit 1000] \\

@@ -1,4 +1,4 @@
-"""Tests for ``scripts/regrandfather_corpus.py`` (Phase 5c of ingestfixv1).
+"""Tests for ``scripts/ingestion/regrandfather_corpus.py`` (Phase 5c of ingestfixv1).
 
 Verifies the regrandfather CLI against a synthetic ``knowledge_base``
 fixture rooted in ``tmp_path``:

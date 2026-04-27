@@ -1,0 +1,7 @@
+{
+  "norm_id": "et.art.237-1",
+  "ts_utc": "2026-04-27T17:38:14.475033+00:00",
+  "error": "invalid_shape: state=IE not compatible with change_source.type=reforma",
+  "raw_output": "```json\n{\n  \"state\": \"IE\",\n  \"state_from\": \"1989-03-30\",\n  \"state_until\": null,\n  \"applies_to_kind\": \"always\",\n  \"applies_to_payload\": null,\n  \"change_source\": {\n    \"type\": \"reforma\",\n    \"source_norm_id\": \"decreto.624.1989\",\n    \"effect_type\": \"pro_futuro\",\n    \"effect_payload\": {\n      \"nota\": \"El artículo et.art.237-1 no fue creado por el Estatuto Tributario original (Decreto 624 de 1989) ni por ninguna norma modificatoria posterior. Las fuentes proporcionadas se refieren al artículo et.art.237.\"\n    }\n  },\n  \"interpretive_constraint\": null,\n  \"derogado_por\": null,\n  \"modificado_por\": null,\n  \"suspension\": null,\n  \"inexequibilidad\": null,\n  \"regimen_transicion\": null,\n  \"revives_text_version\": null,\n  \"fuentes_primarias_consultadas\": [\n    {\n      \"norm_id\": \"secretaria_senado:estatuto_tributario_pr009.html\",\n      \"norm_type\": \"url\",\n      \"url\": \"http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr009.html\"\n    },\n    {\n      \"norm_id\": \"dian_normograma:estatuto_tributario.htm\",\n      \"norm_type\": \"url\",\n      \"url\": \"https://normograma.dian.gov.co/dian/compilacion/docs/estatuto_tributario.htm\"\n    }\n  ]\n}\n```",
+  "raw_output_len": 1153
+}

@@ -1,0 +1,29 @@
+{
+  "norm_id": "et.art.240.inciso.1",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et.art.240",
+  "is_sub_unit": true,
+  "sub_unit_kind": "inciso",
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-27T17:39:38.591899+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "missing_double_primary_source",
+    "missing_sources": [
+      "secretaria_senado",
+      "dian_normograma",
+      "suin_juriscol"
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": null,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "harness"
+    }
+  }
+}

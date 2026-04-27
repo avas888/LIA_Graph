@@ -1,7 +1,7 @@
 # Canonicalizer doc-anchor recovery — context-free + context-aware
 
 **Source:** First live run of fixplan_v3 sub-fix 1B-δ
-(`scripts/backfill_norm_citations.py`) against the populated local
+(`scripts/ingestion/backfill_norm_citations.py`) against the populated local
 corpus on 2026-04-27 night. Initial pass: 226 refusals on a 200-chunk
 sample; doc-anchor recovery dropped that to 127 (44% reduction).
 
@@ -43,7 +43,7 @@ The recovery loop:
 
 1. Build a `chunk_id → host_norm_id` map by walking `documents` and
    parsing the filename for `Ley-NNN-YYYY` / `Decreto-NNN-YYYY` patterns
-   (`scripts/backfill_norm_citations.py::_path_to_anchor`).
+   (`scripts/ingestion/backfill_norm_citations.py::_path_to_anchor`).
 2. When the canonicalizer refuses with `reason='missing_year'`, check if
    the mention's number matches the host norm's number. If yes, accept
    the host's canonical id as the resolution.
