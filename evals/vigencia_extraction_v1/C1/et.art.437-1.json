@@ -1,59 +1,66 @@
 {
-  "norm_id": "et.art.290",
+  "norm_id": "et.art.437-1",
   "norm_type": "articulo_et",
   "parent_norm_id": "et",
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-27T23:37:51.352857+00:00",
+  "extracted_at_utc": "2026-04-27T23:47:06.972165+00:00",
   "result": {
     "veredicto": {
       "state": "VM",
-      "state_from": "2016-12-29",
+      "state_from": "2019-12-27",
       "state_until": null,
-      "applies_to_kind": "per_year",
+      "applies_to_kind": "per_period",
       "applies_to_payload": {
-        "year_start": 2017,
+        "year_start": null,
         "year_end": null,
-        "impuesto": "renta",
-        "period_start": null,
+        "impuesto": "iva",
+        "period_start": "2020-01-01",
         "period_end": null,
         "art_338_cp_shift": false
       },
       "change_source": {
         "type": "reforma",
-        "source_norm_id": "ley.1819.2016.art.123",
+        "source_norm_id": "ley.2010.2019.art.5",
         "effect_type": "pro_futuro",
         "effect_payload": {
-          "fecha": "2016-12-29"
+          "fecha": "2019-12-27"
         }
       },
       "interpretive_constraint": null,
       "derogado_por": null,
       "modificado_por": [
         {
-          "norm_id": "ley.1819.2016.art.123",
+          "norm_id": "ley.1607.2012.art.42",
           "norm_type": "ley",
-          "article": "Art. 123",
-          "fecha": "2016-12-29",
-          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr011.html"
+          "article": "Art. 42",
+          "fecha": "2012-12-26",
+          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1607_2012.html"
+        },
+        {
+          "norm_id": "ley.2010.2019.art.5",
+          "norm_type": "ley",
+          "article": "Art. 5",
+          "fecha": "2019-12-27",
+          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_2010_2019.html"
         }
       ],
       "suspension": null,
       "inexequibilidad": null,
       "regimen_transicion": null,
       "revives_text_version": null,
-      "rige_desde": "2016-12-29",
+      "rige_desde": null,
       "fuentes_primarias_consultadas": [
         {
-          "norm_id": "secretaria_senado_et",
+          "norm_id": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr017.html",
           "norm_type": "url",
           "article": null,
           "fecha": null,
           "primary_source_url": null
         },
         {
-          "norm_id": "dian_normograma",
+          "norm_id": "https://normograma.dian.gov.co/dian/compilacion/docs/estatuto_tributario.htm",
           "norm_type": "url",
           "article": null,
           "fecha": null,
@@ -69,7 +76,7 @@
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 24193,
+      "wall_ms": 58803,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

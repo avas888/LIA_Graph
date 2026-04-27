@@ -277,24 +277,50 @@ if [[ -z "$SKIP_EXTRACT" ]]; then
     fi
   fi
 
-  # ── Print the verbose-heartbeat cron prompt ──────────────────────────
+  # ── Auto-arm the verbose 3-min heartbeat as a sidecar ────────────────
+  # Per CLAUDE.md long-running-job protocol, the 3-min heartbeat is
+  # MANDATORY for any process expected to take >2 min. Earlier we
+  # printed the cron prompt for the operator to arm by hand; the
+  # autonomous campaign needs it fired automatically. The sidecar:
+  #   * Runs `heartbeat.py` every 180s while the extract pid is alive.
+  #   * Each tick rewrites `evals/canonicalizer_run_v1/<batch>/heartbeat_stats.json`
+  #     atomically (handled by heartbeat.py).
+  #   * Appends a verbose markdown block to a per-batch heartbeat log so
+  #     the operator can `tail -f` and see live state.
+  #   * Exits when the extract pid is gone (no cron polling forever).
+  HEARTBEAT_LOG="logs/heartbeat_${BATCH}_${TS_UTC}.md"
   echo ""
-  echo "── 3-MINUTE HEARTBEAT — arm this cron NOW (every 180s) ──"
-  echo ""
-  cat <<HEART
-PYTHONPATH=src:. uv run python scripts/canonicalizer/heartbeat.py \\
-  --batch-id ${BATCH} \\
-  --run-id ${RUN_ID} \\
-  --start-utc ${START_UTC} \\
-  --pid ${EXTRACT_PID} \\
-  --total ${TOTAL}
-HEART
-  echo ""
-  echo "  STOP loop on STATE=complete  (cli.done fired)"
-  echo "  STOP loop on STATE=failed    (run.failed or errors > 0)"
-  echo "  STOP loop on STATE=stalled   (process gone w/o cli.done)"
-  echo ""
-  echo "  Snapshot stats JSON:  ${RUN_DIR}/heartbeat_stats.json (rewritten each tick)"
+  echo "── auto-arming 3-min heartbeat sidecar ──"
+  echo "  log: $HEARTBEAT_LOG"
+  echo "  snapshot: ${RUN_DIR}/heartbeat_stats.json (rewritten each tick)"
+  nohup bash -c "
+    while kill -0 ${EXTRACT_PID} 2>/dev/null; do
+      {
+        echo
+        echo '────── tick at '\$(TZ=America/Bogota date '+%Y-%m-%d %I:%M:%S %p Bogota')' ──────'
+        PYTHONPATH=src:. uv run python scripts/canonicalizer/heartbeat.py \\
+          --batch-id '${BATCH}' \\
+          --run-id '${RUN_ID}' \\
+          --start-utc '${START_UTC}' \\
+          --pid '${EXTRACT_PID}' \\
+          --total '${TOTAL}' 2>&1
+      } >> '${HEARTBEAT_LOG}' 2>&1
+      sleep 180
+    done
+    # Final tick after extract exits — captures the cli.done summary.
+    {
+      echo
+      echo '────── final tick at '\$(TZ=America/Bogota date '+%Y-%m-%d %I:%M:%S %p Bogota')' ──────'
+      PYTHONPATH=src:. uv run python scripts/canonicalizer/heartbeat.py \\
+        --batch-id '${BATCH}' \\
+        --run-id '${RUN_ID}' \\
+        --start-utc '${START_UTC}' \\
+        --total '${TOTAL}' 2>&1
+    } >> '${HEARTBEAT_LOG}' 2>&1
+  " > /dev/null 2>&1 < /dev/null &
+  HEARTBEAT_PID=$!
+  disown "$HEARTBEAT_PID" 2>/dev/null || true
+  echo "  pid: $HEARTBEAT_PID"
   echo ""
 
   echo "── waiting for extraction to finish ──"

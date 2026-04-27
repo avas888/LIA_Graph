@@ -1,11 +1,11 @@
 {
-  "ts_utc": "2026-04-27T17:49:13.652737+00:00",
-  "ts_bogota": "2026-04-27 12:49:13 PM Bogotá",
+  "ts_utc": "2026-04-27T23:40:30.745295+00:00",
+  "ts_bogota": "2026-04-27 6:40:30 PM Bogotá",
   "batch_id": "B10",
-  "run_id": "canonicalizer-B10-20260427T174823Z",
+  "run_id": "canonicalizer-B10-20260427T233726Z",
   "phase": "complete",
   "state": "complete",
-  "headline": "3/3 done · 100.0% · 1 ✅ · 2 🛑 · 0 ❌ · ETA — · 0.06 norms/sec",
+  "headline": "3/3 done · 100.0% · 1 ✅ · 2 🛑 · 0 ❌ · ETA — · 0.02 norms/sec",
   "total": 3,
   "processed": 3,
   "pending": 0,
@@ -14,16 +14,16 @@
   "refusals": 2,
   "errors": 0,
   "percent": 100.0,
-  "rate_norms_per_sec": 0.0592,
-  "rate_norms_per_min": 3.55,
+  "rate_norms_per_sec": 0.0162,
+  "rate_norms_per_min": 0.97,
   "eta": "—",
-  "elapsed": "0m 50s",
-  "elapsed_seconds": 50,
-  "fresh_seconds": 13,
+  "elapsed": "3m 04s",
+  "elapsed_seconds": 184,
+  "fresh_seconds": 159,
   "fresh_label": "FRESH ✅ (≤ 180s)",
-  "last_event_ts_utc": "2026-04-27T17:49:00.307699+00:00",
+  "last_event_ts_utc": "2026-04-27T23:37:51.389173+00:00",
   "state_counts": {
-    "EC": 1
+    "VM": 1
   },
   "refusal_reasons_top": {
     "missing_double_primary_source": 2

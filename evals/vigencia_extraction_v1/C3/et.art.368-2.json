@@ -1,59 +1,59 @@
 {
-  "norm_id": "et.art.290",
+  "norm_id": "et.art.368-2",
   "norm_type": "articulo_et",
   "parent_norm_id": "et",
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-27T23:37:51.352857+00:00",
+  "extracted_at_utc": "2026-04-27T23:41:04.626497+00:00",
   "result": {
     "veredicto": {
       "state": "VM",
-      "state_from": "2016-12-29",
+      "state_from": "2007-01-01",
       "state_until": null,
-      "applies_to_kind": "per_year",
+      "applies_to_kind": "always",
       "applies_to_payload": {
-        "year_start": 2017,
+        "year_start": null,
         "year_end": null,
-        "impuesto": "renta",
+        "impuesto": null,
         "period_start": null,
         "period_end": null,
         "art_338_cp_shift": false
       },
       "change_source": {
         "type": "reforma",
-        "source_norm_id": "ley.1819.2016.art.123",
+        "source_norm_id": "ley.1111.2006.art.51",
         "effect_type": "pro_futuro",
         "effect_payload": {
-          "fecha": "2016-12-29"
+          "fecha": "2007-01-01"
         }
       },
       "interpretive_constraint": null,
       "derogado_por": null,
       "modificado_por": [
         {
-          "norm_id": "ley.1819.2016.art.123",
+          "norm_id": "ley.1111.2006.art.51",
           "norm_type": "ley",
-          "article": "Art. 123",
-          "fecha": "2016-12-29",
-          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/estatuto_tributario_pr011.html"
+          "article": "Art. 51",
+          "fecha": "2007-01-01",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?ruta=Leyes/1679468"
         }
       ],
       "suspension": null,
       "inexequibilidad": null,
       "regimen_transicion": null,
       "revives_text_version": null,
-      "rige_desde": "2016-12-29",
+      "rige_desde": null,
       "fuentes_primarias_consultadas": [
         {
-          "norm_id": "secretaria_senado_et",
+          "norm_id": "secretaria_senado_et_pr014",
           "norm_type": "url",
           "article": null,
           "fecha": null,
           "primary_source_url": null
         },
         {
-          "norm_id": "dian_normograma",
+          "norm_id": "dian_normograma_et",
           "norm_type": "url",
           "article": null,
           "fecha": null,
@@ -69,7 +69,7 @@
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 24193,
+      "wall_ms": 36170,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

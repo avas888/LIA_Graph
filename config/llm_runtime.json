@@ -1,29 +1,63 @@
 {
-  "strategy": "ordered_fallback",
-  "provider_order": ["deepseek-chat", "gemini-flash"],
-  "providers": [
-    {
-      "id": "deepseek-chat",
-      "type": "deepseek",
-      "enabled": true,
-      "model": "deepseek-chat",
-      "api_key_env": "DEEPSEEK_API_KEY",
-      "base_url": "https://api.deepseek.com",
-      "timeout_seconds": 45.0,
-      "temperature": 0.2,
-      "max_tokens": 1200
-    },
-    {
-      "id": "gemini-flash",
-      "type": "gemini",
-      "enabled": true,
-      "transport": "openai_compat",
-      "model": "gemini-2.5-flash",
-      "api_key_env": "GEMINI_API_KEY",
-      "timeout_seconds": 45.0,
-      "temperature": 0.2,
-      "max_tokens": 1200,
-      "thinking_enabled": false
-    }
-  ]
+    "_comment": "LLM runtime configuration. The first provider whose api_key_env is present in env wins. To force a provider for the canonicalizer specifically, export LIA_VIGENCIA_PROVIDER=<id>.",
+
+    "strategy": "ordered_fallback",
+    "provider_order": [
+        "deepseek-v4-pro",
+        "deepseek-v4-flash",
+        "gemini-pro",
+        "gemini-flash"
+    ],
+    "providers": [
+        {
+            "id": "deepseek-v4-flash",
+            "type": "deepseek",
+            "enabled": true,
+            "model": "deepseek-v4-flash",
+            "api_key_env": "DEEPSEEK_API_KEY",
+            "base_url": "https://api.deepseek.com",
+            "timeout_seconds": 60.0,
+            "temperature": 0.1,
+            "max_tokens": 32000,
+            "_note": "Primary canonicalizer model. 1M context, $0.14/M input, $0.28/M output. Schema-following structured-output use case."
+        },
+        {
+            "id": "deepseek-v4-pro",
+            "type": "deepseek",
+            "enabled": true,
+            "model": "deepseek-v4-pro",
+            "api_key_env": "DEEPSEEK_API_KEY",
+            "base_url": "https://api.deepseek.com",
+            "timeout_seconds": 90.0,
+            "temperature": 0.1,
+            "max_tokens": 32000,
+            "_note": "Reasoning model. 75% off through 2026-05-05. Use selectively when v4-flash struggles on a sentencia / EC case via LIA_VIGENCIA_PROVIDER=deepseek-v4-pro."
+        },
+        {
+            "id": "gemini-pro",
+            "type": "gemini",
+            "enabled": true,
+            "transport": "openai_compat",
+            "model": "gemini-2.5-pro",
+            "api_key_env": "GEMINI_API_KEY",
+            "timeout_seconds": 60.0,
+            "temperature": 0.1,
+            "max_tokens": 32000,
+            "thinking_enabled": false,
+            "_note": "Fallback if DeepSeek unavailable. Tier 1 cap: 150 RPM, 1M TPM, 1000 RPD."
+        },
+        {
+            "id": "gemini-flash",
+            "type": "gemini",
+            "enabled": true,
+            "transport": "openai_compat",
+            "model": "gemini-2.5-flash",
+            "api_key_env": "GEMINI_API_KEY",
+            "timeout_seconds": 45.0,
+            "temperature": 0.1,
+            "max_tokens": 32000,
+            "thinking_enabled": false,
+            "_note": "Last fallback. Higher rate limits than gemini-pro but lower quality on structured extraction."
+        }
+    ]
 }

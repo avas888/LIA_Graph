@@ -292,14 +292,50 @@ class VigenciaSkillHarness:
         )
 
     def _default_adapter(self) -> Any:
-        from lia_graph.gemini_runtime import GeminiChatAdapter
-        return GeminiChatAdapter(
-            api_key=self.api_key or "",
-            model=self.model,
-            base_url=self.base_url,
-            timeout_seconds=self.timeout_seconds,
-            temperature=self.temperature,
+        """Resolve an LLM adapter via the shared runtime config.
+
+        The runtime config (`config/llm_runtime.json`) declares the
+        provider ordering. `resolve_llm_adapter()` walks the ordered
+        list, instantiates the first one whose API key env-var is set,
+        and returns its adapter. This is how the canonicalizer becomes
+        provider-agnostic — set `provider_order: ["deepseek-..."]` to
+        route through DeepSeek; set Gemini first to fall back to Gemini.
+        Both adapters expose `.generate(prompt) -> str` so the
+        downstream parsing path is identical.
+
+        Override per-call by passing `adapter_factory` to the harness
+        (test seam) or by setting `LIA_VIGENCIA_PROVIDER=<id>` to force
+        a specific provider id from the config.
+        """
+
+        from lia_graph.llm_runtime import resolve_llm_adapter
+
+        requested = os.getenv("LIA_VIGENCIA_PROVIDER", "").strip() or None
+        adapter, info = resolve_llm_adapter(requested_provider=requested)
+        if adapter is None:
+            # No provider available — fall back to the legacy Gemini path
+            # that uses the harness's own `self.api_key` (which read
+            # GEMINI_API_KEY at construction). This preserves
+            # back-compat for any caller that pre-loaded the key.
+            from lia_graph.gemini_runtime import GeminiChatAdapter
+            LOGGER.warning(
+                "resolve_llm_adapter found no provider (%s); using direct GeminiChatAdapter as fallback.",
+                info.get("fallback_skipped"),
+            )
+            return GeminiChatAdapter(
+                api_key=self.api_key or "",
+                model=self.model,
+                base_url=self.base_url,
+                timeout_seconds=self.timeout_seconds,
+                temperature=self.temperature,
+            )
+        LOGGER.info(
+            "vigencia harness using LLM provider: %s (%s, model=%s)",
+            info.get("selected_provider"),
+            info.get("selected_type"),
+            info.get("model"),
         )
+        return adapter
 
     def _build_prompt(
         self,

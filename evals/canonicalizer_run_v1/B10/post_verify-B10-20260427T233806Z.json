@@ -1,0 +1,39 @@
+{
+  "ts_bogota": "2026-04-27 06:38:19 PM Bogotá",
+  "batch_id": "B10",
+  "mode": "post",
+  "run_id": "verify-B10-20260427T233806Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Cómo trato pérdidas fiscales acumuladas antes de 2017?",
+      "expected": {
+        "q": "¿Cómo trato pérdidas fiscales acumuladas antes de 2017?",
+        "must_cite": [
+          "et.art.290.num.5"
+        ],
+        "expected_chip_state": {
+          "et.art.290.num.5": "V"
+        },
+        "notes": "V state — no chip on default vigente. Validates V path end-to-end."
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 8
+    },
+    {
+      "index": 2,
+      "question": "¿Régimen de transición de descuentos no aplicados?",
+      "expected": {
+        "q": "¿Régimen de transición de descuentos no aplicados?",
+        "must_cite": [
+          "et.art.290.num.6"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    }
+  ]
+}

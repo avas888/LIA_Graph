@@ -35,6 +35,9 @@ logs/parallel_extract_*.log
 logs/phase_*.log
 logs/corpus_sync_*.log
 logs/user_errors.jsonl
+logs/campaign_*.log
+logs/full_campaign_*.log
+logs/heartbeat_*.md
 frontend/logs/
 
 # --- local scraper / runtime caches (volatile; regenerate on demand) ---

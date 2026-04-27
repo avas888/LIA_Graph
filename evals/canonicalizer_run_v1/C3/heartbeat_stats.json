@@ -1,0 +1,40 @@
+{
+  "ts_utc": "2026-04-27T23:53:26.880756+00:00",
+  "ts_bogota": "2026-04-27 6:53:26 PM Bogotá",
+  "batch_id": "C3",
+  "run_id": "canonicalizer-C3-20260427T233820Z",
+  "phase": "extracting",
+  "state": "running",
+  "headline": "20/46 done · 43.5% · 17 ✅ · 3 🛑 · 0 ❌ · ETA 7:13 PM Bogotá (~19 min remaining) · 0.02 norms/sec",
+  "total": 46,
+  "processed": 20,
+  "pending": 26,
+  "skipped": 0,
+  "successes": 17,
+  "refusals": 3,
+  "errors": 0,
+  "percent": 43.48,
+  "rate_norms_per_sec": 0.0221,
+  "rate_norms_per_min": 1.32,
+  "eta": "7:13 PM Bogotá (~19 min remaining)",
+  "elapsed": "15m 06s",
+  "elapsed_seconds": 906,
+  "fresh_seconds": 38,
+  "fresh_label": "FRESH ✅ (≤ 180s)",
+  "last_event_ts_utc": "2026-04-27T23:52:48.331955+00:00",
+  "state_counts": {
+    "VM": 6,
+    "V": 9,
+    "EC": 1,
+    "DE": 1
+  },
+  "refusal_reasons_top": {
+    "INSUFFICIENT_PRIMARY_SOURCES": 2,
+    "invalid_vigencia_shape: state_from is required": 1
+  },
+  "errors_recent": [],
+  "files_written": 20,
+  "process_alive": true,
+  "cli_done_summary": {},
+  "refusal_rate": 0.15
+}
