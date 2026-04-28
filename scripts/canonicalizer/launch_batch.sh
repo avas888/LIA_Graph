@@ -27,6 +27,11 @@
 # has JSONs. To replay-only, pass `--skip-extract`. To force a re-extraction
 # (operator-explicit only), pass `--allow-rerun`.
 #
+# Extra extract flags: set EXTRA_EXTRACT_FLAGS in the environment to forward
+# additional flags to extract_vigencia.py. Used by fixplan_v6 cascade reruns:
+#   EXTRA_EXTRACT_FLAGS="--rerun-only-refusals" \
+#   bash scripts/canonicalizer/launch_batch.sh --batch E1a --allow-rerun
+#
 # Usage:
 #   scripts/canonicalizer/launch_batch.sh --batch A1
 #   scripts/canonicalizer/launch_batch.sh --batch A2 --skip-pre        # skip baseline
@@ -247,7 +252,8 @@ if [[ -z "$SKIP_EXTRACT" ]]; then
         --run-id '${RUN_ID}' \\
         --output-dir 'evals/vigencia_extraction_v1' \\
         --batches-config '${BATCHES_CONFIG}' \\
-        ${GUARD_FLAG}
+        ${GUARD_FLAG} \\
+        ${EXTRA_EXTRACT_FLAGS:-}
   " > "$EXTRACT_LOG" 2>&1 < /dev/null &
 
   EXTRACT_PID=$!

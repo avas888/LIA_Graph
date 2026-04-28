@@ -49,6 +49,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--run-id", required=True)
     p.add_argument("--resume-from-checkpoint", action="store_true",
                    help="Skip norm_ids whose JSON already exists.")
+    p.add_argument("--rerun-only-refusals", action="store_true",
+                   help="fixplan_v6 §3 step 4 — success-aware skip. If a per-norm "
+                        "JSON already exists with a non-null veredicto, skip the "
+                        "norm (success preserved). If it exists with veredicto=null "
+                        "(refusal), re-extract under the new pipeline. Use this for "
+                        "v6 cascade reruns to avoid wasting tokens on already-"
+                        "successful v5 extractions.")
     p.add_argument("--limit", type=int, default=None)
     p.add_argument("--audit-log", default="evals/vigencia_extraction_v1/audit.jsonl")
     p.add_argument("--events-log", default="logs/events.jsonl",
@@ -145,6 +152,17 @@ def main(argv: list[str] | None = None) -> int:
         out_path = out_dir / f"{norm_id.replace('/', '_')}.json"
         if args.resume_from_checkpoint and out_path.exists():
             return "skipped"
+        if args.rerun_only_refusals and out_path.exists():
+            # Re-open the JSON: skip if it carries a non-null veredicto;
+            # fall through to re-extract if it's a refusal (veredicto=null)
+            # or malformed. Belt-and-suspenders: any read/parse error
+            # triggers re-extraction so we never silently drop a norm.
+            try:
+                existing = json.loads(out_path.read_text(encoding="utf-8"))
+                if existing.get("result", {}).get("veredicto") is not None:
+                    return "skipped"
+            except Exception:
+                pass  # malformed → fall through and re-extract
         try:
             result = harness.verify_norm(norm_id=norm_id)
             harness.write_result(result, norm_id=norm_id, output_dir=out_dir)
