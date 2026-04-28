@@ -210,6 +210,70 @@ Detailed per-brief tracking in `state_corpus_population.md`. Roll-up:
 
 ---
 
+**2026-04-28 12:30 PM Bogotá — canonicalizer next-gate session 1 closed.**
+Three batches attempted via the mandatory `launch_batch.sh` runner with
+heartbeat sidecar + Monitor + CronCreate per fixplan §6.A:
+
+| Batch | Norms | Verdict | Successes | Notes |
+|---|---:|---|---:|---|
+| J5 (rerun after fixes) | 3 | FAIL (score-side) | 1 | `ley.100.1993` verified VM since 2003-01-29; `ley.797.2003` + `ley.2381.2024` refused (`missing_double_primary_source` — DIAN 404, only Senado). |
+| J6 | 3 | FAIL (score-side; ledger row missing — `--skip-post` + score still tries chat) | 1 | Same `ley.100.1993` (already inserted in J5; rerow). `ley.1438.2011` + `ley.1751.2015` refused (DIAN 404; Senado-only). |
+| G6 (acid test) | 5 | FAIL | 0 | All 5 sources 404: `auto.ce.28920.*`, `concepto.dian.100208192-202`, `sent.ce.28920.*`. Scraper coverage gaps surfaced. |
+
+**Net effect on Postgres `norm_vigencia_history`:** 754 → 758 distinct
+norms (+4; the new norm rows include `ley.100.1993` + the implicit
+parent rows for change-source references like `ley.797.2003`). Falkor
+edges: 639 → 640 (+1 MODIFIED_BY).
+
+**Three scraper fixes shipped (commits 1e4f16a, c03655b, d14b6a6):**
+
+* DIAN normograma now pads NUM to 4 digits in `ley.*` and `res.dian.*`
+  URLs (`ley_0100_1993.htm`, `resolucion_dian_0165_2023.htm`).
+* Senado scraper does the same for ley URLs.
+* SUIN stub returning `?canonical=<norm_id>` URL retired (returns
+  `None` now). It was 400-then-SSL-fail looping for 10–15 s per norm,
+  no chance of success. Per fixplan §5.6 SUIN is a placeholder until a
+  real canonical→SUIN-id registry seeds.
+
+**Newly surfaced scraper-coverage gaps (blocking remaining batches):**
+
+1. **Single-source rule blocks Senado-only leyes.** The harness rejects
+   norms unless ≥2 primary sources resolve. Many Colombian leyes are
+   on Senado but not in DIAN normograma (3-digit-NUM laws + recent
+   reforms): 222/1995, 789/2002, 797/2003, 1258/2008, 1438/2011,
+   1751/2015, 2381/2024, etc. Either need (a) a third primary source
+   (Función Pública), (b) the harness's single-source-acceptance rule
+   triggered for `.gov.co` sources, or (c) a fallback path that pairs
+   Senado + Función Pública.
+2. **CE scrapers (Gap #1).** `auto.ce.<radicado>.<date>` and
+   `sent.ce.<radicado>.<date>` resolve to URLs the CE site doesn't
+   serve (`auto_ce_28920_2024_12_16.html` 404). Need a real radicado
+   resolver or fixture-only path.
+3. **Concepto with hyphenated NUM.** DIAN scraper maps
+   `concepto.dian.100208192-202` to `concepto_dian_100208192-202.htm`
+   which is 404. Real DIAN filename for hyphenated unified conceptos is
+   different — needs mapping table or scraper case.
+4. **CST + CCo scrapers (Gap #4).** Senado scraper's `_handled_types`
+   doesn't include `cst_articulo` or `cco_articulo`. J1-J4 + K3 batches
+   blocked.
+5. **Score step's chat-replay isn't gated on `--skip-post`.** Score
+   tries to read `post_*.json` regardless; errors when
+   `--skip-post` skipped step 5. J6 + G6 ledger rows didn't append
+   because score step crashed before append.
+
+**Recommended next-session sequence:**
+
+1. Add `--skip-score` flag (or fix score to respect `--skip-post`) so
+   ledger rows appear cleanly for partial-source batches.
+2. Add Función Pública as third primary source (URL pattern
+   `https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=<NNN>`).
+   Or relax single-source rule for `.gov.co` Senado.
+3. Implement Gap #1 (CE auto/sent scrapers) per fixplan §5.6 + §7.
+4. Add `cst_articulo` + `cco_articulo` to Senado scraper's
+   `_handled_types` per fixplan §7 Gap #4.
+5. Then run the cleanest cascade (J6/J7/K4/G1/F2 → E1a-f → etc.) per
+   `state_fixplanv4.md` §6.
+
 **2026-04-28 12:30 PM Bogotá — fixplan_v4 — state file initialized.**
 Created this file (`state_fixplanv4.md`). Captures global state across
 the corpus-population campaign + canonicalizer next-gate trial. Briefs

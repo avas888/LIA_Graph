@@ -1,0 +1,27 @@
+{
+  "norm_id": "concepto.dian.100208192-202",
+  "norm_type": "concepto_dian",
+  "parent_norm_id": null,
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T17:26:55.344910+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "missing_double_primary_source",
+    "missing_sources": [
+      "dian_normograma"
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": null,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "harness"
+    }
+  }
+}
