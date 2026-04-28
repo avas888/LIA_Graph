@@ -29,14 +29,13 @@ class SuinJuriscolScraper(Scraper):
     }
 
     def _resolve_url(self, norm_id: str) -> str | None:
-        # SUIN URLs are id-keyed, not norm-keyed; the harness passes the
-        # canonical id as a search query in practice. Live-fetch path will
-        # populate the cache once the registry's lookup table is seeded.
-        if norm_id.startswith("ley.") or norm_id.startswith("decreto."):
-            # Convention: cache is pre-seeded with a `?canonical=<norm_id>`
-            # marker URL during 1B-α development; live-fetch path resolves
-            # via SUIN's search RPC at integration time.
-            return f"{_BASE_URL}?canonical={norm_id}"
+        # SUIN URLs are keyed by an internal numeric id (`?id=NNNNNN`), not
+        # canonical norm-id. Until a registry lookup table is seeded
+        # (fixplan_v4 §5.6 backlog item), the `?canonical=` stub URL causes
+        # a 400-then-SSL-cert-fail loop that adds 10–15 s of wasted retry
+        # budget per norm with no chance of success. Returning None here
+        # cleanly skips SUIN so the harness's primary-source chain falls
+        # through to DIAN + Senado without paying the penalty.
         return None
 
     def _parse_html(self, content: bytes) -> tuple[str, dict[str, Any]]:

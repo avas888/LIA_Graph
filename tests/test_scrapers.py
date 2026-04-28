@@ -142,10 +142,12 @@ def test_consejo_estado_url_for_auto():
 
 
 def test_suin_juriscol_url():
+    # SUIN's `?canonical=` stub never worked — it 400s and then SSL-cert-fails
+    # for 10-15 s per norm with no hope of success. Per fixplan_v4 §5.6 the
+    # scraper is disabled (returns None) until a canonical→SUIN-id registry
+    # is seeded; the chain falls through to DIAN + Senado.
     s = SuinJuriscolScraper(ScraperCache(":memory:"))
-    url = s._resolve_url("ley.2277.2022")
-    assert url is not None
-    assert "ley.2277.2022" in url
+    assert s._resolve_url("ley.2277.2022") is None
 
 
 def test_scraper_does_not_handle_unrelated_norm_type():
