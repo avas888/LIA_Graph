@@ -53,7 +53,7 @@ If you are touching a brief whose status is 🔵 (in progress), check §10 for t
 | Verified vigencia rows in Postgres | **754** (Phases A–D) |
 | Target after Phases E–K | **~3,400** |
 | Briefs drafted | **12 of 12** |
-| Briefs ingested (✅) | **11 of 12** (11, 01, 08-G1, 07-F2, 02, 03, 04, 05, 12, 09, 10) |
+| Briefs ingested (✅) | **12 of 12** (all sprints complete) |
 | Briefs in progress (🔵) | **0 of 12** |
 | Briefs blocked | **0 of 12** |
 | Scraper gaps open | **5** (see §7 of master plan) |
@@ -94,7 +94,7 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ ingested · ⛔ block
 | 03 | [03_dur_1625_iva_retefuente.md](corpus_population/03_dur_1625_iva_retefuente.md) | E2a–E2c | ~280 | ✅ DIAN works | ✅ | claude-opus-4-7 | 2026-04-28 | 499 rows; E2a/E2c PASS, E2b MISS (1.3.4-5 not in delivery) |
 | 04 | [04_dur_1625_procedimiento.md](corpus_population/04_dur_1625_procedimiento.md) | E3a, E3b | ~200 | ✅ DIAN works | ✅ | claude-opus-4-7 | 2026-04-28 | 104 rows; E3a PARTIAL, E3b PASS |
 | 05 | [05_dur_1072_laboral.md](corpus_population/05_dur_1072_laboral.md) | E6a–E6c, J8a–J8c | ~250 | ✅ DIAN handles URL pattern | ✅ | claude-opus-4-7 | 2026-04-28 | 297 rows (2.2.4.* + 2.2.5.*); E6b/E6c/J8b PASS, others partial |
-| 06 | [06_decretos_legislativos_covid.md](corpus_population/06_decretos_legislativos_covid.md) | E5 | ~30 | ⚠️ Gap #3 | 🟡 | unassigned | 2026-04-28 | Gap #3 (DIAN scraper URL-filename extension; canonical id stays as plain `decreto.<NUM>.<YEAR>`) |
+| 06 | [06_decretos_legislativos_covid.md](corpus_population/06_decretos_legislativos_covid.md) | E5 | ~30 | ⚠️ Gap #3 | ✅ | claude-opus-4-7 | 2026-04-28 | 104 rows (6 decretos legislativos COVID); E5 PASS at 104/24 |
 | 07 | [07_resoluciones_dian.md](corpus_population/07_resoluciones_dian.md) | F1, F2, F3, F4 | ~140 | ✅ DIAN works | ✅ (F2) | claude-opus-4-7 | 2026-04-28 | F2 ingested (111 ids; FE + nómina). F1/F3/F4 use keyword-based YAML patterns that don't match canonical form — YAML repair pending |
 | 08 | [08_conceptos_dian_unificados.md](corpus_population/08_conceptos_dian_unificados.md) | G1–G6 | ~390 | ✅ DIAN works | ✅ (G1) | claude-opus-4-7 | 2026-04-28 | G1 ingested (407 IVA numerales). G2–G5: expert delivered placeholder Renta concepto with 0 numerales — needs follow-up. |
 | 09 | [09_conceptos_dian_individuales.md](corpus_population/09_conceptos_dian_individuales.md) | H1, H2, H3a, H3b, H4a, H4b, H5, H6 | ~430 | ⚠️ Gap #2 | ✅ (H3a/b, H6) | claude-opus-4-7 | 2026-04-28 | 92 docs; H3a/b/H6 PASS, H1/H2/H4a/b/H5 MISS (keyword YAML patterns don't match canonical form) |
@@ -252,6 +252,29 @@ Practical implication:
 **Format:** `YYYY-MM-DD HH:MM TZ — <brief or global> — <event>`
 
 ---
+
+**2026-04-28 (PM) Bogotá — brief 06 — ingested 104 rows (decretos legislativos COVID).**
+6 decretos legislativos: 417/2020, 444/2020, 535/2020, 568/2020, 658/2020,
+678/2020. 100 article rows + 6 parents minus 2 letter-suffix rejects
+(`Artículo 14A`, `14B` — canon doesn't allow letter suffixes on decreto
+articles). Smoke E5=104/24 PASS. **Closes Sprint 3 — all 12 briefs
+ingested.**
+
+**Cumulative campaign totals (Sprints 1+2+3):**
+- 4382 candidate rows → 4356 valid rows written across 12 briefs
+- parsed_articles.jsonl: 7922 → 12 200+ rows
+- input_set.jsonl: pre-existing 12 366 → 18 676 unique norm_ids
+- Batch resolution: 23 of 41 batches PASS (≥80% threshold), 14 PARTIAL
+  (1+ ids but below threshold), 4 MISS (no delivery in expert packet).
+  Remaining gaps: F1/F3/F4 keyword YAML, H1/H2/H4a/b/H5 keyword YAML,
+  I3/I4 (CE deferred), K1/K2 (BanRep deferred), G2-G5 (Renta concepto
+  placeholder), 1.7.* DUR sub-libro not delivered.
+
+**Next gate (operator go-ahead required):** §6.B step 8 — run the
+canonicalizer harness on the now-populated batches per `§6.A` mandatory
+runner protocol (`bash scripts/canonicalizer/launch_batch.sh --batch-id <X>`).
+Suggested first batches with cleanest data: J5/J6/J7 (Ley pensional),
+J1-J4 (CST), G1 (IVA Unificado), F2 (FE), K3+K4 (CCo+S.A.).
 
 **2026-04-28 (PM) Bogotá — brief 10 — ingested 16 rows (CC sentencias on principles).**
 Expert delivered 16 Corte Constitucional sentencias (C-098/2025, C-100/2022,
