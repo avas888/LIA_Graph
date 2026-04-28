@@ -1,0 +1,28 @@
+{
+  "norm_id": "cst.art.157",
+  "norm_type": "cst_articulo",
+  "parent_norm_id": "cst",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T19:51:56.522872+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "missing_double_primary_source",
+    "missing_sources": [
+      "secretaria_senado"
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": null,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "harness"
+    },
+    "single_source_accepted": null
+  }
+}

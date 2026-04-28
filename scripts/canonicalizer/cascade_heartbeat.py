@@ -99,11 +99,30 @@ def _completed_batches() -> list[dict]:
 
 
 def _active_batch(completed: list[dict]) -> str | None:
-    """Whichever cascade batch comes next after the last completed step.
+    """Best-effort answer to "what batch is running right now?".
 
-    If completed is empty, the active batch is CASCADE_BATCHES[0].
-    If a step that already ran is in completed, advance to the next.
+    Priority order:
+      1. Inspect `ps` for a live launcher subprocess and parse its --batch
+         flag (this is the ground truth — works regardless of which subset
+         of CASCADE_BATCHES the driver was configured to run).
+      2. Fall back to "next batch in CASCADE_BATCHES not yet in completed".
+         Useful when the driver is between batches (no launcher subprocess
+         momentarily) or after a clean halt.
     """
+    try:
+        ps = subprocess.run(
+            ["ps", "-eo", "command"],
+            capture_output=True, text=True, timeout=5,
+        )
+        if ps.returncode == 0:
+            for line in ps.stdout.splitlines():
+                if "launch_batch.sh --batch " in line:
+                    parts = line.split("--batch ", 1)[1].split()
+                    if parts:
+                        return parts[0]
+    except Exception:
+        pass
+
     done_batches = {row["batch"] for row in completed}
     for b in CASCADE_BATCHES:
         if b not in done_batches:

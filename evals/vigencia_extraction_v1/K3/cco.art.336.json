@@ -1,0 +1,28 @@
+{
+  "norm_id": "cco.art.336",
+  "norm_type": "cco_articulo",
+  "parent_norm_id": "cco",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T20:25:19.306564+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "secretaria_senado: el extracto proporcionado solo incluye hasta el artículo 15 del Código de Comercio, por lo que no contiene el texto ni información de vigencia del artículo 336"
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 26284,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "secretaria_senado"
+  }
+}

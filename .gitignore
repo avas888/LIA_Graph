@@ -75,3 +75,12 @@ evals/runs/*_manifest.json
 !evals/runs/*__summary.json
 logs/parallel_*_extract.log
 logs/pool_*.log
+
+# --- cascade-v5 driver artifacts (volatile per-run state) ---
+logs/cascade_v5_*.log
+logs/cascade_v5_driver.log
+logs/cascade_v5_campaign.md
+evals/canonicalizer_run_v1/*/run.pid
+evals/canonicalizer_run_v1/*/run_state.json
+evals/canonicalizer_run_v1/*/heartbeat_stats.json
+evals/canonicalizer_run_v1/*/pre_baseline-*.json

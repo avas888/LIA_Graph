@@ -1,0 +1,28 @@
+{
+  "norm_id": "cst.art.478",
+  "norm_type": "cst_articulo",
+  "parent_norm_id": "cst",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T20:02:21.190101+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "A source containing the full text and vigencia notes of cst.art.478, such as the specific article page from Secretaría del Senado or SUIN-Juriscol"
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 57613,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "secretaria_senado"
+  }
+}

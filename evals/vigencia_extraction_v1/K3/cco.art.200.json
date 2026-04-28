@@ -1,0 +1,28 @@
+{
+  "norm_id": "cco.art.200",
+  "norm_type": "cco_articulo",
+  "parent_norm_id": "cco",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T20:13:57.576318+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "cco.art.200 text not found in secretaria_senado source"
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 25693,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "secretaria_senado"
+  }
+}

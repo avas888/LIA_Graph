@@ -1,0 +1,28 @@
+{
+  "norm_id": "cst.art.199",
+  "norm_type": "cst_articulo",
+  "parent_norm_id": "cst",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T19:55:17.782378+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "La fuente primaria proporcionada (secretaria_senado - Código Sustantivo del Trabajo) contiene únicamente los artículos 1 a 147 del CST. El artículo 199 no aparece en el extracto suministrado, aunque el índice muestra que existe en el Título VIII, Capítulo II-8-1. Se requiere una fuente que contenga el texto completo y las notas de vigencia del artículo 199."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 22499,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "secretaria_senado"
+  }
+}

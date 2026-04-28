@@ -17,20 +17,27 @@ REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$REPO_ROOT"
 
 BATCHES=(
-  J6 J7 K4
-  J1 J2 J3 J4
-  K3
-  G1
-  G6
   F2
-  E5
-  E6b E6c
   E1a E1b E1d
   E2a E2c
   E3b
-  J8b
   D5
 )
+# Trimmed cascade — option (a) per 2026-04-28 PM operator directive,
+# expanded to F2 after the harness generalization fix landed.
+# Single-source acceptance now extends to dian_normograma per
+# vigencia_extractor.py _TRUSTED_GOVCO_SOURCE_IDS (commit replacing the
+# Senado-only acceptance). Live-verified working norms:
+#   * F2          — res.dian.NN.YYYY.art.M → dian_normograma ✅
+#   * E1a/E1b/E1d — decreto.1625.2016.art.X.X.X → dian_normograma ✅
+#   * E2a/E2c     — same parent → ✅
+#   * E3b         — same parent → ✅
+#   * D5          — ley.1943.2018.art.X → dian_normograma ✅
+# Still skipped (require URL-discovery work, out of v5 scope):
+#   * G1 + G6 — DIAN concepto + CE fixture lookup tables not built
+#   * E5      — decreto.417.2020.* → decreto_417_2020.htm ❌ 404
+#   * E6b/E6c — decreto.1072.2015.* → decreto_1072_2015.htm ❌ 404
+#   * J8b     — same decreto.1072.2015 root → same 404
 
 CAMPAIGN_LOG="logs/cascade_v5_campaign.md"
 LEDGER="evals/canonicalizer_run_v1/ledger.jsonl"

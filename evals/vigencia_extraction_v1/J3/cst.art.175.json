@@ -1,0 +1,80 @@
+{
+  "norm_id": "cst.art.175",
+  "norm_type": "cst_articulo",
+  "parent_norm_id": "cst",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T19:54:39.787461+00:00",
+  "result": {
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2005-12-30",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "ley.995.2005.art.1",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2005-12-30"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "ley.995.2005.art.1",
+          "norm_type": "ley",
+          "article": "Art. 1",
+          "fecha": "2005-12-30",
+          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_0995_2005.html"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "cst_secretariasenado",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "ley.995.2005_secretariasenado",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 92367,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "secretaria_senado"
+  }
+}

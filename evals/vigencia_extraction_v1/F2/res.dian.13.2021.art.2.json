@@ -1,0 +1,28 @@
+{
+  "norm_id": "res.dian.13.2021.art.2",
+  "norm_type": "res_articulo",
+  "parent_norm_id": "res.dian.13.2021",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T20:56:16.523138+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "The provided fragment of the DIAN normograma source does not include article 2 of Resolution 13 of 2021; it is truncated during article 1. No primary source containing the requested article was found."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 19839,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "dian_normograma"
+  }
+}

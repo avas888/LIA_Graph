@@ -1,0 +1,29 @@
+{
+  "norm_id": "decreto.1625.2016.art.1.2.1.18.63",
+  "norm_type": "decreto_articulo",
+  "parent_norm_id": "decreto.1625.2016",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T20:48:47.466726+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "missing_double_primary_source",
+    "missing_sources": [
+      "dian_normograma",
+      "suin_juriscol"
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": null,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "harness"
+    },
+    "single_source_accepted": null
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "norm_id": "res.dian.13.2021.art.4",
+  "norm_type": "res_articulo",
+  "parent_norm_id": "res.dian.13.2021",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T20:58:21.240071+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "Artículo 4 no está incluido en el fragmento de la fuente proporcionada. No se puede determinar su vigencia."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 52796,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "dian_normograma"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "norm_id": "cst.art.52",
+  "norm_type": "cst_articulo",
+  "parent_norm_id": "cst",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T19:44:35.349112+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "No se encuentra el texto del artículo 52 en la única fuente primaria proporcionada (secretaria_senado, URL consultada). Se requiere una fuente que contenga el contenido normativo para verificar su vigencia."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 23039,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "secretaria_senado"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "norm_id": "res.dian.13.2021.art.32",
+  "norm_type": "res_articulo",
+  "parent_norm_id": "res.dian.13.2021",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T20:57:25.039145+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "No se encontró el texto del artículo 32 de la Resolución DIAN 13 de 2021 en la fuente primaria proporcionada (normograma DIAN). El extracto disponible no incluye ese artículo."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 31862,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    },
+    "single_source_accepted": "dian_normograma"
+  }
+}
