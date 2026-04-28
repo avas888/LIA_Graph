@@ -53,7 +53,7 @@ If you are touching a brief whose status is 🔵 (in progress), check §10 for t
 | Verified vigencia rows in Postgres | **754** (Phases A–D) |
 | Target after Phases E–K | **~3,400** |
 | Briefs drafted | **12 of 12** |
-| Briefs ingested (✅) | **6 of 12** (11, 01, 08-G1, 07-F2, 02, 03) |
+| Briefs ingested (✅) | **7 of 12** (11, 01, 08-G1, 07-F2, 02, 03, 04) |
 | Briefs in progress (🔵) | **0 of 12** |
 | Briefs blocked | **0 of 12** |
 | Scraper gaps open | **5** (see §7 of master plan) |
@@ -92,7 +92,7 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ ingested · ⛔ block
 | 01 | [01_cst.md](corpus_population/01_cst.md) | J1, J2, J3, J4 | ~170 | ❌ Gap #4 | ✅ | claude-opus-4-7 | 2026-04-28 | ingested 200 unique CST articles (50 SUIN duplicates dropped) |
 | 02 | [02_dur_1625_renta.md](corpus_population/02_dur_1625_renta.md) | E1a–E1f | ~500 | ✅ DIAN works | ✅ | claude-opus-4-7 | 2026-04-28 | 834 rows; E1a/b/d PASS, E1c/E1f PARTIAL, E1e MISS (1.7.* not delivered) |
 | 03 | [03_dur_1625_iva_retefuente.md](corpus_population/03_dur_1625_iva_retefuente.md) | E2a–E2c | ~280 | ✅ DIAN works | ✅ | claude-opus-4-7 | 2026-04-28 | 499 rows; E2a/E2c PASS, E2b MISS (1.3.4-5 not in delivery) |
-| 04 | [04_dur_1625_procedimiento.md](corpus_population/04_dur_1625_procedimiento.md) | E3a, E3b | ~200 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | depends on parser from brief 02 |
+| 04 | [04_dur_1625_procedimiento.md](corpus_population/04_dur_1625_procedimiento.md) | E3a, E3b | ~200 | ✅ DIAN works | ✅ | claude-opus-4-7 | 2026-04-28 | 104 rows; E3a PARTIAL, E3b PASS |
 | 05 | [05_dur_1072_laboral.md](corpus_population/05_dur_1072_laboral.md) | E6a–E6c, J8a–J8c | ~250 | ✅ DIAN handles URL pattern | 🟡 | unassigned | 2026-04-28 | DIAN URL returned 404 during research; verify primary source before parsing |
 | 06 | [06_decretos_legislativos_covid.md](corpus_population/06_decretos_legislativos_covid.md) | E5 | ~30 | ⚠️ Gap #3 | 🟡 | unassigned | 2026-04-28 | Gap #3 (DIAN scraper URL-filename extension; canonical id stays as plain `decreto.<NUM>.<YEAR>`) |
 | 07 | [07_resoluciones_dian.md](corpus_population/07_resoluciones_dian.md) | F1, F2, F3, F4 | ~140 | ✅ DIAN works | ✅ (F2) | claude-opus-4-7 | 2026-04-28 | F2 ingested (111 ids; FE + nómina). F1/F3/F4 use keyword-based YAML patterns that don't match canonical form — YAML repair pending |
@@ -252,6 +252,10 @@ Practical implication:
 **Format:** `YYYY-MM-DD HH:MM TZ — <brief or global> — <event>`
 
 ---
+
+**2026-04-28 (PM) Bogotá — brief 04 — ingested 104 rows (DUR 1625 procedimiento).**
+Smoke E3a=36/64 PARTIAL, E3b=68/48 PASS. Brief 04 shipped only 1.5.1.* and
+similar early subsections; 1.5.6+ not in delivery — would unblock E3a.
 
 **2026-04-28 (PM) Bogotá — brief 03 — ingested 499 rows (DUR 1625 IVA + retefuente).**
 Smoke E2a=271/48 PASS, E2b=0/64 MISS (1.3.4-5 not in delivery), E2c=228/48
