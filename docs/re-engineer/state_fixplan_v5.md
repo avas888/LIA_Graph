@@ -63,12 +63,12 @@ Memory-pinned guardrails (do not violate — full list in fixplan_v5
 
 ## 3. Current global state
 
-**As of:** 2026-04-28 PM Bogotá (start of v5)
+**As of:** 2026-04-28 PM Bogotá (5 blockers closed, cascade about to start)
 
 | Field | Value |
 |---|---|
-| fixplan_v5 status | drafted, ready to execute |
-| Blockers closed (✅) | **0 of 5** |
+| fixplan_v5 status | engineering complete (5/5); cascade pending |
+| Blockers closed (✅) | **5 of 5** |
 | Cascade batches run (✅ verified) | **0 of 23** |
 | Postgres `norm_vigencia_history` | **758** distinct verified norms |
 | Falkor `(:Norm)` nodes / edges | **11 657 / 640** |
@@ -101,11 +101,11 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · ⛔ blocked �
 
 | # | Blocker | Recipe ref | Status | Owner | Estimate | Notes |
 |---|---|---|---|---|---:|---|
-| 1 | Single-source rule rejects Senado-only leyes | fixplan_v5 §3 #1 | 🟡 | unassigned | 30–90 min | Approach A (Función Pública scraper) preferred; Approach B (relax rule for `.gov.co`) faster |
-| 2 | CE auto/sent scrapers (Gap #1) | fixplan_v5 §3 #2 | 🟡 | unassigned | 30–45 min | Fixture-only path recommended for v5 |
-| 3 | Concepto hyphenated NUM filename | fixplan_v5 §3 #3 | 🟡 | unassigned | 20–30 min | Empirical URL discovery via curl probe |
-| 4 | CST + CCo Senado scraper support | fixplan_v5 §3 #4 | 🟡 | unassigned | 45–60 min | Biggest single unlock (~485 norms in J1-J4 + K3) |
-| 5 | Score step crashes on `--skip-post` | fixplan_v5 §3 #5 | 🟡 | unassigned | 15–20 min | Smallest fix; recommended first |
+| 1 | Single-source rule rejects Senado-only leyes | fixplan_v5 §3 #1 | ✅ | claude-opus-4-7 (worktree) | 30 min | Approach B implemented at `vigencia_extractor.py:187-214`; new `single_source_accepted` field on `VigenciaResult`; 4 new tests pass. Commit `e8ffa09`. |
+| 2 | CE auto/sent scrapers (Gap #1) | fixplan_v5 §3 #2 | ✅ | claude-opus-4-7 (worktree) | 45 min | Fixture-first path in `consejo_estado.py` + 5 placeholder fixtures under `tests/fixtures/scrapers/consejo_estado/`. Real text TBD from brief 14. 3 new tests pass. Commit `c20b3ce`. |
+| 3 | Concepto hyphenated NUM filename | fixplan_v5 §3 #3 | ✅ | claude-opus-4-7 (worktree) | 30 min | Empirical curl probe across 24 candidate URLs returned 404 for every derivable filename — DIAN serves the doc at `oficio_dian_<RADICADO>_<YEAR>.htm`, requiring an external `var/dian_concepto_lookup.json`. New branch returns `None` until that lookup ships. Test pass. Commit `08e73f6`. |
+| 4 | CST + CCo Senado scraper support | fixplan_v5 §3 #4 | ✅ | claude-opus-4-7 (worktree) | 45 min | `_handled_types` extended; CST uses coarse pr-segment map from `corpus_population/01_cst.md` with master-page fallback; CCo uses master `codigo_comercio.html`. 3 new tests pass. Commit `b1cde16`. |
+| 5 | Score step crashes on `--skip-post` | fixplan_v5 §3 #5 | ✅ | claude-opus-4-7 | 20 min | `--skip-post` implies `--skip-score`; new `append_extract_only_row.py` writes a contiguous `EXTRACT_ONLY` ledger row. Smoke-tested. Commit `38edac3`. |
 
 ### 4.B Cascade batches (after the 5 blockers ✅)
 
@@ -151,6 +151,9 @@ counts will be ≤ slice (some norms may still refuse on edge cases).
 | Outside-expert deliveries 13/14/15 | `state_corpus_population.md` §4 | Operator hands packets; ingest via `ingest_expert_packet.py` when they arrive |
 | D5 canonical-id rewrite | fixplan_v4 §5.3 | Done as cascade row 23 above |
 | SME signoff (O-1) → cloud promotion (O-2) | `state_fixplanv4.md` §4.D | Operator + Alejandro gate; not engineering |
+| `var/dian_concepto_lookup.json` (canonical-suffix → `{radicado, year}`) | This file §10 (2026-04-28 PM entry) | Required for blocker #3 to actually fetch hyphenated unified conceptos. Seed from brief 08 + WebSearch hits. ~30-60 min when scheduled. |
+| `var/senado_cco_pr_index.json` build script | This file §10 (2026-04-28 PM entry) | Conditional — only needed if K3 cascade returns weak/empty anchor slices on master `codigo_comercio.html`. Decide after K3 finishes. |
+| Función Pública scraper (Approach A for Blocker #1) | fixplan_v5 §3 #1 | Cleaner long-term than Approach B; defer until after the cascade exposes whether Senado-only acceptance covers enough leyes. |
 
 ---
 
@@ -193,6 +196,30 @@ counts will be ≤ slice (some norms may still refuse on edge cases).
 **Format:** `YYYY-MM-DD HH:MM TZ — <area> — <event>`
 
 ---
+
+**2026-04-28 PM Bogotá — fixplan_v5 — all 5 blockers closed, ready for cascade.**
+Engineering session ran #5 sequentially in main and #1/#2/#3/#4 as
+4 parallel Claude worktree agents. All commits cherry-picked back to
+main (`38edac3 → c20b3ce`). Combined regression on
+`tests/test_scrapers.py + tests/test_canon.py + tests/test_vigencia_extractor.py`:
+**156 passed, 0 failed.** Notable findings:
+* **Blocker #3 needs follow-up.** No public DIAN URL is derivable from
+  `concepto.dian.NNN-SSS` canonical ids; the doc actually lives at
+  `oficio_dian_<RADICADO>_<YEAR>.htm` (verified for
+  `concepto.dian.100208192-202` → `oficio_dian_6038_2024.htm`). Branch
+  now returns `None` until a `var/dian_concepto_lookup.json` ships.
+  Out-of-v5 follow-up logged to §4.C.
+* **Blocker #4 caveat.** CCo has no segment map; all 315 K3 norms hit
+  the master `codigo_comercio.html` page. If anchor slicing returns
+  weak/empty results during the K3 cascade, follow-up = build
+  `var/senado_cco_pr_index.json` via a script mirroring
+  `build_senado_et_index.py`.
+* **Blocker #1 acceptance footprint.** New `single_source_accepted`
+  field on `VigenciaResult`; serialized in `to_dict`. Use it to spot
+  Senado-only veredictos in the cascade JSONs.
+
+Next: start cascade per §4.B order (J5 rerun first → smallest sanity
+check that confirms blocker #1 actually unlocks Senado-only leyes).
 
 **2026-04-28 PM Bogotá — fixplan_v5 — drafted + state file initialized.**
 `fixplan_v5.md` written as a focused execution plan around the 5
