@@ -53,7 +53,7 @@ If you are touching a brief whose status is 🔵 (in progress), check §10 for t
 | Verified vigencia rows in Postgres | **754** (Phases A–D) |
 | Target after Phases E–K | **~3,400** |
 | Briefs drafted | **12 of 12** |
-| Briefs ingested (✅) | **1 of 12** (brief 11) |
+| Briefs ingested (✅) | **2 of 12** (briefs 11, 01) |
 | Briefs in progress (🔵) | **0 of 12** |
 | Briefs blocked | **0 of 12** |
 | Scraper gaps open | **5** (see §7 of master plan) |
@@ -89,7 +89,7 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ ingested · ⛔ block
 
 | # | Brief | Phase batches | Target norms | Scraper status | Status | Owner | Last update | Blockers |
 |---:|---|---|---:|---|---|---|---|---|
-| 01 | [01_cst.md](corpus_population/01_cst.md) | J1, J2, J3, J4 | ~170 | ❌ Gap #4 | 🟡 | unassigned | 2026-04-28 | Gap #4 (Senado CST scraper) — fixture path available |
+| 01 | [01_cst.md](corpus_population/01_cst.md) | J1, J2, J3, J4 | ~170 | ❌ Gap #4 | ✅ | claude-opus-4-7 | 2026-04-28 | ingested 200 unique CST articles (50 SUIN duplicates dropped) |
 | 02 | [02_dur_1625_renta.md](corpus_population/02_dur_1625_renta.md) | E1a–E1f | ~500 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | none — corpus parsing only |
 | 03 | [03_dur_1625_iva_retefuente.md](corpus_population/03_dur_1625_iva_retefuente.md) | E2a–E2c | ~280 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | depends on parser from brief 02 |
 | 04 | [04_dur_1625_procedimiento.md](corpus_population/04_dur_1625_procedimiento.md) | E3a, E3b | ~200 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | depends on parser from brief 02 |
@@ -252,6 +252,14 @@ Practical implication:
 **Format:** `YYYY-MM-DD HH:MM TZ — <brief or global> — <event>`
 
 ---
+
+**2026-04-28 (PM) Bogotá — brief 01 — ingested 200 CST articles.**
+SUIN-Juriscol delivery had 250 article-headings but 50 were repeats (same
+article rendered multiple times across SUIN HTML segments) — dedup keeps
+first occurrence. Smoke check J1-J4 PASS at all thresholds: J1=29/25,
+J2=51/40, J3=44/35, J4=77/60. parsed_articles 8364 → 8564. CST has no
+parent norm_id in canon (only `cst.art.<N>`); J1-J4 are regex-filtered on
+article number ranges so no parent row needed.
 
 **2026-04-28 (PM) Bogotá — brief 11 — ingested 442 rows (3 parent + 439 articles).**
 Expert delivered Ley 100/1993 (289 articles), Ley 789/2002 (59 articles), Ley
