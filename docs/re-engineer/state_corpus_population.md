@@ -53,7 +53,7 @@ If you are touching a brief whose status is 🔵 (in progress), check §10 for t
 | Verified vigencia rows in Postgres | **754** (Phases A–D) |
 | Target after Phases E–K | **~3,400** |
 | Briefs drafted | **12 of 12** |
-| Briefs ingested (✅) | **3 of 12** (briefs 11, 01, 08-G1) |
+| Briefs ingested (✅) | **4 of 12** (briefs 11, 01, 08-G1, 07-F2) |
 | Briefs in progress (🔵) | **0 of 12** |
 | Briefs blocked | **0 of 12** |
 | Scraper gaps open | **5** (see §7 of master plan) |
@@ -95,7 +95,7 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ ingested · ⛔ block
 | 04 | [04_dur_1625_procedimiento.md](corpus_population/04_dur_1625_procedimiento.md) | E3a, E3b | ~200 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | depends on parser from brief 02 |
 | 05 | [05_dur_1072_laboral.md](corpus_population/05_dur_1072_laboral.md) | E6a–E6c, J8a–J8c | ~250 | ✅ DIAN handles URL pattern | 🟡 | unassigned | 2026-04-28 | DIAN URL returned 404 during research; verify primary source before parsing |
 | 06 | [06_decretos_legislativos_covid.md](corpus_population/06_decretos_legislativos_covid.md) | E5 | ~30 | ⚠️ Gap #3 | 🟡 | unassigned | 2026-04-28 | Gap #3 (DIAN scraper URL-filename extension; canonical id stays as plain `decreto.<NUM>.<YEAR>`) |
-| 07 | [07_resoluciones_dian.md](corpus_population/07_resoluciones_dian.md) | F1, F2, F3, F4 | ~140 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | none |
+| 07 | [07_resoluciones_dian.md](corpus_population/07_resoluciones_dian.md) | F1, F2, F3, F4 | ~140 | ✅ DIAN works | ✅ (F2) | claude-opus-4-7 | 2026-04-28 | F2 ingested (111 ids; FE + nómina). F1/F3/F4 use keyword-based YAML patterns that don't match canonical form — YAML repair pending |
 | 08 | [08_conceptos_dian_unificados.md](corpus_population/08_conceptos_dian_unificados.md) | G1–G6 | ~390 | ✅ DIAN works | ✅ (G1) | claude-opus-4-7 | 2026-04-28 | G1 ingested (407 IVA numerales). G2–G5: expert delivered placeholder Renta concepto with 0 numerales — needs follow-up. |
 | 09 | [09_conceptos_dian_individuales.md](corpus_population/09_conceptos_dian_individuales.md) | H1, H2, H3a, H3b, H4a, H4b, H5, H6 | ~430 | ⚠️ Gap #2 | 🟡 | unassigned | 2026-04-28 | Gap #2 (oficio.dian.* scraper case) + YAML regex tightening required |
 | 10 | [10_jurisprudencia_cc_ce.md](corpus_population/10_jurisprudencia_cc_ce.md) | I1–I4 | ~70 | ⚠️ Gap #1 | 🟡 | unassigned | 2026-04-28 | I1 ✅ done; I2/I3 need parsed sentencias; I4 blocked by Gap #1 (Auto CE scraper) |
@@ -252,6 +252,20 @@ Practical implication:
 **Format:** `YYYY-MM-DD HH:MM TZ — <brief or global> — <event>`
 
 ---
+
+**2026-04-28 (PM) Bogotá — brief 07 — ingested 455 rows (F2 PASS).**
+Expert delivered 10 resoluciones DIAN: F2-class (165/2023 FE, 042/2020 FE,
+013/2021 nómina) and F4-class (162/2023 + 124/2021 exógena, 117/2024,
+085/2022, 151/2012, 019/2016, 220/2014). Ingester now strips leading zeros
+from `res.dian.<NUM>` to match the YAML's unpadded form (e.g. `165.2023`
+not `0165.2023`); URL still uses padded form per DIAN normograma's filename
+convention. Smoke F2=111/30 PASS. F1 (UVT), F3 (RST), F4 (RUT/cambiario)
+all MISS — the YAML uses keyword-based patterns
+(`^res\.dian\..*(uvt|plazos|calendario)`, `simple|sintributario`,
+`rut|obligados|cambiario`) which the canonical form `res.dian.<NUM>.<YEAR>`
+fundamentally cannot match (canon doesn't allow keyword segments). F1/F3/F4
+need either YAML repair (use real resolución numbers) or expert delivery
+of UVT + RST resoluciones.
 
 **2026-04-28 (PM) Bogotá — brief 08 — ingested 408 rows (G1 IVA Unificado complete).**
 Concepto General Unificado IVA — 0001 de 2003 fully parsed (1 parent + 406

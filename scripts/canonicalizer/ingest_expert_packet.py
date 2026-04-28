@@ -535,14 +535,18 @@ def handle_brief_07(sections: list[Section]) -> tuple[list[Row], list[Issue]]:
                     fecha_emision=_normalize_date(issued),
                     source_url=_url_from_source_line(source_line),
                 )
-                parent_id = f"res.dian.{parent.num}.{parent.year}"
+                # YAML's F-batch patterns use the unpadded resolución number
+                # (e.g. `res.dian.165.2023`); align canonical id by stripping
+                # leading zeros while preserving the padded form in the URL.
+                num_unpadded = parent.num.lstrip("0") or parent.num
+                parent_id = f"res.dian.{num_unpadded}.{parent.year}"
                 if parent_id not in parents_emitted:
                     rows.append(
                         _make_parent_row(
                             norm_id=parent_id,
                             norm_type="resolucion",
                             label=parent.label,
-                            citation=f"Resolución DIAN {parent.num} de {parent.year}",
+                            citation=f"Resolución DIAN {num_unpadded} de {parent.year}",
                             source_url=parent.source_url
                             or f"https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_{parent.num.zfill(4)}_{parent.year}.htm",
                             fecha_emision=parent.fecha_emision,
@@ -551,6 +555,8 @@ def handle_brief_07(sections: list[Section]) -> tuple[list[Row], list[Issue]]:
                         )
                     )
                     parents_emitted.add(parent_id)
+                # Stash the unpadded form on the parent so article rows reuse it.
+                parent.num = num_unpadded
                 continue
             parent = None
             continue
