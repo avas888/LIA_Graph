@@ -179,6 +179,59 @@ def test_consejo_estado_url_for_auto():
     assert url is not None
 
 
+def test_consejo_estado_url_fixture_first():
+    """When a local fixture exists for the norm_id, _resolve_url returns
+    a file:// URL pointing at it instead of the (404) live boletines URL.
+
+    Covers all 5 G6 acid-test CE ids fixtured at
+    tests/fixtures/scrapers/consejo_estado/{autos,sentencias}/.
+    """
+
+    s = ConsejoEstadoScraper(ScraperCache(":memory:"))
+    fixtured_ids = (
+        "auto.ce.28920.2024.12.16",
+        "auto.ce.082.2026.04.15",
+        "auto.ce.084.2026.04.15",
+        "sent.ce.28920.2025.07.03",
+        "sent.ce.2022CE-SUJ-4-002",
+    )
+    for norm_id in fixtured_ids:
+        url = s._resolve_url(norm_id)
+        assert url is not None, norm_id
+        assert url.startswith("file://"), f"{norm_id}: {url}"
+        assert "tests/fixtures/scrapers/consejo_estado/" in url, norm_id
+
+
+def test_consejo_estado_url_falls_back_when_no_fixture():
+    """When no fixture is present, _resolve_url falls back to the legacy
+    boletines URL (which 404s today — that's the existing behavior we
+    preserve until a live SPA-fetch path lands)."""
+
+    s = ConsejoEstadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("auto.ce.99999.2099.01.01")
+    assert url is not None
+    assert url.startswith("https://www.consejodeestado.gov.co/")
+    assert "auto_ce_99999_2099_01_01" in url
+
+
+def test_consejo_estado_fetch_reads_fixture(tmp_path: Path):
+    """End-to-end: fetch() against a fixtured id returns the fixture body
+    without needing live HTTP, and seeds the scraper cache for re-use."""
+
+    cache = ScraperCache(tmp_path / "ce_fixture_cache.db")
+    s = ConsejoEstadoScraper(cache, live_fetch=False)
+    res = s.fetch("auto.ce.28920.2024.12.16")
+    assert res is not None
+    assert res.status_code == 200
+    assert res.url.startswith("file://")
+    assert "auto.ce.28920.2024.12.16" in res.parsed_text
+    assert res.parsed_meta.get("fixture_only") is True
+    # Re-fetch should now be a cache hit.
+    res2 = s.fetch("auto.ce.28920.2024.12.16")
+    assert res2 is not None
+    assert res2.cache_hit is True
+
+
 def test_suin_juriscol_url():
     # SUIN's `?canonical=` stub never worked — it 400s and then SSL-cert-fails
     # for 10-15 s per norm with no hope of success. Per fixplan_v4 §5.6 the
