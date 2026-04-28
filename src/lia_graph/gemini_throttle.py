@@ -1,19 +1,23 @@
-"""Cross-process Gemini API throttle (token bucket on a file lock).
+"""Cross-process LLM API throttle (token bucket on a file lock).
 
 Why this exists
 ---------------
 The canonicalizer's parallel runner spawns N concurrent extract processes.
-Each process's `VigenciaSkillHarness` makes its own Gemini calls. Without
-coordination, 3 concurrent harnesses each firing a Gemini call every
-~25 sec produces bursts of ~3 simultaneous in-flight calls — enough to
-trigger HTTP 503 ("model overloaded") on `gemini-2.5-pro` even within
-project quota. The retry path in `gemini_runtime.py` recovers from
-transients but doesn't prevent them.
+Each process's `VigenciaSkillHarness` makes its own LLM calls. Without
+coordination, concurrent harnesses fire bursts of in-flight calls — enough
+to trigger HTTP 503 ("model overloaded") even inside provider quota. The
+retry path in `gemini_runtime.py` recovers from transients but doesn't
+prevent them.
 
 This module provides a SHARED, FILE-BASED rate limiter that ALL
-canonicalizer Gemini calls — across ALL processes — pass through. The
-result: the project-wide Gemini RPS stays under a configurable cap
+canonicalizer LLM calls — across ALL processes — pass through. The
+result: the project-wide call rate stays under a configurable cap
 regardless of how many batches run in parallel.
+
+Despite the legacy module / file names ("gemini_throttle"), the throttle
+is provider-agnostic: ``acquire_token()`` is invoked from
+``vigencia_extractor.py`` on every LLM call regardless of whether the
+active provider is Gemini, DeepSeek, or any future adapter.
 
 How it works
 ------------
@@ -33,13 +37,18 @@ window is consistent.
 
 Tuning
 ------
-Two env vars:
+Env vars (read in priority order — first one set wins):
 
-  * `LIA_GEMINI_GLOBAL_RPM` — calls allowed per 60-second window.
-    Default 60 (= 1 RPS sustained). Set higher (e.g. 180) if you have
-    headroom and want faster batch wall time.
-  * `LIA_GEMINI_GLOBAL_DISABLED=1` — disable the throttle (single-batch
-    runs don't need it).
+  * `LLM_DEEPSEEK_RPM` — preferred when running on DeepSeek (current
+    default provider). DeepSeek does not publish a per-account RPM
+    ceiling at our scale, so this is purely a project-wide safety net
+    against runaway loops.
+  * `LIA_LLM_GLOBAL_RPM` — provider-agnostic alias.
+  * `LIA_GEMINI_GLOBAL_RPM` — legacy name kept for back-compat. Used
+    when the active provider is Gemini (the 80-RPM default below was
+    derived from Gemini Tier 1 limits — see DEFAULT_RPM comment).
+  * `LLM_GLOBAL_DISABLED=1` (or legacy `LIA_GEMINI_GLOBAL_DISABLED=1`) —
+    disable the throttle entirely (single-batch runs don't need it).
 
 Robustness
 ----------
@@ -66,20 +75,19 @@ LOGGER = logging.getLogger(__name__)
 DEFAULT_STATE_PATH = Path("var/gemini_throttle_state.json")
 DEFAULT_WINDOW_SECONDS = 60
 
-# `gemini-2.5-pro` Tier 1 (paid) hard limits:
-#   * 150 RPM (requests per minute)
-#   * 1,000 RPD (requests per day)
-#   * 1,000,000 TPM (tokens per minute)
-# (source: https://ai.google.dev/gemini-api/docs/rate-limits)
-#
-# A canonicalizer Gemini call has ~16K chars × 2 sources + ~3K rules =
-# ~10-15K tokens per call. So under TPM cap: 1M / ~12K = ~80 RPM is the
-# practical ceiling; under RPM cap: 150. The TPM ceiling is the binding
-# one. Default 80 RPM leaves headroom for adapter retries and other
-# Gemini callers in the project (eval scripts, dependency smokes).
-# Override via LIA_GEMINI_GLOBAL_RPM. The daily 1000 RPD cap is not
-# enforced by this throttle — operators running 7+ batches × 150 norms
-# in a day should track it separately.
+# Default RPM cap. The 80 number is a Gemini-derived guardrail, NOT a
+# DeepSeek-imposed limit:
+#   * Gemini Tier 1: 150 RPM hard / 1M TPM hard / 1000 RPD hard. A
+#     canonicalizer call carries ~10-15K tokens, so under the TPM cap
+#     1M / ~12K ≈ 80 RPM is the practical ceiling. (source:
+#     https://ai.google.dev/gemini-api/docs/rate-limits)
+#   * DeepSeek: no published per-account RPM/TPM cap at our scale. The
+#     account limit is concurrency-based, not per-minute. For DeepSeek
+#     the 80 default is just a "don't burn a million calls in a runaway
+#     loop" safety net. Operators running on DeepSeek with healthy
+#     headroom should set LLM_DEEPSEEK_RPM=240 (or higher) to let the
+#     extract phase saturate worker capacity.
+# Override via LLM_DEEPSEEK_RPM / LIA_LLM_GLOBAL_RPM / LIA_GEMINI_GLOBAL_RPM.
 DEFAULT_RPM = 80
 
 
@@ -95,7 +103,24 @@ def _read_env_int(key: str, default: int) -> int:
 
 
 def _is_disabled() -> bool:
-    return os.environ.get("LIA_GEMINI_GLOBAL_DISABLED", "") == "1"
+    return (
+        os.environ.get("LLM_GLOBAL_DISABLED", "") == "1"
+        or os.environ.get("LIA_GEMINI_GLOBAL_DISABLED", "") == "1"
+    )
+
+
+def _resolve_rpm(default: int) -> int:
+    """Pick the configured RPM cap from env, in priority order.
+
+    `LLM_DEEPSEEK_RPM` wins (current canonicalizer provider), falls
+    back to the provider-agnostic `LIA_LLM_GLOBAL_RPM`, then the
+    legacy `LIA_GEMINI_GLOBAL_RPM`, then `default`.
+    """
+
+    for key in ("LLM_DEEPSEEK_RPM", "LIA_LLM_GLOBAL_RPM", "LIA_GEMINI_GLOBAL_RPM"):
+        if os.environ.get(key):
+            return _read_env_int(key, default)
+    return default
 
 
 def acquire_token(
@@ -119,7 +144,7 @@ def acquire_token(
         return
 
     state_path = state_path or DEFAULT_STATE_PATH
-    rpm = rpm or _read_env_int("LIA_GEMINI_GLOBAL_RPM", DEFAULT_RPM)
+    rpm = rpm or _resolve_rpm(DEFAULT_RPM)
     state_path.parent.mkdir(parents=True, exist_ok=True)
 
     deadline = time.monotonic() + max_wait_seconds
@@ -187,11 +212,11 @@ def acquire_token(
 
             if time.monotonic() + wait > deadline:
                 raise TimeoutError(
-                    f"Gemini throttle: waited too long for a token "
+                    f"LLM throttle: waited too long for a token "
                     f"(window={window_seconds}s rpm={rpm} max_wait={max_wait_seconds}s)"
                 )
             LOGGER.info(
-                "Gemini throttle: at-cap (%d/%d in last %ds), sleeping %.1fs",
+                "LLM throttle: at-cap (%d/%d in last %ds), sleeping %.1fs",
                 len(timestamps), rpm, window_seconds, wait,
             )
             time.sleep(wait)
