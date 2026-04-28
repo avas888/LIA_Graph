@@ -181,6 +181,24 @@ def display_label(norm_id: str) -> str:
         return f"Sentencia CE {norm_id[len('sent.ce.') :]}"
     if norm_id.startswith("auto.ce."):
         return f"Auto CE {norm_id[len('auto.ce.') :]}"
+    if norm_id.startswith("oficio."):
+        parts = norm_id.split(".")
+        # oficio.<emisor>.<NUM>.<YEAR>
+        if len(parts) == 4:
+            return f"Oficio {parts[1].upper()} {parts[2]} de {parts[3]}"
+        return norm_id
+    if norm_id.startswith("cst.art."):
+        rest = norm_id[len("cst.art.") :]
+        return f"Art. {rest.replace('.par.', ' parágrafo ').replace('.inciso.', ' inciso ').replace('.num.', ' numeral ').replace('.lit.', ' literal ')} CST"
+    if norm_id.startswith("cco.art."):
+        rest = norm_id[len("cco.art.") :]
+        return f"Art. {rest.replace('.par.', ' parágrafo ').replace('.inciso.', ' inciso ').replace('.num.', ' numeral ').replace('.lit.', ' literal ')} CCo"
+    if norm_id.startswith("dcin."):
+        parts = norm_id.split(".")
+        # dcin.<NUM>.cap.<C>.num.<N>
+        if len(parts) == 6 and parts[2] == "cap" and parts[4] == "num":
+            return f"DCIN-{parts[1]} capítulo {parts[3]} numeral {parts[5]}"
+        return norm_id
     return norm_id
 
 
@@ -208,12 +226,20 @@ def norm_type(norm_id: str) -> str:
         return "concepto_dian_numeral"
     if norm_id.startswith("concepto."):
         return "concepto_dian"
+    if norm_id.startswith("oficio."):
+        return "oficio_dian"
     if norm_id.startswith("sent.cc."):
         return "sentencia_cc"
     if norm_id.startswith("sent.ce."):
         return "sentencia_ce"
     if norm_id.startswith("auto.ce."):
         return "auto_ce"
+    if norm_id.startswith("cst.art."):
+        return "cst_articulo"
+    if norm_id.startswith("cco.art."):
+        return "cco_articulo"
+    if norm_id.startswith("dcin."):
+        return "dcin_numeral"
     return "unknown"
 
 
@@ -503,6 +529,102 @@ def _rule_sent_ce(text: str) -> str | None:
 
 
 # Rule 10 — already-canonical norm_id (idempotency)
+# Rule 9 — Oficio EMISOR NUMBER de YEAR — distinct from concepto (year mandatory)
+_OFICIO_RE = re.compile(
+    r"\boficio\s*(?:dian)?\s*"
+    r"(?:n[°º]\.?|no\.?|n[uú]m(?:ero|\.)?\s*)?\s*"
+    r"(?P<num>\d+(?:-\d+)?)\s*"
+    r"(?:de|del|/|-|\s)\s*"
+    r"(?P<year>\d{4})\b",
+    re.IGNORECASE,
+)
+
+
+def _rule_oficio(text: str) -> str | None:
+    """Oficio EMISOR NUMBER de YEAR — emits oficio.<emisor>.<NUM>.<YEAR>.
+
+    Year is required; the no-year case falls through to `_rule_concepto` for
+    backward compat with corpus that uses the legacy permissive form.
+    """
+
+    if not re.search(r"\boficio\b", text, re.IGNORECASE):
+        return None
+    emisor: str | None = None
+    if re.search(r"\bdian\b", text, re.IGNORECASE):
+        emisor = "dian"
+    else:
+        for candidate in KNOWN_EMISORES:
+            if re.search(rf"\b{re.escape(candidate)}\b", text, re.IGNORECASE):
+                emisor = candidate
+                break
+    if emisor is None:
+        return None
+    m = _OFICIO_RE.search(text)
+    if not m:
+        return None
+    return f"oficio.{emisor}.{m.group('num')}.{m.group('year')}"
+
+
+# Rule 10 — CST article (Código Sustantivo del Trabajo)
+_CST_ARTICLE_RE = re.compile(
+    r"\bart(?:[íi]culo|\.)?\s*(?P<num>\d+(?:-\d+)?)\b.{0,40}?"
+    r"(?:c\.?\s*s\.?\s*t\.?|c[óo]digo\s+sustantivo\s+del\s+trabajo)\b",
+    re.IGNORECASE,
+)
+_CST_ARTICLE_REVERSE_RE = re.compile(
+    r"\b(?:c\.?\s*s\.?\s*t\.?|c[óo]digo\s+sustantivo\s+del\s+trabajo)\b[^a-z0-9]{0,30}?"
+    r"(?:art(?:[íi]culo|\.)?\s*)(?P<num>\d+(?:-\d+)?)\b",
+    re.IGNORECASE,
+)
+
+
+def _rule_cst(text: str) -> str | None:
+    m = _CST_ARTICLE_RE.search(text) or _CST_ARTICLE_REVERSE_RE.search(text)
+    if not m:
+        return None
+    base = f"cst.art.{m.group('num')}"
+    sub = _emit_sub_unit_segment(text)
+    return base + sub
+
+
+# Rule 11 — Código de Comercio article
+_CCO_ARTICLE_RE = re.compile(
+    r"\bart(?:[íi]culo|\.)?\s*(?P<num>\d+(?:-\d+)?)\b.{0,40}?"
+    r"(?:c\.?\s*co\.?|c[óo]digo\s+de\s+comercio)\b",
+    re.IGNORECASE,
+)
+_CCO_ARTICLE_REVERSE_RE = re.compile(
+    r"\b(?:c\.?\s*co\.?|c[óo]digo\s+de\s+comercio)\b[^a-z0-9]{0,30}?"
+    r"(?:art(?:[íi]culo|\.)?\s*)(?P<num>\d+(?:-\d+)?)\b",
+    re.IGNORECASE,
+)
+
+
+def _rule_cco(text: str) -> str | None:
+    m = _CCO_ARTICLE_RE.search(text) or _CCO_ARTICLE_REVERSE_RE.search(text)
+    if not m:
+        return None
+    base = f"cco.art.{m.group('num')}"
+    sub = _emit_sub_unit_segment(text)
+    return base + sub
+
+
+# Rule 12 — DCIN-83 (Manual Cambiario, BanRep) — capítulo + numeral both required
+_DCIN_RE = re.compile(
+    r"\bdcin[\s-]*(?P<num>\d+)\b"
+    r".{0,40}?\bcap(?:[íi]tulo|\.)?\s*(?P<cap>\d+)\b"
+    r".{0,40}?\bnum(?:eral|\.)?\s*(?P<numeral>\d+)\b",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _rule_dcin(text: str) -> str | None:
+    m = _DCIN_RE.search(text)
+    if not m:
+        return None
+    return f"dcin.{m.group('num')}.cap.{m.group('cap')}.num.{m.group('numeral')}"
+
+
 def _rule_idempotent(text: str) -> str | None:
     if _NORM_ID_FULL_RE.match(text):
         return text
@@ -514,12 +636,16 @@ _RULES: tuple = (
     _rule_sent_cc,
     _rule_auto_ce,
     _rule_sent_ce,
+    _rule_oficio,        # before _rule_concepto so "Oficio DIAN N de YYYY" wins
     _rule_concepto,
     _rule_resolucion,
     _rule_decreto,
     _rule_ley,
     _rule_et_article,
     _rule_et_bare,
+    _rule_cst,           # after ET — CST/CCo require their own keyword, no overlap
+    _rule_cco,
+    _rule_dcin,
 )
 
 
@@ -577,14 +703,22 @@ _NORM_ID_PATTERNS = (
     # Resolución
     rf"^res\.[a-z][a-z0-9_]*\.[0-9]+(?:-[0-9]+)?\.[0-9]{{4}}"
     rf"(?:\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*)?$",
-    # Concepto / Oficio DIAN
+    # Concepto DIAN (no year segment)
     r"^concepto\.[a-z][a-z0-9_]*\.[0-9]+(?:-[0-9]+)?(?:\.num\.[0-9]+)?$",
+    # Oficio DIAN (year segment is mandatory; distinct family from concepto)
+    r"^oficio\.[a-z][a-z0-9_]*\.[0-9]+(?:-[0-9]+)?\.[0-9]{4}$",
     # Sentencia CC
     r"^sent\.cc\.(?:C|T|SU|A)-[0-9]+\.[0-9]{4}$",
     # Sentencia CE
     r"^sent\.ce\.[0-9]+\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}$",
     # Auto CE
     r"^auto\.ce\.[0-9]+\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}$",
+    # CST (Código Sustantivo del Trabajo)
+    rf"^cst\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*$",
+    # Código de Comercio
+    rf"^cco\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*$",
+    # DCIN (Manual Cambiario BanRep) — capítulo + numeral both required
+    r"^dcin\.[0-9]+\.cap\.[0-9]+\.num\.[0-9]+$",
 )
 
 
@@ -610,9 +744,20 @@ _MENTION_FINDERS: tuple[re.Pattern[str], ...] = (
     re.compile(r"ley\s+\d+(?:\s*(?:de|del|/|-)?\s*\d{4})?(?:[^.\n]{0,40}?art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?)?", re.IGNORECASE),
     re.compile(r"decreto\s+\d+(?:\s*(?:de|del|/|-)?\s*\d{4})?", re.IGNORECASE),
     re.compile(r"resoluci[óo]n\s+\w*\s*\d+(?:\s*(?:de|del|/|-)?\s*\d{4})?", re.IGNORECASE),
+    # Oficio with mandatory year — must precede the concepto/oficio finder so the longer
+    # match wins via _dedupe_overlapping (oficio rule then routes to oficio.<emisor>.<NUM>.<YEAR>).
+    re.compile(r"oficio\s*(?:dian)?\s*(?:n[°º]\.?|no\.?|n[uú]m(?:ero|\.)?)?\s*\d+(?:-\d+)?\s*(?:de|del|/|-)\s*\d{4}", re.IGNORECASE),
     re.compile(r"(?:concepto|oficio)(?:\s+unificado)?\s+(?:dian\s+)?\d+(?:-\d+)?(?:\s+num(?:eral|\.)?\s*\d+)?", re.IGNORECASE),
     re.compile(r"sentencia\s+(?:c|t|su|a)-?\d+\s*(?:de|del|/|-)\s*\d{4}", re.IGNORECASE),
     re.compile(r"auto\s+\d+\s*(?:de|del|/|-)?\s*\d{4}", re.IGNORECASE),
+    # CST — both directions
+    re.compile(r"art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?\s*[^.\n]{0,40}?(?:c\.?\s*s\.?\s*t\.?|c[óo]digo\s+sustantivo\s+del\s+trabajo)", re.IGNORECASE),
+    re.compile(r"(?:c\.?\s*s\.?\s*t\.?|c[óo]digo\s+sustantivo\s+del\s+trabajo)[^a-z0-9]{0,30}art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?", re.IGNORECASE),
+    # CCo — both directions
+    re.compile(r"art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?\s*[^.\n]{0,40}?(?:c\.?\s*co\.?|c[óo]digo\s+de\s+comercio)", re.IGNORECASE),
+    re.compile(r"(?:c\.?\s*co\.?|c[óo]digo\s+de\s+comercio)[^a-z0-9]{0,30}art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?", re.IGNORECASE),
+    # DCIN — capítulo + numeral both must appear nearby
+    re.compile(r"dcin[\s-]*\d+[^.\n]{0,80}?cap(?:[íi]tulo|\.)?\s*\d+[^.\n]{0,80}?num(?:eral|\.)?\s*\d+", re.IGNORECASE),
 )
 
 

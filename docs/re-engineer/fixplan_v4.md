@@ -17,6 +17,44 @@
 
 ---
 
+## 0. If you are a fresh agent — read this first
+
+The current state is: **outside experts are actively scouring the web for legal documents**, working from plain-language briefs in `docs/re-engineer/corpus_population_for_experts/`. They will hand you (or your operator) one or more **expert deliverable packets** — folders of text files OR single markdown documents per brief — containing legal articles, court rulings, or DIAN opinions. **Your job is to take a delivered packet and turn it into rows in `artifacts/parsed_articles.jsonl`**, validated against the canonicalizer's grammar, then commit + update the state file. After enough briefs land you (or the operator) re-run the canonicalizer harness for Phases E–K.
+
+You are NOT scraping the web yourself. The experts do that. You ingest what they hand you.
+
+**Read in this order before doing anything else:**
+
+1. `CLAUDE.md` (repo-level operating guide) — already loaded.
+2. **This file** — for the strategic picture and the "what to do next" details below.
+3. `docs/re-engineer/corpus_population_plan.md` — master plan, especially §5 (canonical id grammar), §6 (deliverables schema), §8 (priority order).
+4. `docs/re-engineer/corpus_population_brief_edits.md` — the canonical-id rules every row must obey. Pay attention to §3 caveats about which examples are verified vs illustrative.
+5. `docs/re-engineer/corpus_population_sprint_brief.md` — campaign-manager view: per-brief target counts, validation gates, reporting protocol.
+6. `docs/re-engineer/corpus_population_reconciliation.md` — historical context on why the briefs and canon agree now (Path A taken 2026-04-28).
+7. `docs/re-engineer/state_corpus_population.md` — live progress tracker; you will be updating §4 and §10 as you ingest.
+8. The specific **technical brief** in `docs/re-engineer/corpus_population/<NN>_<source>.md` for whichever brief the expert delivered. (The matching plain-language brief in `corpus_population_for_experts/<NN>_<source>.md` is what the expert read; you reference the technical version because it has schema details.)
+
+**Hot facts you should know before touching anything:**
+
+* **canon.py is current.** As of 2026-04-28, four families are supported: cst (`cst.art.<N>`), cco (`cco.art.<N>`), dcin (`dcin.<NUM>.cap.<C>.num.<N>`), oficio (`oficio.<emisor>.<NUM>.<YEAR>`). Plus the pre-existing families (et, ley, decreto, res, concepto, sent.cc, sent.ce, auto.ce). 118/118 canon tests pass. **DO NOT extend canon further** unless an explicit gap is identified and the operator approves.
+* **Briefs ↔ canon ↔ batches.yaml are in agreement** as of 2026-04-28 afternoon. Don't re-litigate the reconciliation.
+* **0 of 12 briefs ingested today.** State file `state_corpus_population.md` §4 will be all 🟡 when you arrive. Your first ingest will be the first row to flip.
+* **`build_extraction_input_set.py` reads body text, not a `norm_id` field.** Each row's body must mention the canonical citation in natural-language form (e.g. "Artículo 22 CST" or "Art. 555-2 ET") so `canon.find_mentions()` picks it up. The `norm_id` field on each row is metadata; it does not drive the input set. This is non-obvious and easy to get wrong — see `corpus_population_reconciliation.md §2` for the full mechanism.
+* **Hard URL requirement.** Every row must carry a `source_url` field pointing to the **exact source page** the article came from (not a homepage or master index). Memory `feedback_expert_deliverables_require_url.md` codifies this. Reject expert deliveries that violate it; ask the expert to refetch with proper provenance.
+* **No hallucinated examples.** Do not invent article numbers, oficio numbers, or sentencia numbers. Use what the expert delivered or what's verified in `config/canonicalizer_run_v1/batches.yaml` `explicit_list` arrays. Memory `feedback_no_hallucinated_examples.md`.
+* **5 scraper gaps documented.** `corpus_population_plan.md §7` lists them: auto.ce URL resolver, oficio.dian URL resolver, decreto.legislativo URL filename rewrite, CST + CCo Senado-style scraper, BanRep scraper. Each affected brief documents a fixture-only path. **You don't need to fix any scraper to ingest expert-delivered packets** — fixture-only is the supported path.
+
+**Your first action when an expert hands you a packet:**
+
+1. Identify the brief number (e.g., "this is brief 11 — pensional/salud/parafiscales").
+2. Read `corpus_population_for_experts/<NN>_<source>.md` to see what the expert was told.
+3. Read `corpus_population/<NN>_<source>.md` to see the technical schema.
+4. Validate the packet's structure: does each item have full text + identifier + URL + date? Does the URL point to an exact source page (not a homepage)?
+5. If validation fails, push back on the expert with specific feedback. Do not guess what they meant.
+6. If validation passes, follow the §6.B "Quick-start for ingesting expert deliverables" recipe below.
+
+---
+
 ## 1. One-paragraph reality check
 
 The canonicalizer has been **built end-to-end** and **runs autonomously
@@ -25,11 +63,14 @@ verified vigencia for **754 unique norms** (Phases A/B/C/D) and laid
 **642 structural edges** in Falkor. The pipeline is provider-agnostic
 (DeepSeek-v4-pro primary, Gemini fallback). Throttle, retry, parallel
 agents, sustained pool maintainer, heartbeat sidecars, and durable
-atomic JSON writes all work. The next unlock is **corpus ingestion**:
-roughly 1,690 of the canonicalizer's intended ~3,400 norms are missing
-from `artifacts/parsed_articles.jsonl` at the canonical id-shapes the
-batches expect. The canonicalizer can't extract what isn't in the
-corpus.
+atomic JSON writes all work. The next unlock is **corpus ingestion via
+expert deliverables**: roughly 2,650 of the canonicalizer's intended
+~3,400 norms are missing from `artifacts/parsed_articles.jsonl` at the
+canonical id-shapes the batches expect. The 12 plain-language briefs
+in `corpus_population_for_experts/` have been handed to outside experts;
+the canonicalizer can't extract what isn't in the corpus, but the
+corpus surface is now reconciled (briefs ↔ canon ↔ YAML agree) and
+ready to receive expert deliverables.
 
 ## 2. What we accomplished (yesterday + this morning)
 
@@ -142,18 +183,53 @@ parser, throttle, retry, and Vigencia schema are all working.
 
 **Authoritative spec:** `docs/re-engineer/corpus_population_plan.md`.
 
-Twelve source briefs (one per family — CST, DUR 1625, DUR 1072, COVID
-legislativos, resoluciones DIAN, conceptos unificados, conceptos
-individuales, jurisprudencia, pensional/parafiscales, cambiario/
-societario) need to be drafted by the corpus-ingestion expert(s) per
-the layout in §9 of that doc. The output is rows appended to
-`artifacts/parsed_articles.jsonl` plus the three small scraper gaps
-documented in §5.4 of the population plan (`auto.ce.*`,
-`cst.art.*`, `decreto.legislativo.*`).
+#### 5.1.1 What landed 2026-04-28 (reconciliation closed; expert/engineer streams separated)
 
-**Wall estimate for the canonicalizer side after corpus is populated:**
-~10 hours of DeepSeek-v4-pro time, ~$6 in API spend, 6 concurrent
-workers, autonomous via `bash scripts/canonicalizer/run_full_campaign.sh`.
+**Engineer-side, in repo:**
+
+* `docs/re-engineer/corpus_population/` — 12 technical briefs (one per source family: CST, DUR 1625 renta/IVA/procedimiento, DUR 1072, COVID legislativos, resoluciones DIAN, conceptos unificados, conceptos individuales + oficios, jurisprudencia CC+CE+autos, pensional/salud/parafiscales, cambiario/societario). Each carries the canonical-id rules, scraper status, validation snippet, etc. **Reference for the dev team only.**
+* `docs/re-engineer/corpus_population_brief_edits.md` — find/replace spec the brief authors used to align id-shapes to canon + YAML.
+* `docs/re-engineer/corpus_population_reconciliation.md` — Path A/B/C analysis closed by going Path A.
+* `docs/re-engineer/corpus_population_sprint_brief.md` — campaign-manager view (sprint plan, per-brief target counts, validation gates, reporting protocol).
+* `docs/re-engineer/state_corpus_population.md` — live progress tracker with §3 global state, §4 per-brief table, §10 append-only run log. Briefs all 🟡 (not started); per-brief table not advanced because no rows ingested yet.
+
+**Outside-expert-side, in repo (NEW 2026-04-28):**
+
+* `docs/re-engineer/corpus_population_for_experts/` — 12 plain-language briefs + a README. Strictly non-technical: tells experts WHAT documents to find, WHERE to find them online, HOW MANY (target count ±20%), WHAT TO DELIVER (text + identifier + URL + date), HOW TO PACKAGE (folder of text files OR one markdown). No canonical ids, no JSON, no scrapers, no regex, no Python. Per the operator's "don't cross streams" directive — outside experts (legal researchers, contadores, SMEs) get a strictly non-technical handoff; engineer-facing details stay in `corpus_population/`.
+* Commitment captured in memory `feedback_expert_questions_no_streams_crossed.md` so future briefs honor the separation.
+
+**Canon extension (engineer-side, shipped):**
+
+* `src/lia_graph/canon.py` extended with `_rule_cst`, `_rule_cco`, `_rule_dcin`, `_rule_oficio` (year-mandatory; runs before `_rule_concepto` to preserve no-year backward compat). 4 new `_NORM_ID_PATTERNS` + 4 new `_MENTION_FINDERS`. `display_label` and `norm_type` updated.
+* `tests/test_canon.py` gained 44 new test cases. **Full canon suite: 118/118 passing — zero regression on the 74 pre-existing tests.**
+
+**Hallucination audit (engineer-side, closed):**
+
+* Audit found `decreto.1625.2016.art.1.5.2.125-A` (canon rejects letter-suffix on DUR articles) plus several illustrative concrete article numbers / oficio numbers / sentencia numbers that the original brief-edit spec presented as if real.
+* Replaced illustrative examples with verified-real ids from `batches.yaml` explicit_lists where possible, or with explicit `<dotted-decimal>` placeholders + "do not invent — read off the source" instructions.
+* Memory `feedback_no_hallucinated_examples.md` written so future expert-facing artifacts cite real-or-flagged.
+
+#### 5.1.2 Reconciliation outcome — Path A taken
+
+The 2026-04-28 audit found 7 of 12 briefs proposed canonical id-shapes that either canon's `_NORM_ID_FULL_RE` rejected (cst, cco, dcin, oficio.dian.<NUM>.<YEAR>) or that disagreed with `batches.yaml` (briefs used `libro.X.Y` while YAML expected `art.X.Y`; briefs used `sentencia.cc.c-N.YEAR` while YAML expected `sent.cc.C-N.YEAR`). Second-order finding: `build_extraction_input_set.py` discovers `norm_id`s by running `canon.find_mentions()` over body text, NOT by reading a `norm_id` field per row.
+
+Path A executed: brief authors edited briefs 02–06 + 10 to canon-aligned shapes (no code change); engineer extended canon for cst/cco/dcin/oficio (code change shipped above). All 36 verified-real example ids round-trip cleanly through `canonicalize()`. Briefs ↔ canon ↔ `batches.yaml` are now in agreement.
+
+#### 5.1.3 What's NOT yet done
+
+* **0 of 12 briefs ingested.** `state_corpus_population.md` §4 per-brief table all 🟡 (not started). The corpus-research experts haven't started scraping gov.co yet.
+* **5 scraper gaps documented but mostly unaddressed** (master plan §7): auto.ce URL resolver, oficio.dian URL resolver, decreto.legislativo URL filename rewrite, CST + CCo Senado-style scraper, BanRep scraper. Each affected brief documents a fixture-only fallback path; the gaps only block live-fetch ingestion, not the corpus-population work itself.
+* **Canonicalizer campaign for E–K not run yet.** Gated on the corpus rows landing.
+
+#### 5.1.4 Sequencing — what unblocks what
+
+1. Outside experts pick briefs from `corpus_population_for_experts/` per the priority order in `corpus_population_sprint_brief.md` §2 (Sprint 1: briefs 11 → 01 → 08 → 07; Sprint 2: 02–05; Sprint 3: 12, 09, 10, 06).
+2. Each delivered brief is reviewed by an engineer; raw text is converted to `parsed_articles.jsonl` rows with canonical ids, schema-validated, and committed.
+3. After each brief lands, `build_extraction_input_set.py` regenerates `evals/vigencia_extraction_v1/input_set.jsonl`. Slice-size smoke check confirms the new family resolves to ≥80% of target.
+4. After Sprint 1 lands (~440 rows), engineer can start running canonicalizer batches incrementally rather than waiting for full corpus.
+5. After Sprint 3 lands (~2,650 rows total added), full campaign per `bash scripts/canonicalizer/run_full_campaign.sh --phases E F G H I J K`.
+
+**Wall estimate for the canonicalizer side once corpus is populated:** ~10 hours of DeepSeek-v4-pro time, 6 concurrent workers, autonomous via `run_full_campaign.sh`.
 
 ### 5.2 Cloud staging promotion of the 754 already-verified norms
 
@@ -220,6 +296,11 @@ acceptable" rule for ley.* late-numbered articles. Tracked under
 
 ## 6. Quick-start for resuming the canonicalizer
 
+> **Pick the right starting point:**
+> * **You are a fresh agent who just received an expert deliverable packet** → skip directly to **§6.B** (ingestion recipe). Come back to §6 only if you also need to run the canonicalizer harness afterwards.
+> * **You are continuing an in-flight canonicalizer campaign** (mid-batch, after a process death, etc.) → use the 4 commands below to resume context, then follow **§6.A** (mandatory runner protocol).
+> * **You are starting a NEW canonicalizer batch run from scratch** → §6 below to pre-flight + §6.A's pre-launch checklist.
+
 Resume in 4 commands:
 
 ```bash
@@ -244,9 +325,144 @@ bash scripts/canonicalizer/run_full_campaign.sh --phases <X> <Y> <Z>
 For the planned next runs once corpus is populated:
 
 ```bash
-# Full E-K sweep (will take ~10 hours, ~$6 DeepSeek):
+# Full E-K sweep (will take ~10 hours):
 bash scripts/canonicalizer/run_full_campaign.sh --phases E F G H I J K
 ```
+
+## 6.B Quick-start for ingesting an expert deliverable packet
+
+Use this when the operator hands you a packet from an outside expert (per the §0 fresh-agent on-ramp). Each packet corresponds to **one brief** (e.g. brief 11 = pensional/salud/parafiscales). Process one packet at a time. Do not interleave packets from multiple briefs in the same commit.
+
+### Step 1 — Receive and validate the packet structure
+
+The expert delivers either:
+
+* **Option A** — a folder of `.txt` files, one per article/document.
+* **Option B** — a single `.md` file with a header per article.
+
+Either way, every article must carry these four pieces of information (per `corpus_population_for_experts/README.md`):
+
+1. Full text of the article.
+2. Article number / document identifier (e.g. "Artículo 22", "Sentencia C-481/2019", "Oficio DIAN 018424 de 2024").
+3. **URL pointing to the exact source page** — hard requirement, never a homepage or master index. Reject the packet and ask the expert to refetch if URLs are missing or wrong.
+4. Issue date if visible.
+
+If the packet is missing any of the four for any item, push back to the expert with specific feedback. Do not invent missing data.
+
+### Step 2 — Read the matching technical brief
+
+Open `docs/re-engineer/corpus_population/<NN>_<source>.md` for the brief number the packet covers. That doc has:
+
+* The exact canonical id-shape for this family (e.g. `cst.art.<N>`, `decreto.1625.2016.art.<dotted-decimal>`, `sent.cc.<TYPE>-<NUM>.<YEAR>`).
+* The expected `parsed_articles.jsonl` row schema (full schema at master plan `corpus_population_plan.md §6.1`).
+* The smoke-verification snippet specific to this brief's batches.
+
+### Step 3 — Convert each delivered article to a `parsed_articles.jsonl` row
+
+For each article in the packet, build a row matching the master §6.1 schema:
+
+```json
+{
+  "norm_id": "<canonical-id-from-canonicalize>",
+  "norm_type": "<see canon.norm_type for the family>",
+  "article_key": "<short label, e.g. 'Art. 22 CST'>",
+  "body": "<full text from expert, including title heading, and ensuring the body text contains the natural-language citation form (e.g. 'Artículo 22 CST') so canon.find_mentions picks it up>",
+  "source_url": "<the EXACT URL from the expert delivery>",
+  "fecha_emision": "<YYYY-MM-DD or null>",
+  "emisor": "<Congreso, DIAN, CC, CE, BanRep, MinTrabajo, etc.>",
+  "tema": "<thematic tag from the brief>"
+}
+```
+
+The `norm_id` field comes from running `canonicalize()` on the article's natural-language identifier. For example, the expert delivers "Artículo 22 of the Código Sustantivo del Trabajo" → you call `canonicalize("Art. 22 CST")` → you get `cst.art.22` → that's the row's `norm_id`.
+
+**Critical:** ensure the `body` field contains the natural-language citation form somewhere in its text. The input-set builder (`build_extraction_input_set.py`) reads the body and extracts mentions — if the body says "El presente artículo establece..." without ever naming the article, the row won't be picked up. Most legal source material does include the heading ("ARTÍCULO 22. DEFINICIÓN..."), so this is usually automatic, but verify on a sample.
+
+### Step 4 — Round-trip-validate every row before appending
+
+Before appending to `artifacts/parsed_articles.jsonl`, run this gate. Replace `<your-staging-file>` with whatever you wrote your candidate rows to (e.g. `/tmp/brief_11_staging.jsonl`):
+
+```bash
+PYTHONPATH=src:. uv run python -c "
+import json, sys
+from lia_graph.canon import canonicalize
+bad = []
+total = 0
+with open('<your-staging-file>') as f:
+    for i, line in enumerate(f, 1):
+        if not line.strip(): continue
+        row = json.loads(line)
+        nid = row.get('norm_id')
+        if not nid:
+            bad.append((i, 'missing_norm_id', None)); continue
+        if not row.get('source_url'):
+            bad.append((i, 'missing_source_url', nid)); continue
+        if canonicalize(nid) != nid:
+            bad.append((i, 'non_canonical', nid))
+        total += 1
+if bad:
+    print(f'FAIL — {len(bad)} of {total} rows failed:')
+    for line, kind, nid in bad[:30]:
+        print(f'  line {line}: {kind} {nid!r}')
+    sys.exit(1)
+print(f'OK — all {total} rows validated.')
+"
+```
+
+If FAIL, fix the offending rows (typo in the canonical id, missing URL, non-existent article number you accidentally invented) and re-run. Do not proceed past FAIL.
+
+### Step 5 — Append to the corpus and rebuild the input set
+
+```bash
+# Append staged rows to the corpus (use cat, not move — preserve existing rows)
+cat <your-staging-file> >> artifacts/parsed_articles.jsonl
+
+# Regenerate the deduplicated input set
+PYTHONPATH=src:. uv run python scripts/canonicalizer/build_extraction_input_set.py
+# Confirm output exists and mtime advanced
+ls -la evals/vigencia_extraction_v1/input_set.jsonl
+```
+
+### Step 6 — Smoke-check the affected batches
+
+For each batch the brief covers (look at the brief's "Phase batches affected" header), confirm the batch slice resolves to ≥80% of the target count from `corpus_population_plan.md` Appendix A. The brief's "Smoke verification" section has the exact snippet; copy-paste and run.
+
+For example, brief 11 covers J5/J6/J7. Targets: J5≥24, J6≥20, J7≥16. If any batch comes in below threshold, investigate before committing — usually the body text doesn't mention the canonical citation in a form `find_mentions` recognizes.
+
+### Step 7 — Commit and update state
+
+Per master plan §10.5: one commit per brief.
+
+```bash
+git add artifacts/parsed_articles.jsonl evals/vigencia_extraction_v1/input_set.jsonl docs/re-engineer/state_corpus_population.md
+git commit -m "corpus(<source>): ingest <N> rows for brief <NN>"
+```
+
+Update `state_corpus_population.md`:
+
+* §4 per-brief table: status 🟡 → ✅, set Owner to whoever did the work, update Last update date.
+* §10 run log: append `YYYY-MM-DD HH:MM Bogotá — brief NN — ingested <N> rows; smoke check OK; <count> batches at ≥80% target.`
+* §3 global state: increment "Briefs ingested (✅)" counter; update "Verified vigencia rows" only after canonicalizer harness has actually run on the new norms (not at ingest time — that's later).
+
+### Step 8 — When the operator says "run the canonicalizer for these batches"
+
+Only after the operator's go-ahead, run the canonicalizer harness for whichever phase batches the brief unlocked. **Use the mandatory runner protocol in §6.A** — never call `extract_vigencia.py` directly; always go through `scripts/canonicalizer/launch_batch.sh`. Heartbeat is mandatory. CronCreate heartbeat for multi-batch runs is also mandatory.
+
+```bash
+# Example: ingest a single batch via the hardened launcher (replace J5 with the batch id)
+bash scripts/canonicalizer/launch_batch.sh --batch-id J5
+```
+
+For multi-batch runs, prefer `run_phase.sh` over manual loops — it handles dep order and stops on per-batch FAIL.
+
+### What NOT to do (per operator memories)
+
+* Never re-extract Phases A–D — they are already verified in production. Operator memory: extract once, promote through three stages.
+* Never run the full pytest suite in one process — use `make test-batched`. The conftest guard aborts without `LIA_BATCHED_RUNNER=1`.
+* Never bypass the project-wide token bucket throttle. Default 80 RPM is shared across all parallel processes.
+* Never silently fall back from cloud Falkor to artifacts in staging — the adapter must propagate cloud outages.
+* Never invent article numbers or URLs to fill a target count — better to under-deliver than to corrupt the audit trail. Memory `feedback_no_hallucinated_examples.md`.
+* Never quote dollar amounts in status reports — operator handles budget. Time estimates OK; $/cost not. Memory `feedback_no_money_quoting.md`.
 
 ## 6.A Mandatory runner protocol — DO NOT SHORTCUT
 
@@ -393,36 +609,55 @@ What you can SKIP unless directly relevant:
 
 ## 9. Numbers that matter
 
-- **754 unique norms** verified (Phases A+B+C+D)
+**Canonicalizer (Phases A–D, in production):**
+- **754 unique norms** verified
 - **642 structural edges** in Falkor (~5× the pre-campaign baseline)
-- **1,051 vigencia history rows** in Postgres (multiple run-ids per norm — append-only)
+- **1,051 vigencia history rows** in Postgres (append-only)
 - **0 retries, 0 final-429s** across the 5-hour autonomous campaign
 - **6–7 concurrent workers** sustained without API pushback
-- **80 RPM** project-wide throttle (we used ~6 RPM peak — 7.5% of cap)
-- **~$3 in API spend** total (Gemini + DeepSeek combined for the full session)
-- **~1,690 norms** still missing — corpus-gated
-- **~$6 + ~10 hours** estimated to verify the remaining ~1,690 once corpus lands
+- **80 RPM** project-wide throttle (used ~6 RPM peak — 7.5% of cap)
 
-## 10. Decision pending for the operator
+**Phase E–K corpus campaign (queued):**
+- **~2,650 rows** still to add to `parsed_articles.jsonl` per the 12 briefs
+- **0 of 12 briefs** ingested — outside experts haven't started yet
+- **~10 hours** canonicalizer wall to verify the new norms after corpus lands
+- **Target final state:** ~3,400 verified norms (754 + ~2,650)
 
-Two paths, named in §0 of `corpus_population_plan.md`:
+**Canon extension (shipped 2026-04-28):**
+- **4 new families** supported: cst, cco, dcin, oficio.<emisor>.<NUM>.<YEAR>
+- **118/118 canon tests passing** (74 pre-existing + 44 new) — zero regression
+- **36 verified-real example ids** round-trip cleanly through `canonicalize()`
 
-(a) **Populate the corpus.** Hand the corpus expert the population plan,
-    let them run the 12 briefs in §9, then re-run the canonicalizer
-    campaign for E–K. Net: ~3,400 verified norms, 7–10 days of corpus
-    work, ~10 hours of canonicalizer wall.
+## 10. Decision history + current path
 
-(b) **Mark canonicalizer "done for what we have."** Skip corpus work,
-    promote the 754 norms to staging now, re-engage canonicalizer when
-    corpus catches up. Net: 754 norms in production, accountants can
-    use vigencia gating on procedimiento + renta + IVA + reformas-Ley
-    surface today.
+The 2026-04-28 morning v4 draft posed two paths:
 
-Both are valid. Path (a) maximizes coverage; path (b) maximizes
-time-to-user. Operator decides.
+(a) **Populate the corpus.** ~3,400 verified norms, 7–10 days of corpus work + ~10 hours of canonicalizer wall.
+
+(b) **Mark canonicalizer "done for what we have."** Skip corpus work, promote 754 norms to staging now.
+
+**Path chosen 2026-04-28 afternoon: Path (a), executed in parallel with §5.2 staging promotion.**
+
+Path (a) progress so far:
+
+* 12 engineer-side technical briefs: ✅ landed in `corpus_population/`.
+* 12 outside-expert plain-language briefs: ✅ landed in `corpus_population_for_experts/`.
+* Canon ↔ briefs ↔ YAML reconciliation: ✅ closed; canon extended for cst/cco/dcin/oficio; tests green.
+* Hallucinated example audit: ✅ closed; verified-real or `<placeholder>` everywhere expert-facing.
+* Expert ingestion (find documents on the web): 🟡 not started; ready to assign owners per `corpus_population_sprint_brief.md` §2.
+
+Path (b) — staging promotion of the 754 — proceeds in parallel per §5.2 (SME signoff + JSON regeneration prerequisites). The two paths are no longer mutually exclusive.
+
+**What the next agent will be doing:** the operator is about to spawn a fresh agent and hand them an **expert deliverable packet** (a folder of text files OR one markdown document containing scraped legal articles + identifiers + URLs + dates). The fresh agent's job is to execute §6.B step-by-step on that packet — validate structure, convert each article to a `parsed_articles.jsonl` row with a canonical id, append, smoke-check, commit, update state file. After enough briefs land, the operator gives the go-ahead to run the canonicalizer harness on the new batches per §6.A.
+
+**Recommended first packet:** brief 11 (pensional/salud/parafiscales — ~80 articles, no scraper dependencies, smallest-and-cleanest pilot). Once brief 11 round-trips end-to-end through §6.B and §6.A, the rest of Sprint 1 (briefs 01, 08, 07) fans out in parallel.
 
 ---
 
-*Drafted 2026-04-28 by claude-opus-4-7 after the autonomous DeepSeek-v4-pro
-campaign halted on Phase E + F empty-slice cluster. v4 supersedes v3 as
-the active forward plan; v3 stays as historical context.*
+*Drafted 2026-04-28 morning by claude-opus-4-7 after the autonomous DeepSeek-v4-pro
+campaign halted on Phase E + F empty-slice cluster. Updated 2026-04-28 afternoon
+to reflect Path A reconciliation closure + canon extension + expert/engineer
+brief separation. Updated again 2026-04-28 evening with §0 fresh-agent on-ramp
+and §6.B ingestion recipe so a fresh agent spawned with an expert deliverable
+packet can pick up the work without losing context. v4 supersedes v3 as the
+active forward plan; v3 stays as historical context.*

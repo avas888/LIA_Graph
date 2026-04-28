@@ -247,3 +247,147 @@ def test_known_emisores_includes_dian():
     assert "dian" in KNOWN_EMISORES
     assert "ugpp" in KNOWN_EMISORES
     assert "mintic" in KNOWN_EMISORES
+
+
+# ---------------------------------------------------------------------------
+# CST / CCo / DCIN / Oficio — new families added 2026-04-28 to unblock Phases E-K
+# corpus population (§3 of corpus_population_brief_edits.md).
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "mention, expected",
+    [
+        ("Art. 22 CST", "cst.art.22"),
+        ("art 22 cst", "cst.art.22"),
+        ("Artículo 158 del Código Sustantivo del Trabajo", "cst.art.158"),
+        ("Código Sustantivo del Trabajo, art. 416", "cst.art.416"),
+        ("CST Art. 416", "cst.art.416"),
+        ("Art. 22 CST parágrafo 1", "cst.art.22.par.1"),
+        ("Art. 22 CST literal a", "cst.art.22.lit.a"),
+    ],
+)
+def test_cst_canonicalize(mention: str, expected: str):
+    assert canonicalize(mention) == expected
+
+
+@pytest.mark.parametrize(
+    "mention, expected",
+    [
+        ("Art. 98 CCo", "cco.art.98"),
+        ("Artículo 98 del Código de Comercio", "cco.art.98"),
+        ("Código de Comercio, art. 515", "cco.art.515"),
+        ("art. 98 c.co.", "cco.art.98"),
+        ("Art. 98 CCo parágrafo 2", "cco.art.98.par.2"),
+        ("Art. 98 CCo literal a", "cco.art.98.lit.a"),
+    ],
+)
+def test_cco_canonicalize(mention: str, expected: str):
+    assert canonicalize(mention) == expected
+
+
+@pytest.mark.parametrize(
+    "mention, expected",
+    [
+        ("DCIN-83 capítulo 5 numeral 3", "dcin.83.cap.5.num.3"),
+        ("DCIN 83 cap. 5 num. 3", "dcin.83.cap.5.num.3"),
+        ("dcin-83 capitulo 1 numeral 2", "dcin.83.cap.1.num.2"),
+        ("DCIN-83 cap 1 num 1", "dcin.83.cap.1.num.1"),
+    ],
+)
+def test_dcin_canonicalize(mention: str, expected: str):
+    assert canonicalize(mention) == expected
+
+
+def test_dcin_requires_both_cap_and_num():
+    # DCIN without both cap+num is ambiguous; must refuse.
+    assert canonicalize("DCIN-83") is None
+    assert canonicalize("DCIN-83 capítulo 5") is None
+    assert canonicalize("DCIN-83 numeral 3") is None
+
+
+@pytest.mark.parametrize(
+    "mention, expected",
+    [
+        ("Oficio DIAN 018424 de 2024", "oficio.dian.018424.2024"),
+        ("Oficio DIAN Nº 908128 del 2021", "oficio.dian.908128.2021"),
+        ("oficio dian 12345 de 2020", "oficio.dian.12345.2020"),
+        ("Oficio DIAN N° 12345-1 del 2024", "oficio.dian.12345-1.2024"),
+    ],
+)
+def test_oficio_canonicalize(mention: str, expected: str):
+    assert canonicalize(mention) == expected
+
+
+def test_oficio_without_year_falls_to_concepto():
+    """Backward-compat: a no-year 'Oficio DIAN 12345' falls through to _rule_concepto
+    (legacy permissive form). The oficio family proper requires a year."""
+    assert canonicalize("Oficio DIAN 12345") == "concepto.dian.12345"
+
+
+def test_concepto_with_year_is_still_concepto_not_oficio():
+    """A 'Concepto' keyword always emits concepto.dian.<NUM> — year is metadata only."""
+    assert canonicalize("Concepto DIAN 100208192-202") == "concepto.dian.100208192-202"
+
+
+# Round-trip: every new canonical id must canonicalize to itself
+@pytest.mark.parametrize(
+    "norm_id",
+    [
+        "cst.art.22",
+        "cst.art.158",
+        "cst.art.22.par.1",
+        "cst.art.22.lit.a",
+        "cco.art.98",
+        "cco.art.515",
+        "cco.art.98.par.2",
+        "dcin.83.cap.5.num.3",
+        "dcin.83.cap.1.num.2",
+        "oficio.dian.018424.2024",
+        "oficio.dian.908128.2021",
+        "oficio.dian.12345-1.2024",
+    ],
+)
+def test_new_families_round_trip(norm_id: str):
+    assert canonicalize(norm_id) == norm_id
+    assert is_valid_norm_id(norm_id)
+
+
+# norm_type for new families
+@pytest.mark.parametrize(
+    "norm_id, expected_type",
+    [
+        ("cst.art.22", "cst_articulo"),
+        ("cst.art.158.par.1", "cst_articulo"),
+        ("cco.art.98", "cco_articulo"),
+        ("cco.art.98.lit.a", "cco_articulo"),
+        ("dcin.83.cap.5.num.3", "dcin_numeral"),
+        ("oficio.dian.018424.2024", "oficio_dian"),
+    ],
+)
+def test_new_families_norm_type(norm_id: str, expected_type: str):
+    assert norm_type(norm_id) == expected_type
+
+
+# display_label for new families
+def test_new_families_display_label():
+    assert display_label("cst.art.22") == "Art. 22 CST"
+    assert display_label("cco.art.98") == "Art. 98 CCo"
+    assert display_label("dcin.83.cap.5.num.3") == "DCIN-83 capítulo 5 numeral 3"
+    assert display_label("oficio.dian.018424.2024") == "Oficio DIAN 018424 de 2024"
+
+
+# find_mentions picks up the new families in real prose
+def test_find_mentions_picks_up_cst_cco_dcin_oficio():
+    chunk = (
+        "El Art. 22 CST regula el contrato de trabajo. "
+        "El Art. 98 del Código de Comercio aplica a sociedades. "
+        "DCIN-83 capítulo 5 numeral 3 establece el procedimiento. "
+        "Ver Oficio DIAN 018424 de 2024."
+    )
+    mentions = find_mentions(chunk)
+    raw_texts = [m.text.lower() for m in mentions]
+    assert any("art. 22" in t and "cst" in t for t in raw_texts)
+    assert any("art. 98" in t.replace(" ", "") or ("art" in t and "98" in t and "comercio" in t) for t in raw_texts)
+    assert any("dcin" in t and "5" in t and "3" in t for t in raw_texts)
+    assert any("oficio" in t and "018424" in t for t in raw_texts)
