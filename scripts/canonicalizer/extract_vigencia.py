@@ -19,6 +19,8 @@ import json
 import logging
 import os
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -55,6 +57,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                    help="Refuse to launch if --output-dir already has JSON files (run-once invariant).")
     p.add_argument("--allow-rerun", dest="guard_against_rerun", action="store_false",
                    help="Bypass run-once guard. Operator-explicit only — see canonicalizer_runv1.md §9.5.")
+    p.add_argument("--workers", type=int, default=int(os.environ.get("LIA_EXTRACT_WORKERS", "1")),
+                   help="Concurrent norm workers (ThreadPoolExecutor). Default 1 (sequential). "
+                        "Override via LIA_EXTRACT_WORKERS env var. Per-call resources are thread-safe: "
+                        "DeepSeek adapter (urllib per call), ScraperCache (per-call sqlite3 connect), "
+                        "throttle (fcntl.flock), per-norm output JSONs (one file each). Recommend 8 "
+                        "for cascade runs (well below DeepSeek 80 RPM cap).")
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
     if not args.input_set and not args.batch_id:
@@ -117,50 +125,108 @@ def main(argv: list[str] | None = None) -> int:
     _emit_event(events_path, kind="run.started", run_id=args.run_id, norm_count=len(norm_ids))
 
     successes = refusals = errors = skipped = 0
-    for norm_id in norm_ids:
+
+    # Locks for shared mutable state under concurrent workers. Sequential
+    # mode (workers==1) acquires them too — overhead is negligible (~µs).
+    emit_lock = threading.Lock()
+    counter_lock = threading.Lock()
+
+    def _process_one(norm_id: str) -> str:
+        """Run one norm end-to-end. Returns outcome label.
+
+        Outcomes: "veredicto", "refusal", "error", "skipped".
+        Thread-safe: harness.verify_norm builds a fresh adapter per call,
+        ScraperCache opens a fresh sqlite3 connection per call, the
+        DeepSeek adapter uses urllib.request per call, and the throttle
+        is file-locked. Emits + appends are guarded by emit_lock to keep
+        line interleaving impossible (POSIX O_APPEND is also atomic for
+        sub-PIPE_BUF writes, so this is belt-and-suspenders).
+        """
         out_path = out_dir / f"{norm_id.replace('/', '_')}.json"
         if args.resume_from_checkpoint and out_path.exists():
-            skipped += 1
-            continue
+            return "skipped"
         try:
             result = harness.verify_norm(norm_id=norm_id)
             harness.write_result(result, norm_id=norm_id, output_dir=out_dir)
             if result.veredicto is not None:
-                successes += 1
-                _emit_event(
-                    events_path,
-                    kind="norm.success",
-                    run_id=args.run_id,
-                    norm_id=norm_id,
-                    state=result.veredicto.state.value,
-                )
+                outcome = "veredicto"
+                with emit_lock:
+                    _emit_event(
+                        events_path,
+                        kind="norm.success",
+                        run_id=args.run_id,
+                        norm_id=norm_id,
+                        state=result.veredicto.state.value,
+                    )
             else:
-                refusals += 1
+                outcome = "refusal"
+                with emit_lock:
+                    _emit_event(
+                        events_path,
+                        kind="norm.refusal",
+                        run_id=args.run_id,
+                        norm_id=norm_id,
+                        reason=result.refusal_reason,
+                    )
+            with emit_lock:
+                _append_audit(audit_path, {
+                    "ts": _now(),
+                    "run_id": args.run_id,
+                    "norm_id": norm_id,
+                    "outcome": "veredicto" if result.veredicto else "refusal",
+                    "state": result.veredicto.state.value if result.veredicto else None,
+                    "reason": result.refusal_reason,
+                })
+            return outcome
+        except Exception as err:
+            LOGGER.exception("Norm %s failed: %s", norm_id, err)
+            with emit_lock:
                 _emit_event(
                     events_path,
-                    kind="norm.refusal",
+                    kind="norm.error",
                     run_id=args.run_id,
                     norm_id=norm_id,
-                    reason=result.refusal_reason,
+                    error=str(err),
                 )
-            _append_audit(audit_path, {
-                "ts": _now(),
-                "run_id": args.run_id,
-                "norm_id": norm_id,
-                "outcome": "veredicto" if result.veredicto else "refusal",
-                "state": result.veredicto.state.value if result.veredicto else None,
-                "reason": result.refusal_reason,
-            })
-        except Exception as err:
-            errors += 1
-            LOGGER.exception("Norm %s failed: %s", norm_id, err)
-            _emit_event(
-                events_path,
-                kind="norm.error",
-                run_id=args.run_id,
-                norm_id=norm_id,
-                error=str(err),
-            )
+            return "error"
+
+    def _tally(outcome: str) -> None:
+        nonlocal successes, refusals, errors, skipped
+        with counter_lock:
+            if outcome == "veredicto":
+                successes += 1
+            elif outcome == "refusal":
+                refusals += 1
+            elif outcome == "skipped":
+                skipped += 1
+            else:
+                errors += 1
+
+    workers = max(1, int(args.workers))
+    if workers == 1:
+        # Sequential path — preserves the historical behavior bit-for-bit.
+        for norm_id in norm_ids:
+            _tally(_process_one(norm_id))
+    else:
+        LOGGER.info("Concurrent extract: %d workers (LIA_EXTRACT_WORKERS or --workers)", workers)
+        with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="extract") as ex:
+            futures = {ex.submit(_process_one, nid): nid for nid in norm_ids}
+            try:
+                for fut in as_completed(futures):
+                    try:
+                        outcome = fut.result()
+                    except Exception as err:
+                        # Defense-in-depth: _process_one already catches per-norm errors,
+                        # but if the thread dies for an unrelated reason, count it as one.
+                        nid = futures[fut]
+                        LOGGER.exception("Worker for %s raised unexpectedly: %s", nid, err)
+                        outcome = "error"
+                    _tally(outcome)
+            except KeyboardInterrupt:
+                LOGGER.warning("KeyboardInterrupt — cancelling pending futures and draining in-flight.")
+                for fut in futures:
+                    fut.cancel()
+                raise
 
     _emit_event(
         events_path,
