@@ -141,8 +141,13 @@ _VERB_ALIASES: dict[str, str] = {
 
 _FRAGMENT_ID_RE = re.compile(r"ver_(\d+)")
 _SCOPE_PAREN_RE = re.compile(r"\s*\(([^)]+)\)\s*")
+# Article-heading capture. Allows DUR-style multi-segment numbers ("1.1.1",
+# "1.6.1.1.10") which the original `(?:[-.]\d+)?` form truncated to "1.1".
+# Order of the inner alternation matters: match all dotted/dashed numeric
+# extensions BEFORE the optional "bis" suffix, so "Artículo 364-4" still
+# captures "364-4" and "Artículo 1 bis" still captures "1 bis".
 _ARTICLE_HEADING_RE = re.compile(
-    r"(?i)\bart(?:[ií]culo)?\s+(?P<number>\d+(?:[-.]\d+)?(?:\s*[Bb][Ii][Ss])?)"
+    r"(?i)\bart(?:[ií]culo)?\s+(?P<number>\d+(?:[-.]\d+)*(?:\s*[Bb][Ii][Ss])?)"
 )
 # Strip every non-ASCII-alnum sequence; keep `-` as the only separator so
 # keys survive sanitize passes in the Supabase sink (`[^A-Za-z0-9_.-]+`).

@@ -232,12 +232,32 @@ def test_consejo_estado_fetch_reads_fixture(tmp_path: Path):
     assert res2.cache_hit is True
 
 
-def test_suin_juriscol_url():
-    # SUIN's `?canonical=` stub never worked — it 400s and then SSL-cert-fails
-    # for 10-15 s per norm with no hope of success. Per fixplan_v4 §5.6 the
-    # scraper is disabled (returns None) until a canonical→SUIN-id registry
-    # is seeded; the chain falls through to DIAN + Senado.
-    s = SuinJuriscolScraper(ScraperCache(":memory:"))
+def test_suin_juriscol_url_resolves_through_registry():
+    # fixplan_v6 §3 step 2: SUIN scraper now reads var/suin_doc_id_registry.json
+    # and resolves canonical norm_ids to SUIN URLs.
+    registry = {
+        "ley.2277.2022": {
+            "suin_doc_id": "30045028",
+            "ruta": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30045028",
+            "title": "LEY 2277 DE 2022 - Colombia | SUIN Juriscol",
+        },
+    }
+    s = SuinJuriscolScraper(ScraperCache(":memory:"), registry=registry)
+    url = s._resolve_url("ley.2277.2022")
+    assert url == "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30045028"
+    # Article-scoped lookup goes through the parent doc.
+    assert (
+        s._resolve_url("ley.2277.2022.art.5")
+        == "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30045028"
+    )
+    # Unknown parent → None (falls through to other scrapers).
+    assert s._resolve_url("ley.9999.2030") is None
+
+
+def test_suin_juriscol_url_returns_none_with_empty_registry():
+    # When the registry has not been built yet, the scraper resolves no URLs
+    # and the harness falls through to other primary sources cleanly.
+    s = SuinJuriscolScraper(ScraperCache(":memory:"), registry={})
     assert s._resolve_url("ley.2277.2022") is None
 
 
