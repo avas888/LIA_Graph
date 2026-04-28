@@ -678,10 +678,15 @@ Twelve commits on `main` between 33d18d5 and 9ce3aee:
 | 79a825f | brief 10 (CC sentencias) | 16 |
 | 9ce3aee | brief 06 (decretos COVID) — closes Sprint 3 | 104 |
 | 1e4f16a | DIAN URL padding fix + briefs 13/14/15 + J5 pilot | n/a |
+| 7883256 | fixplan_v4 §11 + state_fixplanv4.md tracker | n/a |
+| c03655b | Senado ley URL padding fix | n/a |
+| d14b6a6 | J5 verifies ley.100.1993 + SUIN stub disabled | n/a |
+| 5dc2069 | next-gate session 1: J6 + G6 + 5 blockers surfaced | n/a |
 
 `parsed_articles.jsonl`: 7 922 → 12 305 rows. Input set: 12 366 → 18 676
 unique norm_ids. All 4356 rows round-trip-validate cleanly through
-`canonicalize()`.
+`canonicalize()`. Postgres `norm_vigencia_history`: 754 → **758** distinct
+norms verified. Falkor edges: 639 → **640**.
 
 ### 11.2 J5 pilot trial — diagnostic FAIL
 
@@ -705,31 +710,102 @@ The DIAN padding fix unblocks ley.100.1993 + every 1xxx-2xxx reform ley
 fallback for 3-digit NUMs not in DIAN is the next code change required
 to unblock J5/J6/J7 fully. **This is in scope for the next session.**
 
-### 11.3 What's blocking the canonicalizer next-gate
+### 11.3 Session 1 outcomes — three batches run, five blockers surfaced
 
-**Code-side (engineer):**
+After commit 1e4f16a (DIAN padding + briefs 13/14/15 + J5 trial 1
+diagnostic FAIL), the operator's "do next gate" directive triggered an
+autonomous-progression cascade. Three batches ran via the mandatory
+`launch_batch.sh` runner with auto-armed heartbeat sidecar + `Monitor`
++ `CronCreate` 3-min heartbeat per §6.A rules 2-3, all on
+DeepSeek-v4-pro:
 
-1. **Senado fallback in `dian_normograma.py` (or chained scraper).** When DIAN returns 404 for `ley.<NUM>.<YEAR>`, fall back to Senado URL `ley_<NUM4>_<YEAR>.html`. Fixes: ley.222.1995, ley.789.2002, ley.797.2003, ley.1258.2008, ley.2381.2024, plus most 3-digit-NUM laws.
-2. **SUIN scraper realization.** Currently `_resolve_url` returns a `?canonical=...` stub URL that 400s. Either implement proper SUIN ID lookup OR drop SUIN from the resolver chain.
-3. **Local UI server up before post-verify.** The score step calls the chat backend on `127.0.0.1:8787`. Either start the dev server before each batch (`npm run dev` in another terminal) or make the post-verify step optional via a launcher flag (`--skip-post`). For autonomous runs, `--skip-post` is acceptable since the score gate isn't load-bearing for the primary "did vigencia get extracted" question.
-4. **YAML keyword-pattern repair (medium priority).** F1/F3/F4 + H1/H2/H4a/b/H5 + I2 use regex like `^res\.dian\..*(uvt|plazos|calendario)` that requires keyword segments in the canonical id; canon doesn't allow keyword segments. Replace with explicit-list of real resolución/concepto/sentencia numbers OR with prefix patterns matching real ids. Per master plan §12 this is normally out of scope; the placeholder pattern in G1 set the precedent that it's allowed.
+| Batch | Norms | Verdict | Successes | Notes |
+|---|---:|---|---:|---|
+| **J5 rerun** (commit d14b6a6) | 3 | FAIL (score) | **1** ✓ | `ley.100.1993` verified VM since 2003-01-29 by `ley.797.2003` (DIAN serves padded URL after fix). `ley.797.2003` + `ley.2381.2024` refused `missing_double_primary_source` — only Senado has them, harness needs ≥2. |
+| **J6** (commit 5dc2069) | 3 | FAIL (score) | **1** ✓ | Same `ley.100.1993` re-extracted (deduped). `ley.1438.2011` + `ley.1751.2015` refused — both 4-digit-NUM but not in DIAN normograma; only Senado serves them. |
+| **G6 acid test** (commit 5dc2069) | 5 | FAIL | 0 | All 5 ids 404: `auto.ce.28920.*` + `concepto.dian.100208192-202` + numerals + `sent.ce.28920.*`. Multiple new scraper gaps. |
 
-**Data-side (outside experts):**
+**Net Postgres growth:** `norm_vigencia_history` 754 → 758 distinct
+norms (+4; the new norms include `ley.100.1993` itself + the implicit
+parent rows the writer creates for change-source references). Falkor
+edges: 639 → 640 (+1 `MODIFIED_BY` from ley.100→ley.797).
 
-5. **Brief 13 delivery** (UVT + RST + RUT/exógena resoluciones) — unblocks F1/F3/F4 once canon ids land.
-6. **Brief 14 delivery** (CE Sección Cuarta unificación + autos suspensión) — unblocks I3/I4.
-7. **Brief 15 delivery** (BanRep Res Externa 1/2018 + DCIN-83) — unblocks K1/K2.
+**Three scraper fixes shipped during the cascade:**
 
-### 11.4 Suggested next-session sequence
+* commit 1e4f16a — `dian_normograma._resolve_url` zero-pads NUM to 4
+  digits for `ley.*` and `res.dian.*` (`ley_0100_1993.htm`,
+  `resolucion_dian_0165_2023.htm`). Verified: `ley_0100_1993.htm` 200,
+  `ley_2155_2021.htm` 200, plus 6 other reform leyes confirmed.
+* commit c03655b — `secretaria_senado._resolve_url` does the same for
+  ley URLs (`ley_0100_1993.html` 200 confirmed).
+* commit d14b6a6 — `suin_juriscol._resolve_url` retired the
+  `?canonical=<norm_id>` stub URL that was 400-then-SSL-fail looping
+  for 10–15 s per norm with no chance of success. Returns `None` now
+  so the harness's primary-source chain falls through to DIAN +
+  Senado without the SUIN penalty. Per fixplan §5.6 SUIN remains a
+  placeholder until a canonical→SUIN-id registry seeds.
 
-1. Implement #1 (Senado ley fallback) + #3 (post-verify optional flag) — ~2 hours engineering.
-2. Re-run J5 with `--allow-rerun --skip-post` → expect 3/3 PASS extract.
-3. Cascade through K4, J1-J4, G1, F2, K3 in dependency order via `run_full_campaign.sh --phases J K F G`.
-4. Hand briefs 13/14/15 to outside experts in parallel.
-5. Once expert deliverables for 13/14/15 land + the canonicalizer batches finish, re-evaluate against the §9 definition of done.
+**Five new blockers surfaced (live in `state_fixplanv4.md` §10):**
 
-Estimate: 3–4 sessions to reach the §9 DoD (≥3000 verified norms in
-Postgres, all phases A–K green).
+1. **Single-source rule blocks Senado-only leyes (biggest blocker).**
+   The harness's `missing_double_primary_source` rule rejects any norm
+   where <2 primary sources resolve. Many Colombian leyes are on
+   Senado only, NOT in DIAN normograma:
+   - 3-digit-NUM laws: 222/1995, 789/2002, 797/2003
+   - 4-digit-NUM laws: 1258/2008, 1438/2011, 1751/2015, 2381/2024
+   For any explicit_list batch covering these, only `ley.100.1993` (in
+   both DIAN + Senado) currently passes. The fix is one of:
+   (a) add Función Pública (`funcionpublica.gov.co/eva/gestornormativo/norma.php?i=<NNN>`) as a third primary source;
+   (b) relax the harness rule to single-source acceptance for `.gov.co` Senado pages (per the prompt's existing rule for `.gov.co` primary sources);
+   (c) add Senado/Función Pública as a paired-fallback chain when DIAN 404s.
+   This is the **#1 priority** for the next session — without it, J5/J6/J7/K4 can never reach >1/3 success.
+2. **CE auto/sent scrapers (Gap #1, fixplan §7).** `auto.ce.<radicado>.<date>` + `sent.ce.<radicado>.<date>` resolve to URLs the CE site doesn't serve (`auto_ce_28920_2024_12_16.html` 404 — CE uses a different path scheme, likely radicado-keyed search RPC). Fixture-only path documented as fallback.
+3. **Concepto with hyphenated NUM filename mapping unknown.** DIAN scraper maps `concepto.dian.100208192-202` → `concepto_dian_100208192-202.htm` (404). DIAN's actual filename for hyphenated unified conceptos differs — needs lookup table or scraper case.
+4. **CST + CCo not in Senado scraper's `_handled_types` (Gap #4, fixplan §7).** Senado scraper's set is `{"ley", "ley_articulo", "estatuto", "articulo_et"}`. J1-J4 (CST) + K3 (CCo) batches blocked at scraper level. Add `cst_articulo` + `cco_articulo` + URL patterns for each.
+5. **Score step crashes on `--skip-post`.** Score reads `post_*.json` regardless; errors when `--skip-post` skipped step 5. J6 + G6 ledger rows didn't append because score step crashed before append. Fix: gate the score's chat-replay on `--skip-post`, or default it to "no post — emit ledger row with `post_test_results: null`."
+
+**Data-side (outside experts) — unchanged from prior version:**
+
+6. **Brief 13 delivery** (UVT + RST + RUT/exógena resoluciones) — unblocks F1/F3/F4 once canon ids land.
+7. **Brief 14 delivery** (CE Sección Cuarta unificación + autos suspensión) — unblocks I3/I4.
+8. **Brief 15 delivery** (BanRep Res Externa 1/2018 + DCIN-83) — unblocks K1/K2.
+
+**Medium-priority (no longer blocking session 2 but still pending):**
+
+9. **YAML keyword-pattern repair.** F1/F3/F4 + H1/H2/H4a/b/H5 + I2 use regex requiring keyword segments in canonical ids that canon doesn't allow. Replace with explicit-list of real numbers OR prefix patterns. The G1 placeholder fix (commit 2bcdb59) set the precedent.
+
+### 11.4 Suggested session-2 sequence
+
+1. **Engineer task block (~3 hours):**
+   * Add Función Pública as third primary source OR relax single-source rule for `.gov.co` Senado (resolves blocker #1 — biggest unlock).
+   * Fix score step to gate chat-replay on `--skip-post` (resolves blocker #5).
+   * Add `cst_articulo` + `cco_articulo` to Senado scraper `_handled_types` + URL patterns (resolves blocker #4).
+   * Optionally: implement Gap #1 CE scrapers OR mark fixture-only.
+2. **Re-run cascade (~3-4 hours wall, autonomous):**
+   * J5 + J6 + J7 with `--allow-rerun --skip-post` — expect ~9/9 success (3 leyes × 3 batches, all in DIAN+Senado pair after fix).
+   * K4 (`ley.222.1995`, `ley.1258.2008`) — expect 2/2 PASS.
+   * J1-J4 (CST ranges) — expect ~170 norms PASS after Senado CST scraper.
+   * G1 (IVA Concepto Unificado) — 407 numerals; expect bulk PASS with parent-fetch + slice.
+   * F2 (4 res.dian regex) — 111 ids; expect bulk PASS.
+   * K3 (CCo articles) — 315 norms; expect PASS after Senado CCo scraper.
+   * E1a/b/d/E2a/c/E3b/E6b/c/J8b — DUR cascade.
+   * E5 (decretos COVID).
+3. **D5 rerun (~5 minutes):**
+   * `bash scripts/canonicalizer/launch_batch.sh --batch D5 --allow-rerun` (closes fixplan §5.3 D5 weak-result follow-up).
+4. **Expert delivery + ingestion (in parallel, days):**
+   * Hand briefs 13/14/15 to outside experts.
+   * As packets arrive, ingest via `ingest_expert_packet.py --brief-num 13/14/15` per the §6.B recipe.
+5. **YAML hygiene (~2 hours):**
+   * Replace keyword regex with explicit_list of real numbers — F1/F3/F4 + H1/H2/H4a/b/H5 + I2 (blocker #9).
+6. **Promotion gates (operator + SME):**
+   * `local_docker_signoff.md` — SME runs the §1.G 36-question fixture against `npm run dev` and signs off.
+   * Cloud staging promotion via `ingest_vigencia_veredictos.py --target production`.
+   * Full E–K autonomous campaign (`run_full_campaign.sh`).
+
+Estimate after session 2: ≥1500 verified norms in Postgres (J + G1 +
+F2 + K3 + K4 alone → ~1100 net new). Expert deliveries 13/14/15
+through sessions 3-4 should close the F1/F3/F4 + I3/I4 + K1/K2 gaps,
+reaching the ~3000-norm DoD.
 
 ---
 
@@ -738,5 +814,10 @@ campaign halted on Phase E + F empty-slice cluster. Updated 2026-04-28 afternoon
 to reflect Path A reconciliation closure + canon extension + expert/engineer
 brief separation. Updated again 2026-04-28 evening with §0 fresh-agent on-ramp
 and §6.B ingestion recipe so a fresh agent spawned with an expert deliverable
-packet can pick up the work without losing context. v4 supersedes v3 as the
-active forward plan; v3 stays as historical context.*
+packet can pick up the work without losing context. §11 added 2026-04-28
+afternoon to capture the corpus-ingestion campaign close (12 briefs landed,
+4356 rows, 23 batches PASS smoke). §11.3/§11.4 rewritten 2026-04-28 PM after
+the canonicalizer next-gate session 1 (J5 rerun + J6 + G6) surfaced 5 new
+blockers and verified `ley.100.1993` end-to-end through the full pipeline
+(extract → ingest → Falkor sync). v4 supersedes v3 as the active forward
+plan; v3 stays as historical context.*
