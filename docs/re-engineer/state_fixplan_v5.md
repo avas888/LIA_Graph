@@ -63,13 +63,24 @@ Memory-pinned guardrails (do not violate — full list in fixplan_v5
 
 ## 3. Current global state
 
-**As of:** 2026-04-28 PM Bogotá (5 blockers closed, cascade about to start)
+**As of:** 2026-04-28 PM Bogotá (v5 closed; v6 drafted as the active forward plan)
+
+> **v5 → v6 transition:** the cascade halted at E1a (step 2 of 8 trimmed)
+> after diagnosing that the article-slicing collapse is a single-root-cause
+> problem — the harness queries DIAN normograma master pages (3 MB blobs,
+> "knowingly unstable" per operator) when SUIN-Juriscol has the per-article
+> data already cached locally. **`docs/re-engineer/fixplan_v6.md` is the
+> active forward plan.** This file is now historical; final session
+> outcome is recorded in §3 + §10 below.
 
 | Field | Value |
 |---|---|
-| fixplan_v5 status | engineering complete (5/5); cascade pending |
+| fixplan_v5 status | **closed** — engineering 5/5 ✅; cascade halted at E1a (step 2 of 8 trimmed) per operator directive to fix root cause first |
+| Active forward plan | `docs/re-engineer/fixplan_v6.md` (SUIN-first rewire) |
 | Blockers closed (✅) | **5 of 5** |
-| Cascade batches run (✅ verified) | **0 of 23** |
+| Cascade batches run (✅ ledger row written) | **11 of 22 attempted** (J1/J2/J3/J4/K3/K4/J6/J7 + F2/E1a/G1/E5 partial; halt at E1a) |
+| Veredictos written this cascade | 187 |
+| Net new Postgres rows | **+25** (758 → 783) |
 | Postgres `norm_vigencia_history` | **758** distinct verified norms |
 | Falkor `(:Norm)` nodes / edges | **11 657 / 640** |
 | `parsed_articles.jsonl` rows | **12 305** |
@@ -196,6 +207,24 @@ counts will be ≤ slice (some norms may still refuse on edge cases).
 **Format:** `YYYY-MM-DD HH:MM TZ — <area> — <event>`
 
 ---
+
+**2026-04-28 PM Bogotá — fixplan_v5 — closed, superseded by fixplan_v6.**
+After the asyncio + harness-fix cascade reran from F2, partial run reached
+E1a step 2 of 8 trimmed batches. F2 closed at 17/111 (15%); E1a in flight
+showing 13/119 (11%) when the operator called halt to fix root cause
+before continuing. **Diagnosis:** the harness routes DUR-articulado
+norms to DIAN normograma's 3 MB master pages, asks the LLM to find
+deeply-nested articles in those bulk docs, and gets 85% refusals. SUIN
+has the per-article text + 16 282 modification edges already harvested
+(`cache/suin/` 3 387 HTML files; `artifacts/suin/*/` documents/articles/edges
+JSONL), but the SUIN scraper is a 46-line stub returning None. v5 closes
+here; **`docs/re-engineer/fixplan_v6.md`** is the next-session plan to
+wire SUIN as the preferred primary source. Final v5 numbers: **+25 net
+new Postgres rows** (758 → **783** distinct verified norms);
+**187 veredictos written** across 11 closed batches; **8-worker asyncio
+verified working** at ~10× sequential throughput (commit `4b11cd7`).
+Commits this session: `38edac3 b1cde16 e8ffa09 08e73f6 c20b3ce e8a92c7
+4b11cd7 59260a0 583e925 af67e56` — all pushed to origin/main.
 
 **2026-04-28 PM Bogotá — fixplan_v5 — all 5 blockers closed, ready for cascade.**
 Engineering session ran #5 sequentially in main and #1/#2/#3/#4 as
