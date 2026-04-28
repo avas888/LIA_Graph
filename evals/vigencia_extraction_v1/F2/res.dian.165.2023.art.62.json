@@ -5,24 +5,76 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:37:05.456399+00:00",
+  "extracted_at_utc": "2026-04-28T21:03:50.976007+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "missing_double_primary_source",
-    "missing_sources": [
-      "dian_normograma"
-    ],
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2024-01-31",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "res.dian.8.2024.art.1",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2024-01-31"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "res.dian.8.2024.art.1",
+          "norm_type": "res",
+          "article": "Art. 1",
+          "fecha": "2024-01-31",
+          "primary_source_url": "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0008_2024.htm"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "res.dian.165.2023.normograma",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "res.dian.8.2024.normograma",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": null,
+      "wall_ms": 114649,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
-      "method": "harness"
+      "method": "skill"
     },
-    "single_source_accepted": null
+    "single_source_accepted": "dian_normograma"
   }
 }

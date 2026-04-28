@@ -5,24 +5,24 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:37:05.443037+00:00",
+  "extracted_at_utc": "2026-04-28T21:01:21.978507+00:00",
   "result": {
     "veredicto": null,
-    "refusal_reason": "missing_double_primary_source",
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "dian_normograma"
+      "res.dian.165.2023.art.4"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": null,
+      "wall_ms": 61025,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
-      "method": "harness"
+      "method": "skill"
     },
-    "single_source_accepted": null
+    "single_source_accepted": "dian_normograma"
   }
 }

@@ -5,25 +5,24 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:48:47.491690+00:00",
+  "extracted_at_utc": "2026-04-28T21:14:11.165973+00:00",
   "result": {
     "veredicto": null,
-    "refusal_reason": "missing_double_primary_source",
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "dian_normograma",
-      "suin_juriscol"
+      "The provided excerpt from the DIAN normograma page for Decreto 1625 de 2016 does not include the content of article 1.2.1.18.67, making it impossible to determine its vigencia state, modifications, or change source."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": null,
+      "wall_ms": 30630,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
-      "method": "harness"
+      "method": "skill"
     },
-    "single_source_accepted": null
+    "single_source_accepted": "dian_normograma"
   }
 }
