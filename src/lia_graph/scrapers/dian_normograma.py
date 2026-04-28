@@ -118,20 +118,25 @@ class DianNormogramaScraper(Scraper):
         if norm_id.startswith("concepto.dian."):
             parts = norm_id.split(".")
             num = parts[2]
-            # Hyphenated unified concepto suffix (e.g. "100208192-202").
-            # fixture-only — DIAN does not serve hyphenated unified conceptos
-            # at a discoverable URL keyed by the canonical suffix. Empirical
-            # probing (fixplan_v5 §3 #3, 2026-04-28) found that the actual
-            # host file uses the *radicado/year* shape
-            # `oficio_dian_<RADICADO>_<YEAR>.htm` — e.g. concepto.dian.100208192-202
-            # is served as `oficio_dian_6038_2024.htm`. Mapping
-            # canonical-suffix → radicado/year is not derivable from the
-            # norm_id alone; it requires an external lookup table (parallel
-            # to the Función Pública lookup pattern in fixplan_v5 §3 #1
-            # blocker #1). Until that lookup table lands, return None so the
-            # primary-source chain falls through to other scrapers / fixtures
-            # rather than 404'ing.
+            # Two distinct hyphenated forms exist:
+            #   1. year-suffix:  `0001-2003`, `0002-2014` (4-digit padnum + 4-digit year)
+            #      → DIAN serves these as concepto_dian_<num>-<year>.htm — keep mapping.
+            #   2. unified-radicado: `100208192-202`, `100202208-30` (long radicado +
+            #      short subject suffix) → DIAN serves under `oficio_dian_<RADICADO>_<YEAR>.htm`,
+            #      not derivable from the canonical id alone. Requires an external
+            #      `var/dian_concepto_lookup.json` (fixplan_v5 §3 #3 follow-up).
+            #
+            # Distinguishing rule: if both halves are 4 digits and the right half
+            # parses as a plausible year (1990-2030), it's form #1. Otherwise, fall
+            # through to None for form #2.
             if "-" in num:
+                left, _, right = num.partition("-")
+                if (
+                    left.isdigit() and right.isdigit()
+                    and len(left) == 4 and len(right) == 4
+                    and 1990 <= int(right) <= 2030
+                ):
+                    return f"{_BASE_URL}/concepto_dian_{num}.htm"
                 return None
             return f"{_BASE_URL}/concepto_dian_{num}.htm"
         return None
