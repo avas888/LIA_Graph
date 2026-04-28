@@ -53,7 +53,7 @@ If you are touching a brief whose status is 🔵 (in progress), check §10 for t
 | Verified vigencia rows in Postgres | **754** (Phases A–D) |
 | Target after Phases E–K | **~3,400** |
 | Briefs drafted | **12 of 12** |
-| Briefs ingested (✅) | **8 of 12** (11, 01, 08-G1, 07-F2, 02, 03, 04, 05) |
+| Briefs ingested (✅) | **9 of 12** (11, 01, 08-G1, 07-F2, 02, 03, 04, 05, 12) |
 | Briefs in progress (🔵) | **0 of 12** |
 | Briefs blocked | **0 of 12** |
 | Scraper gaps open | **5** (see §7 of master plan) |
@@ -100,7 +100,7 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ ingested · ⛔ block
 | 09 | [09_conceptos_dian_individuales.md](corpus_population/09_conceptos_dian_individuales.md) | H1, H2, H3a, H3b, H4a, H4b, H5, H6 | ~430 | ⚠️ Gap #2 | 🟡 | unassigned | 2026-04-28 | Gap #2 (oficio.dian.* scraper case) + YAML regex tightening required |
 | 10 | [10_jurisprudencia_cc_ce.md](corpus_population/10_jurisprudencia_cc_ce.md) | I1–I4 | ~70 | ⚠️ Gap #1 | 🟡 | unassigned | 2026-04-28 | I1 ✅ done; I2/I3 need parsed sentencias; I4 blocked by Gap #1 (Auto CE scraper) |
 | 11 | [11_pensional_salud_parafiscales.md](corpus_population/11_pensional_salud_parafiscales.md) | J5, J6, J7 | ~80 | ✅ DIAN ley.* works | ✅ | claude-opus-4-7 | 2026-04-28 | ingested 442 rows (439 articles + 3 parents) |
-| 12 | [12_cambiario_societario.md](corpus_population/12_cambiario_societario.md) | K1, K2, K3, K4 | ~150 | ❌ Gaps #4, #5 | 🟡 | unassigned | 2026-04-28 | Gap #4 (CCo) + Gap #5 (BanRep). K4 (~25 norms) unblocks today; K1/K2/K3 need scraper work or fixtures |
+| 12 | [12_cambiario_societario.md](corpus_population/12_cambiario_societario.md) | K1, K2, K3, K4 | ~150 | ❌ Gaps #4, #5 | ✅ (K3, K4) | claude-opus-4-7 | 2026-04-28 | 930 rows; K3 PASS (315 CCo arts), K4 PASS (2/2 explicit). K1/K2 MISS (BanRep not in delivery — Gap #5) |
 
 **Roll-up:**
 
@@ -252,6 +252,13 @@ Practical implication:
 **Format:** `YYYY-MM-DD HH:MM TZ — <brief or global> — <event>`
 
 ---
+
+**2026-04-28 (PM) Bogotá — brief 12 — ingested 930 rows (cambiario + societario).**
+Expert delivered Ley 222/1995 (465 articles), Ley 1258/2008 (46 articles),
+CCo Libro II (417 articles) — 928 article rows + 2 ley parents. Smoke
+K3=315/48 PASS (CCo), K4=2/2 PASS (explicit_list). K1 (Res Ext 1/2018
+BanRep) and K2 (DCIN-83) MISS — expert flagged as not in delivery
+(BanRep PDF retrieval still needs scraper Gap #5 fix or fixture path).
 
 **2026-04-28 (PM) Bogotá — brief 05 — ingested 297 rows (DUR 1072 laboral).**
 Expert delivered 2.2.4.* (riesgos laborales) + 2.2.5.* (SST) only. Smoke
