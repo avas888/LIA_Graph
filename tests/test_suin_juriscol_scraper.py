@@ -254,3 +254,41 @@ def test_real_dur_article_slice(tmp_path: Path):
     assert len(res.parsed_text) < 50_000, (
         "sliced article body should be ~hundreds-of-bytes, not the full 17-MB doc"
     )
+
+
+# ---------------------------------------------------------------------------
+# Per-URL parsed-doc cache (perf fix — fixplan_v6 step 2 follow-on)
+# ---------------------------------------------------------------------------
+
+
+def test_parsed_doc_cache_avoids_re_parsing_same_url(tmp_path: Path, monkeypatch):
+    """Calling fetch() for many norms with the same parent URL must parse
+    the doc only once. Without this cache, the 17 MB DUR HTML re-parses
+    per norm and 24 thread workers thrash the system into swap."""
+
+    from lia_graph.scrapers import suin_juriscol as mod
+
+    s, cache, disk_dir = _make_scraper(tmp_path, live_fetch=False)
+    url = REGISTRY["decreto.1625.2016"]["ruta"]
+    sha1 = hashlib.sha1(url.encode("utf-8")).hexdigest()
+    (disk_dir / f"{sha1}.html").write_text(_FIXTURE_HTML, encoding="utf-8")
+
+    parse_calls = {"n": 0}
+    real_parse = mod._parse_suin_document
+
+    def counting_parse(html, *, doc_id, ruta):
+        parse_calls["n"] += 1
+        return real_parse(html, doc_id=doc_id, ruta=ruta)
+
+    monkeypatch.setattr(mod, "_parse_suin_document", counting_parse)
+
+    # 5 different article-scoped norm_ids — same parent URL.
+    for art in ("1.1.1", "1.1.2", "1.1.1", "1.1.2", "1.1.1"):
+        res = s.fetch(f"decreto.1625.2016.art.{art}")
+        assert res is not None, f"miss for art={art}"
+
+    # The first call materializes the cache_entry and parses once.
+    # Subsequent calls hit the per-URL parsed-doc cache. Total: 1 parse.
+    assert parse_calls["n"] == 1, (
+        f"expected 1 parse for 5 article fetches sharing one URL, got {parse_calls['n']}"
+    )

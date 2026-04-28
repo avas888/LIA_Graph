@@ -27,6 +27,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -134,36 +135,19 @@ def _read_suin_disk_cache(url: str, *, root: Path = _DISK_CACHE_DIR) -> str | No
         return None
 
 
-def _slice_article_from_suin_html(
-    html: str,
-    article_key: str,
-    *,
-    doc_id: str,
-    ruta: str,
-) -> str | None:
-    """Parse a SUIN HTML page and return the body of the article matching ``article_key``.
+def _parse_suin_document(html: str, *, doc_id: str, ruta: str):
+    """Parse SUIN HTML to a ``SuinDocument``. Returns None on failure.
 
-    Uses ``parse_document`` from the harvester (which yields ``SuinDocument``
-    with typed ``SuinArticle`` children). Article comparison happens on
-    ``normalize_article_key`` of both sides so casing / whitespace /
-    accent variants collapse to the same canonical key.
-
-    Returns ``None`` when the article is not present in the parsed
-    document. Callers should treat ``None`` as a slice miss and fall
-    back to a different primary source.
+    Imported lazily so test fixtures that don't install bs4 / lxml can
+    still import the scraper module.
     """
 
-    # Imported lazily so test fixtures that don't install ``bs4`` /
-    # ``lxml`` (rare) can still import the scraper module.
-    from lia_graph.ingestion.suin.parser import (
-        normalize_article_key,
-        parse_document,
-    )
+    from lia_graph.ingestion.suin.parser import parse_document
 
-    if not html or not article_key:
+    if not html:
         return None
     try:
-        doc = parse_document(
+        return parse_document(
             html,
             doc_id=str(doc_id),
             ruta=str(ruta or ""),
@@ -171,13 +155,25 @@ def _slice_article_from_suin_html(
         )
     except Exception as err:
         LOGGER.warning(
-            "SUIN parse failed (doc_id=%s, article_key=%s): %s",
+            "SUIN parse failed (doc_id=%s): %s",
             doc_id,
-            article_key,
             err,
         )
         return None
 
+
+def _slice_article_from_suin_doc(doc, article_key: str) -> str | None:
+    """Find the article matching ``article_key`` in a parsed ``SuinDocument``.
+
+    Returns the body text (stripped) or None on miss. Article matching
+    uses ``normalize_article_key`` on both sides so casing / accents /
+    whitespace collapse to one canonical key.
+    """
+
+    from lia_graph.ingestion.suin.parser import normalize_article_key
+
+    if doc is None or not article_key:
+        return None
     target = normalize_article_key(article_key)
     if not target:
         return None
@@ -187,6 +183,24 @@ def _slice_article_from_suin_html(
             if body:
                 return body
     return None
+
+
+def _slice_article_from_suin_html(
+    html: str,
+    article_key: str,
+    *,
+    doc_id: str,
+    ruta: str,
+) -> str | None:
+    """One-shot helper: parse + slice. Used in tests; production goes via the
+    scraper's per-URL parsed-doc cache (`SuinJuriscolScraper._parsed_doc_for_url`)
+    so the 17 MB DUR HTML isn't re-parsed for every norm in a batch.
+    """
+
+    if not html or not article_key:
+        return None
+    doc = _parse_suin_document(html, doc_id=doc_id, ruta=ruta)
+    return _slice_article_from_suin_doc(doc, article_key)
 
 
 # ---------------------------------------------------------------------------
@@ -240,6 +254,14 @@ class SuinJuriscolScraper(Scraper):
             )
         self._disk_cache_dir = Path(disk_cache_dir) if disk_cache_dir is not None else _DISK_CACHE_DIR
         self._fetcher = fetcher
+        # Per-URL parsed-document cache. Without this, batches of N
+        # articles all from the same parent doc each pay the BeautifulSoup
+        # parse cost (17 MB DUR ≈ 3-5 sec + ~500 MB working memory). With
+        # 24 thread workers all parsing simultaneously, the system goes
+        # into memory thrashing. With this cache, parse cost is paid once
+        # per parent URL and N article lookups become hash-map walks.
+        self._parsed_doc_cache: dict[str, Any] = {}
+        self._parsed_doc_lock = threading.Lock()
 
     # ------------------------------------------------------------------
     # Hook implementations required by the base class
@@ -300,13 +322,12 @@ class SuinJuriscolScraper(Scraper):
                 cache_hit=cache_hit,
             )
 
-        html = (cache_entry.content or b"").decode("utf-8", errors="ignore")
-        sliced = _slice_article_from_suin_html(
-            html,
-            article_key,
-            doc_id=suin_doc_id,
-            ruta=url,
+        doc = self._parsed_doc_for_url(
+            url=url,
+            cache_entry=cache_entry,
+            suin_doc_id=suin_doc_id,
         )
+        sliced = _slice_article_from_suin_doc(doc, article_key)
         if not sliced:
             return None
         return ScraperFetchResult(
@@ -396,6 +417,34 @@ class SuinJuriscolScraper(Scraper):
             self._fetcher = SuinFetcher(cache_dir=self._disk_cache_dir)
         return self._fetcher
 
+    def _parsed_doc_for_url(self, *, url: str, cache_entry: CacheEntry, suin_doc_id: str):
+        """Return the parsed ``SuinDocument`` for ``url``, parsing once per URL.
+
+        The cache is process-local (one dict per scraper instance). For a
+        ThreadPoolExecutor workload where all workers share one
+        SuinJuriscolScraper, the first worker to touch a URL pays the
+        parse cost; subsequent workers get a hash-map hit.
+
+        The parse itself happens OUTSIDE the lock — only the dict
+        read/write is protected. Worst case: two workers race and both
+        parse the same doc; one's result wins the dict slot. Acceptable
+        in exchange for not serializing the heavy parse through a lock.
+        """
+
+        with self._parsed_doc_lock:
+            cached = self._parsed_doc_cache.get(url)
+            if cached is not None:
+                return cached
+
+        html = (cache_entry.content or b"").decode("utf-8", errors="ignore")
+        doc = _parse_suin_document(html, doc_id=suin_doc_id, ruta=url)
+        if doc is None:
+            return None
+
+        with self._parsed_doc_lock:
+            self._parsed_doc_cache[url] = doc
+        return doc
+
 
 __all__ = [
     "SuinJuriscolScraper",
@@ -404,5 +453,7 @@ __all__ = [
     "_article_key_from_norm_id",
     "_load_suin_registry",
     "_read_suin_disk_cache",
+    "_parse_suin_document",
+    "_slice_article_from_suin_doc",
     "_slice_article_from_suin_html",
 ]
