@@ -644,13 +644,92 @@ Path (a) progress so far:
 * 12 outside-expert plain-language briefs: ✅ landed in `corpus_population_for_experts/`.
 * Canon ↔ briefs ↔ YAML reconciliation: ✅ closed; canon extended for cst/cco/dcin/oficio; tests green.
 * Hallucinated example audit: ✅ closed; verified-real or `<placeholder>` everywhere expert-facing.
-* Expert ingestion (find documents on the web): 🟡 not started; ready to assign owners per `corpus_population_sprint_brief.md` §2.
+* Expert ingestion: ✅ **closed 2026-04-28 PM.** All 12 briefs ingested; 4356 unique rows landed in `parsed_articles.jsonl` (7922 → 12 305). 23 of 41 batches PASS smoke check, 14 PARTIAL, 4 MISS. Per-brief commits 33d18d5 → 9ce3aee.
+* Canonicalizer next-gate (J5 pilot trial): 🟡 ran 2026-04-28 PM; FAIL diagnostic — see §11 below.
+* Expert briefs 13/14/15 (gap-fill): ✅ authored; ready for outside-expert delivery. Cover F1/F3/F4 + I3/I4 + K1/K2 MISS gaps.
 
 Path (b) — staging promotion of the 754 — proceeds in parallel per §5.2 (SME signoff + JSON regeneration prerequisites). The two paths are no longer mutually exclusive.
 
-**What the next agent will be doing:** the operator is about to spawn a fresh agent and hand them an **expert deliverable packet** (a folder of text files OR one markdown document containing scraped legal articles + identifiers + URLs + dates). The fresh agent's job is to execute §6.B step-by-step on that packet — validate structure, convert each article to a `parsed_articles.jsonl` row with a canonical id, append, smoke-check, commit, update state file. After enough briefs land, the operator gives the go-ahead to run the canonicalizer harness on the new batches per §6.A.
+**Live tracker:** `docs/re-engineer/state_fixplanv4.md` is the canonical
+status file from 2026-04-28 PM forward — read it BEFORE picking a task.
+The corpus-side state tracker stays at `state_corpus_population.md`.
 
-**Recommended first packet:** brief 11 (pensional/salud/parafiscales — ~80 articles, no scraper dependencies, smallest-and-cleanest pilot). Once brief 11 round-trips end-to-end through §6.B and §6.A, the rest of Sprint 1 (briefs 01, 08, 07) fans out in parallel.
+---
+
+## 11. Where we are (2026-04-28 PM update)
+
+### 11.1 What landed (final state of the day)
+
+Twelve commits on `main` between 33d18d5 and 9ce3aee:
+
+| Commit | Brief / fix | Rows added |
+|---|---|---:|
+| 33d18d5 | brief 11 + ingester scaffolding | 442 |
+| d6ee2ae | corpus-population scaffolding (canon + briefs + plan) | n/a |
+| b667001 | brief 01 (CST) | 200 |
+| 2bcdb59 | brief 08 (G1 IVA Unificado) + canon finder fix | 408 |
+| c06a2cc | brief 07 (F2 PASS) | 455 |
+| 6492149 | brief 02 (DUR 1625 renta) | 834 |
+| bb542c2 | brief 03 (DUR 1625 IVA + retf) | 499 |
+| 0480be4 | brief 04 (DUR 1625 procedimiento) | 104 |
+| c6fbdd7 | brief 05 (DUR 1072 laboral) | 297 |
+| ed0268f | brief 12 (cambiario + societario) | 930 |
+| 1870428 | brief 09 (oficios + conceptos individuales) | 92 |
+| 79a825f | brief 10 (CC sentencias) | 16 |
+| 9ce3aee | brief 06 (decretos COVID) — closes Sprint 3 | 104 |
+| 1e4f16a | DIAN URL padding fix + briefs 13/14/15 + J5 pilot | n/a |
+
+`parsed_articles.jsonl`: 7 922 → 12 305 rows. Input set: 12 366 → 18 676
+unique norm_ids. All 4356 rows round-trip-validate cleanly through
+`canonicalize()`.
+
+### 11.2 J5 pilot trial — diagnostic FAIL
+
+J5 (`explicit_list: ley.100.1993, ley.797.2003, ley.2381.2024`) launched
+via the mandatory `launch_batch.sh` runner with auto-armed heartbeat
+sidecar + `CronCreate` heartbeat per §6.A rules 2-3. Outcome: all 3
+norms refused at the source-fetch step.
+
+| Norm | Cause |
+|---|---|
+| `ley.100.1993` | DIAN 404 — scraper mapped to `ley_100_1993.htm` but DIAN serves `ley_0100_1993.htm` (4-digit-padded). **Fixed in commit 1e4f16a** — `dian_normograma._resolve_url` now zero-pads NUM to 4 digits for `ley.*` and `res.dian.*` ids. |
+| `ley.797.2003` | NOT in DIAN normograma at all; needs Senado/SUIN fallback (Senado URL pattern is `ley_0797_2003.html` — also padded). |
+| `ley.2381.2024` | Recent reform pensional, not yet ingested by DIAN. Available on Senado + Función Pública (`norma.php?i=246356`). |
+
+Post-verify chat call also failed (`Connection refused` on port 8787 —
+the local UI server wasn't running). The score step ran anyway; ledger
+row + run_state captured.
+
+The DIAN padding fix unblocks ley.100.1993 + every 1xxx-2xxx reform ley
+(those already worked because their NUM is 4-digit by nature). Senado
+fallback for 3-digit NUMs not in DIAN is the next code change required
+to unblock J5/J6/J7 fully. **This is in scope for the next session.**
+
+### 11.3 What's blocking the canonicalizer next-gate
+
+**Code-side (engineer):**
+
+1. **Senado fallback in `dian_normograma.py` (or chained scraper).** When DIAN returns 404 for `ley.<NUM>.<YEAR>`, fall back to Senado URL `ley_<NUM4>_<YEAR>.html`. Fixes: ley.222.1995, ley.789.2002, ley.797.2003, ley.1258.2008, ley.2381.2024, plus most 3-digit-NUM laws.
+2. **SUIN scraper realization.** Currently `_resolve_url` returns a `?canonical=...` stub URL that 400s. Either implement proper SUIN ID lookup OR drop SUIN from the resolver chain.
+3. **Local UI server up before post-verify.** The score step calls the chat backend on `127.0.0.1:8787`. Either start the dev server before each batch (`npm run dev` in another terminal) or make the post-verify step optional via a launcher flag (`--skip-post`). For autonomous runs, `--skip-post` is acceptable since the score gate isn't load-bearing for the primary "did vigencia get extracted" question.
+4. **YAML keyword-pattern repair (medium priority).** F1/F3/F4 + H1/H2/H4a/b/H5 + I2 use regex like `^res\.dian\..*(uvt|plazos|calendario)` that requires keyword segments in the canonical id; canon doesn't allow keyword segments. Replace with explicit-list of real resolución/concepto/sentencia numbers OR with prefix patterns matching real ids. Per master plan §12 this is normally out of scope; the placeholder pattern in G1 set the precedent that it's allowed.
+
+**Data-side (outside experts):**
+
+5. **Brief 13 delivery** (UVT + RST + RUT/exógena resoluciones) — unblocks F1/F3/F4 once canon ids land.
+6. **Brief 14 delivery** (CE Sección Cuarta unificación + autos suspensión) — unblocks I3/I4.
+7. **Brief 15 delivery** (BanRep Res Externa 1/2018 + DCIN-83) — unblocks K1/K2.
+
+### 11.4 Suggested next-session sequence
+
+1. Implement #1 (Senado ley fallback) + #3 (post-verify optional flag) — ~2 hours engineering.
+2. Re-run J5 with `--allow-rerun --skip-post` → expect 3/3 PASS extract.
+3. Cascade through K4, J1-J4, G1, F2, K3 in dependency order via `run_full_campaign.sh --phases J K F G`.
+4. Hand briefs 13/14/15 to outside experts in parallel.
+5. Once expert deliverables for 13/14/15 land + the canonicalizer batches finish, re-evaluate against the §9 definition of done.
+
+Estimate: 3–4 sessions to reach the §9 DoD (≥3000 verified norms in
+Postgres, all phases A–K green).
 
 ---
 
