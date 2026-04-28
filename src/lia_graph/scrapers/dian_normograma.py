@@ -94,12 +94,14 @@ class DianNormogramaScraper(Scraper):
             return _ET_FULL_URL
         # Leyes — DIAN normograma hosts most reform laws as one page each.
         # Per-article slicing applies via `<a name="N">` anchors (same shape
-        # as Senado). Pattern: ley_<NUM>_<YEAR>.htm.
+        # as Senado). Pattern: ley_<NUM4>_<YEAR>.htm — DIAN pads NUM to 4
+        # digits (`ley_0100_1993.htm`, not `ley_100_1993.htm`).
         if norm_id.startswith("ley."):
             parts = norm_id.split(".")
             if len(parts) < 3:
                 return None
-            return f"{_BASE_URL}/ley_{parts[1]}_{parts[2]}.htm"
+            num4 = parts[1].zfill(4)
+            return f"{_BASE_URL}/ley_{num4}_{parts[2]}.htm"
         if norm_id.startswith("decreto."):
             parts = norm_id.split(".")
             if len(parts) < 3:
@@ -107,10 +109,12 @@ class DianNormogramaScraper(Scraper):
             return f"{_BASE_URL}/decreto_{parts[1]}_{parts[2]}.htm"
         if norm_id.startswith("res.dian."):
             parts = norm_id.split(".")
-            # res.dian.NUM.YEAR
+            # res.dian.NUM.YEAR — DIAN pads NUM to 4 digits in the filename
+            # (`resolucion_dian_0165_2023.htm`, not `resolucion_dian_165_2023.htm`).
             if len(parts) < 4:
                 return None
-            return f"{_BASE_URL}/resolucion_dian_{parts[2]}_{parts[3]}.htm"
+            num4 = parts[2].zfill(4)
+            return f"{_BASE_URL}/resolucion_dian_{num4}_{parts[3]}.htm"
         if norm_id.startswith("concepto.dian."):
             parts = norm_id.split(".")
             num = parts[2]

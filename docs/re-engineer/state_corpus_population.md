@@ -101,6 +101,9 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ ingested · ⛔ block
 | 10 | [10_jurisprudencia_cc_ce.md](corpus_population/10_jurisprudencia_cc_ce.md) | I1–I4 | ~70 | ⚠️ Gap #1 | ✅ (I1) | claude-opus-4-7 | 2026-04-28 | 16 CC sentencias ingested; I1 PASS. I2 YAML pattern uses Art. 338 keyword that doesn't match sentencia id form. I3/I4 blocked by CE delivery (deferred per expert) |
 | 11 | [11_pensional_salud_parafiscales.md](corpus_population/11_pensional_salud_parafiscales.md) | J5, J6, J7 | ~80 | ✅ DIAN ley.* works | ✅ | claude-opus-4-7 | 2026-04-28 | ingested 442 rows (439 articles + 3 parents) |
 | 12 | [12_cambiario_societario.md](corpus_population/12_cambiario_societario.md) | K1, K2, K3, K4 | ~150 | ❌ Gaps #4, #5 | ✅ (K3, K4) | claude-opus-4-7 | 2026-04-28 | 930 rows; K3 PASS (315 CCo arts), K4 PASS (2/2 explicit). K1/K2 MISS (BanRep not in delivery — Gap #5) |
+| 13 | [13_resoluciones_dian_uvt_rst.md](corpus_population/13_resoluciones_dian_uvt_rst.md) | F1, F3, F4 supplemental | ~85 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | gap-fill brief — ready for outside-expert delivery |
+| 14 | [14_jurisprudencia_ce.md](corpus_population/14_jurisprudencia_ce.md) | I3, I4 | ~40 | ⚠️ Gap #1 | 🟡 | unassigned | 2026-04-28 | gap-fill brief — ready for outside-expert delivery (fixture-only path acceptable for I4) |
+| 15 | [15_cambiario_banrep.md](corpus_population/15_cambiario_banrep.md) | K1, K2 | ~55 | ❌ Gap #5 | 🟡 | unassigned | 2026-04-28 | gap-fill brief — ready for outside-expert delivery (fixture-only path recommended) |
 
 **Roll-up:**
 
@@ -252,6 +255,16 @@ Practical implication:
 **Format:** `YYYY-MM-DD HH:MM TZ — <brief or global> — <event>`
 
 ---
+
+**2026-04-28 (PM) Bogotá — global — drafted gap-fill briefs 13/14/15.**
+Six new files landed to address the four MISS batches from the first-pass
+campaign smoke check: brief 13 (Resoluciones DIAN UVT + plazos + RST + RUT/exógena
+supplemental — F1/F3/F4 gaps), brief 14 (CE Sección Cuarta sentencias de
+unificación + autos de suspensión — I3/I4 gaps), brief 15 (Resolución Externa
+1/2018 BanRep + DCIN-83 Manual Cambiario — K1/K2 gaps). Plain-language briefs
+in `corpus_population_for_experts/`, technical briefs in `corpus_population/`.
+All status 🟡 unassigned, ready for outside-expert delivery. Combined target:
+~180 additional norms (~85 + ~40 + ~55).
 
 **2026-04-28 (PM) Bogotá — brief 06 — ingested 104 rows (decretos legislativos COVID).**
 6 decretos legislativos: 417/2020, 444/2020, 535/2020, 568/2020, 658/2020,

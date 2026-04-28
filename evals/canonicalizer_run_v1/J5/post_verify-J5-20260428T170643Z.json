@@ -1,0 +1,22 @@
+{
+  "ts_bogota": "2026-04-28 12:09:20 PM Bogotá",
+  "batch_id": "J5",
+  "mode": "post",
+  "run_id": "verify-J5-20260428T170643Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Régimen pensional vigente con la reforma 2024?",
+      "expected": {
+        "q": "¿Régimen pensional vigente con la reforma 2024?",
+        "must_cite": [
+          "ley.2381.2024"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 9
+    }
+  ]
+}
