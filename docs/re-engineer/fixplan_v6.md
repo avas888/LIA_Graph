@@ -132,6 +132,66 @@ place: **~70-85% pass rate, ~1,200-1,500 net new Postgres rows.**
 
 ## 3. The v6 fix — file-by-file recipe
 
+### 3.0 Reality-check before you start coding (verified 2026-04-28 PM)
+
+Before reading the steps below, internalize what **does** and **does not**
+already exist in the codebase. The first draft of this plan named some
+helpers as if they existed in `src/lia_graph/ingestion/suin/parser.py` —
+they don't. This subsection corrects the record so a fresh agent doesn't
+waste time grepping for symbols that aren't there.
+
+**Exists in `src/lia_graph/ingestion/suin/parser.py` (701 LOC):**
+* `parse_document(html, doc_id, ruta)` at line 385 — top-level entry that
+  returns a `SuinDocument` with `articles: tuple[SuinArticle, ...]` and
+  `edges: tuple[SuinEdge, ...]`. **This is the right entry point** for
+  step 2's article-slicing helper.
+* `_extract_article(soup, anchor, ...)` at line 486 — internal; operates
+  on a BeautifulSoup `soup` and an `<a>` anchor. Useful as a reference
+  for what one article looks like, not as a public helper.
+* `normalize_article_key(raw)` at line 169 — public; converts "135 bis",
+  "Art. 364-4", "Artículo 1º" etc. to a canonical key string. **Reuse
+  this** when matching the requested article against the parsed list.
+* `normalize_doc_id(raw)` at line 194 — public; canonicalizes SUIN doc
+  ids. Useful in the registry build step.
+* `SuinArticle` dataclass at line 338 — has `article_number`, `body_text`,
+  `heading`, `article_fragment_id`. Slicing returns one of these.
+* `SuinDocument` dataclass at line 358 — what `parse_document` returns.
+
+**Exists in `src/lia_graph/ingestion/suin/bridge.py` (846 LOC):**
+* `_doc_id_for_source_path(doc_id_raw)` at line 91 — returns a TUPLE
+  `(source_path, relative_path, doc_id_hint)`, NOT a SUIN doc_id. It
+  produces a `suin://...` scheme path used by the Supabase sink, plus a
+  doc_id_hint that may match the SUIN internal id. **Don't use this for
+  the registry — use the `title` regex instead** (see Step 1 below).
+* `_iter_jsonl(path)` at line 71 — utility for streaming `documents.jsonl`
+  / `articles.jsonl` / `edges.jsonl` rows. Reuse in the registry build.
+* `SuinScope.load(root)` at line 60 — loads a harvest scope into a
+  parsed view. Useful if you want to walk one scope at a time.
+
+**Does NOT exist (you will write these in Step 2):**
+* `_canonical_parent_id(norm_id)` — strip `.art.X[.Y...]` to get parent.
+* `_article_key_from_norm_id(norm_id)` — extract dotted DUR article key.
+* `_slice_article_from_suin_html(html, article_key, doc_id, ruta)` —
+  call `parse_document`, find the `SuinArticle` whose
+  `normalize_article_key(article_number) == normalize_article_key(article_key)`,
+  return its `body_text` (or `None` if not found).
+* `_load_suin_registry()` — JSON loader for `var/suin_doc_id_registry.json`.
+
+**Does NOT exist in launcher (Step 5 needs to add this):**
+* `EXTRA_EXTRACT_FLAGS` env var pass-through in
+  `scripts/canonicalizer/launch_batch.sh`. The quick-start in §6 assumes
+  it works, but it doesn't yet. Add it as part of step 5 (5 LOC change
+  in the launcher's nohup-extract command).
+
+**Six-gate lifecycle reminder (`feedback_verify_fixes_end_to_end`):** unit
+tests alone are NOT sufficient for a pipeline change. Each step's "Test"
+clause below is the technical/criterion gate. The end-user validation
+happens at the cascade (steps 5-7) — Wave 1's first batch (E1a) closing
+at ≥70% pass is the actual greenlight signal. If E1a still refuses ~85%
+under SUIN-first, the slicing helper is wrong; iterate before continuing.
+
+---
+
 ### Step 1 — Build the canonical-id → SUIN-doc-id registry
 
 **What.** SUIN's documents are keyed by an internal numeric `doc_id`
@@ -158,10 +218,38 @@ new file `scripts/canonicalizer/build_suin_doc_id_registry.py`.
 }
 ```
 
-Use `_doc_id_for_source_path` from `bridge.py` for the canonical-key
-derivation when the title doesn't parse cleanly. Add fallback heuristics:
-parse `DECRETO N DE YYYY` / `LEY N DE YYYY` / `RESOLUCION N DE YYYY`
-patterns from `title`.
+**Canonical-id derivation strategy (the title regex IS the primary signal):**
+
+```python
+import re
+
+_TITLE_PATTERNS = [
+    # ("LEY N DE YYYY", "DECRETO N DE YYYY", etc.) → canonical id form
+    (re.compile(r"^(?:LEY|Ley)\s+(\d+)\s+(?:DE|de)\s+(\d{4})"),       lambda m: f"ley.{m.group(1)}.{m.group(2)}"),
+    (re.compile(r"^(?:DECRETO|Decreto)\s+(\d+)\s+(?:DE|de)\s+(\d{4})"), lambda m: f"decreto.{m.group(1)}.{m.group(2)}"),
+    (re.compile(r"^(?:RESOLUCI[ÓO]N|Resoluci[óo]n)(?:\s+(?:DIAN|MINHACIENDA|MINTRABAJO))?\s+(\d+)\s+(?:DE|de)\s+(\d{4})"),
+        lambda m: f"res.dian.{m.group(1)}.{m.group(2)}"),  # adjust authority as needed
+    (re.compile(r"^CONCEPTO\s+(\d+)\s+(?:DE|de)\s+(\d{4})"),          lambda m: f"concepto.dian.{m.group(1)}.{m.group(2)}"),
+    # Add more patterns as you discover them in the harvested titles.
+]
+
+def _canonical_from_title(title: str) -> str | None:
+    title = title.strip()
+    for pattern, builder in _TITLE_PATTERNS:
+        m = pattern.match(title)
+        if m:
+            return builder(m)
+    return None
+```
+
+**Skip rule:** if `_canonical_from_title(title)` returns None, log the
+title and skip that document (don't crash the build). The registry is
+best-effort — partial coverage is fine for v6 since we only need the
+~10 parent documents the cascade actually uses (decreto 1625, 1072, 624,
+ley 1943, ley 100, etc).
+
+**Validation:** before writing the registry, dry-run-print the first 20
+matched titles + their derived canonical ids so a human can sanity-check.
 
 **Why.** Without this registry the scraper can't map a canonical norm to
 a SUIN doc. With it, every harness call is a constant-time lookup.
@@ -230,15 +318,56 @@ class SuinJuriscolScraper(Scraper):
         return result
 ```
 
-Helpers needed (likely already in `src/lia_graph/ingestion/suin/parser.py`):
+Helpers — write these in the new `suin_juriscol.py`. **None exist today;
+all four are new code.** Reference the existing parser.py functions
+(`parse_document`, `normalize_article_key`, `SuinArticle`) instead of
+inventing new ones for the parts they cover.
 
-* `_canonical_parent_id(norm_id)` — strip `.art.X[.Y...]` to get parent doc id.
-* `_article_key_from_norm_id(norm_id)` — extract the dotted DUR article key
-  (e.g. `1.6.1.1.10` from `decreto.1625.2016.art.1.6.1.1.10`).
-* `_slice_article_from_suin_html(html, article_key)` — find the article
-  in the SUIN page and return just its body text. The harvester's
-  `parser.py` (701 LOC) already does this for the harvest pipeline; reuse
-  it via import.
+```python
+def _canonical_parent_id(norm_id: str) -> str:
+    """decreto.1625.2016.art.X.Y → decreto.1625.2016. ley.100.1993.art.5 → ley.100.1993."""
+    if ".art." in norm_id:
+        return norm_id.split(".art.")[0]
+    return norm_id
+
+
+def _article_key_from_norm_id(norm_id: str) -> str | None:
+    """decreto.1625.2016.art.1.6.1.1.10 → "1.6.1.1.10". None if no .art. suffix."""
+    if ".art." not in norm_id:
+        return None
+    return norm_id.split(".art.")[1]
+
+
+def _load_suin_registry() -> dict[str, dict]:
+    """Load var/suin_doc_id_registry.json. Empty dict if file missing."""
+    p = Path("var/suin_doc_id_registry.json")
+    if not p.exists():
+        return {}
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+def _slice_article_from_suin_html(
+    html: bytes, article_key: str, *, doc_id: str, ruta: str
+) -> str | None:
+    """Parse the SUIN page and return the body of the article matching article_key.
+
+    Uses parse_document from the harvester (which returns a SuinDocument with
+    typed SuinArticle children). Matches by normalize_article_key on both sides.
+    """
+    from lia_graph.ingestion.suin.parser import parse_document, normalize_article_key
+
+    doc = parse_document(html, doc_id=doc_id, ruta=ruta)
+    target_key = normalize_article_key(article_key)
+    for art in doc.articles:
+        if normalize_article_key(art.article_number) == target_key:
+            return art.body_text
+    return None
+```
+
+**Note on doc_id:** the SUIN harvest's `documents.jsonl` uses SUIN's
+internal numeric id as `doc_id` (e.g. `"1132325"`). The slicing helper
+needs that id to invoke `parse_document`. Pull it from the registry
+entry: `entry["suin_doc_id"]`.
 
 **Why.** This is the rewire that actually unblocks the cascade. With
 SUIN sliced article bodies, the LLM gets ~2-5 KB instead of 3 MB. Pass
@@ -354,11 +483,25 @@ The new run will append fresh rows.
 **Where.** `scripts/canonicalizer/run_cascade_v5.sh` — already trimmed
 to the right list. Just relaunch with `LIA_EXTRACT_WORKERS=8`.
 
-**How.** Edit `run_cascade_v5.sh` to pass `--rerun-only-refusals`
-through to `launch_batch.sh` (and from there to `extract_vigencia.py`).
-The launcher needs a small pass-through addition: a new
-`EXTRA_EXTRACT_FLAGS` env var that the cascade driver sets, and the
-launcher appends to its `nohup` extract command. Then:
+**How.** Two small edits, then the cascade command:
+
+**5a. Add `EXTRA_EXTRACT_FLAGS` pass-through to `scripts/canonicalizer/launch_batch.sh`.**
+Today's launcher doesn't pass through extra flags. Edit the nohup-extract
+command (around line 245) to append `${EXTRA_EXTRACT_FLAGS:-}`:
+
+```bash
+exec env PYTHONPATH=src:. uv run python scripts/canonicalizer/extract_vigencia.py \\
+    --batch-id '${BATCH}' \\
+    --run-id '${RUN_ID}' \\
+    --output-dir 'evals/vigencia_extraction_v1' \\
+    --batches-config '${BATCHES_CONFIG}' \\
+    ${GUARD_FLAG} \\
+    ${EXTRA_EXTRACT_FLAGS:-}
+```
+
+That's it for the launcher — the env var inherits through nohup naturally.
+
+**5b. Cascade run command (after engineering steps 1-4 + 5a all ✅):**
 
 ```bash
 EXTRA_EXTRACT_FLAGS="--rerun-only-refusals" \
@@ -366,6 +509,7 @@ LIA_EXTRACT_WORKERS=8 \
 nohup bash scripts/canonicalizer/run_cascade_v5.sh \
     > logs/cascade_v6_driver.log 2>&1 &
 disown
+echo $! > /tmp/cascade_v6_driver.pid
 ```
 
 **Why.** With `--rerun-only-refusals`, the cascade re-processes only the

@@ -109,6 +109,7 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · ⛔ blocked �
 | 2 | Replace SUIN scraper stub with real one | fixplan_v6 §3 step 2 | 🟡 | unassigned | 2-3 hours | Full rewrite of `src/lia_graph/scrapers/suin_juriscol.py`. Reuse helpers from `src/lia_graph/ingestion/suin/parser.py`. Most-impactful step. |
 | 3 | Reorder scraper chain — SUIN first | fixplan_v6 §3 step 3 | 🟡 | unassigned | 30 min | Edit `vigencia_extractor.py:144-152`. Add `suin_juriscol` to `_TRUSTED_GOVCO_SOURCE_IDS`. |
 | 4 | Add `--rerun-only-refusals` flag | fixplan_v6 §3 step 4 | 🟡 | unassigned | 30-45 min | Edit `extract_vigencia.py` `_process_one()`. Saves 25% wall-time on v6 cascade by preserving v5's 187 successes. |
+| 5a | Add `EXTRA_EXTRACT_FLAGS` pass-through to `launch_batch.sh` | fixplan_v6 §3 step 5a | 🟡 | unassigned | 5 min | Today's launcher doesn't pass through extra flags. 1-line append to the nohup-extract command. Required before step 5b cascade run. |
 
 ### 4.B Cascade — Wave 1 (DIAN-routed reruns; SUIN-first directly fixes)
 
