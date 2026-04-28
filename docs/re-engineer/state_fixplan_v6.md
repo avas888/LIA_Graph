@@ -64,13 +64,13 @@ Memory-pinned guardrails (do not violate — full list in fixplan_v6 §0):
 
 ## 3. Current global state
 
-**As of:** 2026-04-28 PM Bogotá (start of v6, end of v5 cascade)
+**As of:** 2026-04-28 PM Bogotá (engineering done, cascade pending)
 
 | Field | Value |
 |---|---|
-| fixplan_v6 status | drafted, ready to execute |
-| Engineering steps closed (✅) | **0 of 4** (steps 1-4 of §3) |
-| Cascade batches run under v6 (✅ verified) | **0 of 8** (steps 5-6 of §3 are the cascade) |
+| fixplan_v6 status | engineering ✅ — 5 commits landed; cascade rerun pending |
+| Engineering steps closed (✅) | **5 of 5** (steps 1-4 + 5a of §3) |
+| Cascade batches run under v6 (✅ verified) | **0 of 8** (step 5b ready to launch) |
 | Postgres `norm_vigencia_history` | **783** distinct verified norms (v5 baseline 758 + 25 from cascade) |
 | Falkor `(:Norm)` nodes / edges | **~11 700** (TBD precise) |
 | `parsed_articles.jsonl` rows | **12 305** |
@@ -82,18 +82,33 @@ Memory-pinned guardrails (do not violate — full list in fixplan_v6 §0):
 | 8-worker asyncio concurrency | working (commit `4b11cd7`) |
 | SUIN HTML cache | **3 387** files at `cache/suin/` |
 | SUIN harvested edges | **16 282** across 3 scopes |
-| SUIN scraper at `src/lia_graph/scrapers/suin_juriscol.py` | **46-line stub returning None** ← v6's binding constraint |
+| SUIN registry | **10 entries** at `var/suin_doc_id_registry.json` (commit `cfe64bb`) |
+| SUIN scraper at `src/lia_graph/scrapers/suin_juriscol.py` | **registry-backed slicer** — three-tier cache, per-article slicing via parser (commit `9940faf`) |
+| Parser regex `_ARTICLE_HEADING_RE` | **fixed** to capture multi-segment DUR numbers `1.6.1.1.10` (commit `9940faf`) |
+| Scraper chain order | **SUIN → Senado → DIAN → CC → CE** (commit `d00da64`) |
+| `_TRUSTED_GOVCO_SOURCE_IDS` | `{suin_juriscol, secretaria_senado, dian_normograma}` (commit `d00da64`) |
+| `--rerun-only-refusals` flag | available on `extract_vigencia.py` (commit `f91401b`) |
+| `EXTRA_EXTRACT_FLAGS` passthrough | wired in `launch_batch.sh` (commit `f91401b`) |
 
 **Next action.**
 
-1. Pick step #1 from §4.A (recommended order: #1 → #2 → #3 → #4).
-2. Edit the relevant file per `fixplan_v6.md` §3 recipe.
-3. Run `PYTHONPATH=src:. uv run pytest tests/test_suin_juriscol_scraper.py tests/test_vigencia_extractor.py tests/test_scrapers.py -q` to confirm no regression.
-4. Commit. Mark §4.A row ✅.
-5. After all 4 steps close, run the §6 cascade with `--rerun-only-refusals`.
+Engineering steps 1-4 + 5a are done. The cascade rerun is the only
+remaining work. Run from a Bogotá-noon window so the heartbeat sidecar
+has business-hours coverage:
 
-**Recommended first step:** #1 (build the SUIN doc_id registry, ~60-90 min).
-Tiny, isolated, makes step #2 trivial.
+```bash
+EXTRA_EXTRACT_FLAGS="--rerun-only-refusals" \
+LIA_EXTRACT_WORKERS=8 \
+nohup bash scripts/canonicalizer/run_cascade_v5.sh \
+    > logs/cascade_v6_driver.log 2>&1 &
+disown
+echo $! > /tmp/cascade_v6_driver.pid
+```
+
+After E1a closes (the largest pile, batch 2 of 8), confirm pass-rate
+≥70% before letting the cascade continue. If it's <40%, the SUIN slicer
+is misbehaving — read the per-norm JSONs in `evals/vigencia_extraction_v1/E1a/`
+and diagnose before rerunning.
 
 ---
 
@@ -105,11 +120,11 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · ⛔ blocked �
 
 | # | Step | Recipe ref | Status | Owner | Estimate | Notes |
 |---|---|---|---|---|---:|---|
-| 1 | Build canonical→SUIN-doc-id registry | fixplan_v6 §3 step 1 | 🟡 | unassigned | 60-90 min | New file `var/suin_doc_id_registry.json`; new script `scripts/canonicalizer/build_suin_doc_id_registry.py`. Walks all `artifacts/suin/*/documents.jsonl`. |
-| 2 | Replace SUIN scraper stub with real one | fixplan_v6 §3 step 2 | 🟡 | unassigned | 2-3 hours | Full rewrite of `src/lia_graph/scrapers/suin_juriscol.py`. Reuse helpers from `src/lia_graph/ingestion/suin/parser.py`. Most-impactful step. |
-| 3 | Reorder scraper chain — SUIN first | fixplan_v6 §3 step 3 | 🟡 | unassigned | 30 min | Edit `vigencia_extractor.py:144-152`. Add `suin_juriscol` to `_TRUSTED_GOVCO_SOURCE_IDS`. |
-| 4 | Add `--rerun-only-refusals` flag | fixplan_v6 §3 step 4 | 🟡 | unassigned | 30-45 min | Edit `extract_vigencia.py` `_process_one()`. Saves 25% wall-time on v6 cascade by preserving v5's 187 successes. |
-| 5a | Add `EXTRA_EXTRACT_FLAGS` pass-through to `launch_batch.sh` | fixplan_v6 §3 step 5a | 🟡 | unassigned | 5 min | Today's launcher doesn't pass through extra flags. 1-line append to the nohup-extract command. Required before step 5b cascade run. |
+| 1 | Build canonical→SUIN-doc-id registry | fixplan_v6 §3 step 1 | ✅ | claude-opus-4-7 | 60-90 min | `scripts/canonicalizer/build_suin_doc_id_registry.py` + `tests/test_suin_doc_id_registry.py`. Registry has 10 entries (9 SUIN spine docs + `et` alias). Commit `cfe64bb`. |
+| 2 | Replace SUIN scraper stub with real one | fixplan_v6 §3 step 2 | ✅ | claude-opus-4-7 | 2-3 hours | Full rewrite of `src/lia_graph/scrapers/suin_juriscol.py` — three-tier cache + per-article slicing. **Bonus:** parser regex `_ARTICLE_HEADING_RE` fixed to capture multi-segment DUR numbers (`1.6.1.1.10`) — was the root cause that would have made the slicer miss every DUR article. 12 new tests. Commit `9940faf`. |
+| 3 | Reorder scraper chain — SUIN first | fixplan_v6 §3 step 3 | ✅ | claude-opus-4-7 | 30 min | `vigencia_extractor.py default()` chain now `[Suin, Senado, Dian, CC, CE]`. `suin_juriscol` added to `_TRUSTED_GOVCO_SOURCE_IDS`. 2 new tests. Commit `d00da64`. |
+| 4 | Add `--rerun-only-refusals` flag | fixplan_v6 §3 step 4 | ✅ | claude-opus-4-7 | 30-45 min | Success-aware skip in `extract_vigencia.py` `_process_one()`. Malformed JSONs fall through and re-extract (defensive). 3 new tests. Commit `f91401b`. |
+| 5a | Add `EXTRA_EXTRACT_FLAGS` pass-through to `launch_batch.sh` | fixplan_v6 §3 step 5a | ✅ | claude-opus-4-7 | 5 min | One-line append to the nohup-extract command + header doc. Bash syntax checked. Commit `f91401b`. |
 
 ### 4.B Cascade — Wave 1 (DIAN-routed reruns; SUIN-first directly fixes)
 
@@ -175,9 +190,10 @@ Wave 2 sub-total: **~285** new veredictos if SUIN has CST/CCo.
 
 | ID | Blocker | Affects | Recovery path | Severity |
 |---|---|---|---|---|
-| B-1 | SUIN scraper is a 46-line stub returning None | All DUR-articulado batches; ~3 000 norms in cascade | Steps 1+2+3 of §3 | CRITICAL — single root cause for v5 cascade collapse |
-| B-2 | DIAN normograma is "knowingly unstable" per operator | Fallback path quality | Step 3 demotes DIAN to fallback | MEDIUM (handled by step 3) |
-| B-3 | v5 produced 187 successes already on disk | Token waste if re-extracted | Step 4 (`--rerun-only-refusals`) | LOW (handled by step 4) |
+| B-1 | ~~SUIN scraper is a 46-line stub returning None~~ | ~~All DUR-articulado batches~~ | ~~Steps 1+2+3 of §3~~ | **RESOLVED** — commits `cfe64bb`, `9940faf`, `d00da64` |
+| B-2 | DIAN normograma is "knowingly unstable" per operator | Fallback path quality | Step 3 demoted DIAN to fallback position | **RESOLVED** — `d00da64` |
+| B-3 | v5 produced 187 successes already on disk | Token waste if re-extracted | Step 4 (`--rerun-only-refusals`) | **RESOLVED** — `f91401b` |
+| B-4 | DUR article number parser regex truncated `1.1.1` to `1-1` | Slicer would miss every DUR article even with registry+chain in place | Parser regex fix (uncovered while writing step 2) | **RESOLVED** — `9940faf` (`_ARTICLE_HEADING_RE` now captures multi-segment) |
 
 ---
 
@@ -222,6 +238,39 @@ Wave 2 sub-total: **~285** new veredictos if SUIN has CST/CCo.
 ## 10. Run log (append-only, most recent on top)
 
 **Format:** `YYYY-MM-DD HH:MM TZ — <area> — <event>`
+
+---
+
+**2026-04-28 PM Bogotá — fixplan_v6 — engineering closed (steps 1-4 + 5a).**
+Five commits landed:
+* `cfe64bb` — step 1: SUIN canonical→doc-id registry build script + 7 tests. Output: 10 entries at `var/suin_doc_id_registry.json` (9 SUIN spine docs + `et` alias).
+* `9940faf` — step 2: full rewrite of `src/lia_graph/scrapers/suin_juriscol.py` (registry-backed slicer with three-tier cache + per-article slicing) + parser regex fix (`_ARTICLE_HEADING_RE` now captures multi-segment DUR numbers like `1.6.1.1.10`) + 12 new tests covering helpers, slicing, and a real-corpus DUR slice against the cached 17-MB DUR-1625 page.
+* `d00da64` — step 3: scraper chain reordered to `[Suin, Senado, Dian, CC, CE]`; `suin_juriscol` added to `_TRUSTED_GOVCO_SOURCE_IDS` so SUIN-only veredictos qualify for the `.gov.co` single-source rule. 2 new tests.
+* `f91401b` — steps 4 + 5a: `--rerun-only-refusals` flag in `extract_vigencia.py` (success-aware skip + malformed-fallthrough); `EXTRA_EXTRACT_FLAGS` passthrough in `launch_batch.sh`. 3 new tests.
+
+Test totals after engineering: 64 v6-relevant tests passing across `test_suin_doc_id_registry.py`, `test_suin_juriscol_scraper.py`, `test_scrapers.py`, `test_vigencia_extractor.py`, `test_extract_vigencia_rerun_only_refusals.py`. The pre-existing `tests/test_verify_suin_merge.py` failures are unrelated (script `scripts/verify_suin_merge.py` was removed in a prior commit).
+
+**Hidden blocker uncovered + closed in step 2:** the SUIN parser regex
+`_ARTICLE_HEADING_RE = ...\d+(?:[-.]\d+)?...` only allowed ONE optional
+`[-.]\d+` group, so DUR articles like "Artículo 1.1.1" were truncated
+to article_number="1-1". Even with the registry + slicer in place,
+slicing would have missed every DUR article. Fix: change `?` to `*`
+(verified against the cached DUR-1625 — 4 557 articles now have
+multi-segment numbers; e.g. `1-1-1` resolves correctly).
+
+**Cascade ready to run.** Step 5b is operator-trigger only:
+
+```bash
+EXTRA_EXTRACT_FLAGS="--rerun-only-refusals" \
+LIA_EXTRACT_WORKERS=8 \
+nohup bash scripts/canonicalizer/run_cascade_v5.sh \
+    > logs/cascade_v6_driver.log 2>&1 &
+disown; echo $! > /tmp/cascade_v6_driver.pid
+```
+
+Sanity-check after F2 closes (batch 1 of 8): pass-rate must be ≥70%
+or the slicer is misbehaving. Diagnose-before-continue per
+`feedback_diagnose_before_intervene`.
 
 ---
 
