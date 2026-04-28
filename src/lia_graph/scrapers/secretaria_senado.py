@@ -91,9 +91,11 @@ class SecretariaSenadoScraper(Scraper):
             parts = norm_id.split(".")
             if len(parts) < 3:
                 return None
-            num = parts[1]
+            # Senado pads ley NUM to 4 digits in the URL filename
+            # (`ley_0100_1993.html`, not `ley_100_1993.html`).
+            num4 = parts[1].zfill(4)
             year = parts[2]
-            return f"{_BASE_URL}/ley_{num}_{year}.html"
+            return f"{_BASE_URL}/ley_{num4}_{year}.html"
         return None
 
     def _parse_html(self, content: bytes) -> tuple[str, dict[str, Any]]:
