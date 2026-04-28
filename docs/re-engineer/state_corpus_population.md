@@ -53,7 +53,7 @@ If you are touching a brief whose status is 🔵 (in progress), check §10 for t
 | Verified vigencia rows in Postgres | **754** (Phases A–D) |
 | Target after Phases E–K | **~3,400** |
 | Briefs drafted | **12 of 12** |
-| Briefs ingested (✅) | **10 of 12** (11, 01, 08-G1, 07-F2, 02, 03, 04, 05, 12, 09) |
+| Briefs ingested (✅) | **11 of 12** (11, 01, 08-G1, 07-F2, 02, 03, 04, 05, 12, 09, 10) |
 | Briefs in progress (🔵) | **0 of 12** |
 | Briefs blocked | **0 of 12** |
 | Scraper gaps open | **5** (see §7 of master plan) |
@@ -98,7 +98,7 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ ingested · ⛔ block
 | 07 | [07_resoluciones_dian.md](corpus_population/07_resoluciones_dian.md) | F1, F2, F3, F4 | ~140 | ✅ DIAN works | ✅ (F2) | claude-opus-4-7 | 2026-04-28 | F2 ingested (111 ids; FE + nómina). F1/F3/F4 use keyword-based YAML patterns that don't match canonical form — YAML repair pending |
 | 08 | [08_conceptos_dian_unificados.md](corpus_population/08_conceptos_dian_unificados.md) | G1–G6 | ~390 | ✅ DIAN works | ✅ (G1) | claude-opus-4-7 | 2026-04-28 | G1 ingested (407 IVA numerales). G2–G5: expert delivered placeholder Renta concepto with 0 numerales — needs follow-up. |
 | 09 | [09_conceptos_dian_individuales.md](corpus_population/09_conceptos_dian_individuales.md) | H1, H2, H3a, H3b, H4a, H4b, H5, H6 | ~430 | ⚠️ Gap #2 | ✅ (H3a/b, H6) | claude-opus-4-7 | 2026-04-28 | 92 docs; H3a/b/H6 PASS, H1/H2/H4a/b/H5 MISS (keyword YAML patterns don't match canonical form) |
-| 10 | [10_jurisprudencia_cc_ce.md](corpus_population/10_jurisprudencia_cc_ce.md) | I1–I4 | ~70 | ⚠️ Gap #1 | 🟡 | unassigned | 2026-04-28 | I1 ✅ done; I2/I3 need parsed sentencias; I4 blocked by Gap #1 (Auto CE scraper) |
+| 10 | [10_jurisprudencia_cc_ce.md](corpus_population/10_jurisprudencia_cc_ce.md) | I1–I4 | ~70 | ⚠️ Gap #1 | ✅ (I1) | claude-opus-4-7 | 2026-04-28 | 16 CC sentencias ingested; I1 PASS. I2 YAML pattern uses Art. 338 keyword that doesn't match sentencia id form. I3/I4 blocked by CE delivery (deferred per expert) |
 | 11 | [11_pensional_salud_parafiscales.md](corpus_population/11_pensional_salud_parafiscales.md) | J5, J6, J7 | ~80 | ✅ DIAN ley.* works | ✅ | claude-opus-4-7 | 2026-04-28 | ingested 442 rows (439 articles + 3 parents) |
 | 12 | [12_cambiario_societario.md](corpus_population/12_cambiario_societario.md) | K1, K2, K3, K4 | ~150 | ❌ Gaps #4, #5 | ✅ (K3, K4) | claude-opus-4-7 | 2026-04-28 | 930 rows; K3 PASS (315 CCo arts), K4 PASS (2/2 explicit). K1/K2 MISS (BanRep not in delivery — Gap #5) |
 
@@ -252,6 +252,17 @@ Practical implication:
 **Format:** `YYYY-MM-DD HH:MM TZ — <brief or global> — <event>`
 
 ---
+
+**2026-04-28 (PM) Bogotá — brief 10 — ingested 16 rows (CC sentencias on principles).**
+Expert delivered 16 Corte Constitucional sentencias (C-098/2025, C-100/2022,
+C-1006/2008, C-110/2023, C-1383/2000, C-249/2013, C-291/2015, C-393/2016,
+C-419/1995, C-481/2019, C-525/2003, C-540/2023, C-577/2009, C-690/2003,
+C-748/2009, C-878/2011). Ingester expanded 2-digit years (00–30 → 2000s,
+31–99 → 1900s). Smoke I1=5/4 PASS (acid test). I2=0 — YAML pattern
+`^sent\.cc\.C-.*338\.2[0-1]` requires the literal "338" in the id, which
+sentencia canonical form `sent.cc.C-NNN.YYYY` doesn't include. I3/I4=0 —
+expert deferred CE sentencias + autos pending consejodeestado.gov.co
+JS-rendered SPA scraping work.
 
 **2026-04-28 (PM) Bogotá — brief 09 — ingested 92 rows (oficios + conceptos individuales).**
 65 oficios DIAN + 22 conceptos tributarios + 4 conceptos aduaneros + 1
