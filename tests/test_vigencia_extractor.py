@@ -269,6 +269,51 @@ def test_single_source_senado_refused_when_article_number_missing():
     assert result.single_source_accepted is None
 
 
+def test_trusted_govco_source_ids_includes_suin():
+    """fixplan_v6 §3 step 3 — SUIN-Juriscol joins the trusted .gov.co set."""
+
+    from lia_graph.vigencia_extractor import _TRUSTED_GOVCO_SOURCE_IDS
+
+    assert "suin_juriscol" in _TRUSTED_GOVCO_SOURCE_IDS
+    assert "secretaria_senado" in _TRUSTED_GOVCO_SOURCE_IDS
+    assert "dian_normograma" in _TRUSTED_GOVCO_SOURCE_IDS
+
+
+def test_single_source_suin_decreto_articulo_accepted():
+    """fixplan_v6 §3 step 3 — SUIN-only veredictos accepted when the body
+    references the DUR article (e.g. 1.6.1.1.10 from a sliced SUIN page)."""
+
+    suin_only = ScraperFetchResult(
+        norm_id="decreto.1625.2016.art.1.6.1.1.10",
+        source="suin_juriscol",
+        url="https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361",
+        fetched_at_utc="2026-04-28T00:00:00Z",
+        status_code=200,
+        parsed_text=(
+            "Artículo 1.6.1.1.10. Libros de contabilidad de las "
+            "organizaciones sindicales. ... (sliced article body)"
+        ),
+        parsed_meta={"sliced_to_article": "1.6.1.1.10", "suin_doc_id": "30030361"},
+        cache_hit=True,
+    )
+    harness = VigenciaSkillHarness(
+        scrapers=_registry_with(suin_only, None),
+        adapter_factory=lambda: _FakeAdapter(
+            {
+                "state": "V",
+                "state_from": "2016-10-11",
+                "applies_to_kind": "always",
+                "fuentes_primarias_consultadas": [
+                    {"norm_id": "suin", "norm_type": "url", "url": suin_only.url}
+                ],
+            }
+        ),
+    )
+    result = harness.verify_norm(norm_id="decreto.1625.2016.art.1.6.1.1.10")
+    assert result.veredicto is not None, result.refusal_reason
+    assert result.single_source_accepted == "suin_juriscol"
+
+
 def test_single_source_non_senado_still_refused():
     """The relaxation is Senado-only — DIAN-only must still refuse."""
 

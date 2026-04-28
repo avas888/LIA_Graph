@@ -141,11 +141,17 @@ class VigenciaSkillHarness:
         from lia_graph.scrapers.suin_juriscol import SuinJuriscolScraper
 
         cache = ScraperCache()
+        # fixplan_v6 §3 step 3 — SUIN-Juriscol moves to first position. Its
+        # per-article slicing (via the harvester's parse_document, fed by
+        # 3 387 cached HTML files at cache/suin/) gives the LLM ~2-5 KB of
+        # focused article body instead of the 3-MB DIAN normograma master
+        # page. DIAN drops to fallback. Per-norm chain on disagreement is
+        # still SUIN > Senado > DIAN > CC > CE.
         registry = ScraperRegistry(
             [
+                SuinJuriscolScraper(cache),
                 SecretariaSenadoScraper(cache),
                 DianNormogramaScraper(cache),
-                SuinJuriscolScraper(cache),
                 CorteConstitucionalScraper(cache),
                 ConsejoEstadoScraper(cache),
             ]
@@ -629,13 +635,15 @@ A single JSON object matching the schema above. Nothing else."""
 
 _SENADO_SOURCE_ID = "secretaria_senado"
 # Trusted .gov.co primary sources: any single one of these is acceptable
-# under the §3 #1 Approach B relaxation when SUIN is disabled and the
-# remaining scrapers don't double up. Adding `dian_normograma` here is what
-# unblocks the DUR-articulado batches (E1*/E2*/E3*/J8b/D5/F2) — DIAN
-# normograma is the single authoritative source for `decreto.1625.2016.*`,
-# `decreto.1072.2015.*`, `res.dian.*` and most `concepto.dian.*`. SUIN is
-# excluded because its scraper currently returns None for everything.
-_TRUSTED_GOVCO_SOURCE_IDS = frozenset({"secretaria_senado", "dian_normograma"})
+# under the §3 #1 Approach B relaxation when fewer than 2 sources double
+# up. fixplan_v6 §3 step 3 adds `suin_juriscol` — the SUIN scraper now
+# slices per-article body from cache/suin/, so when SUIN is the only
+# source that returned content (e.g. DIAN normograma 404s + Senado has
+# no segment for the norm), we accept its veredicto under the existing
+# `.gov.co` rule.
+_TRUSTED_GOVCO_SOURCE_IDS = frozenset(
+    {"suin_juriscol", "secretaria_senado", "dian_normograma"}
+)
 
 
 def _senado_single_source_accepted(
