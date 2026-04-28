@@ -742,12 +742,12 @@ _MENTION_FINDERS: tuple[re.Pattern[str], ...] = (
     re.compile(r"art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?\s*[^.\n]{0,40}?(?:e\.?t\.?|estatuto)", re.IGNORECASE),
     re.compile(r"(?:e\.?t\.?|estatuto\s+tributario)[^a-z0-9]{0,30}art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?", re.IGNORECASE),
     re.compile(r"ley\s+\d+(?:\s*(?:de|del|/|-)?\s*\d{4})?(?:[^.\n]{0,40}?art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?)?", re.IGNORECASE),
-    re.compile(r"decreto\s+\d+(?:\s*(?:de|del|/|-)?\s*\d{4})?", re.IGNORECASE),
-    re.compile(r"resoluci[óo]n\s+\w*\s*\d+(?:\s*(?:de|del|/|-)?\s*\d{4})?", re.IGNORECASE),
+    re.compile(r"decreto\s+\d+(?:\s*(?:de|del|/|-)?\s*\d{4})?(?:[^.\n]{0,40}?art(?:[íi]culo|\.)?\s*\d+(?:[\.\-]\d+)*)?", re.IGNORECASE),
+    re.compile(r"resoluci[óo]n\s+\w*\s*\d+(?:\s*(?:de|del|/|-)?\s*\d{4})?(?:[^.\n]{0,40}?art(?:[íi]culo|\.)?\s*\d+(?:-\d+)?)?", re.IGNORECASE),
     # Oficio with mandatory year — must precede the concepto/oficio finder so the longer
     # match wins via _dedupe_overlapping (oficio rule then routes to oficio.<emisor>.<NUM>.<YEAR>).
     re.compile(r"oficio\s*(?:dian)?\s*(?:n[°º]\.?|no\.?|n[uú]m(?:ero|\.)?)?\s*\d+(?:-\d+)?\s*(?:de|del|/|-)\s*\d{4}", re.IGNORECASE),
-    re.compile(r"(?:concepto|oficio)(?:\s+unificado)?\s+(?:dian\s+)?\d+(?:-\d+)?(?:\s+num(?:eral|\.)?\s*\d+)?", re.IGNORECASE),
+    re.compile(r"(?:concepto|oficio)(?:\s+unificado)?\s+(?:dian\s+)?\d+(?:-\d+)?(?:[^.\n]{0,30}?num(?:eral|\.)?\s*\d+)?", re.IGNORECASE),
     re.compile(r"sentencia\s+(?:c|t|su|a)-?\d+\s*(?:de|del|/|-)\s*\d{4}", re.IGNORECASE),
     re.compile(r"auto\s+\d+\s*(?:de|del|/|-)?\s*\d{4}", re.IGNORECASE),
     # CST — both directions

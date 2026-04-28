@@ -53,7 +53,7 @@ If you are touching a brief whose status is 🔵 (in progress), check §10 for t
 | Verified vigencia rows in Postgres | **754** (Phases A–D) |
 | Target after Phases E–K | **~3,400** |
 | Briefs drafted | **12 of 12** |
-| Briefs ingested (✅) | **2 of 12** (briefs 11, 01) |
+| Briefs ingested (✅) | **3 of 12** (briefs 11, 01, 08-G1) |
 | Briefs in progress (🔵) | **0 of 12** |
 | Briefs blocked | **0 of 12** |
 | Scraper gaps open | **5** (see §7 of master plan) |
@@ -96,7 +96,7 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ ingested · ⛔ block
 | 05 | [05_dur_1072_laboral.md](corpus_population/05_dur_1072_laboral.md) | E6a–E6c, J8a–J8c | ~250 | ✅ DIAN handles URL pattern | 🟡 | unassigned | 2026-04-28 | DIAN URL returned 404 during research; verify primary source before parsing |
 | 06 | [06_decretos_legislativos_covid.md](corpus_population/06_decretos_legislativos_covid.md) | E5 | ~30 | ⚠️ Gap #3 | 🟡 | unassigned | 2026-04-28 | Gap #3 (DIAN scraper URL-filename extension; canonical id stays as plain `decreto.<NUM>.<YEAR>`) |
 | 07 | [07_resoluciones_dian.md](corpus_population/07_resoluciones_dian.md) | F1, F2, F3, F4 | ~140 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | none |
-| 08 | [08_conceptos_dian_unificados.md](corpus_population/08_conceptos_dian_unificados.md) | G1–G6 | ~390 | ✅ DIAN works | 🟡 | unassigned | 2026-04-28 | numeral-splitting parser is novel; pilot on G6 first |
+| 08 | [08_conceptos_dian_unificados.md](corpus_population/08_conceptos_dian_unificados.md) | G1–G6 | ~390 | ✅ DIAN works | ✅ (G1) | claude-opus-4-7 | 2026-04-28 | G1 ingested (407 IVA numerales). G2–G5: expert delivered placeholder Renta concepto with 0 numerales — needs follow-up. |
 | 09 | [09_conceptos_dian_individuales.md](corpus_population/09_conceptos_dian_individuales.md) | H1, H2, H3a, H3b, H4a, H4b, H5, H6 | ~430 | ⚠️ Gap #2 | 🟡 | unassigned | 2026-04-28 | Gap #2 (oficio.dian.* scraper case) + YAML regex tightening required |
 | 10 | [10_jurisprudencia_cc_ce.md](corpus_population/10_jurisprudencia_cc_ce.md) | I1–I4 | ~70 | ⚠️ Gap #1 | 🟡 | unassigned | 2026-04-28 | I1 ✅ done; I2/I3 need parsed sentencias; I4 blocked by Gap #1 (Auto CE scraper) |
 | 11 | [11_pensional_salud_parafiscales.md](corpus_population/11_pensional_salud_parafiscales.md) | J5, J6, J7 | ~80 | ✅ DIAN ley.* works | ✅ | claude-opus-4-7 | 2026-04-28 | ingested 442 rows (439 articles + 3 parents) |
@@ -252,6 +252,26 @@ Practical implication:
 **Format:** `YYYY-MM-DD HH:MM TZ — <brief or global> — <event>`
 
 ---
+
+**2026-04-28 (PM) Bogotá — brief 08 — ingested 408 rows (G1 IVA Unificado complete).**
+Concepto General Unificado IVA — 0001 de 2003 fully parsed (1 parent + 406
+numerales + 1 second-parent for Concepto 0001/2018). Expert noted Concepto
+0001/2018 (Renta) had 0 numerales delivered — placeholder. G2/G3/G4/G5 stay
+🟡 pending follow-up delivery. G6 acid test continues to PASS via existing
+fixture (5 ids).
+*Two related changes shipped in this commit:*
+* `src/lia_graph/canon.py` — extended decreto, resolución, and
+  concepto/oficio mention-finder regexes with the same optional-art /
+  optional-numeral group the ley finder already had. Without this,
+  article-level decreto / resolución ids and numeral-level concepto ids
+  never reach the input set (find_mentions only captured the parent
+  span). Tests: 118/118 still passing.
+* `config/canonicalizer_run_v1/batches.yaml` — G1 placeholder regex
+  `^concepto\.dian\.001\.2003` (which canon never matched) replaced with
+  `^concepto\.dian\.0001-2003(\.|$)` to align with the canonical form
+  produced by `_make_parent_row` + the numeral handler.
+parsed_articles 8564 → 8972; input set 12 547 → 14 622 unique norm_ids.
+Smoke G1=407/60 PASS, G6=5/1 PASS.
 
 **2026-04-28 (PM) Bogotá — brief 01 — ingested 200 CST articles.**
 SUIN-Juriscol delivery had 250 article-headings but 50 were repeats (same

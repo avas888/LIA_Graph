@@ -109,8 +109,11 @@ _PARENT_RES_DIAN_RE = re.compile(
 )
 
 # "Concepto General Unificado <X> — NNNN de YYYY"
+# Also matches "Concepto Unificado NNNN de YYYY (topic)" — second-position topic.
 _PARENT_CONCEPTO_UNIF_RE = re.compile(
-    r"^\s*Concepto(?:\s+General)?\s+Unificado\s+(?P<topic>[A-ZÁÉÍÓÚÑa-záéíóúñ ]+?)\s*[—-]\s*(?P<num>\d+)\s+de\s+(?P<year>\d{4})\b",
+    r"^\s*Concepto(?:\s+General)?\s+Unificado"
+    r"(?:\s+[A-Za-zÁÉÍÓÚÑáéíóúñ /\-]+?\s*[—-]\s*)?\s+"
+    r"(?P<num>\d+)\s+de\s+(?P<year>\d{4})\b",
     re.IGNORECASE,
 )
 

@@ -800,7 +800,7 @@
   depends_on: [C1, C2]
   norm_filter:
     type: regex
-    pattern: "^concepto\\.dian\\.001\\.2003"  # placeholder — adjust to actual concepto unificado IVA id
+    pattern: "^concepto\\.dian\\.0001-2003(\\.|$)"  # Concepto General Unificado IVA — 0001 de 2003
 
 - batch_id: G2
   phase: G
