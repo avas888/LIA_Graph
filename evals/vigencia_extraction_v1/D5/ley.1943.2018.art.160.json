@@ -1,0 +1,28 @@
+{
+  "norm_id": "ley.1943.2018.art.160",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.1943.2018",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T01:46:12.980858+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "http://www.secretariasenado.gov.co/senado/basedoc/ley_1943_2018.html (no contiene el artículo 160)",
+      "https://normograma.dian.gov.co/dian/compilacion/docs/ley_1943_2018.htm (no contiene el artículo 160)"
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 20391,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

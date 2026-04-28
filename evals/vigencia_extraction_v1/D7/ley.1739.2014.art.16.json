@@ -1,0 +1,77 @@
+{
+  "norm_id": "ley.1739.2014.art.16",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.1739.2014",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T01:46:06.750972+00:00",
+  "result": {
+    "veredicto": {
+      "state": "DT",
+      "state_from": "2017-01-01",
+      "state_until": null,
+      "applies_to_kind": "per_year",
+      "applies_to_payload": {
+        "year_start": 2015,
+        "year_end": 2016,
+        "impuesto": "cree",
+        "period_start": "2015-01-01",
+        "period_end": "2016-12-31",
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "derogacion_tacita",
+        "source_norm_id": "ley.1819.2016.art.100",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2017-01-01"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": {
+        "norm_id": "ley.1819.2016.art.100",
+        "norm_type": "ley",
+        "article": "Art. 100",
+        "fecha": "2016-12-29",
+        "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1819_2016.html"
+      },
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": "2014-12-22",
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1739_2014.html",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "https://normograma.dian.gov.co/dian/compilacion/docs/ley_1739_2014.htm",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 127682,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

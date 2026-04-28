@@ -1,0 +1,38 @@
+{
+  "ts_bogota": "2026-04-27 09:11:15 PM Bogotá",
+  "batch_id": "D5",
+  "mode": "pre",
+  "run_id": "baseline-D5-20260428T021114Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Ley 1943/2018 está vigente?",
+      "expected": {
+        "q": "¿Ley 1943/2018 está vigente?",
+        "must_cite": [
+          "ley.1943.2018",
+          "sent.cc.C-481.2019"
+        ],
+        "expected_chip_state": {
+          "ley.1943.2018": "IE"
+        },
+        "notes": "Acid test — every cited article must show IE chip + sentencia C-481/2019. Cascade orchestrator should fire."
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    },
+    {
+      "index": 2,
+      "question": "¿Tarifa renta Ley 1943 sigue aplicando?",
+      "expected": {
+        "q": "¿Tarifa renta Ley 1943 sigue aplicando?",
+        "notes": "Must explain that post-IE the rates fell; current rates come from Ley 2010/2019 + Ley 2277/2022."
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    }
+  ]
+}

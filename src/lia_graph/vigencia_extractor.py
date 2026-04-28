@@ -451,11 +451,27 @@ JSON object for the norm_id below.
     `interpretive_constraint` MUST be `null`. NEVER use this field for
     free-text editorial notes, transitory comments, or paraphrases.
 
-6. **Refuse only when forced.** If you don't have ≥ 2 primary sources
-   with evidence about the norm, return:
-   `{{"refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES", "missing_sources": ["..."]}}`.
+6. **Refuse only as last resort.** Prefer 2 primary sources with
+   independent evidence about the norm. **BUT** if only one source
+   contains the specific article you're extracting AND that source is
+   an authoritative `.gov.co` site (DIAN normograma, Secretaría del
+   Senado, SUIN-Juriscol, Corte Constitucional, Consejo de Estado),
+   PROCEED with the extraction using that single source. Note this
+   in the audit by setting `fuente_verificada_directo: true` only on
+   the source that actually contained the article.
+
+   Refuse with:
+   `{{"refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES", "missing_sources": ["..."]}}`
+   ONLY when:
+   - Zero `.gov.co` sources contain the article, OR
+   - The two sources contradict each other on a material point (state,
+     date, or change_source) AND you cannot pick the canonical reading.
+
    Do NOT refuse just because the evidence is "complex" or "ambiguous" —
-   pick the best-supported state and explain via `interpretive_constraint`.
+   pick the best-supported state and explain via `interpretive_constraint`
+   when relevant. Do NOT refuse just because the secondary source is
+   truncated or covers a different article — work with the source that
+   has the article.
 
 # Output schema (literal example — match this shape)
 

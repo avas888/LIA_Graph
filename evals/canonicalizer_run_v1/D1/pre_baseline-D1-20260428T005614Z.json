@@ -1,0 +1,65 @@
+{
+  "ts_bogota": "2026-04-27 07:56:15 PM Bogotá",
+  "batch_id": "D1",
+  "mode": "pre",
+  "run_id": "baseline-D1-20260428T005614Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Qué artículo de la Ley 2277 modificó la tarifa renta de S.A.S.?",
+      "expected": {
+        "q": "¿Qué artículo de la Ley 2277 modificó la tarifa renta de S.A.S.?",
+        "must_cite": [
+          "ley.2277.2022.art.10"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    },
+    {
+      "index": 2,
+      "question": "¿Art. 11 Ley 2277 sobre zonas francas — está vigente?",
+      "expected": {
+        "q": "¿Art. 11 Ley 2277 sobre zonas francas — está vigente?",
+        "must_cite": [
+          "ley.2277.2022.art.11"
+        ],
+        "expected_chip_state": {
+          "ley.2277.2022.art.11": "EC"
+        }
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    },
+    {
+      "index": 3,
+      "question": "¿Art. 96 Ley 2277 derogó cuáles artículos del ET?",
+      "expected": {
+        "q": "¿Art. 96 Ley 2277 derogó cuáles artículos del ET?",
+        "must_cite": [
+          "ley.2277.2022.art.96",
+          "et.art.158-1"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    },
+    {
+      "index": 4,
+      "question": "¿Qué impuesto al patrimonio creó la Ley 2277?",
+      "expected": {
+        "q": "¿Qué impuesto al patrimonio creó la Ley 2277?",
+        "must_cite": [
+          "ley.2277.2022.art.35"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    }
+  ]
+}

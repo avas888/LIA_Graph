@@ -1,0 +1,25 @@
+{
+  "norm_id": "ley.1819.2016.art.344",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.1819.2016",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T02:51:47.592875+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "invalid_vigencia_shape: reforma requires effect_type in {'pro_futuro', 'per_period'}; got diferido",
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 49980,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

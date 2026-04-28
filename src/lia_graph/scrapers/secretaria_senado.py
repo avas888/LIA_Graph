@@ -116,9 +116,19 @@ class SecretariaSenadoScraper(Scraper):
         result = super().fetch(norm_id)
         if result is None:
             return None
-        if not norm_id.startswith("et.art."):
+
+        # Article-scoped slicing for ET articles AND ley.*.art.* norms.
+        # Both page types use `<a class="bookmarkaj" name="N">` anchors,
+        # so the slicer is identical.
+        article: str | None = None
+        if norm_id.startswith("et.art."):
+            article = norm_id.split(".", 2)[2]
+        elif norm_id.startswith("ley.") and ".art." in norm_id:
+            after_art = norm_id.split(".art.", 1)[1]
+            # Sub-units like ".par.1" / ".num.5" → trim to base article id.
+            article = after_art.split(".", 1)[0]
+        if article is None:
             return result
-        article = norm_id.split(".", 2)[2]
         sliced = _slice_article_senado(result.parsed_text or "", article)
         if not sliced:
             return result

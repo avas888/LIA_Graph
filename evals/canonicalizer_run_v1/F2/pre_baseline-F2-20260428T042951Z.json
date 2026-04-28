@@ -1,0 +1,22 @@
+{
+  "ts_bogota": "2026-04-27 11:29:51 PM Bogotá",
+  "batch_id": "F2",
+  "mode": "pre",
+  "run_id": "baseline-F2-20260428T042951Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Quiénes están obligados a facturar electrónicamente?",
+      "expected": {
+        "q": "¿Quiénes están obligados a facturar electrónicamente?",
+        "must_cite": [
+          "res.dian.165.2023"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 7
+    }
+  ]
+}

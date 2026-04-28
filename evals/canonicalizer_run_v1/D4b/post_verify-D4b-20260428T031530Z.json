@@ -1,0 +1,22 @@
+{
+  "ts_bogota": "2026-04-27 10:17:15 PM Bogotá",
+  "batch_id": "D4b",
+  "mode": "post",
+  "run_id": "verify-D4b-20260428T031530Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Ley 1819 modificó la sanción por inexactitud?",
+      "expected": {
+        "q": "¿Ley 1819 modificó la sanción por inexactitud?",
+        "must_cite": [
+          "ley.1819.2016.art.287"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    }
+  ]
+}

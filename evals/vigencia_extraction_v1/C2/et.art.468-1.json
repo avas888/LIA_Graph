@@ -1,0 +1,106 @@
+{
+  "norm_id": "et.art.468-1",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T00:19:19.548013+00:00",
+  "result": {
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2020-04-15",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": "iva",
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "decreto_legislativo.575.2020.art.12",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2020-04-15"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": {
+        "norm_id": "ley.1943.2018.art.122",
+        "norm_type": "ley",
+        "article": "Art. 122",
+        "fecha": "2018-12-28",
+        "primary_source_url": null
+      },
+      "modificado_por": [
+        {
+          "norm_id": "ley.1819.2016.art.185",
+          "norm_type": "ley",
+          "article": "Art. 185",
+          "fecha": "2016-12-29",
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "ley.2010.2019.art.9",
+          "norm_type": "ley",
+          "article": "Art. 9",
+          "fecha": "2019-12-27",
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "ley.1955.2019.art.74",
+          "norm_type": "ley",
+          "article": "Art. 74",
+          "fecha": "2019-05-25",
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "decreto_legislativo.575.2020.art.12",
+          "norm_type": "decreto_legislativo",
+          "article": "Art. 12",
+          "fecha": "2020-04-15",
+          "primary_source_url": null
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "senado_estatuto_tributario",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_compilacion_et",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 175307,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "ts_bogota": "2026-04-27 07:56:14 PM Bogotá",
+  "batch_id": "C2",
+  "mode": "post",
+  "run_id": "verify-C2-20260428T005429Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Tarifa de IVA para servicios profesionales?",
+      "expected": {
+        "q": "¿Tarifa de IVA para servicios profesionales?",
+        "must_cite": [
+          "et.art.468"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    },
+    {
+      "index": 2,
+      "question": "¿IVA en alimentos básicos?",
+      "expected": {
+        "q": "¿IVA en alimentos básicos?",
+        "must_cite": [
+          "et.art.477",
+          "et.art.481"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    },
+    {
+      "index": 3,
+      "question": "¿IVA en libros impresos?",
+      "expected": {
+        "q": "¿IVA en libros impresos?",
+        "must_cite": [
+          "et.art.478"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    }
+  ]
+}

@@ -83,6 +83,8 @@ class DianNormogramaScraper(Scraper):
         "concepto_dian_numeral",
         "estatuto",
         "articulo_et",
+        "ley",
+        "ley_articulo",
     }
 
     def _resolve_url(self, norm_id: str) -> str | None:
@@ -90,6 +92,14 @@ class DianNormogramaScraper(Scraper):
         # Article-scoped slicing happens in `fetch()` below.
         if norm_id == "et" or norm_id.startswith("et."):
             return _ET_FULL_URL
+        # Leyes — DIAN normograma hosts most reform laws as one page each.
+        # Per-article slicing applies via `<a name="N">` anchors (same shape
+        # as Senado). Pattern: ley_<NUM>_<YEAR>.htm.
+        if norm_id.startswith("ley."):
+            parts = norm_id.split(".")
+            if len(parts) < 3:
+                return None
+            return f"{_BASE_URL}/ley_{parts[1]}_{parts[2]}.htm"
         if norm_id.startswith("decreto."):
             parts = norm_id.split(".")
             if len(parts) < 3:
@@ -124,15 +134,25 @@ class DianNormogramaScraper(Scraper):
 
     def fetch(self, norm_id: str) -> ScraperFetchResult | None:
         # Get the full document via the base implementation — single cache
-        # hit serves every ET article.
+        # hit serves every article in that doc.
         result = super().fetch(norm_id)
         if result is None:
             return None
-        if not (norm_id == "et" or norm_id.startswith("et.art.")):
-            return result
-        if norm_id == "et":
-            return result  # full ET requested — return the whole document
-        article = norm_id.split(".", 2)[2]
+
+        # Determine the article id (if any) to slice to. ET sub-units like
+        # "et.art.689-3" use the trailing "689-3" segment; ley sub-units like
+        # "ley.2155.2021.art.12" use the trailing "12" segment.
+        article: str | None = None
+        if norm_id.startswith("et.art."):
+            article = norm_id.split(".", 2)[2]
+        elif ".art." in norm_id and norm_id.startswith("ley."):
+            # ley.<NUM>.<YEAR>.art.<X>  →  X is the segment after ".art."
+            after_art = norm_id.split(".art.", 1)[1]
+            # Sub-unit shapes (e.g. ".par.1") trim to just the article id.
+            article = after_art.split(".", 1)[0]
+        if article is None:
+            return result  # whole-document request (et, ley.NUM.YEAR root, etc.)
+
         sliced = _slice_article(result.parsed_text or "", article)
         if not sliced:
             # No anchor found for this article — return the original (full)

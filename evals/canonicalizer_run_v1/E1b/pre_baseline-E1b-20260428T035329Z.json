@@ -1,0 +1,22 @@
+{
+  "ts_bogota": "2026-04-27 10:53:29 PM Bogotá",
+  "batch_id": "E1b",
+  "mode": "pre",
+  "run_id": "baseline-E1b-20260428T035329Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Cómo se prueba el cumplimiento de requisitos de Art. 107 ET?",
+      "expected": {
+        "q": "¿Cómo se prueba el cumplimiento de requisitos de Art. 107 ET?",
+        "must_cite": [
+          "decreto.1625.2016"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "ts_utc": "2026-04-28T00:11:23.805984+00:00",
+  "ts_bogota": "2026-04-27 7:11:23 PM Bogotá",
+  "batch_id": "C4",
+  "run_id": "canonicalizer-C4-20260427T235617Z",
+  "phase": "complete",
+  "state": "complete",
+  "headline": "10/10 done · 100.0% · 8 ✅ · 2 🛑 · 0 ❌ · ETA — · 0.01 norms/sec",
+  "total": 10,
+  "processed": 10,
+  "pending": 0,
+  "skipped": 0,
+  "successes": 8,
+  "refusals": 2,
+  "errors": 0,
+  "percent": 100.0,
+  "rate_norms_per_sec": 0.011,
+  "rate_norms_per_min": 0.66,
+  "eta": "—",
+  "elapsed": "15m 06s",
+  "elapsed_seconds": 906,
+  "fresh_seconds": 32,
+  "fresh_label": "FRESH ✅ (≤ 180s)",
+  "last_event_ts_utc": "2026-04-28T00:10:51.313062+00:00",
+  "state_counts": {
+    "VM": 5,
+    "V": 3
+  },
+  "refusal_reasons_top": {
+    "invalid_vigencia_shape: reforma requires effect_type in {'pro_futuro', 'per_period'}; got retroactivo": 1,
+    "adapter_error: DeepSeek request failed: [Errno 54] Connection reset by peer": 1
+  },
+  "errors_recent": [],
+  "files_written": 10,
+  "process_alive": null,
+  "cli_done_summary": {
+    "successes": 8,
+    "refusals": 2,
+    "errors": 0,
+    "skipped": 0
+  },
+  "refusal_rate": 0.2
+}

@@ -1,0 +1,27 @@
+{
+  "norm_id": "ley.2155.2021.art.14",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.2155.2021",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T01:00:08.434070+00:00",
+  "result": {
+    "veredicto": null,
+    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
+    "missing_sources": [
+      "The secretaria_senado source did not include the text of article 14, only articles 1 to 7; therefore, the evidence for article 14 is insufficient to determine its full normative state and the exact interpretive condition imposed by the Constitutional Court. The dian_normograma source alone does not provide the specific sentencia text or the exact 'en el entendido que' clause required for an EC state."
+    ],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 101094,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

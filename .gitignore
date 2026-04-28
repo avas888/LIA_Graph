@@ -73,3 +73,5 @@ artifacts/delta_delta_*.json
 evals/runs/*.jsonl
 evals/runs/*_manifest.json
 !evals/runs/*__summary.json
+logs/parallel_*_extract.log
+logs/pool_*.log

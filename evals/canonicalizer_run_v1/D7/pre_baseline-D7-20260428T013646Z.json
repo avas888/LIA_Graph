@@ -1,0 +1,22 @@
+{
+  "ts_bogota": "2026-04-27 08:36:46 PM Bogotá",
+  "batch_id": "D7",
+  "mode": "pre",
+  "run_id": "baseline-D7-20260428T013646Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Qué creó la Ley 1739/2014 sobre el impuesto a la riqueza?",
+      "expected": {
+        "q": "¿Qué creó la Ley 1739/2014 sobre el impuesto a la riqueza?",
+        "must_cite": [
+          "ley.1739.2014"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    }
+  ]
+}

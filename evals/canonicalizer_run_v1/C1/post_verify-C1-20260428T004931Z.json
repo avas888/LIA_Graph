@@ -1,0 +1,49 @@
+{
+  "ts_bogota": "2026-04-27 07:51:00 PM Bogotá",
+  "batch_id": "C1",
+  "mode": "post",
+  "run_id": "verify-C1-20260428T004931Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿La venta de un activo fijo genera IVA?",
+      "expected": {
+        "q": "¿La venta de un activo fijo genera IVA?",
+        "must_cite": [
+          "et.art.420"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    },
+    {
+      "index": 2,
+      "question": "¿La importación de servicios genera IVA?",
+      "expected": {
+        "q": "¿La importación de servicios genera IVA?",
+        "must_cite": [
+          "et.art.420",
+          "et.art.437-2"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    },
+    {
+      "index": 3,
+      "question": "¿Base gravable en venta de inmuebles?",
+      "expected": {
+        "q": "¿Base gravable en venta de inmuebles?",
+        "must_cite": [
+          "et.art.447"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    }
+  ]
+}

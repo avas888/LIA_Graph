@@ -1,0 +1,70 @@
+{
+  "norm_id": "ley.1739.2014.art.26",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.1739.2014",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T01:50:27.722004+00:00",
+  "result": {
+    "veredicto": {
+      "state": "V",
+      "state_from": "2014-12-22",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": null,
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": {
+        "norm_id": "sentencia_c_200_2016",
+        "norm_type": "sentencia_cc",
+        "article": "Parágrafo 4 del art. 206 E.T., aparte: 'cuyos pagos o abonos en cuenta no provengan de una relación laboral, o legal y reglamentaria'",
+        "fecha": "2016-04-20",
+        "primary_source_url": null
+      },
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "ley_1739_2014_secretaria_senado",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "ley_1739_2014_dian_normograma",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 131054,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

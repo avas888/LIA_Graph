@@ -8,3 +8,10 @@ Started: 2026-04-27 06:37:26 PM Bogotá
 | Phase | Batches | Started (Bogotá) | Ended (Bogotá) | Verdict | Notes |
 |---|---|---|---|---|---|
 | B-rerun-weak | B10 | 2026-04-27 06:37:26 PM Bogotá | 2026-04-27 06:38:20 PM Bogotá | 33% |  |
+| C | C1 C3 C4 C2 | 2026-04-27 06:38:20 PM Bogotá | 2026-04-27 07:56:14 PM Bogotá | 95% |  |
+| D | D1 D2 D3 D4a D5 D6a D7 D8a D4b D6b D8b D8c | 2026-04-27 07:56:14 PM Bogotá | 2026-04-27 10:24:18 PM Bogotá | 88% | rerun: D8b |
+| E | E1a E2a E2c E3a E4 E5 E6a E1b E2b E3b E6b E1c E6c E1d E1e E1f | 2026-04-27 10:24:18 PM Bogotá | 2026-04-27 11:22:41 PM Bogotá | 0% | rerun: E1a E1b E1c E1d E1e E1f E2a E2b E2c E3a E3b E4 E5 E6a E6b E6c |
+| F | F1 F2 F3 F4 | 2026-04-27 11:22:41 PM Bogotá | 2026-04-27 11:37:00 PM Bogotá | 0% | rerun: F1 F2 F3 F4 |
+| (halt) | (n/a) | 2026-04-27 11:37:00 PM Bogotá | 2026-04-27 11:37:00 PM Bogotá | HALT | consecutive low rates ≥ 2; presumed quota |
+
+Campaign ended: 2026-04-27 11:37:00 PM Bogotá

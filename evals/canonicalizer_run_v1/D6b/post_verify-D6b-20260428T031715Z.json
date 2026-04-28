@@ -1,0 +1,22 @@
+{
+  "ts_bogota": "2026-04-27 10:19:00 PM Bogotá",
+  "batch_id": "D6b",
+  "mode": "post",
+  "run_id": "verify-D6b-20260428T031715Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Ganancias ocasionales tarifa pre-Ley 1607?",
+      "expected": {
+        "q": "¿Ganancias ocasionales tarifa pre-Ley 1607?",
+        "must_cite": [
+          "ley.1607.2012.art.104"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    }
+  ]
+}

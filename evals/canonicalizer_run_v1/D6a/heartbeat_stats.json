@@ -1,0 +1,44 @@
+{
+  "ts_utc": "2026-04-28T02:15:03.700166+00:00",
+  "ts_bogota": "2026-04-27 9:15:03 PM Bogotá",
+  "batch_id": "D6a",
+  "run_id": "canonicalizer-D6a-20260428T013251Z",
+  "phase": "complete",
+  "state": "complete",
+  "headline": "30/30 done · 100.0% · 29 ✅ · 1 🛑 · 0 ❌ · ETA — · 0.01 norms/sec",
+  "total": 30,
+  "processed": 30,
+  "pending": 0,
+  "skipped": 0,
+  "successes": 29,
+  "refusals": 1,
+  "errors": 0,
+  "percent": 100.0,
+  "rate_norms_per_sec": 0.0118,
+  "rate_norms_per_min": 0.71,
+  "eta": "—",
+  "elapsed": "42m 12s",
+  "elapsed_seconds": 2532,
+  "fresh_seconds": 48,
+  "fresh_label": "FRESH ✅ (≤ 180s)",
+  "last_event_ts_utc": "2026-04-28T02:14:15.313219+00:00",
+  "state_counts": {
+    "V": 23,
+    "DE": 3,
+    "DT": 2,
+    "VM": 1
+  },
+  "refusal_reasons_top": {
+    "adapter_error: DeepSeek request failed: IncompleteRead(2 bytes read)": 1
+  },
+  "errors_recent": [],
+  "files_written": 30,
+  "process_alive": null,
+  "cli_done_summary": {
+    "successes": 29,
+    "refusals": 1,
+    "errors": 0,
+    "skipped": 0
+  },
+  "refusal_rate": 0.0333
+}

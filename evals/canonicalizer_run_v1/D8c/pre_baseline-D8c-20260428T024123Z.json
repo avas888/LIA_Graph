@@ -1,0 +1,22 @@
+{
+  "ts_bogota": "2026-04-27 09:41:24 PM Bogotá",
+  "batch_id": "D8c",
+  "mode": "pre",
+  "run_id": "baseline-D8c-20260428T024123Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Modificaciones a impuestos saludables en el PND?",
+      "expected": {
+        "q": "¿Modificaciones a impuestos saludables en el PND?",
+        "must_cite": [
+          "ley.2294.2023"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 5
+    }
+  ]
+}

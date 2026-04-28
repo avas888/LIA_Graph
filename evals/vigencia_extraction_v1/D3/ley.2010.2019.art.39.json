@@ -1,0 +1,64 @@
+{
+  "norm_id": "ley.2010.2019.art.39",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.2010.2019",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T01:42:57.477075+00:00",
+  "result": {
+    "veredicto": {
+      "state": "V",
+      "state_from": "2019-12-27",
+      "state_until": null,
+      "applies_to_kind": "per_year",
+      "applies_to_payload": {
+        "year_start": 2020,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": "2020-01-01",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": null,
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": "2019-12-27",
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "secretaria_senado_ley_2010_2019",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_normograma_ley_2010_2019",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 66684,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

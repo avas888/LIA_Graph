@@ -1,0 +1,77 @@
+{
+  "norm_id": "ley.1739.2014.art.20",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.1739.2014",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T01:48:08.038376+00:00",
+  "result": {
+    "veredicto": {
+      "state": "IE",
+      "state_from": "2015-05-21",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "sentencia_cc",
+        "source_norm_id": "sentencia.C-291-2015",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2015-05-21"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": {
+        "norm_id": "sentencia.C-291-2015",
+        "norm_type": "sentencia",
+        "article": "Art. 20",
+        "fecha": "2015-05-21",
+        "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/2015/C-291-15.htm"
+      },
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "ley_1739_2014_secretaria_senado",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "ley_1739_2014_dian_normograma",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 112638,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

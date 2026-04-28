@@ -1,0 +1,46 @@
+{
+  "ts_bogota": "2026-04-27 11:29:51 PM Bogotá",
+  "batch_id": "F1",
+  "mode": "pre",
+  "run_id": "baseline-F1-20260428T042951Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿UVT 2025?",
+      "expected": {
+        "q": "¿UVT 2025?",
+        "must_cite": [
+          "res.dian"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 7
+    },
+    {
+      "index": 2,
+      "question": "¿UVT 2018 para revisar declaración antigua?",
+      "expected": {
+        "q": "¿UVT 2018 para revisar declaración antigua?",
+        "notes": "Validates for_period at the parameter-resolution layer."
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    },
+    {
+      "index": 3,
+      "question": "¿Plazos declaración renta personas jurídicas AG 2025?",
+      "expected": {
+        "q": "¿Plazos declaración renta personas jurídicas AG 2025?",
+        "must_cite": [
+          "res.dian"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "ts_bogota": "2026-04-27 10:10:18 PM Bogotá",
+  "batch_id": "D6a",
+  "mode": "post",
+  "run_id": "verify-D6a-20260428T030832Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿CREE estaba en la Ley 1607?",
+      "expected": {
+        "q": "¿CREE estaba en la Ley 1607?",
+        "must_cite": [
+          "ley.1607.2012.art.20"
+        ],
+        "notes": "CREE was created by Ley 1607 then derogated by Ley 1819/2016."
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 7
+    }
+  ]
+}

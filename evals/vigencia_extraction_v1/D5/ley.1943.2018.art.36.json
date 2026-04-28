@@ -1,0 +1,77 @@
+{
+  "norm_id": "ley.1943.2018.art.36",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.1943.2018",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T02:03:53.125357+00:00",
+  "result": {
+    "veredicto": {
+      "state": "IE",
+      "state_from": "2020-01-01",
+      "state_until": null,
+      "applies_to_kind": "per_year",
+      "applies_to_payload": {
+        "year_start": 2019,
+        "year_end": 2019,
+        "impuesto": "patrimonio",
+        "period_start": "2019-01-01",
+        "period_end": "2019-12-31",
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "sentencia_cc",
+        "source_norm_id": "c-481-19",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2020-01-01"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": {
+        "norm_id": "c-481-19",
+        "norm_type": "sentencia_cc",
+        "article": null,
+        "fecha": "2019-10-16",
+        "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/2019/C-481-19.htm"
+      },
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "secretaria_senado_ley_1943_2018",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "normograma_dian_ley_1943_2018",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 83467,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

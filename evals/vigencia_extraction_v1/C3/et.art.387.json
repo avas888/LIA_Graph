@@ -1,0 +1,86 @@
+{
+  "norm_id": "et.art.387",
+  "norm_type": "articulo_et",
+  "parent_norm_id": "et",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-27T23:56:30.125675+00:00",
+  "result": {
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2024-12-13",
+      "state_until": null,
+      "applies_to_kind": "per_period",
+      "applies_to_payload": {
+        "year_start": 2013,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": "2013-01-01",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "ley.2411.2024.art.2",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2024-12-13"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "ley.1607.2012.art.15",
+          "norm_type": "ley",
+          "article": "Art. 15",
+          "fecha": "2012-12-26",
+          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_1607_2012.html"
+        },
+        {
+          "norm_id": "ley.2411.2024.art.2",
+          "norm_type": "ley",
+          "article": "Art. 2",
+          "fecha": "2024-12-13",
+          "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_2411_2024.html"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "secretaria_senado",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_normograma",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 64366,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

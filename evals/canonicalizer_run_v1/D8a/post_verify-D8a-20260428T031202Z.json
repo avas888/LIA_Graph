@@ -1,0 +1,23 @@
+{
+  "ts_bogota": "2026-04-27 10:15:30 PM Bogotá",
+  "batch_id": "D8a",
+  "mode": "post",
+  "run_id": "verify-D8a-20260428T031202Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿La Ley 2294/2023 prorrogó el beneficio de auditoría?",
+      "expected": {
+        "q": "¿La Ley 2294/2023 prorrogó el beneficio de auditoría?",
+        "must_cite": [
+          "ley.2294.2023.art.69",
+          "et.art.689-3"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 582
+    }
+  ]
+}

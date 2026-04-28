@@ -1,0 +1,35 @@
+{
+  "ts_bogota": "2026-04-27 08:19:23 PM Bogotá",
+  "batch_id": "D3",
+  "mode": "pre",
+  "run_id": "baseline-D3-20260428T011923Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Qué de la Ley 1943/2018 retomó la Ley 2010/2019?",
+      "expected": {
+        "q": "¿Qué de la Ley 1943/2018 retomó la Ley 2010/2019?",
+        "must_cite": [
+          "ley.2010.2019"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 7
+    },
+    {
+      "index": 2,
+      "question": "¿Régimen simple modificaciones Ley 2010?",
+      "expected": {
+        "q": "¿Régimen simple modificaciones Ley 2010?",
+        "must_cite": [
+          "ley.2010.2019.art.74"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    }
+  ]
+}

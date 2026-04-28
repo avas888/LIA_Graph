@@ -1,0 +1,77 @@
+{
+  "norm_id": "ley.2155.2021.art.4",
+  "norm_type": "ley_articulo",
+  "parent_norm_id": "ley.2155.2021",
+  "is_sub_unit": false,
+  "sub_unit_kind": null,
+  "extraction_run_id": null,
+  "extracted_at_utc": "2026-04-28T01:06:31.496915+00:00",
+  "result": {
+    "veredicto": {
+      "state": "DT",
+      "state_from": "2023-01-01",
+      "state_until": null,
+      "applies_to_kind": "per_year",
+      "applies_to_payload": {
+        "year_start": 2022,
+        "year_end": 2022,
+        "impuesto": "normalizacion",
+        "period_start": "2022-01-01",
+        "period_end": "2022-12-31",
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "derogacion_tacita",
+        "source_norm_id": "ley.2155.2021.art.2",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2023-01-01"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": {
+        "norm_id": "ley.2155.2021.art.2",
+        "norm_type": "ley_articulo",
+        "article": "Art. 2",
+        "fecha": "2023-01-01",
+        "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_2155_2021.html"
+      },
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": "2021-09-14",
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "secretaria_senado_ley_2155_2021",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_normograma_ley_2155_2021",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
+    "canonicalizer_refusals": [],
+    "audit": {
+      "skill_version": "vigencia-checker@2.0",
+      "model": null,
+      "tool_iterations": null,
+      "wall_ms": 130761,
+      "cost_usd_estimate": null,
+      "run_id": null,
+      "sources_hash": null,
+      "method": "skill"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "ts_bogota": "2026-04-27 07:52:44 PM Bogotá",
+  "batch_id": "C3",
+  "mode": "post",
+  "run_id": "verify-C3-20260428T005100Z",
+  "base_url": "http://127.0.0.1:8787",
+  "questions": [
+    {
+      "index": 1,
+      "question": "¿Tarifa de retefuente para honorarios?",
+      "expected": {
+        "q": "¿Tarifa de retefuente para honorarios?",
+        "must_cite": [
+          "et.art.392"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 6
+    },
+    {
+      "index": 2,
+      "question": "¿Quién es agente retenedor?",
+      "expected": {
+        "q": "¿Quién es agente retenedor?",
+        "must_cite": [
+          "et.art.368",
+          "et.art.368-2"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    },
+    {
+      "index": 3,
+      "question": "¿Cuándo declaro retención mensualmente?",
+      "expected": {
+        "q": "¿Cuándo declaro retención mensualmente?",
+        "must_cite": [
+          "et.art.604"
+        ]
+      },
+      "http_status": null,
+      "error": "<urlopen error [Errno 61] Connection refused>",
+      "wall_ms": 0
+    }
+  ]
+}
