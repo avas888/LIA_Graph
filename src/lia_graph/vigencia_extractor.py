@@ -628,27 +628,40 @@ A single JSON object matching the schema above. Nothing else."""
 
 
 _SENADO_SOURCE_ID = "secretaria_senado"
+# Trusted .gov.co primary sources: any single one of these is acceptable
+# under the §3 #1 Approach B relaxation when SUIN is disabled and the
+# remaining scrapers don't double up. Adding `dian_normograma` here is what
+# unblocks the DUR-articulado batches (E1*/E2*/E3*/J8b/D5/F2) — DIAN
+# normograma is the single authoritative source for `decreto.1625.2016.*`,
+# `decreto.1072.2015.*`, `res.dian.*` and most `concepto.dian.*`. SUIN is
+# excluded because its scraper currently returns None for everything.
+_TRUSTED_GOVCO_SOURCE_IDS = frozenset({"secretaria_senado", "dian_normograma"})
 
 
 def _senado_single_source_accepted(
     sources: Sequence[ScraperFetchResult],
     norm_id: str,
 ) -> bool:
-    """fixplan_v5 §3 #1 Approach B — single-source Senado acceptance.
+    """fixplan_v5 §3 #1 Approach B — single-source `.gov.co` acceptance.
 
     Returns True iff the harness should let the LLM call proceed even though
     fewer than 2 primary sources returned content. The narrow rule: exactly
-    one source returned non-empty content AND that source is
-    ``secretaria_senado`` AND the fetched content references the norm's
-    article number (or the law NUM, when the norm_id has no article suffix).
+    one source returned non-empty content AND that source is one of the
+    trusted `.gov.co` primary scrapers (`secretaria_senado` for leyes/CST/
+    CCo/ET; `dian_normograma` for decretos/resoluciones/conceptos hosted on
+    DIAN normograma) AND the fetched content references the norm's article
+    number (or the law/decreto NUM, when the norm_id has no article suffix).
     For all other shapes the caller must keep raising
     ``missing_double_primary_source``.
+
+    Function name kept for git-history continuity; behavior now spans both
+    Senado and DIAN.
     """
 
     if len(sources) != 1:
         return False
     only = sources[0]
-    if only.source != _SENADO_SOURCE_ID:
+    if only.source not in _TRUSTED_GOVCO_SOURCE_IDS:
         return False
     body = only.parsed_text or ""
     if not body.strip():
@@ -661,13 +674,21 @@ def _senado_single_source_accepted(
 
 
 def _norm_id_acceptance_needle(norm_id: str) -> str | None:
-    """Return the integer (as a string) that must appear in a Senado body
-    for single-source acceptance.
+    """Return the integer (or dotted DUR article) that must appear in the
+    fetched body for single-source acceptance.
 
-    * `et.art.<MMM>[...]`           → `<MMM>` (article number)
-    * `ley.<NNN>.<YYYY>.art.<MMM>[...]` → `<MMM>` (article number)
-    * `ley.<NNN>.<YYYY>`            → `<NNN>` (law number)
-    * Anything else                  → None (caller refuses).
+    * `et.art.<MMM>[...]`                       → `<MMM>` (article number)
+    * `ley.<NNN>.<YYYY>.art.<MMM>[...]`         → `<MMM>` (article number)
+    * `ley.<NNN>.<YYYY>`                        → `<NNN>` (law number)
+    * `decreto.<NNN>.<YYYY>.art.<A.B.C.D...>`   → `<A.B.C.D...>` (full DUR
+      article path joined with dots — matches `[[ART:A.B.C.D]]` markers
+      injected by the DIAN scraper, AND matches plain dotted spans in the
+      decreto body. Falls back to the shorter form when only one segment.)
+    * `decreto.<NNN>.<YYYY>`                    → `<NNN>` (decreto number)
+    * `res.dian.<NN>.<YYYY>.art.<MMM>[...]`     → `<MMM>` (article number)
+    * `res.dian.<NN>.<YYYY>`                    → `<NN>` (resolution number)
+    * `concepto.dian.<num>[.num.<NN>...]`       → `<num>` (concepto identifier)
+    * Anything else                              → None (caller refuses).
     """
 
     parts = norm_id.split(".")
@@ -676,15 +697,35 @@ def _norm_id_acceptance_needle(norm_id: str) -> str | None:
             idx = parts.index("art")
         except ValueError:
             return None
-        if idx + 1 < len(parts):
-            value = parts[idx + 1]
-            if value.isdigit() or _is_dotted_dur_article(value):
-                return value
-        return None
+        # Consume all numeric segments after `art` so DUR-style articles
+        # like `1.1.1.4.10` get matched as a unit (the legacy single-segment
+        # path returned just "1", which is too permissive but harmless).
+        article_segments: list[str] = []
+        for seg in parts[idx + 1:]:
+            if seg.isdigit():
+                article_segments.append(seg)
+            else:
+                break
+        if not article_segments:
+            return None
+        return ".".join(article_segments)
     if norm_id.startswith("ley.") and len(parts) >= 3:
         candidate = parts[1]
         if candidate.isdigit():
             return candidate
+    if norm_id.startswith("decreto.") and len(parts) >= 3:
+        candidate = parts[1]
+        if candidate.isdigit():
+            return candidate
+    if norm_id.startswith("res.dian.") and len(parts) >= 4:
+        candidate = parts[2]
+        if candidate.isdigit():
+            return candidate
+    if norm_id.startswith("concepto.dian.") and len(parts) >= 3:
+        # Conceptos may carry suffixes like `0001-2003` or `100208192-202` —
+        # the bare identifier alone is enough; if DIAN's body talks about it
+        # at all, that string will appear.
+        return parts[2]
     return None
 
 
