@@ -182,6 +182,114 @@ def test_write_result_persists_v3_shape(tmp_path: Path):
     assert blob["result"]["veredicto"]["state"] == "V"
 
 
+def _senado_result(text: str, *, norm_id: str = "ley.789.2002") -> ScraperFetchResult:
+    """fixplan_v5 #1 Approach B fixture: Senado-shaped fetch result."""
+
+    return ScraperFetchResult(
+        norm_id=norm_id,
+        source="secretaria_senado",
+        url=f"https://www.secretariasenado.gov.co/senado/basedoc/{norm_id}.html",
+        fetched_at_utc="2026-04-28T00:00:00Z",
+        status_code=200,
+        parsed_text=text,
+        parsed_meta={},
+        cache_hit=True,
+    )
+
+
+def test_single_source_senado_ley_accepted_when_law_num_in_body():
+    """Approach B: one Senado hit (with law NUM in body) + DIAN miss → LLM runs."""
+
+    payload = {
+        "state": "V",
+        "state_from": "2002-12-27",
+        "state_until": None,
+        "applies_to_kind": "always",
+        "applies_to_payload": {},
+        "change_source": None,
+    }
+    senado = _senado_result(
+        "Ley 789 de 2002 — por la cual se dictan normas para apoyar el empleo …",
+        norm_id="ley.789.2002",
+    )
+    harness = VigenciaSkillHarness(
+        scrapers=_registry_with(senado, None),  # DIAN 404 → None
+        adapter_factory=lambda: _FakeAdapter(payload),
+    )
+    result = harness.verify_norm(norm_id="ley.789.2002")
+    assert result.veredicto is not None, result.refusal_reason
+    assert result.refusal_reason is None
+    assert result.single_source_accepted == "secretaria_senado"
+    # Diagnostic survives serialization
+    assert result.to_dict()["single_source_accepted"] == "secretaria_senado"
+
+
+def test_single_source_senado_ley_articulo_requires_article_number_in_body():
+    """Approach B: ley.NNN.YYYY.art.MMM requires the article MMM in the body."""
+
+    payload = {
+        "state": "VM",
+        "state_from": "2003-01-29",
+        "state_until": None,
+        "applies_to_kind": "always",
+        "applies_to_payload": {},
+        "change_source": {
+            "type": "reforma",
+            "source_norm_id": "ley.797.2003.art.9",
+            "effect_type": "pro_futuro",
+            "effect_payload": {"fecha": "2003-01-29"},
+        },
+    }
+    senado = _senado_result(
+        "Artículo 9°. Modifíquese el artículo 33 de la Ley 100 de 1993 …",
+        norm_id="ley.797.2003.art.9",
+    )
+    harness = VigenciaSkillHarness(
+        scrapers=_registry_with(senado, None),
+        adapter_factory=lambda: _FakeAdapter(payload),
+    )
+    result = harness.verify_norm(norm_id="ley.797.2003.art.9")
+    assert result.veredicto is not None, result.refusal_reason
+    assert result.single_source_accepted == "secretaria_senado"
+
+
+def test_single_source_senado_refused_when_article_number_missing():
+    """If MMM is not in the body, refusal must still fire — narrow rule."""
+
+    senado = _senado_result(
+        "Artículo 1°. Disposiciones generales …",  # no '9' anywhere
+        norm_id="ley.797.2003.art.9",
+    )
+    harness = VigenciaSkillHarness(
+        scrapers=_registry_with(senado, None),
+    )
+    result = harness.verify_norm(norm_id="ley.797.2003.art.9")
+    assert result.veredicto is None
+    assert result.refusal_reason == "missing_double_primary_source"
+    assert result.single_source_accepted is None
+
+
+def test_single_source_non_senado_still_refused():
+    """The relaxation is Senado-only — DIAN-only must still refuse."""
+
+    dian_only = ScraperFetchResult(
+        norm_id="et.art.689-3",
+        source="dian_normograma",
+        url="https://normograma.dian.gov.co/dian/docs/estatuto_tributario.html#art_689-3",
+        fetched_at_utc="2026-04-28T00:00:00Z",
+        status_code=200,
+        parsed_text="Artículo 689-3. Beneficio de auditoría …",
+        parsed_meta={},
+        cache_hit=True,
+    )
+    harness = VigenciaSkillHarness(
+        scrapers=_registry_with(dian_only, None),
+    )
+    result = harness.verify_norm(norm_id="et.art.689-3")
+    assert result.veredicto is None
+    assert result.refusal_reason == "missing_double_primary_source"
+
+
 def test_no_api_key_returns_refusal_when_no_adapter_factory():
     """Production safety: harness must not blow up without an API key."""
 

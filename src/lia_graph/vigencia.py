@@ -501,6 +501,11 @@ class VigenciaResult:
     missing_sources: tuple[str, ...] = ()
     canonicalizer_refusals: tuple[CanonicalizerRefusal, ...] = ()
     audit: ExtractionAudit | None = None
+    # fixplan_v5 blocker #1 — when set, names the lone primary source that
+    # was accepted under the single-source Senado .gov.co relaxation. Any
+    # other value (including None) means the standard double-primary-source
+    # rule applied. See `vigencia_extractor._senado_single_source_accepted`.
+    single_source_accepted: str | None = None
 
     def __post_init__(self) -> None:
         if self.veredicto is None and not self.refusal_reason:
@@ -519,6 +524,7 @@ class VigenciaResult:
             "missing_sources": list(self.missing_sources),
             "canonicalizer_refusals": [r.to_dict() for r in self.canonicalizer_refusals],
             "audit": self.audit.to_dict() if self.audit else None,
+            "single_source_accepted": self.single_source_accepted,
         }
 
 

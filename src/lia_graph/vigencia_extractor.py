@@ -187,21 +187,34 @@ class VigenciaSkillHarness:
         # Fetch primary sources from cache (live HTTP path is gated; production
         # uses pre-warmed cache).
         sources = self.scrapers.fetch_all(norm_id)
+        single_source_accepted: str | None = None
         if len(sources) < 2:
-            return VigenciaResult(
-                veredicto=None,
-                refusal_reason="missing_double_primary_source",
-                missing_sources=tuple(
-                    s.source_id for s in self.scrapers.for_norm(norm_id)
-                ),
-                audit=ExtractionAudit(skill_version=SKILL_VERSION, method="harness"),
-            )
+            # fixplan_v5 §3 #1 Approach B — many Colombian leyes (789/2002,
+            # 797/2003, 1258/2008, 1438/2011, 1751/2015, 2381/2024, …) live
+            # ONLY on Senado; DIAN normograma 404s and SUIN is currently
+            # disabled. If the lone passing source is `secretaria_senado`
+            # AND its content references the norm's article (or law) number,
+            # accept it instead of refusing. Senado is an authoritative
+            # `.gov.co` site, so this matches the prompt's existing
+            # single-source acceptance rule (per fixplan_v4 §2.3 #14).
+            if _senado_single_source_accepted(sources, norm_id):
+                single_source_accepted = sources[0].source
+            else:
+                return VigenciaResult(
+                    veredicto=None,
+                    refusal_reason="missing_double_primary_source",
+                    missing_sources=tuple(
+                        s.source_id for s in self.scrapers.for_norm(norm_id)
+                    ),
+                    audit=ExtractionAudit(skill_version=SKILL_VERSION, method="harness"),
+                )
 
         return self._invoke_skill(
             norm_id=norm_id,
             periodo=periodo,
             as_of=as_of or date.today(),
             sources=sources,
+            single_source_accepted=single_source_accepted,
         )
 
     def write_result(self, result: VigenciaResult, *, norm_id: str, output_dir: Path | None = None) -> Path:
@@ -251,6 +264,7 @@ class VigenciaSkillHarness:
         periodo: PeriodoFiscal | None,
         as_of: date,
         sources: Sequence[ScraperFetchResult],
+        single_source_accepted: str | None = None,
     ) -> VigenciaResult:
         # Factories let tests inject a fake adapter without an API key.
         if self._adapter_factory is not None:
@@ -261,6 +275,7 @@ class VigenciaSkillHarness:
                     veredicto=None,
                     refusal_reason="missing_GEMINI_API_KEY",
                     audit=ExtractionAudit(skill_version=SKILL_VERSION, method="harness"),
+                    single_source_accepted=single_source_accepted,
                 )
             adapter = self._default_adapter()
 
@@ -289,6 +304,7 @@ class VigenciaSkillHarness:
             raw,
             wall_ms=wall_ms,
             norm_id=norm_id,
+            single_source_accepted=single_source_accepted,
         )
 
     def _default_adapter(self) -> Any:
@@ -539,7 +555,14 @@ as_of: {as_of.isoformat()}
 
 A single JSON object matching the schema above. Nothing else."""
 
-    def _parse_skill_output(self, raw: str, *, wall_ms: int, norm_id: str | None = None) -> VigenciaResult:
+    def _parse_skill_output(
+        self,
+        raw: str,
+        *,
+        wall_ms: int,
+        norm_id: str | None = None,
+        single_source_accepted: str | None = None,
+    ) -> VigenciaResult:
         text = raw.strip()
         if text.startswith("```"):
             # Strip code fences if the model added them
@@ -557,6 +580,7 @@ A single JSON object matching the schema above. Nothing else."""
                     method="skill",
                     wall_ms=wall_ms,
                 ),
+                single_source_accepted=single_source_accepted,
             )
         if blob.get("refusal_reason"):
             return VigenciaResult(
@@ -568,6 +592,7 @@ A single JSON object matching the schema above. Nothing else."""
                     method="skill",
                     wall_ms=wall_ms,
                 ),
+                single_source_accepted=single_source_accepted,
             )
         try:
             veredicto = Vigencia.from_dict(blob)
@@ -584,6 +609,7 @@ A single JSON object matching the schema above. Nothing else."""
                     method="skill",
                     wall_ms=wall_ms,
                 ),
+                single_source_accepted=single_source_accepted,
             )
         return VigenciaResult(
             veredicto=veredicto,
@@ -592,12 +618,80 @@ A single JSON object matching the schema above. Nothing else."""
                 method="skill",
                 wall_ms=wall_ms,
             ),
+            single_source_accepted=single_source_accepted,
         )
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+
+_SENADO_SOURCE_ID = "secretaria_senado"
+
+
+def _senado_single_source_accepted(
+    sources: Sequence[ScraperFetchResult],
+    norm_id: str,
+) -> bool:
+    """fixplan_v5 §3 #1 Approach B — single-source Senado acceptance.
+
+    Returns True iff the harness should let the LLM call proceed even though
+    fewer than 2 primary sources returned content. The narrow rule: exactly
+    one source returned non-empty content AND that source is
+    ``secretaria_senado`` AND the fetched content references the norm's
+    article number (or the law NUM, when the norm_id has no article suffix).
+    For all other shapes the caller must keep raising
+    ``missing_double_primary_source``.
+    """
+
+    if len(sources) != 1:
+        return False
+    only = sources[0]
+    if only.source != _SENADO_SOURCE_ID:
+        return False
+    body = only.parsed_text or ""
+    if not body.strip():
+        return False
+    needle = _norm_id_acceptance_needle(norm_id)
+    if needle is None:
+        # Couldn't derive a check — be conservative and refuse.
+        return False
+    return needle in body
+
+
+def _norm_id_acceptance_needle(norm_id: str) -> str | None:
+    """Return the integer (as a string) that must appear in a Senado body
+    for single-source acceptance.
+
+    * `et.art.<MMM>[...]`           → `<MMM>` (article number)
+    * `ley.<NNN>.<YYYY>.art.<MMM>[...]` → `<MMM>` (article number)
+    * `ley.<NNN>.<YYYY>`            → `<NNN>` (law number)
+    * Anything else                  → None (caller refuses).
+    """
+
+    parts = norm_id.split(".")
+    if ".art." in norm_id:
+        try:
+            idx = parts.index("art")
+        except ValueError:
+            return None
+        if idx + 1 < len(parts):
+            value = parts[idx + 1]
+            if value.isdigit() or _is_dotted_dur_article(value):
+                return value
+        return None
+    if norm_id.startswith("ley.") and len(parts) >= 3:
+        candidate = parts[1]
+        if candidate.isdigit():
+            return candidate
+    return None
+
+
+def _is_dotted_dur_article(value: str) -> bool:
+    """DUR articles use dotted form like ``1.2.1.5.4``; treat as opaque tag."""
+
+    return bool(value) and all(seg.isdigit() for seg in value.split("."))
 
 
 def _slug(norm_id: str) -> str:
