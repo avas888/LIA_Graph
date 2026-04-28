@@ -193,7 +193,7 @@ def _slice_article_from_suin_html(
     ruta: str,
 ) -> str | None:
     """One-shot helper: parse + slice. Used in tests; production goes via the
-    scraper's per-URL parsed-doc cache (`SuinJuriscolScraper._parsed_doc_for_url`)
+    scraper's persisted-slice cache (``SuinJuriscolScraper._articles_dict_for_url``)
     so the 17 MB DUR HTML isn't re-parsed for every norm in a batch.
     """
 
@@ -201,6 +201,56 @@ def _slice_article_from_suin_html(
         return None
     doc = _parse_suin_document(html, doc_id=doc_id, ruta=ruta)
     return _slice_article_from_suin_doc(doc, article_key)
+
+
+def _extract_articles_dict(html: str, *, doc_id: str, ruta: str) -> dict[str, str]:
+    """Parse SUIN HTML and return ``{normalize_article_key(art_num): body_text}``.
+
+    First-occurrence wins on duplicate keys (the parser produces
+    repeated entries for some article anchors; we want a stable
+    canonical body per key). Empty bodies are dropped. Returns an
+    empty dict on parse failure or empty input — never raises.
+
+    This is the Option-2 persistence shape: ~3 MB JSON for the entire
+    DUR-1625 (vs ~165 MB for retaining the full SuinDocument). Stored
+    as ``parsed_meta["articles"]`` in ``var/scraper_cache.db`` so that
+    parallel processes share the slice store and don't each re-parse.
+    """
+
+    from lia_graph.ingestion.suin.parser import normalize_article_key
+
+    if not html:
+        return {}
+    doc = _parse_suin_document(html, doc_id=doc_id, ruta=ruta)
+    if doc is None:
+        return {}
+    out: dict[str, str] = {}
+    for article in doc.articles:
+        key = normalize_article_key(article.article_number or "")
+        if not key:
+            continue
+        body = (article.body_text or "").strip()
+        if not body:
+            continue
+        out.setdefault(key, body)
+    return out
+
+
+def _slice_from_articles_dict(
+    articles_dict: dict[str, str] | None, article_key: str
+) -> str | None:
+    """Look up ``article_key`` in a ``{key: body}`` dict produced by
+    ``_extract_articles_dict``. Returns the body or None on miss."""
+
+    from lia_graph.ingestion.suin.parser import normalize_article_key
+
+    if not articles_dict or not article_key:
+        return None
+    target = normalize_article_key(article_key)
+    if not target:
+        return None
+    body = articles_dict.get(target)
+    return body or None
 
 
 # ---------------------------------------------------------------------------
@@ -254,14 +304,16 @@ class SuinJuriscolScraper(Scraper):
             )
         self._disk_cache_dir = Path(disk_cache_dir) if disk_cache_dir is not None else _DISK_CACHE_DIR
         self._fetcher = fetcher
-        # Per-URL parsed-document cache. Without this, batches of N
-        # articles all from the same parent doc each pay the BeautifulSoup
-        # parse cost (17 MB DUR ≈ 3-5 sec + ~500 MB working memory). With
-        # 24 thread workers all parsing simultaneously, the system goes
-        # into memory thrashing. With this cache, parse cost is paid once
-        # per parent URL and N article lookups become hash-map walks.
-        self._parsed_doc_cache: dict[str, Any] = {}
-        self._parsed_doc_lock = threading.Lock()
+        # Per-URL articles-dict cache. Holds the deserialized
+        # ``parsed_meta["articles"]`` dict (article_key → body_text) so
+        # multiple fetches in the same process don't re-deserialize the
+        # ~3 MB JSON from SQLite per call. Memory cost: ~5-10 MB per
+        # cached parent doc (vs 165 MB for retaining the full
+        # SuinDocument the v0 cache held). Process-shared persistence
+        # lives in ``var/scraper_cache.db`` ``parsed_meta`` — see
+        # ``_extract_articles_dict`` for the populate path.
+        self._articles_dict_cache: dict[str, dict[str, str]] = {}
+        self._articles_dict_lock = threading.Lock()
 
     # ------------------------------------------------------------------
     # Hook implementations required by the base class
@@ -322,12 +374,12 @@ class SuinJuriscolScraper(Scraper):
                 cache_hit=cache_hit,
             )
 
-        doc = self._parsed_doc_for_url(
+        articles_dict = self._articles_dict_for_url(
             url=url,
             cache_entry=cache_entry,
             suin_doc_id=suin_doc_id,
         )
-        sliced = _slice_article_from_suin_doc(doc, article_key)
+        sliced = _slice_from_articles_dict(articles_dict, article_key)
         if not sliced:
             return None
         return ScraperFetchResult(
@@ -377,6 +429,21 @@ class SuinJuriscolScraper(Scraper):
 
         content_bytes = disk_html.encode("utf-8")
         parsed_text, parsed_meta = self._parse_html(content_bytes)
+        # Extract per-article slices ONCE on first parse and persist them
+        # in ``parsed_meta["articles"]``. Subsequent fetches — across this
+        # process AND across other processes that read the same SQLite
+        # cache — get a tiny dict-lookup instead of a 17 MB BeautifulSoup
+        # re-parse. This is the persisted-slice cache; it's the difference
+        # between ~110 MB steady-state per process and ~50 MB.
+        articles_dict = _extract_articles_dict(
+            disk_html, doc_id=str(self._registry_doc_id_for_url(url) or ""), ruta=url
+        )
+        if articles_dict:
+            parsed_meta = {
+                **parsed_meta,
+                "articles": articles_dict,
+                "article_count": len(articles_dict),
+            }
         try:
             self.cache.put(
                 source=self.source_id,
@@ -410,6 +477,12 @@ class SuinJuriscolScraper(Scraper):
         new_entry = self.cache.get(self.source_id, url)
         return new_entry, False
 
+    def _registry_doc_id_for_url(self, url: str) -> str | None:
+        for entry in self._registry.values():
+            if entry.get("ruta") == url:
+                return entry.get("suin_doc_id")
+        return None
+
     def _get_or_create_fetcher(self):
         if self._fetcher is None:
             from lia_graph.ingestion.suin.fetcher import SuinFetcher
@@ -417,33 +490,71 @@ class SuinJuriscolScraper(Scraper):
             self._fetcher = SuinFetcher(cache_dir=self._disk_cache_dir)
         return self._fetcher
 
-    def _parsed_doc_for_url(self, *, url: str, cache_entry: CacheEntry, suin_doc_id: str):
-        """Return the parsed ``SuinDocument`` for ``url``, parsing once per URL.
+    def _articles_dict_for_url(
+        self,
+        *,
+        url: str,
+        cache_entry: CacheEntry,
+        suin_doc_id: str,
+    ) -> dict[str, str] | None:
+        """Return the per-URL article slice dict, populating from SQLite or live parse.
 
-        The cache is process-local (one dict per scraper instance). For a
-        ThreadPoolExecutor workload where all workers share one
-        SuinJuriscolScraper, the first worker to touch a URL pays the
-        parse cost; subsequent workers get a hash-map hit.
+        Lookup order:
+          1. Per-process LRU dict (avoid re-deserializing the JSON every fetch).
+          2. ``cache_entry.parsed_meta["articles"]`` from SQLite (process-shared).
+          3. Live parse from the cached HTML (lazy backfill for legacy rows).
 
-        The parse itself happens OUTSIDE the lock — only the dict
-        read/write is protected. Worst case: two workers race and both
-        parse the same doc; one's result wins the dict slot. Acceptable
-        in exchange for not serializing the heavy parse through a lock.
+        Cache writes are best-effort — extraction failures fall through to
+        an in-memory parse without breaking the fetch.
         """
 
-        with self._parsed_doc_lock:
-            cached = self._parsed_doc_cache.get(url)
+        with self._articles_dict_lock:
+            cached = self._articles_dict_cache.get(url)
             if cached is not None:
                 return cached
 
+        # Try the persisted slices in SQLite first (the Option-2 path).
+        meta = dict(cache_entry.parsed_meta or {})
+        articles_obj = meta.get("articles")
+        if isinstance(articles_obj, dict) and articles_obj:
+            articles_dict = {str(k): str(v) for k, v in articles_obj.items()}
+            with self._articles_dict_lock:
+                self._articles_dict_cache[url] = articles_dict
+            return articles_dict
+
+        # Legacy row (no articles in parsed_meta) — parse from the HTML
+        # blob and backfill the SQLite parsed_meta column so the next call
+        # doesn't pay this cost. This branch fires once per (legacy) URL.
         html = (cache_entry.content or b"").decode("utf-8", errors="ignore")
-        doc = _parse_suin_document(html, doc_id=suin_doc_id, ruta=url)
-        if doc is None:
+        articles_dict = _extract_articles_dict(
+            html, doc_id=str(suin_doc_id or ""), ruta=url
+        )
+        if not articles_dict:
             return None
 
-        with self._parsed_doc_lock:
-            self._parsed_doc_cache[url] = doc
-        return doc
+        # Lazy backfill — best-effort.
+        try:
+            new_meta = {
+                **meta,
+                "articles": articles_dict,
+                "article_count": len(articles_dict),
+            }
+            self.cache.put(
+                source=self.source_id,
+                url=url,
+                content=cache_entry.content or b"",
+                status_code=cache_entry.status_code,
+                canonical_norm_id=cache_entry.canonical_norm_id,
+                content_type=cache_entry.content_type,
+                parsed_text=cache_entry.parsed_text,
+                parsed_meta=new_meta,
+            )
+        except Exception as err:
+            LOGGER.debug("SUIN parsed_meta backfill failed (%s): %s", url, err)
+
+        with self._articles_dict_lock:
+            self._articles_dict_cache[url] = articles_dict
+        return articles_dict
 
 
 __all__ = [
@@ -456,4 +567,6 @@ __all__ = [
     "_parse_suin_document",
     "_slice_article_from_suin_doc",
     "_slice_article_from_suin_html",
+    "_extract_articles_dict",
+    "_slice_from_articles_dict",
 ]

@@ -292,3 +292,53 @@ def test_parsed_doc_cache_avoids_re_parsing_same_url(tmp_path: Path, monkeypatch
     assert parse_calls["n"] == 1, (
         f"expected 1 parse for 5 article fetches sharing one URL, got {parse_calls['n']}"
     )
+
+
+def test_persisted_slice_cache_avoids_re_parse_across_scraper_instances(tmp_path: Path, monkeypatch):
+    """Option 2 persistence: slices are stored in scraper_cache.db parsed_meta
+    so a SECOND scraper instance (e.g. a parallel batch process) doesn't
+    re-parse the 17 MB DUR HTML — it loads the slice dict from SQLite."""
+
+    from lia_graph.scrapers import suin_juriscol as mod
+
+    cache_path = tmp_path / "scraper_cache.db"
+    disk_dir = tmp_path / "cache_suin"
+    disk_dir.mkdir()
+    url = REGISTRY["decreto.1625.2016"]["ruta"]
+    sha1 = hashlib.sha1(url.encode("utf-8")).hexdigest()
+    (disk_dir / f"{sha1}.html").write_text(_FIXTURE_HTML, encoding="utf-8")
+
+    parse_calls = {"n": 0}
+    real_parse = mod._parse_suin_document
+
+    def counting_parse(html, *, doc_id, ruta):
+        parse_calls["n"] += 1
+        return real_parse(html, doc_id=doc_id, ruta=ruta)
+
+    monkeypatch.setattr(mod, "_parse_suin_document", counting_parse)
+
+    # --- Process 1: scraper instance A ---
+    cache_a = ScraperCache(cache_path)
+    s_a = SuinJuriscolScraper(cache_a, live_fetch=False, registry=REGISTRY, disk_cache_dir=disk_dir)
+    res_a = s_a.fetch("decreto.1625.2016.art.1.1.1")
+    assert res_a is not None
+    parses_after_a = parse_calls["n"]
+    assert parses_after_a == 1, f"first instance should parse once, got {parses_after_a}"
+
+    # --- Process 2: scraper instance B (fresh, shares the SQLite cache) ---
+    cache_b = ScraperCache(cache_path)
+    s_b = SuinJuriscolScraper(cache_b, live_fetch=False, registry=REGISTRY, disk_cache_dir=disk_dir)
+    res_b = s_b.fetch("decreto.1625.2016.art.1.1.1")
+    assert res_b is not None
+    assert "primer artículo" in res_b.parsed_text
+    # Critical assertion: instance B did NOT re-parse — it read the
+    # persisted slice dict from parsed_meta in SQLite.
+    assert parse_calls["n"] == parses_after_a, (
+        f"instance B should hit the persisted slice cache; got {parse_calls['n']} parses total"
+    )
+
+    # And a different article via instance B is also a no-parse hit.
+    res_b2 = s_b.fetch("decreto.1625.2016.art.1.1.2")
+    assert res_b2 is not None
+    assert "segundo artículo" in res_b2.parsed_text
+    assert parse_calls["n"] == parses_after_a, "no parse on second article either"
