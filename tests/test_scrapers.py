@@ -118,6 +118,28 @@ def test_secretaria_senado_url_for_ley():
     assert "ley_2277_2022" in url
 
 
+def test_senado_cst_url():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("cst.art.45")
+    assert url is not None
+    assert "secretariasenado.gov.co" in url
+    assert "codigo_sustantivo_trabajo" in url
+
+
+def test_senado_cco_url():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("cco.art.515")
+    assert url is not None
+    assert "secretariasenado.gov.co" in url
+    assert "codigo_comercio" in url
+
+
+def test_senado_handles_cst_and_cco_norm_types():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    assert "cst_articulo" in s._handled_types
+    assert "cco_articulo" in s._handled_types
+
+
 def test_dian_normograma_url_for_decreto():
     s = DianNormogramaScraper(ScraperCache(":memory:"))
     assert s._resolve_url("decreto.1474.2025") is not None

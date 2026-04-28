@@ -30,7 +30,26 @@ from lia_graph.scrapers.base import Scraper, ScraperFetchResult
 
 _BASE_URL = "http://www.secretariasenado.gov.co/senado/basedoc"
 _ET_FULL_PATH = f"{_BASE_URL}/estatuto_tributario.html"
+_CST_FULL_PATH = f"{_BASE_URL}/codigo_sustantivo_trabajo.html"
+_CCO_FULL_PATH = f"{_BASE_URL}/codigo_comercio.html"
 _ET_INDEX_PATH = Path("var/senado_et_pr_index.json")
+
+# Inline article→pr-segment maps for the CST and CCo. These are best-effort
+# coarse maps documented in the corpus_population briefs (01_cst.md and
+# 12_cambiario_societario.md) — when an article isn't in the map we fall back
+# to the master page, which still resolves via anchor-based slicing in
+# `fetch()`. A full sweep can be added later via a `build_senado_cst_index.py`
+# / `build_senado_cco_index.py` mirroring the ET index pattern.
+_CST_PR_SEGMENT_BOUNDS: tuple[tuple[int, int, str], ...] = (
+    # (article_min_inclusive, article_max_inclusive, segment_id)
+    (1, 50, "001"),
+    (51, 100, "002"),
+    (101, 150, "003"),
+    (151, 250, "004"),
+    (251, 415, "005"),
+    (416, 489, "008"),
+    (490, 999, "016"),
+)
 _LOGGER = logging.getLogger(__name__)
 _INDEX_CACHE: dict[str, str] | None = None
 
@@ -60,7 +79,14 @@ def _load_et_index() -> dict[str, str]:
 class SecretariaSenadoScraper(Scraper):
     source_id = "secretaria_senado"
     rate_limit_seconds = 0.5
-    _handled_types = {"ley", "ley_articulo", "estatuto", "articulo_et"}
+    _handled_types = {
+        "ley",
+        "ley_articulo",
+        "estatuto",
+        "articulo_et",
+        "cst_articulo",
+        "cco_articulo",
+    }
 
     def _resolve_url(self, norm_id: str) -> str | None:
         if norm_id == "et":
@@ -96,6 +122,25 @@ class SecretariaSenadoScraper(Scraper):
             num4 = parts[1].zfill(4)
             year = parts[2]
             return f"{_BASE_URL}/ley_{num4}_{year}.html"
+        if norm_id.startswith("cst.art."):
+            # Código Sustantivo del Trabajo. The full code lives at
+            # `codigo_sustantivo_trabajo.html` and at paginated segments
+            # `codigo_sustantivo_trabajo_pr00X.html`. We map the article to a
+            # segment via a coarse range table from `corpus_population/01_cst.md`
+            # when possible, falling back to the master page (anchor-based
+            # slicing in `fetch()` still works on either page shape).
+            article = norm_id.split(".", 2)[2]
+            seg = _cst_segment_for_article(article)
+            if seg is None:
+                return _CST_FULL_PATH
+            return f"{_BASE_URL}/codigo_sustantivo_trabajo_pr{seg}.html"
+        if norm_id.startswith("cco.art."):
+            # Código de Comercio. Master page at `codigo_comercio.html` plus
+            # paginated `codigo_comercio_pr00X.html` segments. We don't yet
+            # ship a CCo article→segment map; the master page is the safe
+            # default and the existing anchor slicer in `fetch()` will still
+            # locate `<a name="N">` anchors.
+            return _CCO_FULL_PATH
         return None
 
     def _parse_html(self, content: bytes) -> tuple[str, dict[str, Any]]:
@@ -119,11 +164,13 @@ class SecretariaSenadoScraper(Scraper):
         if result is None:
             return None
 
-        # Article-scoped slicing for ET articles AND ley.*.art.* norms.
-        # Both page types use `<a class="bookmarkaj" name="N">` anchors,
-        # so the slicer is identical.
+        # Article-scoped slicing for ET articles AND ley.*.art.* norms AND
+        # cst.art.* / cco.art.* articles. All page types use
+        # `<a class="bookmarkaj" name="N">` anchors, so the slicer is identical.
         article: str | None = None
         if norm_id.startswith("et.art."):
+            article = norm_id.split(".", 2)[2]
+        elif norm_id.startswith("cst.art.") or norm_id.startswith("cco.art."):
             article = norm_id.split(".", 2)[2]
         elif norm_id.startswith("ley.") and ".art." in norm_id:
             after_art = norm_id.split(".art.", 1)[1]
@@ -168,6 +215,26 @@ def _inject_article_markers_senado(html: str) -> str:
         lambda m: f'<a name="{m.group(1)}">\n[[ART:{m.group(1)}]]\n',
         html,
     )
+
+
+def _cst_segment_for_article(article: str) -> str | None:
+    """Map a CST article number to its `pr00X` segment, or None.
+
+    Uses the coarse range table from `corpus_population/01_cst.md`. Sub-units
+    like ``45-1`` collapse to the base article (``45``). Returns None when the
+    article string can't be parsed as an integer; callers fall back to the
+    master page in that case.
+    """
+
+    base_str = article.split("-")[0]
+    try:
+        base = int(base_str)
+    except ValueError:
+        return None
+    for lo, hi, seg in _CST_PR_SEGMENT_BOUNDS:
+        if lo <= base <= hi:
+            return seg
+    return None
 
 
 def _nearest_neighbor_segment(article: str, index: dict[str, str]) -> str | None:
