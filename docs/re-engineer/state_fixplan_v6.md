@@ -241,6 +241,48 @@ Wave 2 sub-total: **~285** new veredictos if SUIN has CST/CCo.
 
 ---
 
+**2026-04-28 PM Bogotá — fixplan_v6 — cascade attempt 1 wedged; recovered with 2 perf/config fixes.**
+
+First cascade launch (7 batches × 24 workers parallel = 168 thread workers
+sharing one ScraperRegistry) seized in <2 min. Diagnostic:
+- Throttle bucket frozen at 2 timestamps from 2.5 min ago; no acquire_token() activity.
+- 0 active TCP connections from any worker.
+- `sample` showed every worker thread parked on `take_gil` / `_pthread_cond_wait`.
+- `vm_stat` + `sysctl vm.swapusage`: **14.8 GB / 16 GB swap used**, ~73 MB free RAM.
+
+**Root cause.** `_slice_article_from_suin_html` re-parsed the 17 MB
+DUR-1625 HTML via BeautifulSoup for every norm (~500 MB working memory
+× 168 workers ≈ 84 GB demanded vs 16 GB physical → catastrophic swap
+thrashing).
+
+**Corrective commits (relaunch-ready):**
+* `3845ee7` — per-URL parsed-doc cache on the SUIN scraper. One parse
+  per parent doc; subsequent fetches are dict lookups. Verified
+  benchmark: 60 fetches against the real DUR-1625 in 37 s vs ~30 min
+  without the cache (~48× speedup). Lock-protected dict, parse-outside-lock.
+* `a3ee6cd` — `LLM_DEEPSEEK_RPM` env var now the preferred throttle
+  override. The 80-RPM default was Gemini-derived; DeepSeek doesn't
+  cap at our scale. Legacy `LIA_GEMINI_GLOBAL_RPM` still honored.
+
+**Process correction.** F2 (`res.dian.13.2021.art.*`) was a bad canary:
+the parent norm isn't in the SUIN registry, so SUIN-first can't help.
+F2's 30/111 (27%) result was driven by DIAN retry alone, not by v6.
+Use **E1a** as the SUIN-first canary — `decreto.1625.2016.art.*` IS in
+the registry and exercises the new slicer.
+
+**Sequential-before-parallel rule.** Don't parallelize batches until
+one batch closes cleanly at target worker count. The cascade driver
+serializes for a reason.
+
+**Full writeup.** `docs/learnings/canonicalizer/v6_suin_first_rewire_2026-04-28.md`.
+
+**Open follow-on (v6.1 candidate, ~3 hr).** Función Pública gestor
+normativo as 6th scraper. Verified DUR-1625 with `<a name="1.1.1">`
+anchors (cleaner than SUIN's `ver_NNN`). Closes the F2-style
+`res.dian.*` gap if coverage holds — run 5-10-doc probe first.
+
+---
+
 **2026-04-28 PM Bogotá — fixplan_v6 — engineering closed (steps 1-4 + 5a).**
 Five commits landed:
 * `cfe64bb` — step 1: SUIN canonical→doc-id registry build script + 7 tests. Output: 10 entries at `var/suin_doc_id_registry.json` (9 SUIN spine docs + `et` alias).

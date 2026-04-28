@@ -758,6 +758,26 @@ PYTHONPATH=src:. uv run python scripts/canonicalizer/cascade_heartbeat.py
 
 ---
 
+## 8b. Post-launch lessons (cascade attempt 1, 2026-04-28 PM)
+
+The first v6 cascade attempt (7 batches × 24 workers parallel, 168 total)
+wedged in <2 min. Diagnosis + four corrective code changes landed before
+the cascade could re-launch. Full write-up:
+[`docs/learnings/canonicalizer/v6_suin_first_rewire_2026-04-28.md`](../learnings/canonicalizer/v6_suin_first_rewire_2026-04-28.md).
+
+**Quick summary (read this before re-launching the cascade):**
+
+| # | Lesson | Action taken | Commit |
+|---|---|---|---|
+| 1 | Memory thrashing — `parse_document` re-parsed 17 MB DUR HTML per norm; 168 workers × ~500 MB working memory ≈ 14.8 GB swap used in <2 min, system seized | Per-URL parsed-doc cache on the SUIN scraper (one parse per parent doc; subsequent fetches are dict lookups) — **48× speedup on real DUR-1625** | `3845ee7` |
+| 2 | The `DEFAULT_RPM=80` default was Gemini-derived, not DeepSeek-imposed (the throttle module name still says "gemini") | New env var `LLM_DEEPSEEK_RPM` takes priority; legacy `LIA_GEMINI_GLOBAL_RPM` still honored. Recommended for DeepSeek runs: `LLM_DEEPSEEK_RPM=240` | `a3ee6cd` |
+| 3 | F2 (`res.dian.13.2021.art.*`) was a **bad canary** for SUIN-first — `res.dian.*` isn't in the SUIN registry, so the new path can't help. F2's 30/111 result reflects DIAN retry alone, not v6. | Use **E1a** (DUR articulado) as the SUIN-first canary; don't draw conclusions from F2 alone. | n/a (process) |
+| 4 | DUR multi-segment article numbers (`1.6.1.1.10`) were silently truncated to `1-1` by `\d+(?:[-.]\d+)?` — single-repetition regex. 4 557 DUR articles in the cached doc; without the fix, slicer would have missed every single one. | Regex changed to `\d+(?:[-.]\d+)*` — multi-segment captures supported. Real-corpus regression test in `tests/test_suin_juriscol_scraper.py::test_real_dur_article_slice`. | `9940faf` (embedded in step 2) |
+| 5 | Parallel-across-batches multiplied a per-process scaling problem into a system-wide one. The cascade driver is sequential **for a reason**. | Process tweak: do not parallelize batches until ONE batch closes cleanly at target worker count. | n/a (process) |
+| 6 | Función Pública gestor normativo (`https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=<N>`) has DUR articles with `&lt;a name="1.1.1"&gt;` anchors — even cleaner than SUIN's `ver_NNN`. Verified working for DUR 1625. Closes the F2-style `res.dian.*` gap if coverage holds. | Tracked as v6.1 candidate (~3 hr engineering). Run 5-10-doc coverage probe before committing. | (queued) |
+
+---
+
 ## 9. Decision history + current path
 
 The 2026-04-28 PM v5 cascade halt-point posed: continue trimming the cascade
