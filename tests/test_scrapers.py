@@ -147,7 +147,23 @@ def test_dian_normograma_url_for_decreto():
 
 def test_dian_normograma_url_for_concepto():
     s = DianNormogramaScraper(ScraperCache(":memory:"))
-    assert s._resolve_url("concepto.dian.100208192-202") is not None
+    # Non-hyphenated NUM still resolves via the historical
+    # concepto_dian_<NUM>.htm pattern.
+    assert s._resolve_url("concepto.dian.123456") is not None
+
+
+def test_dian_normograma_concepto_hyphen_url():
+    """fixplan_v5 blocker #3 — hyphenated unified conceptos like
+    `concepto.dian.100208192-202` are not derivable from the canonical
+    suffix alone. Empirical probing (2026-04-28) confirmed the actual host
+    file uses the `oficio_dian_<RADICADO>_<YEAR>.htm` shape (e.g.
+    `oficio_dian_6038_2024.htm` returns HTTP 200 for this id). Without a
+    canonical-suffix → radicado/year lookup table, the resolver returns
+    None so the primary-source chain falls through cleanly rather than
+     404'ing on the wrong URL.
+    """
+    s = DianNormogramaScraper(ScraperCache(":memory:"))
+    assert s._resolve_url("concepto.dian.100208192-202") is None
 
 
 def test_corte_constitucional_url_for_sentencia():

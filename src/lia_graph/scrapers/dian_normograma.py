@@ -118,6 +118,21 @@ class DianNormogramaScraper(Scraper):
         if norm_id.startswith("concepto.dian."):
             parts = norm_id.split(".")
             num = parts[2]
+            # Hyphenated unified concepto suffix (e.g. "100208192-202").
+            # fixture-only — DIAN does not serve hyphenated unified conceptos
+            # at a discoverable URL keyed by the canonical suffix. Empirical
+            # probing (fixplan_v5 §3 #3, 2026-04-28) found that the actual
+            # host file uses the *radicado/year* shape
+            # `oficio_dian_<RADICADO>_<YEAR>.htm` — e.g. concepto.dian.100208192-202
+            # is served as `oficio_dian_6038_2024.htm`. Mapping
+            # canonical-suffix → radicado/year is not derivable from the
+            # norm_id alone; it requires an external lookup table (parallel
+            # to the Función Pública lookup pattern in fixplan_v5 §3 #1
+            # blocker #1). Until that lookup table lands, return None so the
+            # primary-source chain falls through to other scrapers / fixtures
+            # rather than 404'ing.
+            if "-" in num:
+                return None
             return f"{_BASE_URL}/concepto_dian_{num}.htm"
         return None
 
