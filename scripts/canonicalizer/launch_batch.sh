@@ -424,6 +424,17 @@ else
   echo "[launch_batch] [5/6] post-verify SKIPPED (--skip-post)"
 fi
 
+# ── Score-skip implication ────────────────────────────────────────────
+# When --skip-post is set, there are no post_*.json files for the score
+# step to read; running it would crash with rc=4. Default SKIP_SCORE=1
+# in that case (operator can still force --skip-score=0 via env override
+# if they want the explicit failure). Closes fixplan_v5 §3 #5.
+if [[ -n "$SKIP_POST" && -z "$SKIP_SCORE" ]]; then
+  SKIP_SCORE=1
+  SCORE_SKIPPED_BY_POST=1
+  echo "[launch_batch] note: --skip-post implies --skip-score (no post_*.json to score)"
+fi
+
 # ── 6. Score + ledger append ──────────────────────────────────────────
 if [[ -z "$SKIP_SCORE" ]]; then
   echo ""
@@ -448,6 +459,20 @@ if [[ -z "$SKIP_SCORE" ]]; then
   fi
 else
   echo "[launch_batch] [6/6] score SKIPPED (--skip-score)"
+  # When score is skipped because of --skip-post, append an EXTRACT_ONLY
+  # ledger row so the campaign roll-up still has a record of the run
+  # (per fixplan_v5 §3 #5 — "ledger gaps confuse the campaign verdict").
+  if [[ -n "${SCORE_SKIPPED_BY_POST:-}" ]]; then
+    PYTHONPATH=src:. uv run python scripts/canonicalizer/append_extract_only_row.py \
+        --batch-id "$BATCH" \
+        --extraction-run-id "$RUN_ID" \
+        --extraction-stats "${RUN_DIR}/heartbeat_stats.json" \
+        --batches-config "$BATCHES_CONFIG" \
+        --ledger "$LEDGER" \
+        --attested-by "${USER:-claude-opus-4-7}" || \
+      echo "[launch_batch] ⚠ failed to append EXTRACT_ONLY ledger row (non-fatal)"
+    write_state "extract_only"
+  fi
 fi
 
 echo ""
