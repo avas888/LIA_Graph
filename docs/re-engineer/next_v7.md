@@ -386,34 +386,66 @@ cascade. Don't run E1a long tail again — it already closed at 96.7%.
 
 ### 3.6 P2 — DIAN main site probe → 7th scraper if viable
 
-**This task is parallel-agent friendly.** The probe phase is pure
-investigation work that doesn't compete for local resources.
+**Probe completed 2026-04-29 AM Bogotá** (parallel sub-agent). Findings:
 
-**Step 2a (probe, parallel-agent friendly).** Launch a fork agent
-(or two — one for F2, one for G1) with this prompt template:
+**F2 (Resolución 13/2021 + similar 2020+ res.dian.*):** **VIABLE.**
+* **URL pattern:** `https://www.dian.gov.co/normatividad/Normatividad/Resolución <NNNNNN> de <DD-MM-YYYY>.pdf`
+* **Verified:** HTTP 200, 4.27 MB PDF, identical SHA-256 across 30 s
+  fetches. Stable.
+* **Format:** PDF (not HTML). ~645 KB extracted plaintext per doc via
+  pdfminer-six; 39 `ARTÍCULO N` heading matches per Resolución 13/2021.
+* **Slicer:** `re.split(r'^[ \t]*ART[IÍ]CULO\s+(\d+)', text, flags=re.M)`
+  is workable but needs per-doc tuning to handle "ARTÍCULO N PARÁGRAFO"
+  / "ARTÍCULO N°" variants.
+* **Catalog discovery problem:** the date suffix (`DD-MM-YYYY`) means
+  the canonical norm_id alone can't reconstruct the URL. We need to
+  scrape `https://www.dian.gov.co/impuestos/factura-electronica/documentacion/Paginas/normativa.aspx`
+  (and other normativa landing pages) to enumerate per-resolution
+  filenames + map canonical → URL.
 
-```
-Probe DIAN's main site (dian.gov.co — NOT the normograma) for stable
-per-document URLs for [Resolución 13/2021 | Concepto Unificado IVA
-0001/2003]. Report:
-* Found URL (HTTP 200 verified)
-* Slicing feasibility (HTML anchors? PDF blob? per-article structure?)
-* Stability (fetch twice with 30s gap; consistent response?)
-* Recommendation: HTML 7th scraper (~3 hr) | PDF 7th scraper (~6-8 hr) | skip
-Hard rule: only verify URLs you actually fetched. Government sites only.
-```
+**G1 (Concepto Unificado IVA 0001/2003 + similar pre-2020 conceptos):**
+**NOT VIABLE on dian.gov.co main.**
+* All probed paths returned HTTP 404. Pre-2020 conceptos predate the
+  modern `/normatividad/Normatividad/` PDF layout.
+* Google `site:dian.gov.co` only finds normograma hits (the unstable
+  source we already exclude).
+* **One more probe worth ~1 hr** (parallel-agent task): the
+  [Doctrina Dirección de Gestión Jurídica](https://www.dian.gov.co/normatividad/Doctrina/Paginas/Doctrina-Subdireccion-Direccion.aspx)
+  archive may have older PDFs. The first probe didn't hit this layout.
 
-While the probe agent runs, work on P1-P5 in parallel. The probe
-agent's findings inform whether to commit engineering effort to a 7th
-scraper.
+**Step 2a (BUILD F2 scraper, ~6-8 hr).**
 
-**Step 2b (if HTML viable):** build a `DianMainSiteScraper` mirroring
-the SUIN/FP scraper architecture. Reuse the per-URL parsed-doc cache
-+ persisted slice cache patterns.
+Build a `DianPdfScraper` at `src/lia_graph/scrapers/dian_pdf.py`:
 
-**Step 2c (if PDF only):** add pdf2text dependency, build a
-`DianPdfScraper` that extracts per-article text by regex on
-`ARTÍCULO N` headings.
+1. **Add pdfminer-six dependency** to `pyproject.toml`.
+2. **Build a registry** at `var/dian_pdf_registry.json` by scraping
+   the normativa landing page(s). Walks the page, finds links of shape
+   `Resolución <NUM> de <DATE>.pdf`, builds canonical
+   (`res.dian.<NUM>.<YEAR>` → URL).
+   Script: `scripts/canonicalizer/build_dian_pdf_registry.py`.
+3. **Implement scraper** mirroring SUIN/FP architecture:
+   - `_resolve_url` via registry.
+   - `_parse_html` overridden to call pdfminer-six on PDF bytes,
+     return plaintext + per-article slice dict in parsed_meta.
+   - Slice via the regex; first-occurrence-wins on duplicate keys.
+   - Three-tier cache + persisted slice cache (Option-2 pattern).
+4. **Wire into `vigencia_extractor.py default()` chain** after Función
+   Pública. Add to `_TRUSTED_GOVCO_SOURCE_IDS`.
+5. **Tests** in `tests/test_dian_pdf_scraper.py`: registry lookup,
+   PDF slicing on a small fixture, three-tier cache, real-corpus
+   smoke (pin a known small DIAN PDF).
+6. **Per-source operational notes** at `docs/learnings/sites/dian-main.md`.
+7. **Update per-source playbook** to add the 7th scraper.
+8. **Re-run F2 batch** with `--rerun-only-refusals` once scraper is
+   live. Expected gain: ~70 of 81 F2 refusals close.
+
+**Step 2b (G1 secondary probe, ~1 hr, parallel-agent friendly).**
+
+Spawn a fork agent to probe `https://www.dian.gov.co/normatividad/Doctrina/Paginas/Doctrina-Subdireccion-Direccion.aspx`
+for older conceptos. Same probe shape as 2a. If G1 (or any
+pre-2020 concepto) URL is found, extend the F2 scraper's registry
+to cover doctrina too — same PDF layout likely applies. If not,
+G1 stays in the gap list.
 
 **Either way, the new scraper:**
 1. Goes into `src/lia_graph/scrapers/dian_<...>.py`.
@@ -422,23 +454,19 @@ the SUIN/FP scraper architecture. Reuse the per-URL parsed-doc cache
 3. Joins `_TRUSTED_GOVCO_SOURCE_IDS`.
 4. Has tests, docs, and per-source learnings doc.
 
-**Step 2d (alternate path — operator-delivered veredictos for G1):**
-If the DIAN main site probe shows no stable URLs, OR if 7th-scraper
-engineering effort isn't worth it for one batch, an SME can deliver
-veredicto JSONs directly per the canonicalizer's `outside-expert
-deliveries` workflow (see `docs/re-engineer/state_corpus_population.md`).
-For 488 norms this is heavy; likely only viable for the
-highest-traffic concepto (G1's Concepto Unificado IVA 0001/2003)
-since SMEs already work with that doc. F2 (81 res.dian refusals)
-stays pending.
+**Step 2c (alternate path — operator-delivered veredictos for G1):**
+If 2b's secondary probe also returns negative for G1, an SME can
+deliver veredicto JSONs directly per the canonicalizer's
+`outside-expert deliveries` workflow (see
+`docs/re-engineer/state_corpus_population.md`). For 407 G1 norms
+this is heavy but viable since SMEs already work with that
+doctrina. F2 stays covered by 2a's PDF scraper.
 
-**Step 2e (no-op path):** mark F2 + G1 as out-of-scope for v7. They
-represent ~14% of the remaining unresolved norms; the product can
-ship without them by gracefully refusing on those specific
-norm_ids. Document the gap in
-`docs/re-engineer/state_fixplan_v6.md`. Pick this only if 2a probe
-returns negative AND SME delivery isn't practical AND the operator
-agrees the gap is acceptable.
+**Step 2d (no-op path for G1):** mark G1 as out-of-scope for v7 if
+neither 2b nor 2c delivers. G1 represents ~12% of the remaining
+unresolved norms; the product can ship without them by gracefully
+refusing on those specific norm_ids. Document the gap in
+`docs/re-engineer/state_fixplan_v6.md`.
 
 ---
 
