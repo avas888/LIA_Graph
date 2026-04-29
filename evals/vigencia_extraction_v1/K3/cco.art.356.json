@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:27:40.132694+00:00",
+  "extracted_at_utc": "2026-04-29T01:27:59.501018+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "secretaria_senado.truncated.cco.art.356"
+      "No source provided contains the text or vigencia notes for cco.art.356; the secretaria_senado excerpt lists article numbers but does not include the article content."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 40208,
+      "wall_ms": 20943,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

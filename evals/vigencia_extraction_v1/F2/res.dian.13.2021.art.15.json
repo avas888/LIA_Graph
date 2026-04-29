@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:55:41.099733+00:00",
+  "extracted_at_utc": "2026-04-28T22:18:59.213385+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "dian_normograma: res.dian.13.2021.art.15 not present in the provided source text"
+      "El texto del artículo 15 de la Resolución DIAN 13 de 2021 no está disponible en la fuente proporcionada para verificar su estado de vigencia."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 14577,
+      "wall_ms": 26230,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

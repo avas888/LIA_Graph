@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:56:27.536661+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:10.588161+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0013_2021.htm (article 19 text not included in the provided snippet)"
+      "The provided snippet of the DIAN normograma does not include the text of Article 19; unable to extract the state from this source."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 33599,
+      "wall_ms": 37602,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

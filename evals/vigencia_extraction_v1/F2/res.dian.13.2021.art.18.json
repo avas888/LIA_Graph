@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:56:28.188085+00:00",
+  "extracted_at_utc": "2026-04-28T22:18:58.018341+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No source provided that contains the text of res.dian.13.2021.art.18; the dian_normograma snippet ends before the article's content, making it impossible to determine its vigencia state."
+      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0013_2021.htm"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 36728,
+      "wall_ms": 25035,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

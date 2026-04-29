@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:17:39.095072+00:00",
+  "extracted_at_utc": "2026-04-29T01:21:16.895351+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "La fuente única consultada (secretaria_senado) no incluye el texto del artículo 244; la transcripción se trunca antes de ese artículo. Se requiere al menos una fuente que contenga el artículo completo."
+      "cco.art.244 text not present in Secretaría del Senado excerpt"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 33757,
+      "wall_ms": 37985,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

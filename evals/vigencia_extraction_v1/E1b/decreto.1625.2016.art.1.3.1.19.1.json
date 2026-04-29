@@ -5,24 +5,75 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:49:29.148140+00:00",
+  "extracted_at_utc": "2026-04-29T00:18:24.619990+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "missing_double_primary_source",
-    "missing_sources": [
-      "dian_normograma",
-      "suin_juriscol"
-    ],
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2020-12-17",
+      "state_until": null,
+      "applies_to_kind": "per_period",
+      "applies_to_payload": {
+        "year_start": 2020,
+        "year_end": null,
+        "impuesto": "iva",
+        "period_start": "2020-12-17",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "decreto.1690.2020.art.2",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2020-12-17"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "decreto.1690.2020.art.2",
+          "norm_type": "decreto",
+          "article": "Art. 2",
+          "fecha": "2020-12-17",
+          "primary_source_url": null
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_normograma",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": null,
+      "wall_ms": 119911,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
-      "method": "harness"
+      "method": "skill"
     },
     "single_source_accepted": null
   }

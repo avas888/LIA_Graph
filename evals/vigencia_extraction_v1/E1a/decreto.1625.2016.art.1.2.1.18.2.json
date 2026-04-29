@@ -5,24 +5,22 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T21:10:40.011283+00:00",
+  "extracted_at_utc": "2026-04-28T23:52:38.813974+00:00",
   "result": {
     "veredicto": null,
-    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
-    "missing_sources": [
-      "dian_normograma (https://normograma.dian.gov.co/dian/compilacion/docs/decreto_1625_2016.htm) - el artículo 1.2.1.18.2 no se encuentra en el fragmento proporcionado"
-    ],
+    "refusal_reason": "invalid_vigencia_shape: state_from is required",
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 19725,
+      "wall_ms": 149729,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "dian_normograma"
+    "single_source_accepted": null
   }
 }

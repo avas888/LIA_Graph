@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T21:00:52.736901+00:00",
+  "extracted_at_utc": "2026-04-28T22:20:28.937205+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "res.dian.165.2023.art.40"
+      "The provided snippet from the DIAN normograma does not include the text of Article 40; the full text of Article 40 is required to determine its vigencia."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 31233,
+      "wall_ms": 39399,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

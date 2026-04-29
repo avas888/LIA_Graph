@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:55:42.772441+00:00",
+  "extracted_at_utc": "2026-04-28T22:18:50.540610+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "article 14 of Resolución DIAN 13 de 2021 not present in the provided source (truncated)"
+      "Fuente 1: dian_normograma no incluye el artículo 14"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 16249,
+      "wall_ms": 17554,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,20 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:21:08.610655+00:00",
+  "extracted_at_utc": "2026-04-29T01:24:11.680065+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No se proporcionó el texto del artículo 291 del Código de Comercio en la fuente consultada (secretariasenado.gov.co). La porción de la página incluida solo alcanza hasta el artículo 15.",
-      "Se requiere el texto y las notas de vigencia del artículo para determinar su estado actual."
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (extracto no incluye contenido del artículo 291)"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 26035,
+      "wall_ms": 30328,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

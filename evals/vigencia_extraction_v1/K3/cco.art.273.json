@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:19:30.682404+00:00",
+  "extracted_at_utc": "2026-04-29T01:23:19.063532+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "Article 273 text not found in provided source snippet; full secretaria_senado page may contain it but not provided"
+      "secretaria_senado"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 19736,
+      "wall_ms": 41659,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

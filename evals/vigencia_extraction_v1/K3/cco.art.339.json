@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:25:55.153974+00:00",
+  "extracted_at_utc": "2026-04-29T01:27:13.947588+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (la extracto proporcionado solo incluye los artículos 1 al 15, no el artículo 339)"
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 41413,
+      "wall_ms": 28930,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

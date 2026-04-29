@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:57:30.942802+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:09.029156+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "El texto de la fuente normograma.dian.gov.co proporcionado no contiene el artículo 33, impidiendo verificar su vigencia."
+      "res.dian.13.2021.art.33 complete text not found in provided source"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 36115,
+      "wall_ms": 36046,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

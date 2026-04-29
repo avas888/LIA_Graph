@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:10:15.867886+00:00",
+  "extracted_at_utc": "2026-04-29T01:15:25.512749+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "cco.art.159 - La fuente primaria suministrada (secretaria_senado) solo incluye los primeros 15 artículos del Código de Comercio y no contiene el artículo 159."
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (article 159 not included in the provided text extract)"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 25039,
+      "wall_ms": 27112,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:06:58.621220+00:00",
+  "extracted_at_utc": "2026-04-29T01:13:12.633771+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "La fuente proporcionada (secretaria_senado) solo contiene los artículos iniciales del Código de Comercio y no incluye el artículo 124, por lo que no es posible verificar su contenido, estado de vigencia o modificaciones."
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (el texto proporcionado no incluye el artículo 124)"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 26630,
+      "wall_ms": 20689,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:57:28.440507+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:23.409082+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "res.dian.13.2021.art.34"
+      "res.dian.13.2021.art.34 not found in provided dian_normograma snippet"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 16987,
+      "wall_ms": 50422,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

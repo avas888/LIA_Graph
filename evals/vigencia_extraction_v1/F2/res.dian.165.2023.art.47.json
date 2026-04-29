@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T21:01:05.481170+00:00",
+  "extracted_at_utc": "2026-04-28T22:20:26.829542+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0165_2023.htm"
+      "res.dian.165.2023.art.47 not found in the provided text of the DIAN normograma; the excerpt shows only the preamble and does not include the article content."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 12739,
+      "wall_ms": 30244,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

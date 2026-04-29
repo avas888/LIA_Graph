@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:59:41.199267+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:54.110060+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "res.dian.165.2023.art.23"
+      "The provided DIAN normograma snippet for Resolución 165 de 2023 does not include Article 23 or any vigencia notes for it; the snippet only contains the resolution's preamble and general considerations, making it impossible to determine the current state of art.23."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 26470,
+      "wall_ms": 30695,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

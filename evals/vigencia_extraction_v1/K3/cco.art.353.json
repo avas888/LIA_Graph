@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:26:59.919529+00:00",
+  "extracted_at_utc": "2026-04-29T01:27:55.792328+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "Secretaría del Senado - Código de Comercio, Artículo 353 (el extracto proporcionado no incluye el contenido ni notas de vigencia del artículo)"
+      "No source provided contains the text of cco.art.353"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 34466,
+      "wall_ms": 25837,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

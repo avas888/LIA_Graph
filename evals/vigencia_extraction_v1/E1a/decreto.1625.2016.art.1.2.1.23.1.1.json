@@ -5,24 +5,75 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:48:47.756330+00:00",
+  "extracted_at_utc": "2026-04-29T01:40:29.349725+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "missing_double_primary_source",
-    "missing_sources": [
-      "dian_normograma",
-      "suin_juriscol"
-    ],
+    "veredicto": {
+      "state": "IE",
+      "state_from": "2023-07-18",
+      "state_until": null,
+      "applies_to_kind": "per_year",
+      "applies_to_payload": {
+        "year_start": 2017,
+        "year_end": 2027,
+        "impuesto": "renta",
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "sentencia_ce_nulidad",
+        "source_norm_id": "consejo_estado.sentencia.11001032700020210009500.2023",
+        "effect_type": "retroactivo",
+        "effect_payload": {
+          "fecha": "2023-07-18"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "decreto.1650.2017.art.2",
+          "norm_type": "decreto",
+          "article": "Art. 2",
+          "fecha": "2017-10-09",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_normograma",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": null,
+      "wall_ms": 147604,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
-      "method": "harness"
+      "method": "skill"
     },
     "single_source_accepted": null
   }

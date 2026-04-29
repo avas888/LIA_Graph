@@ -5,24 +5,76 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T19:57:21.261015+00:00",
+  "extracted_at_utc": "2026-04-29T01:15:57.317884+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
-    "missing_sources": [
-      "Full text of cst.art.422 from an authoritative .gov.co source (e.g., Diario Oficial, SUIN-Juriscol, Secretaría del Senado page with article content)"
-    ],
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2000-06-14",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "ley.584.2000.art.14",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2000-06-14"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "ley.584.2000.art.14",
+          "norm_type": "ley",
+          "article": "Art. 14",
+          "fecha": "2000-06-14",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019323"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019323",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr008.html",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 26505,
+      "wall_ms": 104086,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "secretaria_senado"
+    "single_source_accepted": null
   }
 }

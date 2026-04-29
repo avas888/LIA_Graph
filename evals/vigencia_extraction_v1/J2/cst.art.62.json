@@ -5,24 +5,73 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T19:45:34.723938+00:00",
+  "extracted_at_utc": "2026-04-29T01:17:43.067992+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
-    "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr002.html (artículo 62 no incluido en el extracto)"
-    ],
+    "veredicto": {
+      "state": "EC",
+      "state_from": "2019-05-15",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "sentencia_cc",
+        "source_norm_id": "corte_constitucional.sentencia.C-200-2019",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2019-05-15"
+        }
+      },
+      "interpretive_constraint": {
+        "sentencia_norm_id": "corte_constitucional.sentencia.C-200-2019",
+        "fecha_sentencia": "2019-05-15",
+        "texto_literal": "EN EL ENTENDIDO de que carece de todo efecto jurídico el despido o la terminación del contrato de trabajo de una persona por razón de su situación de salud cuando no exista autorización previa del inspector de trabajo. Quienes fueren despedidos o su contrato terminado por razón de su situación de salud, sin la autorización del inspector de trabajo, tendrán derecho a una indemnización equivalente a ciento ochenta días del salario, sin perjuicio de las demás prestaciones e indemnizaciones a que haya lugar",
+        "fuente_verificada_directo": true
+      },
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol_30019323",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "secretaria_senado_cst_pr002",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 38725,
+      "wall_ms": 154241,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "secretaria_senado"
+    "single_source_accepted": null
   }
 }

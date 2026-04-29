@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:58:48.591164+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:45.315282+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "El artículo 12 no se encuentra en el fragmento proporcionado de la compilación normativa de la DIAN. Se requiere el texto completo de la Resolución 165 de 2023 que contenga el artículo 12 para determinar su vigencia."
+      "Texto completo del art. 12 de la Resolución DIAN 165/2023 no disponible en la fuente proporcionada"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 29538,
+      "wall_ms": 36279,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:07:36.846829+00:00",
+  "extracted_at_utc": "2026-04-29T01:13:45.840019+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No source containing the text of cco.art.128 was provided; the secretaria_senado excerpt only includes up to Article 15."
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html no contiene el texto del artículo 128"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 42415,
+      "wall_ms": 33199,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

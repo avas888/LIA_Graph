@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:55:56.676932+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:17.955175+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No content for art. 10 of Resolución DIAN 13 de 2021 was provided in the supplied source text."
+      "The provided DIAN normograma snippet does not include the full text or vigencia annotations for Article 10 of Resolución 13 de 2021."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 30152,
+      "wall_ms": 44973,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

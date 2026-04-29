@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:19:31.706400+00:00",
+  "extracted_at_utc": "2026-04-29T01:23:03.370396+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (article 272 not found in provided excerpt)"
+      "El texto proporcionado de la fuente http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html está incompleto y no incluye el contenido del artículo 272 del Código de Comercio."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 24841,
+      "wall_ms": 26901,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

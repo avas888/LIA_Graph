@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:57:55.774150+00:00",
+  "extracted_at_utc": "2026-04-28T22:20:11.548758+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0013_2021.htm (does not contain art.7)"
+      "El artículo 7 no está presente en el texto de la fuente proporcionada; la transcripción se corta después del artículo 1 y no incluye el artículo solicitado."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 23910,
+      "wall_ms": 72271,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

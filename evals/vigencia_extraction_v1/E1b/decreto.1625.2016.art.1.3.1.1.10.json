@@ -5,14 +5,11 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:49:28.776324+00:00",
+  "extracted_at_utc": "2026-04-28T23:45:01.804605+00:00",
   "result": {
     "veredicto": null,
-    "refusal_reason": "missing_double_primary_source",
-    "missing_sources": [
-      "dian_normograma",
-      "suin_juriscol"
-    ],
+    "refusal_reason": "adapter_error: DeepSeek response missing message content.",
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",

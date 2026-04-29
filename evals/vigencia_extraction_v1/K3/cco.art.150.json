@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:09:29.268344+00:00",
+  "extracted_at_utc": "2026-04-29T01:15:19.922203+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (solo se proporcionó el extracto inicial, que no incluye el artículo 150)"
+      "cco.art.150"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 32737,
+      "wall_ms": 53565,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

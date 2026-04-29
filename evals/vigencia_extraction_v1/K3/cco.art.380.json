@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:29:33.570431+00:00",
+  "extracted_at_utc": "2026-04-29T01:29:55.511032+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (texto truncado, no contiene el artículo 380)"
+      "The provided source 'secretaria_senado' does not include the text of article 380 within the supplied content."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 38650,
+      "wall_ms": 27467,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

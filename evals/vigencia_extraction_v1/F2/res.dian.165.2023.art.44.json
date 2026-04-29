@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T21:00:57.211085+00:00",
+  "extracted_at_utc": "2026-04-28T22:20:32.809005+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No source containing the specific article res.dian.165.2023.art.44 was provided; the only source snippet stops before the articles."
+      "Full text of Resolución DIAN 165 de 2023 containing Article 44 (the provided normograma excerpt ends before the article, making it impossible to determine its state)"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 21082,
+      "wall_ms": 40421,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

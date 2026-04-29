@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:08:00.987591+00:00",
+  "extracted_at_utc": "2026-04-29T01:13:42.620905+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "texto_completo_articulo_134_secretaria_senado"
+      "No primary source contained the text of cco.art.134; the provided secretariasenado.gov.co page only lists article links without content"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 36985,
+      "wall_ms": 18848,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

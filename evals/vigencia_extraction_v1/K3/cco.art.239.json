@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:17:09.031585+00:00",
+  "extracted_at_utc": "2026-04-29T01:20:36.137959+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "Texto del artículo 239 del Código de Comercio no accesible en la fuente consultada (secretaria_senado), impidiendo verificar su vigencia y modificaciones."
+      "The provided secretaria_senado page excerpt does not contain the text or vigencia notes for article 239; a source with the full article or its specific vigencia is required."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 34988,
+      "wall_ms": 22987,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

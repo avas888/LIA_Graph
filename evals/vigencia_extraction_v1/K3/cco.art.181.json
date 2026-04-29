@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:12:04.823250+00:00",
+  "extracted_at_utc": "2026-04-29T01:16:41.502467+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html"
+      "El texto del artículo 181 del Código de Comercio no se encuentra en la fuente proporcionada (secretaria_senado, que solo incluye hasta el artículo 15 en el extracto suministrado). Se requiere una fuente primaria que contenga el texto del artículo para poder determinar su vigencia."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 22709,
+      "wall_ms": 18151,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

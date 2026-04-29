@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:17:41.724857+00:00",
+  "extracted_at_utc": "2026-04-29T01:21:05.222617+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "secretaria_senado: provided snippet only includes articles 1-15; article 249 not found."
+      "The provided fuente (secretaria_senado) does not contain the text or vigencia information for cco.art.249, only the beginning articles of the Código de Comercio."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 17579,
+      "wall_ms": 11275,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,24 +5,73 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T19:44:58.040884+00:00",
+  "extracted_at_utc": "2026-04-29T01:15:41.599558+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
-    "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr002.html"
-    ],
+    "veredicto": {
+      "state": "EC",
+      "state_from": "2000-11-08",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "sentencia_cc",
+        "source_norm_id": "corte_constitucional.C-993.2000",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2000-11-08"
+        }
+      },
+      "interpretive_constraint": {
+        "sentencia_norm_id": "corte_constitucional.C-993.2000",
+        "fecha_sentencia": "2000-11-08",
+        "texto_literal": "bajo el entendido de que las consecuencias de la suspensión del contrato de trabajo durante la huelga sólo se predican cuando ésta sea imputable al empleador, por desconocer derechos laborales, legales o convencionales jurídicamente exigibles, y que éste debe, en todo caso, esto es, le sea o no imputable la huelga, garantizar el derecho irrenunciable a la seguridad social de los trabajadores que participaron en el cese de actividades, mediante el pago de los correspondientes aportes para salud y pensiones.",
+        "fuente_verificada_directo": true
+      },
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": "1950-12-31",
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol_30019323",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "secretariasenado_cst_pr002",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 45729,
+      "wall_ms": 88365,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "secretaria_senado"
+    "single_source_accepted": null
   }
 }

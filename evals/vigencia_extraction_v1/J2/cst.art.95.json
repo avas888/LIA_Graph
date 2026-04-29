@@ -5,24 +5,83 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T19:49:38.535946+00:00",
+  "extracted_at_utc": "2026-04-29T01:18:05.805783+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
-    "missing_sources": [
-      "No primary source containing the text of article 95 of the Código Sustantivo del Trabajo was provided; the given source snippet does not include the article's content."
-    ],
+    "veredicto": {
+      "state": "VM",
+      "state_from": "1991-01-01",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "ley.50.1990.art.10",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "1991-01-01"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "decreto.3129.1956.art.2",
+          "norm_type": "decreto",
+          "article": "Art. 2",
+          "fecha": "1956-12-20",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019323"
+        },
+        {
+          "norm_id": "ley.50.1990.art.10",
+          "norm_type": "ley",
+          "article": "Art. 10",
+          "fecha": "1991-01-01",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019323"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol_cst_art_95",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "secretaria_senado_cst",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 23621,
+      "wall_ms": 127732,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "secretaria_senado"
+    "single_source_accepted": null
   }
 }

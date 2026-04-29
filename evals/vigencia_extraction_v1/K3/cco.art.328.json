@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:24:46.443652+00:00",
+  "extracted_at_utc": "2026-04-29T01:26:17.039949+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html"
+      "secretaria_senado: source truncated before art. 328, unable to extract text or state of cco.art.328"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 29862,
+      "wall_ms": 17411,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

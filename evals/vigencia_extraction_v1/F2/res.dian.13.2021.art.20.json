@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:56:20.203738+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:12.820288+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0013_2021.htm"
+      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0013_2021.htm (el artículo 20 no aparece en el fragmento suministrado)"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 22988,
+      "wall_ms": 39836,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

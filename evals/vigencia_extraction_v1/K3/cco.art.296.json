@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:21:33.623848+00:00",
+  "extracted_at_utc": "2026-04-29T01:24:12.820629+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "The provided primary source text from secretariasenado.gov.co does not include the text or vigencia notes for cco.art.296; it only contains early articles of the Código de Comercio."
+      "Primary source containing the text of cco.art.296, for example http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr010.html#296"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 27602,
+      "wall_ms": 19672,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,21 +5,74 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T02:00:48.798908+00:00",
+  "extracted_at_utc": "2026-04-28T22:28:29.064150+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "adapter_error: DeepSeek request failed: IncompleteRead(1 bytes read)",
+    "veredicto": {
+      "state": "IE",
+      "state_from": "2020-01-01",
+      "state_until": null,
+      "applies_to_kind": "per_year",
+      "applies_to_payload": {
+        "year_start": 2019,
+        "year_end": 2019,
+        "impuesto": "renta",
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "sentencia_cc",
+        "source_norm_id": "sentencia_cc.C-481-2019",
+        "effect_type": "diferido",
+        "effect_payload": {
+          "fecha": "2020-01-01"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [],
+      "suspension": null,
+      "inexequibilidad": {
+        "norm_id": "sentencia_cc.C-481-2019",
+        "norm_type": "sentencia_cc",
+        "article": null,
+        "fecha": "2019-10-16",
+        "primary_source_url": "https://www.corteconstitucional.gov.co/relatoria/2019/C-481-19.htm"
+      },
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": "2018-12-28",
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "secretaria_senado.ley.1943.2018",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_normograma.ley.1943.2018",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
     "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": null,
+      "wall_ms": 100996,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
-      "method": "harness"
-    }
+      "method": "skill"
+    },
+    "single_source_accepted": null
   }
 }

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T21:01:43.295459+00:00",
+  "extracted_at_utc": "2026-04-28T22:20:13.393790+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No se encontró el texto del artículo 5 de la Resolución DIAN 165 de 2023 en la única fuente proporcionada (normograma.dian.gov.co). Se requiere al menos una fuente que contenga el artículo para extraer su estado de vigencia."
+      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0165_2023.htm"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 43975,
+      "wall_ms": 13776,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:12:52.038404+00:00",
+  "extracted_at_utc": "2026-04-29T01:17:19.467855+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html no contiene el texto del artículo 189 en el extracto proporcionado"
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 32024,
+      "wall_ms": 16521,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

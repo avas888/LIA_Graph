@@ -5,24 +5,83 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T21:15:29.545807+00:00",
+  "extracted_at_utc": "2026-04-29T00:47:14.915112+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
-    "missing_sources": [
-      "dian_normograma"
-    ],
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2023-12-22",
+      "state_until": null,
+      "applies_to_kind": "per_year",
+      "applies_to_payload": {
+        "year_start": 2024,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": "2024-01-01",
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "decreto.2231.2023.art.6",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2023-12-22"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "decreto.2231.2023.art.6",
+          "norm_type": "decreto",
+          "article": "Art. 6",
+          "fecha": "2023-12-22",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361"
+        },
+        {
+          "norm_id": "decreto.2231.2023.art.12",
+          "norm_type": "decreto",
+          "article": "Art. 12",
+          "fecha": "2023-12-22",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": null,
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol:30030361",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "dian_normograma:decreto_1625_2016",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 21494,
+      "wall_ms": 138085,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "dian_normograma"
+    "single_source_accepted": null
   }
 }

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:58:20.119318+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:29.230768+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No se encuentra el contenido del artículo 10 en la fuente proporcionada (Resolución DIAN 165 de 2023, artículo 10)."
+      "No se incluyó el texto del artículo 10 de la Resolución DIAN 165 de 2023 en la fuente primaria suministrada. El fragmento del normograma solo contiene los considerandos y los primeros párrafos, sin llegar al artículo 10."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 24858,
+      "wall_ms": 24206,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

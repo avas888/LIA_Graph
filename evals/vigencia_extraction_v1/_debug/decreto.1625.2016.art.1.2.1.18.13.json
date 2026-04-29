@@ -1,0 +1,7 @@
+{
+  "norm_id": "decreto.1625.2016.art.1.2.1.18.13",
+  "ts_utc": "2026-04-28T23:46:53.083525+00:00",
+  "error": "invalid_shape: state=VM not compatible with change_source.type=derogacion_tacita",
+  "raw_output": "{\n  \"state\": \"VM\",\n  \"state_from\": \"1987-12-29\",\n  \"state_until\": null,\n  \"applies_to_kind\": \"per_year\",\n  \"applies_to_payload\": {\n    \"year_start\": 1974,\n    \"year_end\": null,\n    \"impuesto\": \"renta\",\n    \"period_start\": null,\n    \"period_end\": null,\n    \"art_338_cp_shift\": false\n  },\n  \"change_source\": {\n    \"type\": \"derogacion_tacita\",\n    \"source_norm_id\": \"decreto.2503.1987.art.4\",\n    \"effect_type\": \"pro_futuro\",\n    \"effect_payload\": {\"fecha\": \"1987-12-29\"}\n  },\n  \"interpretive_constraint\": null,\n  \"derogado_por\": null,\n  \"modificado_por\": [\n    {\n      \"norm_id\": \"decreto.2503.1987.art.4\",\n      \"norm_type\": \"decreto\",\n      \"article\": \"Art. 4\",\n      \"fecha\": \"1987-12-29\",\n      \"primary_source_url\": \"https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361\"\n    }\n  ],\n  \"suspension\": null,\n  \"inexequibilidad\": null,\n  \"regimen_transicion\": null,\n  \"revives_text_version\": null,\n  \"rige_desde\": null,\n  \"fuentes_primarias_consultadas\": [\n    {\n      \"norm_id\": \"suin_juriscol_30030361\",\n      \"norm_type\": \"url\",\n      \"url\": \"https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361\"\n    }\n  ]\n}",
+  "raw_output_len": 1127
+}

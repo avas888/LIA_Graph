@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:04:45.029046+00:00",
+  "extracted_at_utc": "2026-04-29T01:12:51.936920+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html did not contain Article 102"
+      "The provided primary source snippet from Secretaría del Senado does not contain the text of cco.art.102. Only the navigation links are visible, and the article content is absent. Without any source containing the article, the state cannot be determined."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 23844,
+      "wall_ms": 57557,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

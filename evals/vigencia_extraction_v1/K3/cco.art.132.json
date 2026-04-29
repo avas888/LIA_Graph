@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:07:26.201036+00:00",
+  "extracted_at_utc": "2026-04-29T01:13:47.340937+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html"
+      "No se encuentra el contenido del artículo 132 del Código de Comercio en el fragmento proporcionado de la fuente secretaria_senado."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 25955,
+      "wall_ms": 25564,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T21:02:42.674219+00:00",
+  "extracted_at_utc": "2026-04-28T22:21:01.655077+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0165_2023.htm"
+      "No source provided contains the text of the article res.dian.165.2023.art.66; the single source snippet ends before article 66."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 27796,
+      "wall_ms": 34785,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

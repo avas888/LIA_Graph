@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:58:51.822678+00:00",
+  "extracted_at_utc": "2026-04-28T22:19:29.342952+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0165_2023.htm (artículo 13 no presente en el fragmento suministrado)"
+      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0165_2023.htm"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 32629,
+      "wall_ms": 18748,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

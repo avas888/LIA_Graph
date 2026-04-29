@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T21:03:23.615941+00:00",
+  "extracted_at_utc": "2026-04-28T22:20:52.673766+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "res.dian.165.2023.art.68 not found in provided dian_normograma excerpt"
+      "El texto completo del artículo 68 de la Resolución DIAN 165 de 2023 no se encuentra incluido en el fragmento proporcionado de la fuente primaria (normograma DIAN), impidiendo determinar su estado de vigencia, modificaciones o contenido."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 52605,
+      "wall_ms": 25355,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

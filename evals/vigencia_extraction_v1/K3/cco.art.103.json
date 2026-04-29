@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:04:53.814556+00:00",
+  "extracted_at_utc": "2026-04-29T01:12:13.853709+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "secretaria_senado_base_doc_no_texto_art_103"
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 32813,
+      "wall_ms": 19475,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

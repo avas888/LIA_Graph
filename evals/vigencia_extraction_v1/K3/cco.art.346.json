@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:26:08.264485+00:00",
+  "extracted_at_utc": "2026-04-29T01:27:57.293168+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "Artículo 346 del Código de Comercio no está incluido en el fragmento proporcionado del texto de secretariasenado.gov.co (solo cubre artículos 1 a 15). Se requiere una fuente que contenga el texto y las notas de vigencia del artículo 346."
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (no article text for art. 346)"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 18257,
+      "wall_ms": 43718,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

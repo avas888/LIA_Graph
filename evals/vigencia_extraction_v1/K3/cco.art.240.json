@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:16:57.708706+00:00",
+  "extracted_at_utc": "2026-04-29T01:20:37.584445+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "secretaria_senado: excerpt does not include art. 240"
+      "secretaria_senado"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 23472,
+      "wall_ms": 18463,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

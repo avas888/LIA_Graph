@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:19:17.983807+00:00",
+  "extracted_at_utc": "2026-04-29T01:23:08.412858+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No primary source containing the text of cco.art.268 was found in the provided evidence; the secretaria_senado page dump does not include the article content."
+      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (texto del art. 268 no incluido en el extracto proporcionado)"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 29014,
+      "wall_ms": 51693,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

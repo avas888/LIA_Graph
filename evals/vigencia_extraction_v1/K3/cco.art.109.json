@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:05:58.208636+00:00",
+  "extracted_at_utc": "2026-04-29T01:12:11.404300+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "secretaria_senado: the provided snippet does not contain the text or vigencia notes for article 109"
+      "The provided secretaria_senado excerpt only includes articles 1-15, not article 109"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 66231,
+      "wall_ms": 17025,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

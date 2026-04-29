@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:17:55.038187+00:00",
+  "extracted_at_utc": "2026-04-29T01:21:11.526182+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (artículo 247 no incluido en el fragmento proporcionado)"
+      "The provided Secretaría del Senado excerpt only includes articles 1 to 15; the text of article 247 is not present in the source fragment."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 35423,
+      "wall_ms": 19407,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

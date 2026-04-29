@@ -5,24 +5,76 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:01:57.429028+00:00",
+  "extracted_at_utc": "2026-04-29T01:24:22.246895+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
-    "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr008.html (el fragmento proporcionado no incluye el texto del artículo 479)"
-    ],
+    "veredicto": {
+      "state": "VM",
+      "state_from": "1954-02-25",
+      "state_until": null,
+      "applies_to_kind": "always",
+      "applies_to_payload": {
+        "year_start": null,
+        "year_end": null,
+        "impuesto": null,
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "decreto.616.1954.art.14",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "1954-02-25"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "decreto.616.1954.art.14",
+          "norm_type": "decreto",
+          "article": "Art. 14",
+          "fecha": "1954-02-25",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30019323"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": "1951-06-07",
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol_cst_art_479",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "secretariasenado_cst_pr008",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
+    "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 30360,
+      "wall_ms": 90178,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "secretaria_senado"
+    "single_source_accepted": null
   }
 }

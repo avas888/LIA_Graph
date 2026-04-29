@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:05:14.936777+00:00",
+  "extracted_at_utc": "2026-04-29T01:12:30.922546+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html (truncated; no content for ARTÍCULO 107)"
+      "The provided excerpt from secretariasenado.gov.co does not include the text of article 107; cannot determine its current state."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 29899,
+      "wall_ms": 36543,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:28:20.653423+00:00",
+  "extracted_at_utc": "2026-04-29T01:28:37.709398+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html"
+      "The provided excerpt from secretaria_senado does not include the text or notes of cco.art.366, and no other primary source was supplied."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 24201,
+      "wall_ms": 30861,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

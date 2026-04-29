@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:10:08.832237+00:00",
+  "extracted_at_utc": "2026-04-29T01:15:22.993620+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "El artefacto de fuente no contiene el texto del artículo 158 del Código de Comercio; la fuente consultada solo incluye hasta el artículo 15."
+      "Source secretaria_senado provided only lists article numbers, not the text of Article 158. Cannot determine vigencia without the article's content."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 26885,
+      "wall_ms": 27352,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

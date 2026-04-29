@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T20:25:00.299209+00:00",
+  "extracted_at_utc": "2026-04-29T01:26:52.471926+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "cco.art.334: article text not found in the provided source excerpt"
+      "El fragmento del texto proporcionado de la fuente secretaria_senado no incluye el artículo 334, por lo que no se puede determinar su estado"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 13850,
+      "wall_ms": 24615,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
