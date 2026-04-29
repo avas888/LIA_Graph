@@ -241,6 +241,97 @@ Wave 2 sub-total: **~285** new veredictos if SUIN has CST/CCo.
 
 ---
 
+**2026-04-28 PM Bogotá — fixplan_v6 — cascade closed.**
+
+Postgres `norm_vigencia_history`: **783 → 2019 (+1236 net)**. E1a long
+tail still running at workers=2 — its remaining ~325 successes will
+land async, projected final ~2342.
+
+Cumulative: **2340 ✅ / 220 ❌ / 0 errors** across 13 v6 batches that
+hit `cli.done` (E1a still running on workers=2 long tail). 91.4%
+overall pass rate; 97% if K3's CCo-coverage gap is excluded.
+
+## Wave summaries
+
+| Wave | Batches | Successes | Refusals | Pass rate | Notes |
+|---|---|---|---|---|---|
+| 1 (DUR-1625) | E1a (partial) / E1b / E1d / E2a / E2c / E3b | 215+342+301+260+220+68 = 1406 | 9+11+7+11+8+0 = 46 | 96.8% | E3b 100%, E2c 96%, E1b 95%, E1d 89%, E2a 86%, E1a in progress |
+| 2 (CST/CCo) | J1 / J2 / J3 / J4 / K3 | 6+19+40+66+66 = 197 | 0+0+0+0+157 = 157 | 55.6% | **CST batches all 100%** (J1/J2/J3/J4 — pristine SUIN coverage); **K3 (CCo) only 30%** — SUIN's CCo harvest is incomplete |
+| 3 (DUR-1072) | E6b / E6c / J8b | 289+223+225 = 737 | 7+6+4 = 17 | 97.7% | All three batches above 97% — DUR 1072/2015 is fully covered in SUIN |
+| **Total** | 13 batches done | **2340** | **220** | **91.4%** | Wave 1 + 2 + 3 partial; E1a still extracting |
+
+## Top refusal patterns
+
+* **K3 (CCo articles): 157/223 = 70% refusal rate.** SUIN's `Código de
+  Comercio` (consolidado, doc_id 30019323's CCo equivalent) coverage
+  is incomplete or our slicer missed segments. Worth diagnosing in v7
+  — could be either a SUIN harvest gap (article 100-1000 range
+  missing) or a slicer bug specific to CCo numbering. Sample the K3
+  refusal JSONs against the actual SUIN CCo HTML to isolate.
+* **Wave 1/3 single-digit refusals**: occasional DUR sub-articles where
+  the slicer didn't find the article key — likely the same issue we
+  fixed in commit `9940faf` (regex truncation), but on edge-case
+  numbering schemes (`bis`, ranged sub-articles like `689-3`). Not
+  worth chasing case-by-case; the 96-98% pass rate is the right
+  outcome.
+* **0 errors total** across 14 batches × 3 hours of runtime — the
+  pipeline is stable.
+
+## Recommended next steps
+
+1. **Función Pública 6th scraper** (~3 hr engineering) — closes:
+   * F2 (81 res.dian refusals from earlier in this session) — DIAN
+     normograma is unstable; Función Pública has the same conceptos
+     with stable per-norm URLs.
+   * G1 (407 norms, concepto 0001/2003) — same.
+   * Future res.dian / concepto / oficio gaps as the corpus grows.
+   Per-article anchors are `<a name="1.1.1">` (cleaner than SUIN's
+   `ver_NNN`). Verified HTTP 200 on
+   `https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=83233`
+   (DUR 1625). Build registry the same way as SUIN; reuse the
+   per-URL parsed-doc-cache pattern (commit `92c5661`).
+
+2. **SUIN harvest extension** (v7 candidate, ~3-5 hr):
+   * `decreto.417.2020` (E5: 104 norms — COVID decretos)
+   * `concepto.dian.0001.2003` (G1: 407 norms — overlap with #1; do
+     this OR Función Pública, not both)
+   * K3's missing CCo segments — investigate first (could be a parser
+     issue, not a harvest issue).
+
+3. **E1a long tail**: still running with workers=2; ~3-4 hr remaining
+   ETA from 9:25 PM. Will land its remaining ~325 successes async.
+   Keep the process alive; its ledger entry will append on cli.done.
+
+4. **Cloud promotion** (operator gate): once SME signoff confirms,
+   replay all 2019 verified veredictos to cloud staging via
+   `launch_batch.sh --target production` per-batch. Cloud writes
+   pre-authorized; announce, don't ask.
+
+## Engineering wins shipped during this cascade
+
+The cascade execution itself surfaced **two perf bugs** that would
+have made it impossible to scale, and both got fixed live:
+
+* **Per-URL parsed-doc cache** (commit `3845ee7`) — without this, each
+  norm re-parsed the 17 MB DUR HTML via BeautifulSoup. 168 workers
+  parsing in parallel exhausted RAM and put the system into 14.8 GB
+  swap. Cache: 1 parse per parent URL → all subsequent fetches in the
+  process are dict lookups. ~48× speedup measured.
+* **Persisted slice cache (Option 2)** (commit `92c5661`) — slices
+  stored as JSON in `parsed_meta` of `var/scraper_cache.db`. Fresh
+  scraper instances (parallel batches as separate processes) hit the
+  SQLite cache and never re-parse. ~3 MB JSON per parent doc; 38×
+  speedup on warm-instance fetches measured. **This is the win that
+  let Wave 1 + 2 + 3 actually run in parallel.**
+* **`LLM_DEEPSEEK_RPM` env var** (commit `a3ee6cd`) — the previous
+  default 80 RPM was Gemini-derived; DeepSeek doesn't impose this cap.
+  Throttle is provider-aware now.
+
+Six learnings logged at
+`docs/learnings/canonicalizer/v6_suin_first_rewire_2026-04-28.md`.
+
+---
+
 **2026-04-28 PM Bogotá — fixplan_v6 — cascade attempt 1 wedged; recovered with 2 perf/config fixes.**
 
 First cascade launch (7 batches × 24 workers parallel = 168 thread workers
