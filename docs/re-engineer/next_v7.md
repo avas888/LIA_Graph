@@ -342,13 +342,22 @@ If found:
    previously refused via Senado now have FP as a viable second
    source.
 
-**Step 3b (fallback):** build the Senado CCo pr-segment index.
+**Step 3b (fallback A):** build the Senado CCo pr-segment index.
 Mirror `scripts/canonicalizer/build_senado_et_index.py` for
 `codigo_comercio_pr<NNN>.html`. Update Senado scraper to use the
 index for CCo article resolution. Re-run K3.
 
-**Decision point:** if 3a recovers ≥100 K3 refusals, ship that and
-defer 3b. If 3a recovers <50, ship 3b.
+**Step 3c (fallback B, ~1 hr):** improve the Senado master-page
+slicer. The current `_slice_article_senado` cuts at the next
+`[[ART:N]]` marker. For CCo's master page, that boundary may
+truncate the body prematurely. Inspect a few K3 refusal HTML samples
+and tune the slicer (e.g. allow more chars before next-marker, or
+fall back to whole-page if slice is suspiciously short).
+
+**Decision point:**
+* If 3a recovers ≥100 K3 refusals → ship 3a, defer 3b/3c.
+* If 3a recovers <50 → try 3b (segment index) next.
+* If 3b is also thin → try 3c (slicer tuning).
 
 ---
 
@@ -413,6 +422,24 @@ the SUIN/FP scraper architecture. Reuse the per-URL parsed-doc cache
 3. Joins `_TRUSTED_GOVCO_SOURCE_IDS`.
 4. Has tests, docs, and per-source learnings doc.
 
+**Step 2d (alternate path — operator-delivered veredictos for G1):**
+If the DIAN main site probe shows no stable URLs, OR if 7th-scraper
+engineering effort isn't worth it for one batch, an SME can deliver
+veredicto JSONs directly per the canonicalizer's `outside-expert
+deliveries` workflow (see `docs/re-engineer/state_corpus_population.md`).
+For 488 norms this is heavy; likely only viable for the
+highest-traffic concepto (G1's Concepto Unificado IVA 0001/2003)
+since SMEs already work with that doc. F2 (81 res.dian refusals)
+stays pending.
+
+**Step 2e (no-op path):** mark F2 + G1 as out-of-scope for v7. They
+represent ~14% of the remaining unresolved norms; the product can
+ship without them by gracefully refusing on those specific
+norm_ids. Document the gap in
+`docs/re-engineer/state_fixplan_v6.md`. Pick this only if 2a probe
+returns negative AND SME delivery isn't practical AND the operator
+agrees the gap is acceptable.
+
 ---
 
 ### 3.7 P7 — SUIN harvest extension (~3-5 hr per scope)
@@ -440,6 +467,33 @@ Extend the SUIN harvester to cover gaps:
      bash scripts/canonicalizer/launch_batch.sh --batch E5 \
        --allow-rerun --skip-post --skip-pre
    ```
+
+---
+
+### 3.8 Lower-priority backlog (not in the 7-step sequence)
+
+These items are tracked but explicitly **not** in the recommended
+order — pick them up opportunistically or when their gating signal
+fires.
+
+* **Outside-expert deliveries 13/14/15** — operator-timing-gated.
+  See `docs/re-engineer/state_corpus_population.md` for the workflow.
+  Activates when an SME delivers norm-by-norm veredictos.
+* **Cosmetic heartbeat Bogotá date format** (fixplan_v4 §5.5) —
+  the per-batch heartbeat sidecar's date stamps mix UTC and Bogotá
+  in places. Fix opportunistically when next touching
+  `scripts/canonicalizer/heartbeat.py`.
+* **CC + CE live-fetch SPA scrapers** (fixplan_v5 §3 #2) — fixture-
+  only path is in place; live SPA scraping needs Selenium /
+  playwright. Activates when `corte_constitucional` /
+  `consejo_estado` start refusing because the cache is cold for a
+  newly-cited sentencia.
+* **Phase A/B/C JSON regeneration** (fixplan_v4 §5.2) — needed only
+  for staging promotion at corpus level (not for vigencia).
+  Activates if cloud corpus-side ingest needs re-runs.
+* **Refresh of Falkor cloud schema** — only if the Falkor instance
+  ever loses its data. The `(:Norm)` graph rebuilds from Postgres via
+  `scripts/canonicalizer/sync_vigencia_to_falkor.py --rebuild`.
 
 ---
 
