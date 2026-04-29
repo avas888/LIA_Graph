@@ -731,25 +731,42 @@ def _clean_evidence_excerpt_for_answer(
 
 
 def _evidence_candidate_lines(text: str) -> tuple[str, ...]:
+    """Yield candidate sentence-shaped lines from evidence chunk text.
+
+    fix_v3 phase 4 (2026-04-29) — split on paragraph breaks first, strip
+    leading markdown markers (heading hashes, bullet dashes, bold stars),
+    THEN split each paragraph on sentence boundaries. The previous
+    implementation only split on ``[.;:]\\s+`` so chunks with markdown
+    structure (practica/expertos guides have ``## H2 / ### H3 /
+    paragraph`` shape) collapsed into one run-on line that hit the
+    240-char filter and dropped. This generalizes for any
+    markdown-shaped chunk, not just one corpus family.
+    """
     lines: list[str] = []
-    for raw in re.split(r"(?<=[\.;:])\s+", str(text or "")):
-        cleaned = re.sub(r"\s+", " ", raw).strip(" -:")
-        normalized = _normalize_text(cleaned)
-        if not cleaned or len(cleaned) < 45 or len(cleaned) > 240:
+    for paragraph in re.split(r"\n+", str(text or "")):
+        # Strip leading markdown structural markers: heading hashes,
+        # bullet dashes, bold stars, list numbers. Keep the body.
+        stripped = re.sub(r"^[\s#*\-•]+", "", paragraph).strip()
+        if not stripped:
             continue
-        if _looks_truncated_line(cleaned):
-            continue
-        if any(token in normalized for token in _SUPPORT_LINE_DROP_CONTAINS):
-            continue
-        if cleaned.startswith("."):
-            cleaned = cleaned.lstrip(". ").strip()
-        if cleaned.startswith(":"):
-            cleaned = cleaned.lstrip(": ").strip()
-        if cleaned.startswith("Artículo modificado"):
-            continue
-        if cleaned and cleaned[-1] not in ".!?":
-            cleaned += "."
-        lines.append(cleaned)
+        for raw in re.split(r"(?<=[\.;:])\s+", stripped):
+            cleaned = re.sub(r"\s+", " ", raw).strip(" -:")
+            normalized = _normalize_text(cleaned)
+            if not cleaned or len(cleaned) < 45 or len(cleaned) > 240:
+                continue
+            if _looks_truncated_line(cleaned):
+                continue
+            if any(token in normalized for token in _SUPPORT_LINE_DROP_CONTAINS):
+                continue
+            if cleaned.startswith("."):
+                cleaned = cleaned.lstrip(". ").strip()
+            if cleaned.startswith(":"):
+                cleaned = cleaned.lstrip(": ").strip()
+            if cleaned.startswith("Artículo modificado"):
+                continue
+            if cleaned and cleaned[-1] not in ".!?":
+                cleaned += "."
+            lines.append(cleaned)
     return tuple(lines)
 
 

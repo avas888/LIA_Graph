@@ -1,0 +1,1392 @@
+{
+  "qid": "dividendos_y_distribucion_utilidades_P2",
+  "topic_key_expected": "dividendos_y_distribucion_utilidades",
+  "profile": "P2_operativa",
+  "message": "Mi cliente es socio único de una SAS que cerró 2025 con utilidad contable de $300 millones y pagó impuesto de renta de $80 millones. Quiere repartirse $200 millones en 2026 como dividendos. ¿Cuánto de eso le queda como no gravado y cuánto va a pagar el socio cuando lo declare en su renta personal? ¿La SAS le tiene que practicar retención al momento de pagar?",
+  "http_status": 200,
+  "latency_ms": 56314,
+  "captured_utc": "2026-04-29T20:52:50.871687+00:00",
+  "response": {
+    "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+    "run_id": "pd_57c1a505a6d144a78c3af16320399e31",
+    "answer_markdown": "**Respuestas directas**\n- **¿Cuánto de eso le queda como no gravado y cuánto va a pagar el socio cuando lo declare en su renta personal?**\n  - Para determinar la parte gravada y no gravada de los dividendos, se debe calcular la utilidad contable que excede la renta líquida gravable de la SAS. La parte no gravada de los dividendos es la que corresponde a la utilidad que ya pagó impuesto de renta en la sociedad.\n  - La utilidad contable de la SAS en 2025 fue de $300 millones y el impuesto de renta pagado fue de $80 millones.\n  - El socio recibirá $200 millones en dividendos.\n  - La porción gravada de los dividendos se calcula aplicando la tarifa del impuesto de renta que la SAS pagó sobre sus utilidades.\n  - La porción no gravada de los dividendos se determina restando la porción gravada del total de dividendos distribuidos.\n  - El socio deberá incluir la porción gravada de los dividendos en su declaración de renta personal. La tarifa aplicable dependerá de su nivel de ingresos y de la tabla progresiva del impuesto de renta para personas naturales.\n  - La cobertura quedó parcial.\n- **¿La SAS le tiene que practicar retención al momento de pagar?**\n  - Sí, la SAS debe practicar retención en la fuente al momento de pagar los dividendos al socio.\n  - La retención en la fuente sobre dividendos se aplica sobre la porción gravada de los mismos.\n  - La tarifa de retención en la fuente para dividendos pagados a personas naturales residentes es del 10% para la parte que exceda de 300 UVT (art. 366-1 ET).\n  - La cobertura quedó parcial.\n\n**Ruta sugerida**\n1.  **Calcular la renta líquida gravable de la SAS para 2025:**\n    *   Utilidad contable: $300 millones.\n    *   Impuesto de renta pagado: $80 millones.\n    *   La renta líquida gravable es la base sobre la cual se calculó el impuesto de renta.\n2.  **Determinar la porción no gravada de los dividendos:**\n    *   La porción no gravada de los dividendos corresponde a la utilidad que ya tributó en la SAS.\n    *   Se calcula la relación entre el impuesto pagado y la utilidad contable.\n3.  **Calcular la retención en la fuente a practicar por la SAS:**\n    *   Aplicar la tarifa de retención en la fuente sobre la porción gravada de los dividendos (art. 366-1 ET).\n4.  **Informar al socio sobre el tratamiento fiscal de los dividendos:**\n    *   Detallar la porción gravada y no gravada.\n    *   Explicar la retención en la fuente practicada.\n    *   Orientar sobre la declaración de renta personal.\n\n**Riesgos y condiciones**\n*   **Riesgo de inconsistencias en la declaración de renta del socio:** Si la SAS no calcula correctamente la porción gravada y no gravada de los dividendos, el socio podría declarar erróneamente sus ingresos, lo que podría generar sanciones por parte de la DIAN.\n*   **Riesgo de sanciones para la SAS:** Si la SAS no practica la retención en la fuente correctamente o no la declara y paga a tiempo, podría enfrentar sanciones por incumplimiento de obligaciones tributarias (art. 366-1 ET).\n*   **Condición de residencia fiscal del socio:** La tarifa de retención en la fuente y el tratamiento en la declaración de renta personal pueden variar si el socio no es residente fiscal en Colombia.\n\n**Soportes clave**\n*   **Estados financieros de la SAS a 31 de diciembre de 2025:** Para verificar la utilidad contable y el impuesto de renta pagado.\n*   **Declaración de renta de la SAS del año gravable 2025:** Para confirmar la renta líquida gravable y el impuesto determinado.\n*   **Acta de la asamblea de accionistas o del órgano competente de la SAS:** Donde se aprueba la distribución de dividendos.\n*   **Comprobante de pago de los dividendos:** Para evidenciar la fecha y el monto de la distribución.",
+    "answer_concise": "**Respuestas directas**\n- **¿Cuánto de eso le queda como no gravado y cuánto va a pagar el socio cuando lo declare en su renta personal?**\n  - Para determinar la parte gravada y no gravada de los dividendos, se debe calcular la utilidad contable que excede la renta líquida gravable de la SAS. La parte no gravada de los dividendos es la que corresponde a la utilidad que ya pagó impuesto de renta en la sociedad.\n  - La utilidad contable de la SAS en 2025 fue de $300 millones y el impuesto de renta pagado fue de $80 millones.\n  - El socio recibirá $200 millones en dividendos.\n  - La porción gravada de los dividendos se calcula aplicando la tarifa del impuesto de renta que la SAS pagó sobre sus utilidades.\n  - La porción no gravada de los dividendos se determina restando la porción gravada del total de dividendos distribuidos.\n  - El socio deberá incluir la porción gravada de los dividendos en su declaración de renta personal. La tarifa aplicable dependerá de su nivel de ingresos y de la tabla progresiva del impuesto de renta para personas naturales.\n  - La cobertura quedó parcial.\n- **¿La SAS le tiene que practicar retención al momento de pagar?**\n  - Sí, la SAS debe practicar retención en la fuente al momento de pagar los dividendos al socio.\n  - La retención en la fuente sobre dividendos se aplica sobre la porción gravada de los mismos.\n  - La tarifa de retención en la fuente para dividendos pagados a personas naturales residentes es del 10% para la parte que exceda de 300 UVT (art. 366-1 ET).\n  - La cobertura quedó parcial.\n\n**Ruta sugerida**\n1.  **Calcular la renta líquida gravable de la SAS para 2025:**\n    *   Utilidad contable: $300 millones.\n    *   Impuesto de renta pagado: $80 millones.\n    *   La renta líquida gravable es la base sobre la cual se calculó el impuesto de renta.\n2.  **Determinar la porción no gravada de los dividendos:**\n    *   La porción no gravada de los dividendos corresponde a la utilidad que ya tributó en la SAS.\n    *   Se calcula la relación entre el impuesto pagado y la utilidad contable.\n3.  **Calcular la retención en la fuente a practicar por la SAS:**\n    *   Aplicar la tarifa de retención en la fuente sobre la porción gravada de los dividendos (art. 366-1 ET).\n4.  **Informar al socio sobre el tratamiento fiscal de los dividendos:**\n    *   Detallar la porción gravada y no gravada.\n    *   Explicar la retención en la fuente practicada.\n    *   Orientar sobre la declaración de renta personal.\n\n**Riesgos y condiciones**\n*   **Riesgo de inconsistencias en la declaración de renta del socio:** Si la SAS no calcula correctamente la porción gravada y no gravada de los dividendos, el socio podría declarar erróneamente sus ingresos, lo que podría generar sanciones por parte de la DIAN.\n*   **Riesgo de sanciones para la SAS:** Si la SAS no practica la retención en la fuente correctamente o no la declara y paga a tiempo, podría enfrentar sanciones por incumplimiento de obligaciones tributarias (art. 366-1 ET).\n*   **Condición de residencia fiscal del socio:** La tarifa de retención en la fuente y el tratamiento en la declaración de renta personal pueden variar si el socio no es residente fiscal en Colombia.\n\n**Soportes clave**\n*   **Estados financieros de la SAS a 31 de diciembre de 2025:** Para verificar la utilidad contable y el impuesto de renta pagado.\n*   **Declaración de renta de la SAS del año gravable 2025:** Para confirmar la renta líquida gravable y el impuesto determinado.\n*   **Acta de la asamblea de accionistas o del órgano competente de la SAS:** Donde se aprueba la distribución de dividendos.\n*   **Comprobante de pago de los dividendos:** Para evidenciar la fecha y el monto de la distribución.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Condición de residencia fiscal del socio:** La tarifa de retención en la fuente y el tratamiento en la declaración de renta personal pueden variar si el socio no es residente fiscal en Colombia.",
+        "usage_intents": [
+          "procedimiento",
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Condición de residencia fiscal del socio:** La tarifa de retención en la fuente y el tratamiento en la declaración de renta personal pueden variar si el socio no es residente fiscal en Colombia.",
+        "usage_intents": [
+          "procedimiento",
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Condición de residencia fiscal del socio:** La tarifa de retención en la fuente y el tratamiento en la declaración de renta personal pueden variar si el socio no es residente fiscal en Colombia.",
+        "usage_intents": [
+          "procedimiento",
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Condición de residencia fiscal del socio:** La tarifa de retención en la fuente y el tratamiento en la declaración de renta personal pueden variar si el socio no es residente fiscal en Colombia.",
+        "usage_intents": [
+          "procedimiento",
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿La SAS le tiene que practicar retención al momento de pagar?** Sí, la SAS debe practicar retención en la fuente al momento de pagar los dividendos al socio.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿La SAS le tiene que practicar retención al momento de pagar?** Sí, la SAS debe practicar retención en la fuente al momento de pagar los dividendos al socio.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30036488",
+        "logical_doc_id": "suin_30036488",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30036488",
+        "open_url": "/source-view?doc_id=suin_30036488",
+        "download_url": "/source-download?doc_id=suin_30036488&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30036488&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 30036488",
+        "legal_reference": "SUIN stub 30036488",
+        "search_query": "SUIN stub 30036488 DIAN / fuente oficial colombia SUIN stub 30036488",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿La SAS le tiene que practicar retención al momento de pagar?** Sí, la SAS debe practicar retención en la fuente al momento de pagar los dividendos al socio.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.55,
+      "mode": "topic_misalignment_hedged"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Fuente original compilada: D. 2053/74 Art. 34*\n\nEn los contratos de renta vitalicia, la renta bruta de los contratantes se determina así:\n\n1. El precio o capital que se pague por la renta vitalicia constituye renta brut",
+      "*Fuente original compilada: D. 2053/74 Art. 63*\n\nSon deducibles las sumas periódicas pagadas en el año o período gravable a título de renta vitalicia, hasta el total del reembolso del precio o capital. De allí en adelant",
+      "*Artículo modificado por el artículo 81 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nPara la determinación del impuesto sobre la renta en los contratos de fiducia mercantil se observarán las siguientes reglas"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 5,
+        "support_document_count": 7,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "366-1",
+          "366-2",
+          "367"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 13,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "computation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T20:51:54.558515+00:00",
+        "total_ms": 46811.66,
+        "step_count": 43,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T20:51:54.558528+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T20:51:54.558515+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:51:54.558655+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.13,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 360,
+              "message_preview": "Mi cliente es socio único de una SAS que cerró 2025 con utilidad contable de $300 millones y pagó impuesto de renta de $80 millones. Quiere repartirse $200 millones en 2026 como dividendos. ¿Cuánto de eso le queda como no gravado y cuánto v",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:51:54.583087+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 24.56,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T20:51:54.583363+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 24.84,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:51:54.601103+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 42.58,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 360,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:51:56.104753+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1546.22,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "dividendos_y_distribucion_utilidades",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la distribución de utilidades y dividendos, incluyendo la determinación de la parte gravada y no gravada, y la retención en la fuente aplicable al socio. Esto encaja directamente con la definición de dividendos_y_di",
+              "elapsed_ms_call": 1503.82,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:51:56.105110+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1546.58,
+            "message": null,
+            "details": {
+              "effective_topic": "dividendos_y_distribucion_utilidades",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "declaracion_renta",
+                "retencion_fuente_general"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.563841+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 7005.3,
+            "message": null,
+            "details": {
+              "owner_trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+              "requested_trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.564067+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 7005.52,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "dividendos_y_distribucion_utilidades",
+              "secondary_topics": [
+                "declaracion_renta",
+                "retencion_fuente_general"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la distribución de utilidades y dividendos, incluyendo la determinación de la parte gravada y no gravada, y la retención en la fuente aplicable al socio. Esto encaja directamente con la definición de dividendos_y_distribucion_utilidades. También se relaciona con la declaración de renta personal del socio y la retención en la fuente que debe practicar la SAS.",
+              "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+              "message_preview": "Mi cliente es socio único de una SAS que cerró 2025 con utilidad contable de $300 millones y pagó impuesto de renta de $80 millones. Quiere repartirse $200 millones en 2026 como dividendos. ¿Cuánto de eso le queda como no gravado y cuánto v",
+              "message_chars": 360
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.564339+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 7005.8,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Cuánto de eso le queda como no gravado y cuánto va a pagar el socio cuando lo declare en su renta personal?",
+                "¿La SAS le tiene que practicar retención al momento de pagar?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.564469+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 7005.93,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 108,
+              "message_preview": "¿Cuánto de eso le queda como no gravado y cuánto va a pagar el socio cuando lo declare en su renta personal?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.577911+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 7019.37,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.578078+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 7019.54,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.578125+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 7019.59,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.593490+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 7034.95,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "declaracion_renta",
+              "top_score": 1,
+              "confidence": 0.24,
+              "ranked_top_3": [
+                [
+                  "declaracion_renta",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.593683+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 7035.14,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Cuánto de eso le queda como no gravado y cuánto va a pagar el socio cuando lo declare en su renta personal?",
+              "effective_topic": "declaracion_renta",
+              "secondary_topics": [],
+              "confidence": 0.24,
+              "mode": "fallback",
+              "reason": "fallback:auto_detected_from_keywords",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.613392+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 7054.85,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.613585+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7055.05,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "declaracion_renta ¿Cuánto de eso le queda como no gravado y cuánto va a pagar el socio cuando lo declare en su renta personal?",
+              "query_text_chars": 126
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:01.613702+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7055.16,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "declaracion_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "declaracion_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:02.331377+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7772.81,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-26-fiscalizacion-y-defensa-ante-la-dian.md::",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md::actualizaci-n-in",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::580-1",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::408",
+                "suin_30019323::4"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:04.287261+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 9728.7,
+            "message": null,
+            "details": {
+              "anchor_row_count": 50,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:04.287577+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 9729.03,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 73,
+              "delta": 49
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:04.460021+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 9901.46,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 73,
+              "rows_out": 70,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 73,
+              "chunks_kept": 70,
+              "chunks_dropped": 3,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 70,
+                "chunks_dropped": 3,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:14.659142+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 20100.53,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 70,
+                "chunks_dropped": 3,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:14.659769+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 20101.19,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 61,
+              "message_preview": "¿La SAS le tiene que practicar retención al momento de pagar?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:14.682518+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 20123.94,
+            "message": null,
+            "details": {
+              "effective_topic": "retencion_fuente_general",
+              "confidence": 0.99,
+              "reason": "rule:retencion_fuente_general matched practicar retencion, practicar retención, retencion, retención",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:14.682929+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 20124.35,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿La SAS le tiene que practicar retención al momento de pagar?",
+              "effective_topic": "retencion_fuente_general",
+              "secondary_topics": [],
+              "confidence": 0.99,
+              "mode": "rule",
+              "reason": "rule:retencion_fuente_general matched practicar retencion, practicar retención, retencion, retención",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:14.697397+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 20138.82,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:14.697526+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 20138.95,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "retencion_fuente_general ¿La SAS le tiene que practicar retención al momento de pagar?",
+              "query_text_chars": 86
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:14.697669+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 20139.09,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "retencion_fuente_general",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "retencion_fuente_general"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:15.524490+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 20965.89,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::408",
+                "suin_1132325::126-1",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::580-1",
+                "suin_1132325::18-1",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "suin_1132325::771-5"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:15.524956+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 20966.37,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:15.525085+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 20966.51,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:15.692660+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 21134.06,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:32.246531+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 37687.89,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:32.246967+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 37688.34,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                6,
+                7,
+                7
+              ],
+              "after": [
+                6,
+                7,
+                7
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "100",
+                  "101",
+                  "102",
+                  "366-1",
+                  "366-2",
+                  "367",
+                  "1",
+                  "107",
+                  "118",
+                  "174"
+                ],
+                "candidate_count": 13,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:32.284380+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 37725.75,
+            "message": null,
+            "details": {
+              "misaligned": true,
+              "kind": null,
+              "router_topic": "dividendos_y_distribucion_utilidades",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": true,
+                "router_topic": "dividendos_y_distribucion_utilidades",
+                "articles_top_topic": "retencion_fuente_general",
+                "router_score_on_articles": 0,
+                "top_score_on_articles": 9,
+                "ranked_article_topics": [
+                  [
+                    "retencion_fuente_general",
+                    9
+                  ],
+                  [
+                    "declaracion_renta",
+                    4
+                  ],
+                  [
+                    "impuesto_nacional_consumo",
+                    2
+                  ],
+                  [
+                    "sector_profesiones_liberales",
+                    1
+                  ],
+                  [
+                    "normas_internacionales_auditoria",
+                    1
+                  ]
+                ],
+                "reason": "lexical_misaligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:32.323852+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 37765.23,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "declaracion_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:32.324064+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 37765.44,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:32.326072+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 37767.45,
+            "message": null,
+            "details": {
+              "template_chars": 412
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:41.366744+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 46808.08,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3698,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:41.367934+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 46809.28,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "dividendos_y_distribucion_utilidades",
+              "citations_in": 7,
+              "citations_out": 7,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:52:41.368139+00:00",
+            "trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 46809.49,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "topic_misalignment_hedged",
+              "confidence": 0.55,
+              "primary_articles": 6,
+              "citations_emitted": 7
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 66,
+        "output_tokens": 621,
+        "total_tokens": 687,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "dividendos_y_distribucion_utilidades",
+    "secondary_topics": [
+      "declaracion_renta",
+      "retencion_fuente_general"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+    "topic_adjustment_reason": "La consulta se centra en la distribución de utilidades y dividendos, incluyendo la determinación de la parte gravada y no gravada, y la retención en la fuente aplicable al socio. Esto encaja directamente con la definición de dividendos_y_distribucion_utilidades. También se relaciona con la declaración de renta personal del socio y la retención en la fuente que debe practicar la SAS.",
+    "coverage_notice": null,
+    "topic": "dividendos_y_distribucion_utilidades",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_2e686aa716f6",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 66,
+        "output_tokens": 621,
+        "total_tokens": 687
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+      "last_run_id": "pd_57c1a505a6d144a78c3af16320399e31",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_2e686aa716f6",
+    "chat_run_id": "cr_20260429_205156_1b93bd2f",
+    "metrics": {
+      "latency_ms": 51974.77,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 66,
+          "output_tokens": 621,
+          "total_tokens": 687,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_2e686aa716f6",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 66,
+          "output_tokens": 621,
+          "total_tokens": 687
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "3785db5b-25dd-4cbf-922f-53769b5c44b0",
+        "last_run_id": "pd_57c1a505a6d144a78c3af16320399e31",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 1,
+        "mentions_unique": 1,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 1,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et"
+        ],
+        "normative_scaffolding_ms": 5.2
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "dividendos_y_distribucion_utilidades",
+        "secondary_topics": [
+          "declaracion_renta",
+          "retencion_fuente_general"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "8fe260b2bb5240f3ba59025b75bdaf3e"
+  }
+}

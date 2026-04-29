@@ -1,0 +1,952 @@
+{
+  "qid": "tarifas_renta_y_ttd_P1",
+  "topic_key_expected": "tarifas_renta_y_ttd",
+  "profile": "P1_directa",
+  "message": "¿Cuál es la tarifa general de renta para una SAS en Colombia para el año gravable 2025?",
+  "http_status": 200,
+  "latency_ms": 16227,
+  "captured_utc": "2026-04-29T21:17:30.516833+00:00",
+  "response": {
+    "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+    "run_id": "pd_89070a18043541ecaddf42ac28d7207e",
+    "answer_markdown": "### Respuestas directas\n\n*   **¿Cuál es la tarifa general de renta para una SAS en Colombia para el año gravable 2025?**\n    *   La tarifa general del impuesto sobre la renta para una SAS en Colombia para el año gravable 2025 será del 35% (art. 240 ET).\n\n### Ruta sugerida\n\n*   Para determinar la tarifa aplicable, siempre se debe verificar la naturaleza jurídica del contribuyente y su ubicación. En este caso, al ser una SAS, se aplica la tarifa general.\n*   Es importante revisar si la SAS cumple con alguna condición especial que le permita acceder a tarifas diferenciales. Por ejemplo, si la SAS opera como usuario de zona franca, la tarifa podría ser del 20% (art. 240-1 ET). Sin embargo, si es un usuario comercial de zona franca, aplicaría la tarifa general del 35% (parágrafo 1, art. 240-1 ET).\n*   Adicionalmente, se debe considerar si la SAS desarrolla actividades económicas que califiquen para rentas exentas o incentivos tributarios específicos, como los de la economía naranja (art. 235-2 ET), que podrían modificar la base gravable, aunque no la tarifa general.\n\n### Riesgos y condiciones\n\n*   La tarifa del 35% es la general para personas jurídicas. Cualquier aplicación de una tarifa diferente requiere un análisis detallado de las condiciones específicas del contribuyente y la normativa vigente.\n*   Las tarifas especiales, como la de zonas francas, están sujetas a requisitos estrictos y al cumplimiento de la normatividad específica (art. 240-1 ET y N-ZF). Un incumplimiento puede llevar a la aplicación de la tarifa general y a sanciones.\n*   Es crucial monitorear posibles reformas tributarias que puedan modificar las tarifas o las condiciones para acceder a beneficios, especialmente para años gravables futuros como el 2025.\n\n### Soportes clave\n\n*   **Estatuto Tributario (DECRETO 624 DE 1989):**\n    *   Artículo 240 ET: Establece la tarifa general del impuesto sobre la renta para sociedades nacionales y asimiladas.\n    *   Artículo 240-1 ET: Define la tarifa para usuarios de zona franca y sus excepciones.\n    *   Artículo 235-2 ET: Contiene las rentas exentas aplicables a partir del año gravable 2019, incluyendo incentivos para empresas de economía naranja.",
+    "answer_concise": "### Respuestas directas\n\n*   **¿Cuál es la tarifa general de renta para una SAS en Colombia para el año gravable 2025?**\n    *   La tarifa general del impuesto sobre la renta para una SAS en Colombia para el año gravable 2025 será del 35% (art. 240 ET).\n\n### Ruta sugerida\n\n*   Para determinar la tarifa aplicable, siempre se debe verificar la naturaleza jurídica del contribuyente y su ubicación. En este caso, al ser una SAS, se aplica la tarifa general.\n*   Es importante revisar si la SAS cumple con alguna condición especial que le permita acceder a tarifas diferenciales. Por ejemplo, si la SAS opera como usuario de zona franca, la tarifa podría ser del 20% (art. 240-1 ET). Sin embargo, si es un usuario comercial de zona franca, aplicaría la tarifa general del 35% (parágrafo 1, art. 240-1 ET).\n*   Adicionalmente, se debe considerar si la SAS desarrolla actividades económicas que califiquen para rentas exentas o incentivos tributarios específicos, como los de la economía naranja (art. 235-2 ET), que podrían modificar la base gravable, aunque no la tarifa general.\n\n### Riesgos y condiciones\n\n*   La tarifa del 35% es la general para personas jurídicas. Cualquier aplicación de una tarifa diferente requiere un análisis detallado de las condiciones específicas del contribuyente y la normativa vigente.\n*   Las tarifas especiales, como la de zonas francas, están sujetas a requisitos estrictos y al cumplimiento de la normatividad específica (art. 240-1 ET y N-ZF). Un incumplimiento puede llevar a la aplicación de la tarifa general y a sanciones.\n*   Es crucial monitorear posibles reformas tributarias que puedan modificar las tarifas o las condiciones para acceder a beneficios, especialmente para años gravables futuros como el 2025.\n\n### Soportes clave\n\n*   **Estatuto Tributario (DECRETO 624 DE 1989):**\n    *   Artículo 240 ET: Establece la tarifa general del impuesto sobre la renta para sociedades nacionales y asimiladas.\n    *   Artículo 240-1 ET: Define la tarifa para usuarios de zona franca y sus excepciones.\n    *   Artículo 235-2 ET: Contiene las rentas exentas aplicables a partir del año gravable 2019, incluyendo incentivos para empresas de economía naranja.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿Cuál es la tarifa general de renta para una SAS en Colombia para el año gravable 2025?** La tarifa general del impuesto sobre la renta para una SAS en Colombia para el año gravable 2025 será del",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿Cuál es la tarifa general de renta para una SAS en Colombia para el año gravable 2025?** La tarifa general del impuesto sobre la renta para una SAS en Colombia para el año gravable 2025 será del",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Soportes clave **Estatuto Tributario (DECRETO 624 DE 1989):** Artículo 240 ET: Establece la tarifa general del impuesto sobre la renta para sociedades nacionales y asimiladas.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "logical_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "zonas_francas",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "N ZF — Zonas Francas: Marco Normativo",
+        "legal_reference": "N ZF — Zonas Francas: Marco Normativo",
+        "search_query": "N ZF — Zonas Francas: Marco Normativo DIAN / fuente oficial colombia N ZF — Zonas Francas: Marco Normativo",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Las tarifas especiales, como la de zonas francas, están sujetas a requisitos estrictos y al cumplimiento de la normatividad específica (art. 240-1 ET y N-ZF).",
+        "usage_intents": [
+          "procedimiento",
+          "requisitos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Artículo 240. 1. El patrono está en la obligación de conceder la trabajadora dos descansos, de veinte (20) minutos cada uno, dentro de la jornada, para amamantar a su hijo, sin descuento alguno en el salario por dicho co",
+      "ARTÍCULO 240-1 Tarifa para usuarios de zona franca . A partir del 1° de enero de 2017, la tarifa del impuesto sobre la renta y complementarios para las personas jurídicas que sean usuarios de zona franca será del 20%. Pa",
+      "Artículo 241. Tarifa para las personas naturales residentes y asignaciones y donaciones modales. El impuesto sobre la renta de las personas naturales residentes en el país, de las sucesiones de causantes residentes en el"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 4,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 41,
+        "document_row_count": 16,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T21:17:14.290905+00:00",
+        "total_ms": 12284.14,
+        "step_count": 25,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T21:17:14.290922+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T21:17:14.290905+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:14.291109+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.19,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 87,
+              "message_preview": "¿Cuál es la tarifa general de renta para una SAS en Colombia para el año gravable 2025?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:14.312168+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 21.25,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:14.312374+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 21.46,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:14.326542+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 35.63,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 87,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:15.654776+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1363.85,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "tarifas_renta_y_ttd",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta directamente por la 'tarifa general de renta' para una SAS, lo cual encaja perfectamente con el tema 'tarifas_renta_y_ttd'. Aunque menciona 'SAS', el foco operativo es la tarifa, no la naturaleza de la SAS en sí, siguie",
+              "elapsed_ms_call": 1328.37,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:15.655019+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1364.1,
+            "message": null,
+            "details": {
+              "effective_topic": "tarifas_renta_y_ttd",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "declaracion_renta",
+                "comercial_societario"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:21.031502+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 6740.55,
+            "message": null,
+            "details": {
+              "owner_trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+              "requested_trace_id": "17225524-ded4-4f62-842d-749315d178ae"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:21.032183+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 6741.23,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "tarifas_renta_y_ttd",
+              "secondary_topics": [
+                "declaracion_renta",
+                "comercial_societario"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta pregunta directamente por la 'tarifa general de renta' para una SAS, lo cual encaja perfectamente con el tema 'tarifas_renta_y_ttd'. Aunque menciona 'SAS', el foco operativo es la tarifa, no la naturaleza de la SAS en sí, siguiendo la heurística meta de que el tema es el que opera.",
+              "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+              "message_preview": "¿Cuál es la tarifa general de renta para una SAS en Colombia para el año gravable 2025?",
+              "message_chars": 87
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:21.059841+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 6768.89,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": "AG 2025",
+                "requested_period_source": "message_ag",
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": [
+                  "Requested period resolved as AG 2025 via message_ag."
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:21.060358+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6769.43,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "tarifas_renta_y_ttd declaracion_renta ¿Cuál es la tarifa general de renta para una SAS en Colombia para el año gravable 2025?",
+              "query_text_chars": 125
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:21.060473+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6769.54,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "tarifas_renta_y_ttd",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "tarifas_renta_y_ttd"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:21.855593+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7564.62,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::240",
+                "suin_1132325::235-2",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::126-1",
+                "suin_30019323::4",
+                "suin_1132325::408",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:22.482644+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 8191.7,
+            "message": null,
+            "details": {
+              "anchor_row_count": 19,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:22.483172+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 8192.23,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 42,
+              "delta": 18
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:22.651453+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 8360.49,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 42,
+              "rows_out": 41,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 42,
+              "chunks_kept": 41,
+              "chunks_dropped": 1,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 41,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.017928+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 8726.97,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 41,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "tarifas_renta_y_ttd",
+              "planner_query_mode": "general_graph_research"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.019552+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 8728.6,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "240",
+                  "240-1",
+                  "241",
+                  "fuentes-y-referencias",
+                  "235-2",
+                  "808",
+                  "1104449"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.019717+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 8728.78,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "tarifas_renta_y_ttd",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "tarifas_renta_y_ttd",
+                "articles_top_topic": "tarifas_renta_y_ttd",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "240",
+                  "240-1",
+                  "241"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.019807+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 8728.87,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "tarifas_renta_y_ttd",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.019881+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 8728.95,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.028659+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 8737.71,
+            "message": null,
+            "details": {
+              "template_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:26.574063+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 12283.1,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2192,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:26.574631+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 12283.68,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "tarifas_renta_y_ttd",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:26.574915+00:00",
+            "trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 12283.97,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 17,
+        "output_tokens": 346,
+        "total_tokens": 363,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "tarifas_renta_y_ttd",
+    "secondary_topics": [
+      "declaracion_renta",
+      "comercial_societario"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+    "topic_adjustment_reason": "La consulta pregunta directamente por la 'tarifa general de renta' para una SAS, lo cual encaja perfectamente con el tema 'tarifas_renta_y_ttd'. Aunque menciona 'SAS', el foco operativo es la tarifa, no la naturaleza de la SAS en sí, siguiendo la heurística meta de que el tema es el que opera.",
+    "coverage_notice": null,
+    "topic": "tarifas_renta_y_ttd",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Soportes clave **Estatuto Tributario (DECRETO 624 DE 1989):** Artículo 240 ET: Establece la tarifa general del impuesto sobre la renta para sociedades nacionales y asimiladas.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_c8431af5bf12",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 17,
+        "output_tokens": 346,
+        "total_tokens": 363
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+      "last_run_id": "pd_89070a18043541ecaddf42ac28d7207e",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_c8431af5bf12",
+    "chat_run_id": "cr_20260429_211716_908a9596",
+    "metrics": {
+      "latency_ms": 14940.73,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 17,
+          "output_tokens": 346,
+          "total_tokens": 363,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_c8431af5bf12",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 17,
+          "output_tokens": 346,
+          "total_tokens": 363
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "17225524-ded4-4f62-842d-749315d178ae",
+        "last_run_id": "pd_89070a18043541ecaddf42ac28d7207e",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 1,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 3,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 173.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "tarifas_renta_y_ttd",
+        "secondary_topics": [
+          "declaracion_renta",
+          "comercial_societario"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "d77d5865f49943daa39d038a4c387352"
+  }
+}

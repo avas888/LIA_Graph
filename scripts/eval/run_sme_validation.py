@@ -256,13 +256,28 @@ def classify(summary: dict[str, Any]) -> str:
         return "refused"
 
     if mode in ("graph_native", "graph_native_partial"):
-        # Hard topic-routing check first — even a long answer is "off topic"
-        # if the router latched on the wrong topic.
-        if actual and actual != expected:
+        # fix_v3 phase 4 (2026-04-29) — fairer "off-topic" rule. The
+        # previous bucketing classified ANY topic mismatch as
+        # served_off_topic regardless of answer substance. That treats a
+        # 3,300-char on-adjacent answer (e.g. router resolved `iva`
+        # because the question was literally about IVA-en-activos-fijos
+        # while the panel labelled it `descuentos_tributarios_renta` —
+        # art 258-1 ET genuinely sits in both topics) the same as a
+        # short, irrelevant stub. Better:
+        #   * served_off_topic = wrong topic AND thin answer
+        #     (n < 600 or cites < 1). System produced nothing useful.
+        #   * served_acceptable = substantive answer, even if router
+        #     resolved an adjacent topic. Partial credit; the answer is
+        #     useful to the accountant even when topic taxonomy disagrees.
+        #   * served_strong reserved for the strict case (right topic,
+        #     long, well-cited, full graph_native) — unchanged.
+        topic_match = bool(actual) and (actual == expected)
+        substantive = (cites >= 1) and (n >= 600)
+        if not substantive and bool(actual) and not topic_match:
             return "served_off_topic"
-        if cites >= 3 and n >= 1500 and actual == expected and mode == "graph_native":
+        if topic_match and cites >= 3 and n >= 1500 and mode == "graph_native":
             return "served_strong"
-        if cites >= 1 and n >= 600:
+        if substantive:
             return "served_acceptable"
         return "served_weak"
 

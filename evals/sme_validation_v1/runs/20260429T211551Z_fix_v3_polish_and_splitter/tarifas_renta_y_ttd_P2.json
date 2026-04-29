@@ -1,0 +1,944 @@
+{
+  "qid": "tarifas_renta_y_ttd_P2",
+  "topic_key_expected": "tarifas_renta_y_ttd",
+  "profile": "P2_operativa",
+  "message": "Una SAS de mi cliente factura $4.500 millones, tiene utilidad contable antes de impuestos de $800 millones y renta líquida gravable de $400 millones. Le da impuesto de $140 millones al 35%. Pero me preocupa la TTD porque su tasa efectiva sobre la utilidad contable da apenas 11%. ¿Tengo que liquidar Impuesto a Adicionar y cómo lo calculo?",
+  "http_status": 200,
+  "latency_ms": 21056,
+  "captured_utc": "2026-04-29T21:17:44.716246+00:00",
+  "response": {
+    "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+    "run_id": "pd_001beeec24f64810b8be8683df4a5de5",
+    "answer_markdown": "### Respuestas directas\n\n*   **¿Tengo que liquidar Impuesto a Adicionar?**\n\n    Sí, es probable que debas liquidar el Impuesto a Adicionar. La Tasa de Tributación Depurada (TTD) de tu cliente es del 11%, lo cual está por debajo del 15% establecido como tarifa mínima de tributación (art. 240 ET). Esto activa la obligación de calcular y, si aplica, pagar el Impuesto a Adicionar.\n\n*   **¿Cómo lo calculo?**\n\n    El Impuesto a Adicionar se calcula para asegurar que la TTD no sea inferior al 15%. La fórmula es:\n\n    `Impuesto a Adicionar = (Renta Líquida Depurada * 15%) - Impuesto Depurado`\n\n    Donde:\n\n    *   **Renta Líquida Depurada (RLD):** Es la utilidad contable antes de impuestos, ajustada por las diferencias permanentes y temporales que establece la norma.\n    *   **Impuesto Depurado (ID):** Es el impuesto sobre la renta y complementarios, ajustado por los descuentos tributarios y otros conceptos que no se consideran para la TTD.\n\n    Para tu cliente, con una TTD del 11%, el cálculo implicará determinar la RLD y el ID según las reglas específicas para la TTD, y luego aplicar la fórmula para llegar al Impuesto a Adicionar.\n\n### Ruta sugerida\n\n1.  **Determinar la Renta Líquida Depurada (RLD):**\n    *   Parte de la utilidad contable antes de impuestos ($800 millones).\n    *   Ajusta esta utilidad por las diferencias permanentes y temporales que no se tienen en cuenta para el cálculo de la TTD. Esto incluye, por ejemplo, ingresos no constitutivos de renta ni ganancia ocasional, costos y deducciones no aceptados fiscalmente, y el efecto de la aplicación de beneficios tributarios.\n    *   Asegúrate de excluir los ingresos y gastos relacionados con rentas exentas o ingresos no gravados que no se consideran para la base de la TTD.\n\n2.  **Calcular el Impuesto Depurado (ID):**\n    *   Toma el impuesto sobre la renta y complementarios liquidado ($140 millones).\n    *   Resta los descuentos tributarios que no son considerados para el cálculo de la TTD (e.g., descuentos por impuestos pagados en el exterior, art. 254 ET).\n    *   No restes los anticipos ni las retenciones en la fuente, ya que estos son pagos anticipados del impuesto, no reducciones del impuesto en sí.\n\n3.  **Aplicar la fórmula del Impuesto a Adicionar:**\n    *   Una vez tengas la RLD y el ID, aplica la fórmula: `Impuesto a Adicionar = (RLD * 15%) - ID`.\n    *   Si el resultado es positivo, ese es el valor a adicionar. Si es cero o negativo, no hay Impuesto a Adicionar.\n\n### Riesgos y condiciones\n\n*   **Riesgo de ajuste por la DIAN:** Si la TTD calculada por la DIAN es inferior al 15% y no se ha liquidado el Impuesto a Adicionar, la entidad podría realizar un ajuste en la declaración de renta, con las sanciones e intereses moratorios correspondientes.\n*   **Impacto en la planeación fiscal:** La aplicación de la TTD mínima del 15% puede limitar la efectividad de ciertos beneficios tributarios que reducen la tarifa efectiva de tributación por debajo de este umbral.\n*   **Excepciones a la TTD mínima:** Revisa si tu cliente cumple con alguna de las excepciones a la aplicación de la TTD mínima, como las entidades sin ánimo de lucro, las empresas de economía naranja o las que tienen regímenes especiales (art. 240 ET).\n\n### Soportes clave\n\n*   **Estatuto Tributario (ET):**\n    *   **Artículo 240 ET:** Establece la tarifa general del impuesto sobre la renta para personas jurídicas y la tarifa mínima de tributación del 15%.\n    *   **Artículo 240-1 ET:** Tarifa para usuarios de zona franca.\n    *   **Artículo 241 ET:** Tarifa para las personas naturales residentes y asignaciones y donaciones modales.\n*   **Decreto Reglamentario:** El decreto que reglamenta el artículo 240 del ET es fundamental para entender los ajustes específicos a la utilidad contable y al impuesto para el cálculo de la Renta Líquida Depurada y el Impuesto Depurado.\n*   **Estados Financieros:** La utilidad contable antes de impuestos es el punto de partida para el cálculo de la RLD.\n*   **Declaración de Renta:** Contiene la información del impuesto liquidado y los descuentos tributarios aplicados.",
+    "answer_concise": "### Respuestas directas\n\n*   **¿Tengo que liquidar Impuesto a Adicionar?**\n\n    Sí, es probable que debas liquidar el Impuesto a Adicionar. La Tasa de Tributación Depurada (TTD) de tu cliente es del 11%, lo cual está por debajo del 15% establecido como tarifa mínima de tributación (art. 240 ET). Esto activa la obligación de calcular y, si aplica, pagar el Impuesto a Adicionar.\n\n*   **¿Cómo lo calculo?**\n\n    El Impuesto a Adicionar se calcula para asegurar que la TTD no sea inferior al 15%. La fórmula es:\n\n    `Impuesto a Adicionar = (Renta Líquida Depurada * 15%) - Impuesto Depurado`\n\n    Donde:\n\n    *   **Renta Líquida Depurada (RLD):** Es la utilidad contable antes de impuestos, ajustada por las diferencias permanentes y temporales que establece la norma.\n    *   **Impuesto Depurado (ID):** Es el impuesto sobre la renta y complementarios, ajustado por los descuentos tributarios y otros conceptos que no se consideran para la TTD.\n\n    Para tu cliente, con una TTD del 11%, el cálculo implicará determinar la RLD y el ID según las reglas específicas para la TTD, y luego aplicar la fórmula para llegar al Impuesto a Adicionar.\n\n### Ruta sugerida\n\n1.  **Determinar la Renta Líquida Depurada (RLD):**\n    *   Parte de la utilidad contable antes de impuestos ($800 millones).\n    *   Ajusta esta utilidad por las diferencias permanentes y temporales que no se tienen en cuenta para el cálculo de la TTD. Esto incluye, por ejemplo, ingresos no constitutivos de renta ni ganancia ocasional, costos y deducciones no aceptados fiscalmente, y el efecto de la aplicación de beneficios tributarios.\n    *   Asegúrate de excluir los ingresos y gastos relacionados con rentas exentas o ingresos no gravados que no se consideran para la base de la TTD.\n\n2.  **Calcular el Impuesto Depurado (ID):**\n    *   Toma el impuesto sobre la renta y complementarios liquidado ($140 millones).\n    *   Resta los descuentos tributarios que no son considerados para el cálculo de la TTD (e.g., descuentos por impuestos pagados en el exterior, art. 254 ET).\n    *   No restes los anticipos ni las retenciones en la fuente, ya que estos son pagos anticipados del impuesto, no reducciones del impuesto en sí.\n\n3.  **Aplicar la fórmula del Impuesto a Adicionar:**\n    *   Una vez tengas la RLD y el ID, aplica la fórmula: `Impuesto a Adicionar = (RLD * 15%) - ID`.\n    *   Si el resultado es positivo, ese es el valor a adicionar. Si es cero o negativo, no hay Impuesto a Adicionar.\n\n### Riesgos y condiciones\n\n*   **Riesgo de ajuste por la DIAN:** Si la TTD calculada por la DIAN es inferior al 15% y no se ha liquidado el Impuesto a Adicionar, la entidad podría realizar un ajuste en la declaración de renta, con las sanciones e intereses moratorios correspondientes.\n*   **Impacto en la planeación fiscal:** La aplicación de la TTD mínima del 15% puede limitar la efectividad de ciertos beneficios tributarios que reducen la tarifa efectiva de tributación por debajo de este umbral.\n*   **Excepciones a la TTD mínima:** Revisa si tu cliente cumple con alguna de las excepciones a la aplicación de la TTD mínima, como las entidades sin ánimo de lucro, las empresas de economía naranja o las que tienen regímenes especiales (art. 240 ET).\n\n### Soportes clave\n\n*   **Estatuto Tributario (ET):**\n    *   **Artículo 240 ET:** Establece la tarifa general del impuesto sobre la renta para personas jurídicas y la tarifa mínima de tributación del 15%.\n    *   **Artículo 240-1 ET:** Tarifa para usuarios de zona franca.\n    *   **Artículo 241 ET:** Tarifa para las personas naturales residentes y asignaciones y donaciones modales.\n*   **Decreto Reglamentario:** El decreto que reglamenta el artículo 240 del ET es fundamental para entender los ajustes específicos a la utilidad contable y al impuesto para el cálculo de la Renta Líquida Depurada y el Impuesto Depurado.\n*   **Estados Financieros:** La utilidad contable antes de impuestos es el punto de partida para el cálculo de la RLD.\n*   **Declaración de Renta:** Contiene la información del impuesto liquidado y los descuentos tributarios aplicados.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "No restes los anticipos ni las retenciones en la fuente, ya que estos son pagos anticipados del impuesto, no reducciones del impuesto en sí.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "No restes los anticipos ni las retenciones en la fuente, ya que estos son pagos anticipados del impuesto, no reducciones del impuesto en sí.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "No restes los anticipos ni las retenciones en la fuente, ya que estos son pagos anticipados del impuesto, no reducciones del impuesto en sí.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "logical_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "zonas_francas",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "N ZF — Zonas Francas: Marco Normativo",
+        "legal_reference": "N ZF — Zonas Francas: Marco Normativo",
+        "search_query": "N ZF — Zonas Francas: Marco Normativo DIAN / fuente oficial colombia N ZF — Zonas Francas: Marco Normativo",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "No restes los anticipos ni las retenciones en la fuente, ya que estos son pagos anticipados del impuesto, no reducciones del impuesto en sí.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "No restes los anticipos ni las retenciones en la fuente, ya que estos son pagos anticipados del impuesto, no reducciones del impuesto en sí.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Artículo 240. 1. El patrono está en la obligación de conceder la trabajadora dos descansos, de veinte (20) minutos cada uno, dentro de la jornada, para amamantar a su hijo, sin descuento alguno en el salario por dicho concepto, durante los ",
+      "ARTÍCULO 240-1 Tarifa para usuarios de zona franca . A partir del 1° de enero de 2017, la tarifa del impuesto sobre la renta y complementarios para las personas jurídicas que sean usuarios de zona franca será del 20%. Parágrafo 1°. La tarif",
+      "Artículo 241. Tarifa para las personas naturales residentes y asignaciones y donaciones modales. El impuesto sobre la renta de las personas naturales residentes en el país, de las sucesiones de causantes residentes en el país, y de los bien"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 42,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "computation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T21:17:23.661250+00:00",
+        "total_ms": 13137.82,
+        "step_count": 25,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T21:17:23.661268+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T21:17:23.661250+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.661472+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.21,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 339,
+              "message_preview": "Una SAS de mi cliente factura $4.500 millones, tiene utilidad contable antes de impuestos de $800 millones y renta líquida gravable de $400 millones. Le da impuesto de $140 millones al 35%. Pero me preocupa la TTD porque su tasa efectiva so",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.684170+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 22.91,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.684381+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 23.12,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:23.701086+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 39.83,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 339,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:25.443772+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1782.49,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "tarifas_renta_y_ttd",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la Tasa Mínima de Tributación Depurada (TTD) y el cálculo del Impuesto a Adicionar, que son mecánicas fiscales relacionadas con las tarifas del impuesto de renta. La heurística META indica que el tema es el que OPER",
+              "elapsed_ms_call": 1742.51,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:25.444419+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1783.15,
+            "message": null,
+            "details": {
+              "effective_topic": "tarifas_renta_y_ttd",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "declaracion_renta",
+                "renta_liquida_gravable"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:28.189055+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 4527.78,
+            "message": null,
+            "details": {
+              "owner_trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+              "requested_trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:28.190483+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 4529.2,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "tarifas_renta_y_ttd",
+              "secondary_topics": [
+                "declaracion_renta",
+                "renta_liquida_gravable"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la Tasa Mínima de Tributación Depurada (TTD) y el cálculo del Impuesto a Adicionar, que son mecánicas fiscales relacionadas con las tarifas del impuesto de renta. La heurística META indica que el tema es el que OPERA, y aquí la operación es la aplicación de la TTD y su cálculo, no la definición de la utilidad contable o la renta líquida gravable per se. La Regla 9 (regime vs mechanic routing) también apoya esto, ya que la pregunta es sobre APLICAR la mecánica de la TTD.",
+              "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+              "message_preview": "Una SAS de mi cliente factura $4.500 millones, tiene utilidad contable antes de impuestos de $800 millones y renta líquida gravable de $400 millones. Le da impuesto de $140 millones al 35%. Pero me preocupa la TTD porque su tasa efectiva so",
+              "message_chars": 339
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:28.216530+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 4555.25,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:28.216735+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 4555.47,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "tarifas_renta_y_ttd declaracion_renta renta_liquida_gravable Una SAS de mi cliente factura $4.500 millones, tiene utilidad contable antes de impuestos de $800 millones y renta líquida gravable de $400 millones. Le da impuesto de $140 millon",
+              "query_text_chars": 400
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:28.216806+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 4555.54,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "tarifas_renta_y_ttd",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "tarifas_renta_y_ttd"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:28.969486+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 5308.19,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::240",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1104445::1104449",
+                "suin_1132325::235-2",
+                "suin_30019323::4",
+                "suin_1132325::616-1",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:29.775598+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 6114.29,
+            "message": null,
+            "details": {
+              "anchor_row_count": 19,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:29.776303+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 6115.02,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 42,
+              "delta": 18
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:29.948590+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 6287.29,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 42,
+              "rows_out": 42,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 42,
+              "chunks_kept": 42,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 42,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:30.324817+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 6663.49,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 42,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "tarifas_renta_y_ttd",
+              "planner_query_mode": "computation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:30.325348+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 6664.04,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                5,
+                5
+              ],
+              "after": [
+                3,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "240",
+                  "240-1",
+                  "241",
+                  "fuentes-y-referencias",
+                  "254",
+                  "808",
+                  "260-11",
+                  "1104449"
+                ],
+                "candidate_count": 8,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:30.325590+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 6664.3,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "tarifas_renta_y_ttd",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "tarifas_renta_y_ttd",
+                "articles_top_topic": "tarifas_renta_y_ttd",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "240",
+                  "240-1",
+                  "241"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:30.325812+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 6664.53,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "tarifas_renta_y_ttd",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:30.326219+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 6664.93,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:30.331120+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 6669.84,
+            "message": null,
+            "details": {
+              "template_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:36.798378+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 13137.07,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 4086,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:36.798798+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 13137.5,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "tarifas_renta_y_ttd",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:17:36.798967+00:00",
+            "trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 13137.67,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 58,
+        "output_tokens": 655,
+        "total_tokens": 713,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "tarifas_renta_y_ttd",
+    "secondary_topics": [
+      "declaracion_renta",
+      "renta_liquida_gravable"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+    "topic_adjustment_reason": "La consulta se centra en la Tasa Mínima de Tributación Depurada (TTD) y el cálculo del Impuesto a Adicionar, que son mecánicas fiscales relacionadas con las tarifas del impuesto de renta. La heurística META indica que el tema es el que OPERA, y aquí la operación es la aplicación de la TTD y su cálculo, no la definición de la utilidad contable o la renta líquida gravable per se. La Regla 9 (regime vs mechanic routing) también apoya esto, ya que la pregunta es sobre APLICAR la mecánica de la TTD.",
+    "coverage_notice": null,
+    "topic": "tarifas_renta_y_ttd",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_0f957ac2ed24",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 58,
+        "output_tokens": 655,
+        "total_tokens": 713
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+      "last_run_id": "pd_001beeec24f64810b8be8683df4a5de5",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_0f957ac2ed24",
+    "chat_run_id": "cr_20260429_211725_774e4816",
+    "metrics": {
+      "latency_ms": 16527.89,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 58,
+          "output_tokens": 655,
+          "total_tokens": 713,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_0f957ac2ed24",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 58,
+          "output_tokens": 655,
+          "total_tokens": 713
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "cdbcbc25-6c3a-49c7-9f30-d485028ca28b",
+        "last_run_id": "pd_001beeec24f64810b8be8683df4a5de5",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 7.1
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "tarifas_renta_y_ttd",
+        "secondary_topics": [
+          "declaracion_renta",
+          "renta_liquida_gravable"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "ac57fdd408a043a68037feebb2dc11ed"
+  }
+}

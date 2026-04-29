@@ -1,0 +1,833 @@
+{
+  "qid": "precios_de_transferencia_P3",
+  "topic_key_expected": "precios_de_transferencia",
+  "profile": "P3_borde",
+  "message": "Mi cliente, una PYME de $1.500 millones en ingresos, le compró mercancía durante 2025 a un proveedor en Hong Kong por $400 millones. Hasta donde tenía entendido Hong Kong era jurisdicción no cooperante y eso lo metía en precios de transferencia sin importar montos. ¿Sigue siendo así para la declaración que voy a presentar este año?",
+  "http_status": 200,
+  "latency_ms": 21068,
+  "captured_utc": "2026-04-29T20:53:33.538481+00:00",
+  "response": {
+    "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+    "run_id": "pd_cb4d839d9dfd4549805929bb91fb2a1b",
+    "answer_markdown": "### Respuestas directas\n\n*   **¿Hong Kong sigue siendo jurisdicción no cooperante para efectos de precios de transferencia?**\n    Sí, Hong Kong sigue clasificado como jurisdicción no cooperante, de acuerdo con el Decreto 2095 de 2014.\n\n*   **¿La operación de compra de mercancía con un proveedor en Hong Kong activa la obligación de precios de transferencia sin importar el monto?**\n    Sí, la operación activa la obligación de precios de transferencia. La normativa establece que las operaciones con jurisdicciones no cooperantes se consideran vinculadas (art. 260-1 ET), y estas operaciones están sujetas a las reglas de precios de transferencia (art. 260-2 ET), sin un umbral de monto mínimo para la obligación de documentar y presentar la declaración informativa.\n\n*   **¿Qué implicaciones tiene esto para la declaración que debo presentar este año (ejercicio 2025)?**\n    Para el ejercicio 2025, tu cliente deberá cumplir con las obligaciones de precios de transferencia, que incluyen la preparación de la documentación soporte y la presentación de la Declaración Informativa Individual de Precios de Transferencia (Formulario 120), si cumple con los topes de ingresos brutos o patrimonio bruto.\n\n### Ruta sugerida\n\n1.  **Verificar topes para la Declaración Informativa:** Aunque la operación con Hong Kong activa la vinculación y la necesidad de aplicar el Principio de Plena Competencia (art. 260-2 ET), la obligación de presentar la Declaración Informativa Individual de Precios de Transferencia (Formulario 120) depende de los umbrales de ingresos brutos o patrimonio bruto del contribuyente. Para el ejercicio 2025, se deben revisar los topes que establezca la DIAN para ese periodo.\n    *   Si el cliente supera los topes, deberá presentar el Formulario 120.\n    *   Si no los supera, no estará obligado a presentar el Formulario 120, pero sí a tener la documentación soporte que justifique la aplicación del Principio de Plena Competencia.\n2.  **Preparar documentación soporte:** Independientemente de la presentación del Formulario 120, es necesario preparar un estudio de precios de transferencia que demuestre que la operación de compra de mercancía con el proveedor de Hong Kong se realizó bajo el Principio de Plena Competencia (art. 260-2 ET). Esto implica:\n    *   Identificar el método de precios de transferencia más apropiado (art. 260-3 ET).\n    *   Realizar un análisis funcional y económico.\n    *   Seleccionar comparables independientes.\n    *   Determinar el rango de plena competencia y ajustar el precio si es necesario.\n3.  **Ajustes si aplica:** Si el estudio de precios de transferencia determina que el precio pactado no está dentro del rango de plena competencia, se deberán realizar los ajustes correspondientes en la declaración de renta del cliente.\n\n### Riesgos y condiciones\n\n*   **Sanciones por incumplimiento:** El incumplimiento de las obligaciones de precios de transferencia (no presentar la declaración, presentarla extemporáneamente, con errores o no tener la documentación soporte) puede acarrear sanciones significativas por parte de la DIAN.\n*   **Ajustes fiscales:** La DIAN puede realizar ajustes a los precios o márgenes de utilidad declarados si considera que no se aplicó el Principio de Plena Competencia, lo que podría resultar en mayores impuestos y sanciones.\n*   **Carga de la prueba:** La carga de la prueba recae en el contribuyente para demostrar que sus operaciones con vinculados (incluyendo las de jurisdicciones no cooperantes) se realizaron a precios de plena competencia.\n\n### Soportes clave\n\n*   **Decreto 2095 de 2014:** Listado de jurisdicciones no cooperantes.\n*   **Estatuto Tributario:**\n    *   (art. 260-1 ET): Criterios de vinculación, incluyendo operaciones con jurisdicciones no cooperantes.\n    *   (art. 260-2 ET): Obligación de aplicar el Principio de Plena Competencia en operaciones con vinculados.\n    *   (art. 260-3 ET): Métodos para determinar el precio o margen de utilidad.\n*   **Resoluciones anuales de la DIAN:** Establecen los topes para la presentación de la Declaración Informativa Individual de Precios de Transferencia (Formulario 120) para cada ejercicio gravable.",
+    "answer_concise": "### Respuestas directas\n\n*   **¿Hong Kong sigue siendo jurisdicción no cooperante para efectos de precios de transferencia?**\n    Sí, Hong Kong sigue clasificado como jurisdicción no cooperante, de acuerdo con el Decreto 2095 de 2014.\n\n*   **¿La operación de compra de mercancía con un proveedor en Hong Kong activa la obligación de precios de transferencia sin importar el monto?**\n    Sí, la operación activa la obligación de precios de transferencia. La normativa establece que las operaciones con jurisdicciones no cooperantes se consideran vinculadas (art. 260-1 ET), y estas operaciones están sujetas a las reglas de precios de transferencia (art. 260-2 ET), sin un umbral de monto mínimo para la obligación de documentar y presentar la declaración informativa.\n\n*   **¿Qué implicaciones tiene esto para la declaración que debo presentar este año (ejercicio 2025)?**\n    Para el ejercicio 2025, tu cliente deberá cumplir con las obligaciones de precios de transferencia, que incluyen la preparación de la documentación soporte y la presentación de la Declaración Informativa Individual de Precios de Transferencia (Formulario 120), si cumple con los topes de ingresos brutos o patrimonio bruto.\n\n### Ruta sugerida\n\n1.  **Verificar topes para la Declaración Informativa:** Aunque la operación con Hong Kong activa la vinculación y la necesidad de aplicar el Principio de Plena Competencia (art. 260-2 ET), la obligación de presentar la Declaración Informativa Individual de Precios de Transferencia (Formulario 120) depende de los umbrales de ingresos brutos o patrimonio bruto del contribuyente. Para el ejercicio 2025, se deben revisar los topes que establezca la DIAN para ese periodo.\n    *   Si el cliente supera los topes, deberá presentar el Formulario 120.\n    *   Si no los supera, no estará obligado a presentar el Formulario 120, pero sí a tener la documentación soporte que justifique la aplicación del Principio de Plena Competencia.\n2.  **Preparar documentación soporte:** Independientemente de la presentación del Formulario 120, es necesario preparar un estudio de precios de transferencia que demuestre que la operación de compra de mercancía con el proveedor de Hong Kong se realizó bajo el Principio de Plena Competencia (art. 260-2 ET). Esto implica:\n    *   Identificar el método de precios de transferencia más apropiado (art. 260-3 ET).\n    *   Realizar un análisis funcional y económico.\n    *   Seleccionar comparables independientes.\n    *   Determinar el rango de plena competencia y ajustar el precio si es necesario.\n3.  **Ajustes si aplica:** Si el estudio de precios de transferencia determina que el precio pactado no está dentro del rango de plena competencia, se deberán realizar los ajustes correspondientes en la declaración de renta del cliente.\n\n### Riesgos y condiciones\n\n*   **Sanciones por incumplimiento:** El incumplimiento de las obligaciones de precios de transferencia (no presentar la declaración, presentarla extemporáneamente, con errores o no tener la documentación soporte) puede acarrear sanciones significativas por parte de la DIAN.\n*   **Ajustes fiscales:** La DIAN puede realizar ajustes a los precios o márgenes de utilidad declarados si considera que no se aplicó el Principio de Plena Competencia, lo que podría resultar en mayores impuestos y sanciones.\n*   **Carga de la prueba:** La carga de la prueba recae en el contribuyente para demostrar que sus operaciones con vinculados (incluyendo las de jurisdicciones no cooperantes) se realizaron a precios de plena competencia.\n\n### Soportes clave\n\n*   **Decreto 2095 de 2014:** Listado de jurisdicciones no cooperantes.\n*   **Estatuto Tributario:**\n    *   (art. 260-1 ET): Criterios de vinculación, incluyendo operaciones con jurisdicciones no cooperantes.\n    *   (art. 260-2 ET): Obligación de aplicar el Principio de Plena Competencia en operaciones con vinculados.\n    *   (art. 260-3 ET): Métodos para determinar el precio o margen de utilidad.\n*   **Resoluciones anuales de la DIAN:** Establecen los topes para la presentación de la Declaración Informativa Individual de Precios de Transferencia (Formulario 120) para cada ejercicio gravable.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Resoluciones anuales de la DIAN:** Establecen los topes para la presentación de la Declaración Informativa Individual de Precios de Transferencia (Formulario 120) para cada ejercicio gravable.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿Hong Kong sigue siendo jurisdicción no cooperante para efectos de precios de transferencia?** Sí, Hong Kong sigue clasificado como jurisdicción no cooperante, de acuerdo con el Decreto 2095 de",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Para el ejercicio 2025, se deben revisar los topes que establezca la DIAN para ese periodo.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Para el ejercicio 2025, se deben revisar los topes que establezca la DIAN para ese periodo.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "### ARTÍCULO 260-1. CRITERIOS DE VINCULACIÓN.\n<Artículo adicionado* por el artículo 111 de la Ley 1607 de 2012. El nuevo texto es el siguiente:> Para efectos del impuesto sobre la renta y complementarios, se considera qu",
+      "Artículo 260-2. OPERACIONES CON VINCULACION. Los contribuyentes del impuesto sobre la renta y complementarios que celebren operaciones con vinculados del exterior están obligados a determinar, para efectos del impuesto s",
+      "Artículo 260-3. MÉTODOS PARA DETERMINAR EL PRECIO O MARGEN DE UTILIDAD EN LAS OPERACIONES CON VINCULADOS. El precio o margen de utilidad en las operaciones celebradas entre vinculados se podrá determinar por la aplicació"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 4,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 43,
+        "document_row_count": 13,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T20:53:12.472088+00:00",
+        "total_ms": 15608.71,
+        "step_count": 21,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T20:53:12.472110+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T20:53:12.472088+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:12.472312+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.21,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 333,
+              "message_preview": "Mi cliente, una PYME de $1.500 millones en ingresos, le compró mercancía durante 2025 a un proveedor en Hong Kong por $400 millones. Hasta donde tenía entendido Hong Kong era jurisdicción no cooperante y eso lo metía en precios de transfere",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:12.496786+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 24.68,
+            "message": null,
+            "details": {
+              "effective_topic": "precios_de_transferencia",
+              "confidence": 0.92,
+              "reason": "rule:precios_de_transferencia matched precios de transferencia, precios, transferencia",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:18.849394+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 6377.28,
+            "message": null,
+            "details": {
+              "owner_trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+              "requested_trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:18.854023+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 6381.91,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "precios_de_transferencia",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:precios_de_transferencia matched precios de transferencia, precios, transferencia",
+              "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+              "message_preview": "Mi cliente, una PYME de $1.500 millones en ingresos, le compró mercancía durante 2025 a un proveedor en Hong Kong por $400 millones. Hasta donde tenía entendido Hong Kong era jurisdicción no cooperante y eso lo metía en precios de transfere",
+              "message_chars": 333
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:18.869625+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 6397.49,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:18.870135+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6398.02,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "precios_de_transferencia Mi cliente, una PYME de $1.500 millones en ingresos, le compró mercancía durante 2025 a un proveedor en Hong Kong por $400 millones. Hasta donde tenía entendido Hong Kong era jurisdicción no cooperante y eso lo metí",
+              "query_text_chars": 358
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:18.870405+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6398.29,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "precios_de_transferencia",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "precios_de_transferencia"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:20.004633+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7532.5,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::260-11",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::240",
+                "suin_30019323::4",
+                "suin_1132325::879",
+                "suin_1132325::580-1",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:21.766076+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 9293.92,
+            "message": null,
+            "details": {
+              "anchor_row_count": 19,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:21.766678+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 9294.55,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 43,
+              "delta": 19
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:21.937791+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 9465.65,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 43,
+              "rows_out": 43,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 43,
+              "chunks_kept": 43,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 43,
+                "chunks_kept": 43,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:22.341586+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 9869.41,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 43,
+                "chunks_kept": 43,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "precios_de_transferencia",
+              "planner_query_mode": "general_graph_research"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:22.342092+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 9869.94,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "260-1",
+                  "260-2",
+                  "260-3",
+                  "fuentes-y-referencias",
+                  "808",
+                  "1104449",
+                  "240"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:22.342375+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 9870.24,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "precios_de_transferencia",
+                "articles_top_topic": "precios_de_transferencia",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "260-1",
+                  "260-2",
+                  "260-3"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:22.342630+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 9870.5,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:22.342864+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 9870.74,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:22.349413+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 9877.28,
+            "message": null,
+            "details": {
+              "template_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:28.065217+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 15593.08,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 4163,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:28.080663+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 15608.52,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "precios_de_transferencia",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T20:53:28.080783+00:00",
+            "trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 15608.65,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 56,
+        "output_tokens": 611,
+        "total_tokens": 667,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "precios_de_transferencia",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+    "topic_adjustment_reason": "rule:precios_de_transferencia matched precios de transferencia, precios, transferencia",
+    "coverage_notice": null,
+    "topic": "precios_de_transferencia",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_3d97814d64ca",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 56,
+        "output_tokens": 611,
+        "total_tokens": 667
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+      "last_run_id": "pd_cb4d839d9dfd4549805929bb91fb2a1b",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_3d97814d64ca",
+    "chat_run_id": "cr_20260429_205313_46269c18",
+    "metrics": {
+      "latency_ms": 19298.09,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 56,
+          "output_tokens": 611,
+          "total_tokens": 667,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_3d97814d64ca",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 56,
+          "output_tokens": 611,
+          "total_tokens": 667
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "20f57f87-18ed-4ae1-a74b-8b6c8227a24c",
+        "last_run_id": "pd_cb4d839d9dfd4549805929bb91fb2a1b",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 5,
+        "mentions_unique": 5,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 5,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "decreto:2095:2014",
+          "et",
+          "et",
+          "formulario:120",
+          "et"
+        ],
+        "normative_scaffolding_ms": 11.1
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "precios_de_transferencia",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "abb29fca0b864c7ea99f7092011cd8d2"
+  }
+}
