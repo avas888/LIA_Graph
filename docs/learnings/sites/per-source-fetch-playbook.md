@@ -13,7 +13,9 @@ one source without re-learning the whole architecture.
 **Companion docs (per-site quirks live in those):**
 * [`secretariasenado.md`](secretariasenado.md)
 * [`normograma-dian.md`](normograma-dian.md)
+* [`dian-main.md`](dian-main.md) — DIAN PDF resoluciones (added next_v7 P2)
 * [`suin-juriscol.md`](suin-juriscol.md)
+* [`funcion-publica.md`](funcion-publica.md)
 * [`corte-constitucional.md`](corte-constitucional.md)
 * [`consejo-de-estado.md`](consejo-de-estado.md)
 
@@ -194,6 +196,31 @@ refusing with `missing_double_primary_source`. Logic in
 * **Sentencias de Unificación:** special-case to hit the unification
   index page rather than the per-sentencia URL (those are flaky).
 * **Rate limit:** 1.0 s (small infra).
+
+### `dian_pdf` (DIAN modern resoluciones PDFs, added next_v7 P2)
+
+* **URL pattern:** `https://www.dian.gov.co/normatividad/Normatividad/Resolución <NNNNNN> de <DD-MM-YYYY>.pdf`
+  (raw spaces in filename; `_http_get` percent-encodes the path
+  before request).
+* **Article slicing:** `pypdf.PdfReader.extract_text()` joins page
+  text, then `^ART[IÍ]CULO\s+(\d+)\b` regex split (multiline,
+  case-insensitive). First-occurrence wins on duplicate article
+  numbers (footers re-mention them).
+* **Registry:** `var/dian_pdf_registry.json` mapping canonical
+  `res.dian.<num>.<year>` → URL + number + date. Built by
+  `scripts/canonicalizer/build_dian_pdf_registry.py` walking DIAN
+  normativa landing pages (e.g. `/impuestos/factura-electronica/.../normativa.aspx`
+  for the F2 set).
+* **Cache strategy:** SQLite cache with persisted slice dict in
+  `parsed_meta["articles"]` (Option-2 pattern shared with SUIN / FP).
+* **TLS:** truststore preferred, certifi fallback works in most
+  environments.
+* **Rate limit:** 1.0 s.
+* **Coverage:** F2 (`res.dian.*` 2020+). Closes the 81 res.dian.13.2021
+  refusals from v6. Does **NOT** cover G1 conceptos (pre-2020 Doctrina
+  archive may be addressable in next_v7 §3.6 step 2b — a separate
+  scraper if the URL pattern holds there).
+* **Per-source notes:** `docs/learnings/sites/dian-main.md`.
 
 ### `funcion_publica` (DUR backup, added v6.1)
 

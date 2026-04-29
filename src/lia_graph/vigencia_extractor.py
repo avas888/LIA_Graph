@@ -142,6 +142,7 @@ class VigenciaSkillHarness:
         from lia_graph.scrapers.consejo_estado import ConsejoEstadoScraper
         from lia_graph.scrapers.corte_constitucional import CorteConstitucionalScraper
         from lia_graph.scrapers.dian_normograma import DianNormogramaScraper
+        from lia_graph.scrapers.dian_pdf import DianPdfScraper
         from lia_graph.scrapers.funcion_publica import FuncionPublicaScraper
         from lia_graph.scrapers.secretaria_senado import SecretariaSenadoScraper
         from lia_graph.scrapers.suin_juriscol import SuinJuriscolScraper
@@ -156,13 +157,19 @@ class VigenciaSkillHarness:
         # for DUR redundancy. Anchors are `<a name="N.N.N">` directly,
         # cleaner than SUIN's `ver_NNN`. Inserted after Senado so SUIN
         # stays first and Función Pública catches DUR docs SUIN didn't
-        # harvest. DIAN drops further to position 4.
+        # harvest. DIAN normograma drops further to position 4.
+        # next_v7 P2 — DianPdfScraper joins as a 7th scraper for the
+        # F2 gap (`res.dian.<num>.<year>.art.*` 2020+). Inserted near the
+        # end so the DUR-friendly sources still run first; the PDF scraper
+        # only contributes when nothing earlier resolved a URL for the
+        # canonical id (it short-circuits on missing registry entries).
         registry = ScraperRegistry(
             [
                 SuinJuriscolScraper(cache),
                 SecretariaSenadoScraper(cache),
                 FuncionPublicaScraper(cache),
                 DianNormogramaScraper(cache),
+                DianPdfScraper(cache),
                 CorteConstitucionalScraper(cache),
                 ConsejoEstadoScraper(cache),
             ]
@@ -656,7 +663,15 @@ _SENADO_SOURCE_ID = "secretaria_senado"
 # no segment for the norm), we accept its veredicto under the existing
 # `.gov.co` rule.
 _TRUSTED_GOVCO_SOURCE_IDS = frozenset(
-    {"suin_juriscol", "secretaria_senado", "funcion_publica", "dian_normograma"}
+    {
+        "suin_juriscol",
+        "secretaria_senado",
+        "funcion_publica",
+        "dian_normograma",
+        # next_v7 P2 — DIAN PDF resoluciones (`/normatividad/Normatividad/*.pdf`)
+        # qualify as a trusted single-source under the same `.gov.co` rule.
+        "dian_pdf",
+    }
 )
 
 
