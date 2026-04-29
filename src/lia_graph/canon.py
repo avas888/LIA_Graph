@@ -700,6 +700,12 @@ _NORM_ID_PATTERNS = (
     # Decreto (DUR allows dotted article numbers)
     rf"^decreto\.[0-9]+(?:-[0-9]+)?\.[0-9]{{4}}(?:\.art\.[0-9]+(?:[\.\-][0-9]+)*"
     rf"{_SUB_UNIT_PART}*)?$",
+    # Decreto Legislativo (CP Art. 215, Estado de Excepción) — distinct legal type.
+    rf"^decreto_legislativo\.[0-9]+(?:-[0-9]+)?\.[0-9]{{4}}(?:\.art\.[0-9]+(?:[\.\-][0-9]+)*"
+    rf"{_SUB_UNIT_PART}*)?$",
+    # Decreto-Ley (issued under Ley de Facultades Extraordinarias) — distinct legal type.
+    rf"^decreto_ley\.[0-9]+(?:-[0-9]+)?\.[0-9]{{4}}(?:\.art\.[0-9]+(?:[\.\-][0-9]+)*"
+    rf"{_SUB_UNIT_PART}*)?$",
     # Resolución
     rf"^res\.[a-z][a-z0-9_]*\.[0-9]+(?:-[0-9]+)?\.[0-9]{{4}}"
     rf"(?:\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*)?$",
@@ -709,8 +715,9 @@ _NORM_ID_PATTERNS = (
     r"^oficio\.[a-z][a-z0-9_]*\.[0-9]+(?:-[0-9]+)?\.[0-9]{4}$",
     # Sentencia CC
     r"^sent\.cc\.(?:C|T|SU|A)-[0-9]+\.[0-9]{4}$",
-    # Sentencia CE
-    r"^sent\.ce\.[0-9]+\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}$",
+    # Sentencia CE — MM.DD suffix optional so LLM-extracted refs that
+    # only carry expediente_number + year still canonicalize.
+    r"^sent\.ce\.[0-9]+\.[0-9]{4}(?:\.[0-9]{2}\.[0-9]{2})?$",
     # Auto CE
     r"^auto\.ce\.[0-9]+\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}$",
     # CST (Código Sustantivo del Trabajo)

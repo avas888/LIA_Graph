@@ -87,6 +87,9 @@ evals/canonicalizer_run_v1/*/pre_baseline-*.json
 
 # v6 cascade run logs (operational; not source)
 logs/v6_*.log
+
+# next_v7 P1 cloud promotion run dirs (volatile per-run state)
+logs/cloud_promotion_*/
 logs/cascade_v6_*.log
 logs/cascade_v6_canary/
 logs/v6_1_canary/

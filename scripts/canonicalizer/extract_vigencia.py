@@ -70,6 +70,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                         "DeepSeek adapter (urllib per call), ScraperCache (per-call sqlite3 connect), "
                         "throttle (fcntl.flock), per-norm output JSONs (one file each). Recommend 8 "
                         "for cascade runs (well below DeepSeek 80 RPM cap).")
+    p.add_argument("--max-source-chars", type=int, default=None,
+                   help="Per-source slice cap fed to the LLM prompt. Default unset → harness "
+                        "16000. next_v7 P6: pass 32000 to widen the window for boundary-case "
+                        "refusals (rerun targeted at refused norms only).")
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
     if not args.input_set and not args.batch_id:
@@ -128,6 +132,9 @@ def main(argv: list[str] | None = None) -> int:
         LOGGER.info("Run %s: %d norm_ids in input set", args.run_id, len(norm_ids))
 
     harness = VigenciaSkillHarness.default()
+    if args.max_source_chars:
+        harness.max_source_chars = int(args.max_source_chars)
+        LOGGER.info("max_source_chars override → %d", harness.max_source_chars)
 
     _emit_event(events_path, kind="run.started", run_id=args.run_id, norm_count=len(norm_ids))
 

@@ -110,6 +110,7 @@ class VigenciaSkillHarness:
         max_tool_iterations: int = DEFAULT_MAX_TOOL_ITERATIONS,
         timeout_seconds: float = DEFAULT_TIMEOUT_S,
         temperature: float = DEFAULT_TEMPERATURE,
+        max_source_chars: int | None = None,
         # Test seam: a callable taking the prompt + tool results and
         # returning an already-shaped Vigencia. Used by the cascade unit
         # tests to avoid a real API call.
@@ -127,6 +128,10 @@ class VigenciaSkillHarness:
         self.max_tool_iterations = int(max_tool_iterations)
         self.timeout_seconds = float(timeout_seconds)
         self.temperature = float(temperature)
+        # next_v7 P6 — boundary-refusal mitigation. Default 16k matches the
+        # historical hardcoded slice; raise via ctor or driver flag to feed
+        # the LLM a larger window when refusals concentrate on borderline cases.
+        self.max_source_chars = int(max_source_chars) if max_source_chars else 16000
         self._adapter_factory = adapter_factory
 
     @classmethod
@@ -373,11 +378,14 @@ class VigenciaSkillHarness:
         as_of: date,
         sources: Sequence[ScraperFetchResult],
     ) -> str:
-        # 16000 chars per source — fits the DIAN article-slice (typically
-        # 2–9 KB) plus the Senado segment page (typically 30–50 KB
-        # truncated to 16 KB of the relevant article block).
+        # Default 16000 chars per source — fits the DIAN article-slice
+        # (2–9 KB) plus the Senado segment page (30–50 KB truncated). The
+        # cap is overridable via VigenciaSkillHarness(max_source_chars=…)
+        # to widen the LLM context for boundary-refusal mitigation
+        # (next_v7 P6).
+        cap = int(self.max_source_chars or 16000)
         sources_block = "\n\n".join(
-            f"## Fuente {i+1}: {s.source} — {s.url}\n\n{(s.parsed_text or '')[:16000]}"
+            f"## Fuente {i+1}: {s.source} — {s.url}\n\n{(s.parsed_text or '')[:cap]}"
             for i, s in enumerate(sources)
         )
         periodo_block = (

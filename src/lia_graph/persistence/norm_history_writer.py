@@ -25,6 +25,7 @@ the migration's CHECK constraint per fixplan_v3 §0.7.3.
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Any, Iterable, Mapping, Sequence
@@ -34,6 +35,7 @@ from lia_graph.canon import (
     assert_valid_norm_id,
     display_label,
     is_sub_unit,
+    is_valid_norm_id,
     norm_type as canon_norm_type,
     parent_norm_id as canon_parent_norm_id,
     sub_unit_kind as canon_sub_unit_kind,
@@ -41,6 +43,111 @@ from lia_graph.canon import (
 from lia_graph.vigencia import Vigencia, VigenciaState
 
 LOGGER = logging.getLogger(__name__)
+
+
+# Sentencia-CC alias normalizer. Upstream LLM extraction emits the same
+# sentencia under many writing styles. We map all known shapes to the
+# §0.5 canonical `sent.cc.<C|T|SU|A>-<num>.<year4>`. Returns "" for
+# empty / "None" / unparseable so the caller can treat as "no source".
+# Note: `\b` treats `_` as a word char, so we use explicit non-alnum
+# boundaries (start/end-of-string or `[._\-]`) to handle ids like
+# `sentencia.corte_constitucional.c_690_2003` where `_2003` would not
+# match `\b2003\b`.
+_SENT_KIND_RX = re.compile(
+    r"(?:^|[._\-])(SU|sU|Su|su|[cCtTaA])[_\-]?(\d+)(?=[._\-]|$)"
+)
+_YEAR4_RX = re.compile(r"(?:^|[._\-])(19\d{2}|20\d{2})(?=[._\-]|$)")
+_YEAR2_RX = re.compile(r"(?:^|[._\-])(\d{2})(?=[._\-]|$)")
+
+
+def _normalize_source_norm_id(raw: str | None) -> str:
+    """Rewrite known LLM-output aliases to canonical norm_ids.
+
+    Returns "" for empty / "None" / unparseable input so the caller can
+    treat it as "no source identified" without raising.
+    """
+
+    if not raw:
+        return ""
+    s = raw.strip()
+    if s.lower() in {"none", "null", ""}:
+        return ""
+    if is_valid_norm_id(s):
+        return s
+
+    # Sub-unit naming drift: `paragrafo` / `parágrafo` → canonical `par`,
+    # and joined-no-dot variants like `.par3` → `.par.3`.
+    s2 = s.replace("parágrafo.", "par.").replace("paragrafo.", "par.")
+    s2 = re.sub(r"\.par(\d+)\b", r".par.\1", s2)
+    s2 = re.sub(r"\.inciso(\d+)\b", r".inciso.\1", s2)
+    s2 = re.sub(r"\.num(\d+)\b", r".num.\1", s2)
+    s2 = re.sub(r"\.lit([a-z])\b", r".lit.\1", s2)
+    if s2 != s and is_valid_norm_id(s2):
+        return s2
+    s = s2
+
+    # Consejo de Estado: messy variants — `sentencia.ce.<num>.<year>`,
+    # `ce.sentencia.<num>.<year>`, with optional `expediente_` prefix. We
+    # canonicalize when both num + 4-digit year are recoverable.
+    if _looks_like_consejo_estado(s):
+        m = re.search(r"(?:expediente[_\.]?)?(\d{2,})[._\-](\d{4})(?![\d])", s)
+        if m:
+            num, year = m.group(1), m.group(2)
+            candidate = f"sent.ce.{num}.{year}"
+            if is_valid_norm_id(candidate):
+                return candidate
+
+    # Sentencia heuristic: search the string for both a kind+num token and
+    # a year. Order doesn't matter; multiple separator styles handled.
+    if _looks_like_sentencia(s):
+        kind_match = _SENT_KIND_RX.search(s)
+        year_match = _YEAR4_RX.search(s)
+        if not year_match:
+            # Try 2-digit year. CC sentencias started 1992; assume 92-99 → 19xx
+            # else 20xx. Drop the kind/num tokens we already matched so we
+            # don't grab those digits as a "year".
+            stripped = s
+            if kind_match:
+                stripped = stripped[:kind_match.start()] + stripped[kind_match.end():]
+            yy_match = _YEAR2_RX.search(stripped)
+            if yy_match:
+                yy = int(yy_match.group(1))
+                year4 = (1900 + yy) if yy >= 92 else (2000 + yy)
+                year_match = re.match(r"(\d{4})", str(year4))
+        if kind_match and year_match:
+            kind = kind_match.group(1).upper()
+            if kind in {"S"}:
+                kind = "SU"
+            num = kind_match.group(2)
+            year = year_match.group(1) if hasattr(year_match, "group") else str(year_match)
+            candidate = f"sent.cc.{kind}-{num}.{year}"
+            if is_valid_norm_id(candidate):
+                return candidate
+    return s  # unchanged — caller will see invalid and decide
+
+
+def _looks_like_sentencia(s: str) -> bool:
+    low = s.lower()
+    return (
+        "sentencia" in low
+        or "sent_cc" in low
+        or low.startswith("sent.cc")
+        or "corte_constitucional" in low
+        or re.match(r"^[ctsuaCTSUA][uU]?[\-_]?\d+", s) is not None
+    )
+
+
+def _looks_like_consejo_estado(s: str) -> bool:
+    low = s.lower()
+    return (
+        "consejo_estado" in low
+        or "consejo_de_estado" in low
+        or low.startswith("ce.")
+        or low.startswith("sent.ce")
+        or low.startswith("sent_ce")
+        or low.startswith("sentencia.ce")
+        or low.startswith("sentencia_ce")
+    )
 
 
 _VALID_EXTRACTED_BY_PREFIXES: tuple[str, ...] = (
@@ -227,14 +334,36 @@ class NormHistoryWriter:
                 "retrieval and synthesis paths may NEVER write to norm_vigencia_history"
             )
         _validate_extracted_by(extracted_by)
+        # Normalize source_norm_id to canonical form. Computed once here and
+        # carried into the change_source dict below — ChangeSource is a
+        # frozen dataclass, so we cannot mutate it in place.
+        normalized_source_norm_id: str | None = None
         if veredicto.change_source is not None and veredicto.change_source.source_norm_id:
-            try:
-                assert_valid_norm_id(veredicto.change_source.source_norm_id)
-            except InvalidNormIdError as err:
+            raw_src = veredicto.change_source.source_norm_id
+            normalized_source_norm_id = _normalize_source_norm_id(raw_src)
+            if normalized_source_norm_id != raw_src:
+                LOGGER.info(
+                    "normalized source_norm_id %r → %r",
+                    raw_src,
+                    normalized_source_norm_id or "(empty)",
+                )
+            if normalized_source_norm_id:
+                try:
+                    assert_valid_norm_id(normalized_source_norm_id)
+                except InvalidNormIdError as err:
+                    raise ValueError(
+                        f"change_source.source_norm_id is not a canonical norm_id: "
+                        f"{normalized_source_norm_id!r} (raw={raw_src!r})"
+                    ) from err
+            else:
+                # Unparseable / "None" / empty after normalization. For non-V
+                # states the DB CHECK requires a source_norm_id, so we must
+                # raise here to surface a clean audit-error message instead
+                # of letting the DB reject opaquely.
                 raise ValueError(
-                    f"change_source.source_norm_id is not a canonical norm_id: "
-                    f"{veredicto.change_source.source_norm_id!r}"
-                ) from err
+                    f"change_source.source_norm_id unparseable, dropped after "
+                    f"normalization: raw={raw_src!r}"
+                )
         # Reasonable defaults
         extracted_via = {
             "skill_version": (veredicto.extraction_audit.skill_version
@@ -262,6 +391,11 @@ class NormHistoryWriter:
             # state the value is allowed empty.
         else:
             change_source = veredicto.change_source.to_dict()
+            # Apply normalization computed earlier (ChangeSource is frozen, so
+            # we rewrite at the dict layer that the writer actually persists).
+            if normalized_source_norm_id and normalized_source_norm_id != change_source.get("source_norm_id"):
+                change_source = dict(change_source)
+                change_source["source_norm_id"] = normalized_source_norm_id
 
         return PreparedHistoryRow(
             norm_id=norm_id,
