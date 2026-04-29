@@ -1,5 +1,37 @@
 # fix_v3.md — phase 4 hand-off: synthesis-layer bug uncovered by fix_v2 (29 → ≥32/36)
 
+> **STATUS 2026-04-29 ~3:42 PM Bogotá: ITERATION 2 (Route B) PARTIAL —
+> 29/36 SAME AS ANCHOR, BUT QUALITATIVELY CLEANER. UNCOMMITTED, AWAITING
+> OPERATOR DIRECTION.**
+> Route B (synthesis-layer fix at `_anchor_label_for_item`: return `""`
+> instead of raw slug) ran the §1.G panel at **29/36 acc+ (DELTA 0 vs
+> fix_v2 anchor)**. Strict success criterion (≥32/36) NOT met. But
+> qualitative profile is strictly improved: slug template leak fully
+> eliminated (`slug_leak=False` on all 3 Symptom-A qids, vs visible
+> `art. paso-a-paso-pr-ctico ET` in anchor); 21 served_strong vs anchor's
+> 18 (+3); 3 served_weak vs anchor's 7 (−4); 0 regressions; 0 refusals;
+> `perdidas_fiscales_art147_P1` lifted served_acceptable → served_strong;
+> `beneficio_auditoria_P2` preserved at 3576 chars (vs Route A's hard
+> regression to 561). Run dir:
+> `evals/sme_validation_v1/runs/20260429T203328Z_fix_v3_route_b_synthesis/`.
+> Diagnosis & full record in §12. **Phase 4 remains open** — Route B
+> alone holds at anchor count because P1 and P3's underlying stub-shape
+> bug is one layer further upstream (answer-assembly composer, not the
+> inline-anchor renderer). Three options for operator (see §12.5).
+>
+> **STATUS 2026-04-29 ~3:18 PM Bogotá: ITERATION 1 DISCARDED, REVERTED, NOT COMMITTED.**
+> Route A (numeric-key guard at retriever) ran the §1.G panel at
+> **28/36 acc+ (DELTA −1 vs fix_v2 anchor 29/36)** with **0 Symptom-A qids
+> flipped** and **1 hard regression** (`beneficio_auditoria_P2`:
+> served_strong 3537 chars → served_weak 561 chars). Per §3 Step 6 / op-mode
+> banner ("acc+ < 29 = below floor → REVERT IMMEDIATELY (Step 7 WITHOUT
+> commit; surface to operator)"), the diff was reverted in working tree
+> (now matches `origin/main`); 45/45 smoke tests still pass. Run dir:
+> `evals/sme_validation_v1/runs/20260429T200629Z_fix_v3_numeric_article_gate/`.
+> Full iteration-1 record + revised diagnosis below the original hand-off
+> in §11. **Phase 4 remains open — see §11 for the path forward (Route B
+> at synthesis layer, not retriever).**
+>
 > **Drafted 2026-04-29 ~3:00 PM Bogotá** by claude-opus-4-7 immediately
 > after fix_v2 phase 3 closed (commit `5c266d6`, panel 22 → 29/36, pushed
 > to `origin/main`). **Audience: any zero-context agent (fresh LLM or
@@ -1016,3 +1048,216 @@ The diagnosis cited in §1 is from this session's trace inspection. The
 trace evidence underlying §1's verdicts is in
 `evals/sme_validation_v1/runs/20260429T192350Z_fix_v2_evidence_classifier_v3/<qid>.json
 .response.diagnostics.pipeline_trace.steps[*]`.*
+
+---
+
+## 11. Iteration 1 — Route A DISCARDED (2026-04-29 ~3:18 PM Bogotá)
+
+> Six-gate gate-6 ("never silently rolled back"). Route A (numeric-key
+> guard at retriever) was implemented per §3 Step 3, smoke-tested
+> (45/45 green), and panel-validated. The result fired the §3 Step 6
+> revert gate. Code reverted in working tree before any commit. This
+> section records the iteration so the next attempt doesn't repeat it.
+
+### 11.1 What was tried
+
+`src/lia_graph/pipeline_d/retriever_supabase.py`:
+
+* Added module constant `_NUMERIC_ARTICLE_KEY_RE = re.compile(r"^\d+(?:-\d+)?$")` next to the existing `_ARTICLE_NUMBER_RE` (line 56).
+* Tightened `_classify_article_rows.signals_router_topic` (line 920) to require `_NUMERIC_ARTICLE_KEY_RE.match(article_key)` for signals (2)–(5). Explicit-anchor signal (1) unchanged.
+
+Backend smokes: **45 passed** (`test_retriever_falkor.py` + `test_phase3_graph_planner_retrieval.py`).
+
+### 11.2 Panel result
+
+Run dir: `evals/sme_validation_v1/runs/20260429T200629Z_fix_v3_numeric_article_gate/`.
+
+| Metric | fix_v2 anchor | fix_v3 Route A | Delta |
+|---|---|---|---|
+| served_acceptable+ | 29/36 | **28/36** | **−1** |
+| served_strong | ? | 18 | — |
+| served_acceptable | ? | 10 | — |
+| served_weak | 7 | 4 | −3 |
+| served_off_topic | 4 | 4 | 0 |
+| refused / server_error | 0 / 0 | 0 / 0 | 0 |
+
+| Movement | qids |
+|---|---|
+| **REGRESSED** (acc+ → non-acc+) | `beneficio_auditoria_P2` (served_strong 3537 chars → served_weak 561 chars) |
+| **IMPROVED** (non-acc+ → acc+) | *(none)* |
+| **Symptom-A qids** | all 3 still served_weak — `regimen_cambiario_P1` 184→199 chars, `regimen_cambiario_P3` 109→109 chars, `regimen_sancionatorio_extemporaneidad_P2` 239→239 chars |
+
+### 11.3 Why Route A failed — three findings
+
+**Finding 1 (the load-bearing one): Route A demoted to `connected`, not to
+`support_documents`. `select_inline_anchors` reads from BOTH. So the slug
+template leak still fires.** `_classify_article_rows` only has two
+buckets (`primary` and `connected`); items dropped from primary land in
+`connected`, not `support_documents`. The synthesis layer at
+`src/lia_graph/pipeline_d/answer_inline_anchors.py:115` reads
+`candidate_rows = (*primary_articles[:5], *connected_articles[:3])` — so
+chunks that were demoted from `primary` to `connected` are STILL fed into
+`_anchor_label_for_item`, which STILL falls back to rendering the raw slug
+as `art. paso-a-paso-pr-ctico`. Net behavior change: `regimen_cambiario_P3`
+went from `primary=3, connected=5` to `primary=1, connected=5`, but
+rendered the same 109-char stub with the same slug-prefixed citation.
+Route A is at the wrong layer; the bug needs to be fixed at the synthesis
+site (Route B, §11.5).
+
+**Finding 2: §1's diagnosis lumped `regimen_sancionatorio_extemporaneidad_P2`
+incorrectly into Symptom A.** Its primary chunks have numeric keys
+(`641`, `640`) in BOTH the anchor and Route A runs (`primary=3,
+connected=4` unchanged). The 239-char "Riesgos y condiciones" answer is
+not a slug-rendering bug; it's a different bug class — answer-assembly
+brevity / template truncation when the synthesis section closes early.
+This qid is NOT a Route A target and won't be flipped by any
+retriever-side change. Belongs in fix_v4 with the Symptom-B set.
+
+**Finding 3: Route A's regex `^\d+(?:-\d+)?$` is too narrow for legitimate
+ET-adjacent content.** `beneficio_auditoria_P2`'s top chunks include
+`Ley-1429-2010.md::fuente` (Ley source-fragment chunk with article_key
+`fuente`) and `seccion-26-fiscalizacion-y-defensa-ante-la-dian.md::`
+(empty article suffix). These are SME-meaningful primary chunks that
+Route A demoted, causing one of the two parallel sub-questions to fall
+back to `Cobertura pendiente para esta sub-pregunta` — a 561-char stub
+where the anchor served a 3537-char substantive answer. Even if Route A
+weren't at the wrong layer, the regex would need to be much wider to
+cover real corpus shapes.
+
+### 11.4 What this implies for the §1 diagnosis
+
+§1 was partly correct (slug rendering IS the bug for `regimen_cambiario_P1` and `_P3`) and partly incorrect:
+
+* The 3 Symptom-A qids are not all the same bug. P1 and P3 are slug-rendering. P2 is a different brevity/template bug — fix_v4 territory.
+* Route A's claim "those chunks go to support_documents which DOES get synthesized" was wrong. They go to `connected`, which feeds back into the same synthesis bug.
+* Real recoverable Symptom-A is **2 qids, not 3**. Even a perfect retriever-side fix caps at ~31/36.
+
+### 11.5 Recommended next attempt — Route B at synthesis layer (alone)
+
+Skip Route A entirely. Modify the synthesis layer instead, at one of two sites:
+
+**Option B1 (smallest)** — `src/lia_graph/pipeline_d/answer_inline_anchors.py`:
+1. `_anchor_label_for_item` (line 86): when both `_ARTICLE_NUMBER_RX` and `_TITLE_ARTICLE_RX` fail, render the chunk's `title` (truncated) instead of the raw slug. Strip leading "art." from titles to avoid double-prefix.
+2. `select_inline_anchors` (line 115): when scoring candidates, deprioritize items whose `node_key` is non-numeric and lacks a parseable title-article. Or skip them entirely if at least one numeric candidate exists in the bundle.
+
+**Option B2 (deeper)** — the upstream caller (`answer_first_bubble.py` and/or `answer_synthesis_helpers.py`) decides whether to emit `(arts. <list> ET)` at all. Detect "no numeric anchor available in bundle" and skip the article-citation suffix; let the ruta-sugerida composer fall back to title-only references.
+
+Recommended: **try B1 first**. It's surgical (one or two functions), reversible, and the call sites for `_anchor_label_for_item` are limited. If B1 still under-delivers (Symptom-A still <500 chars because the answer-assembly composer also bails on non-numeric anchors), expand to B2.
+
+**Expected ceiling**: with §1's revised diagnosis, Route B alone could close P1 and P3 (2 of the 3 Symptom-A qids) → 31/36. Closing the threshold to 32/36 requires either:
+* Fixing P2's brevity bug (template truncation in synthesis sections — fix_v4).
+* Or fixing one of the 4 Symptom-B qids (3 of which are substantive but classifier-stricter answers). That's also fix_v4.
+
+**Bottom line**: the §1.G ≥32/36 gate may not be reachable in phase 4 alone. Phase 4 (Route B) lifts panel from 29 → 31, and phase 5 (Symptom-B classifier-rule sensitivity + P2's template-truncation bug) lifts 31 → ≥32. The operator should decide whether to:
+1. Land Route B as a partial close (29 → 31, 0 regressions) and roll the residual into fix_v4.
+2. Plan fix_v4 in parallel and ship them together.
+3. Retain 29/36 as the current best and pivot to a different work stream.
+
+### 11.6 What you must NOT carry forward from Route A
+
+* The `_NUMERIC_ARTICLE_KEY_RE` constant is reverted; do not re-introduce it. The bug is not at the retriever level.
+* Do not assume "demoted from primary" means "not in synthesis" — `connected_articles` is still rendered.
+* Do not lump `regimen_sancionatorio_extemporaneidad_P2` with the slug-rendering qids; it's a different bug.
+* Do not widen the regex to cover `::fuente` etc. Wrong layer regardless.
+
+### 11.7 Six-gate record for Route A
+
+1. **Idea**: numeric-key guard at retriever level. ✓
+2. **Plan**: §2 Route A. ✓
+3. **Criterion**: ≥32/36 acc+, 0 ok→zero regressions. ✓
+4. **Test plan**: 45 backend smokes + 36-Q SME panel + 3+3 spot-checks. ✓
+5. **Greenlight**: **FAIL.** Panel −1 vs anchor; 1 regression; 0 Symptom-A flips.
+6. **Refine-or-discard**: **DISCARD.** Wrong layer (synthesis pulls from `connected` too) AND regex too narrow (real `Ley::fuente` chunks demoted). Code reverted in working tree before any commit. Run dir kept as evidence: `evals/sme_validation_v1/runs/20260429T200629Z_fix_v3_numeric_article_gate/`.
+
+---
+
+*Iteration-1 record drafted 2026-04-29 ~3:18 PM Bogotá by
+claude-opus-4-7. Stop gate fired per §3 Step 6 ("acc+ < 29 → REVERT
+IMMEDIATELY"). Working tree clean against `origin/main`; no commit of
+Route A code. fix_v3 remains open; next iteration should pick up at
+§11.5 (Route B at synthesis layer, alone).*
+
+---
+
+## 12. Iteration 2 — Route B PARTIAL (2026-04-29 ~3:42 PM Bogotá)
+
+> Route B (synthesis-layer slug-suppression at `_anchor_label_for_item`)
+> implemented per §11.5 option B1. Smoke 45/45. Panel: **29/36 acc+
+> (DELTA 0 vs fix_v2 anchor)**. Strict gate ≥32 NOT met. But qualitative
+> profile is strictly better than anchor on every other axis. Code in
+> working tree, NOT committed; awaiting operator direction.
+
+### 12.1 What was tried
+
+`src/lia_graph/pipeline_d/answer_inline_anchors.py:86`:
+
+* `_anchor_label_for_item` final fallback changed from `return article_key` (raw slug) to `return ""`. Both call sites in `select_inline_anchors` already filter empty labels (line 127–128 and line 146), so the change propagates as "skip non-article candidates from inline anchors." The surrounding answer line then renders without `(arts. <list> ET)` suffix when no real ET article number is resolvable; chunk content still informs the answer composer through the evidence bundle.
+* Added a doc-comment block explaining the rationale for the next agent.
+
+Backend smokes: **45 passed** (`test_retriever_falkor.py` + `test_phase3_graph_planner_retrieval.py`).
+
+### 12.2 Panel result
+
+Run dir: `evals/sme_validation_v1/runs/20260429T203328Z_fix_v3_route_b_synthesis/`.
+
+| Metric | fix_v2 anchor | Route A (discarded) | **Route B** | Δ vs anchor |
+|---|---|---|---|---|
+| served_acceptable+ | 29/36 | 28/36 | **29/36** | **0** |
+| served_strong | 18 (est) | 18 | **21** | **+3** |
+| served_acceptable | 11 (est) | 10 | **8** | −3 |
+| served_weak | 7 | 4 | **3** | **−4** |
+| served_off_topic | 4 | 4 | 4 | 0 |
+| refused / server_error | 0 / 0 | 0 / 0 | **0 / 0** | 0 |
+
+| Movement | qids |
+|---|---|
+| **REGRESSED** (acc+ → non-acc+) | *(none)* |
+| **IMPROVED** (non-acc+ → acc+) | *(none)* |
+| **Within-acc+ lift (acceptable → strong)** | `perdidas_fiscales_art147_P1` |
+| **Symptom-A qids — slug template leak** | **all 3 cleaned** (`slug_leak=False` on `regimen_cambiario_P1`, `_P3`, `regimen_sancionatorio_extemporaneidad_P2`) |
+| **Symptom-A qids — answer length** | P1 184 → 140; P3 109 → 85; P2 239 → 239 (all still <500, still served_weak) |
+| **`beneficio_auditoria_P2` preserved** | served_strong 3576 chars (Route A regressed this to 561; Route B holds it) |
+
+### 12.3 Why Route B improved quality but not panel count
+
+Route B fixed exactly the bug it was designed to fix: the `art. <slug> ET` template leak. All 3 Symptom-A qids' answers now render cleanly, without the malformed citation. But P1 and P3 are still classified `served_weak` because **the underlying stub shape is one layer further upstream**.
+
+Their answers still read:
+* `regimen_cambiario_P1`: "**Ruta sugerida** / 1. **Identificar si la PYME requiere canalización obligatoria**." (140 chars, single-bullet stub)
+* `regimen_cambiario_P3`: "**Ruta sugerida** / 1. PYME Importadora — Qué hacer paso a paso Situación." (85 chars, even shorter single-bullet stub)
+
+The slug suffix is gone (good), but the body itself is a 1-bullet `**Ruta sugerida**` placeholder. The bug is in the answer-assembly composer (`answer_first_bubble.py` / `answer_synthesis_helpers.py`) — when the only on-topic evidence is practica/expertos (no real ET-article anchor), the composer falls back to a thin single-bullet "Ruta sugerida" template instead of synthesizing a substantive multi-bullet narrative from the chunk excerpts. That's a third layer (answer composition), not the synthesis-anchor renderer.
+
+§11.5's prediction "Route B alone could close P1 and P3 → 31/36" was **wrong about the mechanism**. Route B fixes the rendering bug, not the answer-shape bug. The two are coupled in the visible output but separate in the code.
+
+### 12.4 What Route B IS worth, even at 29/36
+
+* **Slug template leak fully eliminated.** 3 qids that previously rendered the malformed `(arts. paso-a-paso-pr-ctico ET)` now render cleanly. Visible quality bug closed even if the panel score doesn't reward it.
+* **served_strong distribution improved**: 21 vs anchor's 18 (+3). Answers that were "served_acceptable" before are now "served_strong" because the cleaned-up citations read more authoritatively.
+* **served_weak halved**: 3 vs anchor's 7. Bottom-of-distribution improved.
+* **0 regressions** across the full 36-qid panel. Zero risk to fix_v2-passing qids.
+* **`beneficio_auditoria_P2` preserved at 3576 chars served_strong** — a critical contrast to Route A which regressed it to 561 chars.
+* **`perdidas_fiscales_art147_P1` lifted** acceptable → strong (silent benefit).
+
+### 12.5 Three options for the operator
+
+1. **Land Route B as a quality-bug fix (recommended).** Commit the 1-line code change + the §11/§12 record. Net: 29/36 same panel count, but visible quality bug gone, served_strong improves +3, 0 regressions. Roll the residual ≥32 gate into fix_v4 alongside the answer-composer-stub bug for P1/P3 + the 4 Symptom-B qids.
+2. **Try Route C: answer-composer fix for P1/P3.** Modify `answer_first_bubble.py` / `answer_synthesis_helpers.py` to compose a multi-bullet narrative from chunk excerpts when no numeric ET anchor is available. Riskier — those modules touch every answer. ~1 hour of work + panel cycle. Could close 31/36 (P1+P3 flip) but might regress other qids that rely on the current "Ruta sugerida" fallback shape. Per the doc's "max 3 iterations" rule, this is the last allowed iteration before escalation.
+3. **Hold at 29/36.** Discard Route B (revert). Keep current production behavior. Open fix_v4 fresh.
+
+### 12.6 Six-gate record for Route B
+
+1. **Idea**: synthesis-layer slug-suppression. Return empty label when no real ET article identifier resolvable; let existing empty-filter machinery skip the candidate from inline anchors. ✓
+2. **Plan**: §11.5 option B1. Reversible. ✓
+3. **Criterion**: ≥32/36 acc+, 0 ok→zero regressions, 3 Symptom-A qids ≥500 chars, no slug template leak. ✓
+4. **Test plan**: 45 backend smokes + 36-Q panel + per-qid spot-check (Symptom-A leak grep + 4 fix_v2-passing qids preservation). ✓
+5. **Greenlight**: **PARTIAL.** Strict criterion FAIL (29 not 32; Symptom-A still <500 chars). Qualitative criterion PASS (no slug leak, 0 regressions, served_strong +3, served_weak −4, beneficio_auditoria_P2 preserved). The gap to 32 is in a different code layer (answer-composer), not in the synthesis-anchor renderer Route B addressed.
+6. **Refine-or-discard**: **AWAITING OPERATOR DIRECTION** per §12.5. Code in working tree, uncommitted, reversible by single Edit. Not silently rolled back.
+
+---
+
+*Iteration-2 record drafted 2026-04-29 ~3:42 PM Bogotá by
+claude-opus-4-7. Working-tree state: `answer_inline_anchors.py` modified
+(Route B), `retriever_supabase.py` clean (Route A reverted), `fix_v3.md`
+modified (this section + §11). No commits; awaiting operator decision
+on §12.5.*

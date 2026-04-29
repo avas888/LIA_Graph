@@ -94,6 +94,15 @@ def _anchor_label_for_item(item: GraphEvidenceItem) -> str:
     ``"art. 26-8-firmeza-... ET"`` — a slug rendered as if it were an
     article number, which both reads wrong and hides the real article
     from a reader scanning for ``"714"``.
+
+    fix_v3 phase 4 (2026-04-29): when neither node_key nor title yields a
+    real ET article number (e.g. practica/expertos chunks with section-
+    heading slugs like ``paso-a-paso-pr-ctico``, or Ley source-fragment
+    chunks with non-article keys like ``fuente``), return ``""`` so the
+    callers' existing empty-label filters drop the candidate. The
+    surrounding answer line then renders cleanly without a malformed
+    ``(arts. <slug> ET)`` suffix; the chunk content still informs the
+    answer composer through the evidence bundle.
     """
     article_key = str(item.node_key or "").strip()
     if _ARTICLE_NUMBER_RX.match(article_key):
@@ -102,7 +111,7 @@ def _anchor_label_for_item(item: GraphEvidenceItem) -> str:
     match = _TITLE_ARTICLE_RX.search(title)
     if match:
         return match.group(1)
-    return article_key
+    return ""
 
 
 def select_inline_anchors(
