@@ -40,27 +40,31 @@ Memory-pinned guardrails (do not violate):
 
 ---
 
-## 2. Global state (2026-04-29 ~9:10 AM Bogotá)
+## 2. Global state (2026-04-29 ~10:15 AM Bogotá)
 
-* **P1 — cloud promotion.** 4th attempt in flight as
-  `v6-cloud-promotion-20260429T134852Z`. ~50% through (1,932 of
-  ~3,250 expected inserts; 0 errors at row 1,932). Three earlier
-  attempts each failed-fast on different root causes; all root
-  causes fixed and committed before the next attempt.
-* **P2 — DIAN PDF scraper.** ✅ Complete + committed. F2 unblocked
-  for next rerun. Live verification: `res.dian.13.2021.art.5` →
-  3,157 chars sliced clean.
-* **P3 — K3 CCo gap close.** ✅ Complete + committed. 1,967 CCo
-  articles indexed across 63 segments; Senado scraper resolves
-  per-pr URL. Step 3a (FP probe) ruled out; step 3c (slicer tuning)
-  not needed.
-* **P4 / P5 / P6 — gated on P1 cli.done.** Launcher staged at
-  `scripts/cloud_promotion/launch_post_p1.sh`: P5 synchronous
-  (Falkor sync, 5 min), then P4 + P6 detached in parallel
-  (embedding backfill ~1-2 hr; refusal rerun ~3 hr).
-* **P7 — SUIN harvest extension.** Fork agent investigating doc-ids
-  for the 6 COVID decretos (decreto.{417,444,535,568,573,772}.2020).
-  Awaiting return.
+* **P1 — cloud promotion.** ✅ Complete (4th attempt). Final:
+  3,264 inserts / 873 refusals / 3 errors (0.07%) across 39
+  batches. Cloud `norm_vigencia_history`: 0 → 9,322 rows
+  (with attempt-1/2/3 partial accumulation included; idempotency
+  is run-id-scoped). Distinct norm_ids: 2,349 (vs 2,362 local).
+* **P2 — DIAN PDF scraper.** ✅ Complete. F2 unblocked.
+* **P3 — K3 CCo gap close.** ✅ Complete. 1,967-article index.
+* **P4 — embedding backfill.** ✅ Complete (no-op). Cloud already
+  had 19,546/19,546 chunks embedded from prior corpus syncs; P1
+  added vigencia rows but no new chunks. The 4-shard launcher
+  staged earlier is unused for this cycle but stays for future
+  embedding-backfill needs.
+* **P5 — Falkor sync.** ✅ Complete. 2,905 norm nodes + ~2,548
+  vigencia edges (MODIFIED_BY/DEROGATED_BY/INEXEQUIBLE_BY/etc.)
+  written to cloud Falkor. Took 20 min for ~5,500 sequential
+  cypher round-trips — see §7 perf follow-up below.
+* **P6 — refusal rerun w/ --max-source-chars 32000.** 🔵 In flight.
+  Cascade step 1/8 (batch F2). ETA ~3 hr.
+* **P7 — Senado decreto resolver extension.** ✅ Complete (fork
+  agent commit `1592832`). Pivoted from the SUIN-harvest path
+  (next_v7 §3.7 original proposal) after the SUIN doc-id-discovery
+  fork found the 6 COVID decretos NOT on SUIN but ALL on Senado at
+  `decreto_<NUM4>_<YEAR>.html`. Closes E5 when P6 reaches it.
 
 ---
 
@@ -68,19 +72,49 @@ Memory-pinned guardrails (do not violate):
 
 | ID | Task | Status | Owner | Effort | Notes |
 |---|---|---|---|---|---|
-| **P1** | Cloud promotion (audit + reconcile + push) | 🔵 in-flight | claude-opus | 1-2 hr | 4th attempt; fail-fast doctrine fixed 3 prior root causes (frozen-dataclass mutate, cst/cco grammar, norm_type CHECK) |
+| **P1** | Cloud promotion (audit + reconcile + push) | ✅ done | claude-opus | 4 attempts × 25-33 min | Final 4th attempt clean: 3,264 inserts / 3 errors. Three earlier attempts each failed-fast on a different root cause — produced rules 7+8 of the operations canon |
 | **P2** | DIAN PDF scraper (7th source) | ✅ done | claude-opus | shipped | commits `3b09719` + per-source notes |
 | **P3** | K3 CCo gap close | ✅ done | claude-opus | shipped | commits `c0f3d3d` + `95e1eb9`; segment index path |
-| **P4** | Embedding backfill on cloud | 🟡 staged | — | 1-2 hr compute | gated on P1 done; in `launch_post_p1.sh` |
-| **P5** | Falkor edge sync verification | 🟡 staged | — | 5 min | gated on P1 done; in `launch_post_p1.sh` |
-| **P6** | Refusal rerun w/ --max-source-chars 32000 | 🟡 staged | — | 3 hr | gated on P1 done; flag wired in commit `3b09719` |
-| **P7** | SUIN harvest extension (E5 COVID decretos) | 🔍 investigating | fork-agent | 3-5 hr | doc-id discovery in flight |
+| **P4** | Embedding backfill on cloud | ✅ done (no-op) | claude-opus | 15 sec | All 19,546 chunks already embedded; P1 added vigencia rows, not chunks |
+| **P5** | Falkor edge sync verification | ✅ done | claude-opus | 20 min | 2,905 nodes + ~2,548 edges written. Sequential cypher round-trips — UNWIND batching follow-up in §7 |
+| **P6** | Refusal rerun w/ --max-source-chars 32000 | 🔵 in flight | claude-opus | ~3 hr ETA | step 1/8 (F2); flag wired in commit `3b09719`, will exercise the new DIAN PDF scraper + Senado decreto resolver |
+| **P7** | Senado decreto resolver extension | ✅ done | fork-agent | shipped | commit `1592832`; ~5-LOC patch pivoted from the SUIN harvest path after the SUIN doc-id discovery fork found COVID decretos all on Senado |
+| **P4-shard** | `--shard X/N` flag for embedding_ops | ✅ done | fork-agent | shipped | commit `9e6bdcf`; stays available for future embedding backfills (this cycle's was a no-op) |
 
 Status legend: 💡 idea / 🟡 staged / 🔵 in-flight / ✅ done / ↩ regressed-discarded / 🔍 investigating.
 
 ---
 
 ## 4. Run log (append-only, most recent first)
+
+### 2026-04-29 ~10:15 AM Bogotá — Post-P1 launch, 6 of 7 streams done
+
+`launch_post_p1.sh` fired:
+* P5 sync 09:46:59 → 10:07:22 (20 min, ~5,500 sequential
+  cypher round-trips). Final: 2,905 norm nodes + ~2,548
+  vigencia edges (MODIFIED_BY 1,752 / DEROGATED_BY 294 /
+  INEXEQUIBLE_BY 165 / COND_EXEQ 21 + others).
+* P4 fired 10:07:22 → finished in 15 sec (no-op).
+  All 19,546 chunks already embedded.
+* P6 fired 10:07:22, in flight on cascade step 1/8 (F2).
+  Heartbeat `br2fpnmq6` polling every 3 min.
+
+Two parallel forks shipped:
+* `1592832` — Senado decreto resolver (closes E5).
+* `9e6bdcf` — `--shard X/N` for embedding_ops (deferred-utility).
+
+### 2026-04-29 ~9:23 AM Bogotá — P1 ✅ DONE
+
+39/39 batches, 33 min elapsed, 3,264 inserts / 873 refusals /
+3 errors (0.07%, all known data-edge cases — 2 "None" + 1
+unrecoverable sentencia). cli.partial sentinel because some
+batch-level rc=1 from the row errors, but well below fail-fast
+thresholds.
+
+Cloud cardinalities post-promotion:
+* `norm_vigencia_history`: 9,322 rows / 2,349 distinct norm_ids
+* `norms`: 2,905 rows
+* Cloud Falkor `(:Norm)`: 2,905 (after P5 ran)
 
 ### 2026-04-29 ~9:10 AM Bogotá — P1 4th attempt healthy at row 1,932
 
@@ -156,8 +190,50 @@ functions / chunk_vigencia_gate / vigencia_reverify_queue) — all
 
 ## 5. Active blockers
 
-None. P4/P5/P6/P7 all have either staged launchers or fork agents
-in motion.
+None.
+
+---
+
+## 7. Fast-follow / next_v8 candidates
+
+### P5 perf — `sync_vigencia_to_falkor.py` should batch via UNWIND
+
+**Observed.** P5 took 20 min to write ~5,500 sequential cypher
+queries (~2,905 norm-merge + ~2,548 edge-merge). At ~80-130 ms
+per round-trip against cloud Falkor, sequential MERGE is the
+bottleneck.
+
+**Fix.** Replace per-row MERGEs with UNWIND-batched inserts:
+
+```cypher
+UNWIND $rows AS r
+MERGE (a:Norm {norm_id: r.a})
+MERGE (b:Norm {norm_id: r.b})
+MERGE (a)-[e:DEROGATED_BY {record_id: r.record_id}]->(b)
+SET e.state_from = r.state_from, e.state_until = r.state_until,
+    e.effect_type = r.effect_type
+```
+
+Batch 500-1000 rows per call → 5-10 round-trips total instead of
+5,500. Expected 50-100× speedup. The GraphClient already supports
+parameter binding (see `parameter_keys` diagnostic). Add an
+`execute_unwind` helper. Estimated effort: ~2 hr.
+
+### P5 perf — eliminate write-side overlap with prior runs
+
+Cloud Falkor already had 25,328 edges from prior corpus syncs;
+this P5 added ~2,548 vigencia edges on top. Those ARE all
+distinct edge types (DEROGATED_BY etc. are vigencia-specific),
+but the corpus-level edges (REFERENCES, MODIFIES, etc.) are
+unrelated. Worth verifying the two write paths don't ever
+overlap on the same edge keyspace — if they do, the second
+sync silently no-ops the first and a coverage gap opens.
+
+### Re-run P5 with the batched script post-P6
+
+Once UNWIND batching ships, re-run P5 against the post-P6 cloud
+state (P6 will add ~50-150 new history rows from refusal
+recoveries). Should take <1 min instead of 20.
 
 ---
 
