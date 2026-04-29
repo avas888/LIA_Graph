@@ -4,11 +4,22 @@ Mirrors the ``corpus_ops.py`` ``_JobContext`` pattern:
     start → heartbeat loop → batch embed → quality report → finish
     stop  → sets threading.Event → job persists ``cancelled`` with ``last_cursor_id``
     resume → reads ``last_cursor_id`` from cancelled job → continues from cutoff
+
+Sharding (next_v7 P4 — concurrent backfill):
+    Pass ``shard_x``/``shard_n`` (or ``--shard X/N`` from the CLI) to run
+    one of N disjoint partitions of pending chunks. Partitioning uses a
+    stable Python ``hashlib.md5(chunk_id)`` hash — server fetches the full
+    batch, the worker keeps only rows where ``md5(chunk_id) % N == X``.
+    Wastes (N-1)/N of fetch traffic per shard but unlocks parallel
+    embedding-API utilization without a schema migration. Each shard
+    runs in its OWN process — they're disjoint by design, so there's no
+    write contention. Throughput cap is the embedding API itself.
 """
 
 from __future__ import annotations
 
 import copy
+import hashlib
 import logging
 import math
 import os
@@ -144,11 +155,25 @@ class _EmbeddingJobCtx:
 
 # ── Job runner ──────────────────────────────────────────────────────
 
+def _chunk_shard_index(chunk_id: str, n: int) -> int:
+    """Stable client-side hash → shard index in ``[0, n)``.
+
+    Uses MD5(chunk_id) first 4 bytes → big-endian uint → mod N. MD5 is
+    overkill cryptographically but it's universally available in Python
+    stdlib, deterministic across processes (Python's built-in ``hash()``
+    is randomized via PYTHONHASHSEED), and uniform.
+    """
+
+    digest = hashlib.md5(str(chunk_id).encode("utf-8")).digest()
+    return int.from_bytes(digest[:4], "big") % max(int(n), 1)
+
+
 class _EmbeddingJobRunner:
     def __init__(
         self, job_id: str, *, target: str, force: bool,
         resume_cursor_id: str | None = None,
         resume_embedded: int = 0, resume_failed: int = 0, resume_batches: int = 0,
+        shard_x: int | None = None, shard_n: int | None = None,
     ) -> None:
         self.job_id = job_id
         self.target = target
@@ -157,6 +182,16 @@ class _EmbeddingJobRunner:
         self.resume_embedded = resume_embedded
         self.resume_failed = resume_failed
         self.resume_batches = resume_batches
+        # Sharding (next_v7 P4). Both must be set together; X in [0, N).
+        if (shard_x is None) != (shard_n is None):
+            raise ValueError("shard_x and shard_n must be set together")
+        if shard_n is not None:
+            if shard_n < 1:
+                raise ValueError(f"shard_n must be >= 1, got {shard_n}")
+            if shard_x is None or not (0 <= shard_x < shard_n):
+                raise ValueError(f"shard_x must satisfy 0 <= X < {shard_n}, got {shard_x}")
+        self.shard_x = shard_x
+        self.shard_n = shard_n
         self._stop_event = threading.Event()
         self._thread: threading.Thread | None = None
 
@@ -217,17 +252,33 @@ class _EmbeddingJobRunner:
         total_count = total_q.count or 0
 
         if self.force:
-            pending_count = total_count
+            pending_count_global = total_count
         else:
             pending_q = client.table("document_chunks").select("id", count="exact").is_("embedding", "null").limit(0).execute()
-            pending_count = pending_q.count or 0
+            pending_count_global = pending_q.count or 0
+
+        # Sharded mode estimates this shard's slice as 1/N of pending. The
+        # actual count varies slightly because md5 mod N is uniform but not
+        # exactly even on small populations. Used for ETA / progress only;
+        # the loop terminates when the global pending hits zero (i.e. all
+        # shards have done their work).
+        if self.shard_n is not None:
+            pending_count = max(1, pending_count_global // self.shard_n)
+        else:
+            pending_count = pending_count_global
 
         _chunk_chars = int(os.environ.get("LIA_EMBED_CHUNK_CHARS", "512"))
         _combined_cap = int(os.environ.get("LIA_EMBED_COMBINED_CAP", "768"))
 
         ctx.append_log(f"[init] Thread {threading.current_thread().name} alive")
         ctx.append_log(f"[init] Target: {self.target}, force={self.force}, batch_size={batch_size}")
-        ctx.append_log(f"[init] Total chunks: {total_count}, pending: {pending_count}")
+        if self.shard_n is not None:
+            ctx.append_log(
+                f"[init] Shard: {self.shard_x}/{self.shard_n} — "
+                f"global pending {pending_count_global}, this shard ~{pending_count}"
+            )
+        else:
+            ctx.append_log(f"[init] Total chunks: {total_count}, pending: {pending_count}")
         if self.resume_cursor_id:
             ctx.append_log(f"[init] Resuming from cursor: {self.resume_cursor_id}")
         ctx.append_log(f"[init] Gemini model: {cfg.get('model', '?')}, embed_chars={_chunk_chars}, cap={_combined_cap}")
@@ -260,18 +311,39 @@ class _EmbeddingJobRunner:
                 ctx.finish(ok=False, status="cancelled")
                 return
 
+            # In sharded mode we OVER-FETCH to keep ~batch_size rows after
+            # the client-side filter. md5 mod N is uniform, so fetching
+            # batch_size * N rows yields ~batch_size that match the shard.
+            fetch_size = batch_size * (self.shard_n or 1)
+
             q = client.table("document_chunks").select("id, doc_id, chunk_id, chunk_text, summary")
             if not self.force:
                 q = q.is_("embedding", "null")
-            elif cursor_id is not None:
+            # Sharded mode MUST advance cursor even when force=False —
+            # otherwise rows hashing to other shards stay NULL forever and
+            # this shard refetches the same window indefinitely.
+            if (self.shard_n is not None or self.force) and cursor_id is not None:
                 q = q.gt("id", cursor_id)
-            q = q.order("id").limit(batch_size)
+            q = q.order("id").limit(fetch_size)
             result = q.execute()
             rows = result.data or []
             if not rows:
                 break
             cursor_id = rows[-1]["id"]
             current_batch += 1
+
+            # Client-side shard filter — keep only rows whose chunk_id
+            # hashes into this shard. Other shards (running in their own
+            # processes) cover the remaining (N-1)/N of fetched rows.
+            if self.shard_n is not None:
+                rows = [
+                    r for r in rows
+                    if _chunk_shard_index(str(r.get("chunk_id") or r["id"]), self.shard_n) == self.shard_x
+                ]
+                if not rows:
+                    # Whole fetch landed in other shards — advance cursor
+                    # (already set above) and try the next window.
+                    continue
 
             # Build embedding texts
             texts = []
@@ -385,8 +457,8 @@ class _EmbeddingJobRunner:
         all_ok = failed < pending_count * 0.02 and not quality_report.get("collapsed_warning")
         ctx.finish(ok=all_ok)
 
-    @staticmethod
     def _build_progress(
+        self,
         total: int, pending: int, embedded: int, failed: int, upsert_failures: int,
         current_batch: int, total_batches: int, batch_size: int,
         t_start: float, cursor_id: str | None,
@@ -395,7 +467,7 @@ class _EmbeddingJobRunner:
         rate = embedded / elapsed if elapsed > 0 else 0.0
         remaining = pending - embedded - failed
         eta = remaining / rate if rate > 0 else None
-        return {
+        out = {
             "total": total,
             "pending": pending,
             "embedded": embedded,
@@ -410,6 +482,10 @@ class _EmbeddingJobRunner:
             "pct_complete": round(embedded / max(pending, 1) * 100, 1),
             "last_cursor_id": cursor_id,
         }
+        if self.shard_n is not None:
+            out["shard_x"] = self.shard_x
+            out["shard_n"] = self.shard_n
+        return out
 
 
 # ── Distribution validation ─────────────────────────────────────────

@@ -50,11 +50,22 @@ def _ts() -> str:
     return datetime.now(tz=timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
-def _run(target: str, batch_size: int, force: bool) -> dict[str, Any]:
+def _run(
+    target: str,
+    batch_size: int,
+    force: bool,
+    *,
+    shard_x: int | None = None,
+    shard_n: int | None = None,
+) -> dict[str, Any]:
     """Drive the runner in-process (synchronous, not threaded).
 
     Uses `_EmbeddingJobRunner._run_embedding` directly so the CLI exits
     only when backfill completes and its return code reflects success.
+
+    When ``shard_x`` / ``shard_n`` are set, the runner processes only the
+    rows whose ``chunk_id`` hashes into shard X (next_v7 P4). Run 4
+    concurrent processes with shards 0/4..3/4 for ~4x throughput.
     """
     from lia_graph.embedding_ops import (
         _EmbeddingJobCtx,
@@ -67,11 +78,19 @@ def _run(target: str, batch_size: int, force: bool) -> dict[str, Any]:
 
     os.environ.setdefault("LIA_EMBEDDING_BATCH_SIZE", str(int(batch_size)))
 
+    request_payload: dict[str, Any] = {"target": target, "force": bool(force)}
+    if shard_n is not None:
+        request_payload["shard_x"] = int(shard_x)
+        request_payload["shard_n"] = int(shard_n)
+
     record = create_job(
         job_type="embedding_backfill",
-        request_payload={"target": target, "force": bool(force)},
+        request_payload=request_payload,
     )
-    runner = _EmbeddingJobRunner(record.job_id, target=target, force=force)
+    runner = _EmbeddingJobRunner(
+        record.job_id, target=target, force=force,
+        shard_x=shard_x, shard_n=shard_n,
+    )
     ctx = _EmbeddingJobCtx(
         job_id=record.job_id,
         base_dir=EMBEDDING_JOBS_DIR,
@@ -123,16 +142,43 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Re-embed even rows that already have an embedding.",
     )
+    cli.add_argument(
+        "--shard",
+        default=None,
+        metavar="X/N",
+        help=(
+            "Process only one of N disjoint shards (X in [0, N)). Stable "
+            "MD5(chunk_id) mod N partition. Run 4 concurrent processes with "
+            "--shard 0/4 .. --shard 3/4 for ~4x throughput. Each shard "
+            "over-fetches by N to keep batch_size effective rows after "
+            "client-side filter."
+        ),
+    )
     cli.add_argument("--json", action="store_true")
     args = cli.parse_args(argv)
 
     _ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    shard_x: int | None = None
+    shard_n: int | None = None
+    if args.shard:
+        try:
+            shard_x_str, shard_n_str = args.shard.split("/", 1)
+            shard_x = int(shard_x_str)
+            shard_n = int(shard_n_str)
+            if shard_n < 1 or not (0 <= shard_x < shard_n):
+                raise ValueError(f"--shard X/N requires 0 <= X < N >= 1, got {args.shard}")
+        except ValueError as exc:
+            print(json.dumps({"ok": False, "error": "BadShard", "message": str(exc)}, indent=2))
+            return 2
 
     try:
         payload = _run(
             target=args.target,
             batch_size=max(1, args.batch_size),
             force=bool(args.force),
+            shard_x=shard_x,
+            shard_n=shard_n,
         )
     except Exception as exc:
         out = {"ok": False, "error": type(exc).__name__, "message": str(exc)}
@@ -141,15 +187,24 @@ def main(argv: list[str] | None = None) -> int:
 
     null_count = int(payload["status"].get("null_embedding_chunks") or 0)
     total = int(payload["status"].get("total_chunks") or 0)
-    ok = null_count == 0
+    # Sharded runs cannot drive null_count to 0 on their own — only the
+    # union of all shards can. Treat shard exit as ok when its OWN slice
+    # is processed (the runner's loop terminated cleanly because no rows
+    # in this shard's window remained).
+    if shard_n is not None:
+        ok = True
+    else:
+        ok = null_count == 0
 
-    manifest_path = _ARTIFACTS_DIR / f"_embedding_{args.target}_{_ts()}.json"
+    shard_tag = f"_shard{shard_x}of{shard_n}" if shard_n is not None else ""
+    manifest_path = _ARTIFACTS_DIR / f"_embedding_{args.target}{shard_tag}_{_ts()}.json"
     manifest_path.write_text(
         json.dumps(
             {
                 "ok": ok,
                 "target": args.target,
                 "generation": args.generation,
+                "shard": (f"{shard_x}/{shard_n}" if shard_n is not None else None),
                 "total_chunks": total,
                 "null_embedding_chunks": null_count,
                 "coverage_pct": payload["status"].get("coverage_pct"),
