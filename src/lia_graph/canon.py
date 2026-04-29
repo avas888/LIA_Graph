@@ -214,6 +214,17 @@ def norm_type(norm_id: str) -> str:
         return "ley_articulo"
     if norm_id.startswith("ley."):
         return "ley"
+    # Decreto Legislativo (CP Art. 215) — distinct legal type. Match
+    # BEFORE the plain `decreto.` branch since this prefix is longer.
+    if norm_id.startswith("decreto_legislativo.") and ".art." in norm_id:
+        return "decreto_legislativo_articulo"
+    if norm_id.startswith("decreto_legislativo."):
+        return "decreto_legislativo"
+    # Decreto-Ley (Ley de Facultades Extraordinarias).
+    if norm_id.startswith("decreto_ley.") and ".art." in norm_id:
+        return "decreto_ley_articulo"
+    if norm_id.startswith("decreto_ley."):
+        return "decreto_ley"
     if norm_id.startswith("decreto.") and ".art." in norm_id:
         return "decreto_articulo"
     if norm_id.startswith("decreto."):
@@ -234,8 +245,12 @@ def norm_type(norm_id: str) -> str:
         return "sentencia_ce"
     if norm_id.startswith("auto.ce."):
         return "auto_ce"
+    if norm_id == "cst":
+        return "cst"
     if norm_id.startswith("cst.art."):
         return "cst_articulo"
+    if norm_id == "cco":
+        return "cco"
     if norm_id.startswith("cco.art."):
         return "cco_articulo"
     if norm_id.startswith("dcin."):
