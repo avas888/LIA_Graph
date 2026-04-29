@@ -1,13 +1,23 @@
 # fixplan_v6 — wire SUIN-Juriscol as the primary vigencia source, retire the DIAN-only fallback
 
-> **Status:** drafted 2026-04-28 PM Bogotá right after the fixplan_v5
-> cascade closed 187 veredictos / +25 net Postgres rows but exposed a
-> single root cause behind the cascade's article-slicing collapse: the
-> harness queries the DIAN normograma master page (which the operator
-> calls "knowingly unstable") and ignores the 3,387 already-cached
-> SUIN-Juriscol HTML files + 2,325 LOC of harvester code that sits one
-> directory away. v6 is the focused engineering plan to wire SUIN in
-> as the preferred primary source so the next cascade actually works.
+> **Status:** **CLOSED 2026-04-28 PM Bogotá** with cascade success.
+> Postgres `norm_vigencia_history`: **783 → 2019 (+1236 net)**.
+> 2340 successes / 220 refusals / 0 errors across 14 batches × 3 hours
+> of runtime. 91.4% overall pass rate (97% excluding K3's CCo gap).
+> Full closure entry in
+> [`state_fixplan_v6.md`](state_fixplan_v6.md) §10. Engineering
+> learnings + nine post-mortem lessons in
+> [`../learnings/canonicalizer/v6_suin_first_rewire_2026-04-28.md`](../learnings/canonicalizer/v6_suin_first_rewire_2026-04-28.md).
+>
+> v6 was drafted right after the fixplan_v5 cascade closed
+> 187 veredictos / +25 net Postgres rows but exposed a single root
+> cause behind the cascade's article-slicing collapse: the harness
+> queried the DIAN normograma master page (which the operator calls
+> "knowingly unstable") and ignored the 3,387 already-cached
+> SUIN-Juriscol HTML files + 2,325 LOC of harvester code that sat one
+> directory away. v6 is the focused engineering plan that wired SUIN
+> in as the preferred primary source so the cascade could actually
+> work — and it did.
 >
 > **Replaces:** `fixplan_v5.md` as the active forward plan once a fresh
 > agent picks up the work. v5 stays in repo as historical context (5

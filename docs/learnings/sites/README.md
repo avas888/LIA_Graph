@@ -12,6 +12,8 @@ foundational sources are five Colombian government sites:
 | `www.corteconstitucional.gov.co` | Sentencias CC, autos CC | [corte-constitucional.md](corte-constitucional.md) |
 | `www.consejodeestado.gov.co` | Sentencias CE, autos CE | [consejo-de-estado.md](consejo-de-estado.md) |
 
+**Cross-cutting fetch playbook:** [`per-source-fetch-playbook.md`](per-source-fetch-playbook.md) — how to add a new scraper, how to refresh the corpus when Colombian law shifts, common failure modes per source. Read this first when extending the scraper layer.
+
 Each per-site doc captures: URL patterns we use, known quirks (timeouts,
 SSL, rate limits, site-specific HTML shapes), and the recovery playbooks
 when they break.

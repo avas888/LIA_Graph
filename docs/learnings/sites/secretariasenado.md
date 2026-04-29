@@ -64,6 +64,33 @@ doesn't enumerate yet, the parent fallback still serves the right page.
 hammering produces sporadic 5xx that retry handles, but politeness is
 the right default.
 
+### 6. CCo (Código de Comercio) anchor-slicing depth gap (v6 cascade)
+Wave 2 K3 batch (CCo articles) closed at 50% pass rate. Diagnostic
+finding: **all 157 refusals had `single_source_accepted='secretaria_senado'`
+but the LLM returned `INSUFFICIENT_PRIMARY_SOURCES`** — i.e. Senado
+returned content for the article number but the slice was too thin
+for the LLM to determine vigencia.
+
+Root cause hypothesis: the CCo segment-index in `_CST_PR_SEGMENT_BOUNDS`-
+style coarse range table doesn't exist for CCo (we don't yet ship
+`var/senado_cco_pr_index.json`). Higher-numbered CCo articles fall back
+to the master `codigo_comercio.html` page, where the anchor-slicer
+(`_slice_article_senado`) finds the article anchor but pulls a fragment
+that may be too small (article body cut off by the next `[[ART:N]]`
+marker too early, OR the master page doesn't include the full body).
+
+Three remediation paths (v7 candidates):
+1. **Build a CCo pr-segment index** (mirror `build_senado_et_index.py`)
+   so per-article URLs resolve to the right `codigo_comercio_pr<seg>.html`
+   segment, where slicing has more context.
+2. **Improve the master-page slicer** to include the full body between
+   anchors instead of truncating at the next anchor only.
+3. **Wire Función Pública gestor normativo** as a 6th scraper — verified
+   to host CCo with cleaner anchors. This is the cheapest path because
+   it reuses the SUIN scraper architecture.
+
+Tracked in `docs/re-engineer/state_fixplan_v6.md` §10 closure entry.
+
 ## URL patterns used by the scraper
 
 | `norm_id` shape | URL |

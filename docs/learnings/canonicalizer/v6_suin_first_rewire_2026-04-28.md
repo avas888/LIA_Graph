@@ -250,7 +250,107 @@ the exact shape of the SUIN scraper (commit `9940faf`):
 ---
 
 *Authored 2026-04-28 PM Bogotá by claude-opus-4-7 immediately after the
-first v6 cascade meltdown + recovery. The cascade has not yet completed
-under the fixed runtime — these lessons are about the diagnostic +
-recovery, not the eventual outcome. The cascade itself is a separate
-ledger entry.*
+first v6 cascade meltdown + recovery. Cascade outcome appended below
+(authored same evening after closure).*
+
+---
+
+## Cascade outcome (appended 2026-04-28 ~9:25 PM Bogotá)
+
+After the meltdown + 4 corrective commits (perf cache, persisted slice
+cache, throttle env-var rename, parser regex fix), the cascade ran end-
+to-end across all three waves:
+
+* **Postgres `norm_vigencia_history`: 783 → 2019 (+1236 net rows).**
+* **2340 successes / 220 refusals / 0 errors** across 14 batches × 3
+  hours of runtime.
+* **91.4% overall pass rate** (97.0% if K3's CCo gap is excluded).
+
+Per-wave breakdown:
+
+| Wave | Batches | Pass rate | Notes |
+|---|---|---|---|
+| 1 (DUR-1625) | 6 batches, 1452 norms | **96.8%** | E3b 100%, E2c 96%, E1b 95%, E1d 89%, E2a 86%, E1a partial |
+| 2 (CST/CCo) | 5 batches, 354 norms | 55.6% | **CST 100%** (J1-J4); **K3 CCo 30%** — gap detailed below |
+| 3 (DUR-1072) | 3 batches, 754 norms | **97.7%** | All three above 97%; SUIN's DUR-1072 harvest is well-shaped |
+
+### Lesson 7 — K3 CCo gap is a Senado-side problem, not SUIN
+
+K3 (Wave 2 CCo articles) closed with 66 successes and 157 refusals. The
+diagnostic surprised me — **all 157 refusals had
+`single_source_accepted='secretaria_senado'`**. Meaning:
+- SUIN returned None for the CCo articles (registry has CCo but harvest
+  may be incomplete OR slicer misses CCo numbering).
+- Senado returned content (single-source acceptance triggered).
+- LLM was invoked and refused with `INSUFFICIENT_PRIMARY_SOURCES`.
+
+So Senado IS finding content, but the slice is too thin. The root
+cause is likely that we don't ship a `var/senado_cco_pr_index.json`
+(equivalent to the ET index) — high-numbered CCo articles fall back
+to the master `codigo_comercio.html` page where anchor-slicing pulls
+a too-small fragment.
+
+**Fix candidates (v7):**
+1. Build the CCo pr-segment index (mirror `build_senado_et_index.py`).
+2. Improve the master-page slicer to include full body between anchors.
+3. Wire **Función Pública gestor normativo** as a 6th scraper.
+
+Per the alt-DB research fork, Función Pública has CCo with
+`<a name="N">` anchors — cleaner than Senado's `[[ART:N]]` markers
+and cleaner than SUIN's `ver_NNN`. This is the cheapest path because
+it reuses the SUIN scraper architecture.
+
+### Lesson 8 — Memory pressure isn't always swap pressure
+
+Mid-cascade I diagnosed multiple stalls as "memory thrashing" because
+free RAM was 60-80 MB and swap was 13+ GB used. But the operator's
+Activity Monitor screenshot showed the system was actually fine
+(24 GB total RAM, GREEN memory pressure indicator, ~3.5 GB free).
+
+The 60-80 MB "Free RAM" reading on macOS doesn't mean starved — macOS
+uses available RAM for caching aggressively, and the real signal is
+the memory-pressure indicator (green/yellow/red). I'd been
+over-interpreting `vm_stat` output.
+
+**Lesson:** trust the OS-level memory pressure signal (Activity Monitor
+or `memory_pressure -Q`), not just `vm_stat | awk` for free pages.
+For server/headless environments, parse `sysctl vm.swapusage` plus
+`memory_pressure` for the proper signal.
+
+### Lesson 9 — Sequential primer + parallel consumers IS the pattern
+
+After the meltdown, the recovery pattern that scaled cleanly:
+
+1. Launch ONE batch alone (the "primer") — pays the parse cost,
+   populates the SQLite slice cache.
+2. Wait ~90 seconds for the parse to complete + slices to land in
+   `parsed_meta["articles"]`.
+3. Launch the rest as "consumers" — they read SQLite slices, never
+   re-parse. Per-process memory ~50 MB.
+
+Wave 2 used this with J1+K3 as primers (different parents — CST + CCo)
+and J2/J3/J4 as CST consumers. All J* batches landed at 100% pass
+rate. The pattern is now codified in
+`docs/re-engineer/fixplan_v6.md` §8b lessons-learned.
+
+### Final state
+
+Engineering deliverables (all committed):
+* `cfe64bb` SUIN registry build script + 10 entries
+* `9940faf` SUIN scraper + parser regex fix (multi-segment DUR numbers)
+* `d00da64` Chain reorder + trusted set
+* `f91401b` `--rerun-only-refusals` + launcher passthrough
+* `f6525e1` Engineering ledger close
+* `a3ee6cd` `LLM_DEEPSEEK_RPM` env var
+* `3845ee7` Per-URL parsed-doc cache (48× speedup)
+* `19fd5a1` This learnings doc (initial 6 lessons)
+* `92c5661` Persisted slice cache via SQLite (38× speedup, parallel-safe)
+* `d65ee62` Cascade closure ledger entry
+* `b821162` Cascade outputs (2340 veredicto JSONs)
+
+Outstanding follow-ons (queued):
+* Función Pública 6th scraper (~3 hr) — closes F2/G1/CCo gaps
+* SUIN harvest extension (v7) — decreto 417/2020 + concepto 0001/2003
+* CCo pr-segment index (v7) — fixes K3 if Función Pública isn't built
+* E1a long tail finishes async (workers=2 conservative — ~325 norms left)
+* Cloud promotion (operator gate, post SME signoff)
