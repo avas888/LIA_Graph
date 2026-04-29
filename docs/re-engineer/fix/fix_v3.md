@@ -1401,9 +1401,14 @@ Run dir: `evals/sme_validation_v1/runs/20260429T211551Z_fix_v3_polish_and_splitt
 | **Within-acc+ lift (acceptable → strong)** | `beneficio_auditoria_P1`, `dividendos_y_distribucion_utilidades_P3`, `firmeza_declaraciones_P2` (all became more substantive) |
 | **Within-acc+ slip (strong → acceptable)** | `firmeza_declaraciones_P1` (1856 chars → 1159 chars; lost a "Cobertura pendiente" sub-question stub but gained a tighter, cleaner ruta-sugerida narrative — qualitative improvement disguised as a length-bucket slip) |
 
-### 13.4 Residual served_weak (deferred to fix_v4)
+### 13.4 Residual served_weak (deferred to fix_v4 — see `fix_v4.md`)
 
-Two qids stayed at served_weak after Fix 1+2:
+Two qids stayed at served_weak after Fix 1+2. **Both are formally
+handed off to phase 5 in `docs/re-engineer/fix/fix_v4.md`** (drafted
+2026-04-29 ~4:35 PM Bogotá), with verified diagnosis, named routes
+(Route A: polish-prompt structural condition; Route B: synthesis
+empty-section fallback to question-reformulation shape), and the
+six-gate plan to close 34 → ≥35/36.
 
 * **`regimen_cambiario_P1`** (137 chars) — yes/no framing question about whether PYME imports must use the regulated cambio market. Polish stripped the leading `##` markdown (Fix 2 worked) but didn't expand the single bullet. Likely cause: the prompt's "multi-step guidance" condition didn't trigger because the LLM judged the question as binary. fix_v4 lever: either strengthen the polish clause to be unconditional ("if section has 1 bullet AND ≥3 chunks of evidence, expand") or pre-process the draft to use the question-reformulation shape that polish reliably expands.
 * **`regimen_sancionatorio_extemporaneidad_P2`** (239 chars) — already had numeric-anchor citations (`641`, `640`); the bug isn't slug-rendering or polish-skipping. The synthesis template builder is producing a 1-section `**Riesgos y condiciones**` stub when more sections (Respuestas directas, Ruta sugerida) should be generated. Different bug class — template-builder section selection logic, not polish or splitter.
