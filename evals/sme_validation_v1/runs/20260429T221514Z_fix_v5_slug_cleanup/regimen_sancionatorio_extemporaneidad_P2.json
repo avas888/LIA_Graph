@@ -1,0 +1,950 @@
+{
+  "qid": "regimen_sancionatorio_extemporaneidad_P2",
+  "topic_key_expected": "regimen_sancionatorio_extemporaneidad",
+  "profile": "P2_operativa",
+  "message": "Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera vez que esto le pasa?",
+  "http_status": 200,
+  "latency_ms": 73642,
+  "captured_utc": "2026-04-29T22:17:05.406210+00:00",
+  "response": {
+    "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+    "run_id": "pd_6b192ab50b0e4cb597648e0d03c8026a",
+    "answer_markdown": "**Respuestas directas**\n\n*   **¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera vez que esto le pasa?**\n\n    *   La sanción por extemporaneidad se calcula por cada mes o fracción de mes de retardo. En este caso, al ser dos meses, se aplicará la sanción por dos meses (art. 641 ET).\n    *   La sanción inicial es del 5% del impuesto a cargo por cada mes o fracción de mes de retardo, sin exceder el 100% del impuesto (art. 641 ET). Para un impuesto a cargo de $4.500.000 y dos meses de retardo, la sanción inicial sería: $4.500.000 * 5% * 2 meses = $450.000.\n    *   Adicionalmente, se deben liquidar intereses moratorios sobre el impuesto a cargo desde la fecha de vencimiento hasta la fecha de pago. La tasa de interés moratorio se establece anualmente por la DIAN.\n    *   Sí, es posible aplicar una reducción de la sanción si se cumplen las condiciones del artículo 640 del ET. Si el contribuyente presenta la declaración antes de que la DIAN profiera emplazamiento o auto que ordene visita, y es la primera vez que incurre en esta conducta, la sanción se puede reducir al 50% del monto inicial (art. 640 ET).\n\n**Ruta sugerida**\n\n*   Calculá la sanción por extemporaneidad aplicando el 5% del impuesto a cargo por cada mes o fracción de mes de retardo (art. 641 ET).\n*   Determiná si el contribuyente cumple con las condiciones para aplicar la reducción de la sanción al 50% (art. 640 ET). Esto implica que la declaración se presente voluntariamente antes de cualquier actuación de la DIAN y que no haya incurrido en la misma conducta en los dos años anteriores.\n*   Liquidá los intereses moratorios sobre el impuesto a cargo desde la fecha de vencimiento hasta la fecha de pago, utilizando la tasa vigente.\n*   Presentá la declaración de renta con la sanción reducida y los intereses moratorios liquidados.\n\n**Riesgos y condiciones**\n\n*   El principal riesgo es no aplicar correctamente la reducción de la sanción si no se cumplen las condiciones del artículo 640 del ET. La reducción del 50% aplica si la declaración se presenta antes de que la DIAN profiera emplazamiento para declarar o auto que ordene visita de inspección tributaria, y si el contribuyente no ha sido sancionado por la misma infracción en los dos años anteriores (art. 640 ET).\n*   Si la declaración se presenta después de un emplazamiento, la sanción por extemporaneidad aumenta al 10% del impuesto a cargo por cada mes o fracción de mes de retardo (art. 642 ET).\n*   La sanción mínima aplicable es de 10 UVT, incluso si el cálculo inicial resulta en un valor inferior.\n\n**Soportes clave**\n\n*   Art. 640 ET: Aplicación de los principios de lesividad, proporcionalidad, gradualidad y favorabilidad en el régimen sancionatorio.\n*   Art. 641 ET: Extemporaneidad en la presentación.\n*   Art. 642 ET: Extemporaneidad en la presentación de las declaraciones con posterioridad al emplazamiento.\n*   DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa)\n*   N-PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN (family=normativa)",
+    "answer_concise": "**Respuestas directas**\n\n*   **¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera vez que esto le pasa?**\n\n    *   La sanción por extemporaneidad se calcula por cada mes o fracción de mes de retardo. En este caso, al ser dos meses, se aplicará la sanción por dos meses (art. 641 ET).\n    *   La sanción inicial es del 5% del impuesto a cargo por cada mes o fracción de mes de retardo, sin exceder el 100% del impuesto (art. 641 ET). Para un impuesto a cargo de $4.500.000 y dos meses de retardo, la sanción inicial sería: $4.500.000 * 5% * 2 meses = $450.000.\n    *   Adicionalmente, se deben liquidar intereses moratorios sobre el impuesto a cargo desde la fecha de vencimiento hasta la fecha de pago. La tasa de interés moratorio se establece anualmente por la DIAN.\n    *   Sí, es posible aplicar una reducción de la sanción si se cumplen las condiciones del artículo 640 del ET. Si el contribuyente presenta la declaración antes de que la DIAN profiera emplazamiento o auto que ordene visita, y es la primera vez que incurre en esta conducta, la sanción se puede reducir al 50% del monto inicial (art. 640 ET).\n\n**Ruta sugerida**\n\n*   Calculá la sanción por extemporaneidad aplicando el 5% del impuesto a cargo por cada mes o fracción de mes de retardo (art. 641 ET).\n*   Determiná si el contribuyente cumple con las condiciones para aplicar la reducción de la sanción al 50% (art. 640 ET). Esto implica que la declaración se presente voluntariamente antes de cualquier actuación de la DIAN y que no haya incurrido en la misma conducta en los dos años anteriores.\n*   Liquidá los intereses moratorios sobre el impuesto a cargo desde la fecha de vencimiento hasta la fecha de pago, utilizando la tasa vigente.\n*   Presentá la declaración de renta con la sanción reducida y los intereses moratorios liquidados.\n\n**Riesgos y condiciones**\n\n*   El principal riesgo es no aplicar correctamente la reducción de la sanción si no se cumplen las condiciones del artículo 640 del ET. La reducción del 50% aplica si la declaración se presenta antes de que la DIAN profiera emplazamiento para declarar o auto que ordene visita de inspección tributaria, y si el contribuyente no ha sido sancionado por la misma infracción en los dos años anteriores (art. 640 ET).\n*   Si la declaración se presenta después de un emplazamiento, la sanción por extemporaneidad aumenta al 10% del impuesto a cargo por cada mes o fracción de mes de retardo (art. 642 ET).\n*   La sanción mínima aplicable es de 10 UVT, incluso si el cálculo inicial resulta en un valor inferior.\n\n**Soportes clave**\n\n*   Art. 640 ET: Aplicación de los principios de lesividad, proporcionalidad, gradualidad y favorabilidad en el régimen sancionatorio.\n*   Art. 641 ET: Extemporaneidad en la presentación.\n*   Art. 642 ET: Extemporaneidad en la presentación de las declaraciones con posterioridad al emplazamiento.\n*   DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa)\n*   N-PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN (family=normativa)",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa) N-PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN (family=normativa)",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "logical_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "legal_reference": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "search_query": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN DIAN / fuente oficial colombia N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "decreto",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa) N-PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN (family=normativa)",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 1)",
+        "legal_reference": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 1)",
+        "search_query": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 1) DIAN / fuente oficial colombia Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 1)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa) N-PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN (family=normativa)",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa) N-PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN (family=normativa)",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Artículo 640. Aplicación de los principios de lesividad, proporciona­lidad, gradualidad y favorabilidad en el régimen sancionatorio. Para la aplicación del régimen sancionatorio establecido en el presente Estatuto se deberá atender a lo dis",
+      "Artículo 641 . EXTEMPORANEIDAD EN LA PRESENTACIÓN. Las personas o entidades obligadas a declarar, que presenten las declaraciones tributarias en forma extemporánea, deberán liquidar y pagar una sanción por cada mes o fracción de mes calenda",
+      "### ARTÍCULO 642. EXTEMPORANEIDAD EN LA PRESENTACIÓN DE LAS DECLARACIONES CON POSTERIORIDAD AL EMPLAZAMIENTO.\nEl contribuyente, responsable, agente retenedor o declarante, que presente la declaración con posterioridad al emplazamiento, debe"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 4,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 38,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "definition_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T22:15:51.764946+00:00",
+        "total_ms": 61082.11,
+        "step_count": 25,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T22:15:51.764963+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T22:15:51.764946+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:51.765123+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.17,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 259,
+              "message_preview": "Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera ve",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:51.789972+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 25.01,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:51.790427+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 25.47,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:51.810844+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 45.88,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 259,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:53.960778+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2195.81,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "regimen_sancionatorio_extemporaneidad",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta es sobre el cálculo de una sanción por extemporaneidad y los intereses moratorios, así como la posibilidad de reducción de la sanción, lo cual encaja directamente con la definición de regimen_sancionatorio_extemporaneidad. Aunqu",
+              "elapsed_ms_call": 2150.23,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:53.961288+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2196.33,
+            "message": null,
+            "details": {
+              "effective_topic": "regimen_sancionatorio_extemporaneidad",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "declaracion_renta",
+                "procedimiento_tributario"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:56.254260+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 4489.27,
+            "message": null,
+            "details": {
+              "owner_trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+              "requested_trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:56.254691+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 4489.72,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "regimen_sancionatorio_extemporaneidad",
+              "secondary_topics": [
+                "declaracion_renta",
+                "procedimiento_tributario"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta es sobre el cálculo de una sanción por extemporaneidad y los intereses moratorios, así como la posibilidad de reducción de la sanción, lo cual encaja directamente con la definición de regimen_sancionatorio_extemporaneidad. Aunque menciona la declaración de renta, el foco operativo es la sanción y su cálculo.",
+              "topic_notice": "Tu pregunta es de regimen sancionatorio extemporaneidad, por lo cual utilizaremos nuestra base de datos regimen sancionatorio extemporaneidad.",
+              "message_preview": "Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera ve",
+              "message_chars": 259
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:56.272405+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 4507.43,
+            "message": null,
+            "details": {
+              "plan_query_mode": "definition_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:56.272624+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 4507.66,
+            "message": null,
+            "details": {
+              "plan_query_mode": "definition_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "regimen_sancionatorio_extemporaneidad calendario_obligaciones Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más inte",
+              "query_text_chars": 321
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:56.272736+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 4507.77,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "regimen_sancionatorio_extemporaneidad",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "regimen_sancionatorio_extemporaneidad"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:57.223139+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 5458.16,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::235-2",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::260-11",
+                "suin_30019323::4",
+                "suin_1132325::651",
+                "suin_30036488::30190359",
+                "suin_1132325::641"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.160706+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 6395.71,
+            "message": null,
+            "details": {
+              "anchor_row_count": 16,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.161416+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 6396.44,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 38,
+              "delta": 14
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.350702+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 6585.71,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 38,
+              "rows_out": 38,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 38,
+              "chunks_kept": 38,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 38,
+                "chunks_kept": 38,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.749457+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 6984.42,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 38,
+                "chunks_kept": 38,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "regimen_sancionatorio_extemporaneidad",
+              "planner_query_mode": "definition_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.749980+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 6984.98,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "640",
+                  "641",
+                  "642",
+                  "fuentes-y-referencias",
+                  "260-11",
+                  "235-2",
+                  "808"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.750292+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 6985.3,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "regimen_sancionatorio_extemporaneidad",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "regimen_sancionatorio_extemporaneidad",
+                "articles_top_topic": "regimen_sancionatorio_extemporaneidad",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "640",
+                  "641",
+                  "642"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.750542+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 6985.56,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "regimen_sancionatorio_extemporaneidad",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.750772+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 6985.8,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "definition_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:15:58.762023+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 6997.04,
+            "message": null,
+            "details": {
+              "template_chars": 152
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:16:52.846198+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 61081.05,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3100,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:16:52.846737+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 61081.6,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "regimen_sancionatorio_extemporaneidad",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:16:52.846995+00:00",
+            "trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 61081.87,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 50,
+        "output_tokens": 516,
+        "total_tokens": 566,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "regimen_sancionatorio_extemporaneidad",
+    "secondary_topics": [
+      "declaracion_renta",
+      "procedimiento_tributario"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de regimen sancionatorio extemporaneidad, por lo cual utilizaremos nuestra base de datos regimen sancionatorio extemporaneidad.",
+    "topic_adjustment_reason": "La consulta es sobre el cálculo de una sanción por extemporaneidad y los intereses moratorios, así como la posibilidad de reducción de la sanción, lo cual encaja directamente con la definición de regimen_sancionatorio_extemporaneidad. Aunque menciona la declaración de renta, el foco operativo es la sanción y su cálculo.",
+    "coverage_notice": null,
+    "topic": "regimen_sancionatorio_extemporaneidad",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa) N-PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN (family=normativa)",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_1bc76b25237c",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 50,
+        "output_tokens": 516,
+        "total_tokens": 566
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+      "last_run_id": "pd_6b192ab50b0e4cb597648e0d03c8026a",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_1bc76b25237c",
+    "chat_run_id": "cr_20260429_221554_e2926649",
+    "metrics": {
+      "latency_ms": 67709.68,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 50,
+          "output_tokens": 516,
+          "total_tokens": 566,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_1bc76b25237c",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 50,
+          "output_tokens": 516,
+          "total_tokens": 566
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "95f8aae7-b2b6-44d8-93fc-94b965129181",
+        "last_run_id": "pd_6b192ab50b0e4cb597648e0d03c8026a",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 1,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 3,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 166.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "regimen_sancionatorio_extemporaneidad",
+        "secondary_topics": [
+          "declaracion_renta",
+          "procedimiento_tributario"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "7f28d09230bb4f359916d7908c53d614"
+  }
+}

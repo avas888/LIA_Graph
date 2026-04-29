@@ -1,0 +1,890 @@
+{
+  "qid": "dividendos_y_distribucion_utilidades_P1",
+  "topic_key_expected": "dividendos_y_distribucion_utilidades",
+  "profile": "P1_directa",
+  "message": "Cuando una SAS reparte dividendos a su socio persona natural residente, ¿desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados?",
+  "http_status": 200,
+  "latency_ms": 19531,
+  "captured_utc": "2026-04-29T22:17:19.017575+00:00",
+  "response": {
+    "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+    "run_id": "pd_684cd5e13e84435390ac2d86c62f800d",
+    "answer_markdown": "**Respuestas directas**\n- **¿Desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados?**\n\n    Los dividendos no gravados distribuidos a personas naturales residentes están sujetos a retención en la fuente y al impuesto sobre la renta a partir de 1.090 UVT anuales (art. 242 ET, modificado por la Ley 2277 de 2022). Este umbral aplica para la suma de todos los dividendos y participaciones no gravados recibidos por el socio en el año.\n\n    La tarifa de retención en la fuente para dividendos no gravados que excedan las 1.090 UVT es del 15% (art. 242 ET). Es importante considerar que este tratamiento aplica a los dividendos que ya pagaron el impuesto de renta a nivel de la sociedad (art. 48 ET).\n\n    La base gravable para la retención se calcula restando las 1.090 UVT del total de dividendos no gravados recibidos.\n\n**Ruta sugerida**\n- Para determinar el impuesto aplicable, primero se debe identificar la naturaleza del dividendo: si es gravado o no gravado. Los dividendos no gravados son aquellos que ya tributaron a nivel de la sociedad (art. 48 ET).\n- Luego, se debe consolidar el total de dividendos no gravados recibidos por la persona natural residente en el año gravable.\n- Si el monto total de dividendos no gravados excede las 1.090 UVT, se aplica la tarifa del 15% sobre el excedente (art. 242 ET).\n\n**Riesgos y condiciones**\n- La correcta clasificación de los dividendos como gravados o no gravados es crucial. Un error puede generar contingencias fiscales para la sociedad y el socio (art. 48 ET).\n- Es fundamental aplicar la UVT vigente para el año gravable en que se distribuyen los dividendos, ya que el umbral de 1.090 UVT se actualiza anualmente.\n- La Ley 2277 de 2022 introdujo cambios significativos en la tributación de dividendos, por lo que es indispensable revisar la normativa aplicable a cada período.\n\n**Soportes clave**\n- LEY 2277 DE 2022: Modificó el tratamiento de los dividendos para personas naturales residentes.\n- DECRETO 624 DE 1989 (Estatuto Tributario): Contiene los artículos 48 y 242, que regulan la tributación de dividendos y participaciones.\n- Art. 48 ET: Establece la base para determinar si un dividendo es gravado o no gravado.\n- Art. 242 ET: Define la tarifa y el umbral para la tributación de dividendos no gravados en personas naturales residentes.",
+    "answer_concise": "**Respuestas directas**\n- **¿Desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados?**\n\n    Los dividendos no gravados distribuidos a personas naturales residentes están sujetos a retención en la fuente y al impuesto sobre la renta a partir de 1.090 UVT anuales (art. 242 ET, modificado por la Ley 2277 de 2022). Este umbral aplica para la suma de todos los dividendos y participaciones no gravados recibidos por el socio en el año.\n\n    La tarifa de retención en la fuente para dividendos no gravados que excedan las 1.090 UVT es del 15% (art. 242 ET). Es importante considerar que este tratamiento aplica a los dividendos que ya pagaron el impuesto de renta a nivel de la sociedad (art. 48 ET).\n\n    La base gravable para la retención se calcula restando las 1.090 UVT del total de dividendos no gravados recibidos.\n\n**Ruta sugerida**\n- Para determinar el impuesto aplicable, primero se debe identificar la naturaleza del dividendo: si es gravado o no gravado. Los dividendos no gravados son aquellos que ya tributaron a nivel de la sociedad (art. 48 ET).\n- Luego, se debe consolidar el total de dividendos no gravados recibidos por la persona natural residente en el año gravable.\n- Si el monto total de dividendos no gravados excede las 1.090 UVT, se aplica la tarifa del 15% sobre el excedente (art. 242 ET).\n\n**Riesgos y condiciones**\n- La correcta clasificación de los dividendos como gravados o no gravados es crucial. Un error puede generar contingencias fiscales para la sociedad y el socio (art. 48 ET).\n- Es fundamental aplicar la UVT vigente para el año gravable en que se distribuyen los dividendos, ya que el umbral de 1.090 UVT se actualiza anualmente.\n- La Ley 2277 de 2022 introdujo cambios significativos en la tributación de dividendos, por lo que es indispensable revisar la normativa aplicable a cada período.\n\n**Soportes clave**\n- LEY 2277 DE 2022: Modificó el tratamiento de los dividendos para personas naturales residentes.\n- DECRETO 624 DE 1989 (Estatuto Tributario): Contiene los artículos 48 y 242, que regulan la tributación de dividendos y participaciones.\n- Art. 48 ET: Establece la base para determinar si un dividendo es gravado o no gravado.\n- Art. 242 ET: Define la tarifa y el umbral para la tributación de dividendos no gravados en personas naturales residentes.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_10007211",
+        "logical_doc_id": "suin_10007211",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_10007211",
+        "open_url": "/source-view?doc_id=suin_10007211",
+        "download_url": "/source-download?doc_id=suin_10007211&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_10007211&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SENTENCIA 10582 de 1996",
+        "legal_reference": "SENTENCIA 10582 de 1996",
+        "search_query": "SENTENCIA 10582 de 1996 DIAN / fuente oficial colombia SENTENCIA 10582 de 1996",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La tarifa de retención en la fuente para dividendos no gravados que excedan las 1.090 UVT es del 15% (art. 242 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_10001159",
+        "logical_doc_id": "suin_10001159",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_10001159",
+        "open_url": "/source-view?doc_id=suin_10001159",
+        "download_url": "/source-download?doc_id=suin_10001159&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_10001159&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SENTENCIA 11001032400020040009201 de 2008",
+        "legal_reference": "SENTENCIA 11001032400020040009201 de 2008",
+        "search_query": "SENTENCIA 11001032400020040009201 de 2008 DIAN / fuente oficial colombia SENTENCIA 11001032400020040009201 de 2008",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La tarifa de retención en la fuente para dividendos no gravados que excedan las 1.090 UVT es del 15% (art. 242 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30045028",
+        "logical_doc_id": "suin_30045028",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30045028",
+        "open_url": "/source-view?doc_id=suin_30045028",
+        "download_url": "/source-download?doc_id=suin_30045028&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30045028&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 2277 DE 2022 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 2277 DE 2022 Colombia | SUIN Juriscol",
+        "search_query": "LEY 2277 DE 2022 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 2277 DE 2022 Colombia | SUIN Juriscol",
+        "reference_key": "ley:2277:2022",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La Ley 2277 de 2022 introdujo cambios significativos en la tributación de dividendos, por lo que es indispensable revisar la normativa aplicable a cada período.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "DECRETO 624 DE 1989 (Estatuto Tributario): Contiene los artículos 48 y 242, que regulan la tributación de dividendos y participaciones.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Sentencias de Nulidad por Inconstitucionalidad CARLOS ARTURO ORJUELA GÓNGORA HECTOR J. JARAMILLO ULLOA Decide la Sala de la demanda de nulidad parcial incoada por el ciudadano y abogado Héctor J. Jaramillo Ulloa contra e",
+      "ARTICULO 49. Indemnización Sustitutiva de la Pensión de Sobrevivientes. Los miembros del grupo familiar del afiliado que al momento de su muerte no hubiese reunido los requisitos exigidos para la pensión de sobreviviente",
+      "ARTICULO 242. Trabajos prohibidos \"1. Las mujeres, sin distinción de edad, no pueden ser empleadas durante la noche en ninguna empresa industrial, salvo que se trate de una empresa en que estén empleados únicamente los m"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 4,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 51,
+        "document_row_count": 24,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T22:16:59.487697+00:00",
+        "total_ms": 12879.7,
+        "step_count": 21,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T22:16:59.487710+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T22:16:59.487697+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:16:59.487863+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.16,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 152,
+              "message_preview": "Cuando una SAS reparte dividendos a su socio persona natural residente, ¿desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:16:59.508414+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 20.71,
+            "message": null,
+            "details": {
+              "effective_topic": "dividendos_y_distribucion_utilidades",
+              "confidence": 0.8,
+              "reason": "rule:dividendos_y_distribucion_utilidades matched dividendos",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:05.987778+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 6500.05,
+            "message": null,
+            "details": {
+              "owner_trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+              "requested_trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:05.988073+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 6500.35,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "dividendos_y_distribucion_utilidades",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:dividendos_y_distribucion_utilidades matched dividendos",
+              "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+              "message_preview": "Cuando una SAS reparte dividendos a su socio persona natural residente, ¿desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados?",
+              "message_chars": 152
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:06.006906+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 6519.18,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:06.007820+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6520.1,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "dividendos_y_distribucion_utilidades Cuando una SAS reparte dividendos a su socio persona natural residente, ¿desde qué monto le empiezan a cobrar impuesto sobre los dividendos no gravados?",
+              "query_text_chars": 189
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:06.008054+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6520.33,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "dividendos_y_distribucion_utilidades",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "dividendos_y_distribucion_utilidades"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:06.694011+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7206.28,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_L",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::240",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::245",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::437"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:07.478365+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7990.59,
+            "message": null,
+            "details": {
+              "anchor_row_count": 32,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:07.479079+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7991.34,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 54,
+              "delta": 30
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:07.646260+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 8158.51,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 54,
+              "rows_out": 51,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 54,
+              "chunks_kept": 51,
+              "chunks_dropped": 3,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 54,
+                "chunks_kept": 51,
+                "chunks_dropped": 3,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:08.011636+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 8523.84,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 54,
+                "chunks_kept": 51,
+                "chunks_dropped": 3,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "dividendos_y_distribucion_utilidades",
+              "planner_query_mode": "general_graph_research"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:08.012425+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 8524.67,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "48",
+                  "49",
+                  "242",
+                  "fuentes-y-referencias",
+                  "240",
+                  "808",
+                  "1104449"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:08.012710+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 8524.97,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "dividendos_y_distribucion_utilidades",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "dividendos_y_distribucion_utilidades",
+                "articles_top_topic": "dividendos_y_distribucion_utilidades",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "48",
+                  "49",
+                  "242"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:08.012897+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 8525.16,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "dividendos_y_distribucion_utilidades",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:08.013070+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 8525.34,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:08.018572+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 8530.84,
+            "message": null,
+            "details": {
+              "template_chars": 110
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:12.365361+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 12877.6,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2324,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:12.366802+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 12879.05,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "dividendos_y_distribucion_utilidades",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:17:12.367180+00:00",
+            "trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 12879.44,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 24,
+        "output_tokens": 387,
+        "total_tokens": 411,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "dividendos_y_distribucion_utilidades",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+    "topic_adjustment_reason": "rule:dividendos_y_distribucion_utilidades matched dividendos",
+    "coverage_notice": null,
+    "topic": "dividendos_y_distribucion_utilidades",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "suin_30045028",
+        "logical_doc_id": "suin_30045028",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30045028",
+        "open_url": "/source-view?doc_id=suin_30045028",
+        "download_url": "/source-download?doc_id=suin_30045028&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30045028&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 2277 DE 2022 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 2277 DE 2022 Colombia | SUIN Juriscol",
+        "search_query": "LEY 2277 DE 2022 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 2277 DE 2022 Colombia | SUIN Juriscol",
+        "reference_key": "ley:2277:2022",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La Ley 2277 de 2022 introdujo cambios significativos en la tributación de dividendos, por lo que es indispensable revisar la normativa aplicable a cada período.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "DECRETO 624 DE 1989 (Estatuto Tributario): Contiene los artículos 48 y 242, que regulan la tributación de dividendos y participaciones.",
+        "usage_intents": null
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_5d0b6e9a3db3",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 24,
+        "output_tokens": 387,
+        "total_tokens": 411
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+      "last_run_id": "pd_684cd5e13e84435390ac2d86c62f800d",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_5d0b6e9a3db3",
+    "chat_run_id": "cr_20260429_221700_425ca3cd",
+    "metrics": {
+      "latency_ms": 16902.48,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 24,
+          "output_tokens": 387,
+          "total_tokens": 411,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_5d0b6e9a3db3",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 24,
+          "output_tokens": 387,
+          "total_tokens": 411
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "92fa4179-22ef-439a-86f4-1eef4aa36ae0",
+        "last_run_id": "pd_684cd5e13e84435390ac2d86c62f800d",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 2,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 282.4
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "dividendos_y_distribucion_utilidades",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "166e4a5c35584176aa8bfe055c0158c1"
+  }
+}
