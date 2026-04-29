@@ -140,6 +140,65 @@ def test_senado_handles_cst_and_cco_norm_types():
     assert "cco_articulo" in s._handled_types
 
 
+# next_v7 P7 — Senado decreto resolver (closes E5 COVID decreto gap).
+
+
+def test_senado_decreto_url_pads_to_4_digits():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("decreto.417.2020")
+    assert url == "http://www.secretariasenado.gov.co/senado/basedoc/decreto_0417_2020.html"
+
+
+def test_senado_decreto_article_url_matches_doc_url():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    # Article-level requests resolve to the same parent URL; the slicer
+    # in fetch() finds the per-article anchor on that page.
+    parent = s._resolve_url("decreto.417.2020")
+    article = s._resolve_url("decreto.417.2020.art.1")
+    assert parent == article
+    assert "decreto_0417_2020" in article
+
+
+def test_senado_decreto_url_other_covid_decretos():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    cases = {
+        "decreto.444.2020": "decreto_0444_2020.html",
+        "decreto.535.2020": "decreto_0535_2020.html",
+        "decreto.568.2020": "decreto_0568_2020.html",
+        "decreto.573.2020": "decreto_0573_2020.html",
+        "decreto.772.2020": "decreto_0772_2020.html",
+    }
+    for nid, fragment in cases.items():
+        url = s._resolve_url(nid)
+        assert url is not None and fragment in url, (nid, url)
+
+
+def test_senado_decreto_url_low_number_padding_edge_case():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    # Numerically padding edge: a hypothetical decreto 5/1900 should
+    # render as decreto_0005_1900.html (mirror of ley_0100_1993.html).
+    url = s._resolve_url("decreto.5.1900")
+    assert url == "http://www.secretariasenado.gov.co/senado/basedoc/decreto_0005_1900.html"
+
+
+def test_senado_decreto_url_4_digit_already():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    url = s._resolve_url("decreto.1625.2016")
+    assert url == "http://www.secretariasenado.gov.co/senado/basedoc/decreto_1625_2016.html"
+
+
+def test_senado_decreto_invalid_returns_none():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    # Missing year segment.
+    assert s._resolve_url("decreto.417") is None
+
+
+def test_senado_handles_decreto_norm_types():
+    s = SecretariaSenadoScraper(ScraperCache(":memory:"))
+    assert "decreto" in s._handled_types
+    assert "decreto_articulo" in s._handled_types
+
+
 def test_dian_normograma_url_for_decreto():
     s = DianNormogramaScraper(ScraperCache(":memory:"))
     assert s._resolve_url("decreto.1474.2025") is not None

@@ -116,6 +116,10 @@ class SecretariaSenadoScraper(Scraper):
         "articulo_et",
         "cst_articulo",
         "cco_articulo",
+        # next_v7 P7 — COVID emergency decretos (and other 4-digit-padded
+        # decretos) hosted on Senado at decreto_<NUM4>_<YEAR>.html.
+        "decreto",
+        "decreto_articulo",
     }
 
     def _resolve_url(self, norm_id: str) -> str | None:
@@ -152,6 +156,18 @@ class SecretariaSenadoScraper(Scraper):
             num4 = parts[1].zfill(4)
             year = parts[2]
             return f"{_BASE_URL}/ley_{num4}_{year}.html"
+        if norm_id.startswith("decreto."):
+            # next_v7 P7 — Senado hosts COVID emergency decretos (417/2020,
+            # 444/2020, 535/2020, 568/2020, 573/2020, 772/2020 + others)
+            # at the same shape as leyes: `decreto_<NUM4>_<YEAR>.html`.
+            # Closes E5 (104 refusals) where SUIN-Juriscol has no coverage.
+            # Article slicing happens in fetch() via `<a name="N">` anchors.
+            parts = norm_id.split(".")
+            if len(parts) < 3:
+                return None
+            num4 = parts[1].zfill(4)
+            year = parts[2]
+            return f"{_BASE_URL}/decreto_{num4}_{year}.html"
         if norm_id.startswith("cst.art."):
             # Código Sustantivo del Trabajo. The full code lives at
             # `codigo_sustantivo_trabajo.html` and at paginated segments
