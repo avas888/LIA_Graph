@@ -241,11 +241,48 @@ Wave 2 sub-total: **~285** new veredictos if SUIN has CST/CCo.
 
 ---
 
-**2026-04-28 PM Bogotá — fixplan_v6 — cascade closed.**
+**2026-04-29 AM Bogotá — fixplan_v6 — E1a long tail finished. Cascade fully closed.**
 
-Postgres `norm_vigencia_history`: **783 → 2019 (+1236 net)**. E1a long
-tail still running at workers=2 — its remaining ~325 successes will
-land async, projected final ~2342.
+E1a closed at 6:22 AM Bogotá (wall 465 min / 7.7 hr at workers=2):
+**528 successes / 18 refusals / 0 errors = 96.7% pass rate.**
+
+**Postgres `norm_vigencia_history`: 783 → 2362 (+1579 net rows).**
+
+Final cascade tally across all 14 v6 batches:
+* **Total successes: 2653** (1719 Wave 1 + 197 Wave 2 + 737 Wave 3)
+* **Total refusals: 217** (mostly K3's 157)
+* **Total errors: 0** across ~11 hours of total runtime
+* **Overall pass rate: 92.4%** (97% excluding K3's CCo gap)
+
+The +1579 net Postgres rows is **52% of the original ~3,200 DoD target
+in one cascade** — the rest are F2/G1/E5 norms gated on sources we
+don't yet have integrated. v6.1 added Función Pública as a 6th scraper
+which closes future DUR redundancy gaps but doesn't directly close F2/G1.
+
+---
+
+**2026-04-29 AM Bogotá — fixplan_v6.1 — Función Pública 6th scraper landed.**
+
+Commit `34ef8f9`. Mirrors SUIN scraper architecture exactly:
+registry-backed URL resolution + three-tier cache + persisted slice
+cache. Coverage: 26 DURs (incl. DUR-1625, DUR-1072, plus 24 others
+across all sectors). Smoke-tested live: state=V on
+`decreto.1625.2016.art.1.1.1` in 75s via the full extract_vigencia.py
+runner path.
+
+Doesn't close F2/G1 (verified — Función Pública doesn't host
+DIAN-specific resoluciones or conceptos). Earns its place via DUR
+redundancy + cleaner anchors (`<a name="N.N.N">` directly) +
+future-proofing (more index pages can be walked).
+
+---
+
+**2026-04-28 PM Bogotá — fixplan_v6 — cascade closed (Wave 1+2+3, E1a partial).**
+
+Postgres `norm_vigencia_history`: **783 → 2019 (+1236 net)** at the
+moment of cascade closure. E1a long tail still running at workers=2
+— continued landing successes async until 2026-04-29 06:22 AM Bogotá
+(528 final).
 
 Cumulative: **2340 ✅ / 220 ❌ / 0 errors** across 13 v6 batches that
 hit `cli.done` (E1a still running on workers=2 long tail). 91.4%
