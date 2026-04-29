@@ -1,0 +1,7 @@
+{
+  "norm_id": "decreto.1625.2016.art.1.2.4.6.8",
+  "ts_utc": "2026-04-29T06:37:51.282326+00:00",
+  "error": "invalid_shape: reforma requires effect_type in {'pro_futuro', 'per_period'}; got retroactivo",
+  "raw_output": "{\n  \"state\": \"VM\",\n  \"state_from\": \"2016-10-11\",\n  \"state_until\": \"2025-05-29\",\n  \"applies_to_kind\": \"always\",\n  \"applies_to_payload\": null,\n  \"change_source\": {\n    \"type\": \"reforma\",\n    \"source_norm_id\": \"decreto.572.2025.art.4\",\n    \"effect_type\": \"retroactivo\",\n    \"effect_payload\": {\n      \"fecha\": \"2016-10-11\"\n    }\n  },\n  \"interpretive_constraint\": null,\n  \"derogado_por\": null,\n  \"modificado_por\": [\n    {\n      \"norm_id\": \"decreto.572.2025.art.4\",\n      \"norm_type\": \"decreto\",\n      \"article\": \"Art. 4\"\n    }\n  ],\n  \"suspension\": null,\n  \"inexequibilidad\": null,\n  \"regimen_transicion\": null,\n  \"revives_text_version\": null,\n  \"rige_desde\": null,\n  \"fuentes_primarias_consultadas\": [\n    {\n      \"norm_id\": \"suin_juriscol\",\n      \"norm_type\": \"url\",\n      \"url\": \"https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361\"\n    },\n    {\n      \"norm_id\": \"dian_normograma\",\n      \"norm_type\": \"url\",\n      \"url\": \"https://normograma.dian.gov.co/dian/compilacion/docs/decreto_1625_2016.htm\"\n    }\n  ]\n}",
+  "raw_output_len": 1016
+}

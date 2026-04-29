@@ -1,0 +1,7 @@
+{
+  "norm_id": "decreto.1625.2016.art.1.2.4.9.1",
+  "ts_utc": "2026-04-29T06:55:46.485617+00:00",
+  "error": "invalid_shape: state=RV requires revives_text_version",
+  "raw_output": "{\n  \"state\": \"RV\",\n  \"state_from\": \"2025-05-30\",\n  \"state_until\": null,\n  \"applies_to_kind\": \"always\",\n  \"applies_to_payload\": null,\n  \"change_source\": {\n    \"type\": \"reviviscencia\",\n    \"source_norm_id\": \"decreto.572.2025.art.6\",\n    \"effect_type\": \"pro_futuro\",\n    \"effect_payload\": {\"fecha\": \"2025-05-30\"}\n  },\n  \"interpretive_constraint\": null,\n  \"derogado_por\": null,\n  \"modificado_por\": [\n    {\n      \"norm_id\": \"decreto.572.2025.art.6\",\n      \"norm_type\": \"decreto\",\n      \"article\": \"Art. 6\",\n      \"primary_source_url\": \"https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361\"\n    }\n  ],\n  \"suspension\": null,\n  \"inexequibilidad\": null,\n  \"regimen_transicion\": null,\n  \"revives_text_version\": null,\n  \"rige_desde\": \"2016-10-11\",\n  \"fuentes_primarias_consultadas\": [\n    {\"norm_id\": \"suin_juriscol_decreto_1625_2016_art_1_2_4_9_1\", \"norm_type\": \"url\", \"url\": \"https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361\"},\n    {\"norm_id\": \"dian_normograma_decreto_1625_2016\", \"norm_type\": \"url\", \"url\": \"https://normograma.dian.gov.co/dian/compilacion/docs/decreto_1625_2016.htm\"}\n  ]\n}",
+  "raw_output_len": 1104
+}
