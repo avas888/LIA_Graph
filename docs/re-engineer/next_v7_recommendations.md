@@ -210,19 +210,20 @@ expands). Existing `cache/suin/` files stay valid; just adds new ones.
 
 ## Recommended sequence (start here)
 
-1. **Priority 1 (cloud promotion)** — 30 min once SME signs off.
-2. **Priority 4 (embeddings)** — runs in background after #1.
-3. **Priority 3c (Función Pública for CCo)** — 1 hr probe, may close
-   K3.
-4. **Priority 6 (refusal rerun with bigger context)** — 3 hr, picks
-   up boundary cases.
-5. **Priority 5 (Falkor verification)** — 5 min after #1 lands.
-6. **Priority 2a (DIAN main site probe)** — 2 hr investigation.
+| Order | Priority | Action | Effort | Why this slot |
+|---:|---|---|---|---|
+| 1 | P1 | Cloud-promote 1579 v6 veredictos to staging Supabase | 30 min | Foundational — everything downstream needs cloud data; gated only on SME signoff. |
+| 2 | P5 | Falkor edge sync verification post-promotion | 5 min | Quick check that cloud Postgres + Falkor stayed in parity after P1. |
+| 3 | P4 | Embedding backfill on the 1579 new rows | 30 min + compute | Runs in background after P1; unlocks semantic search on the new vigencias. |
+| 4 | P3c | Función Pública probe for CCo coverage | 1 hr | Cheapest K3 gap-close attempt; if FP has CCo, ~150 refusals close for free. |
+| 5 | P6 | Refusal rerun with `--max-source-chars 32000` | 3 hr | Recovers ~50-80 boundary refusals where the LLM was just below context need. |
+| 6 | P2a | DIAN main site probe for res.dian + concepto.dian | 2 hr | Investigation step before deciding whether to build a 7th scraper for F2/G1. |
+| 7 | P7 | SUIN harvest extension (decreto 417/2020, concepto 0001/2003, missing CCo) | 3-5 hr | Last because biggest scope; covers what nothing else does (e.g. E5 COVID decretos). |
 
 After this sequence, the canonicalizer's v6 program is fully
-operational on cloud. Remaining gaps (DIAN-specific norms, deep CCo
-coverage, COVID decretos) become v7 / v8 candidates with clear
-acceptance criteria.
+operational on cloud. Remaining gaps (DIAN-specific norms still
+inaccessible after P2a, deep CCo coverage if 3c+3a both miss) become
+v8 candidates with clear acceptance criteria.
 
 ---
 
