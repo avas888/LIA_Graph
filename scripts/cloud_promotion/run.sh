@@ -47,6 +47,44 @@ done < <(
   done | sort
 )
 
+# --risk-first: reorder batches so high-novelty / historical-failure
+# families run FIRST. With this, a fail-fast trip kills 5 minutes of
+# work, not 25. High-risk = J* (CST), K* (CCo), F* (DIAN resoluciones),
+# G* (DIAN conceptos) + B10 (sentencias). Default order keeps the
+# alphabetical sweep (low-risk B10/C/D first, high-volume E* in the
+# middle, J/K at the tail) — which is precisely the pattern we want
+# to invert when we suspect new shapes.
+RISK_FIRST="${RISK_FIRST:-0}"
+if [[ "${RISK_FIRST}" == "1" ]]; then
+  HIGH_RISK_PREFIXES=("B10" "J" "K" "F" "G")
+  HIGH_RISK_BATCHES=()
+  LOW_RISK_BATCHES=()
+  for batch in "${BATCHES[@]}"; do
+    is_high=0
+    for prefix in "${HIGH_RISK_PREFIXES[@]}"; do
+      if [[ "$batch" == "${prefix}"* ]]; then
+        is_high=1
+        break
+      fi
+    done
+    if [[ ${is_high} -eq 1 ]]; then
+      HIGH_RISK_BATCHES+=("$batch")
+    else
+      LOW_RISK_BATCHES+=("$batch")
+    fi
+  done
+  BATCHES=("${HIGH_RISK_BATCHES[@]}" "${LOW_RISK_BATCHES[@]}")
+fi
+
+# --preflight: before the main loop, ingest 1 norm-with-veredicto per
+# batch. Catches DB-side schema errors (CHECK constraints, missing
+# tables) in minutes instead of after the volume batches run. Uses the
+# SAME run_id as the main loop will use, so the writer's idempotency
+# key matches and the main loop skips already-ingested rows. Counts
+# preflight errors against fail-fast thresholds so a structural
+# problem aborts before the cascade.
+PREFLIGHT="${PREFLIGHT:-0}"
+
 # Fail-fast thresholds. Override via env. Driver aborts BETWEEN batches when
 # either threshold is exceeded — keeps the cascade from churning thousands
 # of rows when something is structurally broken.
@@ -55,9 +93,76 @@ FAIL_FAST_MIN_ROWS_FOR_RATE="${FAIL_FAST_MIN_ROWS_FOR_RATE:-100}"
 FAIL_FAST_MAX_ERROR_RATE_PCT="${FAIL_FAST_MAX_ERROR_RATE_PCT:-10}"  # percent
 
 TOTAL_BATCHES=${#BATCHES[@]}
-log "ingest run_id=${RUN_ID} batches=${TOTAL_BATCHES}  fail_fast: max_errors=${FAIL_FAST_MAX_ERRORS} max_rate=${FAIL_FAST_MAX_ERROR_RATE_PCT}%@>=${FAIL_FAST_MIN_ROWS_FOR_RATE}rows"
+log "ingest run_id=${RUN_ID} batches=${TOTAL_BATCHES}  fail_fast: max_errors=${FAIL_FAST_MAX_ERRORS} max_rate=${FAIL_FAST_MAX_ERROR_RATE_PCT}%@>=${FAIL_FAST_MIN_ROWS_FOR_RATE}rows  risk_first=${RISK_FIRST}  preflight=${PREFLIGHT}"
+log "batch order: ${BATCHES[*]}"
 printf '{"started_at_utc":"%s","run_id":"%s","total_batches":%d,"current_batch":null,"completed_batches":0}\n' \
   "${TS}" "${RUN_ID}" "${TOTAL_BATCHES}" > "${STATE_FILE}"
+
+# ---------------------------------------------------------------------------
+# PREFLIGHT (when --preflight / PREFLIGHT=1) — ingest one norm-with-veredicto
+# from each batch BEFORE the volume cascade. Catches DB-side schema errors
+# (CHECK constraint mismatches, missing tables, RLS failures) in minutes
+# instead of after thousands of rows. Uses the SAME run_id as the main loop
+# so the writer's idempotency_key matches and the main loop skips already-
+# ingested rows.
+# ---------------------------------------------------------------------------
+if [[ "${PREFLIGHT}" == "1" ]]; then
+  log "── preflight phase: 1 norm per batch (same run_id as main loop) ──"
+  PREFLIGHT_DIR="${RUN_DIR}/_preflight"
+  mkdir -p "${PREFLIGHT_DIR}"
+  PREFLIGHT_AUDIT="${RUN_DIR}/preflight_audit.jsonl"
+  : > "${PREFLIGHT_AUDIT}"
+  PREFLIGHT_ERR=0
+  for batch in "${BATCHES[@]}"; do
+    # Pick the first JSON in the batch dir that has a non-null veredicto.
+    SAMPLE=""
+    while IFS= read -r p; do
+      if PYTHONPATH=src:. uv run --quiet python -c "
+import json, sys
+d = json.loads(open('${p}').read())
+v = (d.get('result') or {}).get('veredicto')
+sys.exit(0 if v else 1)
+" 2>/dev/null; then
+        SAMPLE="$p"
+        break
+      fi
+    done < <(find "${ROOT}/evals/vigencia_extraction_v1/${batch}" -maxdepth 1 -name '*.json' | sort | head -20)
+
+    if [[ -z "${SAMPLE}" ]]; then
+      log "  preflight ${batch}: no veredicto-bearing JSON in first 20 — skipping"
+      continue
+    fi
+
+    # Materialize a single-norm input dir for the ingest script.
+    SAMPLE_DIR="${PREFLIGHT_DIR}/${batch}"
+    mkdir -p "${SAMPLE_DIR}"
+    cp "${SAMPLE}" "${SAMPLE_DIR}/"
+
+    PYTHONPATH=src:. uv run python scripts/canonicalizer/ingest_vigencia_veredictos.py \
+      --target production \
+      --run-id "${RUN_ID}-${batch}" \
+      --extracted-by ingest@v1 \
+      --input-dir "${SAMPLE_DIR}" \
+      --audit-log "${PREFLIGHT_AUDIT}" \
+      > "${PREFLIGHT_DIR}/${batch}.log" 2>&1
+    rc=$?
+    if [[ $rc -ne 0 ]]; then
+      log "  preflight ${batch}: rc=${rc} — see ${PREFLIGHT_DIR}/${batch}.log"
+      PREFLIGHT_ERR=$((PREFLIGHT_ERR + 1))
+    fi
+  done
+
+  PRE_ROW_ERR=$(grep -c '"outcome": "error"' "${PREFLIGHT_AUDIT}" 2>/dev/null | tr -d '\n ' || echo 0)
+  [[ -z "${PRE_ROW_ERR}" ]] && PRE_ROW_ERR=0
+  log "preflight done: batch_rcs_failed=${PREFLIGHT_ERR} row_errors=${PRE_ROW_ERR}"
+  if [[ "${PRE_ROW_ERR}" -gt 0 ]]; then
+    log "PREFLIGHT FAIL — aborting cascade before volume batches. Categorize errors via:"
+    log "  grep '\"outcome\": \"error\"' ${PREFLIGHT_AUDIT} | python3 -c 'import json,sys; from collections import Counter; print(Counter(json.loads(l)[\"reason\"][:200] for l in sys.stdin).most_common(10))'"
+    touch "${RUN_DIR}/cli.failfast"
+    exit 2
+  fi
+  log "preflight passed — proceeding to main cascade"
+fi
 
 ERRORS=0
 COMPLETED=0
