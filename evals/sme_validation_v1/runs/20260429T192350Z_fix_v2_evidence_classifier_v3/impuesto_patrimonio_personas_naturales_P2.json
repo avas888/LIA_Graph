@@ -1,0 +1,1311 @@
+{
+  "qid": "impuesto_patrimonio_personas_naturales_P2",
+  "topic_key_expected": "impuesto_patrimonio_personas_naturales",
+  "profile": "P2_operativa",
+  "message": "Mi cliente persona natural tiene a 1 de enero de 2026: una casa donde vive avaluada en $1.800 millones, un apartamento que arrienda valorado en $900 millones, acciones en su SAS por $1.500 millones, vehículos por $200 millones y efectivo en bancos por $150 millones. ¿Tiene que declarar y pagar impuesto al patrimonio? ¿Qué se le excluye y a qué tarifa?",
+  "http_status": 200,
+  "latency_ms": 22597,
+  "captured_utc": "2026-04-29T19:27:40.298710+00:00",
+  "response": {
+    "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+    "run_id": "pd_d3d84d9fb2a6417cb295083b807fc1fb",
+    "answer_markdown": "**Respuestas directas**\n- **¿Tiene que declarar y pagar impuesto al patrimonio?**\n  - Para el 1 de enero de 2026, el cliente deberá declarar y pagar el impuesto al patrimonio si su patrimonio líquido excede las 72.000 UVT.\n  - Calculando el patrimonio bruto:\n    - Casa: $1.800 millones\n    - Apartamento: $900 millones\n    - Acciones SAS: $1.500 millones\n    - Vehículos: $200 millones\n    - Efectivo en bancos: $150 millones\n    - **Total Patrimonio Bruto: $4.550 millones**\n  - Asumiendo que no hay pasivos significativos que reduzcan el patrimonio líquido por debajo del umbral, el cliente superaría las 72.000 UVT.\n  - El impuesto al patrimonio se causa anualmente al 1 de enero (art. 290 ET).\n\n- **¿Qué se le excluye y a qué tarifa?**\n  - **Exclusiones:**\n    - La casa de habitación del contribuyente está excluida hasta 13.000 UVT (art. 295-1 ET).\n    - Para el 2026, el valor de la UVT se debe actualizar. Usando la UVT de 2024 ($47.065) como referencia, 13.000 UVT equivalen a $611.845.000.\n    - El valor de la casa ($1.800 millones) excede este tope, por lo que la exclusión aplica hasta el límite de las 13.000 UVT. El excedente ($1.800 millones - $611.845.000 = $1.188.155.000) sí formaría parte de la base gravable.\n\n  - **Tarifa:**\n    - La tarifa del impuesto al patrimonio es progresiva y se aplica sobre la base gravable determinada después de las exclusiones.\n    - La tabla de tarifas para personas naturales es la siguiente (art. 295-1 ET):\n\n| Patrimonio Líquido (UVT) | Tarifa Marginal | Impuesto |\n|---|---|---|\n| Desde | Hasta | | |\n| 72.000 | 122.000 | 0,5% | (Patrimonio Líquido - 72.000 UVT) * 0,5% |\n| 122.000 | En adelante | 1,0% | (Patrimonio Líquido - 122.000 UVT) * 1,0% + 250 UVT |\n\n    - Para el cálculo exacto, se requiere el valor de la UVT para 2026 y el patrimonio líquido final después de deducir pasivos.\n\n**Ruta sugerida**\n- **1. Determinar el valor de la UVT para 2026:** Es crucial para calcular los umbrales y exclusiones con precisión.\n- **2. Cuantificar el patrimonio líquido a 1 de enero de 2026:** Se deben identificar y valuar todos los activos y pasivos del cliente a esa fecha.\n- **3. Aplicar la exclusión de la casa de habitación:** Restar hasta 13.000 UVT del valor de la casa (art. 295-1 ET).\n- **4. Calcular la base gravable del impuesto al patrimonio:** Patrimonio líquido menos las exclusiones aplicables.\n- **5. Aplicar la tarifa correspondiente:** Utilizar la tabla progresiva del art. 295-1 ET sobre la base gravable.\n- **6. Presentar la declaración y realizar el pago:** Cumplir con los plazos establecidos por la DIAN.\n\n**Riesgos y condiciones**\n- **Valoración de activos:** La valoración de los activos, especialmente las acciones de la SAS y los bienes inmuebles, debe ser precisa para evitar ajustes por parte de la DIAN. Se recomienda contar con soportes de valoración (avalúos, estados financieros).\n- **Cambios normativos:** La legislación tributaria puede sufrir modificaciones. Es necesario estar atento a posibles reformas que afecten el impuesto al patrimonio para 2026.\n- **Sanciones:** El incumplimiento en la declaración o pago, o la inexactitud en la información, puede generar sanciones (art. 260-11 ET).\n\n**Soportes clave**\n- **Certificados de avalúo catastral o comercial:** Para los bienes inmuebles (casa y apartamento).\n- **Extractos bancarios:** Para el efectivo en bancos.\n- **Certificado de Cámara de Comercio y estados financieros de la SAS:** Para la valoración de las acciones.\n- **Facturas de compra o avalúos de vehículos:** Para los vehículos.\n- **Certificaciones de deudas:** Para la determinación de pasivos y el patrimonio líquido.",
+    "answer_concise": "**Respuestas directas**\n- **¿Tiene que declarar y pagar impuesto al patrimonio?**\n  - Para el 1 de enero de 2026, el cliente deberá declarar y pagar el impuesto al patrimonio si su patrimonio líquido excede las 72.000 UVT.\n  - Calculando el patrimonio bruto:\n    - Casa: $1.800 millones\n    - Apartamento: $900 millones\n    - Acciones SAS: $1.500 millones\n    - Vehículos: $200 millones\n    - Efectivo en bancos: $150 millones\n    - **Total Patrimonio Bruto: $4.550 millones**\n  - Asumiendo que no hay pasivos significativos que reduzcan el patrimonio líquido por debajo del umbral, el cliente superaría las 72.000 UVT.\n  - El impuesto al patrimonio se causa anualmente al 1 de enero (art. 290 ET).\n\n- **¿Qué se le excluye y a qué tarifa?**\n  - **Exclusiones:**\n    - La casa de habitación del contribuyente está excluida hasta 13.000 UVT (art. 295-1 ET).\n    - Para el 2026, el valor de la UVT se debe actualizar. Usando la UVT de 2024 ($47.065) como referencia, 13.000 UVT equivalen a $611.845.000.\n    - El valor de la casa ($1.800 millones) excede este tope, por lo que la exclusión aplica hasta el límite de las 13.000 UVT. El excedente ($1.800 millones - $611.845.000 = $1.188.155.000) sí formaría parte de la base gravable.\n\n  - **Tarifa:**\n    - La tarifa del impuesto al patrimonio es progresiva y se aplica sobre la base gravable determinada después de las exclusiones.\n    - La tabla de tarifas para personas naturales es la siguiente (art. 295-1 ET):\n\n| Patrimonio Líquido (UVT) | Tarifa Marginal | Impuesto |\n|---|---|---|\n| Desde | Hasta | | |\n| 72.000 | 122.000 | 0,5% | (Patrimonio Líquido - 72.000 UVT) * 0,5% |\n| 122.000 | En adelante | 1,0% | (Patrimonio Líquido - 122.000 UVT) * 1,0% + 250 UVT |\n\n    - Para el cálculo exacto, se requiere el valor de la UVT para 2026 y el patrimonio líquido final después de deducir pasivos.\n\n**Ruta sugerida**\n- **1. Determinar el valor de la UVT para 2026:** Es crucial para calcular los umbrales y exclusiones con precisión.\n- **2. Cuantificar el patrimonio líquido a 1 de enero de 2026:** Se deben identificar y valuar todos los activos y pasivos del cliente a esa fecha.\n- **3. Aplicar la exclusión de la casa de habitación:** Restar hasta 13.000 UVT del valor de la casa (art. 295-1 ET).\n- **4. Calcular la base gravable del impuesto al patrimonio:** Patrimonio líquido menos las exclusiones aplicables.\n- **5. Aplicar la tarifa correspondiente:** Utilizar la tabla progresiva del art. 295-1 ET sobre la base gravable.\n- **6. Presentar la declaración y realizar el pago:** Cumplir con los plazos establecidos por la DIAN.\n\n**Riesgos y condiciones**\n- **Valoración de activos:** La valoración de los activos, especialmente las acciones de la SAS y los bienes inmuebles, debe ser precisa para evitar ajustes por parte de la DIAN. Se recomienda contar con soportes de valoración (avalúos, estados financieros).\n- **Cambios normativos:** La legislación tributaria puede sufrir modificaciones. Es necesario estar atento a posibles reformas que afecten el impuesto al patrimonio para 2026.\n- **Sanciones:** El incumplimiento en la declaración o pago, o la inexactitud en la información, puede generar sanciones (art. 260-11 ET).\n\n**Soportes clave**\n- **Certificados de avalúo catastral o comercial:** Para los bienes inmuebles (casa y apartamento).\n- **Extractos bancarios:** Para el efectivo en bancos.\n- **Certificado de Cámara de Comercio y estados financieros de la SAS:** Para la valoración de las acciones.\n- **Facturas de compra o avalúos de vehículos:** Para los vehículos.\n- **Certificaciones de deudas:** Para la determinación de pasivos y el patrimonio líquido.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Presentar la declaración y realizar el pago:** Cumplir con los plazos establecidos por la DIAN.",
+        "usage_intents": [
+          "plazos",
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La tabla de tarifas para personas naturales es la siguiente (art. 295-1 ET): | Patrimonio Líquido (UVT) | Tarifa Marginal | Impuesto | |---|---|---| | Desde | Hasta | | | | 72.000 | 122.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Presentar la declaración y realizar el pago:** Cumplir con los plazos establecidos por la DIAN.",
+        "usage_intents": [
+          "plazos",
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Presentar la declaración y realizar el pago:** Cumplir con los plazos establecidos por la DIAN.",
+        "usage_intents": [
+          "plazos",
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Presentar la declaración y realizar el pago:** Cumplir con los plazos establecidos por la DIAN.",
+        "usage_intents": [
+          "plazos",
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "### ARTÍCULO 260-11. SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA.\n<Artículo corregido por el artículo 3 del Decreto 939 de 2017. El nuevo texto es el siguiente:> Respecto a la doc"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 23,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T19:27:17.702990+00:00",
+        "total_ms": 15099.27,
+        "step_count": 46,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T19:27:17.703006+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T19:27:17.702990+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:17.703156+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.16,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 353,
+              "message_preview": "Mi cliente persona natural tiene a 1 de enero de 2026: una casa donde vive avaluada en $1.800 millones, un apartamento que arrienda valorado en $900 millones, acciones en su SAS por $1.500 millones, vehículos por $200 millones y efectivo en",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:17.724076+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 21.07,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:17.725172+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 22.17,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:17.740191+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 37.19,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 353,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:19.128761+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1425.75,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "impuesto_patrimonio_personas_naturales",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta directamente sobre la obligación de declarar y pagar el impuesto al patrimonio para una persona natural, incluyendo exclusiones y tarifas, lo cual encaja perfectamente con la definición del tema 'impuesto_patrimonio_per",
+              "elapsed_ms_call": 1388.72,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:19.129145+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1426.15,
+            "message": null,
+            "details": {
+              "effective_topic": "impuesto_patrimonio_personas_naturales",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.105563+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 5402.55,
+            "message": null,
+            "details": {
+              "owner_trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+              "requested_trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.105964+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 5402.95,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "impuesto_patrimonio_personas_naturales",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta pregunta directamente sobre la obligación de declarar y pagar el impuesto al patrimonio para una persona natural, incluyendo exclusiones y tarifas, lo cual encaja perfectamente con la definición del tema 'impuesto_patrimonio_personas_naturales'.",
+              "topic_notice": "Tu pregunta es de impuesto patrimonio personas naturales, por lo cual utilizaremos nuestra base de datos impuesto patrimonio personas naturales.",
+              "message_preview": "Mi cliente persona natural tiene a 1 de enero de 2026: una casa donde vive avaluada en $1.800 millones, un apartamento que arrienda valorado en $900 millones, acciones en su SAS por $1.500 millones, vehículos por $200 millones y efectivo en",
+              "message_chars": 353
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.106176+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 5403.17,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Tiene que declarar y pagar impuesto al patrimonio?",
+                "¿Qué se le excluye y a qué tarifa?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.106268+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 5403.27,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 51,
+              "message_preview": "¿Tiene que declarar y pagar impuesto al patrimonio?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.129375+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 5426.37,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.129865+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 5426.86,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.130624+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 5427.62,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.148405+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 5445.4,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "impuesto_patrimonio_personas_naturales",
+              "top_score": 3,
+              "confidence": 0.36,
+              "ranked_top_3": [
+                [
+                  "impuesto_patrimonio_personas_naturales",
+                  3
+                ],
+                [
+                  "sector_cultura",
+                  3
+                ],
+                [
+                  "impuesto_nacional_consumo",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.148512+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 5445.51,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Tiene que declarar y pagar impuesto al patrimonio?",
+              "effective_topic": "impuesto_patrimonio_personas_naturales",
+              "secondary_topics": [],
+              "confidence": 0.36,
+              "mode": "fallback",
+              "reason": "fallback:auto_detected_from_keywords",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.161607+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 5458.6,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.161724+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 5458.72,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "impuesto_patrimonio_personas_naturales sector_cultura ¿Tiene que declarar y pagar impuesto al patrimonio?",
+              "query_text_chars": 105
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.161803+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 5458.8,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "impuesto_patrimonio_personas_naturales",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "impuesto_patrimonio_personas_naturales"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.921794+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 6218.77,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::771-5",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::580-1",
+                "suin_30019323::4",
+                "suin_1132325::641",
+                "suin_30036488::30190359",
+                "suin_1132325::408"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.922398+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 6219.39,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:23.922502+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 6219.5,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.085362+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 6382.34,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.477830+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 6774.8,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 1,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.478043+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 6775.04,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 34,
+              "message_preview": "¿Qué se le excluye y a qué tarifa?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.499717+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 6796.71,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.499984+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 6796.98,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.500087+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 6797.08,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.513838+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 6810.84,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.513937+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 6810.93,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Qué se le excluye y a qué tarifa?",
+              "effective_topic": null,
+              "secondary_topics": [],
+              "confidence": 0.0,
+              "mode": "fallback",
+              "reason": "fallback:no_topic_detected",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.526344+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 6823.34,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.526410+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6823.41,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "¿Qué se le excluye y a qué tarifa?",
+              "query_text_chars": 34
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:24.526459+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6823.46,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "filter_topic_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.052616+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7349.6,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::240",
+                "suin_1132325::808",
+                "suin_1132325::908",
+                "suin_1104445::1104449",
+                "suin_1132325::408",
+                "suin_1132325::468",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "suin_1132325::476"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.052871+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7349.87,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.052966+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7349.96,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.222393+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 7519.37,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.380208+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 7677.18,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.380575+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 7677.56,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                6,
+                5
+              ],
+              "after": [
+                1,
+                6,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "260-11",
+                  "fuentes-y-referencias",
+                  "771-5",
+                  "808",
+                  "1104449",
+                  "240",
+                  "908"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.380678+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 7677.67,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "impuesto_patrimonio_personas_naturales",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "impuesto_patrimonio_personas_naturales",
+                "articles_top_topic": "impuesto_patrimonio_personas_naturales",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "260-11"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.380789+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 7677.78,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "impuesto_patrimonio_personas_naturales",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.380872+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 7677.87,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.387688+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 7684.68,
+            "message": null,
+            "details": {
+              "template_chars": 328
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.801652+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 15098.63,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3626,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.801995+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 15098.97,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "impuesto_patrimonio_personas_naturales",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.802127+00:00",
+            "trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 15099.11,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 1,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 61,
+        "output_tokens": 586,
+        "total_tokens": 647,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "impuesto_patrimonio_personas_naturales",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de impuesto patrimonio personas naturales, por lo cual utilizaremos nuestra base de datos impuesto patrimonio personas naturales.",
+    "topic_adjustment_reason": "La consulta pregunta directamente sobre la obligación de declarar y pagar el impuesto al patrimonio para una persona natural, incluyendo exclusiones y tarifas, lo cual encaja perfectamente con la definición del tema 'impuesto_patrimonio_personas_naturales'.",
+    "coverage_notice": null,
+    "topic": "impuesto_patrimonio_personas_naturales",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_8b7a87cdf243",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 61,
+        "output_tokens": 586,
+        "total_tokens": 647
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+      "last_run_id": "pd_d3d84d9fb2a6417cb295083b807fc1fb",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_8b7a87cdf243",
+    "chat_run_id": "cr_20260429_192719_fad3f3f2",
+    "metrics": {
+      "latency_ms": 21116.08,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 61,
+          "output_tokens": 586,
+          "total_tokens": 647,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_8b7a87cdf243",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 61,
+          "output_tokens": 586,
+          "total_tokens": 647
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "b60cc5a2-4482-444e-8b8c-d90eee258cbd",
+        "last_run_id": "pd_d3d84d9fb2a6417cb295083b807fc1fb",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 3,
+        "mentions_unique": 3,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 3,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 11.2
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "impuesto_patrimonio_personas_naturales",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "4724b9e8d47a410fa8b5e7be46cae0a9"
+  }
+}

@@ -1,0 +1,873 @@
+{
+  "qid": "conciliacion_fiscal_P1",
+  "topic_key_expected": "conciliacion_fiscal",
+  "profile": "P1_directa",
+  "message": "¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal y cuándo se entrega?",
+  "http_status": 200,
+  "latency_ms": 21347,
+  "captured_utc": "2026-04-29T19:22:34.525914+00:00",
+  "response": {
+    "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+    "run_id": "pd_454ab5957980448a90dc9e1d225e7307",
+    "answer_markdown": "### Respuestas directas\n\n*   **¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal?**\n\n    Están obligados a presentar el formato 2516 de conciliación fiscal los contribuyentes del impuesto sobre la renta y complementarios que cumplan con las siguientes condiciones:\n\n    *   Sean personas jurídicas o asimiladas.\n    *   Sean personas naturales y sucesiones ilíquidas obligadas a llevar contabilidad.\n    *   Sus ingresos brutos fiscales sean iguales o superiores a 45.000 UVT (art. 772-1 ET).\n\n*   **¿Cuándo se entrega el formato 2516 de conciliación fiscal?**\n\n    El formato 2516 se debe presentar anualmente, en las mismas fechas de vencimiento para la presentación de la declaración del impuesto sobre la renta y complementarios, según el último dígito del NIT del contribuyente.\n\n### Ruta sugerida\n\n1.  **Verificar la obligación:** Determinar si la empresa cumple con los criterios de ingresos brutos fiscales (45.000 UVT) y tipo de contribuyente (persona jurídica o natural/sucesión ilíquida obligada a llevar contabilidad) para la presentación del formato 2516 (art. 772-1 ET).\n2.  **Preparar la información contable y fiscal:** Asegurar que la contabilidad se encuentre al día y que se hayan realizado los ajustes fiscales necesarios para la conciliación.\n3.  **Diligenciar el formato 2516:** Completar el formato oficial de la DIAN, que compara la información contable con la fiscal.\n4.  **Presentar el formato:** Realizar la presentación electrónica del formato 2516 dentro de los plazos establecidos por la DIAN, que coinciden con los de la declaración de renta.\n\n### Riesgos y condiciones\n\n*   **Sanciones por no presentación o errores:** La no presentación del formato 2516 o su presentación con errores puede acarrear sanciones por parte de la DIAN (art. 260-11 ET).\n*   **Discrepancias contables vs. fiscales:** Es crucial identificar y justificar las diferencias entre la base contable y la base fiscal para evitar inconsistencias que puedan generar requerimientos de la DIAN.\n*   **Actualización normativa:** Mantenerse al tanto de las posibles modificaciones en la normativa tributaria que puedan afectar el diligenciamiento y presentación del formato 2516.\n\n### Soportes clave\n\n*   **Estatuto Tributario (ET):**\n    *   Art. 772-1 ET: Conciliación fiscal.\n*   **Resoluciones de la DIAN:** Aquellas que establecen el contenido y las especificaciones técnicas del formato 2516.\n*   **Decreto 624 de 1989:** Por el cual se expide el Estatuto Tributario.",
+    "answer_concise": "### Respuestas directas\n\n*   **¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal?**\n\n    Están obligados a presentar el formato 2516 de conciliación fiscal los contribuyentes del impuesto sobre la renta y complementarios que cumplan con las siguientes condiciones:\n\n    *   Sean personas jurídicas o asimiladas.\n    *   Sean personas naturales y sucesiones ilíquidas obligadas a llevar contabilidad.\n    *   Sus ingresos brutos fiscales sean iguales o superiores a 45.000 UVT (art. 772-1 ET).\n\n*   **¿Cuándo se entrega el formato 2516 de conciliación fiscal?**\n\n    El formato 2516 se debe presentar anualmente, en las mismas fechas de vencimiento para la presentación de la declaración del impuesto sobre la renta y complementarios, según el último dígito del NIT del contribuyente.\n\n### Ruta sugerida\n\n1.  **Verificar la obligación:** Determinar si la empresa cumple con los criterios de ingresos brutos fiscales (45.000 UVT) y tipo de contribuyente (persona jurídica o natural/sucesión ilíquida obligada a llevar contabilidad) para la presentación del formato 2516 (art. 772-1 ET).\n2.  **Preparar la información contable y fiscal:** Asegurar que la contabilidad se encuentre al día y que se hayan realizado los ajustes fiscales necesarios para la conciliación.\n3.  **Diligenciar el formato 2516:** Completar el formato oficial de la DIAN, que compara la información contable con la fiscal.\n4.  **Presentar el formato:** Realizar la presentación electrónica del formato 2516 dentro de los plazos establecidos por la DIAN, que coinciden con los de la declaración de renta.\n\n### Riesgos y condiciones\n\n*   **Sanciones por no presentación o errores:** La no presentación del formato 2516 o su presentación con errores puede acarrear sanciones por parte de la DIAN (art. 260-11 ET).\n*   **Discrepancias contables vs. fiscales:** Es crucial identificar y justificar las diferencias entre la base contable y la base fiscal para evitar inconsistencias que puedan generar requerimientos de la DIAN.\n*   **Actualización normativa:** Mantenerse al tanto de las posibles modificaciones en la normativa tributaria que puedan afectar el diligenciamiento y presentación del formato 2516.\n\n### Soportes clave\n\n*   **Estatuto Tributario (ET):**\n    *   Art. 772-1 ET: Conciliación fiscal.\n*   **Resoluciones de la DIAN:** Aquellas que establecen el contenido y las especificaciones técnicas del formato 2516.\n*   **Decreto 624 de 1989:** Por el cual se expide el Estatuto Tributario.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "authority": "Loggro",
+        "topic": "conciliacion_fiscal",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Conciliacion fiscal (Loggro)",
+        "legal_reference": "Conciliacion fiscal (Loggro)",
+        "search_query": "Conciliacion fiscal (Loggro) Loggro colombia Sección 11 — Conciliación Fiscal (Formatos 2516 y 2517)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal?** Están obligados a presentar el formato 2516 de conciliación fiscal los contribuyentes del impuesto sobre la",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Diligenciar el formato 2516:** Completar el formato oficial de la DIAN, que compara la información contable con la fiscal.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Diligenciar el formato 2516:** Completar el formato oficial de la DIAN, que compara la información contable con la fiscal.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Decreto 624 de 1989:** Por el cual se expide el Estatuto Tributario.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Diligenciar el formato 2516:** Completar el formato oficial de la DIAN, que compara la información contable con la fiscal.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "## Notas y Fuentes\n(1) **Art. 772-1 ET** (adicionado por art. 137, Ley 1819 de diciembre 29 de 2016) — \"Sin perjuicio de lo previsto en el artículo 4° de la Ley 1314 de 2009, los contribuyentes obligados a llevar contabilidad deberán llevar"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T19:22:13.179813+00:00",
+        "total_ms": 10150.89,
+        "step_count": 21,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T19:22:13.179823+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T19:22:13.179813+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:13.179913+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.09,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 101,
+              "message_preview": "¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal y cuándo se entrega?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:13.196928+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 17.11,
+            "message": null,
+            "details": {
+              "effective_topic": "conciliacion_fiscal",
+              "confidence": 0.99,
+              "reason": "rule:conciliacion_fiscal matched conciliacion fiscal, conciliación fiscal, formato 2516",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:17.855563+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 4675.73,
+            "message": null,
+            "details": {
+              "owner_trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+              "requested_trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:17.855886+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 4676.06,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "conciliacion_fiscal",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:conciliacion_fiscal matched conciliacion fiscal, conciliación fiscal, formato 2516",
+              "topic_notice": "Tu pregunta es de conciliacion fiscal, por lo cual utilizaremos nuestra base de datos conciliacion fiscal.",
+              "message_preview": "¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal y cuándo se entrega?",
+              "message_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:17.881990+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 4702.15,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:17.882265+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 4702.44,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "conciliacion_fiscal ¿Qué empresas están obligadas a presentar el formato 2516 de conciliación fiscal y cuándo se entrega?",
+              "query_text_chars": 121
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:17.882409+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 4702.59,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "conciliacion_fiscal",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "conciliacion_fiscal"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:18.664323+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 5484.49,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md::notas-y-fuentes",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::260-11",
+                "suin_1132325::235-2",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::800-1",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:18.664752+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 5484.93,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:18.665039+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 5485.21,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:18.836274+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 5656.41,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:19.252610+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 6072.72,
+            "message": null,
+            "details": {
+              "primary_count": 1,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "conciliacion_fiscal",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:19.253427+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 6073.59,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                5,
+                5
+              ],
+              "after": [
+                1,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "notas-y-fuentes",
+                  "260-11",
+                  "fuentes-y-referencias",
+                  "808",
+                  "235-2",
+                  "1104449"
+                ],
+                "candidate_count": 6,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:19.253886+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 6074.05,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "conciliacion_fiscal",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "conciliacion_fiscal",
+                "articles_top_topic": "conciliacion_fiscal",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "notas-y-fuentes"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:19.254422+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 6074.59,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "conciliacion_fiscal",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:19.258505+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 6078.66,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:19.271060+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 6091.22,
+            "message": null,
+            "details": {
+              "template_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:23.330379+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 10150.55,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2500,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:23.330592+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 10150.76,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "conciliacion_fiscal",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:22:23.330655+00:00",
+            "trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 10150.83,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 1,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 16,
+        "output_tokens": 365,
+        "total_tokens": 381,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "conciliacion_fiscal",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de conciliacion fiscal, por lo cual utilizaremos nuestra base de datos conciliacion fiscal.",
+    "topic_adjustment_reason": "rule:conciliacion_fiscal matched conciliacion fiscal, conciliación fiscal, formato 2516",
+    "coverage_notice": null,
+    "topic": "conciliacion_fiscal",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Decreto 624 de 1989:** Por el cual se expide el Estatuto Tributario.",
+        "usage_intents": null
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_5c87e58218ea",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 16,
+        "output_tokens": 365,
+        "total_tokens": 381
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+      "last_run_id": "pd_454ab5957980448a90dc9e1d225e7307",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_5c87e58218ea",
+    "chat_run_id": "cr_20260429_192213_b57ae8f1",
+    "metrics": {
+      "latency_ms": 19476.78,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 16,
+          "output_tokens": 365,
+          "total_tokens": 381,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_5c87e58218ea",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 16,
+          "output_tokens": 365,
+          "total_tokens": 381
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "c2224e0a-9761-4bc7-89d9-21755e64a88f",
+        "last_run_id": "pd_454ab5957980448a90dc9e1d225e7307",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 1,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 3,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "formulario:2516",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 149.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "conciliacion_fiscal",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "7f8e2e530d884014ba26371cdcc5e428"
+  }
+}

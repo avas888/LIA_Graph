@@ -56,6 +56,47 @@ _WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
 _ARTICLE_NUMBER_RE = re.compile(r"(?i)^(art(?:[ií]culo)?|art\.)\s*(?P<number>\d+(?:-\d+)?)")
 
 
+# fix_v2.md §A — Cached map from article_id → set of topic_keys it serves
+# under (primary_topic + secondary_topics) per
+# `config/article_secondary_topics.json`. Used by `_classify_article_rows`
+# to promote chunks to `primary` when the planner has no explicit
+# anchor but the chunk's article_id is curated as serving the router
+# topic. Solves the case where SUIN-scrape ET-article chunks have
+# `topic=NULL` at both chunk + doc level (so router-topic match on
+# `chunk.topic` fails) but the article semantically serves the router
+# topic via the SME-curated rescue config.
+_ARTICLE_TOPICS_CACHE: dict[str, frozenset[str]] | None = None
+
+
+def _load_article_topic_index() -> dict[str, frozenset[str]]:
+    global _ARTICLE_TOPICS_CACHE
+    if _ARTICLE_TOPICS_CACHE is not None:
+        return _ARTICLE_TOPICS_CACHE
+    import json as _json
+    cfg_path = _WORKSPACE_ROOT / "config" / "article_secondary_topics.json"
+    index: dict[str, frozenset[str]] = {}
+    try:
+        raw = _json.loads(cfg_path.read_text())
+        for entry in raw.get("articles", ()) or ():
+            aid = str(entry.get("article_id") or "").strip()
+            if not aid:
+                continue
+            topics: set[str] = set()
+            primary = (entry.get("primary_topic") or "").strip()
+            if primary:
+                topics.add(primary)
+            for t in entry.get("secondary_topics") or ():
+                ts = str(t or "").strip()
+                if ts:
+                    topics.add(ts)
+            if topics:
+                index[aid] = frozenset(topics)
+    except (OSError, ValueError):
+        pass
+    _ARTICLE_TOPICS_CACHE = index
+    return index
+
+
 def retrieve_graph_evidence(
     plan: GraphRetrievalPlan,
     *,
@@ -461,6 +502,17 @@ def _fetch_anchor_article_rows(
     `chunk_id LIKE '%::<key>'` matches every chunk for that article across all
     documents that contain it. This bypasses FTS entirely so planner anchors
     never go missing because the rank spread them below the match_count cap.
+
+    fix_v2 phase 3 (2026-04-29) — when the planner produces NO explicit
+    anchors but a router topic is set, also fetch every article that the
+    SME-curated rescue config (`config/article_secondary_topics.json`)
+    declares as serving the router topic. Without this the retriever
+    misses art 689-3 for `beneficio_auditoria`, art 240/241/256/257 for
+    `tarifas_renta_y_ttd`/`descuentos_tributarios_renta`, etc. — because
+    FTS+vector ranking buries them below umbrella-topic chunks. Rescue
+    rows get a synthetic rrf_score of 0.95 (below explicit-anchor 1.0,
+    above pure-FTS) so explicit anchors still take ranking priority.
+    Capped at 10 articles per call to keep the round trip bounded.
     """
     anchor_keys = [
         str(entry.lookup_value).strip()
@@ -468,32 +520,49 @@ def _fetch_anchor_article_rows(
         if entry.kind == "article" and entry.lookup_value
     ]
     anchor_keys = [k for k in dict.fromkeys(anchor_keys) if k]
+    rescue_keys: list[str] = []
+    rescue_score = 0.95
     if not anchor_keys:
+        router_topic = (
+            next(iter(plan.topic_hints), None) if plan.topic_hints else None
+        )
+        router_topic = router_topic.strip() if isinstance(router_topic, str) else None
+        if router_topic:
+            index = _load_article_topic_index()
+            rescue_keys = [
+                aid for aid, topics in index.items() if router_topic in topics
+            ][:10]
+    if not anchor_keys and not rescue_keys:
         return []
     rows: list[dict[str, Any]] = []
-    for key in anchor_keys:
-        try:
-            response = (
-                db.table("document_chunks")
-                .select(
-                    "chunk_id, doc_id, chunk_text, summary, topic, "
-                    "knowledge_class, concept_tags, relative_path"
+    for kind, keys, score in (
+        ("anchor", anchor_keys, 1.0),
+        ("rescue", rescue_keys, rescue_score),
+    ):
+        for key in keys:
+            try:
+                response = (
+                    db.table("document_chunks")
+                    .select(
+                        "chunk_id, doc_id, chunk_text, summary, topic, "
+                        "knowledge_class, concept_tags, relative_path"
+                    )
+                    .like("chunk_id", f"%::{key}")
+                    .limit(8)
+                    .execute()
                 )
-                .like("chunk_id", f"%::{key}")
-                .limit(8)
-                .execute()
-            )
-        except Exception:  # noqa: BLE001 - anchor fetch is best-effort
-            continue
-        for row in getattr(response, "data", None) or []:
-            if not isinstance(row, dict):
+            except Exception:  # noqa: BLE001 - anchor/rescue fetch is best-effort
                 continue
-            row = dict(row)
-            # Tag with a synthetic rank that sorts above any FTS result so
-            # classification preserves anchor priority when the two sets merge.
-            row.setdefault("rrf_score", 1.0)
-            row.setdefault("fts_rank", 1.0)
-            rows.append(row)
+            for row in getattr(response, "data", None) or []:
+                if not isinstance(row, dict):
+                    continue
+                row = dict(row)
+                # Tag with a synthetic rank so classification preserves
+                # anchor priority when the two sets merge. Rescue rows
+                # sort below explicit anchors but above raw FTS results.
+                row.setdefault("rrf_score", score)
+                row.setdefault("fts_rank", score)
+                rows.append(row)
     return rows
 
 
@@ -771,6 +840,59 @@ def _classify_article_rows(
         if entry.kind == "article" and entry.lookup_value
     ]
     explicit_set = {value for value in explicit_articles if value}
+    # fix_v2 phase 3 (2026-04-29) — generalize "primary evidence" beyond
+    # the planner's explicit-anchor-only contract. The original code
+    # only marked a chunk as `primary` when `article_key ∈ explicit_set`.
+    # For any "broad" question (planner mode `general_graph_research`,
+    # `plan_anchor_count=0`), `primary_count` was structurally always 0,
+    # and the v6 coherence-gate then refused with
+    # `zero_evidence_for_router_topic` — even when 23 of 24 retrieved
+    # chunks were on-topic by every other structural signal. This is a
+    # bug class, not a §1.G-specific patch: it affects every topic with
+    # broad-style profiles across the whole 89-topic taxonomy.
+    #
+    # The corrected, generalizable definition: a retrieved chunk is
+    # primary evidence for `router_topic` if ANY of these structural
+    # signals fires (each is SME-curated, none is heuristic):
+    #
+    #   (1) Planner anchor — `article_key ∈ explicit_set`. Unchanged.
+    #   (2) Chunk-level topic — `chunk.topic == router_topic`. Direct
+    #       metadata claim; weak only because chunk.topic is often NULL
+    #       (e.g. SUIN ET-article scrape).
+    #   (3) Document-level topic — `document.topic == router_topic`.
+    #       The strongest universal signal: every document in the corpus
+    #       is tagged at the file level, regardless of whether the
+    #       chunk-level enrichment ran.
+    #   (4) Compatible-doc-topics — `document.topic ∈
+    #       compatible_doc_topics[router_topic]` (per
+    #       `config/compatible_doc_topics.json`, SME-curated narrow→broad
+    #       topical adjacency map). Already used by the gate at the
+    #       support-document layer; mirrored here at the primary layer.
+    #   (5) Article rescue config — `article_id ∈
+    #       rescue_index[router_topic]` (per
+    #       `config/article_secondary_topics.json`, SME-curated per-article
+    #       multi-topic registry). Already used by the misalignment
+    #       detector; mirrored here at the classification layer.
+    #
+    # Items promoted by signals (2)–(5) carry `secondary_topics=(router_topic,)`
+    # so the misalignment detector's `secondary_topic_match` short-circuit
+    # accepts them without falling back to lexical scoring (which can give
+    # false-positive misalignment between sibling sub-topics like
+    # `tarifas_renta_y_ttd` vs `declaracion_renta`).
+    #
+    # Recall side (when the retriever didn't surface the relevant
+    # rescue-config articles at all) is handled by
+    # `_fetch_anchor_article_rows`, which fetches rescue-config articles
+    # by `chunk_id LIKE '%::<key>'` when no explicit anchors exist.
+    from .compatible_doc_topics import get_compatible_topics
+    router_topic = (
+        next(iter(plan.topic_hints), None) if plan.topic_hints else None
+    )
+    router_topic = router_topic.strip() if isinstance(router_topic, str) else None
+    article_topic_index = _load_article_topic_index() if router_topic else {}
+    compatible_doc_topics: frozenset[str] = (
+        get_compatible_topics(router_topic) if router_topic else frozenset()
+    )
     primary: list[GraphEvidenceItem] = []
     connected: list[GraphEvidenceItem] = []
     seen_article_keys: set[str] = set()
@@ -789,6 +911,23 @@ def _classify_article_rows(
         # attached during _apply_v3_vigencia_demotion. None when chunk has
         # no anchor citation (passthrough).
         vigencia_v3_payload = row.get("vigencia_v3")
+        chunk_topic_raw = row.get("topic")
+        chunk_topic = chunk_topic_raw.strip() if isinstance(chunk_topic_raw, str) else ""
+        doc_topic_raw = document_row.get("topic")
+        doc_topic = doc_topic_raw.strip() if isinstance(doc_topic_raw, str) else ""
+        is_explicit_anchor = article_key in explicit_set
+        # Signals (2)–(5). Evaluated only when router_topic is present.
+        signals_router_topic = bool(router_topic) and (
+            chunk_topic == router_topic
+            or doc_topic == router_topic
+            or (doc_topic != "" and doc_topic in compatible_doc_topics)
+            or router_topic in article_topic_index.get(article_key, frozenset())
+        )
+        secondary_topics_for_item: tuple[str, ...] = (
+            (router_topic,)
+            if (signals_router_topic and not is_explicit_anchor and router_topic)
+            else ()
+        )
         item = GraphEvidenceItem(
             node_kind="ArticleNode",
             node_key=article_key,
@@ -796,12 +935,13 @@ def _classify_article_rows(
             excerpt=snippet,
             source_path=relative_path or None,
             score=float(row.get("rrf_score") or row.get("fts_rank") or 0.0),
-            hop_distance=0 if article_key in explicit_set else 1,
+            hop_distance=0 if is_explicit_anchor else 1,
             why=None,
             relation_path=(),
+            secondary_topics=secondary_topics_for_item,
             vigencia_v3=dict(vigencia_v3_payload) if isinstance(vigencia_v3_payload, dict) else None,
         )
-        if article_key in explicit_set:
+        if is_explicit_anchor or signals_router_topic:
             primary.append(item)
         else:
             connected.append(item)

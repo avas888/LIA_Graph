@@ -1,0 +1,1337 @@
+{
+  "qid": "impuesto_patrimonio_personas_naturales_P3",
+  "topic_key_expected": "impuesto_patrimonio_personas_naturales",
+  "profile": "P3_borde",
+  "message": "Una clienta persona natural tiene patrimonio líquido de $4.200 millones, casi todo en acciones de una SAS productiva donde es socia mayoritaria. Me dice que escuchó que las acciones de empresas operativas se excluyen de la base. ¿Es cierto, parcial o totalmente? ¿Y qué pasa si parte de esas acciones las tiene a través de una sociedad de inversión personal en lugar de directamente?",
+  "http_status": 200,
+  "latency_ms": 24103,
+  "captured_utc": "2026-04-29T19:27:49.595510+00:00",
+  "response": {
+    "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+    "run_id": "pd_51b2a15196be4ada8c29f1916ca090a5",
+    "answer_markdown": "**Respuestas directas**\n- **¿Es cierto, parcial o totalmente?**\n  - La exclusión de acciones de empresas operativas de la base gravable del impuesto al patrimonio no es general. El (art. 290 ET) establece un tratamiento especial para las acciones en sociedades nacionales no cotizadas en bolsa, siempre que la sociedad cumpla con los requisitos de la Ley 1429 de 2010 (Ley de Formalización y Generación de Empleo).\n  - Para que las acciones de tu clienta se excluyan, la SAS debe ser una micro o pequeña empresa en su etapa de formalización, cumpliendo con los criterios de la Ley 1429 de 2010 (art. 290 ET). Si la SAS ya superó los plazos de formalización o no cumple los requisitos, las acciones no se excluyen.\n  - La cobertura quedó parcial.\n\n- **¿Y qué pasa si parte de esas acciones las tiene a través de una sociedad de inversión personal en lugar de directamente?**\n  - Si las acciones se poseen a través de una sociedad de inversión personal, la exclusión del (art. 290 ET) no aplica directamente a la persona natural. La sociedad de inversión sería la titular de las acciones y, por ende, la que podría beneficiarse de la exclusión si cumple los requisitos.\n  - Para la persona natural, el patrimonio incluiría el valor de su participación en la sociedad de inversión, no directamente las acciones de la SAS. La valoración de esa participación en la sociedad de inversión se haría según las reglas generales del patrimonio (arts. 261 y ss. ET).\n  - La cobertura quedó parcial.\n\n**Ruta sugerida**\n1.  **Verificar el estado de la SAS:** Confirmar si la SAS cumple con los requisitos de la Ley 1429 de 2010 (Ley de Formalización y Generación de Empleo) y si aún se encuentra dentro de los plazos para aplicar el beneficio del (art. 290 ET). Esto implica revisar su fecha de constitución, número de empleados y activos.\n2.  **Evaluar la estructura de tenencia:** Determinar el porcentaje de acciones que la clienta posee directamente y el porcentaje que posee a través de la sociedad de inversión personal.\n3.  **Calcular el patrimonio gravable:**\n    *   Para las acciones directas: Si la SAS cumple los requisitos, se excluyen del patrimonio gravable. Si no, se incluyen.\n    *   Para la participación en la sociedad de inversión: Se incluye el valor patrimonial de la participación en la sociedad de inversión, sin aplicar la exclusión del (art. 290 ET) a nivel de la persona natural.\n\n**Riesgos y condiciones**\n*   **Incumplimiento de requisitos Ley 1429 de 2010:** Si la SAS no cumple con los criterios de la Ley 1429 de 2010 o ya superó los plazos de formalización, la exclusión del (art. 290 ET) no aplica.\n*   **Reorganizaciones empresariales:** Cualquier reorganización que afecte la titularidad de las acciones o la naturaleza de la SAS podría modificar la aplicación del beneficio.\n*   **Interpretación de \"sociedad operativa\":** La norma se refiere a sociedades que cumplen con la Ley 1429 de 2010, no a cualquier sociedad operativa. Es crucial adherirse a la definición legal.\n\n**Soportes clave**\n*   **Certificado de existencia y representación legal de la SAS:** Para verificar la fecha de constitución y objeto social.\n*   **Estados financieros de la SAS:** Para determinar el tamaño de la empresa (activos, ingresos, empleados) y confirmar el cumplimiento de los requisitos de la Ley 1429 de 2010.\n*   **Declaraciones de renta de la SAS:** Para verificar el cumplimiento de obligaciones tributarias y el régimen al que pertenece.\n*   **Escrituras públicas o documentos de constitución de la sociedad de inversión:** Para determinar la participación de la clienta y la composición de su patrimonio.\n*   **Valoración de las acciones de la SAS:** Para determinar el valor patrimonial de las acciones, tanto las directas como las indirectas.",
+    "answer_concise": "**Respuestas directas**\n- **¿Es cierto, parcial o totalmente?**\n  - La exclusión de acciones de empresas operativas de la base gravable del impuesto al patrimonio no es general. El (art. 290 ET) establece un tratamiento especial para las acciones en sociedades nacionales no cotizadas en bolsa, siempre que la sociedad cumpla con los requisitos de la Ley 1429 de 2010 (Ley de Formalización y Generación de Empleo).\n  - Para que las acciones de tu clienta se excluyan, la SAS debe ser una micro o pequeña empresa en su etapa de formalización, cumpliendo con los criterios de la Ley 1429 de 2010 (art. 290 ET). Si la SAS ya superó los plazos de formalización o no cumple los requisitos, las acciones no se excluyen.\n  - La cobertura quedó parcial.\n\n- **¿Y qué pasa si parte de esas acciones las tiene a través de una sociedad de inversión personal en lugar de directamente?**\n  - Si las acciones se poseen a través de una sociedad de inversión personal, la exclusión del (art. 290 ET) no aplica directamente a la persona natural. La sociedad de inversión sería la titular de las acciones y, por ende, la que podría beneficiarse de la exclusión si cumple los requisitos.\n  - Para la persona natural, el patrimonio incluiría el valor de su participación en la sociedad de inversión, no directamente las acciones de la SAS. La valoración de esa participación en la sociedad de inversión se haría según las reglas generales del patrimonio (arts. 261 y ss. ET).\n  - La cobertura quedó parcial.\n\n**Ruta sugerida**\n1.  **Verificar el estado de la SAS:** Confirmar si la SAS cumple con los requisitos de la Ley 1429 de 2010 (Ley de Formalización y Generación de Empleo) y si aún se encuentra dentro de los plazos para aplicar el beneficio del (art. 290 ET). Esto implica revisar su fecha de constitución, número de empleados y activos.\n2.  **Evaluar la estructura de tenencia:** Determinar el porcentaje de acciones que la clienta posee directamente y el porcentaje que posee a través de la sociedad de inversión personal.\n3.  **Calcular el patrimonio gravable:**\n    *   Para las acciones directas: Si la SAS cumple los requisitos, se excluyen del patrimonio gravable. Si no, se incluyen.\n    *   Para la participación en la sociedad de inversión: Se incluye el valor patrimonial de la participación en la sociedad de inversión, sin aplicar la exclusión del (art. 290 ET) a nivel de la persona natural.\n\n**Riesgos y condiciones**\n*   **Incumplimiento de requisitos Ley 1429 de 2010:** Si la SAS no cumple con los criterios de la Ley 1429 de 2010 o ya superó los plazos de formalización, la exclusión del (art. 290 ET) no aplica.\n*   **Reorganizaciones empresariales:** Cualquier reorganización que afecte la titularidad de las acciones o la naturaleza de la SAS podría modificar la aplicación del beneficio.\n*   **Interpretación de \"sociedad operativa\":** La norma se refiere a sociedades que cumplen con la Ley 1429 de 2010, no a cualquier sociedad operativa. Es crucial adherirse a la definición legal.\n\n**Soportes clave**\n*   **Certificado de existencia y representación legal de la SAS:** Para verificar la fecha de constitución y objeto social.\n*   **Estados financieros de la SAS:** Para determinar el tamaño de la empresa (activos, ingresos, empleados) y confirmar el cumplimiento de los requisitos de la Ley 1429 de 2010.\n*   **Declaraciones de renta de la SAS:** Para verificar el cumplimiento de obligaciones tributarias y el régimen al que pertenece.\n*   **Escrituras públicas o documentos de constitución de la sociedad de inversión:** Para determinar la participación de la clienta y la composición de su patrimonio.\n*   **Valoración de las acciones de la SAS:** Para determinar el valor patrimonial de las acciones, tanto las directas como las indirectas.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Es cierto, parcial o totalmente?** La exclusión de acciones de empresas operativas de la base gravable del impuesto al patrimonio no es general.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Verificar el estado de la SAS:** Confirmar si la SAS cumple con los requisitos de la Ley 1429 de 2010 (Ley de Formalización y Generación de Empleo) y si aún se encuentra dentro de los plazos para aplicar el beneficio",
+        "usage_intents": [
+          "plazos",
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Es cierto, parcial o totalmente?** La exclusión de acciones de empresas operativas de la base gravable del impuesto al patrimonio no es general.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Es cierto, parcial o totalmente?** La exclusión de acciones de empresas operativas de la base gravable del impuesto al patrimonio no es general.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30046753",
+        "logical_doc_id": "suin_30046753",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30046753",
+        "open_url": "/source-view?doc_id=suin_30046753",
+        "download_url": "/source-download?doc_id=suin_30046753&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30046753&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "AUTO 11001032400020220035800 de 2023",
+        "legal_reference": "AUTO 11001032400020220035800 de 2023",
+        "search_query": "AUTO 11001032400020220035800 de 2023 DIAN / fuente oficial colombia AUTO 11001032400020220035800 de 2023",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Es cierto, parcial o totalmente?** La exclusión de acciones de empresas operativas de la base gravable del impuesto al patrimonio no es general.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.55,
+      "mode": "topic_misalignment_hedged"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "## Fuentes y Referencias\n1. [Ley 1429 de 2010 - Gestor Normativo - Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=39430)\n2. [Ley 1429 de 2010 - Secretaría del Senado (con modificacione"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T19:27:25.493319+00:00",
+        "total_ms": 15749.02,
+        "step_count": 46,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T19:27:25.493358+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T19:27:25.493319+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.493547+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.2,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 383,
+              "message_preview": "Una clienta persona natural tiene patrimonio líquido de $4.200 millones, casi todo en acciones de una SAS productiva donde es socia mayoritaria. Me dice que escuchó que las acciones de empresas operativas se excluyen de la base. ¿Es cierto,",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.514767+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 21.42,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.515047+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 21.7,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:25.531164+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 37.81,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 383,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:26.867427+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1374.07,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "impuesto_patrimonio_personas_naturales",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la determinación de la base gravable del impuesto al patrimonio para personas naturales, específicamente sobre la inclusión o exclusión de acciones de empresas operativas y la tenencia a través de sociedades de inve",
+              "elapsed_ms_call": 1336.27,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:26.867781+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1374.43,
+            "message": null,
+            "details": {
+              "effective_topic": "impuesto_patrimonio_personas_naturales",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.602687+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 7109.33,
+            "message": null,
+            "details": {
+              "owner_trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+              "requested_trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.603011+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 7109.65,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "impuesto_patrimonio_personas_naturales",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la determinación de la base gravable del impuesto al patrimonio para personas naturales, específicamente sobre la inclusión o exclusión de acciones de empresas operativas y la tenencia a través de sociedades de inversión. Esto encaja directamente con el tema de impuesto_patrimonio_personas_naturales.",
+              "topic_notice": "Tu pregunta es de impuesto patrimonio personas naturales, por lo cual utilizaremos nuestra base de datos impuesto patrimonio personas naturales.",
+              "message_preview": "Una clienta persona natural tiene patrimonio líquido de $4.200 millones, casi todo en acciones de una SAS productiva donde es socia mayoritaria. Me dice que escuchó que las acciones de empresas operativas se excluyen de la base. ¿Es cierto,",
+              "message_chars": 383
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.603266+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 7109.91,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Es cierto, parcial o totalmente?",
+                "¿Y qué pasa si parte de esas acciones las tiene a través de una sociedad de inversión personal en lugar de directamente?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.603380+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 7110.03,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 33,
+              "message_preview": "¿Es cierto, parcial o totalmente?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.626152+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 7132.79,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.626402+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 7133.04,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.626530+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 7133.18,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.643067+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 7149.71,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.643268+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 7149.91,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Es cierto, parcial o totalmente?",
+              "effective_topic": null,
+              "secondary_topics": [],
+              "confidence": 0.0,
+              "mode": "fallback",
+              "reason": "fallback:no_topic_detected",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.657518+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 7164.16,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.657695+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7164.34,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "¿Es cierto, parcial o totalmente?",
+              "query_text_chars": 33
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:32.657779+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7164.43,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "filter_topic_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.312907+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7819.53,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::771-5",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::126-1",
+                "suin_30019323::4",
+                "suin_1132325::260-11",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md::771-5"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.313324+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7819.96,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.313503+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7820.15,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.485127+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 7991.75,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.636313+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 8142.94,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.636596+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 8143.24,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 120,
+              "message_preview": "¿Y qué pasa si parte de esas acciones las tiene a través de una sociedad de inversión personal en lugar de directamente?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.658478+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 8165.12,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.659205+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 8165.85,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.659381+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 8166.03,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.670992+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 8177.63,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "inversiones_incentivos",
+              "top_score": 1,
+              "confidence": 0.24,
+              "ranked_top_3": [
+                [
+                  "inversiones_incentivos",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.671154+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 8177.8,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y qué pasa si parte de esas acciones las tiene a través de una sociedad de inversión personal en lugar de directamente?",
+              "effective_topic": "inversiones_incentivos",
+              "secondary_topics": [],
+              "confidence": 0.24,
+              "mode": "fallback",
+              "reason": "fallback:auto_detected_from_keywords",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.682737+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 8189.38,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.682899+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 8189.54,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "inversiones_incentivos ¿Y qué pasa si parte de esas acciones las tiene a través de una sociedad de inversión personal en lugar de directamente?",
+              "query_text_chars": 143
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:33.682965+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 8189.61,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "inversiones_incentivos",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "inversiones_incentivos"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:34.566271+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 9072.9,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::235-2",
+                "suin_30046753::2",
+                "suin_1132325::808",
+                "suin_1132325::424",
+                "suin_1104445::1104449",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "suin_1132325::18-1"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:34.566676+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 9073.32,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:34.566857+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 9073.5,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:34.742951+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 9249.57,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:35.166645+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 9673.27,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 1,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:35.166923+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 9673.56,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                6,
+                5
+              ],
+              "after": [
+                1,
+                6,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "fuentes-y-referencias",
+                  "260-11",
+                  "771-5",
+                  "808",
+                  "235-2",
+                  "2",
+                  "424"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:35.191511+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 9698.14,
+            "message": null,
+            "details": {
+              "misaligned": true,
+              "kind": null,
+              "router_topic": "impuesto_patrimonio_personas_naturales",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": true,
+                "router_topic": "impuesto_patrimonio_personas_naturales",
+                "articles_top_topic": "sector_administracion_publica",
+                "router_score_on_articles": 0,
+                "top_score_on_articles": 5,
+                "ranked_article_topics": [
+                  [
+                    "sector_administracion_publica",
+                    5
+                  ],
+                  [
+                    "presupuesto_hacienda",
+                    2
+                  ]
+                ],
+                "reason": "lexical_misaligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:35.191746+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 9698.39,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "no_router_topic",
+              "source": "no_router_topic",
+              "router_topic": null,
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:35.191811+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 9698.46,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:35.193612+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 9700.25,
+            "message": null,
+            "details": {
+              "template_chars": 396
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:41.241568+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 15748.19,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3760,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:41.242015+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 15748.64,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "impuesto_patrimonio_personas_naturales",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T19:27:41.242226+00:00",
+            "trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 15748.86,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "topic_misalignment_hedged",
+              "confidence": 0.55,
+              "primary_articles": 1,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 64,
+        "output_tokens": 615,
+        "total_tokens": 679,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "impuesto_patrimonio_personas_naturales",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de impuesto patrimonio personas naturales, por lo cual utilizaremos nuestra base de datos impuesto patrimonio personas naturales.",
+    "topic_adjustment_reason": "La consulta se centra en la determinación de la base gravable del impuesto al patrimonio para personas naturales, específicamente sobre la inclusión o exclusión de acciones de empresas operativas y la tenencia a través de sociedades de inversión. Esto encaja directamente con el tema de impuesto_patrimonio_personas_naturales.",
+    "coverage_notice": null,
+    "topic": "impuesto_patrimonio_personas_naturales",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010",
+        "legal_reference": "Ley 1429 de 2010",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Verificar el estado de la SAS:** Confirmar si la SAS cumple con los requisitos de la Ley 1429 de 2010 (Ley de Formalización y Generación de Empleo) y si aún se encuentra dentro de los plazos para aplicar el beneficio",
+        "usage_intents": [
+          "plazos",
+          "requisitos"
+        ]
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_69e96d5fee6f",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 64,
+        "output_tokens": 615,
+        "total_tokens": 679
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+      "last_run_id": "pd_51b2a15196be4ada8c29f1916ca090a5",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_69e96d5fee6f",
+    "chat_run_id": "cr_20260429_192727_af0a366d",
+    "metrics": {
+      "latency_ms": 19135.61,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 64,
+          "output_tokens": 615,
+          "total_tokens": 679,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_69e96d5fee6f",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 64,
+          "output_tokens": 615,
+          "total_tokens": 679
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "a974e136-853f-4c36-9b99-9523e6a4f336",
+        "last_run_id": "pd_51b2a15196be4ada8c29f1916ca090a5",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 3,
+        "mentions_unique": 3,
+        "mentions_already_covered": 1,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 145.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "impuesto_patrimonio_personas_naturales",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "328407c813444efda48c557f8a17082f"
+  }
+}
