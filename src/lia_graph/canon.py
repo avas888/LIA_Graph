@@ -720,10 +720,11 @@ _NORM_ID_PATTERNS = (
     r"^sent\.ce\.[0-9]+\.[0-9]{4}(?:\.[0-9]{2}\.[0-9]{2})?$",
     # Auto CE
     r"^auto\.ce\.[0-9]+\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}$",
-    # CST (Código Sustantivo del Trabajo)
-    rf"^cst\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*$",
-    # Código de Comercio
-    rf"^cco\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*$",
+    # CST (Código Sustantivo del Trabajo) — bare `cst` valid as a
+    # whole-code reference, mirroring the ET pattern.
+    rf"^cst(?:\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*)?$",
+    # Código de Comercio — bare `cco` valid for the same reason.
+    rf"^cco(?:\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*)?$",
     # DCIN (Manual Cambiario BanRep) — capítulo + numeral both required
     r"^dcin\.[0-9]+\.cap\.[0-9]+\.num\.[0-9]+$",
 )
