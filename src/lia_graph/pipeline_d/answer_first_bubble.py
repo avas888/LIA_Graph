@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 from ..pipeline_c.contracts import PipelineCRequest
 from .answer_historical_recap import build_historical_recap_lines
 from .answer_inline_anchors import PreparedAnswerLine, prepare_first_bubble_lines
@@ -109,6 +111,20 @@ def compose_first_bubble_answer(
         sections.append(render_prepared_section("Soportes clave", support_lines))
     if recap_lines:
         sections.append(render_bullet_section("Recap histórico", recap_lines))
+
+    substantive_sections = [s for s in sections if s and len(s.strip()) > 80]
+    if (
+        len(substantive_sections) < 2
+        and len(primary_articles) >= 2
+        and not direct_answers
+        and answer_mode == "graph_native"
+    ):
+        sub_questions = re.findall(r"¿[^?]+\?", request.message or "")
+        if sub_questions:
+            bullets = [f"- **{q.strip()}**" for q in sub_questions]
+        else:
+            bullets = [f"- **{(request.message or '').strip()}**"]
+        return "**Respuestas directas**\n" + "\n".join(bullets)
 
     if not sections:
         lead = "Con la evidencia disponible todavía no alcanzo una recomendación operativa suficientemente confiable."
