@@ -64,32 +64,35 @@ doesn't enumerate yet, the parent fallback still serves the right page.
 hammering produces sporadic 5xx that retry handles, but politeness is
 the right default.
 
-### 6. CCo (Código de Comercio) anchor-slicing depth gap (v6 cascade)
-Wave 2 K3 batch (CCo articles) closed at 50% pass rate. Diagnostic
-finding: **all 157 refusals had `single_source_accepted='secretaria_senado'`
-but the LLM returned `INSUFFICIENT_PRIMARY_SOURCES`** — i.e. Senado
-returned content for the article number but the slice was too thin
-for the LLM to determine vigencia.
+### 6. CCo (Código de Comercio) anchor-slicing depth — RESOLVED next_v7 P3
+Wave 2 K3 batch (CCo articles) closed at 50% pass rate in v6 because
+the master `codigo_comercio.html` was being served when the LLM
+needed a per-segment slice with more surrounding context.
 
-Root cause hypothesis: the CCo segment-index in `_CST_PR_SEGMENT_BOUNDS`-
-style coarse range table doesn't exist for CCo (we don't yet ship
-`var/senado_cco_pr_index.json`). Higher-numbered CCo articles fall back
-to the master `codigo_comercio.html` page, where the anchor-slicer
-(`_slice_article_senado`) finds the article anchor but pulls a fragment
-that may be too small (article body cut off by the next `[[ART:N]]`
-marker too early, OR the master page doesn't include the full body).
+**Resolution (next_v7 §3.4 step 3b, 2026-04-29):** Path 1 from the
+v6 candidate list shipped:
 
-Three remediation paths (v7 candidates):
-1. **Build a CCo pr-segment index** (mirror `build_senado_et_index.py`)
-   so per-article URLs resolve to the right `codigo_comercio_pr<seg>.html`
-   segment, where slicing has more context.
-2. **Improve the master-page slicer** to include the full body between
-   anchors instead of truncating at the next anchor only.
-3. **Wire Función Pública gestor normativo** as a 6th scraper — verified
-   to host CCo with cleaner anchors. This is the cheapest path because
-   it reuses the SUIN scraper architecture.
+* `scripts/canonicalizer/build_senado_cco_index.py` sweeps
+  `codigo_comercio_pr001.html` .. `_pr063.html`, extracting
+  `<A name="<art>">` anchors. Result: **1,967 articles indexed
+  across 63 segments**, persisted at `var/senado_cco_pr_index.json`.
+* The Senado scraper's `cco.art.<N>` resolver now consults the
+  index (parent-article fallback for `1500-1` → `1500` → segment;
+  nearest-neighbor fallback for any anchor the sweep missed; final
+  fallback to the master page only when completely unresolvable).
+* CCo pages are served as **ISO-8859-1** with `&Iacute;`-style
+  HTML-entity accents in headings, so the index extractor uses the
+  anchor pattern instead of the heading-text regex (which the ET
+  index relies on); the builder also decodes responses as iso-8859-1.
 
-Tracked in `docs/re-engineer/state_fixplan_v6.md` §10 closure entry.
+Step 3a (Función Pública CCo probe) ruled out — FP search returns the
+same default 108 docs regardless of query; 0 hits for "código de
+comercio" / "410" / "1971". Step 3c (master-page slicer tuning) not
+needed once 3b shipped. K3 rerun gated on next_v7 P6 (refusal
+rerun with --max-source-chars 32000) post-P1 cloud promotion.
+
+Tracked in `docs/re-engineer/state_fixplan_v6.md` §10 closure entry
+and the next_v7 P3 commit.
 
 ## URL patterns used by the scraper
 
