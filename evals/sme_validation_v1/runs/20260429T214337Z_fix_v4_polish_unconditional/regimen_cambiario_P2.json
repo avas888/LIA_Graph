@@ -1,0 +1,1146 @@
+{
+  "qid": "regimen_cambiario_P2",
+  "topic_key_expected": "regimen_cambiario",
+  "profile": "P2_operativa",
+  "message": "Mi cliente, una SAS importadora, le va a pagar $80.000 USD a un proveedor en Alemania por una máquina que importó. ¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién? ¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?",
+  "http_status": 200,
+  "latency_ms": 23981,
+  "captured_utc": "2026-04-29T21:47:42.342375+00:00",
+  "response": {
+    "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+    "run_id": "pd_c94d5f45d3fc457089ed36cab9eacb7f",
+    "answer_markdown": "**Respuestas directas**\n- **¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?**\n  - ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO #### Contenido Mínimo La declaración de cambio debe contener.\n- **¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n\n**Ruta sugerida**\n1. ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO #### Contenido Mínimo La declaración de cambio debe contener.\n2. PYME Importadora — Qué hacer paso a paso Situación (art. 26 ET).",
+    "answer_concise": "**Respuestas directas**\n- **¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?**\n  - ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO #### Contenido Mínimo La declaración de cambio debe contener.\n- **¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n\n**Ruta sugerida**\n1. ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO #### Contenido Mínimo La declaración de cambio debe contener.\n2. PYME Importadora — Qué hacer paso a paso Situación (art. 26 ET).",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "legal_reference": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "search_query": "Régimen Cambiario Colombiano — Marco Normativo Integral DIAN / fuente oficial colombia Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?** ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO #### Contenido Mínimo La declaración de cambio debe",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "authority": "Loggro",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Regimen cambiario (Loggro)",
+        "legal_reference": "Regimen cambiario (Loggro)",
+        "search_query": "Regimen cambiario (Loggro) Loggro colombia Régimen Cambiario — Guía Práctica para el Contador de PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?** ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO #### Contenido Mínimo La declaración de cambio debe",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "logical_doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "authority": "Loggro",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Regimen cambiario (Loggro)",
+        "legal_reference": "Regimen cambiario (Loggro)",
+        "search_query": "Regimen cambiario (Loggro) Loggro colombia L01 — Guía Práctica: Régimen Cambiario para PYMEs Colombianas",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?** ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO #### Contenido Mínimo La declaración de cambio debe",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "authority": "Fuente expertos",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "legal_reference": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "search_query": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos Fuente expertos colombia CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "analysis",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "Fuente expertos",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?** ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO #### Contenido Mínimo La declaración de cambio debe",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "### ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO\n#### Contenido Mínimo\nLa declaración de cambio debe contener:\n\na) Identificación del declarante (NIT o cédula de ciudadanía del residente o representante legal)",
+      "## Paso a paso práctico\n### Escenario 1: PYME Importadora — Qué hacer paso a paso\n\n**Situación:** Usted asesora una fábrica que importa componentes electrónicos de China por USD 50.000 cada 3 meses.\n\n#### Paso 1: Verific",
+      "## Posiciones de expertos\n### 1. Obligatoriedad de canalización: cuándo es realmente obligatoria para PYMEs\n\n**Posición PwC Colombia**: La canalización es obligatoria para cualquier movimiento que constituya una transacc"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 7,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 17,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T21:47:18.362519+00:00",
+        "total_ms": 14176.21,
+        "step_count": 36,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T21:47:18.362532+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T21:47:18.362519+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:18.362669+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.14,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 282,
+              "message_preview": "Mi cliente, una SAS importadora, le va a pagar $80.000 USD a un proveedor en Alemania por una máquina que importó. ¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién? ¿Necesita abrir cuenta de compensación o pu",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:18.388930+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 26.39,
+            "message": null,
+            "details": {
+              "effective_topic": "regimen_cambiario",
+              "confidence": 0.99,
+              "reason": "rule:regimen_cambiario matched declaracion de cambio, declaración de cambio, cuenta de compensacion, cuenta de compensación",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.648973+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 6286.43,
+            "message": null,
+            "details": {
+              "owner_trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+              "requested_trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.649470+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 6286.92,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "regimen_cambiario",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:regimen_cambiario matched declaracion de cambio, declaración de cambio, cuenta de compensacion, cuenta de compensación",
+              "topic_notice": "Tu pregunta es de regimen cambiario, por lo cual utilizaremos nuestra base de datos regimen cambiario.",
+              "message_preview": "Mi cliente, una SAS importadora, le va a pagar $80.000 USD a un proveedor en Alemania por una máquina que importó. ¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién? ¿Necesita abrir cuenta de compensación o pu",
+              "message_chars": 282
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.649800+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 6287.26,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?",
+                "¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.649963+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 6287.42,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 81,
+              "message_preview": "¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.674640+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 6312.1,
+            "message": null,
+            "details": {
+              "effective_topic": "regimen_cambiario",
+              "confidence": 0.98,
+              "reason": "rule:regimen_cambiario matched declaracion de cambio, declaración de cambio",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.674916+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 6312.38,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?",
+              "effective_topic": "regimen_cambiario",
+              "secondary_topics": [],
+              "confidence": 0.98,
+              "mode": "rule",
+              "reason": "rule:regimen_cambiario matched declaracion de cambio, declaración de cambio",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.692286+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 6329.74,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.692600+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6330.06,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "regimen_cambiario ¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién?",
+              "query_text_chars": 99
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:24.692714+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6330.17,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "regimen_cambiario",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "regimen_cambiario"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:25.442734+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7080.17,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::260-11",
+                "suin_1104445::1104449",
+                "suin_1132325::580-1",
+                "suin_30019323::4",
+                "suin_1132325::641",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:25.443183+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7080.64,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:25.443332+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7080.79,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:25.613236+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 7250.67,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:25.986413+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 7623.84,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 1,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:25.986633+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 7624.09,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 85,
+              "message_preview": "¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:26.015361+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 7652.82,
+            "message": null,
+            "details": {
+              "effective_topic": "regimen_cambiario",
+              "confidence": 0.98,
+              "reason": "rule:regimen_cambiario matched cuenta de compensacion, cuenta de compensación",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:26.015660+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 7653.12,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?",
+              "effective_topic": "regimen_cambiario",
+              "secondary_topics": [],
+              "confidence": 0.98,
+              "mode": "rule",
+              "reason": "rule:regimen_cambiario matched cuenta de compensacion, cuenta de compensación",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:26.033528+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 7670.98,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:26.033733+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7671.19,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "regimen_cambiario ¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?",
+              "query_text_chars": 103
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:26.033827+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7671.29,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "regimen_cambiario",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "regimen_cambiario"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:26.867062+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 8504.5,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO",
+                "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::879",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "suin_1104445::1104449",
+                "suin_30019323::4"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:26.867399+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 8504.85,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:26.867547+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 8505.0,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:27.034898+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 8672.33,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:27.408672+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 9046.11,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:27.408858+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 9046.31,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                5,
+                7
+              ],
+              "after": [
+                3,
+                5,
+                7
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "26",
+                  "paso-a-paso-pr-ctico",
+                  "posiciones-de-expertos",
+                  "260-11",
+                  "fuentes-y-referencias",
+                  "808",
+                  "1104449",
+                  "879"
+                ],
+                "candidate_count": 8,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:27.408944+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 9046.4,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "regimen_cambiario",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "regimen_cambiario",
+                "articles_top_topic": "regimen_cambiario",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "26",
+                  "paso-a-paso-pr-ctico",
+                  "posiciones-de-expertos"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:27.409031+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 9046.49,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "regimen_cambiario",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:27.409105+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 9046.56,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:27.418924+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 9056.38,
+            "message": null,
+            "details": {
+              "template_chars": 636
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:32.537482+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 14174.92,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 636,
+              "polish_changed": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:32.538185+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 14175.6,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "regimen_cambiario",
+              "citations_in": 7,
+              "citations_out": 4,
+              "dropped_count": 3,
+              "dropped_by_allowlist": [
+                {
+                  "article": null,
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "regimen_cambiario",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia"
+                },
+                {
+                  "article": null,
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "regimen_cambiario",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo"
+                },
+                {
+                  "article": null,
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "regimen_cambiario",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:47:32.538519+00:00",
+            "trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 14175.96,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 50,
+        "output_tokens": 99,
+        "total_tokens": 149,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "regimen_cambiario",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de regimen cambiario, por lo cual utilizaremos nuestra base de datos regimen cambiario.",
+    "topic_adjustment_reason": "rule:regimen_cambiario matched declaracion de cambio, declaración de cambio, cuenta de compensacion, cuenta de compensación",
+    "coverage_notice": null,
+    "topic": "regimen_cambiario",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_a379347d9183",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 50,
+        "output_tokens": 99,
+        "total_tokens": 149
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+      "last_run_id": "pd_c94d5f45d3fc457089ed36cab9eacb7f",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_a379347d9183",
+    "chat_run_id": "cr_20260429_214719_d1ac6306",
+    "metrics": {
+      "latency_ms": 17790.28,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 50,
+          "output_tokens": 99,
+          "total_tokens": 149,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_a379347d9183",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 50,
+          "output_tokens": 99,
+          "total_tokens": 149
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "8f1e89b7-895e-4897-9c11-c7d90e9f18ab",
+        "last_run_id": "pd_c94d5f45d3fc457089ed36cab9eacb7f",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 4.1
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "regimen_cambiario",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "09676cd679ef4ab8b4678045d223a7b2"
+  }
+}

@@ -1,5 +1,14 @@
-# fix_v4.md — phase 5 hand-off: residual served_weak qids (34 → ≥35/36)
+# fix_v4.md — phase 5: residual served_weak qids (34 → 35/36)
 
+> **PHASE 5 CLOSED — 2026-04-29 ~4:55 PM Bogotá.** Route A (polish-prompt
+> structural-condition expansion) shipped alone at iteration 1; Route B
+> not needed because Route A met the gate. Panel 34/36 → **35/36**
+> (+1 net, 0 acc+ regressions). `regimen_cambiario_P1` flipped from
+> served_weak → **served_strong** (137 → 2686 chars). Run dir:
+> `evals/sme_validation_v1/runs/20260429T214337Z_fix_v4_polish_unconditional/`.
+> 1 residual served_weak: `regimen_sancionatorio_extemporaneidad_P2`
+> (synthesis-layer bug, deferred to fix_v5). Phase-5-close record at §11.
+>
 > **Drafted 2026-04-29 ~4:35 PM Bogotá** by claude-opus-4-7 immediately
 > after fix_v3 phase 4 closed (commit `96e1f66`, panel 29 → 34/36 with
 > the new fairer grader, 0 acc+ regressions, pushed to `origin/main`).
@@ -1098,9 +1107,100 @@ docs/re-engineer/fix/
 
 ---
 
+## 11. Phase-5-close record (2026-04-29 ~4:55 PM Bogotá)
+
+**Iteration 1 — Route A only — closed the phase.**
+
+Implementation: `src/lia_graph/pipeline_d/answer_llm_polish.py:213-220`,
+expansion-clause trigger replaced "Y la pregunta del usuario requiere
+guía operativa multi-paso" with "Y hay al menos 2 ARTÍCULOS ANCLA o 3
+DOCUMENTOS DE SOPORTE en la evidencia abajo". No-invention guardrail
+(`No inventés normas, artículos, ni cifras...`) unchanged.
+
+Smoke (45 tests, `tests/test_retriever_falkor.py +
+tests/test_phase3_graph_planner_retrieval.py`): green.
+
+Panel run:
+`evals/sme_validation_v1/runs/20260429T214337Z_fix_v4_polish_unconditional/`
+(36 questions, 4 workers, 267s wall, gemini-flash + supabase + falkor_live).
+
+| | phase-4 anchor | fix_v4 (this) | Δ |
+|---|---|---|---|
+| served_strong | — | 25 | — |
+| served_acceptable | — | 10 | — |
+| served_weak | 2 | 1 | -1 |
+| **served_acceptable+** | **34/36** | **35/36** | **+1** |
+| acc+ regressions | — | 0 | — |
+| residual served_weak qids | `regimen_cambiario_P1`, `regimen_sancionatorio_extemporaneidad_P2` | `regimen_sancionatorio_extemporaneidad_P2` | -1 (P1 flipped) |
+
+**Flipped qid: `regimen_cambiario_P1`**: 137 chars → 2686 chars,
+`served_weak` → **`served_strong`**, `polish_changed` False → **True**.
+Polish expanded all four sections (Respuestas directas / Ruta sugerida /
+Riesgos y condiciones / Soportes clave) using primary chunks
+(`Regimen_Cambiario_Normativa_Base`, `REGIMEN_CAMBIARIO_PYME_LOGGRO_L01`,
+`REGIMEN_CAMBIARIO_PYME_EXPERTOS_E01`, `Ley-1429-2010`). Citations
+inside the expanded sections: `(art. 26 ET)` (multiple — inherited from
+phase-4's 137-char draft, present in source chunk content) and
+`(Posición PwC Colombia en CAM-E01)` (correct chunk_id reference).
+
+**Spot-check verdict on P1**: no fix_v4-introduced invention. The single
+slug-anchor `(art. paso-a-paso-pr-ctico)` in one bullet is a pre-existing
+chunk-content artifact (the practica chunk has `## Paso a Paso Práctico
+###` markdown headings; the synthesis builder + inline-anchor renderer
+produce the slug-anchor; phase-4's 137-char answer also surfaced this
+heading text raw). Not introduced by Route A. Cleanup is at the inline-
+anchor renderer layer (`answer_inline_anchors.py`) — fix_v5 territory.
+
+**No-regression verification**: 4 representative phase-4-passing qids
+spot-checked, all preserved class:
+* `beneficio_auditoria_P3`: served_acceptable → served_acceptable (+120 chars)
+* `firmeza_declaraciones_P1`: served_acceptable → served_acceptable (no Δ)
+* `tarifas_renta_y_ttd_P1`: served_strong → served_strong (+452 chars)
+* `conciliacion_fiscal_P3`: served_acceptable → served_acceptable (-769 chars; manual read confirms quality intact, 4 sections, proper ET cites)
+
+**Residual: `regimen_sancionatorio_extemporaneidad_P2`** (still
+served_weak). Per §1's diagnosis, P2's bug is at the synthesis builder,
+NOT polish: synthesis emitted only `**Riesgos y condiciones**` because
+`recommendations` and `procedure` came back empty from
+`answer_support.py` extraction, while `precautions` was populated.
+Polish faithfully preserved the 1-section template; structural
+expansion clause didn't fire because the section's single bullet was
+substantial (239 chars) and did not match the "muy corto, tipo encabezado
+de una guía práctica" qualifier in the LLM's judgment.
+
+**Route B (synthesis empty-section fallback) NOT triggered** because
+gate met at iteration 1 (35/36 ≥ 35). Per the §3 Step 5 iteration
+ladder: "If 35 + 0 regressions + spot-check clean → Step 7 commit."
+Route B is preserved as fix_v5 starting point for P2.
+
+**Six-gate sign-off**:
+1. ✅ Idea: polish-prompt expansion trigger structural condition.
+2. ✅ Plan: Route A only; reversible single-file edit.
+3. ✅ Criterion: ≥35/36 acc+, 0 acc+ regressions, 0 invented norms — all met.
+4. ✅ Test plan: 45 backend smoke + 36-question SME panel + spot-check.
+5. ✅ Greenlight: technical pass + no fix-v4-introduced invention + 4-qid no-regression sample clean.
+6. ✅ Keep — gap not fully closed (P2 deferred to fix_v5) but Route A
+   stands on its own as a principled improvement; no rollback.
+
+**What's next**:
+1. fix_v5 — synthesis empty-section fallback for P2 (the Route B diff
+   in §2 is the starting point). Expected to close 35 → 36/36.
+2. Inline-anchor cleanup (`answer_inline_anchors.py`) — strip slug-style
+   anchors that aren't real ET article numbers. Independent of fix_v5;
+   can be batched.
+3. Optionally: `/schedule` a regression-check agent in 1 week to re-run
+   the §1.G panel and confirm 35/36 holds.
+
+---
+
 *Drafted 2026-04-29 ~4:35 PM Bogotá by claude-opus-4-7 immediately
 after fix_v3 commit `96e1f66` landed and was pushed to `origin/main`.
+Phase-5-close §11 added 2026-04-29 ~4:55 PM Bogotá by claude-opus-4-7
+after Route A panel returned 35/36 acc+ at iteration 1.
 The diagnosis cited in §1 is from this session's trace inspection. The
 trace evidence underlying §1's verdicts is in
 `evals/sme_validation_v1/runs/20260429T211551Z_fix_v3_polish_and_splitter/<qid>.json
+.response.diagnostics.pipeline_trace.steps[*]`. The phase-5 outcome
+trace evidence is in
+`evals/sme_validation_v1/runs/20260429T214337Z_fix_v4_polish_unconditional/<qid>.json
 .response.diagnostics.pipeline_trace.steps[*]`.*

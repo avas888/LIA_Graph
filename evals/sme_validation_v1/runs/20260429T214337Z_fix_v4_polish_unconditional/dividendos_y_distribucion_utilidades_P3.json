@@ -1,0 +1,1426 @@
+{
+  "qid": "dividendos_y_distribucion_utilidades_P3",
+  "topic_key_expected": "dividendos_y_distribucion_utilidades",
+  "profile": "P3_borde",
+  "message": "A mi cliente persona jurídica le tocó liquidar Impuesto a Adicionar por TTD el año pasado. Para efectos del cálculo del artículo 49 y determinar cuántos dividendos puede repartir como no gravados, ¿el IA cuenta como impuesto pagado o no? Escuché que hubo una suspensión del Consejo de Estado sobre un concepto DIAN que decía algo de eso, y no tengo claro cómo está la cosa hoy.",
+  "http_status": 200,
+  "latency_ms": 35577,
+  "captured_utc": "2026-04-29T21:46:10.063497+00:00",
+  "response": {
+    "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+    "run_id": "pd_c151d6a2599a4e5abcde494ec924d603",
+    "answer_markdown": "**Respuestas directas**\n- **A mi cliente persona jurídica le tocó liquidar Impuesto a Adicionar por TTD el año pasado. Para efectos del cálculo del artículo 49 y determinar cuántos dividendos puede repartir como no gravados, ¿el IA cuenta como impuesto pagado o no?**\n  - Para determinar los dividendos y participaciones no gravados, se debe aplicar lo dispuesto en el artículo 49 del Estatuto Tributario. Este artículo fue modificado por el artículo 92 de la Ley 1607 de 2012, y establece el procedimiento para las utilidades obtenidas a partir del 1 de enero de 2013.\n  - El Impuesto a Adicionar (IA) por TTD no se considera un impuesto pagado para efectos del cálculo de la utilidad no gravada distribuible, según la interpretación actual. La base para determinar la parte no gravada de los dividendos es la utilidad comercial menos el impuesto de renta y complementarios.\n  - Las acciones pueden estar representadas en títulos valores o anotaciones en cuenta, conforme a la Ley 27 de 1990, pero esto no incide directamente en el cálculo del artículo 49 ET.\n- **Escuché que hubo una suspensión del Consejo de Estado sobre un concepto DIAN que decía algo de eso, y no tengo claro cómo está la cosa hoy?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n\n**Ruta sugerida**\n1. Para el cálculo de los dividendos no gravados, se debe tomar la utilidad comercial y restarle el impuesto de renta y complementarios, conforme al artículo 49 ET.\n2. Es crucial revisar la Sentencia del Consejo de Estado que suspendió el concepto DIAN al que haces referencia, para entender el alcance exacto de la suspensión y su impacto en la consideración del Impuesto a Adicionar (IA) por TTD.\n3. Asegúrate de que las utilidades a distribuir correspondan a períodos fiscales posteriores al 1 de enero de 2013, ya que el artículo 49 ET, modificado por la Ley 1607 de 2012, aplica para estas utilidades.\n\n**Recap histórico**\n- Art. 49 ET: la última modificación relevante detectada en esta ruta es Ley 1607 de 2012.\n- Art. 100 ET: la última modificación relevante detectada en esta ruta es Ley 1607 de 2012.\n- Art. 101 ET: la última modificación relevante detectada en esta ruta es Ley 1607 de 2012.\n\n**Riesgos y condiciones**\n- La interpretación sobre si el Impuesto a Adicionar (IA) por TTD cuenta como impuesto pagado para el artículo 49 ET ha sido objeto de debate. La existencia de una suspensión del Consejo de Estado sobre un concepto DIAN indica que la posición oficial puede haber cambiado o estar en revisión.\n- Si se distribuyen dividendos como no gravados sin una base legal sólida que incluya el IA como impuesto pagado, la DIAN podría recalificar esos dividendos como gravados, generando un mayor impuesto para los accionistas y posibles sanciones para la sociedad.\n- Es fundamental consultar el texto exacto de la suspensión del Consejo de Estado y cualquier pronunciamiento posterior de la DIAN o jurisprudencia relevante para tener la certeza jurídica sobre la inclusión o no del IA en el cálculo del artículo 49 ET.\n\n**Soportes clave**\n- Art. 49 ET: \"DETERMINACIÓN DE LOS DIVIDENDOS Y PARTICIPACIONES NO GRAVADOS.\" (modificado por el artículo 92 de la Ley 1607 de 2012).\n- Ley 1607 de 2012: Modificó el artículo 49 ET, estableciendo el marco para las utilidades obtenidas a partir del 1 de enero de 2013.\n- Sentencia del Consejo de Estado: Es crucial obtener y analizar la sentencia específica que suspendió el concepto DIAN para entender su alcance y efectos.\n- Concepto DIAN suspendido: Revisar el concepto original de la DIAN para comprender la postura inicial de la administración tributaria.",
+    "answer_concise": "**Respuestas directas**\n- **A mi cliente persona jurídica le tocó liquidar Impuesto a Adicionar por TTD el año pasado. Para efectos del cálculo del artículo 49 y determinar cuántos dividendos puede repartir como no gravados, ¿el IA cuenta como impuesto pagado o no?**\n  - Para determinar los dividendos y participaciones no gravados, se debe aplicar lo dispuesto en el artículo 49 del Estatuto Tributario. Este artículo fue modificado por el artículo 92 de la Ley 1607 de 2012, y establece el procedimiento para las utilidades obtenidas a partir del 1 de enero de 2013.\n  - El Impuesto a Adicionar (IA) por TTD no se considera un impuesto pagado para efectos del cálculo de la utilidad no gravada distribuible, según la interpretación actual. La base para determinar la parte no gravada de los dividendos es la utilidad comercial menos el impuesto de renta y complementarios.\n  - Las acciones pueden estar representadas en títulos valores o anotaciones en cuenta, conforme a la Ley 27 de 1990, pero esto no incide directamente en el cálculo del artículo 49 ET.\n- **Escuché que hubo una suspensión del Consejo de Estado sobre un concepto DIAN que decía algo de eso, y no tengo claro cómo está la cosa hoy?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n\n**Ruta sugerida**\n1. Para el cálculo de los dividendos no gravados, se debe tomar la utilidad comercial y restarle el impuesto de renta y complementarios, conforme al artículo 49 ET.\n2. Es crucial revisar la Sentencia del Consejo de Estado que suspendió el concepto DIAN al que haces referencia, para entender el alcance exacto de la suspensión y su impacto en la consideración del Impuesto a Adicionar (IA) por TTD.\n3. Asegúrate de que las utilidades a distribuir correspondan a períodos fiscales posteriores al 1 de enero de 2013, ya que el artículo 49 ET, modificado por la Ley 1607 de 2012, aplica para estas utilidades.\n\n**Recap histórico**\n- Art. 49 ET: la última modificación relevante detectada en esta ruta es Ley 1607 de 2012.\n- Art. 100 ET: la última modificación relevante detectada en esta ruta es Ley 1607 de 2012.\n- Art. 101 ET: la última modificación relevante detectada en esta ruta es Ley 1607 de 2012.\n\n**Riesgos y condiciones**\n- La interpretación sobre si el Impuesto a Adicionar (IA) por TTD cuenta como impuesto pagado para el artículo 49 ET ha sido objeto de debate. La existencia de una suspensión del Consejo de Estado sobre un concepto DIAN indica que la posición oficial puede haber cambiado o estar en revisión.\n- Si se distribuyen dividendos como no gravados sin una base legal sólida que incluya el IA como impuesto pagado, la DIAN podría recalificar esos dividendos como gravados, generando un mayor impuesto para los accionistas y posibles sanciones para la sociedad.\n- Es fundamental consultar el texto exacto de la suspensión del Consejo de Estado y cualquier pronunciamiento posterior de la DIAN o jurisprudencia relevante para tener la certeza jurídica sobre la inclusión o no del IA en el cálculo del artículo 49 ET.\n\n**Soportes clave**\n- Art. 49 ET: \"DETERMINACIÓN DE LOS DIVIDENDOS Y PARTICIPACIONES NO GRAVADOS.\" (modificado por el artículo 92 de la Ley 1607 de 2012).\n- Ley 1607 de 2012: Modificó el artículo 49 ET, estableciendo el marco para las utilidades obtenidas a partir del 1 de enero de 2013.\n- Sentencia del Consejo de Estado: Es crucial obtener y analizar la sentencia específica que suspendió el concepto DIAN para entender su alcance y efectos.\n- Concepto DIAN suspendido: Revisar el concepto original de la DIAN para comprender la postura inicial de la administración tributaria.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Art. 100 ET: la última modificación relevante detectada en esta ruta es Ley 1607 de 2012.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30031794",
+        "logical_doc_id": "suin_30031794",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30031794",
+        "open_url": "/source-view?doc_id=suin_30031794",
+        "download_url": "/source-download?doc_id=suin_30031794&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30031794&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SENTENCIA 1387 de 1970",
+        "legal_reference": "SENTENCIA 1387 de 1970",
+        "search_query": "SENTENCIA 1387 de 1970 DIAN / fuente oficial colombia SENTENCIA 1387 de 1970",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Es crucial revisar la Sentencia del Consejo de Estado que suspendió el concepto DIAN al que haces referencia, para entender el alcance exacto de la suspensión y su impacto en la consideración del Impuesto a Adicionar",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30055086",
+        "logical_doc_id": "suin_30055086",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30055086",
+        "open_url": "/source-view?doc_id=suin_30055086",
+        "download_url": "/source-download?doc_id=suin_30055086&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30055086&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 2466 DE 2025 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 2466 DE 2025 Colombia | SUIN Juriscol",
+        "search_query": "LEY 2466 DE 2025 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 2466 DE 2025 Colombia | SUIN Juriscol",
+        "reference_key": "ley:2466:2025",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La existencia de una suspensión del Consejo de Estado sobre un concepto DIAN indica que la posición oficial puede haber cambiado o estar en revisión.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La existencia de una suspensión del Consejo de Estado sobre un concepto DIAN indica que la posición oficial puede haber cambiado o estar en revisión.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La existencia de una suspensión del Consejo de Estado sobre un concepto DIAN indica que la posición oficial puede haber cambiado o estar en revisión.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La existencia de una suspensión del Consejo de Estado sobre un concepto DIAN indica que la posición oficial puede haber cambiado o estar en revisión.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "gravamen_movimiento_financiero_4x1000",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "legal_reference": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "search_query": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF) DIAN / fuente oficial colombia Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La existencia de una suspensión del Consejo de Estado sobre un concepto DIAN indica que la posición oficial puede haber cambiado o estar en revisión.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_02_Libro1_T1_Cap1_Ingresos.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_02_Libro1_T1_Cap1_Ingresos.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "ingresos_fiscales_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_02_Libro1_T1_Cap1_Ingresos.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_02_Libro1_T1_Cap1_Ingresos.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_02_Libro1_T1_Cap1_Ingresos.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_02_Libro1_T1_Cap1_Ingresos.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulo I Ingresos (Arts. 26 57 2)",
+        "legal_reference": "Capítulo I Ingresos (Arts. 26 57 2)",
+        "search_query": "Capítulo I Ingresos (Arts. 26 57 2) DIAN / fuente oficial colombia Capítulo I Ingresos (Arts. 26 57 2)",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 26",
+          "locator_kind": "articles",
+          "locator_start": "26",
+          "locator_end": null
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Artículo modificado por el artículo 92 de la Ley 1607 de 2012. El nuevo texto es el siguiente:*\n\nCuando se trate de utilidades obtenidas a partir del 1o de enero de 2013, para efectos de determinar el beneficio de que trata el artículo ant",
+      "*Fuente original compilada: D. 2053/74 Art. 34*\n\nEn los contratos de renta vitalicia, la renta bruta de los contratantes se determina así:\n\n1. El precio o capital que se pague por la renta vitalicia constituye renta bruta para quien lo reci",
+      "*Fuente original compilada: D. 2053/74 Art. 63*\n\nSon deducibles las sumas periódicas pagadas en el año o período gravable a título de renta vitalicia, hasta el total del reembolso del precio o capital. De allí en adelante sólo es deducible "
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 8,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 23,
+        "document_row_count": 17,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T21:45:34.486995+00:00",
+        "total_ms": 32622.92,
+        "step_count": 46,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T21:45:34.487010+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T21:45:34.486995+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:34.487153+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.15,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 377,
+              "message_preview": "A mi cliente persona jurídica le tocó liquidar Impuesto a Adicionar por TTD el año pasado. Para efectos del cálculo del artículo 49 y determinar cuántos dividendos puede repartir como no gravados, ¿el IA cuenta como impuesto pagado o no? Es",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:34.509189+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 22.18,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:34.509457+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 22.45,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:34.524379+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 37.37,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 377,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:36.031706+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1544.7,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "dividendos_y_distribucion_utilidades",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en el impacto del Impuesto a Adicionar (IA) por TTD en el cálculo de dividendos no gravados, lo cual es una mecánica específica de la distribución de utilidades y dividendos. Aunque menciona la TTD, el objetivo final e",
+              "elapsed_ms_call": 1507.53,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:36.032726+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1545.72,
+            "message": null,
+            "details": {
+              "effective_topic": "dividendos_y_distribucion_utilidades",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "tarifas_renta_y_ttd",
+                "declaracion_renta"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.148541+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 6661.52,
+            "message": null,
+            "details": {
+              "owner_trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+              "requested_trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.148794+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 6661.78,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "dividendos_y_distribucion_utilidades",
+              "secondary_topics": [
+                "tarifas_renta_y_ttd",
+                "declaracion_renta"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en el impacto del Impuesto a Adicionar (IA) por TTD en el cálculo de dividendos no gravados, lo cual es una mecánica específica de la distribución de utilidades y dividendos. Aunque menciona la TTD, el objetivo final es determinar la cantidad de dividendos no gravados, que es el core del tema de dividendos y distribución de utilidades. La referencia a la suspensión del Consejo de Estado sobre un concepto DIAN refuerza la complejidad y especificidad del tema de dividendos.",
+              "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+              "message_preview": "A mi cliente persona jurídica le tocó liquidar Impuesto a Adicionar por TTD el año pasado. Para efectos del cálculo del artículo 49 y determinar cuántos dividendos puede repartir como no gravados, ¿el IA cuenta como impuesto pagado o no? Es",
+              "message_chars": 377
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.148922+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 6661.91,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "A mi cliente persona jurídica le tocó liquidar Impuesto a Adicionar por TTD el año pasado. Para efectos del cálculo del artículo 49 y determinar cuántos dividendos puede repartir como no gravados, ¿el IA cuenta como impuesto pagado o no?",
+                "Escuché que hubo una suspensión del Consejo de Estado sobre un concepto DIAN que decía algo de eso, y no tengo claro cómo está la cosa hoy?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.148985+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 6661.97,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 237,
+              "message_preview": "A mi cliente persona jurídica le tocó liquidar Impuesto a Adicionar por TTD el año pasado. Para efectos del cálculo del artículo 49 y determinar cuántos dividendos puede repartir como no gravados, ¿el IA cuenta como impuesto pagado o no?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.162977+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 6675.96,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.163171+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 6676.16,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.163223+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 6676.21,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.176855+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 6689.83,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "declaracion_renta",
+              "top_score": 3,
+              "confidence": 0.36,
+              "ranked_top_3": [
+                [
+                  "declaracion_renta",
+                  3
+                ],
+                [
+                  "dividendos_y_distribucion_utilidades",
+                  3
+                ],
+                [
+                  "tarifas_renta_y_ttd",
+                  3
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.177068+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 6690.05,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "A mi cliente persona jurídica le tocó liquidar Impuesto a Adicionar por TTD el año pasado. Para efectos del cálculo del artículo 49 y determinar cuántos dividendos puede repartir como no gravados, ¿el IA cuenta como impuesto pagado o no?",
+              "effective_topic": "declaracion_renta",
+              "secondary_topics": [],
+              "confidence": 0.36,
+              "mode": "fallback",
+              "reason": "fallback:auto_detected_from_keywords",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.192505+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 6705.48,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.193095+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6706.08,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 49 declaracion_renta dividendos_y_distribucion_utilidades tarifas_renta_y_ttd",
+              "query_text_chars": 86
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:41.193201+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6706.18,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "declaracion_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "declaracion_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:42.023711+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7536.66,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::245",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_01_Libro1_T1_Sujetos_Pasivos.md::18-1",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-26-fiscalizacion-y-defensa-ante-la-dian.md::",
+                "suin_1132325::240",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::235-2",
+                "suin_1132325::808",
+                "suin_1104445::1104449"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:42.211511+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7724.47,
+            "message": null,
+            "details": {
+              "anchor_row_count": 8,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:42.212061+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7725.04,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 32,
+              "delta": 8
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:45:42.426913+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 7939.87,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 32,
+              "rows_out": 30,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 32,
+              "chunks_kept": 30,
+              "chunks_dropped": 2,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 32,
+                "chunks_kept": 30,
+                "chunks_dropped": 2,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.439450+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 25952.34,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 32,
+                "chunks_kept": 30,
+                "chunks_dropped": 2,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.440503+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 25953.43,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 139,
+              "message_preview": "Escuché que hubo una suspensión del Consejo de Estado sobre un concepto DIAN que decía algo de eso, y no tengo claro cómo está la cosa hoy?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.468008+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 25980.95,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.468372+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 25981.31,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.468545+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 25981.48,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.486901+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 25999.84,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.487186+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 26000.13,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "Escuché que hubo una suspensión del Consejo de Estado sobre un concepto DIAN que decía algo de eso, y no tengo claro cómo está la cosa hoy?",
+              "effective_topic": null,
+              "secondary_topics": [],
+              "confidence": 0.0,
+              "mode": "fallback",
+              "reason": "fallback:no_topic_detected",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.501653+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 26014.59,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.501853+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 26014.8,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Escuché que hubo una suspensión del Consejo de Estado sobre un concepto DIAN que decía algo de eso, y no tengo claro cómo está la cosa hoy?",
+              "query_text_chars": 139
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:00.501978+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 26014.92,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "filter_topic_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.286766+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 26799.68,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_02_Libro1_T1_Cap1_Ingresos.md::26",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::616-1",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::615",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::631"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.287146+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 26800.09,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.287385+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 26800.32,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.483230+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 26996.14,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.630774+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 27143.68,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.631628+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 27144.54,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                9,
+                8
+              ],
+              "after": [
+                3,
+                9,
+                8
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "49",
+                  "100",
+                  "101",
+                  "10",
+                  "242",
+                  "242-1",
+                  "246-1",
+                  "254",
+                  "fuentes-y-referencias",
+                  "879"
+                ],
+                "candidate_count": 12,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.631877+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 27144.81,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "dividendos_y_distribucion_utilidades",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "dividendos_y_distribucion_utilidades",
+                "articles_top_topic": "dividendos_y_distribucion_utilidades",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "49"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.672355+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 27185.29,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "declaracion_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.672648+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 27185.59,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:01.677931+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 27190.87,
+            "message": null,
+            "details": {
+              "template_chars": 1238
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:07.107319+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 32620.22,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3646,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:07.108364+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 32621.27,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "dividendos_y_distribucion_utilidades",
+              "citations_in": 8,
+              "citations_out": 8,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:46:07.109433+00:00",
+            "trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 32622.35,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 8
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 67,
+        "output_tokens": 611,
+        "total_tokens": 678,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "dividendos_y_distribucion_utilidades",
+    "secondary_topics": [
+      "tarifas_renta_y_ttd",
+      "declaracion_renta"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+    "topic_adjustment_reason": "La consulta se centra en el impacto del Impuesto a Adicionar (IA) por TTD en el cálculo de dividendos no gravados, lo cual es una mecánica específica de la distribución de utilidades y dividendos. Aunque menciona la TTD, el objetivo final es determinar la cantidad de dividendos no gravados, que es el core del tema de dividendos y distribución de utilidades. La referencia a la suspensión del Consejo de Estado sobre un concepto DIAN refuerza la complejidad y especificidad del tema de dividendos.",
+    "coverage_notice": null,
+    "topic": "dividendos_y_distribucion_utilidades",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_dde91786ef70",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 67,
+        "output_tokens": 611,
+        "total_tokens": 678
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+      "last_run_id": "pd_c151d6a2599a4e5abcde494ec924d603",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_dde91786ef70",
+    "chat_run_id": "cr_20260429_214537_0f85d31b",
+    "metrics": {
+      "latency_ms": 34281.0,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 67,
+          "output_tokens": 611,
+          "total_tokens": 678,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_dde91786ef70",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 67,
+          "output_tokens": 611,
+          "total_tokens": 678
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "2f7c6a4e-08da-443f-ae02-882b311e9bc8",
+        "last_run_id": "pd_c151d6a2599a4e5abcde494ec924d603",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 6,
+        "mentions_unique": 6,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 6,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "ley:1607:2012",
+          "ley:27:1990",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 12.3
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "dividendos_y_distribucion_utilidades",
+        "secondary_topics": [
+          "tarifas_renta_y_ttd",
+          "declaracion_renta"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "d056c8d3723948f590ff397f5dd156c0"
+  }
+}

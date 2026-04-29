@@ -1,0 +1,1513 @@
+{
+  "qid": "beneficio_auditoria_P2",
+  "topic_key_expected": "beneficio_auditoria",
+  "profile": "P2_operativa",
+  "message": "Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones. El año pasado pagaron $70 millones. Quieren acogerse a beneficio de auditoría. ¿Califican? ¿Y si más adelante toca corregir la declaración para meter unos ingresos que se omitieron, pierden el beneficio?",
+  "http_status": 200,
+  "latency_ms": 37956,
+  "captured_utc": "2026-04-29T21:44:15.903901+00:00",
+  "response": {
+    "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+    "run_id": "pd_b99a50e1ef704eb0b76090115af5fdc9",
+    "answer_markdown": "**Respuestas directas**\n- **Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones. El año pasado pagaron $70 millones. Quieren acogerse a beneficio de auditoría. ¿Califican?**\n  - Para determinar la calificación al beneficio de auditoría, es necesario revisar los requisitos específicos del Estatuto Tributario, que generalmente exigen un incremento porcentual del impuesto neto de renta respecto al año anterior. La información proporcionada ($95 millones en 2025 vs. $70 millones en 2024) indica un aumento, pero el porcentaje exacto y los topes de ingresos deben ser validados contra la normativa vigente para el año gravable 2025.\n  - La Ley 100 de 1993 y el Decreto 624 de 1989 (Estatuto Tributario) son las fuentes normativas principales para estos beneficios. Es crucial verificar los artículos pertinentes que regulan el beneficio de auditoría, ya que no todos los contribuyentes o tipos de ingresos (como los mencionados en los arts. 100, 101, 102 y 102-1 ET) califican automáticamente.\n  - La SAS debe cumplir con los requisitos formales y sustanciales establecidos en el Estatuto Tributario para acceder al beneficio. Esto incluye la presentación oportuna de la declaración y el pago del impuesto, además del incremento porcentual del impuesto neto de renta.\n- **¿Y si más adelante toca corregir la declaración para meter unos ingresos que se omitieron, pierden el beneficio?**\n  - La corrección de la declaración de renta para incluir ingresos omitidos, si resulta en una disminución del impuesto neto de renta o en el incumplimiento de los requisitos de incremento porcentual, podría llevar a la pérdida del beneficio de auditoría.\n  - Es fundamental revisar las condiciones específicas bajo las cuales se otorga el beneficio de auditoría, ya que la normativa suele establecer que cualquier modificación posterior que altere las bases para su concesión puede anularlo.\n  - La omisión de ingresos y su posterior corrección puede ser interpretada como un incumplimiento de las condiciones iniciales para acceder al beneficio, lo que implicaría la pérdida de la firmeza de la declaración en el plazo reducido.\n\n**Ruta sugerida**\n- Validar los requisitos específicos del beneficio de auditoría para el año gravable 2025, prestando especial atención a los porcentajes de incremento del impuesto neto de renta y los topes de ingresos.\n- Confirmar que la SAS no se encuentre en ninguna de las exclusiones para acceder al beneficio, como las relacionadas con declaraciones de periodos anteriores que hayan sido objeto de procesos de fiscalización.\n- Evaluar el impacto de una posible corrección posterior en la declaración de renta, considerando las implicaciones en la firmeza y la potencial pérdida del beneficio de auditoría.\n\n**Riesgos y condiciones**\n- **Riesgos:**\n  - Pérdida del beneficio de auditoría si no se cumplen estrictamente los requisitos de incremento del impuesto neto de renta o si se realizan correcciones que alteren las condiciones iniciales.\n  - Posible sanción por inexactitud si la corrección de ingresos omitidos es detectada por la DIAN antes de la corrección voluntaria.\n- **Condiciones:**\n  - El beneficio de auditoría aplica si el impuesto neto de renta se incrementa en los porcentajes establecidos por la ley, comparado con el año gravable anterior.\n  - La declaración debe presentarse oportunamente y el pago debe realizarse dentro de los plazos legales.\n  - La firmeza de la declaración de renta se reduce a 6 o 12 meses, según el porcentaje de incremento del impuesto neto de renta.\n\n**Soportes clave**\n- Estatuto Tributario (Decreto 624 de 1989), específicamente los artículos que regulan el beneficio de auditoría.\n- Ley 100 de 1993, que puede contener disposiciones relacionadas con beneficios tributarios.\n- Jurisprudencia y doctrina de la DIAN sobre la aplicación del beneficio de auditoría y las consecuencias de las correcciones a las declaraciones.",
+    "answer_concise": "**Respuestas directas**\n- **Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones. El año pasado pagaron $70 millones. Quieren acogerse a beneficio de auditoría. ¿Califican?**\n  - Para determinar la calificación al beneficio de auditoría, es necesario revisar los requisitos específicos del Estatuto Tributario, que generalmente exigen un incremento porcentual del impuesto neto de renta respecto al año anterior. La información proporcionada ($95 millones en 2025 vs. $70 millones en 2024) indica un aumento, pero el porcentaje exacto y los topes de ingresos deben ser validados contra la normativa vigente para el año gravable 2025.\n  - La Ley 100 de 1993 y el Decreto 624 de 1989 (Estatuto Tributario) son las fuentes normativas principales para estos beneficios. Es crucial verificar los artículos pertinentes que regulan el beneficio de auditoría, ya que no todos los contribuyentes o tipos de ingresos (como los mencionados en los arts. 100, 101, 102 y 102-1 ET) califican automáticamente.\n  - La SAS debe cumplir con los requisitos formales y sustanciales establecidos en el Estatuto Tributario para acceder al beneficio. Esto incluye la presentación oportuna de la declaración y el pago del impuesto, además del incremento porcentual del impuesto neto de renta.\n- **¿Y si más adelante toca corregir la declaración para meter unos ingresos que se omitieron, pierden el beneficio?**\n  - La corrección de la declaración de renta para incluir ingresos omitidos, si resulta en una disminución del impuesto neto de renta o en el incumplimiento de los requisitos de incremento porcentual, podría llevar a la pérdida del beneficio de auditoría.\n  - Es fundamental revisar las condiciones específicas bajo las cuales se otorga el beneficio de auditoría, ya que la normativa suele establecer que cualquier modificación posterior que altere las bases para su concesión puede anularlo.\n  - La omisión de ingresos y su posterior corrección puede ser interpretada como un incumplimiento de las condiciones iniciales para acceder al beneficio, lo que implicaría la pérdida de la firmeza de la declaración en el plazo reducido.\n\n**Ruta sugerida**\n- Validar los requisitos específicos del beneficio de auditoría para el año gravable 2025, prestando especial atención a los porcentajes de incremento del impuesto neto de renta y los topes de ingresos.\n- Confirmar que la SAS no se encuentre en ninguna de las exclusiones para acceder al beneficio, como las relacionadas con declaraciones de periodos anteriores que hayan sido objeto de procesos de fiscalización.\n- Evaluar el impacto de una posible corrección posterior en la declaración de renta, considerando las implicaciones en la firmeza y la potencial pérdida del beneficio de auditoría.\n\n**Riesgos y condiciones**\n- **Riesgos:**\n  - Pérdida del beneficio de auditoría si no se cumplen estrictamente los requisitos de incremento del impuesto neto de renta o si se realizan correcciones que alteren las condiciones iniciales.\n  - Posible sanción por inexactitud si la corrección de ingresos omitidos es detectada por la DIAN antes de la corrección voluntaria.\n- **Condiciones:**\n  - El beneficio de auditoría aplica si el impuesto neto de renta se incrementa en los porcentajes establecidos por la ley, comparado con el año gravable anterior.\n  - La declaración debe presentarse oportunamente y el pago debe realizarse dentro de los plazos legales.\n  - La firmeza de la declaración de renta se reduce a 6 o 12 meses, según el porcentaje de incremento del impuesto neto de renta.\n\n**Soportes clave**\n- Estatuto Tributario (Decreto 624 de 1989), específicamente los artículos que regulan el beneficio de auditoría.\n- Ley 100 de 1993, que puede contener disposiciones relacionadas con beneficios tributarios.\n- Jurisprudencia y doctrina de la DIAN sobre la aplicación del beneficio de auditoría y las consecuencias de las correcciones a las declaraciones.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Posible sanción por inexactitud si la corrección de ingresos omitidos es detectada por la DIAN antes de la corrección voluntaria.",
+        "usage_intents": [
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La Ley 100 de 1993 y el Decreto 624 de 1989 (Estatuto Tributario) son las fuentes normativas principales para estos beneficios.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La Ley 100 de 1993 y el Decreto 624 de 1989 (Estatuto Tributario) son las fuentes normativas principales para estos beneficios.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La Ley 100 de 1993 y el Decreto 624 de 1989 (Estatuto Tributario) son las fuentes normativas principales para estos beneficios.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30030361",
+        "logical_doc_id": "suin_30030361",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30030361",
+        "open_url": "/source-view?doc_id=suin_30030361",
+        "download_url": "/source-download?doc_id=suin_30030361&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30030361&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 30030361",
+        "legal_reference": "SUIN stub 30030361",
+        "search_query": "SUIN stub 30030361 DIAN / fuente oficial colombia SUIN stub 30030361",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Posible sanción por inexactitud si la corrección de ingresos omitidos es detectada por la DIAN antes de la corrección voluntaria.",
+        "usage_intents": [
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La Ley 100 de 1993 y el Decreto 624 de 1989 (Estatuto Tributario) son las fuentes normativas principales para estos beneficios.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Posible sanción por inexactitud si la corrección de ingresos omitidos es detectada por la DIAN antes de la corrección voluntaria.",
+        "usage_intents": [
+          "riesgos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.55,
+      "mode": "topic_misalignment_hedged"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Fuente original compilada: D. 2053/74 Art. 34*\n\nEn los contratos de renta vitalicia, la renta bruta de los contratantes se determina así:\n\n1. El precio o capital que se pague por la renta vitalicia constituye renta bruta para quien lo reci",
+      "*Fuente original compilada: D. 2053/74 Art. 63*\n\nSon deducibles las sumas periódicas pagadas en el año o período gravable a título de renta vitalicia, hasta el total del reembolso del precio o capital. De allí en adelante sólo es deducible ",
+      "*Artículo modificado por el artículo 81 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nPara la determinación del impuesto sobre la renta en los contratos de fiducia mercantil se observarán las siguientes reglas:\n\n1. <Numeral modif"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 8,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 13,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T21:43:37.960786+00:00",
+        "total_ms": 33701.88,
+        "step_count": 46,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T21:43:37.960826+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.03,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T21:43:37.960786+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:37.961189+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.4,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 319,
+              "message_preview": "Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones. El año pasado pagaron $70 millones. Quieren acogerse a beneficio de auditoría. ¿Califican? ¿Y si más adelante toca corregir ",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:37.992663+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 31.87,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:38.024025+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 63.23,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:38.066336+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 105.54,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 319,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:39.879404+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1918.6,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "beneficio_auditoria",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta explícitamente sobre el beneficio de auditoría y sus condiciones de aplicación y mantenimiento, lo que lo convierte en el tema principal. La mención de corregir la declaración para incluir ingresos omitidos se refiere a",
+              "elapsed_ms_call": 1826.56,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:39.879622+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1918.83,
+            "message": null,
+            "details": {
+              "effective_topic": "beneficio_auditoria",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "declaracion_renta",
+                "procedimiento_tributario"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.515654+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 8554.83,
+            "message": null,
+            "details": {
+              "owner_trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+              "requested_trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.515937+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 8555.12,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "beneficio_auditoria",
+              "secondary_topics": [
+                "declaracion_renta",
+                "procedimiento_tributario"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta pregunta explícitamente sobre el beneficio de auditoría y sus condiciones de aplicación y mantenimiento, lo que lo convierte en el tema principal. La mención de corregir la declaración para incluir ingresos omitidos se refiere a un aspecto procedimental que podría afectar el beneficio, pero el foco sigue siendo el beneficio en sí mismo.",
+              "topic_notice": "Tu pregunta es de beneficio auditoria, por lo cual utilizaremos nuestra base de datos beneficio auditoria.",
+              "message_preview": "Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones. El año pasado pagaron $70 millones. Quieren acogerse a beneficio de auditoría. ¿Califican? ¿Y si más adelante toca corregir ",
+              "message_chars": 319
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.516158+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 8555.34,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones. El año pasado pagaron $70 millones. Quieren acogerse a beneficio de auditoría. ¿Califican?",
+                "¿Y si más adelante toca corregir la declaración para meter unos ingresos que se omitieron, pierden el beneficio?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.516321+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 8555.51,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 206,
+              "message_preview": "Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones. El año pasado pagaron $70 millones. Quieren acogerse a beneficio de auditoría. ¿Califican?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.542348+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 8581.53,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.542609+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 8581.8,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.542666+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 8581.86,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.556012+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 8595.2,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "declaracion_renta",
+              "top_score": 7,
+              "confidence": 0.55,
+              "ranked_top_3": [
+                [
+                  "declaracion_renta",
+                  7
+                ],
+                [
+                  "beneficio_auditoria",
+                  6
+                ],
+                [
+                  "normas_internacionales_auditoria",
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.556254+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 8595.44,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "Tengo una SAS comercializadora con ingresos de $2.800 millones en 2025 y un impuesto neto de renta de $95 millones. El año pasado pagaron $70 millones. Quieren acogerse a beneficio de auditoría. ¿Califican?",
+              "effective_topic": "declaracion_renta",
+              "secondary_topics": [],
+              "confidence": 0.55,
+              "mode": "fallback",
+              "reason": "fallback:auto_detected_from_keywords",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.569508+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 8608.67,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.569817+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 8609.01,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "declaracion_renta procedimiento_tributario beneficio_auditoria correcciones que disminuyan el valor a pagar o aumenten el saldo a favor correcciones que aumentan el impuesto o disminuyen el saldo a favor correccion declaracion renta saldo a",
+              "query_text_chars": 608
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:46.569908+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 8609.1,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "declaracion_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "declaracion_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:48.557593+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 10596.76,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-26-fiscalizacion-y-defensa-ante-la-dian.md::",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::240",
+                "suin_1104445::1104449",
+                "suin_1132325::689-1",
+                "suin_1132325::235-2",
+                "suin_30019323::4"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:50.305823+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 12344.98,
+            "message": null,
+            "details": {
+              "anchor_row_count": 50,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:50.306302+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 12345.48,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 73,
+              "delta": 49
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:43:50.478843+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 12518.0,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 73,
+              "rows_out": 70,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 73,
+              "chunks_kept": 70,
+              "chunks_dropped": 3,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 70,
+                "chunks_dropped": 3,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.225972+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 27265.11,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 5,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 70,
+                "chunks_dropped": 3,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.226181+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 27265.33,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 112,
+              "message_preview": "¿Y si más adelante toca corregir la declaración para meter unos ingresos que se omitieron, pierden el beneficio?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.240081+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 27279.23,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.240302+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 27279.45,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.240378+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 27279.53,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.252847+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 27291.99,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.253007+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 27292.16,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y si más adelante toca corregir la declaración para meter unos ingresos que se omitieron, pierden el beneficio?",
+              "effective_topic": null,
+              "secondary_topics": [],
+              "confidence": 0.0,
+              "mode": "fallback",
+              "reason": "fallback:no_topic_detected",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.264883+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 27304.03,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.265021+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 27304.17,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "¿Y si más adelante toca corregir la declaración para meter unos ingresos que se omitieron, pierden el beneficio?",
+              "query_text_chars": 112
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:05.265101+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 27304.25,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "filter_topic_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.033286+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 28072.43,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::260-11",
+                "suin_1132325::641",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::580-1",
+                "suin_1132325::689-1",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.033458+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 28072.61,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.033514+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 28072.66,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.202356+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 28241.5,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.344798+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 28383.94,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.345012+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 28384.16,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                5,
+                9,
+                8
+              ],
+              "after": [
+                5,
+                9,
+                8
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "100",
+                  "101",
+                  "102",
+                  "102-1",
+                  "102-2",
+                  "207-2",
+                  "23-1",
+                  "240-1",
+                  "27",
+                  "1"
+                ],
+                "candidate_count": 14,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.370946+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 28410.08,
+            "message": null,
+            "details": {
+              "misaligned": true,
+              "kind": null,
+              "router_topic": "beneficio_auditoria",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": true,
+                "router_topic": "beneficio_auditoria",
+                "articles_top_topic": "declaracion_renta",
+                "router_score_on_articles": 0,
+                "top_score_on_articles": 7,
+                "ranked_article_topics": [
+                  [
+                    "declaracion_renta",
+                    7
+                  ],
+                  [
+                    "sector_transporte",
+                    3
+                  ],
+                  [
+                    "impuesto_nacional_consumo",
+                    1
+                  ]
+                ],
+                "reason": "lexical_misaligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.394281+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 28433.42,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "declaracion_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.394446+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 28433.59,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:06.396344+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 28435.49,
+            "message": null,
+            "details": {
+              "template_chars": 561
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:11.662079+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 33701.2,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3958,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:11.662478+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 33701.61,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "beneficio_auditoria",
+              "citations_in": 8,
+              "citations_out": 8,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:11.662597+00:00",
+            "trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 33701.73,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "topic_misalignment_hedged",
+              "confidence": 0.55,
+              "primary_articles": 5,
+              "citations_emitted": 8
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 51,
+        "output_tokens": 613,
+        "total_tokens": 664,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "beneficio_auditoria",
+    "secondary_topics": [
+      "declaracion_renta",
+      "procedimiento_tributario"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de beneficio auditoria, por lo cual utilizaremos nuestra base de datos beneficio auditoria.",
+    "topic_adjustment_reason": "La consulta pregunta explícitamente sobre el beneficio de auditoría y sus condiciones de aplicación y mantenimiento, lo que lo convierte en el tema principal. La mención de corregir la declaración para incluir ingresos omitidos se refiere a un aspecto procedimental que podría afectar el beneficio, pero el foco sigue siendo el beneficio en sí mismo.",
+    "coverage_notice": null,
+    "topic": "beneficio_auditoria",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La Ley 100 de 1993 y el Decreto 624 de 1989 (Estatuto Tributario) son las fuentes normativas principales para estos beneficios.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La Ley 100 de 1993 y el Decreto 624 de 1989 (Estatuto Tributario) son las fuentes normativas principales para estos beneficios.",
+        "usage_intents": null
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_cd94e4c18fd9",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 51,
+        "output_tokens": 613,
+        "total_tokens": 664
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+      "last_run_id": "pd_b99a50e1ef704eb0b76090115af5fdc9",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_cd94e4c18fd9",
+    "chat_run_id": "cr_20260429_214341_5310e4ff",
+    "metrics": {
+      "latency_ms": 36169.23,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 51,
+          "output_tokens": 613,
+          "total_tokens": 664,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_cd94e4c18fd9",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 51,
+          "output_tokens": 613,
+          "total_tokens": 664
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "c7d276c9-0f7b-407d-8bfe-e4c0b5a539a6",
+        "last_run_id": "pd_b99a50e1ef704eb0b76090115af5fdc9",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 6,
+        "mentions_unique": 6,
+        "mentions_already_covered": 2,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 322.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "beneficio_auditoria",
+        "secondary_topics": [
+          "declaracion_renta",
+          "procedimiento_tributario"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "9a1aae8f29cf4ca18ae8b02d3ac6666d"
+  }
+}

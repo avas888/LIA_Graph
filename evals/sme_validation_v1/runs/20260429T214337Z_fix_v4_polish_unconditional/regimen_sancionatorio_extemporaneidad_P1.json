@@ -1,0 +1,888 @@
+{
+  "qid": "regimen_sancionatorio_extemporaneidad_P1",
+  "topic_key_expected": "regimen_sancionatorio_extemporaneidad",
+  "profile": "P1_directa",
+  "message": "¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?",
+  "http_status": 200,
+  "latency_ms": 40656,
+  "captured_utc": "2026-04-29T21:44:49.367620+00:00",
+  "response": {
+    "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+    "run_id": "pd_d16810f103514bb396f58081ebb5dac4",
+    "answer_markdown": "### Respuestas directas\n\n*   **¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?**\n    *   La sanción mínima aplicable es de 10 UVT (art. 639 ET). Para el año 2023, esto equivale a $424.120.\n    *   Esta sanción se aplica incluso si la declaración no arroja impuesto a cargo, ya que la obligación de declarar es independiente del resultado fiscal.\n    *   La sanción por extemporaneidad se calcula por cada mes o fracción de mes calendario de retardo (art. 641 ET).\n\n### Ruta sugerida\n\n*   **Verificar la obligación de declarar:** Confirmar si el contribuyente estaba obligado a presentar la declaración de renta para el período en cuestión, independientemente de si hubo impuesto a cargo.\n*   **Calcular la sanción por extemporaneidad:**\n    *   Determinar el número de meses o fracción de mes de retardo desde la fecha límite de presentación.\n    *   Aplicar la sanción del 0.5% del valor de los ingresos brutos o del 1% del patrimonio líquido del año anterior, por cada mes o fracción de mes de retardo, sin exceder el 100% del impuesto (art. 641 ET).\n    *   Si no hay impuesto a cargo, la sanción se calcula sobre los ingresos brutos o el patrimonio líquido, según corresponda, y no puede ser inferior a la sanción mínima (art. 639 ET).\n*   **Aplicar la sanción mínima:** Asegurarse de que el valor calculado no sea inferior a la sanción mínima de 10 UVT (art. 639 ET).\n\n### Riesgos y condiciones\n\n*   **Sanción mínima:** El riesgo principal es no considerar la sanción mínima de 10 UVT, que aplica incluso sin impuesto a cargo (art. 639 ET).\n*   **Intereses de mora:** Aunque no haya impuesto a cargo, si la declaración se presenta con pago extemporáneo de alguna sanción, se podrían generar intereses de mora sobre el valor de la sanción no pagada a tiempo.\n*   **Fiscalización:** La presentación extemporánea puede aumentar la probabilidad de una revisión por parte de la DIAN.\n\n### Soportes clave\n\n*   **Estatuto Tributario (DECRETO 624 DE 1989):**\n    *   Artículo 639 ET: Sanción mínima.\n    *   Artículo 641 ET: Sanción por extemporaneidad.\n*   **Resolución DIAN anual de UVT:** Para determinar el valor de la UVT aplicable al período.\n*   **Declaración de Renta del año anterior:** Para verificar ingresos brutos y patrimonio líquido, si son necesarios para el cálculo de la sanción.",
+    "answer_concise": "### Respuestas directas\n\n*   **¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?**\n    *   La sanción mínima aplicable es de 10 UVT (art. 639 ET). Para el año 2023, esto equivale a $424.120.\n    *   Esta sanción se aplica incluso si la declaración no arroja impuesto a cargo, ya que la obligación de declarar es independiente del resultado fiscal.\n    *   La sanción por extemporaneidad se calcula por cada mes o fracción de mes calendario de retardo (art. 641 ET).\n\n### Ruta sugerida\n\n*   **Verificar la obligación de declarar:** Confirmar si el contribuyente estaba obligado a presentar la declaración de renta para el período en cuestión, independientemente de si hubo impuesto a cargo.\n*   **Calcular la sanción por extemporaneidad:**\n    *   Determinar el número de meses o fracción de mes de retardo desde la fecha límite de presentación.\n    *   Aplicar la sanción del 0.5% del valor de los ingresos brutos o del 1% del patrimonio líquido del año anterior, por cada mes o fracción de mes de retardo, sin exceder el 100% del impuesto (art. 641 ET).\n    *   Si no hay impuesto a cargo, la sanción se calcula sobre los ingresos brutos o el patrimonio líquido, según corresponda, y no puede ser inferior a la sanción mínima (art. 639 ET).\n*   **Aplicar la sanción mínima:** Asegurarse de que el valor calculado no sea inferior a la sanción mínima de 10 UVT (art. 639 ET).\n\n### Riesgos y condiciones\n\n*   **Sanción mínima:** El riesgo principal es no considerar la sanción mínima de 10 UVT, que aplica incluso sin impuesto a cargo (art. 639 ET).\n*   **Intereses de mora:** Aunque no haya impuesto a cargo, si la declaración se presenta con pago extemporáneo de alguna sanción, se podrían generar intereses de mora sobre el valor de la sanción no pagada a tiempo.\n*   **Fiscalización:** La presentación extemporánea puede aumentar la probabilidad de una revisión por parte de la DIAN.\n\n### Soportes clave\n\n*   **Estatuto Tributario (DECRETO 624 DE 1989):**\n    *   Artículo 639 ET: Sanción mínima.\n    *   Artículo 641 ET: Sanción por extemporaneidad.\n*   **Resolución DIAN anual de UVT:** Para determinar el valor de la UVT aplicable al período.\n*   **Declaración de Renta del año anterior:** Para verificar ingresos brutos y patrimonio líquido, si son necesarios para el cálculo de la sanción.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?** La sanción mínima aplicable es de 10 UVT (art. 639 ET).",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Soportes clave **Estatuto Tributario (DECRETO 624 DE 1989):** Artículo 639 ET: Sanción mínima.",
+        "usage_intents": [
+          "requisitos",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?** La sanción mínima aplicable es de 10 UVT (art. 639 ET).",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?** La sanción mínima aplicable es de 10 UVT (art. 639 ET).",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Fuente original compilada: D. 2053/74 Art. 34*\n\nEn los contratos de renta vitalicia, la renta bruta de los contratantes se determina así:\n\n1. El precio o capital que se pague por la renta vitalicia constituye renta brut",
+      "*Fuente original compilada: D. 2053/74 Art. 63*\n\nSon deducibles las sumas periódicas pagadas en el año o período gravable a título de renta vitalicia, hasta el total del reembolso del precio o capital. De allí en adelant",
+      "*Artículo modificado por el artículo 81 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nPara la determinación del impuesto sobre la renta en los contratos de fiducia mercantil se observarán las siguientes reglas"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "100",
+          "101",
+          "102"
+        ],
+        "chunk_row_count": 69,
+        "document_row_count": 22,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research"
+      },
+      "pipeline_trace": {
+        "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T21:44:08.712617+00:00",
+        "total_ms": 27062.09,
+        "step_count": 21,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T21:44:08.712633+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T21:44:08.712617+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:08.712804+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.18,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 94,
+              "message_preview": "¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:08.726572+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 13.95,
+            "message": null,
+            "details": {
+              "effective_topic": "declaracion_renta",
+              "confidence": 0.99,
+              "reason": "rule:declaracion_renta matched declaracion de renta, declaración de renta, renta",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:11.303689+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 2591.05,
+            "message": null,
+            "details": {
+              "owner_trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+              "requested_trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:11.304183+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 2591.55,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "declaracion_renta",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:declaracion_renta matched declaracion de renta, declaración de renta, renta",
+              "topic_notice": "Tu pregunta es de declaracion renta, por lo cual utilizaremos nuestra base de datos declaracion renta.",
+              "message_preview": "¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?",
+              "message_chars": 94
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:11.317270+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 2604.63,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:11.317481+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 2604.85,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "declaracion_renta ¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?",
+              "query_text_chars": 112
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:11.317552+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 2604.92,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "declaracion_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "declaracion_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:12.041991+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 3329.35,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-26-fiscalizacion-y-defensa-ante-la-dian.md::",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_01_Libro1_T1_Sujetos_Pasivos.md::24",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::240",
+                "suin_1104445::1104449",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "suin_30019323::4"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:13.875883+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 5163.22,
+            "message": null,
+            "details": {
+              "anchor_row_count": 50,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:13.876442+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 5163.8,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 73,
+              "delta": 49
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:14.166662+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 5454.02,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 73,
+              "rows_out": 69,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 73,
+              "chunks_kept": 69,
+              "chunks_dropped": 4,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 69,
+                "chunks_dropped": 4,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:31.762684+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 23049.98,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 69,
+                "chunks_dropped": 4,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [
+                "100",
+                "101",
+                "102"
+              ],
+              "tema_first_topic_key": "declaracion_renta",
+              "planner_query_mode": "general_graph_research"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:31.763126+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 23050.44,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "100",
+                  "101",
+                  "102",
+                  "1",
+                  "107",
+                  "118",
+                  "174"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:31.797753+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 23085.07,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "declaracion_renta",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "declaracion_renta",
+                "articles_top_topic": "declaracion_renta",
+                "router_score_on_articles": 4,
+                "top_score_on_articles": 4,
+                "ranked_article_topics": [
+                  [
+                    "declaracion_renta",
+                    4
+                  ],
+                  [
+                    "impuesto_nacional_consumo",
+                    1
+                  ]
+                ],
+                "reason": "lexical_aligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:31.798064+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 23085.39,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "declaracion_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:31.798130+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 23085.46,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:31.799866+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 23087.19,
+            "message": null,
+            "details": {
+              "template_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:35.774011+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 27061.32,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2341,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:35.774568+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 27061.88,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "declaracion_renta",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T21:44:35.774680+00:00",
+            "trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 27062.0,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 17,
+        "output_tokens": 384,
+        "total_tokens": 401,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "declaracion_renta",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de declaracion renta, por lo cual utilizaremos nuestra base de datos declaracion renta.",
+    "topic_adjustment_reason": "rule:declaracion_renta matched declaracion de renta, declaración de renta, renta",
+    "coverage_notice": null,
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Soportes clave **Estatuto Tributario (DECRETO 624 DE 1989):** Artículo 639 ET: Sanción mínima.",
+        "usage_intents": [
+          "requisitos",
+          "riesgos"
+        ]
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_bdda06dc5303",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 17,
+        "output_tokens": 384,
+        "total_tokens": 401
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+      "last_run_id": "pd_d16810f103514bb396f58081ebb5dac4",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_bdda06dc5303",
+    "chat_run_id": "cr_20260429_214409_d42a33b4",
+    "metrics": {
+      "latency_ms": 32762.09,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 17,
+          "output_tokens": 384,
+          "total_tokens": 401,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_bdda06dc5303",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 17,
+          "output_tokens": 384,
+          "total_tokens": 401
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "7ddceb6f-6e6f-456c-8dc7-b614ad0ba4aa",
+        "last_run_id": "pd_d16810f103514bb396f58081ebb5dac4",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 3,
+        "mentions_unique": 3,
+        "mentions_already_covered": 1,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 168.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "declaracion_renta",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "182eeac11d084d53a6e0e66582cfe9c7"
+  }
+}
