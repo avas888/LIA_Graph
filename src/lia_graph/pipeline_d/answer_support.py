@@ -253,6 +253,14 @@ _ARTICLE_BUCKET_LIMITS = {
     "jurisprudence": 4,
 }
 
+_HEADING_REJECT_PATTERNS = (
+    re.compile(r"^#{2,4}\s"),
+    re.compile(r"^\s*ARTÍCULO\s+\d+", re.IGNORECASE),
+    re.compile(r"^\s*PASO\s+\d+\b", re.IGNORECASE),
+    re.compile(r"^\s*>\s*Pregunta\s+clave", re.IGNORECASE),
+    re.compile(r"####"),
+)
+
 
 @dataclass(frozen=True)
 class _InsightExtractionContext:
@@ -757,6 +765,8 @@ def _evidence_candidate_lines(text: str) -> tuple[str, ...]:
             if _looks_truncated_line(cleaned):
                 continue
             if any(token in normalized for token in _SUPPORT_LINE_DROP_CONTAINS):
+                continue
+            if any(rx.search(cleaned) for rx in _HEADING_REJECT_PATTERNS):
                 continue
             if cleaned.startswith("."):
                 cleaned = cleaned.lstrip(". ").strip()

@@ -1,0 +1,950 @@
+{
+  "qid": "tarifas_renta_y_ttd_P2",
+  "topic_key_expected": "tarifas_renta_y_ttd",
+  "profile": "P2_operativa",
+  "message": "Una SAS de mi cliente factura $4.500 millones, tiene utilidad contable antes de impuestos de $800 millones y renta líquida gravable de $400 millones. Le da impuesto de $140 millones al 35%. Pero me preocupa la TTD porque su tasa efectiva sobre la utilidad contable da apenas 11%. ¿Tengo que liquidar Impuesto a Adicionar y cómo lo calculo?",
+  "http_status": 200,
+  "latency_ms": 23015,
+  "captured_utc": "2026-04-29T22:57:50.974732+00:00",
+  "response": {
+    "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+    "run_id": "pd_2dc9f736ecb24d4395c40e37c1c4ad7e",
+    "answer_markdown": "**Respuestas directas**\n- **¿Tengo que liquidar Impuesto a Adicionar y cómo lo calculo?**\n\n    Sí, la empresa debe liquidar el Impuesto a Adicionar. Este impuesto se genera cuando la Tasa de Tributación Depurada (TTD) de la sociedad es inferior al 15% (art. 240 ET).\n\n    El cálculo del Impuesto a Adicionar se realiza de la siguiente manera:\n\n    1.  **Determinar la TTD:** Se calcula dividiendo el Impuesto Depurado (ID) entre la Utilidad Comercial (UC).\n        *   ID = Impuesto sobre la renta (antes de descuentos tributarios) + Impuesto a las ganancias netas (impuesto diferido débito y crédito) + Impuesto a las ganancias por operaciones discontinuadas.\n        *   UC = Utilidad contable antes de impuestos.\n\n    2.  **Comparar la TTD con el 15%:** Si la TTD calculada es inferior al 15%, se debe liquidar el Impuesto a Adicionar.\n\n    3.  **Calcular el Impuesto a Adicionar:** Se obtiene multiplicando la diferencia entre el 15% y la TTD por la Utilidad Comercial.\n        *   Impuesto a Adicionar = (15% - TTD) * UC.\n\n    Para el caso de tu cliente:\n    *   Utilidad Contable antes de impuestos (UC): $800 millones\n    *   Impuesto sobre la renta: $140 millones\n    *   TTD calculada: $140 millones / $800 millones = 17.5%\n\n    Dado que la TTD de 17.5% es superior al 15%, en este escenario específico, no se generaría Impuesto a Adicionar. Sin embargo, es crucial revisar la composición del Impuesto Depurado (ID) para asegurar que se incluyan todos los componentes según la normativa (art. 240 ET).\n\n**Ruta sugerida**\n\n*   Revisa detalladamente la composición del Impuesto Depurado (ID) para asegurar que se incluyan todos los elementos definidos en el artículo 240 del ET, como el impuesto a las ganancias netas (impuesto diferido débito y crédito) y el impuesto a las ganancias por operaciones discontinuadas.\n*   Confirma que la Utilidad Comercial (UC) utilizada para el cálculo de la TTD corresponda a la utilidad contable antes de impuestos, sin ajustes adicionales que no estén expresamente permitidos.\n*   Documenta el cálculo de la TTD y el Impuesto a Adicionar, incluso si el resultado es cero, para tener un soporte claro ante cualquier requerimiento de la DIAN.\n\n**Riesgos y condiciones**\n\n*   **Riesgo de ajuste por la DIAN:** Si la DIAN, en una revisión, determina que la TTD es inferior al 15% debido a una incorrecta aplicación de la fórmula o exclusión de componentes del Impuesto Depurado, podría liquidar el Impuesto a Adicionar con las sanciones e intereses correspondientes (art. 240 ET).\n*   **Impacto en la planeación fiscal:** Una TTD baja puede indicar la necesidad de revisar la estructura de costos, gastos y beneficios tributarios para asegurar que la carga fiscal efectiva se mantenga dentro de los parámetros esperados y cumpla con la normativa.\n*   **Consideraciones para Zonas Francas:** Es importante recordar que la tarifa del impuesto sobre la renta para usuarios de zona franca es del 20%, con excepciones para usuarios comerciales (art. 240-1 ET). Esto podría influir en la TTD si la SAS opera bajo este régimen.\n\n**Soportes clave**\n\n*   **Estatuto Tributario (ET):** Principalmente el artículo 240 ET, que establece la Tasa de Tributación Depurada y el Impuesto a Adicionar.\n*   **Estados Financieros:** El estado de resultados es fundamental para obtener la utilidad contable antes de impuestos y los componentes del impuesto a las ganancias.\n*   **Conciliación Fiscal:** Este documento es clave para entender las diferencias entre la utilidad contable y la renta líquida gravable, y cómo estas afectan el cálculo del impuesto sobre la renta.",
+    "answer_concise": "**Respuestas directas**\n- **¿Tengo que liquidar Impuesto a Adicionar y cómo lo calculo?**\n\n    Sí, la empresa debe liquidar el Impuesto a Adicionar. Este impuesto se genera cuando la Tasa de Tributación Depurada (TTD) de la sociedad es inferior al 15% (art. 240 ET).\n\n    El cálculo del Impuesto a Adicionar se realiza de la siguiente manera:\n\n    1.  **Determinar la TTD:** Se calcula dividiendo el Impuesto Depurado (ID) entre la Utilidad Comercial (UC).\n        *   ID = Impuesto sobre la renta (antes de descuentos tributarios) + Impuesto a las ganancias netas (impuesto diferido débito y crédito) + Impuesto a las ganancias por operaciones discontinuadas.\n        *   UC = Utilidad contable antes de impuestos.\n\n    2.  **Comparar la TTD con el 15%:** Si la TTD calculada es inferior al 15%, se debe liquidar el Impuesto a Adicionar.\n\n    3.  **Calcular el Impuesto a Adicionar:** Se obtiene multiplicando la diferencia entre el 15% y la TTD por la Utilidad Comercial.\n        *   Impuesto a Adicionar = (15% - TTD) * UC.\n\n    Para el caso de tu cliente:\n    *   Utilidad Contable antes de impuestos (UC): $800 millones\n    *   Impuesto sobre la renta: $140 millones\n    *   TTD calculada: $140 millones / $800 millones = 17.5%\n\n    Dado que la TTD de 17.5% es superior al 15%, en este escenario específico, no se generaría Impuesto a Adicionar. Sin embargo, es crucial revisar la composición del Impuesto Depurado (ID) para asegurar que se incluyan todos los componentes según la normativa (art. 240 ET).\n\n**Ruta sugerida**\n\n*   Revisa detalladamente la composición del Impuesto Depurado (ID) para asegurar que se incluyan todos los elementos definidos en el artículo 240 del ET, como el impuesto a las ganancias netas (impuesto diferido débito y crédito) y el impuesto a las ganancias por operaciones discontinuadas.\n*   Confirma que la Utilidad Comercial (UC) utilizada para el cálculo de la TTD corresponda a la utilidad contable antes de impuestos, sin ajustes adicionales que no estén expresamente permitidos.\n*   Documenta el cálculo de la TTD y el Impuesto a Adicionar, incluso si el resultado es cero, para tener un soporte claro ante cualquier requerimiento de la DIAN.\n\n**Riesgos y condiciones**\n\n*   **Riesgo de ajuste por la DIAN:** Si la DIAN, en una revisión, determina que la TTD es inferior al 15% debido a una incorrecta aplicación de la fórmula o exclusión de componentes del Impuesto Depurado, podría liquidar el Impuesto a Adicionar con las sanciones e intereses correspondientes (art. 240 ET).\n*   **Impacto en la planeación fiscal:** Una TTD baja puede indicar la necesidad de revisar la estructura de costos, gastos y beneficios tributarios para asegurar que la carga fiscal efectiva se mantenga dentro de los parámetros esperados y cumpla con la normativa.\n*   **Consideraciones para Zonas Francas:** Es importante recordar que la tarifa del impuesto sobre la renta para usuarios de zona franca es del 20%, con excepciones para usuarios comerciales (art. 240-1 ET). Esto podría influir en la TTD si la SAS opera bajo este régimen.\n\n**Soportes clave**\n\n*   **Estatuto Tributario (ET):** Principalmente el artículo 240 ET, que establece la Tasa de Tributación Depurada y el Impuesto a Adicionar.\n*   **Estados Financieros:** El estado de resultados es fundamental para obtener la utilidad contable antes de impuestos y los componentes del impuesto a las ganancias.\n*   **Conciliación Fiscal:** Este documento es clave para entender las diferencias entre la utilidad contable y la renta líquida gravable, y cómo estas afectan el cálculo del impuesto sobre la renta.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Documenta el cálculo de la TTD y el Impuesto a Adicionar, incluso si el resultado es cero, para tener un soporte claro ante cualquier requerimiento de la DIAN.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Documenta el cálculo de la TTD y el Impuesto a Adicionar, incluso si el resultado es cero, para tener un soporte claro ante cualquier requerimiento de la DIAN.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Documenta el cálculo de la TTD y el Impuesto a Adicionar, incluso si el resultado es cero, para tener un soporte claro ante cualquier requerimiento de la DIAN.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "logical_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "zonas_francas",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "N ZF — Zonas Francas: Marco Normativo",
+        "legal_reference": "N ZF — Zonas Francas: Marco Normativo",
+        "search_query": "N ZF — Zonas Francas: Marco Normativo DIAN / fuente oficial colombia N ZF — Zonas Francas: Marco Normativo",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Consideraciones para Zonas Francas:** Es importante recordar que la tarifa del impuesto sobre la renta para usuarios de zona franca es del 20%, con excepciones para usuarios comerciales (art. 240-1 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Documenta el cálculo de la TTD y el Impuesto a Adicionar, incluso si el resultado es cero, para tener un soporte claro ante cualquier requerimiento de la DIAN.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Artículo 240. 1. El patrono está en la obligación de conceder la trabajadora dos descansos, de veinte (20) minutos cada uno, dentro de la jornada, para amamantar a su hijo, sin descuento alguno en el salario por dicho concepto, durante los ",
+      "ARTÍCULO 240-1 Tarifa para usuarios de zona franca . A partir del 1° de enero de 2017, la tarifa del impuesto sobre la renta y complementarios para las personas jurídicas que sean usuarios de zona franca será del 20%. Parágrafo 1°. La tarif",
+      "Artículo 241. Tarifa para las personas naturales residentes y asignaciones y donaciones modales. El impuesto sobre la renta de las personas naturales residentes en el país, de las sucesiones de causantes residentes en el país, y de los bien"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 42,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "computation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T22:57:27.960911+00:00",
+        "total_ms": 12453.61,
+        "step_count": 25,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T22:57:27.960923+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T22:57:27.960911+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:27.961033+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.12,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 339,
+              "message_preview": "Una SAS de mi cliente factura $4.500 millones, tiene utilidad contable antes de impuestos de $800 millones y renta líquida gravable de $400 millones. Le da impuesto de $140 millones al 35%. Pero me preocupa la TTD porque su tasa efectiva so",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:27.981722+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 20.8,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:27.981915+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 21.0,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:27.996125+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 35.2,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 339,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:29.483742+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1522.81,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "tarifas_renta_y_ttd",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la Tasa Mínima de Tributación Depurada (TTD) y el cálculo del Impuesto a Adicionar, que son mecánicas fiscales relacionadas con las tarifas del impuesto de renta. Aplica la Regla 9: la pregunta es sobre APLICAR la m",
+              "elapsed_ms_call": 1488.65,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:29.483990+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1523.07,
+            "message": null,
+            "details": {
+              "effective_topic": "tarifas_renta_y_ttd",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "declaracion_renta",
+                "renta_liquida_gravable"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:31.554618+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 3593.69,
+            "message": null,
+            "details": {
+              "owner_trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+              "requested_trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:31.555217+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 3594.28,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "tarifas_renta_y_ttd",
+              "secondary_topics": [
+                "declaracion_renta",
+                "renta_liquida_gravable"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la Tasa Mínima de Tributación Depurada (TTD) y el cálculo del Impuesto a Adicionar, que son mecánicas fiscales relacionadas con las tarifas del impuesto de renta. Aplica la Regla 9: la pregunta es sobre APLICAR la mecánica una vez ya estás en el régimen, por lo tanto, el topic es la mecánica (tarifas_renta_y_ttd).",
+              "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+              "message_preview": "Una SAS de mi cliente factura $4.500 millones, tiene utilidad contable antes de impuestos de $800 millones y renta líquida gravable de $400 millones. Le da impuesto de $140 millones al 35%. Pero me preocupa la TTD porque su tasa efectiva so",
+              "message_chars": 339
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:31.574459+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 3613.52,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:31.574699+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 3613.77,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "tarifas_renta_y_ttd declaracion_renta renta_liquida_gravable Una SAS de mi cliente factura $4.500 millones, tiene utilidad contable antes de impuestos de $800 millones y renta líquida gravable de $400 millones. Le da impuesto de $140 millon",
+              "query_text_chars": 400
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:31.574804+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 3613.88,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "tarifas_renta_y_ttd",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "tarifas_renta_y_ttd"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:32.633023+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 4672.09,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::240",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1104445::1104449",
+                "suin_1132325::235-2",
+                "suin_30019323::4",
+                "suin_1132325::616-1",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.432818+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 5471.87,
+            "message": null,
+            "details": {
+              "anchor_row_count": 19,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.433151+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 5472.22,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 42,
+              "delta": 18
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.601490+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 5640.53,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 42,
+              "rows_out": 42,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 42,
+              "chunks_kept": 42,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 42,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.964801+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 6003.85,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 42,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "tarifas_renta_y_ttd",
+              "planner_query_mode": "computation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.964980+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 6004.04,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                5,
+                5
+              ],
+              "after": [
+                3,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "240",
+                  "240-1",
+                  "241",
+                  "fuentes-y-referencias",
+                  "254",
+                  "808",
+                  "260-11",
+                  "1104449"
+                ],
+                "candidate_count": 8,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.965084+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 6004.15,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "tarifas_renta_y_ttd",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "tarifas_renta_y_ttd",
+                "articles_top_topic": "tarifas_renta_y_ttd",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "240",
+                  "240-1",
+                  "241"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.965168+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 6004.23,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "tarifas_renta_y_ttd",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.965241+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 6004.31,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:33.969295+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 6008.36,
+            "message": null,
+            "details": {
+              "template_chars": 89
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:40.413961+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 12453.0,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3592,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:40.414315+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 12453.36,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "tarifas_renta_y_ttd",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:57:40.414457+00:00",
+            "trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 12453.51,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 58,
+        "output_tokens": 565,
+        "total_tokens": 623,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "tarifas_renta_y_ttd",
+    "secondary_topics": [
+      "declaracion_renta",
+      "renta_liquida_gravable"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+    "topic_adjustment_reason": "La consulta se centra en la Tasa Mínima de Tributación Depurada (TTD) y el cálculo del Impuesto a Adicionar, que son mecánicas fiscales relacionadas con las tarifas del impuesto de renta. Aplica la Regla 9: la pregunta es sobre APLICAR la mecánica una vez ya estás en el régimen, por lo tanto, el topic es la mecánica (tarifas_renta_y_ttd).",
+    "coverage_notice": null,
+    "topic": "tarifas_renta_y_ttd",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_64f7eef05d51",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 58,
+        "output_tokens": 565,
+        "total_tokens": 623
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+      "last_run_id": "pd_2dc9f736ecb24d4395c40e37c1c4ad7e",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_64f7eef05d51",
+    "chat_run_id": "cr_20260429_225729_7d36717a",
+    "metrics": {
+      "latency_ms": 17963.24,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 58,
+          "output_tokens": 565,
+          "total_tokens": 623,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_64f7eef05d51",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 58,
+          "output_tokens": 565,
+          "total_tokens": 623
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "decd0fb6-6378-4dd3-af3f-7e92d0dd67f4",
+        "last_run_id": "pd_2dc9f736ecb24d4395c40e37c1c4ad7e",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 8.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "tarifas_renta_y_ttd",
+        "secondary_topics": [
+          "declaracion_renta",
+          "renta_liquida_gravable"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "41655070e84c41f4b851318da0720573"
+  }
+}

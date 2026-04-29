@@ -1,0 +1,895 @@
+{
+  "qid": "regimen_cambiario_P3",
+  "topic_key_expected": "regimen_cambiario",
+  "profile": "P3_borde",
+  "message": "Mi cliente recibió en 2025 una inversión extranjera directa de $500.000 USD de un fondo en Países Bajos para capitalización de la SAS. Hicieron la transferencia pero nadie se acordó de hacer el registro ante el Banco de la República. Estamos en marzo de 2026. ¿Qué riesgo hay, todavía se puede regularizar, y qué pasa con los dividendos que eventualmente quieran girarle al inversionista si nunca se registró la inversión?",
+  "http_status": 200,
+  "latency_ms": 22290,
+  "captured_utc": "2026-04-29T22:59:58.127086+00:00",
+  "response": {
+    "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+    "run_id": "pd_1b31aa741f924d10a291d203a79bb93f",
+    "answer_markdown": "**Respuestas directas**\n\n*   **¿Qué riesgo hay?**\n    *   El principal riesgo es la imposición de sanciones por parte de la DIAN o el Banco de la República por infracciones al régimen cambiario, específicamente por no registrar la inversión extranjera directa (IED) dentro de los plazos establecidos (Régimen Cambiario Colombiano — Marco Normativo Integral).\n    *   La falta de registro impide que la inversión sea considerada IED para efectos cambiarios, lo que puede afectar la repatriación de capital y el giro de utilidades (Régimen Cambiario — Guía Práctica para el Contador de PYMEs).\n    *   Existe el riesgo de que la operación sea tratada como una operación de endeudamiento externo no registrada, con las implicaciones tributarias y cambiarias que esto conlleva.\n\n*   **¿Todavía se puede regularizar?**\n    *   Sí, la inversión puede regularizarse extemporáneamente ante el Banco de la República. Esto implica presentar la Declaración de Cambio por Inversiones Internacionales (Formulario No. 4) y los documentos soporte correspondientes (L01 — Guía Práctica: Régimen Cambiario para PYMEs Colombianas).\n    *   La regularización extemporánea conlleva el pago de una sanción por infracción al régimen cambiario, cuyo monto dependerá del tiempo transcurrido desde la fecha límite de registro y el valor de la inversión (Régimen Cambiario Colombiano — Marco Normativo Integral).\n\n*   **¿Qué pasa con los dividendos que eventualmente quieran girarle al inversionista si nunca se registró la inversión?**\n    *   Si la inversión no se registra, el giro de dividendos al exterior se complica significativamente. El Banco de la República no autorizará la repatriación de utilidades o capital si la inversión no está debidamente registrada como IED (CAM-E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos).\n    *   Para poder girar dividendos, primero se debe regularizar la inversión. Una vez registrada, los dividendos podrán girarse cumpliendo con la normativa cambiaria vigente para el pago de utilidades a inversionistas extranjeros (Régimen Cambiario — Guía Práctica para el Contador de PYMEs).\n\n**Ruta sugerida**\n\n*   **Paso 1: Recopilación de documentos.**\n    *   Reunir toda la documentación relacionada con la inversión: comprobante de la transferencia bancaria, certificado de existencia y representación legal de la SAS, documentos del inversionista extranjero, y cualquier otro soporte que demuestre la naturaleza de la operación como capitalización (Art. 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO).\n*   **Paso 2: Diligenciamiento del Formulario No. 4.**\n    *   Diligenciar el Formulario No. 4 \"Declaración de Cambio por Inversiones Internacionales\" del Banco de la República, indicando que se trata de una regularización extemporánea.\n*   **Paso 3: Cálculo y pago de la sanción.**\n    *   Calcular la sanción aplicable por el registro extemporáneo. Esta sanción se liquida de acuerdo con las tablas y procedimientos establecidos por el Banco de la República para infracciones cambiarias.\n*   **Paso 4: Presentación ante el Banco de la República.**\n    *   Presentar el Formulario No. 4 debidamente diligenciado, los documentos soporte y el comprobante de pago de la sanción ante el Banco de la República.\n*   **Paso 5: Seguimiento y confirmación.**\n    *   Realizar seguimiento al proceso hasta obtener la confirmación del registro de la inversión por parte del Banco de la República.\n\n**Riesgos y condiciones**\n\n*   **Sanciones por extemporaneidad:** La principal condición es la asunción de la sanción por el registro tardío. El monto de la sanción puede ser significativo, dependiendo del valor de la inversión y el tiempo transcurrido desde la fecha límite de registro (Régimen Cambiario Colombiano — Marco Normativo Integral).\n*   **Rechazo del registro:** Aunque es poco común si la documentación es correcta, el Banco de la República podría rechazar el registro si la operación no cumple con los requisitos de IED o si la documentación es insuficiente.\n*   **Implicaciones tributarias:** La falta de registro oportuno no exime de las obligaciones tributarias asociadas a la inversión, como la retención en la fuente sobre dividendos, una vez que estos se giren.\n\n**Soportes clave**\n\n*   **Comprobante de la transferencia bancaria:** Documento que acredite el ingreso de los $500.000 USD al país.\n*   **Certificado de Existencia y Representación Legal de la SAS:** Para verificar la constitución y representación legal de la sociedad receptora de la inversión.\n*   **Documentos de identificación del inversionista extranjero:** Para cumplir con los requisitos de identificación del declarante (Art. 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO).\n*   **Acta de Junta de Socios o Asamblea de Accionistas:** Donde se aprueba la capitalización y la emisión de acciones o cuotas sociales a favor del inversionista extranjero.\n*   **Formulario No. 4 \"Declaración de Cambio por Inversiones Internacionales\":** Este es el documento oficial para el registro de la IED ante el Banco de la República (L01 — Guía Práctica: Régimen Cambiario para PYMEs Colombianas).",
+    "answer_concise": "**Respuestas directas**\n\n*   **¿Qué riesgo hay?**\n    *   El principal riesgo es la imposición de sanciones por parte de la DIAN o el Banco de la República por infracciones al régimen cambiario, específicamente por no registrar la inversión extranjera directa (IED) dentro de los plazos establecidos (Régimen Cambiario Colombiano — Marco Normativo Integral).\n    *   La falta de registro impide que la inversión sea considerada IED para efectos cambiarios, lo que puede afectar la repatriación de capital y el giro de utilidades (Régimen Cambiario — Guía Práctica para el Contador de PYMEs).\n    *   Existe el riesgo de que la operación sea tratada como una operación de endeudamiento externo no registrada, con las implicaciones tributarias y cambiarias que esto conlleva.\n\n*   **¿Todavía se puede regularizar?**\n    *   Sí, la inversión puede regularizarse extemporáneamente ante el Banco de la República. Esto implica presentar la Declaración de Cambio por Inversiones Internacionales (Formulario No. 4) y los documentos soporte correspondientes (L01 — Guía Práctica: Régimen Cambiario para PYMEs Colombianas).\n    *   La regularización extemporánea conlleva el pago de una sanción por infracción al régimen cambiario, cuyo monto dependerá del tiempo transcurrido desde la fecha límite de registro y el valor de la inversión (Régimen Cambiario Colombiano — Marco Normativo Integral).\n\n*   **¿Qué pasa con los dividendos que eventualmente quieran girarle al inversionista si nunca se registró la inversión?**\n    *   Si la inversión no se registra, el giro de dividendos al exterior se complica significativamente. El Banco de la República no autorizará la repatriación de utilidades o capital si la inversión no está debidamente registrada como IED (CAM-E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos).\n    *   Para poder girar dividendos, primero se debe regularizar la inversión. Una vez registrada, los dividendos podrán girarse cumpliendo con la normativa cambiaria vigente para el pago de utilidades a inversionistas extranjeros (Régimen Cambiario — Guía Práctica para el Contador de PYMEs).\n\n**Ruta sugerida**\n\n*   **Paso 1: Recopilación de documentos.**\n    *   Reunir toda la documentación relacionada con la inversión: comprobante de la transferencia bancaria, certificado de existencia y representación legal de la SAS, documentos del inversionista extranjero, y cualquier otro soporte que demuestre la naturaleza de la operación como capitalización (Art. 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO).\n*   **Paso 2: Diligenciamiento del Formulario No. 4.**\n    *   Diligenciar el Formulario No. 4 \"Declaración de Cambio por Inversiones Internacionales\" del Banco de la República, indicando que se trata de una regularización extemporánea.\n*   **Paso 3: Cálculo y pago de la sanción.**\n    *   Calcular la sanción aplicable por el registro extemporáneo. Esta sanción se liquida de acuerdo con las tablas y procedimientos establecidos por el Banco de la República para infracciones cambiarias.\n*   **Paso 4: Presentación ante el Banco de la República.**\n    *   Presentar el Formulario No. 4 debidamente diligenciado, los documentos soporte y el comprobante de pago de la sanción ante el Banco de la República.\n*   **Paso 5: Seguimiento y confirmación.**\n    *   Realizar seguimiento al proceso hasta obtener la confirmación del registro de la inversión por parte del Banco de la República.\n\n**Riesgos y condiciones**\n\n*   **Sanciones por extemporaneidad:** La principal condición es la asunción de la sanción por el registro tardío. El monto de la sanción puede ser significativo, dependiendo del valor de la inversión y el tiempo transcurrido desde la fecha límite de registro (Régimen Cambiario Colombiano — Marco Normativo Integral).\n*   **Rechazo del registro:** Aunque es poco común si la documentación es correcta, el Banco de la República podría rechazar el registro si la operación no cumple con los requisitos de IED o si la documentación es insuficiente.\n*   **Implicaciones tributarias:** La falta de registro oportuno no exime de las obligaciones tributarias asociadas a la inversión, como la retención en la fuente sobre dividendos, una vez que estos se giren.\n\n**Soportes clave**\n\n*   **Comprobante de la transferencia bancaria:** Documento que acredite el ingreso de los $500.000 USD al país.\n*   **Certificado de Existencia y Representación Legal de la SAS:** Para verificar la constitución y representación legal de la sociedad receptora de la inversión.\n*   **Documentos de identificación del inversionista extranjero:** Para cumplir con los requisitos de identificación del declarante (Art. 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO).\n*   **Acta de Junta de Socios o Asamblea de Accionistas:** Donde se aprueba la capitalización y la emisión de acciones o cuotas sociales a favor del inversionista extranjero.\n*   **Formulario No. 4 \"Declaración de Cambio por Inversiones Internacionales\":** Este es el documento oficial para el registro de la IED ante el Banco de la República (L01 — Guía Práctica: Régimen Cambiario para PYMEs Colombianas).",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "legal_reference": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "search_query": "Régimen Cambiario Colombiano — Marco Normativo Integral DIAN / fuente oficial colombia Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "El monto de la sanción puede ser significativo, dependiendo del valor de la inversión y el tiempo transcurrido desde la fecha límite de registro (Régimen Cambiario Colombiano — Marco Normativo Integral).",
+        "usage_intents": [
+          "plazos",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "authority": "Loggro",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO_cam_practica_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Regimen cambiario (Loggro)",
+        "legal_reference": "Regimen cambiario (Loggro)",
+        "search_query": "Regimen cambiario (Loggro) Loggro colombia Régimen Cambiario — Guía Práctica para el Contador de PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Qué riesgo hay?** El principal riesgo es la imposición de sanciones por parte de la DIAN o el Banco de la República por infracciones al régimen cambiario, específicamente por no registrar la",
+        "usage_intents": [
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "logical_doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "authority": "Loggro",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario-pyme.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Regimen cambiario (Loggro)",
+        "legal_reference": "Regimen cambiario (Loggro)",
+        "search_query": "Regimen cambiario (Loggro) Loggro colombia L01 — Guía Práctica: Régimen Cambiario para PYMEs Colombianas",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Qué riesgo hay?** El principal riesgo es la imposición de sanciones por parte de la DIAN o el Banco de la República por infracciones al régimen cambiario, específicamente por no registrar la",
+        "usage_intents": [
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "authority": "Fuente expertos",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_Expertos_cam_expertos_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "legal_reference": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "search_query": "CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos Fuente expertos colombia CAM E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "analysis",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "Fuente expertos",
+        "source_provider_url": null,
+        "usage_context": "El Banco de la República no autorizará la repatriación de utilidades o capital si la inversión no está debidamente registrada como IED (CAM-E01 — Régimen Cambiario Colombiano: Interpretaciones de Expertos).",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "### ARTÍCULO 26-35 — PROCEDIMIENTO DE DECLARACIÓN DE CAMBIO\n#### Contenido Mínimo\nLa declaración de cambio debe contener:\n\na) Identificación del declarante (NIT o cédula de ciudadanía del residente o representante legal).\n\nb) Identificación",
+      "## Paso a paso práctico\n### Escenario 1: PYME Importadora — Qué hacer paso a paso\n\n**Situación:** Usted asesora una fábrica que importa componentes electrónicos de China por USD 50.000 cada 3 meses.\n\n#### Paso 1: Verificar autorización y re",
+      "## Posiciones de expertos\n### 1. Obligatoriedad de canalización: cuándo es realmente obligatoria para PYMEs\n\n**Posición PwC Colombia**: La canalización es obligatoria para cualquier movimiento que constituya una transacción legal cambiaria "
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 18,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T22:59:35.837893+00:00",
+        "total_ms": 13018.96,
+        "step_count": 25,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T22:59:35.837906+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T22:59:35.837893+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:35.838025+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.13,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 422,
+              "message_preview": "Mi cliente recibió en 2025 una inversión extranjera directa de $500.000 USD de un fondo en Países Bajos para capitalización de la SAS. Hicieron la transferencia pero nadie se acordó de hacer el registro ante el Banco de la República. Estamo",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:35.865468+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 27.56,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:35.865991+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 28.09,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:35.882854+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 44.95,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 422,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:37.562712+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1724.78,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "regimen_cambiario",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta trata sobre el registro de una inversión extranjera directa ante el Banco de la República, los riesgos asociados a su no registro y la posibilidad de regularización, así como las implicaciones para el giro de dividendos. Esto se",
+              "elapsed_ms_call": 1679.96,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:37.563232+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1725.33,
+            "message": null,
+            "details": {
+              "effective_topic": "regimen_cambiario",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:40.834921+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 4997.0,
+            "message": null,
+            "details": {
+              "owner_trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+              "requested_trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:40.835544+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 4997.61,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "regimen_cambiario",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta trata sobre el registro de una inversión extranjera directa ante el Banco de la República, los riesgos asociados a su no registro y la posibilidad de regularización, así como las implicaciones para el giro de dividendos. Esto se enmarca directamente en el régimen cambiario para operaciones de cambio, específicamente la inversión extranjera.",
+              "topic_notice": "Tu pregunta es de regimen cambiario, por lo cual utilizaremos nuestra base de datos regimen cambiario.",
+              "message_preview": "Mi cliente recibió en 2025 una inversión extranjera directa de $500.000 USD de un fondo en Países Bajos para capitalización de la SAS. Hicieron la transferencia pero nadie se acordó de hacer el registro ante el Banco de la República. Estamo",
+              "message_chars": 422
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:40.889540+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 5051.61,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:40.891310+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 5053.39,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "regimen_cambiario dividendos_y_distribucion_utilidades Mi cliente recibió en 2025 una inversión extranjera directa de $500.000 USD de un fondo en Países Bajos para capitalización de la SAS. Hicieron la transferencia pero nadie se acordó de ",
+              "query_text_chars": 477
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:40.893448+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 5055.52,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "regimen_cambiario",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "regimen_cambiario"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.168360+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 6330.43,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Practica_LOGGRO",
+                "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_LOGGRO_L01-guia-practica-regimen-cambiario",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Interpretacion_",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::879",
+                "suin_1104445::1104449",
+                "suin_1132325::23-1",
+                "suin_30019323::4"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.168828+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 6330.91,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.168927+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 6331.01,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.340885+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 6502.95,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.691832+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 6853.9,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "regimen_cambiario",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.691989+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 6854.06,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                5,
+                5
+              ],
+              "after": [
+                3,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "26",
+                  "paso-a-paso-pr-ctico",
+                  "posiciones-de-expertos",
+                  "fuentes-y-referencias",
+                  "808",
+                  "879",
+                  "1104449",
+                  "23-1"
+                ],
+                "candidate_count": 8,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.692086+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 6854.17,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "regimen_cambiario",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "regimen_cambiario",
+                "articles_top_topic": "regimen_cambiario",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "26",
+                  "paso-a-paso-pr-ctico",
+                  "posiciones-de-expertos"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.692173+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 6854.25,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "regimen_cambiario",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.692259+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 6854.34,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:42.699437+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 6861.52,
+            "message": null,
+            "details": {
+              "template_chars": 192
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:48.855631+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 13017.68,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 5099,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:48.856548+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 13018.6,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "regimen_cambiario",
+              "citations_in": 5,
+              "citations_out": 4,
+              "dropped_count": 1,
+              "dropped_by_allowlist": [
+                {
+                  "article": null,
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "regimen_cambiario",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T22:59:48.856737+00:00",
+            "trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 13018.8,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 70,
+        "output_tokens": 750,
+        "total_tokens": 820,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "regimen_cambiario",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de regimen cambiario, por lo cual utilizaremos nuestra base de datos regimen cambiario.",
+    "topic_adjustment_reason": "La consulta trata sobre el registro de una inversión extranjera directa ante el Banco de la República, los riesgos asociados a su no registro y la posibilidad de regularización, así como las implicaciones para el giro de dividendos. Esto se enmarca directamente en el régimen cambiario para operaciones de cambio, específicamente la inversión extranjera.",
+    "coverage_notice": null,
+    "topic": "regimen_cambiario",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_b8795042fd4e",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 70,
+        "output_tokens": 750,
+        "total_tokens": 820
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+      "last_run_id": "pd_1b31aa741f924d10a291d203a79bb93f",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_b8795042fd4e",
+    "chat_run_id": "cr_20260429_225938_5b639492",
+    "metrics": {
+      "latency_ms": 18198.77,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 70,
+          "output_tokens": 750,
+          "total_tokens": 820,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_b8795042fd4e",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 70,
+          "output_tokens": 750,
+          "total_tokens": 820
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "13ecff5e-f88f-4685-ad6e-e9330b6dbdfc",
+        "last_run_id": "pd_1b31aa741f924d10a291d203a79bb93f",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 1,
+        "mentions_unique": 1,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 1,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et"
+        ],
+        "normative_scaffolding_ms": 5.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "regimen_cambiario",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "e1555caefde44b3aab14b582fbba82f2"
+  }
+}
