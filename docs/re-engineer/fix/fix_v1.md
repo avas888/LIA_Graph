@@ -1,820 +1,452 @@
-# fix_v1.md — quality regression discovered post next_v7 P1+P8, hand-off for fresh agent
+# fix_v1.md — phase 2 hand-off: sub-query LLM-skipped path (22 → 24/36 stretch)
 
-> **Drafted 2026-04-29 ~11:15 AM Bogotá** by claude-opus-4-7,
-> immediately after running the §1.G 36-question SME panel against
-> production cloud post next_v7 P1 (vigencia-history promotion) +
-> P8 (norm_citations backfill). Result: **8/36 served_acceptable+
-> vs the 21/36 prior baseline — a 13-question regression, 8 of
-> which dropped from served-strong/acceptable to served_off_topic.**
+> **Drafted 2026-04-29 ~12:35 PM Bogotá** by claude-opus-4-7 immediately after
+> closing phase 1 of fix_v1. **Audience: any zero-context agent (fresh LLM or
+> engineer) who picks up this work next. You can pick this up cold.**
 >
-> **Audience:** any zero-context agent (fresh LLM or engineer) who
-> picks up this work next.
+> **Phase 1 status — CLOSED.** The 21 → 8/36 acc+ regression of 2026-04-29 was
+> fully diagnosed and fixed by flipping `config/llm_runtime.json` `provider_order`
+> back to `gemini-flash` first. Result: 22/36 acc+ with zero ok→zero
+> regressions. Full write-up: `docs/re-engineer/fix/fix_v1_diagnosis.md`. The
+> regression was caused by a DeepSeek-v4-pro reasoning-model behavior (returns
+> empty `message.content`) that the topic resolver swallowed silently.
 >
-> **What this doc is:** the diagnostic hand-off. It tells you what
-> we observed, what hypotheses are plausible, what code surface to
-> look at, what NOT to do, and how to run the diagnostic itself.
-> No fixes are proposed yet — the operator's directive was
-> **"STOP and REVIEW"** before any patch. Patch only after the
-> diagnostic in §6 isolates which hypothesis is correct.
+> **Phase 2 — OPEN.** The current panel result is **22/36 acc+**, which beats
+> the 04-27 baseline by 1 but misses the v3-plan stretch target of **≥24/36**
+> by 2. Today's deep trace surfaced the exact reason: when the query
+> decomposer fans the parent message into ≥2 sub-questions, each sub-query
+> calls `resolve_chat_topic` **without `runtime_config_path` or
+> `conversation_state`**. The LLM topic-classifier is therefore skipped on
+> every sub-query, and routing collapses to lexical-keyword fallback or
+> `no_topic_detected`. This loses signal on multi-domain queries where the
+> second `¿…?` is the more specific one.
+>
+> **What this doc is**: the diagnostic + fix hand-off for closing the gap
+> from 22 → ≥24/36. Read §0 first if you have no context.
 
 ---
 
-## 0. If you are a zero-context agent — read this first
+## 0. Zero-context primer
 
-You are arriving after a long session that just shipped 13 commits
-on `main` (see §10). The last one (`f66a7ff`) closed out the
-next_v7 cycle on the engineering side. We then ran the **§1.G 36Q
-SME panel** as the quality gate against current production cloud,
-and the result regressed badly:
+You are working in `/Users/ava-sensas/Developer/Lia_Graph/`, a graph-native RAG
+product for Colombian accountants ("Lia Graph", branched from Lia Contador).
 
-| Class | 2026-04-27 baseline | 2026-04-29 today | Δ |
-|---|---|---|---|
-| served_strong | 9 | 2 | **−7** |
-| served_acceptable | 12 | 6 | **−6** |
-| served_weak | 2 | 3 | +1 |
-| served_off_topic | 4 | 14 | **+10** |
-| refused | 9 | 5 | −4 |
-| server_error | 0 | 6 | **+6** |
-| **served_acceptable+** | **21/36** | **8/36** | **−13** |
+**Read these in order, total ~15 minutes:**
 
-**Stop. Diagnose. Do not patch yet.**
+1. **`CLAUDE.md`** — repo-level operating guide. Pay attention to:
+   * "Hot Path (main chat)" — the served chat code path.
+   * "LLM provider split — chat vs canonicalizer (2026-04-29)" section that
+     was added in phase 1 of this fix.
+   * "Retrieval-stage deep trace (2026-04-29)" section explaining the
+     `tracers_and_logs/` package.
+   * "Fail Fast, Fix Fast — operations canon".
+   * "Idea vs verified improvement — mandatory six-gate lifecycle" — every
+     pipeline change passes six gates before being declared an improvement.
+2. **`AGENTS.md`** — repo operating guide; read alongside CLAUDE.md.
+3. **`docs/re-engineer/fix/fix_v1_diagnosis.md`** — phase 1 of this fix.
+   Especially §2 (the trace evidence) and §10 (next concrete steps); §10.3
+   ("sub-query LLM-skipped trace") is the work this doc continues.
+4. **`tracers_and_logs/README.md`** — how to read the deep trace.
+5. **`evals/sme_validation_v1/runs/20260429T172422Z_gemini_primary_full/classified.jsonl`**
+   — current §1.G panel scoreboard. 22/36 acc+. The 14 non-acc+ qids are
+   your target surface.
+6. **`docs/aa_next/gate_9_threshold_decision.md`** — closest prior precedent
+   for "is this regression real or measurement strictness?", including the
+   §8.4 four-criteria gate that may apply to your fix's verification.
 
-The operator memory says **"diagnose before intervene"**
-(`feedback_diagnose_before_intervene`). RAG is complex science;
-"improvements" misbehave and regress all the time
-(`CLAUDE.md` non-negotiable on the six-gate lifecycle). 8/36 is a
-real regression, but the cause may be a single calibration knob,
-a corpus gap, or a router-keyword shift — and the wrong fix locks
-in the wrong story.
+**Memory-pinned guardrails (do NOT violate, see `~/.claude/projects/.../memory/MEMORY.md`):**
 
-**Before doing anything else, read these in order:**
-
-1. **`CLAUDE.md`** + **`AGENTS.md`** — repo-level operating guides.
-   Pay attention to the **"Fail Fast, Fix Fast — operations canon"**
-   section (rules 1-8, esp. rule 6 *"Diagnose at the audit layer,
-   not the symptom"*).
-2. **`docs/re-engineer/next_v7.md`** — the 7-step plan that landed
-   today.
-3. **`docs/re-engineer/state_next_v7.md`** — running ledger of what
-   shipped today, attempt-by-attempt.
-4. **This file (`docs/re-engineer/fix/fix_v1.md`)** — §1 (goal vs
-   reality), §3 (per-question diff), §5 (hypotheses), §6 (HOW to
-   diagnose), §7 (what NOT to do).
-5. **`docs/learnings/retrieval/vigencia-binary-flag-too-coarse.md`**
-   — Activity 1's clean before/after measurement showing how a
-   binary `vigencia` flag mis-fires; the fix we applied today is
-   the unconditional filter from that learning, but the cure may
-   have created a new shape of regression.
-6. **`docs/learnings/retrieval/coherence-gate-and-contamination.md`**
-   — why the v6 evidence-coherence gate exists, what trade-off it
-   makes (kills weak chunks → fewer contamination cases AND fewer
-   primary seeds).
-7. **`docs/aa_next/gate_9_threshold_decision.md`** — the closest
-   prior precedent for a "is this regression real or measurement
-   strictness?" question, including the §8.4 four-criteria gate
-   and the per-Q diagnostic surface (`coherence_misaligned`,
-   `effective_topic`, etc.).
-
-**Memory-pinned guardrails (do NOT violate):**
-
-* Cloud writes are pre-authorized (`feedback_lia_graph_cloud_writes_authorized`)
-  — but write only what diagnostics demand. Don't bulk-rewrite.
-* Don't lower aspirational thresholds
-  (`feedback_thresholds_no_lower`) — 24/36 stays as the §1.G gate.
+* **Don't lower aspirational thresholds.** 24/36 stays as the §1.G gate.
   Document any qualitative-pass exception per case.
-* Diagnose before intervene (`feedback_diagnose_before_intervene`).
-* Each gate evaluates against its own criteria
-  (`feedback_gates_evaluate_independently`) — don't trade
-  contamination for seed count, etc.
-* Plain-language status reports (`feedback_plain_language_communication`).
+* **Diagnose before intervene.** Measure whether failures concentrate on a
+  pattern before proposing a fix.
+* **Lia Graph cloud writes are pre-authorized** (Supabase + Falkor only).
+  Announce before writing; don't ask per-action.
+* **Plain-language status reports.** No money quoting; action + effort + what
+  it unblocks. Bogotá AM/PM for human-facing timestamps; UTC ISO for machine
+  fields.
+* **Six-gate lifecycle on every pipeline change.** Idea → plan → measurable
+  criterion → test plan with actors + run env → greenlight (technical AND
+  end-user) → refine-or-discard.
 
 ---
 
-## 1. The cycle goal vs the result
+## 1. The exact bug surface
 
-### Stated goal (per `next_v7.md`)
+`src/lia_graph/pipeline_d/orchestrator.py:381` (current, post-phase-1 commit):
 
-The next_v7 cycle was **P1 — comprehensive cloud promotion + P2-P7
-gap-closing extensions**. Quality acceptance criterion came from
-the v3 plan (`fixplan_v3.md` §6.2, sub-fix 1B-ε gate-2): the
-§1.G 36-question SME panel **must reach ≥ 24/36
-served_acceptable+** with **zero ok→zero regressions**, while
-preserving the 4/4 contamination-clean count
-(Q11/Q16/Q22/Q27).
-
-### What we got
-
-* served_acceptable+: **8/36** (target ≥ 24/36) — **fail by 16**.
-* ok→zero regressions: **13** (target 0) — **fail by 13**.
-* Contamination 4/4: **not yet measured** in today's run; 4
-  contamination Qs are in the panel and 2 of them appear in the
-  regressed list (`firmeza_declaraciones_P2`,
-  `regimen_sancionatorio_extemporaneidad_P3`).
-
-### What landed BEFORE this run that could plausibly cause it
-
-In the 2 days between the prior baseline (2026-04-27 02:15 UTC,
-`evals/sme_validation_v1/runs/20260427T021512Z_activity1_vigencia_filter`)
-and today's run, the changes that touch served retrieval:
-
-* Migrations applied to cloud as part of P1 today
-  (commit `9cebd4b` push of pending migrations):
-  * `20260427000000_topic_boost.sql` — added `filter_topic_boost` to `hybrid_search`.
-  * `20260428000000_drop_legacy_hybrid_search.sql` — dropped the
-    14-arg overload; closed the §1.G HTTP-500-on-15-of-36 ambiguity bug.
-  * `20260429000000_vigencia_filter_unconditional.sql` — **the v2
-    binary `vigencia` filter on `document_chunks` is now applied
-    UNCONDITIONALLY**. Pre-fix, it was bypassed when
-    `filter_effective_date_max` was non-null (which was almost
-    always). This was the *intended* cure for the Art. 689-1
-    over-citation failure on the 2026-04-26 SME panel.
-  * `20260501000000` … `20260501000005` — the v3 vigencia
-    subsystem (`norms`, `norm_vigencia_history`, `norm_citations`,
-    resolver functions, `chunk_vigencia_gate_at_date` /
-    `chunk_vigencia_gate_for_period`, reverify queue).
-  * `20260501000006_norms_norm_type_extend.sql` — extended the
-    CHECK constraint to admit cst/cco/decreto-subtype values.
-* P1 promotion populated `norm_vigencia_history` with **9,322 rows
-  (2,349 distinct norm_ids)**.
-* P8 backfill populated `norm_citations` with **52,246 rows
-  across 8,062 chunks (41% coverage)**.
-* P5 mirrored the new vigencia subgraph into cloud Falkor
-  (2,905 `(:Norm)` nodes + ~2,548 vigencia edges).
-* No retriever code change shipped today.
-
-The new data + the unconditional-filter migration are the only
-things that altered the served retrieval surface between
-baseline and today. **Everything else (P2/P3/P6/P7) is build-time
-scraper / canonicalizer work that affects the next refresh
-cycle, not today's served retrieval.**
-
----
-
-## 2. State of cloud production right now (2026-04-29 ~11:00 AM Bogotá)
-
-| Surface | Rows / count | When written |
-|---|---|---|
-| `public.norms` (catalog) | 2,905 | today P1 + P8 ancestor walks |
-| `public.norm_vigencia_history` | 9,322 / 2,349 distinct norm_ids | today P1 (4 attempts; idempotency-key scoped) |
-| `public.norm_citations` | **52,246 across 8,062 chunks** | today P8 |
-| `public.document_chunks` | 19,546 | unchanged — 100% embedded |
-| `public.documents` | 6,736 | unchanged |
-| `public.normative_edges` | 354,025 | unchanged |
-| Cloud Falkor `(:Norm)` | 2,905 | today P5 |
-| Cloud Falkor vigencia edges (MODIFIED_BY/DEROGATED_BY/etc) | ~2,548 | today P5 |
-| Cloud Falkor pre-existing edges (REFERENCES/MODIFIES/TEMA) | ~25k | unchanged |
-
-Important coverage caveat: **`norm_citations` covers 8,062 of
-19,546 chunks (41%)**. The other 59% have NO citation rows on
-cloud, so the v3 chunk-vigencia gate cannot demote them — they
-get the LEFT-JOIN-NULL → demotion factor 1.0 (no demotion) treatment.
-
-**`et.art.689-1` (the famous derogated article):**
-* `norm_citations` rows: 3 (only 3 chunks cite it canonically).
-* `norm_vigencia_history` rows: **0** (we never extracted a
-  veredicto for it during the v6 SUIN cascade — it doesn't appear
-  in the 2,349 norms with vigencia history).
-* So the v3 chunk-vigencia gate doesn't fire on its 3 citing
-  chunks (no vigencia history → no state → demotion 1.0).
-* The OLD binary `vigencia` column on `document_chunks` is what
-  filters it now (the unconditional-filter migration is doing the
-  Art. 689-1 work, NOT the v3 gate).
-
----
-
-## 3. Per-question diff (prior 2026-04-27 vs today 2026-04-29)
-
-Source files:
-* Prior: `evals/sme_validation_v1/runs/20260427T021512Z_activity1_vigencia_filter/`
-* Today: `evals/sme_validation_v1/runs/20260429T153845Z_post_p1_v3/`
-* Questions input: `evals/sme_validation_v1/questions_2026-04-26.jsonl` (36 lines).
-
-### 3.1 Regressed (acc+ → not acc+) — 13 questions
-
-| qid | prior | now |
-|---|---|---|
-| beneficio_auditoria_P2 | served_strong | **served_off_topic** |
-| beneficio_auditoria_P3 | served_acceptable | **served_off_topic** |
-| descuentos_tributarios_renta_P3 | served_strong | **MISSING** (timed out, file deleted in mid-session sweep) |
-| dividendos_y_distribucion_utilidades_P2 | served_strong | **served_off_topic** |
-| dividendos_y_distribucion_utilidades_P3 | served_acceptable | **served_off_topic** |
-| firmeza_declaraciones_P1 | served_strong | **MISSING** (timeout) |
-| firmeza_declaraciones_P2 | served_acceptable | **served_off_topic** |
-| firmeza_declaraciones_P3 | served_strong | **MISSING** (timeout) |
-| impuesto_patrimonio_personas_naturales_P3 | served_acceptable | served_weak |
-| perdidas_fiscales_art147_P2 | served_acceptable | refused |
-| perdidas_fiscales_art147_P3 | served_acceptable | served_off_topic |
-| precios_de_transferencia_P2 | served_acceptable | refused |
-| regimen_sancionatorio_extemporaneidad_P3 | served_acceptable | served_off_topic |
-
-### 3.2 Moved within non-acc+ — 8 questions
-
-| qid | prior | now |
-|---|---|---|
-| beneficio_auditoria_P1 | refused | MISSING (timeout) |
-| conciliacion_fiscal_P2 | served_off_topic | MISSING (timeout) |
-| conciliacion_fiscal_P3 | served_off_topic | MISSING (timeout) |
-| descuentos_tributarios_renta_P1 | refused | served_off_topic |
-| perdidas_fiscales_art147_P1 | refused | served_off_topic |
-| tarifas_renta_y_ttd_P1 | refused | served_off_topic |
-| tarifas_renta_y_ttd_P2 | refused | served_off_topic |
-| tarifas_renta_y_ttd_P3 | refused | served_off_topic |
-
-### 3.3 Concrete worked example — `beneficio_auditoria_P2`
-
-The user prompt (full text):
-
-> *"Tengo una SAS comercializadora con ingresos de $2.800 millones
-> en 2025 y un impuesto neto de renta de $95 millones. El año
-> pasado pagaron $70 millones. Quieren acogerse a beneficio de
-> auditoría. ¿Califican? ¿Y si más adelante toca corregir la
-> declaración para meter unos ingresos que se omitieron, pierden
-> el beneficio?"*
-
-**Prior (2026-04-27, served_strong):**
-
-```
-effective_topic = beneficio_auditoria        ← correct
-requested_topic = None
-topic_adjusted   = True
-answer_mode      = graph_native
-fallback_reason  = None
-compose_quality  = 0.82
-confidence       = {score: 0.55, mode: 'topic_misalignment_hedged'}
-citations        = 5
-answer_markdown[:600] =
-  "**Respuestas directas** - **Tengo una SAS comercializadora con
-  ingresos de $2.800 millones en 2025 y un impuesto neto de renta de
-  $95 millones. El año pasado pagaron $70 millones. Quieren acogerse
-  a beneficio de auditoría. ¿Califican?**   - Para calificar al
-  beneficio de auditoría, la SAS debe cumplir con los requisitos del
-  Estatuto Tributario. El beneficio aplica si el impuesto neto de
-  renta se incrementa en los porcentajes establecidos, comparado con
-  el impuesto del año anterior. - En este caso, el impuesto neto de
-  renta proyectado para 2025 es de $95 millones, y el pagado en 2024
-  fue de $..."
+```python
+for _sq_idx, sq in enumerate(sub_queries):
+    sq_routing = _resolve(message=sq, requested_topic=None, pais=request.pais)
 ```
 
-**Now (2026-04-29, served_off_topic):**
+Compare this with the parent-message call in
+`src/lia_graph/ui_chat_payload.py:381`:
 
-```
-effective_topic = declaracion_renta          ← regressed to parent
-requested_topic = None
-topic_adjusted   = True
-answer_mode      = graph_native
-fallback_reason  = None
-compose_quality  = 0.82                       ← same
-confidence       = {score: 0.82, mode: 'graph_artifact_planner_v1'}
-citations        = 5                          ← same count
-answer_markdown[:600] =
-  "**Respuestas directas** - **Tengo una SAS comercializadora con
-  ingresos de $2.800 millones en 2025 y un impuesto neto de renta de
-  $95 millones... ¿Califican?**   - Cobertura pendiente para esta
-  sub-pregunta. Valida el expediente completo con el cliente antes
-  de cerrar cualquier recomendación. - **¿Y si más adelante toca
-  corregir la declaración para meter unos ingresos que se omitieron,
-  pierden el beneficio?**   - Cobertura pendiente para esta
-  sub-pregunta. Valida los hechos y la posición ante la DIAN antes
-  de dar una..."
+```python
+topic_routing = deps["resolve_chat_topic"](
+    message=message,
+    requested_topic=requested_topic_raw,
+    pais=normalized_pais,
+    runtime_config_path=deps.get("llm_runtime_config_path"),
+    preserve_requested_topic_as_secondary=requested_topic_raw is not None,
+    conversation_state=prior_conversation_state,
+)
 ```
 
-**Two simultaneous shifts:**
-1. `effective_topic` collapsed `beneficio_auditoria → declaracion_renta`.
-2. The retriever found nothing specific; the system gracefully
-   degraded to "Cobertura pendiente para esta sub-pregunta"
-   (a v6-era boilerplate).
+**The parent call passes `runtime_config_path` and `conversation_state`. The
+sub-query call does not.** Because of this, the sub-query call hits the
+LLM-deferral guard at `src/lia_graph/topic_router.py:868`:
 
-**This is NOT classifier-strictness about topic-key string matching.
-The answer literally refuses to give substantive advice.**
+```python
+if runtime_config_path is not None and _should_attempt_llm(message, normalized_requested):
+    llm_result = _classify_topic_with_llm(...)
+```
 
----
+…and the `if` is false on every sub-query (`runtime_config_path is None`).
+The function falls through to lexical keyword scoring or `no_topic_detected`.
 
-## 4. The 6 server_errors (orthogonal infra issue)
+Trace evidence from the current run (`evals/sme_validation_v1/runs/
+20260429T172422Z_gemini_primary_full/beneficio_auditoria_P2.json`,
+`response.diagnostics.pipeline_trace.steps[*]`):
 
-All 6 timed out at 120-180s on the chat endpoint:
+```
+   2195.0ms  topic_router.llm_route.return     status=ok       effective_topic=beneficio_auditoria  confidence=0.9    <-- parent OK
+   3709.5ms  topic_router.entry                status=info     <-- sub-query 1
+   3734.7ms  topic_router.llm.skipped          status=info     <-- LLM skipped because runtime_config_path is None
+   3752.9ms  topic_router.keyword_fallback     status=fallback effective_topic=declaracion_renta    confidence=0.55  <-- bad fallback
+  12985.9ms  topic_router.entry                status=info     <-- sub-query 2
+  13025.4ms  topic_router.no_topic_detected    status=fallback <-- worse: no topic at all
+```
 
-| qid | http | latency |
-|---|---|---|
-| beneficio_auditoria_P1 | -1 | 120010 ms (sequential runner timeout=120) |
-| conciliacion_fiscal_P2 | -1 | 180002 ms (parallel runner timeout=180) |
-| conciliacion_fiscal_P3 | -1 | 180001 ms |
-| descuentos_tributarios_renta_P3 | -1 | 180003 ms |
-| firmeza_declaraciones_P1 | -1 | 120002 ms |
-| firmeza_declaraciones_P3 | -1 | 180014 ms |
+The trace step that names the failure is **`topic_router.llm.skipped`** with
+`message="LLM path skipped — runtime_config_path missing or _should_attempt_llm=False."`
 
-These timed out **in our runner**, but the lia-ui server is single
-Python process and these 6 are heavy graph traversals against
-cloud Falkor. Suspect `FALKORDB_QUERY_TIMEOUT_SECONDS=30` per
-`CLAUDE.md` runtime knobs is enforced per Cypher call, but the
-chat handler issues many sequential calls. The 6 errors are
-infrastructure resilience, NOT quality. They are listed as
-regressed in §3.1 because the prior baseline had them complete in
-~30-60s. Investigate as a separate stream after the quality
-diagnosis lands.
-
-The 6 per-Q response files **were deleted** in a mid-session
-re-run attempt before the operator stop directive. They need to
-be re-captured (see §6 step 3).
+You can reproduce the trace surface by reading `tracers_and_logs/logs/
+pipeline_trace.jsonl` for any sub-query qid in the current run dir.
 
 ---
 
-## 5. Hypotheses (not yet distinguished)
+## 2. Hypothesis (likely correct, but verify with §3 instrumentation pass)
 
-### H1 — topic-router shift between 04-27 and today
+**H1 (primary).** Threading `runtime_config_path` (and `conversation_state`)
+through to the sub-query `_resolve(...)` call will let the LLM topic
+classifier run on each sub-question. With the right topic per sub-query,
+the planner's per-sub-query retrieval gathers more on-topic chunks; the
+coherence gate stops misfiring or correctly abstains; some of the 14
+currently-non-acc+ qids will flip to served_strong/acceptable.
 
-**Claim.** The topic router or planner started classifying
-`beneficio_auditoria` queries (and similar) as
-`declaracion_renta`. Once on the parent topic, retrieval finds
-nothing specific.
+**Plausibility:** very high. The trace event matches exactly the same
+`topic_router.llm.skipped` shape that mis-routed parent queries during
+phase 1. We have a working A/B framework (LLM provider toggle) to confirm.
 
-**Plausibility.** The router is keyword-based
-(`config/subtopic_taxonomy.json` + `src/lia_graph/topic_router_keywords.py`)
-plus an LLM-deferral path (`docs/learnings/retrieval/router-llm-deferral-architecture.md`).
-We did NOT change router code today. But:
-* `next_v3.md` shipped the conversational-memory staircase
-  (`docs/learnings/retrieval/conversational-memory-staircase.md`)
-  that uses `prior_topic` from `ConversationState` as a soft
-  tiebreaker. If the SME runner's chat session has any state
-  leakage, P2/P3 in a topic family might be biased by P1.
-* Router output is also influenced by what chunks the topic-boost
-  step finds; if vigencia filtering reduced the candidate set,
-  the LLM-deferral path may now defer where it did not before.
+**What might also be needed (don't pre-commit):**
 
-**What to check.** The `response.diagnostics.router_*` keys —
-`router_emit_topic`, `topic_resolution_path`,
-`router_subtopic_match_kind`, `llm_deferred`, and the
-conversation-state staircase fields. Compare 04-27 vs today on
-the same qid.
+* **H1a** — the planner's per-sub-query plan may also need to inherit the
+  `conversation_state.normative_anchors` so follow-up sub-questions
+  ("¿hay límite anual?", "¿cuánto cambia?") can use the parent's resolved
+  articles as anchors.
+* **H1b** — `_should_attempt_llm` is a separate gate. For very short
+  sub-questions ("¿califican?") it may also short-circuit. Verify after
+  passing the runtime config.
 
-### H2 — retrieval filter over-aggressive (the new gate or the unconditional filter)
+**Hypotheses to NOT chase first** (rule out only if H1 doesn't deliver):
 
-**Claim.** Either the `vigencia_filter_unconditional` migration is
-killing chunks the prior run relied on, OR the new
-`apply_demotion` post-pass is demoting them. Without those chunks,
-the LLM-deferral or coherence gate fires, the topic gets
-re-arbitrated to a parent, and the answer is "Cobertura pendiente".
-
-**Plausibility.** This is the *strongest* hypothesis given:
-* The unconditional filter went LIVE today (was in shadow before).
-* The new `apply_demotion` step requires `norm_citations` rows;
-  P8 just populated 52,246 of them today.
-* The `beneficio_auditoria_P2` failure mode ("Cobertura pendiente"
-  in answer body) is the v6 boilerplate that fires when the
-  retriever returns nothing for a sub-question.
-
-**What to check.**
-* `response.diagnostics.vigencia_v3_demotion` — present means the
-  new gate fired. Read `kept`, `dropped`, `dropped_chunk_ids`.
-* `response.diagnostics.retrieval_backend` — should be `supabase`.
-* The OLD `vigencia` column filter is in `hybrid_search` itself;
-  to test, compare candidate chunk counts pre- and post-filter
-  for the same query.
-* Toggle `LIA_VIGENCIA_DEMOTION_ENABLED` (or whatever flag gates
-  the apply_demotion call in
-  `src/lia_graph/pipeline_d/retriever_supabase.py`) OFF and
-  re-ask. If quality recovers → H2 confirmed.
-
-### H3 — corpus completeness gap (filter is correct; replacement chunks missing)
-
-**Claim.** We correctly filter derogated norms (`et.art.689-1`,
-`Ley 1429/2010`, etc.), but the corpus doesn't have the
-REPLACEMENT articles ingested as chunks. So the retriever
-correctly avoids stale law and finds no good substitute.
-
-**Plausibility.** Plausible because:
-* `et.art.689-1` has 0 vigencia-history rows (we never extracted
-  it). The OLD binary `vigencia` column is what filters it.
-* `beneficio_auditoria` was reformed by Ley 2155/2021 and Ley
-  2277/2022. Are those laws' relevant articles in
-  `document_chunks`? Unknown — needs probing.
-* `tarifas_renta_y_ttd` has all 3 profiles regressing at once;
-  feels like a topic-coverage cliff rather than a per-query bug.
-
-**What to check.**
-* For each off_topic Q, identify the canonical articles that
-  *should* answer it (per Colombian tax law for 2024-2025). Then
-  query `document_chunks` to see if any chunks reference those
-  articles' canonical norm_ids in `norm_citations`. If empty →
-  corpus gap.
-* Cross-check `norm_citations` coverage for the 13 regressed
-  topics specifically.
-
-### H4 — coherence gate fires harder on the new (smaller) candidate sets
-
-**Claim.** The v6 evidence-coherence gate
-(`LIA_EVIDENCE_COHERENCE_GATE=enforce` since 2026-04-25, per
-`scripts/dev-launcher.mjs:290`) is firing more often because
-post-vigencia-filter, the candidate chunks no longer cluster as
-tightly around the expected topic.
-
-**Plausibility.** The gate tests
-`coherence_misaligned`/`coherence_reason=chunks_off_topic`. The
-prior 2026-04-26 SME run had 11/12 seed-zero questions with
-this exact reason (per
-`docs/aa_next/gate_9_threshold_decision.md`). That doc explicitly
-notes: "you can't have the contamination win without the
-seed-count loss — they are the same mechanism." Today's filter
-change may have shifted that trade-off further toward seed-loss.
-
-**What to check.**
-* `response.diagnostics.coherence_misaligned` and
-  `coherence_reason` per Q.
-* Toggle `LIA_EVIDENCE_COHERENCE_GATE=shadow` on the dev server
-  and re-run a single regressed Q.
+* Coherence-gate calibration. The current `LIA_EVIDENCE_COHERENCE_GATE=enforce`
+  is in place since 2026-04-25; phase 1 of this fix already showed it
+  abstains correctly for low-evidence topics like `tarifas_renta_y_ttd`.
+  Don't recalibrate unless the panel still fails AFTER H1.
+* Vigencia v3 demotion. Phase 1 trace evidence shows it kept 23-24/24 chunks
+  on every test query — it's not pruning aggressively. Skip.
+* Corpus completeness. Phase 1 ruled this out; hybrid_search returned 24
+  rows for every test qid.
 
 ---
 
-## 6. HOW to diagnose (concrete steps for the next agent)
+## 3. The diagnostic + fix sequence (numbered, actionable)
 
-### Step 0 — orient yourself
+Operate per `CLAUDE.md` "Fail Fast, Fix Fast" canon. **Read trace, change one
+thing, verify, compare; do NOT batch multiple fixes.**
 
-Working dir: `/Users/ava-sensas/Developer/Lia_Graph`.
-Read order is in §0 above.
+### Step 1 — Read the current trace for the 14 non-acc+ qids
 
-The dev server may already be running on `127.0.0.1:8787`
-(`npm run dev:staging` mode against cloud Postgres + cloud
-Falkor). Probe with:
+Run dir: `evals/sme_validation_v1/runs/20260429T172422Z_gemini_primary_full/`.
+The classifier file `classified.jsonl` lists every qid's class. The 14
+non-acc+ qids are anything not `served_strong` or `served_acceptable`.
+
+Per qid, extract `response.diagnostics.pipeline_trace.steps`. Look for the
+`topic_router.llm.skipped` event and what topic the keyword fallback
+landed on. Group qids by failure shape:
+
+```python
+# /tmp/triage_non_accplus.py — write this and run it
+import json, sys
+from pathlib import Path
+from collections import defaultdict
+
+RUN = Path("evals/sme_validation_v1/runs/20260429T172422Z_gemini_primary_full")
+classified = {json.loads(l)["qid"]: json.loads(l) for l in (RUN / "classified.jsonl").open()}
+non_accplus = [qid for qid, r in classified.items()
+               if r["class"] not in ("served_strong", "served_acceptable")]
+
+groups = defaultdict(list)
+for qid in non_accplus:
+    j = json.loads((RUN / f"{qid}.json").read_text())
+    steps = ((j["response"].get("diagnostics") or {}).get("pipeline_trace") or {}).get("steps", [])
+    skipped_count = sum(1 for s in steps if s["step"] == "topic_router.llm.skipped")
+    fallback_topics = [s["details"].get("effective_topic")
+                       for s in steps if s["step"] == "topic_router.keyword_fallback"]
+    no_topic = sum(1 for s in steps if s["step"] == "topic_router.no_topic_detected")
+    key = f"skipped={skipped_count} fallback={fallback_topics} no_topic={no_topic} class={classified[qid]['class']}"
+    groups[key].append(qid)
+
+for key, qids in sorted(groups.items(), key=lambda x: -len(x[1])):
+    print(f"\n{key}  ({len(qids)} qids)")
+    for q in qids: print(f"  {q}")
+```
+
+This tells you which qids are bottlenecked on the sub-query LLM-skipped
+path vs other shapes (e.g. genuine `served_off_topic` from the parent
+resolver, vs `refused` from the coherence gate).
+
+### Step 2 — Make the surgical code change (H1 fix)
+
+Edit `src/lia_graph/pipeline_d/orchestrator.py` at the sub-query loop
+(currently around line 381). Change:
+
+```python
+sq_routing = _resolve(message=sq, requested_topic=None, pais=request.pais)
+```
+
+…to:
+
+```python
+sq_routing = _resolve(
+    message=sq,
+    requested_topic=None,
+    pais=request.pais,
+    runtime_config_path=runtime_config_path,
+    conversation_state=request.conversation_state,
+    preserve_requested_topic_as_secondary=False,
+)
+```
+
+**Important context:**
+
+* `runtime_config_path` is already a parameter of `run_pipeline_d` (line ~256
+  in the same file). It's available in scope.
+* `request.conversation_state` is an attribute of `PipelineCRequest` (built
+  in `ui_chat_payload._build_pipeline_request`). It's available in scope.
+* `preserve_requested_topic_as_secondary=False` matches what the parent
+  passes when `requested_topic=None` (per `ui_chat_payload.py:386`).
+
+This is a **single-line change** with a clear semantic: sub-queries get the
+same LLM-resolution power as the parent.
+
+### Step 3 — Re-run the §1.G panel
+
+Server restart needed to pick up the code change (no env flag involved):
 
 ```bash
-curl -sS -o /dev/null -w "HTTP=%{http_code}\n" http://127.0.0.1:8787/api/health
-pgrep -af "ui_server|lia-ui" 2>&1 | head -3
-```
-
-If not running, start it:
-
-```bash
-cd /Users/ava-sensas/Developer/Lia_Graph
+# Find and kill the dev server, restart cleanly:
+pkill -KILL -f "python.*lia_graph\\|node.*dev-launcher\\|npm.*dev:staging" || true
+sleep 4
 nohup npm run dev:staging </dev/null > /tmp/devstaging.log 2>&1 &
-disown $!
-# wait for ready:
-until curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8787/api/health 2>&1 | grep -q 200; do sleep 1; done
-```
+disown
+until curl -s -o /dev/null -w "%{http_code}" --max-time 2 http://127.0.0.1:8787/api/health 2>&1 | grep -q 200; do sleep 2; done
 
-### Step 1 — capture full diagnostics for 3 representative regressed qids
-
-The three qids most worth deep-diving (one per failure shape):
-
-* `beneficio_auditoria_P2` — prior strong → now off_topic (H1+H2 candidates).
-* `tarifas_renta_y_ttd_P2` — prior refused → now off_topic
-  (cluster failure: all 3 profiles regressed; H3 candidate).
-* `firmeza_declaraciones_P2` — prior acceptable → now off_topic,
-  contamination Q (H1+H2 candidates).
-
-For each, dump the full `response.diagnostics` block from both
-runs side by side:
-
-```python
-import json
-PRIOR = 'evals/sme_validation_v1/runs/20260427T021512Z_activity1_vigencia_filter'
-NOW = 'evals/sme_validation_v1/runs/20260429T153845Z_post_p1_v3'
-for qid in ['beneficio_auditoria_P2','tarifas_renta_y_ttd_P2','firmeza_declaraciones_P2']:
-    p = json.loads(open(f'{PRIOR}/{qid}.json').read())['response'].get('diagnostics', {})
-    n = json.loads(open(f'{NOW}/{qid}.json').read())['response'].get('diagnostics', {})
-    print(f'\n=== {qid} ===')
-    keys = sorted(set(p) | set(n))
-    for k in keys:
-        if p.get(k) != n.get(k):
-            print(f'  {k}:\n    prior = {p.get(k)}\n    now   = {n.get(k)}')
-```
-
-### Step 2 — identify which keys differ
-
-Look in particular at:
-* `retrieval_backend`, `graph_backend`
-* `vigencia_v3_demotion` (presence + `kept`/`dropped`/`dropped_chunk_ids`)
-* `coherence_misaligned`, `coherence_reason`
-* `effective_topic`, `topic_resolution_path`, `topic_adjustment_reason`
-* `router_subtopic_match_kind`, `subtopic_anchor_keys`
-* `llm_deferred`, `llm_resolver_decision`
-* `retrieval_sub_topic_intent`
-* Any `*_chunk_count` fields (chunks before / after each filter)
-
-### Step 3 — re-capture the 6 server_errors with longer timeout
-
-The 6 missing per-Q files need to be re-run. The dev server may
-just need to absorb a heavier traversal. Use the parallel runner
-with `--timeout-seconds 300`:
-
-```bash
-RUN_DIR=evals/sme_validation_v1/runs/20260429T153845Z_post_p1_v3
+# Run the parallel panel against fresh server:
+RUN_DIR=evals/sme_validation_v1/runs/$(date -u +%Y%m%dT%H%M%SZ)_subquery_llm_fix
+mkdir -p "$RUN_DIR"
+rm -f tracers_and_logs/logs/pipeline_trace.jsonl
 PYTHONPATH=src:. uv run python scripts/eval/run_sme_parallel.py \
-    --run-dir "$RUN_DIR" --workers 2 --timeout-seconds 300
+    --run-dir "$RUN_DIR" --workers 4 --timeout-seconds 240
+
+# Classify:
+PYTHONPATH=src:. uv run python scripts/eval/run_sme_validation.py --classify-only "$RUN_DIR"
 ```
 
-(Workers=2 to reduce concurrent load on the lia-ui process.)
+Expected wall-time: ~5 min. Expected new acc+ count: **between 22 and 28**;
+the H1 fix theoretically makes every fan-out sub-query LLM-resolved. The
+exact lift depends on how many of the 14 non-acc+ qids have fan-out paths
+where a sub-query topic was lost.
 
-### Step 4 — run the toggle test (H2 isolation)
-
-Restart `npm run dev:staging` with the demotion gate disabled:
+### Step 4 — Compare against current panel
 
 ```bash
-# Find the env knob — search for LIA_VIGENCIA_DEMOTION or apply_demotion's gate.
-grep -rnE "LIA_VIGENCIA|apply_demotion" src/lia_graph/pipeline_d/retriever_supabase.py
+PYTHONPATH=src:. uv run python /tmp/compare_runs.py "$RUN_DIR"
 ```
 
-If a knob exists, set it to `off` (or whatever the negative state
-is) in `.env.local` (NOT committed; this is a probe), restart the
-dev server, re-run the 3 representative qids, compare answers.
-If they recover → H2 confirmed.
+(The script at `/tmp/compare_runs.py` from phase 1 prints a side-by-side
+acc+/per-class/per-qid table. If it's gone, write a new one — the
+classified.jsonl format is stable.)
 
-If no knob exists, add one in
-`src/lia_graph/pipeline_d/retriever_supabase.py` around line
-525-555 (where `apply_demotion` is called) gated on a new
-`LIA_VIGENCIA_DEMOTION_ENABLED` env. Default `on`. This is a
-~10-line change; do not commit until it's clear we'll keep it.
+**Minimum success criterion (per the v3 plan):**
+* `served_acceptable+ ≥ 24/36`
+* `ok→zero regressions = 0` (zero qids that were acc+ in the
+  04-29 Gemini-primary baseline regress to weak/off_topic/refused/error)
 
-### Step 5 — corpus probe (H3 isolation)
+**Failure criterion**: if step 3 yields no improvement OR a regression,
+DON'T patch on top — go back to step 1 with the new trace data and
+re-evaluate H1a/H1b/coherence-gate calibration.
 
-For each of the 13 regressed qids, identify which canonical
-articles SHOULD answer the question (the SME presumably had
-target citations in mind when authoring the panel). Then probe:
+### Step 5 — Six-gate sign-off and commit
 
-```python
-# Per qid, list the chunks whose norm_citations include the expected anchor norms.
-from lia_graph.supabase_client import create_supabase_client_for_target
-c = create_supabase_client_for_target('production')
-expected = ['et.art.689', 'ley.2155.2021.art.51']  # example for beneficio_auditoria post-reform
-for n in expected:
-    r = c.table('norm_citations').select('chunk_id, role, anchor_strength').eq('norm_id', n).execute()
-    print(f'{n}: {len(r.data)} chunks; sample={r.data[:3]}')
-```
+Per `CLAUDE.md` non-negotiable: every pipeline change passes the six gates.
+Document each in the commit message:
 
-If the canonical replacement articles have zero citations → H3
-confirmed (corpus gap).
+1. **Idea**: thread `runtime_config_path` + `conversation_state` to
+   sub-query topic resolution so the LLM classifier can run.
+2. **Plan**: 1-line change at `orchestrator.py:381`. Reversible.
+3. **Measurable criterion**: §1.G panel ≥24/36 acc+, 0 regressions.
+4. **Test plan**: parallel SME runner against the 36 questions with the
+   change as the only variable. Engineer launches; classifier scores;
+   operator (you, the agent) compares.
+5. **Greenlight**: technical pass + spot-check 3 of the qids that flipped
+   from non-acc+ to acc+ to confirm substantive (not boilerplate) answers.
+6. **Refine-or-discard**: if criterion not met, either fall back to H1a/H1b
+   or explicitly mark the change discarded with the new run dir as
+   evidence. Don't silently roll back.
 
-### Step 6 — write the diagnosis up
-
-The output of steps 1-5 goes into a follow-up doc
-`docs/re-engineer/fix/fix_v1_diagnosis.md` with sections:
-* Which hypothesis (H1/H2/H3/H4) the data supports.
-* For the supported hypothesis, what the proposed fix shape is.
-* What gate criteria the proposed fix must meet (per the
-  six-gate lifecycle in `CLAUDE.md`).
-* Whether the fix is reversible without a migration.
-
-Only AFTER that doc is written do you propose code or migration
-changes. The operator may want a separate review before any
-patch ships.
-
----
-
-## 7. What you must NOT do (until the diagnosis lands)
-
-1. **Don't lower the gate threshold.** 24/36 stays. If the
-   diagnosis surfaces that the panel itself is too strict on
-   topic-key matching, document the case-by-case qualitative pass
-   per `feedback_thresholds_no_lower`; don't move the bar.
-2. **Don't disable the unconditional vigencia filter.** It closed
-   the Art. 689-1 / Ley 1429-2010 over-citation failure that the
-   2026-04-26 SME panel surfaced. Re-enabling the bypass would
-   regress that failure. If the filter is too aggressive, the fix
-   is more nuance (per-state demotion, not on/off filtering), not
-   reverting.
-3. **Don't re-promote the post-P6 successes to cloud yet.** P6
-   added ~78 new veredicto JSONs locally
-   (`evals/vigencia_extraction_v1/{F2,E1a,E1b,E1d,E2a,E2c,D5}/`)
-   that are not yet in cloud. Re-promoting them changes the
-   dataset mid-diagnosis and contaminates the apples-to-apples
-   comparison. After the diagnosis, do it.
-4. **Don't re-run the §1.G panel as a "let's see if it's better
-   now" probe.** Each run takes 10-15 min and burns LLM calls. The
-   diagnostic is per-Q diff, not panel-pass/fail.
-5. **Don't fix-fast on the topic router.** Even if H1 is right,
-   the router is keyword-driven and changes there ripple across
-   the whole product. Any router change is a separate cycle with
-   its own gate.
-6. **Don't commit speculative migrations.** Migrations are
-   CLI-explicit only (`CLAUDE.md` non-negotiable on cloud
-   retirements). Even reversible CHECK-constraint changes deserve
-   the diagnostic-first treatment.
-
----
-
-## 8. Future Activities — what we did NOT finish (parked because of the regression)
-
-These were on the `next_v7` plan or surfaced during the cycle but
-were paused once the §1.G panel surfaced the regression. Resume
-each AFTER the fix_v1 diagnosis lands and the regressed qids
-recover.
-
-### 8.1 Re-promote the 78 P6-recovered veredictos to cloud
-
-P6 cascade closed ~78 refusals across 7 batches (F2 +29, E1a +15,
-E1b +10, E1d +6, E2a +10, E2c +8, D5 0; see
-`docs/re-engineer/state_next_v7.md` §4 for the table). All
-new successes are in `evals/vigencia_extraction_v1/<batch>/*.json`
-locally, but **not yet on cloud**. Re-running
-`scripts/cloud_promotion/run.sh` (the orchestrator from commit
-`9cebd4b`) is idempotent and would lift cloud
-`norm_vigencia_history` from 9,322 → ~9,400 distinct norm_ids
-plus history rows. Estimated effort: ~5 min.
-
-### 8.2 Re-sync cloud Falkor with post-P6 vigencia rows
-
-After 8.1 lands, re-run `sync_vigencia_to_falkor.py --target
-production`. Note the **P5 perf finding** in
-`state_next_v7.md` §7: the script does ~5,500 sequential cypher
-round-trips at ~80-130 ms each (20 min today's run). The
-recommended fix is **UNWIND-batched MERGE** (see §7.1 of the
-state ledger) — 50-100× speedup, ~2 hr engineering. Do this
-fast-follow first if 8.1 will run more than once.
-
-### 8.3 The `--shard X/N` 4-process embedding backfill
-
-Commit `9e6bdcf` shipped a sharded embedding-backfill flow but it
-was unused this cycle (P4 was a no-op — all 19,546 chunks
-already had embeddings). Stays available for future
-embedding-pass needs (e.g. when subtopic_taxonomy v3 ships).
-`scripts/cloud_promotion/launch_p4_4shards.sh` is the launcher.
-
-### 8.4 Extend `dian_pdf_registry.json` to more landing pages
-
-The MVP DIAN PDF registry has only 7 entries (Resolución 13/2021
-+ 6 others from the factura-electronica landing page). P6 closed
-29 of 81 F2 refusals (35%) — most of the 52 remaining are
-`res.dian.165.2023.*` and similar resoluciones that are NOT yet
-in the registry. Adding more landing pages to
-`scripts/canonicalizer/build_dian_pdf_registry.py::LANDING_PAGES`
-(per `docs/learnings/sites/dian-main.md` §6 maintenance recipe)
-is the path. Then re-run F2 with `--rerun-only-refusals`.
-Estimated effort: ~1-2 hr per landing page added.
-
-### 8.5 SUIN harvest extension for any norms still missing
-
-The fork agent finding (see `state_next_v7.md` §3 P7) was that
-the 6 COVID decretos are NOT on SUIN-Juriscol but ARE on Senado;
-P7 shipped the Senado decreto resolver instead of extending
-SUIN. SUIN harvest still has gaps for documents that exist
-neither on Senado nor Función Pública (the original next_v7 §3.7
-target). Pick this up only if a refusal cluster surfaces that
-demands it.
-
-### 8.6 Backfill `norm_vigencia_history` for `et.art.689-1` and other
-under-extracted top-priority norms
-
-P8 covered chunk → norm citations (52,246 rows). But the v6
-cascade only extracted vigencia for **2,349 distinct norm_ids**;
-many high-impact norms (Art. 689-1, Ley 1429/2010 specific articles,
-sentencias C-481/2019, etc.) have **0 rows in
-`norm_vigencia_history`**. The v3 chunk-vigencia gate cannot
-demote chunks citing those norms because the resolver returns
-NULL. This is one of the H3 corpus-completeness paths.
-
-Action: identify the top ~50 norms that the §1.G panel + the
-2026-04-26 SME failure cited, audit their vigencia-history
-coverage, run targeted vigencia extractions for the gaps. Estimated
-effort: ~3-5 hr (extraction) + cloud promotion.
-
-### 8.7 Re-run §1.G panel post-fix as the gate
-
-After the diagnosis from §6 lands and a fix is committed, re-run
-the §1.G panel with the SAME parallel runner pattern
-(`scripts/eval/run_sme_parallel.py --workers 4`). Pass criterion
-`≥ 24/36 served_acceptable+` with ZERO ok→zero regressions.
-**This is the gate that matters for declaring the next_v7 cycle
-closed.** Don't claim closure until this passes apples-to-apples
-against the 21/36 baseline.
-
-### 8.8 Document the Activity 1 outcome on the SME triage queue
-
-The 6,981 refusals from the P8 norm_citations backfill landed in
-`evals/canonicalizer_refusals_v1/refusals.jsonl`. SME triage (per
-the v3 plan §1B-δ flow) would categorize these into "fixable
-refusals" vs "real corpus gaps". This was deferred this cycle
-but is a known follow-up.
-
-### 8.9 The cosmetic / lower-priority backlog from `next_v7.md` §3.8
-
-Per `next_v7.md` §3.8: heartbeat date format unification, CC/CE
-SPA scrapers (live-fetch path), Phase A/B/C JSON regeneration if
-ever needed, Falkor cloud schema refresh recipes. None blocking.
-
----
-
-## 9. Code surface to read (orientation map)
-
-Hot path that produced the served answer:
-
-1. **`src/lia_graph/ui_server.py`** — HTTP entry point.
-2. **`src/lia_graph/pipeline_router.py`** — pipeline-D vs legacy router.
-3. **`src/lia_graph/topic_router.py`** + **`src/lia_graph/topic_router_keywords.py`**
-   — keyword-driven topic emit (H1).
-4. **`src/lia_graph/pipeline_d/orchestrator.py`** — the `main chat`
-   orchestrator. Coherence-gate hook at line ~456-469 (H4).
-5. **`src/lia_graph/pipeline_d/planner.py`** — vigencia-query-kind +
-   payload + sub-topic intent.
-6. **`src/lia_graph/pipeline_d/retriever_supabase.py`** — calls
-   `hybrid_search` RPC, then runs the v3
-   `apply_demotion` post-pass. The `apply_demotion` import is at
-   line 535-538; the gate-RPC dispatch is in `_at_date` (~545)
-   and `_for_period` (~556). **This is the H2 surface.**
-7. **`src/lia_graph/pipeline_d/vigencia_resolver.py`** — converts
-   planner kind/payload to the right RPC call.
-8. **`src/lia_graph/pipeline_d/vigencia_demotion.py`** — `apply_demotion`
-   takes chunk_rows + the gate output, multiplies RRF score,
-   drops zero-demotion rows. Read for filter semantics.
-9. **`src/lia_graph/pipeline_d/_coherence_gate.py`** — coherence
-   detector + refusal text. H4 surface.
-10. **`config/subtopic_taxonomy.json`** + **`config/canonicalizer_run_v1/batches.yaml`**
-    — taxonomy + batch definitions.
-
-Migrations that touch served retrieval:
-
-* **`supabase/migrations/20260427000000_topic_boost.sql`** —
-  hybrid_search filter_topic_boost.
-* **`supabase/migrations/20260428000000_drop_legacy_hybrid_search.sql`**
-  — drops the 14-arg overload.
-* **`supabase/migrations/20260429000000_vigencia_filter_unconditional.sql`**
-  — the unconditional v2 filter. **Today's biggest behavior change.**
-* **`supabase/migrations/20260501000004_chunk_vigencia_gate.sql`**
-  — the v3 gate functions.
-
-Backfill / data-maintenance scripts:
-
-* **`scripts/ingestion/backfill_norm_citations.py`** — the P8 script.
-* **`scripts/ingestion/audit_norm_citations.py`** — coverage probe.
-* **`scripts/canonicalizer/sync_vigencia_to_falkor.py`** — P5 sync (slow).
-* **`scripts/cloud_promotion/run.sh`** + **`heartbeat.py`** — the
-  P1 driver (next_v7 reference implementation of the
-  fail-fast/preflight/risk-first canon).
-
-Eval harnesses:
-
-* **`scripts/eval/run_sme_validation.py`** — sequential canonical runner.
-* **`scripts/eval/run_sme_parallel.py`** — 4-worker parallel wrapper
-  (today's session, 2.7× speedup observed).
-* **`scripts/eval/engine.py`** — `ChatClient` HTTP client, summarizer,
-  classifier helpers.
-* **`evals/sme_validation_v1/`** — 36 questions + per-run dirs.
-
----
-
-## 10. Recent commits (this session, 2026-04-29)
+Commit message format (per repo style, see `git log --oneline`):
 
 ```
-f66a7ff state_next_v7 — close-out for P1/P2/P3/P4/P5/P7; P6 in flight
-9e6bdcf embedding_ops — add --shard X/N for concurrent backfill (next_v7 P4)
-1592832 next_v7 P7 — Senado scraper resolves decreto.<num>.<year> URLs
-8fd0de1 canon — preflight + risk-first batching as canonical ops doctrine
-95e1eb9 secretariasenado.md — mark CCo gap RESOLVED via next_v7 P3
-5a0ad15 canon + migration — extend norm_type to Códigos + decreto subtypes
-c0f3d3d next_v7 P3 — Senado CCo segment index + scraper resolves to per-pr URL
-3b09719 next_v7 P2 — DianPdfScraper (7th source) closes F2 gap
-10f0fa8 canon — accept bare 'cst' and 'cco' as whole-code references
-2bde298 CLAUDE.md + AGENTS.md — Fail Fast, Fix Fast as core operating canon
-9cebd4b next_v7 P1 — cloud promotion orchestrator + canon/writer fixes
+fix_v1 phase 2 — thread runtime_config_path through sub-query routing
+
+Step from 22/36 to <new> acc+ on §1.G panel.
+Run dir: <RUN_DIR>.
+[gate-by-gate breakdown]
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 ```
 
-None of these touch served retrieval code. The retrieval-affecting
-changes are all in the pre-existing migrations applied via
-`supabase db push --linked` during P1 (see §1).
+---
+
+## 4. What you must NOT do
+
+1. **Don't change `provider_order` again.** Phase 1 just fixed it; the
+   chat path needs Gemini-flash first. If you need DeepSeek anywhere,
+   use `LIA_VIGENCIA_PROVIDER` (already in place for canonicalizer).
+2. **Don't lower the 24/36 gate.** If the panel passes 23/36 with all 3
+   coherence-gate refusals being honest, document the exception per qid;
+   don't move the bar.
+3. **Don't disable the v6 coherence gate** (`LIA_EVIDENCE_COHERENCE_GATE=enforce`).
+   It's correctly refusing low-evidence queries; refusing is honest.
+   If you suspect it's mis-firing, run the §6 step 4 toggle test from
+   the original (now archived) fix_v1 problem statement.
+4. **Don't batch multiple fixes.** This doc is scoped to H1 only. If you
+   discover H1a/H1b are needed, ship them as separate commits with their
+   own runs and gate sign-offs.
+5. **Don't commit without re-running the full panel.** The classifier on
+   3 qids is misleading; the panel is the gate.
+6. **Don't mutate the canonicalizer launch scripts** in
+   `scripts/canonicalizer/` or `scripts/cloud_promotion/`. Those set
+   `LIA_VIGENCIA_PROVIDER` explicitly and are correct.
 
 ---
 
-## 11. Environment + flags currently active on `npm run dev:staging`
+## 5. Where the trace and tooling already are
 
-From `scripts/dev-launcher.mjs` (current defaults, per
-`docs/orchestration/orchestration.md` env matrix
-`v2026-04-26-additive-no-retire`):
+* **Deep trace package:** `tracers_and_logs/`. Already wired into chat path.
+  Every served chat appends rows to `tracers_and_logs/logs/pipeline_trace.jsonl`
+  AND attaches `response.diagnostics.pipeline_trace.steps[*]` to the
+  served response. Trace events you care about for this work:
+  * `topic_router.entry` — every resolve_chat_topic call.
+  * `topic_router.llm.attempt` / `.success` / `.exception` /
+    `.unsupported_topic` / `.low_confidence` / `.no_adapter` — LLM path
+    instrumentation.
+  * `topic_router.llm.skipped` — **the smoking gun for this work**.
+    Fires when `runtime_config_path is None` OR `_should_attempt_llm` is
+    False. Today, every sub-query hits this.
+  * `topic_router.keyword_fallback` / `topic_router.no_topic_detected` /
+    `topic_router.prior_state_fallback` — the three downstream paths after
+    the LLM is skipped.
+  * `topic_router.subquery_resolved` — orchestrator-side per-sub-query
+    record (parent topic, secondary topics, confidence, mode, reason).
 
-* `LIA_TEMA_FIRST_RETRIEVAL=on` (since 2026-04-25 re-flip).
-* `LIA_EVIDENCE_COHERENCE_GATE=enforce` (since 2026-04-25; H4 surface).
-* `LIA_POLICY_CITATION_ALLOWLIST=enforce` (since 2026-04-25).
-* `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce` (since 2026-04-25).
-* `LIA_LLM_POLISH_ENABLED=1`.
-* `LIA_RERANKER_MODE=live` (since 2026-04-22).
-* `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out).
-* `LIA_SUBTOPIC_BOOST_FACTOR=1.5`.
+* **Eval runner:** `scripts/eval/run_sme_parallel.py` (4 workers, ~5 min
+  wall-time on cloud staging).
 
-**Important:** there is currently NO env knob to disable the v3
-chunk-vigencia gate (`apply_demotion` post-pass). The diagnostic
-in §6 step 4 may need to add one.
+* **Classifier:** `scripts/eval/run_sme_validation.py --classify-only <dir>`.
+  Writes `classified.jsonl` and prints the acc+/weak/refused/error counts.
 
----
+* **Comparison harness:** the phase-1 script at `/tmp/compare_runs.py`
+  (may need to be re-written; format is stable). Compares any new run dir
+  against the 04-27 baseline + 04-29 Gemini-primary anchor.
 
-## 12. Current operator state-of-mind (for tone calibration)
-
-Operator memory:
-* Plain-language, boss-level communication
-  (`feedback_plain_language_communication`).
-* Always suggest what's next at end of every status report
-  (`feedback_always_suggest_next`).
-* Don't quote money; use action + effort + what it unblocks
-  (`feedback_no_money_quoting`).
-* Display all times in Bogotá AM/PM (UTC-5 12-hour)
-  (`feedback_time_format_bogota`); machine logs stay UTC ISO.
-* Six-gate lifecycle on every pipeline change
-  (`feedback_verify_fixes_end_to_end`).
-
-Operator just said **"this is, if there ever was, a STOP and
-REVIEW WHAT IS HAPPENING IN DETAIL"**. They are unhappy with the
-result, calm-and-methodical about the next step, and explicitly
-do NOT want a fix-fast patch on top of an unverified diagnosis.
+* **Anchor runs to compare against:**
+  * 04-27 baseline (Gemini-flash, pre-DeepSeek-flip): 21/36 acc+
+    (`evals/sme_validation_v1/runs/20260427T021512Z_activity1_vigencia_filter/`)
+  * 04-29 DeepSeek-primary (the regression): 8/36 acc+
+    (`evals/sme_validation_v1/runs/20260429T153845Z_post_p1_v3/`)
+  * 04-29 Gemini-primary (current; phase 1 fix landed): 22/36 acc+
+    (`evals/sme_validation_v1/runs/20260429T172422Z_gemini_primary_full/`)
 
 ---
 
-*Drafted 2026-04-29 ~11:15 AM Bogotá by claude-opus-4-7
-immediately after the §1.G panel returned 8/36. P9 SME run dir at
-`evals/sme_validation_v1/runs/20260429T153845Z_post_p1_v3/`.
-All other next_v7 streams (P1-P8) closed. Re-promotion of P6
-successes deferred. Diagnosis in §6 is the only path forward.*
+## 6. State of the world right now (2026-04-29 ~12:35 PM Bogotá)
+
+* `config/llm_runtime.json` `provider_order` = `[gemini-flash, gemini-pro,
+  deepseek-v4-flash, deepseek-v4-pro]`. Don't change.
+* Latest commit on `main`: `173eb9b fix_v1 — restore chat to 22/36 acc+ by
+  flipping LLM provider order`. Pushed to GitHub.
+* `tracers_and_logs/` package is live in the served runtime. Every served
+  chat writes one trace row per stage. PII-safe; whitelisted in the public
+  response filter.
+* The dev server (`npm run dev:staging`) is hitting cloud Supabase + cloud
+  Falkor. Standard env. No special overrides in place.
+* No outstanding migrations. Cloud is in-sync with `supabase/migrations/`.
+* The §1.G panel runs in ~5 min wall-time at 4 workers.
+
+---
+
+## 7. Tackle order (recommended)
+
+1. Step 1 (triage script) — 10 minutes. **Diagnose before intervene.**
+   Confirm the sub-query LLM-skipped pattern is the dominant failure
+   shape across the 14 non-acc+ qids.
+2. If H1 looks right → Steps 2-5 — 30 minutes total.
+3. If H1 alone gets you to 24+/36 → ship + commit + push.
+4. If H1 lands at 23/36 → spot-check the one qid that's still missing
+   acc+; consider H1a (conversation_state.normative_anchors propagation)
+   as a follow-up but ship the H1 win first.
+5. If H1 lands below 22/36 (regression) → fall back, re-trace, write up
+   what you saw, and either propose H1b/H1a or escalate.
+
+---
+
+## 8. Minimum information you need from the operator (none)
+
+This hand-off is fully self-contained. Don't ask the operator to clarify
+unless:
+
+* The §1.G panel cannot complete (e.g. cloud outage, port conflict). Then
+  surface the exact failure with logs.
+* Your trace data shows H1 is wrong (LLM is being attempted on sub-queries
+  but failing differently). Then write the diagnosis up before proposing
+  another fix.
+* You're about to commit a change that affects the canonicalizer LLM
+  pinning (Don't. Per §4 rule 6.)
+
+---
+
+## 9. After you ship phase 2
+
+Update this file (`docs/re-engineer/fix/fix_v1.md`) to mark phase 2 closed
+and either close out fix_v1 entirely or set up phase 3 if a residual gap
+remains. Mirror the structure of `fix_v1_diagnosis.md` for the close-out.
+
+If you discover that the sub-query path also needs `conversation_state`
+propagation OR that H1a (normative_anchors) is required, document each as
+its own phase. The bar for declaring fix_v1 done is the §1.G panel
+sustaining ≥24/36 acc+ with zero ok→zero regressions across at least one
+follow-up panel run a day or more later.
+
+---
+
+*Drafted 2026-04-29 ~12:35 PM Bogotá by claude-opus-4-7 immediately after
+phase 1 closed at 22/36 acc+. The trace evidence cited in §1 is in
+`evals/sme_validation_v1/runs/20260429T172422Z_gemini_primary_full/<qid>.json
+.response.diagnostics.pipeline_trace.steps[*]` and in
+`tracers_and_logs/logs/pipeline_trace.jsonl` (which gets overwritten on
+each new request, so re-capture if you need a specific trace).*
