@@ -277,6 +277,34 @@ def test_trusted_govco_source_ids_includes_suin():
     assert "suin_juriscol" in _TRUSTED_GOVCO_SOURCE_IDS
     assert "secretaria_senado" in _TRUSTED_GOVCO_SOURCE_IDS
     assert "dian_normograma" in _TRUSTED_GOVCO_SOURCE_IDS
+    # v6.1 — Función Pública gestor normativo also joins the trusted set
+    assert "funcion_publica" in _TRUSTED_GOVCO_SOURCE_IDS
+
+
+def test_default_chain_includes_funcion_publica():
+    """v6.1 — Función Pública gestor normativo is wired as a 6th scraper."""
+
+    import os
+    saved_canonical = os.environ.pop("GEMINI_API_KEY", None)
+    saved_legacy = os.environ.pop("LIA_GEMINI_API_KEY", None)
+    try:
+        from lia_graph.vigencia_extractor import VigenciaSkillHarness
+        harness = VigenciaSkillHarness.default()
+        sources = [getattr(s, "source_id", None) for s in harness.scrapers._scrapers]
+        # All 6 expected sources, in chain order.
+        assert sources == [
+            "suin_juriscol",
+            "secretaria_senado",
+            "funcion_publica",
+            "dian_normograma",
+            "corte_constitucional",
+            "consejo_estado",
+        ], f"unexpected chain order: {sources}"
+    finally:
+        if saved_canonical is not None:
+            os.environ["GEMINI_API_KEY"] = saved_canonical
+        if saved_legacy is not None:
+            os.environ["LIA_GEMINI_API_KEY"] = saved_legacy
 
 
 def test_single_source_suin_decreto_articulo_accepted():

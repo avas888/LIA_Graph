@@ -11,6 +11,7 @@ foundational sources are five Colombian government sites:
 | `www.suin-juriscol.gov.co` | Toda la legislación nacional con histórico (cross-check second source) | [suin-juriscol.md](suin-juriscol.md) |
 | `www.corteconstitucional.gov.co` | Sentencias CC, autos CC | [corte-constitucional.md](corte-constitucional.md) |
 | `www.consejodeestado.gov.co` | Sentencias CE, autos CE | [consejo-de-estado.md](consejo-de-estado.md) |
+| `www.funcionpublica.gov.co` | Decretos Únicos Reglamentarios (DUR backup), some leyes — added v6.1 | [funcion-publica.md](funcion-publica.md) |
 
 **Cross-cutting fetch playbook:** [`per-source-fetch-playbook.md`](per-source-fetch-playbook.md) — how to add a new scraper, how to refresh the corpus when Colombian law shifts, common failure modes per source. Read this first when extending the scraper layer.
 

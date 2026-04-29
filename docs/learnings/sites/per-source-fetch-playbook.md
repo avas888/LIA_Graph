@@ -195,6 +195,27 @@ refusing with `missing_double_primary_source`. Logic in
   index page rather than the per-sentencia URL (those are flaky).
 * **Rate limit:** 1.0 s (small infra).
 
+### `funcion_publica` (DUR backup, added v6.1)
+
+* **URL pattern:** `https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=<NUMERIC>`.
+* **Article slicing:** `<a name="N.N.N">` anchors with DUR keys directly
+  (cleaner than SUIN's `ver_NNN`). Slicer extracts body between
+  consecutive anchors via regex pass — lighter than BeautifulSoup.
+* **Registry:** `var/funcionpublica_doc_id_registry.json` mapping
+  canonical → numeric id. Built by
+  `scripts/canonicalizer/build_funcionpublica_registry.py` walking
+  Función Pública's category index pages (DUR index at `i=62255`).
+* **Cache strategy:** SQLite cache with persisted slice dict in
+  `parsed_meta["articles"]` (Option-2 pattern shared with SUIN).
+* **TLS:** **truststore mandatory** — Sectigo intermediate not in
+  certifi 2026.02.25's bundle. The scraper overrides `_http_get` to
+  use `truststore.SSLContext` (same pattern as SuinFetcher).
+* **Rate limit:** 1.0 s.
+* **Coverage gaps:** does NOT host DIAN-specific resoluciones
+  (`res.dian.*`) or DIAN conceptos (`concepto.dian.*`) at predictable
+  URLs — those gaps remain open for v7+. Function Pública's value is
+  DUR redundancy + future expansion via more index pages.
+
 ---
 
 ## LLM instrumentation patterns

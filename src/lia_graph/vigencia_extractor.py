@@ -137,6 +137,7 @@ class VigenciaSkillHarness:
         from lia_graph.scrapers.consejo_estado import ConsejoEstadoScraper
         from lia_graph.scrapers.corte_constitucional import CorteConstitucionalScraper
         from lia_graph.scrapers.dian_normograma import DianNormogramaScraper
+        from lia_graph.scrapers.funcion_publica import FuncionPublicaScraper
         from lia_graph.scrapers.secretaria_senado import SecretariaSenadoScraper
         from lia_graph.scrapers.suin_juriscol import SuinJuriscolScraper
 
@@ -145,12 +146,17 @@ class VigenciaSkillHarness:
         # per-article slicing (via the harvester's parse_document, fed by
         # 3 387 cached HTML files at cache/suin/) gives the LLM ~2-5 KB of
         # focused article body instead of the 3-MB DIAN normograma master
-        # page. DIAN drops to fallback. Per-norm chain on disagreement is
-        # still SUIN > Senado > DIAN > CC > CE.
+        # page.
+        # v6.1 — Función Pública gestor normativo joins as a 6th scraper
+        # for DUR redundancy. Anchors are `<a name="N.N.N">` directly,
+        # cleaner than SUIN's `ver_NNN`. Inserted after Senado so SUIN
+        # stays first and Función Pública catches DUR docs SUIN didn't
+        # harvest. DIAN drops further to position 4.
         registry = ScraperRegistry(
             [
                 SuinJuriscolScraper(cache),
                 SecretariaSenadoScraper(cache),
+                FuncionPublicaScraper(cache),
                 DianNormogramaScraper(cache),
                 CorteConstitucionalScraper(cache),
                 ConsejoEstadoScraper(cache),
@@ -642,7 +648,7 @@ _SENADO_SOURCE_ID = "secretaria_senado"
 # no segment for the norm), we accept its veredicto under the existing
 # `.gov.co` rule.
 _TRUSTED_GOVCO_SOURCE_IDS = frozenset(
-    {"suin_juriscol", "secretaria_senado", "dian_normograma"}
+    {"suin_juriscol", "secretaria_senado", "funcion_publica", "dian_normograma"}
 )
 
 
