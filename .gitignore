@@ -84,3 +84,9 @@ evals/canonicalizer_run_v1/*/run.pid
 evals/canonicalizer_run_v1/*/run_state.json
 evals/canonicalizer_run_v1/*/heartbeat_stats.json
 evals/canonicalizer_run_v1/*/pre_baseline-*.json
+
+# v6 cascade run logs (operational; not source)
+logs/v6_*.log
+logs/cascade_v6_*.log
+logs/cascade_v6_canary/
+logs/v6_1_canary/
