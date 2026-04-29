@@ -1,0 +1,176 @@
+{
+  "qid": "perdidas_fiscales_art147_P2",
+  "topic_key_expected": "perdidas_fiscales_art147",
+  "profile": "P2_operativa",
+  "message": "Mi cliente tiene pérdidas acumuladas de $400 millones generadas en 2020, 2021 y 2022. En 2025 finalmente tuvo utilidad fiscal de $250 millones. ¿Puedo compensarle todo o hay algún límite porcentual anual? ¿Y debo compensar primero las más antiguas?",
+  "http_status": 200,
+  "latency_ms": 11641,
+  "captured_utc": "2026-04-29T15:54:24.436671+00:00",
+  "response": {
+    "trace_id": "7187e6bc-983e-47b5-85b9-0ab2ac77d750",
+    "run_id": "pd_97765842244d42bf8d76d143e1d5c53c",
+    "answer_markdown": "No pude clasificar esta pregunta con confianza dentro del marco normativo que Lia cubre hoy. Revísala manualmente antes de responder al cliente; posibles causas: terminología ambigua, dominio fuera de cobertura, o pregunta multi-tema que requiere desagregar en consultas más específicas.",
+    "answer_concise": "No pude clasificar esta pregunta con confianza dentro del marco normativo que Lia cubre hoy. Revísala manualmente antes de responder al cliente; posibles causas: terminología ambigua, dominio fuera de cobertura, o pregunta multi-tema que requiere desagregar en consultas más específicas.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "router_silent_failure"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_router_silent_failure",
+    "evidence_snippets": [],
+    "diagnostics": null,
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 39,
+        "output_tokens": 40,
+        "total_tokens": 79,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": null,
+    "secondary_topics": [],
+    "topic_adjusted": false,
+    "topic_notice": null,
+    "topic_adjustment_reason": "fallback:no_topic_detected",
+    "coverage_notice": "No pude clasificar esta pregunta con confianza dentro del marco normativo que Lia cubre hoy. Revísala manualmente antes de responder al cliente; posibles causas: terminología ambigua, dominio fuera de cobertura, o pregunta multi-tema que requiere desagregar en consultas más específicas.",
+    "topic": null,
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_e86c6036c2e8",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 39,
+        "output_tokens": 40,
+        "total_tokens": 79
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "7187e6bc-983e-47b5-85b9-0ab2ac77d750",
+      "last_run_id": "pd_97765842244d42bf8d76d143e1d5c53c",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_e86c6036c2e8",
+    "chat_run_id": "cr_20260429_155419_344f253f",
+    "metrics": {
+      "latency_ms": 10301.06,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 39,
+          "output_tokens": 40,
+          "total_tokens": 79,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_router_silent_failure",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_e86c6036c2e8",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 39,
+          "output_tokens": 40,
+          "total_tokens": 79
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "7187e6bc-983e-47b5-85b9-0ab2ac77d750",
+        "last_run_id": "pd_97765842244d42bf8d76d143e1d5c53c",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.6
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": null,
+        "secondary_topics": [],
+        "topic_adjusted": false
+      }
+    },
+    "persistence_job_id": "4d7bc0e48cd745b5887819101547b7bd"
+  }
+}

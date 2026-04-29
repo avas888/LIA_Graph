@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:20:28.108516+00:00",
+  "extracted_at_utc": "2026-04-29T15:16:00.880905+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "res.dian.165.2023.art.42 - El texto del artículo no se encuentra en el extracto proporcionado de la fuente primaria."
+      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0165_2023.htm (article 42 not included in provided excerpt)"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 36176,
+      "wall_ms": 30311,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:19:46.566415+00:00",
+  "extracted_at_utc": "2026-04-29T15:13:25.844471+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "res.dian.165.2023.art.22: the provided normograma excerpt is incomplete and does not contain the text of Article 22, nor any article text. No source containing the article is available."
+      "El texto completo del artículo 22 de la Resolución DIAN 165 de 2023 no está presente en la fuente proporcionada. Se requiere verificar el contenido del artículo para determinar su estado de vigencia y posibles modificaciones."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 28604,
+      "wall_ms": 29073,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

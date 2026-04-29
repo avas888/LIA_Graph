@@ -1,0 +1,35 @@
+2026-04-29 10:47:06,793 [INFO] loaded 36 questions from evals/sme_validation_v1/questions_2026-04-26.jsonl
+2026-04-29 10:47:06,818 [INFO] todo=32  done=4/36  workers=4  server=http://127.0.0.1:8787
+2026-04-29 10:47:26,943 [INFO] [1/32] qid=regimen_sancionatorio_extemporaneidad_P2 status=200 mode=topic_safety_abstention elapsed=20.1s
+2026-04-29 10:48:06,496 [INFO] [2/32] qid=regimen_sancionatorio_extemporaneidad_P1 status=200 mode=graph_native elapsed=59.7s
+2026-04-29 10:49:08,171 [INFO] [3/32] qid=regimen_sancionatorio_extemporaneidad_P3 status=200 mode=graph_native_partial elapsed=101.2s
+2026-04-29 10:49:16,050 [INFO] [4/32] qid=firmeza_declaraciones_P2 status=200 mode=graph_native elapsed=129.2s
+2026-04-29 10:49:32,631 [INFO] [5/32] qid=descuentos_tributarios_renta_P1 status=200 mode=graph_native elapsed=86.1s
+2026-04-29 10:50:06,838 [INFO] [6/32] qid=firmeza_declaraciones_P3 status=-1 mode=? elapsed=180.0s
+2026-04-29 10:50:27,973 [INFO] [7/32] qid=descuentos_tributarios_renta_P2 status=200 mode=graph_native elapsed=79.8s
+2026-04-29 10:51:06,651 [INFO] [8/32] qid=tarifas_renta_y_ttd_P2 status=200 mode=graph_native elapsed=59.8s
+2026-04-29 10:51:53,735 [INFO] [9/32] qid=tarifas_renta_y_ttd_P1 status=200 mode=graph_native elapsed=141.1s
+2026-04-29 10:52:16,058 [INFO] [10/32] qid=descuentos_tributarios_renta_P3 status=-1 mode=? elapsed=180.0s
+2026-04-29 10:52:45,600 [INFO] [11/32] qid=tarifas_renta_y_ttd_P3 status=200 mode=graph_native elapsed=137.6s
+2026-04-29 10:53:03,225 [INFO] [12/32] qid=dividendos_y_distribucion_utilidades_P2 status=200 mode=graph_native elapsed=69.5s
+2026-04-29 10:53:10,849 [INFO] [13/32] qid=dividendos_y_distribucion_utilidades_P1 status=200 mode=graph_native_partial elapsed=124.2s
+2026-04-29 10:54:08,357 [INFO] [14/32] qid=dividendos_y_distribucion_utilidades_P3 status=200 mode=graph_native elapsed=112.3s
+2026-04-29 10:54:12,795 [INFO] [15/32] qid=devoluciones_saldos_a_favor_P1 status=200 mode=graph_native elapsed=87.2s
+2026-04-29 10:54:24,439 [INFO] [16/32] qid=perdidas_fiscales_art147_P2 status=200 mode=topic_safety_abstention elapsed=11.6s
+2026-04-29 10:55:11,777 [INFO] [17/32] qid=devoluciones_saldos_a_favor_P2 status=200 mode=graph_native elapsed=128.5s
+2026-04-29 10:55:12,714 [INFO] [18/32] qid=perdidas_fiscales_art147_P1 status=200 mode=graph_native elapsed=64.4s
+2026-04-29 10:55:19,456 [INFO] [19/32] qid=devoluciones_saldos_a_favor_P3 status=200 mode=graph_native elapsed=128.6s
+2026-04-29 10:55:29,470 [INFO] [20/32] qid=precios_de_transferencia_P3 status=200 mode=topic_safety_abstention elapsed=10.0s
+2026-04-29 10:55:36,004 [INFO] [21/32] qid=precios_de_transferencia_P2 status=200 mode=topic_safety_abstention elapsed=23.3s
+2026-04-29 10:55:42,678 [INFO] [22/32] qid=impuesto_patrimonio_personas_naturales_P1 status=200 mode=topic_safety_abstention elapsed=13.2s
+2026-04-29 10:56:20,223 [INFO] [23/32] qid=impuesto_patrimonio_personas_naturales_P3 status=200 mode=graph_native_partial elapsed=37.5s
+2026-04-29 10:56:26,289 [INFO] [24/32] qid=impuesto_patrimonio_personas_naturales_P2 status=200 mode=graph_native_partial elapsed=50.3s
+2026-04-29 10:56:28,927 [INFO] [25/32] qid=perdidas_fiscales_art147_P3 status=200 mode=graph_native_partial elapsed=124.5s
+2026-04-29 10:57:16,218 [INFO] [26/32] qid=regimen_cambiario_P1 status=200 mode=graph_native_partial elapsed=56.0s
+2026-04-29 10:57:21,868 [INFO] [27/32] qid=precios_de_transferencia_P1 status=200 mode=graph_native elapsed=130.1s
+2026-04-29 10:57:28,147 [INFO] [28/32] qid=regimen_cambiario_P3 status=200 mode=graph_native_partial elapsed=59.2s
+2026-04-29 10:58:29,675 [INFO] [29/32] qid=regimen_cambiario_P2 status=200 mode=graph_native_partial elapsed=123.4s
+2026-04-29 10:59:23,417 [INFO] [30/32] qid=conciliacion_fiscal_P1 status=200 mode=graph_native_partial elapsed=127.2s
+2026-04-29 11:00:21,874 [INFO] [31/32] qid=conciliacion_fiscal_P2 status=-1 mode=? elapsed=180.0s
+2026-04-29 11:00:28,150 [INFO] [32/32] qid=conciliacion_fiscal_P3 status=-1 mode=? elapsed=180.0s
+2026-04-29 11:00:28,150 [INFO] DONE 32 new responses in 801.3s (25.0s/Q wall, 4 workers)

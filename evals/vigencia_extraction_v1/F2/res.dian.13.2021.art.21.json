@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:19:06.880614+00:00",
+  "extracted_at_utc": "2026-04-29T15:09:10.455125+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "Artículo 21 no se encuentra en el extracto proporcionado de la fuente dian_normograma (https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0013_2021.htm). No es posible determinar su estado, fechas o modificaciones sin acceder a su contenido."
+      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0013_2021.htm?article=21"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 33898,
+      "wall_ms": 25372,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

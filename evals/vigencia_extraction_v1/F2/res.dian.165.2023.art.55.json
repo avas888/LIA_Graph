@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:20:38.992889+00:00",
+  "extracted_at_utc": "2026-04-29T15:17:03.558043+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "res.dian.165.2023.art.55"
+      "El texto proporcionado de la Resolución DIAN 165 de 2023 no incluye el artículo 55, por lo que no es posible extraer su estado de vigencia."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 25591,
+      "wall_ms": 36425,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

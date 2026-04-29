@@ -1,0 +1,1429 @@
+{
+  "qid": "precios_de_transferencia_P2",
+  "topic_key_expected": "precios_de_transferencia",
+  "profile": "P2_operativa",
+  "message": "Mi cliente es una SAS de software con ingresos de $4.200 millones y patrimonio bruto de $1.800 millones. Le paga $250 millones al año a su empresa hermana en México (los mismos socios tienen el 70% allá) por servicios de desarrollo. ¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas? ¿Y qué plazos tiene para entregarlas?",
+  "http_status": 200,
+  "latency_ms": 26014,
+  "captured_utc": "2026-04-29T18:31:16.894803+00:00",
+  "response": {
+    "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+    "run_id": "pd_5a142d4bf6ce443a8149a42ac27e972d",
+    "answer_markdown": "**Respuestas directas**\n- **¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?**\n  - hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no cooperantes.\n  - SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA.\n  - La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.\n- **¿Y qué plazos tiene para entregarlas?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n\n**Ruta sugerida**\n1. hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no cooperantes (arts. 260-11 y notas-al-pie ET).\n\n**Riesgos y condiciones**\n- SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA (arts. 260-11 y notas-al-pie ET).\n- 260-11 ET — sanciones por incumplimiento del régimen de precios de transferencia.\n- La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.",
+    "answer_concise": "**Respuestas directas**\n- **¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?**\n  - hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no cooperantes.\n  - SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA.\n  - La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.\n- **¿Y qué plazos tiene para entregarlas?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n\n**Ruta sugerida**\n1. hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no cooperantes (arts. 260-11 y notas-al-pie ET).\n\n**Riesgos y condiciones**\n- SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA (arts. 260-11 y notas-al-pie ET).\n- 260-11 ET — sanciones por incumplimiento del régimen de precios de transferencia.\n- La cobertura quedó parcial; valida el expediente antes de convertir esta salida en instrucción definitiva para el cliente.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+        "authority": "Loggro",
+        "topic": "precios_de_transferencia",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Documentacion y obligaciones de precios de transferencia (Loggro)",
+        "legal_reference": "Documentacion y obligaciones de precios de transferencia (Loggro)",
+        "search_query": "Documentacion y obligaciones de precios de transferencia (Loggro) Loggro colombia Sección 20 — Precios de Transferencia — Lo Básico para PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "260-11 ET — sanciones por incumplimiento del régimen de precios de transferencia.",
+        "usage_intents": [
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "260-11 ET — sanciones por incumplimiento del régimen de precios de transferencia.",
+        "usage_intents": [
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?** hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?** hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?** hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T01-calendario-tributario-2026-interpretaciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T01-calendario-tributario-2026-interpretaciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "calendario_obligaciones",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T01-calendario-tributario-2026-interpretaciones.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T01-calendario-tributario-2026-interpretaciones.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T01-calendario-tributario-2026-interpretaciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T01-calendario-tributario-2026-interpretaciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "T01 — Calendario Tributario 2026: Interpretaciones de Fuentes Secundarias",
+        "legal_reference": "T01 — Calendario Tributario 2026: Interpretaciones de Fuentes Secundarias",
+        "search_query": "T01 — Calendario Tributario 2026: Interpretaciones de Fuentes Secundarias DIAN / fuente oficial colombia T01 — Calendario Tributario 2026: Interpretaciones de Fuentes Secundarias",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?** hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_CALENDARIO_TRIBUTARIO_CONSOLIDADO_LOGGRO_CAL-L01-guia-practica-calendario-tributario-consolidado-2026.md",
+        "logical_doc_id": "CORE_ya_Arriba_CALENDARIO_TRIBUTARIO_CONSOLIDADO_LOGGRO_CAL-L01-guia-practica-calendario-tributario-consolidado-2026.md",
+        "authority": "Loggro",
+        "topic": "calendario_obligaciones",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_CALENDARIO_TRIBUTARIO_CONSOLIDADO_LOGGRO_CAL-L01-guia-practica-calendario-tributario-consolidado-2026.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_CALENDARIO_TRIBUTARIO_CONSOLIDADO_LOGGRO_CAL-L01-guia-practica-calendario-tributario-consolidado-2026.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_CALENDARIO_TRIBUTARIO_CONSOLIDADO_LOGGRO_CAL-L01-guia-practica-calendario-tributario-consolidado-2026.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_CALENDARIO_TRIBUTARIO_CONSOLIDADO_LOGGRO_CAL-L01-guia-practica-calendario-tributario-consolidado-2026.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Calendario obligaciones (Loggro)",
+        "legal_reference": "Calendario obligaciones (Loggro)",
+        "search_query": "Calendario obligaciones (Loggro) Loggro colombia CAL L01 — Guía Práctica: Calendario Tributario Consolidado 2026 — Todas las Obligaciones para PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "calendario",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?** hasta 30.000 UVT por no presentar documentación comprobatoria en operaciones con jurisdicciones no",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.42,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native_partial",
+    "compose_quality": 0.45,
+    "fallback_reason": "pipeline_d_no_graph_primary_articles",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 7,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 23,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T18:30:50.881843+00:00",
+        "total_ms": 15868.01,
+        "step_count": 48,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T18:30:50.881859+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T18:30:50.881843+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:50.882048+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.19,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 359,
+              "message_preview": "Mi cliente es una SAS de software con ingresos de $4.200 millones y patrimonio bruto de $1.800 millones. Le paga $250 millones al año a su empresa hermana en México (los mismos socios tienen el 70% allá) por servicios de desarrollo. ¿Está o",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:50.899698+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 17.84,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:50.899905+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 18.05,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:50.919813+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 37.96,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 359,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.135161+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1253.3,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "precios_de_transferencia",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta trata sobre la obligación de presentar declaración informativa y documentación comprobatoria por operaciones con vinculados económicos en el exterior, lo cual es el objeto principal de los precios de transferencia.",
+              "elapsed_ms_call": 1215.61,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.135498+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1253.64,
+            "message": null,
+            "details": {
+              "effective_topic": "precios_de_transferencia",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:56.617879+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 5736.02,
+            "message": null,
+            "details": {
+              "owner_trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+              "requested_trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:56.618111+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 5736.25,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "precios_de_transferencia",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta trata sobre la obligación de presentar declaración informativa y documentación comprobatoria por operaciones con vinculados económicos en el exterior, lo cual es el objeto principal de los precios de transferencia.",
+              "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+              "message_preview": "Mi cliente es una SAS de software con ingresos de $4.200 millones y patrimonio bruto de $1.800 millones. Le paga $250 millones al año a su empresa hermana en México (los mismos socios tienen el 70% allá) por servicios de desarrollo. ¿Está o",
+              "message_chars": 359
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:56.618209+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 5736.35,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+                "¿Y qué plazos tiene para entregarlas?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:56.618255+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 5736.4,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 88,
+              "message_preview": "¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:56.629899+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 5748.03,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:56.630216+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 5748.36,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:56.643742+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 5761.88,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 88,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.049318+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 7167.45,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "precios_de_transferencia",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta sobre 'declaración informativa' y 'documentación comprobatoria' es terminología específica y central del régimen de precios de transferencia en Colombia, que exige a ciertas empresas presentar estos documentos para demostrar que",
+              "elapsed_ms_call": 1406.0,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.049690+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 7167.83,
+            "message": null,
+            "details": {
+              "effective_topic": "precios_de_transferencia",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.049788+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 7167.93,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+              "effective_topic": "precios_de_transferencia",
+              "secondary_topics": [],
+              "confidence": 0.9,
+              "mode": "llm",
+              "reason": "La consulta sobre 'declaración informativa' y 'documentación comprobatoria' es terminología específica y central del régimen de precios de transferencia en Colombia, que exige a ciertas empresas presentar estos documentos para demostrar que sus transacciones con vinculados económicos del exterior se realizaron a precios de mercado.",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.075483+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 7193.61,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.075769+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7193.91,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "precios_de_transferencia ¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+              "query_text_chars": 113
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.075885+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7194.02,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "precios_de_transferencia",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "precios_de_transferencia"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.852567+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7970.69,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md::notas-al-pie",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::260-11",
+                "suin_1104445::1104449",
+                "suin_1132325::580-1",
+                "suin_30019323::4",
+                "suin_1132325::651",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.852855+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7970.99,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:58.852944+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7971.08,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:59.035905+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 8154.03,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:59.468682+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 8586.8,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 0,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:59.468840+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 8586.98,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 37,
+              "message_preview": "¿Y qué plazos tiene para entregarlas?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:59.490276+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 8608.41,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:59.490537+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 8608.67,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:59.505706+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 8623.84,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 37,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:00.634754+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 9752.88,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "calendario_obligaciones",
+              "confidence": 0.8,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta por 'plazos', lo que directamente se relaciona con el calendario de obligaciones.",
+              "elapsed_ms_call": 1129.21,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:00.635128+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 9753.26,
+            "message": null,
+            "details": {
+              "effective_topic": "calendario_obligaciones",
+              "confidence": 0.8,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:00.635260+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 9753.39,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y qué plazos tiene para entregarlas?",
+              "effective_topic": "calendario_obligaciones",
+              "secondary_topics": [],
+              "confidence": 0.8,
+              "mode": "llm",
+              "reason": "La consulta pregunta por 'plazos', lo que directamente se relaciona con el calendario de obligaciones.",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:00.656976+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 9775.1,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:00.657799+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 9775.93,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "calendario_obligaciones procedimiento_tributario ¿Y qué plazos tiene para entregarlas?",
+              "query_text_chars": 86
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:00.658313+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 9776.45,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "calendario_obligaciones",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "calendario_obligaciones"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.509846+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 10627.97,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_EXPERTOS_T01-calendario-tributario-2026-interpretaciones.md",
+                "CORE_ya_Arriba_CALENDARIO_TRIBUTARIO_CONSOLIDADO_LOGGRO_CAL-L01-guia-practica-ca",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::555-1",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1104445::1104449",
+                "suin_1132325::814",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_",
+                "suin_30019323::4"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.510062+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 10628.2,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.510130+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 10628.27,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.710877+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 10829.01,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:02.139623+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 11257.72,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:02.139944+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 11258.06,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                0,
+                8,
+                7
+              ],
+              "after": [
+                0,
+                8,
+                7
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "notas-al-pie",
+                  "260-11",
+                  "fuentes-y-referencias",
+                  "808",
+                  "1104449",
+                  "3-posiciones-de-expertos",
+                  "secci-n-2-calendario-mensual-2026",
+                  "555-1"
+                ],
+                "candidate_count": 8,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:02.140129+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 11258.26,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "precios_de_transferencia",
+                "articles_top_topic": null,
+                "reason": "no_primary_articles"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:02.140278+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 11258.41,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "support_docs_on_topic",
+              "source": "support_documents",
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:02.140386+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 11258.52,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native_partial",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:02.148787+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 11266.91,
+            "message": null,
+            "details": {
+              "template_chars": 1122
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:06.749252+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 15867.37,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 1122,
+              "polish_changed": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:06.749428+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 15867.56,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "precios_de_transferencia",
+              "citations_in": 7,
+              "citations_out": 7,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:06.749602+00:00",
+            "trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 15867.73,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native_partial",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.42,
+              "primary_articles": 0,
+              "citations_emitted": 7
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 57,
+        "output_tokens": 155,
+        "total_tokens": 212,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "precios_de_transferencia",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+    "topic_adjustment_reason": "La consulta trata sobre la obligación de presentar declaración informativa y documentación comprobatoria por operaciones con vinculados económicos en el exterior, lo cual es el objeto principal de los precios de transferencia.",
+    "coverage_notice": "La ruta graph-native no encontro articulos ancla suficientes; se devolvio la mejor evidencia parcial disponible. Causa: el planner no pudo anclar articulos explicitos para esta consulta (empty_reason=no_explicit_article_keys_in_plan).",
+    "topic": "precios_de_transferencia",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_b2df5757fb09",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 57,
+        "output_tokens": 155,
+        "total_tokens": 212
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+      "last_run_id": "pd_5a142d4bf6ce443a8149a42ac27e972d",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_b2df5757fb09",
+    "chat_run_id": "cr_20260429_183052_9ba71963",
+    "metrics": {
+      "latency_ms": 19725.48,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 57,
+          "output_tokens": 155,
+          "total_tokens": 212,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native_partial",
+      "compose_quality": 0.45,
+      "fallback_reason": "pipeline_d_no_graph_primary_articles",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_b2df5757fb09",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 57,
+          "output_tokens": 155,
+          "total_tokens": 212
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "d1d884f4-9b11-466a-b5fc-d7324e73e502",
+        "last_run_id": "pd_5a142d4bf6ce443a8149a42ac27e972d",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 1,
+        "mentions_unique": 1,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 1,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et"
+        ],
+        "normative_scaffolding_ms": 4.2
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "precios_de_transferencia",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "068d29d6fd0c4d0b8d01bbdd01e83ba6"
+  }
+}

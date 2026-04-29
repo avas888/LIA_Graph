@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T23:55:39.536258+00:00",
+  "extracted_at_utc": "2026-04-29T15:31:29.944594+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "decreto.1625.2016.art.1.6.1.13.2.37"
+      "El contenido de la fuente primaria (normograma.dian.gov.co) no incluye el texto del artículo 1.6.1.13.2.37 del Decreto 1625 de 2016. Se requiere el texto completo para determinar la vigencia."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 17414,
+      "wall_ms": 49435,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

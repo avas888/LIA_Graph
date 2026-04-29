@@ -47,13 +47,112 @@
 
 ---
 
+## ⚡ Operating mode: fail fast, fix fast, iterate to success
+
+This whole doc is built around the CLAUDE.md "Fail Fast, Fix Fast"
+canon. **Read this banner before §0 if you read nothing else.**
+
+**The bar is the success criterion (§3 Step 6: ≥32/36 acc+, 0 ok→zero
+regressions, 3 Symptom-A qids ≥500 chars), not "Route A worked
+first try."** You will likely need 2–3 panel runs and 1–2 small code
+adjustments between them. That is normal. Plan for it.
+
+**The loop**:
+
+```
+                    ┌─────────────────────────────────────────────┐
+                    │                                              │
+        ┌───── Step 3: implement smallest plausible change ◄───┐  │
+        │              │                                       │  │
+        │              ▼                                       │  │
+        │    Step 4: backend smoke (~30 sec)                   │  │
+        │              │                                       │  │
+        │   FAIL ──────┼─── pytest red? STOP. Diagnose audit   │  │
+        │              │    log. Fix root cause. Re-run.       │  │
+        │              │    NEVER --continue past a red test.  │  │
+        │              ▼                                       │  │
+        │    Step 5: detached panel launch (~5 min wall)       │  │
+        │              │                                       │  │
+        │   FAIL ──────┼─── Traceback / stall / acc+ < 29?    │  │
+        │              │    STOP. Read /tmp/fix_v3_panel.log + │  │
+        │              │    per-qid traces. Fix root cause.    │  │
+        │              ▼                                       │  │
+        │    Step 6: compare + spot-check                      │  │
+        │              │                                       │  │
+        │              ├── acc+ ≥ 32/36 + spot-check clean ────┼──► PROCEED to Step 7
+        │              │                                       │  │
+        │              └── acc+ ∈ [29, 32) OR spot-check       │  │
+        │                  shows leak in fix_v2 qids? ─────────┘  │
+        │                                                          │
+        │  ITERATE: identify which Symptom-A qid still             │
+        │  fails; read its trace; refine code (Route B            │
+        │  may be needed); re-run from Step 3.                    │
+        └──────────────────────────────────────────────────────────┘
+
+      acc+ < 29? = below fix_v2 floor → REVERT IMMEDIATELY (Step 7
+      WITHOUT commit; surface to operator).
+```
+
+**Three principles** (lifted verbatim from CLAUDE.md "Fail Fast, Fix
+Fast — operations canon"):
+
+1. **First abort = diagnosis signal, not retry signal.** When pytest
+   goes red OR the panel returns a Traceback OR acc+ regresses below
+   29, do NOT relaunch the same code. Read the audit (pytest output,
+   `/tmp/fix_v3_panel.log`, the per-qid JSON in the run dir), identify
+   the actual failure pattern, fix the underlying issue, dry-validate,
+   then re-launch.
+
+2. **"Stable" means past the prior failure point with the new error
+   count ≤ the diagnosis prediction.** One clean panel run is good but
+   not the closing signal — verify that the qids you intended to fix
+   actually flipped (Step 6 spot-check) AND that no fix_v2-passing qid
+   regressed. Both checks must hold.
+
+3. **Idempotency is mandatory.** Each panel run gets its own
+   timestamp-based `RUN_DIR`, so re-running never overwrites prior
+   runs. The diff is reversible (one Edit, no migrations, no cloud
+   writes). Iterate freely; you can't lose ground.
+
+**What "iterate to success" looks like in practice for this doc**:
+
+* **Iteration 1** — Route A only. Most likely outcome: 30–32/36, with
+  1–2 of the 3 Symptom-A qids flipped. Spot-check confirms which
+  ones. If 32/36 with 0 regressions → DONE, commit, push.
+* **Iteration 2** (if needed) — diagnose why the un-flipped Symptom-A
+  qids are still weak. Likely cause: the chunks landed in
+  `support_documents` post-Route-A but the synthesis layer's
+  support-doc rendering is also imperfect for that doc shape. Read the
+  trace to confirm. Add Route B (Step 8) at the synthesis level, OR
+  refine Route A's regex to also accept ET-article-like keys you
+  hadn't anticipated. Re-run.
+* **Iteration 3** (if still needed) — surface to operator with the
+  full audit. Don't silently push past the gate.
+
+**What is NOT iteration**:
+
+* Re-running the same code hoping for a different result.
+* Adding `--continue-on-error` or `pytest -x` skip-marker to bypass a
+  red signal.
+* Lowering the 32/36 threshold "just for this round."
+* Committing a partial fix without writing up the residual gap.
+
+**Speed target**: each iteration is ~7 min (5 min code/restart + ~2
+min panel + classifier). Three iterations = ~25 min to a closed phase.
+
+---
+
+---
+
 ## 0. Zero-context primer
 
 You are working in `/Users/ava-sensas/Developer/Lia_Graph/`, a graph-native
 RAG product for Colombian accountants ("Lia Graph", branched from
 Lia Contador).
 
-**Read these in order, total ~25 minutes:**
+**Read these in order, total ~25 minutes.** The "⚡ Operating mode"
+banner above this §0 takes precedence over any of these — re-read it
+between iterations if your first pass doesn't close.
 
 1. **`CLAUDE.md`** — repo-level operating guide. **Critical sections for
    this work:**
@@ -555,14 +654,37 @@ PY
   * `coherence.detect.reason='primary_on_topic'` still holds in the
     trace.
 
-#### Failure criteria
+#### Iteration triggers (NOT failure — diagnosis material)
 
-* Panel < 29/36 → REVERT immediately. Below the fix_v2 floor =
-  unacceptable.
-* Panel < 32/36 but ≥ 29/36 with all fix_v2 qids preserved → consider
-  Route B (Step 8 below) before declaring done.
-* Any of the 8 fix_v2-passing qids regress to non-acc+ → STOP, do not
-  commit, write up which one and why.
+* **Panel < 29/36** → REVERT immediately. Below the fix_v2 floor =
+  unacceptable. This is the only true STOP-without-iteration condition.
+  Surface to operator with run dir + per-qid delta.
+* **Panel ∈ [29, 32) with all fix_v2 qids preserved** → ITERATE. Don't
+  declare done; don't lower the gate. Workflow:
+  1. Identify which Symptom-A qid(s) didn't flip (compare the
+     served_weak set against the 3 expected: regimen_cambiario_P1,
+     regimen_cambiario_P3, regimen_sancionatorio_extemporaneidad_P2).
+  2. For each unflipped qid, read the new trace
+     (`<RUN_DIR>/<qid>.json`). Look at `retriever.evidence` step:
+     * If `primary_count=0` and `support_count>0` → the chunks
+       correctly demoted to support_documents but the support-doc
+       synthesis path is also producing a stub. Add Route B (§ Step 8)
+       to fix the support-doc rendering.
+     * If `primary_count>0` and answer is still <500 chars → the
+       synthesis layer has another non-numeric-key path you haven't
+       guarded. Inspect `top_chunk_ids` to find the offending key
+       shape; refine Route A's regex if it's a real ET pattern (e.g.
+       `771-2`, `1.2.3.4` for decreto articles), or stack Route B if
+       it's a slug.
+  3. Apply the smallest fix; restart staging; re-run panel.
+  4. Recurse from this list. Maximum 2 additional iterations before
+     surfacing to operator with full audit.
+* **Any of the 8 fix_v2-passing qids regress to non-acc+** → STOP, do
+  NOT commit. This is a regression, not a partial result. Read the
+  trace for the regressed qid; identify whether Route A's regex was
+  too tight (likely cause: a real ET article number with a shape you
+  didn't anticipate); refine and re-run. NEVER commit a regressing
+  fix.
 
 ### Step 7 — Six-gate sign-off + commit + push
 
@@ -640,7 +762,15 @@ EOF
 git push origin main
 ```
 
-### Step 8 — Route B (only if Step 6 panel < 32/36)
+### Step 8 — Route B (the iteration that catches what Route A missed)
+
+Trigger: Step 6's iteration logic surfaces a residual gap that Route A
+alone can't close — typically because a Symptom-A qid landed with
+`primary_count=0` but its support-doc rendering is also broken, OR
+because a different qid surfaced a different non-numeric-key shape.
+
+**Treat this as iteration 2, not "fallback."** The success criterion
+hasn't changed. The fix surface has expanded.
 
 Modify `_anchor_label_for_item` in
 `src/lia_graph/pipeline_d/answer_inline_anchors.py` line 86 to render
@@ -669,22 +799,42 @@ run-dir + per-qid trace + a proposal for phase 5 (the 4 Symptom-B qids
 
 ---
 
-## 4. Operations canon for the panel run
+## 4. Operations canon — fail fast, fix fast, iterate to success
+
+**This section is the operational spine of the whole doc. Re-read it
+between iterations.**
 
 The panel is small enough (~5 min wall) that you do NOT need a 3-min
-cron heartbeat. But the launch shape and fail-fast principles still
-apply per CLAUDE.md "Fail Fast, Fix Fast" + "Long-running Python
-processes":
+cron heartbeat. But the launch shape, fail-fast principles, AND
+iteration loop apply in full per CLAUDE.md "Fail Fast, Fix Fast" +
+"Long-running Python processes". The principles map to this work as:
 
-| # | Rule | Concrete here |
+| # | Principle (from CLAUDE.md) | Concrete here |
 |---|---|---|
-| 1 | Detached launch, no tee pipe | Step 5d uses `nohup + disown + > LOG 2>&1`. |
-| 2 | Wait via Monitor, not sleep | Step 5d ends with the Monitor command — do not poll. |
-| 3 | Fail-fast thresholds armed BEFORE launching | Step 5d table. Abort on `Traceback`, stall > 4 min, or panel acc+ < 29. |
-| 4 | First abort = diagnosis, not retry | Read `/tmp/fix_v3_panel.log` + the run dir's
-   per-qid JSON; identify root cause; fix; re-launch. NEVER raise the threshold or skip via `--continue`. |
-| 5 | Bogotá AM/PM for human times | Use `date -u +%FT%TZ` for machine; convert to Bogotá when reporting to operator. |
-| 6 | Idempotency | Each panel run gets its own `RUN_DIR` (timestamp-based); re-running won't overwrite prior runs. |
+| 1 | **Instrument before launching** | Step 5d table sets the abort signals BEFORE the panel kicks off (`Traceback`, stall > 4 min, panel acc+ < 29). |
+| 2 | **First abort = diagnosis signal, not retry signal** | When pytest goes red OR the panel returns Traceback OR acc+ regresses, do NOT relaunch the same code. Read `/tmp/fix_v3_panel.log` + the run dir's per-qid JSON; identify the failure pattern (which qid, which gate step, which chunk); fix the root cause; dry-validate; re-launch. NEVER raise the threshold, NEVER add `--continue`, NEVER skip-marker. |
+| 3 | **"Stable" means past the prior failure point** | One clean panel run is good but not closing — Step 6's spot-check is the second confirmation. Both must hold (panel ≥32 AND spot-check shows no fix_v2-passing qid regressed AND the 3 Symptom-A qids actually flipped). |
+| 4 | **Idempotency mandatory** | Each panel gets a timestamp-based `RUN_DIR` so re-runs never overwrite prior runs. The code diff is reversible (one Edit, no migrations, no cloud writes). Iterate freely. |
+| 5 | **Audit logs not just stdout** | The per-qid JSON in `<RUN_DIR>/<qid>.json` is the audit. Read `response.diagnostics.pipeline_trace.steps[*]` for any qid you need to diagnose — it's PII-safe and has every retrieval/gate decision with reasons. Don't rely on `/tmp/fix_v3_panel.log` alone (it's just progress text). |
+| 6 | **Diagnose at the audit layer, not the symptom** | "qid X is still served_weak" is a symptom. The audit tells you whether the trigger was: chunks not retrieved (recall problem) → look at `retriever.hybrid_search.out`; chunks retrieved but mis-classified (classification problem) → look at `retriever.evidence`; classified correctly but answer collapsed (synthesis problem) → look at the answer markdown + the chunk_ids in primary. Map symptom → audit layer → fix layer; don't guess. |
+| 7 | **Detached launch, no tee pipe** | Step 5d uses `nohup + disown + > LOG 2>&1`. Survives CLI close. |
+| 8 | **Wait via Monitor, not sleep** | Step 5d's panel-completion check uses the Monitor tool with `until grep -qE "PANEL_DONE\|Traceback\|FAILED" ...; do sleep 15; done`. Do not chain shorter sleeps. |
+| 9 | **Bogotá AM/PM for human times** | Use `date -u +%FT%TZ` for machine; convert to Bogotá when reporting to operator. |
+
+### The iteration ladder
+
+Each iteration ≈ 7 minutes (5 min restart + 2 min panel + classifier).
+Three iterations = ~25 minutes to a closed phase. Plan for 1–3.
+
+| Iteration | What | Expected outcome | Next |
+|---|---|---|---|
+| **1** | Route A only (Step 3 numeric-key guard). Smoke + panel + spot-check. | 30–32/36, with 1–3 of the 3 Symptom-A qids flipped. | If 32 + 0 regressions + spot-check clean → Step 7 commit. Else iterate. |
+| **2** | Diagnose unflipped Symptom-A qids via their per-qid trace. Apply Route B (Step 8) at synthesis layer OR refine Route A regex. Smoke + panel + spot-check. | 32+/36. | If 32 + 0 regressions + spot-check clean → Step 7 commit. Else iterate. |
+| **3** | If still <32, surface to operator with full audit (run dirs, per-qid trace, residual symptom-pattern bucketing). Don't push past the gate alone. | Operator decides: refine, expand scope, or accept partial. | Either Step 7 commit (if accepted) or close as DISCARDED with the run-dir as evidence (per six-gate gate 6). |
+
+**Maximum iterations before operator escalation: 3.** If you hit 3
+without closing, the bug class is wider than Route A+B; that's a
+fix_v4-scope expansion, not a Route C invention.
 
 ---
 

@@ -5,24 +5,24 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:19:10.588161+00:00",
+  "extracted_at_utc": "2026-04-29T15:08:53.529988+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "The provided snippet of the DIAN normograma does not include the text of Article 19; unable to extract the state from this source."
+      "Full text of res.dian.13.2021.art.19 is not available in the provided primary source excerpts. The DIAN normograma excerpt ends at art. 6, and the PDF snippet only contains the article heading."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 37602,
+      "wall_ms": 38912,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "dian_normograma"
+    "single_source_accepted": null
   }
 }

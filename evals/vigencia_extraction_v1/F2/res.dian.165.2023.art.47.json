@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:20:26.829542+00:00",
+  "extracted_at_utc": "2026-04-29T15:16:36.185966+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "res.dian.165.2023.art.47 not found in the provided text of the DIAN normograma; the excerpt shows only the preamble and does not include the article content."
+      "No available text of Resolución 165 de 2023 DIAN art. 47 in the provided source snippet; the source content is truncated and does not contain Article 47, nor any vigencia notes for it."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 30244,
+      "wall_ms": 49100,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

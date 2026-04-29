@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:20:27.332079+00:00",
+  "extracted_at_utc": "2026-04-29T15:16:14.500721+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0165_2023.htm#art48"
+      "No se encuentra el texto del artículo 48 en la fuente proporcionada (normograma DIAN de la Resolución 165 de 2023, la cual solo incluye los considerandos y el inicio del articulado, sin contener el artículo 48)."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 29709,
+      "wall_ms": 25500,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

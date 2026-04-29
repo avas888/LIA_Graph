@@ -1,0 +1,894 @@
+{
+  "qid": "firmeza_declaraciones_P1",
+  "topic_key_expected": "firmeza_declaraciones",
+  "profile": "P1_directa",
+  "message": "¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?",
+  "http_status": 200,
+  "latency_ms": 30824,
+  "captured_utc": "2026-04-29T18:28:43.083296+00:00",
+  "response": {
+    "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+    "run_id": "pd_73a2a4463a534cf6b15e3ea6e96f359c",
+    "answer_markdown": "**Respuestas directas**\n\n*   **¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?**\n    *   El término general de firmeza para una declaración de renta es de tres (3) años, contados a partir de la fecha de vencimiento del plazo para declarar o de la fecha de presentación, si fue extemporánea (art. 714 ET).\n    *   Si la declaración presenta un saldo a favor, el término de firmeza es de tres (3) años contados a partir de la fecha de presentación de la solicitud de devolución o compensación (art. 714 ET).\n    *   Si la declaración de renta no genera pérdidas fiscales ni compensa pérdidas de periodos anteriores, y no se acoge al beneficio de auditoría, el término de firmeza es el general de tres (3) años.\n\n*   **¿Qué pasa si la declaración de renta de la SAS presenta pérdidas fiscales?**\n    *   Si la declaración de renta arroja una pérdida fiscal, el término de firmeza se extiende a seis (6) años, contados a partir de la fecha de vencimiento del plazo para declarar (art. 147 ET).\n    *   Este término ampliado aplica para que la DIAN pueda revisar la procedencia de la pérdida fiscal y su posterior compensación.\n\n*   **¿Qué pasa si la declaración de renta de la SAS compensa pérdidas fiscales de periodos anteriores?**\n    *   Si la declaración de renta compensa pérdidas fiscales de periodos anteriores, el término de firmeza también es de seis (6) años, contados a partir de la fecha de vencimiento del plazo para declarar del periodo en que se compensa la pérdida (art. 147 ET).\n    *   Esto permite a la DIAN revisar tanto la pérdida original como su aplicación en el periodo de compensación.\n\n*   **¿Qué pasa si la declaración de renta de la SAS se acoge al beneficio de auditoría?**\n    *   Cobertura pendiente para esta sub-pregunta.\n\n**Ruta sugerida**\n\n1.  La regla general para la compensación de pérdidas fiscales es que la sociedad las compensa con rentas líquidas ordinarias futuras; no se trasladan a los socios ni se tratan como un saldo a favor (art. 147 ET).\n2.  Para pérdidas fiscales generadas bajo el régimen actual, el límite temporal para su compensación es de doce (12) periodos gravables siguientes, sin un tope porcentual anual (arts. 147 y 356-1 ET).\n3.  La firmeza de la declaración es un concepto distinto a la mecánica de compensación de pérdidas. Es crucial medir el término de firmeza por separado (arts. 147 y 260 ET).\n4.  Si las pérdidas fiscales provienen de años anteriores a 2017, es necesario validar el régimen de transición establecido en el art. 290 ET antes de aplicar la regla de los 12 años.\n\n**Riesgos y condiciones**\n\n*   No confundir la compensación de pérdidas fiscales con la devolución o compensación de saldos a favor. El problema principal aquí es la gestión de pérdidas fiscales en renta (arts. 147 y 588 ET).\n*   No aplicar el término de firmeza ordinario de tres (3) años si la declaración genera o compensa pérdidas fiscales. En estos casos, el término de firmeza es de seis (6) años (arts. 147 y 260 ET).\n*   Evitar aplicar la lógica del art. 588 ET cuando la corrección de la declaración aumenta el saldo a favor o disminuye el valor a pagar.\n\n**Soportes clave**\n\n| Artículo | Descripción |\n| :------- | :---------- |\n| Art. 147 ET | COMPENSACIÓN DE PÉRDIDAS FISCALES DE SOCIEDADES |\n| Art. 260 ET | AJUSTES |\n| Art. 588 ET | CORRECCIONES QUE AUMENTAN EL IMPUESTO O DISMINUYEN EL SALDO A FAVOR |\n| Art. 714 ET | FIRMEZA DE LAS DECLARACIONES TRIBUTARIAS |",
+    "answer_concise": "**Respuestas directas**\n\n*   **¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?**\n    *   El término general de firmeza para una declaración de renta es de tres (3) años, contados a partir de la fecha de vencimiento del plazo para declarar o de la fecha de presentación, si fue extemporánea (art. 714 ET).\n    *   Si la declaración presenta un saldo a favor, el término de firmeza es de tres (3) años contados a partir de la fecha de presentación de la solicitud de devolución o compensación (art. 714 ET).\n    *   Si la declaración de renta no genera pérdidas fiscales ni compensa pérdidas de periodos anteriores, y no se acoge al beneficio de auditoría, el término de firmeza es el general de tres (3) años.\n\n*   **¿Qué pasa si la declaración de renta de la SAS presenta pérdidas fiscales?**\n    *   Si la declaración de renta arroja una pérdida fiscal, el término de firmeza se extiende a seis (6) años, contados a partir de la fecha de vencimiento del plazo para declarar (art. 147 ET).\n    *   Este término ampliado aplica para que la DIAN pueda revisar la procedencia de la pérdida fiscal y su posterior compensación.\n\n*   **¿Qué pasa si la declaración de renta de la SAS compensa pérdidas fiscales de periodos anteriores?**\n    *   Si la declaración de renta compensa pérdidas fiscales de periodos anteriores, el término de firmeza también es de seis (6) años, contados a partir de la fecha de vencimiento del plazo para declarar del periodo en que se compensa la pérdida (art. 147 ET).\n    *   Esto permite a la DIAN revisar tanto la pérdida original como su aplicación en el periodo de compensación.\n\n*   **¿Qué pasa si la declaración de renta de la SAS se acoge al beneficio de auditoría?**\n    *   Cobertura pendiente para esta sub-pregunta.\n\n**Ruta sugerida**\n\n1.  La regla general para la compensación de pérdidas fiscales es que la sociedad las compensa con rentas líquidas ordinarias futuras; no se trasladan a los socios ni se tratan como un saldo a favor (art. 147 ET).\n2.  Para pérdidas fiscales generadas bajo el régimen actual, el límite temporal para su compensación es de doce (12) periodos gravables siguientes, sin un tope porcentual anual (arts. 147 y 356-1 ET).\n3.  La firmeza de la declaración es un concepto distinto a la mecánica de compensación de pérdidas. Es crucial medir el término de firmeza por separado (arts. 147 y 260 ET).\n4.  Si las pérdidas fiscales provienen de años anteriores a 2017, es necesario validar el régimen de transición establecido en el art. 290 ET antes de aplicar la regla de los 12 años.\n\n**Riesgos y condiciones**\n\n*   No confundir la compensación de pérdidas fiscales con la devolución o compensación de saldos a favor. El problema principal aquí es la gestión de pérdidas fiscales en renta (arts. 147 y 588 ET).\n*   No aplicar el término de firmeza ordinario de tres (3) años si la declaración genera o compensa pérdidas fiscales. En estos casos, el término de firmeza es de seis (6) años (arts. 147 y 260 ET).\n*   Evitar aplicar la lógica del art. 588 ET cuando la corrección de la declaración aumenta el saldo a favor o disminuye el valor a pagar.\n\n**Soportes clave**\n\n| Artículo | Descripción |\n| :------- | :---------- |\n| Art. 147 ET | COMPENSACIÓN DE PÉRDIDAS FISCALES DE SOCIEDADES |\n| Art. 260 ET | AJUSTES |\n| Art. 588 ET | CORRECCIONES QUE AUMENTAN EL IMPUESTO O DISMINUYEN EL SALDO A FAVOR |\n| Art. 714 ET | FIRMEZA DE LAS DECLARACIONES TRIBUTARIAS |",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "gravamen_movimiento_financiero_4x1000",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "legal_reference": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "search_query": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF) DIAN / fuente oficial colombia Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*(Modificado por Ley 1819 de 2016 Art. 88 y Ley 2010 de 2019 Art. 117. Texto vigente aplicable a AG 2025.)*\n\nLas sociedades podrán compensar las pérdidas fiscales, con las rentas líquidas ordinarias que obtuvieren en los doce (12) períodos ",
+      "Los contribuyentes del impuesto sobre la renta y complementarios, cuyo patrimonio bruto en el último día del año o período gravable sea igual o superior al equivalente a cien mil (100.000) UVT (para 2025: 100.000 × $49.799 = $4.979.900.000)",
+      "Sin perjuicio de lo dispuesto en los artículos 709 y 713, los contribuyentes, responsables o agentes retenedores, podrán corregir sus declaraciones tributarias dentro de los dos (2) años siguientes al vencimiento del plazo para declarar y a"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 3,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "147",
+          "260",
+          "588"
+        ],
+        "chunk_row_count": 23,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "reform_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T18:28:12.289546+00:00",
+        "total_ms": 19522.34,
+        "step_count": 25,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T18:28:12.289561+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T18:28:12.289546+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:12.356224+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 66.67,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 153,
+              "message_preview": "¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:12.630769+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 341.21,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:12.658732+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 369.16,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:12.790833+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 501.2,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 153,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:14.317090+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2027.53,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "firmeza_declaraciones",
+              "confidence": 1.0,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta específicamente sobre el tiempo que tiene la DIAN para revisar y modificar una declaración de renta, lo cual se refiere directamente a la firmeza de las declaraciones tributarias. La definición de 'firmeza_declaraciones",
+              "elapsed_ms_call": 1537.36,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:14.317715+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2028.16,
+            "message": null,
+            "details": {
+              "effective_topic": "firmeza_declaraciones",
+              "confidence": 1.0,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:19.974108+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 7684.54,
+            "message": null,
+            "details": {
+              "owner_trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+              "requested_trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:19.974374+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 7684.81,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "firmeza_declaraciones",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta pregunta específicamente sobre el tiempo que tiene la DIAN para revisar y modificar una declaración de renta, lo cual se refiere directamente a la firmeza de las declaraciones tributarias. La definición de 'firmeza_declaraciones' incluye 'Reglas de firmeza de declaraciones tributarias - plazos generales y especiales (beneficio auditoria, perdidas fiscales, precios de transferencia)'.",
+              "topic_notice": "Tu pregunta es de firmeza declaraciones, por lo cual utilizaremos nuestra base de datos firmeza declaraciones.",
+              "message_preview": "¿Cuánto tiempo tiene la DIAN para revisar y modificar una declaración de renta de una SAS que se presentó normal, sin pérdidas ni beneficio de auditoría?",
+              "message_chars": 153
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:19.996789+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 7707.21,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:19.997038+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7707.47,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "firmeza_declaraciones declaracion_renta procedimiento_tributario beneficio_auditoria correcciones que disminuyan el valor a pagar o aumenten el saldo a favor correcciones que aumentan el impuesto o disminuyen el saldo a favor correccion dec",
+              "query_text_chars": 577
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:19.997183+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7707.62,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "firmeza_declaraciones",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "firmeza_declaraciones"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:21.117611+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 8828.03,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::240",
+                "suin_1132325::235-2",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "suin_1132325::689-1"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:21.117855+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 8828.29,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:21.117975+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 8828.41,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:21.323291+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 9033.71,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:26.358315+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 14068.71,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 3,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "147",
+                "260",
+                "588"
+              ],
+              "tema_first_topic_key": "firmeza_declaraciones",
+              "planner_query_mode": "reform_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:26.358725+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 14069.14,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                3,
+                4
+              ],
+              "after": [
+                3,
+                3,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "147",
+                  "260",
+                  "588",
+                  "239-1",
+                  "260-6",
+                  "356-1"
+                ],
+                "candidate_count": 6,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:26.358940+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 14069.36,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "firmeza_declaraciones",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "firmeza_declaraciones",
+                "articles_top_topic": "firmeza_declaraciones",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "147"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:26.359056+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 14069.48,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "firmeza_declaraciones",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:26.359212+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 14069.64,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "reform_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:26.371015+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 14081.43,
+            "message": null,
+            "details": {
+              "template_chars": 1159
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:31.811023+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 19521.42,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3527,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:31.811442+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 19521.86,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "firmeza_declaraciones",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:28:31.811748+00:00",
+            "trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 19522.16,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 26,
+        "output_tokens": 609,
+        "total_tokens": 635,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "firmeza_declaraciones",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de firmeza declaraciones, por lo cual utilizaremos nuestra base de datos firmeza declaraciones.",
+    "topic_adjustment_reason": "La consulta pregunta específicamente sobre el tiempo que tiene la DIAN para revisar y modificar una declaración de renta, lo cual se refiere directamente a la firmeza de las declaraciones tributarias. La definición de 'firmeza_declaraciones' incluye 'Reglas de firmeza de declaraciones tributarias - plazos generales y especiales (beneficio auditoria, perdidas fiscales, precios de transferencia)'.",
+    "coverage_notice": null,
+    "topic": "firmeza_declaraciones",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_7ce26b82bf9e",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 26,
+        "output_tokens": 609,
+        "total_tokens": 635
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+      "last_run_id": "pd_73a2a4463a534cf6b15e3ea6e96f359c",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_7ce26b82bf9e",
+    "chat_run_id": "cr_20260429_182815_9dc3efa1",
+    "metrics": {
+      "latency_ms": 25083.47,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 26,
+          "output_tokens": 609,
+          "total_tokens": 635,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_7ce26b82bf9e",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 26,
+          "output_tokens": 609,
+          "total_tokens": 635
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "9f679dcd-8d8c-4f53-97c0-d3e5b05d51a0",
+        "last_run_id": "pd_73a2a4463a534cf6b15e3ea6e96f359c",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 6,
+        "mentions_unique": 6,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 6,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 15.0
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "firmeza_declaraciones",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "abe8896a7fac4fe399b980bc529497aa"
+  }
+}

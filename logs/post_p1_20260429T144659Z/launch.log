@@ -1,0 +1,9 @@
+[2026-04-29T14:46:59Z] P5 — sync_vigencia_to_falkor.py --target production (foreground)
+[2026-04-29T15:07:22Z] P5 ok
+[2026-04-29T15:07:22Z] P4 — embedding backfill (detached) → /Users/ava-sensas/Developer/Lia_Graph/logs/post_p1_20260429T144659Z/p4_embedding_backfill.log
+[2026-04-29T15:07:22Z] P4 launched PID=84292
+[2026-04-29T15:07:22Z] P6 — cascade rerun --rerun-only-refusals --max-source-chars 32000 (detached)
+[2026-04-29T15:07:22Z] P6 launched PID=84299
+[2026-04-29T15:07:22Z] All launched. P4 + P6 running concurrently in background. Monitor heartbeats independently.
+[2026-04-29T15:07:22Z] P4 log: /Users/ava-sensas/Developer/Lia_Graph/logs/post_p1_20260429T144659Z/p4_embedding_backfill.log
+[2026-04-29T15:07:22Z] P6 log: /Users/ava-sensas/Developer/Lia_Graph/logs/post_p1_20260429T144659Z/p6_cascade_v6_2.log

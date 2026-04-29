@@ -1,0 +1,1440 @@
+{
+  "qid": "perdidas_fiscales_art147_P3",
+  "topic_key_expected": "perdidas_fiscales_art147",
+  "profile": "P3_borde",
+  "message": "Tengo un cliente que arrastra una pérdida del año 2014 que todavía no ha podido compensar. Adicional, en 2018 hubo una fusión donde mi cliente fue la sociedad absorbente. ¿Las pérdidas del 2014 sobreviven la fusión? ¿Y siguen siendo compensables hoy o ya se vencieron por el plazo? Hay reglas distintas para pérdidas pre-2017 y post-2017 y me genera dudas la transición.",
+  "http_status": 200,
+  "latency_ms": 45929,
+  "captured_utc": "2026-04-29T18:31:25.038398+00:00",
+  "response": {
+    "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+    "run_id": "pd_a7f98a0cd2c046ff8b06170dd3fe98d1",
+    "answer_markdown": "**Respuestas directas**\n- **¿Las pérdidas del 2014 sobreviven la fusión?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n- **¿Y siguen siendo compensables hoy o ya se vencieron por el plazo?**\n  - La compensación de pérdidas fiscales está sujeta a los plazos y condiciones vigentes al momento de su generación y a las modificaciones posteriores. Para las pérdidas generadas en 2014, es crucial revisar la normativa aplicable a ese período y su evolución.\n  - La transformación debe ser autorizada por el máximo órgano social (Asamblea General o Junta de Socios) con las mayorías requeridas por estatutos o ley especial de cada tipo de sociedad (art. 167 ET).\n\n**Ruta sugerida**\n1. Revisa la normativa específica sobre compensación de pérdidas fiscales para el año 2014, considerando las reglas de transición que pudieron aplicarse con la Ley 1819 de 2016 y posteriores reformas.\n2. Analiza el impacto de la fusión de 2018 en la compensabilidad de las pérdidas. La capacidad de la sociedad absorbente para compensar pérdidas de la absorbida depende de las condiciones establecidas en el Estatuto Tributario para este tipo de operaciones.\n3. Confirma el plazo de compensación para las pérdidas de 2014. Las reglas sobre el límite de tiempo para compensar pérdidas han cambiado, y es fundamental determinar cuál aplica a este caso particular.\n4. Los contribuyentes pueden actuar ante la Administración Tributaria personalmente o por medio de sus representantes o apoderados (arts. 555 y 555-1 ET).\n\n**Riesgos y condiciones**\n- La cobertura quedó parcial.\n- La aplicación de normas de transición puede generar interpretaciones diversas. Es fundamental tener claridad sobre la vigencia de las normas en cada período relevante (generación de la pérdida, fusión, y año actual de compensación).\n- La capacidad de compensar pérdidas en una fusión puede estar condicionada a que la sociedad absorbida no haya sido creada con el propósito principal de transferir pérdidas.\n\n**Soportes clave**\n- Actas de la Asamblea General o Junta de Socios donde se autorizó la fusión (art. 167 ET).\n- Declaraciones de renta de los años 2014 a la fecha, tanto de la sociedad absorbente como de la absorbida.\n- Escritura pública de la fusión.\n- Normativa tributaria vigente para los años 2014, 2016 (Ley 1819), 2018 (fusión) y el año actual.",
+    "answer_concise": "**Respuestas directas**\n- **¿Las pérdidas del 2014 sobreviven la fusión?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n- **¿Y siguen siendo compensables hoy o ya se vencieron por el plazo?**\n  - La compensación de pérdidas fiscales está sujeta a los plazos y condiciones vigentes al momento de su generación y a las modificaciones posteriores. Para las pérdidas generadas en 2014, es crucial revisar la normativa aplicable a ese período y su evolución.\n  - La transformación debe ser autorizada por el máximo órgano social (Asamblea General o Junta de Socios) con las mayorías requeridas por estatutos o ley especial de cada tipo de sociedad (art. 167 ET).\n\n**Ruta sugerida**\n1. Revisa la normativa específica sobre compensación de pérdidas fiscales para el año 2014, considerando las reglas de transición que pudieron aplicarse con la Ley 1819 de 2016 y posteriores reformas.\n2. Analiza el impacto de la fusión de 2018 en la compensabilidad de las pérdidas. La capacidad de la sociedad absorbente para compensar pérdidas de la absorbida depende de las condiciones establecidas en el Estatuto Tributario para este tipo de operaciones.\n3. Confirma el plazo de compensación para las pérdidas de 2014. Las reglas sobre el límite de tiempo para compensar pérdidas han cambiado, y es fundamental determinar cuál aplica a este caso particular.\n4. Los contribuyentes pueden actuar ante la Administración Tributaria personalmente o por medio de sus representantes o apoderados (arts. 555 y 555-1 ET).\n\n**Riesgos y condiciones**\n- La cobertura quedó parcial.\n- La aplicación de normas de transición puede generar interpretaciones diversas. Es fundamental tener claridad sobre la vigencia de las normas en cada período relevante (generación de la pérdida, fusión, y año actual de compensación).\n- La capacidad de compensar pérdidas en una fusión puede estar condicionada a que la sociedad absorbida no haya sido creada con el propósito principal de transferir pérdidas.\n\n**Soportes clave**\n- Actas de la Asamblea General o Junta de Socios donde se autorizó la fusión (art. 167 ET).\n- Declaraciones de renta de los años 2014 a la fecha, tanto de la sociedad absorbente como de la absorbida.\n- Escritura pública de la fusión.\n- Normativa tributaria vigente para los años 2014, 2016 (Ley 1819), 2018 (fusión) y el año actual.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-222-1995.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-222-1995.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "comercial_societario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-222-1995.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-222-1995.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-222-1995.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-222-1995.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 222 de 1995 — Régimen Societario: Guía Práctica para PYMEs",
+        "legal_reference": "Ley 222 de 1995 — Régimen Societario: Guía Práctica para PYMEs",
+        "search_query": "Ley 222 de 1995 — Régimen Societario: Guía Práctica para PYMEs DIAN / fuente oficial colombia Ley 222 de 1995 — Régimen Societario: Guía Práctica para PYMEs",
+        "reference_key": "ley:222:1995",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La transformación debe ser autorizada por el máximo órgano social (Asamblea General o Junta de Socios) con las mayorías requeridas por estatutos o ley especial de cada tipo de sociedad (art. 167 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-2069-2020.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-2069-2020.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "comercial_societario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-2069-2020.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-2069-2020.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-2069-2020.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-2069-2020.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 2069 de 2020 — Guía práctica: acceso a INNpulsa",
+        "legal_reference": "Ley 2069 de 2020 — Guía práctica: acceso a INNpulsa",
+        "search_query": "Ley 2069 de 2020 — Guía práctica: acceso a INNpulsa DIAN / fuente oficial colombia Ley 2069 de 2020 — Guía práctica: acceso a INNpulsa",
+        "reference_key": "ley:2069:2020",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La transformación debe ser autorizada por el máximo órgano social (Asamblea General o Junta de Socios) con las mayorías requeridas por estatutos o ley especial de cada tipo de sociedad (art. 167 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Y siguen siendo compensables hoy o ya se vencieron por el plazo?** La compensación de pérdidas fiscales está sujeta a los plazos y condiciones vigentes al momento de su generación y a las modificaciones posteriores.",
+        "usage_intents": [
+          "plazos",
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Las pérdidas del 2014 sobreviven la fusión?** Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Las pérdidas del 2014 sobreviven la fusión?** Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "regimen_cambiario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_cam_normativa_regimen_cambiario.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "legal_reference": "Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "search_query": "Régimen Cambiario Colombiano — Marco Normativo Integral DIAN / fuente oficial colombia Régimen Cambiario Colombiano — Marco Normativo Integral",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Las pérdidas del 2014 sobreviven la fusión?** Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.55,
+      "mode": "topic_misalignment_hedged"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "**Texto vigente:**\n\n> \"Las acciones podrán estar representadas en títulos valores o anotaciones en cuenta, según lo dispuesto en la Ley 27 de 1990. Los accionistas fundadores pueden suscribir acciones al momento de la co",
+      "**Texto vigente:**\n\n> \"El capital suscrito podrá pagarse en dinero o en especie. Si se paga en especie, la asamblea de accionistas fijará el valor de los bienes aportados, debidamente soportado. La asamblea podrá designa",
+      "La transformación debe ser autorizada por el máximo órgano social (Asamblea General o Junta de Socios) con las **mayorías requeridas por estatutos o ley especial** de cada tipo de sociedad.\n\n**Para SAS**: Ley 1258 especi"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 6,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "555",
+          "555-1",
+          "555-2"
+        ],
+        "chunk_row_count": 23,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research"
+      },
+      "pipeline_trace": {
+        "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T18:30:39.110848+00:00",
+        "total_ms": 35227.95,
+        "step_count": 48,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T18:30:39.110863+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T18:30:39.110848+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:39.111036+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.18,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 370,
+              "message_preview": "Tengo un cliente que arrastra una pérdida del año 2014 que todavía no ha podido compensar. Adicional, en 2018 hubo una fusión donde mi cliente fue la sociedad absorbente. ¿Las pérdidas del 2014 sobreviven la fusión? ¿Y siguen siendo compens",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:39.140680+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 29.82,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:39.140939+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 30.08,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:39.160072+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 49.21,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 370,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:41.250719+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2139.85,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "perdidas_fiscales_art147",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra explícitamente en la compensación de pérdidas fiscales y su supervivencia tras una fusión, lo cual es el objeto principal del tema 'perdidas_fiscales_art147'. La fusión es un evento que afecta la compensación de pérdid",
+              "elapsed_ms_call": 2090.93,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:41.251172+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2140.31,
+            "message": null,
+            "details": {
+              "effective_topic": "perdidas_fiscales_art147",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "comercial_societario",
+                "declaracion_renta"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:49.288898+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 10178.02,
+            "message": null,
+            "details": {
+              "owner_trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+              "requested_trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:49.291874+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 10181.0,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "perdidas_fiscales_art147",
+              "secondary_topics": [
+                "comercial_societario",
+                "declaracion_renta"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra explícitamente en la compensación de pérdidas fiscales y su supervivencia tras una fusión, lo cual es el objeto principal del tema 'perdidas_fiscales_art147'. La fusión es un evento que afecta la compensación de pérdidas, pero la operación principal de la pregunta es sobre las pérdidas mismas. La mención de reglas pre-2017 y post-2017 refuerza el enfoque en la normativa de pérdidas fiscales.",
+              "topic_notice": "Tu pregunta es de perdidas fiscales art147, por lo cual utilizaremos nuestra base de datos perdidas fiscales art147.",
+              "message_preview": "Tengo un cliente que arrastra una pérdida del año 2014 que todavía no ha podido compensar. Adicional, en 2018 hubo una fusión donde mi cliente fue la sociedad absorbente. ¿Las pérdidas del 2014 sobreviven la fusión? ¿Y siguen siendo compens",
+              "message_chars": 370
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:49.294474+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 10183.6,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Las pérdidas del 2014 sobreviven la fusión?",
+                "¿Y siguen siendo compensables hoy o ya se vencieron por el plazo?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:49.294572+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 10183.7,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 44,
+              "message_preview": "¿Las pérdidas del 2014 sobreviven la fusión?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:49.311523+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 10200.65,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:49.312020+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 10201.15,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:49.326784+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 10215.91,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 44,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.043045+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 12932.16,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "comercial_societario",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta sobre la supervivencia de pérdidas fiscales en el contexto de una fusión, lo cual es un tema de derecho comercial y societario (fusión) con implicaciones en pérdidas fiscales. La regla heurística meta indica que el tema",
+              "elapsed_ms_call": 2716.34,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.043587+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 12932.71,
+            "message": null,
+            "details": {
+              "effective_topic": "comercial_societario",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "perdidas_fiscales_art147"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.043731+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 12932.85,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Las pérdidas del 2014 sobreviven la fusión?",
+              "effective_topic": "comercial_societario",
+              "secondary_topics": [
+                "perdidas_fiscales_art147"
+              ],
+              "confidence": 0.9,
+              "mode": "llm",
+              "reason": "La consulta pregunta sobre la supervivencia de pérdidas fiscales en el contexto de una fusión, lo cual es un tema de derecho comercial y societario (fusión) con implicaciones en pérdidas fiscales. La regla heurística meta indica que el tema es el que opera, y la fusión es la operación principal aquí. La regla 3 de mutua exclusividad fusiona 'obligaciones_mercantiles' en 'comercial_societario', reforzando que temas como fusiones pertenecen a este tópico. Las pérdidas fiscales son un subtema relevante pero la operación principal es la fusión.",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.068954+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 12958.07,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.069425+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 12958.55,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "comercial_societario ¿Las pérdidas del 2014 sobreviven la fusión?",
+              "query_text_chars": 65
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.069664+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 12958.79,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "comercial_societario",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "comercial_societario"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.719907+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 13609.01,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-222-1995.md::tema-",
+                "CORE_ya_Arriba_LEYES_COMERCIAL_SOCIETARIO_LOGGRO_PRACTICA_Ley-2069-2020.md::uvt-",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::147",
+                "suin_1132325::808",
+                "suin_30019323::209",
+                "suin_1874133::211",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-12-determinacion-renta-liquida-gravable.md::"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.720365+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 13609.49,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.720504+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 13609.63,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:52.897766+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 13786.87,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.747964+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 22637.07,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.748199+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 22637.31,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 65,
+              "message_preview": "¿Y siguen siendo compensables hoy o ya se vencieron por el plazo?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.759969+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 22649.08,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.760127+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 22649.24,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:01.771399+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 22660.51,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 65,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:03.038498+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 23927.59,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "procedimiento_tributario",
+              "confidence": 0.8,
+              "threshold": 0.75,
+              "reason": "La consulta se refiere a la compensabilidad de saldos, lo cual es un aspecto del procedimiento tributario, específicamente relacionado con la devolución y compensación de saldos a favor.",
+              "elapsed_ms_call": 1267.2,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:03.039153+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 23928.26,
+            "message": null,
+            "details": {
+              "effective_topic": "procedimiento_tributario",
+              "confidence": 0.8,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:03.039306+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 23928.42,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y siguen siendo compensables hoy o ya se vencieron por el plazo?",
+              "effective_topic": "procedimiento_tributario",
+              "secondary_topics": [],
+              "confidence": 0.8,
+              "mode": "llm",
+              "reason": "La consulta se refiere a la compensabilidad de saldos, lo cual es un aspecto del procedimiento tributario, específicamente relacionado con la devolución y compensación de saldos a favor.",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:03.066963+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 23956.07,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:03.067306+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 23956.42,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "procedimiento_tributario calendario_obligaciones ¿Y siguen siendo compensables hoy o ya se vencieron por el plazo?",
+              "query_text_chars": 114
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:03.067465+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 23956.58,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "procedimiento_tributario",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "procedimiento_tributario"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:04.007146+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 24896.25,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::555-1",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::879",
+                "suin_1132325::814",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:04.007815+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 24896.93,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:04.007971+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 24897.08,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:04.201205+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 25090.3,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:09.151843+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 30040.94,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:09.152075+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 30041.18,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                6,
+                5,
+                6
+              ],
+              "after": [
+                6,
+                5,
+                6
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "10",
+                  "12",
+                  "167",
+                  "555",
+                  "555-1",
+                  "555-2",
+                  "1",
+                  "103",
+                  "107",
+                  "109"
+                ],
+                "candidate_count": 11,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:09.181248+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 30070.34,
+            "message": null,
+            "details": {
+              "misaligned": true,
+              "kind": null,
+              "router_topic": "perdidas_fiscales_art147",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": true,
+                "router_topic": "perdidas_fiscales_art147",
+                "articles_top_topic": "sector_infancia",
+                "router_score_on_articles": 0,
+                "top_score_on_articles": 3,
+                "ranked_article_topics": [
+                  [
+                    "sector_infancia",
+                    3
+                  ],
+                  [
+                    "sector_comercio_internacional",
+                    3
+                  ],
+                  [
+                    "rut_y_responsabilidades_tributarias",
+                    3
+                  ],
+                  [
+                    "sector_administracion_publica",
+                    2
+                  ],
+                  [
+                    "gravamen_movimiento_financiero_4x1000",
+                    1
+                  ]
+                ],
+                "reason": "lexical_misaligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:09.217386+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 30106.49,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "comercial_societario",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:09.217686+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 30106.79,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:09.221128+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 30110.23,
+            "message": null,
+            "details": {
+              "template_chars": 800
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:14.337156+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 35226.24,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2371,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:14.338315+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 35227.41,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "perdidas_fiscales_art147",
+              "citations_in": 6,
+              "citations_out": 6,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:31:14.338649+00:00",
+            "trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 35227.75,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "topic_misalignment_hedged",
+              "confidence": 0.55,
+              "primary_articles": 6,
+              "citations_emitted": 6
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 62,
+        "output_tokens": 378,
+        "total_tokens": 440,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "perdidas_fiscales_art147",
+    "secondary_topics": [
+      "comercial_societario",
+      "declaracion_renta"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de perdidas fiscales art147, por lo cual utilizaremos nuestra base de datos perdidas fiscales art147.",
+    "topic_adjustment_reason": "La consulta se centra explícitamente en la compensación de pérdidas fiscales y su supervivencia tras una fusión, lo cual es el objeto principal del tema 'perdidas_fiscales_art147'. La fusión es un evento que afecta la compensación de pérdidas, pero la operación principal de la pregunta es sobre las pérdidas mismas. La mención de reglas pre-2017 y post-2017 refuerza el enfoque en la normativa de pérdidas fiscales.",
+    "coverage_notice": null,
+    "topic": "perdidas_fiscales_art147",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_cb199efddbbe",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 62,
+        "output_tokens": 378,
+        "total_tokens": 440
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+      "last_run_id": "pd_a7f98a0cd2c046ff8b06170dd3fe98d1",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_cb199efddbbe",
+    "chat_run_id": "cr_20260429_183042_26bee932",
+    "metrics": {
+      "latency_ms": 43661.99,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 62,
+          "output_tokens": 378,
+          "total_tokens": 440,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_cb199efddbbe",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 62,
+          "output_tokens": 378,
+          "total_tokens": 440
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "29b06520-3c96-4ae1-af2c-232c2584e543",
+        "last_run_id": "pd_a7f98a0cd2c046ff8b06170dd3fe98d1",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 5,
+        "mentions_unique": 5,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 5,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "ley:1819:2016",
+          "et",
+          "et",
+          "ley:1819"
+        ],
+        "normative_scaffolding_ms": 5.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "perdidas_fiscales_art147",
+        "secondary_topics": [
+          "comercial_societario",
+          "declaracion_renta"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "aa2312fc93324b5394db1a4982a11337"
+  }
+}

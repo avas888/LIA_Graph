@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:18:50.540610+00:00",
+  "extracted_at_utc": "2026-04-29T15:08:14.574285+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "Fuente 1: dian_normograma no incluye el artículo 14"
+      "https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0013_2021.htm"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 17554,
+      "wall_ms": 51402,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

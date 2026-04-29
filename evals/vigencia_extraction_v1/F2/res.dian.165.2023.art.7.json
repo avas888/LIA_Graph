@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:20:46.322952+00:00",
+  "extracted_at_utc": "2026-04-29T15:17:42.828743+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "No primary source contained the specific article 7 of res.dian.165.2023"
+      "The provided primary source fragment from https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0165_2023.htm does not include Article 7; no full-text access available."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 18987,
+      "wall_ms": 33229,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

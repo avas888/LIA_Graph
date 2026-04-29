@@ -5,19 +5,19 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-28T22:19:57.617679+00:00",
+  "extracted_at_utc": "2026-04-29T15:14:10.185224+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "The provided dian_normograma snippet does not include the text of article 27, so its state cannot be determined."
+      "res.dian.165.2023.art.27"
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 25440,
+      "wall_ms": 42736,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,

@@ -1,0 +1,1031 @@
+{
+  "qid": "devoluciones_saldos_a_favor_P2",
+  "topic_key_expected": "devoluciones_saldos_a_favor",
+  "profile": "P2_operativa",
+  "message": "Mi cliente, una SAS exportadora, cerró 2025 con un saldo a favor en renta de $180 millones por exceso de retenciones. Le presenté la declaración la semana pasada y necesita la plata cuanto antes para capital de trabajo. ¿Le conviene meter garantía bancaria para acelerar la devolución? ¿Y si no, le devuelven en plata o en TIDIS?",
+  "http_status": 200,
+  "latency_ms": 12013,
+  "captured_utc": "2026-04-29T18:30:19.062203+00:00",
+  "response": {
+    "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+    "run_id": "pd_fac88ff958b44c86b7daea2a19f03bd3",
+    "answer_markdown": "Evidencia insuficiente para responder con respaldo normativo en el tema **devoluciones_saldos_a_favor**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "answer_concise": "Evidencia insuficiente para responder con respaldo normativo en el tema **devoluciones_saldos_a_favor**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_zero_evidence_for_router_topic",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "pipeline_trace": {
+        "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-29T18:30:07.050356+00:00",
+        "total_ms": 8085.98,
+        "step_count": 40,
+        "steps": [
+          {
+            "ts_utc": "2026-04-29T18:30:07.050369+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-29T18:30:07.050356+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:07.050494+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.13,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 329,
+              "message_preview": "Mi cliente, una SAS exportadora, cerró 2025 con un saldo a favor en renta de $180 millones por exceso de retenciones. Le presenté la declaración la semana pasada y necesita la plata cuanto antes para capital de trabajo. ¿Le conviene meter g",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:07.050741+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 0.38,
+            "message": null,
+            "details": {
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "confidence": 0.98,
+              "reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:09.664784+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 2614.4,
+            "message": null,
+            "details": {
+              "owner_trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+              "requested_trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:09.665785+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 2615.41,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+              "topic_notice": "Tu pregunta es de devoluciones saldos a favor, por lo cual utilizaremos nuestra base de datos devoluciones saldos a favor.",
+              "message_preview": "Mi cliente, una SAS exportadora, cerró 2025 con un saldo a favor en renta de $180 millones por exceso de retenciones. Le presenté la declaración la semana pasada y necesita la plata cuanto antes para capital de trabajo. ¿Le conviene meter g",
+              "message_chars": 329
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:09.666058+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 2615.69,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Le conviene meter garantía bancaria para acelerar la devolución?",
+                "¿Y si no, le devuelven en plata o en TIDIS?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:09.666154+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 2615.79,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 65,
+              "message_preview": "¿Le conviene meter garantía bancaria para acelerar la devolución?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:09.695329+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 2644.96,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:09.701102+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 2650.73,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:09.720097+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 2669.73,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 65,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.066901+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 4016.53,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "devoluciones_saldos_a_favor",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se refiere a la aceleración de un proceso de devolución de saldos a favor, lo cual es una mecánica operativa dentro del procedimiento de devoluciones. La garantía bancaria es un mecanismo para acelerar este proceso.",
+              "elapsed_ms_call": 1347.05,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.067664+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 4017.29,
+            "message": null,
+            "details": {
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.067912+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 4017.54,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Le conviene meter garantía bancaria para acelerar la devolución?",
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "secondary_topics": [],
+              "confidence": 0.9,
+              "mode": "llm",
+              "reason": "La consulta se refiere a la aceleración de un proceso de devolución de saldos a favor, lo cual es una mecánica operativa dentro del procedimiento de devoluciones. La garantía bancaria es un mecanismo para acelerar este proceso.",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.089232+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 4038.86,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.089543+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 4039.17,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "devoluciones_saldos_a_favor procedimiento_tributario ¿Le conviene meter garantía bancaria para acelerar la devolución?",
+              "query_text_chars": 118
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.089662+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 4039.29,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "devoluciones_saldos_a_favor",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "devoluciones_saldos_a_favor"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.843629+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 4793.24,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::855",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::860",
+                "suin_1132325::641",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::814",
+                "suin_30036488::30190359",
+                "suin_1132325::642"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.843976+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 4793.61,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:11.844075+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 4793.71,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:12.041233+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 4990.85,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:12.436914+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 5386.52,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:12.437086+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 5386.72,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 43,
+              "message_preview": "¿Y si no, le devuelven en plata o en TIDIS?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:12.459283+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 5408.9,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:12.459697+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 5409.33,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:12.475700+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 5425.33,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 43,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:13.970145+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 6919.75,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "devoluciones_saldos_a_favor",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta sobre la forma de devolución ('en plata o en TIDIS'), lo cual es una mecánica operativa de las devoluciones de saldos a favor, un subtema de procedimiento tributario.",
+              "elapsed_ms_call": 1494.43,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:13.971017+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 6920.64,
+            "message": null,
+            "details": {
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:13.971182+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 6920.81,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y si no, le devuelven en plata o en TIDIS?",
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "secondary_topics": [],
+              "confidence": 0.9,
+              "mode": "llm",
+              "reason": "La consulta pregunta sobre la forma de devolución ('en plata o en TIDIS'), lo cual es una mecánica operativa de las devoluciones de saldos a favor, un subtema de procedimiento tributario.",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:13.995700+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 6945.32,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:13.995945+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6945.57,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "devoluciones_saldos_a_favor ¿Y si no, le devuelven en plata o en TIDIS?",
+              "query_text_chars": 71
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:13.996041+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6945.67,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "devoluciones_saldos_a_favor",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "devoluciones_saldos_a_favor"
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:14.524960+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7474.58,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::855",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NO",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::641",
+                "suin_1132325::580-1",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::642"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:14.525229+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7474.86,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:14.525335+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7474.96,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:14.684906+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 7634.51,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:15.074956+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 8024.54,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:15.075253+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 8024.88,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                0,
+                5,
+                5
+              ],
+              "after": [
+                0,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "855",
+                  "fuentes-y-referencias",
+                  "808",
+                  "860",
+                  "865"
+                ],
+                "candidate_count": 5,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:15.075318+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 8024.95,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "devoluciones_saldos_a_favor",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "devoluciones_saldos_a_favor",
+                "articles_top_topic": null,
+                "reason": "no_primary_articles"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:15.135925+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 8085.53,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": true,
+              "reason": "zero_evidence_for_router_topic",
+              "source": "no_evidence",
+              "router_topic": "devoluciones_saldos_a_favor",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-29T18:30:15.136153+00:00",
+            "trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.abstention",
+            "status": "fallback",
+            "elapsed_ms": 8085.78,
+            "message": "Evidence-coherence gate refused (enforce mode).",
+            "details": {
+              "refusal_reason": "zero_evidence_for_router_topic",
+              "refusal_source": "no_evidence"
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 57,
+        "output_tokens": 22,
+        "total_tokens": 79,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "devoluciones_saldos_a_favor",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de devoluciones saldos a favor, por lo cual utilizaremos nuestra base de datos devoluciones saldos a favor.",
+    "topic_adjustment_reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+    "coverage_notice": "Evidencia insuficiente para responder con respaldo normativo en el tema **devoluciones_saldos_a_favor**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "topic": "devoluciones_saldos_a_favor",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_605a930e263b",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 57,
+        "output_tokens": 22,
+        "total_tokens": 79
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+      "last_run_id": "pd_fac88ff958b44c86b7daea2a19f03bd3",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_605a930e263b",
+    "chat_run_id": "cr_20260429_183007_eed4dfb4",
+    "metrics": {
+      "latency_ms": 9609.88,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 57,
+          "output_tokens": 22,
+          "total_tokens": 79,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_zero_evidence_for_router_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_605a930e263b",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 57,
+          "output_tokens": 22,
+          "total_tokens": 79
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "dc8e9adc-3172-4abe-903d-aae8e35aa86f",
+        "last_run_id": "pd_fac88ff958b44c86b7daea2a19f03bd3",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "devoluciones_saldos_a_favor",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "93f8af993a624d4fb380e6fa2b36e464"
+  }
+}

@@ -5,24 +5,24 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-29T02:11:06.809398+00:00",
+  "extracted_at_utc": "2026-04-29T15:24:43.301394+00:00",
   "result": {
     "veredicto": null,
     "refusal_reason": "INSUFFICIENT_PRIMARY_SOURCES",
     "missing_sources": [
-      "normograma.dian.gov.co: full text for decreto.1625.2016.art.1.2.1.28.1.1 not found in provided extract"
+      "No primary source provided the effective date or modification history of article 1.2.1.28.1.1; the DIAN Normograma extract does not include the article, and the Función Pública extract lacks vigencia notes."
     ],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 49086,
+      "wall_ms": 215325,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
       "method": "skill"
     },
-    "single_source_accepted": "dian_normograma"
+    "single_source_accepted": null
   }
 }

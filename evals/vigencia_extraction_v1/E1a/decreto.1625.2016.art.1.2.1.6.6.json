@@ -5,17 +5,71 @@
   "is_sub_unit": false,
   "sub_unit_kind": null,
   "extraction_run_id": null,
-  "extracted_at_utc": "2026-04-29T03:02:54.762427+00:00",
+  "extracted_at_utc": "2026-04-29T15:24:06.387535+00:00",
   "result": {
-    "veredicto": null,
-    "refusal_reason": "invalid_vigencia_shape: state=VM not compatible with change_source.type=derogacion_tacita",
+    "veredicto": {
+      "state": "VM",
+      "state_from": "2006-12-27",
+      "state_until": null,
+      "applies_to_kind": "per_year",
+      "applies_to_payload": {
+        "year_start": 2016,
+        "year_end": null,
+        "impuesto": "renta",
+        "period_start": null,
+        "period_end": null,
+        "art_338_cp_shift": false
+      },
+      "change_source": {
+        "type": "reforma",
+        "source_norm_id": "ley.1111.2006.art.78",
+        "effect_type": "pro_futuro",
+        "effect_payload": {
+          "fecha": "2006-12-27"
+        }
+      },
+      "interpretive_constraint": null,
+      "derogado_por": null,
+      "modificado_por": [
+        {
+          "norm_id": "ley.1111.2006.art.78",
+          "norm_type": "ley",
+          "article": "Art. 78",
+          "fecha": "2006-12-27",
+          "primary_source_url": "https://www.suin-juriscol.gov.co/viewDocument.asp?id=30030361"
+        }
+      ],
+      "suspension": null,
+      "inexequibilidad": null,
+      "regimen_transicion": null,
+      "revives_text_version": null,
+      "rige_desde": "2016-10-11",
+      "fuentes_primarias_consultadas": [
+        {
+          "norm_id": "suin_juriscol",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        },
+        {
+          "norm_id": "funcion_publica",
+          "norm_type": "url",
+          "article": null,
+          "fecha": null,
+          "primary_source_url": null
+        }
+      ],
+      "extraction_audit": null
+    },
+    "refusal_reason": null,
     "missing_sources": [],
     "canonicalizer_refusals": [],
     "audit": {
       "skill_version": "vigencia-checker@2.0",
       "model": null,
       "tool_iterations": null,
-      "wall_ms": 133866,
+      "wall_ms": 155363,
       "cost_usd_estimate": null,
       "run_id": null,
       "sources_hash": null,
