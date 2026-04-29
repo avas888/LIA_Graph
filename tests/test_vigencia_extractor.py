@@ -282,7 +282,10 @@ def test_trusted_govco_source_ids_includes_suin():
 
 
 def test_default_chain_includes_funcion_publica():
-    """v6.1 — Función Pública gestor normativo is wired as a 6th scraper."""
+    """v6.1 wired Función Pública as a 6th scraper. next_v7 P2 added
+    DianPdfScraper as a 7th. Lock the full chain order so future changes
+    surface in review.
+    """
 
     import os
     saved_canonical = os.environ.pop("GEMINI_API_KEY", None)
@@ -291,12 +294,13 @@ def test_default_chain_includes_funcion_publica():
         from lia_graph.vigencia_extractor import VigenciaSkillHarness
         harness = VigenciaSkillHarness.default()
         sources = [getattr(s, "source_id", None) for s in harness.scrapers._scrapers]
-        # All 6 expected sources, in chain order.
+        # All 7 expected sources, in chain order.
         assert sources == [
             "suin_juriscol",
             "secretaria_senado",
             "funcion_publica",
             "dian_normograma",
+            "dian_pdf",
             "corte_constitucional",
             "consejo_estado",
         ], f"unexpected chain order: {sources}"

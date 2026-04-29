@@ -33,6 +33,7 @@ _ET_FULL_PATH = f"{_BASE_URL}/estatuto_tributario.html"
 _CST_FULL_PATH = f"{_BASE_URL}/codigo_sustantivo_trabajo.html"
 _CCO_FULL_PATH = f"{_BASE_URL}/codigo_comercio.html"
 _ET_INDEX_PATH = Path("var/senado_et_pr_index.json")
+_CCO_INDEX_PATH = Path("var/senado_cco_pr_index.json")
 
 # Inline article→pr-segment maps for the CST and CCo. These are best-effort
 # coarse maps documented in the corpus_population briefs (01_cst.md and
@@ -52,6 +53,7 @@ _CST_PR_SEGMENT_BOUNDS: tuple[tuple[int, int, str], ...] = (
 )
 _LOGGER = logging.getLogger(__name__)
 _INDEX_CACHE: dict[str, str] | None = None
+_CCO_INDEX_CACHE: dict[str, str] | None = None
 
 
 def _load_et_index() -> dict[str, str]:
@@ -74,6 +76,34 @@ def _load_et_index() -> dict[str, str]:
         _LOGGER.warning("Could not load %s: %s", _ET_INDEX_PATH, err)
         _INDEX_CACHE = {}
     return _INDEX_CACHE
+
+
+def _load_cco_index() -> dict[str, str]:
+    """Article → pr-segment map for the Código de Comercio.
+
+    Built by `scripts/canonicalizer/build_senado_cco_index.py` (next_v7
+    §3.4 step 3b). Closes the K3 gap where the master `codigo_comercio.html`
+    was too long for the LLM to slice reliably.
+    """
+
+    global _CCO_INDEX_CACHE
+    if _CCO_INDEX_CACHE is not None:
+        return _CCO_INDEX_CACHE
+    if not _CCO_INDEX_PATH.is_file():
+        _LOGGER.info(
+            "Senado CCo pr-index missing (%s) — CCo article URL resolution "
+            "falls back to the master page. Build via "
+            "`uv run python scripts/canonicalizer/build_senado_cco_index.py`.",
+            _CCO_INDEX_PATH,
+        )
+        _CCO_INDEX_CACHE = {}
+        return _CCO_INDEX_CACHE
+    try:
+        _CCO_INDEX_CACHE = json.loads(_CCO_INDEX_PATH.read_text(encoding="utf-8"))
+    except Exception as err:
+        _LOGGER.warning("Could not load %s: %s", _CCO_INDEX_PATH, err)
+        _CCO_INDEX_CACHE = {}
+    return _CCO_INDEX_CACHE
 
 
 class SecretariaSenadoScraper(Scraper):
@@ -135,12 +165,23 @@ class SecretariaSenadoScraper(Scraper):
                 return _CST_FULL_PATH
             return f"{_BASE_URL}/codigo_sustantivo_trabajo_pr{seg}.html"
         if norm_id.startswith("cco.art."):
-            # Código de Comercio. Master page at `codigo_comercio.html` plus
-            # paginated `codigo_comercio_pr00X.html` segments. We don't yet
-            # ship a CCo article→segment map; the master page is the safe
-            # default and the existing anchor slicer in `fetch()` will still
-            # locate `<a name="N">` anchors.
-            return _CCO_FULL_PATH
+            # Código de Comercio. Master `codigo_comercio.html` is too
+            # long for the LLM to slice reliably (next_v7 §3.4 #K3
+            # diagnosis). Resolve to the per-segment page when the
+            # article is in the swept index; fall back to master only
+            # when the article isn't enumerated (e.g. a sub-unit not
+            # carried as its own anchor).
+            article = norm_id.split(".", 2)[2]
+            index = _load_cco_index()
+            seg = index.get(article)
+            if seg is None:
+                article_base = article.split("-")[0]
+                seg = index.get(article_base)
+            if seg is None:
+                seg = _nearest_neighbor_segment(article, index)
+            if seg is None:
+                return _CCO_FULL_PATH
+            return f"{_BASE_URL}/codigo_comercio_pr{seg}.html"
         return None
 
     def _parse_html(self, content: bytes) -> tuple[str, dict[str, Any]]:
