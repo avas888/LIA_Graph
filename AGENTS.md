@@ -241,6 +241,21 @@ When changing live chat behavior:
 - prefer `answer_synthesis_sections.py` and `answer_synthesis_helpers.py` when the issue is how evidence becomes candidate lines
 - prefer `answer_first_bubble.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, and `answer_shared.py` when the issue is visible rendering
 
+## Fail Fast, Fix Fast (operations canon)
+
+For any operation against real systems that touches ≥100 records — cloud promotions, batch ingests, evals, embedding backfills, scraper cascades, migrations: **instrument fail-fast thresholds before launching, treat the first abort as diagnosis material (not a blocker), fix the root cause, then re-run until stable.** Do not let cascades crawl through thousands of rows accumulating errors.
+
+Operating rules:
+
+1. **Instrument before launching.** Every detached job that does ≥100 ops needs a fail-fast gate: an absolute error count AND an error-rate gate (default `>50 errors OR >10% rate after 100 ops → abort`). Check between sub-batches, not after the whole job. Surface the threshold + current rate in the heartbeat so the operator sees how close it is.
+2. **First abort = diagnosis signal, not retry signal.** Do NOT raise the threshold, NOT add `--continue-on-error`, NOT relaunch the same code. Read the audit log, group errors by root cause (failure-pattern Counter), fix the underlying issue (data shape, code bug, missing migration, drifted contract), dry-validate on the full input set, re-launch.
+3. **"Stable" means past the prior failure point with the new error count at or below the dry-run prediction.** One clean heartbeat is not stable. One clean cycle past the bad spot is.
+4. **Idempotency is mandatory.** Every long-running write op must be re-runnable with no harm to already-completed work (UPSERT on natural keys, idempotency-key checks, sentinel files, deterministic run-ids). Without it, "fail fast" becomes "lose work fast."
+5. **Audit logs, not just stdout.** The heartbeat reads structured per-row audit (JSONL outcome rows), not just log lines. Categorize errors; don't lump them — the error-pattern bucket IS the diagnosis.
+6. **Diagnose at the audit layer, not the symptom.** A row exception saying "DB constraint violated" means: read the failing rows, find the data shape they share, fix the producer (writer / canon / extractor) — not the constraint, not the threshold.
+
+This is paired with the six-gate lifecycle (`docs/aa_next/README.md`): gates 4 (test plan) and 6 (refine-or-discard) cover this loop for pipeline changes. For ops work, this section IS the lifecycle. Reference implementation: `scripts/cloud_promotion/{run.sh,heartbeat.py}` (next_v7 P1) — fail-fast threshold, audit-driven heartbeat, atomic state writes, sentinel files for done/partial/failfast.
+
 ## Surface Boundaries
 
 `main chat`, `Normativa`, and future `Interpretación` are not the same surface.

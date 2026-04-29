@@ -118,6 +118,21 @@ Facade implementation modules (edit the narrow one that owns the behavior):
 - Do not inherit old-RAG assumptions (indexing, tagging, vocab design, reranking, chunk orchestration, cache strategy). Old-RAG docs under `docs/deprecated/` are archaeology, not active steering.
 - **Idea vs. verified improvement — mandatory six-gate lifecycle for every `docs/aa_next/**` step.** RAG is complex science; "improvements" misbehave and regress all the time. Unit tests green ≠ improvement. Every pipeline change must pass all six gates in the plan doc **before any code is written**: (1) describe the good idea in one sentence; (2) plan the implementation in the narrowest module; (3) define a measurable minimum success criterion with numbers; (4) define HOW to test the criterion — including development needed, conceptualization, running environment, actors/interventions required (engineer / operator / SME / end user), and the numeric decision rule; (5) greenlight requires BOTH technical tests AND end-user validation against real data at the layer an accountant experiences; (6) refine-or-discard — if validation fails, either iterate or explicitly discard (kept in record, never silently rolled back). Status lifecycle: 💡 idea → 🛠 code landed → 🧪 verified locally → ✅ verified in target environment → ↩ regressed-discarded. When target-env verification is infeasible locally, mark 🧪 and name the specific run still needed. Full policy in `docs/aa_next/README.md`.
 
+## Fail Fast, Fix Fast — operations canon
+
+For any operation against real systems that touches ≥100 records (cloud promotions, batch ingests, evals, embedding backfills, scraper cascades, migrations): instrument fail-fast thresholds **before** launching, treat the first abort as **diagnosis material** (not a blocker), fix the root cause, then re-run until **stable**. Do not let cascades crawl through thousands of rows accumulating errors.
+
+Operating rules:
+
+1. **Instrument before launching.** Every detached job that does ≥100 ops needs a fail-fast gate: an absolute error count AND an error-rate gate (default `>50 errors OR >10% rate after 100 ops → abort`). Check **between sub-batches**, not after the whole job. Surface the threshold + current error rate in the heartbeat so the operator sees how close it is.
+2. **First abort = diagnosis signal, not retry signal.** When fail-fast trips, do NOT raise the threshold, NOT add `--continue-on-error`, NOT relaunch the same code. Read the audit log, group errors by root cause (failure-pattern Counter), fix the underlying issue (data shape, code bug, missing migration, drifted contract), dry-validate the fix on the full input set, then re-launch.
+3. **"Stable" means past the prior failure point with the new error count at or below the dry-run prediction.** One clean heartbeat is not stable. One clean cycle past the bad spot is.
+4. **Idempotency is mandatory.** Every long-running write op must be re-runnable with no harm to already-completed work (UPSERT on natural keys, idempotency-key checks, sentinel files, deterministic run-ids). Without it, "fail fast" becomes "lose work fast."
+5. **Audit logs, not just stdout.** The heartbeat must read structured per-row audit (JSONL outcome rows), not just count log lines. Categorize errors; don't lump them. The error-pattern bucket IS the diagnosis.
+6. **Diagnose at the audit layer, not the symptom.** A row exception saying "DB constraint violated" means: read the failing rows, find the data shape they share, fix the producer (writer / canon / extractor) — not the constraint, not the threshold.
+
+This is paired with the six-gate lifecycle: gates 4 (test plan) and 6 (refine-or-discard) cover this loop for pipeline changes. For ops work (ingests, promotions, evals, backfills, cascades), this section IS the lifecycle. The reference implementation is `scripts/cloud_promotion/{run.sh,heartbeat.py}` (next_v7 P1).
+
 ## Long-running Python processes — always detached + heartbeat, never ad-hoc
 
 For **any** background Python process expected to take more than ~2 minutes (reingests, embedding backfills, subtopic-miner batches, evals, long Gemini sweeps): the operator should never have to ask for progress monitoring. Default to this pattern, applied automatically:
