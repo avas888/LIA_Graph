@@ -25,27 +25,48 @@ from .ui_chat_persistence import (
     persist_user_turn,
 )
 
+# fix_v1.md hand-off — install the deep-trace at the chat-payload entry so
+# topic_router events (which fire BEFORE pipeline_d is reached) land in the
+# same trace that the orchestrator extends with retrieval/coherence/polish
+# events. start_or_reuse in the orchestrator joins this trace.
+try:
+    from tracers_and_logs import pipeline_trace as _trace
+except ImportError:  # pragma: no cover - tracer always present in served runtime
+    _trace = None  # type: ignore[assignment]
+
 _log = logging.getLogger(__name__)
 
 
 def filter_diagnostics_for_public_response(
     orchestrator_diagnostics: dict[str, Any] | None,
 ) -> dict[str, Any] | None:
-    """Strip diagnostics for non-debug users but keep `retrieval_health`.
+    """Strip diagnostics for non-debug users but keep PII-safe blocks.
 
-    `retrieval_health` is the minimal, PII-free observability contract we
-    guarantee in every environment: operators reading production traces need
-    to be able to tell schema-drift, unseeded-corpus, and planner-miss apart
-    on `graph_native_partial` turns without waiting for a debug-mode repro.
+    Two blocks survive the strip:
+
+    * ``retrieval_health`` — minimal observability contract; lets operators
+      tell schema-drift, unseeded-corpus, and planner-miss apart on
+      ``graph_native_partial`` turns without a debug-mode repro.
+    * ``pipeline_trace`` — append-only deep trace of every retrieval stage
+      (added 2026-04-29 per fix_v1.md hand-off). Carries no chunk text,
+      no answer text, no PII — only stage names, decision branches,
+      counts, and bounded detail snippets. Truncation guarantees in
+      ``tracers_and_logs/pipeline_trace.py`` cap each step's payload at
+      4 KiB so an oversize trace cannot leak document bodies.
+
     Everything else in the orchestrator's diagnostics (planner plan,
-    evidence_bundle, etc.) stays hidden.
+    evidence_bundle, etc.) stays hidden behind debug_mode / robot auth.
     """
     if not isinstance(orchestrator_diagnostics, dict):
         return None
+    public: dict[str, Any] = {}
     retrieval_health = orchestrator_diagnostics.get("retrieval_health")
     if isinstance(retrieval_health, dict) and retrieval_health:
-        return {"retrieval_health": dict(retrieval_health)}
-    return None
+        public["retrieval_health"] = dict(retrieval_health)
+    pipeline_trace = orchestrator_diagnostics.get("pipeline_trace")
+    if isinstance(pipeline_trace, dict) and pipeline_trace:
+        public["pipeline_trace"] = dict(pipeline_trace)
+    return public or None
 
 
 # ---------------------------------------------------------------------------
@@ -284,6 +305,17 @@ def parse_api_chat_request(handler: Any, *, t_api_chat: float, deps: dict[str, A
     trace_id = str(payload.get("trace_id", "")).strip() or str(uuid_factory())
     client_turn_id = str(payload.get("client_turn_id", "")).strip() or str(uuid_factory())
     chat_run_id = str(payload.get("chat_run_id", "")).strip() or None
+
+    # Install the deep trace BEFORE topic resolution so router events land
+    # in the same trace as the orchestrator's retrieval/coherence/polish
+    # events. _trace.start replaces any leftover contextvar value from a
+    # prior request, so the new request's trace is fresh.
+    if _trace is not None:
+        _trace.start(
+            trace_id=trace_id,
+            qid_hint=str(payload.get("qid_hint") or "").strip() or None,
+            session_id=str(payload.get("session_id") or "").strip() or None,
+        )
     pipeline_route_override = (
         str(handler.headers.get("X-LIA-Pipeline-Route", "")).strip()
         or str(handler.headers.get("X-LIA-Pipeline-Variant", "")).strip()

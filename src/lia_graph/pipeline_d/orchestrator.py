@@ -40,6 +40,11 @@ from .topic_safety import (
     should_promote_misalignment_to_abstention,
 )
 
+# fix_v1.md hand-off — deep-trace collector for retrieval-stage instrumentation.
+# Lives in tracers_and_logs/ at repo root so the package is colocated with
+# its log destination (tracers_and_logs/logs/pipeline_trace.jsonl).
+from tracers_and_logs import pipeline_trace as _trace
+
 
 _CORPUS_SOURCE_ENV = "LIA_CORPUS_SOURCE"
 _GRAPH_MODE_ENV = "LIA_GRAPH_MODE"
@@ -199,6 +204,7 @@ def _compose_topic_safety_abstention(
     topic_safety: dict[str, object],
     backend_diagnostics: dict[str, str],
     on_llm_delta: object | None,
+    pipeline_trace: dict[str, Any] | None = None,
 ) -> PipelineCResponse:
     """Shared short-circuit response for router-safety abstentions.
 
@@ -232,6 +238,7 @@ def _compose_topic_safety_abstention(
             "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
             "graph_backend": backend_diagnostics.get("graph_backend"),
             "topic_safety": topic_safety,
+            "pipeline_trace": pipeline_trace,
         },
         llm_runtime=None,
         token_usage=None,
@@ -270,6 +277,30 @@ def run_pipeline_d(
         "graph_backend": _current_graph_mode(),
     }
 
+    # fix_v1.md — install a per-request deep trace. The chat-payload module
+    # may have already started one (so topic_router events land in the same
+    # trace); reuse if so, else install our own. ``_trace_token is None``
+    # signals "owned by an outer scope; do not finish here".
+    _trace_active, _trace_token = _trace.start_or_reuse(
+        trace_id=str(request.trace_id or ""),
+        qid_hint=getattr(request, "qid_hint", None),
+        session_id=getattr(request, "session_id", None),
+    )
+    _trace.step(
+        "orchestrator.entry",
+        status="info",
+        retrieval_backend=backend_diagnostics["retrieval_backend"],
+        graph_backend=backend_diagnostics["graph_backend"],
+        requested_topic=request.requested_topic,
+        effective_topic=request.topic,
+        secondary_topics=list(request.secondary_topics or ()),
+        topic_adjusted=bool(getattr(request, "topic_adjusted", False)),
+        topic_adjustment_reason=getattr(request, "topic_adjustment_reason", None),
+        topic_notice=getattr(request, "topic_notice", None),
+        message_preview=str(request.message)[:240],
+        message_chars=len(request.message or ""),
+    )
+
     # SAFETY CHECK 1: router silent-failure.
     # If the upstream topic router returned no topic with effectively zero
     # confidence, refuse to synthesize from whatever grab-bag articles
@@ -277,6 +308,14 @@ def run_pipeline_d(
     # and `docs/done/next/structuralwork_v1_SEENOW.md` v5.3 landed-state.
     silent_failure = detect_router_silent_failure(request)
     if silent_failure is not None:
+        _trace.step(
+            "safety.router_silent_failure",
+            status="fallback",
+            message="Topic router returned no topic with effectively zero confidence; abstaining.",
+            silent_failure=silent_failure,
+        )
+        _snap = _trace.snapshot()
+        _trace.finish(_trace_token)
         return _compose_topic_safety_abstention(
             request=request,
             index_file=index_file,
@@ -288,6 +327,7 @@ def run_pipeline_d(
             topic_safety={"router_silent": silent_failure, "misalignment": None},
             backend_diagnostics=backend_diagnostics,
             on_llm_delta=on_llm_delta,
+            pipeline_trace=_snap,
         )
 
     decomposer_diag: dict[str, Any] = {"enabled": _decompose_enabled(), "sub_queries": []}
@@ -328,11 +368,29 @@ def run_pipeline_d(
         if sub_queries:
             from ..topic_router import resolve_chat_topic as _resolve
 
+            _trace.step(
+                "decomposer.fanout",
+                status="info",
+                fanout_count=len(sub_queries),
+                sub_queries=list(sub_queries),
+            )
             per_bundles: list[Any] = []
             provenance: list[dict[str, Any]] = []
             plan = None
-            for sq in sub_queries:
+            for _sq_idx, sq in enumerate(sub_queries):
                 sq_routing = _resolve(message=sq, requested_topic=None, pais=request.pais)
+                _trace.step(
+                    "topic_router.subquery_resolved",
+                    status="ok",
+                    sub_query_index=_sq_idx,
+                    sub_query=sq,
+                    effective_topic=sq_routing.effective_topic,
+                    secondary_topics=list(sq_routing.secondary_topics or ()),
+                    confidence=round(float(sq_routing.confidence or 0.0), 3),
+                    mode=getattr(sq_routing, "mode", None),
+                    reason=getattr(sq_routing, "reason", None),
+                    topic_adjusted=getattr(sq_routing, "topic_adjusted", None),
+                )
                 sq_request = build_sub_query_request(
                     parent_request=request,
                     sub_query=sq,
@@ -341,8 +399,30 @@ def run_pipeline_d(
                     topic_confidence=sq_routing.confidence,
                 )
                 sq_plan = build_graph_retrieval_plan(sq_request)
+                _trace.step(
+                    "planner.subquery_built",
+                    status="ok",
+                    sub_query_index=_sq_idx,
+                    plan_query_mode=getattr(sq_plan, "query_mode", None),
+                    plan_anchor_count=len(getattr(sq_plan, "anchor_articles", ()) or ()),
+                    plan_subtopic_intent=getattr(sq_plan, "sub_topic_intent", None),
+                )
                 sq_plan, sq_evidence, sq_backend = _retrieve_evidence(
                     sq_plan, artifacts_dir=artifacts_dir
+                )
+                _trace.step(
+                    "retriever.subquery_evidence",
+                    status="ok",
+                    sub_query_index=_sq_idx,
+                    primary_count=len(sq_evidence.primary_articles),
+                    connected_count=len(sq_evidence.connected_articles),
+                    support_count=len(sq_evidence.support_documents),
+                    backend_diagnostics=dict(sq_backend or {}),
+                    evidence_diagnostics_keys=sorted((sq_evidence.diagnostics or {}).keys()),
+                    empty_reason=(sq_evidence.diagnostics or {}).get("empty_reason"),
+                    vigencia_v3_demotion=(sq_evidence.diagnostics or {}).get(
+                        "vigencia_v3_demotion"
+                    ),
                 )
                 per_bundles.append(sq_evidence)
                 per_sq_for_safety.append((sq_request, sq_evidence))
@@ -375,20 +455,68 @@ def run_pipeline_d(
             decomposer_diag["fanout_count"] = len(sub_queries)
         else:
             plan = build_graph_retrieval_plan(request)
+            _trace.step(
+                "planner.built",
+                status="ok",
+                plan_query_mode=getattr(plan, "query_mode", None),
+                plan_anchor_count=len(getattr(plan, "anchor_articles", ()) or ()),
+                plan_subtopic_intent=getattr(plan, "sub_topic_intent", None),
+                plan_temporal_context=getattr(plan, "temporal_context", None).to_dict()
+                    if hasattr(getattr(plan, "temporal_context", None), "to_dict") else None,
+            )
             plan, evidence, backend_diagnostics = _retrieve_evidence(
                 plan, artifacts_dir=artifacts_dir
             )
+            _trace.step(
+                "retriever.evidence",
+                status="ok",
+                primary_count=len(evidence.primary_articles),
+                connected_count=len(evidence.connected_articles),
+                support_count=len(evidence.support_documents),
+                backend_diagnostics=dict(backend_diagnostics or {}),
+                evidence_diagnostics_keys=sorted((evidence.diagnostics or {}).keys()),
+                empty_reason=(evidence.diagnostics or {}).get("empty_reason"),
+                vigencia_v3_demotion=(evidence.diagnostics or {}).get("vigencia_v3_demotion"),
+                seed_article_keys=(evidence.diagnostics or {}).get("seed_article_keys"),
+                tema_first_topic_key=(evidence.diagnostics or {}).get("tema_first_topic_key"),
+                planner_query_mode=(evidence.diagnostics or {}).get("planner_query_mode"),
+            )
             decomposer_diag["fanout_count"] = 0
 
+        _evidence_before_rerank = (
+            len(evidence.primary_articles),
+            len(evidence.connected_articles),
+            len(evidence.support_documents),
+        )
         evidence, reranker_diagnostics = rerank_evidence_bundle(
             query=request.message,
             evidence=evidence,
+        )
+        _trace.step(
+            "rerank.applied",
+            status="ok",
+            mode=(reranker_diagnostics or {}).get("mode"),
+            adapter=(reranker_diagnostics or {}).get("adapter"),
+            before=list(_evidence_before_rerank),
+            after=[
+                len(evidence.primary_articles),
+                len(evidence.connected_articles),
+                len(evidence.support_documents),
+            ],
+            reranker_diagnostics=dict(reranker_diagnostics or {}),
         )
     except FileNotFoundError:
         answer = (
             "Pipeline D no encontro los artifacts graph-native esperados en disco, "
             "asi que no pudo ejecutar la ruta Phase 3 todavia."
         )
+        _trace.step(
+            "orchestrator.artifacts_missing",
+            status="error",
+            message="FileNotFoundError caught — artifacts dir missing on disk.",
+        )
+        _snap_artifacts = _trace.snapshot()
+        _trace.finish(_trace_token)
         if callable(on_llm_delta):
             on_llm_delta(answer)
         return PipelineCResponse(
@@ -414,6 +542,7 @@ def run_pipeline_d(
                 ),
                 "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
                 "graph_backend": backend_diagnostics.get("graph_backend"),
+                "pipeline_trace": _snap_artifacts,
             },
             llm_runtime=None,
             token_usage=None,
@@ -436,7 +565,23 @@ def run_pipeline_d(
     # confidence was already borderline, promote to abstention; otherwise
     # stash the signal in diagnostics so the alignment harness catches it.
     misalignment = detect_topic_misalignment(request, evidence)
+    _trace.step(
+        "safety.misalignment.detect",
+        status="ok",
+        misaligned=bool(misalignment.get("misaligned")),
+        kind=misalignment.get("kind"),
+        router_topic=misalignment.get("router_topic"),
+        evidence_topic=misalignment.get("evidence_topic"),
+        details=dict(misalignment),
+    )
     if should_promote_misalignment_to_abstention(request, misalignment):
+        _trace.step(
+            "safety.misalignment.abstention",
+            status="fallback",
+            message="Promoting topic misalignment to abstention (borderline confidence).",
+        )
+        _snap_misal = _trace.snapshot()
+        _trace.finish(_trace_token)
         return _compose_topic_safety_abstention(
             request=request,
             index_file=index_file,
@@ -451,6 +596,7 @@ def run_pipeline_d(
             },
             backend_diagnostics=backend_diagnostics,
             on_llm_delta=on_llm_delta,
+            pipeline_trace=_snap_misal,
         )
 
     # SAFETY CHECK 3 (v6 phase 3): evidence-topic coherence gate.
@@ -507,9 +653,31 @@ def run_pipeline_d(
                 "router_topic_observed": coherence.get("router_topic"),
                 "misaligned": False,
             }
+    _trace.step(
+        "coherence.detect",
+        status="ok",
+        mode=coherence_gate_mode,
+        misaligned=bool(coherence.get("misaligned")),
+        reason=coherence.get("reason"),
+        source=coherence.get("source"),
+        router_topic=coherence.get("router_topic"),
+        evidence_topic_distribution=coherence.get("evidence_topic_distribution"),
+        bypass_reason=coherence.get("bypass_reason"),
+        fanout_evaluated=coherence.get("fanout_evaluated"),
+        fanout_any_coherent=coherence.get("fanout_any_coherent"),
+    )
     if coherence_gate_mode == "enforce" and _coherence_should_refuse(
         coherence, coherence_gate_mode
     ):
+        _trace.step(
+            "coherence.abstention",
+            status="fallback",
+            message="Evidence-coherence gate refused (enforce mode).",
+            refusal_reason=coherence.get("reason"),
+            refusal_source=coherence.get("source"),
+        )
+        _snap_coh = _trace.snapshot()
+        _trace.finish(_trace_token)
         return _compose_topic_safety_abstention(
             request=request,
             index_file=index_file,
@@ -527,6 +695,7 @@ def run_pipeline_d(
             },
             backend_diagnostics=backend_diagnostics,
             on_llm_delta=on_llm_delta,
+            pipeline_trace=_snap_coh,
         )
 
     topic_safety_diag = {
@@ -561,6 +730,13 @@ def run_pipeline_d(
     # ¿…? splits), so reusing it would suppress the Respuestas directas
     # section that build_direct_answers needs len(sub_questions) >= 2 to emit.
     effective_sub_questions = sub_queries if sub_queries else plan.sub_questions
+    _trace.step(
+        "synthesis.compose_template",
+        status="ok",
+        answer_mode=answer_mode,
+        planner_query_mode=plan.query_mode,
+        sub_question_count=len(effective_sub_questions or ()),
+    )
     answer = _compose_graph_native_answer(
         request=request,
         answer_mode=answer_mode,
@@ -569,11 +745,28 @@ def run_pipeline_d(
         evidence=evidence,
         sub_questions=effective_sub_questions,
     )
+    _trace.step(
+        "synthesis.template_built",
+        status="ok",
+        template_chars=len(answer or ""),
+    )
     polished_answer, llm_runtime_diag = polish_graph_native_answer(
         request=request,
         template_answer=answer,
         evidence=evidence,
         runtime_config_path=runtime_config_path,
+    )
+    _trace.step(
+        "polish.applied",
+        status="ok",
+        adapter_class=(llm_runtime_diag or {}).get("adapter_class"),
+        model=(llm_runtime_diag or {}).get("model"),
+        selected_provider=(llm_runtime_diag or {}).get("selected_provider"),
+        selected_type=(llm_runtime_diag or {}).get("selected_type"),
+        selected_transport=(llm_runtime_diag or {}).get("selected_transport"),
+        attempts_count=len((llm_runtime_diag or {}).get("attempts") or []),
+        polished_chars=len(polished_answer or ""),
+        polish_changed=bool((polished_answer or "") != (answer or "")),
     )
     answer = polished_answer
     if callable(on_llm_delta):
@@ -584,9 +777,31 @@ def run_pipeline_d(
     # current topic are treated as retrieval leakage and dropped. Default
     # mode is ``off`` so rollout is gated per-environment.
     citation_allow_mode = citation_allowlist_mode()
+    _citations_in = len(evidence.citations or ())
     filtered_citations, dropped_by_allowlist = filter_citations_by_allowlist(
         evidence.citations, request.topic, citation_allow_mode
     )
+    _trace.step(
+        "citations.allowlist",
+        status="ok",
+        mode=citation_allow_mode,
+        topic=request.topic,
+        citations_in=_citations_in,
+        citations_out=len(filtered_citations or ()),
+        dropped_count=len(dropped_by_allowlist or ()),
+        dropped_by_allowlist=list(dropped_by_allowlist or ())[:20],
+    )
+    _trace.step(
+        "orchestrator.exit",
+        status="ok",
+        answer_mode=answer_mode,
+        confidence_mode=confidence_mode,
+        confidence=round(float(confidence or 0.0), 4),
+        primary_articles=len(evidence.primary_articles),
+        citations_emitted=len(filtered_citations or ()),
+    )
+    _pipeline_trace_snapshot = _trace.snapshot()
+    _trace.finish(_trace_token)
 
     return PipelineCResponse(
         trace_id=str(request.trace_id or uuid4().hex),
@@ -659,6 +874,10 @@ def run_pipeline_d(
             # the panel; empty list in ``off`` mode.
             "citation_allowlist_mode": citation_allow_mode,
             "dropped_by_allowlist": dropped_by_allowlist,
+            # fix_v1.md hand-off — full deep trace of every retrieval-stage
+            # decision. Survives the public-response strip via the
+            # whitelist in ui_chat_payload.filter_diagnostics_for_public_response.
+            "pipeline_trace": _pipeline_trace_snapshot,
         },
         llm_runtime=dict(llm_runtime_diag),
         token_usage=None,

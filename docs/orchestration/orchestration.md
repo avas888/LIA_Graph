@@ -600,6 +600,26 @@ Sort: source docs before topic-expansion docs, then family rank, query-token ove
 
 Fails loudly in `response.llm_runtime.skip_reason` — one of `polish_disabled_by_env`, `no_adapter_available`, `adapter_error:<Type>`, `empty_llm_output`, `anchors_stripped`. Fails silently in output: the deterministic template answer is always the safety net. The polish prompt is instructed to preserve `Respuestas directas` structurally — sub-questions may not be fused, bullets may not move between sub-questions, and `Cobertura pendiente para esta sub-pregunta` markers stay intact.
 
+### 4.7 LLM provider split — chat vs canonicalizer (2026-04-29)
+
+`config/llm_runtime.json` lists provider preference for the whole repo. Chat and canonicalizer have different needs and the `provider_order` flag is calibrated for chat:
+
+| Path | Provider | Why |
+|---|---|---|
+| Chat — topic resolver (`topic_router._classify_topic_with_llm`, 8s timeout, strict JSON) | **Gemini-flash** (default first in `provider_order`) | Reliable structured-output behavior; topic-classifier prompt requires `{"primary_topic":...,"confidence":...}` and DeepSeek-v4-pro returns empty `message.content` on this prompt shape. |
+| Chat — answer polish (`answer_llm_polish.polish_graph_native_answer`) | **Gemini-flash** (inherits `provider_order`) | Faster than DeepSeek for the polish-prose use case (~6× lower latency on the §1.G panel); same content-quality. |
+| Canonicalizer — vigencia extraction, ingestion classifier, etc. | **DeepSeek-v4-flash / v4-pro** via explicit `LIA_VIGENCIA_PROVIDER=<id>` env override per launch script | Long-context, schema-following, on a 75%-discount window through 2026-05-05; chosen by every canonicalizer launch (`scripts/canonicalizer/launch_batch.sh`, `scripts/cloud_promotion/run.sh`, etc.). |
+
+**Operating rule:** every canonicalizer entry-point MUST set `LIA_VIGENCIA_PROVIDER` explicitly. If it relies on the default, it'd pick up Gemini-flash and burn quota. The chat path doesn't set the override, so it gets the default order's first hit.
+
+**Reason for the split:** DeepSeek-v4-pro is a reasoning model. Its API returns `reasoning_content` (chain-of-thought) plus `content`. For short structured-output prompts like the topic classifier, `content` arrives empty and the adapter at `src/lia_graph/llm_runtime.py:198` raises `RuntimeError("DeepSeek response missing message content.")`. The topic resolver wraps the call in `try/except: return None` and silently falls through to the keyword fallback. This made every multi-domain SME chat query route to the parent topic `declaracion_renta` and dropped the §1.G 36-Q SME panel from 21/36 to 8/36 acc+ on 2026-04-29. Flipping `provider_order` to put `gemini-flash` first restored the panel to 22/36 acc+ with zero ok→zero regressions.
+
+**If `provider_order` changes**, re-run `scripts/eval/run_sme_parallel.py --workers 4` against the §1.G panel before merging. ~5 min wall.
+
+**Diagnostic surface:** `tracers_and_logs/pipeline_trace.py` writes one JSONL line per retrieval stage to `tracers_and_logs/logs/pipeline_trace.jsonl` AND attaches the snapshot to `response.diagnostics["pipeline_trace"]` for every served chat. The relevant LLM-provider trace events are `topic_router.llm.attempt` / `.success` / `.exception` / `.unsupported_topic` / `.low_confidence` / `.no_adapter`. Read with `jq -c 'select(.step | startswith("topic_router.llm."))' tracers_and_logs/logs/pipeline_trace.jsonl`. Full reference: `tracers_and_logs/README.md`.
+
+Full incident write-up: `docs/re-engineer/fix/fix_v1_diagnosis.md`.
+
 ## Lane 5: Synthesis Contract
 
 Turns graph evidence into structured answer parts before any visible markdown.

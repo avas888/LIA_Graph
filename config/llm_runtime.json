@@ -3,10 +3,10 @@
 
     "strategy": "ordered_fallback",
     "provider_order": [
-        "deepseek-v4-pro",
-        "deepseek-v4-flash",
+        "gemini-flash",
         "gemini-pro",
-        "gemini-flash"
+        "deepseek-v4-flash",
+        "deepseek-v4-pro"
     ],
     "providers": [
         {

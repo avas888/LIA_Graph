@@ -21,6 +21,20 @@ from .topic_guardrails import (
     register_topic_scope,
 )
 
+# fix_v1.md hand-off — deep-trace collector. Every decision branch in
+# resolve_chat_topic / _classify_topic_with_llm writes a step so the
+# regression diagnosis can tell which silent return-None path fired.
+try:
+    from tracers_and_logs import pipeline_trace as _trace
+except ImportError:  # pragma: no cover - tracer always present in served runtime
+    _trace = None  # type: ignore[assignment]
+
+
+def _trace_step(step_name: str, *, status: str = "ok", message: str | None = None, **details: Any) -> None:
+    if _trace is None:
+        return
+    _trace.step(step_name, status=status, message=message, **details)
+
 # Keyword + regex data moved to `topic_router_keywords.py` during
 # granularize-v2 round 11 to graduate the host below 1000 LOC.
 # Re-imported so in-module references work; `register_topic_keywords`
@@ -746,9 +760,35 @@ def _classify_topic_with_llm(
     preserve_requested_topic_as_secondary: bool = True,
     conversation_state: dict[str, Any] | None = None,
 ) -> TopicRoutingResult | None:
+    import time as _time
+    _t_attempt = _time.monotonic()
     adapter, runtime = resolve_llm_adapter(runtime_config_path=runtime_config_path)
+    runtime_summary = {
+        "selected_provider": (runtime or {}).get("selected_provider"),
+        "model": (runtime or {}).get("model"),
+        "selected_type": (runtime or {}).get("selected_type"),
+        "selected_transport": (runtime or {}).get("selected_transport"),
+        "adapter_class": (runtime or {}).get("adapter_class"),
+        "attempts": list((runtime or {}).get("attempts") or []),
+    }
     if adapter is None:
+        _trace_step(
+            "topic_router.llm.no_adapter",
+            status="fallback",
+            message="resolve_llm_adapter returned None — no provider with usable api_key in env.",
+            runtime=runtime_summary,
+            requested_topic=requested_topic,
+        )
         return None
+    _trace_step(
+        "topic_router.llm.attempt",
+        status="info",
+        runtime=runtime_summary,
+        requested_topic=requested_topic,
+        message_chars=len(message or ""),
+        threshold=_LLM_CONFIDENCE_THRESHOLD,
+        timeout_seconds=8.0,
+    )
     prompt = _build_classifier_prompt(
         message=message,
         requested_topic=requested_topic,
@@ -766,19 +806,59 @@ def _classify_topic_with_llm(
             raw_content = str((result or {}).get("content") or "").strip()
         else:
             raw_content = str(adapter.generate(prompt) or "").strip()
-    except Exception:
+    except Exception as exc:
+        _trace_step(
+            "topic_router.llm.exception",
+            status="error",
+            message=f"LLM call raised: {type(exc).__name__}",
+            error=repr(exc),
+            elapsed_ms_call=round((_time.monotonic() - _t_attempt) * 1000.0, 2),
+            runtime=runtime_summary,
+        )
         return None
 
+    elapsed_ms_call = round((_time.monotonic() - _t_attempt) * 1000.0, 2)
     parsed = _safe_json_dict(raw_content)
     effective_topic = normalize_topic_key(str(parsed.get("primary_topic") or ""))
     if effective_topic not in _SUPPORTED_TOPICS:
+        _trace_step(
+            "topic_router.llm.unsupported_topic",
+            status="fallback",
+            message="LLM returned a topic not in _SUPPORTED_TOPICS or empty.",
+            llm_primary_topic=str(parsed.get("primary_topic") or ""),
+            normalized=effective_topic,
+            raw_content_preview=raw_content[:600],
+            elapsed_ms_call=elapsed_ms_call,
+            runtime=runtime_summary,
+        )
         return None
     try:
         confidence = float(parsed.get("confidence"))
     except (TypeError, ValueError):
         confidence = 0.0
     if confidence < _LLM_CONFIDENCE_THRESHOLD:
+        _trace_step(
+            "topic_router.llm.low_confidence",
+            status="fallback",
+            message="LLM verdict confidence below threshold; falling through to keyword fallback.",
+            llm_primary_topic=effective_topic,
+            confidence=round(confidence, 4),
+            threshold=_LLM_CONFIDENCE_THRESHOLD,
+            raw_content_preview=raw_content[:600],
+            elapsed_ms_call=elapsed_ms_call,
+            runtime=runtime_summary,
+        )
         return None
+    _trace_step(
+        "topic_router.llm.success",
+        status="ok",
+        llm_primary_topic=effective_topic,
+        confidence=round(confidence, 4),
+        threshold=_LLM_CONFIDENCE_THRESHOLD,
+        reason=str(parsed.get("reason") or "")[:240],
+        elapsed_ms_call=elapsed_ms_call,
+        runtime=runtime_summary,
+    )
     # Labor topic: never preserve renta as a secondary (see _build_rule_result
     # for full reasoning). Also drop any LLM-suggested secondaries that aren't
     # the labor primary itself — if the LLM thinks renta is a labor secondary,
@@ -825,13 +905,36 @@ def resolve_chat_topic(
     Never override a confident lexical signal pointing at a different topic.
     """
     normalized_requested = normalize_topic_key(requested_topic)
+    _trace_step(
+        "topic_router.entry",
+        status="info",
+        requested_topic=requested_topic,
+        normalized_requested=normalized_requested,
+        message_chars=len(message or ""),
+        message_preview=str(message or "")[:240],
+        runtime_config_path=str(runtime_config_path) if runtime_config_path else None,
+    )
     rule_result = _resolve_rule_based_topic(
         message,
         normalized_requested,
         preserve_requested_topic_as_secondary=preserve_requested_topic_as_secondary,
     )
     if rule_result is not None:
+        _trace_step(
+            "topic_router.rule_route.hit",
+            status="ok",
+            effective_topic=rule_result.effective_topic,
+            confidence=round(float(rule_result.confidence or 0.0), 4),
+            reason=getattr(rule_result, "reason", None),
+            mode=getattr(rule_result, "mode", None),
+            secondary_topics=list(rule_result.secondary_topics or ()),
+        )
         return rule_result
+    _trace_step(
+        "topic_router.rule_route.miss",
+        status="info",
+        message="Rule-based router did not produce a result; falling through to LLM/keyword path.",
+    )
 
     prior_topic = (
         normalize_topic_key((conversation_state or {}).get("prior_topic"))
@@ -840,8 +943,23 @@ def resolve_chat_topic(
     )
     if prior_topic not in _SUPPORTED_TOPICS:
         prior_topic = None
+    _trace_step(
+        "topic_router.prior_topic",
+        status="info",
+        prior_topic=prior_topic,
+        conversation_state_present=bool(conversation_state),
+    )
 
-    if runtime_config_path is not None and _should_attempt_llm(message, normalized_requested):
+    _llm_eligible = bool(runtime_config_path is not None and _should_attempt_llm(message, normalized_requested))
+    if not _llm_eligible:
+        _trace_step(
+            "topic_router.llm.skipped",
+            status="info",
+            message="LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            runtime_config_path_present=runtime_config_path is not None,
+            should_attempt_llm=bool(runtime_config_path is not None and _should_attempt_llm(message, normalized_requested)),
+        )
+    if _llm_eligible:
         llm_result = _classify_topic_with_llm(
             message=message,
             requested_topic=normalized_requested,
@@ -865,6 +983,14 @@ def resolve_chat_topic(
             ):
                 boosted = min(0.85, max(_LLM_CONFIDENCE_THRESHOLD, llm_result.confidence) + 0.15)
                 adjusted = prior_topic != normalized_requested
+                _trace_step(
+                    "topic_router.prior_state_tiebreaker",
+                    status="ok",
+                    message="LLM disagreed with prior_topic AND no lexical signal — prior_topic wins.",
+                    prior_topic=prior_topic,
+                    llm_topic=llm_result.effective_topic,
+                    boosted_confidence=round(boosted, 4),
+                )
                 return TopicRoutingResult(
                     requested_topic=normalized_requested,
                     effective_topic=prior_topic,
@@ -876,7 +1002,19 @@ def resolve_chat_topic(
                     mode="prior_state_tiebreaker",
                     llm_runtime=llm_result.llm_runtime,
                 )
+            _trace_step(
+                "topic_router.llm_route.return",
+                status="ok",
+                effective_topic=llm_result.effective_topic,
+                confidence=round(float(llm_result.confidence or 0.0), 4),
+                secondary_topics=list(llm_result.secondary_topics or ()),
+            )
             return llm_result
+        _trace_step(
+            "topic_router.llm_route.miss",
+            status="fallback",
+            message="LLM path returned None; falling through to keyword fallback / no_topic_detected.",
+        )
 
     if normalized_requested is None:
         scores = _score_topic_keywords(message)
@@ -885,6 +1023,15 @@ def resolve_chat_topic(
             top_topic, top_data = ranked[0]
             top_score = int(top_data.get("score", 0) or 0)
             confidence = min(0.55, 0.18 + top_score * 0.06)
+            _trace_step(
+                "topic_router.keyword_fallback",
+                status="fallback",
+                message="LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+                effective_topic=top_topic,
+                top_score=top_score,
+                confidence=round(confidence, 4),
+                ranked_top_3=[(t, int(d.get("score", 0) or 0)) for t, d in ranked[:3]],
+            )
             return TopicRoutingResult(
                 requested_topic=None,
                 effective_topic=top_topic,
@@ -901,6 +1048,12 @@ def resolve_chat_topic(
         # have left. Keep confidence modest so downstream gates can still
         # abstain in extreme cases; this is wiring continuity, not authority.
         if prior_topic:
+            _trace_step(
+                "topic_router.prior_state_fallback",
+                status="fallback",
+                message="No lexical signal AND no requested_topic — prior_topic is the only signal left.",
+                prior_topic=prior_topic,
+            )
             return TopicRoutingResult(
                 requested_topic=None,
                 effective_topic=prior_topic,
@@ -911,6 +1064,11 @@ def resolve_chat_topic(
                 topic_notice=_build_topic_notice(prior_topic),
                 mode="prior_state_fallback",
             )
+        _trace_step(
+            "topic_router.no_topic_detected",
+            status="fallback",
+            message="Router silent — no requested_topic, no lexical signal, no prior_topic.",
+        )
         return TopicRoutingResult(
             requested_topic=None,
             effective_topic=None,
@@ -922,6 +1080,12 @@ def resolve_chat_topic(
             mode="fallback",
         )
 
+    _trace_step(
+        "topic_router.requested_topic_retained",
+        status="info",
+        message="LLM path skipped/failed but requested_topic is set — retaining it.",
+        normalized_requested=normalized_requested,
+    )
     return TopicRoutingResult(
         requested_topic=normalized_requested,
         effective_topic=normalized_requested,

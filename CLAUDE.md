@@ -74,6 +74,25 @@ Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_bac
 
 Additional retrieval-tuning flags the launcher defaults to ON across all three modes (shell override still wins): `LIA_LLM_POLISH_ENABLED=1`, `LIA_RERANKER_MODE=live` (flipped from `shadow` on 2026-04-22 — internal-beta risk-forward; adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset), `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out), `LIA_SUBTOPIC_BOOST_FACTOR=1.5`, **`LIA_TEMA_FIRST_RETRIEVAL=on` (re-flipped 2026-04-25 — see `docs/aa_next/gate_9_threshold_decision.md` + `docs/aa_next/next_done.md`)**, **`LIA_EVIDENCE_COHERENCE_GATE=enforce` (flipped 2026-04-25 — operator's "no off flags" directive)**, **`LIA_POLICY_CITATION_ALLOWLIST=enforce` (flipped 2026-04-25 — same directive)**, **`LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce` (default 2026-04-25 — next_v3 §7 path-veto + 6 mutex rules)**. Ingest-pipeline knobs: `LIA_INGEST_CLASSIFIER_WORKERS=4` (held at 4 until `TokenBudget` primitive ships per next_v4 §10.1), `LIA_INGEST_CLASSIFIER_RPM=300`, `LIA_SUPABASE_SINK_WORKERS=4`, `FALKORDB_QUERY_TIMEOUT_SECONDS=30`, `FALKORDB_BATCH_NODES=500`, `FALKORDB_BATCH_EDGES=1000` (phases 2a/2b/2c). Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (phase 1). **2026-04-25 runtime-shape additions (no env flag):** conversational-memory staircase Levels 1+2 (`ConversationState.prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`; classifier soft-tiebreaker on `prior_topic`) per `next_v4 §3 + §4`; `comparative_regime_chain` query mode (`config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py`) per `next_v4 §5`. Full table in `docs/orchestration/orchestration.md`; closed forward-plans archived in `docs/aa_next/next_done.md`; active backlog in `docs/aa_next/next_v4.md`.
 
+## LLM provider split — chat vs canonicalizer (2026-04-29)
+
+`config/llm_runtime.json` lists provider preference for the whole repo. **Chat and canonicalizer have different needs and the wrong default broke chat:**
+
+* **Chat path** (topic resolver in `topic_router._classify_topic_with_llm`, polish in `answer_llm_polish`) needs a fast, structured-JSON-faithful model. Topic-classifier prompt requires a strict `{"primary_topic":...,"confidence":...}` JSON object back, with an 8-second timeout per call.
+* **Canonicalizer path** (vigencia extraction, classifier, etc.) needs a long-context, schema-following model and runs at high RPM as a batch job. DeepSeek-v4-flash and v4-pro fit this well (cheap, 1M context, on a 75% discount window through 2026-05-05).
+
+**The default `provider_order` in `config/llm_runtime.json` puts `gemini-flash` first** so chat works correctly. The canonicalizer keeps DeepSeek by overriding via the existing `LIA_VIGENCIA_PROVIDER=deepseek-v4-flash` env knob (set explicitly by every canonicalizer launch script). 
+
+The reason for this split: DeepSeek-v4-pro is a *reasoning model* that returns `reasoning_content` (chain-of-thought) but often empty `message.content` for short structured-output prompts. The adapter at `llm_runtime.py:198` raises `RuntimeError("DeepSeek response missing message content.")`; the topic resolver swallowed the exception and silently fell through to the keyword fallback, mis-routing every multi-domain SME query to the parent topic `declaracion_renta`. This caused the §1.G 36-Q SME panel to drop from 21/36 to 8/36 acc+ on 2026-04-29. After flipping providers back, the panel returned to 22/36 acc+ with zero ok→zero regressions. Full diagnosis: `docs/re-engineer/fix/fix_v1_diagnosis.md`. Ongoing work to push 22 → 24/36: `docs/re-engineer/fix/fix_v1.md` (sub-query LLM-skipped path).
+
+**If you flip provider order again, re-run the §1.G panel** (`scripts/eval/run_sme_parallel.py --workers 4`, ~5 min wall) before merging.
+
+## Retrieval-stage deep trace (2026-04-29)
+
+`tracers_and_logs/pipeline_trace.py` is a context-local collector that writes one JSONL line per retrieval stage to `tracers_and_logs/logs/pipeline_trace.jsonl` AND attaches the snapshot to `response.diagnostics["pipeline_trace"]` for every served chat. PII-safe by design (no chunk text, no answer text, only stage names + counts + truncated decision details). Whitelisted in `ui_chat_payload.filter_diagnostics_for_public_response` so eval traces survive the public-response strip.
+
+Stage coverage: topic resolution (every silent return-None branch), planner, retriever (hybrid_search input/output, anchor merge, vigencia v3 demotion kept/dropped/demoted), reranker, coherence gate, citation allow-list, LLM polish (provider/adapter/elapsed). Read with `jq` against `tracers_and_logs/logs/pipeline_trace.jsonl` or directly in the eval JSON's `response.diagnostics.pipeline_trace.steps[*]`.
+
 ## Hot Path (main chat)
 
 1. `src/lia_graph/ui_server.py`

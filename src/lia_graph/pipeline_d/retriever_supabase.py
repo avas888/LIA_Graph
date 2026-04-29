@@ -39,6 +39,18 @@ from .contracts import (
 from .planner import with_resolved_entry_points
 from .retrieval_support import derive_authority, manifest_doc_id
 
+# fix_v1.md hand-off — deep-trace collector. No-op when no active trace.
+try:
+    from tracers_and_logs import pipeline_trace as _trace
+except ImportError:  # pragma: no cover - tracer always present in served runtime
+    _trace = None  # type: ignore[assignment]
+
+
+def _trace_step(step_name: str, *, status: str = "ok", message: str | None = None, **details: Any) -> None:
+    if _trace is None:
+        return
+    _trace.step(step_name, status=status, message=message, **details)
+
 
 _WORKSPACE_ROOT = Path(__file__).resolve().parents[3]
 _ARTICLE_NUMBER_RE = re.compile(r"(?i)^(art(?:[ií]culo)?|art\.)\s*(?P<number>\d+(?:-\d+)?)")
@@ -54,21 +66,68 @@ def retrieve_graph_evidence(
     db = client if client is not None else get_supabase_client()
 
     query_text = _build_query_text(plan)
+    _trace_step(
+        "retriever.supabase.entry",
+        status="info",
+        plan_query_mode=getattr(plan, "query_mode", None),
+        anchor_article_count=len(getattr(plan, "anchor_articles", ()) or ()),
+        topic=getattr(plan, "topic", None),
+        sub_topic_intent=getattr(plan, "sub_topic_intent", None),
+        query_text_preview=query_text[:240],
+        query_text_chars=len(query_text or ""),
+    )
     chunk_rows = _hybrid_search(db, plan=plan, query_text=query_text)
+    _trace_step(
+        "retriever.hybrid_search.out",
+        status="ok" if chunk_rows else "fallback",
+        message="hybrid_search returned 0 rows" if not chunk_rows else None,
+        row_count=len(chunk_rows),
+        top_chunk_ids=[(r.get("chunk_id") or r.get("id"))[:80] for r in chunk_rows[:10] if isinstance(r, dict)],
+    )
     # FTS ranking alone cannot guarantee that the planner's explicit anchor
     # articles appear in top-N — broad OR queries often let generic chunks
     # outrank the real anchor. Fetch each explicit article directly by its
     # `chunk_id` pattern and merge, so primary_articles promotion does not
     # depend on luck of the ranker.
     anchor_rows = _fetch_anchor_article_rows(db, plan)
+    _trace_step(
+        "retriever.anchor_articles",
+        status="ok",
+        anchor_row_count=len(anchor_rows),
+        anchor_article_keys=[r.get("article_key") for r in anchor_rows[:20] if isinstance(r, dict)],
+    )
+    chunk_rows_before_merge = len(chunk_rows)
     chunk_rows = _merge_rows_prefer_anchors(anchor_rows, chunk_rows)
+    _trace_step(
+        "retriever.merge_anchors",
+        status="ok",
+        before=chunk_rows_before_merge,
+        after=len(chunk_rows),
+        delta=len(chunk_rows) - chunk_rows_before_merge,
+    )
 
     # fixplan_v3 sub-fix 1B-ε — apply the v3 vigencia gate as a post-pass.
     # Drops chunks whose anchor citation is in {DE,SP,IE,VL}; demotes
     # contested-DT (factor 0.3); annotates kept chunks with `vigencia_v3`
     # so the chat-response payload can render the chip. No-op when
     # `norm_citations` is empty for the chunk set.
+    _rows_in_v3 = len(chunk_rows)
     chunk_rows, demotion_diagnostics = _apply_v3_vigencia_demotion(db, plan, chunk_rows)
+    _v3_status = (demotion_diagnostics or {}).get("status")
+    _trace_step(
+        "retriever.vigencia_v3.applied",
+        status="ok" if _v3_status == "ok" else "skipped",
+        message=f"vigencia_v3 status={_v3_status}",
+        rows_in=_rows_in_v3,
+        rows_out=len(chunk_rows),
+        rpc_kind=(demotion_diagnostics or {}).get("rpc_kind"),
+        rpc_payload=(demotion_diagnostics or {}).get("rpc_payload"),
+        chunks_seen=(demotion_diagnostics or {}).get("chunks_seen"),
+        chunks_kept=(demotion_diagnostics or {}).get("chunks_kept"),
+        chunks_dropped=(demotion_diagnostics or {}).get("chunks_dropped"),
+        chunks_demoted=(demotion_diagnostics or {}).get("chunks_demoted"),
+        full_demotion_diagnostics=dict(demotion_diagnostics or {}),
+    )
     # v5 §1.B — supplementary topic-filtered fetch was attempted here on
     # 2026-04-26 evening. Empirically regressed 2 topics
     # (impuesto_patrimonio_pn + conciliacion_fiscal) from `chunks_off_topic`
@@ -190,36 +249,78 @@ def _hybrid_search(
     # deployments.
     if router_topic and topic_boost > 1.0:
         payload["filter_topic_boost"] = topic_boost
+    _trace_step(
+        "retriever.hybrid_search.in",
+        status="info",
+        match_count=match_count,
+        filter_topic=payload.get("filter_topic"),
+        filter_topic_boost=payload.get("filter_topic_boost"),
+        filter_subtopic=payload.get("filter_subtopic"),
+        subtopic_boost=payload.get("subtopic_boost"),
+        filter_effective_date_max=str(payload.get("filter_effective_date_max")) if payload.get("filter_effective_date_max") else None,
+        fts_query_present=bool(payload.get("fts_query")),
+        sub_topic_intent=sub_topic_intent,
+        router_topic=router_topic,
+    )
+    _hybrid_recovery: str | None = None
     try:
         response = db.rpc("hybrid_search", payload).execute()
-    except Exception:
+    except Exception as exc:
         # Older DBs reject unknown params. First try dropping the v5 §1.D
         # topic boost; if still failing, drop the subtopic boost too.
         # Both fallbacks degrade ranking quality but keep retrieval alive.
         recovered = False
+        _trace_step(
+            "retriever.hybrid_search.first_attempt_error",
+            status="error",
+            error=repr(exc)[:240],
+        )
         if "filter_topic_boost" in payload:
             payload.pop("filter_topic_boost", None)
             payload["filter_topic"] = None  # restore strict no-filter
             try:
                 response = db.rpc("hybrid_search", payload).execute()
                 recovered = True
+                _hybrid_recovery = "dropped_filter_topic_boost"
             except Exception:
                 pass
         if not recovered and sub_topic_intent:
             payload.pop("filter_subtopic", None)
             payload.pop("subtopic_boost", None)
             response = db.rpc("hybrid_search", payload).execute()
+            _hybrid_recovery = "dropped_subtopic_filter"
         elif not recovered:
             raise
+    if _hybrid_recovery:
+        _trace_step(
+            "retriever.hybrid_search.recovered",
+            status="fallback",
+            recovery=_hybrid_recovery,
+        )
     rows = getattr(response, "data", None) or []
     if not isinstance(rows, list):
+        _trace_step(
+            "retriever.hybrid_search.malformed_response",
+            status="error",
+            response_type=type(rows).__name__,
+        )
         return []
     typed_rows = [row for row in rows if isinstance(row, dict)]
-    return _apply_client_side_subtopic_boost(
+    boosted = _apply_client_side_subtopic_boost(
         typed_rows,
         sub_topic_intent=sub_topic_intent,
         boost=subtopic_boost,
     )
+    if sub_topic_intent and len(typed_rows) != len(boosted):
+        _trace_step(
+            "retriever.subtopic_boost.applied",
+            status="ok",
+            sub_topic_intent=sub_topic_intent,
+            boost=subtopic_boost,
+            rows_before=len(typed_rows),
+            rows_after=len(boosted),
+        )
+    return boosted
 
 
 def _resolve_subtopic_boost_factor() -> float:

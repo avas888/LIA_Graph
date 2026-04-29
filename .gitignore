@@ -93,3 +93,8 @@ logs/cloud_promotion_*/
 logs/cascade_v6_*.log
 logs/cascade_v6_canary/
 logs/v6_1_canary/
+
+# --- pipeline trace (volatile; regenerated each request) ---
+tracers_and_logs/logs/*.jsonl
+tracers_and_logs/logs/*.log
+!tracers_and_logs/logs/.gitkeep
