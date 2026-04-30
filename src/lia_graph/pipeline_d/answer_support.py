@@ -259,6 +259,37 @@ _HEADING_REJECT_PATTERNS = (
     re.compile(r"^\s*PASO\s+\d+\b", re.IGNORECASE),
     re.compile(r"^\s*>\s*Pregunta\s+clave", re.IGNORECASE),
     re.compile(r"####"),
+    # All-caps article headings (no lowercase letters anywhere) that leak
+    # into procedure/route bullets and then get the "Apóyate aquí en los
+    # arts. ..." trailer pepped onto them. Real sentences always carry
+    # lowercase function words; acronym-heavy lines still mix lowercase
+    # in. Length floor avoids matching short fragments.
+    re.compile(r"^(?=.{30,})[^a-záéíóúñü]+$"),
+)
+
+# Spanish abbreviations and short word-fragment shapes that mark a
+# truncation artifact when they appear at the end of an evidence
+# fragment. Two related uses:
+#  * `_ABBREVIATION_BEFORE_PERIOD_RE` rejoins fragments split by a
+#    stray `.`/`:`/`;` between the abbreviation and the rest of its
+#    word (the `fra. ción` / `fra: ción` OCR-artifact case).
+#  * `_TRUNCATED_TAIL_TOKEN_RE` detects fragments that simply END at
+#    the abbreviation/word-fragment with no trailing punctuation at
+#    all (the cloud chunk ending literally at `…por cada mes o fra`).
+_ABBREVIATION_TOKENS = (
+    r"art|arts|articulo|artículo|núm|num|nums|nro|nros|"
+    r"inc|incs|par|pars|pár|parág|lit|lits|ord|ords|"
+    r"pág|pag|págs|pags|cap|caps|vol|vols|ed|eds|"
+    r"cf|cfr|p|pp|ej|etc|sr|sra|dr|dra|fig|nt|op|cit|"
+    r"fr|fra|frac|fracc"
+)
+_ABBREVIATION_BEFORE_PERIOD_RE = re.compile(
+    rf"(?:^|[\s\(])(?:{_ABBREVIATION_TOKENS})[\.;:]\s*$",
+    re.IGNORECASE,
+)
+_TRUNCATED_TAIL_TOKEN_RE = re.compile(
+    rf"(?:^|[\s\(])(?:{_ABBREVIATION_TOKENS})\s*$",
+    re.IGNORECASE,
 )
 
 
@@ -738,6 +769,37 @@ def _clean_evidence_excerpt_for_answer(
     return line
 
 
+def _merge_abbreviation_splits(parts: list[str]) -> list[str]:
+    """Rejoin sentence fragments split at an abbreviation period.
+
+    The splitter ``re.split(r"(?<=[\\.;:])\\s+", ...)`` correctly handles
+    real sentence boundaries but also fires on Spanish abbreviations
+    (`art.`, `núm.`, `pág.`, ...) and on OCR/scrape artifacts inside
+    words (`fra. ción` → `fracción`, `frac. ción` → `fracción`). Both
+    cases should keep the surrounding sentence intact. We merge a
+    fragment back to its predecessor when the predecessor ends in a
+    short abbreviation-shaped token AND the next fragment does not
+    start a fresh sentence (lowercase or digit start).
+    """
+    merged: list[str] = []
+    for part in parts:
+        if not merged:
+            merged.append(part)
+            continue
+        prev = merged[-1]
+        first_char = part.lstrip()[:1]
+        looks_like_sentence_start = first_char.isupper() or first_char in {"¿", "¡", "«", "\""}
+        if (
+            _ABBREVIATION_BEFORE_PERIOD_RE.search(prev)
+            and part
+            and not looks_like_sentence_start
+        ):
+            merged[-1] = prev.rstrip() + " " + part
+        else:
+            merged.append(part)
+    return merged
+
+
 def _evidence_candidate_lines(text: str) -> tuple[str, ...]:
     """Yield candidate sentence-shaped lines from evidence chunk text.
 
@@ -757,7 +819,8 @@ def _evidence_candidate_lines(text: str) -> tuple[str, ...]:
         stripped = re.sub(r"^[\s#*\-•]+", "", paragraph).strip()
         if not stripped:
             continue
-        for raw in re.split(r"(?<=[\.;:])\s+", stripped):
+        raw_parts = re.split(r"(?<=[\.;:])\s+", stripped)
+        for raw in _merge_abbreviation_splits(raw_parts):
             cleaned = re.sub(r"\s+", " ", raw).strip(" -:")
             normalized = _normalize_text(cleaned)
             if not cleaned or len(cleaned) < 45 or len(cleaned) > 240:
@@ -775,6 +838,15 @@ def _evidence_candidate_lines(text: str) -> tuple[str, ...]:
             if cleaned.startswith("Artículo modificado"):
                 continue
             if cleaned and cleaned[-1] not in ".!?":
+                # Guard against upstream chunk truncations that end mid-word
+                # at a known abbreviation/word-fragment (`…por cada mes o
+                # fra`, `…ver el art`). Auto-adding a period here would
+                # emit "fra." as if it were a real sentence end. Real prose
+                # sentences without a trailing period are vanishingly rare
+                # in this corpus; an end-token in the abbreviation list is
+                # a much stronger signal of a cut chunk than of valid copy.
+                if _TRUNCATED_TAIL_TOKEN_RE.search(cleaned):
+                    continue
                 cleaned += "."
             lines.append(cleaned)
     return tuple(lines)

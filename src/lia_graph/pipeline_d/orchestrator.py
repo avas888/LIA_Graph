@@ -382,8 +382,52 @@ def run_pipeline_d(
             provenance: list[dict[str, Any]] = []
             plan = None
             parent_topic = normalize_topic_key(request.topic)
+            from ..canonical_question_shapes import match_canonical_shape
             for _sq_idx, sq in enumerate(sub_queries):
                 sq_routing = _resolve(message=sq, requested_topic=None, pais=request.pais)
+                # Canonical question-shape escape hatch (2026-04-30) —
+                # before the parent-inheritance check, see if the sub-Q
+                # matches a curated high-confidence shape (e.g. "fechas
+                # límite ... NIT" → declaracion_renta). When it does, we
+                # promote the keyword-fallback result to mode=canonical_shape
+                # so the inheritance branch below leaves it alone. The
+                # canonical match is gated on the classifier already
+                # agreeing with the shape's topic — this is a confidence
+                # boost, not a topic override (last week's +3-strong
+                # parent-inheritance fix stays intact for everything
+                # the shape table doesn't explicitly cover).
+                canonical_match = match_canonical_shape(
+                    sq, classified_topic=sq_routing.effective_topic
+                )
+                if canonical_match is not None and getattr(sq_routing, "mode", None) == "fallback":
+                    _trace.step(
+                        "topic_router.canonical_shape.hit",
+                        status="ok",
+                        sub_query_index=_sq_idx,
+                        sub_query=sq,
+                        shape_id=canonical_match.id,
+                        original_mode=getattr(sq_routing, "mode", None),
+                        original_confidence=round(float(sq_routing.confidence or 0.0), 3),
+                        promoted_to_mode="canonical_shape",
+                        subtopic_hint=canonical_match.subtopic_hint,
+                    )
+                    sq_routing = TopicRoutingResult(
+                        requested_topic=None,
+                        effective_topic=sq_routing.effective_topic,
+                        secondary_topics=tuple(
+                            dict.fromkeys(
+                                (
+                                    *sq_routing.secondary_topics,
+                                    *canonical_match.secondary_topics,
+                                )
+                            )
+                        ),
+                        topic_adjusted=False,
+                        confidence=0.9,
+                        reason=f"canonical_shape:{canonical_match.id}",
+                        topic_notice=None,
+                        mode="canonical_shape",
+                    )
                 # fix_v5 phase 6b (Q1) — sub-Q topic carry-over from parent.
                 # Short sub-Qs ("¿eso cambia algo?") often miss the rule-route
                 # AND the LLM path is skipped at this site (no
