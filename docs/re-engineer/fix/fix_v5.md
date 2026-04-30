@@ -1,5 +1,18 @@
 # fix_v5.md — phase 6 hand-off: lift acc → strong on 8 served_acceptable qids
 
+> **Phase 6 — SUBSTANTIVELY CLOSED 2026-04-29 ~7:25 PM Bogotá.**
+> §1.G panel at **32 strong / 4 acc / 0 weak / 36 acc+** (canonical
+> anchor: `evals/sme_validation_v1/runs/20260430T000527Z_fix_v5_phase6b_rerun/`).
+> Net +4 strong vs phase-5 close (28 → 32). Two routes kept: Q4
+> heading-reject (phase 6a, commit `8f839a8`), Q1 sub-Q topic
+> carry-over (phase 6b, commit `51b1939`). One route discarded: Q2
+> numeric directive (phase 6c, commit `ccf236c` — reverted same-
+> commit because the new clause hit the slug-cleanup blast-radius
+> pattern documented in §0). Phase 6d (Q3 sub-Q evidence fallback)
+> skipped because the 4 remaining acc qids are borderline content-
+> quality cases without "Cobertura pendiente" stubs (Q3's trigger).
+> Phase records in §10 (6a), §11 (6b), §12 (6c discard).
+>
 > **Drafted 2026-04-29 ~5:35 PM Bogotá** by claude-opus-4-7 immediately
 > after fix_v4 phase 5 closed (commits `6af9f22` + `0ac1a70`, panel
 > 34/36 → **36/36** with 28 served_strong + 8 served_acceptable + 0
@@ -686,6 +699,239 @@ This hand-off is fully self-contained. Do NOT ask the operator unless:
 
 ---
 
+## 10. Phase 6a close-record (Q4 heading-reject — KEPT)
+
+**Closed 2026-04-29 ~6:05 PM Bogotá. Commit `8f839a8`. Run dir
+`evals/sme_validation_v1/runs/20260429T225605Z_fix_v5_phase6a_heading_reject/`.**
+
+Implementation: `src/lia_graph/pipeline_d/answer_support.py`.
+Added `_HEADING_REJECT_PATTERNS` module constant
+(post-`_ARTICLE_BUCKET_LIMITS`) with 5 compiled regexes:
+`^#{2,4}\s`, `^\s*ARTÍCULO\s+\d+`, `^\s*PASO\s+\d+\b`,
+`^\s*>\s*Pregunta\s+clave`, `####`. Inside `_evidence_candidate_lines`
+(post-cleanup, pre-append), reject any line matching any pattern.
+
+Smoke (45 tests): green.
+
+| | phase-5 close anchor | phase 6a (this) | Δ |
+|---|---|---|---|
+| served_strong | 28 | **29** | **+1** |
+| served_acceptable | 8 | 7 | -1 |
+| served_weak | 0 | 0 | 0 |
+| **served_acceptable+** | **36/36** | **36/36** | held |
+| acc+ regressions | — | 0 | — |
+
+**Flipped qid**: `regimen_cambiario_P2` (acc → **strong**),
+636 → 3360 chars, all 4 sections present, real ET cites
+(art. 26, 26-35, 260-11), no raw heading text in any bullet,
+operationally substantive content (Formulario No. 1, IMC mechanism,
+TRM warning, supporting docs).
+
+**No-regression spot-check on 3 strong qids** (tarifas_renta_y_ttd_P1,
+firmeza_declaraciones_P1, conciliacion_fiscal_P3): all held class;
+char counts fluctuated within normal LLM polish noise.
+
+**Six-gate sign-off**:
+1. ✅ Idea: post-cleanup heading-shape rejection in evidence splitter.
+2. ✅ Plan: §2 Q4 — narrow function edit + module-level constant.
+3. ✅ Criterion: ≥36/36 acc+; ≥1 acc→strong; 0 strong→acc regressions
+   — all met.
+4. ✅ Test plan: 45 backend smoke + 36-Q panel + spot-check + delta
+   verification.
+5. ✅ Greenlight: PASS — clean technical pass + spot-check.
+6. ✅ Keep — phase 6a closed.
+
+---
+
+## 11. Phase 6b close-record (Q1 sub-Q topic carry-over — KEPT)
+
+**Closed 2026-04-29 ~7:10 PM Bogotá. Commit `51b1939`. Canonical run
+dir `evals/sme_validation_v1/runs/20260430T000527Z_fix_v5_phase6b_rerun/`.
+First-attempt run dir
+`evals/sme_validation_v1/runs/20260429T235823Z_fix_v5_phase6b_subq_topic_carryover/`
+preserved as evidence of LLM-noise-vs-systematic-regression
+diagnosis.**
+
+Implementation: `src/lia_graph/pipeline_d/orchestrator.py` inside the
+`if sub_queries:` fan-out block, post-`_resolve` call. After each
+sub-Q resolves, when its `mode == "fallback"` AND its
+`effective_topic` differs from the parent's resolved topic
+(`request.topic`), build a synthesized `TopicRoutingResult`
+inheriting the parent topic + its secondary topics, with
+`mode="subquery_parent_inheritance"`, `confidence=0.6`, `reason=
+"fix_v5_phase6b:subquery_inherited_parent"`. Confident rule-route
+hits on a different topic stay respected (multi-domain integrity
+per §4 #16). Trace step `topic_router.subquery_inherited_parent`
+records every inheritance for diagnostics.
+
+Smoke (45 tests): green both runs.
+
+| | phase-6a anchor | phase 6b first run | phase 6b rerun (canonical) | Δ vs 6a |
+|---|---|---|---|---|
+| served_strong | 29 | 31 | **32** | **+3** |
+| served_acceptable | 7 | 5 | 4 | -3 |
+| served_weak | 0 | 0 | 0 | 0 |
+| **served_acceptable+** | **36/36** | **36/36** | **36/36** | held |
+| strong→acc regressions | — | 1 (firmeza, polish noise) | 0 | — |
+
+**Q1 targets** (4):
+
+| qid | anchor (6a) | new (6b rerun) | chars | inheritances |
+|---|---|---|---|---|
+| `beneficio_auditoria_P3` | acc | **strong** | 3367 | 2 |
+| `perdidas_fiscales_art147_P2` | acc | **strong** | 3082 | 2 |
+| `regimen_sancionatorio_extemporaneidad_P3` | acc | **strong** | 3288 | 2 |
+| `conciliacion_fiscal_P2` | acc | acc (held; stub eliminated) | 2752 | 1 |
+
+**LLM-noise-vs-systematic diagnosis** (the iteration that made the
+rerun necessary): the first 6b run flipped
+`firmeza_declaraciones_P1` strong → acc. Trace inspection showed
+the qid took the SINGLE-query path (no `decomposer.fanout` step),
+so Q1 cannot have caused the regression. Synthesis template was
+identical (1159 chars in both runs); polish_changed flipped
+True → False on a non-deterministic gemini-flash call. The rerun
+re-ran the whole panel and `firmeza_declaraciones_P1` recovered to
+served_strong (2579 chars), confirming the first-run regression as
+polish-LLM stochasticity, not Q1-induced. Canonical 6b result is
+the rerun.
+
+**Six-gate sign-off**:
+1. ✅ Idea: orchestrator-scoped sub-Q topic carry-over from parent
+   on fallback-mode resolves only.
+2. ✅ Plan: §2 Q1 — orchestrator-only edit; preserves multi-domain
+   sub-Qs that hit rule-route on a different topic.
+3. ✅ Criterion: ≥36/36 acc+; strong net positive; 0 strong→acc
+   regressions; ≥2 of 4 Q1 targets flip to strong; no invented norms
+   — all met (rerun).
+4. ✅ Test plan: 45 backend smoke + 36-Q panel + delta + per-qid
+   trace verification of inheritance events + recovery rerun for
+   noise diagnosis.
+5. ✅ Greenlight: PASS — rerun confirms 32/4/0/36 with 3 acc→strong
+   on target qids, 0 strong→acc regressions, 1 within-class
+   improvement (conciliacion_fiscal_P2 stub eliminated).
+6. ✅ Keep — phase 6b closed.
+
+---
+
+## 12. Phase 6c close-record (Q2 numeric directive — DISCARDED)
+
+**Closed (discarded) 2026-04-29 ~7:25 PM Bogotá. Commit `ccf236c`
+(includes BOTH the Q2 attempt and its same-commit revert; only the
+run dir is preserved as discard evidence — the polish prompt
+returns to the phase-5-close shape). Run dir
+`evals/sme_validation_v1/runs/20260430T001426Z_fix_v5_phase6c_numeric_directive/`.**
+
+Implementation attempted: `src/lia_graph/pipeline_d/answer_llm_polish.py`,
+`_build_polish_prompt`. Added a single REGLA DE CÁLCULO clause
+immediately after the existing REGLA DE EXPANSIÓN clause (per
+fix_v5.md §3 Step 4). Smoke + restart + panel: clean.
+
+| | phase-6b rerun anchor | phase 6c | Δ |
+|---|---|---|---|
+| served_strong | 32 | **31** | **-1** |
+| served_acceptable | 4 | 5 | +1 |
+| served_weak | 0 | 0 | 0 |
+| **served_acceptable+** | **36/36** | **36/36** | held |
+
+**Q2 numeric targets** (4): all acquired calc markers in their
+answer_markdown but **0 flipped class**. `descuentos_tributarios_renta_P2`
+and `conciliacion_fiscal_P2` stayed acc; `perdidas_fiscales_art147_P2`
+and `regimen_sancionatorio_extemporaneidad_P2` were already strong
+and held.
+
+**Regression**: `beneficio_auditoria_P1` (NOT a Q2 target) flipped
+strong → acc with identical synthesis template (448 chars in both
+runs), polish_changed=True in both, but polished_chars dropped
+2584 → 811. The new clause's "no inventés tasas, topes ni
+porcentajes" wording made polish more conservative globally,
+shrinking expansions on non-numeric questions. **Same blast-radius
+pattern as the slug-cleanup discard** (§0): polish-prompt rule
+additions tilt the LLM globally, demoting unrelated qids without
+the targeted gain.
+
+Per fix_v5.md §3 Step 4 explicit directive — *"If panel regresses,
+REVERT — don't refine by adding more text"* — and §4 do-not-do #15
+(*"Don't add more rules to the polish-prompt to suppress LLM-emitted
+artifacts"*), Q2 was reverted same-commit.
+
+**Phase 6d (Q3 sub-Q evidence fallback) also skipped.** Per §3
+Step 5: the 4 remaining acc qids after phase 6b are all borderline
+content-quality cases (`conciliacion_fiscal_P2`, `conciliacion_fiscal_P3`,
+`descuentos_tributarios_renta_P2`, `regimen_sancionatorio_extemporaneidad_P1`),
+none with the "Cobertura pendiente" stub pattern Q3 targets.
+Implementing Q3 would change nothing on these qids. Surface to
+operator for fix_v6 re-scope (content-quality territory beyond
+surgical retrieval/synthesis routes).
+
+**Six-gate sign-off (DISCARDED)**:
+1. ✅ Idea: REGLA DE CÁLCULO additive clause in polish prompt.
+2. ✅ Plan: §2 Q2 — single additive clause; reversible.
+3. ❌ Criterion: ≥36/36 acc+ (met); strong net positive (NOT met:
+   -1); ≥2 numeric targets flip to strong (NOT met: 0 flips).
+4. ✅ Test plan: ran 45 smoke + 36-Q panel + per-target calc-marker
+   spot-check + delta vs 6b rerun.
+5. ❌ Greenlight: FAIL on criterion 3 sub-clauses.
+6. ⏪ Discard — run dir kept as evidence; polish prompt reverted;
+   phase 6d skipped; surface to operator for fix_v6.
+
+---
+
+## 13. End-of-fix_v5 state + fix_v6 hand-off
+
+**Final §1.G panel result**: 32 served_strong / 4 served_acceptable /
+0 served_weak / 0 refused / **36 served_acceptable+** under the
+phase-4 fairer grader. Net +4 strong vs phase-5 close (28 → 32),
+0 acc+ regressions throughout, 0 weak qids throughout, 0 invented
+norms in any flipped qid.
+
+**Canonical anchor for fix_v6**:
+`evals/sme_validation_v1/runs/20260430T000527Z_fix_v5_phase6b_rerun/`.
+
+**Residual 4 acc qids** (content-quality territory — what fix_v6
+should re-scope):
+
+| qid | chars (anchor) | polish_changed | has_stub | inheritances | likely gap |
+|---|---|---|---|---|---|
+| `conciliacion_fiscal_P2` | 2752 | True | False | 1 | borderline strong-vs-acc; sub-Q calc on $400M revaluación not run |
+| `conciliacion_fiscal_P3` | 2994 | True | False | 0 | borderline; substantive content, SME grader called it acc |
+| `descuentos_tributarios_renta_P2` | 2199 | True | False | 0 | $120M × 19% calc not run; norm cited |
+| `regimen_sancionatorio_extemporaneidad_P1` | 1989 | True | False | 0 | borderline; specific UVT calc present |
+
+**Layers fix_v6 should consider**:
+- Numeric calc enforcement at a layer OTHER than the polish prompt
+  (the prompt-blast-radius pattern is established, twice now —
+  slug-cleanup + Q2). Possibly a deterministic post-polish
+  numeric-extraction + format step that detects user-message
+  numeric tokens and verifies the answer contains a calculation
+  string for them; or a new dedicated calc-prompt step that runs
+  ONLY when numeric tokens are present (not part of the global
+  polish system prompt).
+- Deeper retrieval / synthesis for `conciliacion_fiscal` (P2 + P3
+  both still acc — possibly a topic-specific evidence-extraction
+  gap).
+- Optionally Q5 (multi-domain decomposer) from §2 if `beneficio_auditoria_P3`
+  and similar drift again on future panel runs.
+
+**State of the world at fix_v5 close**:
+* Latest commits on `main` (pushed):
+  * `8f839a8 fix_v5 phase 6a — Q4 heading-reject in evidence line splitter (28 → 29/36 strong)`
+  * `51b1939 fix_v5 phase 6b — Q1 sub-Q topic carry-over from parent (29 → 32/36 strong)`
+  * `ccf236c fix_v5 phase 6c — Q2 numeric directive DISCARDED (32 → 31 strong; reverted)`
+* Working tree: clean.
+* `config/llm_runtime.json` `provider_order`: gemini-flash first. UNCHANGED.
+* `LIA_*` flag matrix: UNCHANGED.
+* Polish prompt: phase-5-close shape (Route A REGLA DE EXPANSIÓN
+  only; Q2 reverted).
+* Evidence line splitter: now rejects markdown headings
+  (`_HEADING_REJECT_PATTERNS` in `answer_support.py`).
+* Sub-query fan-out: now inherits parent topic on fallback-mode
+  sub-Q resolves (orchestrator.py).
+* Cloud Supabase + cloud Falkor: in-sync; no migration drift.
+* Dev server running at fix_v5 close (port 8787, dev:staging).
+  Stop it via `pkill -KILL -f "python.*lia_graph|node.*dev-launcher|npm.*dev:staging"`.
+
+---
+
 *Drafted 2026-04-29 ~5:35 PM Bogotá by claude-opus-4-7 immediately
 after fix_v4 phase 5 close (commits `6af9f22` + `0ac1a70` pushed to
 `origin/main`) and the slug-cleanup discard. The diagnosis cited in
@@ -697,4 +943,6 @@ discard learning underpinning the §0 cautionary banner and the §4
 do-not-do entry #15 is in the failed run dir
 `evals/sme_validation_v1/runs/20260429T221514Z_fix_v5_slug_cleanup/`
 — compare it against the phase-5 anchor to see the -5 strong
-demotion pattern firsthand.*
+demotion pattern firsthand. §10/§11/§12/§13 close-records added
+2026-04-29 ~7:30 PM Bogotá by claude-opus-4-7 after phase 6a/6b
+landed and 6c was discarded same-session.*
