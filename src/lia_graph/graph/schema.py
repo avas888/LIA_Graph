@@ -244,7 +244,11 @@ def default_graph_schema() -> GraphSchema:
             key_field="norm_id",
             description=(
                 "fixplan_v3 §0.3.2 — first-class legal norm. Mirrors `norms` catalog. "
-                "Edges (MODIFIED_BY / DEROGATED_BY / etc.) carry the v3 vigencia history."
+                "Edges (MODIFIED_BY / DEROGATED_BY / etc.) carry the v3 vigencia history. "
+                "VIGENCIA STATE IS NEVER STORED HERE — it lives in Supabase "
+                "`norm_vigencia_history` and is read via the `norm_vigencia_at_date(norm_id, asof)` "
+                "SQL RPC. Cypher branches like `WHERE n.vigencia_status = 'vigente'` always "
+                "return empty by design (fix_v6.md §1 yellow-flag #3)."
             ),
             required_fields=("norm_id", "norm_type", "display_label"),
             optional_fields=(
