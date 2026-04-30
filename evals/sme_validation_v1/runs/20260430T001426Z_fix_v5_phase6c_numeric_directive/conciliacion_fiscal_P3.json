@@ -1,0 +1,838 @@
+{
+  "qid": "conciliacion_fiscal_P3",
+  "topic_key_expected": "conciliacion_fiscal",
+  "profile": "P3_borde",
+  "message": "Una clienta tiene un contrato de arrendamiento de bodega que bajo NIIF 16 reconoció como activo por derecho de uso de $300 millones y un pasivo por arrendamiento de $290 millones. Fiscalmente entiendo que esas figuras no existen y que solo se deduce el canon pagado en el año. ¿Cómo concilio eso en el 2516, cómo afecta el patrimonio fiscal, y si más adelante la DIAN me hace comparación patrimonial cómo justifico la diferencia?",
+  "http_status": 200,
+  "latency_ms": 27220,
+  "captured_utc": "2026-04-30T00:19:16.673218+00:00",
+  "response": {
+    "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+    "run_id": "pd_5cf0df2af1dc4e0da6dc8ad334e1520a",
+    "answer_markdown": "**Respuestas directas**\n\n*   **¿Cómo concilio eso en el 2516?**\n    *   En el formato 2516, la conciliación se realiza ajustando las diferencias entre la base contable (NIIF 16) y la base fiscal. El activo por derecho de uso y el pasivo por arrendamiento reconocidos bajo NIIF 16 no tienen reconocimiento fiscal directo.\n    *   Fiscalmente, solo se deduce el canon de arrendamiento efectivamente pagado en el año, conforme a los principios de causación fiscal y no al reconocimiento de un activo y pasivo financiero.\n    *   La diferencia entre el valor del activo por derecho de uso ($300 millones) y el pasivo por arrendamiento ($290 millones) generará un impacto en el patrimonio contable que no se reflejará en el patrimonio fiscal.\n\n*   **¿Cómo afecta el patrimonio fiscal?**\n    *   El patrimonio fiscal se determina por el total de bienes y derechos apreciables en dinero poseídos al último día del año gravable (art. 261 ET). El activo por derecho de uso reconocido bajo NIIF 16 no constituye un activo fiscalmente poseído en los términos del Estatuto Tributario.\n    *   La posesión fiscal se entiende como el aprovechamiento económico, potencial o real, de cualquier bien en beneficio del contribuyente (art. 263 ET). Un activo por derecho de uso bajo NIIF 16 no encaja en esta definición para efectos de patrimonio fiscal, ya que no implica la propiedad o usufructo del bien.\n    *   Por lo tanto, el activo por derecho de uso de $300 millones no incrementa el patrimonio fiscal. El pasivo por arrendamiento de $290 millones tampoco se considera un pasivo fiscalmente reconocido para efectos de disminuir el patrimonio líquido.\n\n*   **¿Si más adelante la DIAN me hace comparación patrimonial cómo justifico la diferencia?**\n    *   La justificación se basa en las diferencias de reconocimiento entre las NIIF y la normativa fiscal. La DIAN, al realizar una comparación patrimonial, considerará el patrimonio fiscal, no el contable.\n    *   Se debe documentar claramente que el activo por derecho de uso y el pasivo por arrendamiento son partidas de naturaleza contable (NIIF 16) sin efecto en el patrimonio fiscal.\n    *   La conciliación fiscal (Formato 2516) es el soporte principal para explicar estas diferencias, mostrando cómo se ajustan los valores contables para llegar a las bases fiscales de activos y pasivos.\n\n**Ruta sugerida**\n\n*   Mantener un registro detallado de los cánones de arrendamiento pagados, ya que estos son los únicos valores deducibles fiscalmente.\n*   Asegurar que el Formato 2516 refleje explícitamente la eliminación del activo por derecho de uso y el pasivo por arrendamiento para efectos fiscales, ajustando el patrimonio fiscal.\n*   Preparar una memoria explicativa que detalle las diferencias entre el tratamiento contable (NIIF 16) y el fiscal para los contratos de arrendamiento, citando las normas aplicables.\n\n**Riesgos y condiciones**\n\n*   El principal riesgo es una glosa por parte de la DIAN si no se documentan adecuadamente las diferencias entre el patrimonio contable y el fiscal.\n*   Es crucial que la conciliación fiscal sea consistente con las declaraciones de renta presentadas, evitando inconsistencias que puedan generar requerimientos.\n*   La falta de soportes claros sobre la naturaleza de las partidas NIIF 16 y su no reconocimiento fiscal podría llevar a la DIAN a desconocer la justificación en una comparación patrimonial.\n\n**Soportes clave**\n\n*   Contrato de arrendamiento de la bodega.\n*   Políticas contables de la empresa que expliquen la aplicación de NIIF 16.\n*   Extractos bancarios o comprobantes de pago de los cánones de arrendamiento.\n*   Formato 2516 debidamente diligenciado, mostrando los ajustes de NIIF a fiscal.\n*   Artículos 261, 262 y 263 del Estatuto Tributario, que definen el patrimonio bruto y la posesión para efectos fiscales.",
+    "answer_concise": "**Respuestas directas**\n\n*   **¿Cómo concilio eso en el 2516?**\n    *   En el formato 2516, la conciliación se realiza ajustando las diferencias entre la base contable (NIIF 16) y la base fiscal. El activo por derecho de uso y el pasivo por arrendamiento reconocidos bajo NIIF 16 no tienen reconocimiento fiscal directo.\n    *   Fiscalmente, solo se deduce el canon de arrendamiento efectivamente pagado en el año, conforme a los principios de causación fiscal y no al reconocimiento de un activo y pasivo financiero.\n    *   La diferencia entre el valor del activo por derecho de uso ($300 millones) y el pasivo por arrendamiento ($290 millones) generará un impacto en el patrimonio contable que no se reflejará en el patrimonio fiscal.\n\n*   **¿Cómo afecta el patrimonio fiscal?**\n    *   El patrimonio fiscal se determina por el total de bienes y derechos apreciables en dinero poseídos al último día del año gravable (art. 261 ET). El activo por derecho de uso reconocido bajo NIIF 16 no constituye un activo fiscalmente poseído en los términos del Estatuto Tributario.\n    *   La posesión fiscal se entiende como el aprovechamiento económico, potencial o real, de cualquier bien en beneficio del contribuyente (art. 263 ET). Un activo por derecho de uso bajo NIIF 16 no encaja en esta definición para efectos de patrimonio fiscal, ya que no implica la propiedad o usufructo del bien.\n    *   Por lo tanto, el activo por derecho de uso de $300 millones no incrementa el patrimonio fiscal. El pasivo por arrendamiento de $290 millones tampoco se considera un pasivo fiscalmente reconocido para efectos de disminuir el patrimonio líquido.\n\n*   **¿Si más adelante la DIAN me hace comparación patrimonial cómo justifico la diferencia?**\n    *   La justificación se basa en las diferencias de reconocimiento entre las NIIF y la normativa fiscal. La DIAN, al realizar una comparación patrimonial, considerará el patrimonio fiscal, no el contable.\n    *   Se debe documentar claramente que el activo por derecho de uso y el pasivo por arrendamiento son partidas de naturaleza contable (NIIF 16) sin efecto en el patrimonio fiscal.\n    *   La conciliación fiscal (Formato 2516) es el soporte principal para explicar estas diferencias, mostrando cómo se ajustan los valores contables para llegar a las bases fiscales de activos y pasivos.\n\n**Ruta sugerida**\n\n*   Mantener un registro detallado de los cánones de arrendamiento pagados, ya que estos son los únicos valores deducibles fiscalmente.\n*   Asegurar que el Formato 2516 refleje explícitamente la eliminación del activo por derecho de uso y el pasivo por arrendamiento para efectos fiscales, ajustando el patrimonio fiscal.\n*   Preparar una memoria explicativa que detalle las diferencias entre el tratamiento contable (NIIF 16) y el fiscal para los contratos de arrendamiento, citando las normas aplicables.\n\n**Riesgos y condiciones**\n\n*   El principal riesgo es una glosa por parte de la DIAN si no se documentan adecuadamente las diferencias entre el patrimonio contable y el fiscal.\n*   Es crucial que la conciliación fiscal sea consistente con las declaraciones de renta presentadas, evitando inconsistencias que puedan generar requerimientos.\n*   La falta de soportes claros sobre la naturaleza de las partidas NIIF 16 y su no reconocimiento fiscal podría llevar a la DIAN a desconocer la justificación en una comparación patrimonial.\n\n**Soportes clave**\n\n*   Contrato de arrendamiento de la bodega.\n*   Políticas contables de la empresa que expliquen la aplicación de NIIF 16.\n*   Extractos bancarios o comprobantes de pago de los cánones de arrendamiento.\n*   Formato 2516 debidamente diligenciado, mostrando los ajustes de NIIF a fiscal.\n*   Artículos 261, 262 y 263 del Estatuto Tributario, que definen el patrimonio bruto y la posesión para efectos fiscales.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Si más adelante la DIAN me hace comparación patrimonial cómo justifico la diferencia?** La justificación se basa en las diferencias de reconocimiento entre las NIIF y la normativa fiscal.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Si más adelante la DIAN me hace comparación patrimonial cómo justifico la diferencia?** La justificación se basa en las diferencias de reconocimiento entre las NIIF y la normativa fiscal.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Si más adelante la DIAN me hace comparación patrimonial cómo justifico la diferencia?** La justificación se basa en las diferencias de reconocimiento entre las NIIF y la normativa fiscal.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "gravamen_movimiento_financiero_4x1000",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "legal_reference": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "search_query": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF) DIAN / fuente oficial colombia Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Si más adelante la DIAN me hace comparación patrimonial cómo justifico la diferencia?** La justificación se basa en las diferencias de reconocimiento entre las NIIF y la normativa fiscal.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Fuente original compilada: L. 9/83 Art. 38*\n\nEl patrimonio bruto está constituido por el total de los bienes y derechos apreciables en dinero poseídos por el contribuyente en el último día del año o período gravable.\n\n<Inciso modificado po",
+      "Son derechos apreciables en dinero, los reales y personales, en cuanto sean susceptibles de ser utilizados en cualquier forma para la obtención de una renta.\n\n**Doctrina Concordante:**\n> * [Oficio DIAN 910054 de 2021](https://normograma.dia",
+      "*Fuente original compilada: D.2053/74 Art. 110*\n\nSe entiende por posesión, el aprovechamiento económico, potencial o real, de cualquier bien en beneficio del contribuyente.\n\nSe presume que quien aparezca como propietario o usufructuario de "
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "261",
+          "262",
+          "263"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "definition_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-30T00:18:49.454188+00:00",
+        "total_ms": 23669.64,
+        "step_count": 21,
+        "steps": [
+          {
+            "ts_utc": "2026-04-30T00:18:49.454205+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-30T00:18:49.454188+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:49.454387+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.19,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 429,
+              "message_preview": "Una clienta tiene un contrato de arrendamiento de bodega que bajo NIIF 16 reconoció como activo por derecho de uso de $300 millones y un pasivo por arrendamiento de $290 millones. Fiscalmente entiendo que esas figuras no existen y que solo ",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:49.454815+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 0.62,
+            "message": null,
+            "details": {
+              "effective_topic": "patrimonio_fiscal_renta",
+              "confidence": 0.98,
+              "reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:57.848620+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 8394.4,
+            "message": null,
+            "details": {
+              "owner_trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+              "requested_trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:57.849008+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 8394.79,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "patrimonio_fiscal_renta",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+              "topic_notice": "Tu pregunta es de patrimonio fiscal renta, por lo cual utilizaremos nuestra base de datos patrimonio fiscal renta.",
+              "message_preview": "Una clienta tiene un contrato de arrendamiento de bodega que bajo NIIF 16 reconoció como activo por derecho de uso de $300 millones y un pasivo por arrendamiento de $290 millones. Fiscalmente entiendo que esas figuras no existen y que solo ",
+              "message_chars": 429
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:57.884315+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 8430.09,
+            "message": null,
+            "details": {
+              "plan_query_mode": "definition_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:57.885773+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 8431.56,
+            "message": null,
+            "details": {
+              "plan_query_mode": "definition_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "patrimonio_fiscal_renta estados_financieros_niif conciliacion_fiscal sector_cultura Una clienta tiene un contrato de arrendamiento de bodega que bajo NIIF 16 reconoció como activo por derecho de uso de $300 millones y un pasivo por arrendam",
+              "query_text_chars": 513
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:57.885980+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 8431.76,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "patrimonio_fiscal_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "patrimonio_fiscal_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:59.357583+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 9903.35,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::127-1",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::235-2",
+                "suin_1132325::808",
+                "suin_1132325::771-5",
+                "suin_1104445::1104449",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::631"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:59.357950+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 9903.73,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:59.358116+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 9903.89,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:18:59.539887+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 10085.64,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:07.540693+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 18086.4,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "261",
+                "262",
+                "263"
+              ],
+              "tema_first_topic_key": "patrimonio_fiscal_renta",
+              "planner_query_mode": "definition_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:07.541407+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 18087.14,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "261",
+                  "262",
+                  "263",
+                  "110",
+                  "1",
+                  "10",
+                  "11"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:07.580439+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 18126.18,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "patrimonio_fiscal_renta",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "patrimonio_fiscal_renta",
+                "articles_top_topic": "sector_cultura",
+                "router_score_on_articles": 3,
+                "top_score_on_articles": 3,
+                "ranked_article_topics": [
+                  [
+                    "sector_cultura",
+                    3
+                  ],
+                  [
+                    "patrimonio_fiscal_renta",
+                    3
+                  ],
+                  [
+                    "declaracion_renta",
+                    1
+                  ],
+                  [
+                    "impuesto_patrimonio_personas_naturales",
+                    1
+                  ]
+                ],
+                "reason": "lexical_aligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:07.580973+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 18126.74,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "patrimonio_fiscal_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:07.581064+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 18126.83,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "definition_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:07.585886+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 18131.65,
+            "message": null,
+            "details": {
+              "template_chars": 182
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:13.119788+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 23665.5,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3820,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:13.123268+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 23668.98,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "patrimonio_fiscal_renta",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:19:13.123726+00:00",
+            "trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 23669.48,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 74,
+        "output_tokens": 594,
+        "total_tokens": 668,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "patrimonio_fiscal_renta",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de patrimonio fiscal renta, por lo cual utilizaremos nuestra base de datos patrimonio fiscal renta.",
+    "topic_adjustment_reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+    "coverage_notice": null,
+    "topic": "patrimonio_fiscal_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_60266b480189",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 74,
+        "output_tokens": 594,
+        "total_tokens": 668
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+      "last_run_id": "pd_5cf0df2af1dc4e0da6dc8ad334e1520a",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_60266b480189",
+    "chat_run_id": "cr_20260430_001850_040cac10",
+    "metrics": {
+      "latency_ms": 25263.25,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 74,
+          "output_tokens": 594,
+          "total_tokens": 668,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_60266b480189",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 74,
+          "output_tokens": 594,
+          "total_tokens": 668
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "7f6736bc-677e-4a5f-be12-d286cf72e40e",
+        "last_run_id": "pd_5cf0df2af1dc4e0da6dc8ad334e1520a",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "formulario:2516",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 7.3
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "patrimonio_fiscal_renta",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "dc9bf46df6c54d71993ea3122e27d9fb"
+  }
+}

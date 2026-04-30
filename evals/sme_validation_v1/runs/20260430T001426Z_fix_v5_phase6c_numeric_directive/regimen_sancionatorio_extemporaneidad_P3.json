@@ -1,0 +1,1422 @@
+{
+  "qid": "regimen_sancionatorio_extemporaneidad_P3",
+  "topic_key_expected": "regimen_sancionatorio_extemporaneidad",
+  "profile": "P3_borde",
+  "message": "Le presenté a un cliente la declaración a tiempo. Tres meses después detectamos que se nos olvidó incluir una venta importante de $80 millones. La DIAN no ha mandado nada. Si corrijo voluntariamente subiendo el impuesto, ¿la sanción es del 10% o me alcanza alguna reducción adicional? ¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?",
+  "http_status": 200,
+  "latency_ms": 31454,
+  "captured_utc": "2026-04-30T00:16:21.360871+00:00",
+  "response": {
+    "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+    "run_id": "pd_b25c97196ccc46c9a4f3317d719e7998",
+    "answer_markdown": "**Respuestas directas**\n- **¿la sanción es del 10% o me alcanza alguna reducción adicional?**\n  - Las personas o entidades obligadas a declarar, que presenten las declaraciones tributarias en forma extemporánea, deberán liquidar y pagar una sanción por cada mes o fracción de mes calenda.\n  - Cuando los contribuyentes, responsables o agentes retenedores, corrijan sus declaraciones tributarias, deberán liquidar y pagar una sanción equivalente a.\n- **¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?**\n  - Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de impuestos generados por las operaciones gravadas, de bienes o actuaciones susceptibles de gravamen, a.\n\n**Ruta sugerida**\n1. Haz una revisión operativa del soporte antes de defenderlo fiscalmente (art. 640 ET).\n2. Verifica si el emisor estaba obligado a facturar electrónicamente y si hubo contingencia válida antes de aceptar el soporte (art. 640 ET).\n\n**Riesgos y condiciones**\n- No sustituyas la factura electrónica por cualquier soporte cuando la obligación sí existía (arts. 640 y 644 ET).\n- Las personas o entidades obligadas a declarar, que presenten las declaraciones tributarias en forma extemporánea, deberán liquidar y pagar una sanción por cada mes o fracción de mes calenda (arts. 641 y 644 ET).\n- Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de impuestos generados por las operaciones gravadas, de bienes o actuaciones susceptibles de gravamen, a (arts. 647 y 641 ET).\n- Cuando los contribuyentes, responsables o agentes retenedores, corrijan sus declaraciones tributarias, deberán liquidar y pagar una sanción equivalente a (arts. 641 y 644 ET).",
+    "answer_concise": "**Respuestas directas**\n- **¿la sanción es del 10% o me alcanza alguna reducción adicional?**\n  - Las personas o entidades obligadas a declarar, que presenten las declaraciones tributarias en forma extemporánea, deberán liquidar y pagar una sanción por cada mes o fracción de mes calenda.\n  - Cuando los contribuyentes, responsables o agentes retenedores, corrijan sus declaraciones tributarias, deberán liquidar y pagar una sanción equivalente a.\n- **¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?**\n  - Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de impuestos generados por las operaciones gravadas, de bienes o actuaciones susceptibles de gravamen, a.\n\n**Ruta sugerida**\n1. Haz una revisión operativa del soporte antes de defenderlo fiscalmente (art. 640 ET).\n2. Verifica si el emisor estaba obligado a facturar electrónicamente y si hubo contingencia válida antes de aceptar el soporte (art. 640 ET).\n\n**Riesgos y condiciones**\n- No sustituyas la factura electrónica por cualquier soporte cuando la obligación sí existía (arts. 640 y 644 ET).\n- Las personas o entidades obligadas a declarar, que presenten las declaraciones tributarias en forma extemporánea, deberán liquidar y pagar una sanción por cada mes o fracción de mes calenda (arts. 641 y 644 ET).\n- Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de impuestos generados por las operaciones gravadas, de bienes o actuaciones susceptibles de gravamen, a (arts. 647 y 641 ET).\n- Cuando los contribuyentes, responsables o agentes retenedores, corrijan sus declaraciones tributarias, deberán liquidar y pagar una sanción equivalente a (arts. 641 y 644 ET).",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?** Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "logical_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "legal_reference": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "search_query": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN DIAN / fuente oficial colombia N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "decreto",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?** Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 1)",
+        "legal_reference": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 1)",
+        "search_query": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 1) DIAN / fuente oficial colombia Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 1)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?** Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?** Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?** Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "gravamen_movimiento_financiero_4x1000",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "legal_reference": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "search_query": "Libro Sexto — Gravamen a los Movimientos Financieros (GMF) DIAN / fuente oficial colombia Libro Sexto — Gravamen a los Movimientos Financieros (GMF)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?** Constituye inexactitud sancionable en las declaraciones tributarias, la omisión de ingresos, de",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Artículo 640. Aplicación de los principios de lesividad, proporciona­lidad, gradualidad y favorabilidad en el régimen sancionatorio. Para la aplicación del régimen sancionatorio establecido en el presente Estatuto se deberá atender a lo dis",
+      "Artículo 641 . EXTEMPORANEIDAD EN LA PRESENTACIÓN. Las personas o entidades obligadas a declarar, que presenten las declaraciones tributarias en forma extemporánea, deberán liquidar y pagar una sanción por cada mes o fracción de mes calenda",
+      "### ARTÍCULO 642. EXTEMPORANEIDAD EN LA PRESENTACIÓN DE LAS DECLARACIONES CON POSTERIORIDAD AL EMPLAZAMIENTO.\nEl contribuyente, responsable, agente retenedor o declarante, que presente la declaración con posterioridad al emplazamiento, debe"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 6,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 39,
+        "document_row_count": 18,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-30T00:15:49.907967+00:00",
+        "total_ms": 19163.68,
+        "step_count": 48,
+        "steps": [
+          {
+            "ts_utc": "2026-04-30T00:15:49.907988+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-30T00:15:49.907967+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:49.908204+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.23,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 402,
+              "message_preview": "Le presenté a un cliente la declaración a tiempo. Tres meses después detectamos que se nos olvidó incluir una venta importante de $80 millones. La DIAN no ha mandado nada. Si corrijo voluntariamente subiendo el impuesto, ¿la sanción es del ",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:49.931216+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 23.24,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:49.931417+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 23.44,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:49.946867+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 38.89,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 402,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:51.701284+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1793.3,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "regimen_sancionatorio_extemporaneidad",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en las sanciones por corregir una declaración de renta de forma extemporánea y voluntaria, comparando con la sanción por inexactitud si la DIAN la detecta. Esto cae directamente bajo el subtema de régimen sancionatorio",
+              "elapsed_ms_call": 1754.66,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:51.701524+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1793.54,
+            "message": null,
+            "details": {
+              "effective_topic": "regimen_sancionatorio_extemporaneidad",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "procedimiento_tributario"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:58.956913+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 9048.91,
+            "message": null,
+            "details": {
+              "owner_trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+              "requested_trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:58.957427+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 9049.42,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "regimen_sancionatorio_extemporaneidad",
+              "secondary_topics": [
+                "procedimiento_tributario"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en las sanciones por corregir una declaración de renta de forma extemporánea y voluntaria, comparando con la sanción por inexactitud si la DIAN la detecta. Esto cae directamente bajo el subtema de régimen sancionatorio por extemporaneidad, que es parte del procedimiento tributario.",
+              "topic_notice": "Tu pregunta es de regimen sancionatorio extemporaneidad, por lo cual utilizaremos nuestra base de datos regimen sancionatorio extemporaneidad.",
+              "message_preview": "Le presenté a un cliente la declaración a tiempo. Tres meses después detectamos que se nos olvidó incluir una venta importante de $80 millones. La DIAN no ha mandado nada. Si corrijo voluntariamente subiendo el impuesto, ¿la sanción es del ",
+              "message_chars": 402
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:58.957720+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 9049.72,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿la sanción es del 10% o me alcanza alguna reducción adicional?",
+                "¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:58.957859+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 9049.86,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 63,
+              "message_preview": "¿la sanción es del 10% o me alcanza alguna reducción adicional?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:58.984781+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 9076.78,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:58.985155+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 9077.16,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:58.985253+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 9077.26,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:59.001742+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 9093.75,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:59.001868+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 9093.87,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿la sanción es del 10% o me alcanza alguna reducción adicional?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "regimen_sancionatorio_extemporaneidad"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:59.001939+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 9093.94,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿la sanción es del 10% o me alcanza alguna reducción adicional?",
+              "effective_topic": "regimen_sancionatorio_extemporaneidad",
+              "secondary_topics": [
+                "procedimiento_tributario"
+              ],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:59.015337+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 9107.34,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:59.015424+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 9107.43,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "regimen_sancionatorio_extemporaneidad ¿la sanción es del 10% o me alcanza alguna reducción adicional?",
+              "query_text_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:59.015490+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 9107.5,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "regimen_sancionatorio_extemporaneidad",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "regimen_sancionatorio_extemporaneidad"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:15:59.841221+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 9933.2,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::260-11",
+                "suin_1132325::808",
+                "suin_1132325::657",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::651",
+                "suin_30036647::2-2",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:00.775932+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 10867.91,
+            "message": null,
+            "details": {
+              "anchor_row_count": 16,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:00.776337+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 10868.34,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 38,
+              "delta": 14
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:00.967661+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 11059.64,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 38,
+              "rows_out": 38,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 38,
+              "chunks_kept": 38,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 38,
+                "chunks_kept": 38,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.334469+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 11426.41,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 5,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 38,
+                "chunks_kept": 38,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.334836+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 11426.82,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 117,
+              "message_preview": "¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.363215+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 11455.2,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.363592+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 11455.59,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.363779+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 11455.78,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.380829+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 11472.83,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.381111+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 11473.11,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "regimen_sancionatorio_extemporaneidad"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.381256+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 11473.25,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?",
+              "effective_topic": "regimen_sancionatorio_extemporaneidad",
+              "secondary_topics": [
+                "procedimiento_tributario"
+              ],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.395590+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 11487.59,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.395774+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 11487.78,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "regimen_sancionatorio_extemporaneidad ¿Y comparado con esperar a que la DIAN lo encuentre y me cobre inexactitud, qué tan grande es la diferencia en plata?",
+              "query_text_chars": 155
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:01.395880+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 11487.88,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "regimen_sancionatorio_extemporaneidad",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "regimen_sancionatorio_extemporaneidad"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:02.093848+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 12185.82,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::616-1",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::631",
+                "suin_30019323::4",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::615",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::617"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.041320+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 13133.29,
+            "message": null,
+            "details": {
+              "anchor_row_count": 16,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.041812+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 13133.8,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 40,
+              "delta": 16
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.231424+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 13323.39,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 40,
+              "rows_out": 39,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 40,
+              "chunks_kept": 39,
+              "chunks_dropped": 1,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 40,
+                "chunks_kept": 39,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.613356+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 13705.33,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 40,
+                "chunks_kept": 39,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.614043+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 13706.01,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                5,
+                7,
+                6
+              ],
+              "after": [
+                5,
+                7,
+                6
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "640",
+                  "641",
+                  "642",
+                  "644",
+                  "647",
+                  "260-11",
+                  "fuentes-y-referencias",
+                  "808",
+                  "657",
+                  "1104449"
+                ],
+                "candidate_count": 12,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.614672+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 13706.66,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "regimen_sancionatorio_extemporaneidad",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "regimen_sancionatorio_extemporaneidad",
+                "articles_top_topic": "regimen_sancionatorio_extemporaneidad",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "640",
+                  "641",
+                  "642",
+                  "644",
+                  "647"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.614868+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 13706.86,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "regimen_sancionatorio_extemporaneidad",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.615039+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 13707.03,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:03.631247+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 13723.23,
+            "message": null,
+            "details": {
+              "template_chars": 1780
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:09.069320+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 19161.29,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 1780,
+              "polish_changed": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:09.069929+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 19161.9,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "regimen_sancionatorio_extemporaneidad",
+              "citations_in": 6,
+              "citations_out": 6,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:16:09.070291+00:00",
+            "trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 19162.27,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 5,
+              "citations_emitted": 6
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 69,
+        "output_tokens": 267,
+        "total_tokens": 336,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "regimen_sancionatorio_extemporaneidad",
+    "secondary_topics": [
+      "procedimiento_tributario"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de regimen sancionatorio extemporaneidad, por lo cual utilizaremos nuestra base de datos regimen sancionatorio extemporaneidad.",
+    "topic_adjustment_reason": "La consulta se centra en las sanciones por corregir una declaración de renta de forma extemporánea y voluntaria, comparando con la sanción por inexactitud si la DIAN la detecta. Esto cae directamente bajo el subtema de régimen sancionatorio por extemporaneidad, que es parte del procedimiento tributario.",
+    "coverage_notice": null,
+    "topic": "regimen_sancionatorio_extemporaneidad",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_0941a991cbda",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 69,
+        "output_tokens": 267,
+        "total_tokens": 336
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+      "last_run_id": "pd_b25c97196ccc46c9a4f3317d719e7998",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_0941a991cbda",
+    "chat_run_id": "cr_20260430_001553_31a1e3a3",
+    "metrics": {
+      "latency_ms": 24483.21,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 69,
+          "output_tokens": 267,
+          "total_tokens": 336,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_0941a991cbda",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 69,
+          "output_tokens": 267,
+          "total_tokens": 336
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "16f71864-74ca-45f9-9947-664ad8bb8a68",
+        "last_run_id": "pd_b25c97196ccc46c9a4f3317d719e7998",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 6.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "regimen_sancionatorio_extemporaneidad",
+        "secondary_topics": [
+          "procedimiento_tributario"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "605c898364e34a6a94fde95869c5bac0"
+  }
+}
