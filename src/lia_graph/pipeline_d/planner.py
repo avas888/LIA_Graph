@@ -205,6 +205,22 @@ _BUDGETS: dict[str, tuple[TraversalBudget, EvidenceBundleShape]] = {
             snippet_char_limit=220,
         ),
     ),
+    # Canonical-shape mode (2026-04-30). Tabular / calendar / reference
+    # questions whose answer is data-dense (NIT-digit calendars, UVT
+    # tables, retention-rate matrices). Triggered exclusively from
+    # ``config/canonical_question_shapes.json`` when a shape matches.
+    # Higher snippet_char_limit so the chunk text carrying the table
+    # rows survives the truncation step and reaches LLM polish intact.
+    "tabular_reference": (
+        TraversalBudget(max_hops=2, max_nodes=10, max_edges=18, max_paths=5, max_support_documents=6),
+        EvidenceBundleShape(
+            primary_article_limit=5,
+            connected_article_limit=4,
+            related_reform_limit=2,
+            support_document_limit=6,
+            snippet_char_limit=600,
+        ),
+    ),
     "historical_graph_research": (
         TraversalBudget(max_hops=3, max_nodes=10, max_edges=18, max_paths=5, max_support_documents=4),
         EvidenceBundleShape(
@@ -325,6 +341,29 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
             temporal_context=temporal_context,
             followup_focus=followup_focus,
         )
+    # Canonical-shape override (2026-04-30). When the message matches a
+    # curated shape (config/canonical_question_shapes.json), promote to
+    # the tabular_reference budget so calendar/table chunk text survives
+    # the snippet truncation and the answer can render rows. Gated by
+    # the shape's `topic` matching the request's effective topic so an
+    # unrelated message that happens to share keywords doesn't get
+    # demoted/promoted. Runs after `comparative_regime_chain` so a
+    # comparative cue still wins (it has a dedicated renderer).
+    from ..canonical_question_shapes import match_canonical_shape as _match_canonical_shape
+    canonical_topic_for_match = (
+        normalize_topic_key(request.topic)
+        or normalize_topic_key(request.requested_topic)
+        or detected_topic
+    )
+    canonical_shape = _match_canonical_shape(
+        message, classified_topic=canonical_topic_for_match
+    )
+    if (
+        canonical_shape is not None
+        and query_mode != "comparative_regime_chain"
+        and canonical_shape.evidence_shape_override.get("query_mode") == "tabular_reference"
+    ):
+        query_mode = "tabular_reference"
     traversal_budget, evidence_shape = _BUDGETS[query_mode]
 
     entry_points: list[PlannerEntryPoint] = []

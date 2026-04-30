@@ -111,6 +111,21 @@ Stage coverage: topic resolution (every silent return-None branch), planner, ret
 Facade implementation modules (edit the narrow one that owns the behavior):
 `answer_synthesis_sections.py`, `answer_synthesis_helpers.py`, `answer_first_bubble.py`, `answer_followup.py`, `answer_inline_anchors.py`, `answer_historical_recap.py`, `answer_comparative_regime.py` (next_v4 §5 — `comparative_regime_chain` table renderer), `answer_shared.py`, `answer_policy.py`.
 
+## Canonical question shapes (config-driven routing escape hatch)
+
+`config/canonical_question_shapes.json` is the **growing table** of high-confidence question shapes the team curates. Each shape is a trio of triggers — *(question_words, subject_phrases, qualifier_phrases)* — plus the topic the classifier should already be agreeing with. When a parent message OR a sub-question matches a shape, two things happen:
+
+1. **Topic routing**: `orchestrator.py` upgrades the keyword-fallback result from `mode=fallback` to `mode=canonical_shape` (confidence 0.9). This prevents `fix_v5_phase6b:subquery_inherited_parent` from steamrolling correct sub-Q topics with the parent's topic. The shape only fires when the classifier already agreed on the topic — so this is a **confidence boost, not an override**.
+2. **Evidence shape**: `planner.py` picks the `tabular_reference` budget (`snippet_char_limit=600`, `primary_article_limit=5`, `support_document_limit=6`) when the shape requests it. Calendar / NIT-digit-table / UVT / retention-rate matrix data survives the chunk truncation that would otherwise cut a row mid-line.
+
+**To add a shape**: edit `config/canonical_question_shapes.json`. Each shape is one row. Synonyms grow inside `subject_phrases_any` / `qualifier_phrases_any` arrays (already normalized — accents stripped, lowercase). No code change required for new shapes that reuse the existing `tabular_reference` budget. Trace step `topic_router.canonical_shape.hit` confirms when a match fires; absent on non-matching sub-Qs.
+
+**When NOT to add a shape**: when the keyword classifier already gets the routing right and the answer is acceptable. Shapes are for cases where (a) we KNOW the right corpus has the answer, (b) the classifier is correct but loses to inheritance, and (c) the answer needs more room than the default 220-260 char snippet. Don't pile shapes on as a substitute for fixing classifier weaknesses.
+
+Code anchors: `src/lia_graph/canonical_question_shapes.py` (loader + matcher), `src/lia_graph/pipeline_d/orchestrator.py` (sub-Q hookup before parent inheritance), `src/lia_graph/pipeline_d/planner.py::_BUDGETS["tabular_reference"]` + the override site after `_classify_query_mode`.
+
+**Paired requirement: `config/compatible_doc_topics.json` adjacency.** When a canonical shape routes to a topic different from where the answering document lives (e.g. shape `plazos_renta_personas_juridicas` routes to `declaracion_renta`, but the answer lives in `seccion-06-calendario-tributario.md` tagged `calendario_obligaciones`), the L3 5-signal classifier needs a compat entry (`declaracion_renta.compatible_topics ⊇ ["calendario_obligaciones"]`) to promote that document to primary evidence. Adding a shape without the matching compat entry leaves answers in the chunk pool but demoted to "connected" — they don't reach the synthesis layer. Always check both files when adding a new shape.
+
 ## Fast Decision Rule
 
 - wrong norms or wrong workflow → planner or retriever

@@ -25,6 +25,21 @@
       "compatible_topics": ["declaracion_renta", "renta_liquida_gravable"],
       "rationale": "Precios de transferencia es sub-régimen de declaracion_renta (Art. 260 ss del ET). Phase-2 measured declaracion_renta as 111 mentions (76% de cross-topic refs), renta_liquida_gravable 21. Aceptamos ambos como evidence compatible.",
       "evidence_source": "Phase-2 §6.2"
+    },
+    "declaracion_renta": {
+      "compatible_topics": ["calendario_obligaciones", "regimen_sancionatorio_extemporaneidad"],
+      "rationale": "Una pregunta de declaración de renta sobre plazos/calendario/vencimientos legítimamente es respondida por documentos de calendario_obligaciones (la tabla por NIT del Decreto 2229/2023, la guía calendario tributario AG 2025, el Comunicado DIAN de fechas). Una pregunta de declaración de renta sobre presentación tardía legítimamente es respondida por documentos de extemporaneidad (arts. 641, 642, 640 ET).",
+      "evidence_source": "SME confirmation 2026-04-30 + L14 canonical-shape escape hatch (chat-runtime-hardening §L14)"
+    },
+    "calendario_obligaciones": {
+      "compatible_topics": ["declaracion_renta", "regimen_sancionatorio_extemporaneidad", "iva", "retencion_en_la_fuente", "informacion_exogena"],
+      "rationale": "Calendario_obligaciones es transversal: cubre los plazos de TODAS las declaraciones tributarias. Una guía de calendario es evidence legítima para preguntas sobre cuándo declarar renta, IVA, retención, o exógena, y para preguntas sobre extemporaneidad (porque define qué es 'a tiempo').",
+      "evidence_source": "SME confirmation 2026-04-30 — natural transverse coverage"
+    },
+    "regimen_sancionatorio_extemporaneidad": {
+      "compatible_topics": ["calendario_obligaciones", "declaracion_renta"],
+      "rationale": "Una pregunta de extemporaneidad cita los plazos que se incumplieron — calendario_obligaciones es la fuente normativa de esos plazos. Y la sanción opera sobre la declaración de renta del contribuyente, así que docs de declaracion_renta también son evidence compatible.",
+      "evidence_source": "SME confirmation 2026-04-30"
     }
   }
 }
