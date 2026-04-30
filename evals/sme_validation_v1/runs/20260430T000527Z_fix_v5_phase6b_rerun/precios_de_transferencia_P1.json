@@ -1,0 +1,992 @@
+{
+  "qid": "precios_de_transferencia_P1",
+  "topic_key_expected": "precios_de_transferencia",
+  "profile": "P1_directa",
+  "message": "¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?",
+  "http_status": 200,
+  "latency_ms": 25447,
+  "captured_utc": "2026-04-30T00:08:35.930670+00:00",
+  "response": {
+    "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+    "run_id": "pd_d58b5687567d42899e6312b584f17b1a",
+    "answer_markdown": "### Respuestas directas\n\n*   **¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?**\n\n    La cobertura quedó parcial. Para determinar la obligación de aplicar el régimen de precios de transferencia, se deben considerar los siguientes umbrales:\n\n    *   **Patrimonio Bruto:** El patrimonio bruto a 31 de diciembre del año gravable anterior debe ser igual o superior a 100.000 UVT.\n    *   **Ingresos Brutos:** Los ingresos brutos del año gravable anterior deben ser iguales o superiores a 61.000 UVT.\n\n    Es importante tener en cuenta que estos umbrales son acumulativos, es decir, si se cumple con cualquiera de los dos, la empresa estará sujeta al régimen.\n\n### Ruta sugerida\n\n1.  **Verificar umbrales anuales:** Confirmar el patrimonio bruto y los ingresos brutos de la compañía al 31 de diciembre del año gravable anterior. Esto es clave para determinar si se superan los umbrales de 100.000 UVT de patrimonio o 61.000 UVT de ingresos.\n2.  **Identificar operaciones vinculadas:** Una vez confirmada la superación de los umbrales, se deben identificar todas las operaciones realizadas con vinculados económicos o partes relacionadas, tanto nacionales como del exterior.\n3.  **Analizar la naturaleza de las operaciones:** Determinar si las operaciones con vinculados son de importación, exportación, servicios, financiamiento, etc., ya que cada tipo de operación puede tener consideraciones específicas dentro del régimen de precios de transferencia.\n\n### Riesgos y condiciones\n\n*   **Incumplimiento de la obligación:** El principal riesgo es el incumplimiento de la obligación de documentar y presentar la declaración informativa de precios de transferencia, lo que puede acarrear sanciones significativas por parte de la DIAN.\n*   **Ajustes por parte de la DIAN:** En caso de que la DIAN determine que las operaciones con vinculados no se realizaron a precios de mercado (arm's length), puede realizar ajustes a la base gravable del impuesto sobre la renta, generando mayores impuestos y posibles sanciones.\n*   **Complejidad de la normativa:** La normativa de precios de transferencia es compleja y requiere un análisis detallado de las operaciones y las condiciones de mercado. Es fundamental contar con el soporte adecuado para su correcta aplicación.\n\n### Soportes clave\n\n*   Capítulos VIII-XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia (family=normativa)\n*   DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa)\n*   Ley 1429 de 2010 — Formalización y Generación de Empleo (family=normativa)\n*   SUIN stub 1104445 (family=normativa)",
+    "answer_concise": "### Respuestas directas\n\n*   **¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?**\n\n    La cobertura quedó parcial. Para determinar la obligación de aplicar el régimen de precios de transferencia, se deben considerar los siguientes umbrales:\n\n    *   **Patrimonio Bruto:** El patrimonio bruto a 31 de diciembre del año gravable anterior debe ser igual o superior a 100.000 UVT.\n    *   **Ingresos Brutos:** Los ingresos brutos del año gravable anterior deben ser iguales o superiores a 61.000 UVT.\n\n    Es importante tener en cuenta que estos umbrales son acumulativos, es decir, si se cumple con cualquiera de los dos, la empresa estará sujeta al régimen.\n\n### Ruta sugerida\n\n1.  **Verificar umbrales anuales:** Confirmar el patrimonio bruto y los ingresos brutos de la compañía al 31 de diciembre del año gravable anterior. Esto es clave para determinar si se superan los umbrales de 100.000 UVT de patrimonio o 61.000 UVT de ingresos.\n2.  **Identificar operaciones vinculadas:** Una vez confirmada la superación de los umbrales, se deben identificar todas las operaciones realizadas con vinculados económicos o partes relacionadas, tanto nacionales como del exterior.\n3.  **Analizar la naturaleza de las operaciones:** Determinar si las operaciones con vinculados son de importación, exportación, servicios, financiamiento, etc., ya que cada tipo de operación puede tener consideraciones específicas dentro del régimen de precios de transferencia.\n\n### Riesgos y condiciones\n\n*   **Incumplimiento de la obligación:** El principal riesgo es el incumplimiento de la obligación de documentar y presentar la declaración informativa de precios de transferencia, lo que puede acarrear sanciones significativas por parte de la DIAN.\n*   **Ajustes por parte de la DIAN:** En caso de que la DIAN determine que las operaciones con vinculados no se realizaron a precios de mercado (arm's length), puede realizar ajustes a la base gravable del impuesto sobre la renta, generando mayores impuestos y posibles sanciones.\n*   **Complejidad de la normativa:** La normativa de precios de transferencia es compleja y requiere un análisis detallado de las operaciones y las condiciones de mercado. Es fundamental contar con el soporte adecuado para su correcta aplicación.\n\n### Soportes clave\n\n*   Capítulos VIII-XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia (family=normativa)\n*   DECRETO 624 DE 1989 - Colombia | SUIN Juriscol (family=normativa)\n*   Ley 1429 de 2010 — Formalización y Generación de Empleo (family=normativa)\n*   SUIN stub 1104445 (family=normativa)",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Soportes clave Capítulos VIII-XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia (family=normativa) DECRETO 624 DE 1989 - Colombia | SUIN Juriscol",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Soportes clave Capítulos VIII-XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia (family=normativa) DECRETO 624 DE 1989 - Colombia | SUIN Juriscol",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Ajustes por parte de la DIAN:** En caso de que la DIAN determine que las operaciones con vinculados no se realizaron a precios de mercado (arm's length), puede realizar ajustes a la base gravable del impuesto sobre",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Ajustes por parte de la DIAN:** En caso de que la DIAN determine que las operaciones con vinculados no se realizaron a precios de mercado (arm's length), puede realizar ajustes a la base gravable del impuesto sobre",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Soportes clave Capítulos VIII-XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia (family=normativa) DECRETO 624 DE 1989 - Colombia | SUIN Juriscol",
+        "usage_intents": [
+          "requisitos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "<Texto vigente antes de la derogatoria por la Ley 1943 de 2018 revivido a partir de la promulgación de la Ley 2010 de 2019 por el artículo 160 de la Ley 2010 de 2019> No constituirá deducción, el componente inflacionario de los intereses y "
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 1,
+        "connected_article_count": 5,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "118"
+        ],
+        "chunk_row_count": 43,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-30T00:08:10.485955+00:00",
+        "total_ms": 18628.77,
+        "step_count": 25,
+        "steps": [
+          {
+            "ts_utc": "2026-04-30T00:08:10.485971+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-30T00:08:10.485955+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:10.486121+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.16,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 150,
+              "message_preview": "¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:10.511582+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 25.61,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:10.512794+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 26.83,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:10.530378+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 44.41,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 150,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:12.179740+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1693.69,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "precios_de_transferencia",
+              "confidence": 1.0,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta directamente sobre los umbrales de patrimonio o ingresos que obligan a una empresa al régimen de precios de transferencia, lo que encaja perfectamente con la definición del tema 'precios_de_transferencia'.",
+              "elapsed_ms_call": 1648.53,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:12.180325+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1694.35,
+            "message": null,
+            "details": {
+              "effective_topic": "precios_de_transferencia",
+              "confidence": 1.0,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:19.414967+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 8928.98,
+            "message": null,
+            "details": {
+              "owner_trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+              "requested_trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:19.415404+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 8929.42,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "precios_de_transferencia",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta pregunta directamente sobre los umbrales de patrimonio o ingresos que obligan a una empresa al régimen de precios de transferencia, lo que encaja perfectamente con la definición del tema 'precios_de_transferencia'.",
+              "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+              "message_preview": "¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?",
+              "message_chars": 150
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:19.442615+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 8956.62,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": "documentacion_y_obligaciones_de_precios_de_transferencia",
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:19.442820+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 8956.84,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": "documentacion_y_obligaciones_de_precios_de_transferencia",
+              "query_text_preview": "precios_de_transferencia sector_cultura ¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?",
+              "query_text_chars": 190
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:19.442963+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 8956.98,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "precios_de_transferencia",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": "documentacion_y_obligaciones_de_precios_de_transferencia",
+              "subtopic_boost": 1.5,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": "documentacion_y_obligaciones_de_precios_de_transferencia",
+              "router_topic": "precios_de_transferencia"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:20.353202+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 9867.19,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::235-2",
+                "suin_1132325::808",
+                "suin_1132325::126-1",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::260-11",
+                "suin_30036488::30190359",
+                "suin_30046753::2"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:22.248797+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 11762.78,
+            "message": null,
+            "details": {
+              "anchor_row_count": 19,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:22.249215+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 11763.22,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 43,
+              "delta": 19
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:22.431331+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 11945.31,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 43,
+              "rows_out": 43,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 43,
+              "chunks_kept": 43,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 43,
+                "chunks_kept": 43,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:25.038970+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 14552.94,
+            "message": null,
+            "details": {
+              "primary_count": 1,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 43,
+                "chunks_kept": 43,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "118"
+              ],
+              "tema_first_topic_key": "precios_de_transferencia",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:25.039363+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 14553.36,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                5,
+                5
+              ],
+              "after": [
+                1,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "118",
+                  "118-1",
+                  "12",
+                  "262",
+                  "8",
+                  "1"
+                ],
+                "candidate_count": 6,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:25.066015+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 14580.01,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "precios_de_transferencia",
+                "articles_top_topic": null,
+                "reason": "articles_have_no_topic_keyword_hits"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:25.066747+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 14580.75,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:25.069980+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 14583.98,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:25.073546+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 14587.55,
+            "message": null,
+            "details": {
+              "template_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:29.112749+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 18626.71,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2714,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:29.114004+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 18627.98,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "precios_de_transferencia",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:08:29.114469+00:00",
+            "trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 18628.46,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 1,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 24,
+        "output_tokens": 400,
+        "total_tokens": 424,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "precios_de_transferencia",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+    "topic_adjustment_reason": "La consulta pregunta directamente sobre los umbrales de patrimonio o ingresos que obligan a una empresa al régimen de precios de transferencia, lo que encaja perfectamente con la definición del tema 'precios_de_transferencia'.",
+    "coverage_notice": null,
+    "topic": "precios_de_transferencia",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Soportes clave Capítulos VIII-XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia (family=normativa) DECRETO 624 DE 1989 - Colombia | SUIN Juriscol",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010",
+        "legal_reference": "Ley 1429 de 2010",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Ajustes por parte de la DIAN:** En caso de que la DIAN determine que las operaciones con vinculados no se realizaron a precios de mercado (arm's length), puede realizar ajustes a la base gravable del impuesto sobre",
+        "usage_intents": null
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_3ff7da9e100f",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 24,
+        "output_tokens": 400,
+        "total_tokens": 424
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+      "last_run_id": "pd_d58b5687567d42899e6312b584f17b1a",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_3ff7da9e100f",
+    "chat_run_id": "cr_20260430_000812_fdd181bb",
+    "metrics": {
+      "latency_ms": 22624.34,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 24,
+          "output_tokens": 400,
+          "total_tokens": 424,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_3ff7da9e100f",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 24,
+          "output_tokens": 400,
+          "total_tokens": 424
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "9aa99f0c-06f3-4c02-8651-7ee29dd4a8f7",
+        "last_run_id": "pd_d58b5687567d42899e6312b584f17b1a",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 2,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 295.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "precios_de_transferencia",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "9daffdd257704cc4a591be6c36f28ff5"
+  }
+}

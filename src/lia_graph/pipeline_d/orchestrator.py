@@ -366,7 +366,11 @@ def run_pipeline_d(
                 decomposer_diag["fanout_suppressed_reason"] = "comparative_regime_parent"
 
         if sub_queries:
-            from ..topic_router import resolve_chat_topic as _resolve
+            from ..topic_router import (
+                resolve_chat_topic as _resolve,
+                TopicRoutingResult,
+                normalize_topic_key,
+            )
 
             _trace.step(
                 "decomposer.fanout",
@@ -377,8 +381,44 @@ def run_pipeline_d(
             per_bundles: list[Any] = []
             provenance: list[dict[str, Any]] = []
             plan = None
+            parent_topic = normalize_topic_key(request.topic)
             for _sq_idx, sq in enumerate(sub_queries):
                 sq_routing = _resolve(message=sq, requested_topic=None, pais=request.pais)
+                # fix_v5 phase 6b (Q1) — sub-Q topic carry-over from parent.
+                # Short sub-Qs ("¿eso cambia algo?") often miss the rule-route
+                # AND the LLM path is skipped at this site (no
+                # runtime_config_path), so the keyword fallback either picks
+                # the wrong topic (incidental keywords → factura_electronica
+                # drift) or hits nothing. When the parent's resolved topic is
+                # available AND the sub-Q result is in fallback mode AND it
+                # disagrees with the parent, inherit the parent's topic. A
+                # confident rule-route hit on a different topic stays
+                # respected (multi-domain integrity, fix_v5.md §4 #16).
+                if (
+                    parent_topic
+                    and getattr(sq_routing, "mode", None) == "fallback"
+                    and sq_routing.effective_topic != parent_topic
+                ):
+                    _trace.step(
+                        "topic_router.subquery_inherited_parent",
+                        status="fallback",
+                        sub_query_index=_sq_idx,
+                        sub_query=sq,
+                        original_effective_topic=sq_routing.effective_topic,
+                        original_mode=getattr(sq_routing, "mode", None),
+                        original_confidence=round(float(sq_routing.confidence or 0.0), 3),
+                        parent_topic=parent_topic,
+                    )
+                    sq_routing = TopicRoutingResult(
+                        requested_topic=None,
+                        effective_topic=parent_topic,
+                        secondary_topics=tuple(request.secondary_topics or ()),
+                        topic_adjusted=False,
+                        confidence=0.6,
+                        reason="fix_v5_phase6b:subquery_inherited_parent",
+                        topic_notice=None,
+                        mode="subquery_parent_inheritance",
+                    )
                 _trace.step(
                     "topic_router.subquery_resolved",
                     status="ok",

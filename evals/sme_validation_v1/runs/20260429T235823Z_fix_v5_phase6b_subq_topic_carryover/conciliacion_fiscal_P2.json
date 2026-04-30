@@ -1,0 +1,1186 @@
+{
+  "qid": "conciliacion_fiscal_P2",
+  "topic_key_expected": "conciliacion_fiscal",
+  "profile": "P2_operativa",
+  "message": "Mi cliente es una SAS Grupo 2 NIIF para PYMES con ingresos de $3.800 millones que aplica el modelo de revaluación en sus inmuebles. La revaluación contable subió el valor del edificio en $400 millones en 2025. ¿Cómo manejo eso en el 2516? ¿Es diferencia permanente o temporaria, qué efecto tiene en el patrimonio fiscal versus contable, y me toca registrar impuesto diferido?",
+  "http_status": 200,
+  "latency_ms": 25699,
+  "captured_utc": "2026-04-30T00:03:02.725924+00:00",
+  "response": {
+    "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+    "run_id": "pd_ab6c69cb57a5428fb0c22f700e333bd9",
+    "answer_markdown": "**Respuestas directas**\n- **¿Cómo manejo eso en el 2516?**\n  - La revaluación contable de $400 millones no tiene efecto fiscal directo en el Formulario 2516 para el año 2025, ya que el Estatuto Tributario no reconoce la revaluación de activos fijos para efectos de costo fiscal.\n  - Deberás reflejar esta diferencia en la conciliación fiscal, específicamente en la sección de diferencias entre la base contable y la base fiscal de los activos.\n  - El valor fiscal del inmueble seguirá siendo su costo histórico ajustado por inflación fiscal, si aplica, o su costo de adquisición, sin considerar la revaluación contable.\n- **¿Es diferencia permanente o temporaria, qué efecto tiene en el patrimonio fiscal versus contable, y me toca registrar impuesto diferido?**\n  - La revaluación contable de $400 millones genera una diferencia temporaria. Esto se debe a que, aunque contablemente el valor del activo aumenta, fiscalmente no se reconoce hasta que el activo se enajene o se deprecie, momento en el cual la diferencia se revertirá.\n  - **Efecto en el patrimonio fiscal versus contable:**\n    | Concepto             | Contable (NIIF) | Fiscal (ET)     | Diferencia |\n    | :------------------- | :-------------- | :-------------- | :--------- |\n    | Valor del inmueble   | $X + $400M      | $X              | $400M      |\n    | Patrimonio           | Mayor           | Menor           | $400M      |\n  - Sí, te toca registrar impuesto diferido. Al generar una diferencia temporaria imponible (el valor contable es mayor que el fiscal), se debe reconocer un pasivo por impuesto diferido sobre los $400 millones, aplicando la tarifa del impuesto de renta vigente.\n\n**Ruta sugerida**\n- Para el Formulario 2516, la revaluación de $400 millones se tratará como una diferencia entre el valor contable y el valor fiscal del activo.\n- En la sección de activos, el valor fiscal del inmueble se mantendrá en su costo de adquisición o costo fiscal ajustado, sin incluir la revaluación.\n- La diferencia de $400 millones se reflejará en la conciliación fiscal como un mayor valor contable del activo frente a su valor fiscal.\n\n**Riesgos y condiciones**\n- El principal riesgo es no reconocer correctamente la diferencia temporaria y el impuesto diferido, lo que podría llevar a errores en los estados financieros y en la declaración de renta.\n- Es crucial mantener la trazabilidad entre el valor contable revaluado y el costo fiscal del inmueble para futuras enajenaciones o depreciaciones.\n- La DIAN puede cuestionar la base fiscal si no se soporta adecuadamente el costo histórico del activo, independientemente de su valor contable revaluado (art. 261 ET, art. 262 ET, art. 263 ET).\n\n**Soportes clave**\n- El patrimonio bruto está constituido por el total de los bienes y derechos apreciables en dinero poseídos por el contribuyente en el último día del año o período gravable (art. 261 ET).\n- Se entiende por posesión el aprovechamiento económico, potencial o real, de cualquier bien en beneficio del contribuyente (art. 263 ET).\n- Los derechos apreciables en dinero son los reales y personales, en cuanto sean susceptibles de ser utilizados en cualquier forma para la obtención de una renta (art. 262 ET).",
+    "answer_concise": "**Respuestas directas**\n- **¿Cómo manejo eso en el 2516?**\n  - La revaluación contable de $400 millones no tiene efecto fiscal directo en el Formulario 2516 para el año 2025, ya que el Estatuto Tributario no reconoce la revaluación de activos fijos para efectos de costo fiscal.\n  - Deberás reflejar esta diferencia en la conciliación fiscal, específicamente en la sección de diferencias entre la base contable y la base fiscal de los activos.\n  - El valor fiscal del inmueble seguirá siendo su costo histórico ajustado por inflación fiscal, si aplica, o su costo de adquisición, sin considerar la revaluación contable.\n- **¿Es diferencia permanente o temporaria, qué efecto tiene en el patrimonio fiscal versus contable, y me toca registrar impuesto diferido?**\n  - La revaluación contable de $400 millones genera una diferencia temporaria. Esto se debe a que, aunque contablemente el valor del activo aumenta, fiscalmente no se reconoce hasta que el activo se enajene o se deprecie, momento en el cual la diferencia se revertirá.\n  - **Efecto en el patrimonio fiscal versus contable:**\n    | Concepto             | Contable (NIIF) | Fiscal (ET)     | Diferencia |\n    | :------------------- | :-------------- | :-------------- | :--------- |\n    | Valor del inmueble   | $X + $400M      | $X              | $400M      |\n    | Patrimonio           | Mayor           | Menor           | $400M      |\n  - Sí, te toca registrar impuesto diferido. Al generar una diferencia temporaria imponible (el valor contable es mayor que el fiscal), se debe reconocer un pasivo por impuesto diferido sobre los $400 millones, aplicando la tarifa del impuesto de renta vigente.\n\n**Ruta sugerida**\n- Para el Formulario 2516, la revaluación de $400 millones se tratará como una diferencia entre el valor contable y el valor fiscal del activo.\n- En la sección de activos, el valor fiscal del inmueble se mantendrá en su costo de adquisición o costo fiscal ajustado, sin incluir la revaluación.\n- La diferencia de $400 millones se reflejará en la conciliación fiscal como un mayor valor contable del activo frente a su valor fiscal.\n\n**Riesgos y condiciones**\n- El principal riesgo es no reconocer correctamente la diferencia temporaria y el impuesto diferido, lo que podría llevar a errores en los estados financieros y en la declaración de renta.\n- Es crucial mantener la trazabilidad entre el valor contable revaluado y el costo fiscal del inmueble para futuras enajenaciones o depreciaciones.\n- La DIAN puede cuestionar la base fiscal si no se soporta adecuadamente el costo histórico del activo, independientemente de su valor contable revaluado (art. 261 ET, art. 262 ET, art. 263 ET).\n\n**Soportes clave**\n- El patrimonio bruto está constituido por el total de los bienes y derechos apreciables en dinero poseídos por el contribuyente en el último día del año o período gravable (art. 261 ET).\n- Se entiende por posesión el aprovechamiento económico, potencial o real, de cualquier bien en beneficio del contribuyente (art. 263 ET).\n- Los derechos apreciables en dinero son los reales y personales, en cuanto sean susceptibles de ser utilizados en cualquier forma para la obtención de una renta (art. 262 ET).",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La DIAN puede cuestionar la base fiscal si no se soporta adecuadamente el costo histórico del activo, independientemente de su valor contable revaluado (art. 261 ET, art. 262 ET, art. 263 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Es diferencia permanente o temporaria, qué efecto tiene en el patrimonio fiscal versus contable, y me toca registrar impuesto diferido?** La revaluación contable de $400 millones genera una diferencia temporaria.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La DIAN puede cuestionar la base fiscal si no se soporta adecuadamente el costo histórico del activo, independientemente de su valor contable revaluado (art. 261 ET, art. 262 ET, art. 263 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La DIAN puede cuestionar la base fiscal si no se soporta adecuadamente el costo histórico del activo, independientemente de su valor contable revaluado (art. 261 ET, art. 262 ET, art. 263 ET).",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Fuente original compilada: L. 9/83 Art. 38*\n\nEl patrimonio bruto está constituido por el total de los bienes y derechos apreciables en dinero poseídos por el contribuyente en el último día del año o período gravable.\n\n<",
+      "Son derechos apreciables en dinero, los reales y personales, en cuanto sean susceptibles de ser utilizados en cualquier forma para la obtención de una renta.\n\n**Doctrina Concordante:**\n> * [Oficio DIAN 910054 de 2021](ht",
+      "*Fuente original compilada: D.2053/74 Art. 110*\n\nSe entiende por posesión, el aprovechamiento económico, potencial o real, de cualquier bien en beneficio del contribuyente.\n\nSe presume que quien aparezca como propietario"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "261",
+          "262",
+          "263"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 12,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research"
+      },
+      "pipeline_trace": {
+        "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-30T00:02:37.027871+00:00",
+        "total_ms": 22188.26,
+        "step_count": 40,
+        "steps": [
+          {
+            "ts_utc": "2026-04-30T00:02:37.027890+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-30T00:02:37.027871+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:37.028052+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.17,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 375,
+              "message_preview": "Mi cliente es una SAS Grupo 2 NIIF para PYMES con ingresos de $3.800 millones que aplica el modelo de revaluación en sus inmuebles. La revaluación contable subió el valor del edificio en $400 millones en 2025. ¿Cómo manejo eso en el 2516? ¿",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:37.028416+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 0.54,
+            "message": null,
+            "details": {
+              "effective_topic": "patrimonio_fiscal_renta",
+              "confidence": 0.98,
+              "reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.513489+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 4485.59,
+            "message": null,
+            "details": {
+              "owner_trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+              "requested_trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.513844+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 4485.95,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "patrimonio_fiscal_renta",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+              "topic_notice": "Tu pregunta es de patrimonio fiscal renta, por lo cual utilizaremos nuestra base de datos patrimonio fiscal renta.",
+              "message_preview": "Mi cliente es una SAS Grupo 2 NIIF para PYMES con ingresos de $3.800 millones que aplica el modelo de revaluación en sus inmuebles. La revaluación contable subió el valor del edificio en $400 millones en 2025. ¿Cómo manejo eso en el 2516? ¿",
+              "message_chars": 375
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.514019+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 4486.13,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Cómo manejo eso en el 2516?",
+                "¿Es diferencia permanente o temporaria, qué efecto tiene en el patrimonio fiscal versus contable, y me toca registrar impuesto diferido?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.514124+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 4486.24,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 28,
+              "message_preview": "¿Cómo manejo eso en el 2516?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.536828+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 4508.94,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.537552+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 4509.66,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.537671+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 4509.78,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.549525+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 4521.64,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.550431+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 4522.54,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Cómo manejo eso en el 2516?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "patrimonio_fiscal_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.550548+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 4522.66,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Cómo manejo eso en el 2516?",
+              "effective_topic": "patrimonio_fiscal_renta",
+              "secondary_topics": [],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.562135+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 4534.24,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.562310+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 4534.42,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "patrimonio_fiscal_renta ¿Cómo manejo eso en el 2516?",
+              "query_text_chars": 52
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:41.562365+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 4534.48,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "patrimonio_fiscal_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "patrimonio_fiscal_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:42.268802+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 5240.9,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::808",
+                "suin_1132325::240",
+                "suin_1132325::235-2",
+                "suin_1104445::1104449",
+                "suin_1132325::126-1",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:42.269129+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 5241.24,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:42.269324+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 5241.43,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:42.459268+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 5431.36,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:47.332455+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 10304.47,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:47.332647+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 10304.75,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 136,
+              "message_preview": "¿Es diferencia permanente o temporaria, qué efecto tiene en el patrimonio fiscal versus contable, y me toca registrar impuesto diferido?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:47.332768+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 10304.87,
+            "message": null,
+            "details": {
+              "effective_topic": "patrimonio_fiscal_renta",
+              "confidence": 0.98,
+              "reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:47.332814+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 10304.91,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Es diferencia permanente o temporaria, qué efecto tiene en el patrimonio fiscal versus contable, y me toca registrar impuesto diferido?",
+              "effective_topic": "patrimonio_fiscal_renta",
+              "secondary_topics": [],
+              "confidence": 0.98,
+              "mode": "rule",
+              "reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:47.351026+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 10323.12,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:47.351451+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 10323.55,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "patrimonio_fiscal_renta estados_financieros_niif sector_cultura ¿Es diferencia permanente o temporaria, qué efecto tiene en el patrimonio fiscal versus contable, y me toca registrar impuesto diferido?",
+              "query_text_chars": 200
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:47.354048+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 10326.14,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "patrimonio_fiscal_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "patrimonio_fiscal_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:48.384968+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 11357.05,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::240",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::235-2",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1104445::1104449",
+                "suin_1132325::127-1",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:48.385246+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 11357.34,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:48.385409+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 11357.5,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:48.602289+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 11574.37,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:53.952856+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 16924.93,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:53.953256+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 16925.33,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "261",
+                  "262",
+                  "263",
+                  "1",
+                  "10",
+                  "11",
+                  "118"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:53.971007+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 16943.08,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "patrimonio_fiscal_renta",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "patrimonio_fiscal_renta",
+                "articles_top_topic": "sector_cultura",
+                "router_score_on_articles": 3,
+                "top_score_on_articles": 3,
+                "ranked_article_topics": [
+                  [
+                    "sector_cultura",
+                    3
+                  ],
+                  [
+                    "patrimonio_fiscal_renta",
+                    3
+                  ],
+                  [
+                    "declaracion_renta",
+                    1
+                  ],
+                  [
+                    "impuesto_patrimonio_personas_naturales",
+                    1
+                  ]
+                ],
+                "reason": "lexical_aligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:54.006120+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 16978.2,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "patrimonio_fiscal_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:54.006293+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 16978.38,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:54.009928+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 16982.01,
+            "message": null,
+            "details": {
+              "template_chars": 480
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:59.215693+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 22187.75,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 3195,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:59.215983+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 22188.05,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "patrimonio_fiscal_renta",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:59.216061+00:00",
+            "trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 22188.13,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 63,
+        "output_tokens": 507,
+        "total_tokens": 570,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "patrimonio_fiscal_renta",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de patrimonio fiscal renta, por lo cual utilizaremos nuestra base de datos patrimonio fiscal renta.",
+    "topic_adjustment_reason": "rule:patrimonio_fiscal_renta matched subtopic_override:patrimonio_fiscal_renta",
+    "coverage_notice": null,
+    "topic": "patrimonio_fiscal_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_3c929bf10281",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 63,
+        "output_tokens": 507,
+        "total_tokens": 570
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+      "last_run_id": "pd_ab6c69cb57a5428fb0c22f700e333bd9",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_3c929bf10281",
+    "chat_run_id": "cr_20260430_000237_0342a70e",
+    "metrics": {
+      "latency_ms": 24206.52,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 63,
+          "output_tokens": 507,
+          "total_tokens": 570,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_3c929bf10281",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 63,
+          "output_tokens": 507,
+          "total_tokens": 570
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "cc3184c4-14a1-402b-8a88-d1097554a112",
+        "last_run_id": "pd_ab6c69cb57a5428fb0c22f700e333bd9",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "formulario:2516",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 3.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "patrimonio_fiscal_renta",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "345262cfa61544f6b5261f979514e0ab"
+  }
+}

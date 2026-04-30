@@ -1,0 +1,1324 @@
+{
+  "qid": "devoluciones_saldos_a_favor_P3",
+  "topic_key_expected": "devoluciones_saldos_a_favor",
+  "profile": "P3_borde",
+  "message": "Una SAS presentó la declaración del 2025 con beneficio de auditoría incremento del 36% (firmeza a 6 meses) y saldo a favor de $50 millones. El gerente está ocupado y dice que tramita la devolución \"más adelante en el año\". ¿Hasta cuándo puede esperar para pedirla? ¿Le aplica el plazo general de 2 años o algo distinto por estar bajo beneficio de auditoría?",
+  "http_status": 200,
+  "latency_ms": 26117,
+  "captured_utc": "2026-04-30T00:08:10.482108+00:00",
+  "response": {
+    "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+    "run_id": "pd_3780220550394736bf090380fcc4d04e",
+    "answer_markdown": "**Respuestas directas**\n- **¿Hasta cuándo puede esperar para pedirla?**\n  - Las solicitudes de devolución deberán negarse cuando ya hubieren sido objeto de devolución, compensación o imputación anterior, cuando se hubieren negado definitivamente o cuan.\n  - No conviene radicar con cifras o soportes inconsistentes porque eso puede abrir inadmisiones o revisiones posteriores.\n  - Un trámite incompleto puede devolver al cliente al inicio del proceso.\n  - La devolución o compensación puede caerse si faltan requisitos formales o el expediente no está bien soportado.\n  - Cuando el contribuyente o responsable presente con la solicitud de devolución una garantía a favor de la Nación, otorgada por entidades bancarias o de compañías de seguros, por valor e.\n- **¿Le aplica el plazo general de 2 años o algo distinto por estar bajo beneficio de auditoría?**\n  - Revisa si la compensación resuelve mejor la posición de caja o de pasivos del cliente que una espera por devolución.\n\n**Ruta sugerida**\n1. Toma el caso como una devolución de saldo a favor y valida primero que el saldo esté bien determinado en la declaración base (arts. 860 y 850 ET).\n2. Antes de radicar, revisa la declaración que origina el saldo a favor y alinea soportes, anexos y datos del contribuyente (arts. 860 y 850 ET).\n3. Si el expediente está completo, usa los términos de 50, 30 o 20 días hábiles como referencia operativa según el soporte con el que se presente la solicitud (arts. 860 y 855 ET).\n4. Si la DIAN inadmite, corrige rápidamente el faltante formal dentro del término y vuelve a radicar con trazabilidad completa (arts. 855 y 857 ET).\n\n**Riesgos y condiciones**\n- No conviene radicar con cifras o soportes inconsistentes porque eso puede abrir inadmisiones o revisiones posteriores (art. 850 ET).\n- Un trámite incompleto puede devolver al cliente al inicio del proceso (arts. 855 y 857 ET).\n- La devolución o compensación puede caerse si faltan requisitos formales o el expediente no está bien soportado (arts. 857 y 850 ET).\n- Una devolución improcedente expone al cliente a reintegro y sanciones, así que la revisión previa debe ser conservadora (arts. 855 y 860 ET).\n\n**Soportes clave**\n- Cuando el contribuyente o responsable presente con la solicitud de devolución una garantía a favor de la Nación, otorgada por entidades bancarias o de compañías de seguros, por valor e (arts. 860 y 857 ET).",
+    "answer_concise": "**Respuestas directas**\n- **¿Hasta cuándo puede esperar para pedirla?**\n  - Las solicitudes de devolución deberán negarse cuando ya hubieren sido objeto de devolución, compensación o imputación anterior, cuando se hubieren negado definitivamente o cuan.\n  - No conviene radicar con cifras o soportes inconsistentes porque eso puede abrir inadmisiones o revisiones posteriores.\n  - Un trámite incompleto puede devolver al cliente al inicio del proceso.\n  - La devolución o compensación puede caerse si faltan requisitos formales o el expediente no está bien soportado.\n  - Cuando el contribuyente o responsable presente con la solicitud de devolución una garantía a favor de la Nación, otorgada por entidades bancarias o de compañías de seguros, por valor e.\n- **¿Le aplica el plazo general de 2 años o algo distinto por estar bajo beneficio de auditoría?**\n  - Revisa si la compensación resuelve mejor la posición de caja o de pasivos del cliente que una espera por devolución.\n\n**Ruta sugerida**\n1. Toma el caso como una devolución de saldo a favor y valida primero que el saldo esté bien determinado en la declaración base (arts. 860 y 850 ET).\n2. Antes de radicar, revisa la declaración que origina el saldo a favor y alinea soportes, anexos y datos del contribuyente (arts. 860 y 850 ET).\n3. Si el expediente está completo, usa los términos de 50, 30 o 20 días hábiles como referencia operativa según el soporte con el que se presente la solicitud (arts. 860 y 855 ET).\n4. Si la DIAN inadmite, corrige rápidamente el faltante formal dentro del término y vuelve a radicar con trazabilidad completa (arts. 855 y 857 ET).\n\n**Riesgos y condiciones**\n- No conviene radicar con cifras o soportes inconsistentes porque eso puede abrir inadmisiones o revisiones posteriores (art. 850 ET).\n- Un trámite incompleto puede devolver al cliente al inicio del proceso (arts. 855 y 857 ET).\n- La devolución o compensación puede caerse si faltan requisitos formales o el expediente no está bien soportado (arts. 857 y 850 ET).\n- Una devolución improcedente expone al cliente a reintegro y sanciones, así que la revisión previa debe ser conservadora (arts. 855 y 860 ET).\n\n**Soportes clave**\n- Cuando el contribuyente o responsable presente con la solicitud de devolución una garantía a favor de la Nación, otorgada por entidades bancarias o de compañías de seguros, por valor e (arts. 860 y 857 ET).",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md",
+        "logical_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LIBRO SÉPTIMO — Devoluciones, Compensaciones y Saldos a Favor (Arts. 815–865)",
+        "legal_reference": "LIBRO SÉPTIMO — Devoluciones, Compensaciones y Saldos a Favor (Arts. 815–865)",
+        "search_query": "LIBRO SÉPTIMO — Devoluciones, Compensaciones y Saldos a Favor (Arts. 815–865) DIAN / fuente oficial colombia LIBRO SÉPTIMO — Devoluciones, Compensaciones y Saldos a Favor (Arts. 815–865)",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 815 a 865",
+          "locator_kind": "articles",
+          "locator_start": "815",
+          "locator_end": "865"
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Si la DIAN inadmite, corrige rápidamente el faltante formal dentro del término y vuelve a radicar con trazabilidad completa (arts. 855 y 857 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "logical_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "iva",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "legal_reference": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "search_query": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor DIAN / fuente oficial colombia IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "resolucion",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Cuando el contribuyente o responsable presente con la solicitud de devolución una garantía a favor de la Nación, otorgada por entidades bancarias o de compañías de seguros, por valor e.",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Devoluciones y Compensaciones de Saldos a Favor — Marco Normativo",
+        "legal_reference": "Devoluciones y Compensaciones de Saldos a Favor — Marco Normativo",
+        "search_query": "Devoluciones y Compensaciones de Saldos a Favor — Marco Normativo DIAN / fuente oficial colombia Devoluciones y Compensaciones de Saldos a Favor — Marco Normativo",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Cuando el contribuyente o responsable presente con la solicitud de devolución una garantía a favor de la Nación, otorgada por entidades bancarias o de compañías de seguros, por valor e.",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "legal_reference": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "search_query": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2) DIAN / fuente oficial colombia Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Si la DIAN inadmite, corrige rápidamente el faltante formal dentro del término y vuelve a radicar con trazabilidad completa (arts. 855 y 857 ET).",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "## ARTÍCULO 850. DEVOLUCIÓN DE SALDOS A FAVOR.\n**Texto vigente:**\n\n> El contribuyente o responsable que presente un saldo a favor en su declaración tributaria tendrá derecho a que le sea devuelto una vez que:\n>\n> 1. Se h",
+      "Artículo 855 . Término para efectuar la devolución. La Administración de Impuestos deberá devolver, previa las compensaciones a que haya lugar, los saldos a favor originados en los impuestos sobre la renta y complementar",
+      "Artículo 857 . RECHAZO DE LAS DEVOLUCIONES. Las solicitudes de devolución deberán negarse cuando ya hubieren sido objeto de devolución, compensación o imputación anterior, cuando se hubieren negado definitivamente o cuan"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 59,
+        "document_row_count": 17,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-30T00:07:44.368699+00:00",
+        "total_ms": 14704.1,
+        "step_count": 44,
+        "steps": [
+          {
+            "ts_utc": "2026-04-30T00:07:44.368715+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-30T00:07:44.368699+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:44.368849+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.14,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 357,
+              "message_preview": "Una SAS presentó la declaración del 2025 con beneficio de auditoría incremento del 36% (firmeza a 6 meses) y saldo a favor de $50 millones. El gerente está ocupado y dice que tramita la devolución \"más adelante en el año\". ¿Hasta cuándo pue",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:44.369124+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 0.42,
+            "message": null,
+            "details": {
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "confidence": 0.98,
+              "reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:47.975207+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 3606.48,
+            "message": null,
+            "details": {
+              "owner_trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+              "requested_trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:47.975796+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 3607.07,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+              "topic_notice": "Tu pregunta es de devoluciones saldos a favor, por lo cual utilizaremos nuestra base de datos devoluciones saldos a favor.",
+              "message_preview": "Una SAS presentó la declaración del 2025 con beneficio de auditoría incremento del 36% (firmeza a 6 meses) y saldo a favor de $50 millones. El gerente está ocupado y dice que tramita la devolución \"más adelante en el año\". ¿Hasta cuándo pue",
+              "message_chars": 357
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:47.976232+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 3607.52,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Hasta cuándo puede esperar para pedirla?",
+                "¿Le aplica el plazo general de 2 años o algo distinto por estar bajo beneficio de auditoría?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:47.976350+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 3607.64,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 41,
+              "message_preview": "¿Hasta cuándo puede esperar para pedirla?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.002175+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 3633.45,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.003084+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 3634.37,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.003684+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 3634.97,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.020104+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 3651.39,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.020312+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 3651.6,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Hasta cuándo puede esperar para pedirla?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "devoluciones_saldos_a_favor"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.020409+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 3651.69,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Hasta cuándo puede esperar para pedirla?",
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "secondary_topics": [],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.034132+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 3665.42,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.034224+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 3665.51,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "devoluciones_saldos_a_favor ¿Hasta cuándo puede esperar para pedirla?",
+              "query_text_chars": 69
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.034293+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 3665.58,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "devoluciones_saldos_a_favor",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "devoluciones_saldos_a_favor"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:48.594597+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 4225.86,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::855",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NO",
+                "suin_1132325::641",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::580-1",
+                "suin_30036488::30190359",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::642"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.385386+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 6016.65,
+            "message": null,
+            "details": {
+              "anchor_row_count": 38,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.385795+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 6017.07,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 59,
+              "delta": 35
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.556646+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 6187.9,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 59,
+              "rows_out": 57,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 59,
+              "chunks_kept": 57,
+              "chunks_dropped": 2,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 59,
+                "chunks_kept": 57,
+                "chunks_dropped": 2,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.926000+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 6557.26,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 59,
+                "chunks_kept": 57,
+                "chunks_dropped": 2,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.926152+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 6557.43,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 92,
+              "message_preview": "¿Le aplica el plazo general de 2 años o algo distinto por estar bajo beneficio de auditoría?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.952468+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 6583.75,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.953336+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 6584.61,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.953957+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 6585.24,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.970443+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 6601.72,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "declaracion_renta",
+              "top_score": 6,
+              "confidence": 0.54,
+              "ranked_top_3": [
+                [
+                  "declaracion_renta",
+                  6
+                ],
+                [
+                  "beneficio_auditoria",
+                  6
+                ],
+                [
+                  "normas_internacionales_auditoria",
+                  2
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.970686+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 6601.97,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Le aplica el plazo general de 2 años o algo distinto por estar bajo beneficio de auditoría?",
+              "original_effective_topic": "declaracion_renta",
+              "original_mode": "fallback",
+              "original_confidence": 0.54,
+              "parent_topic": "devoluciones_saldos_a_favor"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.970757+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 6602.04,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Le aplica el plazo general de 2 años o algo distinto por estar bajo beneficio de auditoría?",
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "secondary_topics": [],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.984730+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 6616.01,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.985018+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6616.3,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "devoluciones_saldos_a_favor declaracion_renta beneficio_auditoria ¿Le aplica el plazo general de 2 años o algo distinto por estar bajo beneficio de auditoría?",
+              "query_text_chars": 158
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:50.985112+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6616.39,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "devoluciones_saldos_a_favor",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "devoluciones_saldos_a_favor"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:51.814296+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7445.55,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::235-2",
+                "suin_1132325::240",
+                "suin_1132325::808",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1104445::1104449",
+                "suin_1132325::689-1",
+                "suin_30019323::4",
+                "suin_1132325::126-1",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:53.488628+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 9119.89,
+            "message": null,
+            "details": {
+              "anchor_row_count": 38,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:53.488997+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 9120.27,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 61,
+              "delta": 37
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:53.662927+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 9294.18,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 61,
+              "rows_out": 59,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 61,
+              "chunks_kept": 59,
+              "chunks_dropped": 2,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 61,
+                "chunks_kept": 59,
+                "chunks_dropped": 2,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:54.024270+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 9655.52,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 5,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 61,
+                "chunks_kept": 59,
+                "chunks_dropped": 2,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:54.024589+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 9655.85,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                5,
+                7,
+                5
+              ],
+              "after": [
+                5,
+                7,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "850",
+                  "855",
+                  "857",
+                  "859",
+                  "860",
+                  "fuentes-y-referencias",
+                  "808",
+                  "641",
+                  "1104449",
+                  "235-2"
+                ],
+                "candidate_count": 12,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:54.024722+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 9655.99,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "devoluciones_saldos_a_favor",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "devoluciones_saldos_a_favor",
+                "articles_top_topic": "devoluciones_saldos_a_favor",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "850",
+                  "855",
+                  "857",
+                  "859",
+                  "860"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:54.024842+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 9656.11,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "devoluciones_saldos_a_favor",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:54.024931+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 9656.21,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:54.035940+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 9667.21,
+            "message": null,
+            "details": {
+              "template_chars": 2386
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:59.071794+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 14703.03,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2386,
+              "polish_changed": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:59.072329+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 14703.57,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "devoluciones_saldos_a_favor",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:07:59.072583+00:00",
+            "trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 14703.84,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 5,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 63,
+        "output_tokens": 392,
+        "total_tokens": 455,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "devoluciones_saldos_a_favor",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de devoluciones saldos a favor, por lo cual utilizaremos nuestra base de datos devoluciones saldos a favor.",
+    "topic_adjustment_reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+    "coverage_notice": null,
+    "topic": "devoluciones_saldos_a_favor",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_3125a73697aa",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 63,
+        "output_tokens": 392,
+        "total_tokens": 455
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+      "last_run_id": "pd_3780220550394736bf090380fcc4d04e",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_3125a73697aa",
+    "chat_run_id": "cr_20260430_000744_f0cc4e79",
+    "metrics": {
+      "latency_ms": 22600.87,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 63,
+          "output_tokens": 392,
+          "total_tokens": 455,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_3125a73697aa",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 63,
+          "output_tokens": 392,
+          "total_tokens": 455
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "ede87e30-6690-4c22-b382-8e49056bcaaf",
+        "last_run_id": "pd_3780220550394736bf090380fcc4d04e",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 10.1
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "devoluciones_saldos_a_favor",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "c5963b117b4c49af9f53736e1c9e9562"
+  }
+}

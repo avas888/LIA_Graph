@@ -1,0 +1,871 @@
+{
+  "qid": "impuesto_patrimonio_personas_naturales_P1",
+  "topic_key_expected": "impuesto_patrimonio_personas_naturales",
+  "profile": "P1_directa",
+  "message": "¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?",
+  "http_status": 200,
+  "latency_ms": 24276,
+  "captured_utc": "2026-04-30T00:02:15.009962+00:00",
+  "response": {
+    "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+    "run_id": "pd_764f801416a04ba0affe2483e2528042",
+    "answer_markdown": "### Respuestas directas\n\n*   **¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?**\n    *   El impuesto al patrimonio aplica a personas naturales y sucesiones ilíquidas que, al 1 de enero de 2023, posean un patrimonio líquido igual o superior a 72.000 UVT (Unidades de Valor Tributario). Para el año 2023, esto equivale a $3.053.664.000.\n    *   Este umbral se mantiene para los años 2024, 2025 y 2026, ajustándose anualmente por el valor de la UVT.\n\n*   **¿Qué activos se incluyen en el cálculo del patrimonio?**\n    *   Se incluyen todos los bienes y derechos apreciables en dinero poseídos por el contribuyente, tanto en Colombia como en el exterior, a 1 de enero de cada año.\n    *   Para el cálculo del patrimonio líquido, se restan las deudas a cargo del contribuyente.\n\n*   **¿Existen exenciones o exclusiones específicas para ciertos activos?**\n    *   Sí, la casa o apartamento de habitación del contribuyente está excluida del patrimonio gravable hasta un valor de 12.000 UVT.\n    *   Los primeros 8.000 UVT del valor patrimonial de las acciones o cuotas de interés social en sociedades nacionales no cotizadas en bolsa también están excluidos.\n\n### Ruta sugerida\n\n1.  **Determinar el patrimonio bruto:** Identificar y valorar todos los bienes y derechos poseídos a 1 de enero de cada año.\n2.  **Identificar pasivos:** Relacionar todas las deudas a cargo del contribuyente a la misma fecha.\n3.  **Calcular el patrimonio líquido:** Restar los pasivos del patrimonio bruto.\n4.  **Aplicar exclusiones:** Restar del patrimonio líquido las exclusiones permitidas, como la casa de habitación (hasta 12.000 UVT) y las acciones en sociedades nacionales no cotizadas (primeros 8.000 UVT).\n5.  **Verificar el umbral:** Comparar el patrimonio líquido depurado con el umbral de 72.000 UVT para determinar la obligación de declarar y pagar el impuesto.\n\n### Riesgos y condiciones\n\n*   **Valoración de activos:** La correcta valoración de los activos, especialmente los no monetarios, es crucial. Errores pueden llevar a una base gravable incorrecta.\n*   **Patrimonio en el exterior:** Los activos poseídos en el exterior deben ser declarados y valorados, pudiendo aplicar descuentos por impuestos pagados en el extranjero (art. 254 ET).\n*   **Sanciones:** La omisión o inexactitud en la declaración del impuesto al patrimonio puede acarrear sanciones significativas.\n\n### Soportes clave\n\n*   **Declaración de Renta y Complementarios:** Base para determinar el patrimonio líquido.\n*   **Certificados de saldos bancarios y de inversiones:** Para activos financieros.\n*   **Escrituras públicas y certificados de tradición y libertad:** Para bienes inmuebles.\n*   **Estados financieros de sociedades:** Para la valoración de acciones o cuotas de interés social.",
+    "answer_concise": "### Respuestas directas\n\n*   **¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?**\n    *   El impuesto al patrimonio aplica a personas naturales y sucesiones ilíquidas que, al 1 de enero de 2023, posean un patrimonio líquido igual o superior a 72.000 UVT (Unidades de Valor Tributario). Para el año 2023, esto equivale a $3.053.664.000.\n    *   Este umbral se mantiene para los años 2024, 2025 y 2026, ajustándose anualmente por el valor de la UVT.\n\n*   **¿Qué activos se incluyen en el cálculo del patrimonio?**\n    *   Se incluyen todos los bienes y derechos apreciables en dinero poseídos por el contribuyente, tanto en Colombia como en el exterior, a 1 de enero de cada año.\n    *   Para el cálculo del patrimonio líquido, se restan las deudas a cargo del contribuyente.\n\n*   **¿Existen exenciones o exclusiones específicas para ciertos activos?**\n    *   Sí, la casa o apartamento de habitación del contribuyente está excluida del patrimonio gravable hasta un valor de 12.000 UVT.\n    *   Los primeros 8.000 UVT del valor patrimonial de las acciones o cuotas de interés social en sociedades nacionales no cotizadas en bolsa también están excluidos.\n\n### Ruta sugerida\n\n1.  **Determinar el patrimonio bruto:** Identificar y valorar todos los bienes y derechos poseídos a 1 de enero de cada año.\n2.  **Identificar pasivos:** Relacionar todas las deudas a cargo del contribuyente a la misma fecha.\n3.  **Calcular el patrimonio líquido:** Restar los pasivos del patrimonio bruto.\n4.  **Aplicar exclusiones:** Restar del patrimonio líquido las exclusiones permitidas, como la casa de habitación (hasta 12.000 UVT) y las acciones en sociedades nacionales no cotizadas (primeros 8.000 UVT).\n5.  **Verificar el umbral:** Comparar el patrimonio líquido depurado con el umbral de 72.000 UVT para determinar la obligación de declarar y pagar el impuesto.\n\n### Riesgos y condiciones\n\n*   **Valoración de activos:** La correcta valoración de los activos, especialmente los no monetarios, es crucial. Errores pueden llevar a una base gravable incorrecta.\n*   **Patrimonio en el exterior:** Los activos poseídos en el exterior deben ser declarados y valorados, pudiendo aplicar descuentos por impuestos pagados en el extranjero (art. 254 ET).\n*   **Sanciones:** La omisión o inexactitud en la declaración del impuesto al patrimonio puede acarrear sanciones significativas.\n\n### Soportes clave\n\n*   **Declaración de Renta y Complementarios:** Base para determinar el patrimonio líquido.\n*   **Certificados de saldos bancarios y de inversiones:** Para activos financieros.\n*   **Escrituras públicas y certificados de tradición y libertad:** Para bienes inmuebles.\n*   **Estados financieros de sociedades:** Para la valoración de acciones o cuotas de interés social.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?** El impuesto al patrimonio aplica a personas naturales y sucesiones ilíquidas que, al 1 de",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "inversiones_incentivos",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "legal_reference": "Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "search_query": "Ley 1429 de 2010 — Formalización y Generación de Empleo DIAN / fuente oficial colombia Ley 1429 de 2010 — Formalización y Generación de Empleo",
+        "reference_key": "ley:1429:2010",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?** El impuesto al patrimonio aplica a personas naturales y sucesiones ilíquidas que, al 1 de",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1104445",
+        "logical_doc_id": "suin_1104445",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1104445",
+        "open_url": "/source-view?doc_id=suin_1104445",
+        "download_url": "/source-download?doc_id=suin_1104445&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1104445&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 1104445",
+        "legal_reference": "SUIN stub 1104445",
+        "search_query": "SUIN stub 1104445 DIAN / fuente oficial colombia SUIN stub 1104445",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?** El impuesto al patrimonio aplica a personas naturales y sucesiones ilíquidas que, al 1 de",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Respuestas directas **¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?** El impuesto al patrimonio aplica a personas naturales y sucesiones ilíquidas que, al 1 de",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "### ARTICULO 254. DESCUENTO POR IMPUESTOS PAGADOS EN EL EXTERIOR.\n*Artículo modificado por el artículo 93 de la Ley 2010 de 2019. El nuevo texto es el siguiente:*\n\nLas personas naturales residentes en el país y las socie"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 4,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 12,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-04-30T00:01:50.734304+00:00",
+        "total_ms": 17479.88,
+        "step_count": 25,
+        "steps": [
+          {
+            "ts_utc": "2026-04-30T00:01:50.734322+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-04-30T00:01:50.734304+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:01:50.734469+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.16,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 99,
+              "message_preview": "¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:01:50.757376+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 23.06,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-04-30T00:01:50.757585+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 23.27,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:01:50.770803+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 36.49,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 99,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:01:51.783943+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1049.62,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "impuesto_patrimonio_personas_naturales",
+              "confidence": 1.0,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta directamente sobre el umbral de patrimonio para el pago del impuesto al patrimonio de personas naturales.",
+              "elapsed_ms_call": 1013.18,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:01:51.784389+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1050.07,
+            "message": null,
+            "details": {
+              "effective_topic": "impuesto_patrimonio_personas_naturales",
+              "confidence": 1.0,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:02.026018+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 11291.66,
+            "message": null,
+            "details": {
+              "owner_trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+              "requested_trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:02.026911+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 11292.55,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "impuesto_patrimonio_personas_naturales",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta pregunta directamente sobre el umbral de patrimonio para el pago del impuesto al patrimonio de personas naturales.",
+              "topic_notice": "Tu pregunta es de impuesto patrimonio personas naturales, por lo cual utilizaremos nuestra base de datos impuesto patrimonio personas naturales.",
+              "message_preview": "¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?",
+              "message_chars": 99
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:02.054424+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 11320.07,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:02.054824+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 11320.49,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "impuesto_patrimonio_personas_naturales sector_cultura ¿A partir de qué patrimonio una persona natural en Colombia tiene que pagar impuesto al patrimonio?",
+              "query_text_chars": 153
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:02.054963+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 11320.63,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "impuesto_patrimonio_personas_naturales",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "impuesto_patrimonio_personas_naturales"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:02.997763+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 12263.42,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::408",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::771-5",
+                "suin_1132325::808",
+                "suin_1132325::424",
+                "suin_1104445::1104449",
+                "suin_30019323::4",
+                "suin_1132325::879",
+                "suin_30036488::30190359",
+                "suin_1132325::240"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:02.997841+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 12263.5,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:02.997895+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 12263.56,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:03.167101+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 12432.7,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-04-29"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:03.658787+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 12924.39,
+            "message": null,
+            "details": {
+              "primary_count": 1,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-04-29"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "impuesto_patrimonio_personas_naturales",
+              "planner_query_mode": "general_graph_research"
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:03.659343+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 12924.98,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                4,
+                4
+              ],
+              "after": [
+                1,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "254",
+                  "408",
+                  "fuentes-y-referencias",
+                  "771-5",
+                  "808"
+                ],
+                "candidate_count": 5,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:03.659562+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 12925.21,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "impuesto_patrimonio_personas_naturales",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "impuesto_patrimonio_personas_naturales",
+                "articles_top_topic": "impuesto_patrimonio_personas_naturales",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "254"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:03.659765+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 12925.42,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "impuesto_patrimonio_personas_naturales",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:03.659958+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 12925.62,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:03.664344+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 12930.0,
+            "message": null,
+            "details": {
+              "template_chars": 101
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:08.213587+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 17479.22,
+            "message": null,
+            "details": {
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2803,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:08.213975+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 17479.62,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "impuesto_patrimonio_personas_naturales",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-04-30T00:02:08.214078+00:00",
+            "trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 17479.73,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 1,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 16,
+        "output_tokens": 421,
+        "total_tokens": 437,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "impuesto_patrimonio_personas_naturales",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de impuesto patrimonio personas naturales, por lo cual utilizaremos nuestra base de datos impuesto patrimonio personas naturales.",
+    "topic_adjustment_reason": "La consulta pregunta directamente sobre el umbral de patrimonio para el pago del impuesto al patrimonio de personas naturales.",
+    "coverage_notice": null,
+    "topic": "impuesto_patrimonio_personas_naturales",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_515c8d3be27d",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 16,
+        "output_tokens": 421,
+        "total_tokens": 437
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+      "last_run_id": "pd_764f801416a04ba0affe2483e2528042",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_515c8d3be27d",
+    "chat_run_id": "cr_20260430_000153_296831e6",
+    "metrics": {
+      "latency_ms": 20093.56,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 16,
+          "output_tokens": 421,
+          "total_tokens": 437,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_515c8d3be27d",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 16,
+          "output_tokens": 421,
+          "total_tokens": 437
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "2233872a-8ac5-43f4-b9fb-33aaa7377437",
+        "last_run_id": "pd_764f801416a04ba0affe2483e2528042",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 1,
+        "mentions_unique": 1,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 1,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et"
+        ],
+        "normative_scaffolding_ms": 4.9
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "impuesto_patrimonio_personas_naturales",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "6759ca690d5f48b9ba683a892809de26"
+  }
+}
