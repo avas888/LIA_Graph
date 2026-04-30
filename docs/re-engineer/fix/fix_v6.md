@@ -557,7 +557,139 @@ doc:
 
 ---
 
-## 9. Minimum information from operator (none)
+## 9. Close-out record (2026-04-29 ~9:17 PM Bogotá)
+
+**Status: phase 7a + 7b + 7c FULLY CLOSED.** All three routes shipped
+under operator-extended scope (the original doc targeted cloud only;
+operator added "make sure you update and reach parity between local
+supabase docker and falkor docker and cloud docker and cloud falkor").
+Phase 7a expanded into three sub-phases (cloud projection / cross-Supabase
+sync / local projection); phase 7b closed cosmetic without code; phase 7c
+schema-docstring shipped (orchestration.md callout deferred to land with
+pre-existing un-committed fix_v5 close edits).
+
+### Final 4-corner Norm parity
+
+|              | Supabase Norm   | Falkor Norm | IS_SUB_UNIT_OF |
+|--------------|----------------:|------------:|---------------:|
+| **Cloud**    | 17,169          | 17,169 ✓    | 6,503 ✓        |
+| **Local**    | 22,296          | 22,296 ✓    | 6,712 ✓        |
+
+Cloud and local each internally aligned. Local is a strict superset of
+cloud (cloud's 17,169 plus 5,127 local-only norms from prior ingestion
+runs); cloud parity is achieved row-set-wise.
+
+### Phase 7a-cloud (commit `3994fb1`, pushed)
+
+* `scripts/cloud_promotion/project_norms_to_falkor.py` (NEW, 363 LOC)
+  paginates Supabase `norms`, batches `MERGE` via `GraphClient.from_env()`
+  (500/1000 batch sizes), then upserts `IS_SUB_UNIT_OF` from
+  `parent_norm_id`. Risk-first ordering (cco/cst/estatuto/decreto_legislativo/
+  decreto_ley/sentencia_ce first); fail-fast at >50 errors OR >10% rate
+  after 100 ops; idempotent via MERGE on `norm_id`.
+* Run against `.env.staging` 2026-04-30 02:54 UTC:
+  * `nodes_created=14,264` (2,905 → 17,169 ✓ — exactly the predicted gap)
+  * `edges_created=6,500` (3 → 6,503 IS_SUB_UNIT_OF ✓)
+  * `errors=0`, `elapsed=17.5s` (vs doc estimate of 5 min — single-host
+    network was much faster than the conservative budget).
+  * Per-norm-type parity verified post-run: oficio_dian 0 → 5,298;
+    articulo_et 0 → 1,098; concepto_dian 0 → 2,625.
+  * Audit: `tracers_and_logs/logs/project_norms_20260430T015418Z.jsonl`.
+
+### Phase 7a-sync (commit `5bdea55`, pushed)
+
+* `scripts/cloud_promotion/sync_norms_cloud_to_local.py` (NEW, 363 LOC)
+  copies four norms-related tables cloud → local Supabase. Mutable tables
+  use `merge-duplicates`; append-only tables (`norm_vigencia_history`,
+  `norm_citations`) use `ignore-duplicates` since `norm_vigencia_history`
+  grants service_role only INSERT/SELECT (no UPDATE) and `norm_citations`
+  carries `uq_nc_chunk_norm_role` beyond its PK.
+* **Three diagnoses-before-fix** during sync development (per "fail fast,
+  fix fast" canon — first abort = diagnosis, not retry):
+  1. Local docker missing migration `20260501000006_norms_norm_type_extend.sql` →
+     applied via `supabase migration up --local --include-all`.
+  2. Wrong `on_conflict` columns (guessed `history_id`, actual `record_id`;
+     `sub_topic_taxonomy` PK is composite `(parent_topic_key, sub_topic_key)`).
+  3. `norm_vigencia_history` is **append-only by design** (no UPDATE
+     grant) → switched to `ignore-duplicates` resolution.
+* Final sync result:
+  * `sub_topic_taxonomy`: 0 → 106 (cloud=106) ✓
+  * `norms`: 13,540 → 22,296 (cloud=17,169) ✓ (local has cloud's full set
+    + 5,127 local-only legacy rows)
+  * `norm_vigencia_history`: 5,644 → 14,966 (cloud=9,322) ✓
+  * `norm_citations`: 40,620 → 66,327 (cloud=52,246) ✓
+
+### Phase 7a-local (rolled into commit `5bdea55`)
+
+* Re-ran the same `project_norms_to_falkor.py` against `.env.local`:
+  * `nodes_created=8,756` (13,540 → 22,296 ✓)
+  * `edges_created=6,667` (3 → 6,712 IS_SUB_UNIT_OF ✓)
+  * `errors=0`, `elapsed=2.6s`.
+  * Audit: `tracers_and_logs/logs/project_norms_20260430T020255Z.jsonl`.
+
+### Phase 7b (closed cosmetic, no code)
+
+* `grep -rn 'topic_id\b' src/lia_graph/pipeline_d/ src/lia_graph/graph/
+  src/lia_graph/normativa/ src/lia_graph/interpretacion/` returned **zero
+  non-comment hits**. `TopicNode.topic_id` NULL is unread by any planner
+  / retriever / synthesis branch; the field exists in the graph but no
+  code keys off it.
+* Recommendation for future: if a planner ever wants to join TopicNode
+  back to `sub_topic_taxonomy.topic_slug`, populate `topic_id` from a
+  small backfill script at that point. Until then, no action needed.
+
+### Phase 7c (rolled into commit `5bdea55`)
+
+* `src/lia_graph/graph/schema.py` — extended the `NodeKind.NORM`
+  description docstring with: "VIGENCIA STATE IS NEVER STORED HERE — it
+  lives in Supabase `norm_vigencia_history` and is read via the
+  `norm_vigencia_at_date(norm_id, asof)` SQL RPC. Cypher branches like
+  `WHERE n.vigencia_status = 'vigente'` always return empty by design
+  (fix_v6.md §1 yellow-flag #3)."
+* The companion `docs/orchestration/orchestration.md` callout was
+  drafted in the working tree but unstaged — the surrounding doc has
+  pre-existing fix_v5-close edits not yet committed; the vigencia
+  callout will land with that commit to keep scope clean.
+
+### §1.G regression check (the gate)
+
+* Run dir: `evals/sme_validation_v1/runs/20260430T020607Z_fix_v6_phase7a_post_projection/`
+* Anchor: `evals/sme_validation_v1/runs/20260430T000527Z_fix_v5_phase6b_rerun/`
+* Initial run hit `429 Too Many Requests` on 18/36 qids
+  (`/api/public/session` rate-limit with 4 concurrent workers + `--auth`)
+  — diagnosed and **resolved by re-running the 18 affected qids with
+  `--workers 1` serially**. The panel runner is resumable (skips existing
+  qid JSONs) so the retry was clean.
+* Final classification (`run_sme_validation.py --classify-only`):
+
+  | metric           | anchor (fix_v5 6b) | post-projection (fix_v6 7a) | delta |
+  |------------------|------------------:|-----------------------------:|------:|
+  | served_strong    | 32                | **32**                       | 0     |
+  | served_acceptable| 4                 | **4**                        | 0     |
+  | served_weak      | 0                 | **0**                        | 0     |
+  | refused          | 0                 | **0**                        | 0     |
+  | server_error     | 0                 | **0**                        | 0     |
+  | acc+             | 36/36             | **36/36**                    | 0     |
+
+  **Exact anchor match. Zero regression.** The cloud Norm projection added
+  graph state without changing observable chat behavior — confirming the
+  pre-launch grep finding that no Cypher in pipeline_d traverses Norm.
+
+### Operator follow-up suggestions
+
+1. **Land the orchestration.md vigencia callout** when the pre-existing
+   fix_v5-close edits are committed (the callout is in the working tree,
+   ready to stage).
+2. **Schedule a recurring parity check** (cloud vs local Supabase + cloud
+   vs local Falkor) — small Bash-driven count probe, daily or per delta
+   close. Catches future drift before it confuses a re-projection run.
+3. **Backlog item**: revisit `TopicNode.topic_id` if/when a planner
+   branch wants to join back to `sub_topic_taxonomy.topic_slug`. No
+   urgency — the audit was conclusive that nothing reads it today.
+
+---
+
+## 10. Minimum information from operator (none)
 
 Everything required to execute is in this doc + the CLAUDE.md
 non-negotiables + the fix_v5 §4 do-not-do list + the ops canon. No
