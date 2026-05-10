@@ -187,3 +187,37 @@ def test_no_router_topic_short_circuits_first() -> None:
     result = detect_topic_misalignment(_request(""), _bundle(a))
     assert result["misaligned"] is False
     assert result["reason"] == "no_router_topic"
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# (g) Router topic not in `_TOPIC_KEYWORDS` — guard fires before lexical
+# scoring. Reproduces the 2026-05-10 art. 107 refusal where
+# `costos_deducciones_renta` (set by `_SUBTOPIC_OVERRIDE_PATTERNS`) has no
+# `_TOPIC_KEYWORDS` entry, so `router_score_on_articles` is always 0 and
+# adjacent retención vocabulary in arts. 121-124 flipped the gate.
+# ────────────────────────────────────────────────────────────────────────────
+
+
+def test_router_topic_not_in_keyword_dict_skips_lexical_verdict() -> None:
+    from lia_graph.topic_router_keywords import _TOPIC_KEYWORDS
+
+    assert "costos_deducciones_renta" not in _TOPIC_KEYWORDS, (
+        "Test premise: this topic exists only as a subtopic_override target. "
+        "If it has been added to _TOPIC_KEYWORDS, retire this test."
+    )
+    article = _article(
+        node_key="121",
+        title="DEDUCCIÓN DE GASTOS EN EL EXTERIOR.",
+        excerpt=(
+            "los contribuyentes podran deducir los gastos efectuados en el exterior "
+            "siempre que se haya practicado la retencion en la fuente cuando lo exija "
+            "la ley. agente retenedor, retencion, retenedor, retencion."
+        ),
+        secondary_topics=(),
+    )
+    result = detect_topic_misalignment(
+        _request("costos_deducciones_renta"), _bundle(article)
+    )
+    assert result["misaligned"] is False
+    assert result["reason"] == "router_topic_not_scoreable"
+    assert result["articles_top_topic"] is None

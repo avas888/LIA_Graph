@@ -36,6 +36,7 @@ from typing import Any
 
 from ..pipeline_c.contracts import PipelineCRequest
 from ..topic_router import _score_topic_keywords
+from ..topic_router_keywords import _TOPIC_KEYWORDS
 from .contracts import GraphEvidenceBundle
 
 
@@ -153,6 +154,23 @@ def detect_topic_misalignment(
             "articles_top_topic": router_topic,
             "reason": "secondary_topic_match",
             "secondary_topic_matches": list(matching_secondary_articles),
+        }
+
+    # Lexical scoring uses `_TOPIC_KEYWORDS`. When the router topic was chosen
+    # via a `_SUBTOPIC_OVERRIDE_PATTERNS` regex whose target is NOT a key in
+    # `_TOPIC_KEYWORDS`, `router_score_on_articles` is mechanically 0 and any
+    # competing topic with ≥3 weak hits flips the gate. That structural false
+    # positive observed on `costos_deducciones_renta`: art. 121–124 (gastos en
+    # el exterior) mention "retención" enough times to score 8 on
+    # `retencion_fuente_general`, while `costos_deducciones_renta` has no
+    # entry to score against. Skip the lexical verdict when the router topic
+    # cannot be scored.
+    if router_topic not in _TOPIC_KEYWORDS:
+        return {
+            "misaligned": False,
+            "router_topic": router_topic,
+            "articles_top_topic": None,
+            "reason": "router_topic_not_scoreable",
         }
 
     text = _evidence_topic_scoring_text(evidence)

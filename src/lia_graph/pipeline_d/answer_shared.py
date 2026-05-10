@@ -7,6 +7,7 @@ import unicodedata
 from ..chat_response_modes import FIRST_RESPONSE_MODE_FAST_ACTION, normalize_first_response_mode
 from ..pipeline_c.contracts import PipelineCRequest
 from .contracts import GraphEvidenceItem
+from .presentation import render_bullet_section, render_numbered_section
 
 _NORMATIVE_CHANGE_RE = re.compile(
     r"\b(?:Ley|Decreto|Resoluci[oó]n)\s+\d+\s+de\s+\d{4}\b",
@@ -105,14 +106,6 @@ def should_use_first_bubble_format(request: PipelineCRequest) -> bool:
     if isinstance(state, dict):
         return int(state.get("turn_count") or 0) <= 0
     return not str(request.conversation_context or "").strip()
-
-
-def render_bullet_section(title: str, lines: tuple[str, ...]) -> str:
-    return f"**{title}**\n" + "\n".join(f"- {line}" for line in lines if line)
-
-
-def render_numbered_section(title: str, lines: tuple[str, ...]) -> str:
-    return f"**{title}**\n" + "\n".join(f"{idx}. {line}" for idx, line in enumerate(lines, start=1) if line)
 
 
 def filter_published_lines(

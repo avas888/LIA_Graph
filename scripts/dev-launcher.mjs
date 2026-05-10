@@ -158,6 +158,50 @@ function waitForPort(host, port, timeoutMs) {
   });
 }
 
+function listPortListeners(port) {
+  const lsof = spawnSync("lsof", ["-ti", `TCP:${port}`, "-sTCP:LISTEN"], { encoding: "utf8" });
+  if (lsof.status === 0 && lsof.stdout) {
+    return lsof.stdout.split("\n").map((s) => s.trim()).filter(Boolean);
+  }
+  const fuser = spawnSync("fuser", [`${port}/tcp`], { encoding: "utf8" });
+  if (fuser.status === 0 && fuser.stdout) {
+    return fuser.stdout.split(/\s+/).map((s) => s.trim()).filter(Boolean);
+  }
+  return [];
+}
+
+function describePid(pid) {
+  const ps = spawnSync("ps", ["-p", String(pid), "-o", "command="], { encoding: "utf8" });
+  if (ps.status === 0 && ps.stdout) {
+    return ps.stdout.trim();
+  }
+  return "<unknown>";
+}
+
+async function freePortIfHeld(port) {
+  let pids = listPortListeners(port);
+  if (pids.length === 0) return true;
+  for (const pid of pids) {
+    log(`Freeing port ${port}: terminating PID ${pid} (${describePid(pid)}).`);
+    try { process.kill(Number(pid), "SIGTERM"); } catch (err) {
+      log(`  SIGTERM to ${pid} failed: ${err.message}`);
+    }
+  }
+  for (let i = 0; i < 10; i += 1) {
+    await new Promise((r) => setTimeout(r, 200));
+    if (listPortListeners(port).length === 0) return true;
+  }
+  pids = listPortListeners(port);
+  for (const pid of pids) {
+    log(`  Port ${port} still held; sending SIGKILL to PID ${pid}.`);
+    try { process.kill(Number(pid), "SIGKILL"); } catch (err) {
+      log(`  SIGKILL to ${pid} failed: ${err.message}`);
+    }
+  }
+  await new Promise((r) => setTimeout(r, 400));
+  return listPortListeners(port).length === 0;
+}
+
 async function ensureLocalFalkorDocker(env) {
   const portReady = await waitForPort(LOCAL_FALKOR_HOST, LOCAL_FALKOR_PORT, 1000);
   if (portReady) {

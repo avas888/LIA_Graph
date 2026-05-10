@@ -15,14 +15,151 @@ from __future__ import annotations
 
 import os
 import re
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from ..llm_runtime import DEFAULT_RUNTIME_CONFIG_PATH, resolve_llm_adapter
 from ..pipeline_c.contracts import PipelineCRequest
 from .contracts import GraphEvidenceBundle
+from .presentation import format_numbers_with_bold
 
 _POLISH_FLAG_ENV = "LIA_LLM_POLISH_ENABLED"
+
+
+@dataclass(frozen=True)
+class PromptRule:
+    """One polish-time rule. Has a category so future tooling can filter
+    by intent (e.g. apply only presentational rules to the Normativa
+    surface), a Spanish prompt fragment for the LLM, and an optional
+    ``post_apply`` transformer that enforces the rule deterministically
+    after the LLM returns — or instead of the LLM, when polish is
+    skipped. Validators (e.g. anchor preservation) can be added later as
+    a separate optional callable; today the anchor check still lives
+    inline in ``polish_graph_native_answer``.
+    """
+
+    id: str
+    category: str  # "structural" | "semantic" | "presentational" | "tonal"
+    prompt_text: str
+    post_apply: Callable[[str], str] | None = None
+    surfaces: tuple[str, ...] = field(default=("main_chat",))
+
+
+POLISH_RULES: tuple[PromptRule, ...] = (
+    PromptRule(
+        id="anchor_preserve",
+        category="semantic",
+        prompt_text=(
+            "Preservá TODAS las referencias inline al Estatuto Tributario con la forma "
+            "(art. X ET) o (arts. X y Y ET). No inventés nuevas; no borrés las existentes."
+        ),
+    ),
+    PromptRule(
+        id="no_disclaimers",
+        category="tonal",
+        prompt_text=(
+            "No agregues saludos, disclaimers, ni frases como \"espero que esto ayude\"."
+        ),
+    ),
+    PromptRule(
+        id="section_structure",
+        category="structural",
+        prompt_text=(
+            "Mantené la estructura por secciones del borrador (Respuestas directas / Ruta sugerida / "
+            "Riesgos y condiciones / Soportes clave) y NO elimines secciones. Podés reformular cada bullet existente. "
+            "REGLA DE EXPANSIÓN: si CUALQUIER sección tiene un solo bullet (o un bullet muy corto, tipo encabezado de "
+            "una guía práctica) Y hay al menos 2 ARTÍCULOS ANCLA o 3 DOCUMENTOS DE SOPORTE en la evidencia abajo, "
+            "AMPLIÁ esa sección a 2-3 bullets adicionales construidos desde la evidencia. Preservá el bullet original "
+            "y TODAS las referencias inline al ET. No inventés normas, artículos, ni cifras que no estén en la "
+            "evidencia abajo o en el borrador. Si la evidencia no alcanza para 2-3 bullets reales, dejá el bullet "
+            "original solo — preferible una sección breve verdadera que una expandida con relleno."
+        ),
+    ),
+    PromptRule(
+        id="markdown_table_preserve",
+        category="structural",
+        prompt_text=(
+            "Si el borrador contiene una tabla markdown (líneas que empiezan con `|` y la línea separadora `|---|...`), "
+            "preservala letra por letra. No la reformules en prosa, no fusiones celdas, no agregues ni elimines filas o columnas. "
+            "El comparativo en tabla es la forma exacta en la que el contador necesita ver pre/post; reflowarlo destruye la "
+            "información estructural."
+        ),
+    ),
+    PromptRule(
+        id="direct_answers_preserve",
+        category="structural",
+        prompt_text=(
+            "Si el borrador trae una sección \"Respuestas directas\", conservá cada sub-pregunta como un bullet en negrita "
+            "con sus bullets hijos intactos; no fusiones sub-preguntas ni muevas respuestas entre ellas. Si un sub-bloque "
+            "dice \"Cobertura pendiente para esta sub-pregunta\", mantené esa advertencia explícita para esa pregunta."
+        ),
+    ),
+    PromptRule(
+        id="partial_coverage_warning_preserve",
+        category="semantic",
+        prompt_text=(
+            "Si el borrador dice \"la cobertura quedó parcial\", mantené esa advertencia."
+        ),
+    ),
+    PromptRule(
+        id="no_invented_numbers",
+        category="semantic",
+        prompt_text=(
+            "No inventes cifras, topes, porcentajes ni artículos que no estén en el borrador o en la evidencia abajo."
+        ),
+    ),
+    PromptRule(
+        id="numeric_format_bold",
+        category="presentational",
+        prompt_text=(
+            "FORMATO NUMÉRICO: cualquier valor cuantitativo del borrador va en DÍGITOS, nunca deletreado, "
+            "y envuelto en negrita Markdown — los números deben saltar a la vista del contador. Aplica a "
+            "conteos (\"**12** períodos\" no \"doce períodos\"), plazos (\"**6** años\" no \"seis años\"), "
+            "porcentajes (**25%**), montos en pesos (**$1.000.000**), años (**2025**) y ordinales numéricos. "
+            "EXCEPCIÓN ESTRICTA: NO modifiqués ni envolvás en negrita los números dentro de referencias "
+            "legales inline — `(art. 147 ET)`, `(arts. 147 y 290 ET)`, `(Decreto 624 de 1989)`, "
+            "`(Ley 1819 de 2016)`, `(numeral 3 del art. 26 ET)` se preservan letra por letra como están en "
+            "el borrador. La negrita aplica a la cifra en prosa, no a la cita normativa."
+        ),
+        post_apply=format_numbers_with_bold,
+    ),
+    PromptRule(
+        id="no_invented_article_descriptions",
+        category="semantic",
+        prompt_text=(
+            "No inventés descripciones cortas para los artículos citados (e.g., 'Art. 290 ET: Régimen de transición para X'). "
+            "Los artículos del ET tienen múltiples numerales con temas distintos; describir el artículo entero con una frase desde "
+            "tu memoria casi siempre se equivoca de numeral. Si necesitás caracterizar un artículo en una línea, usá literalmente "
+            "el encabezado del artículo tal como aparece en ARTÍCULOS ANCLA DEL GRAFO, o citá el numeral específico que aplica "
+            "según el borrador. Cuando dudés, dejá la cita sola — `(art. 290 ET)` sin descripción es preferible a una descripción inventada."
+        ),
+    ),
+    PromptRule(
+        id="neutral_spanish",
+        category="tonal",
+        prompt_text="Respondé en español neutro profesional, sin muletillas.",
+    ),
+)
+
+
+def _rules_block(surface: str = "main_chat") -> str:
+    bullets = [f"- {rule.prompt_text}" for rule in POLISH_RULES if surface in rule.surfaces]
+    return "REGLAS INVIOLABLES:\n" + "\n".join(bullets)
+
+
+def _apply_post_hoc_transformers(text: str, *, surface: str = "main_chat") -> str:
+    """Run every rule's ``post_apply`` over ``text`` in registry order.
+
+    Called whether the LLM polished successfully OR the template fell
+    through unchanged — presentational invariants like numeric bolding
+    must hold deterministically, not on LLM cooperation.
+    """
+    for rule in POLISH_RULES:
+        if rule.post_apply is None or surface not in rule.surfaces:
+            continue
+        text = rule.post_apply(text)
+    return text
 
 
 def _polish_enabled() -> bool:
@@ -69,23 +206,23 @@ def polish_graph_native_answer(
     }
     if not template_answer or not template_answer.strip():
         base_diag["skip_reason"] = "empty_template"
-        return template_answer, base_diag
+        return _apply_post_hoc_transformers(template_answer), base_diag
 
     if not _polish_enabled():
         base_diag["skip_reason"] = "polish_disabled_by_env"
-        return template_answer, base_diag
+        return _apply_post_hoc_transformers(template_answer), base_diag
 
     config_path = _resolve_config_path(runtime_config_path)
     try:
         adapter, resolution = resolve_llm_adapter(runtime_config_path=config_path)
     except Exception as exc:  # noqa: BLE001 - polish must never raise
         base_diag["skip_reason"] = f"resolver_error:{type(exc).__name__}"
-        return template_answer, base_diag
+        return _apply_post_hoc_transformers(template_answer), base_diag
 
     if adapter is None:
         base_diag["skip_reason"] = "no_adapter_available"
         base_diag["fallback_skipped"] = resolution.get("fallback_skipped", []) if isinstance(resolution, dict) else []
-        return template_answer, base_diag
+        return _apply_post_hoc_transformers(template_answer), base_diag
 
     prompt = _build_polish_prompt(
         request=request,
@@ -104,24 +241,24 @@ def polish_graph_native_answer(
         message = str(exc).strip()
         if message:
             base_diag["error_message"] = message[:400]
-        return template_answer, base_diag
+        return _apply_post_hoc_transformers(template_answer), base_diag
 
     if not polished:
         base_diag.update(_runtime_diag_from_resolution(resolution))
         base_diag["mode"] = "failed"
         base_diag["skip_reason"] = "empty_llm_output"
-        return template_answer, base_diag
+        return _apply_post_hoc_transformers(template_answer), base_diag
 
     if not _preserves_required_anchors(template_answer, polished):
         base_diag.update(_runtime_diag_from_resolution(resolution))
         base_diag["mode"] = "rejected"
         base_diag["skip_reason"] = "anchors_stripped"
-        return template_answer, base_diag
+        return _apply_post_hoc_transformers(template_answer), base_diag
 
     base_diag.update(_runtime_diag_from_resolution(resolution))
     base_diag["mode"] = "llm"
     base_diag["skip_reason"] = None
-    return polished, base_diag
+    return _apply_post_hoc_transformers(polished), base_diag
 
 
 # ---------------------------------------------------------------------------
@@ -206,33 +343,7 @@ def _build_polish_prompt(
         "Tu trabajo es reescribir la respuesta borrador para que suene como un contador senior "
         "guiando a otro: claro, operativo, sin relleno académico, sin disclaimers genéricos. "
         "\n\n"
-        "REGLAS INVIOLABLES:\n"
-        "- Preservá TODAS las referencias inline al Estatuto Tributario con la forma (art. X ET) o (arts. X y Y ET). "
-        "No inventés nuevas; no borrés las existentes.\n"
-        "- No agregues saludos, disclaimers, ni frases como \"espero que esto ayude\".\n"
-        "- Mantené la estructura por secciones del borrador (Respuestas directas / Ruta sugerida / "
-        "Riesgos y condiciones / Soportes clave) y NO elimines secciones. Podés reformular cada bullet existente. "
-        "REGLA DE EXPANSIÓN: si CUALQUIER sección tiene un solo bullet (o un bullet muy corto, tipo encabezado de "
-        "una guía práctica) Y hay al menos 2 ARTÍCULOS ANCLA o 3 DOCUMENTOS DE SOPORTE en la evidencia abajo, "
-        "AMPLIÁ esa sección a 2-3 bullets adicionales construidos desde la evidencia. Preservá el bullet original "
-        "y TODAS las referencias inline al ET. No inventés normas, artículos, ni cifras que no estén en la "
-        "evidencia abajo o en el borrador. Si la evidencia no alcanza para 2-3 bullets reales, dejá el bullet "
-        "original solo — preferible una sección breve verdadera que una expandida con relleno.\n"
-        "- Si el borrador contiene una tabla markdown (líneas que empiezan con `|` y la línea separadora `|---|...`), "
-        "preservala letra por letra. No la reformules en prosa, no fusiones celdas, no agregues ni elimines filas o columnas. "
-        "El comparativo en tabla es la forma exacta en la que el contador necesita ver pre/post; reflowarlo destruye la "
-        "información estructural.\n"
-        "- Si el borrador trae una sección \"Respuestas directas\", conservá cada sub-pregunta como un bullet en negrita "
-        "con sus bullets hijos intactos; no fusiones sub-preguntas ni muevas respuestas entre ellas. Si un sub-bloque "
-        "dice \"Cobertura pendiente para esta sub-pregunta\", mantené esa advertencia explícita para esa pregunta.\n"
-        "- Si el borrador dice \"la cobertura quedó parcial\", mantené esa advertencia.\n"
-        "- No inventes cifras, topes, porcentajes ni artículos que no estén en el borrador o en la evidencia abajo.\n"
-        "- No inventés descripciones cortas para los artículos citados (e.g., 'Art. 290 ET: Régimen de transición para X'). "
-        "Los artículos del ET tienen múltiples numerales con temas distintos; describir el artículo entero con una frase desde "
-        "tu memoria casi siempre se equivoca de numeral. Si necesitás caracterizar un artículo en una línea, usá literalmente "
-        "el encabezado del artículo tal como aparece en ARTÍCULOS ANCLA DEL GRAFO, o citá el numeral específico que aplica "
-        "según el borrador. Cuando dudés, dejá la cita sola — `(art. 290 ET)` sin descripción es preferible a una descripción inventada.\n"
-        "- Respondé en español neutro profesional, sin muletillas.\n"
+        f"{_rules_block()}\n"
         "\n"
         f"PREGUNTA DEL USUARIO:\n{request.message}\n"
         "\n"
@@ -249,4 +360,8 @@ def _build_polish_prompt(
     )
 
 
-__all__ = ["polish_graph_native_answer"]
+__all__ = [
+    "POLISH_RULES",
+    "PromptRule",
+    "polish_graph_native_answer",
+]

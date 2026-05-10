@@ -23,8 +23,17 @@ from unittest.mock import patch
 import pytest
 
 from lia_graph.pipeline_c.contracts import PipelineCRequest
-from lia_graph.pipeline_d.answer_llm_polish import polish_graph_native_answer
+from lia_graph.pipeline_d.answer_llm_polish import (
+    _apply_post_hoc_transformers,
+    polish_graph_native_answer,
+)
 from lia_graph.pipeline_d.contracts import GraphEvidenceBundle, GraphEvidenceItem
+
+
+def _expected_unpolished(template: str) -> str:
+    """Template after post-hoc transformers — what the polish stage returns
+    when the LLM never ran. Numeric bolding fires deterministically."""
+    return _apply_post_hoc_transformers(template)
 
 
 def _evidence() -> GraphEvidenceBundle:
@@ -93,7 +102,7 @@ def test_polish_returns_template_unchanged_when_no_adapter_resolves() -> None:
             template_answer=template,
             evidence=_evidence(),
         )
-    assert answer == template
+    assert answer == _expected_unpolished(template)
     assert diag["mode"] == "skipped"
     assert diag["skip_reason"] == "no_adapter_available"
     # Diagnostic should carry enough info for operators to debug
@@ -111,7 +120,7 @@ def test_polish_returns_template_unchanged_when_resolver_raises() -> None:
             template_answer=template,
             evidence=_evidence(),
         )
-    assert answer == template
+    assert answer == _expected_unpolished(template)
     assert diag["mode"] == "skipped"
     assert diag["skip_reason"].startswith("resolver_error:")
 
@@ -132,7 +141,7 @@ def test_polish_returns_template_unchanged_when_adapter_raises() -> None:
             template_answer=template,
             evidence=_evidence(),
         )
-    assert answer == template
+    assert answer == _expected_unpolished(template)
     assert diag["mode"] == "failed"
     assert diag["skip_reason"] == "adapter_error:TimeoutError"
     # Provider identity must still surface — operator needs to know who failed
@@ -155,7 +164,7 @@ def test_polish_returns_template_when_llm_returns_empty() -> None:
             template_answer=template,
             evidence=_evidence(),
         )
-    assert answer == template
+    assert answer == _expected_unpolished(template)
     assert diag["skip_reason"] == "empty_llm_output"
 
 
@@ -184,7 +193,7 @@ def test_polish_rejects_output_that_strips_all_anchors() -> None:
             evidence=_evidence(),
         )
     # Polish must be rejected — template answer wins.
-    assert answer == template
+    assert answer == _expected_unpolished(template)
     assert diag["mode"] == "rejected"
     assert diag["skip_reason"] == "anchors_stripped"
     assert diag["selected_provider"] == "deepseek-chat"
@@ -256,7 +265,7 @@ def test_polish_skipped_when_env_flag_disabled(monkeypatch) -> None:
             template_answer=template,
             evidence=_evidence(),
         )
-    assert answer == template
+    assert answer == _expected_unpolished(template)
     assert diag["skip_reason"] == "polish_disabled_by_env"
 
 

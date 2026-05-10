@@ -211,8 +211,9 @@ def render_comparative_table(pair: dict[str, Any]) -> str:
 def _render_bullet_section(title: str, lines: tuple[str, ...]) -> str:
     if not lines:
         return ""
-    body = "\n".join(f"- {line}" for line in lines if line)
-    return f"**{title}**\n{body}"
+    from .presentation import render_bullet_section
+
+    return render_bullet_section(title, tuple(line for line in lines if line))
 
 
 def compose_comparative_regime_answer(

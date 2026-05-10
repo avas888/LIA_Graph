@@ -142,22 +142,28 @@ def render_prepared_section(
     *,
     numbered: bool = False,
 ) -> str:
-    prefix = "{idx}. " if numbered else "- "
+    from .presentation import (
+        bullet as _bullet,
+        numbered as _numbered,
+        section_heading,
+    )
+
     body: list[str] = []
     for idx, line in enumerate(lines, start=1):
-        marker = prefix.format(idx=idx)
-        body.append(f"{marker}{line.text}")
-    return f"**{title}**\n" + "\n".join(body)
+        body.append(_numbered(idx, line.text) if numbered else _bullet(line.text))
+    return f"{section_heading(title)}\n" + "\n".join(body)
 
 
 def _render_direct_answers_section(
     direct_answers: tuple[tuple[str, tuple[str, ...]], ...],
 ) -> str:
-    lines: list[str] = ["**Respuestas directas**"]
+    from .presentation import bold, bullet, nested_bullet, section_heading
+
+    lines: list[str] = [section_heading("Respuestas directas")]
     for question, bullets in direct_answers:
-        lines.append(f"- **{question}**")
-        for bullet in bullets:
-            lines.append(f"  - {bullet}")
+        lines.append(bullet(bold(question)))
+        for sub in bullets:
+            lines.append(nested_bullet(sub))
     return "\n".join(lines)
 
 
