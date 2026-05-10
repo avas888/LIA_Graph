@@ -70,10 +70,30 @@ _INLINE_LAW_REF_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Dates as a single unit: ISO `2026-04-29`, Latin `29/04/2026`, `29-04-2026`.
+# Dates as a single unit: ISO `2026-04-29`, Latin `29/04/2026`, `29-04-2026`,
+# and Spanish-month abbreviations `31-dic-2016`.
+_SPANISH_MONTHS = r"ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic"
 _DATE_RE = re.compile(
-    r"\b\d{4}-\d{1,2}-\d{1,2}\b|\b\d{1,2}[/-]\d{1,2}[/-]\d{4}\b",
+    r"\b\d{4}-\d{1,2}-\d{1,2}\b"
+    r"|\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b"
+    rf"|\b\d{{1,2}}-(?:{_SPANISH_MONTHS})-\d{{2,4}}\b",
+    re.IGNORECASE,
 )
+
+# Inline ET article citations without parens — `art. 290`, `arts. 147 y 290`,
+# `art. 290 #5 ET`, `numeral 3 del art. 26`. These reference legal positions
+# (not quantities) so the digits must not be bolded.
+_INLINE_ARTICLE_REF_RE = re.compile(
+    r"\barts?\.?\s+\d+[A-Za-z\-]*(?:\s+y\s+\d+[A-Za-z\-]*)*"
+    r"(?:\s+#\s*\d+|\s+numeral\s+\d+|\s+num\.?\s+\d+|\s+inciso\s+\d+|\s+par[aá]grafo\s+\d+)*"
+    r"(?:\s+ET\b)?",
+    re.IGNORECASE,
+)
+
+# Temporal-adjective prefixes that pin a year to a regime ("pre-2017",
+# "post-2025"). The year is a discriminator inside a compound word, not a
+# standalone quantity — bolding it splits the word visually.
+_TEMPORAL_PREFIX_RE = re.compile(r"\b(?:pre|post|anti|pro)-\d{4}\b", re.IGNORECASE)
 
 # Already-bolded numbers (idempotency) — `**12**`, `**$1.000.000**`, `**25%**`.
 _BOLDED_NUMERIC_RE = re.compile(r"\*\*\$?\d+(?:[.,]\d+)*%?\*\*")
@@ -99,7 +119,14 @@ def _merge_spans(spans: list[tuple[int, int]]) -> list[tuple[int, int]]:
 
 def _bold_in_segment(segment: str) -> str:
     protected: list[tuple[int, int]] = []
-    for pattern in (_LEGAL_ANCHOR_RE, _INLINE_LAW_REF_RE, _DATE_RE, _BOLDED_NUMERIC_RE):
+    for pattern in (
+        _LEGAL_ANCHOR_RE,
+        _INLINE_LAW_REF_RE,
+        _INLINE_ARTICLE_REF_RE,
+        _DATE_RE,
+        _TEMPORAL_PREFIX_RE,
+        _BOLDED_NUMERIC_RE,
+    ):
         for match in pattern.finditer(segment):
             protected.append((match.start(), match.end()))
     protected = _merge_spans(protected)
