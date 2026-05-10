@@ -580,7 +580,7 @@ def _find_active_job() -> _EmbeddingJobRunner | None:
     return None
 
 
-def start_embedding_job(*, target: str = "wip", force: bool = False) -> JobRecord:
+def start_embedding_job(*, target: str = "", force: bool = False) -> JobRecord:
     active = _find_active_job()
     if active is not None:
         raise RuntimeError(f"Embedding job already running: {active.job_id}")
@@ -646,7 +646,7 @@ def resume_embedding_job(job_id: str) -> JobRecord:
     return new_record
 
 
-def build_embedding_status(*, target: str = "wip") -> dict[str, Any]:
+def build_embedding_status(*, target: str = "") -> dict[str, Any]:
     """Build the full embedding status payload for the GUI."""
     # Supabase counts
     try:

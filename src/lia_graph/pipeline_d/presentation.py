@@ -95,6 +95,11 @@ _INLINE_ARTICLE_REF_RE = re.compile(
 # standalone quantity — bolding it splits the word visually.
 _TEMPORAL_PREFIX_RE = re.compile(r"\b(?:pre|post|anti|pro)-\d{4}\b", re.IGNORECASE)
 
+# Colombian tax-period abbreviations: `AG 2022` (Año Gravable), `PA 2023`
+# (Período de Ajuste). These are citations to a specific fiscal cycle — the
+# year is identity, not quantity.
+_FISCAL_PERIOD_RE = re.compile(r"\b(?:AG|PA|EFR)\s+\d{4}\b")
+
 # Already-bolded numbers (idempotency) — `**12**`, `**$1.000.000**`, `**25%**`.
 _BOLDED_NUMERIC_RE = re.compile(r"\*\*\$?\d+(?:[.,]\d+)*%?\*\*")
 
@@ -125,6 +130,7 @@ def _bold_in_segment(segment: str) -> str:
         _INLINE_ARTICLE_REF_RE,
         _DATE_RE,
         _TEMPORAL_PREFIX_RE,
+        _FISCAL_PERIOD_RE,
         _BOLDED_NUMERIC_RE,
     ):
         for match in pattern.finditer(segment):

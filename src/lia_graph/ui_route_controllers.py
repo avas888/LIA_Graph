@@ -272,7 +272,11 @@ def handle_ops_get(handler: Any, path: str, parsed: Any, *, deps: dict[str, Any]
     if path == "/api/ops/embedding-status":
         try:
             from .embedding_ops import build_embedding_status
-            status = build_embedding_status(target="wip")
+            # No target → uses get_supabase_client() (single cloud Supabase on
+            # staging/production). The legacy "wip" target points at
+            # SUPABASE_WIP_URL, which is local-only on this fork and was
+            # raising Connection Refused on every staging startup poll.
+            status = build_embedding_status()
             handler._send_json(HTTPStatus.OK, status)
         except Exception as exc:
             handler._send_json(HTTPStatus.INTERNAL_SERVER_ERROR, {"error": str(exc)})

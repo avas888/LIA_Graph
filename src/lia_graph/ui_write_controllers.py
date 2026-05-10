@@ -580,7 +580,9 @@ def handle_embedding_operation_post(handler: Any, path: str, *, deps: dict[str, 
 
         if path == "/api/ops/embedding/start":
             force = bool(payload.get("force", False))
-            job = start_embedding_job(target="wip", force=force)
+            # No target → main cloud Supabase. See ui_route_controllers
+            # embedding-status route for the same reasoning.
+            job = start_embedding_job(force=force)
             handler._send_json(
                 HTTPStatus.ACCEPTED,
                 {"ok": True, "job_id": job.job_id, "status": job.status},
