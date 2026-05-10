@@ -1,0 +1,12 @@
+{
+  "qid": "precios_de_transferencia_P3",
+  "topic_key_expected": "precios_de_transferencia",
+  "profile": "P3_borde",
+  "message": "Mi cliente, una PYME de $1.500 millones en ingresos, le compró mercancía durante 2025 a un proveedor en Hong Kong por $400 millones. Hasta donde tenía entendido Hong Kong era jurisdicción no cooperante y eso lo metía en precios de transferencia sin importar montos. ¿Sigue siendo así para la declaración que voy a presentar este año?",
+  "http_status": -1,
+  "latency_ms": 0,
+  "captured_utc": "2026-05-10T23:16:25.305085+00:00",
+  "response": {
+    "_transport_error": "URLError(ConnectionRefusedError(61, 'Connection refused'))"
+  }
+}

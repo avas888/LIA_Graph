@@ -1,0 +1,12 @@
+{
+  "qid": "regimen_cambiario_P3",
+  "topic_key_expected": "regimen_cambiario",
+  "profile": "P3_borde",
+  "message": "Mi cliente recibió en 2025 una inversión extranjera directa de $500.000 USD de un fondo en Países Bajos para capitalización de la SAS. Hicieron la transferencia pero nadie se acordó de hacer el registro ante el Banco de la República. Estamos en marzo de 2026. ¿Qué riesgo hay, todavía se puede regularizar, y qué pasa con los dividendos que eventualmente quieran girarle al inversionista si nunca se registró la inversión?",
+  "http_status": -1,
+  "latency_ms": 0,
+  "captured_utc": "2026-05-10T23:16:25.306407+00:00",
+  "response": {
+    "_transport_error": "URLError(ConnectionRefusedError(61, 'Connection refused'))"
+  }
+}

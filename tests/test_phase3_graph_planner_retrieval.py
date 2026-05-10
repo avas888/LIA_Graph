@@ -1,8 +1,16 @@
 from __future__ import annotations
 
+import re
+
 from lia_graph.pipeline_c.contracts import PipelineCRequest
 from lia_graph.pipeline_d.answer_shared import neutralize_non_imputative_language
 from lia_graph.pipeline_d.orchestrator import run_pipeline_d
+
+
+def _unbold(text: str) -> str:
+    """Strip Markdown bold markers so substring assertions remain stable
+    across presentation-rule changes (e.g. numeric-bold post-hoc)."""
+    return re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
 from lia_graph.pipeline_d.planner import (
     _extract_article_refs,
     _extract_user_sub_questions,
@@ -344,7 +352,7 @@ def test_phase3_pipeline_d_end_to_end_smoke_for_accountant_style_refund_prompt()
     assert "Anclaje Legal" not in response.answer_markdown
     assert "Recap histórico" not in response.answer_markdown
     assert "(art." in response.answer_markdown or "(arts." in response.answer_markdown
-    assert "50, 30 o 20 días hábiles" in response.answer_markdown
+    assert "50, 30 o 20 días hábiles" in _unbold(response.answer_markdown)
     assert "850" in response.answer_markdown
     assert "589" in response.answer_markdown
     assert response.diagnostics is not None
@@ -368,7 +376,7 @@ def test_phase3_pipeline_d_loss_compensation_prompt_surfaces_art_147_instead_of_
     assert response.fallback_reason is None
     assert "147" in response.answer_markdown
     assert "pérdidas fiscales" in response.answer_markdown.lower()
-    assert "50, 30 o 20 días hábiles" not in response.answer_markdown
+    assert "50, 30 o 20 días hábiles" not in _unbold(response.answer_markdown)
     assert response.diagnostics is not None
     assert response.diagnostics["planner"]["query_mode"] == "obligation_chain"
     # Multi-question consultas must expose each sub-question as its own visible

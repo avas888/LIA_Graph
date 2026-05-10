@@ -841,7 +841,41 @@ If 7/7 clears the macro+cost gates but SME finds the answers got *more* generic 
 
 ---
 
-## §8 What's NOT here (deliberately)
+## §8 Presentation-rule architecture (✅ shipped 2026-05-10)
+
+**Trigger:** Operator-flagged style rule on 2026-05-10 ("show numbers in bold and in number format" — `12 períodos`, not `doce períodos`). Implementation revealed presentation rules were scattered across 9 Python files and 1 prose-only LLM prompt with no central registry, no enforcement when polish was disabled, and silent drift between `main_chat` and `Normativa` surfaces. Operator audit verdict: "house of cards."
+
+**Three interventions shipped in one pass:**
+
+### §8.1 — `pipeline_d/presentation.py` primitives (✅ shipped)
+
+Single-source module owning every visible format the chat surface emits: `BULLET_PREFIX`, `NESTED_BULLET_PREFIX`, `NUMBERED_PREFIX_FORMAT`, `bold()`, `bullet()`, `numbered()`, `nested_bullet()`, `section_heading()`, `render_bullet_section()`, `render_numbered_section()`, `format_numbers_with_bold()`. Migrated 3 hardcoded sites (`answer_first_bubble.py`, `answer_comparative_regime.py`, `answer_shared.py`) to delegate. Future "change `-` to `•`" is a 1-line PR instead of a 4-file grep.
+
+### §8.2 — Presentation invariants test suite (✅ shipped)
+
+`tests/test_presentation_invariants.py` — 21 tests pinning: bullet/nested-bullet prefixes, numbered start-at-N, bold-asterisk wrapping, section heading shape, numeric bolding for digits / percentages / money / years / list-of-quantities, anchor preservation (`(art. 147 ET)`, `(arts. 147 y 290 ET)`, `(Decreto 624 de 1989)`, `(Ley 1819 de 2016)`), idempotence. Catches LLM drift, polish-disabled regressions, and refactor regressions deterministically.
+
+### §8.3 — Typed `POLISH_RULES` registry + post-hoc transformer pipeline (✅ shipped)
+
+`answer_llm_polish.py` refactored: the inline prose `REGLAS INVIOLABLES` block is now composed from a `tuple[PromptRule, ...]` registry. Each `PromptRule` carries `id`, `category` (`structural | semantic | presentational | tonal`), `prompt_text`, optional `post_apply: Callable[[str], str]`, and `surfaces: tuple[str, ...]` (default `("main_chat",)`). The 10 existing rules are converted; the new `numeric_format_bold` rule has `post_apply=format_numbers_with_bold` from `presentation.py`.
+
+Crucially, `_apply_post_hoc_transformers()` runs over BOTH the polished output AND every template-fallback path — so numeric bolding is enforced even when polish is disabled, the adapter is missing, the LLM times out, or anchors got stripped. Presentational invariants no longer depend on LLM cooperation.
+
+**Protected-span set** (numbers inside these stay un-bolded so legal citations and dates render correctly): `(art. N ET)` paren anchors, inline `Ley/Decreto/Resolución/Sentencia N de YYYY`, inline `art. N #M ET` references, ISO/Latin/Spanish-month dates (`2026-04-29`, `29/04/2026`, `31-dic-2016`), `pre-YYYY`/`post-YYYY` temporal markers, `AG YYYY`/`PA YYYY` fiscal-period abbreviations, already-bolded numbers (idempotence).
+
+### Status
+
+✅ **Shipped 2026-05-10.** All 21 presentation tests + 9 polish-contract tests + 52 phase3/phase1/background-jobs smoke tests green (82/82). Verified: numeric-bold post-hoc fires on `npm run dev:staging` even when polish is disabled. Pre-existing failure on `test_phase2_graph_scaffolds::test_audit_corpus_documents_maps_imported_folders_to_expected_topics` confirmed unrelated (reproduces on clean main).
+
+### Follow-ups (still 💡 idea)
+
+- **§8.4 — Apply registry to Normativa surface.** `Normativa/sections.py` builds answers via parallel non-shared helpers; the surface drift means the numeric-bold rule does not yet apply there. Extend by passing `surface="normativa"` through Normativa's assembly path and giving rules the right `surfaces=` tuples. Effort: ~2 hours including test fixtures.
+- **§8.5 — Validators alongside transformers.** `PromptRule` today supports `post_apply` (transformer). Add an optional `validate: Callable[[template, polished], bool]` to model the existing `_preserves_required_anchors` check inside the same registry, eliminating the lone post-hoc check still living outside the registry. Effort: ~1 hour.
+- **§8.6 — Spanish-number-words → digits transformer.** Today the prompt asks the LLM to write `12` not `doce`; if the LLM ignores the instruction, no fallback corrects it. A small dictionary + word-boundary transformer (`_SPELLED_NUMBERS_ES` exists as scaffolding) would close the loop. Effort: ~3 hours including handling compound numerals like `veintiuno`, `ciento sesenta`.
+
+---
+
+## §9 What's NOT here (deliberately)
 
 - **Free-text LLM rolling summary as an immediate deliverable** — explicitly deferred per §3 Level 3 with binding reopen conditions. Don't reopen without all three triggers.
 - **Lowering the coherence-gate threshold** — `feedback_thresholds_no_lower` + the gate is doing its job per `next_v3 §13.10.x`. Diagnostic in §1 targets upstream causes.

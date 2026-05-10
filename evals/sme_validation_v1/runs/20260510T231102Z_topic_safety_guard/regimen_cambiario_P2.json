@@ -1,0 +1,12 @@
+{
+  "qid": "regimen_cambiario_P2",
+  "topic_key_expected": "regimen_cambiario",
+  "profile": "P2_operativa",
+  "message": "Mi cliente, una SAS importadora, le va a pagar $80.000 USD a un proveedor en Alemania por una máquina que importó. ¿Qué declaración de cambio le toca presentar, en qué momento y a través de quién? ¿Necesita abrir cuenta de compensación o puede hacerlo a través de su banco habitual?",
+  "http_status": -1,
+  "latency_ms": 0,
+  "captured_utc": "2026-05-10T23:16:25.306132+00:00",
+  "response": {
+    "_transport_error": "URLError(ConnectionRefusedError(61, 'Connection refused'))"
+  }
+}

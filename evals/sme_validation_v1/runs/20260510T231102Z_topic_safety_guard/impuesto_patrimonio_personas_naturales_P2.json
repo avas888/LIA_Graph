@@ -1,0 +1,12 @@
+{
+  "qid": "impuesto_patrimonio_personas_naturales_P2",
+  "topic_key_expected": "impuesto_patrimonio_personas_naturales",
+  "profile": "P2_operativa",
+  "message": "Mi cliente persona natural tiene a 1 de enero de 2026: una casa donde vive avaluada en $1.800 millones, un apartamento que arrienda valorado en $900 millones, acciones en su SAS por $1.500 millones, vehículos por $200 millones y efectivo en bancos por $150 millones. ¿Tiene que declarar y pagar impuesto al patrimonio? ¿Qué se le excluye y a qué tarifa?",
+  "http_status": -1,
+  "latency_ms": 0,
+  "captured_utc": "2026-05-10T23:16:25.305494+00:00",
+  "response": {
+    "_transport_error": "URLError(ConnectionRefusedError(61, 'Connection refused'))"
+  }
+}
