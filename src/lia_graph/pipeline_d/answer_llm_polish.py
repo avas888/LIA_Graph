@@ -29,20 +29,25 @@ _POLISH_FLAG_ENV = "LIA_LLM_POLISH_ENABLED"
 
 @dataclass(frozen=True)
 class PromptRule:
-    """One polish-time rule. Has a category so future tooling can filter
-    by intent (e.g. apply only presentational rules to the Normativa
-    surface), a Spanish prompt fragment for the LLM, and an optional
-    ``post_apply`` transformer that enforces the rule deterministically
-    after the LLM returns — or instead of the LLM, when polish is
-    skipped. Validators (e.g. anchor preservation) can be added later as
-    a separate optional callable; today the anchor check still lives
-    inline in ``polish_graph_native_answer``.
+    """One polish-time rule.
+
+    - ``post_apply``: transformer run after the LLM (or on the template
+      when polish was skipped). Enforces the rule deterministically.
+    - ``validate``: predicate ``(template, polished) -> bool`` that
+      rejects an LLM output when it violated the rule — caller falls
+      back to the template. Used for invariants like "every anchor that
+      was in the draft is still in the polished version."
+    - ``rejection_reason``: short diagnostic label surfaced in the
+      polish ``skip_reason`` when ``validate`` returns False. Falls
+      back to ``f"rule_violated:{id}"`` if not set.
     """
 
     id: str
     category: str  # "structural" | "semantic" | "presentational" | "tonal"
     prompt_text: str
     post_apply: Callable[[str], str] | None = None
+    validate: Callable[[str, str], bool] | None = None
+    rejection_reason: str | None = None
     surfaces: tuple[str, ...] = field(default=("main_chat",))
 
 
@@ -54,6 +59,8 @@ POLISH_RULES: tuple[PromptRule, ...] = (
             "Preservá TODAS las referencias inline al Estatuto Tributario con la forma "
             "(art. X ET) o (arts. X y Y ET). No inventés nuevas; no borrés las existentes."
         ),
+        validate=lambda template, polished: _preserves_required_anchors(template, polished),
+        rejection_reason="anchors_stripped",
     ),
     PromptRule(
         id="no_disclaimers",
@@ -123,6 +130,7 @@ POLISH_RULES: tuple[PromptRule, ...] = (
             "el borrador. La negrita aplica a la cifra en prosa, no a la cita normativa."
         ),
         post_apply=format_numbers_with_bold,
+        surfaces=("main_chat", "normativa"),
     ),
     PromptRule(
         id="no_invented_article_descriptions",
@@ -160,6 +168,26 @@ def _apply_post_hoc_transformers(text: str, *, surface: str = "main_chat") -> st
             continue
         text = rule.post_apply(text)
     return text
+
+
+def _validate_against_rules(
+    template: str,
+    polished: str,
+    *,
+    surface: str = "main_chat",
+) -> tuple[bool, str | None]:
+    """Run every rule's ``validate`` predicate. Returns ``(ok, reason)``.
+
+    ``ok`` is False if any rule rejected the polished text. ``reason``
+    is the failed rule's ``rejection_reason`` (or a generic
+    ``rule_violated:<id>`` if the rule didn't declare one).
+    """
+    for rule in POLISH_RULES:
+        if rule.validate is None or surface not in rule.surfaces:
+            continue
+        if not rule.validate(template, polished):
+            return False, rule.rejection_reason or f"rule_violated:{rule.id}"
+    return True, None
 
 
 def _polish_enabled() -> bool:
@@ -249,10 +277,11 @@ def polish_graph_native_answer(
         base_diag["skip_reason"] = "empty_llm_output"
         return _apply_post_hoc_transformers(template_answer), base_diag
 
-    if not _preserves_required_anchors(template_answer, polished):
+    ok, reason = _validate_against_rules(template_answer, polished)
+    if not ok:
         base_diag.update(_runtime_diag_from_resolution(resolution))
         base_diag["mode"] = "rejected"
-        base_diag["skip_reason"] = "anchors_stripped"
+        base_diag["skip_reason"] = reason
         return _apply_post_hoc_transformers(template_answer), base_diag
 
     base_diag.update(_runtime_diag_from_resolution(resolution))

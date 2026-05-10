@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from .shared import NormativaSynthesis
+from .shared import NormativaSynthesis, apply_normativa_presentation
 
 
 def build_normativa_modal_payload(result: NormativaSynthesis) -> dict[str, Any]:
+    result = apply_normativa_presentation(result)
     payload: dict[str, Any] = {
         "lead": result.lead,
         "hierarchy_summary": result.hierarchy_summary,
@@ -33,6 +34,7 @@ def build_normativa_analysis_payload(
     related_documents: list[dict[str, Any]],
     recommended_actions: list[dict[str, Any]],
 ) -> dict[str, Any]:
+    synthesis = apply_normativa_presentation(synthesis)
     return {
         "title": title,
         "document_family": str(profile.get("document_family") or context.get("document_family") or "generic").strip(),

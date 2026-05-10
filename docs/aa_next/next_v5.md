@@ -867,11 +867,19 @@ Crucially, `_apply_post_hoc_transformers()` runs over BOTH the polished output A
 
 ✅ **Shipped 2026-05-10.** All 21 presentation tests + 9 polish-contract tests + 52 phase3/phase1/background-jobs smoke tests green (82/82). Verified: numeric-bold post-hoc fires on `npm run dev:staging` even when polish is disabled. Pre-existing failure on `test_phase2_graph_scaffolds::test_audit_corpus_documents_maps_imported_folders_to_expected_topics` confirmed unrelated (reproduces on clean main).
 
-### Follow-ups (still 💡 idea)
+### §8.4 — Apply numeric-bold rule to Normativa surface (✅ shipped 2026-05-10)
 
-- **§8.4 — Apply registry to Normativa surface.** `Normativa/sections.py` builds answers via parallel non-shared helpers; the surface drift means the numeric-bold rule does not yet apply there. Extend by passing `surface="normativa"` through Normativa's assembly path and giving rules the right `surfaces=` tuples. Effort: ~2 hours including test fixtures.
-- **§8.5 — Validators alongside transformers.** `PromptRule` today supports `post_apply` (transformer). Add an optional `validate: Callable[[template, polished], bool]` to model the existing `_preserves_required_anchors` check inside the same registry, eliminating the lone post-hoc check still living outside the registry. Effort: ~1 hour.
-- **§8.6 — Spanish-number-words → digits transformer.** Today the prompt asks the LLM to write `12` not `doce`; if the LLM ignores the instruction, no fallback corrects it. A small dictionary + word-boundary transformer (`_SPELLED_NUMBERS_ES` exists as scaffolding) would close the loop. Effort: ~3 hours including handling compound numerals like `veintiuno`, `ciento sesenta`.
+`normativa/shared.py` now exposes `apply_normativa_presentation(synthesis)` that walks every user-visible text field on a `NormativaSynthesis` (lead, hierarchy/applicability/professional impact summaries, relations, caution, next-steps, and each section's title + body) through `format_numbers_with_bold`. `normativa/assembly.py:build_normativa_modal_payload` and `build_normativa_analysis_payload` now run their synthesis input through the helper before emitting the payload, so the modal sees the same bolded-numbers shape as the chat answer.
+
+**Surface-isolation contract preserved.** The boundary test `test_normativa_surface_does_not_import_main_chat_answer_layers` requires Normativa modules to NOT import from `pipeline_d.answer_*`. Resolution: Normativa imports `format_numbers_with_bold` directly from the neutral `pipeline_d/presentation.py` (primitives only, no answer-layer concerns). The `POLISH_RULES` registry's `surfaces=("main_chat", "normativa")` field is discoverability metadata; each surface owns its own application path.
+
+### §8.5 — Validators alongside transformers in PromptRule (✅ shipped 2026-05-10)
+
+`PromptRule` gained two fields: `validate: Callable[[str, str], bool] | None` (rejects polished output that violates the rule) and `rejection_reason: str | None` (the diagnostic label surfaced in `skip_reason`). The existing `_preserves_required_anchors` check is now expressed as `validate=...` on the `anchor_preserve` rule with `rejection_reason="anchors_stripped"` (preserves the legacy diagnostic string used by tests). `polish_graph_native_answer` calls a new `_validate_against_rules(template, polished)` helper instead of the inline anchor check — every future `validate=` callable on any rule fires through the same path. Generic fallback diagnostic for rules without an explicit `rejection_reason`: `f"rule_violated:{rule.id}"`.
+
+### §8.6 — Spanish-number-words → digits transformer (still 💡 idea)
+
+Today the prompt asks the LLM to write `12` not `doce`; if the LLM ignores the instruction, no fallback corrects it. A small dictionary + word-boundary transformer (`_SPELLED_NUMBERS_ES` exists as scaffolding) would close the loop. Effort: ~3 hours including handling compound numerals like `veintiuno`, `ciento sesenta`. Add as a new `PromptRule(id="spelled_numbers_to_digits", post_apply=spell_to_digits, surfaces=("main_chat", "normativa"))`.
 
 ---
 

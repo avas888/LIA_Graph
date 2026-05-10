@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
+
+from ..pipeline_d.presentation import format_numbers_with_bold
 
 
 _INTERNAL_NOISE_RE = re.compile(
@@ -32,6 +34,38 @@ class NormativaSynthesis:
     next_steps: tuple[str, ...] = ()
     sections: tuple[NormativaSection, ...] = ()
     diagnostics: dict[str, Any] = field(default_factory=dict)
+
+
+def apply_normativa_presentation(synthesis: NormativaSynthesis) -> NormativaSynthesis:
+    """Run cross-surface presentation transformers (numeric bolding, etc.)
+    over every user-visible text field. Returns a new
+    ``NormativaSynthesis`` with the transformed text. Diagnostics are
+    passed through unchanged.
+
+    Imports transformers directly from the neutral primitives module so
+    Normativa stays isolated from main_chat's answer layers — the
+    boundary contract enforced by ``test_normativa_surface_does_not_
+    import_main_chat_answer_layers``. The ``POLISH_RULES`` registry in
+    ``answer_llm_polish.py`` declares ``surfaces=("main_chat",
+    "normativa")`` on the matching rules as discoverability metadata.
+    """
+    def _t(text: str) -> str:
+        return format_numbers_with_bold(text)
+
+    return replace(
+        synthesis,
+        lead=_t(synthesis.lead),
+        hierarchy_summary=_t(synthesis.hierarchy_summary),
+        applicability_summary=_t(synthesis.applicability_summary),
+        professional_impact=_t(synthesis.professional_impact),
+        relations_summary=_t(synthesis.relations_summary),
+        caution_text=_t(synthesis.caution_text),
+        next_steps=tuple(_t(step) for step in synthesis.next_steps),
+        sections=tuple(
+            NormativaSection(id=sec.id, title=_t(sec.title), body=_t(sec.body))
+            for sec in synthesis.sections
+        ),
+    )
 
 
 def clean_text(value: Any, *, max_chars: int = 320) -> str:

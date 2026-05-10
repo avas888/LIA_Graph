@@ -10,6 +10,16 @@ from __future__ import annotations
 
 import pytest
 
+from lia_graph.normativa.shared import (
+    NormativaSection,
+    NormativaSynthesis,
+    apply_normativa_presentation,
+)
+from lia_graph.pipeline_d.answer_llm_polish import (
+    POLISH_RULES,
+    _apply_post_hoc_transformers,
+    _validate_against_rules,
+)
 from lia_graph.pipeline_d.presentation import (
     BULLET_PREFIX,
     NESTED_BULLET_PREFIX,
@@ -129,3 +139,101 @@ class TestFormatNumbersWithBold:
         # not a deterministic transform.
         out = format_numbers_with_bold(raw + " Plazo de 12 años.")
         assert "**12** años" in out
+
+
+# §8.4 — Normativa surface application of presentational rules
+
+
+class TestNormativaSurfacePresentation:
+    def test_numeric_bold_rule_targets_normativa(self) -> None:
+        """The numeric_format_bold rule must declare normativa as a target
+        surface so the chat-flagged style applies to the modal too."""
+        rule = next(r for r in POLISH_RULES if r.id == "numeric_format_bold")
+        assert "normativa" in rule.surfaces
+        assert "main_chat" in rule.surfaces
+
+    def test_polish_rules_metadata_marks_numeric_bold_for_both_surfaces(self) -> None:
+        """The registry's ``surfaces`` field is the cross-surface contract:
+        any rule listed for both must be applied by both surfaces (each
+        surface owns its own application path so the boundary test in
+        ``test_normativa_surface.py`` stays satisfied)."""
+        rule = next(r for r in POLISH_RULES if r.id == "numeric_format_bold")
+        assert set(rule.surfaces) == {"main_chat", "normativa"}
+        assert rule.post_apply is format_numbers_with_bold
+
+    def test_apply_normativa_presentation_walks_every_text_field(self) -> None:
+        synthesis = NormativaSynthesis(
+            lead="Vence en 30 días.",
+            hierarchy_summary="Rango: 6 niveles.",
+            applicability_summary="Aplica desde 2025.",
+            professional_impact="Riesgo del 25%.",
+            relations_summary="Cita art. 147 ET y 12 normas conexas.",
+            caution_text="Sanción del 50%.",
+            next_steps=("Revisa en 5 días.", "Confirma con 3 anclas."),
+            sections=(
+                NormativaSection(id="scope", title="Vigencia 2024", body="Periodo de 12 meses."),
+            ),
+        )
+        out = apply_normativa_presentation(synthesis)
+        assert out.lead == "Vence en **30** días."
+        assert out.hierarchy_summary == "Rango: **6** niveles."
+        assert out.applicability_summary == "Aplica desde **2025**."
+        assert out.professional_impact == "Riesgo del **25%**."
+        # Inline `art. 147 ET` is protected — its number stays plain.
+        assert "art. 147 ET" in out.relations_summary
+        assert "**12** normas" in out.relations_summary
+        assert out.caution_text == "Sanción del **50%**."
+        assert out.next_steps == ("Revisa en **5** días.", "Confirma con **3** anclas.")
+        assert out.sections[0].title == "Vigencia **2024**"
+        assert out.sections[0].body == "Periodo de **12** meses."
+
+    def test_apply_normativa_presentation_preserves_diagnostics(self) -> None:
+        synthesis = NormativaSynthesis(lead="x", diagnostics={"answered_in": 12})
+        out = apply_normativa_presentation(synthesis)
+        assert out.diagnostics == {"answered_in": 12}
+
+
+# §8.5 — Registry-driven validate (anchor preservation lives inside POLISH_RULES)
+
+
+class TestPromptRuleValidateRegistry:
+    def test_anchor_preserve_rule_has_validate(self) -> None:
+        rule = next(r for r in POLISH_RULES if r.id == "anchor_preserve")
+        assert rule.validate is not None
+        assert rule.rejection_reason == "anchors_stripped"
+
+    def test_validate_against_rules_passes_when_anchors_intact(self) -> None:
+        template = "Compensa según (art. 147 ET) durante 12 años."
+        polished = "Aplica (art. 147 ET) por 12 períodos."
+        ok, reason = _validate_against_rules(template, polished)
+        assert ok
+        assert reason is None
+
+    def test_validate_against_rules_rejects_when_anchors_stripped(self) -> None:
+        template = "Compensa según (art. 147 ET) durante 12 años."
+        polished = "Aplica durante 12 períodos."  # anchor removed
+        ok, reason = _validate_against_rules(template, polished)
+        assert not ok
+        assert reason == "anchors_stripped"
+
+    def test_unknown_rule_id_falls_back_to_generic_reason(self) -> None:
+        """If a rule lacks ``rejection_reason``, _validate emits a generic
+        identifier — proves the fallback works for future rules."""
+        from dataclasses import replace as _replace
+
+        from lia_graph.pipeline_d import answer_llm_polish as polish
+
+        custom = _replace(
+            polish.POLISH_RULES[0],
+            id="custom_test_rule",
+            validate=lambda t, p: False,
+            rejection_reason=None,
+        )
+        original = polish.POLISH_RULES
+        polish.POLISH_RULES = (custom,) + original
+        try:
+            ok, reason = _validate_against_rules("x", "y")
+            assert not ok
+            assert reason == "rule_violated:custom_test_rule"
+        finally:
+            polish.POLISH_RULES = original
