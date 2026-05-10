@@ -435,13 +435,23 @@ async function startServer(env) {
   const host = String(env.LIA_UI_HOST || DEFAULT_HOST).trim() || DEFAULT_HOST;
   const port = String(env.LIA_UI_PORT || DEFAULT_PORT).trim() || DEFAULT_PORT;
   const portNumber = Number(port);
-  const portBusy = Number.isFinite(portNumber)
-    ? await waitForPort(host, portNumber, 1000)
-    : false;
-  if (portBusy) {
-    fail(
-      `Port ${port} on ${host} is already in use. Stop the existing server or rerun with LIA_UI_PORT=<other-port>.`
-    );
+  if (Number.isFinite(portNumber)) {
+    const portBusy = await waitForPort(host, portNumber, 1000);
+    if (portBusy) {
+      log(`Port ${port} on ${host} is held; attempting to free it before starting the server.`);
+      const freed = await freePortIfHeld(portNumber);
+      if (!freed) {
+        fail(
+          `Port ${port} on ${host} is already in use and could not be freed. Stop the existing server or rerun with LIA_UI_PORT=<other-port>.`
+        );
+      }
+      const stillBusy = await waitForPort(host, portNumber, 500);
+      if (stillBusy) {
+        fail(
+          `Port ${port} on ${host} is still in use after reclaim attempt. Stop the existing server or rerun with LIA_UI_PORT=<other-port>.`
+        );
+      }
+    }
   }
 
   log(`Starting UI server on http://${host}:${port} ...`);
