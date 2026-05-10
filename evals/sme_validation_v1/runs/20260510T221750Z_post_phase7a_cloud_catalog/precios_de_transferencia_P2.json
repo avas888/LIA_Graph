@@ -1,0 +1,1102 @@
+{
+  "qid": "precios_de_transferencia_P2",
+  "topic_key_expected": "precios_de_transferencia",
+  "profile": "P2_operativa",
+  "message": "Mi cliente es una SAS de software con ingresos de $4.200 millones y patrimonio bruto de $1.800 millones. Le paga $250 millones al año a su empresa hermana en México (los mismos socios tienen el 70% allá) por servicios de desarrollo. ¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas? ¿Y qué plazos tiene para entregarlas?",
+  "http_status": 200,
+  "latency_ms": 56763,
+  "captured_utc": "2026-05-10T22:25:58.416882+00:00",
+  "response": {
+    "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+    "run_id": "pd_db1410afd92d4bd58879d8ce6b812979",
+    "answer_markdown": "No pude ubicar evidencia del tema **sector_cultura** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "answer_concise": "No pude ubicar evidencia del tema **sector_cultura** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "pipeline_trace": {
+        "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-10T22:25:01.656611+00:00",
+        "total_ms": 52781.09,
+        "step_count": 45,
+        "steps": [
+          {
+            "ts_utc": "2026-05-10T22:25:01.656629+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-10T22:25:01.656611+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:01.656806+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.18,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 359,
+              "message_preview": "Mi cliente es una SAS de software con ingresos de $4.200 millones y patrimonio bruto de $1.800 millones. Le paga $250 millones al año a su empresa hermana en México (los mismos socios tienen el 70% allá) por servicios de desarrollo. ¿Está o",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:01.687585+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 30.96,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:01.687852+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 31.23,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:01.707064+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 50.44,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 359,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:50.284430+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.exception",
+            "status": "error",
+            "elapsed_ms": 48627.67,
+            "message": "LLM call raised: RuntimeError",
+            "details": {
+              "error": "RuntimeError('Gemini HTTP 429: [{\\n  \"error\": {\\n    \"code\": 429,\\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\\\nPlease retry in 9.805131828s.\",\\n    \"status\": \"RESOURCE_EXHAUSTED\",\\n    \"details\": [\\n      {\\n        \"@type\": \"type.googleapis.com/google.rpc.Help\",\\n        \"links\": [\\n          {\\n            \"description\": \"Learn more about Gemini API quotas\",\\n            \"url\": \"https://ai.google.dev/gemini-api/docs/rate-limits\"\\n          }\\n        ]\\n      },\\n      {\\n        \"@type\": \"type.googleapis.com/google.rpc.QuotaFailure\",\\n        \"violations\": [\\n          {\\n            \"quotaMetric\": \"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\\n            \"quotaId\": \"GenerateRequestsPerDayPerProjectPerModel-FreeTier\",\\n            \"quotaDimensions\": {\\n              \"location\": \"global\",\\n              \"model\": \"gemini-2.5-flash\"\\n            },\\n            \"quotaValue\": \"20\"\\n          }\\n        ]\\n      },\\n      {\\n        \"@type\": \"type.googleapis.com/google.rpc.RetryInfo\",\\n        \"retryDelay\": \"9s\"\\n      }\\n    ]\\n  }\\n}\\n]')",
+              "elapsed_ms_call": 48577.57,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:50.287823+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.miss",
+            "status": "fallback",
+            "elapsed_ms": 48631.08,
+            "message": "LLM path returned None; falling through to keyword fallback / no_topic_detected.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:50.320282+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 48663.54,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "sector_cultura",
+              "top_score": 3,
+              "confidence": 0.36,
+              "ranked_top_3": [
+                [
+                  "sector_cultura",
+                  3
+                ],
+                [
+                  "patrimonio_fiscal_renta",
+                  3
+                ],
+                [
+                  "procedimiento_tributario",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.727780+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 50071.02,
+            "message": null,
+            "details": {
+              "owner_trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+              "requested_trace_id": "89ee2607-639b-421d-97d0-79704e6381c6"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.728503+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 50071.75,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "sector_cultura",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "fallback:auto_detected_from_keywords",
+              "topic_notice": "Tu pregunta es de sector cultura, por lo cual utilizaremos nuestra base de datos sector cultura.",
+              "message_preview": "Mi cliente es una SAS de software con ingresos de $4.200 millones y patrimonio bruto de $1.800 millones. Le paga $250 millones al año a su empresa hermana en México (los mismos socios tienen el 70% allá) por servicios de desarrollo. ¿Está o",
+              "message_chars": 359
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.728950+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 50072.21,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+                "¿Y qué plazos tiene para entregarlas?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.729190+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 50072.45,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 88,
+              "message_preview": "¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.752774+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 50096.04,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.752912+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 50096.18,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.752979+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 50096.24,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.767640+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 50110.91,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.767704+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 50110.97,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "sector_cultura"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.767757+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 50111.02,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+              "effective_topic": "sector_cultura",
+              "secondary_topics": [],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.780455+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 50123.72,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.780519+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 50123.78,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "sector_cultura ¿Está obligada a presentar declaración informativa, documentación comprobatoria o ambas?",
+              "query_text_chars": 103
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:51.780572+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 50123.84,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "sector_cultura",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "sector_cultura"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:52.465523+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 50808.77,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::808",
+                "suin_1132325::260-11",
+                "suin_1104445::1104449",
+                "suin_1132325::580-1",
+                "suin_1132325::651",
+                "suin_30019323::4",
+                "suin_30036488::30190359",
+                "suin_1132325::641"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:52.466020+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 50809.28,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:52.466141+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 50809.4,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:52.626105+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 50969.34,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-10"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-10"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.070946+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 51414.18,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 0,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-10"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.071242+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 51414.5,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 37,
+              "message_preview": "¿Y qué plazos tiene para entregarlas?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.097297+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 51440.56,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.097520+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 51440.78,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.097597+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 51440.86,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.115581+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 51458.84,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "procedimiento_tributario",
+              "top_score": 1,
+              "confidence": 0.24,
+              "ranked_top_3": [
+                [
+                  "procedimiento_tributario",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.115789+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 51459.05,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y qué plazos tiene para entregarlas?",
+              "original_effective_topic": "procedimiento_tributario",
+              "original_mode": "fallback",
+              "original_confidence": 0.24,
+              "parent_topic": "sector_cultura"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.115868+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 51459.13,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y qué plazos tiene para entregarlas?",
+              "effective_topic": "sector_cultura",
+              "secondary_topics": [],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.129657+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 51472.92,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.129788+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 51473.05,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "sector_cultura procedimiento_tributario ¿Y qué plazos tiene para entregarlas?",
+              "query_text_chars": 77
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.129866+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 51473.13,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "sector_cultura",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "sector_cultura"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.890379+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 52233.62,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "suin_1132325::235-2",
+                "suin_1132325::808",
+                "suin_1132325::555-1",
+                "suin_1104445::1104449",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_30019323::4",
+                "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_NORMATIVA_FIR-N01-marco-legal-firmez",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Regimen_Cambiario_Normativa_Base_",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.890911+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 52234.17,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:53.891263+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 52234.52,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:54.047243+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 52390.48,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-10"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-10"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:54.387073+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 52730.28,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-10"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:54.387619+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 52730.85,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                0,
+                7,
+                5
+              ],
+              "after": [
+                0,
+                7,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "260-11",
+                  "fuentes-y-referencias",
+                  "808",
+                  "1104449",
+                  "580-1",
+                  "235-2",
+                  "555-1"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:54.387864+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 52731.11,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "sector_cultura",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "sector_cultura",
+                "articles_top_topic": null,
+                "reason": "no_primary_articles"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:54.437521+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 52780.77,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": true,
+              "reason": "chunks_off_topic",
+              "source": "support_documents",
+              "router_topic": "sector_cultura",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:25:54.437754+00:00",
+            "trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.abstention",
+            "status": "fallback",
+            "elapsed_ms": 52781.01,
+            "message": "Evidence-coherence gate refused (enforce mode).",
+            "details": {
+              "refusal_reason": "chunks_off_topic",
+              "refusal_source": "support_documents"
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 57,
+        "output_tokens": 37,
+        "total_tokens": 94,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "sector_cultura",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de sector cultura, por lo cual utilizaremos nuestra base de datos sector cultura.",
+    "topic_adjustment_reason": "fallback:auto_detected_from_keywords",
+    "coverage_notice": "No pude ubicar evidencia del tema **sector_cultura** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "topic": "sector_cultura",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778451901,
+      "expires_at": 1778455501,
+      "token_id": "1dc255a55d144f229e306811c9f13fb2"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_450d2ce9b31a",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 57,
+        "output_tokens": 37,
+        "total_tokens": 94
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+      "last_run_id": "pd_db1410afd92d4bd58879d8ce6b812979",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_450d2ce9b31a",
+    "chat_run_id": "cr_20260510_222550_976408db",
+    "metrics": {
+      "latency_ms": 54766.65,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 57,
+          "output_tokens": 37,
+          "total_tokens": 94,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_450d2ce9b31a",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 57,
+          "output_tokens": 37,
+          "total_tokens": 94
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "89ee2607-639b-421d-97d0-79704e6381c6",
+        "last_run_id": "pd_db1410afd92d4bd58879d8ce6b812979",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 1.6
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "sector_cultura",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "3b457246ade04d5d87533fadc6fa7863"
+  }
+}

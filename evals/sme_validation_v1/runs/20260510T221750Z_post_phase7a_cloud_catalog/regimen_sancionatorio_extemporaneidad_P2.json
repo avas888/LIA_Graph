@@ -1,0 +1,678 @@
+{
+  "qid": "regimen_sancionatorio_extemporaneidad_P2",
+  "topic_key_expected": "regimen_sancionatorio_extemporaneidad",
+  "profile": "P2_operativa",
+  "message": "Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera vez que esto le pasa?",
+  "http_status": 200,
+  "latency_ms": 8347,
+  "captured_utc": "2026-05-10T22:19:53.065733+00:00",
+  "response": {
+    "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+    "run_id": "pd_25a08cfe0085473fbdcba5866de1e466",
+    "answer_markdown": "No pude ubicar evidencia del tema **calendario_obligaciones** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "answer_concise": "No pude ubicar evidencia del tema **calendario_obligaciones** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "pipeline_trace": {
+        "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-10T22:19:44.719701+00:00",
+        "total_ms": 5736.65,
+        "step_count": 22,
+        "steps": [
+          {
+            "ts_utc": "2026-05-10T22:19:44.719707+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-10T22:19:44.719701+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:44.719787+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.08,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 259,
+              "message_preview": "Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera ve",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:44.736412+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 16.71,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:44.737007+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 17.3,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:44.751060+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 31.35,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 259,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:45.169456+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.exception",
+            "status": "error",
+            "elapsed_ms": 449.74,
+            "message": "LLM call raised: RuntimeError",
+            "details": {
+              "error": "RuntimeError('Gemini HTTP 403: [{\\n  \"error\": {\\n    \"code\": 403,\\n    \"message\": \"Your project has been denied access. Please contact support.\",\\n    \"status\": \"PERMISSION_DENIED\"\\n  }\\n}\\n]')",
+              "elapsed_ms_call": 418.52,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:45.169944+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.miss",
+            "status": "fallback",
+            "elapsed_ms": 450.24,
+            "message": "LLM path returned None; falling through to keyword fallback / no_topic_detected.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:45.197447+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 477.74,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "calendario_obligaciones",
+              "top_score": 1,
+              "confidence": 0.24,
+              "ranked_top_3": [
+                [
+                  "calendario_obligaciones",
+                  1
+                ],
+                [
+                  "declaracion_renta",
+                  1
+                ],
+                [
+                  "procedimiento_tributario",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:46.766941+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 2047.21,
+            "message": null,
+            "details": {
+              "owner_trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+              "requested_trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:46.774866+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 2055.14,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "calendario_obligaciones",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "fallback:auto_detected_from_keywords",
+              "topic_notice": "Tu pregunta es de calendario obligaciones, por lo cual utilizaremos nuestra base de datos calendario obligaciones.",
+              "message_preview": "Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reducción si es la primera ve",
+              "message_chars": 259
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:46.804420+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 2084.7,
+            "message": null,
+            "details": {
+              "plan_query_mode": "definition_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:46.804559+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 2084.85,
+            "message": null,
+            "details": {
+              "plan_query_mode": "definition_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "calendario_obligaciones Un cliente persona natural se le pasó el plazo y va a presentar la renta del 2024 dos meses tarde. El impuesto a cargo le da $4.500.000. ¿Cuánto le toca pagar de sanción más intereses, y le puedo aplicar alguna reduc",
+              "query_text_chars": 283
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:46.804661+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 2084.95,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": "calendario_obligaciones",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "calendario_obligaciones"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:47.837896+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 3118.16,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_INVERSIONES_INCENTIVOS_consolidado_Ley-1429-2010.md::fuente",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::235-2",
+                "suin_1132325::808",
+                "suin_1104445::1104449",
+                "suin_1132325::651",
+                "suin_30019323::4",
+                "suin_1132325::260-11",
+                "suin_1132325::240",
+                "suin_30036488::30190359"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:47.838476+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 3118.76,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:47.838818+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 3119.11,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:48.001655+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 3281.92,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-10"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-10"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:50.425276+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 5705.52,
+            "message": null,
+            "details": {
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-10"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "calendario_obligaciones",
+              "planner_query_mode": "definition_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:50.425658+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 5705.92,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                0,
+                4,
+                4
+              ],
+              "after": [
+                0,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "fuentes-y-referencias",
+                  "260-11",
+                  "235-2",
+                  "808"
+                ],
+                "candidate_count": 4,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:50.425885+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 5706.15,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "calendario_obligaciones",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "calendario_obligaciones",
+                "articles_top_topic": null,
+                "reason": "no_primary_articles"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:50.455948+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 5736.22,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": true,
+              "reason": "chunks_off_topic",
+              "source": "support_documents",
+              "router_topic": "calendario_obligaciones",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-10T22:19:50.456270+00:00",
+            "trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.abstention",
+            "status": "fallback",
+            "elapsed_ms": 5736.55,
+            "message": "Evidence-coherence gate refused (enforce mode).",
+            "details": {
+              "refusal_reason": "chunks_off_topic",
+              "refusal_source": "support_documents"
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      }
+    },
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 50,
+        "output_tokens": 37,
+        "total_tokens": 87,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "calendario_obligaciones",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de calendario obligaciones, por lo cual utilizaremos nuestra base de datos calendario obligaciones.",
+    "topic_adjustment_reason": "fallback:auto_detected_from_keywords",
+    "coverage_notice": "No pude ubicar evidencia del tema **calendario_obligaciones** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **precios_de_transferencia**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "topic": "calendario_obligaciones",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778451584,
+      "expires_at": 1778455184,
+      "token_id": "d2dc65d821d84f269f591c1c2196bf3a"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_6125f13c47e0",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 50,
+        "output_tokens": 37,
+        "total_tokens": 87
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+      "last_run_id": "pd_25a08cfe0085473fbdcba5866de1e466",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_6125f13c47e0",
+    "chat_run_id": "cr_20260510_221945_13a2a75a",
+    "metrics": {
+      "latency_ms": 7154.66,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 50,
+          "output_tokens": 37,
+          "total_tokens": 87,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_6125f13c47e0",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 50,
+          "output_tokens": 37,
+          "total_tokens": 87
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "7d3a58cf-865b-4148-ae4f-d39d3a951942",
+        "last_run_id": "pd_25a08cfe0085473fbdcba5866de1e466",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 1.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "calendario_obligaciones",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "8221a0ca40ce4721b8047b424c3f1e77"
+  }
+}
