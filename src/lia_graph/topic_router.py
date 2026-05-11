@@ -206,14 +206,36 @@ def _log_topics_without_keywords() -> None:
     exclusively by a ``_SUBTOPIC_OVERRIDE_PATTERNS`` entry (for example
     ``gravamen_movimiento_financiero_4x1000`` — see the ``Tough calls``
     section in the backlog doc); those are surfaced at INFO, not WARNING.
-    Everything else is a silent routing hole and deserves a louder signal.
+    Topics marked deprecated in ``config/topic_taxonomy.json`` are also
+    suppressed — they're intentionally empty pending corpus reclassification
+    (next_v5 §9.2). Everything else is a silent routing hole.
     """
+    import json
+    from pathlib import Path
+
+    deprecated_topics: set[str] = set()
+    taxonomy_path = Path(__file__).resolve().parents[2] / "config" / "topic_taxonomy.json"
+    if taxonomy_path.exists():
+        try:
+            with taxonomy_path.open(encoding="utf-8") as fh:
+                data = json.load(fh)
+            items = data.get("topics", []) if isinstance(data, dict) else data
+            for entry in items:
+                if isinstance(entry, dict) and entry.get("status") == "deprecated":
+                    key = entry.get("key")
+                    if isinstance(key, str):
+                        deprecated_topics.add(key)
+        except (OSError, json.JSONDecodeError):
+            pass
+
     override_served = {topic for _pattern, topic, _kw in _SUBTOPIC_OVERRIDE_PATTERNS}
     for topic in get_supported_topics():
         entry = _TOPIC_KEYWORDS.get(topic, {})
         has_keywords = bool(entry.get("strong") or entry.get("weak"))
         if has_keywords:
             continue
+        if topic in deprecated_topics:
+            continue  # deprecated topic intentionally has no vocabulary
         if topic in override_served:
             logger.info(
                 "topic_router: %r has no keywords but is served by a subtopic-override pattern",

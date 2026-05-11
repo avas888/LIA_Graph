@@ -30,6 +30,63 @@ def test_topic_keywords_every_entry_has_at_least_one_bucket() -> None:
             assert all(isinstance(k, str) and k.strip() for k in keywords)
 
 
+def _deprecated_topics_from_taxonomy() -> set[str]:
+    """Read deprecated topic keys from config/topic_taxonomy.json so the
+    invariant test honors authoritative deprecation state instead of a
+    duplicated python list."""
+    import json
+    from pathlib import Path
+
+    path = Path(__file__).resolve().parents[1] / "config" / "topic_taxonomy.json"
+    if not path.exists():
+        return set()
+    with path.open(encoding="utf-8") as fh:
+        data = json.load(fh)
+    deprecated: set[str] = set()
+    for entry in data.get("topics", []) if isinstance(data, dict) else data:
+        if not isinstance(entry, dict):
+            continue
+        if entry.get("status") == "deprecated" and entry.get("key"):
+            deprecated.add(str(entry["key"]))
+    return deprecated
+
+
+def test_no_silent_routing_holes_among_active_supported_topics() -> None:
+    """Every active (non-deprecated) supported topic must have at least
+    one strong keyword OR be served by a `_SUBTOPIC_OVERRIDE_PATTERNS`
+    entry — otherwise it's a silent routing hole (the keyword scorer
+    returns 0, the topic-safety guard fires false positives, and queries
+    in that domain abstain).
+
+    Companion invariant to ``test_subtopic_override_targets_are_all_gate_
+    scoreable``: that one catches override targets missing from the gate
+    vocabulary; this one catches gate-known topics with empty buckets.
+    Together they pin "no router-producible topic is unscoreable."
+
+    next_v5 §9.2 — surfaced by the long-standing `retencion_en_la_fuente`
+    + `rentas_exentas` warnings on every server boot.
+    """
+    from lia_graph.topic_router import get_supported_topics
+
+    deprecated = _deprecated_topics_from_taxonomy()
+    override_served = {entry[1] for entry in _SUBTOPIC_OVERRIDE_PATTERNS}
+    silent_holes: list[str] = []
+    for topic in get_supported_topics():
+        if topic in deprecated:
+            continue
+        if topic in override_served:
+            continue  # served via override, vocabulary is intentional
+        entry = _TOPIC_KEYWORDS.get(topic, {})
+        if entry.get("strong") or entry.get("weak"):
+            continue
+        silent_holes.append(topic)
+    assert not silent_holes, (
+        f"Active supported topics with no scoring vocabulary: "
+        f"{sorted(silent_holes)}. Add strong/weak keyword buckets in "
+        f"_TOPIC_KEYWORDS or mark the topic as deprecated in topic_taxonomy.json."
+    )
+
+
 def test_subtopic_override_targets_are_all_gate_scoreable() -> None:
     """Every topic the router can produce via _SUBTOPIC_OVERRIDE_PATTERNS
     must also be a key in _TOPIC_KEYWORDS so the coherence-gate has
@@ -60,6 +117,42 @@ def test_costos_deducciones_renta_keywords_match_art_107_query() -> None:
     matched_strong = [kw for kw in buckets["strong"] if kw in query_lower]
     assert matched_strong, (
         f"No strong keyword matches the canonical art. 107 query. "
+        f"Tried: {buckets['strong'][:5]}…"
+    )
+
+
+def test_topics_are_parent_child_compatible_honors_taxonomy_axis() -> None:
+    """§9.1 regression — parent↔child topic pairs are compatible so the
+    safety guard doesn't false-positive when a parent-routed query
+    retrieves child-tagged articles."""
+    from lia_graph.topic_router_keywords import topics_are_parent_child_compatible
+
+    assert topics_are_parent_child_compatible("declaracion_renta", "costos_deducciones_renta")
+    assert topics_are_parent_child_compatible("costos_deducciones_renta", "declaracion_renta")
+    assert topics_are_parent_child_compatible("declaracion_renta", "rentas_exentas")
+    # Same topic is compatible with itself.
+    assert topics_are_parent_child_compatible("iva", "iva")
+    # Siblings (two children sharing a parent) are NOT compatible —
+    # that would loosen the guard too far.
+    assert not topics_are_parent_child_compatible(
+        "costos_deducciones_renta", "rentas_exentas"
+    )
+    # Unrelated topics stay incompatible.
+    assert not topics_are_parent_child_compatible("iva", "laboral")
+    # Empty strings short-circuit to False.
+    assert not topics_are_parent_child_compatible("", "iva")
+    assert not topics_are_parent_child_compatible("iva", "")
+
+
+def test_rentas_exentas_keywords_match_canonical_query() -> None:
+    """§9.2 regression: rentas_exentas was previously empty; this confirms
+    the new vocabulary scores a canonical art. 206 ET query."""
+    buckets = _TOPIC_KEYWORDS["rentas_exentas"]
+    query = "¿cómo se aplica la exención del 25% laboral del artículo 206 del ET?"
+    query_lower = query.lower()
+    matched_strong = [kw for kw in buckets["strong"] if kw in query_lower]
+    assert matched_strong, (
+        f"No strong keyword matches the canonical rentas_exentas query. "
         f"Tried: {buckets['strong'][:5]}…"
     )
 
@@ -187,9 +280,13 @@ def test_laboral_real_queries_still_route_via_compounds_or_override() -> None:
         )
 
 
-# --- Backlog item C step 3 (model topic) — retencion_en_la_fuente ---
+# --- Backlog item C step 3 (model topic) — retencion routing ---
+# `retencion_en_la_fuente` was deprecated 2026-04-25 (see comment in
+# topic_router_keywords.py line 644 + topic_taxonomy.json status:deprecated,
+# merged_into:["retencion_fuente_general"]). The canonical topic for
+# retention queries is now `retencion_fuente_general`. next_v5 §9.2.
 
-def test_retencion_en_la_fuente_routes_canonical_queries() -> None:
+def test_retencion_routes_canonical_queries_to_merged_topic() -> None:
     for query in (
         "cuál es la tarifa de retención en la fuente para servicios",
         "el cliente es autorretenedor de renta",
@@ -197,6 +294,6 @@ def test_retencion_en_la_fuente_routes_canonical_queries() -> None:
         "base mínima de retención para compras",
     ):
         result = resolve_chat_topic(message=query, requested_topic=None)
-        assert result.effective_topic == "retencion_en_la_fuente", (
-            f"{query!r} -> {result.effective_topic!r} (expected retencion_en_la_fuente)"
+        assert result.effective_topic == "retencion_fuente_general", (
+            f"{query!r} -> {result.effective_topic!r} (expected retencion_fuente_general)"
         )

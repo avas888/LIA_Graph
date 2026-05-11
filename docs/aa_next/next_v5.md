@@ -859,13 +859,17 @@ If 7/7 clears the macro+cost gates but SME finds the answers got *more* generic 
 - All presentation/normativa/polish tests still green (38/38).
 - Phase3 graph-planner end-to-end smokes green.
 
-### §9.1 — Parent/child topic compatibility in topic-safety guard (still 💡 idea)
+### §9.1 — Parent/child topic compatibility in topic-safety guard (✅ shipped 2026-05-10)
 
-Surfaced during §9 implementation: the safety guard's misalignment check treats parent (`declaracion_renta`) vs child (`costos_deducciones_renta`) topics as a hard mismatch when they should be compatible. A query routed to the parent that retrieves child-tagged articles is actually MORE precise routing, not a safety incident. Define a parent→children topic map (likely in `topic_router_keywords.py` next to `_SUBTOPIC_OVERRIDE_PATTERNS`) and have `topic_safety.detect_topic_misalignment` treat membership in the same parent group as compatible. Effort: ~2 hours including a regression fixture for the art. 115 historical-recap case.
+Loaded `child→parent` map at module import from the `parent_key` field of `config/topic_taxonomy.json` (12 children currently mapped, mostly under `declaracion_renta`). New helper `topics_are_parent_child_compatible(a, b)` returns True when `a == b` OR either is the other's parent. `topic_safety.detect_topic_misalignment` checks compatibility BEFORE the lexical-misalignment verdict and emits `reason="parent_child_compatible"` when the parent↔child axis matches. Sibling pairs (two children sharing a parent) stay incompatible — loosening that further would over-permit. Verified live: art. 115 historical-recap query with `topic="declaracion_renta"` flipped from `topic_safety_abstention` → `graph_native` with diagnostics confirming `parent_child_compatible`.
 
-### §9.2 — Pre-existing `retencion_en_la_fuente` keyword gap (still 💡 idea)
+### §9.2 — Silent routing holes for active supported topics (✅ shipped 2026-05-10)
 
-Discovered during §9 testing — the existing test `test_retencion_en_la_fuente_routes_canonical_queries` fails on clean main; CLAUDE.md's startup warnings even mention `topic 'retencion_en_la_fuente' has no registered keywords`. Same shape as §9: a router-target topic with no scoring vocabulary. Add strong/weak buckets following the same pattern. The §9 invariant test wouldn't catch this case because `retencion_en_la_fuente` isn't an `_SUBTOPIC_OVERRIDE_PATTERNS` target — it's a `_TOPIC_KEYWORDS` key that EXISTS but is empty. Extend the invariant to also assert "every topic referenced anywhere in the routing/scoring path has at least one strong keyword." Effort: ~1 hour.
+Two findings during implementation:
+1. **`retencion_en_la_fuente` was deprecated 2026-04-25** (per the SME spot-review comment in `topic_router_keywords.py:644`; `config/topic_taxonomy.json` carries `status: "deprecated"`, `merged_into: ["retencion_fuente_general"]`). The lingering test `test_retencion_en_la_fuente_routes_canonical_queries` was stale post-deprecation — renamed to `test_retencion_routes_canonical_queries_to_merged_topic` and updated to expect the merged-into target. The boot-time warning is now suppressed for deprecated topics.
+2. **`rentas_exentas` was a real silent routing hole** — added strong/weak vocabulary covering arts. 206/207-2/235-2 ET (rentas de trabajo exentas, ZESE, ZOMAC, comunidad andina, exención del 25% laboral, etc.).
+
+**New invariant** `test_no_silent_routing_holes_among_active_supported_topics` reads deprecated topics from the taxonomy JSON and asserts every remaining supported topic has at least one strong/weak keyword OR is served by an `_SUBTOPIC_OVERRIDE_PATTERNS` entry. Companion to the §9 invariant `test_subtopic_override_targets_are_all_gate_scoreable` — together they pin "no router-producible topic is unscoreable."
 
 ---
 

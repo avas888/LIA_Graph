@@ -45,7 +45,64 @@ in ``weak`` pending adversarial evidence.
 
 from __future__ import annotations
 
+import json
 import re
+from pathlib import Path
+
+
+_TAXONOMY_PATH = Path(__file__).resolve().parents[2] / "config" / "topic_taxonomy.json"
+
+
+def _load_topic_parent_keys() -> dict[str, str]:
+    """Read child→parent topic relationships from `topic_taxonomy.json`.
+
+    The taxonomy is the source of truth for which topics are sub-topics
+    of broader ones (e.g. `costos_deducciones_renta` is a child of
+    `declaracion_renta`). Loaded once at module import; mutating the
+    taxonomy file requires a process restart.
+    """
+    if not _TAXONOMY_PATH.exists():
+        return {}
+    try:
+        with _TAXONOMY_PATH.open(encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (OSError, json.JSONDecodeError):
+        return {}
+    items = data.get("topics", []) if isinstance(data, dict) else data
+    parents: dict[str, str] = {}
+    for entry in items:
+        if not isinstance(entry, dict):
+            continue
+        key = entry.get("key")
+        parent = entry.get("parent_key")
+        if isinstance(key, str) and isinstance(parent, str) and key and parent:
+            parents[key] = parent
+    return parents
+
+
+_TOPIC_PARENT_KEYS: dict[str, str] = _load_topic_parent_keys()
+
+
+def topics_are_parent_child_compatible(a: str, b: str) -> bool:
+    """True when two topic keys are the same OR in a parent/child
+    relationship per the taxonomy. Used by the topic-safety guard so
+    queries routed to a parent (`declaracion_renta`) don't false-positive
+    when retrieval surfaces a child-tagged article (`costos_deducciones_renta`)
+    — the more specific topic is more precise routing, not a mismatch.
+
+    Sibling pairs (two children sharing the same parent) are NOT
+    compatible — that would loosen the guard too far. Only the explicit
+    parent↔child axis qualifies.
+    """
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    if _TOPIC_PARENT_KEYS.get(a) == b:
+        return True
+    if _TOPIC_PARENT_KEYS.get(b) == a:
+        return True
+    return False
 
 
 _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
@@ -2308,6 +2365,53 @@ _TOPIC_KEYWORDS: dict[str, dict[str, tuple[str, ...]]] = {
             "limitacion al efectivo",
             "deducible",
             "no procedente",
+        ),
+    },
+    "rentas_exentas": {
+        "strong": (
+            "rentas exentas",
+            "renta exenta",
+            "ingresos exentos",
+            "ingreso exento",
+            "exención de renta",
+            "exencion de renta",
+            "exención del 25% laboral",
+            "exencion del 25% laboral",
+            "art. 206 et",
+            "artículo 206 et",
+            "articulo 206 et",
+            "art. 207-2 et",
+            "artículo 207-2 et",
+            "articulo 207-2 et",
+            "art. 235-2 et",
+            "artículo 235-2 et",
+            "articulo 235-2 et",
+            "rentas de trabajo exentas",
+            "cesantías como renta exenta",
+            "cesantias como renta exenta",
+            "auxilio de cesantía exento",
+            "auxilio de cesantia exento",
+            "ZESE renta exenta",
+            "incentivos zomac",
+            "renta exenta extraterritorial",
+            "renta exenta CAN",
+            "renta exenta comunidad andina",
+        ),
+        "weak": (
+            "renta exenta de trabajo",
+            "indemnización exenta",
+            "indemnizacion exenta",
+            "comunidad andina",
+            "decisión 578",
+            "decision 578",
+            "convenio doble tributación",
+            "convenio doble tributacion",
+            "depuración renta exenta",
+            "depuracion renta exenta",
+            "límite de 25 uvt",
+            "limite de 25 uvt",
+            "exención laboral",
+            "exencion laboral",
         ),
     },
     "impuesto_consumo": {

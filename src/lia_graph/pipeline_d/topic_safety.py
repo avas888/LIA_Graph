@@ -36,7 +36,7 @@ from typing import Any
 
 from ..pipeline_c.contracts import PipelineCRequest
 from ..topic_router import _score_topic_keywords
-from ..topic_router_keywords import _TOPIC_KEYWORDS
+from ..topic_router_keywords import _TOPIC_KEYWORDS, topics_are_parent_child_compatible
 from .contracts import GraphEvidenceBundle
 
 
@@ -190,6 +190,23 @@ def detect_topic_misalignment(
 
     top_topic, top_score = scored[0]
     router_score = next((score for topic, score in scored if topic == router_topic), 0)
+
+    # next_v5 §9.1 — parent/child topic compatibility. A query routed to
+    # `declaracion_renta` whose retrieved articles dominantly score on
+    # the child `costos_deducciones_renta` is MORE precise routing, not
+    # a misalignment. Honor the explicit parent↔child axis from
+    # `config/topic_taxonomy.json`. Sibling pairs (two children sharing
+    # a parent) stay misaligned — that loosening would be too permissive.
+    if topics_are_parent_child_compatible(router_topic, top_topic):
+        return {
+            "misaligned": False,
+            "router_topic": router_topic,
+            "articles_top_topic": top_topic,
+            "router_score_on_articles": router_score,
+            "top_score_on_articles": top_score,
+            "ranked_article_topics": scored[:5],
+            "reason": "parent_child_compatible",
+        }
 
     misaligned = (
         top_topic != router_topic

@@ -213,19 +213,17 @@ def test_phase3_retriever_support_docs_keep_practical_or_expert_context_when_ava
 
 
 def test_phase3_pipeline_d_end_to_end_smoke_for_historical_reform_query() -> None:
-    # Art. 115 ET (deducción de impuestos pagados) lives in the
-    # `costos_deducciones_renta` sub-topic of `declaracion_renta`. Before
-    # the 2026-05-10 router/coherence-gate vocabulary expansion (next_v5
-    # §9), the sub-topic had no scoring vocabulary so the broader
-    # `declaracion_renta` was always the safe default. Now retrieval
-    # correctly resolves to the more specific topic — the smoke uses the
-    # post-fix accurate route. Parent/child topic compatibility in the
-    # safety guard is logged as a §9 follow-up.
+    # Art. 115 ET routes to the parent `declaracion_renta`; retrieval
+    # surfaces articles that score on the child `costos_deducciones_renta`.
+    # Pre next_v5 §9.1 this triggered a false-positive misalignment;
+    # parent/child topic compatibility (added in §9.1) now treats the
+    # parent-child axis as compatible so the historical-recap pipeline
+    # serves the answer instead of abstaining.
     response = run_pipeline_d(
         PipelineCRequest(
             message="¿Qué decía el artículo 115 antes de la Ley 2277 de 2022?",
-            topic="costos_deducciones_renta",
-            requested_topic="costos_deducciones_renta",
+            topic="declaracion_renta",
+            requested_topic="declaracion_renta",
         )
     )
 
