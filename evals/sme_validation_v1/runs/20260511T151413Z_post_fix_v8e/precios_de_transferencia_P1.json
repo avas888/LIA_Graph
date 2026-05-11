@@ -1,0 +1,686 @@
+{
+  "qid": "precios_de_transferencia_P1",
+  "topic_key_expected": "precios_de_transferencia",
+  "profile": "P1_directa",
+  "message": "¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?",
+  "http_status": 200,
+  "latency_ms": 21455,
+  "captured_utc": "2026-05-11T15:17:11.585034+00:00",
+  "response": {
+    "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+    "run_id": "pd_31cc9f9098e64447b012f69bcd61abb4",
+    "answer_markdown": "Detecté que los artículos primarios recuperados pertenecen al tema **costos_deducciones_renta**, no al tema clasificado **precios_de_transferencia**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+    "answer_concise": "Detecté que los artículos primarios recuperados pertenecen al tema **costos_deducciones_renta**, no al tema clasificado **precios_de_transferencia**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_primary_off_topic",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "pipeline_trace": {
+        "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-11T15:16:50.131509+00:00",
+        "total_ms": 14065.84,
+        "step_count": 21,
+        "steps": [
+          {
+            "ts_utc": "2026-05-11T15:16:50.131534+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-11T15:16:50.131509+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:50.131789+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.27,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 150,
+              "message_preview": "¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:50.148108+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 16.58,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:50.148330+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 16.81,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:50.162524+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 31.0,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 150,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:51.349503+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1217.97,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "precios_de_transferencia",
+              "confidence": 1.0,
+              "threshold": 0.75,
+              "reason": "La consulta pregunta directamente sobre los umbrales que obligan a una empresa al régimen de precios de transferencia, lo cual es el tema central de 'precios_de_transferencia'.",
+              "elapsed_ms_call": 1187.81,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:51.349910+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1218.39,
+            "message": null,
+            "details": {
+              "effective_topic": "precios_de_transferencia",
+              "confidence": 1.0,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:57.843383+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 7711.85,
+            "message": null,
+            "details": {
+              "owner_trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+              "requested_trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:57.843807+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 7712.28,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "precios_de_transferencia",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta pregunta directamente sobre los umbrales que obligan a una empresa al régimen de precios de transferencia, lo cual es el tema central de 'precios_de_transferencia'.",
+              "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+              "message_preview": "¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?",
+              "message_chars": 150
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:57.876988+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 7745.46,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": "documentacion_y_obligaciones_de_precios_de_transferencia",
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:57.877671+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7746.15,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": "documentacion_y_obligaciones_de_precios_de_transferencia",
+              "query_text_preview": "precios_de_transferencia sector_cultura ¿Cuáles son los umbrales de patrimonio o ingresos a partir de los cuales una empresa colombiana queda obligada al régimen de precios de transferencia?",
+              "query_text_chars": 190
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:58.290943+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 8159.4,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "precios_de_transferencia",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": "documentacion_y_obligaciones_de_precios_de_transferencia",
+              "subtopic_boost": 1.5,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": "documentacion_y_obligaciones_de_precios_de_transferencia",
+              "router_topic": "precios_de_transferencia",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:16:59.329470+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 9197.94,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LO",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md::20-1-cu-ndo-",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md::notas-al-pie",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LO",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LO",
+                "CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretacio",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretac",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::235-2",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-9"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:17:00.965511+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 10833.98,
+            "message": null,
+            "details": {
+              "anchor_row_count": 19,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:17:00.965852+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 10834.33,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 41,
+              "delta": 17
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:17:01.153783+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 11022.25,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 41,
+              "rows_out": 41,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 41,
+              "chunks_kept": 41,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 41,
+                "chunks_kept": 41,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:17:04.164459+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 14032.91,
+            "message": null,
+            "details": {
+              "primary_count": 1,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 41,
+                "chunks_kept": 41,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "118"
+              ],
+              "tema_first_topic_key": "precios_de_transferencia",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:17:04.164908+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 14033.38,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                5,
+                5
+              ],
+              "after": [
+                1,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "118",
+                  "118-1",
+                  "12",
+                  "262",
+                  "8",
+                  "1"
+                ],
+                "candidate_count": 6,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:17:04.191707+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 14060.18,
+            "message": null,
+            "details": {
+              "misaligned": true,
+              "kind": null,
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": true,
+                "router_topic": "precios_de_transferencia",
+                "articles_top_topic": "costos_deducciones_renta",
+                "router_score_on_articles": 0,
+                "top_score_on_articles": 3,
+                "ranked_article_topics": [
+                  [
+                    "costos_deducciones_renta",
+                    3
+                  ]
+                ],
+                "reason": "lexical_misaligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:17:04.192283+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 14060.76,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": true,
+              "reason": "primary_off_topic",
+              "source": "primary",
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:17:04.197092+00:00",
+            "trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.abstention",
+            "status": "fallback",
+            "elapsed_ms": 14065.57,
+            "message": "Evidence-coherence gate refused (enforce mode).",
+            "details": {
+              "refusal_reason": "primary_off_topic",
+              "refusal_source": "primary"
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "skipped",
+      "polish_skip_reason": "topic_safety_abstention"
+    },
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 24,
+        "output_tokens": 30,
+        "total_tokens": 54,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "precios_de_transferencia",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+    "topic_adjustment_reason": "La consulta pregunta directamente sobre los umbrales que obligan a una empresa al régimen de precios de transferencia, lo cual es el tema central de 'precios_de_transferencia'.",
+    "coverage_notice": "Detecté que los artículos primarios recuperados pertenecen al tema **costos_deducciones_renta**, no al tema clasificado **precios_de_transferencia**. Para evitar una respuesta autoritativa sobre el tema equivocado, confirma manualmente o reformula la consulta.",
+    "topic": "precios_de_transferencia",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_402d025ee48e",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 24,
+        "output_tokens": 30,
+        "total_tokens": 54
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+      "last_run_id": "pd_31cc9f9098e64447b012f69bcd61abb4",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_402d025ee48e",
+    "chat_run_id": "cr_20260511_151652_cc47a979",
+    "metrics": {
+      "latency_ms": 19884.9,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 24,
+          "output_tokens": 30,
+          "total_tokens": 54,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_primary_off_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_402d025ee48e",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 24,
+          "output_tokens": 30,
+          "total_tokens": 54
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "833cf8eb-cad2-4be6-8cfa-318451e2d783",
+        "last_run_id": "pd_31cc9f9098e64447b012f69bcd61abb4",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "precios_de_transferencia",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "0cda2566faa54bc5996b8021154f4915"
+  }
+}

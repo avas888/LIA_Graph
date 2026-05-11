@@ -1,0 +1,857 @@
+{
+  "qid": "descuentos_tributarios_renta_P2",
+  "topic_key_expected": "descuentos_tributarios_renta",
+  "profile": "P2_operativa",
+  "message": "Mi cliente tiene una panadería SAS, compró un horno industrial en 2025 por $120 millones más IVA del 19%. Quiere saber si puede tomar todo el IVA como descuento en la declaración de este año o si tiene que repartirlo. ¿Qué pasa si el descuento le queda más grande que el impuesto a cargo?",
+  "http_status": 200,
+  "latency_ms": 21972,
+  "captured_utc": "2026-05-11T15:32:54.703492+00:00",
+  "response": {
+    "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+    "run_id": "pd_51d37b67a2234083961874c24cb79268",
+    "answer_markdown": "**Respuestas directas**\n- **¿Puede tomar todo el IVA como descuento en la declaración de este año o tiene que repartirlo?**\n  *   El IVA pagado en la compra del horno industrial, que es un activo fijo, no se puede tomar como IVA descontable en la declaración de este año.\n  *   Este IVA se debe llevar como un mayor valor del activo, es decir, se capitaliza. No es un IVA que se pueda descontar directamente del impuesto a cargo.\n  *   El impuesto a las ventas recae sobre la venta de bienes corporales muebles e inmuebles (art. 420 ET) y se consideran ventas todos los actos que impliquen la transferencia del dominio (art. 421 ET). Sin embargo, para activos fijos, el tratamiento del IVA es diferente.\n- **¿Qué pasa si el descuento le queda más grande que el impuesto a cargo?**\n  *   Si el IVA descontable (en otros casos donde sí aplica) es mayor que el impuesto a cargo, se genera un saldo a favor.\n  *   Este saldo a favor se puede arrastrar a los períodos siguientes para compensar futuros impuestos a cargo.\n  *   También se puede solicitar en devolución o compensación, siguiendo el procedimiento establecido para saldos a favor de IVA.\n\n**Ruta sugerida**\n*   Registrar el valor del horno industrial, incluyendo el IVA pagado, como un mayor valor del activo fijo en la contabilidad de la panadería.\n*   Este activo se depreciará fiscalmente, y la depreciación será un costo o deducción en la declaración de renta, no en la de IVA.\n*   Asegurarse de que la factura de compra del horno cumpla con todos los requisitos legales para su validez como soporte contable y fiscal.\n\n**Riesgos y condiciones**\n*   El principal riesgo es tomar el IVA del activo fijo como descontable, lo que llevaría a una inconsistencia en la declaración de IVA y posibles sanciones por parte de la DIAN.\n*   Es fundamental diferenciar el IVA de compras de bienes y servicios para la operación diaria (que sí puede ser descontable) del IVA de activos fijos.\n*   La correcta clasificación del IVA en la compra de activos fijos es clave para evitar errores en la declaración y posibles requerimientos.\n\n**Soportes clave**\n*   Factura de compra del horno industrial, donde se discrimine claramente el valor del bien y el IVA pagado.\n*   Registros contables que reflejen la capitalización del IVA como parte del costo del activo fijo.\n*   Documentación que acredite la naturaleza del horno como activo fijo para la operación de la panadería.",
+    "answer_concise": "**Respuestas directas**\n- **¿Puede tomar todo el IVA como descuento en la declaración de este año o tiene que repartirlo?**\n  *   El IVA pagado en la compra del horno industrial, que es un activo fijo, no se puede tomar como IVA descontable en la declaración de este año.\n  *   Este IVA se debe llevar como un mayor valor del activo, es decir, se capitaliza. No es un IVA que se pueda descontar directamente del impuesto a cargo.\n  *   El impuesto a las ventas recae sobre la venta de bienes corporales muebles e inmuebles (art. 420 ET) y se consideran ventas todos los actos que impliquen la transferencia del dominio (art. 421 ET). Sin embargo, para activos fijos, el tratamiento del IVA es diferente.\n- **¿Qué pasa si el descuento le queda más grande que el impuesto a cargo?**\n  *   Si el IVA descontable (en otros casos donde sí aplica) es mayor que el impuesto a cargo, se genera un saldo a favor.\n  *   Este saldo a favor se puede arrastrar a los períodos siguientes para compensar futuros impuestos a cargo.\n  *   También se puede solicitar en devolución o compensación, siguiendo el procedimiento establecido para saldos a favor de IVA.\n\n**Ruta sugerida**\n*   Registrar el valor del horno industrial, incluyendo el IVA pagado, como un mayor valor del activo fijo en la contabilidad de la panadería.\n*   Este activo se depreciará fiscalmente, y la depreciación será un costo o deducción en la declaración de renta, no en la de IVA.\n*   Asegurarse de que la factura de compra del horno cumpla con todos los requisitos legales para su validez como soporte contable y fiscal.\n\n**Riesgos y condiciones**\n*   El principal riesgo es tomar el IVA del activo fijo como descontable, lo que llevaría a una inconsistencia en la declaración de IVA y posibles sanciones por parte de la DIAN.\n*   Es fundamental diferenciar el IVA de compras de bienes y servicios para la operación diaria (que sí puede ser descontable) del IVA de activos fijos.\n*   La correcta clasificación del IVA en la compra de activos fijos es clave para evitar errores en la declaración y posibles requerimientos.\n\n**Soportes clave**\n*   Factura de compra del horno industrial, donde se discrimine claramente el valor del bien y el IVA pagado.\n*   Registros contables que reflejen la capitalización del IVA como parte del costo del activo fijo.\n*   Documentación que acredite la naturaleza del horno como activo fijo para la operación de la panadería.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L02-guia-practica-reteIVA-saldos-favor.md",
+        "logical_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L02-guia-practica-reteIVA-saldos-favor.md",
+        "authority": "Loggro",
+        "topic": "iva",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L02-guia-practica-reteIVA-saldos-favor.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L02-guia-practica-reteIVA-saldos-favor.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L02-guia-practica-reteIVA-saldos-favor.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L02-guia-practica-reteIVA-saldos-favor.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Iva (Loggro)",
+        "legal_reference": "Iva (Loggro)",
+        "search_query": "Iva (Loggro) Loggro colombia IVA L02 — Guía Práctica: ReteIVA, Saldos a Favor y Devoluciones de IVA",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Puede tomar todo el IVA como descuento en la declaración de este año o tiene que repartirlo?** El IVA pagado en la compra del horno industrial, que es un activo fijo, no se puede tomar como",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "logical_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "iva",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "legal_reference": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "search_query": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor DIAN / fuente oficial colombia IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "resolucion",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Qué pasa si el descuento le queda más grande que el impuesto a cargo?** Si el IVA descontable (en otros casos donde sí aplica) es mayor que el impuesto a cargo, se genera un saldo a favor.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L01-guia-practica-declaracion-IVA-formulario-300.md",
+        "logical_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L01-guia-practica-declaracion-IVA-formulario-300.md",
+        "authority": "Loggro",
+        "topic": "iva",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L01-guia-practica-declaracion-IVA-formulario-300.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L01-guia-practica-declaracion-IVA-formulario-300.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L01-guia-practica-declaracion-IVA-formulario-300.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L01-guia-practica-declaracion-IVA-formulario-300.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Iva (Loggro)",
+        "legal_reference": "Iva (Loggro)",
+        "search_query": "Iva (Loggro) Loggro colombia IVA L01 — Guía Práctica: Declaración de IVA y Formulario 300",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Puede tomar todo el IVA como descuento en la declaración de este año o tiene que repartirlo?** El IVA pagado en la compra del horno industrial, que es un activo fijo, no se puede tomar como",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_16_Libro3_IVA.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_16_Libro3_IVA.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "iva",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_16_Libro3_IVA.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_16_Libro3_IVA.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_16_Libro3_IVA.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_16_Libro3_IVA.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Tercero — Impuesto sobre las Ventas (IVA)",
+        "legal_reference": "Libro Tercero — Impuesto sobre las Ventas (IVA)",
+        "search_query": "Libro Tercero — Impuesto sobre las Ventas (IVA) DIAN / fuente oficial colombia Libro Tercero — Impuesto sobre las Ventas (IVA)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "formulario_oficial",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "No es un IVA que se pueda descontar directamente del impuesto a cargo.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Artículo modificado por el artículo 173 de la Ley 1819 de 2016. El nuevo texto es el siguiente:*\n\nEl impuesto a las ventas se aplicará sobre:\n\na) La venta de bienes corporales muebles e inmuebles, con excepción de los e",
+      "*Artículo modificado por el artículo 1 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nEn las ventas de aerodinos que tengan el carácter de activos fijos, el pago del impuesto sobre las ventas deberá acreditarse",
+      "*Artículo modificado por el artículo 174 de la Ley 1819 de 2016. El nuevo texto es el siguiente:*\n\nPara los efectos del presente libro, se consideran ventas:\n\na) Todos los actos que impliquen la transferencia del dominio"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "420",
+          "420-1",
+          "421"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 10,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research"
+      },
+      "pipeline_trace": {
+        "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-11T15:32:32.731566+00:00",
+        "total_ms": 14220.8,
+        "step_count": 22,
+        "steps": [
+          {
+            "ts_utc": "2026-05-11T15:32:32.731575+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-11T15:32:32.731566+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:32.731659+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.09,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 288,
+              "message_preview": "Mi cliente tiene una panadería SAS, compró un horno industrial en 2025 por $120 millones más IVA del 19%. Quiere saber si puede tomar todo el IVA como descuento en la declaración de este año o si tiene que repartirlo. ¿Qué pasa si el descue",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:32.748892+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 17.32,
+            "message": null,
+            "details": {
+              "effective_topic": "iva",
+              "confidence": 0.98,
+              "reason": "rule:iva matched iva, iva del 19",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:34.842432+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 2110.85,
+            "message": null,
+            "details": {
+              "owner_trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+              "requested_trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:34.842701+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 2111.13,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "iva",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:iva matched iva, iva del 19",
+              "topic_notice": "Tu pregunta es de iva, por lo cual utilizaremos nuestra base de datos iva.",
+              "message_preview": "Mi cliente tiene una panadería SAS, compró un horno industrial en 2025 por $120 millones más IVA del 19%. Quiere saber si puede tomar todo el IVA como descuento en la declaración de este año o si tiene que repartirlo. ¿Qué pasa si el descue",
+              "message_chars": 288
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:34.864302+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 2132.72,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:34.866685+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 2135.11,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "iva Mi cliente tiene una panadería SAS, compró un horno industrial en 2025 por $120 millones más IVA del 19%. Quiere saber si puede tomar todo el IVA como descuento en la declaración de este año o si tiene que repartirlo. ¿Qué pasa si el de",
+              "query_text_chars": 292
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:34.867582+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 2136.01,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "iva",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "iva",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:35.685169+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 2953.58,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L02-guia-practica-reteIVA-saldos-favor.md",
+                "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-s",
+                "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-s",
+                "CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L02-guia-practica-reteIVA-saldos-favor.md",
+                "CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L01-guia-practica-declaracion-IVA-formula",
+                "CORE_ya_Arriba_IVA_COMPLETO_LOGGRO_IVA-L01-guia-practica-declaracion-IVA-formula",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_16_Libro3_IVA.md::486",
+                "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-s",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_16_Libro3_IVA.md::437",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-15-descuentos-tributarios.md::15-1-iva-en-ac"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:35.685586+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 2954.01,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:35.685714+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 2954.14,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:35.842076+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 3110.48,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:41.700635+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 8969.04,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [
+                "420",
+                "420-1",
+                "421"
+              ],
+              "tema_first_topic_key": "iva",
+              "planner_query_mode": "general_graph_research"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:41.700954+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 8969.37,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "420",
+                  "420-1",
+                  "421",
+                  "1",
+                  "10",
+                  "173",
+                  "176"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:41.727515+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 8995.92,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "iva",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "iva",
+                "articles_top_topic": "iva",
+                "router_score_on_articles": 4,
+                "top_score_on_articles": 4,
+                "ranked_article_topics": [
+                  [
+                    "iva",
+                    4
+                  ],
+                  [
+                    "precios_de_transferencia",
+                    1
+                  ],
+                  [
+                    "economia_digital_criptoactivos",
+                    1
+                  ],
+                  [
+                    "impuesto_nacional_consumo",
+                    1
+                  ],
+                  [
+                    "activos_exterior",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:41.728553+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 8996.98,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "iva",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:41.728733+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 8997.16,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:41.730915+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 8999.34,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "iva"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:41.731033+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 8999.46,
+            "message": null,
+            "details": {
+              "template_chars": 100
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:46.951479+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 14219.87,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2419,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:46.952111+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 14220.52,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "iva",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T15:32:46.952253+00:00",
+            "trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 14220.67,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 54,
+        "output_tokens": 411,
+        "total_tokens": 465,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "iva",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de iva, por lo cual utilizaremos nuestra base de datos iva.",
+    "topic_adjustment_reason": "rule:iva matched iva, iva del 19",
+    "coverage_notice": null,
+    "topic": "iva",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "active_company_id": null,
+      "integration_id": null,
+      "claims_source": "anonymous"
+    },
+    "billing_context": {
+      "tenant_id": "public",
+      "user_id": null,
+      "company_id": null,
+      "integration_id": null,
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_1c55333c0602",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 54,
+        "output_tokens": 411,
+        "total_tokens": 465
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+      "last_run_id": "pd_51d37b67a2234083961874c24cb79268",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_1c55333c0602",
+    "chat_run_id": "cr_20260511_153233_4bb50ac7",
+    "metrics": {
+      "latency_ms": 19152.81,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 54,
+          "output_tokens": 411,
+          "total_tokens": 465,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_1c55333c0602",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 54,
+          "output_tokens": 411,
+          "total_tokens": 465
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "e752acf2-cf48-4b63-8751-3e7eccdc649f",
+        "last_run_id": "pd_51d37b67a2234083961874c24cb79268",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 6.2
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "iva",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "24b934264c4b474cad1c418f6444c503"
+  }
+}
