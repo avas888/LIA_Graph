@@ -8,6 +8,7 @@
     "dev:staging": "node ./scripts/dev-launcher.mjs staging",
     "dev:staging:check": "node ./scripts/dev-launcher.mjs staging --check",
     "dev:production": "node ./scripts/dev-launcher.mjs production",
+    "build": "npm --prefix frontend ci --no-audit --no-fund && npm --prefix frontend run build:public",
     "frontend:build": "npm --prefix frontend run build:public",
     "test:frontend": "npm --prefix frontend run test:health",
     "test:frontend:all": "npm --prefix frontend run test:all",
