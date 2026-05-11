@@ -26,8 +26,8 @@ For all three leyes, multiple sources work — try DIAN first, fall back to othe
   - Ley 2381/2024: `https://normograma.dian.gov.co/dian/compilacion/docs/ley_2381_2024.htm`
   - Ley 789/2002: `https://normograma.dian.gov.co/dian/compilacion/docs/ley_0789_2002.htm`
 - **Senate (backup):**
-  - Ley 100/1993: `https://www.secretariasenado.gov.co/senado/basedoc/ley_0100_1993.html` (paginated `_pr001.html` etc.)
-  - Ley 789/2002: `https://www.secretariasenado.gov.co/senado/basedoc/ley_0789_2002.html`
+  - Ley 100/1993: `http://www.secretariasenado.gov.co/senado/basedoc/ley_0100_1993.html` (paginated `_pr001.html` etc.)
+  - Ley 789/2002: `http://www.secretariasenado.gov.co/senado/basedoc/ley_0789_2002.html`
 - **Función Pública (Ley 2381 official):** `https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=246356`
 - **UGPP (Ley 789 official guidance):** `https://www.ugpp.gov.co/normas/ley-no-789-de-diciembre-27-de-2002/`
 

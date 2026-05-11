@@ -26,11 +26,11 @@ Articles outside these ranges are NOT needed for this brief — skip them.
 
 The Senate's official site hosts the CST in paginated segments:
 
-- **Master index:** `https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo.html`
+- **Master index:** `http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo.html`
 - The articles you need are spread across these segments:
   - `_pr001.html`, `_pr002.html`, `_pr003.html`, `_pr004.html` (covers Arts. 1 – ~250)
   - `_pr008.html` and onwards through `_pr016.html` (covers Arts. 416+)
-- Full URL pattern: `https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr<NN>.html`
+- Full URL pattern: `http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr<NN>.html`
 
 Open each segment, find the articles in the ranges above, copy them out.
 
@@ -53,7 +53,7 @@ Inside, use headers like:
 
 ```
 ## Artículo 22
-URL: https://www.secretariasenado.gov.co/.../codigo_sustantivo_trabajo_pr001.html
+URL: http://www.secretariasenado.gov.co/.../codigo_sustantivo_trabajo_pr001.html
 
 [full article text, exactly as published, including title and any amendment notes]
 

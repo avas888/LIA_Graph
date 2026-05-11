@@ -36,7 +36,7 @@ For the canonicalizer, DUR 1072 feeds **two phases in parallel**: **Phase E6** (
 |---|---|---|
 | `https://normograma.dian.gov.co/dian/compilacion/docs/decreto_1072_2015.htm` | DUR 1072 full text (all 3 libros) | Primary (DIAN normograma); **to be verified** — 404 observed during brief research |
 | `https://www.mintrabajo.gov.co/documents/20147/.../DUR+Decreto+1072+2015+Actualizado.pdf` | MinTrabajo official PDF (libro 1-3) | Authoritative; structure varies by update cycle |
-| `https://www.secretariasenado.gov.co/senado/basedoc/decreto_1072_2015.html` | Senado legislative base (compilado) | Fallback if DIAN unreachable |
+| `http://www.secretariasenado.gov.co/senado/basedoc/decreto_1072_2015.html` | Senado legislative base (compilado) | Fallback if DIAN unreachable |
 
 **Note:** The master plan (§4.1, E6) confirms the DIAN normograma scraper already handles `decreto.<NUM>.<YEAR>.*` URL patterns. If the DIAN URL is inactive, the MinTrabajo PDF is the authoritative current source; the Secretaría Senado version is a legislative archive (may contain historical versions).
 

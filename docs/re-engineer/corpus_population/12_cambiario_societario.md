@@ -30,9 +30,9 @@ No live scrapers exist for BanRep (K1, K2) or CCo (K3). Ley 222 + Ley 1258 use t
 | https://www.banrep.gov.co/sites/default/files/reglamentacion/compendio-res-ext-1-de-2018.pdf | PDF compendium (full text, all amendments) | ✅ Live | ❌ None | K1 |
 | https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_banrepublica_jd-0001_2018.htm | DIAN hosts Res Ext 1/2018 for reference | ✅ Live | ⚠️ DIAN scraper may reach it | K1 |
 | https://www.banrep.gov.co/es/normatividad | BanRep normatividad index (search for DCIN-83) | ✅ Index | ❌ None | K2 |
-| https://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html | Senate official Código de Comercio (paginated, full text) | ✅ Live | ❌ None (gap #4) | K3 |
-| https://www.secretariasenado.gov.co/senado/basedoc/ley_0222_1995.html | Senate official Ley 222/1995 | ✅ Live | ✅ DIAN ley.* | K4 |
-| https://www.secretariasenado.gov.co/senado/basedoc/ley_1258_2008.html | Senate official Ley 1258/2008 (S.A.S.) | ✅ Live | ✅ DIAN ley.* | K4 |
+| http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html | Senate official Código de Comercio (paginated, full text) | ✅ Live | ❌ None (gap #4) | K3 |
+| http://www.secretariasenado.gov.co/senado/basedoc/ley_0222_1995.html | Senate official Ley 222/1995 | ✅ Live | ✅ DIAN ley.* | K4 |
+| http://www.secretariasenado.gov.co/senado/basedoc/ley_1258_2008.html | Senate official Ley 1258/2008 (S.A.S.) | ✅ Live | ✅ DIAN ley.* | K4 |
 | https://normograma.dian.gov.co/dian/compilacion/docs/ley_222_1995.htm | DIAN mirror of Ley 222 (for consistency) | ✅ Live | ✅ DIAN ley.* | K4 |
 
 ---
@@ -106,7 +106,7 @@ Per master §5:
 
 ### K3 — Código de Comercio (Societies)
 
-1. **Fetch source:** From Senado official repository at https://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html.
+1. **Fetch source:** From Senado official repository at http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html.
    - The Código is paginated (multiple PR segments); ensure full coverage.
    - Relevant range: roughly Arts. 20–100 (general commercial acts), Arts. 98–514 (Libro Segundo, societies proper).
 2. **Identify articles:** Split by "ARTÍCULO N." headings (Senado page is HTML with clear article markers).
@@ -212,8 +212,8 @@ If K1 + K2 are significantly under-reported, the BanRep fixture path (gap #5 fal
 
 - **Impact:** K3 (~60 norms) + J1–J4 (~170 norms) = ~230 norms blocked.
 - **Fix path:** Implement `src/lia_graph/scrapers/senado_codigos.py` (new file) or extend existing `secretaria_senado.py` to map both `cco.art.<N>` and `cst.art.<N>` to their respective Senado URL patterns.
-  - CCo: `https://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr00X.html#ARTÍCULO<N>`.
-  - CST: `https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo.html#ARTÍCULO<N>`.
+  - CCo: `http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio_pr00X.html#ARTÍCULO<N>`.
+  - CST: `http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo.html#ARTÍCULO<N>`.
 - **Fixture fallback:** Recommended for MVP: hand-curate K3 CCo + J1–J4 CST rows directly into corpus without live scraper. Both codes are stable; periodic manual re-check sufficient.
 
 **Gap #5 — BanRep (`res.banrep.*`, `dcin.*`) missing scraper:**

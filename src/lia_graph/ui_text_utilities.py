@@ -124,65 +124,20 @@ def _sb_find_document_row(doc_id: str) -> dict[str, Any] | None:
     return None
 
 
-# ---------------------------------------------------------------------------
-# Normograma DIAN → MinTIC mirror swap
-# ---------------------------------------------------------------------------
-#
-# The DIAN Normograma compilation pages (e.g. `estatuto_tributario.htm`) are
-# served from two canonical hosts with identical paths and content:
-#
-#   DIAN:    https://normograma.dian.gov.co/dian/compilacion/docs/...
-#   MinTIC:  https://normograma.mintic.gov.co/mintic/compilacion/docs/...
-#
-# The ET article corpus stores DIAN URLs with fragment anchors like
-# `estatuto_tributario.htm#807`, but the DIAN host does not reliably honor
-# those fragments — clicking the link lands the user at the top of the page.
-# The MinTIC mirror does honor them, so we prefer MinTIC for user-facing
-# "Ir a documento original" actions.
-#
-# Known breakage (as of 2026-04-05): MinTIC's Let's Encrypt cert for
-# `normograma.mintic.gov.co` expired on Apr 5 19:54:55 2026 GMT because
-# auto-renewal failed on their side. Users must accept the expired-cert
-# browser warning once; afterwards all MinTIC URLs work normally. We
-# prefer MinTIC everywhere (backend + frontend) because DIAN does not
-# honor fragment anchors (#807 etc.) while MinTIC does. The canonical
-# DIAN→MinTIC swap also lives in `contracts/advisory.py` for the Citation
-# model output path.
-#
-# Re-check cert validity before assuming this is still broken:
-#   echo | openssl s_client -servername normograma.mintic.gov.co \
-#     -connect normograma.mintic.gov.co:443 2>/dev/null \
-#     | openssl x509 -noout -dates
-#
-# This helper was historically mirrored by the frontend helper
-# `normogramaMirrorUrl` in `frontend/src/features/chat/citations.ts`, but
-# that UI was retired in a7031e6e and its fallback URL no longer reaches a
-# user-visible rendering surface today. The single source of truth for the
-# user-clickable MinTIC URL is now this backend helper.
-
-_NORMOGRAMA_DIAN_BASE = "https://normograma.dian.gov.co/dian/compilacion/docs"
-_NORMOGRAMA_MINTIC_BASE = "https://normograma.mintic.gov.co/mintic/compilacion/docs"
-
-
-def _prefer_normograma_mintic_mirror(url: str | None) -> str:
-    """Swap a DIAN Normograma URL for its MinTIC mirror equivalent.
-
-    Returns the input unchanged for non-Normograma URLs, URLs already on
-    the MinTIC host, empty strings, or None. Fragment anchors (and any
-    query string) are preserved so `#807` stays intact.
-
-    This is used by the citation-profile "Ir a documento original" action
-    because DIAN's compilation pages do not honor article fragments
-    reliably, while MinTIC's mirror does.
-    """
-    if not url:
-        return ""
-    s = str(url).strip()
-    if not s:
-        return ""
-    if s.startswith(_NORMOGRAMA_DIAN_BASE):
-        return _NORMOGRAMA_MINTIC_BASE + s[len(_NORMOGRAMA_DIAN_BASE):]
-    return s
+# Normograma DIAN → MinTIC mirror and Secretaría del Senado per-section ET
+# URL swaps moved to `ui_normograma_urls.py` once this file crossed 1000 LOC.
+# Re-exported here for back-compat with eager `from .ui_text_utilities import …`
+# consumers; the ui_server lazy registry points lookups at the new module.
+from .ui_normograma_urls import (  # noqa: F401  — re-exported for back-compat
+    _ET_NORMOGRAMA_HOSTS,
+    _ET_SENADO_SECTION_MAP,
+    _NORMOGRAMA_DIAN_BASE,
+    _NORMOGRAMA_MINTIC_BASE,
+    _SECRETARIASENADO_ET_BASE,
+    _load_et_senado_section_map,
+    _prefer_normograma_mintic_mirror,
+    _prefer_secretariasenado_for_et,
+)
 
 
 # The Supabase chunk → markdown reassembler (plus the chunker's

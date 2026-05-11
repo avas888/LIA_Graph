@@ -177,7 +177,13 @@ def _synthesize_ley_official_url(context: dict[str, Any]) -> str:
 
     Returns an empty string if the reference_key or doc_id doesn't contain
     enough info to build a reliable URL.  Pattern:
-    https://www.secretariasenado.gov.co/senado/basedoc/ley_NUMBER_YEAR.html
+    http://www.secretariasenado.gov.co/senado/basedoc/ley_NUMBER_YEAR.html
+
+    HTTP-only on purpose: port 443 is not listening on
+    www.secretariasenado.gov.co as of 2026-05-10. An https:// URL hands
+    the user a connect-timeout. Same constraint as `_prefer_secretariasenado_for_et`
+    in ui_text_utilities.py — see that helper's docstring for the re-check
+    command. Flip both helpers in lockstep if Senado ever turns on HTTPS.
     """
     citation = dict(context.get("citation") or {})
     ref_key = str(citation.get("reference_key") or "").strip().lower()
@@ -192,7 +198,7 @@ def _synthesize_ley_official_url(context: dict[str, Any]) -> str:
     number, year = m.group(1), m.group(2)
     # Secretaría del Senado zero-pads law numbers shorter than 4 digits
     padded = number.zfill(4)
-    return f"https://www.secretariasenado.gov.co/senado/basedoc/ley_{padded}_{year}.html"
+    return f"http://www.secretariasenado.gov.co/senado/basedoc/ley_{padded}_{year}.html"
 
 
 def _resolve_source_action(context: dict[str, Any]) -> dict[str, Any]:
@@ -214,6 +220,14 @@ def _resolve_source_action(context: dict[str, Any]) -> dict[str, Any]:
         _locator = _ui()._citation_et_locator_label(citation)
         if _locator:
             official_url = official_url.split("#")[0] + f"#{_locator}"
+    # Prefer Secretaría del Senado per-section files for ET fragment URLs:
+    # Senado serves ~37 small files instead of MinTIC's 3.35 MB monolith,
+    # eliminating the anchor-scroll race that occasionally drops users at
+    # the top of the page. Falls back to whatever URL it received when the
+    # article is not in config/et_senado_section_map.json (so MinTIC stays
+    # as the safety net).
+    if official_url:
+        official_url = _ui()._prefer_secretariasenado_for_et(official_url)
     # For ley-family documents without an official_url in the corpus,
     # synthesize one from the reference_key / doc_id pointing to the
     # Secretaría del Senado (the legislature's canonical repository).
