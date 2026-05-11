@@ -31,7 +31,7 @@ DIAN normograma. The URL pattern is **slightly different** from regular decretos
 - **URL pattern:** `https://normograma.dian.gov.co/dian/compilacion/docs/decreto_legislativo_<NUM>_<YEAR>.htm`
 - For example: `https://normograma.dian.gov.co/dian/compilacion/docs/decreto_legislativo_417_2020.htm`
 
-If a DIAN URL doesn't work, fallback to the Senate site: `https://www.secretariasenado.gov.co/senado/basedoc/decreto_legislativo_<NUM>_<YEAR>.html`
+If a DIAN URL doesn't work, fallback to the Senate site: `http://www.secretariasenado.gov.co/senado/basedoc/decreto_legislativo_<NUM>_<YEAR>.html`
 
 ## What to deliver per article
 

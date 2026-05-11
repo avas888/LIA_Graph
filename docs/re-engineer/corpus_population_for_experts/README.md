@@ -63,7 +63,7 @@ For **every** document/article you collect, give us **four pieces of information
 1. **The full text**, copied exactly as published. Do not paraphrase. Do not summarize. Keep inline notes (e.g. "Modificado por Ley 2277/2022", "Derogado por Decreto X") inside the text — those notes matter to us.
 2. **The article number or document identifier** — e.g., "Artículo 22", "Sentencia C-481 de 2019", "Oficio DIAN 018424 de 2024".
 3. **The URL** where you found it. **Hard requirement, no exceptions:** the URL must point to the **exact source page** the article came from — not a homepage, not a master index, not a search-results page.
-   * ✅ `https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr001.html` — the specific paginated segment
+   * ✅ `http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr001.html` — the specific paginated segment
    * ✅ `https://normograma.dian.gov.co/dian/compilacion/docs/decreto_1625_2016.htm` — the single-page DUR (same URL across all its articles is fine because that's where they actually live)
    * ❌ `https://normograma.dian.gov.co/` — homepage
    * ❌ `https://www.dian.gov.co/normatividad/Paginas/Resoluciones.aspx` — master index, not the per-resolución page

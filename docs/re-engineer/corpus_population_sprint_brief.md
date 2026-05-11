@@ -162,7 +162,7 @@ For each brief: target count, source URLs (lifted verbatim from each brief's "So
 |---|---|
 | Target | **~250 norms** (E6a/E6b/E6c + J8a/J8b/J8c share rows) |
 | Canonical shape | `decreto.1072.2015.art.<dotted-decimal>` (use article number as printed). YAML E6/J8 patterns target `art.2.2.<X>.*` (riesgos + SST). |
-| Source URLs | DIAN: `https://normograma.dian.gov.co/dian/compilacion/docs/decreto_1072_2015.htm` (**flagged "to be verified — 404 observed" in brief**, so check before fetching at scale). MinTrabajo PDF: `https://www.mintrabajo.gov.co/documents/20147/.../DUR+Decreto+1072+2015+Actualizado.pdf`. Senado fallback: `https://www.secretariasenado.gov.co/senado/basedoc/decreto_1072_2015.html`. |
+| Source URLs | DIAN: `https://normograma.dian.gov.co/dian/compilacion/docs/decreto_1072_2015.htm` (**flagged "to be verified — 404 observed" in brief**, so check before fetching at scale). MinTrabajo PDF: `https://www.mintrabajo.gov.co/documents/20147/.../DUR+Decreto+1072+2015+Actualizado.pdf`. Senado fallback: `http://www.secretariasenado.gov.co/senado/basedoc/decreto_1072_2015.html`. |
 | Scraper | ✅ DIAN URL pattern works (when reachable) |
 | Deliverable | Per-article rows. E6 and J8 share the parsed rows — ingestion only happens once. |
 | Validation gate | E6a ≥ 60, E6b ≥ 80, E6c ≥ 80; J8a/J8b/J8c combined ≥ 200 (per Appendix A) |
@@ -177,7 +177,7 @@ For each brief: target count, source URLs (lifted verbatim from each brief's "So
 | Target | **~150 norms** (K1 BanRep Res Ext 1/2018: ~25; K2 DCIN-83: ~40; K3 CCo: ~60; K4 Ley 222/1258: ~25) |
 | Canonical shapes | `res.banrep.<NUM>.<YEAR>` (+ `.art.<X>`); `dcin.<NUM>.cap.<C>.num.<N>`; `cco.art.<N>`; `ley.<NUM>.<YEAR>.art.<X>` |
 | Verified-real parent ids (in YAML K4) | `ley.222.1995`, `ley.1258.2008` |
-| Source URLs (verified-live by brief author) | BanRep landing `https://www.banrep.gov.co/es/normatividad/resolucion-externa-1-2018`; PDF compendium `https://www.banrep.gov.co/sites/default/files/reglamentacion/compendio-res-ext-1-de-2018.pdf`; Senado CCo `https://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html`; Senado Ley 222 `ley_0222_1995.html`; Senado Ley 1258 `ley_1258_2008.html`. (Full list in brief §Source URLs.) |
+| Source URLs (verified-live by brief author) | BanRep landing `https://www.banrep.gov.co/es/normatividad/resolucion-externa-1-2018`; PDF compendium `https://www.banrep.gov.co/sites/default/files/reglamentacion/compendio-res-ext-1-de-2018.pdf`; Senado CCo `http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html`; Senado Ley 222 `ley_0222_1995.html`; Senado Ley 1258 `ley_1258_2008.html`. (Full list in brief §Source URLs.) |
 | Scraper | ⚠️ K1/K2 need BanRep scraper (Gap #5 — fixture-only path recommended). K3 needs Senado-style CCo scraper (Gap #4 — fixture path available, shares with brief 01). K4 ✅ DIAN ley.* works. |
 | Deliverable | Per-article rows for each. K4 (~25 norms — Ley 222 + Ley 1258) ships first since unblocked today. K1/K2/K3 follow on the fixture path or after Gap #4/#5 are fixed. |
 | Validation gate | K1 ≥ 20, K2 ≥ 30, K3 ≥ 50, K4 ≥ 20 |

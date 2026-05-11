@@ -36,7 +36,7 @@ The canonicalizer Phase E5 batch covers **any decretos legislativos issued under
 | URL | Coverage | Status |
 |---|---|---|
 | `https://normograma.dian.gov.co/dian/compilacion/docs/decreto_legislativo_<NUM>_<YEAR>.htm` | Individual decreto legislativo (DIAN normograma pattern) | Primary source; **requires scraper extension** (see Gap #3 note below) |
-| `https://www.secretariasenado.gov.co/senado/basedoc/decreto_legislativo_<NUM>_<YEAR>.html` | Legislative archive version (Senado) | Fallback; may contain historical or superseded text |
+| `http://www.secretariasenado.gov.co/senado/basedoc/decreto_legislativo_<NUM>_<YEAR>.html` | Legislative archive version (Senado) | Fallback; may contain historical or superseded text |
 | Constitutional Court dockets | CC ruling on each decree's constitutionality | Reference (not ingested directly); informs the vigencia harness |
 
 **URL pattern note:** The DIAN normograma pattern for decretos legislativos is:

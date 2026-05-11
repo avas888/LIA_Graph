@@ -1088,7 +1088,7 @@ The 5 scrapers (unchanged):
 
 | Module | Source | Coverage |
 |---|---|---|
-| `scrapers/secretaria_senado.py` | https://www.secretariasenado.gov.co/senado/basedoc/ | Leyes (incluye ET); modification notes per artículo |
+| `scrapers/secretaria_senado.py` | http://www.secretariasenado.gov.co/senado/basedoc/ | Leyes (incluye ET); modification notes per artículo |
 | `scrapers/dian_normograma.py` | https://normograma.dian.gov.co/ | Decretos tributarios + resoluciones DIAN + conceptos DIAN |
 | `scrapers/suin_juriscol.py` | https://www.suin-juriscol.gov.co/ | Toda la legislación nacional con histórico |
 | `scrapers/corte_constitucional.py` | https://www.corteconstitucional.gov.co/relatoria/ | Sentencias C-, autos de suspensión |

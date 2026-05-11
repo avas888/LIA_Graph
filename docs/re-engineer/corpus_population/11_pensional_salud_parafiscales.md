@@ -19,13 +19,13 @@ This brief covers three interconnected Colombian social protection regimes: (1) 
 | URL | What's there |
 |---|---|
 | https://normograma.dian.gov.co/dian/compilacion/docs/ley_100_1993.htm | Ley 100/1993 — full compiled text from DIAN (master) |
-| https://www.secretariasenado.gov.co/senado/basedoc/ley_0100_1993.html | Ley 100/1993 — Senado master index + pagination (backup/verification) |
-| https://www.secretariasenado.gov.co/senado/basedoc/ley_0100_1993_pr001.html | Ley 100/1993 — pagination segment pr001 |
+| http://www.secretariasenado.gov.co/senado/basedoc/ley_0100_1993.html | Ley 100/1993 — Senado master index + pagination (backup/verification) |
+| http://www.secretariasenado.gov.co/senado/basedoc/ley_0100_1993_pr001.html | Ley 100/1993 — pagination segment pr001 |
 | https://normograma.dian.gov.co/dian/compilacion/docs/ley_2381_2024.htm | Ley 2381/2024 — reforma pensional (DIAN compilation, ~100 articles) |
 | https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=246356 | Ley 2381/2024 — Gestor Normativo (official source, canonical reference) |
 | https://normograma.dian.gov.co/dian/compilacion/docs/ley_0789_2002.htm | Ley 789/2002 — employment stimulus + parafiscales (DIAN compilation) |
-| https://www.secretariasenado.gov.co/senado/basedoc/ley_0789_2002.html | Ley 789/2002 — Senado master |
-| https://www.secretariasenado.gov.co/senado/basedoc/ley_0789_2002_pr001.html | Ley 789/2002 — pagination segment pr001 |
+| http://www.secretariasenado.gov.co/senado/basedoc/ley_0789_2002.html | Ley 789/2002 — Senado master |
+| http://www.secretariasenado.gov.co/senado/basedoc/ley_0789_2002_pr001.html | Ley 789/2002 — pagination segment pr001 |
 | https://www.ugpp.gov.co/normas/ley-no-789-de-diciembre-27-de-2002/ | Ley 789/2002 — UGPP official guidance (parafiscales regulator) |
 
 **Note on Ley 2381/2024:** As of 2026-04-28, the Corte Constitucional suspended entry into force (originally 2025-07-01) and ordered procedural reiteration in Congress. For canonicalizer purposes, ingest the text as-is; the vigencia harness will extract suspension status and effective-date context from the article body and external jurisprudencia sources (handled by Phase I batches, not this brief).

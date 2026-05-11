@@ -390,7 +390,7 @@ Same canonical shape as G. Two issues compound:
 
 | Field | Value |
 |---|---|
-| Source | `https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo.html` (paginated similar to ET) |
+| Source | `http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo.html` (paginated similar to ET) |
 | Canonical id shape | `cst.art.<N>` (e.g. `cst.art.22`, `cst.art.158`) |
 | Scraper status | ❌ **No scraper exists for CST.** Senado scraper handles `et.art.*` and `ley.*` but not `cst.art.*`. See §7 gap #4. |
 | YAML batches | J1 (contratos, Arts. 22–50), J2 (prestaciones sociales, 51–101), J3 (jornada, 158–200), J4 (conflictos colectivos, 416+) |

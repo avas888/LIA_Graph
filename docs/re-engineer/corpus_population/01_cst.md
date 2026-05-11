@@ -18,13 +18,13 @@ The Código Sustantivo del Trabajo (CST) is Colombia's foundational labor code, 
 
 | URL | What's there |
 |---|---|
-| https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo.html | Master index + landing page (main index, links to pagination) |
-| https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr001.html | Pagination segment pr001 (covers approximately Arts. 1–~50) |
-| https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr002.html | Pagination segment pr002 (covers approximately Arts. ~51–~100) |
-| https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr003.html | Pagination segment pr003 (covers approximately Arts. ~101–~150) |
-| https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr004.html | Pagination segment pr004 (covers approximately Arts. ~151–~250) |
-| https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr008.html | Pagination segment pr008 (covers approximately Arts. ~416+, collective labor) |
-| https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr016.html | Later pagination segment (final articles, including Arts. 490–492 transitive) |
+| http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo.html | Master index + landing page (main index, links to pagination) |
+| http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr001.html | Pagination segment pr001 (covers approximately Arts. 1–~50) |
+| http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr002.html | Pagination segment pr002 (covers approximately Arts. ~51–~100) |
+| http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr003.html | Pagination segment pr003 (covers approximately Arts. ~101–~150) |
+| http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr004.html | Pagination segment pr004 (covers approximately Arts. ~151–~250) |
+| http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr008.html | Pagination segment pr008 (covers approximately Arts. ~416+, collective labor) |
+| http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr016.html | Later pagination segment (final articles, including Arts. 490–492 transitive) |
 
 **Note:** Senado uses a "pr" (página representada / represented page) numbering scheme similar to the ET. The exact pagination is not publicly indexed; inspection of each segment reveals article boundaries. Total CST: 492 articles.
 
@@ -55,7 +55,7 @@ The Código Sustantivo del Trabajo (CST) is Colombia's foundational labor code, 
      "norm_type": "cst_articulo",
      "article_key": "Art. <N> CST",
      "body": "<full normalized article text>",
-     "source_url": "https://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr<NN>.html",
+     "source_url": "http://www.secretariasenado.gov.co/senado/basedoc/codigo_sustantivo_trabajo_pr<NN>.html",
      "fecha_emision": null,
      "emisor": "Congreso (1950, Law 2363/Decree 2663)",
      "tema": "labor_contracts | social_benefits | working_hours | collective_labor"

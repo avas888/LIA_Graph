@@ -247,7 +247,7 @@ class VigenciaResult:
       "norm_id": "Ley 2294/2023",
       "article": "Art. 69",
       "fecha": "2023-05-19",
-      "primary_source_url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_2294_2023_pr001.html#69"
+      "primary_source_url": "http://www.secretariasenado.gov.co/senado/basedoc/ley_2294_2023_pr001.html#69"
     }
   ],
   "suspension": null,
@@ -513,7 +513,7 @@ The 5 scrapers:
 
 | Module | Source | Coverage |
 |---|---|---|
-| `scrapers/secretaria_senado.py` | https://www.secretariasenado.gov.co/senado/basedoc/ | Leyes (incluye ET); modification notes per artículo |
+| `scrapers/secretaria_senado.py` | http://www.secretariasenado.gov.co/senado/basedoc/ | Leyes (incluye ET); modification notes per artículo |
 | `scrapers/dian_normograma.py` | https://normograma.dian.gov.co/ | Decretos tributarios + resoluciones DIAN + conceptos DIAN |
 | `scrapers/suin_juriscol.py` | https://www.suin-juriscol.gov.co/ | Toda la legislación nacional con histórico |
 | `scrapers/corte_constitucional.py` | https://www.corteconstitucional.gov.co/relatoria/ | Sentencias C-, autos de suspensión |

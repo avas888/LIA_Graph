@@ -33,12 +33,12 @@ Total: approximately **150 documents**.
 - The DCIN-83 is a "manual" (not a law), structured into capítulos and numerales. The version that lives at BanRep is the current one — there are no historical versions to track.
 
 **K3 — Código de Comercio:**
-- Senate Código de Comercio (paginated): `https://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html`
+- Senate Código de Comercio (paginated): `http://www.secretariasenado.gov.co/senado/basedoc/codigo_comercio.html`
 - The Código de Comercio has ~2032 articles total. We need only Libro Segundo (sociedades), which is **roughly Arts. 98–514**.
 
 **K4 — Ley 222/1995 + Ley 1258/2008:**
-- Senate Ley 222: `https://www.secretariasenado.gov.co/senado/basedoc/ley_0222_1995.html`
-- Senate Ley 1258: `https://www.secretariasenado.gov.co/senado/basedoc/ley_1258_2008.html`
+- Senate Ley 222: `http://www.secretariasenado.gov.co/senado/basedoc/ley_0222_1995.html`
+- Senate Ley 1258: `http://www.secretariasenado.gov.co/senado/basedoc/ley_1258_2008.html`
 
 ## What to deliver per document
 
@@ -107,7 +107,7 @@ Current as of: YYYY-MM-DD
 # K3 — Código de Comercio, Libro Segundo (sociedades)
 
 ## Artículo 98 CCo
-URL: https://www.secretariasenado.gov.co/.../codigo_comercio_pr<NN>.html
+URL: http://www.secretariasenado.gov.co/.../codigo_comercio_pr<NN>.html
 Issued: 1971 (Decreto 410/1971)
 
 [full text]
@@ -117,7 +117,7 @@ Issued: 1971 (Decreto 410/1971)
 # K4 — Ley 222 de 1995
 
 ## Artículo 1
-URL: https://www.secretariasenado.gov.co/.../ley_0222_1995.html
+URL: http://www.secretariasenado.gov.co/.../ley_0222_1995.html
 Issued: 1995-12-20
 
 [full text]
@@ -127,7 +127,7 @@ Issued: 1995-12-20
 # K4 — Ley 1258 de 2008 (S.A.S.)
 
 ## Artículo 1
-URL: https://www.secretariasenado.gov.co/.../ley_1258_2008.html
+URL: http://www.secretariasenado.gov.co/.../ley_1258_2008.html
 Issued: 2008-12-05
 
 [full text]
