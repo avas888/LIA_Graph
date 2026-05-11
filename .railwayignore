@@ -49,3 +49,9 @@ __pycache__/
 docs/
 *.md
 !README.md
+# Re-include the interpretative_guidance corpus (105 .md files under
+# knowledge_base/**/EXPERTOS/) — runtime data for the Interpretación de
+# Expertos panel, read by src/lia_graph/interpretacion/catalog.py. Without
+# this whitelist, the *.md glob strips the entire expert corpus and the
+# panel renders empty in production while the chat (Supabase-backed) works.
+!knowledge_base/**/*.md
