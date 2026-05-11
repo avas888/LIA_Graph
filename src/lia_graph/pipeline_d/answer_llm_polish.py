@@ -144,6 +144,35 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         ),
     ),
     PromptRule(
+        id="no_invented_norm_lineage",
+        category="semantic",
+        prompt_text=(
+            "No introduzcas referencias a leyes, decretos, resoluciones o sentencias "
+            "(p. ej., 'Ley 1819 de 2016', 'Decreto 624 de 1989', 'Sentencia C-606 de 1997') "
+            "que no aparezcan literalmente en el borrador. NUNCA inventes la genealogía "
+            "normativa: si el borrador no afirma 'la Ley X modificó el artículo Y', vos "
+            "tampoco lo afirmes — no traigas esa relación desde tu memoria. Cuando dudés, "
+            "omití la cita histórica. El contador prefiere una respuesta breve y exacta "
+            "a una extensa con genealogía inventada."
+        ),
+        validate=lambda template, polished: _no_invented_norm_lineage(template, polished),
+        rejection_reason="invented_norm_lineage",
+    ),
+    PromptRule(
+        id="no_invented_periods",
+        category="semantic",
+        prompt_text=(
+            "No introduzcas años, períodos gravables, ni rangos temporales (p. ej., "
+            "'AG 2024', '2022 y 2023', 'para los años 2025-2026') que no aparezcan "
+            "literalmente en el borrador. Si el borrador no menciona un año específico, "
+            "no lo agregues. Inventar un período es uno de los peores errores que puede "
+            "cometer la respuesta: el contador podría aplicar la regla en un año en que "
+            "no aplica."
+        ),
+        validate=lambda template, polished: _no_invented_periods(template, polished),
+        rejection_reason="invented_periods",
+    ),
+    PromptRule(
         id="neutral_spanish",
         category="tonal",
         prompt_text="Respondé en español neutro profesional, sin muletillas.",
@@ -340,6 +369,70 @@ def _preserves_required_anchors(template: str, polished: str) -> bool:
 
 def _normalize_anchor(anchor: str) -> str:
     return " ".join(anchor.lower().replace("(", "").replace(")", "").split())
+
+
+# Matches Ley/Decreto/Resolución/Sentencia tokens with a number — the kinds
+# of "outer" norm references (NOT `(art. X ET)` anchors, which are governed
+# by `_preserves_required_anchors`). Number capture tolerates Sentencia
+# radicado-style prefixes (`C-`, `T-`, `SU-`) and slash/dash separators.
+_NORM_LINEAGE_RE = re.compile(
+    r"(?ix)"
+    r"\b(ley|decreto|resoluci[oó]n|sentencia)\b"
+    r"\s+(?:n[°º]\s*|nro\.?\s*|del?\s+)?"
+    r"\*{0,2}([CTSU]{0,2}-?\d+(?:[-/]\d+)?)\*{0,2}"
+)
+
+
+def _no_invented_norm_lineage(template: str, polished: str) -> bool:
+    """Reject polish that introduces a Ley/Decreto/Resolución/Sentencia
+    reference not present in the template.
+
+    Comparison is on `(kind, number)` pairs and strips `**bold**` markers
+    so `"Ley **1819** de 2016"` matches `"Ley 1819 de 2016"`. The year is
+    intentionally NOT part of the key — the year-of-norm tag almost always
+    travels with the number, and matching on number alone keeps the
+    validator robust to bolding around the year. Per-year invention is
+    caught by `_no_invented_periods` instead.
+    """
+
+    def _refs(text: str) -> set[tuple[str, str]]:
+        if not text:
+            return set()
+        cleaned = text.replace("**", "")
+        return {
+            (m.group(1).lower(), m.group(2))
+            for m in _NORM_LINEAGE_RE.finditer(cleaned)
+        }
+
+    invented = _refs(polished) - _refs(template)
+    return not invented
+
+
+# Years 1900-2099. Polish hallucinations mostly invent the *recent* span
+# (2020-2030), but we cast wider to be conservative.
+_YEAR_RE = re.compile(r"\b(19\d{2}|20\d{2})\b")
+
+
+def _no_invented_periods(template: str, polished: str) -> bool:
+    """Reject polish that introduces a 4-digit year not present in the
+    template.
+
+    Strips `**bold**` markers so `"**2025**"` matches `"2025"`. The
+    template is the authoritative source for which periods the answer
+    is allowed to assert. If synthesis didn't put a year in the
+    template, polish must not introduce one — that's how the engine
+    ends up saying "AG 2024, 2025, 2026" for a benefit that only
+    applied to AG 2022 and 2023.
+    """
+
+    def _years(text: str) -> set[str]:
+        if not text:
+            return set()
+        cleaned = text.replace("**", "")
+        return set(_YEAR_RE.findall(cleaned))
+
+    invented = _years(polished) - _years(template)
+    return not invented
 
 
 def _build_polish_prompt(
