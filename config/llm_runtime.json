@@ -54,10 +54,10 @@
             "model": "gemini-2.5-flash",
             "api_key_env": "GEMINI_API_KEY",
             "timeout_seconds": 45.0,
-            "temperature": 0.1,
+            "temperature": 0.0,
             "max_tokens": 32000,
             "thinking_enabled": false,
-            "_note": "Last fallback. Higher rate limits than gemini-pro but lower quality on structured extraction."
+            "_note": "Default chat-polish provider (provider_order puts this first). fix_v8 §3f lowered temperature from 0.1 to 0.0 to reduce `invented_periods` rejections (top remaining rejection reason on the 2026-05-11 SME panel — 14/36). The canonicalizer keeps temperature 0.1 because it doesn't fall through here (it pins deepseek via LIA_VIGENCIA_PROVIDER)."
         }
     ]
 }

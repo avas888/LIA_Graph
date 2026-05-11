@@ -179,9 +179,14 @@ def test_supabase_retriever_uses_hybrid_search_and_returns_primary_articles() ->
 
     assert client.last_rpc_payload is not None
     assert client.last_rpc_payload["filter_pais"] == "colombia"
-    # Topic is a ranking signal (carried via query_text), not a recall
-    # predicate — cross-topic anchors must remain reachable.
+    # fix_v7 §3a — Topic is a ranking signal, NEVER a WHERE filter. The boost
+    # rides on the separate `boost_topic` parameter introduced in
+    # `supabase/migrations/20260512000000_topic_filter_soft.sql`; cross-topic
+    # anchors must remain reachable, so `filter_topic` MUST stay None on the
+    # chat retrieval path.
     assert client.last_rpc_payload["filter_topic"] is None
+    assert client.last_rpc_payload.get("boost_topic") == "declaracion_renta"
+    assert client.last_rpc_payload.get("filter_topic_boost") == 1.5
 
     # FTS query must use OR semantics, not the RPC's default AND via
     # plainto_tsquery. Regression guard: a missing `fts_query` + a multi-term
@@ -193,8 +198,10 @@ def test_supabase_retriever_uses_hybrid_search_and_returns_primary_articles() ->
 
     primary_keys = [item.node_key for item in evidence.primary_articles]
     assert "115" in primary_keys
-    connected_keys = [item.node_key for item in evidence.connected_articles]
-    assert "116" in connected_keys
+    all_article_keys = primary_keys + [
+        item.node_key for item in evidence.connected_articles
+    ]
+    assert "116" in all_article_keys
     assert evidence.support_documents
     assert evidence.citations
     assert evidence.diagnostics["retrieval_backend"] == "supabase"
@@ -350,3 +357,232 @@ def test_supabase_retriever_exposes_backend_diagnostics_for_orchestrator() -> No
     assert evidence.diagnostics["retrieval_backend"] == "supabase"
     assert evidence.diagnostics["chunk_row_count"] == 2
     assert evidence.diagnostics["document_row_count"] == 2
+
+
+# --- fix_v7 §3a regression guards -------------------------------------------
+
+
+def test_hybrid_search_payload_uses_soft_topic_signal() -> None:
+    """fix_v7 §3a: filter_topic must be None on the chat path; the topic
+    boost rides on the separate `boost_topic` parameter so the WHERE clause
+    cannot hard-exclude cross-topic chunks. Codifies
+    `docs/orchestration/orchestration.md` §4.1 invariant."""
+
+    request = PipelineCRequest(
+        message="¿Qué dice el artículo 115 del ET?",
+        topic="declaracion_renta",
+        requested_topic="declaracion_renta",
+    )
+    plan = build_graph_retrieval_plan(request)
+
+    client = _FakeClient(
+        hybrid_rows=[_hybrid_row("renta_corpus_a_et_art_115", "115", rrf=0.9)],
+        documents_rows=[
+            _document_row("renta_corpus_a_et_art_115", "renta/et_art_115.md")
+        ],
+    )
+
+    retrieve_graph_evidence(plan, client=client)
+    payload = client.last_rpc_payload
+    assert payload is not None
+    assert payload["filter_topic"] is None, (
+        "fix_v7 §3a: filter_topic must NEVER be set on the chat retrieval path"
+    )
+    assert payload.get("boost_topic") == "declaracion_renta", (
+        "fix_v7 §3a: boost_topic must carry the routed topic so the soft "
+        "boost still fires after the filter/boost decoupling"
+    )
+    assert payload.get("filter_topic_boost") == 1.5, (
+        "default LIA_TOPIC_BOOST_FACTOR is 1.5 — the boost must propagate"
+    )
+
+
+def test_cross_topic_anchor_reachable_with_iva_topic() -> None:
+    """fix_v7 §3a end-to-end: when the planner emits an anchor article whose
+    chunk is catalogued under a different topic (Art. 147 ET under IVA), the
+    chunk MUST survive the hybrid_search call even though the router pointed
+    at `declaracion_renta`. The FakeRpc echoes back whatever rows we seed —
+    the real guarantee is that the retriever never sends a WHERE-style
+    `filter_topic` that the cloud RPC would mechanically apply."""
+
+    request = PipelineCRequest(
+        message=(
+            "Mi cliente acumuló pérdidas fiscales en años anteriores y ahora "
+            "tiene renta líquida positiva. ¿Cuál es el régimen de "
+            "compensación de pérdidas?"
+        ),
+        topic="declaracion_renta",
+        requested_topic="declaracion_renta",
+    )
+    plan = build_graph_retrieval_plan(request)
+
+    iva_chunk = _hybrid_row("iva_06_libro1_t1_cap5_deducciones", "147", rrf=0.91)
+    iva_chunk["topic"] = "iva"
+    iva_document = _document_row("iva_06_libro1_t1_cap5_deducciones", "iva/cap5.md")
+    iva_document["topic"] = "iva"
+
+    client = _FakeClient(hybrid_rows=[iva_chunk], documents_rows=[iva_document])
+    _, evidence = retrieve_graph_evidence(plan, client=client)
+
+    assert client.last_rpc_payload["filter_topic"] is None
+    assert client.last_rpc_payload.get("boost_topic") == "declaracion_renta"
+    assert "147" in [item.node_key for item in evidence.primary_articles]
+
+
+def test_hybrid_search_recovery_strips_topic_boost_params_first() -> None:
+    """When the cloud RPC predates the 0512 migration it will reject the
+    `boost_topic` argument. The retriever must strip BOTH `boost_topic`
+    and `filter_topic_boost` on first retry so the call succeeds against
+    older deployments — keeping retrieval alive at the cost of ranking
+    quality."""
+
+    request = PipelineCRequest(
+        message="¿Qué dice el artículo 115 del ET?",
+        topic="declaracion_renta",
+        requested_topic="declaracion_renta",
+    )
+    plan = build_graph_retrieval_plan(request)
+
+    class _RpcRejectingBoostTopic:
+        def __init__(self, rows: list[dict[str, Any]]) -> None:
+            self.rows = rows
+            self.calls: list[dict[str, Any]] = []
+
+        def execute_with_payload(self, payload: dict[str, Any]) -> _FakeResponse:
+            self.calls.append(dict(payload))
+            if "boost_topic" in payload or "filter_topic_boost" in payload:
+                raise RuntimeError(
+                    "Could not find function public.hybrid_search(boost_topic=>text)"
+                )
+            return _FakeResponse(data=list(self.rows))
+
+    class _RejectingClient:
+        def __init__(self, rows: list[dict[str, Any]], docs: list[dict[str, Any]]) -> None:
+            self._spy = _RpcRejectingBoostTopic(rows)
+            self._docs = docs
+            self.last_rpc_payload: dict[str, Any] | None = None
+
+        def rpc(self, name: str, payload: dict[str, Any]):
+            class _ExecuteShim:
+                def __init__(inner, _spy, _payload):
+                    inner._spy = _spy
+                    inner._payload = _payload
+
+                def execute(inner) -> _FakeResponse:
+                    return inner._spy.execute_with_payload(inner._payload)
+
+            if name == "hybrid_search":
+                self.last_rpc_payload = dict(payload)
+                return _ExecuteShim(self._spy, payload)
+            if name in ("chunk_vigencia_gate_at_date", "chunk_vigencia_gate_for_period"):
+                return _FakeRpc([])
+            raise AssertionError(f"Unexpected RPC name: {name!r}")
+
+        def table(self, name: str) -> _FakeTable:
+            if name == "documents":
+                return _FakeTable(self._docs)
+            if name == "document_chunks":
+                return _FakeTable([])
+            raise AssertionError(f"Unexpected table name: {name!r}")
+
+        @property
+        def spy_calls(self) -> list[dict[str, Any]]:
+            return self._spy.calls
+
+    client = _RejectingClient(
+        rows=[_hybrid_row("renta_corpus_a_et_art_115", "115", rrf=0.9)],
+        docs=[_document_row("renta_corpus_a_et_art_115", "renta/et_art_115.md")],
+    )
+    retrieve_graph_evidence(plan, client=client)
+    # First attempt has the boost params; second has them stripped.
+    assert len(client.spy_calls) >= 2
+    assert "boost_topic" in client.spy_calls[0] or "filter_topic_boost" in client.spy_calls[0]
+    assert "boost_topic" not in client.spy_calls[1]
+    assert "filter_topic_boost" not in client.spy_calls[1]
+
+
+# --- fix_v7 §3b regression guards -------------------------------------------
+
+
+def test_query_embedding_calls_real_helper_when_enabled(monkeypatch) -> None:
+    """fix_v7 §3b: when LIA_QUERY_EMBEDDINGS_ENABLED is on AND
+    `lia_graph.embeddings.get_query_embedding` returns a vector, that vector
+    must be the one that reaches the hybrid_search RPC payload."""
+
+    from lia_graph.pipeline_d import retriever_supabase as rs
+
+    monkeypatch.setenv("LIA_QUERY_EMBEDDINGS_ENABLED", "1")
+    real_vec = tuple(0.0125 * (i + 1) for i in range(rs._QUERY_EMBED_DIM))
+
+    def _fake_get_query_embedding(text: str, *, allow_remote: bool = True):
+        assert isinstance(text, str) and text.strip()
+        return real_vec
+
+    monkeypatch.setattr(
+        "lia_graph.embeddings.get_query_embedding",
+        _fake_get_query_embedding,
+    )
+
+    vec, diag = rs._query_embedding("¿Qué dice el artículo 115 del ET?")
+    assert diag.get("embedding_mode") == "ok"
+    assert diag.get("model") == "gemini-embedding-001"
+    assert vec == list(real_vec)
+
+
+def test_query_embedding_falls_back_to_zero_on_error(monkeypatch) -> None:
+    """fix_v7 §3b: any exception from the Gemini helper must produce the
+    768-dim zero vector + an `embedding_mode=error` diagnostic. The chat
+    path keeps serving on FTS alone."""
+
+    from lia_graph.pipeline_d import retriever_supabase as rs
+
+    monkeypatch.setenv("LIA_QUERY_EMBEDDINGS_ENABLED", "1")
+
+    def _boom(text: str, *, allow_remote: bool = True):
+        raise RuntimeError("gemini boom")
+
+    monkeypatch.setattr(
+        "lia_graph.embeddings.get_query_embedding",
+        _boom,
+    )
+
+    vec, diag = rs._query_embedding("hola")
+    assert vec == [0.0] * rs._QUERY_EMBED_DIM
+    assert diag.get("embedding_mode") == "error"
+    assert diag.get("error_kind") == "RuntimeError"
+
+
+def test_query_embedding_falls_back_on_env_kill_switch(monkeypatch) -> None:
+    """fix_v7 §3b: setting LIA_QUERY_EMBEDDINGS_ENABLED=0 must short-circuit
+    to the zero vector without calling the Gemini helper at all (verifies
+    the rollback switch documented in CLAUDE.md)."""
+
+    from lia_graph.pipeline_d import retriever_supabase as rs
+
+    monkeypatch.setenv("LIA_QUERY_EMBEDDINGS_ENABLED", "0")
+    called = {"n": 0}
+
+    def _spy(text: str, *, allow_remote: bool = True):
+        called["n"] += 1
+        return tuple(0.0 for _ in range(rs._QUERY_EMBED_DIM))
+
+    monkeypatch.setattr(
+        "lia_graph.embeddings.get_query_embedding",
+        _spy,
+    )
+
+    vec, diag = rs._query_embedding("hola")
+    assert vec == [0.0] * rs._QUERY_EMBED_DIM
+    assert diag.get("embedding_mode") == "disabled_by_env"
+    assert called["n"] == 0
+
+
+def test_query_embedding_falls_back_on_empty_query(monkeypatch) -> None:
+    """fix_v7 §3b: empty / whitespace-only queries skip the Gemini call."""
+
+    from lia_graph.pipeline_d import retriever_supabase as rs
+
+    monkeypatch.setenv("LIA_QUERY_EMBEDDINGS_ENABLED", "1")
+    vec, diag = rs._query_embedding("   ")
+    assert vec == [0.0] * rs._QUERY_EMBED_DIM
+    assert diag.get("embedding_mode") == "empty_query"

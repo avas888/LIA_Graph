@@ -255,22 +255,31 @@ def _hybrid_search(
         + plan.evidence_bundle_shape.support_document_limit,
         24,
     )
-    # Topic was historically a pure planner-side signal; v5 §1.D introduces
-    # a SOFT boost — chunks where chunk.topic == router_topic get their RRF
-    # multiplied. The boost is OFF when either filter_topic_boost == 1.0
-    # (default) or filter_topic IS NULL, so back-compat is preserved.
-    # Cross-topic anchors stay reachable because the SQL function drops the
-    # WHERE clause for filter_topic when filter_topic_boost > 1.0 (see
-    # `supabase/migrations/20260427000000_topic_boost.sql`). Per the
-    # retrieval-runbook gap #1 + next_v5 §1.D plan.
+    # fix_v7 §3a — Topic is a ranking signal, NEVER a WHERE filter for the
+    # chat path. See `docs/orchestration/orchestration.md` §4.1 invariant
+    # ("Topic is ranking signal, not WHERE filter"). The retriever passes
+    # `filter_topic=None` so cross-topic anchors (e.g. Art. 147 ET catalogued
+    # under IVA, load-bearing for a `declaracion_renta` loss-compensation
+    # question) stay reachable. The soft boost rides on the separate
+    # `boost_topic` parameter introduced in migration
+    # `supabase/migrations/20260512000000_topic_filter_soft.sql` — chunks
+    # whose `topic` matches the routed topic get their RRF multiplied by
+    # `filter_topic_boost` without any chunks being excluded from recall.
+    # Pre-fix_v7 behavior was guarded by the `OR effective_topic_boost > 1.0`
+    # short-circuit inside the 0427 migration; v7 makes the decoupling
+    # explicit instead of inferred at the SQL layer.
     sub_topic_intent = getattr(plan, "sub_topic_intent", None)
     subtopic_boost = _resolve_subtopic_boost_factor()
     router_topic = next(iter(plan.topic_hints), None) if plan.topic_hints else None
     topic_boost = _resolve_topic_boost_factor()
+    query_embedding, embedding_diag = _query_embedding(query_text)
     payload: dict[str, Any] = {
-        "query_embedding": _zero_embedding(),
+        "query_embedding": query_embedding,
         "query_text": query_text,
-        "filter_topic": router_topic if (router_topic and topic_boost > 1.0) else None,
+        # fix_v7 §3a — filter_topic stays None for the chat path so the
+        # WHERE clause cannot hard-exclude cross-topic chunks. Boost rides
+        # on `boost_topic` below.
+        "filter_topic": None,
         "filter_pais": "colombia",
         "match_count": match_count,
         "filter_knowledge_class": None,
@@ -285,16 +294,20 @@ def _hybrid_search(
     if sub_topic_intent:
         payload["filter_subtopic"] = sub_topic_intent
         payload["subtopic_boost"] = subtopic_boost
-    # v5 §1.D — topic boost. Only include when the migration is expected
-    # to be applied; the try/except fallback below strips it for older
-    # deployments.
+    # fix_v7 §3a — topic boost. `boost_topic` is the new soft-boost target
+    # (decoupled from filter_topic) introduced by migration
+    # 20260512000000_topic_filter_soft.sql. The try/except recovery below
+    # strips both `boost_topic` and `filter_topic_boost` for older
+    # deployments that do not yet have the migration applied.
     if router_topic and topic_boost > 1.0:
+        payload["boost_topic"] = router_topic
         payload["filter_topic_boost"] = topic_boost
     _trace_step(
         "retriever.hybrid_search.in",
         status="info",
         match_count=match_count,
         filter_topic=payload.get("filter_topic"),
+        boost_topic=payload.get("boost_topic"),
         filter_topic_boost=payload.get("filter_topic_boost"),
         filter_subtopic=payload.get("filter_subtopic"),
         subtopic_boost=payload.get("subtopic_boost"),
@@ -302,27 +315,31 @@ def _hybrid_search(
         fts_query_present=bool(payload.get("fts_query")),
         sub_topic_intent=sub_topic_intent,
         router_topic=router_topic,
+        embedding_mode=embedding_diag.get("embedding_mode"),
+        embedding_model=embedding_diag.get("model"),
     )
     _hybrid_recovery: str | None = None
     try:
         response = db.rpc("hybrid_search", payload).execute()
     except Exception as exc:
-        # Older DBs reject unknown params. First try dropping the v5 §1.D
-        # topic boost; if still failing, drop the subtopic boost too.
-        # Both fallbacks degrade ranking quality but keep retrieval alive.
+        # Older DBs reject unknown params. fix_v7 §3a adds `boost_topic`;
+        # 0427 added `filter_topic_boost`; pre-0427 deploys reject both.
+        # Strip them in order, then fall back to dropping the subtopic
+        # filter as a last resort. Each fallback degrades ranking quality
+        # but keeps retrieval alive.
         recovered = False
         _trace_step(
             "retriever.hybrid_search.first_attempt_error",
             status="error",
             error=repr(exc)[:240],
         )
-        if "filter_topic_boost" in payload:
+        if "boost_topic" in payload or "filter_topic_boost" in payload:
+            payload.pop("boost_topic", None)
             payload.pop("filter_topic_boost", None)
-            payload["filter_topic"] = None  # restore strict no-filter
             try:
                 response = db.rpc("hybrid_search", payload).execute()
                 recovered = True
-                _hybrid_recovery = "dropped_filter_topic_boost"
+                _hybrid_recovery = "dropped_topic_boost_params"
             except Exception:
                 pass
         if not recovered and sub_topic_intent:
@@ -597,9 +614,16 @@ def _augment_with_topic_supplementary(
     if len(existing_router_doc_ids) >= 2:
         return chunk_rows  # threshold already satisfiable.
 
-    # Supplementary fetch with topic filter.
+    # Supplementary fetch — widen the router-topic doc footprint to satisfy
+    # the coherence-gate ≥2-doc threshold. fix_v7 §3a: this fetch INTENTIONALLY
+    # uses `filter_topic` as a hard filter — the whole point of the
+    # supplementary fetch is to add router-topic chunks that the main
+    # hybrid_search (run with filter_topic=None) may not have surfaced
+    # enough of. Cross-topic reachability is the main fetch's job; this is
+    # a topic-pinned supplement on top of it.
+    query_embedding, _embedding_diag = _query_embedding(query_text)
     payload: dict[str, Any] = {
-        "query_embedding": _zero_embedding(),
+        "query_embedding": query_embedding,
         "query_text": query_text,
         "filter_topic": router_topic,
         "filter_pais": "colombia",
@@ -792,10 +816,73 @@ def _diagnose_empty_chunks(db: Any) -> dict[str, Any]:
     return probe
 
 
+_QUERY_EMBED_DIM = 768
+_QUERY_EMBED_ENV_FLAG = "LIA_QUERY_EMBEDDINGS_ENABLED"
+
+
+def _query_embeddings_enabled() -> bool:
+    raw = str(os.getenv(_QUERY_EMBED_ENV_FLAG, "1") or "").strip().lower()
+    return raw in {"1", "true", "yes", "on"}
+
+
+def _query_embedding(query_text: str) -> tuple[list[float], dict[str, Any]]:
+    """Return ``(embedding, diag)`` for the chat query.
+
+    fix_v7 §3b — replaces the static `_zero_embedding()` payload that
+    silently disabled the vector half of hybrid_search. Reuses the
+    existing `lia_graph.embeddings.get_query_embedding` helper (which
+    handles Gemini API, LRU cache, durable per-query store).
+
+    Fallback contract: ANY failure (env-disabled, empty query, missing
+    key, exception inside Gemini call) returns the 768-dim zero vector
+    so retrieval keeps serving. The returned ``diag`` dict carries
+    the outcome (``embedding_mode``) for trace surfacing — operators
+    reading the trace can tell whether real semantic ranking was live.
+    """
+    if not _query_embeddings_enabled():
+        return _zero_embedding(), {"embedding_mode": "disabled_by_env"}
+    text = (query_text or "").strip()
+    if not text:
+        return _zero_embedding(), {"embedding_mode": "empty_query"}
+    try:
+        from ..embeddings import get_query_embedding as _get_query_embedding
+    except Exception as exc:  # pragma: no cover — embeddings module always present
+        return _zero_embedding(), {
+            "embedding_mode": "import_error",
+            "error_kind": type(exc).__name__,
+            "error_message": str(exc)[:200],
+        }
+    try:
+        vec = _get_query_embedding(text)
+    except Exception as exc:  # noqa: BLE001
+        return _zero_embedding(), {
+            "embedding_mode": "error",
+            "error_kind": type(exc).__name__,
+            "error_message": str(exc)[:200],
+        }
+    if vec is None:
+        return _zero_embedding(), {"embedding_mode": "unavailable"}
+    materialized = list(vec)
+    if len(materialized) != _QUERY_EMBED_DIM:
+        return _zero_embedding(), {
+            "embedding_mode": "dimension_mismatch",
+            "got_dim": len(materialized),
+            "expected_dim": _QUERY_EMBED_DIM,
+        }
+    return materialized, {
+        "embedding_mode": "ok",
+        "model": "gemini-embedding-001",
+        "dim": _QUERY_EMBED_DIM,
+    }
+
+
 def _zero_embedding() -> list[float]:
-    # `hybrid_search` needs a 768-dim vector. Until the embedding worker
-    # catches up, pass zeros so the FTS half of the RRF still dominates.
-    return [0.0] * 768
+    # Safety-net: returned when the real query embedding is unavailable.
+    # Callers should go through `_query_embedding(query_text)` so the
+    # zero-vector path is reserved for genuine failure modes (no API key,
+    # disabled by env, dimension mismatch, exception). When this fires the
+    # FTS half of RRF dominates ranking. fix_v7 §3b for full context.
+    return [0.0] * _QUERY_EMBED_DIM
 
 
 # --- document + chunk -> evidence -------------------------------------------

@@ -66,6 +66,13 @@ def filter_diagnostics_for_public_response(
     pipeline_trace = orchestrator_diagnostics.get("pipeline_trace")
     if isinstance(pipeline_trace, dict) and pipeline_trace:
         public["pipeline_trace"] = dict(pipeline_trace)
+    # fix_v8 §3b — surface polish mode + skip_reason on the public
+    # response so the SME report's `_build_retrieval_signal_check` and
+    # the probe-skill's digest can read the polish outcome without
+    # walking the pipeline_trace. Both fields are PII-safe enums.
+    for key in ("polish_mode", "polish_skip_reason"):
+        if key in orchestrator_diagnostics:
+            public[key] = orchestrator_diagnostics[key]
     return public or None
 
 

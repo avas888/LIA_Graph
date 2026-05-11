@@ -223,27 +223,23 @@ def _cached_query_embedding(
     dimensions: int | str | None,
     config_digest: str,
 ) -> tuple[float, ...] | None:
-    cached = load_query_embedding(
-        text,
-        provider=provider,
-        model=model,
-        dimensions=dimensions,
-        config_digest=config_digest,
-    )
+    # fix_v7 §3b hotfix — the cache layer accepts only (query_text,
+    # config_digest); provider/model/dimensions are already folded into
+    # config_digest via `build_embedding_config_digest`. The prior call
+    # shape was a kwarg-mismatch latent bug that never fired before §3b
+    # made `get_query_embedding` a chat-time hot-path caller.
+    cached = load_query_embedding(query_text=text, config_digest=config_digest)
     if cached is not None:
-        return cached
+        return tuple(cached)
     if not allow_remote:
         return None
     vec = compute_embedding(text)
     if vec is None:
         return None
     save_query_embedding(
-        text,
-        vec,
-        provider=provider,
-        model=model,
-        dimensions=dimensions,
+        query_text=text,
         config_digest=config_digest,
+        embedding=vec,
     )
     return tuple(vec)
 

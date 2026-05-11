@@ -10,7 +10,12 @@ from .answer_assembly import (
     compose_main_chat_answer as _compose_main_chat_answer,
 )
 from .answer_llm_polish import polish_graph_native_answer
+from .answer_polish_rejected_fallback import (
+    compose_polish_rejected_fallback as _compose_polish_rejected_fallback,
+    fallback_enabled as _fallback_enabled,
+)
 from .answer_synthesis import build_graph_native_answer_parts
+from .answer_topic_gate import filter_template_bullets as _filter_template_bullets
 from .contracts import GraphEvidenceBundle, GraphRetrievalPlan
 from .planner import build_graph_retrieval_plan
 from .answer_comparative_regime import (
@@ -166,7 +171,13 @@ def _compose_graph_native_answer(
     temporal_context: dict[str, object],
     evidence: GraphEvidenceBundle,
     sub_questions: tuple[str, ...] = (),
-) -> str:
+):
+    """Return ``(answer_markdown, answer_parts)``.
+
+    fix_v8 §3a — ``answer_parts`` is surfaced back to the caller so the
+    polish-rejected fallback can re-render a substantive answer from the
+    same deterministic parts when ``polish_graph_native_answer`` rejects.
+    """
     answer_parts = build_graph_native_answer_parts(
         request=request,
         answer_mode=answer_mode,
@@ -184,12 +195,16 @@ def _compose_graph_native_answer(
         answer_parts=answer_parts,
     )
     if answer:
-        return answer
+        return answer, answer_parts
     if answer_mode == "graph_native_partial":
         return (
-            "Usa esta salida solo como orientación inicial y confirma el expediente antes de convertirla en instrucción cerrada para el cliente."
+            "Usa esta salida solo como orientación inicial y confirma el expediente antes de convertirla en instrucción cerrada para el cliente.",
+            answer_parts,
         )
-    return "Con la evidencia disponible todavía no alcanzo una recomendación operativa suficientemente confiable."
+    return (
+        "Con la evidencia disponible todavía no alcanzo una recomendación operativa suficientemente confiable.",
+        answer_parts,
+    )
 
 
 def _compose_topic_safety_abstention(
@@ -237,6 +252,12 @@ def _compose_topic_safety_abstention(
             ),
             "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
             "graph_backend": backend_diagnostics.get("graph_backend"),
+            # fix_v8 §3b — abstention path never invokes polish, but the
+            # diagnostic surface must be present on every served chat so
+            # downstream consumers (SME report, probe digest) can read it
+            # unconditionally.
+            "polish_mode": "skipped",
+            "polish_skip_reason": "topic_safety_abstention",
             "topic_safety": topic_safety,
             "pipeline_trace": pipeline_trace,
         },
@@ -777,7 +798,7 @@ def run_pipeline_d(
         planner_query_mode=plan.query_mode,
         sub_question_count=len(effective_sub_questions or ()),
     )
-    answer = _compose_graph_native_answer(
+    answer, answer_parts = _compose_graph_native_answer(
         request=request,
         answer_mode=answer_mode,
         planner_query_mode=plan.query_mode,
@@ -796,19 +817,72 @@ def run_pipeline_d(
         evidence=evidence,
         runtime_config_path=runtime_config_path,
     )
+    # fix_v8 §3b — surface `mode` + `skip_reason` so silent polish
+    # rejections become observable. `mode` ∈ {llm, skipped, rejected,
+    # failed, unknown}; `skip_reason` is one of the enumerated values in
+    # answer_llm_polish.py (e.g. invented_norm_lineage, invented_periods,
+    # anchors_stripped, empty_llm_output, adapter_error:<Type>,
+    # no_adapter_available, polish_disabled_by_env, empty_template,
+    # resolver_error:<Type>).
+    _polish_diag = llm_runtime_diag or {}
+    _polish_mode = _polish_diag.get("mode") or "unknown"
+    _polish_skip = _polish_diag.get("skip_reason")
     _trace.step(
         "polish.applied",
-        status="ok",
-        adapter_class=(llm_runtime_diag or {}).get("adapter_class"),
-        model=(llm_runtime_diag or {}).get("model"),
-        selected_provider=(llm_runtime_diag or {}).get("selected_provider"),
-        selected_type=(llm_runtime_diag or {}).get("selected_type"),
-        selected_transport=(llm_runtime_diag or {}).get("selected_transport"),
-        attempts_count=len((llm_runtime_diag or {}).get("attempts") or []),
+        status="ok" if _polish_mode in {"llm", "skipped"} else "warn",
+        mode=_polish_mode,
+        skip_reason=_polish_skip,
+        adapter_class=_polish_diag.get("adapter_class"),
+        model=_polish_diag.get("model"),
+        selected_provider=_polish_diag.get("selected_provider"),
+        selected_type=_polish_diag.get("selected_type"),
+        selected_transport=_polish_diag.get("selected_transport"),
+        attempts_count=len(_polish_diag.get("attempts") or []),
         polished_chars=len(polished_answer or ""),
         polish_changed=bool((polished_answer or "") != (answer or "")),
     )
     answer = polished_answer
+
+    # fix_v8 §3a — substantive fallback when polish was rejected.
+    # Without this, polish-rejected turns return the bare first-bubble
+    # template (question echo only, ~120 chars). With this, we assemble
+    # the standard section shape from GraphNativeAnswerParts so the user
+    # gets the deterministic answer the engine already has — minus only
+    # the tone-polished prose. The cross-topic gate is then applied to
+    # the fallback's output so the §6.6c invariant holds for the
+    # polish-rejected path too. Operator override:
+    # `LIA_POLISH_REJECTED_FALLBACK_MODE=off` reverts to the legacy
+    # thin-template behavior for incident rollback only.
+    if _polish_mode == "rejected" and _fallback_enabled():
+        fallback = _compose_polish_rejected_fallback(
+            request=request,
+            template_answer=answer,
+            answer_parts=answer_parts,
+            polish_skip_reason=_polish_skip,
+        )
+        _trace.step(
+            "polish.rejected.fallback_composed",
+            status="ok",
+            polish_skip_reason=_polish_skip,
+            template_chars=len(answer or ""),
+            fallback_chars=len(fallback or ""),
+            fallback_changed=bool(fallback != answer),
+        )
+        if fallback and fallback != answer:
+            filtered_fallback, _gate_diag = _filter_template_bullets(
+                fallback,
+                primary_topic=request.topic,
+                secondary_topics=tuple(request.secondary_topics or ()),
+            )
+            _trace.step(
+                "polish.rejected.gate_applied",
+                status="ok",
+                primary_topic=request.topic,
+                gate_mode=_gate_diag.get("gate_mode"),
+                dropped_count=_gate_diag.get("dropped_count"),
+                kept_count=_gate_diag.get("kept_count"),
+            )
+            answer = filtered_fallback
     if callable(on_llm_delta):
         on_llm_delta(answer)
 
@@ -871,6 +945,11 @@ def run_pipeline_d(
             "evidence_bundle": evidence.to_dict(),
             "retrieval_backend": backend_diagnostics.get("retrieval_backend"),
             "graph_backend": backend_diagnostics.get("graph_backend"),
+            # fix_v8 §3b — surface polish outcome at the top of diagnostics
+            # so the SME report's `_build_retrieval_signal_check` and the
+            # probe-skill's digest can both read it without walking the trace.
+            "polish_mode": _polish_mode,
+            "polish_skip_reason": _polish_skip,
             "retrieval_health": retrieval_health,
             # v6 phase 1 — lift retrieval diagnostics to top-level so the A/B
             # harness and panel renderers don't have to drill into

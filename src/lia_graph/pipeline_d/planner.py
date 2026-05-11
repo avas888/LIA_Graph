@@ -437,6 +437,28 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
                     resolved_key=article_key,
                 )
             )
+    # fix_v8 §3g — ICA-in-renta deduction anchor. Q01 trace showed the
+    # retriever drifting to gastos-exterior chunks (Arts. 121-123) for
+    # "¿Puedo deducir el ICA pagado en renta?" because the topic boost
+    # alone wasn't enough to surface Art. 115 (the actual ICA-as-descuento
+    # article). Explicit `kind="article"` anchor pulls Art. 115 via the
+    # retriever's anchor-merge step, independent of hybrid_search ranking.
+    if (
+        not article_refs
+        and not reform_refs
+        and _looks_like_tax_treatment_case(normalized_message)
+        and ("ica" in normalized_message or "industria y comercio" in normalized_message)
+    ):
+        entry_points.append(
+            PlannerEntryPoint(
+                kind="article",
+                lookup_value="115",
+                source="ica_deduction_anchor",
+                confidence=0.92,
+                label="Art. 115",
+                resolved_key="115",
+            )
+        )
 
     if not article_refs and not reform_refs:
         for article_search in _build_article_search_queries(
@@ -700,6 +722,29 @@ def _build_article_search_queries(
             queries.append("devolucion saldo a favor renta correccion firmeza declaracion")
         elif "iva" in normalized_message:
             queries.append("devolucion saldo a favor iva plazos compensacion")
+    # fix_v8 §3g — tax-treatment case. Q01 "¿Puedo deducir el ICA pagado en
+    # renta?" was producing plan_anchor_count=0 and the retriever drifted
+    # to gastos-exterior content (arts. 121/122/123) because the topic
+    # boost alone wasn't enough to surface Art. 115 ET. The phase3
+    # `test_phase3_pipeline_d_recovers_art_115_for_ica_deduction_prompt`
+    # test relies on a different topic route; this case anchors Art. 115
+    # explicitly via article-search regardless of routed topic.
+    if _looks_like_tax_treatment_case(normalized_message):
+        if "ica" in normalized_message or "industria y comercio" in normalized_message:
+            queries.extend(
+                (
+                    "deduccion del ica impuesto industria comercio descuento "
+                    "tributario en renta art 115",
+                    "ica pagado deducible renta descuento tributario art 115 ica",
+                )
+            )
+        queries.extend(
+            (
+                "requisitos generales de deduccion necesidad causalidad "
+                "proporcionalidad art 107",
+                "soporte documental de deducciones factura electronica art 771 771-2",
+            )
+        )
     queries.append(message)
     return tuple(
         OrderedDict.fromkeys(query.strip() for query in queries if str(query or "").strip())

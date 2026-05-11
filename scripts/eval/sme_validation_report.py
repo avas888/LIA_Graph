@@ -225,6 +225,135 @@ def _build_followups(rows: list[dict[str, Any]], run_dir: Path) -> str:
     return "\n".join(parts).rstrip()
 
 
+def _build_retrieval_signal_check(rows: list[dict[str, Any]], run_dir: Path) -> str:
+    """fix_v7 §3a/3b/3c + fix_v8 §3b — scan every response trace and
+    verify the new runtime invariants held during the run. Failures here
+    mean the infrastructure regressed between the code change and the
+    eval, so the run is INCONCLUSIVE rather than a PASS/FAIL of model
+    quality.
+
+    Invariants:
+      • `retriever.hybrid_search.in.filter_topic` is None (post-7a)
+      • `retriever.hybrid_search.in.embedding_mode` == 'ok' (post-7b)
+      • `synthesis.topic_gate.applied.gate_mode` in {'applied',
+        'noop_no_topic_entry', 'disabled_by_env', 'noop_empty_template'}
+        (post-7c — any other value means the gate failed to load)
+      • `diagnostics.polish_mode == 'rejected'` count (post-8b — the
+        fix_v8 §3a substantive fallback should keep the answer useful
+        when this fires; visibility here lets the operator track the
+        rejection rate per run)
+
+    Reports counts; does NOT mutate the verdict — the operator reads
+    this section and decides whether to treat the gauge as inconclusive.
+    """
+
+    expected_gate_modes = {
+        "applied",
+        "noop_no_topic_entry",
+        "noop_empty_template",
+        "disabled_by_env",
+    }
+
+    total_traces = 0
+    filter_topic_violations: list[str] = []
+    embedding_non_ok: dict[str, int] = defaultdict(int)
+    gate_non_expected: dict[str, int] = defaultdict(int)
+    missing_trace: list[str] = []
+    polish_rejected: list[str] = []
+    polish_rejected_reasons: dict[str, int] = defaultdict(int)
+
+    for r in rows:
+        qid = r.get("qid", "(unknown)")
+        response_record = _load_response(run_dir, qid)
+        response = response_record.get("response", {}) or {}
+        diagnostics = response.get("diagnostics") or {}
+        if isinstance(diagnostics, dict) and diagnostics.get("polish_mode") == "rejected":
+            polish_rejected.append(qid)
+            reason = str(diagnostics.get("polish_skip_reason") or "unknown")
+            polish_rejected_reasons[reason] += 1
+        trace = diagnostics.get("pipeline_trace") if isinstance(diagnostics, dict) else None
+        steps = (trace or {}).get("steps") or []
+        if not steps:
+            missing_trace.append(qid)
+            continue
+        total_traces += 1
+
+        gate_modes_seen: set[str] = set()
+        for step in steps:
+            name = step.get("step") or step.get("name") or ""
+            details = step.get("details") or step
+            if name == "retriever.hybrid_search.in":
+                if details.get("filter_topic") is not None:
+                    filter_topic_violations.append(qid)
+                em = details.get("embedding_mode")
+                if em and em != "ok":
+                    embedding_non_ok[em] += 1
+            if name == "synthesis.topic_gate.applied":
+                mode = details.get("gate_mode") or ""
+                gate_modes_seen.add(mode)
+                if mode and mode not in expected_gate_modes:
+                    gate_non_expected[mode] += 1
+        # A run with NO topic-gate trace step at all is fine (the gate
+        # is wired post-template emission and a turn may bail before
+        # then), so we do not report missing gate-steps here.
+
+    lines = [
+        f"- Traces inspected: **{total_traces}** of {len(rows)}",
+    ]
+    if missing_trace:
+        lines.append(
+            f"- ⚠ Missing `pipeline_trace` on {len(missing_trace)} response(s): "
+            f"{', '.join(missing_trace[:10])}{' …' if len(missing_trace) > 10 else ''}"
+        )
+    if filter_topic_violations:
+        lines.append(
+            f"- 🔴 **fix_v7 §3a regression:** `filter_topic` non-None on "
+            f"{len(filter_topic_violations)} qid(s): "
+            f"{', '.join(filter_topic_violations[:10])}"
+            f"{' …' if len(filter_topic_violations) > 10 else ''} — "
+            f"chat path must pass `filter_topic=None` always"
+        )
+    else:
+        lines.append("- ✅ `filter_topic` is None on every served chat (post-7a invariant holds)")
+    if embedding_non_ok:
+        breakdown = ", ".join(f"{k}={v}" for k, v in sorted(embedding_non_ok.items()))
+        lines.append(
+            f"- 🔴 **fix_v7 §3b regression:** `embedding_mode != 'ok'` "
+            f"distribution: {breakdown} — verify GEMINI_API_KEY + "
+            f"LIA_QUERY_EMBEDDINGS_ENABLED on the serving env"
+        )
+    else:
+        lines.append("- ✅ `embedding_mode == 'ok'` on every served chat (post-7b invariant holds)")
+    if gate_non_expected:
+        breakdown = ", ".join(f"{k}={v}" for k, v in sorted(gate_non_expected.items()))
+        lines.append(
+            f"- 🔴 **fix_v7 §3c regression:** unexpected `gate_mode` "
+            f"distribution: {breakdown} — `config/topic_norm_allowlist.json` "
+            f"may have failed to load"
+        )
+    else:
+        lines.append("- ✅ topic-gate `gate_mode` always in the expected set (post-7c invariant holds)")
+    if polish_rejected:
+        breakdown = ", ".join(
+            f"{k}={v}" for k, v in sorted(polish_rejected_reasons.items())
+        )
+        sample = ", ".join(polish_rejected[:10])
+        lines.append(
+            f"- 🟠 **Polish rejected on {len(polish_rejected)} qid(s)** "
+            f"(`polish_mode=rejected`): {sample}"
+            f"{' …' if len(polish_rejected) > 10 else ''} — "
+            f"`polish_skip_reason` distribution: {breakdown}. The fix_v8 §3a "
+            f"substantive fallback should keep the answer useful when this "
+            f"fires; if the visible answers regressed, check the "
+            f"`polish.rejected.fallback_composed` trace step."
+        )
+    else:
+        lines.append(
+            "- ✅ No polish rejections this run (`polish_mode=rejected` count = 0)"
+        )
+    return "\n".join(lines)
+
+
 def _build_cross_checks(rows: list[dict[str, Any]]) -> str:
     by_topic: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in rows:
@@ -283,6 +412,10 @@ def write_report(run_dir: Path) -> Path:
 ## Cross-checks (binding regardless of overall)
 
 {_build_cross_checks(rows)}
+
+## Retrieval signal check (fix_v7 §3a/3b/3c invariants)
+
+{_build_retrieval_signal_check(rows, run_dir)}
 
 ## Topics flagged for follow-up
 

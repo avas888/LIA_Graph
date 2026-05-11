@@ -441,44 +441,150 @@ def _build_polish_prompt(
     template_answer: str,
     evidence: GraphEvidenceBundle,
 ) -> str:
+    # fix_v8 §3e — richer evidence inlining + a leading Primary Directive
+    # that names the exact failure modes the validator rejects. Goal:
+    # keep the LLM's tone-polish value-add while collapsing the
+    # `invented_norm_lineage` / `invented_periods` rejection rate. The
+    # registered rules block is still appended verbatim so existing
+    # validators don't drift.
     primary_lines: list[str] = []
-    for item in evidence.primary_articles[:4]:
+    primary_keys: list[str] = []
+    for item in evidence.primary_articles[:6]:
         excerpt = (item.excerpt or "").strip().replace("\n", " ")
-        if len(excerpt) > 600:
-            excerpt = excerpt[:600] + "…"
+        if len(excerpt) > 900:
+            excerpt = excerpt[:900] + "…"
         primary_lines.append(
-            f"- Art. {item.node_key} — {item.title}: {excerpt}"
+            f"- Art. {item.node_key} — {item.title}\n  {excerpt}" if excerpt
+            else f"- Art. {item.node_key} — {item.title}"
         )
+        primary_keys.append(str(item.node_key))
+
     connected_lines: list[str] = []
-    for item in evidence.connected_articles[:6]:
-        connected_lines.append(f"- Art. {item.node_key} — {item.title}")
+    connected_keys: list[str] = []
+    for item in evidence.connected_articles[:8]:
+        excerpt = (item.excerpt or "").strip().replace("\n", " ")
+        if len(excerpt) > 300:
+            excerpt = excerpt[:300] + "…"
+        connected_lines.append(
+            f"- Art. {item.node_key} — {item.title}\n  {excerpt}" if excerpt
+            else f"- Art. {item.node_key} — {item.title}"
+        )
+        connected_keys.append(str(item.node_key))
+
+    reform_lines: list[str] = []
+    reform_labels: list[str] = []
+    for item in evidence.related_reforms[:6]:
+        excerpt = (item.excerpt or "").strip().replace("\n", " ")
+        if len(excerpt) > 240:
+            excerpt = excerpt[:240] + "…"
+        label = (item.title or item.node_key or "").strip()
+        reform_lines.append(
+            f"- {label}\n  {excerpt}" if excerpt else f"- {label}"
+        )
+        if label:
+            reform_labels.append(label)
+
     support_lines: list[str] = []
     for doc in evidence.support_documents[:4]:
         support_lines.append(f"- {doc.title_hint} (family={doc.family})")
 
-    primary_block = "\n".join(primary_lines) or "(sin artículos ancla retornados por el grafo)"
-    connected_block = "\n".join(connected_lines) or "(sin artículos adyacentes)"
-    support_block = "\n".join(support_lines) or "(sin documentos de soporte)"
+    primary_block = (
+        "\n".join(primary_lines)
+        or "(sin artículos ancla retornados por el grafo)"
+    )
+    connected_block = (
+        "\n".join(connected_lines) or "(sin artículos adyacentes)"
+    )
+    reform_block = "\n".join(reform_lines) or "(sin reformas relacionadas)"
+    support_block = (
+        "\n".join(support_lines) or "(sin documentos de soporte)"
+    )
+
+    # Explicit allowlist the LLM can scan in one second. Anything outside
+    # these lists is forbidden — this is the bright line the rejection
+    # validators enforce.
+    allowed_articles = ", ".join(
+        f"Art. {k}" for k in (primary_keys + connected_keys) if k
+    ) or "(ninguno — no cites artículos del ET en la reescritura)"
+    allowed_reforms = (
+        " | ".join(reform_labels)
+        or "(ninguna — no introduzcas Leyes, Decretos, Resoluciones, Sentencias o Conceptos)"
+    )
+
+    primary_directive = (
+        "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
+        "por encima de cualquier otra cosa:\n"
+        "\n"
+        "Podés reescribir la prosa del BORRADOR para que suene como un "
+        "contador colombiano senior — claro, operativo, sin relleno, sin "
+        "disclaimers. Lo que NO podés hacer es inventar contenido. "
+        "Específicamente:\n"
+        "\n"
+        "1) NO introduzcas referencias a leyes, decretos, resoluciones, "
+        "conceptos DIAN, sentencias, autos, circulares o cualquier otra "
+        "norma cuyo identificador no aparezca literalmente en la lista "
+        "REFORMAS Y NORMAS PERMITIDAS abajo. Si la norma no está listada, "
+        "NO existe para esta respuesta — aunque la tengas memorizada.\n"
+        "\n"
+        "2) NO cites artículos del ET cuyo número no aparezca en la lista "
+        "ARTÍCULOS PERMITIDOS abajo. Citar `(art. N ET)` con N fuera de "
+        "esa lista es invención y será rechazado.\n"
+        "\n"
+        "3) NO introduzcas años, períodos gravables ni rangos temporales "
+        "(\"AG 2024\", \"2022 y 2023\", \"ejercicio 2025\") que no aparezcan "
+        "en el BORRADOR.\n"
+        "\n"
+        "4) NO inventes cifras, plazos, topes ni porcentajes que no estén "
+        "en el BORRADOR o en los EXCERPTS de la evidencia abajo.\n"
+        "\n"
+        "Consecuencia: tu salida pasa por un validador automático. Si "
+        "violás cualquiera de los puntos 1–4, tu reescritura se descarta "
+        "y al usuario le mostramos un fallback determinista más breve. "
+        "Para que tu trabajo cuente, quedate dentro de la evidencia."
+    )
+
+    allowlist_block = (
+        "ARTÍCULOS PERMITIDOS PARA CITAR (origen: ARTÍCULOS ANCLA + "
+        "ADYACENTES):\n"
+        f"{allowed_articles}\n"
+        "\n"
+        "REFORMAS Y NORMAS PERMITIDAS (Leyes, Decretos, Resoluciones, "
+        "Sentencias, Conceptos — origen: REFORMAS RELACIONADAS):\n"
+        f"{allowed_reforms}"
+    )
 
     return (
-        "Actuás como un contador colombiano senior revisando la respuesta de un colega junior. "
-        "Tu trabajo es reescribir la respuesta borrador para que suene como un contador senior "
-        "guiando a otro: claro, operativo, sin relleno académico, sin disclaimers genéricos. "
-        "\n\n"
+        "Actuás como un contador colombiano senior revisando la respuesta "
+        "de un colega junior. Tu trabajo es reescribir la respuesta "
+        "borrador para que suene como un contador senior guiando a otro: "
+        "claro, operativo, sin relleno académico, sin disclaimers "
+        "genéricos.\n"
+        "\n"
+        f"{primary_directive}\n"
+        "\n"
+        f"{allowlist_block}\n"
+        "\n"
         f"{_rules_block()}\n"
         "\n"
         f"PREGUNTA DEL USUARIO:\n{request.message}\n"
         "\n"
-        f"ARTÍCULOS ANCLA DEL GRAFO:\n{primary_block}\n"
+        f"ARTÍCULOS ANCLA DEL GRAFO (con extractos para fundamentar la "
+        f"reescritura):\n{primary_block}\n"
         "\n"
-        f"ARTÍCULOS ADYACENTES (referencia opcional):\n{connected_block}\n"
+        f"ARTÍCULOS ADYACENTES (referencia opcional, con extractos "
+        f"breves):\n{connected_block}\n"
+        "\n"
+        f"REFORMAS RELACIONADAS (las ÚNICAS leyes/decretos/sentencias que "
+        f"podés citar):\n{reform_block}\n"
         "\n"
         f"DOCUMENTOS DE SOPORTE:\n{support_block}\n"
         "\n"
-        "BORRADOR A REESCRIBIR (mantené estructura + todos los anchors inline):\n"
+        "BORRADOR A REESCRIBIR (mantené estructura + todos los anchors "
+        "inline):\n"
         f"{template_answer}\n"
         "\n"
-        "Devolvé SOLO el texto reescrito en Markdown, sin explicación previa ni posterior."
+        "Devolvé SOLO el texto reescrito en Markdown, sin explicación "
+        "previa ni posterior."
     )
 
 

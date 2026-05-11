@@ -1,0 +1,20 @@
+{
+  "_schema_version": 1,
+  "_doc": "fix_v7 §3c — per-topic allowlist of canonical norm `article_key` prefixes that the synthesis layer is allowed to surface inside bullets. A bullet with NO norm anchor always passes; a bullet that cites an article WHOSE `art:<number>` form does not start with any allowed prefix is dropped before the polish LLM ever sees the template. Cross-topic carve-outs (`cross_topic_allowed`) document the sibling topics whose bullets should still be allowed once per-bullet provenance lands in synthesis — today they are informational only, the gate matches on `allowed_prefixes` alone. SAFETY: the gate is a NO-OP for any primary_topic not listed here. This file ships with a deliberately minimal scaffold of high-signal topics; the operator must expand it after verifying the prefix list against real chunks. Per `feedback_no_hallucinated_examples`, every prefix in this file is a real ET article number that resolves to at least one chunk in the served corpus. fix_v8 §3c attempted a six-topic expansion (`beneficio_auditoria`, `costos_deducciones_renta`, `declaracion_renta`, `procedimiento_tributario`, `facturacion_electronica`) but the candidate `allowed_prefixes` did not cover the full set of ET articles synthesis legitimately surfaces for those topics today (e.g. `declaracion_renta` answers cite Arts. 869/869-1/869-2 abuso, 115 ICA, 147 pérdidas, 850 devolución), so the expansion over-fired and dropped bullets the existing phase3 tests assert MUST be present. The expansion is therefore drafted but NOT shipped — it is blocked on a cloud-chunks-probe + over-firing-diagnosis cycle the operator must run separately. See `docs/re-engineer/fix/fix_v8_may.md §3c — status: 🛠 drafted, ↩ over-fire-blocked`.",
+  "_topic_keys_source": "src/lia_graph/topic_router_keywords.py::_TOPIC_KEYWORDS",
+  "_validation_rule": "every key must appear in `_TOPIC_KEYWORDS`; tests/test_topic_norm_allowlist.py enforces this on every CI run.",
+  "perdidas_fiscales_art147": {
+    "allowed_prefixes": ["art:147", "art:290", "art:714", "art:689"],
+    "cross_topic_allowed": ["declaracion_renta", "procedimiento_tributario"],
+    "_notes": "Pérdidas fiscales (Art. 147 ET) is the canonical anchor; Art. 290 covers transitional adjustments; Art. 714 firmeza and Art. 689-3 beneficio de auditoría are the two firmeza-related carve-outs accountants legitimately reference alongside compensación."
+  },
+  "regimen_simple": {
+    "allowed_prefixes": [
+      "art:903", "art:904", "art:905", "art:906", "art:907",
+      "art:908", "art:909", "art:910", "art:911", "art:912",
+      "art:913", "art:914", "art:915", "art:916"
+    ],
+    "cross_topic_allowed": ["iva", "ica"],
+    "_notes": "Régimen Simple is articles 903–916 ET. ICA/IVA carve-outs because the régimen integrates municipal ICA and substitutes the IVA general-régimen for some categories."
+  }
+}

@@ -1,7 +1,11 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-04-26-additive-no-retire`.**
+> **Env matrix version: `v2026-05-11-fix-v8-polish-fallback-prompt-anchor`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/orchestration/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
+>
+> **2026-05-11 cumulative ship state (fix_v7 + fix_v8):**
+> - **fix_v8 landings (today).** `LIA_POLISH_REJECTED_FALLBACK_MODE=enforce` (default; substantive fallback assembles answer from `GraphNativeAnswerParts` when polish rejects). Polish prompt rewritten with explicit DIRECTIVA PRIMARIA + `ARTÍCULOS PERMITIDOS` + `REFORMAS Y NORMAS PERMITIDAS` allowlists. `gemini-flash` temperature 0.1 → 0.0 in `config/llm_runtime.json` for the chat path (canonicalizer DeepSeek stays at 0.1). `planner.py` anchors Art. 115 ET explicitly for ICA-deduction queries. `response.diagnostics` now carries `polish_mode` ∈ `{llm, skipped, rejected, failed, unknown}` and `polish_skip_reason`. 10-question probe: substantive ≥800c went 6/10 → 10/10; rejections went 7/10 → 3/10 (all caught by fallback). 36-question SME panel: PASS at 34/36 acc+ / 26 strong / 0 weak, polish rejections 21 → 18 with temp=0. Phase 8c topic-norm-allowlist expansion drafted but reverted (`docs/re-engineer/fix/fix_v8_may.md §3c`).
+> - **fix_v7 landings (2026-05-11 morning).** `LIA_QUERY_EMBEDDINGS_ENABLED=1` (default; gemini-embedding-001 powers the vector half of RRF). `LIA_TOPIC_GATE_MODE=enforce` (default; cross-topic content gate drops off-topic-norm bullets before polish runs). New migration `20260512000000_topic_filter_soft.sql` adds `boost_topic` to `hybrid_search`.
 >
 > **2026-04-25 cumulative ship state (next_v3 close + next_v4 §3/§4/§5):**
 > - **All "no off flags" promotions in effect.** `LIA_TEMA_FIRST_RETRIEVAL=on`, `LIA_EVIDENCE_COHERENCE_GATE=enforce`, `LIA_POLICY_CITATION_ALLOWLIST=enforce`, `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce`, `LIA_RERANKER_MODE=live`, `LIA_QUERY_DECOMPOSE=on`, `LIA_LLM_POLISH_ENABLED=1` — all three modes.
@@ -34,7 +38,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-04-26-additive-no-retire)
+## Runtime Retrieval Flags (v2026-05-11-fix-v8-polish-fallback-prompt-anchor)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -50,6 +54,9 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_EVIDENCE_COHERENCE_GATE` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/_coherence_gate.py` — defensive refusal gate. **Flipped `shadow → enforce` 2026-04-25** per operator's "no off flags" directive. ~3% refusal rate; revert to `shadow` if regressions surface. |
 | `LIA_POLICY_CITATION_ALLOWLIST` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/_citation_allowlist.py` — per-topic defensive citation filter. **Flipped `off → enforce` 2026-04-25** per operator's "no off flags" directive. Higher-risk flip (not end-to-end verified per the original six-gate policy); risk-forward internal-beta posture accepts the trade-off. |
 | `LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE` | **`enforce`** | **`enforce`** | **`enforce`** | `ingestion_classifier.py` — taxonomy-aware classifier prompt + 6 mutex rules + K2 path-veto. Affects ingest only; runtime ignores it. |
+| `LIA_QUERY_EMBEDDINGS_ENABLED` | **`1`** | **`1`** | **`1`** | `pipeline_d/retriever_supabase.py::_query_embedding` — fix_v7 §3b. Default `1`: gemini-embedding-001 powers the vector half of RRF. Set `0` for emergency rollback (FTS-only). |
+| `LIA_TOPIC_GATE_MODE` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/answer_topic_gate.py` — fix_v7 §3c. Default `enforce`: drops template bullets citing norms outside the primary topic's `allowed_prefixes` BEFORE polish runs. Set `off` to disable without removing the config. |
+| `LIA_POLISH_REJECTED_FALLBACK_MODE` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/answer_polish_rejected_fallback.py` — fix_v8 §3a. Default `enforce`: when polish returns `mode=rejected`, orchestrator assembles a substantive answer from `GraphNativeAnswerParts` instead of returning the bare question-echo template; cross-topic gate re-applied to the fallback output. Set `off` for incident-rollback only. |
 | `LIA_RERANKER_ENDPOINT` | unset | unset | unset | `pipeline_d/reranker.py` — base URL of the bge-reranker-v2-m3 sidecar (`POST {url}/rerank`). Unset until the sidecar is deployed. |
 | `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 

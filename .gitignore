@@ -100,3 +100,7 @@ tracers_and_logs/logs/*.log
 tracers_and_logs/logs/probe_runs/
 tracers_and_logs/logs/sme_panel_runs/
 !tracers_and_logs/logs/.gitkeep
+
+# fix_v8 §3b — query embedding LRU cache (rebuilt at runtime; should not be tracked)
+artifacts/query_embedding_cache/
+

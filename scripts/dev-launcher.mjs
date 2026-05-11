@@ -350,6 +350,29 @@ function buildRuntimeEnv(mode) {
     env.LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE = "enforce";
   }
 
+  // fix_v7 §3b — real query-side Gemini embeddings replace the legacy
+  // 768-dim zero vector. Default `1` (on) across all three modes per the
+  // "every non-contradicting improvement flag on" stance for internal beta.
+  // Shell override still wins. Rollback path: set `LIA_QUERY_EMBEDDINGS_ENABLED=0`
+  // (zero-vector falls back into hybrid_search; FTS half of RRF dominates).
+  // Required for the orchestration.md §4.1 invariant "vector half of RRF
+  // is live, not silently zeroed".
+  if (!String(env.LIA_QUERY_EMBEDDINGS_ENABLED || "").trim()) {
+    env.LIA_QUERY_EMBEDDINGS_ENABLED = "1";
+  }
+
+  // fix_v7 §3c — synthesis-time cross-topic content gate. Drops template
+  // bullets that cite norms whose `art:<N>` prefix is not in
+  // `config/topic_norm_allowlist.json[primary_topic]["allowed_prefixes"]`
+  // (with `cross_topic_allowed` carve-outs for known sibling topics).
+  // Default `enforce` 2026-05-11 — the gate is a no-op for any topic that
+  // isn't in the allowlist, so the worst-case is "no change in behavior",
+  // never a regression. Shell override wins; `LIA_TOPIC_GATE_MODE=off`
+  // disables without removing the config file.
+  if (!String(env.LIA_TOPIC_GATE_MODE || "").trim()) {
+    env.LIA_TOPIC_GATE_MODE = "enforce";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

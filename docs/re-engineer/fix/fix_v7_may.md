@@ -1034,3 +1034,173 @@ real-data run in gate 5.
 6. **Suggest the next step** to the operator per
    `feedback_always_suggest_next` (which phase to ship next, what
    it unblocks, and the cost in time).
+
+---
+
+## 13. Verification run — 2026-05-11 (added post-implementation)
+
+10-question probe re-fired after fix_v7 §3a + §3b + §3c landed, the
+`load_query_embedding` kwarg-mismatch hotfix on `src/lia_graph/embeddings.py`
+applied, and migration `20260512000000_topic_filter_soft.sql` pushed to cloud
+staging via `supabase db push --linked`. Same 10 questions as the pre-fix
+baseline at
+`tracers_and_logs/logs/probe_runs/20260511T003617Z_10q_post_polish_guardrails/`.
+
+**Post-fix run dir**:
+`tracers_and_logs/logs/probe_runs/20260511T131027Z_10q_post_fix_v7_hotfix/`.
+
+### 13.1 Tally vs prior run
+
+| QID | Topic | Prior len | Post len | Δ | Verdict | Pattern |
+|---|---|---:|---:|---:|---|---|
+| Q01 | ICA deducible | 3068 | 2518 | −550 | **pass** | "no son concurrentes" polish hallucination FIXED; citations swapped CST/SUIN noise for Ley 14/1983 + ICA-L01 (real-embedding recall lift) |
+| Q02 | Art. 107 requisitos | 2317 | 119 | **−2198** | **fail** | Polish silently rejected → bare question-echo template |
+| Q03 | Soporte documental | 2192 | 92 | **−2100** | **fail** | Same as Q02 — polish rejected, thin template |
+| Q04 | Beneficio 689-3 | 1307 | 1307 | 0 | warn | Stable; cross-topic bleed (147/290) persists because `beneficio_auditoria` not in scaffold allowlist |
+| Q05 | Corrección post-firmeza | 1287 | 1287 | 0 | warn | Stable; same shape as Q04 |
+| Q06 | RST + beneficio auditoría | 456 | 865 | +409 | **pass** | Substantive improvement; no invented lineage; polish enriched cleanly |
+| Q07 | Plazos AG 2025 | 2180 | 122 | **−2058** | **fail** | Same as Q02 — corpus gap (AG 2025 calendar) compounds polish rejection |
+| Q08 | Formulario PJ ordinario | 2402 | 120 | **−2282** | **fail** | Same as Q02 — anchor-friendly Q but planner emitted no anchor |
+| Q09 | Compensación pérdidas | 3220 | 2153 | −1067 | **pass** | §3c gate fired as designed: `gate_mode=applied, dropped=3, kept=13`. Shorter answer is the *correct* behavior |
+| Q10 | RST vs ordinario | 146 | 0 | −146 | **fail** | 180s timeout (http=−1); comparative_regime_chain hangs on cloud |
+
+**Pass / warn / fail = 3 / 2 / 5.** Prior run was good / mixed / broken = 3 / 3 / 4. **Net: the same number of good answers, +1 broken.**
+
+### 13.2 What the fix_v7 phases actually achieved
+
+Every fix_v7 invariant verified on every served chat (10/10):
+
+- **§3a — topic filter / boost decoupling.** ✅ `filter_topic=None` on every call. `boost_topic=<router_topic>` carried (`costos_deducciones_renta` on Q01–Q03, `beneficio_auditoria` on Q04–Q05, `regimen_simple` on Q06, `declaracion_renta` on Q07–Q08, `perdidas_fiscales_art147` on Q09). After `supabase db push --linked`, no `retriever.hybrid_search.first_attempt_error` recovery on any question — cloud RPC accepts `boost_topic` natively now. Cross-topic recall lift is observable: Q01's citations swapped CST + SUIN stubs for Ley 14/1983 + ICA-L01 practical guide.
+- **§3b — real query embeddings.** ✅ `embedding_mode=ok`, `embedding_model=gemini-embedding-001` on every call. Q01's better semantic recall is downstream of this. Operational note: the helper exposed a pre-existing kwarg bug in `lia_graph.embeddings.get_query_embedding` (line 226: `load_query_embedding(text, provider=..., model=..., dimensions=..., config_digest=...)`) — the cache layer's signature is `(*, query_text, config_digest)`. Hotfix applied during this verification (commit-time delta on `src/lia_graph/embeddings.py`). Without the hotfix, `embedding_mode=error` on every call and chat fell back to FTS-only retrieval; with the hotfix the vector half of RRF is live.
+- **§3c — cross-topic content gate.** ✅ Fired exactly once across the 10-question run, on Q09 (`perdidas_fiscales_art147` is the only relevant topic in the scaffold allowlist), with `gate_mode=applied, dropped=3, kept=13`. Q01–Q08 + Q10 all emit `gate_mode=noop_no_topic_entry` for their primary topics (`costos_deducciones_renta`, `beneficio_auditoria`, `declaracion_renta`, `regimen_simple`) — those topics aren't in the scaffold allowlist by design (`docs/orchestration/orchestration.md §6.6c`), so the gate is a designed no-op. The Q09 reduction (3220→2153 chars) is the **correct** behavior of the gate: it dropped three off-topic bullets that the prior run was citing, kept the on-topic substance.
+
+**Net: every promised invariant holds.** The three regressions (Q02, Q03, Q07, Q08) are NOT direct fix_v7 bugs — they are a side-effect of *better* retrieval triggering a previously-rare interaction with the polish-guardrails fallback path.
+
+### 13.3 The systemic regression — "polish-rejected-fallback-is-too-thin"
+
+Four of the five new fails share the exact same fingerprint:
+
+```
+template_chars  ≈ 90–122   ← synthesis built a question-echo stub
+polished_chars  ≈ template_chars (Q3/Q7/Q8: exactly equal; Q2: +4 from
+                                  post-hoc numeric-bold transformer)
+polish_changed  = False (Q3/Q7/Q8) or True (Q2, but only because the
+                                  post-hoc transformer added 4 chars)
+answer_markdown = "**Respuestas directas**\n- **<question>**\n"
+                  — i.e. the user gets back only the question, bolded.
+```
+
+The pipeline does the following on those four questions:
+
+1. Planner classifies as `computation_chain` (Q2, Q3), `general_graph_research` (Q7, Q8), or `obligation_chain` (Q2) — modes where the planner emits **zero anchor articles** when the question doesn't lexically name a specific norm.
+2. Retrieval still finds substantive chunks (5 primary + 5 connected + 5 support; seed_article_keys are populated for Q02: `[107, 121, 122, 123, 124, 124-1]`).
+3. Synthesis (`compose_first_bubble_answer` for graph_native mode) builds a deliberately thin "first bubble" template — basically the question echoed back as a header. The expectation is that **polish will enrich it** from the evidence bundle.
+4. Polish runs Gemini on the rich evidence + the thin template.
+5. **Gemini hallucinates something that trips a guardrail** (likely `invented_norm_lineage` — citing a Ley/Decreto/Resolución not actually in the evidence — or `invented_periods` — fabricating an AG year). Both guardrails were landed in the same session as `fix_v7_may.md` was drafted (see §0 inheritance).
+6. `answer_llm_polish.polish_graph_native_answer` returns `_apply_post_hoc_transformers(template_answer)` per the rejection-fallback path at `src/lia_graph/pipeline_d/answer_llm_polish.py:309-314`.
+7. The post-hoc transformer adds numeric-bold markdown around any bare article number. On Q2 there was a `107` to bold (+4 chars). On Q3/Q7/Q8 the template already had the number bolded, so the transformer was a no-op and `polish_changed=False`.
+8. The user receives the bolded question and nothing else.
+
+**Why fix_v7 unmasked this**: prior to §3a + §3b, retrieval was thinner and lexically dominated. The polish prompt saw fewer, narrower chunks and tended to play it safe. With real query embeddings + cross-topic recall, the prompt now sees a richer, more semantically diverse evidence bundle — and Gemini becomes more confident in mentioning related-but-not-cited norms or periods. The guardrails (correctly) reject those. But the fallback design assumes polish almost always passes.
+
+**Why the prior run avoided this on Q2/Q3/Q7/Q8**: the polish guardrails were added in the same drafting session as fix_v7_may.md (`§0 inheritance` lists them). The PRIOR PROBE RUN (`20260511T003617Z_10q_post_polish_guardrails`) ran with the guardrails ON but with the OLD retrieval (zero-vector embeddings, hard topic-filter at SQL level). With less diverse evidence, Gemini's polish output was less likely to invent lineage and the guardrails seldom rejected on these specific questions.
+
+### 13.4 Failure-mode taxonomy from the post-fix run
+
+**Shape A — "Polish rejected, no substantive fallback"** (Q2, Q3, Q7, Q8 — 4 questions, the dominant new regression):
+
+- `template_chars` < 200, `polish_changed` ∈ {False, +4 chars}
+- `gate_mode = noop_no_topic_entry` (gate is NOT the cause)
+- `embedding_mode = ok` (retrieval IS healthy)
+- User-visible: question echo only.
+- Root cause: polish-rejection fallback is the synthesis template, and the synthesis template for `graph_native` mode is intentionally thin because polish is supposed to enrich it.
+
+**Shape B — "Stable answer, cross-topic bleed persists"** (Q4, Q5 — 2 questions, warn):
+
+- `template_chars` ≈ 1290, `polish_changed=True`
+- Answer cites the right primary norm (Art. 689-3) but the supporting bullets reference Arts. 147 / 290 / 588 (pérdidas-fiscales norms) on a `beneficio_auditoria` question.
+- Root cause: `beneficio_auditoria` is NOT in `config/topic_norm_allowlist.json` (scaffold only contains `perdidas_fiscales_art147` + `regimen_simple` because hallucinated topic keys fail CI per `feedback_no_hallucinated_examples`). Without an allowlist entry, the gate is `noop_no_topic_entry` by design.
+- Action item recorded: expand the allowlist scaffold to cover `beneficio_auditoria`, `costos_deducciones_renta`, `declaracion_renta`, `procedimiento_tributario`, `facturacion_electronica`, `calendario_obligaciones` — each prefix verified against real `chunks.reference_key` rows in cloud Supabase.
+
+**Shape C — "Gate fired as designed"** (Q9 — 1 question, pass):
+
+- `gate_mode = applied`, `dropped_count = 3`, `kept_count = 13`
+- Final answer is 1067 chars shorter than prior (3220 → 2153) BUT cleaner — the dropped bullets were citing off-topic norms.
+- This is the **target behavior** of §3c. The shorter answer is the right answer.
+
+**Shape D — "Comparative-regime timeout"** (Q10 — 1 question, fail):
+
+- 180-second client-side timeout on cloud staging.
+- Prior run captured 146 chars (template-shaped). Post-fix run captured nothing because the request never returned.
+- The `comparative_regime_chain` path was noted as a regression in the prior report; fix_v7 didn't address it.
+- Separate workstream from fix_v7. Likely candidates: a slow Cypher in `retriever_falkor.py`, or a polish-loop that doesn't terminate.
+
+**Shape E — "Improvement on the merits"** (Q1, Q6 — 2 questions, pass):
+
+- Q1: prior run had a semantic hallucination ("no son concurrentes" between 50% descuento and 100% deducción); post-fix run frames the choice correctly. Citations swapped pure-noise SUIN stubs for the actual ICA framework (Ley 14/1983).
+- Q6: prior run had 456 chars (thin); post-fix run has 865 chars with no invented Ley lineage. Polish enriched cleanly.
+
+### 13.5 Why a per-question fix is the wrong response
+
+The user's directive from the verification call: "if we over-correct for a particular question we are damaging the overall effectiveness of the general class retriever."
+
+This is correct. Each of the four Shape-A regressions could be hand-patched by:
+
+- Adding the missing seed-article anchor to the planner for that specific question pattern (would help Q7/Q8 but not Q2/Q3).
+- Whitelisting specific Ley references in the guardrail for that topic (would weaken the guardrail).
+- Adding a corpus chunk that covers the question verbatim (corpus over-fitting).
+
+None of those are systemic. The systemic finding is: **the synthesis template is the polish-rejection fallback, but it's too thin to be a useful fallback**. Fixing that one design property closes Shape A across every question pattern simultaneously — without touching retrieval, polish, or the gate.
+
+### 13.6 Proposed systemic next steps (for fix_v8)
+
+Three orthogonal candidates, evaluable independently. None of them weakens the guardrails (per `feedback_thresholds_no_lower`).
+
+**Candidate A — Substantive polish-rejected fallback.** When `polish_graph_native_answer` rejects, fall back to a richer template assembled from `GraphNativeAnswerParts` (recommendations + procedure + paperwork + legal_anchor + precautions) instead of the bare first-bubble template. This means the synthesis path that's currently optimized for "polish will enrich" needs a second, deterministic emission shape for "polish was rejected, render what we have."
+
+- Module: `src/lia_graph/pipeline_d/answer_assembly.py` + `answer_synthesis.py`
+- Test: re-run Q02, Q03, Q07, Q08 → answer ≥ 800 chars and contains specific bullets from `GraphNativeAnswerParts` even though polish was rejected.
+- Risk: low — only fires when polish is rejected (a small fraction of turns). Adds determinism on a path that today returns essentially nothing.
+
+**Candidate B — Expose `skip_reason` in the polish trace step.** Currently `synthesis.polish.applied` carries `polish_changed` and `polished_chars` but not `mode` or `skip_reason`. Operators reading a trace today cannot distinguish "polish ran and succeeded" from "polish ran, output rejected, fell back to template." Add `mode` (one of `llm`, `skipped`, `rejected`, `failed`) and `skip_reason` (one of the seven enumerated reasons in `answer_llm_polish.py`).
+
+- Module: `src/lia_graph/pipeline_d/orchestrator.py:799-810`
+- Test: re-run the four Shape-A questions; verify trace shows `mode=rejected` with the specific rule that fired.
+- Risk: zero — pure instrumentation.
+
+**Candidate C — Allowlist scaffold expansion.** Add the six missing top-level topic entries (`beneficio_auditoria`, `costos_deducciones_renta`, `declaracion_renta`, `procedimiento_tributario`, `facturacion_electronica`, `calendario_obligaciones`) so the §3c gate has substance to act on across the common chat topics. Each `allowed_prefixes` list verified against real cloud Supabase chunks per `feedback_no_hallucinated_examples`. Once landed, Q4/Q5's cross-topic bleed (Arts. 147/290/588 on a `beneficio_auditoria` question) gets dropped.
+
+- Module: `config/topic_norm_allowlist.json`
+- Test: re-run Q4, Q5 → gate_mode=applied, dropped_count ≥ 2 each, kept_count > 0.
+- Risk: medium — under-curated allowlists could drop legitimate cross-topic citations. Mitigate via the staging probe before rolling forward.
+
+**Candidate D — Comparative-regime timeout root-cause.** Investigate why Q10's `comparative_regime_chain` path hangs on cloud. Separate from fix_v7.
+
+**Recommended order:** B (1 hour, zero risk, makes future runs observable) → A (half-day, addresses the dominant new failure mode) → C (1–2 days including SME validation of each prefix list) → D (separate workstream).
+
+### 13.7 What fix_v7 demonstrably did, summarized
+
+- §3a soft-topic / boost decoupling: WORKS, every call. Cross-topic anchors structurally reachable. Migration applied to cloud staging in this verification pass.
+- §3b real query embeddings: WORKS, every call. Required hotfix to `lia_graph.embeddings.get_query_embedding` to repair a pre-existing kwarg mismatch.
+- §3c cross-topic content gate: WORKS as designed. Fires on every question; emits `noop_no_topic_entry` for topics not in the scaffold allowlist; emits `applied` with non-zero dropped_count on the one question (Q09) whose topic is in scaffold.
+- Net visible-answer impact: 3 strict improvements (Q01, Q06, Q09 — the last is shorter-but-cleaner), 2 stable (Q04, Q05), 4 polish-fallback regressions (Q02, Q03, Q07, Q08), 1 unchanged-broken (Q10 timeout).
+- **The fix_v7 promises were kept. The post-fix net product impact is mixed because of a pre-existing brittleness in the polish-rejection fallback path that fix_v7's better retrieval exposed.**
+
+### 13.8 Six-gate lifecycle bookkeeping
+
+Per CLAUDE.md non-negotiable for `docs/aa_next/**` work — and even though this is `docs/re-engineer/fix/`, the same lifecycle applies to verification:
+
+| Phase | Gate 5 (greenlight) | Gate 6 (refine or discard) |
+|---|---|---|
+| §3a | 🧪 verified — staging probe + new tests; cross-topic anchors reachable | ✅ keep |
+| §3b | 🧪 verified after hotfix to `embeddings.py` kwarg-mismatch | ✅ keep, but document the latent bug and the chain that triggered it |
+| §3c | 🧪 verified for `perdidas_fiscales_art147` (Q09); blocked on operator-curated allowlist expansion for the other six common topics | ⏳ keep on scaffold; expand carefully per Candidate C |
+| Post-implementation finding | the polish-fallback brittleness | ↩ **NEW workstream** — fix_v8 Candidate A above |
+
+### 13.9 Diagnostic artifacts
+
+- Verdicts ledger: `tracers_and_logs/logs/probe_runs/20260511T131027Z_10q_post_fix_v7_hotfix/verdicts.jsonl`
+- Per-question raw responses + traces: same dir, `<qid>.json`
+- Compact comparison summary (machine-readable): same dir, `_compact_summary.json`
+- Side-by-side report: same dir, `report.md`
+- Prior-run baseline: `tracers_and_logs/logs/probe_runs/20260511T003617Z_10q_post_polish_guardrails/`
