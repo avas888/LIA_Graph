@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "providers": ["python", "node"],
+  "steps": {
+    "build-frontend": {
+      "inputs": [
+        { "step": "install:node" }
+      ],
+      "commands": [
+        "npm --prefix frontend ci --no-audit --no-fund",
+        "npm --prefix frontend run build:public"
+      ]
+    }
+  },
+  "deploy": {
+    "inputs": [
+      { "step": "install:python" },
+      { "step": "build-frontend" }
+    ],
+    "startCommand": "uv run lia-ui --host 0.0.0.0 --port $PORT"
+  }
+}

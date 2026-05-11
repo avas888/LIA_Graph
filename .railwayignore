@@ -1,0 +1,44 @@
+# Files Railway doesn't need at build/runtime.
+# Reduces the snapshot size sent to the Metal builder and the resulting image.
+
+# Heavy raw corpus + ingestion sources (cloud Supabase/Falkor serve production reads)
+knowledge_base/
+artifacts/_archive/
+artifacts/temp/
+artifacts/_backup_*/
+artifacts/query_embedding_cache/
+
+# Eval + probe history (forensic record in git, not needed by the running server)
+evals/
+tracers_and_logs/
+sme_panel_runs/
+probe_runs/
+
+# Local dev scaffolding
+supabase/.temp/
+supabase/seed.sql
+.venv/
+node_modules/
+frontend/node_modules/
+frontend/dist/
+ui/
+
+# Tests don't run at deploy time
+tests/
+
+# Developer tooling
+.claude/
+.cursor/
+.vscode/
+*.log
+*.pid
+*.pyc
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Docs we don't need on the running container
+docs/
+*.md
+!README.md
