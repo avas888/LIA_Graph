@@ -283,6 +283,152 @@ def test_polish_skips_when_template_answer_is_empty() -> None:
     assert diag["selected_provider"] is None
 
 
+# --- Contract 2b: no invented norm lineage / periods ---------------------
+
+
+def test_polish_rejects_invented_norm_lineage() -> None:
+    """Polish must not introduce Ley/Decreto/Sentencia references that
+    weren't in the template. Regression guard for the Q6 hallucination
+    pattern: the engine said "Ley 1819 de 2016 y Ley 2010 de 2019
+    modificaron el (art. 689-3 ET)" — both leyes invented from the
+    LLM's memory, neither in the template.
+    """
+
+    class _LineageInventingAdapter:
+        def generate(self, prompt: str) -> str:
+            # Anchors preserved, but introduces Ley 1819 / Ley 2010 which
+            # aren't in the template — the validator must reject.
+            return (
+                "**Ruta sugerida**\n"
+                "1. La Ley **1819** de 2016 y la Ley **2010** de 2019 "
+                "modificaron el (art. 147 ET), estableciendo el régimen "
+                "de compensación de pérdidas fiscales.\n"
+                "2. La firmeza sube a 6 años (arts. 147 y 714 ET).\n"
+                "\n**Riesgos y condiciones**\n"
+                "- No mezcles compensación de pérdidas con saldos a favor "
+                "(art. 147 ET).\n"
+            )
+
+    template = _template_answer()
+    resolution = {"selected_provider": "gemini-flash", "model": "gemini-2.5-flash"}
+    with patch(
+        "lia_graph.pipeline_d.answer_llm_polish.resolve_llm_adapter",
+        return_value=(_LineageInventingAdapter(), resolution),
+    ):
+        answer, diag = polish_graph_native_answer(
+            request=_request(),
+            template_answer=template,
+            evidence=_evidence(),
+        )
+    assert answer == _expected_unpolished(template)
+    assert diag["mode"] == "rejected"
+    assert diag["skip_reason"] == "invented_norm_lineage"
+
+
+def test_polish_accepts_norm_lineage_already_in_template() -> None:
+    """The validator must NOT reject polish that just rephrases a ley
+    reference the template already carried. Otherwise polish becomes
+    useless for any topic that mentions reform history."""
+
+    template = (
+        "**Ruta sugerida**\n"
+        "1. Antes de Ley 1819 de 2016 la compensación de pérdidas era "
+        "8 años; tras Ley 1819 de 2016 son 12 años (art. 147 ET).\n"
+    )
+
+    class _RephraseAdapter:
+        def generate(self, prompt: str) -> str:
+            return (
+                "**Ruta sugerida**\n"
+                "1. La Ley 1819 de 2016 cambió el plazo de compensación "
+                "de 8 a 12 años (art. 147 ET).\n"
+            )
+
+    resolution = {"selected_provider": "gemini-flash", "model": "gemini-2.5-flash"}
+    with patch(
+        "lia_graph.pipeline_d.answer_llm_polish.resolve_llm_adapter",
+        return_value=(_RephraseAdapter(), resolution),
+    ):
+        answer, diag = polish_graph_native_answer(
+            request=_request(),
+            template_answer=template,
+            evidence=_evidence(),
+        )
+    assert diag["mode"] == "llm", f"expected accept, got: {diag}"
+    assert "Ley 1819 de 2016" in answer
+
+
+def test_polish_rejects_invented_periods() -> None:
+    """Polish must not introduce 4-digit years that weren't in the
+    template. Regression guard for the Q4 hallucination pattern: the
+    engine said the beneficio de auditoría applies to "AG 2024, 2025,
+    2026" when the real period (per Art. 689-3) is 2022 and 2023.
+    The template never carried 2024/2025/2026; the polish step
+    confabulated them from training memory.
+    """
+
+    template = (
+        "**Respuestas directas**\n"
+        "*   El beneficio de auditoría aplica a los contribuyentes "
+        "del impuesto sobre la renta que incrementen su impuesto neto "
+        "(art. 147 ET).\n"
+    )
+
+    class _PeriodInventingAdapter:
+        def generate(self, prompt: str) -> str:
+            return (
+                "**Respuestas directas**\n"
+                "*   Para los años gravables **2024**, **2025** y **2026**, "
+                "el beneficio aplica si el contribuyente incrementa su "
+                "impuesto neto (art. 147 ET).\n"
+            )
+
+    resolution = {"selected_provider": "gemini-flash", "model": "gemini-2.5-flash"}
+    with patch(
+        "lia_graph.pipeline_d.answer_llm_polish.resolve_llm_adapter",
+        return_value=(_PeriodInventingAdapter(), resolution),
+    ):
+        answer, diag = polish_graph_native_answer(
+            request=_request(),
+            template_answer=template,
+            evidence=_evidence(),
+        )
+    assert answer == _expected_unpolished(template)
+    assert diag["mode"] == "rejected"
+    assert diag["skip_reason"] == "invented_periods"
+
+
+def test_polish_accepts_periods_already_in_template() -> None:
+    """A polish that just rephrases existing year mentions must pass."""
+
+    template = (
+        "**Respuestas directas**\n"
+        "*   Para 2022 y 2023, el beneficio de auditoría redujo la firmeza "
+        "(art. 147 ET).\n"
+    )
+
+    class _RephraseYearsAdapter:
+        def generate(self, prompt: str) -> str:
+            return (
+                "**Respuestas directas**\n"
+                "*   En los años gravables **2022** y **2023** la firmeza "
+                "se redujo bajo el beneficio (art. 147 ET).\n"
+            )
+
+    resolution = {"selected_provider": "gemini-flash", "model": "gemini-2.5-flash"}
+    with patch(
+        "lia_graph.pipeline_d.answer_llm_polish.resolve_llm_adapter",
+        return_value=(_RephraseYearsAdapter(), resolution),
+    ):
+        answer, diag = polish_graph_native_answer(
+            request=_request(),
+            template_answer=template,
+            evidence=_evidence(),
+        )
+    assert diag["mode"] == "llm", f"expected accept, got: {diag}"
+    assert "2022" in answer and "2023" in answer
+
+
 # --- Contract 4: prompt contains real evidence --------------------------
 
 
