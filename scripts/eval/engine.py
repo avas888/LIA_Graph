@@ -138,14 +138,20 @@ class ChatClient:
         """Mint a public session token if `auth=True` and we don't have one yet.
 
         Safe to call repeatedly; subsequent calls are no-ops.
+
+        Defense-in-depth retry: a single 429 burst (e.g. from concurrent
+        harness workers all minting their own token at once) triggers one
+        wait-then-retry with a small fixed backoff. Repeated 429s still
+        raise — the caller is responsible for detecting that pattern and
+        backing off / aborting (see `run_sme_parallel.py:_RateLimit429Feeler`).
         """
         if not self.auth or self._auth_headers:
             return
-        status, payload = post_json(
-            f"{self.base_url}/api/public/session",
-            {},
-            timeout=self.timeout,
-        )
+        status, payload = self._post_session()
+        if status == 429:
+            import time as _t
+            _t.sleep(2.0)
+            status, payload = self._post_session()
         if status != 200 or not payload.get("ok"):
             raise RuntimeError(
                 f"/api/public/session failed: status={status} payload={payload}"
@@ -154,6 +160,13 @@ class ChatClient:
         if not token:
             raise RuntimeError("/api/public/session returned no token")
         self._auth_headers = {"Authorization": f"Bearer {token}"}
+
+    def _post_session(self) -> tuple[int, dict[str, Any]]:
+        return post_json(
+            f"{self.base_url}/api/public/session",
+            {},
+            timeout=self.timeout,
+        )
 
     # -- request ---------------------------------------------------------
 

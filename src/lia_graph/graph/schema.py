@@ -20,6 +20,14 @@ class NodeKind(str, Enum):
     TOPIC = "TopicNode"
     # fixplan_v3 §0.3.2 — first-class norm node, mirrors `norms` catalog.
     NORM = "Norm"
+    # fix_v10_may Phase 10C §3.C — expert-commentary anchor. Mirrors the
+    # `documents.knowledge_class='interpretative_guidance'` rows in
+    # Supabase; one InterpretationNode per expert brief (Crowe, EY,
+    # KPMG, …). Linked to ArticleNode via INTERPRETS and to TopicNode
+    # via COVERS_TOPIC. Provider/authority strings live as properties;
+    # promoting them to dedicated ExpertProviderNodes + AUTHORED_BY
+    # edges is deferred to v10.1 per §9.4.
+    INTERPRETATION = "InterpretationNode"
 
 
 class EdgeKind(str, Enum):
@@ -56,6 +64,14 @@ class EdgeKind(str, Enum):
     REVIVED_BY = "REVIVED_BY"
     CITES = "CITES"
     IS_SUB_UNIT_OF = "IS_SUB_UNIT_OF"
+    # fix_v10_may Phase 10C §3.C — interpretation-anchor edges. INTERPRETS
+    # connects an InterpretationNode to every ArticleNode it analyzes
+    # (many-to-many; capped per node in the planner query). COVERS_TOPIC
+    # connects an InterpretationNode to its primary TopicNode for the
+    # topic-only fan-out path. AUTHORED_BY → ExpertProviderNode is
+    # deferred to v10.1 per §9.4.
+    INTERPRETS = "INTERPRETS"
+    COVERS_TOPIC = "COVERS_TOPIC"
 
 
 @dataclass(frozen=True)
@@ -260,6 +276,28 @@ def default_graph_schema() -> GraphSchema:
                 "canonical_url",
             ),
         ),
+        NodeKind.INTERPRETATION: GraphNodeType(
+            label=NodeKind.INTERPRETATION,
+            key_field="doc_id",
+            description=(
+                "fix_v10_may Phase 10C §3.C — expert-commentary anchor. "
+                "Mirrors interpretive_guidance documents in Supabase. The "
+                "planner anchors interpretation retrieval on these via "
+                "INTERPRETS edges, the same way it anchors article retrieval "
+                "via MODIFIES/REFERENCES. Provider strings stay as bag "
+                "properties on the node (promotion to ExpertProviderNode + "
+                "AUTHORED_BY is v10.1 scope per §9.4)."
+            ),
+            required_fields=("doc_id", "source_label"),
+            optional_fields=(
+                "authority",
+                "trust_tier",
+                "topic_key",
+                "pais",
+                "provider_labels",
+                "relative_path",
+            ),
+        ),
     }
 
     article_targets = (NodeKind.ARTICLE, NodeKind.REFORM, NodeKind.CONCEPT, NodeKind.PARAMETER)
@@ -434,6 +472,36 @@ def default_graph_schema() -> GraphSchema:
             source_kinds=(NodeKind.NORM,),
             target_kinds=(NodeKind.NORM,),
             description="Sub-unit norm (parágrafo / inciso / numeral / literal) → its parent norm.",
+        ),
+        # fix_v10_may Phase 10C §3.C — interpretation anchors. INTERPRETS is
+        # the load-bearing edge for Phase 10C: when the chat is about to cite
+        # `Art. 124-2 ET`, the planner runs
+        #
+        #   MATCH (a:ArticleNode {key:'art_124_2_et'})<-[:INTERPRETS]-(i:InterpretationNode)
+        #   RETURN i.doc_id ORDER BY i.trust_tier DESC LIMIT 8
+        #
+        # and hands the doc_ids to `retriever_supabase.fetch_interpretation_candidates`
+        # as an anchor seed. Cap of 8 per article keeps the planner queries
+        # bounded — rerank does the final ordering.
+        EdgeKind.INTERPRETS: GraphEdgeType(
+            label=EdgeKind.INTERPRETS,
+            source_kinds=(NodeKind.INTERPRETATION,),
+            target_kinds=(NodeKind.ARTICLE,),
+            description=(
+                "An expert commentary doc analyzes / interprets a specific "
+                "article. Many-to-many (one brief can interpret many articles)."
+            ),
+        ),
+        EdgeKind.COVERS_TOPIC: GraphEdgeType(
+            label=EdgeKind.COVERS_TOPIC,
+            source_kinds=(NodeKind.INTERPRETATION,),
+            target_kinds=(NodeKind.TOPIC,),
+            description=(
+                "An expert commentary doc is filed under a curated topic — "
+                "enables a planner fan-out when no specific article is in "
+                "scope (e.g. broad 'planeación tributaria' questions). One "
+                "InterpretationNode → 0..N TopicNodes; in practice usually 1."
+            ),
         ),
     }
 

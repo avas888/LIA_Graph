@@ -299,6 +299,12 @@ class SupabaseSinkResult:
     edges_written: int
     edges_skipped_relation: int
     activated: bool
+    # fix_v10_may §4.A.4 G2 — count of chunks that fell back to the
+    # "normative_base" default because their parent doc wasn't
+    # registered via write_documents. Zero in a healthy ingest;
+    # positive means knowledge_class propagation is silently degrading
+    # (the bug 10A was built to prevent).
+    chunks_default_class_count: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -309,6 +315,7 @@ class SupabaseSinkResult:
             "edges_written": int(self.edges_written),
             "edges_skipped_relation": int(self.edges_skipped_relation),
             "activated": bool(self.activated),
+            "chunks_default_class_count": int(self.chunks_default_class_count),
         }
 
 
@@ -378,6 +385,20 @@ class SupabaseCorpusSink:
         # extra round-trip to Supabase.
         self._subtema_by_doc_id: dict[str, str] = {}
         self._topic_by_doc_id: dict[str, str] = {}
+        # fix_v10_may §1.B / Phase 10A — write_documents records each parent
+        # doc's knowledge_class so write_chunks can stamp the chunk row
+        # accordingly instead of hardcoding "normative_base". Without this,
+        # interpretative_guidance + practica_erp chunks land in Supabase as
+        # normative_base, breaking hybrid_search(filter_knowledge_class=...).
+        self._knowledge_class_by_doc_id: dict[str, str] = {}
+        # fix_v10_may §4.A.4 G2 — runtime guardrail. Track every chunk that
+        # had to fall back to the "normative_base" default because its
+        # parent doc wasn't registered via write_documents. In a healthy
+        # ingest this stays at 0. A positive count emits
+        # "ingest.sink.chunk_class_default_used" at finalize() so
+        # heartbeats/ops dashboards can catch silent class drift.
+        self._chunks_default_class_count: int = 0
+        self._chunks_default_class_sample_doc_ids: list[str] = []
         self._docs_with_subtopic = 0
         self._docs_requiring_subtopic_review = 0
         # ingestionfix_v2 §4 Phase 7a: tag-review skeleton rows buffered
@@ -506,6 +527,17 @@ class SupabaseCorpusSink:
                 content_hash=content_hash,
                 classifier_output=classifier_output_from_corpus_document(document),
             )
+            # fix_v10_may §9.3 — provider_labels lifted to first-class column
+            # on documents (migration 20260513000000). Accepts list/tuple of
+            # str from the manifest's `provider_labels` field. Defaults to []
+            # so non-interpretation docs and pre-§9.3 manifests stay correct.
+            raw_providers = document.get("provider_labels") or []
+            if isinstance(raw_providers, (list, tuple)):
+                provider_labels_clean = [
+                    str(p).strip() for p in raw_providers if str(p).strip()
+                ]
+            else:
+                provider_labels_clean = []
             row = {
                 "doc_id": doc_id,
                 "relative_path": relative_path,
@@ -514,6 +546,7 @@ class SupabaseCorpusSink:
                 "authority": str(document.get("authority_level") or "unknown"),
                 "pais": str(document.get("pais") or "colombia"),
                 "knowledge_class": str(document.get("knowledge_class") or "unknown"),
+                "provider_labels": provider_labels_clean,
                 # v5 F11: use local topic_key (which may have been preserved
                 # against a catch-all classifier regression).
                 "tema": topic_key if topic_key != "unknown" else document.get("topic_key"),
@@ -537,6 +570,11 @@ class SupabaseCorpusSink:
                 self._docs_requiring_subtopic_review += 1
             if topic_key and topic_key != "unknown":
                 self._topic_by_doc_id[doc_id] = topic_key
+            knowledge_class_value = str(
+                document.get("knowledge_class") or ""
+            ).strip()
+            if knowledge_class_value:
+                self._knowledge_class_by_doc_id[doc_id] = knowledge_class_value
             rows.append(row)
 
             # ingestionfix_v2 §4 Phase 7a — tag-review skeleton row.
@@ -624,6 +662,21 @@ class SupabaseCorpusSink:
             chunk_text = article.full_text or article.body or article.heading or ""
             inherited_subtema = self._subtema_by_doc_id.get(doc_id)
             inherited_topic = self._topic_by_doc_id.get(doc_id)
+            # fix_v10_may Phase 10A — inherit knowledge_class from the parent
+            # doc captured during write_documents; "normative_base" stays as
+            # the safe default for any chunk whose doc didn't flow through
+            # write_documents (defense in depth; in normal pipelines every
+            # chunk has a parent).
+            if doc_id in self._knowledge_class_by_doc_id:
+                inherited_knowledge_class = self._knowledge_class_by_doc_id[doc_id]
+            else:
+                inherited_knowledge_class = "normative_base"
+                # fix_v10_may §4.A.4 G2 — guardrail: track the default-fallback
+                # firing so finalize() can surface it. Bound the sample list to
+                # avoid unbounded memory for pathological cases.
+                self._chunks_default_class_count += 1
+                if len(self._chunks_default_class_sample_doc_ids) < 20:
+                    self._chunks_default_class_sample_doc_ids.append(doc_id)
             row = {
                 "doc_id": doc_id,
                 "chunk_id": chunk_id,
@@ -641,7 +694,7 @@ class SupabaseCorpusSink:
                 "relative_path": None,
                 "tema": inherited_topic,
                 "subtema": inherited_subtema,
-                "knowledge_class": "normative_base",
+                "knowledge_class": inherited_knowledge_class,
                 "sync_generation": self.generation_id,
                 "chunk_section_type": "vigente" if article.status != "derogado" else "historical",
                 "created_at": now,
@@ -1191,6 +1244,22 @@ class SupabaseCorpusSink:
                     "docs_requiring_subtopic_review": self._docs_requiring_subtopic_review,
                 },
             )
+            # fix_v10_may §4.A.4 G2 — surface chunk-class default-fallback
+            # firings so heartbeats/ops dashboards catch the regression that
+            # 10A was built to prevent. Healthy ingest emits this event with
+            # count=0 (still useful as a positive signal); a non-zero count
+            # is a smoking-gun bug that needs immediate root-cause work.
+            _emit(
+                "ingest.sink.chunk_class_default_used",
+                {
+                    "generation_id": self.generation_id,
+                    "target": self.target,
+                    "chunks_default_class_count": self._chunks_default_class_count,
+                    "sample_doc_ids": list(
+                        self._chunks_default_class_sample_doc_ids
+                    ),
+                },
+            )
         except Exception:  # noqa: BLE001 — observability never blocks
             pass
         return SupabaseSinkResult(
@@ -1201,6 +1270,7 @@ class SupabaseCorpusSink:
             edges_written=self._edges_written,
             edges_skipped_relation=self._edges_skipped_relation,
             activated=self._activated,
+            chunks_default_class_count=self._chunks_default_class_count,
         )
 
     def _activate_generation(self) -> None:

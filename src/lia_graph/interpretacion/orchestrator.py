@@ -135,6 +135,30 @@ def _build_runtime_for_doc(doc, *, deps) -> InterpretationDocRuntime | None:
 
 def _retrieve_interpretation_docs(*, query: str, top_k: int, pais: str, topic: str | None, deps):
     del deps
+    # fix_v10_may Phase 10B — dispatcher. When LIA_INTERPRETATION_SOURCE
+    # is 'supabase' (the dev:staging + production default once 10B
+    # rolls out), route through the hybrid_search RPC. Filesystem path
+    # stays as the safety floor for `npm run dev` and for any case
+    # where the supabase client/RPC isn't ready. Per CLAUDE.md
+    # "Falkor adapter must propagate cloud outages — no silent
+    # artifact fallback on staging" — when the flag selects supabase,
+    # errors from the RPC propagate; the fallback only fires when the
+    # OPERATOR explicitly sets the flag back to filesystem.
+    import os as _os
+    _source = (
+        _os.environ.get("LIA_INTERPRETATION_SOURCE", "filesystem")
+        or "filesystem"
+    ).strip().lower()
+    if _source == "supabase":
+        from .retriever_supabase import fetch_interpretation_candidates
+        article_refs = tuple(extract_article_refs(query))
+        return fetch_interpretation_candidates(
+            query_seed=query,
+            article_refs=article_refs,
+            topic=topic,
+            pais=pais,
+            top_k=top_k,
+        )
     query_tokens = tuple(
         token
         for token in normalize_text(query).split()
@@ -208,6 +232,7 @@ def _retrieve_interpretation_docs(*, query: str, top_k: int, pais: str, topic: s
             "docs_selected": docs_selected[: max(top_k, 1)],
             "retrieval_diagnostics": {
                 "mode": "local_interpretation_catalog",
+                "interpretation_backend": "filesystem",
                 "candidate_rows": len(scored_rows),
                 "selected_docs": len(docs_selected[: max(top_k, 1)]),
                 "query_tokens": list(query_tokens),

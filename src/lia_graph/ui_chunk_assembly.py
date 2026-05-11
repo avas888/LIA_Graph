@@ -133,9 +133,18 @@ def _reconstruct_chunk_markdown(chunk_bodies: list[str]) -> str:
     # is actually used at serve time.
     from .ingestion_chunker import _SECTION_TYPE_MAP
 
+    # fix_v10_may Phase 10B — _SECTION_TYPE_MAP is a `dict[str, str]`;
+    # iterating it directly yields KEYS (single strings), and the prior
+    # `for label, _ in _SECTION_TYPE_MAP` attempted to unpack each string
+    # as a 2-tuple → ValueError("too many values to unpack (expected 2)").
+    # Latent bug, never tripped on the filesystem path because the
+    # expert-panel reads `.md` directly from disk; only surfaces when the
+    # Supabase fallback (`_sb_assemble_document_markdown`) is hit, which
+    # is exactly what Phase 10B routes interpretation docs through. Fix:
+    # iterate `.items()` so the unpacking matches the map's shape.
     heading_labels = tuple(
         sorted(
-            {label.strip().lower() for label, _ in _SECTION_TYPE_MAP if label},
+            {label.strip().lower() for label, _ in _SECTION_TYPE_MAP.items() if label},
             key=len,
             reverse=True,  # longest prefix wins (e.g. "histórico de cambios" before "historico")
         )

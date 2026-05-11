@@ -379,6 +379,13 @@ function buildRuntimeEnv(mode) {
     // Local dev keeps both read paths on the filesystem artifacts + local Falkor.
     if (!String(env.LIA_CORPUS_SOURCE || "").trim()) env.LIA_CORPUS_SOURCE = "artifacts";
     if (!String(env.LIA_GRAPH_MODE || "").trim()) env.LIA_GRAPH_MODE = "artifacts";
+    // fix_v10_may Phase 10B — Interpretación de Expertos panel reads.
+    // Local dev stays on the filesystem catalog (cheap + offline; matches
+    // the LIA_CORPUS_SOURCE=artifacts pattern); shell override still wins
+    // for the local-but-cloud-experts dev case.
+    if (!String(env.LIA_INTERPRETATION_SOURCE || "").trim()) {
+      env.LIA_INTERPRETATION_SOURCE = "filesystem";
+    }
     // Fallbacks if .env.dev.local is missing — safe demo keys shipped with every local Supabase CLI install.
     if (!String(env.SUPABASE_URL || "").trim()) {
       env.SUPABASE_URL = "http://127.0.0.1:54321";
@@ -397,8 +404,27 @@ function buildRuntimeEnv(mode) {
     // cloud FalkorDB. Must already be hydrated — see `make phase2-graph-artifacts-supabase`.
     env.LIA_CORPUS_SOURCE = "supabase";
     env.LIA_GRAPH_MODE = "falkor_live";
+    // fix_v10_may Phase 10B — Interpretación de Expertos panel via the
+    // hybrid_search RPC against cloud Supabase. Shell override still wins
+    // (set LIA_INTERPRETATION_SOURCE=filesystem to revert to the catalog
+    // fallback for diagnostic purposes).
+    if (!String(env.LIA_INTERPRETATION_SOURCE || "").trim()) {
+      env.LIA_INTERPRETATION_SOURCE = "supabase";
+    }
   } else if (mode === "production") {
     env.LIA_STORAGE_BACKEND = "supabase";
+    // fix_v10_may Phase 10B/10C — production stays on the FILESYSTEM
+    // panel path until the 21-Q mini-panel clears the §5.4 70 % ship
+    // bar. Current measurement: 57.1 % (REFINE band). Flipping to
+    // `supabase` here would surface the wrong expert brief ~43 % of
+    // the time on the RENTA-busy questions accountants ask most.
+    // Operator can flip via Railway env var when ready; the
+    // `dev:staging` default stays at `supabase` so refinement still
+    // happens against the cloud path. See fix_v11_may.md for the
+    // path-to-70 %.
+    if (!String(env.LIA_INTERPRETATION_SOURCE || "").trim()) {
+      env.LIA_INTERPRETATION_SOURCE = "filesystem";
+    }
   } else {
     fail(`Unsupported mode: ${mode}`);
   }

@@ -73,6 +73,16 @@ def filter_diagnostics_for_public_response(
     for key in ("polish_mode", "polish_skip_reason"):
         if key in orchestrator_diagnostics:
             public[key] = orchestrator_diagnostics[key]
+    # fix_v10_may Phase 10B — surface `interpretation_backend` (parallel
+    # to the chat path's `retrieval_backend`) so eval traces + probe
+    # tooling can tell which path served the Interpretación de Expertos
+    # panel on each turn: `supabase` (hybrid_search RPC against cloud)
+    # vs `filesystem` (catalog fallback for `npm run dev`). Single-string
+    # enum, PII-safe.
+    if "interpretation_backend" in orchestrator_diagnostics:
+        public["interpretation_backend"] = orchestrator_diagnostics[
+            "interpretation_backend"
+        ]
     return public or None
 
 
