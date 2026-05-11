@@ -1,8 +1,10 @@
 # Files Railway doesn't need at build/runtime.
 # Reduces the snapshot size sent to the Metal builder and the resulting image.
 
-# Heavy raw corpus + ingestion sources (cloud Supabase/Falkor serve production reads)
-knowledge_base/
+# Heavy ingestion-only artifacts; runtime reads chunks from cloud Supabase
+# (knowledge_base/ stays — code references it for form_guides + the
+# additive-intake GUI; size is moderate at 40MB; safer than discovering
+# a runtime import the hard way like with tracers_and_logs/.)
 artifacts/_archive/
 artifacts/temp/
 artifacts/_backup_*/
@@ -10,9 +12,14 @@ artifacts/query_embedding_cache/
 
 # Eval + probe history (forensic record in git, not needed by the running server)
 evals/
-tracers_and_logs/
 sme_panel_runs/
 probe_runs/
+
+# tracers_and_logs/ is a Python package imported by pipeline_d/orchestrator.py
+# (pipeline_trace.py). The package code MUST ship; only the heavy logs/
+# subdirectory is excluded.
+tracers_and_logs/logs/
+tracers_and_logs/__pycache__/
 
 # Local dev scaffolding
 supabase/.temp/
