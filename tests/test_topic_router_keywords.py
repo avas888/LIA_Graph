@@ -30,6 +30,52 @@ def test_topic_keywords_every_entry_has_at_least_one_bucket() -> None:
             assert all(isinstance(k, str) and k.strip() for k in keywords)
 
 
+def test_subtopic_override_targets_are_all_gate_scoreable() -> None:
+    """Every topic the router can produce via _SUBTOPIC_OVERRIDE_PATTERNS
+    must also be a key in _TOPIC_KEYWORDS so the coherence-gate has
+    vocabulary to score it.
+
+    Without this invariant, the gate scores router-target topics as 0
+    by definition; any retrieved article scoring >0 on an in-vocabulary
+    neighbor topic then trips the topic-safety guard with a false
+    positive (every query in the affected topic refuses to answer).
+    Surfaced 2026-05-10 by `art. 107 ET` query refusing on the
+    `costos_deducciones_renta` route — see next_v5 §9.
+    """
+    override_targets = {entry[1] for entry in _SUBTOPIC_OVERRIDE_PATTERNS}
+    gate_topics = set(_TOPIC_KEYWORDS.keys())
+    gap = override_targets - gate_topics
+    assert not gap, (
+        f"Router-target topics missing from _TOPIC_KEYWORDS: {sorted(gap)}. "
+        f"Add strong/weak keyword buckets so the coherence gate can score them."
+    )
+
+
+def test_costos_deducciones_renta_keywords_match_art_107_query() -> None:
+    """Regression for the 2026-05-10 art. 107 topic-safety false positive.
+    Confirms the new vocabulary actually scores this canonical query."""
+    buckets = _TOPIC_KEYWORDS["costos_deducciones_renta"]
+    query = "¿Qué requisitos debe cumplir un gasto para ser deducible bajo el artículo 107 del ET?"
+    query_lower = query.lower()
+    matched_strong = [kw for kw in buckets["strong"] if kw in query_lower]
+    assert matched_strong, (
+        f"No strong keyword matches the canonical art. 107 query. "
+        f"Tried: {buckets['strong'][:5]}…"
+    )
+
+
+def test_impuesto_consumo_keywords_match_inc_query() -> None:
+    """Sister regression: the same gap closure must score INC queries."""
+    buckets = _TOPIC_KEYWORDS["impuesto_consumo"]
+    query = "¿cómo se declara el impuesto al consumo en restaurantes y bares?"
+    query_lower = query.lower()
+    matched_strong = [kw for kw in buckets["strong"] if kw in query_lower]
+    assert matched_strong, (
+        f"No strong keyword matches the canonical INC query. "
+        f"Tried: {buckets['strong'][:5]}…"
+    )
+
+
 def test_topic_notice_overrides_reference_declared_topics() -> None:
     for topic in _TOPIC_NOTICE_OVERRIDES:
         assert topic in _TOPIC_KEYWORDS, f"notice references unknown topic {topic}"

@@ -841,6 +841,34 @@ If 7/7 clears the macro+cost gates but SME finds the answers got *more* generic 
 
 ---
 
+## §9 Router/coherence-gate vocabulary gap closure (✅ shipped 2026-05-10)
+
+**Trigger.** Operator-flagged refusal on 2026-05-10: the query *"¿Qué requisitos debe cumplir un gasto para ser deducible bajo el artículo 107 del ET?"* returned a `topic_safety_abstention` saying retrieved primaries belong to `retencion_fuente_general` not the classified `costos_deducciones_renta`. Diagnosis revealed this was not an art. 107 problem — it was a **class bug**: 2 of 8 router-target topics in `_SUBTOPIC_OVERRIDE_PATTERNS` had no entry in `_TOPIC_KEYWORDS` (`costos_deducciones_renta`, `impuesto_consumo`), so the coherence gate scored them as 0 by definition while retrieved articles always scored >0 on whichever in-vocabulary neighbor topic shared text with them. **Every query routed to either of those 2 topics tripped the safety guard** — the entire deducibility chapter (arts. 105/107/108/115/122/771-5 ET) and every INC question.
+
+### Shipped
+
+1. **`_TOPIC_KEYWORDS["costos_deducciones_renta"]`** — strong/weak buckets for the deducibility vocabulary (`expensas necesarias`, `relación de causalidad`, `necesidad y proporcionalidad`, `gasto deducible`, `costo procedente`, `rechazo de deducción`, `bancarización`, `pago en efectivo`, etc.). Article-number triggers limited to `art. 107` only — that one is unambiguously deducción-specific; broader article numbers (105/115/122) are multi-topic in casual usage and a strong-match would hijack legitimate `declaracion_renta` historical-reform queries (e.g. *"¿Qué decía el art. 115 antes de la Ley 2277?"*).
+2. **`_TOPIC_KEYWORDS["impuesto_consumo"]`** — strong/weak buckets for INC vocabulary (`impuesto al consumo`, `INC`, `formulario 310`, `consumo de restaurante`, `telefonía móvil INC`, `vehículos de lujo INC`, `bolsas plásticas INC`, etc.).
+3. **Invariant test** `test_subtopic_override_targets_are_all_gate_scoreable` — pins `set(override_targets) ⊆ set(gate_topics)` so this gap can never silently reopen. Adding a new override target without a keyword bucket fails the test loudly.
+4. **Regression tests** — `test_costos_deducciones_renta_keywords_match_art_107_query` and `test_impuesto_consumo_keywords_match_inc_query` confirm the canonical queries actually score on the new vocabulary.
+5. **Test fixture realignment** — `test_phase3_pipeline_d_end_to_end_smoke_for_historical_reform_query` now uses `topic="costos_deducciones_renta"` because art. 115 ET correctly resolves to the more-specific sub-topic post-fix; the old `declaracion_renta` parent topic was the previous safe default only because the sub-topic had no scoring vocabulary.
+
+### Verified
+
+- `art. 107 ET` query: `answer_mode` flipped from `topic_safety_abstention` → `graph_native` (the safety guard no longer fires the false positive).
+- All presentation/normativa/polish tests still green (38/38).
+- Phase3 graph-planner end-to-end smokes green.
+
+### §9.1 — Parent/child topic compatibility in topic-safety guard (still 💡 idea)
+
+Surfaced during §9 implementation: the safety guard's misalignment check treats parent (`declaracion_renta`) vs child (`costos_deducciones_renta`) topics as a hard mismatch when they should be compatible. A query routed to the parent that retrieves child-tagged articles is actually MORE precise routing, not a safety incident. Define a parent→children topic map (likely in `topic_router_keywords.py` next to `_SUBTOPIC_OVERRIDE_PATTERNS`) and have `topic_safety.detect_topic_misalignment` treat membership in the same parent group as compatible. Effort: ~2 hours including a regression fixture for the art. 115 historical-recap case.
+
+### §9.2 — Pre-existing `retencion_en_la_fuente` keyword gap (still 💡 idea)
+
+Discovered during §9 testing — the existing test `test_retencion_en_la_fuente_routes_canonical_queries` fails on clean main; CLAUDE.md's startup warnings even mention `topic 'retencion_en_la_fuente' has no registered keywords`. Same shape as §9: a router-target topic with no scoring vocabulary. Add strong/weak buckets following the same pattern. The §9 invariant test wouldn't catch this case because `retencion_en_la_fuente` isn't an `_SUBTOPIC_OVERRIDE_PATTERNS` target — it's a `_TOPIC_KEYWORDS` key that EXISTS but is empty. Extend the invariant to also assert "every topic referenced anywhere in the routing/scoring path has at least one strong keyword." Effort: ~1 hour.
+
+---
+
 ## §8 Presentation-rule architecture (✅ shipped 2026-05-10)
 
 **Trigger:** Operator-flagged style rule on 2026-05-10 ("show numbers in bold and in number format" — `12 períodos`, not `doce períodos`). Implementation revealed presentation rules were scattered across 9 Python files and 1 prose-only LLM prompt with no central registry, no enforcement when polish was disabled, and silent drift between `main_chat` and `Normativa` surfaces. Operator audit verdict: "house of cards."
