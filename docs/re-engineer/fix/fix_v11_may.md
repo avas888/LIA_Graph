@@ -1407,5 +1407,305 @@ Status: ↩ Phase 11B fully discarded per gate-6; ✅ §15 judge fix
 retained; ✅ Phase 11B modules + cloud data retained behind off
 flag; 🔜 fresh-plan task for semantic relevance signal.
 
+---
+
+## 18. Re-attempt guide (read this FIRST if picking this up months later)
+
+This section is the durable handoff for the next attempt at the
+expert-panel `≥ 70 %` ship bar. Written so a fresh LLM or engineer
+with zero v11 context can resume from cold.
+
+### 18.A — What's already shipped + still in place (do NOT redo)
+
+Cloud + code state as of 2026-05-11 commit `1ed2ced` on `main`:
+
+1. **Cloud Falkor `LIA_REGULATORY_GRAPH` data is loaded.**
+   * 105 `InterpretationNode` (key=`doc_id` matching cloud Supabase
+     `documents.doc_id` byte-for-byte).
+   * 586 `INTERPRETS` edges (`InterpretationNode → ArticleNode {article_number}`).
+   * 105 `COVERS_TOPIC` edges (`InterpretationNode → TopicNode {topic_key}`).
+   * 294 distinct ArticleNodes have ≥ 1 inbound INTERPRETS.
+   * Idempotent loader at `scripts/diagnostics/load_interpretation_nodes.py`.
+     Re-runs are safe. To refresh: source `.env.staging`, then
+     `PYTHONPATH=src:. uv run python scripts/diagnostics/load_interpretation_nodes.py --target staging --eligible-from-cloud`.
+   * To verify state cheaply:
+     ```bash
+     set -a && source .env.staging && set +a && PYTHONPATH=src:. uv run python -c "
+     from lia_graph.graph.client import GraphClient, GraphWriteStatement
+     c=GraphClient.from_env()
+     for label, q in [('nodes','MATCH (i:InterpretationNode) RETURN count(i) AS n'),
+                       ('interprets','MATCH ()-[r:INTERPRETS]->() RETURN count(r) AS n'),
+                       ('covers_topic','MATCH ()-[r:COVERS_TOPIC]->() RETURN count(r) AS n')]:
+         r=c.execute(GraphWriteStatement(description=label, query=q, parameters={}), strict=True)
+         print(label, list(r.rows)[0].get('n'))
+     "
+     ```
+
+2. **Code modules — all tested + correct, just behind off-flag.**
+   * `src/lia_graph/graph/interpretation_loader.py` (~530 LOC).
+     Both manifest-backed and cloud-Supabase-backed builders. 23
+     tests at `tests/test_graph_interpretation_loader.py`.
+   * `src/lia_graph/interpretacion/anchor_resolver.py` (~210 LOC).
+     Cypher anchor lookup, accepts article_refs in any of the
+     canonical shapes. 18 tests at `tests/test_interpretacion_anchor_resolver.py`.
+   * `src/lia_graph/interpretacion/retriever_supabase.py` —
+     `fetch_interpretation_candidates` already accepts
+     `planner_anchor_doc_ids` + `planner_anchor_diagnostic`. Test
+     coverage in `tests/test_interpretacion_retriever_supabase.py`
+     including the Phase 11B path.
+   * `src/lia_graph/interpretacion/orchestrator.py` —
+     `_retrieve_interpretation_docs` already calls the anchor
+     resolver when `LIA_PLANNER_INTERPRETATION_ANCHOR=on`. The
+     dispatcher wiring is in place.
+
+3. **§15 LLM-judge fix — KEEP THIS, do not revert.** The
+   `pipeline_c.orchestrator.generate_llm_strict` shim now resolves a
+   real LLM adapter and returns `(text, diag)` matching every
+   caller's `text, diag = ...` unpack. Pre-fix it returned a 4-key
+   dict; every caller silently crashed with `too many values to
+   unpack (expected 2, got 4)`. 12 regression tests at
+   `tests/test_pipeline_c_generate_llm_strict.py`. Independent of
+   Phase 11B; fixes 4 separate LLM call sites
+   (`interpretacion/orchestrator.py` ×3 + `normative_analysis.py`).
+
+4. **Phase 11A trust-tier data in cloud Supabase.** 65 chunks/8 docs
+   at tier=high, 747 chunks/97 docs at tier=medium. `documents.provider_labels`
+   column populated for 12 docs. Not load-bearing in the discarded
+   path but available to any future relevance signal that wants
+   per-doc trust info.
+
+### 18.B — The measurement instrument
+
+Always re-use the same 21-Q mini-panel for apples-to-apples comparison:
+* Questions: `evals/sme_validation_v1/questions_expert_panel_v1.jsonl`
+* Runner: `scripts/eval/run_sme_parallel.py` (hardened against 429s
+  per fix_v10_may; one shared ChatClient across 4 workers).
+* Scorer: `scripts/eval/score_expert_panel_mini.py` (POSTs
+  `/api/expert-panel` per chat, scores top-3 against
+  `expected_interpretation_files`; emits PASS/REFINE/DISCARD per §5.4).
+* Server: `dev:staging` (`npm run dev:staging` — cloud Supabase +
+  cloud Falkor). Required restart whenever code changes — Python
+  doesn't hot-reload.
+
+Baseline measurements to defend or beat:
+* v10/v11A: 12/21 = 57.1 % — the floor; any future change must
+  hold this AT MINIMUM.
+* v11B variants (judge-fixed, Option A, hybrid): 10-11/21 — DO NOT
+  re-try the same pattern-axis tuning. We already know the ceiling.
+
+### 18.C — Why off_topic-pattern tuning hit a ceiling (skip-list)
+
+The assembly filter at `src/lia_graph/interpretacion/synthesis_helpers.py::select_interpretation_candidates`
+applies two cuts:
+1. `total_score >= EXPERT_PANEL_MIN_RELEVANCE_SCORE` (0.22 from
+   `interpretacion/policy.py`).
+2. Hard veto on any candidate with an `off_topic:<key>` penalty.
+
+The `off_topic_tags` are computed against `_OFF_TOPIC_PATTERNS`
+(6 keys: ttd, rst, retencion, conciliacion, facturacion, calendario).
+Three pattern-axis attempts already failed:
+
+* **§15 R1 — fix LLM-judge crash.** 0pt impact (judge wasn't the
+  bottleneck; the assembly filter is).
+* **§16 R2 — Option A soft veto** (remove the hard drop, keep the
+  −0.20 score penalty). 10/21 = 48 %. Unlocked 2 questions, lost 3.
+* **§17 R3 — hybrid count threshold** (only tag as off_topic when
+  pattern hit count ≥ 3). 10/21 = 48 %. Recovered 2 different cases,
+  lost 2 different cases.
+
+Net of all three: shuffles WHICH 10-12 questions win without moving
+the ceiling. The patterns are too literal for some questions (catches
+the right doc with passing mentions) and too narrow for others (lets
+noise through because no matching pattern exists for the question's
+vocabulary). Pattern-axis is exhausted.
+
+**Don't re-try**: per-tag weight tuning, allowlist expansion, frame-side
+pattern thresholds, "soft penalty only when frame doesn't also have
+the tag", `EXPERT_PANEL_MIN_RELEVANCE_SCORE` lowering. The data says
+any single-axis tune on this filter shuffles the same ~10-12 wins.
+
+### 18.D — Recommended next architecture (semantic relevance)
+
+The pattern-based `off_topic_tags` check has to be replaced with a
+real semantic similarity signal. Three options ranked by effort:
+
+#### Option SR1 (most surgical, lowest risk)
+**Embedding cosine between question text and each candidate doc's first chunk_text.**
+Replace the pattern veto with: drop a candidate if
+`cosine(question_embedding, candidate_first_chunk_embedding) <
+SR1_THRESHOLD`. Reuses the existing query-embedding pipeline
+(`lia_graph.embeddings.get_query_embedding` — gemini-embedding-001,
+already gated by `LIA_QUERY_EMBEDDINGS_ENABLED=1`).
+
+* **Where**: `interpretacion/synthesis_helpers.py::score_interpretation_candidate`
+  — add `semantic_score` (cosine, normalized to [0, 1]) as a 7th
+  weighted term in the formula at line 389 OR as a separate veto
+  signal at line 459.
+* **Cost**: ~1-2 engineer days. The candidate set is bounded at 18
+  per panel call, so 18 embedding-cosine computations per call (the
+  candidate chunk embeddings can be cached at retrieval time — cloud
+  Supabase already stores `document_chunks.embedding`).
+* **Calibration**: pick `SR1_THRESHOLD` by running the 21-Q
+  mini-panel at thresholds [0.20, 0.30, 0.40, 0.50] and picking the
+  one that maximizes accept@top3 while holding the v10 12/21 floor.
+* **Risk**: low — pure additive signal; can ship behind a
+  `LIA_PANEL_SEMANTIC_RELEVANCE=on` flag with the veto falling back
+  to the pattern check when off.
+
+#### Option SR2 (medium effort, higher upside)
+**Question-aware re-prompting at the assembly layer.** After
+candidate scoring, ask Claude (via the existing `generate_llm_strict`
+that's now actually working) to select the top-3 cards directly from
+the candidate set + the question. Skips the
+`select_interpretation_candidates` filter entirely.
+
+* **Where**: new module
+  `interpretacion/llm_selector.py` parallel to the existing
+  `rerank/llm_judge.py`. Same `deps["generate_llm_strict"]` call
+  pattern. Returns a 3-tuple of (doc_id, reason) for the panel
+  surface.
+* **Cost**: ~3-4 engineer days (including the new prompt design,
+  output parsing tolerance, and fallback when LLM rejects all
+  candidates).
+* **Risk**: medium — LLM-as-final-selector is a different operating
+  mode; if the LLM hallucinates a doc_id not in the candidate set,
+  the panel shows nothing. Need defensive parsing + fallback.
+
+#### Option SR3 (heaviest, most durable)
+**Learned ranker fine-tuned on SME-labeled pairs.** Train a small
+cross-encoder (bge-reranker-v2-m3 or similar — the chat path already
+has a sidecar slot at `LIA_RERANKER_ENDPOINT`) on (question, doc,
+relevance_label) triples from the 21-Q mini-panel + historical SME
+panels. Use as the final scoring signal.
+
+* **Where**: requires a training run + a sidecar deployment.
+  Reuses the existing `pipeline_d/reranker.py` sidecar wiring; the
+  rerank adapter already supports `LIA_RERANKER_MODE=live`.
+* **Cost**: ~1-2 weeks. Data labeling + train + deploy + measure.
+* **Risk**: highest, but also the most architecturally durable —
+  the same ranker can serve the chat-side citation surface too.
+
+**Recommended sequencing**: SR1 first (cheap probe — if it gets to
+70 %, we're done). If SR1 lands at [60, 70 %), layer in SR2 for the
+top-3 final pick. SR3 only if SR1+SR2 together still fall short.
+
+### 18.E — How to actually start the re-attempt
+
+Step-by-step. Assumes a fresh engineer with the repo cloned.
+
+1. **Read this section + §17.C** (the architectural read). Don't
+   start coding before you've internalized "the pattern veto
+   ceiling".
+2. **Confirm cloud state is still healthy.** Run the Cypher probe
+   from §18.A.1 to confirm the InterpretationNode subgraph is still
+   there. If counts are 0, re-run the loader CLI (idempotent).
+3. **Re-confirm v10 baseline.** Restart `dev:staging`, run the 21-Q
+   mini-panel + scorer. Should land at 12/21. If not, the baseline
+   has drifted — fix that BEFORE working on a new relevance signal.
+4. **Branch.** `git checkout -b phase11c/sr1-semantic-relevance`.
+5. **Land SR1 behind a flag.** New env `LIA_PANEL_SEMANTIC_RELEVANCE=on`.
+   Default `off`. Adds the cosine check to
+   `select_interpretation_candidates`.
+6. **Calibrate** by running the mini-panel at 4 threshold values.
+   Pick the best.
+7. **Flip `LIA_PLANNER_INTERPRETATION_ANCHOR=on`** in tandem with
+   `LIA_PANEL_SEMANTIC_RELEVANCE=on`. The Falkor anchor's
+   contribution is measurable only when paired with a working
+   assembly filter — SR1 is what makes that pairing meaningful.
+8. **Decision gate**: ≥ 15/21 (≥ 70 %) clears the §5.4 ship bar.
+   < 15/21 → layer SR2 OR refine SR1's calibration. Per the canonical
+   gate-6 rule, two refinement attempts then DISCARD if still short.
+9. **Update this §18 with the new measurement results** so the next
+   handoff has full historical context.
+
+### 18.F — Gotchas worth knowing
+
+* **Server restart is mandatory after any code change.** Python
+  doesn't hot-reload. The answer-engine-probe skill has a mandatory
+  restart preamble for this reason. PID will change; verify via
+  `ps eww $NEW_PID` that the env flags are still set.
+* **`tests/` requires `LIA_BATCHED_RUNNER=1`** to run anything that
+  collects > 20 test files. Single-file or focused runs don't need
+  it.
+* **Cloud writes are operator-pre-authorized** per `feedback_lia_graph_cloud_writes_authorized`.
+  Announce before executing, no per-action confirmation. Different
+  rule for the SME panel — that's `feedback_sme_panel_explicit_request_only`,
+  always ask.
+* **`generate_llm_strict` is a tuple-returning function now.** Every
+  call site does `text, diag = generate_llm_strict(...)`. Don't
+  re-wrap in a try/except that throws away `diag` — the rerank
+  judge writes diag back into the trace and operators read it.
+* **The 6 off_topic patterns are case- + accent-insensitive after
+  `normalize_text`.** "Régimen Simple" matches "regimen simple"
+  pattern. New patterns should be lowercase + accent-stripped.
+* **Article-ref shapes** the codebase uses interchangeably:
+  `et_art_115`, `art_115_et`, `art_115`, `115`. The anchor resolver
+  normalizes all of these to bare `article_number`. Match this
+  convention.
+* **Cloud Supabase `doc_id` ≠ filesystem path** — it's
+  `_sanitize_doc_id(relative_path)` which preserves dashes + dots
+  but collapses slashes/spaces to underscores. The cloud-Supabase
+  loader builder (`build_interpretation_load_plan_from_supabase`)
+  is the source of truth — never use the manifest-backed builder
+  against cloud Falkor because doc_ids may differ from local disk.
+* **The InterpretationNode `trust_tier` property is a placeholder**
+  — loader writes `"medium"` to every node. A future re-attempt
+  that wants real trust_tier ordering needs to extend the loader to
+  aggregate per-doc from cloud Supabase `document_chunks.trust_tier`
+  (e.g. MAX over chunks). Currently the `LIMIT 8 ORDER BY trust_tier
+  DESC` in the anchor Cypher is effectively cursor-order.
+
+### 18.G — Files to read on re-pickup
+
+In rough order of importance:
+
+1. This file (`docs/re-engineer/fix/fix_v11_may.md`) — full v11
+   record.
+2. `CLAUDE.md` — `Runtime Read Path` table, `Fast Decision Rule`,
+   `Non-Negotiables`.
+3. `docs/orchestration/orchestration.md` — env matrix versions +
+   change log.
+4. `src/lia_graph/interpretacion/synthesis_helpers.py` —
+   `select_interpretation_candidates` + `score_interpretation_candidate`
+   + `_OFF_TOPIC_PATTERNS`. This is the filter you're replacing.
+5. `src/lia_graph/interpretacion/orchestrator.py` —
+   `_retrieve_interpretation_docs` dispatcher.
+6. `src/lia_graph/graph/interpretation_loader.py` — already-loaded
+   cloud subgraph builder.
+7. `src/lia_graph/interpretacion/anchor_resolver.py` — Cypher
+   anchor lookup (off by default; flip with `LIA_PLANNER_INTERPRETATION_ANCHOR=on`).
+8. `evals/sme_validation_v1/questions_expert_panel_v1.jsonl` — the
+   21-Q instrument.
+9. `evals/sme_validation_v1/runs/20260512T010349Z_phase11b_falkor_anchor/`
+   — first v11B run (anchor verified end-to-end).
+10. `evals/sme_validation_v1/runs/20260512T021403Z_phase11b_hybrid_threshold/`
+    — last v11B run (post-revert measurement).
+
+### 18.H — What we would have done differently
+
+For future planners writing similar gate-6-driven specs:
+
+* **Measure the bottleneck FIRST.** v11 jumped to "build the Falkor
+  anchor" before quantifying whether the rerank or the assembly
+  filter was the cut. If we'd traced one failing case end-to-end on
+  v10/v11A first, we'd have found the assembly filter (and the
+  silent judge crash) before shipping any Phase 11B code. The 4
+  engineer days on the loader + resolver would have been better
+  spent on SR1.
+* **Contract-test every `(text, diag) = fn(...)` site.** The
+  judge crash hid for months because Python silently swallows the
+  unpack failure into a generic exception. A 1-line test on every
+  call site would have caught it on day 1.
+* **The gate-6 "two refinements" budget is a strict lower bound.**
+  We tried three (judge fix, soft veto, hybrid) before discarding;
+  the third was operator-requested ("hold — try one more thing").
+  That's fine for time-pressed exploration, but the canonical plan
+  should treat extra attempts as data for the discard report, not
+  as a path past gate-6.
+* **Don't ship the anchor without the filter.** Phase 11B's anchor
+  is correct — it just doesn't help when the downstream filter
+  dilutes the boost. Future re-attempts should land the assembly
+  filter rework FIRST, then flip the anchor back on.
+
 
 
