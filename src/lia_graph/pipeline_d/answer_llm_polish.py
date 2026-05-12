@@ -73,8 +73,8 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         id="section_structure",
         category="structural",
         prompt_text=(
-            "Mantené la estructura por secciones del borrador (Respuestas directas / Ruta sugerida / "
-            "Riesgos y condiciones / Soportes clave) y NO elimines secciones. Podés reformular cada bullet existente. "
+            "Aplicá el orden obligatorio de la DIRECTIVA PRIMARIA punto 0. Si el borrador difiere, reordená. "
+            "NO elimines secciones. Podés reformular cada bullet existente. "
             "REGLA DE EXPANSIÓN: si CUALQUIER sección tiene un solo bullet (o un bullet muy corto, tipo encabezado de "
             "una guía práctica) Y hay al menos 2 ARTÍCULOS ANCLA o 3 DOCUMENTOS DE SOPORTE en la evidencia abajo, "
             "AMPLIÁ esa sección a 2-3 bullets adicionales construidos desde la evidencia. Preservá el bullet original "
@@ -519,6 +519,17 @@ def _build_polish_prompt(
         "contador colombiano senior — claro, operativo, sin relleno, sin "
         "disclaimers. Lo que NO podés hacer es inventar contenido. "
         "Específicamente:\n"
+        "\n"
+        "0) ORDEN OBLIGATORIO de las secciones — exactamente este, de "
+        "arriba hacia abajo:\n"
+        "   1. **Recomendaciones Prácticas** (qué hacer concretamente, "
+        "pasos, plazos, riesgos)\n"
+        "   2. **Procedimiento Sugerido** (si el borrador lo trae)\n"
+        "   3. **Precauciones** / **Riesgos y condiciones**\n"
+        "   4. **Soportes** (si el borrador lo trae)\n"
+        "   5. **Anclaje Legal** SIEMPRE AL FINAL\n"
+        "Si el borrador trae las secciones en otro orden, REORDENALAS. "
+        "NO renombres secciones. NO inventes secciones nuevas.\n"
         "\n"
         "1) NO introduzcas referencias a leyes, decretos, resoluciones, "
         "conceptos DIAN, sentencias, autos, circulares o cualquier otra "

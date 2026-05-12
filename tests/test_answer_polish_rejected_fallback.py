@@ -5,7 +5,7 @@ Five invariants:
 
 1. Empty ``GraphNativeAnswerParts`` → returns ``template_answer``
    unchanged (safety net: never make the answer worse than today).
-2. Populated ``recommendations`` → fallback contains a "Ruta sugerida"
+2. Populated ``recommendations`` → fallback contains a "Recomendaciones Prácticas"
    section with bullets from recommendations.
 3. Populated ``precautions`` → fallback contains "Riesgos y condiciones".
 4. Populated ``paperwork`` → fallback contains "Soportes clave".
@@ -44,7 +44,7 @@ def test_empty_parts_returns_template_unchanged() -> None:
     assert out == _TEMPLATE
 
 
-def test_recommendations_render_as_ruta_sugerida() -> None:
+def test_recommendations_render_as_recomendaciones_practicas() -> None:
     parts = GraphNativeAnswerParts(
         recommendations=(
             "Verifica necesidad y causalidad del gasto (art. 107 ET).",
@@ -56,7 +56,7 @@ def test_recommendations_render_as_ruta_sugerida() -> None:
         template_answer=_TEMPLATE,
         answer_parts=parts,
     )
-    assert "Ruta sugerida" in out
+    assert "Recomendaciones Prácticas" in out
     assert "necesidad y causalidad" in out
     assert "soporte documental" in out
 

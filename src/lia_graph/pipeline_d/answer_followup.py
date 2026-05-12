@@ -275,11 +275,9 @@ def _compose_expanded_followup_answer(
     sections: list[str] = []
 
     if recommendations:
-        sections.append(render_bullet_section("Qué Haría Primero", recommendations[:2]))
+        sections.append(render_bullet_section("Recomendaciones Prácticas", recommendations[:2]))
     if procedure:
         sections.append(render_numbered_section("Procedimiento Sugerido", procedure[:4]))
-    if legal_anchor:
-        sections.append(render_bullet_section("Anclaje Legal", legal_anchor[:3]))
     if precautions:
         sections.append(render_bullet_section("Precauciones", precautions[:3]))
     if paperwork and _followup_requests_paperwork(normalized_message):
@@ -288,6 +286,8 @@ def _compose_expanded_followup_answer(
         sections.append(render_bullet_section("Oportunidades", opportunities[:2]))
     if context_lines and _followup_requests_context(normalized_message):
         sections.append(render_bullet_section("Cambios y Contexto Legal", context_lines[:2]))
+    if legal_anchor:
+        sections.append(render_bullet_section("Anclaje Legal", legal_anchor[:3]))
     if not sections and paperwork:
         sections.append(render_bullet_section("Soportes y Papeles de Trabajo", paperwork[:2]))
     return "\n\n".join(section for section in sections if section.strip())

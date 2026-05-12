@@ -352,7 +352,7 @@ def test_phase3_pipeline_d_end_to_end_smoke_for_accountant_style_refund_prompt()
 
     assert response.answer_mode == "graph_native"
     assert response.fallback_reason is None
-    assert "Ruta sugerida" in response.answer_markdown
+    assert "Recomendaciones Prácticas" in response.answer_markdown
     assert "Riesgos y condiciones" in response.answer_markdown
     assert "Soportes clave" in response.answer_markdown
     assert "Anclaje Legal" not in response.answer_markdown
@@ -391,7 +391,7 @@ def test_phase3_pipeline_d_loss_compensation_prompt_surfaces_art_147_instead_of_
     assert "¿Hay límite anual?" in response.answer_markdown
     assert "¿Cuál es el régimen legal de compensación de pérdidas fiscales?" in response.answer_markdown
     respuestas_pos = response.answer_markdown.index("**Respuestas directas**")
-    ruta_pos = response.answer_markdown.index("**Ruta sugerida**")
+    ruta_pos = response.answer_markdown.index("**Recomendaciones Prácticas**")
     assert respuestas_pos < ruta_pos
 
 
@@ -557,7 +557,7 @@ def test_phase3_pipeline_d_tax_planning_prompt_uses_rich_advisory_first_bubble()
     assert "Estrategias Legítimas A Modelar" in response.answer_markdown
     assert "Qué Mira DIAN Y La Jurisprudencia" in response.answer_markdown
     assert "Papeles De Trabajo" in response.answer_markdown
-    assert "Ruta sugerida" not in response.answer_markdown
+    assert "Recomendaciones Prácticas" not in response.answer_markdown
     assert "economía de opción" in response.answer_markdown or "economia de opcion" in response.answer_markdown
     assert "RST" in response.answer_markdown or "ordinario" in response.answer_markdown
     assert "Exp. 27693" in response.answer_markdown
@@ -650,7 +650,10 @@ def test_phase3_pipeline_d_later_turn_keeps_broad_sectioned_format() -> None:
 
     assert "Procedimiento Sugerido" in response.answer_markdown
     assert "Anclaje Legal" in response.answer_markdown
-    assert "Ruta sugerida" not in response.answer_markdown
+    assert "Recomendaciones Prácticas" in response.answer_markdown
+    proc_pos = response.answer_markdown.index("**Procedimiento Sugerido**")
+    legal_pos = response.answer_markdown.index("**Anclaje Legal**")
+    assert proc_pos < legal_pos
 
 
 def test_phase3_planner_carries_forward_norm_anchors_for_focused_followup() -> None:

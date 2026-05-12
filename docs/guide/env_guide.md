@@ -1,7 +1,12 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-05-11-fix-v8-polish-fallback-prompt-anchor`.**
+> **Env matrix version: `v2026-05-12-fix-v12-practica-boost`.**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/orchestration/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
+>
+> **2026-05-12 fix_v12 landings (today):**
+> - **`LIA_PRACTICA_BOOST_FACTOR=1.5`** (Phase 12C). Multiplicative RRF boost in `hybrid_search` for chunks whose `knowledge_class='practica_erp'` (the 1,463 operational-guidance chunks fix_v10_may Phase 10A retagged). Soft signal, never a WHERE filter. Floored to 1.0 per Invariant I5. Default ON across all three modes. Rollback by setting to `1.0`. Requires migration `supabase/migrations/20260513000001_knowledge_class_boost.sql` (applied to cloud LIA_Graph + local). Older deployments without the migration degrade to unboosted ranking via the retriever's strip-and-retry recovery.
+> - **Assembly rename + reorder (Phase 12A, no env flag).** `**Recomendaciones Prácticas**` is the new lead section across both Q1 and Q2+ chat shapes (was `**Ruta sugerida**` / `**Qué Haría Primero**`). In Q2+ followup shape, `**Anclaje Legal**` moves from 3rd-of-7 to the LAST always-on section. Substantive-fallback assembler (fix_v8 §3a) carries the new label.
+> - **Polish prompt order-lock (Phase 12B, no env flag).** New "punto 0" inserted in `answer_llm_polish.py::primary_directive` mandates the section order (Recomendaciones Prácticas → Procedimiento Sugerido → Precauciones → Soportes → Anclaje Legal LAST). The `section_structure` rule in `_rules_block` rewritten to point at punto 0 instead of literally naming `"Ruta sugerida"` — that literal mention was the unpicking signal that made the LLM rename the new label back to the legacy one in 4/21 polished outputs in the 12A baseline run.
 >
 > **2026-05-11 cumulative ship state (fix_v7 + fix_v8):**
 > - **fix_v8 landings (today).** `LIA_POLISH_REJECTED_FALLBACK_MODE=enforce` (default; substantive fallback assembles answer from `GraphNativeAnswerParts` when polish rejects). Polish prompt rewritten with explicit DIRECTIVA PRIMARIA + `ARTÍCULOS PERMITIDOS` + `REFORMAS Y NORMAS PERMITIDAS` allowlists. `gemini-flash` temperature 0.1 → 0.0 in `config/llm_runtime.json` for the chat path (canonicalizer DeepSeek stays at 0.1). `planner.py` anchors Art. 115 ET explicitly for ICA-deduction queries. `response.diagnostics` now carries `polish_mode` ∈ `{llm, skipped, rejected, failed, unknown}` and `polish_skip_reason`. 10-question probe: substantive ≥800c went 6/10 → 10/10; rejections went 7/10 → 3/10 (all caught by fallback). 36-question SME panel: PASS at 34/36 acc+ / 26 strong / 0 weak, polish rejections 21 → 18 with temp=0. Phase 8c topic-norm-allowlist expansion drafted but reverted (`docs/re-engineer/fix/fix_v8_may.md §3c`).
@@ -38,7 +43,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-05-11-fix-v8-polish-fallback-prompt-anchor)
+## Runtime Retrieval Flags (v2026-05-12-fix-v12-practica-boost)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -48,6 +53,7 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_GRAPH_MODE` | `artifacts` | `falkor_live` | inherits Railway | `retriever.py` vs `retriever_falkor.py` |
 | `LIA_LLM_POLISH_ENABLED` | `1` | `1` | `1` | `answer_llm_polish.py` — set to `0` to compare template vs polished |
 | `LIA_SUBTOPIC_BOOST_FACTOR` | `1.5` default (unused in dev) | `1.5` default | inherits Railway | `retriever_supabase.py` + `retriever_falkor.py` when planner detects subtopic intent |
+| `LIA_PRACTICA_BOOST_FACTOR` | `1.5` default (unused in dev — local Falkor BFS, not Supabase RPC) | `1.5` default | inherits Railway | `retriever_supabase.py::_resolve_practica_boost_factor` + `hybrid_search` RPC `boost_knowledge_class='practica_erp'`. fix_v12 §2.C. Floored to 1.0 per Invariant I5. Set to `1.0` to disable. Requires migration `20260513000001_knowledge_class_boost.sql`. |
 | `LIA_RERANKER_MODE` | **`live`** | **`live`** | **`live`** | `pipeline_d/reranker.py` — all modes flipped `live` on 2026-04-22 (internal-beta risk-forward). Adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset; served answers unchanged until the sidecar lands. |
 | `LIA_QUERY_DECOMPOSE` | **`on`** | **`on`** | **`on`** | `pipeline_d/query_decomposer.py` — multi-`¿…?` queries fan out per sub-question; evidence merges at synthesis. |
 | `LIA_TEMA_FIRST_RETRIEVAL` | **`on`** | **`on`** | **`on`** | `pipeline_d/retriever_falkor.py` — **re-flipped `shadow` → `on` 2026-04-25** after taxonomy v2 + K2 path-veto + SME 30Q at 30/30 + qualitative-pass on §8.4 gate 9 (`docs/aa_next/gate_9_threshold_decision.md`). The 2026-04-24 contamination regression is no longer reproducible (Q11/Q16/Q22/Q27 are 4/4 clean in v10 A/B). |

@@ -76,7 +76,7 @@ def compose_polish_rejected_fallback(
 
     if answer_parts.recommendations:
         sections.append(
-            render_bullet_section("Ruta sugerida", answer_parts.recommendations)
+            render_bullet_section("Recomendaciones Prácticas", answer_parts.recommendations)
         )
     elif answer_parts.procedure:
         sections.append(

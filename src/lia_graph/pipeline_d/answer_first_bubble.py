@@ -104,7 +104,7 @@ def compose_first_bubble_answer(
     if direct_answers:
         sections.append(_render_direct_answers_section(direct_answers))
     if route_lines:
-        sections.append(render_prepared_section("Ruta sugerida", route_lines, numbered=True))
+        sections.append(render_prepared_section("Recomendaciones Prácticas", route_lines, numbered=True))
     if risk_lines:
         sections.append(render_prepared_section("Riesgos y condiciones", risk_lines))
     if support_lines:

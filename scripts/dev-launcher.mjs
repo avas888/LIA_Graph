@@ -406,6 +406,23 @@ function buildRuntimeEnv(mode) {
     env.LIA_PLANNER_INTERPRETATION_ANCHOR = "off";
   }
 
+  // fix_v12_may §2.C — practical-substance boost in hybrid_search.
+  // Multiplies the RRF score of `practica_erp` chunks (the 1,463
+  // operational-guidance chunks tagged by fix_v10_may Phase 10A) so
+  // the `**Recomendaciones Prácticas**` lead section introduced in
+  // Phase 12A is fed by real práctica content rather than
+  // article-derived bullets in normative voice. Default 1.5 mirrors
+  // LIA_TOPIC_BOOST_FACTOR / LIA_SUBTOPIC_BOOST_FACTOR. Floors at 1.0
+  // (Invariant I5, never penalize). Set to `1.0` (or `0`) to disable;
+  // shell override still wins. Requires migration
+  // `supabase/migrations/20260513000001_knowledge_class_boost.sql`
+  // applied to the target Supabase; the retriever degrades to
+  // unboosted ranking via the strip-and-retry recovery if the
+  // RPC rejects the new params.
+  if (!String(env.LIA_PRACTICA_BOOST_FACTOR || "").trim()) {
+    env.LIA_PRACTICA_BOOST_FACTOR = "1.5";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

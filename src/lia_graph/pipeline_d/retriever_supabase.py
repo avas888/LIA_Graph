@@ -124,6 +124,15 @@ def retrieve_graph_evidence(
         message="hybrid_search returned 0 rows" if not chunk_rows else None,
         row_count=len(chunk_rows),
         top_chunk_ids=[(r.get("chunk_id") or r.get("id"))[:80] for r in chunk_rows[:10] if isinstance(r, dict)],
+        # fix_v12 §2.C — surface knowledge_class per top chunk so the
+        # `LIA_PRACTICA_BOOST_FACTOR` A/B preflight is observable
+        # directly in the trace.
+        top_chunk_classes=[r.get("knowledge_class") for r in chunk_rows[:10] if isinstance(r, dict)],
+        practica_count_in_top_20=sum(
+            1
+            for r in chunk_rows[:20]
+            if isinstance(r, dict) and r.get("knowledge_class") == "practica_erp"
+        ),
     )
     # FTS ranking alone cannot guarantee that the planner's explicit anchor
     # articles appear in top-N — broad OR queries often let generic chunks
@@ -272,6 +281,7 @@ def _hybrid_search(
     subtopic_boost = _resolve_subtopic_boost_factor()
     router_topic = next(iter(plan.topic_hints), None) if plan.topic_hints else None
     topic_boost = _resolve_topic_boost_factor()
+    practica_boost = _resolve_practica_boost_factor()
     query_embedding, embedding_diag = _query_embedding(query_text)
     payload: dict[str, Any] = {
         "query_embedding": query_embedding,
@@ -302,6 +312,17 @@ def _hybrid_search(
     if router_topic and topic_boost > 1.0:
         payload["boost_topic"] = router_topic
         payload["filter_topic_boost"] = topic_boost
+    # fix_v12 §2.C — knowledge_class boost. `practica_erp` chunks
+    # (fix_v10_may Phase 10A: 1,463 cloud chunks) compete with denser
+    # `normative_base` chunks for top-K; without a boost the chat
+    # assembler's `**Recomendaciones Prácticas**` lead section falls
+    # through to article-derived bullets in normative voice. Soft
+    # boost only — recall is unaffected. The recovery block below
+    # strips `boost_knowledge_class` + `knowledge_class_boost` on
+    # older deployments without migration 20260513000001.
+    if practica_boost > 1.0:
+        payload["boost_knowledge_class"] = "practica_erp"
+        payload["knowledge_class_boost"] = practica_boost
     _trace_step(
         "retriever.hybrid_search.in",
         status="info",
@@ -309,6 +330,8 @@ def _hybrid_search(
         filter_topic=payload.get("filter_topic"),
         boost_topic=payload.get("boost_topic"),
         filter_topic_boost=payload.get("filter_topic_boost"),
+        boost_knowledge_class=payload.get("boost_knowledge_class"),
+        knowledge_class_boost=payload.get("knowledge_class_boost"),
         filter_subtopic=payload.get("filter_subtopic"),
         subtopic_boost=payload.get("subtopic_boost"),
         filter_effective_date_max=str(payload.get("filter_effective_date_max")) if payload.get("filter_effective_date_max") else None,
@@ -333,13 +356,20 @@ def _hybrid_search(
             status="error",
             error=repr(exc)[:240],
         )
-        if "boost_topic" in payload or "filter_topic_boost" in payload:
+        if (
+            "boost_topic" in payload
+            or "filter_topic_boost" in payload
+            or "boost_knowledge_class" in payload
+            or "knowledge_class_boost" in payload
+        ):
             payload.pop("boost_topic", None)
             payload.pop("filter_topic_boost", None)
+            payload.pop("boost_knowledge_class", None)
+            payload.pop("knowledge_class_boost", None)
             try:
                 response = db.rpc("hybrid_search", payload).execute()
                 recovered = True
-                _hybrid_recovery = "dropped_topic_boost_params"
+                _hybrid_recovery = "dropped_topic_and_class_boost_params"
             except Exception:
                 pass
         if not recovered and sub_topic_intent:
@@ -407,6 +437,26 @@ def _resolve_topic_boost_factor() -> float:
     behavior. Set to 1.5+ to enable the boost.
     """
     raw = os.getenv("LIA_TOPIC_BOOST_FACTOR")
+    if raw is None or not str(raw).strip():
+        return 1.5
+    try:
+        parsed = float(raw)
+    except (TypeError, ValueError):
+        return 1.5
+    return max(parsed, 1.0)
+
+
+def _resolve_practica_boost_factor() -> float:
+    """fix_v12 §2.C — Read ``LIA_PRACTICA_BOOST_FACTOR`` env; default 1.5.
+
+    Mirrors `_resolve_topic_boost_factor` shape. Applies to chunks with
+    `knowledge_class='practica_erp'` so the chat path can surface
+    operational-guidance chunks above the denser `normative_base`
+    population. Floors at 1.0 (Invariant I5, never penalize). When the
+    value is exactly 1.0, the boost is OFF and `boost_knowledge_class`
+    stays absent from the RPC payload.
+    """
+    raw = os.getenv("LIA_PRACTICA_BOOST_FACTOR")
     if raw is None or not str(raw).strip():
         return 1.5
     try:
