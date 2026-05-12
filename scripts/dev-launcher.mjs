@@ -463,17 +463,16 @@ function buildRuntimeEnv(mode) {
     }
   } else if (mode === "production") {
     env.LIA_STORAGE_BACKEND = "supabase";
-    // fix_v10_may Phase 10B/10C — production stays on the FILESYSTEM
-    // panel path until the 21-Q mini-panel clears the §5.4 70 % ship
-    // bar. Current measurement: 57.1 % (REFINE band). Flipping to
-    // `supabase` here would surface the wrong expert brief ~43 % of
-    // the time on the RENTA-busy questions accountants ask most.
-    // Operator can flip via Railway env var when ready; the
-    // `dev:staging` default stays at `supabase` so refinement still
-    // happens against the cloud path. See fix_v11_may.md for the
-    // path-to-70 %.
+    // fix_v10_may Phase 10B → flipped to supabase on 2026-05-12 per
+    // operator beta-risk-forward stance. CLAUDE.md already documents
+    // production as supabase; aligning code with docs. The filesystem
+    // catalog (token-overlap scan of canonical_corpus_manifest.json)
+    // returns wrong docs on any topic with strong on-corpus interp
+    // briefs (TP, GMF, cambiario), and the /enhance LLM-judge then
+    // marks them irrelevant → empty panel. Supabase retriever (with
+    // topic boost + trust tier + embeddings) clears that case.
     if (!String(env.LIA_INTERPRETATION_SOURCE || "").trim()) {
-      env.LIA_INTERPRETATION_SOURCE = "filesystem";
+      env.LIA_INTERPRETATION_SOURCE = "supabase";
     }
   } else {
     fail(`Unsupported mode: ${mode}`);

@@ -146,8 +146,8 @@ def _retrieve_interpretation_docs(*, query: str, top_k: int, pais: str, topic: s
     # OPERATOR explicitly sets the flag back to filesystem.
     import os as _os
     _source = (
-        _os.environ.get("LIA_INTERPRETATION_SOURCE", "filesystem")
-        or "filesystem"
+        _os.environ.get("LIA_INTERPRETATION_SOURCE", "supabase")
+        or "supabase"
     ).strip().lower()
     if _source == "supabase":
         from .retriever_supabase import fetch_interpretation_candidates
