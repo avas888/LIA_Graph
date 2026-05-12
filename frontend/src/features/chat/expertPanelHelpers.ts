@@ -198,6 +198,7 @@ export function buildChecklist(
   classification: ExpertCardClassification,
   signal: ExpertSignal,
   authorities: string[],
+  providers: ExpertProvider[] = [],
 ): string[] {
   const checklist = [
     "Contrasta este criterio con la norma base antes de responder al cliente, contabilizar o presentar.",
@@ -217,8 +218,16 @@ export function buildChecklist(
   } else {
     checklist.push("Usa esta lectura como orientación y documenta cualquier supuesto relevante antes de cerrar.");
   }
-  if (authorities.length > 0) {
-    checklist.push(`Guarda trazabilidad de las fuentes consultadas: ${clipText(authorities.join(", "), 72)}.`);
+  // Trazabilidad bullet prefers provider names (Deloitte, Actualícese,
+  // Ámbito Jurídico) — what the accountant actually consults — over
+  // the abstract authority taxonomy ("Fuente oficial secundaria").
+  // Falls back to authority labels when no providers are attached.
+  const providerNames = normalizeProviders(providers)
+    .map((p) => p.name)
+    .filter(Boolean);
+  const sourceLabels = providerNames.length > 0 ? providerNames : authorities;
+  if (sourceLabels.length > 0) {
+    checklist.push(`Guarda trazabilidad de las fuentes consultadas: ${clipText(sourceLabels.join(", "), 96)}.`);
   }
   return checklist.map((item) => ensureSentence(item));
 }
@@ -278,7 +287,7 @@ export function buildCardFromGroup(group: ExpertGroup, requestedRefs: Set<string
     heading: summary,
     lead: summary,
     implication: buildImplication(group.classification, signal),
-    checklist: buildChecklist(group.classification, signal, authorities),
+    checklist: buildChecklist(group.classification, signal, authorities, providers),
     sources,
     providers,
     authorities,
@@ -307,7 +316,7 @@ export function buildCardFromSnippet(snippet: ExpertSnippet): ExpertCard {
     heading: summary,
     lead: summary,
     implication: buildImplication("individual", signal),
-    checklist: buildChecklist("individual", signal, authorities),
+    checklist: buildChecklist("individual", signal, authorities, providers),
     sources,
     providers,
     authorities,
