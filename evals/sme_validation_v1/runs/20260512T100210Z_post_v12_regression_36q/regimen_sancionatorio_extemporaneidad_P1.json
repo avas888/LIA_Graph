@@ -1,0 +1,1022 @@
+{
+  "qid": "regimen_sancionatorio_extemporaneidad_P1",
+  "topic_key_expected": "regimen_sancionatorio_extemporaneidad",
+  "profile": "P1_directa",
+  "message": "¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?",
+  "http_status": 200,
+  "latency_ms": 42394,
+  "captured_utc": "2026-05-12T15:03:32.668046+00:00",
+  "response": {
+    "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+    "run_id": "pd_fc1d515dfb684f2d901f38e8820bd4ea",
+    "answer_markdown": "**Recomendaciones Prácticas**\n\n*   Asegurate de presentar la declaración de renta a tiempo, incluso si no hay impuesto a cargo, para evitar sanciones.\n*   Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.\n*   Considerá la posibilidad de presentar la declaración con anticipación para evitar inconvenientes de última hora.\n\n**Precauciones**\n\n*   La presentación extemporánea de la declaración de renta, incluso sin impuesto a cargo, genera una sanción mínima.\n*   Es crucial cumplir con los plazos establecidos para evitar costos adicionales y posibles requerimientos de la DIAN.\n\n**Anclaje Legal**\n\n*   (Cobertura pendiente para esta sub-pregunta)",
+    "answer_concise": "**Recomendaciones Prácticas**\n\n*   Asegurate de presentar la declaración de renta a tiempo, incluso si no hay impuesto a cargo, para evitar sanciones.\n*   Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.\n*   Considerá la posibilidad de presentar la declaración con anticipación para evitar inconvenientes de última hora.\n\n**Precauciones**\n\n*   La presentación extemporánea de la declaración de renta, incluso sin impuesto a cargo, genera una sanción mínima.\n*   Es crucial cumplir con los plazos establecidos para evitar costos adicionales y posibles requerimientos de la DIAN.\n\n**Anclaje Legal**\n\n*   (Cobertura pendiente para esta sub-pregunta)",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.",
+        "usage_intents": [
+          "plazos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Fuente original compilada: D. 2053/74 Art. 34*\n\nEn los contratos de renta vitalicia, la renta bruta de los contratantes se determina así:\n\n1. El precio o capital que se pague por la renta vitalicia constituye renta brut",
+      "*Fuente original compilada: D. 2053/74 Art. 63*\n\nSon deducibles las sumas periódicas pagadas en el año o período gravable a título de renta vitalicia, hasta el total del reembolso del precio o capital. De allí en adelant",
+      "*Artículo modificado por el artículo 81 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nPara la determinación del impuesto sobre la renta en los contratos de fiducia mercantil se observarán las siguientes reglas"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "100",
+          "101",
+          "102"
+        ],
+        "chunk_row_count": 69,
+        "document_row_count": 24,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research"
+      },
+      "pipeline_trace": {
+        "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-12T15:02:50.274501+00:00",
+        "total_ms": 34444.35,
+        "step_count": 22,
+        "steps": [
+          {
+            "ts_utc": "2026-05-12T15:02:50.274516+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-12T15:02:50.274501+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:02:50.274642+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.13,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 94,
+              "message_preview": "¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:02:50.292689+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 18.18,
+            "message": null,
+            "details": {
+              "effective_topic": "declaracion_renta",
+              "confidence": 0.99,
+              "reason": "rule:declaracion_renta matched declaracion de renta, declaración de renta, renta",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:02.619846+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 12345.34,
+            "message": null,
+            "details": {
+              "owner_trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+              "requested_trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:02.620624+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 12346.11,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "declaracion_renta",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:declaracion_renta matched declaracion de renta, declaración de renta, renta",
+              "topic_notice": "Tu pregunta es de declaracion renta, por lo cual utilizaremos nuestra base de datos declaracion renta.",
+              "message_preview": "¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?",
+              "message_chars": 94
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:02.652376+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 12377.87,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:02.655872+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 12381.38,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "declaracion_renta ¿Cuánto cobra la DIAN por presentar una declaración de renta tarde si no hay impuesto a cargo?",
+              "query_text_chars": 112
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:02.657585+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 12383.09,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "declaracion_renta",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": "practica_erp",
+              "knowledge_class_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "declaracion_renta",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:03.499478+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 13224.96,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-06-calendario-tributario.md::6-8-consecuenci",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR",
+                "CORE_ya_Arriba_REGIMEN_SANCIONATORIO_LOGGRO_SAN-L01-guia-practica-calculo-sancio",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_LOGGRO_RET-L03-decreto-572-d",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_PROCEDIMIENTO_RECURSO_EXOGENA_LOGGRO_PRO-L01",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_ACTIVOS_EXTERIOR_F160_LOGGRO_AEX-L01-guia-pr",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_05-CALENDARIO-TRIBUTARIO-2026_PRA"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "normative_base",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "practica_count_in_top_20": 8
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:06.148016+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 15873.51,
+            "message": null,
+            "details": {
+              "anchor_row_count": 50,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:06.148515+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 15874.03,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 73,
+              "delta": 49
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:06.485245+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 16210.74,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 73,
+              "rows_out": 69,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-12"
+              },
+              "chunks_seen": 73,
+              "chunks_kept": 69,
+              "chunks_dropped": 4,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 69,
+                "chunks_dropped": 4,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:22.257782+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 31983.26,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 69,
+                "chunks_dropped": 4,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [
+                "100",
+                "101",
+                "102"
+              ],
+              "tema_first_topic_key": "declaracion_renta",
+              "planner_query_mode": "general_graph_research"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:22.259410+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 31984.94,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "100",
+                  "101",
+                  "102",
+                  "1",
+                  "107",
+                  "118",
+                  "174"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:22.301223+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 32026.74,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "declaracion_renta",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "declaracion_renta",
+                "articles_top_topic": "declaracion_renta",
+                "router_score_on_articles": 4,
+                "top_score_on_articles": 4,
+                "ranked_article_topics": [
+                  [
+                    "declaracion_renta",
+                    4
+                  ],
+                  [
+                    "impuesto_nacional_consumo",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:22.301878+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 32027.42,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "declaracion_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:22.301965+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 32027.51,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:22.304155+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 32029.7,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "declaracion_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:22.304226+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 32029.77,
+            "message": null,
+            "details": {
+              "template_chars": 124
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:24.717750+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 34443.28,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 695,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:24.718350+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 34443.89,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "declaracion_renta",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:03:24.718647+00:00",
+            "trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 34444.19,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 17,
+        "output_tokens": 100,
+        "total_tokens": 117,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "declaracion_renta",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de declaracion renta, por lo cual utilizaremos nuestra base de datos declaracion renta.",
+    "topic_adjustment_reason": "rule:declaracion_renta matched declaracion de renta, declaración de renta, renta",
+    "coverage_notice": null,
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Revisá el calendario tributario de la DIAN para conocer las fechas límite de presentación y pago.",
+        "usage_intents": [
+          "plazos"
+        ]
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778598130,
+      "expires_at": 1778601730,
+      "token_id": "a199ff5fb0174fc5ab20cdc762d77841"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_9019db439764",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 17,
+        "output_tokens": 100,
+        "total_tokens": 117
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+      "last_run_id": "pd_fc1d515dfb684f2d901f38e8820bd4ea",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_9019db439764",
+    "chat_run_id": "cr_20260512_150253_c4817a67",
+    "metrics": {
+      "latency_ms": 38956.57,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 17,
+          "output_tokens": 100,
+          "total_tokens": 117,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_9019db439764",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 17,
+          "output_tokens": 100,
+          "total_tokens": 117
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "28b23fe0-103f-46a6-ab5d-c3bc9fcce7de",
+        "last_run_id": "pd_fc1d515dfb684f2d901f38e8820bd4ea",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 867.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "declaracion_renta",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "09353dfa0c9641e9bd6c1bf297e6f111"
+  }
+}

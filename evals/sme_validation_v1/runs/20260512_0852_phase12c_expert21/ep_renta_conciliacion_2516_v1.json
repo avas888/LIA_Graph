@@ -1,0 +1,962 @@
+{
+  "qid": "ep_renta_conciliacion_2516_v1",
+  "topic_key_expected": "declaracion_renta",
+  "profile": "expert_panel_v1",
+  "message": "Soy contador de una empresa obligada a NIIF y debo presentar el Formato 2516 de conciliación fiscal. ¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad contable y la renta líquida?",
+  "http_status": 200,
+  "latency_ms": 20685,
+  "captured_utc": "2026-05-12T13:53:02.473230+00:00",
+  "response": {
+    "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+    "run_id": "pd_68eb9542fb2a435fb9efeabf6f6b5ff1",
+    "answer_markdown": "**Recomendaciones Prácticas**\n\n*   Asegurate de elaborar la conciliación fiscal, incluso si la empresa es una PYME pequeña. No hacerla es el error más grave y común, y puede acarrear sanciones (art. 655 ET).\n*   Verificá que la depreciación de activos se realice correctamente. No uses la tasa fiscal máxima para depreciar en los libros NIIF; la NIIF requiere estimar la vida útil técnica del activo.\n*   Revisá la interacción entre los valores contables de los gastos (NIIF) y los valores reportados en la factura electrónica o nómina electrónica para evitar inconsistencias en la conciliación.\n\n**Precauciones**\n\n*   No elaborar el Formato **2516** creyendo que la empresa no está obligada puede generar una sanción (art. 655 ET).\n*   Usar la UVT del año de presentación para determinar topes, en lugar de la UVT del año gravable, lleva a una determinación incorrecta de la obligación.\n*   La DIAN detecta con frecuencia la no elaboración de la conciliación fiscal, siendo este el error más grave y común en PYMES pequeñas (Art. 11-8-errores-frecuentes-y-sanciones-por-incumplimiento).\n\n**Soportes**\n\n*   El Formato **2516** es la Conciliación entre la Renta Contable (NIIF) y la Renta Fiscal (Estatuto Tributario). Tiene **3** secciones: Parte A (Ingresos y costos), Parte B (Patrimonio) y Parte C (Diferencias).\n*   Este formulario es especialmente relevante para PYMES que reportan bajo NIIF (Art. paso-6-tratamiento-en-f2516-y-conciliaci-n-fiscal).\n*   La conciliación fiscal es el puente entre lo contable y lo fiscal, consolidando y explicando las diferencias entre ambos (Art. introducci-n-pr-ctica-la-conciliaci-n-fiscal-no-es-un-tr-mite-es-el-puente-entre).\n\n**Anclaje Legal**\n\n*   La conciliación fiscal se fundamenta en el Artículo ****772**-**1**** ET.",
+    "answer_concise": "**Recomendaciones Prácticas**\n\n*   Asegurate de elaborar la conciliación fiscal, incluso si la empresa es una PYME pequeña. No hacerla es el error más grave y común, y puede acarrear sanciones (art. 655 ET).\n*   Verificá que la depreciación de activos se realice correctamente. No uses la tasa fiscal máxima para depreciar en los libros NIIF; la NIIF requiere estimar la vida útil técnica del activo.\n*   Revisá la interacción entre los valores contables de los gastos (NIIF) y los valores reportados en la factura electrónica o nómina electrónica para evitar inconsistencias en la conciliación.\n\n**Precauciones**\n\n*   No elaborar el Formato **2516** creyendo que la empresa no está obligada puede generar una sanción (art. 655 ET).\n*   Usar la UVT del año de presentación para determinar topes, en lugar de la UVT del año gravable, lleva a una determinación incorrecta de la obligación.\n*   La DIAN detecta con frecuencia la no elaboración de la conciliación fiscal, siendo este el error más grave y común en PYMES pequeñas (Art. 11-8-errores-frecuentes-y-sanciones-por-incumplimiento).\n\n**Soportes**\n\n*   El Formato **2516** es la Conciliación entre la Renta Contable (NIIF) y la Renta Fiscal (Estatuto Tributario). Tiene **3** secciones: Parte A (Ingresos y costos), Parte B (Patrimonio) y Parte C (Diferencias).\n*   Este formulario es especialmente relevante para PYMES que reportan bajo NIIF (Art. paso-6-tratamiento-en-f2516-y-conciliaci-n-fiscal).\n*   La conciliación fiscal es el puente entre lo contable y lo fiscal, consolidando y explicando las diferencias entre ambos (Art. introducci-n-pr-ctica-la-conciliaci-n-fiscal-no-es-un-tr-mite-es-el-puente-entre).\n\n**Anclaje Legal**\n\n*   La conciliación fiscal se fundamenta en el Artículo ****772**-**1**** ET.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "authority": "Loggro",
+        "topic": "conciliacion_fiscal",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Conciliacion fiscal (Loggro)",
+        "legal_reference": "Conciliacion fiscal (Loggro)",
+        "search_query": "Conciliacion fiscal (Loggro) Loggro colombia Sección 11 — Conciliación Fiscal (Formatos 2516 y 2517)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Recomendaciones Prácticas** Asegurate de elaborar la conciliación fiscal, incluso si la empresa es una PYME pequeña.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacion-perdidas-fiscales-PYME-2026.md",
+        "logical_doc_id": "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacion-perdidas-fiscales-PYME-2026.md",
+        "authority": "Loggro",
+        "topic": "perdidas_fiscales_art147",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacion-perdidas-fiscales-PYME-2026.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacion-perdidas-fiscales-PYME-2026.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacion-perdidas-fiscales-PYME-2026.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacion-perdidas-fiscales-PYME-2026.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Perdidas fiscales art147 (Loggro)",
+        "legal_reference": "Perdidas fiscales art147 (Loggro)",
+        "search_query": "Perdidas fiscales art147 (Loggro) Loggro colombia PER L01 — Guía Práctica: Compensación de Pérdidas Fiscales en PYMEs — AG 2025 / Declaración 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Recomendaciones Prácticas** Asegurate de elaborar la conciliación fiscal, incluso si la empresa es una PYME pequeña.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presuntiva-exceso-compensacion-PYME-2026.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presuntiva-exceso-compensacion-PYME-2026.md",
+        "authority": "Loggro",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presuntiva-exceso-compensacion-PYME-2026.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presuntiva-exceso-compensacion-PYME-2026.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presuntiva-exceso-compensacion-PYME-2026.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presuntiva-exceso-compensacion-PYME-2026.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Declaracion renta (Loggro)",
+        "legal_reference": "Declaracion renta (Loggro)",
+        "search_query": "Declaracion renta (Loggro) Loggro colombia RPR L01 — Guía Práctica: Renta Presuntiva y Compensación de Excesos — AG 2025 / Declaración 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Soportes** El Formato **2516** es la Conciliación entre la Renta Contable (NIIF) y la Renta Fiscal (Estatuto Tributario).",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+        "logical_doc_id": "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+        "authority": "Loggro",
+        "topic": "estados_financieros_niif",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Estados financieros niif (Loggro)",
+        "legal_reference": "Estados financieros niif (Loggro)",
+        "search_query": "Estados financieros niif (Loggro) Loggro colombia NIIF L02 — Depreciación y Amortización: Cálculo Fiscal vs. NIIF para PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "No uses la tasa fiscal máxima para depreciar en los libros NIIF; la NIIF requiere estimar la vida útil técnica del activo.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "conciliacion_fiscal",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "T05 — Conciliación Fiscal F.2516/2517: Interpretaciones de Fuentes Secundarias",
+        "legal_reference": "T05 — Conciliación Fiscal F.2516/2517: Interpretaciones de Fuentes Secundarias",
+        "search_query": "T05 — Conciliación Fiscal F.2516/2517: Interpretaciones de Fuentes Secundarias DIAN / fuente oficial colombia T05 — Conciliación Fiscal F.2516/2517: Interpretaciones de Fuentes Secundarias",
+        "reference_key": "formulario:2516",
+        "reference_type": "formulario",
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La DIAN detecta con frecuencia la no elaboración de la conciliación fiscal, siendo este el error más grave y común en PYMES pequeñas (Art. 11-8-errores-frecuentes-y-sanciones-por-incumplimiento).",
+        "usage_intents": [
+          "riesgos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "## Introducción Práctica: La Conciliación Fiscal No Es un Trámite — Es el Puente entre lo Contable y lo Fiscal\nEl contador que ha llegado hasta aquí ya clasificó ingresos (Sección 8), depuró costos y deducciones (Sección 9) y armó el patrim",
+      "## 11.8. Errores Frecuentes y Sanciones por Incumplimiento\n### 11.8.1. Los Cinco Errores que la DIAN Detecta con Mayor Frecuencia\n\n**Error 1 — No elaborar la conciliación fiscal.** Es el error más grave y el más común en PYMEs pequeñas. El ",
+      "## PASO 6: TRATAMIENTO EN F2516 Y CONCILIACIÓN FISCAL\n### 6.1 ¿Qué es la F2516?\n\nEl Formulario 2516 es la **\"Conciliación entre Renta Contable y Renta Fiscal\"**. Aunque este formulario es más relevante para PYME que reportan bajo NIIF, es i"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-12T13:52:41.789267+00:00",
+        "total_ms": 16298.13,
+        "step_count": 26,
+        "steps": [
+          {
+            "ts_utc": "2026-05-12T13:52:41.789274+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-12T13:52:41.789267+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:41.804648+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 15.37,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 231,
+              "message_preview": "Soy contador de una empresa obligada a NIIF y debo presentar el Formato 2516 de conciliación fiscal. ¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad contable y la renta líquida?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:41.831650+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 42.38,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:41.844055+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 54.78,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:41.856792+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 67.52,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 231,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:43.929005+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2139.7,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "conciliacion_fiscal",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta menciona explícitamente el 'Formato 2516 de conciliación fiscal' y la 'conciliación fiscal' entre utilidad contable y renta líquida, lo que encaja directamente con la definición del tema 'conciliacion_fiscal'.",
+              "elapsed_ms_call": 2072.06,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:43.929858+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2140.59,
+            "message": null,
+            "details": {
+              "effective_topic": "conciliacion_fiscal",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:50.618373+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 8829.1,
+            "message": null,
+            "details": {
+              "owner_trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+              "requested_trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:50.619194+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 8829.91,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "conciliacion_fiscal",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta menciona explícitamente el 'Formato 2516 de conciliación fiscal' y la 'conciliación fiscal' entre utilidad contable y renta líquida, lo que encaja directamente con la definición del tema 'conciliacion_fiscal'.",
+              "topic_notice": "Tu pregunta es de conciliacion fiscal, por lo cual utilizaremos nuestra base de datos conciliacion fiscal.",
+              "message_preview": "Soy contador de una empresa obligada a NIIF y debo presentar el Formato 2516 de conciliación fiscal. ¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad contable y la renta líquida?",
+              "message_chars": 231
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:50.656307+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 8867.03,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:50.656951+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 8867.69,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "conciliacion_fiscal declaracion_renta Soy contador de una empresa obligada a NIIF y debo presentar el Formato 2516 de conciliación fiscal. ¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad",
+              "query_text_chars": 269
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:50.657604+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 8868.34,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "conciliacion_fiscal",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": "practica_erp",
+              "knowledge_class_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "conciliacion_fiscal",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:51.578256+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 9788.96,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md::introducci-n-pr-c",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-11-conciliacion-fiscal.md::11-8-errores-frec",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presun",
+                "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amor",
+                "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretacion",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_14-DEPRECIACION-AMORTIZACION-FISC",
+                "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretacion",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_13-PRESTACIONES-SOCIALES-NIIF-FIS",
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md::6-intera"
+              ],
+              "top_chunk_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "interpretative_guidance",
+                "practica_erp",
+                "interpretative_guidance",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "practica_count_in_top_20": 12
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:51.578870+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 9789.61,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:51.579137+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 9789.88,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:51.834748+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 10045.45,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-12"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:54.775228+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 12985.93,
+            "message": null,
+            "details": {
+              "primary_count": 5,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "conciliacion_fiscal",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:54.776022+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 12986.75,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                5,
+                5,
+                5
+              ],
+              "after": [
+                5,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "introducci-n-pr-ctica-la-conciliaci-n-fiscal-no-es-un-tr-mite-es-el-puente-entre",
+                  "11-8-errores-frecuentes-y-sanciones-por-incumplimiento",
+                  "paso-6-tratamiento-en-f2516-y-conciliaci-n-fiscal",
+                  "8-errores-frecuentes-en-pymes",
+                  "1-norma-base",
+                  "paso-5-registrar-en-f2516-conciliaci-n-fiscal-niif-vs-fiscal",
+                  "8-c-mo-registrar-en-formato-2516",
+                  "errores-frecuentes-y-c-mo-evitarlos",
+                  "conciliaci-n-en-formato-2516-paso-a-paso",
+                  "6-interacci-n-entre-documentos-y-declaraci-n-de-renta"
+                ],
+                "candidate_count": 10,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:54.776339+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 12987.08,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "conciliacion_fiscal",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "conciliacion_fiscal",
+                "articles_top_topic": "conciliacion_fiscal",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "introducci-n-pr-ctica-la-conciliaci-n-fiscal-no-es-un-tr-mite-es-el-puente-entre",
+                  "11-8-errores-frecuentes-y-sanciones-por-incumplimiento",
+                  "paso-6-tratamiento-en-f2516-y-conciliaci-n-fiscal",
+                  "8-errores-frecuentes-en-pymes",
+                  "1-norma-base"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:54.776550+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 12987.29,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "conciliacion_fiscal",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:54.776686+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 12987.43,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:54.788332+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 12999.07,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "conciliacion_fiscal"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:54.788641+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 12999.39,
+            "message": null,
+            "details": {
+              "template_chars": 493
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:58.083477+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 16294.21,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 1766,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:58.086785+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 16297.52,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "conciliacion_fiscal",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T13:52:58.087159+00:00",
+            "trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 16297.91,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 5,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 35,
+        "output_tokens": 251,
+        "total_tokens": 286,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "conciliacion_fiscal",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de conciliacion fiscal, por lo cual utilizaremos nuestra base de datos conciliacion fiscal.",
+    "topic_adjustment_reason": "La consulta menciona explícitamente el 'Formato 2516 de conciliación fiscal' y la 'conciliación fiscal' entre utilidad contable y renta líquida, lo que encaja directamente con la definición del tema 'conciliacion_fiscal'.",
+    "coverage_notice": null,
+    "topic": "conciliacion_fiscal",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778593961,
+      "expires_at": 1778597561,
+      "token_id": "311e4c24acfa4dbbac40c47a45aad43d"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_638b3ee90fd7",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 35,
+        "output_tokens": 251,
+        "total_tokens": 286
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+      "last_run_id": "pd_68eb9542fb2a435fb9efeabf6f6b5ff1",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_638b3ee90fd7",
+    "chat_run_id": "cr_20260512_135244_d58b33c8",
+    "metrics": {
+      "latency_ms": 18781.7,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 35,
+          "output_tokens": 251,
+          "total_tokens": 286,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_638b3ee90fd7",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 35,
+          "output_tokens": 251,
+          "total_tokens": 286
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "b909e465-27af-4769-9fa2-630fe21fc0c8",
+        "last_run_id": "pd_68eb9542fb2a435fb9efeabf6f6b5ff1",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 3,
+        "mentions_unique": 3,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 3,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "formulario:2516",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 4.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "conciliacion_fiscal",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "3f405a0adfbc48eaaea990206a162bb7"
+  }
+}

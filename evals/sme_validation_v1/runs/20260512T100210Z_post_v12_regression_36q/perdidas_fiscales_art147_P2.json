@@ -1,0 +1,1379 @@
+{
+  "qid": "perdidas_fiscales_art147_P2",
+  "topic_key_expected": "perdidas_fiscales_art147",
+  "profile": "P2_operativa",
+  "message": "Mi cliente tiene pérdidas acumuladas de $400 millones generadas en 2020, 2021 y 2022. En 2025 finalmente tuvo utilidad fiscal de $250 millones. ¿Puedo compensarle todo o hay algún límite porcentual anual? ¿Y debo compensar primero las más antiguas?",
+  "http_status": 200,
+  "latency_ms": 35790,
+  "captured_utc": "2026-05-12T15:06:12.770158+00:00",
+  "response": {
+    "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+    "run_id": "pd_a8d5b4535ff54694b8e4f96bae18f7bb",
+    "answer_markdown": "### Recomendaciones Prácticas\n\n1.  La sociedad debe compensar las pérdidas fiscales contra rentas líquidas ordinarias futuras. No se pueden trasladar a los socios ni tratar como un saldo a favor (art. 147 ET).\n2.  Para las pérdidas sujetas al régimen vigente, el límite es temporal: se pueden compensar durante los **12** períodos gravables siguientes, sin un tope porcentual anual (art. 147 ET).\n3.  Es crucial distinguir la mecánica de compensación de la firmeza de la declaración. El término de revisión de la pérdida fiscal es independiente de la compensación (art. 147 ET).\n4.  Si las pérdidas provienen de años anteriores a **2017**, es necesario validar el régimen especial del art. 290 ET antes de aplicar la regla de los **12** años.\n\n### Procedimiento Sugerido\n\n1.  **Inventario de Pérdidas:** Primero, identifique las pérdidas fiscales \"vivas\" (no expiradas) y \"muertas\" (expiradas) (art. paso-1-inventario-de-p-rdidas-cu-nto-tiene-su-pyme ET).\n2.  **Análisis de Compensación:** Determine si es conveniente compensar ahora o diferir, evaluando el impacto en el Impuesto a Renta Ordinaria sobre la Utilidad Depurada (TTD) (art. paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir ET).\n3.  **Orden de Compensación:** Si existen pérdidas fiscales de diferentes períodos, decida el orden de compensación (art. paso-4-decida-el-orden-de-compensaci-n-si-hay-p-rdida-fiscal-tambi-n ET).\n\n### Precauciones\n\n*   No confunda la compensación de pérdidas fiscales en renta con la devolución o compensación de saldos a favor (art. 147 ET).\n*   La firmeza de una declaración que origina o compensa pérdidas fiscales no es de **3** años, sino de **6** años. Tenga esto en cuenta al revisar el expediente (art. 147 ET).\n\n### Anclaje Legal\n\n**Respuestas directas**\n\n*   **¿Puedo compensarle todo o hay algún límite porcentual anual?**\n    *   Para pérdidas sujetas al régimen vigente, el límite es temporal: **12** períodos gravables siguientes y sin tope porcentual anual (arts. 147, paso-2-puede-compensar-rbol-de-decisi-n-normativo, paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir y paso-1-inventario-de-p-rdidas-cu-nto-tiene-su-pyme ET).\n*   **¿Y debo compensar primero las más antiguas?**\n    *   Si el saldo viene de años pre-**2017**, valide primero el régimen congelado del art. 290 ET antes de aplicar la regla de **12** años.\n    *   El Análisis TTD (Impuesto a Renta Ordinaria / Utilidad Depurada) es clave para decidir si conviene compensar ahora o diferir, ya que la compensación de pérdidas reduce el impuesto (art. paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir ET).\n    *   Antes de compensar, debe identificar qué pérdidas están \"vivas\" (aún no expiradas) y cuáles están \"muertas\" (ya expiradas) (art. paso-1-inventario-de-p-rdidas-cu-nto-tiene-su-pyme ET).\n    *   La valoración de activos tiene reglas específicas que impactan a las PYMES (art. 10-4-valoraci-n-de-activos-las-reglas-que-m-s-impactan-a-pymes ET).",
+    "answer_concise": "### Recomendaciones Prácticas\n\n1.  La sociedad debe compensar las pérdidas fiscales contra rentas líquidas ordinarias futuras. No se pueden trasladar a los socios ni tratar como un saldo a favor (art. 147 ET).\n2.  Para las pérdidas sujetas al régimen vigente, el límite es temporal: se pueden compensar durante los **12** períodos gravables siguientes, sin un tope porcentual anual (art. 147 ET).\n3.  Es crucial distinguir la mecánica de compensación de la firmeza de la declaración. El término de revisión de la pérdida fiscal es independiente de la compensación (art. 147 ET).\n4.  Si las pérdidas provienen de años anteriores a **2017**, es necesario validar el régimen especial del art. 290 ET antes de aplicar la regla de los **12** años.\n\n### Procedimiento Sugerido\n\n1.  **Inventario de Pérdidas:** Primero, identifique las pérdidas fiscales \"vivas\" (no expiradas) y \"muertas\" (expiradas) (art. paso-1-inventario-de-p-rdidas-cu-nto-tiene-su-pyme ET).\n2.  **Análisis de Compensación:** Determine si es conveniente compensar ahora o diferir, evaluando el impacto en el Impuesto a Renta Ordinaria sobre la Utilidad Depurada (TTD) (art. paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir ET).\n3.  **Orden de Compensación:** Si existen pérdidas fiscales de diferentes períodos, decida el orden de compensación (art. paso-4-decida-el-orden-de-compensaci-n-si-hay-p-rdida-fiscal-tambi-n ET).\n\n### Precauciones\n\n*   No confunda la compensación de pérdidas fiscales en renta con la devolución o compensación de saldos a favor (art. 147 ET).\n*   La firmeza de una declaración que origina o compensa pérdidas fiscales no es de **3** años, sino de **6** años. Tenga esto en cuenta al revisar el expediente (art. 147 ET).\n\n### Anclaje Legal\n\n**Respuestas directas**\n\n*   **¿Puedo compensarle todo o hay algún límite porcentual anual?**\n    *   Para pérdidas sujetas al régimen vigente, el límite es temporal: **12** períodos gravables siguientes y sin tope porcentual anual (arts. 147, paso-2-puede-compensar-rbol-de-decisi-n-normativo, paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir y paso-1-inventario-de-p-rdidas-cu-nto-tiene-su-pyme ET).\n*   **¿Y debo compensar primero las más antiguas?**\n    *   Si el saldo viene de años pre-**2017**, valide primero el régimen congelado del art. 290 ET antes de aplicar la regla de **12** años.\n    *   El Análisis TTD (Impuesto a Renta Ordinaria / Utilidad Depurada) es clave para decidir si conviene compensar ahora o diferir, ya que la compensación de pérdidas reduce el impuesto (art. paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir ET).\n    *   Antes de compensar, debe identificar qué pérdidas están \"vivas\" (aún no expiradas) y cuáles están \"muertas\" (ya expiradas) (art. paso-1-inventario-de-p-rdidas-cu-nto-tiene-su-pyme ET).\n    *   La valoración de activos tiene reglas específicas que impactan a las PYMES (art. 10-4-valoraci-n-de-activos-las-reglas-que-m-s-impactan-a-pymes ET).",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "logical_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "firmeza_declaraciones",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "download_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "legal_reference": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "search_query": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026 DIAN / fuente oficial colombia FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Es crucial distinguir la mecánica de compensación de la firmeza de la declaración.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La sociedad debe compensar las pérdidas fiscales contra rentas líquidas ordinarias futuras.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La sociedad debe compensar las pérdidas fiscales contra rentas líquidas ordinarias futuras.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La sociedad debe compensar las pérdidas fiscales contra rentas líquidas ordinarias futuras.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "### ARTÍCULO 147. COMPENSACIÓN DE PÉRDIDAS FISCALES DE SOCIEDADES (extracto relevante a firmeza).\n*(Modificado por Ley 1819 de 2016 Art. 88 y Ley 2010 de 2019 Art. 117. Texto vigente aplicable a AG 2025.)*\n\nLas sociedade",
+      "## PASO 2: ¿Puede Compensar? — Árbol de Decisión Normativo\nResponda SÍ/NO a cada pregunta:\n\n```\n┌─────────────────────────────────────────────────────┐\n│ INICIO: ¿Desea compensar pérdidas en 2026?          │\n├───────────",
+      "## PASO 3: Análisis TTD — ¿Conviene Compensar Ahora o Diferir?\n**TTD = Impuesto a Renta Ordinaria / Utilidad Depurada**\n\nLa compensación de pérdidas REDUCE el impuesto. Pero si la reduce demasiado, dispara \"insuficiencia"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 4,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 28,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-12T15:05:36.981145+00:00",
+        "total_ms": 22204.57,
+        "step_count": 49,
+        "steps": [
+          {
+            "ts_utc": "2026-05-12T15:05:36.981168+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-12T15:05:36.981145+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:36.981623+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.46,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 248,
+              "message_preview": "Mi cliente tiene pérdidas acumuladas de $400 millones generadas en 2020, 2021 y 2022. En 2025 finalmente tuvo utilidad fiscal de $250 millones. ¿Puedo compensarle todo o hay algún límite porcentual anual? ¿Y debo compensar primero las más a",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:37.006239+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 25.08,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:37.006915+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 25.76,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:37.026431+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 45.27,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 248,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:38.307153+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1325.99,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "perdidas_fiscales_art147",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se refiere directamente a la compensación de pérdidas fiscales, un tema específico cubierto por el artículo 147 del ET.",
+              "elapsed_ms_call": 1281.36,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:38.307432+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1326.28,
+            "message": null,
+            "details": {
+              "effective_topic": "perdidas_fiscales_art147",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:49.959443+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 12978.29,
+            "message": null,
+            "details": {
+              "owner_trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+              "requested_trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:49.959947+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 12978.81,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "perdidas_fiscales_art147",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se refiere directamente a la compensación de pérdidas fiscales, un tema específico cubierto por el artículo 147 del ET.",
+              "topic_notice": "Tu pregunta es de perdidas fiscales art147, por lo cual utilizaremos nuestra base de datos perdidas fiscales art147.",
+              "message_preview": "Mi cliente tiene pérdidas acumuladas de $400 millones generadas en 2020, 2021 y 2022. En 2025 finalmente tuvo utilidad fiscal de $250 millones. ¿Puedo compensarle todo o hay algún límite porcentual anual? ¿Y debo compensar primero las más a",
+              "message_chars": 248
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:49.960367+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 12979.23,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Puedo compensarle todo o hay algún límite porcentual anual?",
+                "¿Y debo compensar primero las más antiguas?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:49.960538+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 12979.4,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 60,
+              "message_preview": "¿Puedo compensarle todo o hay algún límite porcentual anual?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:49.985120+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 13003.98,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:49.985505+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 13004.37,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:49.985615+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 13004.48,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:50.003212+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 13022.07,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:50.003501+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 13022.36,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Puedo compensarle todo o hay algún límite porcentual anual?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "perdidas_fiscales_art147"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:50.003587+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 13022.45,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Puedo compensarle todo o hay algún límite porcentual anual?",
+              "effective_topic": "perdidas_fiscales_art147",
+              "secondary_topics": [],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:50.019037+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 13037.9,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:50.019306+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 13038.17,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "perdidas_fiscales_art147 ¿Puedo compensarle todo o hay algún límite porcentual anual?",
+              "query_text_chars": 85
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:50.019846+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 13038.71,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "perdidas_fiscales_art147",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": "practica_erp",
+              "knowledge_class_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "perdidas_fiscales_art147",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:50.897417+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 13916.25,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-12-determinacion-renta-liquida-gravable.md::",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_EXPERTOS_PER-E01-interpretaciones-perdid",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_NORMATIVA_PER-N01-marco-legal-compensaci",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_EXPERTOS_PER-E01-interpretaciones-perdid",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_NORMATIVA_PER-N01-marco-legal-compensaci",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-10-patrimonio-fiscal.md::10-4-valoraci-n-de-"
+              ],
+              "top_chunk_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "interpretative_guidance",
+                "normative_base",
+                "interpretative_guidance",
+                "normative_base",
+                "practica_erp"
+              ],
+              "practica_count_in_top_20": 11
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:51.111049+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 14129.88,
+            "message": null,
+            "details": {
+              "anchor_row_count": 6,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:51.111599+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 14130.46,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 28,
+              "delta": 4
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:51.421561+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 14440.41,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 28,
+              "rows_out": 28,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-12"
+              },
+              "chunks_seen": 28,
+              "chunks_kept": 28,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 28,
+                "chunks_kept": 28,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.047281+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 15066.14,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 28,
+                "chunks_kept": 28,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.047440+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 15066.31,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 43,
+              "message_preview": "¿Y debo compensar primero las más antiguas?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.062820+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 15081.69,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.063031+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 15081.9,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.063088+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 15081.96,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.078244+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 15097.11,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.078412+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 15097.28,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y debo compensar primero las más antiguas?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "perdidas_fiscales_art147"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.078473+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 15097.34,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y debo compensar primero las más antiguas?",
+              "effective_topic": "perdidas_fiscales_art147",
+              "secondary_topics": [],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.091813+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 15110.68,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.091966+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 15110.84,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "perdidas_fiscales_art147 ¿Y debo compensar primero las más antiguas?",
+              "query_text_chars": 68
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:52.092518+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 15111.38,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "perdidas_fiscales_art147",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": "practica_erp",
+              "knowledge_class_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "perdidas_fiscales_art147",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:53.084297+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 16103.15,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-12-determinacion-renta-liquida-gravable.md::",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_EXPERTOS_PER-E01-interpretaciones-perdid",
+                "CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presun",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_EXPERTOS_PER-E01-interpretaciones-perdid",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_NORMATIVA_PER-N01-marco-legal-compensaci",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_NORMATIVA_PER-N01-marco-legal-compensaci"
+              ],
+              "top_chunk_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "interpretative_guidance",
+                "practica_erp",
+                "interpretative_guidance",
+                "normative_base",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 8
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:53.314032+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 16332.9,
+            "message": null,
+            "details": {
+              "anchor_row_count": 6,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:53.314304+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 16333.17,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 28,
+              "delta": 4
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:53.534573+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 16553.43,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 28,
+              "rows_out": 28,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-12"
+              },
+              "chunks_seen": 28,
+              "chunks_kept": 28,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 28,
+                "chunks_kept": 28,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:54.039192+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 17058.05,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 28,
+                "chunks_kept": 28,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:54.039465+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 17058.33,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                4,
+                5,
+                4
+              ],
+              "after": [
+                4,
+                5,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "147",
+                  "paso-2-puede-compensar-rbol-de-decisi-n-normativo",
+                  "paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir",
+                  "paso-1-inventario-de-p-rdidas-cu-nto-tiene-su-pyme",
+                  "12-2-compensaci-n-de-p-rdidas-fiscales-art-147-et",
+                  "10-4-valoraci-n-de-activos-las-reglas-que-m-s-impactan-a-pymes",
+                  "paso-7-ejemplo-integral-comercializadora-pac-fico-sas",
+                  "18-8-p-rdida-fiscal-y-beneficio-de-auditor-a-lo-que-el-beneficio-no-protege",
+                  "paso-4-decida-el-orden-de-compensaci-n-si-hay-p-rdida-fiscal-tambi-n"
+                ],
+                "candidate_count": 9,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:54.039565+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 17058.43,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "perdidas_fiscales_art147",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "perdidas_fiscales_art147",
+                "articles_top_topic": "perdidas_fiscales_art147",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "147",
+                  "paso-2-puede-compensar-rbol-de-decisi-n-normativo",
+                  "paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir",
+                  "paso-1-inventario-de-p-rdidas-cu-nto-tiene-su-pyme"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:54.039654+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 17058.52,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "perdidas_fiscales_art147",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:54.039730+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 17058.6,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:54.050177+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 17069.04,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "perdidas_fiscales_art147",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "declaracion_renta",
+                "procedimiento_tributario"
+              ],
+              "allowed_prefix_count": 4,
+              "kept_count": 13,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:54.050439+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 17069.31,
+            "message": null,
+            "details": {
+              "template_chars": 2072
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:59.184257+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 22203.11,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2943,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:59.185025+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 22203.89,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "perdidas_fiscales_art147",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:05:59.185405+00:00",
+            "trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 22204.28,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 4,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 39,
+        "output_tokens": 392,
+        "total_tokens": 431,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "perdidas_fiscales_art147",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de perdidas fiscales art147, por lo cual utilizaremos nuestra base de datos perdidas fiscales art147.",
+    "topic_adjustment_reason": "La consulta se refiere directamente a la compensación de pérdidas fiscales, un tema específico cubierto por el artículo 147 del ET.",
+    "coverage_notice": null,
+    "topic": "perdidas_fiscales_art147",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778598130,
+      "expires_at": 1778601730,
+      "token_id": "a199ff5fb0174fc5ab20cdc762d77841"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_735fcac668b6",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 39,
+        "output_tokens": 392,
+        "total_tokens": 431
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+      "last_run_id": "pd_a8d5b4535ff54694b8e4f96bae18f7bb",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_735fcac668b6",
+    "chat_run_id": "cr_20260512_150539_906bcba3",
+    "metrics": {
+      "latency_ms": 32445.1,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 39,
+          "output_tokens": 392,
+          "total_tokens": 431,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_735fcac668b6",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 39,
+          "output_tokens": 392,
+          "total_tokens": 431
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "2659c047-6cfb-4793-b1a7-4b50ee77139a",
+        "last_run_id": "pd_a8d5b4535ff54694b8e4f96bae18f7bb",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 3,
+        "mentions_unique": 3,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 3,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 8.9
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "perdidas_fiscales_art147",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "72b0812a21894cb08bd30f35844653c3"
+  }
+}

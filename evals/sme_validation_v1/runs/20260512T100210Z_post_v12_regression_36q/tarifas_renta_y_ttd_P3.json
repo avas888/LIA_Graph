@@ -1,0 +1,993 @@
+{
+  "qid": "tarifas_renta_y_ttd_P3",
+  "topic_key_expected": "tarifas_renta_y_ttd",
+  "profile": "P3_borde",
+  "message": "Tengo un cliente hotel pequeño ubicado en un municipio de 80 mil habitantes que abrió en 2023. Le vienen vendiendo la idea de que tiene tarifa preferencial del 9% o 15%. ¿Cuál de las dos aplica realmente, qué requisitos tiene que cumplir, y queda excluido del cálculo de la TTD?",
+  "http_status": 200,
+  "latency_ms": 35972,
+  "captured_utc": "2026-05-12T15:04:59.531234+00:00",
+  "response": {
+    "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+    "run_id": "pd_d6be2710630d4f289ffe605ee59a2678",
+    "answer_markdown": "### Recomendaciones Prácticas\n\n*   Verifica el cumplimiento de los requisitos específicos para la tarifa preferencial del **9%** para servicios hoteleros, incluyendo la ubicación en municipios de hasta **200.000** habitantes y la construcción o remodelación de hoteles.\n*   Asegúrate de que el hotel cumpla con las condiciones de inversión y empleo establecidas para acceder a la tarifa preferencial.\n*   Calcula la TTD anualmente, ya que es un mecanismo obligatorio para todas las personas jurídicas del régimen ordinario (arts. 240 y 240-1 ET), incluso si se aplica una tarifa preferencial.\n\n### Precauciones\n\n*   La tarifa preferencial del **9%** para servicios hoteleros no excluye al contribuyente del cálculo de la TTD. La TTD es un mecanismo que garantiza que ninguna persona jurídica tribute por debajo del **15%**.\n*   Si el cálculo de la TTD resulta en una tarifa efectiva inferior al **15%**, se deberá ajustar el impuesto para alcanzar este umbral.\n*   La tarifa del **15%** mencionada en el borrador no aplica para el sector hotelero en las condiciones descritas. La tarifa general del impuesto sobre la renta es del **35%** (art. 240 ET), con la excepción del **9%** para hoteles que cumplan los requisitos.\n\n### Anclaje Legal\n\n*   La tarifa general del impuesto sobre la renta para personas jurídicas es del **35%** (art. 240 ET).\n*   Existe una tarifa preferencial del **9%** para servicios hoteleros que cumplan con ciertos requisitos, como la ubicación en municipios de hasta **200.000** habitantes y la construcción o remodelación de hoteles.\n*   Todas las personas jurídicas del régimen ordinario deben calcular la TTD, que busca asegurar que la tarifa efectiva de tributación no sea inferior al **15%** (arts. 240 y 240-1 ET).",
+    "answer_concise": "### Recomendaciones Prácticas\n\n*   Verifica el cumplimiento de los requisitos específicos para la tarifa preferencial del **9%** para servicios hoteleros, incluyendo la ubicación en municipios de hasta **200.000** habitantes y la construcción o remodelación de hoteles.\n*   Asegúrate de que el hotel cumpla con las condiciones de inversión y empleo establecidas para acceder a la tarifa preferencial.\n*   Calcula la TTD anualmente, ya que es un mecanismo obligatorio para todas las personas jurídicas del régimen ordinario (arts. 240 y 240-1 ET), incluso si se aplica una tarifa preferencial.\n\n### Precauciones\n\n*   La tarifa preferencial del **9%** para servicios hoteleros no excluye al contribuyente del cálculo de la TTD. La TTD es un mecanismo que garantiza que ninguna persona jurídica tribute por debajo del **15%**.\n*   Si el cálculo de la TTD resulta en una tarifa efectiva inferior al **15%**, se deberá ajustar el impuesto para alcanzar este umbral.\n*   La tarifa del **15%** mencionada en el borrador no aplica para el sector hotelero en las condiciones descritas. La tarifa general del impuesto sobre la renta es del **35%** (art. 240 ET), con la excepción del **9%** para hoteles que cumplan los requisitos.\n\n### Anclaje Legal\n\n*   La tarifa general del impuesto sobre la renta para personas jurídicas es del **35%** (art. 240 ET).\n*   Existe una tarifa preferencial del **9%** para servicios hoteleros que cumplan con ciertos requisitos, como la ubicación en municipios de hasta **200.000** habitantes y la construcción o remodelación de hoteles.\n*   Todas las personas jurídicas del régimen ordinario deben calcular la TTD, que busca asegurar que la tarifa efectiva de tributación no sea inferior al **15%** (arts. 240 y 240-1 ET).",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Verifica el cumplimiento de los requisitos específicos para la tarifa preferencial del **9%** para servicios hoteleros, incluyendo la ubicación en municipios de hasta **200.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Verifica el cumplimiento de los requisitos específicos para la tarifa preferencial del **9%** para servicios hoteleros, incluyendo la ubicación en municipios de hasta **200.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Verifica el cumplimiento de los requisitos específicos para la tarifa preferencial del **9%** para servicios hoteleros, incluyendo la ubicación en municipios de hasta **200.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "logical_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "zonas_francas",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-ZF-zonas-francas.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "N ZF — Zonas Francas: Marco Normativo",
+        "legal_reference": "N ZF — Zonas Francas: Marco Normativo",
+        "search_query": "N ZF — Zonas Francas: Marco Normativo DIAN / fuente oficial colombia N ZF — Zonas Francas: Marco Normativo",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Verifica el cumplimiento de los requisitos específicos para la tarifa preferencial del **9%** para servicios hoteleros, incluyendo la ubicación en municipios de hasta **200.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Verifica el cumplimiento de los requisitos específicos para la tarifa preferencial del **9%** para servicios hoteleros, incluyendo la ubicación en municipios de hasta **200.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Artículo 240. 1. El patrono está en la obligación de conceder la trabajadora dos descansos, de veinte (20) minutos cada uno, dentro de la jornada, para amamantar a su hijo, sin descuento alguno en el salario por dicho concepto, durante los ",
+      "ARTÍCULO 240-1 Tarifa para usuarios de zona franca . A partir del 1° de enero de 2017, la tarifa del impuesto sobre la renta y complementarios para las personas jurídicas que sean usuarios de zona franca será del 20%. Parágrafo 1°. La tarif",
+      "Artículo 241. Tarifa para las personas naturales residentes y asignaciones y donaciones modales. El impuesto sobre la renta de las personas naturales residentes en el país, de las sucesiones de causantes residentes en el país, y de los bien"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 42,
+        "document_row_count": 16,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-12T15:04:23.560873+00:00",
+        "total_ms": 20427.04,
+        "step_count": 26,
+        "steps": [
+          {
+            "ts_utc": "2026-05-12T15:04:23.560892+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-12T15:04:23.560873+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:23.561061+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.18,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 278,
+              "message_preview": "Tengo un cliente hotel pequeño ubicado en un municipio de 80 mil habitantes que abrió en 2023. Le vienen vendiendo la idea de que tiene tarifa preferencial del 9% o 15%. ¿Cuál de las dos aplica realmente, qué requisitos tiene que cumplir, y",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:23.591754+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 30.86,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:23.592426+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 31.54,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:23.612497+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 51.61,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 278,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:25.705014+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2144.13,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "tarifas_renta_y_ttd",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta es sobre la aplicación de una tarifa preferencial de renta (9% o 15%) y su impacto en la TTD para un hotel. Aunque menciona un incentivo por ubicación (municipio), la pregunta principal es sobre la mecánica fiscal de la tarifa y",
+              "elapsed_ms_call": 2092.67,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:25.705508+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2144.63,
+            "message": null,
+            "details": {
+              "effective_topic": "tarifas_renta_y_ttd",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "inversiones_incentivos"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:37.364538+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 13803.67,
+            "message": null,
+            "details": {
+              "owner_trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+              "requested_trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:37.367838+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 13806.97,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "tarifas_renta_y_ttd",
+              "secondary_topics": [
+                "inversiones_incentivos"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta es sobre la aplicación de una tarifa preferencial de renta (9% o 15%) y su impacto en la TTD para un hotel. Aunque menciona un incentivo por ubicación (municipio), la pregunta principal es sobre la mecánica fiscal de la tarifa y la TTD, no sobre la elección o calificación para un régimen geográfico específico. Aplica la Regla 9: 'si es sobre APLICAR la mecánica una vez ya estás en el régimen → topic = mecánica'.",
+              "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+              "message_preview": "Tengo un cliente hotel pequeño ubicado en un municipio de 80 mil habitantes que abrió en 2023. Le vienen vendiendo la idea de que tiene tarifa preferencial del 9% o 15%. ¿Cuál de las dos aplica realmente, qué requisitos tiene que cumplir, y",
+              "message_chars": 278
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:37.400749+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 13839.87,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:37.401257+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 13840.4,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "tarifas_renta_y_ttd declaracion_renta Tengo un cliente hotel pequeño ubicado en un municipio de 80 mil habitantes que abrió en 2023. Le vienen vendiendo la idea de que tiene tarifa preferencial del 9% o 15%. ¿Cuál de las dos aplica realment",
+              "query_text_chars": 316
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:37.402146+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 13841.28,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "tarifas_renta_y_ttd",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": "practica_erp",
+              "knowledge_class_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "tarifas_renta_y_ttd",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:38.433065+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 14872.18,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-14-tasa-minima-tributacion-depurada-ttd.md::",
+                "CORE_ya_Arriba_PERDIDAS_FISCALES_ART147_LOGGRO_PER-L01-guia-practica-compensacio",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-13-tarifas-del-impuesto.md::introducci-n-pr-",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-14-tasa-minima-tributacion-depurada-ttd.md::",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-28-casos-practicos.md::28-7-caso-7-pyme-con-",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-14-tasa-minima-tributacion-depurada-ttd.md::",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-13-tarifas-del-impuesto.md::13-1-personas-ju",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-14-tasa-minima-tributacion-depurada-ttd.md::",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-15-descuentos-tributarios.md::15-7-interacci",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-13-tarifas-del-impuesto.md::13-4-cuadro-resu"
+              ],
+              "top_chunk_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "practica_count_in_top_20": 13
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:39.497060+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 15936.19,
+            "message": null,
+            "details": {
+              "anchor_row_count": 19,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:39.497327+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 15936.47,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 42,
+              "delta": 18
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:39.806850+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 16245.98,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 42,
+              "rows_out": 42,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-12"
+              },
+              "chunks_seen": 42,
+              "chunks_kept": 42,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 42,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:40.310022+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 16749.15,
+            "message": null,
+            "details": {
+              "primary_count": 4,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-12"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 42,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "tarifas_renta_y_ttd",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:40.310179+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 16749.32,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                4,
+                5,
+                5
+              ],
+              "after": [
+                4,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "240",
+                  "240-1",
+                  "241",
+                  "243",
+                  "introducci-n-pr-ctica-la-ttd-es-el-mecanismo-que-garantiza-que-ninguna-persona-j",
+                  "paso-3-an-lisis-ttd-conviene-compensar-ahora-o-diferir",
+                  "introducci-n-pr-ctica-la-tarifa-es-el-ltimo-paso-pero-el-primero-que-pregunta-el",
+                  "resumen-ejecutivo-lo-que-el-contador-de-pymes-debe-recordar",
+                  "28-7-caso-7-pyme-con-p-rdida-fiscal-en-ag-2025-debe-calcular-la-ttd"
+                ],
+                "candidate_count": 9,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:40.310259+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 16749.4,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "tarifas_renta_y_ttd",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "tarifas_renta_y_ttd",
+                "articles_top_topic": "tarifas_renta_y_ttd",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "240",
+                  "240-1",
+                  "241",
+                  "243"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:40.310325+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 16749.47,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "tarifas_renta_y_ttd",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:40.310380+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 16749.53,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:40.315969+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16755.12,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "tarifas_renta_y_ttd"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:40.316039+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 16755.19,
+            "message": null,
+            "details": {
+              "template_chars": 138
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:43.982776+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 20421.92,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 1747,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:43.985900+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 20425.04,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "tarifas_renta_y_ttd",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T15:04:43.987607+00:00",
+            "trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 20426.75,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 4,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 50,
+        "output_tokens": 275,
+        "total_tokens": 325,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "tarifas_renta_y_ttd",
+    "secondary_topics": [
+      "inversiones_incentivos"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de tarifas renta y ttd, por lo cual utilizaremos nuestra base de datos tarifas renta y ttd.",
+    "topic_adjustment_reason": "La consulta es sobre la aplicación de una tarifa preferencial de renta (9% o 15%) y su impacto en la TTD para un hotel. Aunque menciona un incentivo por ubicación (municipio), la pregunta principal es sobre la mecánica fiscal de la tarifa y la TTD, no sobre la elección o calificación para un régimen geográfico específico. Aplica la Regla 9: 'si es sobre APLICAR la mecánica una vez ya estás en el régimen → topic = mecánica'.",
+    "coverage_notice": null,
+    "topic": "tarifas_renta_y_ttd",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778598130,
+      "expires_at": 1778601730,
+      "token_id": "a199ff5fb0174fc5ab20cdc762d77841"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_a84f96e4d920",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 50,
+        "output_tokens": 275,
+        "total_tokens": 325
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+      "last_run_id": "pd_d6be2710630d4f289ffe605ee59a2678",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_a84f96e4d920",
+    "chat_run_id": "cr_20260512_150427_bf755782",
+    "metrics": {
+      "latency_ms": 30944.47,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 50,
+          "output_tokens": 275,
+          "total_tokens": 325,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_a84f96e4d920",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 50,
+          "output_tokens": 275,
+          "total_tokens": 325
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "89378876-c8f7-4d76-a714-18d5bc451fe8",
+        "last_run_id": "pd_d6be2710630d4f289ffe605ee59a2678",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 5.2
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "tarifas_renta_y_ttd",
+        "secondary_topics": [
+          "inversiones_incentivos"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "bef150376b244b01a481fd5ad03eeb3b"
+  }
+}
