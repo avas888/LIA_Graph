@@ -1,0 +1,963 @@
+{
+  "qid": "ep_renta_beneficio_auditoria_v1",
+  "topic_key_expected": "declaracion_renta",
+  "profile": "expert_panel_v1",
+  "message": "Mi cliente PYME quiere acceder al beneficio de auditoría del Art. 689-3 ET para el AG2025 incrementando el impuesto neto de renta frente al año anterior. ¿Qué dicen los expertos sobre los porcentajes de incremento requeridos para firmeza en 6 o 12 meses, los requisitos formales (presentación oportuna, pago oportuno) y los riesgos si la DIAN cuestiona la genuinidad del incremento o detecta inconsistencias en exógena?",
+  "http_status": 200,
+  "latency_ms": 26273,
+  "captured_utc": "2026-05-12T01:52:19.657316+00:00",
+  "response": {
+    "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+    "run_id": "pd_994c34303e824577aab84c348086b377",
+    "answer_markdown": "**Ruta sugerida**\n1. Antes de firmar cualquier corrección, evaluá el impacto en el beneficio de auditoría (art. 689-3 ET).\n2. Simulá si la corrección mantiene o anula la firmeza acelerada de **6** o **12** meses antes de presentarla (arts. 147 y 260 ET).\n3. Tené presente que la sociedad compensa las pérdidas fiscales con rentas líquidas ordinarias futuras; no se trasladan a los socios ni se tratan como saldo a favor (art. 147 ET).\n4. La firmeza de la declaración que origina o compensa pérdidas fiscales tiene un término de revisión distinto al de la firmeza ordinaria. Es clave medirla por separado (arts. 147 y 260 ET).\n\n**Riesgos y condiciones**\n- Una corrección que disminuya el incremento requerido puede resultar en la pérdida del beneficio de auditoría, extendiendo el término de firmeza (arts. 689-3 y 147 ET).\n- Enfocate en la naturaleza de las pérdidas fiscales en renta, no en la devolución o compensación de saldos a favor, al hablar de \"compensación\" (arts. 147 y 588 ET).\n- Si la declaración origina o compensa pérdidas fiscales, el término de firmeza no es el ordinario de **3** años; el expediente debe considerarse a **6** años (arts. 147 y 260 ET).\n- No apliques la lógica del art. 588 ET si la corrección aumenta el saldo a favor o disminuye el valor a pagar.",
+    "answer_concise": "**Ruta sugerida**\n1. Antes de firmar cualquier corrección, evaluá el impacto en el beneficio de auditoría (art. 689-3 ET).\n2. Simulá si la corrección mantiene o anula la firmeza acelerada de **6** o **12** meses antes de presentarla (arts. 147 y 260 ET).\n3. Tené presente que la sociedad compensa las pérdidas fiscales con rentas líquidas ordinarias futuras; no se trasladan a los socios ni se tratan como saldo a favor (art. 147 ET).\n4. La firmeza de la declaración que origina o compensa pérdidas fiscales tiene un término de revisión distinto al de la firmeza ordinaria. Es clave medirla por separado (arts. 147 y 260 ET).\n\n**Riesgos y condiciones**\n- Una corrección que disminuya el incremento requerido puede resultar en la pérdida del beneficio de auditoría, extendiendo el término de firmeza (arts. 689-3 y 147 ET).\n- Enfocate en la naturaleza de las pérdidas fiscales en renta, no en la devolución o compensación de saldos a favor, al hablar de \"compensación\" (arts. 147 y 588 ET).\n- Si la declaración origina o compensa pérdidas fiscales, el término de firmeza no es el ordinario de **3** años; el expediente debe considerarse a **6** años (arts. 147 y 260 ET).\n- No apliques la lógica del art. 588 ET si la corrección aumenta el saldo a favor o disminuye el valor a pagar.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Antes de firmar cualquier corrección, evaluá el impacto en el beneficio de auditoría (art. 689-3 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "legal_reference": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "search_query": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2) DIAN / fuente oficial colombia Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Antes de firmar cualquier corrección, evaluá el impacto en el beneficio de auditoría (art. 689-3 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T08-beneficio-auditoria-interpretaciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T08-beneficio-auditoria-interpretaciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "beneficio_auditoria",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T08-beneficio-auditoria-interpretaciones.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T08-beneficio-auditoria-interpretaciones.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T08-beneficio-auditoria-interpretaciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T08-beneficio-auditoria-interpretaciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "T08 — Beneficio de Auditoría: Resumen de Interpretaciones Secundarias",
+        "legal_reference": "T08 — Beneficio de Auditoría: Resumen de Interpretaciones Secundarias",
+        "search_query": "T08 — Beneficio de Auditoría: Resumen de Interpretaciones Secundarias DIAN / fuente oficial colombia T08 — Beneficio de Auditoría: Resumen de Interpretaciones Secundarias",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Antes de firmar cualquier corrección, evaluá el impacto en el beneficio de auditoría (art. 689-3 ET).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-E-beneficio-auditoria-fuentes-secundarias.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-E-beneficio-auditoria-fuentes-secundarias.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "beneficio_auditoria",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-E-beneficio-auditoria-fuentes-secundarias.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-E-beneficio-auditoria-fuentes-secundarias.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-E-beneficio-auditoria-fuentes-secundarias.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-E-beneficio-auditoria-fuentes-secundarias.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "T E — Beneficio de Auditoria (Art. 689 3 ET) — Interpretaciones de Fuentes Secundarias",
+        "legal_reference": "T E — Beneficio de Auditoria (Art. 689 3 ET) — Interpretaciones de Fuentes Secundarias",
+        "search_query": "T E — Beneficio de Auditoria (Art. 689 3 ET) — Interpretaciones de Fuentes Secundarias DIAN / fuente oficial colombia T E — Beneficio de Auditoria (Art. 689 3 ET) — Interpretaciones de Fuentes Secundarias",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 689",
+          "locator_kind": "articles",
+          "locator_start": "689",
+          "locator_end": null
+        },
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Antes de firmar cualquier corrección, evaluá el impacto en el beneficio de auditoría (art. 689-3 ET).",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*(Artículo incorporado por Ley 2155 de 2021, Art. 51. Vigencia original limitada. Modificado y prorrogado por Ley 2277 de 2022, Art. 50. Prorrogado nuevamente por Ley 2294 de 2023, Art. 69, para los años gravables 2024, 2025 y 2026. Texto a"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 1,
+        "connected_article_count": 3,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "689-3"
+        ],
+        "chunk_row_count": 23,
+        "document_row_count": 10,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-12T01:51:53.386175+00:00",
+        "total_ms": 14593.25,
+        "step_count": 26,
+        "steps": [
+          {
+            "ts_utc": "2026-05-12T01:51:53.386199+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-12T01:51:53.386175+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:53.386476+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.29,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 419,
+              "message_preview": "Mi cliente PYME quiere acceder al beneficio de auditoría del Art. 689-3 ET para el AG2025 incrementando el impuesto neto de renta frente al año anterior. ¿Qué dicen los expertos sobre los porcentajes de incremento requeridos para firmeza en",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:53.419981+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 33.79,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:53.420361+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 34.17,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:53.440679+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 54.49,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 419,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:55.678550+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2292.34,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "beneficio_auditoria",
+              "confidence": 0.95,
+              "threshold": 0.75,
+              "reason": "La consulta se centra explícitamente en el 'beneficio de auditoría del Art. 689-3 ET', que es un tema específico y una excepción a la regla de colapsar a un padre, según las EXCEPCIONES de las reglas operativas. Se mencionan aspectos de la ",
+              "elapsed_ms_call": 2237.93,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:55.679133+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2292.94,
+            "message": null,
+            "details": {
+              "effective_topic": "beneficio_auditoria",
+              "confidence": 0.95,
+              "secondary_topics": [
+                "declaracion_renta",
+                "procedimiento_tributario",
+                "informacion_exogena"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:57.568234+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 4182.03,
+            "message": null,
+            "details": {
+              "owner_trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+              "requested_trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:57.571353+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 4185.12,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "beneficio_auditoria",
+              "secondary_topics": [
+                "declaracion_renta",
+                "procedimiento_tributario",
+                "informacion_exogena"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra explícitamente en el 'beneficio de auditoría del Art. 689-3 ET', que es un tema específico y una excepción a la regla de colapsar a un padre, según las EXCEPCIONES de las reglas operativas. Se mencionan aspectos de la declaración de renta (impuesto neto de renta), procedimiento tributario (presentación y pago oportuno, riesgos de cuestionamiento de la DIAN) e información exógena (inconsistencias en exógena).",
+              "topic_notice": "Tu pregunta es de beneficio auditoria, por lo cual utilizaremos nuestra base de datos beneficio auditoria.",
+              "message_preview": "Mi cliente PYME quiere acceder al beneficio de auditoría del Art. 689-3 ET para el AG2025 incrementando el impuesto neto de renta frente al año anterior. ¿Qué dicen los expertos sobre los porcentajes de incremento requeridos para firmeza en",
+              "message_chars": 419
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:57.602262+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 4216.06,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": "AG 2025",
+                "requested_period_source": "message_ag",
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": [
+                  "Requested period resolved as AG 2025 via message_ag."
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:57.602563+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 4216.37,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 689-3 beneficio_auditoria procedimiento_tributario declaracion_renta",
+              "query_text_chars": 77
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:57.603045+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 4216.85,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "beneficio_auditoria",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "beneficio_auditoria",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:58.484877+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 5098.66,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_EXPERTOS_T08-beneficio-auditoria-interpretaciones.md::1-fue",
+                "CORE_ya_Arriba_RENTA_EXPERTOS_T-E-beneficio-auditoria-fuentes-secundarias.md::1-",
+                "suin_1132325::689-1",
+                "suin_1132325::235-2",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md::689-3",
+                "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_NORMATIVA_FIR-N01-marco-legal-firmez",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::689-3",
+                "suin_1132325::240",
+                "suin_1132325::158-1"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:58.634176+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 5247.97,
+            "message": null,
+            "details": {
+              "anchor_row_count": 4,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:58.634625+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 5248.43,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 25,
+              "delta": 1
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:51:58.816435+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 5430.19,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 25,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 25,
+              "chunks_kept": 23,
+              "chunks_dropped": 2,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 25,
+                "chunks_kept": 23,
+                "chunks_dropped": 2,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:05.111997+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 11725.76,
+            "message": null,
+            "details": {
+              "primary_count": 1,
+              "connected_count": 3,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 25,
+                "chunks_kept": 23,
+                "chunks_dropped": 2,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [
+                "689-3"
+              ],
+              "tema_first_topic_key": "beneficio_auditoria",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:05.114904+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 11728.68,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                3,
+                5
+              ],
+              "after": [
+                1,
+                3,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "689-3",
+                  "147",
+                  "260",
+                  "588"
+                ],
+                "candidate_count": 4,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:05.115113+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 11728.9,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "beneficio_auditoria",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "beneficio_auditoria",
+                "articles_top_topic": "beneficio_auditoria",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "689-3"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:05.115219+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 11729.01,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "beneficio_auditoria",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:05.115333+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 11729.13,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:05.120733+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 11734.52,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "beneficio_auditoria"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:05.121010+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 11734.8,
+            "message": null,
+            "details": {
+              "template_chars": 1291
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:07.977685+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 14591.46,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 1282,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:07.978533+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 14592.31,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "beneficio_auditoria",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:52:07.979004+00:00",
+            "trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 14592.79,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 1,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 66,
+        "output_tokens": 222,
+        "total_tokens": 288,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "beneficio_auditoria",
+    "secondary_topics": [
+      "declaracion_renta",
+      "procedimiento_tributario",
+      "informacion_exogena"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de beneficio auditoria, por lo cual utilizaremos nuestra base de datos beneficio auditoria.",
+    "topic_adjustment_reason": "La consulta se centra explícitamente en el 'beneficio de auditoría del Art. 689-3 ET', que es un tema específico y una excepción a la regla de colapsar a un padre, según las EXCEPCIONES de las reglas operativas. Se mencionan aspectos de la declaración de renta (impuesto neto de renta), procedimiento tributario (presentación y pago oportuno, riesgos de cuestionamiento de la DIAN) e información exógena (inconsistencias en exógena).",
+    "coverage_notice": null,
+    "topic": "beneficio_auditoria",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778550683,
+      "expires_at": 1778554283,
+      "token_id": "0f10567bfe9642e1853532784997ccd0"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_45d9534a71c3",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 66,
+        "output_tokens": 222,
+        "total_tokens": 288
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+      "last_run_id": "pd_994c34303e824577aab84c348086b377",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_45d9534a71c3",
+    "chat_run_id": "cr_20260512_015156_7f70c5e0",
+    "metrics": {
+      "latency_ms": 22643.69,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 66,
+          "output_tokens": 222,
+          "total_tokens": 288,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_45d9534a71c3",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 66,
+          "output_tokens": 222,
+          "total_tokens": 288
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "aa7aab78-1a11-4347-a6b3-e857230537db",
+        "last_run_id": "pd_994c34303e824577aab84c348086b377",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 6.0
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "beneficio_auditoria",
+        "secondary_topics": [
+          "declaracion_renta",
+          "procedimiento_tributario",
+          "informacion_exogena"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "58c6da4b14114913b023d343bd0084a1"
+  }
+}

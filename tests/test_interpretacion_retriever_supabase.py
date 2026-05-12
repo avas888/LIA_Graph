@@ -287,10 +287,168 @@ def test_group_lexical_boost_handles_punctuation_variants() -> None:
         rows,
         top_k=10,
         article_refs=("art_115_et", "art_124_2_et"),
+        trust_tier_weight=0.0,  # isolate lever (b) under test
     )
     score = grouped[0][2]
     # 2 hits × 0.25 boost → 0.40 * 1.5 = 0.60
     assert 0.59 < score < 0.61
+
+
+# ---------------------------------------------------------------------------
+# fix_v11_may §2.A — trust-tier prioritization
+# ---------------------------------------------------------------------------
+
+
+def test_group_high_tier_outranks_medium_tied_baseline() -> None:
+    """When two docs tie on base RRF, the high-tier one rises above
+    the medium-tier one. ×1.6 vs ×1.3 spread at the default
+    trust_tier_weight=0.30."""
+    rows = [
+        {"doc_id": "doc_medium", "rrf_score": 0.50, "trust_tier": "medium"},
+        {"doc_id": "doc_high", "rrf_score": 0.50, "trust_tier": "high"},
+    ]
+    grouped = _group_chunks_by_doc(rows, top_k=10)
+    assert grouped[0][0] == "doc_high"
+    assert grouped[1][0] == "doc_medium"
+    # 0.50 * 1.6 = 0.80
+    assert 0.79 < grouped[0][2] < 0.81
+    # 0.50 * 1.3 = 0.65
+    assert 0.64 < grouped[1][2] < 0.66
+
+
+def test_group_high_tier_can_overtake_higher_base_medium() -> None:
+    """A high-tier doc with mid base (0.40 * 1.6 = 0.64) beats a
+    medium-tier doc with higher base (0.45 * 1.3 = 0.585). This is
+    exactly the cluster-A fix the v11A lever targets — when the
+    article-anchor index returns 16 docs of similar base score, the
+    branded firm rises to top."""
+    rows = [
+        {"doc_id": "doc_medium_higher_base", "rrf_score": 0.45, "trust_tier": "medium"},
+        {"doc_id": "doc_high_lower_base", "rrf_score": 0.40, "trust_tier": "high"},
+    ]
+    grouped = _group_chunks_by_doc(rows, top_k=10)
+    assert grouped[0][0] == "doc_high_lower_base"
+    assert grouped[1][0] == "doc_medium_higher_base"
+
+
+def test_group_low_tier_does_not_promote_below_zero() -> None:
+    """A `trust_tier=low` doc should still get its base score (no
+    bonus, no penalty). Recall must be preserved when the index lacks
+    coverage for a question — a low-tier doc that's the ONLY hit
+    should still surface, not be dropped."""
+    rows = [
+        {"doc_id": "doc_low", "rrf_score": 0.50, "trust_tier": "low"},
+    ]
+    grouped = _group_chunks_by_doc(rows, top_k=10)
+    assert len(grouped) == 1
+    assert grouped[0][0] == "doc_low"
+    # 0.50 * (1.0 + 0.30 * 0.0) = 0.50 — unchanged from base
+    assert 0.49 < grouped[0][2] < 0.51
+
+
+def test_group_trust_tier_weight_zero_disables_lever_cleanly() -> None:
+    """Setting trust_tier_weight=0.0 reverts to pre-11A behavior
+    (pure RRF + lexical boost). Used by diagnostic A/B comparisons
+    and by tests of other levers in isolation."""
+    rows = [
+        {"doc_id": "doc_high", "rrf_score": 0.50, "trust_tier": "high"},
+        {"doc_id": "doc_low", "rrf_score": 0.60, "trust_tier": "low"},
+    ]
+    grouped = _group_chunks_by_doc(rows, top_k=10, trust_tier_weight=0.0)
+    # Without the lever the higher-base doc wins regardless of tier
+    assert grouped[0][0] == "doc_low"
+    assert grouped[1][0] == "doc_high"
+
+
+def test_group_unknown_trust_tier_defaults_to_medium() -> None:
+    """Chunks where `trust_tier` is missing, empty, or an unrecognized
+    value get the medium multiplier (×1.3 at default weight) so they
+    behave like the pre-11A norm. Prevents an upgrade-free corpus from
+    silently demoting all docs to baseline."""
+    rows = [
+        {"doc_id": "doc_a", "rrf_score": 0.50},  # no trust_tier key
+        {"doc_id": "doc_b", "rrf_score": 0.50, "trust_tier": ""},
+        {"doc_id": "doc_c", "rrf_score": 0.50, "trust_tier": "unrecognized"},
+        {"doc_id": "doc_medium_explicit", "rrf_score": 0.50, "trust_tier": "medium"},
+    ]
+    grouped = _group_chunks_by_doc(rows, top_k=10)
+    # All four docs are tied at 0.50 * 1.3 = 0.65
+    scores = [round(s, 4) for _id, _row, s in grouped]
+    assert all(abs(s - 0.65) < 0.01 for s in scores)
+
+
+def test_group_combines_trust_tier_with_lexical_ref_boost_multiplicatively() -> None:
+    """When BOTH levers fire (article_refs supplied AND chunk has
+    trust_tier=high), the score is `base * (1 + ref_boost·hits) *
+    (1 + tier_weight·tier_bonus)`. Multiplicative — not additive —
+    so the two levers reinforce each other."""
+    rows = [
+        {
+            "doc_id": "doc_high_with_refs",
+            "rrf_score": 0.40,
+            "trust_tier": "high",
+            "chunk_text": "Art. 115 ET y artículo 124-2 ET.",
+        },
+    ]
+    grouped = _group_chunks_by_doc(
+        rows,
+        top_k=10,
+        article_refs=("art_115_et", "art_124_2_et"),
+    )
+    score = grouped[0][2]
+    # 0.40 * (1 + 0.25*2) * (1 + 0.30*2.0) = 0.40 * 1.5 * 1.6 = 0.96
+    assert 0.95 < score < 0.97
+
+
+def test_fetch_surfaces_trust_tier_mix_and_weight_in_diagnostics() -> None:
+    """End-to-end — the bundle's `retrieval_diagnostics` carries
+    `trust_tier_weight` and `selected_trust_tier_mix` so the operator
+    can confirm what the lever is doing on each panel call without
+    re-running the corpus."""
+    client = _FakeClient(
+        canned_chunks=[
+            {
+                "doc_id": "doc_high",
+                "rrf_score": 0.95,
+                "chunk_text": "...",
+                "summary": "high-tier card",
+                "concept_tags": [],
+                "relative_path": "x/high.md",
+                "topic": "iva",
+                "authority": "Crowe Colombia",
+                "source_type": "markdown",
+                "trust_tier": "high",
+                "pais": "colombia",
+                "knowledge_class": "interpretative_guidance",
+            },
+            {
+                "doc_id": "doc_medium",
+                "rrf_score": 0.80,
+                "chunk_text": "...",
+                "summary": "medium-tier card",
+                "concept_tags": [],
+                "relative_path": "x/medium.md",
+                "topic": "iva",
+                "authority": "Actualicese",
+                "source_type": "markdown",
+                "trust_tier": "medium",
+                "pais": "colombia",
+                "knowledge_class": "interpretative_guidance",
+            },
+        ],
+        canned_documents=[
+            {"doc_id": "doc_high", "provider_labels": ["Crowe"], "authority": "Crowe Colombia"},
+            {"doc_id": "doc_medium", "provider_labels": ["Actualicese"], "authority": "Actualicese"},
+        ],
+    )
+    bundle = fetch_interpretation_candidates(
+        query_seed="iva",
+        topic="iva",
+        client=client,
+    )
+    diag = bundle.retrieval_diagnostics
+    assert diag["trust_tier_weight"] == 0.30
+    assert diag["selected_trust_tier_mix"] == {"high": 1, "medium": 1, "low": 0}
 
 
 # ---------------------------------------------------------------------------
@@ -473,3 +631,170 @@ def test_fetch_supplies_default_authority_from_provider_when_missing() -> None:
     )
     [doc] = bundle.docs_selected
     assert doc.authority == "KPMG"
+
+
+# ---------------------------------------------------------------------------
+# fix_v11_may Phase 11B — planner_anchor_doc_ids (Falkor-resolved anchor)
+# ---------------------------------------------------------------------------
+
+
+def _make_canned_chunks(
+    rows: list[tuple[str, float]],
+) -> list[dict[str, Any]]:
+    """Helper: build a minimal canned_chunks list from (doc_id, rrf_score)
+    tuples so each test can declare its candidate set in one line."""
+    return [
+        {
+            "doc_id": doc_id,
+            "rrf_score": score,
+            "chunk_text": "...",
+            "summary": f"summary for {doc_id}",
+            "concept_tags": [],
+            "relative_path": f"x/{doc_id}.md",
+            "topic": "declaracion_renta",
+            "subtema": "",
+            "authority": "",
+            "source_type": "markdown",
+            "trust_tier": "medium",
+            "pais": "colombia",
+            "knowledge_class": "interpretative_guidance",
+        }
+        for doc_id, score in rows
+    ]
+
+
+def test_planner_anchor_doc_ids_take_precedence_over_python_index() -> None:
+    """When `planner_anchor_doc_ids` is non-empty, those doc_ids get the
+    ×4 boost — not the doc_ids the Python article_index would have
+    returned. Verified by passing a doc_id the article_index could NOT
+    know about (a synthetic one) and confirming the boost applied."""
+    client = _FakeClient(
+        canned_chunks=_make_canned_chunks(
+            [
+                ("synthetic_planner_anchor_doc", 0.20),  # low base
+                ("higher_base_unboosted_doc", 0.60),
+            ]
+        ),
+        canned_documents=[
+            {"doc_id": "synthetic_planner_anchor_doc", "provider_labels": [], "authority": ""},
+            {"doc_id": "higher_base_unboosted_doc", "provider_labels": [], "authority": ""},
+        ],
+    )
+    bundle = fetch_interpretation_candidates(
+        query_seed="some question with no article refs in the text",
+        article_refs=(),  # no article refs → article_index returns empty
+        client=client,
+        planner_anchor_doc_ids=("synthetic_planner_anchor_doc",),
+    )
+    # 0.20 * 4.0 = 0.80, beats unboosted 0.60
+    docs = bundle.docs_selected
+    assert docs[0].doc_id == "synthetic_planner_anchor_doc"
+    diag = bundle.retrieval_diagnostics
+    assert diag["interpretation_anchor_source"] == "planner_falkor"
+    assert diag["interpretation_anchor_boosted_chunks"] == 1
+    assert diag["interpretation_anchor_eligible_docs"] == 1
+
+
+def test_planner_anchor_empty_falls_back_to_python_article_index(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """When `planner_anchor_doc_ids` is None / empty AND `article_refs`
+    is non-empty, the retriever consults the Python article_index path.
+    Verified by stubbing `doc_ids_for_article_refs` to return a known
+    set and checking the anchor_source diagnostic reports
+    `python_article_index`."""
+
+    def fake_doc_ids(refs):
+        return frozenset({"python_indexed_doc"})
+
+    import lia_graph.interpretacion.article_index as ai
+    monkeypatch.setattr(ai, "doc_ids_for_article_refs", fake_doc_ids)
+
+    client = _FakeClient(
+        canned_chunks=_make_canned_chunks(
+            [
+                ("python_indexed_doc", 0.20),
+                ("other_doc", 0.50),
+            ]
+        ),
+        canned_documents=[
+            {"doc_id": "python_indexed_doc", "provider_labels": [], "authority": ""},
+            {"doc_id": "other_doc", "provider_labels": [], "authority": ""},
+        ],
+    )
+    bundle = fetch_interpretation_candidates(
+        query_seed="art 115 et",
+        article_refs=("et_art_115",),
+        client=client,
+        planner_anchor_doc_ids=(),  # explicit empty
+    )
+    docs = bundle.docs_selected
+    assert docs[0].doc_id == "python_indexed_doc"
+    diag = bundle.retrieval_diagnostics
+    assert diag["interpretation_anchor_source"] == "python_article_index"
+
+
+def test_planner_anchor_none_with_no_article_refs_records_anchor_source_none() -> None:
+    """When neither anchor source has docs, the diagnostic explicitly
+    reports `anchor_source=none` so the operator can tell the boost
+    didn't fire."""
+    client = _FakeClient(
+        canned_chunks=_make_canned_chunks([("doc_a", 0.5), ("doc_b", 0.3)]),
+        canned_documents=[
+            {"doc_id": "doc_a", "provider_labels": [], "authority": ""},
+            {"doc_id": "doc_b", "provider_labels": [], "authority": ""},
+        ],
+    )
+    bundle = fetch_interpretation_candidates(
+        query_seed="anything",
+        article_refs=(),
+        client=client,
+        planner_anchor_doc_ids=None,
+    )
+    diag = bundle.retrieval_diagnostics
+    assert diag["interpretation_anchor_source"] == "none"
+    assert diag["interpretation_anchor_eligible_docs"] == 0
+    assert diag["interpretation_anchor_boosted_chunks"] == 0
+
+
+def test_planner_anchor_diagnostic_is_surfaced_on_bundle() -> None:
+    """The `planner_anchor_diagnostic` passed in by the dispatcher is
+    forwarded onto the bundle's `retrieval_diagnostics` under
+    `interpretation_anchor_planner` so the operator can confirm which
+    Falkor branch supplied (or didn't supply) the anchor."""
+    client = _FakeClient(
+        canned_chunks=_make_canned_chunks([("doc_a", 0.5)]),
+        canned_documents=[{"doc_id": "doc_a", "provider_labels": [], "authority": ""}],
+    )
+    bundle = fetch_interpretation_candidates(
+        query_seed="anything",
+        article_refs=("115",),
+        client=client,
+        planner_anchor_doc_ids=(),
+        planner_anchor_diagnostic={
+            "anchor_source": "falkor_empty",
+            "reason": "no_interprets_edges",
+            "matched_articles": 0,
+        },
+    )
+    diag = bundle.retrieval_diagnostics
+    assert "interpretation_anchor_planner" in diag
+    assert diag["interpretation_anchor_planner"]["anchor_source"] == "falkor_empty"
+    assert diag["interpretation_anchor_planner"]["reason"] == "no_interprets_edges"
+
+
+def test_planner_anchor_strips_empty_doc_ids() -> None:
+    """Empty / whitespace-only entries in `planner_anchor_doc_ids` get
+    stripped — no Cypher row matches the empty doc_id by accident."""
+    client = _FakeClient(
+        canned_chunks=_make_canned_chunks([("real_doc", 0.30)]),
+        canned_documents=[{"doc_id": "real_doc", "provider_labels": [], "authority": ""}],
+    )
+    bundle = fetch_interpretation_candidates(
+        query_seed="anything",
+        client=client,
+        planner_anchor_doc_ids=("", "  ", "real_doc"),
+    )
+    diag = bundle.retrieval_diagnostics
+    assert diag["interpretation_anchor_eligible_docs"] == 1
+    assert diag["interpretation_anchor_boosted_chunks"] == 1

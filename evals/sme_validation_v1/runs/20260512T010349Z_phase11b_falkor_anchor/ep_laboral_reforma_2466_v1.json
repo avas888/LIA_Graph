@@ -1,0 +1,675 @@
+{
+  "qid": "ep_laboral_reforma_2466_v1",
+  "topic_key_expected": "laboral",
+  "profile": "expert_panel_v1",
+  "message": "La Reforma Laboral Ley 2466 de 2025 cambió los recargos nocturnos y dominicales. ¿Qué dicen los expertos sobre el impacto financiero en PYMEs de 1-50 empleados y los cronogramas de entrada en vigor escalonada?",
+  "http_status": 200,
+  "latency_ms": 13878,
+  "captured_utc": "2026-05-12T01:05:59.235544+00:00",
+  "response": {
+    "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+    "run_id": "pd_583baf088b27483098b2c87bad94616a",
+    "answer_markdown": "No pude ubicar evidencia del tema **reforma_laboral_ley_2466** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **laboral**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "answer_concise": "No pude ubicar evidencia del tema **reforma_laboral_ley_2466** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **laboral**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "pipeline_trace": {
+        "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-12T01:05:45.360579+00:00",
+        "total_ms": 5569.92,
+        "step_count": 21,
+        "steps": [
+          {
+            "ts_utc": "2026-05-12T01:05:45.360602+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-12T01:05:45.360579+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:45.360759+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.17,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 209,
+              "message_preview": "La Reforma Laboral Ley 2466 de 2025 cambió los recargos nocturnos y dominicales. ¿Qué dicen los expertos sobre el impacto financiero en PYMEs de 1-50 empleados y los cronogramas de entrada en vigor escalonada?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:45.398781+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 38.19,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:45.399032+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 38.44,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:45.413963+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 53.37,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 209,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:46.983153+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1622.55,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "reforma_laboral_ley_2466",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se refiere explícitamente a la 'Reforma Laboral Ley 2466 de 2025' y sus impactos, lo que la clasifica directamente bajo este tema según la Regla 6 de mutua exclusividad. Aunque menciona recargos nocturnos y dominicales, que son ",
+              "elapsed_ms_call": 1569.44,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:46.984672+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1624.07,
+            "message": null,
+            "details": {
+              "effective_topic": "reforma_laboral_ley_2466",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "laboral"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:49.105427+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 3744.81,
+            "message": null,
+            "details": {
+              "owner_trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+              "requested_trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:49.106089+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 3745.46,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "reforma_laboral_ley_2466",
+              "secondary_topics": [
+                "laboral"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se refiere explícitamente a la 'Reforma Laboral Ley 2466 de 2025' y sus impactos, lo que la clasifica directamente bajo este tema según la Regla 6 de mutua exclusividad. Aunque menciona recargos nocturnos y dominicales, que son temas laborales generales, la referencia específica a la nueva ley prevalece.",
+              "topic_notice": "Tu pregunta es de reforma laboral ley 2466, por lo cual utilizaremos nuestra base de datos reforma laboral ley 2466.",
+              "message_preview": "La Reforma Laboral Ley 2466 de 2025 cambió los recargos nocturnos y dominicales. ¿Qué dicen los expertos sobre el impacto financiero en PYMEs de 1-50 empleados y los cronogramas de entrada en vigor escalonada?",
+              "message_chars": 209
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:49.137880+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 3777.27,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [
+                  "LEY-2466-2025"
+                ],
+                "anchor_reform_labels": [
+                  "Ley 2466 de 2025"
+                ],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:49.138256+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 3777.66,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Ley 2466 de 2025 reforma_laboral_ley_2466 laboral sector_financiero",
+              "query_text_chars": 67
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:49.138938+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 3778.33,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "reforma_laboral_ley_2466",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "reforma_laboral_ley_2466",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.012136+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 4651.51,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_EXPERTOS_EXPERTOS_Ley-2466-2025.md",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_EXPERTOS_REF-E01-interpretaciones-reform",
+                "suin_1132325::235-2",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_consolidado_Ley-2466-2025.md::fuen",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_NORMATIVA_Ley-2466-2025.md::fuente",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Normativ",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_EXPERTOS_REF-E01-interpretaciones-reform",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_03-REFORMA-LABORAL-LEY-2466_NORMA",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Interpre"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.012559+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 4651.96,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.012686+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 4652.09,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.223716+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 4863.09,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.893294+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 5532.66,
+            "message": null,
+            "details": {
+              "primary_count": 0,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "reforma_laboral_ley_2466",
+              "planner_query_mode": "reform_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.893907+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 5533.29,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                0,
+                4,
+                4
+              ],
+              "after": [
+                0,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "879",
+                  "norma-base",
+                  "posiciones-de-expertos-por-fuente",
+                  "235-2"
+                ],
+                "candidate_count": 4,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.894097+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 5533.49,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "reforma_laboral_ley_2466",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "reforma_laboral_ley_2466",
+                "articles_top_topic": null,
+                "reason": "no_primary_articles"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.929236+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 5568.63,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": true,
+              "reason": "chunks_off_topic",
+              "source": "support_documents",
+              "router_topic": "reforma_laboral_ley_2466",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:05:50.930307+00:00",
+            "trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.abstention",
+            "status": "fallback",
+            "elapsed_ms": 5569.7,
+            "message": "Evidence-coherence gate refused (enforce mode).",
+            "details": {
+              "refusal_reason": "chunks_off_topic",
+              "refusal_source": "support_documents"
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "skipped",
+      "polish_skip_reason": "topic_safety_abstention"
+    },
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 34,
+        "output_tokens": 37,
+        "total_tokens": 71,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "reforma_laboral_ley_2466",
+    "secondary_topics": [
+      "laboral"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de reforma laboral ley 2466, por lo cual utilizaremos nuestra base de datos reforma laboral ley 2466.",
+    "topic_adjustment_reason": "La consulta se refiere explícitamente a la 'Reforma Laboral Ley 2466 de 2025' y sus impactos, lo que la clasifica directamente bajo este tema según la Regla 6 de mutua exclusividad. Aunque menciona recargos nocturnos y dominicales, que son temas laborales generales, la referencia específica a la nueva ley prevalece.",
+    "coverage_notice": "No pude ubicar evidencia del tema **reforma_laboral_ley_2466** en el grafo. Los documentos de apoyo recuperados pertenecen al tema **laboral**; prefiero no responder con evidencia cruzada. Reformula la consulta o confirma si necesitas orientación de ese otro tema.",
+    "topic": "reforma_laboral_ley_2466",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778547839,
+      "expires_at": 1778551439,
+      "token_id": "e568e4dd2cdc49348393ee6551862acb"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_d5046f1a24a2",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 34,
+        "output_tokens": 37,
+        "total_tokens": 71
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+      "last_run_id": "pd_583baf088b27483098b2c87bad94616a",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_d5046f1a24a2",
+    "chat_run_id": "cr_20260512_010547_c21521b9",
+    "metrics": {
+      "latency_ms": 8563.75,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 34,
+          "output_tokens": 37,
+          "total_tokens": 71,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_chunks_off_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_d5046f1a24a2",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 34,
+          "output_tokens": 37,
+          "total_tokens": 71
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "0f168673-bad3-4a5d-b2b6-dd316fc99bb6",
+        "last_run_id": "pd_583baf088b27483098b2c87bad94616a",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 1,
+        "mentions_unique": 1,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 1,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "ley:2466:2025"
+        ],
+        "normative_scaffolding_ms": 2.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "reforma_laboral_ley_2466",
+        "secondary_topics": [
+          "laboral"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "a976b6549e214dac9fdcaef65ee048f9"
+  }
+}

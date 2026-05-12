@@ -1,0 +1,386 @@
+{
+  "qid": "ep_pt_umbrales_pyme_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "ed4ea775-0a42-4b48-9637-61c4f3e75467",
+    "message": "Mi cliente PYME tuvo operaciones con un vinculado del exterior por $3.500 millones en 2025 y patrimonio bruto de $5.200 millones a diciembre. ¿Le aplican todas las obligaciones de precios de transferencia (Informe Local, Maestro, declaración informativa Form. 120, documentación comprobatoria) o solo algunas? ¿Cómo cruzan los expertos los umbrales de patrimonio (100.000 UVT), ingresos brutos (61.000 UVT) y operaciones con vinculados (45.000 UVT) para PYME?",
+    "assistant_answer": "**Respuestas directas**\n- **¿Le aplican todas las obligaciones de precios de transferencia (Informe Local, Maestro, declaración informativa Form. **120**, documentación comprobatoria) o solo algunas?**\n  - SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA.\n- **¿Cómo cruzan los expertos los umbrales de patrimonio (**100.000** UVT), ingresos brutos (**61.000** UVT) y operaciones con vinculados (**45.000** UVT) para PYME?**\n  - Los contribuyentes del impuesto sobre la renta y complementarios cuyo patrimonio bruto en el último día del año o período gravable sea igual o superio.\n\n**Riesgos y condiciones**\n- SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA (arts. 260-11 y 260-5 ET).\n\n**Riesgos y condiciones**\n- SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA.\n\n**Anclaje legal**\n- Art. 260-1 — CRITERIOS DE VINCULACIÓN\n- Art. 260-2 — Artículo 260-2. OPERACIONES CON VINCULACION. Los contribuyentes del impuesto sobre la renta y complementarios que celebren operaciones con vinculados del exterior están obligados a determinar, para efectos del impuesto sobre la renta y complementarios, sus ingresos ordinarios y extraordinarios, sus costos y deducciones, y sus activos y pasivos, considerando para esas operaciones el Principio de Plena Competencia. Se entenderá que el Principio de Plena Competencia es aquel en el cual una operació\n- Art. 260-3 — Artículo 260-3. MÉTODOS PARA DETERMINAR EL PRECIO O MARGEN DE UTILIDAD EN LAS OPERACIONES CON VINCULADOS. El precio o margen de utilidad en las operaciones celebradas entre vinculados se podrá determinar por la aplicación de cualquiera de los siguientes métodos: 1. Precio comparable no controlado. Compara el precio de bienes o servicios transferidos en una operación entre vinculados, frente al precio cobrado por bienes o servicios en una operación comparable entre partes independientes, en situa\n- Art. 260-4 — Artículo 260-4. CRITERIOS DE COMPARABILIDAD PARA OPERACIONES ENTRE VINCULADOS Y TERCEROS INDEPENDIENTES . Para efectos del régimen de precios de transferencia, dos operaciones son comparables cuando no existan diferencias significativas entre ellas, que puedan afectar materialmente las condiciones analizadas a través de la metodología de precios de transferencia apropiada. También son comparables en los casos que dichas diferencias puedan eliminarse realizando ajustes suficientemente fiables a f\n- Art. 260-5 — Artículo 260-5. DOCUMENTACIÓN COMPROBATORIA. La documentación comprobatoria comprende: 1. Los contribuyentes del impuesto sobre la renta y complementarios cuyo patrimonio bruto en el último día del año o período gravable sea igual o superior al equivalente a cien mil (100.000) UVT o cuyos ingre­sos brutos del respectivo año sean iguales o superiores al equivalente a sesenta y un mil (61.000) UVT, que celebren operaciones con vinculados conforme a lo establecido en los artículos 260-1 y 260-2 de\n- Art. 260-11 — SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA",
+    "normative_article_refs": [],
+    "topic": "precios_de_transferencia",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_260",
+        "classification": "concordancia",
+        "summary_signal": "Para la declaración informativa (Formulario 120), la PYME debe cumplir si su patrimonio bruto es igual o superior a 100.000 UVT o sus ingresos brutos son iguales o superiores a 61.000 UVT, y para el Informe Local, si las operaciones con vinculados exceden 45.000 UVT.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Deloitte",
+            "url": "https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co/tax-transfer-pricing"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co/tax"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/archivo/precios-de-transferencia-obligados-a-presentar-declaracion-informativa-y-documentacion-comprobatoria/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/precios-de-transferencia.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/este-es-el-procedimiento-para-presentar-la-declaracion-informativa-de-precios"
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "Brigard Urrutia",
+            "url": null
+          },
+          {
+            "name": "Holland & Knight",
+            "url": null
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+            "source_doc_id": "CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+            "logical_doc_id": "CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+            "authority": "secondary_official_authority",
+            "title": "Precios de transferencia (secondary_official_authority)",
+            "snippet": "(12) Deloitte Colombia, \"Precios de Transferencia — Publicaciones\". https://www2.deloitte.com/co/es/pages/tax/topics/precios-de-transferencia.html (13) ET Arts. 260-1 a 260-11. (14) Decreto 3030/2013, compilado en DUR 1625/2016.",
+            "position_signal": "neutral",
+            "relevance_score": 0.8489999999999999,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/archivo/precios-de-transferencia-obligados-a-presentar-declaracion-informativa-y-documentacion-comprobatoria/",
+                "label": "Precios de transferencia: obligados a declaración informativa y documentación comprobatoria — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/informes-y-obligados-en-precios-de-transferencia-ag-2022/",
+                "label": "Informes y obligados en precios de transferencia AG 2022 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/dian-recuerda-que-en-septiembre-inician-vencimientos-de-precios-de-transferencia-2024/",
+                "label": "DIAN recuerda: en septiembre inician vencimientos de precios de transferencia 2024 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/conferencia-inician-los-vencimientos-de-precios-de-transferencia-y-esto-es-lo-que-debes-conocer/",
+                "label": "Inician vencimientos de precios de transferencia: lo que debes conocer — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/precios-de-transferencia/",
+                "label": "Precios de transferencia — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/precios-de-transferencia.html",
+                "label": "Precios de transferencia — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html",
+                "label": "Transfer Pricing — Deloitte Colombia",
+                "provider": "Deloitte",
+                "domain": "www2.deloitte.com"
+              },
+              {
+                "url": "https://www2.deloitte.com/co/es/pages/tax/topics/precios-de-transferencia.html",
+                "label": "Precios de Transferencia — Deloitte Colombia (publicaciones)",
+                "provider": "Deloitte",
+                "domain": "www2.deloitte.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/este-es-el-procedimiento-para-presentar-la-declaracion-informativa-de-precios",
+                "label": "Procedimiento para presentar declaración informativa de precios de transferencia — Ámbito Jurídico",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://actualicese.com/archivo/declaracion-informativa-de-precios-de-transferencia/",
+                "label": "Declaración informativa de precios de transferencia — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/ajustes-por-precios-de-transferencia-en-la-declaracion-de-renta-2025-para-grandes-contribuyentes/",
+                "label": "Ajustes por precios de transferencia en declaración de renta 2025 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/sanciones-por-omision-en-la-documentacion-comprobatoria-del-regimen-de-precios-de-transferencia/",
+                "label": "Sanciones por omisión en documentación comprobatoria de TP — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/archivo/precios-de-transferencia-obligados-a-presentar-declaracion-informativa-y-documentacion-comprobatoria/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/precios-de-transferencia.html"
+              },
+              {
+                "name": "Deloitte",
+                "url": "https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/este-es-el-procedimiento-para-presentar-la-declaracion-informativa-de-precios"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+            "card_summary": "Para la declaración informativa (Formulario 120), la PYME debe cumplir si su patrimonio bruto es igual o superior a 100.000 UVT o sus ingresos brutos son iguales o superiores a 61.000 UVT, y para el Informe Local, si las operaciones con vinculados exceden 45.000 UVT.",
+            "extended_excerpt": "### 1. Marco General: ¿Qué PYMEs Están Obligadas?\n\n#### 1.1. Umbrales de Obligación\n\nUmbrales que determinan cuándo un contribuyente debe cumplir obligaciones de precios de transferencia:\n\n- **Declaración Informativa** (Formulario 120): contribuyentes con patrimonio bruto ≥ **100.000 UVT** ($5.237.400.000 para 2026) O ingresos brutos ≥ **61.000 UVT** ($3.194.814.000) que hayan realizado operaciones con vinculados económicos del exterior o en zonas francas.\n\n- **Documentación Comprobatoria — Informe Local**: cuando el monto acumulado anual de operaciones específicas con vinculados exceda **45.000 UVT** ($2.356.830.000).\n\n- **Documentación Comprobatoria básica**: cuando el monto acumulado supere **10.000 UVT** ($523.740.000).\n\n- **Informe Maestro**: obligatorio para grupos multinacionales con ingresos consolidados ≥ **81.000.000 UVT** (no aplica a PYMEs típicas).\n\n**Implicación para PYMEs:** La mayoría de PYMEs colombianas (ventas < $20.000M COP, patrimonio < $5.237M COP) **NO estarán obligadas** a presentar declaración informativa ni documentación comprobatoria, a menos que tengan operaciones significativas con vinculados del exterior o en zona franca.\n\n#### 1.2. Vencimientos y Plazos\n\nActualícese reporta que la DIAN recuerda anualmente que los vencimientos de precios de transferencia inician en septiembre del año siguiente al gravable. Para el AG 2024, los vencimientos iniciaron el 9 de septiembre de 2025.\n\nLa declaración informativa se presenta mediante **Formulario 120** y la documentación comprobatoria (Informe Local y/o Maestro) se remite según los plazos establecidos por resolución DIAN.\n\n### 2. Vinculación Económica: Interpretación Amplia\n\n#### 2.1. Criterios de Vinculación (Art. 260-1 ET)\n\nCriterios de vinculación económica del Art. 260-1 ET, que incluyen: control directo o indirecto (>50% capital o voto), subordinación, grupo empresarial, relaciones familiares (hasta 4° de consanguinidad, 2° de afinidad), y dependencia económica sustancial.\n\nPara PYMEs, los escenarios más comunes de vinculación son:\n\n- Socio con empresa en el exterior (incluso si es empresa diferente del mismo socio).\n\n- Compras a proveedor en zona franca donde hay vínculo accionario.\n\n- Relaciones familiares: padre-hijo con empresas cruzadas.\n\nGerencie complementa con una explicación de los precios de transferencia orientada a no especialistas, aclarando que el objetivo de la norma es asegurar que las transacciones entre vinculados se hagan a **precio de mercado** (principio de plena competencia / arm's length).\n\n### 3. Servicios Especializados de TP\n\n#### 3.1. Big Four — Enfoque Colombia\n\n**Deloitte Colombia:**\n\nDeloitte Colombia mantiene una práctica dedicada de precios de transferencia, ofreciendo asesoría alineada con las directrices de la OCDE a través de las Acciones 8, 9, 10 y 13 de BEPS. Sus servicios incluyen cumplimiento formal (preparación de Informes Locales y Maestros), planeación de estructuras intercompañía, y Country-by-Country Reporting para grupos multinacionales.\n\nLa correcta documentación de TP es la **primera línea de defensa** ante auditorías de la DIAN, especialmente para contribuyentes con operaciones en zonas francas.\n\n### 4. Declaración Informativa: Procedimiento\n\n#### 4.1. Formulario y Proceso ante DIAN\n\n**Ámbito Jurídico:**\n\nÁmbito Jurídico documenta el procedimiento para presentar la declaración informativa de precios de transferencia, detallando los pasos ante la plataforma DIAN y los requisitos del Formulario 120.\n\nActualícese complementa con análisis sobre la declaración informativa, incluyendo los tipos de transacciones que deben reportarse y los métodos de valoración aceptados (comparable no controlado, precio de reventa, costo adicionado, partición de utilidades, margen neto transaccional).\n\n### 5. Ajustes por Precios de Transferencia en Declaración de Renta\n\nAnálisis sobre los ajustes por precios de transferencia en la declaración de renta 2025, documentando que cuando la DIAN determina que los precios pactados entre vinculados no corresponden a precios de mercado, puede ajustar la base gravable del contribuyente.\n\nLos ajustes más comunes para PYMEs:\n\n- **Servicios de administración**: pagos entre sociedades vinculadas por \"servicios de management\" a precios superiores al mercado.\n\n- **Financiamiento intercompañía**: préstamos entre vinculados a tasas inferiores o superiores al DTF + spread de mercado.\n\n- **Compras de inventario**: adquisición de bienes a vinculados del exterior a precios superiores al mercado (para inflar costos y reducir renta líquida en Colombia).\n\n### 6. Sanciones por Incumplimiento — Art. 260-9 ET\n\n#### 6.1. Régimen Sancionatorio\n\nSanciones aplicables por omisión en la documentación comprobatoria del régimen de precios de transferencia:\n\n- **Omisión de Informe Maestro**: sanción del 2% de la suma de todas las operaciones sujetas a documentar en el informe local.\n\n- **Omisión de Informe Local**: sanción del 1% del monto de las operaciones no documentadas.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_260_1"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+            "source_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+            "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+            "authority": "secondary_official_authority",
+            "title": "Precios de transferencia (secondary_official_authority)",
+            "snippet": "(9) Deloitte Colombia — Transfer Pricing Practice. Publicaciones: https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html Enfoque: documentación de TP como línea de defensa ante auditoría DIAN; preferencia CUP cuando hay datos.",
+            "position_signal": "neutral",
+            "relevance_score": 0.6628,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html",
+                "label": "www2.deloitte.com",
+                "provider": "Deloitte",
+                "domain": "www2.deloitte.com"
+              },
+              {
+                "url": "https://www.pwc.com/co/tax-transfer-pricing",
+                "label": "pwc.com",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://www.ey.com/es_co/tax",
+                "label": "ey.com",
+                "provider": "EY",
+                "domain": "ey.com"
+              },
+              {
+                "url": "https://home.kpmg/co/es/home/servicios/impuestos.html",
+                "label": "home.kpmg",
+                "provider": "KPMG",
+                "domain": "home.kpmg"
+              },
+              {
+                "url": "https://actualicese.com/precios-de-transferencia/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/precios-de-transferencia.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com",
+                "label": "ambitojuridico.com",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Deloitte",
+                "url": "https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html"
+              },
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co/tax-transfer-pricing"
+              },
+              {
+                "name": "EY",
+                "url": "https://www.ey.com/es_co/tax"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/precios-de-transferencia/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/precios-de-transferencia.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com"
+              },
+              {
+                "name": "KPMG",
+                "url": null
+              },
+              {
+                "name": "Brigard Urrutia",
+                "url": null
+              },
+              {
+                "name": "Holland & Knight",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+            "card_summary": "El experto explica que el principio de plena competencia exige que todas las operaciones entre vinculados se realicen como si fueran entre partes independientes, aplicando a compraventa de bienes, prestación de servicios y transferencia de intangibles.",
+            "extended_excerpt": "### 1. Norma Base: Principio de Plena Competencia y Contexto de Interpretación\n\n#### 1.1. El Principio de Plena Competencia (Arm's Length)\n\nEl art. 260-2 ET establece que **todos** los precios, márgenes, tarifas, comisiones, intereses y contraprestaciones en operaciones entre vinculados deben ser equivalentes a los que hubieran sido fijados entre partes independientes en operaciones comparables bajo circunstancias similares (1).\n\n**Ámbito de aplicación**:\n\n- Compraventa de bienes tangibles (materias primas, productos terminados)\n\n- Prestación de servicios (asesoría, management, servicios administrativos)\n\n- Transferencia de intangibles (marcas, patentes, tecnología, regalías)\n\n- Financiamiento intergrupales (préstamos, créditos, avances)\n\n- Arrendamiento de bienes (equipos, inmuebles, vehículos)\n\n- Operaciones con establecimientos permanentes (EP) y sucursales en el exterior\n\n- Costos compartidos y reembolsos intragrupales\n\n#### 1.2. Contexto Normativo Reciente\n\nLa norma de precios de transferencia ha sufrido **tres grandes modificaciones** en 14 años:\n\n| Reforma | Ley | Cambios Clave |\n| 2012 | Ley 1607 (Arts. 110–115) | Introducción del régimen TP colombiano alineado a OCDE; cinco métodos (CUP, RPM, CPM, TNMM, MPS); umbrales patrimoniales |\n| 2016 | Ley 1819 (Arts. 108–121) | Refuerzo de documentación comprobatoria (Informe Local, Informe Maestro, CbCR); categorización de operaciones; sanciones más severas (hasta 30.000 UVT) |\n| 2022 | Ley 2277 (arts. relevantes) | Ajustes secundarios, reducción de plazos de vencimiento, armonización con iniciativas BEPS (PILAR UNO, PILAR DOS — tasa mínima tributaria) |\n\nPara AG 2025 (declaración en 2026), la **Ley 2277/2022 es vigente**. El Decreto 1496/2024 actualizó por primera vez en 10 años el listado de jurisdicciones no cooperantes, reduciendo de 37 a 25 jurisdicciones (2).\n\n### 10. Fuentes y Referencias\n\n#### Normas Primarias (Tier 1)\n\n(1) **ET Art. 260-1 y 260-2**. Estatuto Tributario, Decreto 624/1989, modificados por Ley 1607/2012 (Arts. 110-115).\n\n- Normograma DIAN: https://normograma.dian.gov.co/preguntas-frecuentes/precios-de-transferencia\n\n(2) **Decreto 1496 de diciembre 13 de 2024**. Listado de jurisdicciones no cooperantes (vigente desde 1 enero 2025, aplicable AG 2025).\n\n- Publicación Diario Oficial: http://www.secretariasenado.gov.co (buscar \"Decreto 1496 2024\")\n\n(3) **ET Art. 260-3**. Cinco métodos de precios de transferencia (CUP, RPM, CPM, TNMM, MPS).\n\n- Decreto 3030/2013, Art. 14-23 (reglamentación metodológica).\n\n(4) **ET Art. 260-5 y 260-9**. Documentación comprobatoria y Formulario 120 (Declaración Informativa).\n\n- DUR 1625/2016, Arts. 1.2.2.3.1.1 y ss. (contenido mínimo Informe Local).\n\n(5) **ET Art. 118-1**. Subcapitalización (thin capitalization) — limitación deductibilidad intereses.\n\n- Ley 1819/2016, Art. 117.\n\n(6) **ET Art. 260-7**. Jurisdicciones no cooperantes — aplicación sin umbral.\n\n- Decreto 1496/2024 (listado vigente).\n\n(7) **Sentencia Consejo de Estado Rad. 21038/2018**. Jurisprudencia sobre carga de prueba en precios de transferencia.\n\n- Relatoría Consejo de Estado: https://www.consejodeestado.gov.co\n\n(8) **OCDE Transfer Pricing Guidelines 2022**. Marco conceptual arm's length principle.\n\n- Capítulo I, II, VII (Servicios, Intangibles).\n\n- Descargable: https://www.oecd.org/publications/oecd-transfer-pricing-guidelines-2022-e4927b5f-en.htm\n\n#### Fuentes Secundarias — Big Four Colombia (Tier 2-3)\n\n(9) **Deloitte Colombia** — Transfer Pricing Practice.\n\n- Publicaciones: https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html\n\n- Enfoque: documentación de TP como línea de defensa ante auditoría DIAN; preferencia CUP cuando hay datos.\n\n(10) **PwC Colombia** — Transfer Pricing and Economics.\n\n- Estudios 2024-2025 sobre \"Project Management Fees\" (servicios intragrupo como foco de auditoría).\n\n- Enlace: https://www.pwc.com/co/tax-transfer-pricing\n\n(11) **EY Colombia** — International Tax Services.\n\n- Análisis sobre CbCR y implicaciones para filiales colombianas de multinacionales.\n\n- Publicaciones: https://www.ey.com/es_co/tax\n\n(12) **KPMG Colombia** — Transfer Pricing.\n\n- Consejo sobre estrategia de corrección voluntaria para contribuyentes con tasas bajas.\n\n- Publicaciones: https://home.kpmg/co/es/home/servicios/impuestos.html\n\n(13) **RSM Colombia (Forvis Mazars)**. Análisis sobre interaction art. 118-1 (subcapitalización) con TP.\n\n(14) **Baker McKenzie Colombia**. Análisis de auditorías 2020-2024 en regalías/intangibles (40% aumento).\n\n#### Fuentes Secundarias — Portales Especializados (Tier 2-3)\n\n(15) **Actualícese** — Precios de Transferencia.\n\n- Artículos sobre umbrales, vencimientos, sanciones, interpretación de norma.\n\n- Enlace: https://actualicese.com/precios-de-transferencia/\n\n(16) **Brigard Urrutia (Firma Tributarista)**. Análisis 2024 sobre documentación de TP para PYMEs.\n\n- Publicaciones: https://www.brigard.com.co\n\n(17) **Gerencie.com** — Precios de Transferencia.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_260_1",
+              "et_art_260_2",
+              "et_art_260_3",
+              "et_art_260_5"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.8489999999999999,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Se ancla a una referencia normativa central del caso.",
+        "panel_rank": 1
+      }
+    ],
+    "ungrouped": [],
+    "total_available": 1,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Mi cliente PYME tuvo operaciones con un vinculado del exterior por $3.500 millones en 2025 y patrimonio bruto de $5.200 millones a diciembre. ¿Le aplican todas las obligaciones de precios de transferencia (Informe Local, Maestro, declaración informativa Form. 120, documentación comprobatoria) o solo algunas? ¿Cómo cruzan los expertos los umbrales de patrimonio (100.000 UVT), ingresos brutos (61.000 UVT) y operaciones con vinculados (45.000 UVT) para PYME?",
+        "assistant_answer": "**Respuestas directas** - **¿Le aplican todas las obligaciones de precios de transferencia (Informe Local, Maestro, declaración informativa Form. **120**, documentación comprobatoria) o solo algunas?** - SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA. - **¿Cómo cruzan los expertos los umbrales de patrimonio (**100.000** UVT), ingresos brutos (**61.000** UVT) y operaciones con vinculados (**45.000** UVT) para PYME?** - Los contribuyentes del impuesto sobre la renta y complementarios cuyo patrimonio bruto en el último día del año o período gravable sea igual o superio. **Riesgos y condiciones** - SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA (arts. 260-11 y 260-5 ET). **Riesgos y condiciones** - SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA. **Anclaje legal** - Art. 260-1 — CRITERIOS DE VINCULACIÓN - Art. 260-2 — Artículo 260-2. OPERACIONES CON VINCULACION. Los contribuyentes del impuesto sobre la renta y complementarios que celebren operaciones con vinculados del exterior están obligados a determinar, para efectos del impuesto sobre la renta y complementarios, sus ingresos ordinarios y extraordinarios, sus costos y deducciones, y sus activos y pasivos, considerando para esas operaciones el Principio de Plena Competencia. Se entenderá que el Principio de Plena Competencia es aquel en el cual una operació - Art. 260-3 — Artículo 260-3. MÉTODOS PARA DETERMINAR EL PRECIO O MARGEN DE UTILIDAD EN LAS OPERACIONES CON VINCULADOS. El precio o margen de utilidad en las operaciones celebradas entre vinculados se podrá determinar por la aplicación de cualquiera de los siguientes métodos: 1. Precio comparable no controlado. Compara el precio de bienes o servicios transferidos en una operación entre vinculados, frente al precio cobrado por bienes o servicios en una operación comparable entre partes independientes, en situa - Art. 260-4 — Artículo 260-4. CRITERIOS DE COMPARABILIDAD PARA OPERACIONES ENTRE VINCULADOS Y TERCEROS INDEPENDIENTES . Para efectos del régimen de precios de transferencia, dos operaciones son comparables cuando no existan diferencias significativas entre ellas, que puedan afectar materialmente las condiciones analizadas a través de la metodología de precios de transferencia apropiada. También son comparables en los casos que dichas diferencias puedan eliminarse realizando ajustes suficientemente fiables a f - Art. 260-5 — Artículo 260-5. DOCUMENTACIÓN COMPROBATORIA. La documentación comprobatoria comprende: 1. Los contribuyentes del impuesto sobre la renta y complementarios cuyo patrimonio bruto en el último día del año o período gravable sea igual o superior al equivalente a cien mil (100.000) UVT o cuyos ingre­sos brutos del respectivo año sean iguales o superiores al equivalente a sesenta y un mil (61.000) UVT, que celebren operaciones con vinculados conforme a lo establecido en los artículos 260-1 y 260-2 de - Art. 260-11 — SANCIONES RESPECTO DE LA DOCUMENTACIÓN COMPROBATORIA Y DE LA DECLARACIÓN INFORMATIVA",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_260_1",
+          "et_art_260_2",
+          "et_art_260_3",
+          "et_art_260_4",
+          "et_art_260_5",
+          "et_art_260_11"
+        ],
+        "form_entities": [],
+        "detected_topic": "declaracion_renta",
+        "keyword_cluster": [
+          "extraordinarios,",
+          "complementarios,",
+          "independientes,",
+          "complementarios",
+          "suficientemente",
+          "transferencia,",
+          "comparabilidad",
+          "significativas",
+          "independientes",
+          "contribuyentes"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 2,
+      "filtered_out_candidates": 16,
+      "grouped_items": 1,
+      "ungrouped_items": 0,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "precios_de_transferencia",
+      "interpretation_anchor_eligible_docs": 2,
+      "interpretation_anchor_boosted_chunks": 19,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 2,
+        "medium": 16,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 5,
+        "resolved_numbers": 5,
+        "matched_articles": 4,
+        "matched_doc_ids": 2
+      },
+      "expert_query_seed": "Mi cliente PYME tuvo operaciones con un vinculado del exterior por $3.500 millones en 2025 y patrimonio bruto de $5.200 millones a diciembre. ¿Le aplican todas las obligaciones de precios de transferencia (Informe Local, Maestro, declaración informativa Form. 120, documentación comprobatoria) o solo algunas? ¿Cómo cruzan los expertos los umbrales de patrimonio (100.000 UVT), ingresos brutos (61.000 UVT) y operaciones con vinculados (45.000 UVT) para PYME? Art. 260-1 Art. 260-2 Artículo 260-2 Art. 260-3 Artículo 260-3 Art. 260-4 Artículo 260-4 Art. 260-5",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "rerank",
+        "judge": {
+          "mode": "llm",
+          "model": "gemini-2.5-flash",
+          "token_usage": {},
+          "scored_count": 12,
+          "candidate_count": 12
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 0
+        },
+        "graph_scored_count": 12,
+        "candidate_count": 12,
+        "summarized_count": 12
+      }
+    },
+    "trace_id": "ed4ea775-0a42-4b48-9637-61c4f3e75467"
+  }
+}

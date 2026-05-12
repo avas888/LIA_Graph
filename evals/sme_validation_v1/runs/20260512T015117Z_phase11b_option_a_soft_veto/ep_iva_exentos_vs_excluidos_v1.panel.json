@@ -1,0 +1,1010 @@
+{
+  "qid": "ep_iva_exentos_vs_excluidos_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "a841bb96-f002-428e-829f-d6c7ff3b2472",
+    "message": "Mi cliente factura tanto bienes exentos (con derecho a IVA descontable y solicitud de devolución) como excluidos (sin derecho). ¿Cómo manejan los expertos la trazabilidad del IVA descontable, el cálculo de la proporcionalidad cuando hay IVA común no atribuible, y qué soportes exige la DIAN en una fiscalización de saldo a favor por exportadores o productores de bienes exentos?",
+    "assistant_answer": "**Ruta sugerida**\n1.  Enfocá el caso como una solicitud de devolución o compensación de saldo a favor, no como un tema de facturación electrónica (arts. 850 y 589 ET).\n2.  Antes de radicar la solicitud, revisá la declaración que generó el saldo a favor. Asegurate de que los soportes, anexos y datos del contribuyente estén alineados (arts. 589 y 850 ET).\n3.  Confirmá que el saldo a favor esté correctamente determinado en la declaración base antes de iniciar el proceso de devolución (arts. 850 y 589 ET).\n4.  Si el expediente está completo, tené en cuenta los plazos de **50**, **30** o **20** días hábiles para la resolución de la solicitud, según el tipo de soporte presentado (arts. 850 y 589 ET).\n5.  Considerá que los saldos a favor pueden ser objeto de compensación con otras deudas tributarias (art. 816 ET).\n6.  Recordá que los intereses a favor del contribuyente solo se causan en casos de pagos en exceso o saldos a favor (art. 863 ET).\n\n**Riesgos y condiciones**\n*   Evitá radicar solicitudes con cifras o soportes inconsistentes, ya que esto puede generar inadmisibilidad o revisiones posteriores (arts. 850 y 589 ET).\n*   No presentés una solicitud de devolución si la declaración aún tiene inconsistencias o está pendiente de corrección (arts. 850 y 855-1 ET).\n*   Tené presente que una corrección que aumente el saldo a favor reinicia el término de revisión de la DIAN desde la fecha de la corrección (arts. 850 y 589 ET).\n*   Si ya se realizó una devolución o compensación y posteriormente se corrige la declaración reduciendo el saldo, evaluá de inmediato el riesgo de improcedencia y la obligación de reintegro (arts. 850 y 589 ET).\n*   La improcedencia de las devoluciones o compensaciones puede acarrear sanciones (art. 670 ET).\n*   La disminución de pérdidas fiscales declaradas puede ser objeto de revisión por parte de la administración tributaria (art. 647-1 ET).",
+    "normative_article_refs": [],
+    "topic": "iva",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_670",
+        "classification": "concordancia",
+        "summary_signal": "La DIAN define la devolución automática como un proceso expedito que no requiere garantía bancaria, siempre que al menos el 85% de los ingresos declarados provengan de comprobantes de venta electrónicos.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/saldos-a-favor/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html"
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/laboral-y-seguridad-social/aclaran-requisitos-de-sancion-por-devolucion-yo"
+          },
+          {
+            "name": "Holland & Knight",
+            "url": "https://www.hklaw.com/en/insights/publications/2020/04/min-hacienda-de-colombia-establece-procedimiento-para-devolucion"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+            "source_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+            "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "(2) Actualícese. *Devoluciones automáticas de impuestos para PYMEs — Requisitos y plazo*. https://actualicese.com/devoluciones-automaticas-pyme/ (3) Gerencie.com. *Cómo calcular el porcentaje de facturación electrónica para devolución automática*. https://www.gerencie.com/devoluciones-automaticas.html",
+            "position_signal": "neutral",
+            "relevance_score": 0.6629999999999999,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/devoluciones-automaticas-pyme/",
+                "label": "Devoluciones automáticas: requisitos, pasos y plazos para PYMEs — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/devoluciones-automaticas.html",
+                "label": "Cómo calcular el porcentaje de facturación electrónica para devolución automática — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/plazo-devoluciones-renta-impuesto-al-valor-agregado/",
+                "label": "https://actualicese.com/plazo-devoluciones-renta-impuesto-al-valor-agregado/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/correccion-declaracion-dian.html",
+                "label": "https://www.gerencie.com/correccion-declaracion-dian.html",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/sancion-art-670-moderada-corte-constitucional/",
+                "label": "https://actualicese.com/sancion-art-670-moderada-corte-constitucional/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-iva-exportadores/",
+                "label": "https://actualicese.com/devolucion-iva-exportadores/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devoluciones-automaticas-pyme/](https://actualicese.com/devoluciones-automaticas-pyme/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/devoluciones-automaticas.html](https://www.gerencie.com/devoluciones-automaticas.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/plazo-devoluciones-renta-impuesto-al-valor-agregado/](https://actualicese.com/plazo-devoluciones-renta-impuesto-al-valor-agregado/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/correccion-declaracion-dian.html](https://www.gerencie.com/correccion-declaracion-dian.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/sancion-art-670-moderada-corte-constitucional/](https://actualicese.com/sancion-art-670-moderada-corte-constitucional/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-iva-exportadores/](https://actualicese.com/devolucion-iva-exportadores/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/devoluciones-automaticas-pyme/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/devoluciones-automaticas.html"
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+            "card_summary": "La DIAN define la devolución automática como un proceso expedito que no requiere garantía bancaria, siempre que al menos el 85% de los ingresos declarados provengan de comprobantes de venta electrónicos.",
+            "extended_excerpt": "### 1. Devolución Automática vs. Ordinaria — La Barrera del 85% de Facturación Electrónica\n\n#### 1.1. Norma y Definición de Devolución Automática\n\n**DIAN (Concepto 001949/2023):**\n\nLa DIAN conceptúa que la devolución automática es un proceso administrativo expedito donde la Administración valida técnicamente la solicitud y autoriza el desembolso sin necesidad de que el contribuyente presente garantía bancaria. El requisito principal es que **mínimo el 85% de los ingresos declarados provengan de comprobantes de venta electrónicos** (factura electrónica, según Decreto 1457/2023 y Resolución 0000042/2023 DIAN).\n\nLa DIAN establece que la devolución automática es más rápida teóricamente (30–45 días versus 8–12 meses en ordinaria), pero en la práctica requiere que el 85% sea verificable electrónicamente. Para PYMEs que comiencen facturación electrónica a mediados del año, esto es prácticamente inalcanzable para devoluciones del mismo año.\n\n**Posición de Actualícese:**\n\nEl umbral del 85% es un obstáculo real para PYMEs. Expone que:\n\n- Si la PYME facturó electrónicamente solo desde julio (primer semestre facturación manual), el promedio anual es ~50%, disqualificando la devolución automática.\n\n- Muchas PYMEs tienen clientes que piden factura manual (personas naturales sin NIT, pequeños comercios informales), lo que reduce el porcentaje electrónico a 60–75%.\n\n- Exportadores que venden a clientes asiáticos sin sistemas integrados pueden estar debajo del 85%.\n\nPara un plan de devolución automática, el contador debe verificar mes a mes el acumulado porcentual de facturación electrónica y proyectar si cerrará el año por encima del 85%. Si no es probable, dirigirse directamente a devolución ordinaria (requiere garantía, pero no hay bloqueo por debajo del 85%).\n\nLa exigencia del 85% debe interpretarse sobre el **total de ingresos gravados** declarados, no solo los ingresos operacionales. Esto incluye ganancia ocasional, ingresos financieros y otros. Un error frecuente es excluir categorías de ingreso que no tengan comprobante electrónico, bajando artificialmente el porcentaje.\n\n**Riesgo DIAN:**\n\nActualícese y Gerencie coinciden en que si el contribuyente solicita devolución automática sin cumplir el 85% (lo declara erróneamente en el software de presentación), la DIAN rechaza la solicitud y el contribuyente pierde plazo para presentar ordinaria (2 años desde la presentación original). Este es un riesgo de **prescripción ejecutiva** que muchos contadores no prevén.\n\n#### 1.2. Posiciones Divergentes sobre Practicidad del 85% para PYMEs\n\n**Deloitte Colombia:**\n\nAnálisis crítico de la automatización de devoluciones, señalando que el 85% beneficia principalmente a: (i) grandes contribuyentes que ya tienen facturación 100% electrónica, (ii) exportadores especializados con sistemas integrados, (iii) plataformas de comercio electrónico. Para la PYME \"típica\" (comercio retail, servicios personales, fabricación pequeña), el 85% es un **estándar irreal**.\n\nLa DIAN considere un umbral escalonado: 70% para contribuyentes en primeros 3 años de régimen ordinario, 85% después. Esto facilitaría transición.\n\n**Brigard Urrutia:**\n\nBrigard Urrutia argumenta que la exigencia del 85% puede ser inconstitucional si se aplica rígidamente a sectores donde la facturación electrónica es técnicamente imposible (ej. venta a personas naturales informales en zonas rurales). Brigard recomienda que el contador documente por qué la PYME no alcanza 85% (no es incumplimiento voluntario) y presente ordinaria justificada.\n\n**PwC Colombia:**\n\nAunque la devolución automática es \"más rápida en teoría\", tiene un costo oculto: requiere que la facturación electrónica sea **perfecta** (sin inconsistencias entre RADIAN y declaración). Un error en facturación electrónica no solo rechaza la devolución automática, sino que puede generar sanción Art. 260 ET por inconsistencia de datos.\n\nPwC aconseja que la mayoría de PYMEs elijan devolución ordinaria (garantía pequeña, ~1–2% del saldo) para **evitar riesgo de rechazos** por tecnología.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+            "core_ref_matches": [
+              "et_art_670"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "source_doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "logical_doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "(18) Gerencie.com, \"Devolución de saldos a favor — Dian\". https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html (19) Gerencie.com, \"Devolución automática de saldos a favor en la Dian\". https://www.gerencie.com/devolucion-automatica-de-saldo-a-favor-en-la-dian.html",
+            "position_signal": "permite",
+            "relevance_score": 0.6382800000000001,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/saldos-a-favor/",
+                "label": "ABC de la devolución y compensación de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/saldos-a-favor-no-todos-estan-sujetos-a-devolucion/",
+                "label": "Saldos a favor: no todos están sujetos a devolución — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html",
+                "label": "Devolución de saldos a favor — Dian — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/solicitud-de-la-devolucion-o-compensacion-de-saldos-a-favor-ante-la-dian/",
+                "label": "Solicitud de devolución o compensación de saldos a favor ante la Dian — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/",
+                "label": "Devolución de saldos a favor: requisitos y trámites clave en 2025 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/solicitud-de-devolucion-y-o-compensacion-de-saldos-a-favor-documentacion-requerida/",
+                "label": "Solicitud de devolución y/o compensación: documentación requerida — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/formatos-requeridos-para-la-solicitud-de-saldos-a-favor/",
+                "label": "Formatos requeridos para la solicitud de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/termino-para-solicitar-la-devolucion-y-o-compensacion-de-saldos-a-favor/",
+                "label": "Término para solicitar la devolución y/o compensación de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/devolucion-automatica-de-saldo-a-favor-en-la-dian.html",
+                "label": "Devolución automática de saldos a favor en la Dian — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/archivo/4-pasos-para-solicitar-la-devolucion-o-compensacion-abreviada-automatica-de-saldos-a-favor/",
+                "label": "4 pasos para solicitar la devolución o compensación abreviada automática — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-abreviada-de-saldos-a-favor-preguntas-frecuentes-en-proceso-de-solicitud/",
+                "label": "Devolución abreviada: preguntas frecuentes en proceso de solicitud — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/declaracion-de-renta-personas-naturales-2025-quienes-pueden-solicitar-devolucion-de-oficio-de-saldos-a-favor/",
+                "label": "Declaración de renta PN 2025: ¿quiénes pueden solicitar devolución de oficio? — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/saldos-a-favor/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/laboral-y-seguridad-social/aclaran-requisitos-de-sancion-por-devolucion-yo"
+              },
+              {
+                "name": "Holland & Knight",
+                "url": "https://www.hklaw.com/en/insights/publications/2020/04/min-hacienda-de-colombia-establece-procedimiento-para-devolucion"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "card_summary": "Actualícese explica las tres opciones para manejar un saldo a favor: solicitar devolución, compensarlo con otras obligaciones tributarias, o arrastrarlo a la siguiente declaración del mismo impuesto.",
+            "extended_excerpt": "### 1. Marco General: Opciones del Contribuyente ante un Saldo a Favor\n\n#### 1.1. Tres Alternativas según el ET\n\nActualícese mantiene un ABC integral de devolución y compensación de saldos a favor, documentando las tres opciones que tiene el contribuyente cuando liquida un saldo a favor en su declaración:\n\n- **Devolución** (Art. 850 ET): solicitar que la DIAN consigne el excedente en cuenta bancaria del contribuyente.\n\n- **Compensación** (Art. 815 ET): aplicar el saldo a favor contra obligaciones tributarias pendientes (renta, IVA, retención, sanciones).\n\n- **Arrastre**: llevar el saldo a favor a la siguiente declaración del mismo impuesto, acumulándolo para futuros cruces.\n\n**no todos los saldos a favor son susceptibles de devolución**. Solo procede cuando el saldo se origina en retenciones en exceso, saldos de IVA en compras superiores al generado, o pagos en exceso. Los saldos originados en pérdidas fiscales no generan derecho de devolución.\n\n#### 1.2. Compensación vs. Devolución: Análisis de Conveniencia\n\nDiferencia práctica entre devolución y compensación. La compensación es menos riesgosa porque no genera el riesgo de sanción por devolución improcedente (Art. 670 ET). Cuando se compensa, el saldo simplemente se cruza contra deudas tributarias; si posteriormente la DIAN modifica la declaración, la consecuencia es una mayor deuda, no una sanción adicional del 10-20%.\n\nGerencie recomienda: si el contribuyente tiene obligaciones tributarias pendientes (anticipos de renta, IVA bimestral), **compensar primero** y solo solicitar devolución del excedente neto.\n\n### 10. Puntos de Divergencia Entre Expertos\n\n**1. ¿Devolución con o sin garantía?**\n\n- **Posición A (Actualícese, enfoque de eficiencia):** Si el monto del saldo a favor es significativo y la PYME necesita liquidez, la garantía (20 días) justifica el costo adicional.\n\n- **Posición B (Gerencie, enfoque conservador):** El costo de la garantía (prima + vigencia de 2 años) puede ser desproporcionado para PYMEs con saldos pequeños. Mejor esperar los 50 días hábiles.\n\n**Nuestra evaluación:** Para saldos > $100M, la garantía generalmente se justifica. Para saldos < $50M, esperar los 50 días es más eficiente.\n\n**2. ¿La sanción del Art. 670 es un riesgo real para PYMEs?**\n\n- **Posición A (Ámbito Jurídico, jurisprudencia):** La sanción requiere liquidación oficial de revisión previa. Si la PYME tiene buena documentación, el riesgo es bajo.\n\n- **Posición B (Gerencie, práctica de campo):** La DIAN es activa en fiscalización post-devolución, especialmente en IVA. El riesgo es moderado-alto si la documentación soporte no es impecable.\n\n**Nuestra evaluación:** El riesgo depende del tipo de saldo. Saldos de retención en la fuente (renta) tienen tasa de aprobación del 95%+. Saldos de IVA de productores de exentos tienen tasas de rechazo del 25-35%. Preparar documentación robusta reduce el riesgo sustancialmente.\n\n**3. ¿Solicitar devolución en declaración con beneficio de auditoría?**\n\n- **Posición A (Actualícese):** Sí, pero con coordinación extrema. Preparar toda la documentación antes de presentar la declaración, porque el plazo es de solo 6 meses.\n\n- **Posición B (Gerencie, Ámbito Jurídico):** Precaución: solicitar devolución suspende la firmeza de la declaración, lo que puede exponer la declaración a auditoría por más tiempo del esperado.\n\n**Nuestra evaluación:** Si el saldo a favor es significativo (> 5% del impuesto neto), vale la pena solicitar. Si es marginal, mejor arrastrar al siguiente período y no arriesgar la firmeza.\n\n### 11. Recomendación Práctica para el Contador en PYME\n\n**Checklist de decisión sobre saldos a favor:**\n\n1. **¿El saldo se origina en retenciones, IVA o pagos en exceso?** → Solo estos generan derecho de devolución. Pérdidas fiscales no dan derecho.\n\n2. **¿Hay obligaciones tributarias pendientes?** → Compensar primero (Art. 815 ET). Devolver solo el excedente.\n\n3. **¿El plazo de 2 años está vigente?** → Verificar fecha de vencimiento del término para declarar. Si queda poco, priorizar la solicitud.\n\n4. **¿La declaración tiene beneficio de auditoría?** → Plazo especial de 6 o 12 meses. Coordinar con urgencia.\n\n5. **¿El monto justifica garantía bancaria?** → Si > $100M y necesita liquidez, sí. Si < $50M, esperar 50 días.\n\n6. **¿La documentación soporte es completa?** → Certificados de retención, facturas, certificación bancaria vigente, certificación contable. Documentar antes de solicitar.\n\n7. **¿El saldo es de IVA de productor de exentos?** → Preparar documentación adicional: certificado de industria, facturas clasificadas, registro contable vinculante.\n\n8. **¿Ha verificado cruce con información exógena?** → Principal causa de rechazo (35% de rechazos). Verificar que cada operación reportada coincida con lo reportado por terceros.\n\n9. **¿Conoce el riesgo de sanción Art. 670?** → 10% si usted corrige, 20% si DIAN modifica, 100% si hay fraude. Documenta bien para mitigar.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+            "core_ref_matches": [
+              "et_art_670"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.6629999999999999,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "panel_rank": 1
+      },
+      {
+        "article_ref": "et_art_815",
+        "classification": "concordancia",
+        "summary_signal": "Actualícese explica las tres opciones para manejar un saldo a favor: solicitar devolución, compensarlo con otras obligaciones tributarias, o arrastrarlo a la siguiente declaración del mismo impuesto.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/prorrateo-del-iva.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/el-decreto-1474-de-2025-black-friday-taxes"
+          },
+          {
+            "name": "Holland & Knight",
+            "url": "https://www.hklaw.com/en/insights/publications/2020/04/min-hacienda-de-colombia-establece-procedimiento-para-devolucion"
+          },
+          {
+            "name": "Legis",
+            "url": "https://blog.legis.com.co/contable-tributario/prorrateo-del-iva-c%C3%B3mo-calcularlo"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "source_doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "logical_doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "(18) Gerencie.com, \"Devolución de saldos a favor — Dian\". https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html (19) Gerencie.com, \"Devolución automática de saldos a favor en la Dian\". https://www.gerencie.com/devolucion-automatica-de-saldo-a-favor-en-la-dian.html",
+            "position_signal": "permite",
+            "relevance_score": 0.6382800000000001,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/saldos-a-favor/",
+                "label": "ABC de la devolución y compensación de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/saldos-a-favor-no-todos-estan-sujetos-a-devolucion/",
+                "label": "Saldos a favor: no todos están sujetos a devolución — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html",
+                "label": "Devolución de saldos a favor — Dian — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/solicitud-de-la-devolucion-o-compensacion-de-saldos-a-favor-ante-la-dian/",
+                "label": "Solicitud de devolución o compensación de saldos a favor ante la Dian — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/",
+                "label": "Devolución de saldos a favor: requisitos y trámites clave en 2025 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/solicitud-de-devolucion-y-o-compensacion-de-saldos-a-favor-documentacion-requerida/",
+                "label": "Solicitud de devolución y/o compensación: documentación requerida — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/formatos-requeridos-para-la-solicitud-de-saldos-a-favor/",
+                "label": "Formatos requeridos para la solicitud de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/termino-para-solicitar-la-devolucion-y-o-compensacion-de-saldos-a-favor/",
+                "label": "Término para solicitar la devolución y/o compensación de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/devolucion-automatica-de-saldo-a-favor-en-la-dian.html",
+                "label": "Devolución automática de saldos a favor en la Dian — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/archivo/4-pasos-para-solicitar-la-devolucion-o-compensacion-abreviada-automatica-de-saldos-a-favor/",
+                "label": "4 pasos para solicitar la devolución o compensación abreviada automática — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-abreviada-de-saldos-a-favor-preguntas-frecuentes-en-proceso-de-solicitud/",
+                "label": "Devolución abreviada: preguntas frecuentes en proceso de solicitud — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/declaracion-de-renta-personas-naturales-2025-quienes-pueden-solicitar-devolucion-de-oficio-de-saldos-a-favor/",
+                "label": "Declaración de renta PN 2025: ¿quiénes pueden solicitar devolución de oficio? — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/saldos-a-favor/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/laboral-y-seguridad-social/aclaran-requisitos-de-sancion-por-devolucion-yo"
+              },
+              {
+                "name": "Holland & Knight",
+                "url": "https://www.hklaw.com/en/insights/publications/2020/04/min-hacienda-de-colombia-establece-procedimiento-para-devolucion"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "card_summary": "Actualícese explica las tres opciones para manejar un saldo a favor: solicitar devolución, compensarlo con otras obligaciones tributarias, o arrastrarlo a la siguiente declaración del mismo impuesto.",
+            "extended_excerpt": "### 1. Marco General: Opciones del Contribuyente ante un Saldo a Favor\n\n#### 1.1. Tres Alternativas según el ET\n\nActualícese mantiene un ABC integral de devolución y compensación de saldos a favor, documentando las tres opciones que tiene el contribuyente cuando liquida un saldo a favor en su declaración:\n\n- **Devolución** (Art. 850 ET): solicitar que la DIAN consigne el excedente en cuenta bancaria del contribuyente.\n\n- **Compensación** (Art. 815 ET): aplicar el saldo a favor contra obligaciones tributarias pendientes (renta, IVA, retención, sanciones).\n\n- **Arrastre**: llevar el saldo a favor a la siguiente declaración del mismo impuesto, acumulándolo para futuros cruces.\n\n**no todos los saldos a favor son susceptibles de devolución**. Solo procede cuando el saldo se origina en retenciones en exceso, saldos de IVA en compras superiores al generado, o pagos en exceso. Los saldos originados en pérdidas fiscales no generan derecho de devolución.\n\n#### 1.2. Compensación vs. Devolución: Análisis de Conveniencia\n\nDiferencia práctica entre devolución y compensación. La compensación es menos riesgosa porque no genera el riesgo de sanción por devolución improcedente (Art. 670 ET). Cuando se compensa, el saldo simplemente se cruza contra deudas tributarias; si posteriormente la DIAN modifica la declaración, la consecuencia es una mayor deuda, no una sanción adicional del 10-20%.\n\nGerencie recomienda: si el contribuyente tiene obligaciones tributarias pendientes (anticipos de renta, IVA bimestral), **compensar primero** y solo solicitar devolución del excedente neto.\n\n### 10. Puntos de Divergencia Entre Expertos\n\n**1. ¿Devolución con o sin garantía?**\n\n- **Posición A (Actualícese, enfoque de eficiencia):** Si el monto del saldo a favor es significativo y la PYME necesita liquidez, la garantía (20 días) justifica el costo adicional.\n\n- **Posición B (Gerencie, enfoque conservador):** El costo de la garantía (prima + vigencia de 2 años) puede ser desproporcionado para PYMEs con saldos pequeños. Mejor esperar los 50 días hábiles.\n\n**Nuestra evaluación:** Para saldos > $100M, la garantía generalmente se justifica. Para saldos < $50M, esperar los 50 días es más eficiente.\n\n**2. ¿La sanción del Art. 670 es un riesgo real para PYMEs?**\n\n- **Posición A (Ámbito Jurídico, jurisprudencia):** La sanción requiere liquidación oficial de revisión previa. Si la PYME tiene buena documentación, el riesgo es bajo.\n\n- **Posición B (Gerencie, práctica de campo):** La DIAN es activa en fiscalización post-devolución, especialmente en IVA. El riesgo es moderado-alto si la documentación soporte no es impecable.\n\n**Nuestra evaluación:** El riesgo depende del tipo de saldo. Saldos de retención en la fuente (renta) tienen tasa de aprobación del 95%+. Saldos de IVA de productores de exentos tienen tasas de rechazo del 25-35%. Preparar documentación robusta reduce el riesgo sustancialmente.\n\n**3. ¿Solicitar devolución en declaración con beneficio de auditoría?**\n\n- **Posición A (Actualícese):** Sí, pero con coordinación extrema. Preparar toda la documentación antes de presentar la declaración, porque el plazo es de solo 6 meses.\n\n- **Posición B (Gerencie, Ámbito Jurídico):** Precaución: solicitar devolución suspende la firmeza de la declaración, lo que puede exponer la declaración a auditoría por más tiempo del esperado.\n\n**Nuestra evaluación:** Si el saldo a favor es significativo (> 5% del impuesto neto), vale la pena solicitar. Si es marginal, mejor arrastrar al siguiente período y no arriesgar la firmeza.\n\n### 11. Recomendación Práctica para el Contador en PYME\n\n**Checklist de decisión sobre saldos a favor:**\n\n1. **¿El saldo se origina en retenciones, IVA o pagos en exceso?** → Solo estos generan derecho de devolución. Pérdidas fiscales no dan derecho.\n\n2. **¿Hay obligaciones tributarias pendientes?** → Compensar primero (Art. 815 ET). Devolver solo el excedente.\n\n3. **¿El plazo de 2 años está vigente?** → Verificar fecha de vencimiento del término para declarar. Si queda poco, priorizar la solicitud.\n\n4. **¿La declaración tiene beneficio de auditoría?** → Plazo especial de 6 o 12 meses. Coordinar con urgencia.\n\n5. **¿El monto justifica garantía bancaria?** → Si > $100M y necesita liquidez, sí. Si < $50M, esperar 50 días.\n\n6. **¿La documentación soporte es completa?** → Certificados de retención, facturas, certificación bancaria vigente, certificación contable. Documentar antes de solicitar.\n\n7. **¿El saldo es de IVA de productor de exentos?** → Preparar documentación adicional: certificado de industria, facturas clasificadas, registro contable vinculante.\n\n8. **¿Ha verificado cruce con información exógena?** → Principal causa de rechazo (35% de rechazos). Verificar que cada operación reportada coincida con lo reportado por terceros.\n\n9. **¿Conoce el riesgo de sanción Art. 670?** → 10% si usted corrige, 20% si DIAN modifica, 100% si hay fraude. Documenta bien para mitigar.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+            "core_ref_matches": [
+              "et_art_670"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "source_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "logical_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "authority": "secondary_official_authority",
+            "title": "Iva (secondary_official_authority)",
+            "snippet": "1. Actualícese — Bienes exentos, excluidos y prorrateo de IVA: guía actualizada 2025",
+            "position_signal": "neutral",
+            "relevance_score": 0.33128799999999997,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/",
+                "label": "Actualícese — Bienes exentos, excluidos y prorrateo de IVA: guía actualizada 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/prorrateo-del-iva-cuando-debe-realizarse/",
+                "label": "Actualícese — Prorrateo del IVA: cuándo debe realizarse",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/procedimiento-y-contabilizacion-del-prorrateo-del-iva/",
+                "label": "Actualícese — Procedimiento y contabilización del prorrateo del IVA",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/archivo/deducibilidad-en-renta-del-iva-llevado-a-costos-y-gastos-por-prorrateo-del-iva/",
+                "label": "Actualícese — Deducibilidad en renta del IVA llevado a costos y gastos",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/ingresos-del-formulario-300-que-son-base-para-prorrateo-del-iva-de-costos-y-gastos/",
+                "label": "Actualícese — Ingresos del formulario 300 como base para prorrateo",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/prorrateo-del-iva.html",
+                "label": "Gerencie.com — Prorrateo del IVA",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/descuento-tributario-por-iva-en-compra-de-bienes-de-capital.html",
+                "label": "Gerencie.com — Descuento tributario por IVA en bienes de capital",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://blog.legis.com.co/contable-tributario/prorrateo-del-iva-c%C3%B3mo-calcularlo",
+                "label": "Legis Blog — Prorrateo del IVA: cómo calcularlo",
+                "provider": "Legis",
+                "domain": "blog.legis.com.co"
+              },
+              {
+                "url": "https://actualicese.com/productores-de-bienes-exentos-podran-solicitar-la-devolucion-de-saldos-a-favor-a-partir-de-julio/",
+                "label": "Actualícese — Productores bienes exentos: devolución saldos a favor",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/",
+                "label": "Actualícese — Devolución de saldos a favor: requisitos 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/corte-constitucional-suspendio-las-medidas-de-la-emergencia-economica-decretada-en-diciembre-de-2025/",
+                "label": "Actualícese — Corte Constitucional suspendió Decreto 1474",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/nuevo-decreto-240-de-2026-retoma-medidas-del-decreto-1474-de-2025-suspendido-por-la-corte-constitucional/",
+                "label": "Actualícese — Decreto 240 de 2026 retoma medidas",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/prorrateo-del-iva.html"
+              },
+              {
+                "name": "Legis",
+                "url": "https://blog.legis.com.co/contable-tributario/prorrateo-del-iva-c%C3%B3mo-calcularlo"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/el-decreto-1474-de-2025-black-friday-taxes"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "card_summary": "Este documento es una capa interpretativa sobre IVA descontable y proporcionalidad, con referencias cruzadas a normativa y otros documentos de expertos.",
+            "extended_excerpt": "### Capa interpretativa (P1) — Fuentes secundarias fiables\n\n#### Vigencia: AG 2025 / Declaración 2026\n\n**Fecha de última verificación**: 16 de marzo de 2026 **UVT 2025**: $49.799 COP | **UVT 2026**: $52.374 COP **Cross-references**: [IVA-N02 — IVA descontable y proporcionalidad](../NORMATIVA/IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md) | [IVA-E01 — Responsables y topes](../EXPERTOS/IVA-E01-interpretaciones-regimen-responsables-topes.md)\n\n### Fuentes\n\n1. [Actualícese — Bienes exentos, excluidos y prorrateo de IVA: guía actualizada 2025](https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/) 2. [Actualícese — Prorrateo del IVA: cuándo debe realizarse](https://actualicese.com/prorrateo-del-iva-cuando-debe-realizarse/) 3. [Actualícese — Procedimiento y contabilización del prorrateo del IVA](https://actualicese.com/procedimiento-y-contabilizacion-del-prorrateo-del-iva/) 4. [Actualícese — Deducibilidad en renta del IVA llevado a costos y gastos](https://actualicese.com/archivo/deducibilidad-en-renta-del-iva-llevado-a-costos-y-gastos-por-prorrateo-del-iva/) 5. [Actualícese — Ingresos del formulario 300 como base para prorrateo](https://actualicese.com/ingresos-del-formulario-300-que-son-base-para-prorrateo-del-iva-de-costos-y-gastos/) 6. [Gerencie.com — Prorrateo del IVA](https://www.gerencie.com/prorrateo-del-iva.html) 7. [Gerencie.com — Descuento tributario por IVA en bienes de capital](https://www.gerencie.com/descuento-tributario-por-iva-en-compra-de-bienes-de-capital.html) 8. [Legis Blog — Prorrateo del IVA: cómo calcularlo](https://blog.legis.com.co/contable-tributario/prorrateo-del-iva-c%C3%B3mo-calcularlo) 9. [Actualícese — Productores bienes exentos: devolución saldos a favor](https://actualicese.com/productores-de-bienes-exentos-podran-solicitar-la-devolucion-de-saldos-a-favor-a-partir-de-julio/) 10. [Actualícese — Devolución de saldos a favor: requisitos 2025](https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/) 11. [Actualícese — Corte Constitucional suspendió Decreto 1474](https://actualicese.com/corte-constitucional-suspendio-las-medidas-de-la-emergencia-economica-decretada-en-diciembre-de-2025/) 12. [Actualícese — Decreto 240 de 2026 retoma medidas](https://actualicese.com/nuevo-decreto-240-de-2026-retoma-medidas-del-decreto-1474-de-2025-suspendido-por-la-corte-constitucional/) 13. [Ámbito Jurídico — Decreto 1474: Black Friday Taxes](https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/el-decreto-1474-de-2025-black-friday-taxes) 14. [Portafolio — Impuestos del Decreto 1474](https://www.portafolio.co/economia/impuestos/estos-son-los-impuestos-que-trae-el-decreto-1474-de-la-emergencia-economica-patrimonio-licores-y-juegos-de-azar-485516)\n\n*Documento de capa EXPERTOS (P1). knowledge_class: interpretative_guidance. topic: iva. pais: colombia.*\n\n### Norma base\n\n- **ET Art. 485** — Impuestos descontables.\n\n- **ET Art. 488** — Condiciones para descontar: costo/gasto + destinación a operaciones gravadas.\n\n- **ET Art. 489** — Proporcionalidad del IVA en bienes exentos.\n\n- **ET Art. 490** — Prorrateo del IVA en operaciones mixtas (gravadas, exentas, excluidas).\n\n- **ET Art. 496** — Oportunidad de los descuentos (2 períodos adicionales).\n\n- **ET Art. 495** — Saldos a favor en IVA.\n\n- **ET Art. 815** — Compensación de saldos a favor.\n\n- **ET Art. 850** — Devolución de saldos a favor.\n\n- **Decreto Legislativo 1474 del 29/12/2025** — Medidas tributarias de emergencia (SUSPENDIDO).\n\n- **Decreto 240 de 2026** — Medidas tributarias por emergencia climática.\n\n### Posiciones de expertos\n\n#### Actualícese — Proporcionalidad y prorrateo\n\n**Guía actualizada 2025 sobre bienes exentos, excluidos y prorrateo:**\n\nSu guía integral donde diferencia con precisión los tres conceptos que generan mayor confusión en la práctica:\n\n- **Bienes gravados**: causan IVA al 19% (o 5%). El IVA de sus insumos es 100% descontable.\n\n- **Bienes exentos** (Art. 477 ET): causan IVA al 0%. El productor puede solicitar devolución del IVA de sus insumos.\n\n- **Bienes excluidos** (Art. 424, 476 ET): no causan IVA. El IVA de sus insumos NO es descontable — se lleva como mayor valor del costo o gasto (1).\n\n> (1) [Actualícese — Bienes exentos, excluidos y prorrateo de IVA: guía actualizada 2025](https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/)\n\n**Sobre cuándo aplicar el prorrateo:**\n\nActualícese precisa que el prorrateo del Art. 490 ET solo se activa cuando el contribuyente realiza **simultáneamente** operaciones gravadas (o exentas) y excluidas, y adquiere bienes o servicios que no puede imputar directamente a una u otra categoría (gastos comunes). Si todas las operaciones son gravadas, no hay prorrateo — todo el IVA de compras es descontable. Si todas son excluidas, tampoco — todo el IVA va a costo (2).",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.6382800000000001,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "panel_rank": 2
+      },
+      {
+        "article_ref": "et_art_850",
+        "classification": "concordancia",
+        "summary_signal": "Actualícese explica las tres opciones para manejar un saldo a favor: solicitar devolución, compensarlo con otras obligaciones tributarias, o arrastrarlo a la siguiente declaración del mismo impuesto.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/prorrateo-del-iva.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/el-decreto-1474-de-2025-black-friday-taxes"
+          },
+          {
+            "name": "Holland & Knight",
+            "url": "https://www.hklaw.com/en/insights/publications/2020/04/min-hacienda-de-colombia-establece-procedimiento-para-devolucion"
+          },
+          {
+            "name": "Legis",
+            "url": "https://blog.legis.com.co/contable-tributario/prorrateo-del-iva-c%C3%B3mo-calcularlo"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "source_doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "logical_doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "(18) Gerencie.com, \"Devolución de saldos a favor — Dian\". https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html (19) Gerencie.com, \"Devolución automática de saldos a favor en la Dian\". https://www.gerencie.com/devolucion-automatica-de-saldo-a-favor-en-la-dian.html",
+            "position_signal": "permite",
+            "relevance_score": 0.6382800000000001,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/saldos-a-favor/",
+                "label": "ABC de la devolución y compensación de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/saldos-a-favor-no-todos-estan-sujetos-a-devolucion/",
+                "label": "Saldos a favor: no todos están sujetos a devolución — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html",
+                "label": "Devolución de saldos a favor — Dian — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/solicitud-de-la-devolucion-o-compensacion-de-saldos-a-favor-ante-la-dian/",
+                "label": "Solicitud de devolución o compensación de saldos a favor ante la Dian — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/",
+                "label": "Devolución de saldos a favor: requisitos y trámites clave en 2025 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/solicitud-de-devolucion-y-o-compensacion-de-saldos-a-favor-documentacion-requerida/",
+                "label": "Solicitud de devolución y/o compensación: documentación requerida — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/formatos-requeridos-para-la-solicitud-de-saldos-a-favor/",
+                "label": "Formatos requeridos para la solicitud de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/termino-para-solicitar-la-devolucion-y-o-compensacion-de-saldos-a-favor/",
+                "label": "Término para solicitar la devolución y/o compensación de saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/devolucion-automatica-de-saldo-a-favor-en-la-dian.html",
+                "label": "Devolución automática de saldos a favor en la Dian — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/archivo/4-pasos-para-solicitar-la-devolucion-o-compensacion-abreviada-automatica-de-saldos-a-favor/",
+                "label": "4 pasos para solicitar la devolución o compensación abreviada automática — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-abreviada-de-saldos-a-favor-preguntas-frecuentes-en-proceso-de-solicitud/",
+                "label": "Devolución abreviada: preguntas frecuentes en proceso de solicitud — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/declaracion-de-renta-personas-naturales-2025-quienes-pueden-solicitar-devolucion-de-oficio-de-saldos-a-favor/",
+                "label": "Declaración de renta PN 2025: ¿quiénes pueden solicitar devolución de oficio? — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/saldos-a-favor/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/laboral-y-seguridad-social/aclaran-requisitos-de-sancion-por-devolucion-yo"
+              },
+              {
+                "name": "Holland & Knight",
+                "url": "https://www.hklaw.com/en/insights/publications/2020/04/min-hacienda-de-colombia-establece-procedimiento-para-devolucion"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devoluciones-compensacion-riesgos-auditoria.md",
+            "card_summary": "Actualícese explica las tres opciones para manejar un saldo a favor: solicitar devolución, compensarlo con otras obligaciones tributarias, o arrastrarlo a la siguiente declaración del mismo impuesto.",
+            "extended_excerpt": "### 1. Marco General: Opciones del Contribuyente ante un Saldo a Favor\n\n#### 1.1. Tres Alternativas según el ET\n\nActualícese mantiene un ABC integral de devolución y compensación de saldos a favor, documentando las tres opciones que tiene el contribuyente cuando liquida un saldo a favor en su declaración:\n\n- **Devolución** (Art. 850 ET): solicitar que la DIAN consigne el excedente en cuenta bancaria del contribuyente.\n\n- **Compensación** (Art. 815 ET): aplicar el saldo a favor contra obligaciones tributarias pendientes (renta, IVA, retención, sanciones).\n\n- **Arrastre**: llevar el saldo a favor a la siguiente declaración del mismo impuesto, acumulándolo para futuros cruces.\n\n**no todos los saldos a favor son susceptibles de devolución**. Solo procede cuando el saldo se origina en retenciones en exceso, saldos de IVA en compras superiores al generado, o pagos en exceso. Los saldos originados en pérdidas fiscales no generan derecho de devolución.\n\n#### 1.2. Compensación vs. Devolución: Análisis de Conveniencia\n\nDiferencia práctica entre devolución y compensación. La compensación es menos riesgosa porque no genera el riesgo de sanción por devolución improcedente (Art. 670 ET). Cuando se compensa, el saldo simplemente se cruza contra deudas tributarias; si posteriormente la DIAN modifica la declaración, la consecuencia es una mayor deuda, no una sanción adicional del 10-20%.\n\nGerencie recomienda: si el contribuyente tiene obligaciones tributarias pendientes (anticipos de renta, IVA bimestral), **compensar primero** y solo solicitar devolución del excedente neto.\n\n### 10. Puntos de Divergencia Entre Expertos\n\n**1. ¿Devolución con o sin garantía?**\n\n- **Posición A (Actualícese, enfoque de eficiencia):** Si el monto del saldo a favor es significativo y la PYME necesita liquidez, la garantía (20 días) justifica el costo adicional.\n\n- **Posición B (Gerencie, enfoque conservador):** El costo de la garantía (prima + vigencia de 2 años) puede ser desproporcionado para PYMEs con saldos pequeños. Mejor esperar los 50 días hábiles.\n\n**Nuestra evaluación:** Para saldos > $100M, la garantía generalmente se justifica. Para saldos < $50M, esperar los 50 días es más eficiente.\n\n**2. ¿La sanción del Art. 670 es un riesgo real para PYMEs?**\n\n- **Posición A (Ámbito Jurídico, jurisprudencia):** La sanción requiere liquidación oficial de revisión previa. Si la PYME tiene buena documentación, el riesgo es bajo.\n\n- **Posición B (Gerencie, práctica de campo):** La DIAN es activa en fiscalización post-devolución, especialmente en IVA. El riesgo es moderado-alto si la documentación soporte no es impecable.\n\n**Nuestra evaluación:** El riesgo depende del tipo de saldo. Saldos de retención en la fuente (renta) tienen tasa de aprobación del 95%+. Saldos de IVA de productores de exentos tienen tasas de rechazo del 25-35%. Preparar documentación robusta reduce el riesgo sustancialmente.\n\n**3. ¿Solicitar devolución en declaración con beneficio de auditoría?**\n\n- **Posición A (Actualícese):** Sí, pero con coordinación extrema. Preparar toda la documentación antes de presentar la declaración, porque el plazo es de solo 6 meses.\n\n- **Posición B (Gerencie, Ámbito Jurídico):** Precaución: solicitar devolución suspende la firmeza de la declaración, lo que puede exponer la declaración a auditoría por más tiempo del esperado.\n\n**Nuestra evaluación:** Si el saldo a favor es significativo (> 5% del impuesto neto), vale la pena solicitar. Si es marginal, mejor arrastrar al siguiente período y no arriesgar la firmeza.\n\n### 11. Recomendación Práctica para el Contador en PYME\n\n**Checklist de decisión sobre saldos a favor:**\n\n1. **¿El saldo se origina en retenciones, IVA o pagos en exceso?** → Solo estos generan derecho de devolución. Pérdidas fiscales no dan derecho.\n\n2. **¿Hay obligaciones tributarias pendientes?** → Compensar primero (Art. 815 ET). Devolver solo el excedente.\n\n3. **¿El plazo de 2 años está vigente?** → Verificar fecha de vencimiento del término para declarar. Si queda poco, priorizar la solicitud.\n\n4. **¿La declaración tiene beneficio de auditoría?** → Plazo especial de 6 o 12 meses. Coordinar con urgencia.\n\n5. **¿El monto justifica garantía bancaria?** → Si > $100M y necesita liquidez, sí. Si < $50M, esperar 50 días.\n\n6. **¿La documentación soporte es completa?** → Certificados de retención, facturas, certificación bancaria vigente, certificación contable. Documentar antes de solicitar.\n\n7. **¿El saldo es de IVA de productor de exentos?** → Preparar documentación adicional: certificado de industria, facturas clasificadas, registro contable vinculante.\n\n8. **¿Ha verificado cruce con información exógena?** → Principal causa de rechazo (35% de rechazos). Verificar que cada operación reportada coincida con lo reportado por terceros.\n\n9. **¿Conoce el riesgo de sanción Art. 670?** → 10% si usted corrige, 20% si DIAN modifica, 100% si hay fraude. Documenta bien para mitigar.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+            "core_ref_matches": [
+              "et_art_670"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "source_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "logical_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "authority": "secondary_official_authority",
+            "title": "Iva (secondary_official_authority)",
+            "snippet": "1. Actualícese — Bienes exentos, excluidos y prorrateo de IVA: guía actualizada 2025",
+            "position_signal": "neutral",
+            "relevance_score": 0.33128799999999997,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/",
+                "label": "Actualícese — Bienes exentos, excluidos y prorrateo de IVA: guía actualizada 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/prorrateo-del-iva-cuando-debe-realizarse/",
+                "label": "Actualícese — Prorrateo del IVA: cuándo debe realizarse",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/procedimiento-y-contabilizacion-del-prorrateo-del-iva/",
+                "label": "Actualícese — Procedimiento y contabilización del prorrateo del IVA",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/archivo/deducibilidad-en-renta-del-iva-llevado-a-costos-y-gastos-por-prorrateo-del-iva/",
+                "label": "Actualícese — Deducibilidad en renta del IVA llevado a costos y gastos",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/ingresos-del-formulario-300-que-son-base-para-prorrateo-del-iva-de-costos-y-gastos/",
+                "label": "Actualícese — Ingresos del formulario 300 como base para prorrateo",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/prorrateo-del-iva.html",
+                "label": "Gerencie.com — Prorrateo del IVA",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/descuento-tributario-por-iva-en-compra-de-bienes-de-capital.html",
+                "label": "Gerencie.com — Descuento tributario por IVA en bienes de capital",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://blog.legis.com.co/contable-tributario/prorrateo-del-iva-c%C3%B3mo-calcularlo",
+                "label": "Legis Blog — Prorrateo del IVA: cómo calcularlo",
+                "provider": "Legis",
+                "domain": "blog.legis.com.co"
+              },
+              {
+                "url": "https://actualicese.com/productores-de-bienes-exentos-podran-solicitar-la-devolucion-de-saldos-a-favor-a-partir-de-julio/",
+                "label": "Actualícese — Productores bienes exentos: devolución saldos a favor",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/",
+                "label": "Actualícese — Devolución de saldos a favor: requisitos 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/corte-constitucional-suspendio-las-medidas-de-la-emergencia-economica-decretada-en-diciembre-de-2025/",
+                "label": "Actualícese — Corte Constitucional suspendió Decreto 1474",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/nuevo-decreto-240-de-2026-retoma-medidas-del-decreto-1474-de-2025-suspendido-por-la-corte-constitucional/",
+                "label": "Actualícese — Decreto 240 de 2026 retoma medidas",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/prorrateo-del-iva.html"
+              },
+              {
+                "name": "Legis",
+                "url": "https://blog.legis.com.co/contable-tributario/prorrateo-del-iva-c%C3%B3mo-calcularlo"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/el-decreto-1474-de-2025-black-friday-taxes"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_EXPERTOS_IVA-E02-interpretaciones-proporcionalidad-decreto-1474.md",
+            "card_summary": "Este documento es una capa interpretativa sobre IVA descontable y proporcionalidad, con referencias cruzadas a normativa y otros documentos de expertos.",
+            "extended_excerpt": "### Capa interpretativa (P1) — Fuentes secundarias fiables\n\n#### Vigencia: AG 2025 / Declaración 2026\n\n**Fecha de última verificación**: 16 de marzo de 2026 **UVT 2025**: $49.799 COP | **UVT 2026**: $52.374 COP **Cross-references**: [IVA-N02 — IVA descontable y proporcionalidad](../NORMATIVA/IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md) | [IVA-E01 — Responsables y topes](../EXPERTOS/IVA-E01-interpretaciones-regimen-responsables-topes.md)\n\n### Fuentes\n\n1. [Actualícese — Bienes exentos, excluidos y prorrateo de IVA: guía actualizada 2025](https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/) 2. [Actualícese — Prorrateo del IVA: cuándo debe realizarse](https://actualicese.com/prorrateo-del-iva-cuando-debe-realizarse/) 3. [Actualícese — Procedimiento y contabilización del prorrateo del IVA](https://actualicese.com/procedimiento-y-contabilizacion-del-prorrateo-del-iva/) 4. [Actualícese — Deducibilidad en renta del IVA llevado a costos y gastos](https://actualicese.com/archivo/deducibilidad-en-renta-del-iva-llevado-a-costos-y-gastos-por-prorrateo-del-iva/) 5. [Actualícese — Ingresos del formulario 300 como base para prorrateo](https://actualicese.com/ingresos-del-formulario-300-que-son-base-para-prorrateo-del-iva-de-costos-y-gastos/) 6. [Gerencie.com — Prorrateo del IVA](https://www.gerencie.com/prorrateo-del-iva.html) 7. [Gerencie.com — Descuento tributario por IVA en bienes de capital](https://www.gerencie.com/descuento-tributario-por-iva-en-compra-de-bienes-de-capital.html) 8. [Legis Blog — Prorrateo del IVA: cómo calcularlo](https://blog.legis.com.co/contable-tributario/prorrateo-del-iva-c%C3%B3mo-calcularlo) 9. [Actualícese — Productores bienes exentos: devolución saldos a favor](https://actualicese.com/productores-de-bienes-exentos-podran-solicitar-la-devolucion-de-saldos-a-favor-a-partir-de-julio/) 10. [Actualícese — Devolución de saldos a favor: requisitos 2025](https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/) 11. [Actualícese — Corte Constitucional suspendió Decreto 1474](https://actualicese.com/corte-constitucional-suspendio-las-medidas-de-la-emergencia-economica-decretada-en-diciembre-de-2025/) 12. [Actualícese — Decreto 240 de 2026 retoma medidas](https://actualicese.com/nuevo-decreto-240-de-2026-retoma-medidas-del-decreto-1474-de-2025-suspendido-por-la-corte-constitucional/) 13. [Ámbito Jurídico — Decreto 1474: Black Friday Taxes](https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/el-decreto-1474-de-2025-black-friday-taxes) 14. [Portafolio — Impuestos del Decreto 1474](https://www.portafolio.co/economia/impuestos/estos-son-los-impuestos-que-trae-el-decreto-1474-de-la-emergencia-economica-patrimonio-licores-y-juegos-de-azar-485516)\n\n*Documento de capa EXPERTOS (P1). knowledge_class: interpretative_guidance. topic: iva. pais: colombia.*\n\n### Norma base\n\n- **ET Art. 485** — Impuestos descontables.\n\n- **ET Art. 488** — Condiciones para descontar: costo/gasto + destinación a operaciones gravadas.\n\n- **ET Art. 489** — Proporcionalidad del IVA en bienes exentos.\n\n- **ET Art. 490** — Prorrateo del IVA en operaciones mixtas (gravadas, exentas, excluidas).\n\n- **ET Art. 496** — Oportunidad de los descuentos (2 períodos adicionales).\n\n- **ET Art. 495** — Saldos a favor en IVA.\n\n- **ET Art. 815** — Compensación de saldos a favor.\n\n- **ET Art. 850** — Devolución de saldos a favor.\n\n- **Decreto Legislativo 1474 del 29/12/2025** — Medidas tributarias de emergencia (SUSPENDIDO).\n\n- **Decreto 240 de 2026** — Medidas tributarias por emergencia climática.\n\n### Posiciones de expertos\n\n#### Actualícese — Proporcionalidad y prorrateo\n\n**Guía actualizada 2025 sobre bienes exentos, excluidos y prorrateo:**\n\nSu guía integral donde diferencia con precisión los tres conceptos que generan mayor confusión en la práctica:\n\n- **Bienes gravados**: causan IVA al 19% (o 5%). El IVA de sus insumos es 100% descontable.\n\n- **Bienes exentos** (Art. 477 ET): causan IVA al 0%. El productor puede solicitar devolución del IVA de sus insumos.\n\n- **Bienes excluidos** (Art. 424, 476 ET): no causan IVA. El IVA de sus insumos NO es descontable — se lleva como mayor valor del costo o gasto (1).\n\n> (1) [Actualícese — Bienes exentos, excluidos y prorrateo de IVA: guía actualizada 2025](https://actualicese.com/bienes-exentos-excluidos-y-prorrateo-de-iva-guia-actualizada-2025/)\n\n**Sobre cuándo aplicar el prorrateo:**\n\nActualícese precisa que el prorrateo del Art. 490 ET solo se activa cuando el contribuyente realiza **simultáneamente** operaciones gravadas (o exentas) y excluidas, y adquiere bienes o servicios que no puede imputar directamente a una u otra categoría (gastos comunes). Si todas las operaciones son gravadas, no hay prorrateo — todo el IVA de compras es descontable. Si todas son excluidas, tampoco — todo el IVA va a costo (2).",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.6382800000000001,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "panel_rank": 3
+      }
+    ],
+    "ungrouped": [
+      {
+        "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "source_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "logical_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "authority": "secondary_official_authority",
+        "title": "Procedimiento tributario (secondary_official_authority)",
+        "snippet": "(15) Accounter. \"Devolución con presentación de garantía - Art. 860 ET\". Requisitos póliza, vigencia, renuncia excusión. https://accounter.co/normatividad/oficios/oficio-13075-devolucion-con-presentacion-de-garantia.html",
+        "position_signal": "neutral",
+        "relevance_score": 0.129088,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/saldos-a-favor/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/que-hacer-si-la-dian-rechaza-la-devolucion-de-saldos-a-favor.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://accounter.co/normatividad/oficios/oficio-13075-devolucion-con-presentacion-de-garantia.html",
+            "label": "accounter.co",
+            "provider": "Accounter",
+            "domain": "accounter.co"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/saldos-a-favor/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/que-hacer-si-la-dian-rechaza-la-devolucion-de-saldos-a-favor.html"
+          },
+          {
+            "name": "Accounter",
+            "url": "https://accounter.co/normatividad/oficios/oficio-13075-devolucion-con-presentacion-de-garantia.html"
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "PwC",
+            "url": null
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "card_summary": "Este documento proporciona fuentes y referencias normativas sobre causales de rechazo, plazos de prescripción y el procedimiento para devoluciones de saldos a favor, incluyendo la devolución con garantía y para exportadores.",
+        "extended_excerpt": "### Fuentes y Referencias\n\n(1) ET Arts. 857-860. Compilado en Decreto 1625 de 2016. Disponible en: https://normograma.dian.gov.co\n\n(2) Art. 857-859 ET. Causales de rechazo, plazo de prescripción, procedimiento. https://www.dian.gov.co/tramitesservicios/tramites-y-servicios/tributarios/Paginas/devoluciones-compensaciones.aspx\n\n(3) Art. 860 ET. Devolución con presentación de garantía. Detalle en: https://estatuto.co/860\n\n(4) Decreto 2685 de 1991 (Código de Aduanas). Regulación de devolución IVA para exportadores. Oficio DIAN 344 de 2020 reglamentario. Disponible en: https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_0344_2020.htm\n\n(5) Actualícese. \"ABC de la devolución y compensación de saldos a favor\" y \"Devolución de saldos a favor: requisitos y trámites clave en 2025\". https://actualicese.com/saldos-a-favor/ y https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/\n\n(6) Gerencie.com. \"Qué hacer si la DIAN rechaza la devolución de saldos a favor\" y \"Devolución o compensación de saldos a favor en impuestos\". https://www.gerencie.com/que-hacer-si-la-dian-rechaza-la-devolucion-de-saldos-a-favor.html y https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html\n\n(7) DIAN. Oficio 31476 de 2015. Requisitos garantía bancaria devolución. Compilación jurídica DIAN: https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_31476_2015.htm\n\n(8) DIAN. Oficio 344 de 2020. Requisito inscripción Registro Nacional de Exportadores previo a operaciones exportación. https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_0344_2020.htm\n\n(9) DIAN. Resolución 000013 de 2020. Devoluciones automáticas criterios: sin riesgo alto, 85% proveedores con facturación electrónica. https://www.dian.gov.co/tramitesservicios/Tramites_Impuestos/Devoluciones/Paginas/Tramite-y-requisitos.aspx\n\n(10) DIAN. Manual del Usuario Devoluciones y/o Compensaciones - Saldo a Favor en Renta V3. Plataforma RUT consulta en línea. https://www.dian.gov.co/Transaccional/DevolucionesCompensacin/Devoluciones-y-o-Compensaciones-Saldo-a-Favor-en-Renta-V3.pdf\n\n(11) Big Four Colombia. Análisis de garantías bancarias en devoluciones (análisis de mercado, costo estimado 0,3%-0,8% anual, escala beneficia montos >$50M). Fuente compilada de publicaciones Deloitte, EY, PwC Colombia 2025-2026.\n\n(12) CTCP (Consejo Técnico de la Contaduría Pública). Pronunciamientos sobre reconocimiento contable de saldos a favor contingentes. https://www.ctcp.gov.co\n\n(13) Consejo de Estado, Sección Cuarta. Providencia sentencia 2016-00897-01 (2020). Reiteración plazo prescripción 2 años inmodificable. https://normograma.dian.gov.co/dian/compilacion/docs/25000-23-37-000-2016-00897-01(24249).htm\n\n(14) DIAN. TIDIS (Títulos de Devolución de Impuestos Saldos). Regulación para saldos > 420 UVT (~$22.054.000 en 2026). Procedimiento discrecional DIAN. Manual Devoluciones V3, sección TIDIS.\n\n(15) Accounter. \"Devolución con presentación de garantía - Art. 860 ET\". Requisitos póliza, vigencia, renuncia excusión. https://accounter.co/normatividad/oficios/oficio-13075-devolucion-con-presentacion-de-garantia.html\n\n**Nota de actualización:** Documento verificado contra normograma DIAN, pronunciamientos Big Four y Actualícese a fecha 23 de marzo de 2026. Vigencia: año gravable 2025, presentación 2026.\n\n### Norma Base\n\nLas devoluciones y saldos a favor encuentran su fundamento normativo en los artículos 857-860 del Estatuto Tributario (ET)(1), que regulan:\n\n- **Art. 857 ET**: Causales de rechazo de solicitudes de devolución (2).\n\n- **Art. 858 ET**: Plazos para solicitar devolución (2 años después del vencimiento de la declaración sin beneficio de auditoría) (2).\n\n- **Art. 859 ET**: Procedimiento automático vs. ordinario (2).\n\n- **Art. 860 ET**: Devolución con presentación de garantía bancaria a favor de la Nación (3).\n\nAdicionalmente, el **Decreto 1625 de 2016** (Estatuto Tributario compilado) y las **Resoluciones DIAN 000013 de 2020** (devoluciones automáticas IVA) regulan el procedimiento.\n\nPara exportadores, rige especialmente el **Decreto 2685 de 1991** (Código de Aduanas) sobre devolución de IVA en operaciones de exportación (4).\n\n### Posiciones de Expertos\n\n#### 1. ACTUALÍCESE (Portal de Referencia Tributaria)\n\n**Posición general:** Las devoluciones son un derecho del contribuyente cuando hay saldo a favor, pero exigen cumplimiento riguroso de requisitos formales. Actualícese enfatiza que:\n\n- La solicitud debe presentarse dentro del plazo de prescripción (2 años) (5).\n\n- El contribuyente debe acreditar con certificación bancaria su domicilio bancario en Colombia (5).\n\n- Si la solicitud se presenta sin requisitos formales, será **inadmitida** (no rechazada), permitiendo una nueva presentación dentro del mes siguiente (5).\n\n- La garantía bancaria no es obligatoria pero permite acelerar a 20 días (5).",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "core_ref_matches": [],
+        "panel_rank": 1,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      }
+    ],
+    "total_available": 4,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Mi cliente factura tanto bienes exentos (con derecho a IVA descontable y solicitud de devolución) como excluidos (sin derecho). ¿Cómo manejan los expertos la trazabilidad del IVA descontable, el cálculo de la proporcionalidad cuando hay IVA común no atribuible, y qué soportes exige la DIAN en una fiscalización de saldo a favor por exportadores o productores de bienes exentos?",
+        "assistant_answer": "**Ruta sugerida** 1. Enfocá el caso como una solicitud de devolución o compensación de saldo a favor, no como un tema de facturación electrónica (arts. 850 y 589 ET). 2. Antes de radicar la solicitud, revisá la declaración que generó el saldo a favor. Asegurate de que los soportes, anexos y datos del contribuyente estén alineados (arts. 589 y 850 ET). 3. Confirmá que el saldo a favor esté correctamente determinado en la declaración base antes de iniciar el proceso de devolución (arts. 850 y 589 ET). 4. Si el expediente está completo, tené en cuenta los plazos de **50**, **30** o **20** días hábiles para la resolución de la solicitud, según el tipo de soporte presentado (arts. 850 y 589 ET). 5. Considerá que los saldos a favor pueden ser objeto de compensación con otras deudas tributarias (art. 816 ET). 6. Recordá que los intereses a favor del contribuyente solo se causan en casos de pagos en exceso o saldos a favor (art. 863 ET). **Riesgos y condiciones** * Evitá radicar solicitudes con cifras o soportes inconsistentes, ya que esto puede generar inadmisibilidad o revisiones posteriores (arts. 850 y 589 ET). * No presentés una solicitud de devolución si la declaración aún tiene inconsistencias o está pendiente de corrección (arts. 850 y 855-1 ET). * Tené presente que una corrección que aumente el saldo a favor reinicia el término de revisión de la DIAN desde la fecha de la corrección (arts. 850 y 589 ET). * Si ya se realizó una devolución o compensación y posteriormente se corrige la declaración reduciendo el saldo, evaluá de inmediato el riesgo de improcedencia y la obligación de reintegro (arts. 850 y 589 ET). * La improcedencia de las devoluciones o compensaciones puede acarrear sanciones (art. 670 ET). * La disminución de pérdidas fiscales declaradas puede ser objeto de revisión por parte de la administración tributaria (art. 647-1 ET).",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_816",
+          "et_art_863",
+          "et_art_670",
+          "et_art_647_1"
+        ],
+        "form_entities": [],
+        "detected_topic": "procedimiento_tributario",
+        "keyword_cluster": [
+          "proporcionalidad",
+          "inconsistentes,",
+          "inconsistencias",
+          "inadmisibilidad",
+          "compensaciones",
+          "posteriormente",
+          "administracion",
+          "condiciones**",
+          "fiscalizacion",
+          "correctamente"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 4,
+      "filtered_out_candidates": 14,
+      "off_topic_penalized_count": 12,
+      "off_topic_penalized_kept": 1,
+      "grouped_items": 3,
+      "ungrouped_items": 1,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "iva",
+      "interpretation_anchor_eligible_docs": 2,
+      "interpretation_anchor_boosted_chunks": 14,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 4,
+        "medium": 14,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 4,
+        "resolved_numbers": 4,
+        "matched_articles": 3,
+        "matched_doc_ids": 2
+      },
+      "expert_query_seed": "Mi cliente factura tanto bienes exentos (con derecho a IVA descontable y solicitud de devolución) como excluidos (sin derecho). ¿Cómo manejan los expertos la trazabilidad del IVA descontable, el cálculo de la proporcionalidad cuando hay IVA común no atribuible, y qué soportes exige la DIAN en una fiscalización de saldo a favor por exportadores o productores de bienes exentos? art. 816 art. 863 art. 670 art. 647-1",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "rerank",
+        "judge": {
+          "mode": "llm",
+          "model": "gemini-2.5-flash",
+          "token_usage": {},
+          "scored_count": 12,
+          "candidate_count": 12
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 0
+        },
+        "graph_scored_count": 12,
+        "candidate_count": 12,
+        "summarized_count": 12
+      }
+    },
+    "trace_id": "a841bb96-f002-428e-829f-d6c7ff3b2472"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "_meta": {
+    "version": "v11a-2026-05-11",
+    "owner": "fix_v11_may.md Phase 11A",
+    "purpose": "Per-provider trust-tier signal consumed by Interpretación de Expertos retriever (interpretacion/retriever_supabase.py) to break ties inside crowded article-anchor sets. The retriever scores chunks as base * (1.0 + ref_boost·hits) * (1.0 + tier_weight·tier_bonus) where tier_bonus ∈ {high:2.0, medium:1.0, low:0.0}.",
+    "matching": "Case-insensitive substring match against documents.authority AND each entry of documents.provider_labels. First-match wins in scan order: high → medium → low. Unmatched providers default to 'medium' (preserves pre-11A behavior).",
+    "review_cadence": "Operator review monthly via scripts/diagnostics/probe_v11_trust_tier_coverage.py — lists unique documents.authority values not in this allowlist."
+  },
+  "default": "medium",
+  "tiers": {
+    "high": [
+      "Crowe",
+      "EY",
+      "Ernst & Young",
+      "KPMG",
+      "Deloitte",
+      "PwC",
+      "PricewaterhouseCoopers",
+      "BDO",
+      "Baker McKenzie",
+      "Garrigues",
+      "Brigard Urrutia",
+      "Brigard & Urrutia",
+      "Phillippi",
+      "Phillippi Prietocarrizosa",
+      "Holland & Knight",
+      "Holland and Knight",
+      "Posse Herrera Ruiz",
+      "RSM",
+      "Russell Bedford",
+      "Forvis Mazars",
+      "Mazars"
+    ],
+    "medium": [
+      "Actualicese",
+      "Actualícese",
+      "INCP",
+      "Instituto Nacional de Contadores",
+      "Legis",
+      "Ambito Juridico",
+      "Ámbito Jurídico",
+      "Asuntos Legales",
+      "Gerencie",
+      "Consultor Contable",
+      "Tower Consulting",
+      "Loggro",
+      "CR Consultores",
+      "Siempre Al Día",
+      "Siempre Al Dia",
+      "IUS Veritas",
+      "LAV Tributaria",
+      "Nexo Legal",
+      "OCH Group",
+      "Contadores Colombia",
+      "Diego Guevara",
+      "Intercontable",
+      "ConsulAudit",
+      "ConsulAudit Group",
+      "Consejo de Estado",
+      "DIAN"
+    ],
+    "low": [
+      "Infobae",
+      "Valora Analitik",
+      "SIESA",
+      "Camara de Comercio",
+      "Cámara de Comercio"
+    ]
+  }
+}

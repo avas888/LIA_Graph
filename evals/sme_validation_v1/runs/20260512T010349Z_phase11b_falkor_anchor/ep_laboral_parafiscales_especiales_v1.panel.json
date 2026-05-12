@@ -1,0 +1,93 @@
+{
+  "qid": "ep_laboral_parafiscales_especiales_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "72532c57-4e6a-4c54-9079-fb71c03bc346",
+    "message": "Una empresa de transporte de carga debe aportes parafiscales ordinarios (SENA, ICBF, Caja de Compensación) más contribuciones especiales del sector. ¿Qué interpretaciones tienen los expertos sobre la determinación del IBC bajo el Art. 30 de la Ley 1393/2010, el tratamiento de pagos no salariales y los conflictos frecuentes con la UGPP por primacía de la realidad en la fiscalización?",
+    "assistant_answer": "Con la evidencia disponible todavía no alcanzo una recomendación operativa suficientemente confiable.\n\n**Anclaje legal**\n- Art. 3 — 1. OBLIGACIONES DEL INTERMEDIARIO\n- Art. 108 — LOS APORTES PARAFISCALES SON REQUISITO PARA LA DEDUCCIÓN DE SALARIOS\n- Art. 124-2 — PAGOS A JURISDICCIONES NO COOPERANTES, DE BAJA O NULA IMPOSICIÓN Y A ENTIDADES PERTENECIENTES A REGÍMENES TRIBUTARIOS PREFERENCIALES",
+    "normative_article_refs": [],
+    "topic": "laboral",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [],
+    "ungrouped": [],
+    "total_available": 0,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Una empresa de transporte de carga debe aportes parafiscales ordinarios (SENA, ICBF, Caja de Compensación) más contribuciones especiales del sector. ¿Qué interpretaciones tienen los expertos sobre la determinación del IBC bajo el Art. 30 de la Ley 1393/2010, el tratamiento de pagos no salariales y los conflictos frecuentes con la UGPP por primacía de la realidad en la fiscalización?",
+        "assistant_answer": "Con la evidencia disponible todavía no alcanzo una recomendación operativa suficientemente confiable. **Anclaje legal** - Art. 3 — 1. OBLIGACIONES DEL INTERMEDIARIO - Art. 108 — LOS APORTES PARAFISCALES SON REQUISITO PARA LA DEDUCCIÓN DE SALARIOS - Art. 124-2 — PAGOS A JURISDICCIONES NO COOPERANTES, DE BAJA O NULA IMPOSICIÓN Y A ENTIDADES PERTENECIENTES A REGÍMENES TRIBUTARIOS PREFERENCIALES",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_30",
+          "et_art_3",
+          "et_art_108",
+          "et_art_124_2"
+        ],
+        "form_entities": [],
+        "detected_topic": "parafiscales_seguridad_social",
+        "keyword_cluster": [
+          "interpretaciones",
+          "suficientemente",
+          "preferenciales",
+          "fiscalizacion?",
+          "contribuciones",
+          "jurisdicciones",
+          "pertenecientes",
+          "intermediario",
+          "recomendacion",
+          "determinacion"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 0,
+      "filtered_out_candidates": 18,
+      "grouped_items": 0,
+      "ungrouped_items": 0,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "laboral",
+      "interpretation_anchor_eligible_docs": 7,
+      "interpretation_anchor_boosted_chunks": 9,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 4,
+        "medium": 14,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 4,
+        "resolved_numbers": 4,
+        "matched_articles": 3,
+        "matched_doc_ids": 7
+      },
+      "expert_query_seed": "Una empresa de transporte de carga debe aportes parafiscales ordinarios (SENA, ICBF, Caja de Compensación) más contribuciones especiales del sector. ¿Qué interpretaciones tienen los expertos sobre la determinación del IBC bajo el Art. 30 de la Ley 1393/2010, el tratamiento de pagos no salariales y los conflictos frecuentes con la UGPP por primacía de la realidad en la fiscalización? Art. 3 Art. 108 Art. 124-2",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "lexical_only",
+        "judge": {
+          "mode": "llm_error",
+          "reason": "too many values to unpack (expected 2, got 4)"
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 1
+        },
+        "graph_scored_count": 12
+      }
+    },
+    "trace_id": "72532c57-4e6a-4c54-9079-fb71c03bc346"
+  }
+}

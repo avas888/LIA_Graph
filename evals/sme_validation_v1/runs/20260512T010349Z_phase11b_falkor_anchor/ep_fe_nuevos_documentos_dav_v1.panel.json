@@ -1,0 +1,532 @@
+{
+  "qid": "ep_fe_nuevos_documentos_dav_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "16a8ce5b-d023-4bc5-8c44-23b52f222a15",
+    "message": "Con la entrada en vigor del documento equivalente electrónico y el documento soporte en adquisiciones a no obligados a facturar, ¿qué dicen los expertos sobre los cruces operativos con el documento soporte tradicional, el calendario de implementación obligatoria y los riesgos de rechazo DIAN por errores en estos nuevos documentos?",
+    "assistant_answer": "**Ruta sugerida**\n1. Verifica si el emisor estaba obligado a facturar electrónicamente y si hubo contingencia válida antes de aceptar el soporte (arts. 616-1 y 616 ET).\n2. Si hubo contingencia, deja evidencia del evento y de la normalización posterior de la factura (arts. 616-1 y 616 ET).\n3. Haz una revisión operativa del soporte antes de defenderlo fiscalmente (arts. 616 y 616-1 ET).\n\n**Riesgos y condiciones**\n- No sustituyas la factura electrónica por cualquier soporte cuando la obligación sí existía (arts. 616-1 y 616-2 ET).\n\n**Soportes clave**\n- Multa equivalente a hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, sin exceder **12** meses (máximo **12%** del valor de la factura) (arts. 616 y 1 ET).\n\n**Ruta sugerida**\n- Verifica si el emisor estaba obligado a facturar electrónicamente y si hubo contingencia válida antes de aceptar el soporte.\n- Haz una revisión operativa del soporte antes de defenderlo fiscalmente.\n\n**Riesgos y condiciones**\n- No sustituyas la factura electrónica por cualquier soporte cuando la obligación sí existía.\n\n**Soportes clave**\n- Multa equivalente a hasta el 1% del valor total de la factura por cada mes o fracción de mes de retraso, sin exceder 12 meses (máximo 12% del valor de la factura).\n\n**Anclaje legal**\n- Art. 616 — 2 ET — Incumplimiento de transmisión electrónica\n- Art. 616-1 — OBLIGACIÓN DE FACTURACIÓN ELECTRÓNICA Y CONTINGENCIA\n- Art. 616-2 — SANCIONES POR INCUMPLIMIENTO DE FACTURACIÓN ELECTRÓNICA\n- Art. 5 — DOCUMENTO CONSTITUTIVO",
+    "normative_article_refs": [],
+    "topic": "facturacion_electronica",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_616",
+        "classification": "concordancia",
+        "summary_signal": "posición Big Four y INCP: PwC (Alert 2025): \"La responsabilidad es del facturador, pero la causa está en la plataforma.",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "providers": [
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/boletin-virtual/contenido-de-interes-profesional-boletin-virtual/tributario/2025/12/el-acuse-de-recibo-en-la-factura-electronica-precisiones-del-consejo-de-estado-sobre-su-incidencia-en-el-iva-descontable/"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/facturacion-electronica-guia-rapida-para-cumplir-con-lo-exigido-por-la-dian-en-2025/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com"
+          },
+          {
+            "name": "KPMG",
+            "url": "https://kpmg.com/co"
+          },
+          {
+            "name": "CR Consultores",
+            "url": "https://crconsultorescolombia.com/analisis-nomina-electronica.php"
+          },
+          {
+            "name": "LAV Tributaria",
+            "url": "https://www.lavtributaria.com/post/facturas-credito-colombia-2025-eventos-radian-iva"
+          },
+          {
+            "name": "Alegra",
+            "url": "https://blog.alegra.com/colombia/como-deben-facturar-las-pymes-en-colombia/"
+          },
+          {
+            "name": "Peña Molina & Asociados",
+            "url": "https://www.pma.com.co/articulos/acuse-recibo-factura-electronica-iva"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+            "source_doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+            "logical_doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Facturacion electronica (secondary_official_authority)",
+            "snippet": "Posición Big Four y INCP: PwC (Alert 2025): \"La responsabilidad es del facturador, pero la causa está en la plataforma. El proveedor tecnológico es custodio del certificado digital y de la infraestructura. Si falla, el facturador pierde habilitación sin culpa propia.\" Deloitte (Guía FE 2026): \"Recomendar a PYMES contractualmente exigir al proveedor tecnológico: (i) backup de certificados, (ii) SLA mínimo 99.5%, (iii) notificación inmediata de vencimiento de certificado.\" INCP (Posición gremial 2025): \"Se requiere…",
+            "position_signal": "neutral",
+            "relevance_score": 0.8815,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/temas/facturacion-electronica",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://incp.org.co",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://www.gerencie.com",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.pwc.com/co",
+                "label": "pwc.com",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com",
+                "label": "ambitojuridico.com",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://kpmg.com/co",
+                "label": "kpmg.com",
+                "provider": "KPMG",
+                "domain": "kpmg.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/temas/facturacion-electronica"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com"
+              },
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com"
+              },
+              {
+                "name": "KPMG",
+                "url": "https://kpmg.com/co"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+            "card_summary": "Posición Big Four y INCP: PwC (Alert 2025): \"La responsabilidad es del facturador, pero la causa está en la plataforma.",
+            "extended_excerpt": "### 1. Norma base interpretada\n\nEste documento interpreta las disposiciones sobre **habilitación, contingencia operativa y RADIAN** contenidas en:\n\n- **Resolución DIAN 000042/2020** (modificada por Res. 000085/2022, compilada en Res. 000227/2025): Arts. 5-12 (habilitación), Arts. 18-22 (contingencia).\n\n- **Decreto 1154/2020** modificado por Decreto 2141/2023: RADIAN como sistema de inscripción y circulación electrónica de títulos valores (factura electrónica).\n\n- **ET Art. 616-1** (modificado Ley 2277/2022): obligación de expedir FE, condición de contingencia.\n\n- **Concepto DIAN C-0050505-0102-000-2023** (habilitación y pérdida de condición), **C-0050505-0102-000-2025** (RADIAN y validez).\n\nReferencia conceptual previa: véase **FE-N02** para el texto normativo puro.\n\n### 2. Habilitación — Posiciones de Expertos\n\n#### 2.1 ¿Cuándo se pierde realmente la habilitación? (Criterios DIAN vs. Posición gremio)\n\n**Posición DIAN** (Res. 000042/2020, Art. 5): La habilitación se otorga una sola vez. Se pierde por: 1. Incumplimiento de requisitos técnicos (certificado digital inválido, plataforma no cumple). 2. No envío de FE en 30 días hábiles consecutivos sin justificación válida. 3. No presentación de información a DIAN por 2 meses consecutivos.\n\nLa DIAN considera esto automático — sin acto administrativo previo. Sin embargo, no publica públicamente el listado de no habilitados, lo que genera incertidumbre.\n\n**Posición gremio** (INCP, Actualícese):\n\n- La pérdida de habilitación debe ser notificada formalmente por DIAN. La sola inactividad no implica pérdida automática sin acto formal.\n\n- En la práctica, los contadores han encontrado casos donde la habilitación se da \"por muerta\" pero la DIAN no emite comunicado: genera riesgo de contingencia y sanciones.\n\n- Actualícese recomienda: \"antes de asumir que se perdió habilitación, solicitar confirmación formal a la DIAN vía oficio al grupo de FE.\"\n\n**Debate técnico**: ¿Es auto-ejecutiva la pérdida de habilitación o requiere acto administrativo? Ni la Corte Constitucional ni el Consejo de Estado han zanjado esto. La doctrina DIAN asume auto-ejecución; el gremio contable es más cauteloso.\n\n**Implicación práctica**: Si un facturador inactivo retoma operaciones y expide FE sin verificar habilitación, ¿incurre en sanción por FE sin habilitación o solo por retraso? La respuesta es: **ambas**, pero DIAN generalmente sanciona por \"no habilitado\" si detecta que ya no cumplía requisitos.\n\n#### 2.2 Proveedores tecnológicos: ¿Responsabilidad compartida o exclusiva del facturador?\n\n**Posición DIAN** (Res. 000042/2020, Arts. 5, 8): El **facturador es responsable único** de mantenerse habilitado, incluso si la plataforma (proveedor tecnológico) falla. La habilitación es del facturador, no del software.\n\n**Posición Big Four y INCP**:\n\n- PwC (Alert 2025): \"La responsabilidad es del facturador, pero la causa está en la plataforma. El proveedor tecnológico es custodio del certificado digital y de la infraestructura. Si falla, el facturador pierde habilitación sin culpa propia.\"\n\n- Deloitte (Guía FE 2026): \"Recomendar a PYMES contractualmente exigir al proveedor tecnológico: (i) backup de certificados, (ii) SLA mínimo 99.5%, (iii) notificación inmediata de vencimiento de certificado.\"\n\n- INCP (Posición gremial 2025): \"Se requiere reforma normativa para asignar responsabilidad compartida. Hoy: facturador carga el riesgo de una falla que no controla.\"\n\n**Punto de divergencia crítico**: ¿Puede un facturador que perdió habilitación por falla del proveedor tecnológico solicitar exención de sanción por fuerza mayor? DIAN ha negado esto en algunos casos (Concepto C-0050505-0102-000-2023). El Consejo de Estado aún no se ha pronunciado.\n\n**Recomendación para el contador**:\n\n- Verificar mensualmente con el proveedor tecnológico: vigencia del certificado digital (mínimo 3 meses antes de vencer).\n\n- Documentar por escrito (correo) cada solicitud de verificación.\n\n- Si pierde habilitación por falla del proveedor, presentar a DIAN: (i) prueba de la falla técnica, (ii) evidencia de gestión diligente del contador, (iii) solicitud de preclusión de sanción.\n\n#### 2.3 Habilitación en zonas rurales sin infraestructura de internet\n\n**Realidad operativa**: En municipios Tipo 5-6 (sin fibra óptica, ancho de banda <512 kbps), algunos facturadores de productos agrícolas no pueden cumplir con Res. 000042/2020 Art. 7 (envío en tiempo real a DIAN).\n\n**Posición DIAN** (Circular 000019/2021): \"La obligación de FE aplica a todos sin excepción. Infraestructura no es justificante de incumplimiento.\" Sin embargo, DIAN no ha desarrollado régimen especial para zonas rurales.\n\n**Posición gremio** (INCP, Gerencie):\n\n- INCP ha solicitado régimen especial para municipios sin infraestructura certificada.\n\n- Gerencie documenta casos donde contadores han solicitado a DIAN autorización de contingencia permanente para zonas rurales sin éxito.",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (facturacion_electronica).",
+            "core_ref_matches": [
+              "et_art_616_1",
+              "et_art_5"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T12-facturacion-electronica-soportes-interpretaciones.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T12-facturacion-electronica-soportes-interpretaciones.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T12-facturacion-electronica-soportes-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Regimen tributario especial esal (secondary_official_authority)",
+            "snippet": "2.1 Actualícese — Guía Operativa y Sentencia 29509/2025 (2025) Tesis central: Actualícese publicó la cobertura más extensa de facturación electrónica para PYMEs, incluyendo guía rápida de cumplimiento y análisis detallado de la Sentencia 29509/2025 del Consejo de Estado.",
+            "position_signal": "neutral",
+            "relevance_score": 0.4016,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/facturacion-electronica-guia-rapida-para-cumplir-con-lo-exigido-por-la-dian-en-2025/",
+                "label": "Actualícese — \"Facturación electrónica: guía rápida para cumplir con la DIAN en 2025\"",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/consejo-de-estado-anula-doctrina-de-la-dian-sobre-acuses-de-recibo-en-factura-electronica/",
+                "label": "Actualícese — \"Consejo de Estado anula doctrina DIAN sobre acuses de recibo\"",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://cdn.actualicese.com/normatividad/2025/Sentencias/S29509-25.pdf",
+                "label": "Sentencia 29509/2025 — Texto completo (PDF)",
+                "provider": "Actualícese",
+                "domain": "cdn.actualicese.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/boletin-virtual/contenido-de-interes-profesional-boletin-virtual/tributario/2025/12/el-acuse-de-recibo-en-la-factura-electronica-precisiones-del-consejo-de-estado-sobre-su-incidencia-en-el-iva-descontable/",
+                "label": "INCP — \"Precisiones del Consejo de Estado sobre acuse de recibo e IVA descontable\" (dic. 2025)",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/07/acuse-de-recibo-de-la-factura-electronica-para-descontar-el-iva-consejo-de-estado-anulo-interpretacion-de-la-dian/",
+                "label": "INCP — \"Consejo de Estado anuló interpretación de la DIAN\" (jul. 2025)",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://crconsultorescolombia.com/analisis-nomina-electronica.php",
+                "label": "CR Consultores — \"Nómina Electrónica: Marco Jurídico, Gestión Contable y Deducibilidad Tributaria\"",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.lavtributaria.com/post/facturas-credito-colombia-2025-eventos-radian-iva",
+                "label": "LAV Tributaria — \"Facturas a Crédito: Cómo un Error de Proceso Puede Costarle el IVA Descontable\"",
+                "provider": "LAV Tributaria",
+                "domain": "lavtributaria.com"
+              },
+              {
+                "url": "https://blog.alegra.com/colombia/como-deben-facturar-las-pymes-en-colombia/",
+                "label": "Alegra — \"Cómo deben facturar las PYMEs en Colombia 2026\"",
+                "provider": "Alegra",
+                "domain": "blog.alegra.com"
+              },
+              {
+                "url": "https://www.pma.com.co/articulos/acuse-recibo-factura-electronica-iva",
+                "label": "Peña Molina & Asociados — \"Consejo de Estado anula exigencia de la DIAN sobre acuse de recibo para IVA descontable\"",
+                "provider": "Peña Molina & Asociados",
+                "domain": "pma.com.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/facturacion-electronica-guia-rapida-para-cumplir-con-lo-exigido-por-la-dian-en-2025/"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/boletin-virtual/contenido-de-interes-profesional-boletin-virtual/tributario/2025/12/el-acuse-de-recibo-en-la-factura-electronica-precisiones-del-consejo-de-estado-sobre-su-incidencia-en-el-iva-descontable/"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/analisis-nomina-electronica.php"
+              },
+              {
+                "name": "LAV Tributaria",
+                "url": "https://www.lavtributaria.com/post/facturas-credito-colombia-2025-eventos-radian-iva"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://blog.alegra.com/colombia/como-deben-facturar-las-pymes-en-colombia/"
+              },
+              {
+                "name": "Peña Molina & Asociados",
+                "url": "https://www.pma.com.co/articulos/acuse-recibo-factura-electronica-iva"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T12-facturacion-electronica-soportes-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T12-facturacion-electronica-soportes-interpretaciones.md",
+            "card_summary": "2.1 Actualícese — Guía Operativa y Sentencia 29509/2025 (2025) Tesis central: Actualícese publicó la cobertura más extensa de facturación electrónica para PYMEs, incluyendo guía rápida de cumplimiento y análisis.",
+            "extended_excerpt": "### 1. Norma Base\n\nEl sistema de facturación electrónica en Colombia está regulado por el **artículo 616-1 del ET** (modificado por Ley 2155/2021 y Ley 2277/2022), el **artículo 616-4 ET** (proveedores tecnológicos), y reglamentado por la **Resolución DIAN 000165 de noviembre 1, 2023** (Anexo Técnico 1.9 FEV + Anexo Técnico 1.0 DEE).\n\n#### Principio rector para renta\n\nSin documento electrónico validado por la DIAN, **no hay soporte fiscal válido** para costos, deducciones ni IVA descontable en la declaración de renta (F.110). Los seis documentos del ecosistema son: (1) Factura Electrónica de Venta (FEV), (2) Documento Equivalente Electrónico (DEE), (3) Documento Soporte en Adquisiciones a No Obligados (DSA), (4) Nómina Electrónica (DSNE), (5) Nota Crédito Electrónica, (6) Nota Débito Electrónica.\n\n### 2. Posiciones de Expertos\n\n#### 2.1 Actualícese — Guía Operativa y Sentencia 29509/2025 (2025)\n\n**Tesis central:** Actualícese publicó la cobertura más extensa de facturación electrónica para PYMEs, incluyendo guía rápida de cumplimiento y análisis detallado de la Sentencia 29509/2025 del Consejo de Estado.\n\n**Posiciones clave:**\n\n- Los tres errores más costosos para PYMEs: (a) no generar DSA para compras a no obligados a facturar, (b) no transmitir nómina electrónica oportunamente, (c) no generar eventos RADIAN en operaciones a crédito.\n\n- La Sentencia 29509/2025 anuló tres oficios DIAN (908749/2022, 2999/2024, 7058/2024) que condicionaban el IVA descontable al envío previo de los acuses de recibo.\n\n- El Consejo de Estado concluyó que la DIAN **excedió su facultad interpretativa** al crear un requisito temporal no previsto en el art. 616-1 ET.\n\n- Recomendación: aunque la sentencia favorece al contribuyente, es prudente seguir enviando los acuses oportunamente.\n\n#### 2.2 INCP — Análisis Técnico de la Sentencia 29509/2025 (2025)\n\n**Tesis central:** El INCP profundiza en la distinción clave del fallo: **requisito sustancial** (los acuses son necesarios para que la factura sea soporte fiscal) vs. **requisito temporal** (no hay plazo perentorio para enviarlos). Una PYME que envíe los acuses tardíamente conserva el derecho al IVA descontable, siempre que los acuses se generen eventualmente.\n\n**Posiciones clave:**\n\n- La sentencia reafirma que los requisitos deben ser los previstos por la ley, sin que la DIAN pueda incorporar condiciones adicionales por vía doctrinal.\n\n- El art. 496 ET regula los períodos para solicitar el IVA descontable, y no depende de cuándo se envíe el acuse.\n\n- La demanda fue presentada por un miembro de la Comisión Tributaria del INCP.\n\n#### 2.3 Dataico — Guía Estratégica de Factura Electrónica 2026\n\n**Tesis central:** Dataico (proveedor tecnológico autorizado) presenta la guía más actualizada al 2026 del ecosistema completo. Cubre la arquitectura técnica (XML UBL 2.1, CUFE, firma digital, validación previa), los seis tipos de documentos, el sistema RADIAN y las sanciones.\n\n**Posiciones clave:**\n\n- La implementación del DEE (tiquete POS electrónico) es ahora universal — todos los tiquetes POS deben ser electrónicos y transmitidos a la DIAN.\n\n- La representación gráfica (PDF) **no tiene valor fiscal propio** — solo el XML validado constituye soporte.\n\n- La transmisión de la FEV debe hacerse el mismo día de emisión, no en 10 días como antes.\n\n#### 2.4 CR Consultores — Nómina Electrónica: Marco Jurídico y Deducibilidad (2025)\n\n**Tesis central:** CR Consultores publica el análisis más completo sobre nómina electrónica y su interacción con la declaración de renta. El DSNE es el **único documento válido** para soportar costos laborales desde 2022, debe transmitirse dentro de los 10 días hábiles siguientes al período de pago, y la omisión genera rechazo total de la deducción laboral.\n\n**Posiciones clave:**\n\n- Cada archivo DSNE incluye el CUNE (Código Único de Nómina Electrónica) — garantiza integridad y autenticidad ante la DIAN.\n\n- La nota de ajuste de nómina permite corregir errores en DSNEs ya transmitidos — pero debe hacerse **antes** de presentar la declaración de renta.\n\n- La DIAN no está aplicando sanciones formales por extemporaneidad, pero el riesgo real es el rechazo de la deducción en fiscalización.\n\n#### 2.5 LAV Tributaria — Facturas a Crédito y Eventos RADIAN (2025)\n\n**Tesis central:** Análisis práctico sobre los riesgos de no gestionar correctamente los eventos RADIAN en operaciones a crédito. Incluye un caso de estudio donde una empresa perdió **$180 millones en IVA descontable** por no generar los eventos oportunamente.\n\n**Posiciones clave:**\n\n- La obligación de generar eventos aplica **exclusivamente a FEV a crédito** (cualquier factura con plazo de pago) — las facturas de contado no requieren eventos.\n\n- El comprador emite eventos 1 (acuse de recibo) y 2 (recibo del bien/servicio); tras 3 días hábiles sin aceptación ni reclamo, el vendedor genera el evento de aceptación tácita.\n\n- La Sentencia 29509/2025 flexibiliza el plazo pero no elimina la obligación de los eventos.",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_616_1"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.8815,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (facturacion_electronica).",
+        "panel_rank": 1
+      }
+    ],
+    "ungrouped": [
+      {
+        "doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "source_doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "logical_doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "authority": "secondary_official_authority",
+        "title": "Facturacion electronica (secondary_official_authority)",
+        "snippet": "1. Norma Base Interpretaciones sobre: (1) problemas operativos con la validación CUFE y el sistema DIAN; (2) contingencia cuando el sistema no está disponible; (3) uso correcto de notas crédito y débito electrónicas; (4) documento soporte de adquisiciones con no obligados a facturar; (5) impacto de la Resolución 000202/2025; (6) riesgo sancionatorio por facturación deficiente.",
+        "position_signal": "neutral",
+        "relevance_score": 0.4157,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/factura-electronica-problemas-validacion/",
+            "label": "Actualícese — Problemas validación DIAN factura electrónica",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/documento-soporte-adquisiciones/",
+            "label": "Actualícese — Documento soporte adquisiciones no obligados",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/notas-credito-electronicas/",
+            "label": "Actualícese — Notas crédito electrónicas: uso correcto",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/contingencia-facturacion-electronica/",
+            "label": "Actualícese — Contingencia facturación electrónica",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/resolucion-000202-2025-facturacion/",
+            "label": "Actualícese — Resolución 000202/2025 impacto PYMEs",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/cufe-factura-electronica.html",
+            "label": "Gerencie.com — CUFE: qué es y cómo verificar",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/rechazo-factura-electronica.html",
+            "label": "Gerencie.com — Rechazo de facturas electrónicas",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/facturacion-electronica-retencion-fuente.html",
+            "label": "Gerencie.com — Facturación electrónica y retención en la fuente",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www2.deloitte.com/co/es/pages/tax/articles/facturacion-electronica-riesgos.html",
+            "label": "Deloitte Colombia — Riesgos facturación electrónica",
+            "provider": "Deloitte",
+            "domain": "www2.deloitte.com"
+          },
+          {
+            "url": "https://www.ey.com/es_co/tax/publicaciones",
+            "label": "EY Colombia — Documento soporte electrónico",
+            "provider": "EY",
+            "domain": "ey.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/factura-electronica-problemas-validacion/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/cufe-factura-electronica.html"
+          },
+          {
+            "name": "Deloitte",
+            "url": "https://www2.deloitte.com/co/es/pages/tax/articles/facturacion-electronica-riesgos.html"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co/tax/publicaciones"
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "card_summary": "Norma Base Interpretaciones sobre: (1) problemas operativos con la validación CUFE y el sistema DIAN; (2) contingencia cuando el sistema no está disponible; (3) uso correcto de notas crédito y débito electrónicas; (4).",
+        "extended_excerpt": "### 1. Norma Base\n\nInterpretaciones sobre: (1) problemas operativos con la validación CUFE y el sistema DIAN; (2) contingencia cuando el sistema no está disponible; (3) uso correcto de notas crédito y débito electrónicas; (4) documento soporte de adquisiciones con no obligados a facturar; (5) impacto de la Resolución 000202/2025; (6) riesgo sancionatorio por facturación deficiente.\n\n### 2. Posiciones de Expertos\n\n#### 2.1 ACTUALÍCESE (5 publicaciones)\n\n**Sobre problemas operativos con la validación DIAN:**\n\nLos problemas más frecuentes en la práctica diaria son: (i) caídas del servicio de validación de la DIAN, especialmente en los últimos 5 días de cada mes cuando hay pico de facturación; (ii) rechazos por \"CUFE duplicado\" cuando el facturador reintenta el envío sin verificar si la primera transmisión fue exitosa; (iii) rechazo por NIT del adquirente no registrado en RUT (frecuente con clientes nuevos). Recomiendan: verificar siempre el estado de la transmisión antes de reenviar, tener resolución de contingencia vigente, y validar el NIT del cliente en el RUT antes de facturar la primera vez (1).\n\n**Sobre el documento soporte de no obligados a facturar:**\n\nEl documento soporte electrónico (Res. 000167/2021) generó confusión inicial: muchas PYMEs no entendían que **ellas** (como compradoras) debían emitir el documento, no el vendedor. Los errores más comunes: (i) no emitir documento soporte cuando compran a personas naturales no comerciantes; (ii) emitirlo sin resolución de numeración propia; (iii) no transmitirlo a la DIAN. Consecuencia: la DIAN puede desconocer el costo o deducción por falta de soporte (Art. 771-2 ET). Desde julio 2025 (Res. 000202/2025), la obligación se amplió a todas las operaciones con no obligados, incluyendo compras ocasionales (2).\n\n**Sobre notas crédito electrónicas — uso correcto:**\n\nEl mal uso de las notas crédito: algunas PYMEs las emiten como \"anulación\" de facturas erróneamente emitidas a clientes que nunca compraron, lo cual puede ser visto por la DIAN como un intento de reducir ingresos artificialmente. La nota crédito debe tener **causa real**: devolución, descuento, error en valores. Recomiendan documentar siempre la razón de la nota crédito con soporte (acta de devolución, comunicación del cliente, corrección del precio) y conservar este soporte por 5 años (3).\n\n**Sobre contingencia — procedimiento práctico:**\n\nProtocolo de contingencia recomendado: (i) tenga siempre una resolución de numeración de contingencia vigente (la solicita en MUISCA como numeración independiente); (ii) mantenga un talonario pre-impreso con los datos de la empresa; (iii) cuando el sistema falle, emita factura de talonario con la numeración de contingencia; (iv) registre en un log cada factura de contingencia; (v) dentro de las 48 horas siguientes a la restauración del servicio, transmita cada factura de contingencia como factura electrónica, referenciando la factura de talonario. El error frecuente: olvidar transmitir las facturas de contingencia dentro del plazo (4).\n\n**Sobre la Resolución 000202/2025 — impacto en PYMEs:**\n\nEl principal impacto de la Res. 000202/2025 para PYMEs es el cruce automático entre facturación y declaraciones de IVA/retención a partir de enero 2026. Esto significa que la DIAN detectará automáticamente si: (i) las facturas emitidas no coinciden con los ingresos declarados en el F300 (IVA); (ii) las retenciones reportadas en el F350 no corresponden a las facturas recibidas. Recomiendan que el contador haga una conciliación mensual entre el sistema de facturación y las declaraciones antes de presentarlas (5).\n\n> (1) [Actualícese — Problemas validación DIAN factura electrónica](https://actualicese.com/factura-electronica-problemas-validacion/) > (2) [Actualícese — Documento soporte adquisiciones no obligados](https://actualicese.com/documento-soporte-adquisiciones/) > (3) [Actualícese — Notas crédito electrónicas: uso correcto](https://actualicese.com/notas-credito-electronicas/) > (4) [Actualícese — Contingencia facturación electrónica](https://actualicese.com/contingencia-facturacion-electronica/) > (5) [Actualícese — Resolución 000202/2025 impacto PYMEs](https://actualicese.com/resolucion-000202-2025-facturacion/)\n\n#### 2.2 GERENCIE.COM (3 publicaciones)\n\n**Sobre el CUFE y la verificación de autenticidad:**\n\nDe manera didáctica que el CUFE es como la \"cédula\" de cada factura: es único a nivel nacional y permite verificar la autenticidad de cualquier factura electrónica. Cuando un auditor o la DIAN quieren verificar una factura, consultan el CUFE en el portal DIAN y obtienen todos los datos de la factura. Gerencie recomienda que el contador verifique periódicamente (al menos mensualmente) una muestra de CUFEs de facturas recibidas de proveedores para asegurarse de que son reales. Esto previene la inclusión de facturas falsas como costo o deducción (6).\n\n**Sobre el rechazo de facturas recibidas:**",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (facturacion_electronica).",
+        "core_ref_matches": [],
+        "panel_rank": 1,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_EXPERTOS_T14-nuevos-documentos-electronicos-DAV-REI-retenciones-interpretaciones.md",
+        "source_doc_id": "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_EXPERTOS_T14-nuevos-documentos-electronicos-DAV-REI-retenciones-interpretaciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_EXPERTOS_T14-nuevos-documentos-electronicos-DAV-REI-retenciones-interpretaciones.md",
+        "authority": "expert_interpretive_authority",
+        "title": "Facturacion electronica (expert_interpretive_authority)",
+        "snippet": "(5) Actualícese — \"Cambios en el calendario de implementación de documentos equivalentes electrónicos\": https://actualicese.com/implementacion-de-documentos-equivalentes-electronicos/",
+        "position_signal": "neutral",
+        "relevance_score": 0.3991,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/implementacion-de-documentos-equivalentes-electronicos/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/sistema-de-facturacion-electronica/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://incp.org.co/.../dian-modifica-el-calendario-de-implementacion-del-p-o-s-y-demas-documentos-equivalentes/",
+            "label": "incp.org.co",
+            "provider": "INCP",
+            "domain": "incp.org.co"
+          },
+          {
+            "url": "https://incp.org.co/.../dian-indica-como-se-debe-presentar-la-declaracion-andina-del-valor/",
+            "label": "incp.org.co",
+            "provider": "INCP",
+            "domain": "incp.org.co"
+          },
+          {
+            "url": "https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=4008",
+            "label": "legalytributarioenlinea.co.pwc.com",
+            "provider": "PwC",
+            "domain": "legalytributarioenlinea.co.pwc.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/implementacion-de-documentos-equivalentes-electronicos/"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/.../dian-modifica-el-calendario-de-implementacion-del-p-o-s-y-demas-documentos-equivalentes/"
+          },
+          {
+            "name": "PwC",
+            "url": "https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=4008"
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_EXPERTOS_T14-nuevos-documentos-electronicos-DAV-REI-retenciones-interpretaciones.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_EXPERTOS_T14-nuevos-documentos-electronicos-DAV-REI-retenciones-interpretaciones.md",
+        "card_summary": "(5) Actualícese — \"Cambios en el calendario de implementación de documentos equivalentes electrónicos\": https://actualicese.com/implementacion-de-documentos-equivalentes-electronicos/.",
+        "extended_excerpt": "### Control de Versiones\n\n| Versión | Fecha | Cambios |\n| 1.0 | 2026-04-08 | Versión inicial — Compilación de interpretaciones sobre los 3 nuevos documentos electrónicos anunciados por la DIAN |\n\n*Documento generado para el corpus de LIA CONTADOR. Fuentes: NumRot, HelpEx, SYSplus, Actualícese, INCP, PwC Colombia, Invoway, Sovos. Todas las citas deben verificarse contra fuentes primarias.*\n\n### Fuentes\n\n(1) **NumRot** — \"Los Próximos Documentos Fiscales Electrónicos de la DIAN: ¡Prepárese para 2026!\": https://www.numrot.com/gestion-empresarial-nuevos-documentos-dian-2026/\n\n(2) **HelpEx** — \"¿Estás listo para el 2026? Estos son los próximos documentos fiscales electrónicos que exigirá la DIAN\": https://helpex.co/blog/estas-listo-para-el-2026-estos-son-los-próximos-documentos-fiscales-electrónicos-que-exigirá-la-dian\n\n(3) **Resolución DIAN 000227 del 23/09/2025** — Normograma: https://normograma.dian.gov.co/dian/compilacion/docs/resolucion_dian_0227_2025.htm\n\n(4) **SYSplus** — \"Resolución 000227 de 2025: la resolución de la DIAN que organiza la normativa tributaria en Colombia\": https://www.sysplus.com.co/sysplus-resolucion-000227-de-2025-la-resolucion-de-la-dian-que-organi/\n\n(5) **Actualícese** — \"Cambios en el calendario de implementación de documentos equivalentes electrónicos\": https://actualicese.com/implementacion-de-documentos-equivalentes-electronicos/\n\n(6) **Actualícese** — \"Cartilla Práctica: Sistema de facturación electrónica\": https://actualicese.com/sistema-de-facturacion-electronica/\n\n(7) **INCP** — \"DIAN modifica el calendario de implementación del P.O.S. y demás documentos equivalentes\": https://incp.org.co/.../dian-modifica-el-calendario-de-implementacion-del-p-o-s-y-demas-documentos-equivalentes/\n\n(8) **INCP** — \"DIAN indica cómo se debe presentar la declaración andina del valor\": https://incp.org.co/.../dian-indica-como-se-debe-presentar-la-declaracion-andina-del-valor/\n\n(9) **PwC Colombia** — \"La DIAN emitió nueva doctrina sobre el extracto electrónico y el Comprobante de Liquidación de Operaciones de las Bolsas de Valores\": https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=4008\n\n(10) **Invoway** — \"Documento equivalente electrónico de la DIAN — Cronograma 2024-2025\": https://invoway.com/latam/blog/documento-equivalente-electronico-cronograma-2024-2025/\n\n(11) **Sovos** — \"Colombia: autoridad tributaria amplía plazo de implementación de documentos equivalentes electrónicos\": https://sovos.com/es/cambios-regulatorios/iva/colombia-autoridad-tributaria-amplia-plazo-implementacion-de-documentos-equivalentes-electronicos/\n\n### Norma Base\n\n**Anuncio oficial:** En mayo de 2025, Luis Valero, Subdirector de Factura Electrónica y Soluciones Operativas de la DIAN, anunció que la entidad regulará 3 nuevos documentos electrónicos con validación previa durante 2026 (1)(2):\n\n1. **Declaración Andina de Valor Electrónica (DAV-e)** — Base legal existente: Decreto 1165/2019 Art. 323. 2. **Remisión Electrónica de Inventarios (REI)** — Sin resolución vigente; por expedir. 3. **Documento de Retenciones Electrónico** — Base legal existente: Arts. 381, 382 ET.\n\n**Marco compilador vigente:** Resolución DIAN 000227 del 23/09/2025 — compiló toda la normativa de facturación electrónica (3). Los nuevos documentos se integrarán a este marco.\n\n**Estado regulatorio (abril 2026):** No se han publicado proyectos de resolución. El anuncio fue una declaración de intención regulatoria, no un acto administrativo vinculante.\n\n### Posiciones de Expertos\n\n#### Fuente 1: NumRot (portal de gestión empresarial)\n\n**Posición:** NumRot publicó un análisis detallado del anuncio, desglosando cada documento con énfasis en preparación operativa (1).\n\n**Sobre DAV-e:** Describe la DAV como \"un documento soporte esencial para la declaración de importación\" y enfatiza que \"una DAV corresponde a una sola declaración de importación, aunque una declaración de importación puede tener múltiples DAV.\" Recomienda a las PYMEs importadoras coordinar con sus SIA de inmediato.\n\n**Sobre REI:** Hace la distinción crítica: \"REI no reemplaza una factura electrónica de venta, sino que la complementa.\" Identifica los campos probables: cantidad, descripción, códigos de producto y valores unitarios. Alerta que toda PYME con manejo de inventarios será impactada.\n\n**Sobre Retenciones:** Señala que el documento \"certificará la naturaleza, cuantía y pago de impuestos como el impuesto de renta, patrimonio o retenciones en la fuente.\" Enfatiza la estandarización como el beneficio principal.\n\n**Tono:** Proactivo — recomienda preparación inmediata aunque no haya resolución.\n\n#### Fuente 2: HelpEx (portal de asesoría tributaria)\n\n**Posición:** HelpEx ofrece un análisis paralelo al de NumRot, con un enfoque más alarmista sobre la urgencia de preparación (2).",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (facturacion_electronica).",
+        "core_ref_matches": [],
+        "panel_rank": 2,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "analysis"
+      }
+    ],
+    "total_available": 3,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Con la entrada en vigor del documento equivalente electrónico y el documento soporte en adquisiciones a no obligados a facturar, ¿qué dicen los expertos sobre los cruces operativos con el documento soporte tradicional, el calendario de implementación obligatoria y los riesgos de rechazo DIAN por errores en estos nuevos documentos?",
+        "assistant_answer": "**Ruta sugerida** 1. Verifica si el emisor estaba obligado a facturar electrónicamente y si hubo contingencia válida antes de aceptar el soporte (arts. 616-1 y 616 ET). 2. Si hubo contingencia, deja evidencia del evento y de la normalización posterior de la factura (arts. 616-1 y 616 ET). 3. Haz una revisión operativa del soporte antes de defenderlo fiscalmente (arts. 616 y 616-1 ET). **Riesgos y condiciones** - No sustituyas la factura electrónica por cualquier soporte cuando la obligación sí existía (arts. 616-1 y 616-2 ET). **Soportes clave** - Multa equivalente a hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, sin exceder **12** meses (máximo **12%** del valor de la factura) (arts. 616 y 1 ET). **Ruta sugerida** - Verifica si el emisor estaba obligado a facturar electrónicamente y si hubo contingencia válida antes de aceptar el soporte. - Haz una revisión operativa del soporte antes de defenderlo fiscalmente. **Riesgos y condiciones** - No sustituyas la factura electrónica por cualquier soporte cuando la obligación sí existía. **Soportes clave** - Multa equivalente a hasta el 1% del valor total de la factura por cada mes o fracción de mes de retraso, sin exceder 12 meses (máximo 12% del valor de la factura). **Anclaje legal** - Art. 616 — 2 ET — Incumplimiento de transmisión electrónica - Art. 616-1 — OBLIGACIÓN DE FACTURACIÓN ELECTRÓNICA Y CONTINGENCIA - Art. 616-2 — SANCIONES POR INCUMPLIMIENTO DE FACTURACIÓN ELECTRÓNICA - Art. 5 — DOCUMENTO CONSTITUTIVO",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_616",
+          "et_art_616_1",
+          "et_art_616_2",
+          "et_art_5"
+        ],
+        "form_entities": [],
+        "detected_topic": "facturacion_electronica",
+        "keyword_cluster": [
+          "electronicamente",
+          "incumplimiento",
+          "implementacion",
+          "condiciones**",
+          "normalizacion",
+          "adquisiciones",
+          "contingencia,",
+          "fiscalmente.",
+          "constitutivo",
+          "tradicional,"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 4,
+      "filtered_out_candidates": 14,
+      "grouped_items": 1,
+      "ungrouped_items": 2,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "facturacion_electronica",
+      "interpretation_anchor_eligible_docs": 6,
+      "interpretation_anchor_boosted_chunks": 14,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 2,
+        "medium": 16,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 4,
+        "resolved_numbers": 4,
+        "matched_articles": 2,
+        "matched_doc_ids": 6
+      },
+      "expert_query_seed": "Con la entrada en vigor del documento equivalente electrónico y el documento soporte en adquisiciones a no obligados a facturar, ¿qué dicen los expertos sobre los cruces operativos con el documento soporte tradicional, el calendario de implementación obligatoria y los riesgos de rechazo DIAN por errores en estos nuevos documentos? Art. 616 Art. 616-1 Art. 616-2 Art. 5",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "lexical_only",
+        "judge": {
+          "mode": "llm_error",
+          "reason": "too many values to unpack (expected 2, got 4)"
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 0
+        },
+        "graph_scored_count": 11
+      }
+    },
+    "trace_id": "16a8ce5b-d023-4bc5-8c44-23b52f222a15"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "qid": "ep_renta_conciliacion_2516_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "9f1d57f2-1eda-4582-b08c-57edcc6e2610",
+    "message": "Soy contador de una empresa obligada a NIIF y debo presentar el Formato 2516 de conciliación fiscal. ¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad contable y la renta líquida?",
+    "assistant_answer": "**Respuestas directas**\n- **¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad contable y la renta líquida?**\n\n**Riesgos y condiciones**\n- Errores Frecuentes en PYMEs | Error | Consecuencia | |---|---| | No elaborar F.2516 creyendo que no están obligados | Sanción art.\n- Errores Frecuentes y Sanciones por Incumplimiento ### 11.8.1.\n\n**Anclaje legal**\n- Art. 8-errores-frecuentes-en-pymes — 8. Errores Frecuentes en PYMEs\n- Art. introducci-n-pr-ctica-la-conciliaci-n-fiscal-no-es-un-tr-mite-es-el-puente-entre — Introducción Práctica: La Conciliación Fiscal No Es un Trámite — Es el Puente entre lo Contable y lo Fiscal\n- Art. 1-norma-base — 1. Norma Base\n- Art. 11-8-errores-frecuentes-y-sanciones-por-incumplimiento — 11.8. Errores Frecuentes y Sanciones por Incumplimiento\n- Art. 9-recomendaci-n-pr-ctica-para-el-contador — 9. Recomendación Práctica para el Contador\n- Art. paso-5-registrar-en-f2516-conciliaci-n-fiscal-niif-vs-fiscal — PASO 5: Registrar en F2516 — Conciliación Fiscal (NIIF vs. Fiscal)",
+    "normative_article_refs": [],
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [],
+    "ungrouped": [],
+    "total_available": 0,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Soy contador de una empresa obligada a NIIF y debo presentar el Formato 2516 de conciliación fiscal. ¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad contable y la renta líquida?",
+        "assistant_answer": "**Respuestas directas** - **¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad contable y la renta líquida?** **Riesgos y condiciones** - Errores Frecuentes en PYMEs | Error | Consecuencia | |---|---| | No elaborar F.2516 creyendo que no están obligados | Sanción art. - Errores Frecuentes y Sanciones por Incumplimiento ### 11.8.1. **Anclaje legal** - Art. 8-errores-frecuentes-en-pymes — 8. Errores Frecuentes en PYMEs - Art. introducci-n-pr-ctica-la-conciliaci-n-fiscal-no-es-un-tr-mite-es-el-puente-entre — Introducción Práctica: La Conciliación Fiscal No Es un Trámite — Es el Puente entre lo Contable y lo Fiscal - Art. 1-norma-base — 1. Norma Base - Art. 11-8-errores-frecuentes-y-sanciones-por-incumplimiento — 11.8. Errores Frecuentes y Sanciones por Incumplimiento - Art. 9-recomendaci-n-pr-ctica-para-el-contador — 9. Recomendación Práctica para el Contador - Art. paso-5-registrar-en-f2516-conciliaci-n-fiscal-niif-vs-fiscal — PASO 5: Registrar en F2516 — Conciliación Fiscal (NIIF vs. Fiscal)",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_8",
+          "et_art_1",
+          "et_art_11_8",
+          "et_art_9"
+        ],
+        "form_entities": [
+          "formulario:2516"
+        ],
+        "detected_topic": "conciliacion_fiscal",
+        "keyword_cluster": [
+          "introducci-n-pr-ctica-la-conciliaci-n-fiscal-no-es-un-tr-mite-es-el-puente-entre",
+          "paso-5-registrar-en-f2516-conciliaci-n-fiscal-niif-vs-fiscal",
+          "11-8-errores-frecuentes-y-sanciones-por-incumplimiento",
+          "9-recomendaci-n-pr-ctica-para-el-contador",
+          "8-errores-frecuentes-en-pymes",
+          "incumplimiento",
+          "conciliatorias",
+          "condiciones**",
+          "recomendacion",
+          "introduccion"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 0,
+      "filtered_out_candidates": 18,
+      "grouped_items": 0,
+      "ungrouped_items": 0,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "declaracion_renta",
+      "interpretation_anchor_eligible_docs": 11,
+      "interpretation_anchor_boosted_chunks": 3,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 3,
+        "medium": 15,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 4,
+        "resolved_numbers": 4,
+        "matched_articles": 3,
+        "matched_doc_ids": 11
+      },
+      "expert_query_seed": "Soy contador de una empresa obligada a NIIF y debo presentar el Formato 2516 de conciliación fiscal. ¿Qué errores frecuentes señalan los expertos al diligenciar partidas conciliatorias entre la utilidad contable y la renta líquida? Art. 8 Art. 1 Art. 11-8 Art. 9",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "lexical_only",
+        "judge": {
+          "mode": "llm_error",
+          "reason": "too many values to unpack (expected 2, got 4)"
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 1
+        },
+        "graph_scored_count": 12
+      }
+    },
+    "trace_id": "9f1d57f2-1eda-4582-b08c-57edcc6e2610"
+  }
+}

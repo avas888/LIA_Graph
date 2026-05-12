@@ -56,6 +56,13 @@ _OFF_TOPIC_PATTERNS: dict[str, tuple[str, ...]] = {
     "facturacion": ("facturacion electronica", "facturación electrónica", "documento soporte", "nomina electronica"),
     "calendario": ("calendario tributario", "extemporanea", "extemporánea"),
 }
+# fix_v11_may §16-hybrid — constant retained for future re-attempts that
+# pair a count threshold with a smarter relevance signal at the assembly
+# layer. NOT consumed by the doc-side tagger today; reverted per §17
+# discard. `_match_count` helper is also retained for the same reason
+# + for operator diagnostics. See fix_v11_may.md §16 / §17 for the
+# measurement history.
+_OFF_TOPIC_DOC_HIT_THRESHOLD = 3
 _ACTIONABILITY_HINTS = (
     "como aplicar",
     "cómo aplicar",
@@ -144,6 +151,16 @@ def _extract_form_entities(text: str) -> tuple[str, ...]:
 def _match_any(text: str, patterns: tuple[str, ...]) -> bool:
     normalized = normalize_text(text)
     return any(pattern in normalized for pattern in patterns)
+
+
+def _match_count(text: str, patterns: tuple[str, ...]) -> int:
+    """Total occurrences across all patterns for a single off-topic key.
+
+    Used by the doc-side off-topic tagger to distinguish "passing
+    mention" from "doc is genuinely about this topic". Non-overlapping
+    substring count per pattern, summed."""
+    normalized = normalize_text(text)
+    return sum(normalized.count(pattern) for pattern in patterns)
 
 
 def _collect_candidate_text(doc: Any, row: dict[str, Any] | None, corpus_text: str) -> str:
@@ -308,6 +325,14 @@ def build_interpretation_candidate(
 
     off_topic: list[str] = []
     for key, patterns in _OFF_TOPIC_PATTERNS.items():
+        # fix_v11_may §17 — reverted the §16-hybrid count threshold
+        # back to single-match detection. The hybrid measurement on
+        # the 21-Q mini-panel landed at 10/21 = 47.6 % (same total as
+        # the §16 Option A soft-veto, lower than the §15 11/21 and the
+        # v10/v11A 12/21 baseline). The threshold shuffles which
+        # questions win without breaking past the architectural
+        # ceiling. The `_match_count` helper stays exported for
+        # operator diagnostics + future re-attempts.
         if _match_any(text, patterns):
             off_topic.append(key)
 
@@ -454,13 +479,57 @@ def select_interpretation_candidates(
     offset: int = 0,
     limit: int = 5,
 ) -> RankedSelection:
+    """Score every candidate, drop only those below the minimum
+    relevance threshold, return ranked.
+
+    fix_v11_may §15 / Option A — softened off-topic veto. The pre-fix
+    filter dropped any candidate carrying an ``off_topic:<key>``
+    penalty, **even when the LLM judge ranked it #1**. That over-cut
+    surfaced as concrete regressions in the 21-Q expert-panel mini-panel:
+
+      * `renta_conciliacion_2516`: T-J (the exact Form 2516 expert brief)
+        was dropped because its text mentions "TTD" twice in passing —
+        even though it has 12 mentions of "formato 2516" and is
+        literally the expected answer.
+      * `retencion_autorretencion_especial`: RET-E01 (the core retención
+        brief, 66 retención + 18 autorretención mentions) was dropped
+        because the doc says "autorretención" while the question says
+        "autorretenedor"; the pattern dictionary doesn't recognize them
+        as the same topic, so the doc looks "off-topic" from the
+        question's POV.
+      * `renta_beneficio_auditoria`: T-E was dropped because the chat
+        router labeled the question as `firmeza_declaraciones` instead
+        of `beneficio_auditoria`; the topic-score weight then favored
+        firmeza-labeled docs and the off-topic veto cut the rest.
+
+    The per-tag −0.20 score penalty STAYS (off-topic docs still rank
+    lower); the hard drop is removed. The LLM judge — which is now
+    actually firing after the v11B-companion fix to
+    `pipeline_c.orchestrator.generate_llm_strict` — is the smarter
+    signal that decides final ordering. The minimum-score threshold
+    (`EXPERT_PANEL_MIN_RELEVANCE_SCORE=0.22`) still filters out docs
+    with effectively-zero relevance.
+
+    `dropped_off_topic_penalized_count` is added to the diagnostic so
+    the operator can see how often the old veto would have fired —
+    useful for telemetry comparisons against the pre-Option-A behavior.
+    """
     candidate_items = tuple(candidates)
     ranked = [score_interpretation_candidate(candidate, frame) for candidate in candidate_items]
+    # fix_v11_may §16-hybrid — hard `off_topic` veto restored, but
+    # `_OFF_TOPIC_DOC_HIT_THRESHOLD = 3` raised the bar for what counts
+    # as off-topic in the first place (was effectively 1 pre-hybrid).
+    # 1-2 stray mentions no longer earn the doc an off-topic tag, so
+    # the veto fires only on docs with genuine off-topic focus.
     eligible = [
         item
         for item in ranked
         if item.total_score >= EXPERT_PANEL_MIN_RELEVANCE_SCORE
         and not any(penalty.startswith("off_topic:") for penalty in item.penalties)
+    ]
+    off_topic_penalized = [
+        item for item in ranked
+        if any(penalty.startswith("off_topic:") for penalty in item.penalties)
     ]
     ordered = order_ranked_interpretations(eligible, frame=frame)
     safe_offset = max(0, int(offset or 0))
@@ -473,6 +542,11 @@ def select_interpretation_candidates(
         "retrieved_candidates": len(candidate_items),
         "eligible_candidates": len(eligible),
         "filtered_out_candidates": max(0, len(ranked) - len(eligible)),
+        "off_topic_penalized_count": len(off_topic_penalized),
+        "off_topic_penalized_kept": sum(
+            1 for item in off_topic_penalized
+            if item.total_score >= EXPERT_PANEL_MIN_RELEVANCE_SCORE
+        ),
     }
     return RankedSelection(
         total_available=len(ordered),

@@ -151,13 +151,25 @@ def _retrieve_interpretation_docs(*, query: str, top_k: int, pais: str, topic: s
     ).strip().lower()
     if _source == "supabase":
         from .retriever_supabase import fetch_interpretation_candidates
+        from .anchor_resolver import resolve_anchor_doc_ids
         article_refs = tuple(extract_article_refs(query))
+        # fix_v11_may Phase 11B — when the panel has article_refs and the
+        # `LIA_PLANNER_INTERPRETATION_ANCHOR` flag is on, resolve the
+        # anchor doc_ids via Falkor `INTERPRETS` edges (ordered by
+        # trust_tier DESC). The retriever uses these as a multiplicative
+        # boost set instead of (or in addition to) the Python article_index
+        # lookup. Errors degrade to empty + diagnostic (the anchor is a
+        # ranking signal, not a load-bearing surface — see anchor_resolver
+        # module docstring for the rationale).
+        anchor = resolve_anchor_doc_ids(article_refs)
         return fetch_interpretation_candidates(
             query_seed=query,
             article_refs=article_refs,
             topic=topic,
             pais=pais,
             top_k=top_k,
+            planner_anchor_doc_ids=anchor.doc_ids,
+            planner_anchor_diagnostic=anchor.diagnostic,
         )
     query_tokens = tuple(
         token

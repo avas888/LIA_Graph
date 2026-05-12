@@ -1,0 +1,1014 @@
+{
+  "qid": "ep_renta_deduccion_ica_v1",
+  "topic_key_expected": "declaracion_renta",
+  "profile": "expert_panel_v1",
+  "message": "Una sociedad comercial causó $42 millones de ICA en 2025 pero $18 millones quedaron pendientes a 31 de diciembre y se pagaron hasta marzo de 2026. ¿Qué parte es deducible en la declaración AG2025 según la regla de pago efectivo del Art. 115 ET, cómo se documenta la trazabilidad ante la DIAN, y qué cambió tras la eliminación del descuento tributario del 50% por la Ley 2277/2022?",
+  "http_status": 200,
+  "latency_ms": 39769,
+  "captured_utc": "2026-05-12T01:04:39.052513+00:00",
+  "response": {
+    "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+    "run_id": "pd_65db8a17d354471d9fe28da9daed3de6",
+    "answer_markdown": "**Ruta sugerida**\n1. Para el tratamiento en renta de ese impuesto pagado, incluido ICA, revísalo primero bajo el art. 115 ET: no lo lleves como una deducción genérica y evita tomar el mismo valor simultáneamente como descuento tributario y como costo o gasto.\n2. Verifica si el valor efectivamente pagado puede tratarse como descuento tributario sin duplicarlo como costo o gasto (arts. 115 y 121 ET).\n\n**Riesgos y condiciones**\n- No dupliques el mismo valor como descuento tributario y como costo o gasto dentro de la misma declaración (arts. 121 y 122 ET).\n\n**Recap histórico**\n- Reforma ancla de esta lectura: Ley **2277**.\n- Art. 115 ET: la cadena reciente recuperada pasa por Ley 1430 de 2010 y antes por Ley **2277**.\n- Art. 121 ET: la última modificación relevante detectada en esta ruta es Ley **2277**.\n\n**Ruta sugerida**\n- Para el tratamiento en renta de ese impuesto pagado, incluido ICA, revísalo primero bajo el art. 115 ET: no lo lleves como una deducción genérica y evita tomar el mismo valor simultáneamente como descuento tributario y como costo o gasto.\n- Toma como punto de partida el texto vigente hoy del art. 115 ET para definir el tratamiento en renta del impuesto pagado.\n\n**Riesgos y condiciones**\n- No dupliques el mismo valor como descuento tributario y como costo o gasto dentro de la misma declaración.\n\n**Anclaje legal**\n- Art. 115 — DEDUCCIÓN DE IMPUESTOS PAGADOS Y OTROS\n- Art. 121 — DEDUCCIÓN DE GASTOS EN EL EXTERIOR\n- Art. 122 — LIMITACIÓN A LAS DEDUCCIONES DE LOS COSTOS Y GASTOS EN EL EXTERIOR",
+    "answer_concise": "**Ruta sugerida**\n1. Para el tratamiento en renta de ese impuesto pagado, incluido ICA, revísalo primero bajo el art. 115 ET: no lo lleves como una deducción genérica y evita tomar el mismo valor simultáneamente como descuento tributario y como costo o gasto.\n2. Verifica si el valor efectivamente pagado puede tratarse como descuento tributario sin duplicarlo como costo o gasto (arts. 115 y 121 ET).\n\n**Riesgos y condiciones**\n- No dupliques el mismo valor como descuento tributario y como costo o gasto dentro de la misma declaración (arts. 121 y 122 ET).\n\n**Recap histórico**\n- Reforma ancla de esta lectura: Ley **2277**.\n- Art. 115 ET: la cadena reciente recuperada pasa por Ley 1430 de 2010 y antes por Ley **2277**.\n- Art. 121 ET: la última modificación relevante detectada en esta ruta es Ley **2277**.\n\n**Ruta sugerida**\n- Para el tratamiento en renta de ese impuesto pagado, incluido ICA, revísalo primero bajo el art. 115 ET: no lo lleves como una deducción genérica y evita tomar el mismo valor simultáneamente como descuento tributario y como costo o gasto.\n- Toma como punto de partida el texto vigente hoy del art. 115 ET para definir el tratamiento en renta del impuesto pagado.\n\n**Riesgos y condiciones**\n- No dupliques el mismo valor como descuento tributario y como costo o gasto dentro de la misma declaración.\n\n**Anclaje legal**\n- Art. 115 — DEDUCCIÓN DE IMPUESTOS PAGADOS Y OTROS\n- Art. 121 — DEDUCCIÓN DE GASTOS EN EL EXTERIOR\n- Art. 122 — LIMITACIÓN A LAS DEDUCCIONES DE LOS COSTOS Y GASTOS EN EL EXTERIOR",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Para el tratamiento en renta de ese impuesto pagado, incluido ICA, revísalo primero bajo el art. 115 ET: no lo lleves como una deducción genérica y evita tomar el mismo valor simultáneamente como descuento tributario y",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Para el tratamiento en renta de ese impuesto pagado, incluido ICA, revísalo primero bajo el art. 115 ET: no lo lleves como una deducción genérica y evita tomar el mismo valor simultáneamente como descuento tributario y",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Para el tratamiento en renta de ese impuesto pagado, incluido ICA, revísalo primero bajo el art. 115 ET: no lo lleves como una deducción genérica y evita tomar el mismo valor simultáneamente como descuento tributario y",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Recap histórico** Reforma ancla de esta lectura: Ley **2277**.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "19\n\n\n**Notas del Editor:**\n> * [- Considera importante el editor destacar la interpretación que sobre la modificación introducida por el artículo 45 de la Ley 1430 de 2010 hace la DIAN mediante Oficio 25811 de 2011:](https://normograma.dian",
+      "Los contribuyentes podrán deducir los gastos efectuados en el exterior, que tengan relación de causalidad con rentas de fuente dentro del país, siempre y cuando se haya efectuado la retención en la fuente si lo pagado constituye para su ben",
+      "*Artículo modificado por el artículo 71 de la Ley 1819 de 2016. El nuevo texto es el siguiente:*\n\nLos costos o deducciones por expensas en el exterior para la obtención de rentas de fuente dentro del país, no pueden exceder del quince por c"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "115",
+          "121",
+          "122",
+          "123"
+        ],
+        "chunk_row_count": 25,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "reform_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-12T01:03:59.284889+00:00",
+        "total_ms": 33858.38,
+        "step_count": 29,
+        "steps": [
+          {
+            "ts_utc": "2026-05-12T01:03:59.284896+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-12T01:03:59.284889+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:03:59.285476+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.58,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 380,
+              "message_preview": "Una sociedad comercial causó $42 millones de ICA en 2025 pero $18 millones quedaron pendientes a 31 de diciembre y se pagaron hasta marzo de 2026. ¿Qué parte es deducible en la declaración AG2025 según la regla de pago efectivo del Art. 115",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:03:59.314218+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 29.32,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T01:03:59.314607+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 29.71,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:03:59.354818+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 69.92,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 380,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:01.409514+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2124.6,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "costos_deducciones_renta",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la deducibilidad del ICA en la declaración de renta, específicamente bajo la regla de pago efectivo del Art. 115 ET. Aunque menciona el ICA, el tema principal es cómo este impuesto afecta la determinación de la rent",
+              "elapsed_ms_call": 2080.42,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:01.409931+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2125.03,
+            "message": null,
+            "details": {
+              "effective_topic": "costos_deducciones_renta",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "ica",
+                "declaracion_renta"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:06.947181+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 7662.26,
+            "message": null,
+            "details": {
+              "owner_trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+              "requested_trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:06.947554+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 7662.64,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "costos_deducciones_renta",
+              "secondary_topics": [
+                "ica",
+                "declaracion_renta"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la deducibilidad del ICA en la declaración de renta, específicamente bajo la regla de pago efectivo del Art. 115 ET. Aunque menciona el ICA, el tema principal es cómo este impuesto afecta la determinación de la renta gravable a través de su deducibilidad, lo cual es un subtema de costos y deducciones de renta. La referencia a la eliminación del descuento tributario del 50% también refuerza que la pregunta es sobre el tratamiento del ICA en el impuesto de renta.",
+              "topic_notice": "Tu pregunta es de costos deducciones renta, por lo cual utilizaremos nuestra base de datos costos deducciones renta.",
+              "message_preview": "Una sociedad comercial causó $42 millones de ICA en 2025 pero $18 millones quedaron pendientes a 31 de diciembre y se pagaron hasta marzo de 2026. ¿Qué parte es deducible en la declaración AG2025 según la regla de pago efectivo del Art. 115",
+              "message_chars": 380
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:06.982953+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 7698.03,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": "AG 2025",
+                "requested_period_source": "message_ag",
+                "anchor_reform_keys": [
+                  "LEY-2277-s_f"
+                ],
+                "anchor_reform_labels": [
+                  "Ley 2277"
+                ],
+                "notes": [
+                  "Requested period resolved as AG 2025 via message_ag."
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:06.983233+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7698.32,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 115 Ley 2277 costos_deducciones_renta ica descuentos_tributarios_renta",
+              "query_text_chars": 79
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:06.983710+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7698.79,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "costos_deducciones_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "costos_deducciones_renta",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:07.648009+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 8363.07,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md::126-1",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md::122",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md::177-1",
+                "suin_1132325::115",
+                "suin_1132325::235-2",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_NORMATIVA_ICA-N01-marco-legal-ley-14-1983-",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "suin_30045028::19",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::240"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:07.826762+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 8541.83,
+            "message": null,
+            "details": {
+              "anchor_row_count": 6,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:07.827183+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 8542.27,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 29,
+              "delta": 5
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:08.053089+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 8768.14,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 29,
+              "rows_out": 25,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 29,
+              "chunks_kept": 25,
+              "chunks_dropped": 4,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 29,
+                "chunks_kept": 25,
+                "chunks_dropped": 4,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:28.018454+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 28733.44,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 29,
+                "chunks_kept": 25,
+                "chunks_dropped": 4,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [
+                "115",
+                "121",
+                "122",
+                "123"
+              ],
+              "tema_first_topic_key": "costos_deducciones_renta",
+              "planner_query_mode": "reform_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:28.019203+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 28734.22,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "115",
+                  "121",
+                  "122",
+                  "11",
+                  "114",
+                  "120",
+                  "128"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:28.061545+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 28776.56,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "costos_deducciones_renta",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "costos_deducciones_renta",
+                "articles_top_topic": "costos_deducciones_renta",
+                "router_score_on_articles": 11,
+                "top_score_on_articles": 11,
+                "ranked_article_topics": [
+                  [
+                    "costos_deducciones_renta",
+                    11
+                  ],
+                  [
+                    "retencion_fuente_general",
+                    8
+                  ],
+                  [
+                    "otros_sectoriales",
+                    1
+                  ],
+                  [
+                    "impuestos_saludables",
+                    1
+                  ],
+                  [
+                    "activos_exterior",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:28.062006+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 28777.05,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "costos_deducciones_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:28.062117+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 28777.16,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "reform_chain",
+              "sub_question_count": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:28.067614+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 28782.66,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "costos_deducciones_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:28.067779+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 28782.82,
+            "message": null,
+            "details": {
+              "template_chars": 799
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:33.142280+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "info",
+            "elapsed_ms": 33857.3,
+            "message": null,
+            "details": {
+              "mode": "rejected",
+              "skip_reason": "invented_periods",
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 811,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:33.142698+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_composed",
+            "status": "ok",
+            "elapsed_ms": 33857.73,
+            "message": null,
+            "details": {
+              "polish_skip_reason": "invented_periods",
+              "template_chars": 811,
+              "fallback_chars": 1530,
+              "fallback_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:33.142867+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 33857.9,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "costos_deducciones_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:33.143015+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.gate_applied",
+            "status": "ok",
+            "elapsed_ms": 33858.05,
+            "message": null,
+            "details": {
+              "primary_topic": "costos_deducciones_renta",
+              "gate_mode": "noop_no_topic_entry",
+              "dropped_count": null,
+              "kept_count": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:33.143162+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 33858.19,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "costos_deducciones_renta",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:04:33.143254+00:00",
+            "trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 33858.29,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "rejected",
+      "polish_skip_reason": "invented_periods"
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 67,
+        "output_tokens": 263,
+        "total_tokens": 330,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "costos_deducciones_renta",
+    "secondary_topics": [
+      "ica",
+      "declaracion_renta"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de costos deducciones renta, por lo cual utilizaremos nuestra base de datos costos deducciones renta.",
+    "topic_adjustment_reason": "La consulta se centra en la deducibilidad del ICA en la declaración de renta, específicamente bajo la regla de pago efectivo del Art. 115 ET. Aunque menciona el ICA, el tema principal es cómo este impuesto afecta la determinación de la renta gravable a través de su deducibilidad, lo cual es un subtema de costos y deducciones de renta. La referencia a la eliminación del descuento tributario del 50% también refuerza que la pregunta es sobre el tratamiento del ICA en el impuesto de renta.",
+    "coverage_notice": null,
+    "topic": "costos_deducciones_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778547839,
+      "expires_at": 1778551439,
+      "token_id": "e568e4dd2cdc49348393ee6551862acb"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_a35bbca0c501",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 67,
+        "output_tokens": 263,
+        "total_tokens": 330
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+      "last_run_id": "pd_65db8a17d354471d9fe28da9daed3de6",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_a35bbca0c501",
+    "chat_run_id": "cr_20260512_010402_9d5a93a6",
+    "metrics": {
+      "latency_ms": 35929.2,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 67,
+          "output_tokens": 263,
+          "total_tokens": 330,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_a35bbca0c501",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 67,
+          "output_tokens": 263,
+          "total_tokens": 330
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "500676a3-6e73-48bf-96dd-69004e86b86e",
+        "last_run_id": "pd_65db8a17d354471d9fe28da9daed3de6",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 5,
+        "mentions_unique": 5,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 5,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "ley:2277:2022",
+          "et",
+          "et",
+          "ley:1430:2010"
+        ],
+        "normative_scaffolding_ms": 6.4
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "costos_deducciones_renta",
+        "secondary_topics": [
+          "ica",
+          "declaracion_renta"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "24f2a520688e4476b1d5650043ceefe5"
+  }
+}

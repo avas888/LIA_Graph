@@ -373,6 +373,39 @@ function buildRuntimeEnv(mode) {
     env.LIA_TOPIC_GATE_MODE = "enforce";
   }
 
+  // fix_v11_may Phase 11B — InterpretationNode + INTERPRETS + COVERS_TOPIC
+  // loader runs as part of `materialize_graph_artifacts`. Default `enforce`
+  // 2026-05-11 — loader is idempotent (MERGE on doc_id + endpoints) and
+  // adds ~30-60s to ingest wall-clock for ~105 interpretation docs.
+  // Set `LIA_INGEST_INTERPRETATION_NODES=off` to skip during diagnostic
+  // re-ingests.
+  if (!String(env.LIA_INGEST_INTERPRETATION_NODES || "").trim()) {
+    env.LIA_INGEST_INTERPRETATION_NODES = "enforce";
+  }
+
+  // fix_v11_may Phase 11B — Expert-panel dispatcher anchors interpretation
+  // doc_ids on Falkor `INTERPRETS` edges (ordered by trust_tier) instead
+  // of the Python-side `interpretacion/article_index.py` lookup, when the
+  // panel payload carries article_refs.
+  //
+  // 2026-05-11 — DEFAULT `off` per gate-6 DISCARD decision (fix_v11_may
+  // §17). Phase 11B + 3 attempted refinements (R1 judge fix, R2 Option A
+  // soft veto, R3 hybrid count threshold) all came in at or below the
+  // v10/v11A baseline of 12/21 on the mini-panel. The Falkor anchor
+  // surfaces correct candidates, but the downstream assembly filter is
+  // the bottleneck and resists tuning along the off_topic-pattern axis.
+  // Path to ≥ 70 % needs a different relevance signal at the assembly
+  // layer (semantic similarity at the filter, not pattern matching).
+  //
+  // Set `LIA_PLANNER_INTERPRETATION_ANCHOR=on` to re-enable the Falkor
+  // anchor for diagnostic A/B work. The cloud InterpretationNode
+  // subgraph (105 nodes + 586 INTERPRETS + 105 COVERS_TOPIC) stays in
+  // place — harmless, ready for future re-attempts. The Python
+  // `article_index` fallback path serves while this flag is `off`.
+  if (!String(env.LIA_PLANNER_INTERPRETATION_ANCHOR || "").trim()) {
+    env.LIA_PLANNER_INTERPRETATION_ANCHOR = "off";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

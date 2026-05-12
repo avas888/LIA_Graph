@@ -1,0 +1,972 @@
+{
+  "qid": "ep_renta_ttd_paragrafo6_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "23abafcd-5a31-43bb-ac7d-6568075c1a12",
+    "message": "¿Cómo se calcula la Tasa Mínima de Tributación Depurada del parágrafo 6 del Art. 240 ET y qué pasa si una PYME queda por debajo del 15%? ¿Qué interpretaciones hay sobre el Impuesto a Adicionar?",
+    "assistant_answer": "**Respuestas directas**\n- **¿Cómo se calcula la Tasa Mínima de Tributación Depurada del parágrafo **6** del Art. 240 ET y qué pasa si una PYME queda por debajo del **15%**?**\n  - La Tasa Mínima de Tributación Depurada (TMTD) se calcula según el parágrafo **6** del Art. 240 ET. Si una PYME obtiene una TMTD inferior al **15%**, debe adicionar un impuesto hasta alcanzar ese porcentaje.\n  - Este mecanismo busca asegurar que las sociedades nacionales y asimiladas, así como los establecimientos permanentes, tributen al menos a una tarifa efectiva del **15%** sobre su utilidad depurada, tal como lo establece el Art. 240 ET.\n  - La aplicación de esta tasa mínima es crucial para la determinación del impuesto sobre la renta, afectando directamente la tarifa general aplicable a las personas jurídicas.\n- **¿Qué interpretaciones hay sobre el Impuesto a Adicionar?**\n  - El Impuesto a Adicionar es la diferencia que se debe pagar para que la Tasa Mínima de Tributación Depurada (TMTD) alcance el **15%**.\n  - Este impuesto adicional garantiza que la carga tributaria efectiva no sea inferior al umbral establecido por el Art. 240 ET, independientemente de las deducciones o beneficios fiscales que puedan reducir la tarifa nominal.\n  - La finalidad es evitar que, mediante la aplicación de exenciones o deducciones, la tributación real de las empresas caiga por debajo del **15%** sobre su utilidad depurada.\n\n**Ruta sugerida**\n- Revisa el cálculo de la Renta Líquida Gravable y la depuración de la base para la TMTD, asegurándote de aplicar correctamente las adiciones y deducciones permitidas.\n- Compara la TMTD obtenida con el **15%** para determinar si hay lugar al Impuesto a Adicionar.\n- Documenta el proceso de cálculo y las decisiones tomadas, especialmente si la PYME queda por debajo del umbral del **15%**.\n\n**Riesgos y condiciones**\n- El principal riesgo es una liquidación incorrecta del Impuesto a Adicionar, lo que podría generar sanciones por inexactitud.\n- Es fundamental entender las partidas que componen la utilidad depurada para la TMTD, ya que difiere de la renta líquida gravable tradicional.\n- La falta de una correcta aplicación del parágrafo **6** del Art. 240 ET puede llevar a una subestimación del impuesto a cargo.\n\n**Soportes clave**\n- El Art. 240 ET, parágrafo **6**, es el soporte normativo principal para el cálculo de la Tasa Mínima de Tributación Depurada.\n- Los documentos contables y fiscales que soporten los ingresos, costos y deducciones son esenciales para la correcta determinación de la utilidad depurada.\n- Cualquier interpretación oficial o doctrina sobre la aplicación del parágrafo **6** del Art. 240 ET debe ser consultada para validar el cálculo.",
+    "normative_article_refs": [],
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_240",
+        "classification": "divergencia",
+        "summary_signal": "La Tasa de Tributación Depurada (TTD) se calcula dividiendo el Impuesto Depurado (ID) entre la Utilidad Depurada (UD), y si el resultado es menor al 15%, se debe adicionar un impuesto para alcanzar dicho porcentaje.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co/es/pwc-insights/suspension-provisional-concepto-dian-ttd.html"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com"
+          },
+          {
+            "name": "ConsultorContable",
+            "url": "https://www.consultorcontable.com/tasa-minima-de-tributacion-paragrafo-6-art-240-et/"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/"
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "Gerencie.com",
+            "url": null
+          },
+          {
+            "name": "Crowe Colombia",
+            "url": null
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "INCP — \"Tasa mínima de tributación es declarada exequible por la Corte Constitucional\": https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/",
+            "position_signal": "restringe",
+            "relevance_score": 0.8489999999999999,
+            "trust_tier": "high",
+            "provider_links": [
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/",
+                "label": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/comisiones-incp/comision-tributaria/2024/04/la-tasa-minima-de-tributacion-interfiere-en-las-normas-y-principios-contables/",
+                "label": "https://incp.org.co/publicaciones/comisiones-incp/comision-tributaria/2024/04/la-tasa-minima-de-tributacion-interfiere-en-las-normas-y-principios-contables/",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://actualicese.com/recomendaciones-claves-para-aplicar-correctamente-la-tasa-minima-de-tributacion-al-cierre-de-2025/",
+                "label": "https://actualicese.com/recomendaciones-claves-para-aplicar-correctamente-la-tasa-minima-de-tributacion-al-cierre-de-2025/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.pwc.com/co/es/pwc-insights/suspension-provisional-concepto-dian-ttd.html",
+                "label": "https://www.pwc.com/co/es/pwc-insights/suspension-provisional-concepto-dian-ttd.html",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/tasa-minima-de-tributacion-paragrafo-6-art-240-et/",
+                "label": "https://www.consultorcontable.com/tasa-minima-de-tributacion-paragrafo-6-art-240-et/",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/perdida-contable-en-la-tasa-minima-de-tributacion-ttd/",
+                "label": "https://www.consultorcontable.com/perdida-contable-en-la-tasa-minima-de-tributacion-ttd/",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://actualicese.com/tasa-minima-de-tributacion-consejo-de-estado-valida-doctrina-de-la-dian-y-levanta-suspension/",
+                "label": "https://actualicese.com/tasa-minima-de-tributacion-consejo-de-estado-valida-doctrina-de-la-dian-y-levanta-suspension/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://legalytributarioenlinea.co.pwc.com/Repositorio%20PwC/PDF/Jurisprudencia/Consejo%20de%20Estado/Secci%C3%B3n%204/2025/SEN-EXP-028920-25.pdf",
+                "label": "https://legalytributarioenlinea.co.pwc.com/Repositorio%20PwC/PDF/Jurisprudencia/Consejo%20de%20Estado/Secci%C3%B3n%204/2025/SEN-EXP-028920-25.pdf",
+                "provider": "PwC",
+                "domain": "legalytributarioenlinea.co.pwc.com"
+              },
+              {
+                "url": "https://actualicese.com/tasa-minima-de-tributacion-dos-opciones-una-decision-inteligente/",
+                "label": "https://actualicese.com/tasa-minima-de-tributacion-dos-opciones-una-decision-inteligente/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/preguntas-y-respuestas-sobre-tasa-minima-de-tributacion-ttd/",
+                "label": "https://www.consultorcontable.com/preguntas-y-respuestas-sobre-tasa-minima-de-tributacion-ttd/",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2025/01/aprende-a-calcular-la-tasa-de-tributacion-depurada-y-sus-implicaciones-tributarias/",
+                "label": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2025/01/aprende-a-calcular-la-tasa-de-tributacion-depurada-y-sus-implicaciones-tributarias/",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://actualicese.com/sociedades-que-al-cierre-del-2025-no-estaran-sujetas-al-calculo-de-la-tasa-minima-de-tributacion/",
+                "label": "https://actualicese.com/sociedades-que-al-cierre-del-2025-no-estaran-sujetas-al-calculo-de-la-tasa-minima-de-tributacion/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co/es/pwc-insights/suspension-provisional-concepto-dian-ttd.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/recomendaciones-claves-para-aplicar-correctamente-la-tasa-minima-de-tributacion-al-cierre-de-2025/"
+              },
+              {
+                "name": "ConsultorContable",
+                "url": "https://www.consultorcontable.com/tasa-minima-de-tributacion-paragrafo-6-art-240-et/"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/"
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "card_summary": "La Tasa de Tributación Depurada (TTD) se calcula dividiendo el Impuesto Depurado (ID) entre la Utilidad Depurada (UD), y si el resultado es menor al 15%, se debe adicionar un impuesto para alcanzar dicho porcentaje.",
+            "extended_excerpt": "### 1. Posicion Normativa — Lo que Dice la Ley (Referencia Rapida)\n\nEl paragrafo 6 del articulo 240 del ET establece que toda persona juridica sujeta a los articulos 240 y 240-1 ET debe calcular una **Tasa de Tributacion Depurada (TTD)** que no puede ser inferior al **15%**. La TTD es el cociente entre el **Impuesto Depurado (ID)** y la **Utilidad Depurada (UD)**:\n\n``` TTD = ID / UD\n\nID = INR + DTC + IRP UD = UC + DPARL - INCRNGO - VIMPP - VNGO - RE - C\n\nSi TTD < 15%  →  existe Impuesto a Adicionar (IA) IA = (15% x UD) - ID ```\n\nDonde:\n\n- **UC** = Utilidad contable o financiera antes de impuestos\n\n- **DPARL** = Diferencias permanentes que aumentan la renta liquida\n\n- **INCRNGO** = Ingresos no constitutivos de renta ni ganancia ocasional\n\n- **VIMPP** = Valor ingreso metodo de participacion patrimonial\n\n- **VNGO** = Valor neto de ingresos por ganancia ocasional\n\n- **RE** = Rentas exentas por tratados, CHC y literales a), b) num. 4 y num. 7 art. 235-2 ET\n\n- **C** = Compensacion de perdidas fiscales o excesos de renta presuntiva del ano gravable\n\nEl IA resultante se declara en la **casilla 95 del Formulario 110** y se suma al impuesto de renta ordinario. Aplica desde el **AG 2023** y ha sido declarado exequible por la Corte Constitucional en dos oportunidades (Sentencias C-219/2024 y C-488/2024).\n\n### 2. Convergencias — En que Estan de Acuerdo Todas las Fuentes\n\nAntes de entrar en las divergencias, el contador debe tener claros los puntos en los que **no hay debate**:\n\n**Convergencia 1 — La TTD es obligatoria y constitucional.** PwC, Actualicese, Consultor Contable e INCP son unanimes: la TTD se calcula, punto. Las Sentencias C-219/2024 y C-488/2024 cerraron cualquier argumento de inconstitucionalidad. El contador que omita el calculo expone a su cliente a la sancion de inexactitud del art. 647 ET (100% del mayor impuesto o 15% de los valores inexactos, segun aplique).\n\n### 3. Divergencias Identificadas — La Tabla de Riesgo\n\nLas siguientes tres son las divergencias de interpretacion mas relevantes identificadas en las fuentes secundarias consultadas:\n\n| # | Cuestion en disputa | Posicion DIAN | Posicion tribunales | Riesgo para el contador |\n| **D-1** | TTD cuando la UC del ejercicio es **negativa (perdida contable)** | Igual se calcula la UD; si UD > 0, hay TTD y puede haber IA | Consejo de Estado: revoco suspension provisional (jul. 2025); concepto DIAN recobro vigencia; pero decision de fondo **pendiente** | **ALTO** — posicion DIAN vigente pero impugnable |\n| **D-2** | El **IA como impuesto basico de renta** para calcular dividendos no gravados (art. 49 ET) | Si — el IA debe incluirse en el impuesto basico para reducir el techo de dividendos no gravados | Consejo de Estado: **mantuvo suspendida** esta interpretacion DIAN (numeral 20 del Concepto 202/2024). Posicion mas favorable al contribuyente vigente a marzo 2026 | **MEDIO** — la interpretacion DIAN esta suspendida; la favorable al contribuyente es la aplicable mientras el juicio de fondo siga pendiente |\n| **D-3** | Alcance de las **DPARL** — que diferencias permanentes aumentan la renta liquida para efectos de la TTD | La DIAN incluye todos los gastos y costos no deducibles que no generan impuesto diferido; tambien ajustes fiscales en ingresos como intereses presuntivos | Consultor Contable y algunos tributaristas: cuestionan si los intereses presuntivos (ingreso solo fiscal, sin efecto contable) son realmente una DPARL en la UD | **BAJO-MEDIO** — zona gris; la posicion mas conservadora es incluir los intereses presuntivos como DPARL |\n\n### 4. Analisis Detallado de Cada Divergencia\n\n#### 4.1. Divergencia D-1: TTD con Perdida Contable — El Debate Central\n\n**El problema:** El par. 6 art. 240 ET dice que la TTD se calcula a partir de la \"utilidad financiera depurada\" y que quienes tienen UD <= 0 estan exceptuados. Cuando la UC del estado de resultados es negativa (perdida contable), la pregunta es: ?se empieza la formula con un numero negativo y se continua el calculo, o simplemente no hay TTD?\n\n**Las tres posiciones que identificaron las fuentes:**\n\n**Posicion A — No aplica TTD:** El par. 6 habla de \"utilidad\" — y la utilidad, por definicion contable, es un resultado positivo. Una perdida no es una \"utilidad\". Si el punto de partida es una perdida, la premisa de la norma no se da y no hay lugar al calculo. Esta fue la posicion que adopto inicialmente el Consejo de Estado al suspender provisionalmente el numeral 12 del Concepto DIAN 202/2024 en diciembre de 2024. El CTCP la respaldo mediante el Concepto 2024-0035, citando los marcos tecnicos contables.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [
+              "et_art_240"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "| D-2 | Descuento por donaciones (art. 257 ET) en empresas con TTD: el descuento reduce el ID pero no la UC, lo que puede aumentar el IA | La Actualicese (2025-2026) confirma este efecto: el descuento reduce el ID (el numerador de la TTD) sin reducir la UD, lo que hace bajar la TTD por debajo del 15% y genera mas IA. El beneficio real puede ser cero o incluso negativo | MEDIO-ALTO — muchos contadores recomiendan la donacion sin modelar el efecto TTD. Es necesario simular el impacto completo antes de decidir | | D-…",
+            "position_signal": "permite",
+            "relevance_score": 0.4348,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/como-reducir-la-carga-tributaria-en-2026-claves-de-planeacion-para-personas-juridicas-y-naturales/",
+                "label": "Cómo reducir la carga tributaria en 2026 — Claves de planeación para personas jurídicas y naturales",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/rutas/books/impuesto-de-renta-2025-claves-para-su-planeacion-tributaria-eficiente-en-colombia/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/como-reducir-la-carga-tributaria-en-2026-claves-de-planeacion-para-personas-juridicas-y-naturales/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "card_summary": "La planeación tributaria legítima implica estructurar operaciones para aprovechar beneficios legales, lo cual es un concepto clave para el contador.",
+            "extended_excerpt": "### 1. Marco Conceptual — Los Tres Conceptos que el Contador Debe Dominar\n\nAntes de revisar estrategias, el contador debe tener absolutamente claro el mapa conceptual que delimita lo legitimo de lo ilegal:\n\n| Concepto | Definicion practica | Consecuencia |\n| **Planeacion tributaria legitima** | Estructurar operaciones para aprovechar los beneficios que la ley otorga expresamente, dentro de su espiritu y letra | Legal. La jurisprudencia constitucional y contencioso-administrativa protege esta practica como expresion de la \"economia de opcion\" (1) |\n| **Elusion fiscal** | Usar los vacios o interpretaciones forzadas de la ley para evitar cargas tributarias que le corresponden al contribuyente segun el espiritu de la norma | Zona gris. No siempre ilegal, pero expone a la clausula anti-abuso del art. 869 ET y a la norma general anti-evasion. La DIAN puede recaracterizar operaciones. (2) |\n| **Evasion fiscal** | Ocultar ingresos, inflar gastos, declarar retenciones inexistentes o incluir pasivos ficticios | Ilegal. Sancion de inexactitud (art. 647 ET), y posiblemente delito penal — omision de activos o inclusion de pasivos inexistentes (art. 434A Codigo Penal, modificado por art. 69 Ley 2277/2022). (3) |\n\n**La linea practica que el contador debe usar:** Una estrategia es legitima si puede sostenerse publicada en el periodico, explicarse al cliente sin eufemismos, y resistir un requerimiento especial de la DIAN. Si alguna de esas tres pruebas falla, la estrategia esta en zona de riesgo.\n\n### 2. Convergencias — Lo que Todas las Fuentes Acuerdan\n\n**Convergencia 1 — La planeacion debe hacerse ANTES del cierre del ejercicio.** Todas las fuentes son unanimes: la planeacion tributaria realizada en diciembre (o peor aun, en la temporada de presentacion de declaraciones) es planeacion de papel. Las decisiones que generan impacto tributario real — compras de activos, contratacion de personal, aportes voluntarios, donaciones, estructuracion de pagos — deben tomarse antes del 31 de diciembre del ano gravable. Una declaracion de renta solo puede registrar lo que ocurrio; no puede crear lo que no existio. (4)(5)\n\n**Convergencia 2 — El 1% de deduccion por factura electronica es de los beneficios mas faciles de aplicar y menos aprovechados.** El art. 7 de la Ley 2277/2022 permite una deduccion del 1% del valor de las adquisiciones de bienes y servicios soportadas con factura electronica, hasta 240 UVT anuales ($11.951.760 para AG 2025). Los requisitos: factura electronica con validacion previa, pago con tarjeta debito/credito o medio electronico de entidad vigilada por la Superfinanciera, dentro del mismo periodo gravable. Todas las fuentes coinciden en que muchas PYMEs no la aplican por desconocimiento. (6)\n\n**Convergencia 3 — La compensacion de perdidas fiscales (art. 147 ET) es un activo que caduca y que hay que gestionar activamente.** Las perdidas fiscales generadas a partir del AG 2017 se pueden compensar en los 12 anos siguientes, sin limite porcentual. Todas las fuentes coinciden en que el contador debe hacer un inventario de las perdidas compensables de sus clientes e incluirlas en la proyeccion anual, decidiendo cuanto compensar cada ano — ni demasiado (agotarlas antes de tiempo) ni muy poco (perder el beneficio por prescripcion). Para AG 2025, son compensables las perdidas de AG 2013 en adelante (regimen anterior — hasta 25% por ano) y desde AG 2017 en adelante (Ley 1819/2016: 12 anos, sin limite). (7)\n\n**Convergencia 4 — El descuento tributario por donaciones (art. 257 ET) tiene un efecto real en el impuesto.** Las donaciones a entidades calificadas en el Regimen Tributario Especial o no contribuyentes de renta generan un **descuento tributario** del 25% del valor donado (no deduccion de la base, sino descuento del impuesto resultante). Si el cliente dona $20.000.000, ahorra $5.000.000 en impuesto. Todas las fuentes lo reconocen como una de las herramientas mas subutilizadas. **Advertencia critica (ver Divergencia D-2 mas abajo):** este descuento interactua negativamente con la TTD en personas juridicas sujetas al par. 6 art. 240 ET. (8)(9)",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [
+              "et_art_240"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "source_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "authority": "expert_interpretive_authority",
+            "title": "Declaracion renta (expert_interpretive_authority)",
+            "snippet": "7. Actualícese — https://actualicese.com (descuentos tributarios, donaciones)",
+            "position_signal": "neutral",
+            "relevance_score": 0.255824,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com"
+              },
+              {
+                "name": "KPMG",
+                "url": null
+              },
+              {
+                "name": "EY",
+                "url": null
+              },
+              {
+                "name": "Gerencie.com",
+                "url": null
+              },
+              {
+                "name": "Crowe Colombia",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "card_summary": "Este documento lista fuentes relacionadas con donaciones, descuentos tributarios y su impacto en la TTD.",
+            "extended_excerpt": "### Fuentes\n\n1. **Estatuto Tributario, Arts. 125, 257, 364-366** — https://normograma.dian.gov.co 2. **Ley 1819 de 2016** — Reforma tributaria (cambio Art. 125 → Art. 257) 3. **Ley 2380 de 2024** — Incentivos donaciones alimentos 4. **DIAN Concepto Unificado 481/2018** — Régimen RTE y donaciones 5. **DIAN Concepto 7927/2024** — Descuento 37.5% alimentos (Ley 2380) 6. **DIAN (Portal Oficial)** — https://www.dian.gov.co/impuestos/sociedades/Regimen-Tributario-Especial-RTE/ 7. **Actualícese** — https://actualicese.com (descuentos tributarios, donaciones) 8. **Gerencie.com** — Descuentos tributarios personas jurídicas 9. **KPMG Colombia** — Impacto donaciones en TTD 10. **EY Colombia** — Donaciones y TMT 11. **Crowe Colombia** — Donaciones de alimentos (Ley 2380) 12. **INCP (Instituto Nacional de Contadores)** — Publicación julio 2024 sobre Ley 2380 13. **Alfredo López Consultoría** — Ley 2380 descuentos por donaciones 14. **RSM Colombia** — Incentivos tributarios donaciones 15. **Consejo de Estado** — Jurisprudencia sobre beneficios tributarios (escasa en donaciones)\n\n**Fecha de elaboración:** 9 de abril de 2026 **Próxima revisión:** abril de 2027 (o si hay reforma adicional)\n\n### Norma Base\n\n**Art. 125 ET** (deducción donaciones — RÉGIMEN ANTERIOR, derogado 01/01/2017) **Art. 257 ET** (descuento tributario donaciones — RÉGIMEN ACTUAL desde 01/01/2017) **Art. 257 parágrafo 1** (descuento 37.5% donaciones alimentos — Ley 2380/2024) **Arts. 125-1 a 125-3 ET** (requisitos formales, aún vigentes para procedimiento) **Arts. 19, 364-366 ET** (Régimen Tributario Especial, ESAL) **Ley 1819/2016** (reforma tributaria que cambió Art. 125 → Art. 257) **Ley 2380/2024** (incentivo 37.5% alimentos, AG2025 en adelante)\n\n### Posiciones de Expertos\n\n#### Actualícese — Impacto Económico: Deducción vs. Descuento\n\n**Posición:** El cambio de **deducción (Art. 125)** a **descuento (Art. 257)** en 2017 fue una **reducción significativa** del beneficio tributario.\n\n**Análisis cuantitativo:**\n\n**Régimen Anterior (Art. 125, pre-2017):** Deducción 100%\n\n- Empresa X con renta fiscal $1.000M, tarifa 37.5%.\n\n- Dona $100M a ESAL.\n\n- Deducción: renta fiscal se reduce a $900M.\n\n- Impuesto: $900M × 37.5% = $337.5M.\n\n- Ahorro tributario: $100M × 37.5% = $37.5M.\n\n- **Costo neto de donación: $100M - $37.5M = $62.5M** (empresa pierde $62.5M en tesorería).\n\n**Régimen Actual (Art. 257, desde 01/01/2017):** Descuento 25%\n\n- Empresa X misma con renta fiscal $1.000M, tarifa 37.5%.\n\n- Dona $100M a ESAL.\n\n- Renta fiscal SIGUE siendo $1.000M (no es deducible).\n\n- Impuesto bruto: $1.000M × 37.5% = $375M.\n\n- Descuento tributario: 25% × $100M = $25M.\n\n- Impuesto neto: $375M - $25M = $350M.\n\n- Ahorro tributario: $25M.\n\n- **Costo neto de donación: $100M - $25M = $75M** (empresa pierde $75M).\n\n**Conclusión Actualícese:** El beneficio se redujo de $37.5M a $25M para la misma donación. Esto es un desincentivo relativo a 2016.\n\n**Nota:** Ley 2380/2024 intenta compensar con descuento 37.5% para alimentos, pero sigue siendo MENOR que deducción 100% anterior.\n\n#### KPMG Colombia — Impacto en TTD (Tasa Tributación Depurada)\n\n**Posición crítica:** El cambio de deducción a descuento tiene una implicación técnica importantes en el cálculo de la **TTD (Tasa Tributación Depurada, Art. 240 par. 6 ET).**\n\n**Mecanismo (Art. 240 par. 6):**\n\n- El TTD es (impuesto neto a cargo / renta líquida) × 100.\n\n- Para aplicar TTD, se compara este cociente con UVT (parámetro de referencia).\n\n- Si cociente > UVT determinado, hay sobrepago y se aplica TTD.\n\n**Impacto del descuento Art. 257:**\n\n- La deducción (Art. 125) reducía RENTA LÍQUIDA → reducía denominador TTD.\n\n- El descuento (Art. 257) NO reduce renta líquida → denominador TTD sigue igual.\n\n- Resultado: TTD se calcula sobre RENTA MAYOR → puede ser más alto.\n\n**Ejemplo KPMG:**\n\n- Empresa con renta fiscal $1.000M. Dona $100M.\n\n- Régimen viejo: renta $900M, impuesto $337.5M, TTD = 337.5/900 = 37.5%.\n\n- Régimen nuevo: renta $1.000M, impuesto $375M - $25M desc. = $350M, TTD = 350/1.000 = 35%.\n\n**Conclusión KPMG:** En este caso, TTD baja (35% < 37.5%), lo cual es FAVORABLE. Pero el análisis depende de cifras específicas. Punto: el descuento NO reduce denominador TTD.\n\n#### EY Colombia — Descuento vs. Deducción en Contexto de TMT (Tasa Mínima Tributación)\n\n**Posición:** Bajo Art. 240 par. 6 ET (TMT — tasa mínima tributación depurada), si contribuyente tiene TTD baja, está obligado a pagar TMT.\n\n**Relevancia de donaciones:**\n\n- **Deducción (Art. 125, pre-2017):** Reducía renta líquida → reducía base para cálculo TTD → podía activar TMT si TTD bajaba demasiado.\n\n- **Descuento (Art. 257, actual):** No reduce renta líquida → no afecta base TTD → menos propensión a activar TMT.\n\n**Implicación:** Descuento es \"más neutral\" respecto a TTD/TMT que deducción. Esto fue probablemente intención del legislador: mantener recaudación.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [
+              "et_art_240"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "analysis"
+          }
+        ],
+        "relevance_score": 0.8489999999999999,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+        "panel_rank": 1
+      },
+      {
+        "article_ref": "et_art_647",
+        "classification": "divergencia",
+        "summary_signal": "La Tasa de Tributación Depurada (TTD) se calcula dividiendo el Impuesto Depurado (ID) entre la Utilidad Depurada (UD), y si el resultado es menor al 15%, se debe adicionar un impuesto para alcanzar dicho porcentaje.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "PwC",
+            "url": null
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com"
+          },
+          {
+            "name": "ConsultorContable",
+            "url": "https://www.consultorcontable.com/tasa-minima-de-tributacion-paragrafo-6-art-240-et/"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/"
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "Gerencie.com",
+            "url": null
+          },
+          {
+            "name": "Legis",
+            "url": null
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "INCP — \"Tasa mínima de tributación es declarada exequible por la Corte Constitucional\": https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/",
+            "position_signal": "restringe",
+            "relevance_score": 0.8489999999999999,
+            "trust_tier": "high",
+            "provider_links": [
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/",
+                "label": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/comisiones-incp/comision-tributaria/2024/04/la-tasa-minima-de-tributacion-interfiere-en-las-normas-y-principios-contables/",
+                "label": "https://incp.org.co/publicaciones/comisiones-incp/comision-tributaria/2024/04/la-tasa-minima-de-tributacion-interfiere-en-las-normas-y-principios-contables/",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://actualicese.com/recomendaciones-claves-para-aplicar-correctamente-la-tasa-minima-de-tributacion-al-cierre-de-2025/",
+                "label": "https://actualicese.com/recomendaciones-claves-para-aplicar-correctamente-la-tasa-minima-de-tributacion-al-cierre-de-2025/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.pwc.com/co/es/pwc-insights/suspension-provisional-concepto-dian-ttd.html",
+                "label": "https://www.pwc.com/co/es/pwc-insights/suspension-provisional-concepto-dian-ttd.html",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/tasa-minima-de-tributacion-paragrafo-6-art-240-et/",
+                "label": "https://www.consultorcontable.com/tasa-minima-de-tributacion-paragrafo-6-art-240-et/",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/perdida-contable-en-la-tasa-minima-de-tributacion-ttd/",
+                "label": "https://www.consultorcontable.com/perdida-contable-en-la-tasa-minima-de-tributacion-ttd/",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://actualicese.com/tasa-minima-de-tributacion-consejo-de-estado-valida-doctrina-de-la-dian-y-levanta-suspension/",
+                "label": "https://actualicese.com/tasa-minima-de-tributacion-consejo-de-estado-valida-doctrina-de-la-dian-y-levanta-suspension/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://legalytributarioenlinea.co.pwc.com/Repositorio%20PwC/PDF/Jurisprudencia/Consejo%20de%20Estado/Secci%C3%B3n%204/2025/SEN-EXP-028920-25.pdf",
+                "label": "https://legalytributarioenlinea.co.pwc.com/Repositorio%20PwC/PDF/Jurisprudencia/Consejo%20de%20Estado/Secci%C3%B3n%204/2025/SEN-EXP-028920-25.pdf",
+                "provider": "PwC",
+                "domain": "legalytributarioenlinea.co.pwc.com"
+              },
+              {
+                "url": "https://actualicese.com/tasa-minima-de-tributacion-dos-opciones-una-decision-inteligente/",
+                "label": "https://actualicese.com/tasa-minima-de-tributacion-dos-opciones-una-decision-inteligente/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/preguntas-y-respuestas-sobre-tasa-minima-de-tributacion-ttd/",
+                "label": "https://www.consultorcontable.com/preguntas-y-respuestas-sobre-tasa-minima-de-tributacion-ttd/",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2025/01/aprende-a-calcular-la-tasa-de-tributacion-depurada-y-sus-implicaciones-tributarias/",
+                "label": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2025/01/aprende-a-calcular-la-tasa-de-tributacion-depurada-y-sus-implicaciones-tributarias/",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://actualicese.com/sociedades-que-al-cierre-del-2025-no-estaran-sujetas-al-calculo-de-la-tasa-minima-de-tributacion/",
+                "label": "https://actualicese.com/sociedades-que-al-cierre-del-2025-no-estaran-sujetas-al-calculo-de-la-tasa-minima-de-tributacion/",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co/es/pwc-insights/suspension-provisional-concepto-dian-ttd.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/recomendaciones-claves-para-aplicar-correctamente-la-tasa-minima-de-tributacion-al-cierre-de-2025/"
+              },
+              {
+                "name": "ConsultorContable",
+                "url": "https://www.consultorcontable.com/tasa-minima-de-tributacion-paragrafo-6-art-240-et/"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/06/tasa-minima-de-tributacion-es-declarada-exequible-por-la-corte-constitucional/"
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-A-tasa-minima-tributacion-TTD-fuentes-secundarias.md",
+            "card_summary": "La Tasa de Tributación Depurada (TTD) se calcula dividiendo el Impuesto Depurado (ID) entre la Utilidad Depurada (UD), y si el resultado es menor al 15%, se debe adicionar un impuesto para alcanzar dicho porcentaje.",
+            "extended_excerpt": "### 1. Posicion Normativa — Lo que Dice la Ley (Referencia Rapida)\n\nEl paragrafo 6 del articulo 240 del ET establece que toda persona juridica sujeta a los articulos 240 y 240-1 ET debe calcular una **Tasa de Tributacion Depurada (TTD)** que no puede ser inferior al **15%**. La TTD es el cociente entre el **Impuesto Depurado (ID)** y la **Utilidad Depurada (UD)**:\n\n``` TTD = ID / UD\n\nID = INR + DTC + IRP UD = UC + DPARL - INCRNGO - VIMPP - VNGO - RE - C\n\nSi TTD < 15%  →  existe Impuesto a Adicionar (IA) IA = (15% x UD) - ID ```\n\nDonde:\n\n- **UC** = Utilidad contable o financiera antes de impuestos\n\n- **DPARL** = Diferencias permanentes que aumentan la renta liquida\n\n- **INCRNGO** = Ingresos no constitutivos de renta ni ganancia ocasional\n\n- **VIMPP** = Valor ingreso metodo de participacion patrimonial\n\n- **VNGO** = Valor neto de ingresos por ganancia ocasional\n\n- **RE** = Rentas exentas por tratados, CHC y literales a), b) num. 4 y num. 7 art. 235-2 ET\n\n- **C** = Compensacion de perdidas fiscales o excesos de renta presuntiva del ano gravable\n\nEl IA resultante se declara en la **casilla 95 del Formulario 110** y se suma al impuesto de renta ordinario. Aplica desde el **AG 2023** y ha sido declarado exequible por la Corte Constitucional en dos oportunidades (Sentencias C-219/2024 y C-488/2024).\n\n### 2. Convergencias — En que Estan de Acuerdo Todas las Fuentes\n\nAntes de entrar en las divergencias, el contador debe tener claros los puntos en los que **no hay debate**:\n\n**Convergencia 1 — La TTD es obligatoria y constitucional.** PwC, Actualicese, Consultor Contable e INCP son unanimes: la TTD se calcula, punto. Las Sentencias C-219/2024 y C-488/2024 cerraron cualquier argumento de inconstitucionalidad. El contador que omita el calculo expone a su cliente a la sancion de inexactitud del art. 647 ET (100% del mayor impuesto o 15% de los valores inexactos, segun aplique).\n\n### 3. Divergencias Identificadas — La Tabla de Riesgo\n\nLas siguientes tres son las divergencias de interpretacion mas relevantes identificadas en las fuentes secundarias consultadas:\n\n| # | Cuestion en disputa | Posicion DIAN | Posicion tribunales | Riesgo para el contador |\n| **D-1** | TTD cuando la UC del ejercicio es **negativa (perdida contable)** | Igual se calcula la UD; si UD > 0, hay TTD y puede haber IA | Consejo de Estado: revoco suspension provisional (jul. 2025); concepto DIAN recobro vigencia; pero decision de fondo **pendiente** | **ALTO** — posicion DIAN vigente pero impugnable |\n| **D-2** | El **IA como impuesto basico de renta** para calcular dividendos no gravados (art. 49 ET) | Si — el IA debe incluirse en el impuesto basico para reducir el techo de dividendos no gravados | Consejo de Estado: **mantuvo suspendida** esta interpretacion DIAN (numeral 20 del Concepto 202/2024). Posicion mas favorable al contribuyente vigente a marzo 2026 | **MEDIO** — la interpretacion DIAN esta suspendida; la favorable al contribuyente es la aplicable mientras el juicio de fondo siga pendiente |\n| **D-3** | Alcance de las **DPARL** — que diferencias permanentes aumentan la renta liquida para efectos de la TTD | La DIAN incluye todos los gastos y costos no deducibles que no generan impuesto diferido; tambien ajustes fiscales en ingresos como intereses presuntivos | Consultor Contable y algunos tributaristas: cuestionan si los intereses presuntivos (ingreso solo fiscal, sin efecto contable) son realmente una DPARL en la UD | **BAJO-MEDIO** — zona gris; la posicion mas conservadora es incluir los intereses presuntivos como DPARL |\n\n### 4. Analisis Detallado de Cada Divergencia\n\n#### 4.1. Divergencia D-1: TTD con Perdida Contable — El Debate Central\n\n**El problema:** El par. 6 art. 240 ET dice que la TTD se calcula a partir de la \"utilidad financiera depurada\" y que quienes tienen UD <= 0 estan exceptuados. Cuando la UC del estado de resultados es negativa (perdida contable), la pregunta es: ?se empieza la formula con un numero negativo y se continua el calculo, o simplemente no hay TTD?\n\n**Las tres posiciones que identificaron las fuentes:**\n\n**Posicion A — No aplica TTD:** El par. 6 habla de \"utilidad\" — y la utilidad, por definicion contable, es un resultado positivo. Una perdida no es una \"utilidad\". Si el punto de partida es una perdida, la premisa de la norma no se da y no hay lugar al calculo. Esta fue la posicion que adopto inicialmente el Consejo de Estado al suspender provisionalmente el numeral 12 del Concepto DIAN 202/2024 en diciembre de 2024. El CTCP la respaldo mediante el Concepto 2024-0035, citando los marcos tecnicos contables.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [
+              "et_art_240"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "| D-2 | Descuento por donaciones (art. 257 ET) en empresas con TTD: el descuento reduce el ID pero no la UC, lo que puede aumentar el IA | La Actualicese (2025-2026) confirma este efecto: el descuento reduce el ID (el numerador de la TTD) sin reducir la UD, lo que hace bajar la TTD por debajo del 15% y genera mas IA. El beneficio real puede ser cero o incluso negativo | MEDIO-ALTO — muchos contadores recomiendan la donacion sin modelar el efecto TTD. Es necesario simular el impacto completo antes de decidir | | D-…",
+            "position_signal": "permite",
+            "relevance_score": 0.4348,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/como-reducir-la-carga-tributaria-en-2026-claves-de-planeacion-para-personas-juridicas-y-naturales/",
+                "label": "Cómo reducir la carga tributaria en 2026 — Claves de planeación para personas jurídicas y naturales",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/rutas/books/impuesto-de-renta-2025-claves-para-su-planeacion-tributaria-eficiente-en-colombia/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/como-reducir-la-carga-tributaria-en-2026-claves-de-planeacion-para-personas-juridicas-y-naturales/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "card_summary": "La planeación tributaria legítima implica estructurar operaciones para aprovechar beneficios legales, lo cual es un concepto clave para el contador.",
+            "extended_excerpt": "### 1. Marco Conceptual — Los Tres Conceptos que el Contador Debe Dominar\n\nAntes de revisar estrategias, el contador debe tener absolutamente claro el mapa conceptual que delimita lo legitimo de lo ilegal:\n\n| Concepto | Definicion practica | Consecuencia |\n| **Planeacion tributaria legitima** | Estructurar operaciones para aprovechar los beneficios que la ley otorga expresamente, dentro de su espiritu y letra | Legal. La jurisprudencia constitucional y contencioso-administrativa protege esta practica como expresion de la \"economia de opcion\" (1) |\n| **Elusion fiscal** | Usar los vacios o interpretaciones forzadas de la ley para evitar cargas tributarias que le corresponden al contribuyente segun el espiritu de la norma | Zona gris. No siempre ilegal, pero expone a la clausula anti-abuso del art. 869 ET y a la norma general anti-evasion. La DIAN puede recaracterizar operaciones. (2) |\n| **Evasion fiscal** | Ocultar ingresos, inflar gastos, declarar retenciones inexistentes o incluir pasivos ficticios | Ilegal. Sancion de inexactitud (art. 647 ET), y posiblemente delito penal — omision de activos o inclusion de pasivos inexistentes (art. 434A Codigo Penal, modificado por art. 69 Ley 2277/2022). (3) |\n\n**La linea practica que el contador debe usar:** Una estrategia es legitima si puede sostenerse publicada en el periodico, explicarse al cliente sin eufemismos, y resistir un requerimiento especial de la DIAN. Si alguna de esas tres pruebas falla, la estrategia esta en zona de riesgo.\n\n### 2. Convergencias — Lo que Todas las Fuentes Acuerdan\n\n**Convergencia 1 — La planeacion debe hacerse ANTES del cierre del ejercicio.** Todas las fuentes son unanimes: la planeacion tributaria realizada en diciembre (o peor aun, en la temporada de presentacion de declaraciones) es planeacion de papel. Las decisiones que generan impacto tributario real — compras de activos, contratacion de personal, aportes voluntarios, donaciones, estructuracion de pagos — deben tomarse antes del 31 de diciembre del ano gravable. Una declaracion de renta solo puede registrar lo que ocurrio; no puede crear lo que no existio. (4)(5)\n\n**Convergencia 2 — El 1% de deduccion por factura electronica es de los beneficios mas faciles de aplicar y menos aprovechados.** El art. 7 de la Ley 2277/2022 permite una deduccion del 1% del valor de las adquisiciones de bienes y servicios soportadas con factura electronica, hasta 240 UVT anuales ($11.951.760 para AG 2025). Los requisitos: factura electronica con validacion previa, pago con tarjeta debito/credito o medio electronico de entidad vigilada por la Superfinanciera, dentro del mismo periodo gravable. Todas las fuentes coinciden en que muchas PYMEs no la aplican por desconocimiento. (6)\n\n**Convergencia 3 — La compensacion de perdidas fiscales (art. 147 ET) es un activo que caduca y que hay que gestionar activamente.** Las perdidas fiscales generadas a partir del AG 2017 se pueden compensar en los 12 anos siguientes, sin limite porcentual. Todas las fuentes coinciden en que el contador debe hacer un inventario de las perdidas compensables de sus clientes e incluirlas en la proyeccion anual, decidiendo cuanto compensar cada ano — ni demasiado (agotarlas antes de tiempo) ni muy poco (perder el beneficio por prescripcion). Para AG 2025, son compensables las perdidas de AG 2013 en adelante (regimen anterior — hasta 25% por ano) y desde AG 2017 en adelante (Ley 1819/2016: 12 anos, sin limite). (7)\n\n**Convergencia 4 — El descuento tributario por donaciones (art. 257 ET) tiene un efecto real en el impuesto.** Las donaciones a entidades calificadas en el Regimen Tributario Especial o no contribuyentes de renta generan un **descuento tributario** del 25% del valor donado (no deduccion de la base, sino descuento del impuesto resultante). Si el cliente dona $20.000.000, ahorra $5.000.000 en impuesto. Todas las fuentes lo reconocen como una de las herramientas mas subutilizadas. **Advertencia critica (ver Divergencia D-2 mas abajo):** este descuento interactua negativamente con la TTD en personas juridicas sujetas al par. 6 art. 240 ET. (8)(9)",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [
+              "et_art_240"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "source_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "7. Actualícese — https://actualicese.com (guías depreciación, F2516)",
+            "position_signal": "neutral",
+            "relevance_score": 0.158576,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com"
+              },
+              {
+                "name": "EY",
+                "url": null
+              },
+              {
+                "name": "PwC",
+                "url": null
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              },
+              {
+                "name": "Gerencie.com",
+                "url": null
+              },
+              {
+                "name": "Legis",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "card_summary": "Este documento lista fuentes relacionadas con la depreciación fiscal y NIIF, incluyendo artículos del Estatuto Tributario y normas internacionales.",
+            "extended_excerpt": "### Fuentes\n\n1. **Estatuto Tributario, Arts. 128-140, 290** — https://normograma.dian.gov.co 2. **NIC 16 (IFRS Foundation)** — https://www.ifrs.org 3. **Decreto 2420/2015** — Implementación NIIF en Colombia 4. **Ley 1819/2016** — Reforma tributaria 5. **DIAN Concepto 191/2025** — Depreciación conforme técnica contable 6. **DIAN Oficio 566(903259)/2021** — Aceleración Art. 140 (16 horas diarias) 7. **Actualícese** — https://actualicese.com (guías depreciación, F2516) 8. **EY Colombia** — Guía NIIF 2024, publicaciones sobre vidas útiles 9. **PwC Colombia** — Régimen de Depreciación y Amortización de Activos 10. **Deloitte Colombia** — Publicaciones sobre revalúo NIIF y tributación 11. **Gerencie.com** — Depreciación NIIF para PYMEs vs. NIIF full 12. **CTCP** — Concepto sobre relación NIC 16 / depreciación fiscal 13. **Legis Xperta** — Comparativa vidas útiles contables vs. fiscales\n\n**Fecha de elaboración:** 9 de abril de 2026 **Próxima revisión:** abril de 2027\n\n### Norma Base\n\n**Arts. 128, 131, 134, 137, 140 ET** (depreciación fiscal, máximas tasas, aceleración) **NIC 16** (IFRS — Propiedad, Planta y Equipo) **Decreto 2420/2015** (implementación NIIF en Colombia) **Ley 1819/2016** (reforma tributaria, alineación NIIF-fiscal)\n\n### Posiciones de Expertos\n\n#### Actualícese — Conciliación Fiscal F2516 y Diferencias de Depreciación\n\n**Posición:** La diferencia entre depreciación contable (NIIF, NIC 16) y depreciación fiscal (Art. 137-140 ET) genera **diferencias TEMPORALES** que deben ser registradas en el Formulario 2516 (Conciliación Renta Fiscal con Contable).\n\n**Fundamento:**\n\n- Cuando vida útil contable (NIIF) es MAYOR que vida útil fiscal, la depreciación anual contable es MENOR → en F2516 hay que RESTAR depreciación fiscal en exceso.\n\n- Cuando vida útil contable es MENOR, la depreciación contable es MAYOR → hay que SUMAR diferencia en F2516.\n\n- El resultado es que la base fiscal para cálculo de impuesto renta difiere de la renta contable.\n\n**Aplicación práctica PYME:**\n\n- Edificio: vida útil contable (NIIF) 25 años = 4% anual; máximo fiscal (Art. 137) = 5% anual.\n\n- Diferencia: 1% anual en contra (menos gasto contable = más renta fiscal = más impuesto).\n\n- En F2516: línea de \"depreciación — diferencias de vida útil\" restar el exceso de depreciación fiscal.\n\n#### EY Colombia — Vida Útil Estimada bajo NIIF vs. Máximos Fiscales\n\n**Posición:** NIIF (NIC 16) requiere estimación TÉCNICAMENTE JUSTIFICADA de vida útil reflejando \"patrón esperado de consumo de beneficios económicos\"; esto **usualmente resulta en vidas útiles MENORES que los máximos fiscales** del Art. 137 ET.\n\n**Hallazgo clave (EY Guía NIIF 2024):**\n\n- Maquinaria industrial: fiscal máximo 10 años (Art. 137) pero empresa puede estimar 7 años bajo NIIF si máquinas se vuelven técnicamente obsoletas en 7.\n\n- Computadoras: fiscal máximo 5 años; bajo NIIF usualmente 3-4 años por obsolescencia rápida.\n\n- Edificios: fiscal 20 años; bajo NIIF puede ser 30-40 años si el inmueble es de buena calidad y está bien mantenido.\n\n**Implicación tributaria:**\n\n- Cuando vida útil NIIF < fiscal: depreciación contable > fiscal → disminuye renta fiscal temporalmente.\n\n- Diferencia se registra como \"conciliación fiscal\" (F2516) pero NO es \"error\"; es divergencia legítima de criterios.\n\n**Recomendación para PYME:**\n\n- Documentar JUSTIFICACIÓN TÉCNICA de vida útil NIIF (peritaje de ingeniero, benchmarking sectorial, registros históricos de obsolescencia).\n\n- Aceptar que depreciación NIIF < fiscal en muchos casos; requiere conciliación disciplinada en F2516.\n\n#### PwC Colombia — Depreciación Acelerada (Art. 140): Documentación y Riesgo\n\n**Posición crítica:** El requisito \"16 horas diarias\" del Art. 140 ET exige **documentación RIGUROSA**. PwC constata que muchas PYMEs aplican aceleración sin documentación suficiente y DIAN cuestiona en auditoría.\n\n**Riesgo principal:**\n\n- DIAN Oficio 566(903259)/2021: depreciación acelerada aplica SOLO si el activo se usa 16+ horas **DIARIAMENTE DURANTE TODO EL AÑO GRAVABLE**.\n\n- Si una fabrica \"cierra por vacaciones\" un mes, NO aplica aceleración el resto del año.\n\n- PYMEs con períodos improductivos (paras técnicas, mantenimiento, cambios de proceso) NO califican para aceleración.\n\n**Documentación requerida (según precedentes DIAN):**\n\n- Registros de asistencia de operarios (bitácoras de turno).\n\n- Hojas de producción diaria (que evidencien uso 16+ hrs).\n\n- Registros de máquina (timestamps de inicio/fin de operaciones).\n\n- Reportes de mantenimiento (indicando que mantenimiento se hace fuera de turno de 16 hrs).\n\n- En caso de transportes/vehículos: libretas de ruta, registros de salidas (GPS, bitácoras).\n\n**Hallazgo PwC (Auditorías recientes):**\n\n- 60% de PYMEs que reclaman aceleración NO tienen documentación suficiente.\n\n- DIAN ajusta depreciación y cobra intereses + sanción inexactitud (Art. 647).\n\n- Recomendación: si no hay documentación rigurosa, NO reclamar aceleración.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.8489999999999999,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+        "panel_rank": 2
+      },
+      {
+        "article_ref": "et_art_257",
+        "classification": "concordancia",
+        "summary_signal": "La planeación tributaria legítima implica estructurar operaciones para aprovechar beneficios legales, lo cual es un concepto clave para el contador.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com"
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "Gerencie.com",
+            "url": null
+          },
+          {
+            "name": "Crowe Colombia",
+            "url": null
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "| D-2 | Descuento por donaciones (art. 257 ET) en empresas con TTD: el descuento reduce el ID pero no la UC, lo que puede aumentar el IA | La Actualicese (2025-2026) confirma este efecto: el descuento reduce el ID (el numerador de la TTD) sin reducir la UD, lo que hace bajar la TTD por debajo del 15% y genera mas IA. El beneficio real puede ser cero o incluso negativo | MEDIO-ALTO — muchos contadores recomiendan la donacion sin modelar el efecto TTD. Es necesario simular el impacto completo antes de decidir | | D-…",
+            "position_signal": "permite",
+            "relevance_score": 0.4348,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/como-reducir-la-carga-tributaria-en-2026-claves-de-planeacion-para-personas-juridicas-y-naturales/",
+                "label": "Cómo reducir la carga tributaria en 2026 — Claves de planeación para personas jurídicas y naturales",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/rutas/books/impuesto-de-renta-2025-claves-para-su-planeacion-tributaria-eficiente-en-colombia/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/como-reducir-la-carga-tributaria-en-2026-claves-de-planeacion-para-personas-juridicas-y-naturales/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-F-planeacion-tributaria-legitima-fuentes-secundarias.md",
+            "card_summary": "La planeación tributaria legítima implica estructurar operaciones para aprovechar beneficios legales, lo cual es un concepto clave para el contador.",
+            "extended_excerpt": "### 1. Marco Conceptual — Los Tres Conceptos que el Contador Debe Dominar\n\nAntes de revisar estrategias, el contador debe tener absolutamente claro el mapa conceptual que delimita lo legitimo de lo ilegal:\n\n| Concepto | Definicion practica | Consecuencia |\n| **Planeacion tributaria legitima** | Estructurar operaciones para aprovechar los beneficios que la ley otorga expresamente, dentro de su espiritu y letra | Legal. La jurisprudencia constitucional y contencioso-administrativa protege esta practica como expresion de la \"economia de opcion\" (1) |\n| **Elusion fiscal** | Usar los vacios o interpretaciones forzadas de la ley para evitar cargas tributarias que le corresponden al contribuyente segun el espiritu de la norma | Zona gris. No siempre ilegal, pero expone a la clausula anti-abuso del art. 869 ET y a la norma general anti-evasion. La DIAN puede recaracterizar operaciones. (2) |\n| **Evasion fiscal** | Ocultar ingresos, inflar gastos, declarar retenciones inexistentes o incluir pasivos ficticios | Ilegal. Sancion de inexactitud (art. 647 ET), y posiblemente delito penal — omision de activos o inclusion de pasivos inexistentes (art. 434A Codigo Penal, modificado por art. 69 Ley 2277/2022). (3) |\n\n**La linea practica que el contador debe usar:** Una estrategia es legitima si puede sostenerse publicada en el periodico, explicarse al cliente sin eufemismos, y resistir un requerimiento especial de la DIAN. Si alguna de esas tres pruebas falla, la estrategia esta en zona de riesgo.\n\n### 2. Convergencias — Lo que Todas las Fuentes Acuerdan\n\n**Convergencia 1 — La planeacion debe hacerse ANTES del cierre del ejercicio.** Todas las fuentes son unanimes: la planeacion tributaria realizada en diciembre (o peor aun, en la temporada de presentacion de declaraciones) es planeacion de papel. Las decisiones que generan impacto tributario real — compras de activos, contratacion de personal, aportes voluntarios, donaciones, estructuracion de pagos — deben tomarse antes del 31 de diciembre del ano gravable. Una declaracion de renta solo puede registrar lo que ocurrio; no puede crear lo que no existio. (4)(5)\n\n**Convergencia 2 — El 1% de deduccion por factura electronica es de los beneficios mas faciles de aplicar y menos aprovechados.** El art. 7 de la Ley 2277/2022 permite una deduccion del 1% del valor de las adquisiciones de bienes y servicios soportadas con factura electronica, hasta 240 UVT anuales ($11.951.760 para AG 2025). Los requisitos: factura electronica con validacion previa, pago con tarjeta debito/credito o medio electronico de entidad vigilada por la Superfinanciera, dentro del mismo periodo gravable. Todas las fuentes coinciden en que muchas PYMEs no la aplican por desconocimiento. (6)\n\n**Convergencia 3 — La compensacion de perdidas fiscales (art. 147 ET) es un activo que caduca y que hay que gestionar activamente.** Las perdidas fiscales generadas a partir del AG 2017 se pueden compensar en los 12 anos siguientes, sin limite porcentual. Todas las fuentes coinciden en que el contador debe hacer un inventario de las perdidas compensables de sus clientes e incluirlas en la proyeccion anual, decidiendo cuanto compensar cada ano — ni demasiado (agotarlas antes de tiempo) ni muy poco (perder el beneficio por prescripcion). Para AG 2025, son compensables las perdidas de AG 2013 en adelante (regimen anterior — hasta 25% por ano) y desde AG 2017 en adelante (Ley 1819/2016: 12 anos, sin limite). (7)\n\n**Convergencia 4 — El descuento tributario por donaciones (art. 257 ET) tiene un efecto real en el impuesto.** Las donaciones a entidades calificadas en el Regimen Tributario Especial o no contribuyentes de renta generan un **descuento tributario** del 25% del valor donado (no deduccion de la base, sino descuento del impuesto resultante). Si el cliente dona $20.000.000, ahorra $5.000.000 en impuesto. Todas las fuentes lo reconocen como una de las herramientas mas subutilizadas. **Advertencia critica (ver Divergencia D-2 mas abajo):** este descuento interactua negativamente con la TTD en personas juridicas sujetas al par. 6 art. 240 ET. (8)(9)",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [
+              "et_art_240"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "source_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "authority": "expert_interpretive_authority",
+            "title": "Declaracion renta (expert_interpretive_authority)",
+            "snippet": "7. Actualícese — https://actualicese.com (descuentos tributarios, donaciones)",
+            "position_signal": "neutral",
+            "relevance_score": 0.255824,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com"
+              },
+              {
+                "name": "KPMG",
+                "url": null
+              },
+              {
+                "name": "EY",
+                "url": null
+              },
+              {
+                "name": "Gerencie.com",
+                "url": null
+              },
+              {
+                "name": "Crowe Colombia",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_EXPERTOS_DON-E01-donaciones-deduccion-vs-descuento-interpretaciones.md",
+            "card_summary": "Este documento lista fuentes relacionadas con donaciones, descuentos tributarios y su impacto en la TTD.",
+            "extended_excerpt": "### Fuentes\n\n1. **Estatuto Tributario, Arts. 125, 257, 364-366** — https://normograma.dian.gov.co 2. **Ley 1819 de 2016** — Reforma tributaria (cambio Art. 125 → Art. 257) 3. **Ley 2380 de 2024** — Incentivos donaciones alimentos 4. **DIAN Concepto Unificado 481/2018** — Régimen RTE y donaciones 5. **DIAN Concepto 7927/2024** — Descuento 37.5% alimentos (Ley 2380) 6. **DIAN (Portal Oficial)** — https://www.dian.gov.co/impuestos/sociedades/Regimen-Tributario-Especial-RTE/ 7. **Actualícese** — https://actualicese.com (descuentos tributarios, donaciones) 8. **Gerencie.com** — Descuentos tributarios personas jurídicas 9. **KPMG Colombia** — Impacto donaciones en TTD 10. **EY Colombia** — Donaciones y TMT 11. **Crowe Colombia** — Donaciones de alimentos (Ley 2380) 12. **INCP (Instituto Nacional de Contadores)** — Publicación julio 2024 sobre Ley 2380 13. **Alfredo López Consultoría** — Ley 2380 descuentos por donaciones 14. **RSM Colombia** — Incentivos tributarios donaciones 15. **Consejo de Estado** — Jurisprudencia sobre beneficios tributarios (escasa en donaciones)\n\n**Fecha de elaboración:** 9 de abril de 2026 **Próxima revisión:** abril de 2027 (o si hay reforma adicional)\n\n### Norma Base\n\n**Art. 125 ET** (deducción donaciones — RÉGIMEN ANTERIOR, derogado 01/01/2017) **Art. 257 ET** (descuento tributario donaciones — RÉGIMEN ACTUAL desde 01/01/2017) **Art. 257 parágrafo 1** (descuento 37.5% donaciones alimentos — Ley 2380/2024) **Arts. 125-1 a 125-3 ET** (requisitos formales, aún vigentes para procedimiento) **Arts. 19, 364-366 ET** (Régimen Tributario Especial, ESAL) **Ley 1819/2016** (reforma tributaria que cambió Art. 125 → Art. 257) **Ley 2380/2024** (incentivo 37.5% alimentos, AG2025 en adelante)\n\n### Posiciones de Expertos\n\n#### Actualícese — Impacto Económico: Deducción vs. Descuento\n\n**Posición:** El cambio de **deducción (Art. 125)** a **descuento (Art. 257)** en 2017 fue una **reducción significativa** del beneficio tributario.\n\n**Análisis cuantitativo:**\n\n**Régimen Anterior (Art. 125, pre-2017):** Deducción 100%\n\n- Empresa X con renta fiscal $1.000M, tarifa 37.5%.\n\n- Dona $100M a ESAL.\n\n- Deducción: renta fiscal se reduce a $900M.\n\n- Impuesto: $900M × 37.5% = $337.5M.\n\n- Ahorro tributario: $100M × 37.5% = $37.5M.\n\n- **Costo neto de donación: $100M - $37.5M = $62.5M** (empresa pierde $62.5M en tesorería).\n\n**Régimen Actual (Art. 257, desde 01/01/2017):** Descuento 25%\n\n- Empresa X misma con renta fiscal $1.000M, tarifa 37.5%.\n\n- Dona $100M a ESAL.\n\n- Renta fiscal SIGUE siendo $1.000M (no es deducible).\n\n- Impuesto bruto: $1.000M × 37.5% = $375M.\n\n- Descuento tributario: 25% × $100M = $25M.\n\n- Impuesto neto: $375M - $25M = $350M.\n\n- Ahorro tributario: $25M.\n\n- **Costo neto de donación: $100M - $25M = $75M** (empresa pierde $75M).\n\n**Conclusión Actualícese:** El beneficio se redujo de $37.5M a $25M para la misma donación. Esto es un desincentivo relativo a 2016.\n\n**Nota:** Ley 2380/2024 intenta compensar con descuento 37.5% para alimentos, pero sigue siendo MENOR que deducción 100% anterior.\n\n#### KPMG Colombia — Impacto en TTD (Tasa Tributación Depurada)\n\n**Posición crítica:** El cambio de deducción a descuento tiene una implicación técnica importantes en el cálculo de la **TTD (Tasa Tributación Depurada, Art. 240 par. 6 ET).**\n\n**Mecanismo (Art. 240 par. 6):**\n\n- El TTD es (impuesto neto a cargo / renta líquida) × 100.\n\n- Para aplicar TTD, se compara este cociente con UVT (parámetro de referencia).\n\n- Si cociente > UVT determinado, hay sobrepago y se aplica TTD.\n\n**Impacto del descuento Art. 257:**\n\n- La deducción (Art. 125) reducía RENTA LÍQUIDA → reducía denominador TTD.\n\n- El descuento (Art. 257) NO reduce renta líquida → denominador TTD sigue igual.\n\n- Resultado: TTD se calcula sobre RENTA MAYOR → puede ser más alto.\n\n**Ejemplo KPMG:**\n\n- Empresa con renta fiscal $1.000M. Dona $100M.\n\n- Régimen viejo: renta $900M, impuesto $337.5M, TTD = 337.5/900 = 37.5%.\n\n- Régimen nuevo: renta $1.000M, impuesto $375M - $25M desc. = $350M, TTD = 350/1.000 = 35%.\n\n**Conclusión KPMG:** En este caso, TTD baja (35% < 37.5%), lo cual es FAVORABLE. Pero el análisis depende de cifras específicas. Punto: el descuento NO reduce denominador TTD.\n\n#### EY Colombia — Descuento vs. Deducción en Contexto de TMT (Tasa Mínima Tributación)\n\n**Posición:** Bajo Art. 240 par. 6 ET (TMT — tasa mínima tributación depurada), si contribuyente tiene TTD baja, está obligado a pagar TMT.\n\n**Relevancia de donaciones:**\n\n- **Deducción (Art. 125, pre-2017):** Reducía renta líquida → reducía base para cálculo TTD → podía activar TMT si TTD bajaba demasiado.\n\n- **Descuento (Art. 257, actual):** No reduce renta líquida → no afecta base TTD → menos propensión a activar TMT.\n\n**Implicación:** Descuento es \"más neutral\" respecto a TTD/TMT que deducción. Esto fue probablemente intención del legislador: mantener recaudación.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [
+              "et_art_240"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "analysis"
+          }
+        ],
+        "relevance_score": 0.4348,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+        "panel_rank": 3
+      },
+      {
+        "article_ref": "et_art_137",
+        "classification": "concordancia",
+        "summary_signal": "Desde la adopción de las NIIF en Colombia, coexisten dos sistemas de medición del patrimonio: el contable (NIIF) y el fiscal (ET), que difieren en la valoración de activos y el reconocimiento de ajustes.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "PwC",
+            "url": null
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+          },
+          {
+            "name": "Legis",
+            "url": null
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "(7) Gerencie.com — \"Formato 2516 de conciliación fiscal: Obligados a presentarlo\" 🔗 https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+            "position_signal": "neutral",
+            "relevance_score": 0.159576,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/renta-por-comparacion-patrimonial.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "card_summary": "Desde la adopción de las NIIF en Colombia, coexisten dos sistemas de medición del patrimonio: el contable (NIIF) y el fiscal (ET), que difieren en la valoración de activos y el reconocimiento de ajustes.",
+            "extended_excerpt": "### 1. La Brecha Fundamental: Dos Marcos que Miden Diferente\n\nDesde la adopción de las NIIF en Colombia (Ley 1314/2009), coexisten dos sistemas de medición del patrimonio de una misma empresa:\n\n**Sistema contable (NIIF):** Mide el valor razonable o costo amortizado de los activos; reconoce deterioros, provisiones estimadas, activos por derecho de uso (NIIF 16), instrumentos financieros complejos, etc.\n\n**Sistema fiscal (ET arts. 261-283):** Mide el costo fiscal de los activos (generalmente el costo histórico ajustado); desconoce la mayoría de los ajustes NIIF que no tengan base legal tributaria expresa.\n\nEl **art. 21-1 ET** establece la regla de oro: para efectos tributarios, los activos, pasivos, patrimonios, ingresos, costos y gastos solo se reconocen cuando lo dispone el ET, con independencia de lo que digan las NIIF. Cuando el ET no regula expresamente un elemento, sí aplican las NIIF como criterio supletorio. (1)\n\nEl **art. 772-1 ET** (Ley 1819/2016) convierte esta diferencia en obligación formal: todos los contribuyentes obligados a llevar contabilidad deben conciliar formalmente las diferencias entre el balance contable y el fiscal, y reportarlas en los Formatos 2516 (F.110) o 2517 (F.210). (2)\n\n### 2. Las 10 Diferencias Sistemáticas más Frecuentes en PYMEs\n\n#### 2.1. Activos fijos (propiedad, planta y equipo)\n\n| Aspecto | NIIF | Fiscal ET | Diferencia |\n| Depreciación | Vida útil estimada + revisión periódica (NIC 16) | Tablas art. 137 ET: edificios 20 años; maquinaria 10; vehículos 5; computadores 5 | Diferencia temporaria muy frecuente |\n| Deterioro (impairment) | Reconocido conforme NIC 36 — gasto contable | NO deducible salvo cartera (art. 145 ET) | Diferencia permanente o temporaria |\n| Revaluó (modelo revaluación NIC 16) | Incrementa activo contable | Activo sigue al costo fiscal — el revaluó no tiene efecto fiscal | Patrimonio contable > fiscal |\n\n#### 2.2. Inventarios\n\nEl deterioro de inventarios bajo NIC 2 (cuando el Valor Neto Realizable < costo) es un gasto contable que NO es deducible fiscalmente hasta que el deterioro sea definitivo. Esta diferencia temporaria puede ser material en empresas con inventarios de baja rotación. (3)\n\n#### 2.3. Cuentas por cobrar y provisión de cartera\n\n| Aspecto | NIIF 9 / Sección 11 NIIF Pymes | Fiscal art. 145 ET | Diferencia |\n| Modelo de deterioro | Pérdidas esperadas — reconocimiento anticipado | 33% de la deuda con más de un año de vencida (declarante) | La provisión NIIF suele ser MAYOR que el 33% fiscal |\n| Intereses implícitos | NIIF 15 reconoce ingreso financiero en financiación implícita | Art. 28 num. 3 ET: solo se considera el valor nominal — los intereses implícitos NO tienen efecto fiscal | Diferencia permanente de ingreso |\n\n#### 2.4. Arrendamientos (NIIF 16 / Sección 20 NIIF Pymes)\n\nEsta es una de las diferencias más discutidas en el Formato 2516 para PYMEs:\n\n- **Contablemente (NIIF 16):** Se reconoce un Activo por Derecho de Uso (ADU) y un pasivo financiero de arrendamiento.\n\n- **Fiscalmente (art. 107 ET):** El canon de arrendamiento es una deducción cuando se paga. No existe el concepto de ADU en el ET.\n\n**Impacto en la conciliación patrimonial:** El ADU incrementa el activo contable; el pasivo de arrendamiento incrementa el pasivo contable. La diferencia neta depende de la relación entre ADU y pasivo. En la conciliación fiscal, el contador debe excluir ambos del balance fiscal. (4)\n\n#### 2.5. Activos intangibles y goodwill\n\nEl goodwill adquirido reconocido bajo NIIF 3 NO es un activo fiscal reconocido en el ET (art. 74 num. 4). No se deprecia ni amortiza fiscalmente. Si la PYME adquirió otra empresa generando goodwill, el patrimonio contable puede ser materialmente mayor que el fiscal. Los intangibles generados internamente tampoco son activos fiscales (son gastos del período).\n\n#### 2.6. Pasivos contingentes y provisiones\n\nLas provisiones contables (demandas, garantías, etc.) bajo NIC 37 NO son deducibles fiscalmente hasta que la obligación sea real y cierta (art. 107 ET — principio de causación fiscal). Esta diferencia temporaria reduce el patrimonio contable sin reducir el fiscal — el patrimonio fiscal puede ser MAYOR que el contable.\n\n#### 2.7. Diferencia en cambio al cierre\n\nLos activos y pasivos en moneda extranjera se convierten a la TRM al cierre. El ET art. 288 permite el mismo tratamiento. La diferencia surge cuando la empresa usa una tasa de conversión diferente a la TRM SFC a diciembre 31. La solución: siempre usar la TRM certificada por la SFC a diciembre 31 del período tanto para el balance contable como para el fiscal. (5)",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "source_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "7. Actualícese — https://actualicese.com (guías depreciación, F2516)",
+            "position_signal": "neutral",
+            "relevance_score": 0.158576,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com"
+              },
+              {
+                "name": "EY",
+                "url": null
+              },
+              {
+                "name": "PwC",
+                "url": null
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              },
+              {
+                "name": "Gerencie.com",
+                "url": null
+              },
+              {
+                "name": "Legis",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+            "card_summary": "Este documento lista fuentes relacionadas con la depreciación fiscal y NIIF, incluyendo artículos del Estatuto Tributario y normas internacionales.",
+            "extended_excerpt": "### Fuentes\n\n1. **Estatuto Tributario, Arts. 128-140, 290** — https://normograma.dian.gov.co 2. **NIC 16 (IFRS Foundation)** — https://www.ifrs.org 3. **Decreto 2420/2015** — Implementación NIIF en Colombia 4. **Ley 1819/2016** — Reforma tributaria 5. **DIAN Concepto 191/2025** — Depreciación conforme técnica contable 6. **DIAN Oficio 566(903259)/2021** — Aceleración Art. 140 (16 horas diarias) 7. **Actualícese** — https://actualicese.com (guías depreciación, F2516) 8. **EY Colombia** — Guía NIIF 2024, publicaciones sobre vidas útiles 9. **PwC Colombia** — Régimen de Depreciación y Amortización de Activos 10. **Deloitte Colombia** — Publicaciones sobre revalúo NIIF y tributación 11. **Gerencie.com** — Depreciación NIIF para PYMEs vs. NIIF full 12. **CTCP** — Concepto sobre relación NIC 16 / depreciación fiscal 13. **Legis Xperta** — Comparativa vidas útiles contables vs. fiscales\n\n**Fecha de elaboración:** 9 de abril de 2026 **Próxima revisión:** abril de 2027\n\n### Norma Base\n\n**Arts. 128, 131, 134, 137, 140 ET** (depreciación fiscal, máximas tasas, aceleración) **NIC 16** (IFRS — Propiedad, Planta y Equipo) **Decreto 2420/2015** (implementación NIIF en Colombia) **Ley 1819/2016** (reforma tributaria, alineación NIIF-fiscal)\n\n### Posiciones de Expertos\n\n#### Actualícese — Conciliación Fiscal F2516 y Diferencias de Depreciación\n\n**Posición:** La diferencia entre depreciación contable (NIIF, NIC 16) y depreciación fiscal (Art. 137-140 ET) genera **diferencias TEMPORALES** que deben ser registradas en el Formulario 2516 (Conciliación Renta Fiscal con Contable).\n\n**Fundamento:**\n\n- Cuando vida útil contable (NIIF) es MAYOR que vida útil fiscal, la depreciación anual contable es MENOR → en F2516 hay que RESTAR depreciación fiscal en exceso.\n\n- Cuando vida útil contable es MENOR, la depreciación contable es MAYOR → hay que SUMAR diferencia en F2516.\n\n- El resultado es que la base fiscal para cálculo de impuesto renta difiere de la renta contable.\n\n**Aplicación práctica PYME:**\n\n- Edificio: vida útil contable (NIIF) 25 años = 4% anual; máximo fiscal (Art. 137) = 5% anual.\n\n- Diferencia: 1% anual en contra (menos gasto contable = más renta fiscal = más impuesto).\n\n- En F2516: línea de \"depreciación — diferencias de vida útil\" restar el exceso de depreciación fiscal.\n\n#### EY Colombia — Vida Útil Estimada bajo NIIF vs. Máximos Fiscales\n\n**Posición:** NIIF (NIC 16) requiere estimación TÉCNICAMENTE JUSTIFICADA de vida útil reflejando \"patrón esperado de consumo de beneficios económicos\"; esto **usualmente resulta en vidas útiles MENORES que los máximos fiscales** del Art. 137 ET.\n\n**Hallazgo clave (EY Guía NIIF 2024):**\n\n- Maquinaria industrial: fiscal máximo 10 años (Art. 137) pero empresa puede estimar 7 años bajo NIIF si máquinas se vuelven técnicamente obsoletas en 7.\n\n- Computadoras: fiscal máximo 5 años; bajo NIIF usualmente 3-4 años por obsolescencia rápida.\n\n- Edificios: fiscal 20 años; bajo NIIF puede ser 30-40 años si el inmueble es de buena calidad y está bien mantenido.\n\n**Implicación tributaria:**\n\n- Cuando vida útil NIIF < fiscal: depreciación contable > fiscal → disminuye renta fiscal temporalmente.\n\n- Diferencia se registra como \"conciliación fiscal\" (F2516) pero NO es \"error\"; es divergencia legítima de criterios.\n\n**Recomendación para PYME:**\n\n- Documentar JUSTIFICACIÓN TÉCNICA de vida útil NIIF (peritaje de ingeniero, benchmarking sectorial, registros históricos de obsolescencia).\n\n- Aceptar que depreciación NIIF < fiscal en muchos casos; requiere conciliación disciplinada en F2516.\n\n#### PwC Colombia — Depreciación Acelerada (Art. 140): Documentación y Riesgo\n\n**Posición crítica:** El requisito \"16 horas diarias\" del Art. 140 ET exige **documentación RIGUROSA**. PwC constata que muchas PYMEs aplican aceleración sin documentación suficiente y DIAN cuestiona en auditoría.\n\n**Riesgo principal:**\n\n- DIAN Oficio 566(903259)/2021: depreciación acelerada aplica SOLO si el activo se usa 16+ horas **DIARIAMENTE DURANTE TODO EL AÑO GRAVABLE**.\n\n- Si una fabrica \"cierra por vacaciones\" un mes, NO aplica aceleración el resto del año.\n\n- PYMEs con períodos improductivos (paras técnicas, mantenimiento, cambios de proceso) NO califican para aceleración.\n\n**Documentación requerida (según precedentes DIAN):**\n\n- Registros de asistencia de operarios (bitácoras de turno).\n\n- Hojas de producción diaria (que evidencien uso 16+ hrs).\n\n- Registros de máquina (timestamps de inicio/fin de operaciones).\n\n- Reportes de mantenimiento (indicando que mantenimiento se hace fuera de turno de 16 hrs).\n\n- En caso de transportes/vehículos: libretas de ruta, registros de salidas (GPS, bitácoras).\n\n**Hallazgo PwC (Auditorías recientes):**\n\n- 60% de PYMEs que reclaman aceleración NO tienen documentación suficiente.\n\n- DIAN ajusta depreciación y cobra intereses + sanción inexactitud (Art. 647).\n\n- Recomendación: si no hay documentación rigurosa, NO reclamar aceleración.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.159576,
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (declaracion_renta).",
+        "panel_rank": 4
+      }
+    ],
+    "ungrouped": [],
+    "total_available": 4,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "¿Cómo se calcula la Tasa Mínima de Tributación Depurada del parágrafo 6 del Art. 240 ET y qué pasa si una PYME queda por debajo del 15%? ¿Qué interpretaciones hay sobre el Impuesto a Adicionar?",
+        "assistant_answer": "**Respuestas directas** - **¿Cómo se calcula la Tasa Mínima de Tributación Depurada del parágrafo **6** del Art. 240 ET y qué pasa si una PYME queda por debajo del **15%**?** - La Tasa Mínima de Tributación Depurada (TMTD) se calcula según el parágrafo **6** del Art. 240 ET. Si una PYME obtiene una TMTD inferior al **15%**, debe adicionar un impuesto hasta alcanzar ese porcentaje. - Este mecanismo busca asegurar que las sociedades nacionales y asimiladas, así como los establecimientos permanentes, tributen al menos a una tarifa efectiva del **15%** sobre su utilidad depurada, tal como lo establece el Art. 240 ET. - La aplicación de esta tasa mínima es crucial para la determinación del impuesto sobre la renta, afectando directamente la tarifa general aplicable a las personas jurídicas. - **¿Qué interpretaciones hay sobre el Impuesto a Adicionar?** - El Impuesto a Adicionar es la diferencia que se debe pagar para que la Tasa Mínima de Tributación Depurada (TMTD) alcance el **15%**. - Este impuesto adicional garantiza que la carga tributaria efectiva no sea inferior al umbral establecido por el Art. 240 ET, independientemente de las deducciones o beneficios fiscales que puedan reducir la tarifa nominal. - La finalidad es evitar que, mediante la aplicación de exenciones o deducciones, la tributación real de las empresas caiga por debajo del **15%** sobre su utilidad depurada. **Ruta sugerida** - Revisa el cálculo de la Renta Líquida Gravable y la depuración de la base para la TMTD, asegurándote de aplicar correctamente las adiciones y deducciones permitidas. - Compara la TMTD obtenida con el **15%** para determinar si hay lugar al Impuesto a Adicionar. - Documenta el proceso de cálculo y las decisiones tomadas, especialmente si la PYME queda por debajo del umbral del **15%**. **Riesgos y condiciones** - El principal riesgo es una liquidación incorrecta del Impuesto a Adicionar, lo que podría generar sanciones por inexactitud. - Es fundamental entender las partidas que componen la utilidad depurada para la TMTD, ya que difiere de la renta líquida gravable tradicional. - La falta de una correcta aplicación del parágrafo **6** del Art. 240 ET puede llevar a una subestimación del impuesto a cargo. **Soportes clave** - El Art. 240 ET, parágrafo **6**, es el soporte normativo principal para el cálculo de la Tasa Mínima de Tributación Depurada. - Los documentos contables y fiscales que soporten los ingresos, costos y deducciones son esenciales para la correcta determinación de la utilidad depurada. - Cualquier interpretación oficial o doctrina sobre la aplicación del parágrafo **6** del Art. 240 ET debe ser consultada para validar el cálculo.",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_240"
+        ],
+        "form_entities": [],
+        "detected_topic": "declaracion_renta",
+        "keyword_cluster": [
+          "independientemente",
+          "interpretaciones",
+          "establecimientos",
+          "interpretacion",
+          "condiciones**",
+          "determinacion",
+          "especialmente",
+          "subestimacion",
+          "correctamente",
+          "deducciones,"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 5,
+      "filtered_out_candidates": 13,
+      "off_topic_penalized_count": 7,
+      "off_topic_penalized_kept": 2,
+      "grouped_items": 4,
+      "ungrouped_items": 0,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "declaracion_renta",
+      "interpretation_anchor_eligible_docs": 8,
+      "interpretation_anchor_boosted_chunks": 11,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 3,
+        "medium": 15,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 1,
+        "resolved_numbers": 1,
+        "matched_articles": 1,
+        "matched_doc_ids": 8
+      },
+      "expert_query_seed": "¿Cómo se calcula la Tasa Mínima de Tributación Depurada del parágrafo 6 del Art. 240 ET y qué pasa si una PYME queda por debajo del 15%? ¿Qué interpretaciones hay sobre el Impuesto a Adicionar? Art. 240",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "rerank",
+        "judge": {
+          "mode": "llm",
+          "model": "gemini-2.5-flash",
+          "token_usage": {},
+          "scored_count": 12,
+          "candidate_count": 12
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 1
+        },
+        "graph_scored_count": 12,
+        "candidate_count": 12,
+        "summarized_count": 12
+      }
+    },
+    "trace_id": "23abafcd-5a31-43bb-ac7d-6568075c1a12"
+  }
+}

@@ -1,0 +1,389 @@
+{
+  "qid": "ep_pt_paraisos_panama_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "0c9b524c-86d3-4a77-95c2-80d3246e6256",
+    "message": "Tengo pagos a un proveedor en Panamá y el cliente pregunta si son deducibles. ¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-2 ET y la documentación de precios de transferencia para flujos a paraísos fiscales?",
+    "assistant_answer": "### Respuestas directas\n\n*   **¿Son deducibles los pagos a un proveedor en Panamá?**\n    La deducibilidad de pagos a proveedores en Panamá depende de si Panamá es considerada una jurisdicción no cooperante o de baja o nula imposición. Si lo es, los pagos no serán deducibles (art. 124-2 ET).\n\n*   **¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-**2** ET?**\n    El (art. 124-2 ET) establece que los pagos o abonos en cuenta a personas naturales o jurídicas en jurisdicciones no cooperantes, de baja o nula imposición, o a entidades de regímenes tributarios preferenciales, no son deducibles.\n\n*   **¿Qué dicen los expertos sobre la documentación de precios de transferencia para flujos a paraísos fiscales?**\n    La cobertura quedó parcial.\n\n### Ruta sugerida\n\n*   Primero, hay que verificar si Panamá está en la lista de jurisdicciones no cooperantes o de baja o nula imposición. Esto es clave para aplicar el (art. 124-2 ET).\n*   Si Panamá figura en dicha lista, los pagos no serán deducibles.\n*   Si no figura, se deben revisar las reglas generales de deducibilidad de gastos en el exterior (art. 121 ET), incluyendo la retención en la fuente si aplica (art. 408 ET).\n\n### Riesgos y condiciones\n\n*   El principal riesgo es la no deducibilidad de los pagos si Panamá se considera una jurisdicción no cooperante, lo que impactaría directamente la base gravable del impuesto sobre la renta.\n*   Es fundamental tener claridad sobre la clasificación de Panamá para evitar ajustes en una eventual fiscalización.\n*   La carga de la prueba recae en el contribuyente para demostrar que los pagos cumplen con los requisitos de deducibilidad.\n\n### Soportes clave\n\n*   (art. 124-2 ET) sobre pagos a jurisdicciones no cooperantes.\n*   (art. 121 ET) para la deducibilidad de gastos en el exterior.\n*   (art. 260-7 ET) que define jurisdicciones no cooperantes y regímenes tributarios preferenciales.",
+    "normative_article_refs": [],
+    "topic": "precios_de_transferencia",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [],
+    "ungrouped": [
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+        "source_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+        "authority": "secondary_official_authority",
+        "title": "Precios de transferencia (secondary_official_authority)",
+        "snippet": "(9) Deloitte Colombia — Transfer Pricing Practice. Publicaciones: https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html Enfoque: documentación de TP como línea de defensa ante auditoría DIAN; preferencia CUP cuando hay datos.",
+        "position_signal": "neutral",
+        "relevance_score": 0.3154,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html",
+            "label": "www2.deloitte.com",
+            "provider": "Deloitte",
+            "domain": "www2.deloitte.com"
+          },
+          {
+            "url": "https://www.pwc.com/co/tax-transfer-pricing",
+            "label": "pwc.com",
+            "provider": "PwC",
+            "domain": "pwc.com"
+          },
+          {
+            "url": "https://www.ey.com/es_co/tax",
+            "label": "ey.com",
+            "provider": "EY",
+            "domain": "ey.com"
+          },
+          {
+            "url": "https://home.kpmg/co/es/home/servicios/impuestos.html",
+            "label": "home.kpmg",
+            "provider": "KPMG",
+            "domain": "home.kpmg"
+          },
+          {
+            "url": "https://actualicese.com/precios-de-transferencia/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/precios-de-transferencia.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com",
+            "label": "ambitojuridico.com",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Deloitte",
+            "url": "https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co/tax-transfer-pricing"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co/tax"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/precios-de-transferencia/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/precios-de-transferencia.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com"
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "Brigard Urrutia",
+            "url": null
+          },
+          {
+            "name": "Holland & Knight",
+            "url": null
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Interpretacion_Expertos_pt_expertos_precios_transferencia.md",
+        "card_summary": "(9) Deloitte Colombia — Transfer Pricing Practice.",
+        "extended_excerpt": "### 1. Norma Base: Principio de Plena Competencia y Contexto de Interpretación\n\n#### 1.1. El Principio de Plena Competencia (Arm's Length)\n\nEl art. 260-2 ET establece que **todos** los precios, márgenes, tarifas, comisiones, intereses y contraprestaciones en operaciones entre vinculados deben ser equivalentes a los que hubieran sido fijados entre partes independientes en operaciones comparables bajo circunstancias similares (1).\n\n**Ámbito de aplicación**:\n\n- Compraventa de bienes tangibles (materias primas, productos terminados)\n\n- Prestación de servicios (asesoría, management, servicios administrativos)\n\n- Transferencia de intangibles (marcas, patentes, tecnología, regalías)\n\n- Financiamiento intergrupales (préstamos, créditos, avances)\n\n- Arrendamiento de bienes (equipos, inmuebles, vehículos)\n\n- Operaciones con establecimientos permanentes (EP) y sucursales en el exterior\n\n- Costos compartidos y reembolsos intragrupales\n\n#### 1.2. Contexto Normativo Reciente\n\nLa norma de precios de transferencia ha sufrido **tres grandes modificaciones** en 14 años:\n\n| Reforma | Ley | Cambios Clave |\n| 2012 | Ley 1607 (Arts. 110–115) | Introducción del régimen TP colombiano alineado a OCDE; cinco métodos (CUP, RPM, CPM, TNMM, MPS); umbrales patrimoniales |\n| 2016 | Ley 1819 (Arts. 108–121) | Refuerzo de documentación comprobatoria (Informe Local, Informe Maestro, CbCR); categorización de operaciones; sanciones más severas (hasta 30.000 UVT) |\n| 2022 | Ley 2277 (arts. relevantes) | Ajustes secundarios, reducción de plazos de vencimiento, armonización con iniciativas BEPS (PILAR UNO, PILAR DOS — tasa mínima tributaria) |\n\nPara AG 2025 (declaración en 2026), la **Ley 2277/2022 es vigente**. El Decreto 1496/2024 actualizó por primera vez en 10 años el listado de jurisdicciones no cooperantes, reduciendo de 37 a 25 jurisdicciones (2).\n\n### 10. Fuentes y Referencias\n\n#### Normas Primarias (Tier 1)\n\n(1) **ET Art. 260-1 y 260-2**. Estatuto Tributario, Decreto 624/1989, modificados por Ley 1607/2012 (Arts. 110-115).\n\n- Normograma DIAN: https://normograma.dian.gov.co/preguntas-frecuentes/precios-de-transferencia\n\n(2) **Decreto 1496 de diciembre 13 de 2024**. Listado de jurisdicciones no cooperantes (vigente desde 1 enero 2025, aplicable AG 2025).\n\n- Publicación Diario Oficial: http://www.secretariasenado.gov.co (buscar \"Decreto 1496 2024\")\n\n(3) **ET Art. 260-3**. Cinco métodos de precios de transferencia (CUP, RPM, CPM, TNMM, MPS).\n\n- Decreto 3030/2013, Art. 14-23 (reglamentación metodológica).\n\n(4) **ET Art. 260-5 y 260-9**. Documentación comprobatoria y Formulario 120 (Declaración Informativa).\n\n- DUR 1625/2016, Arts. 1.2.2.3.1.1 y ss. (contenido mínimo Informe Local).\n\n(5) **ET Art. 118-1**. Subcapitalización (thin capitalization) — limitación deductibilidad intereses.\n\n- Ley 1819/2016, Art. 117.\n\n(6) **ET Art. 260-7**. Jurisdicciones no cooperantes — aplicación sin umbral.\n\n- Decreto 1496/2024 (listado vigente).\n\n(7) **Sentencia Consejo de Estado Rad. 21038/2018**. Jurisprudencia sobre carga de prueba en precios de transferencia.\n\n- Relatoría Consejo de Estado: https://www.consejodeestado.gov.co\n\n(8) **OCDE Transfer Pricing Guidelines 2022**. Marco conceptual arm's length principle.\n\n- Capítulo I, II, VII (Servicios, Intangibles).\n\n- Descargable: https://www.oecd.org/publications/oecd-transfer-pricing-guidelines-2022-e4927b5f-en.htm\n\n#### Fuentes Secundarias — Big Four Colombia (Tier 2-3)\n\n(9) **Deloitte Colombia** — Transfer Pricing Practice.\n\n- Publicaciones: https://www2.deloitte.com/co/es/pages/tax/solutions/Transfer-pricing.html\n\n- Enfoque: documentación de TP como línea de defensa ante auditoría DIAN; preferencia CUP cuando hay datos.\n\n(10) **PwC Colombia** — Transfer Pricing and Economics.\n\n- Estudios 2024-2025 sobre \"Project Management Fees\" (servicios intragrupo como foco de auditoría).\n\n- Enlace: https://www.pwc.com/co/tax-transfer-pricing\n\n(11) **EY Colombia** — International Tax Services.\n\n- Análisis sobre CbCR y implicaciones para filiales colombianas de multinacionales.\n\n- Publicaciones: https://www.ey.com/es_co/tax\n\n(12) **KPMG Colombia** — Transfer Pricing.\n\n- Consejo sobre estrategia de corrección voluntaria para contribuyentes con tasas bajas.\n\n- Publicaciones: https://home.kpmg/co/es/home/servicios/impuestos.html\n\n(13) **RSM Colombia (Forvis Mazars)**. Análisis sobre interaction art. 118-1 (subcapitalización) con TP.\n\n(14) **Baker McKenzie Colombia**. Análisis de auditorías 2020-2024 en regalías/intangibles (40% aumento).\n\n#### Fuentes Secundarias — Portales Especializados (Tier 2-3)\n\n(15) **Actualícese** — Precios de Transferencia.\n\n- Artículos sobre umbrales, vencimientos, sanciones, interpretación de norma.\n\n- Enlace: https://actualicese.com/precios-de-transferencia/\n\n(16) **Brigard Urrutia (Firma Tributarista)**. Análisis 2024 sobre documentación de TP para PYMEs.\n\n- Publicaciones: https://www.brigard.com.co\n\n(17) **Gerencie.com** — Precios de Transferencia.",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Se ancla a una referencia normativa central del caso.",
+        "core_ref_matches": [
+          "et_art_260_7"
+        ],
+        "panel_rank": 1,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_EXPERTOS_E01-regimen-cambiario-pyme-interpretaciones-expertos.md",
+        "source_doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_EXPERTOS_E01-regimen-cambiario-pyme-interpretaciones-expertos.md",
+        "logical_doc_id": "CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_EXPERTOS_E01-regimen-cambiario-pyme-interpretaciones-expertos.md",
+        "authority": "secondary_official_authority",
+        "title": "Regimen cambiario (secondary_official_authority)",
+        "snippet": "1. Actualícese — Análisis sobre Régimen Cambiario para PYMEs (2025): https://actualicese.com/transacciones-en-moneda-extranjera-en-pymes/",
+        "position_signal": "neutral",
+        "relevance_score": 0.2544,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/transacciones-en-moneda-extranjera-en-pymes/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://legalytributarioenlinea.co.pwc.com",
+            "label": "legalytributarioenlinea.co.pwc.com",
+            "provider": "PwC",
+            "domain": "legalytributarioenlinea.co.pwc.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/analisis/financiero-cambiario-y-seguros/",
+            "label": "ambitojuridico.com",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/transacciones-en-moneda-extranjera-en-pymes/"
+          },
+          {
+            "name": "PwC",
+            "url": "https://legalytributarioenlinea.co.pwc.com"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/analisis/financiero-cambiario-y-seguros/"
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "Legis",
+            "url": null
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_EXPERTOS_E01-regimen-cambiario-pyme-interpretaciones-expertos.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_REGIMEN_CAMBIARIO_PYME_EXPERTOS_E01-regimen-cambiario-pyme-interpretaciones-expertos.md",
+        "card_summary": "Actualícese — Análisis sobre Régimen Cambiario para PYMEs (2025): https://actualicese.com/transacciones-en-moneda-extranjera-en-pymes/.",
+        "extended_excerpt": "### Fuentes y Referencias\n\n1. Actualícese — Análisis sobre Régimen Cambiario para PYMEs (2025): https://actualicese.com/transacciones-en-moneda-extranjera-en-pymes/ 2. Deloitte Colombia — Guía de Cumplimiento Cambiario (2025): Consultas internas; disponible en sitio Deloitte.com.co 3. EY Colombia — Boletín Tributario Decreto 572/2025: https://legalytributarioenlinea.co.pwc.com (acceso restringido; referencias en blog.alegra.com) 4. Legis Ámbito Jurídico — Operaciones en Moneda Extranjera (2024-2025): https://www.ambitojuridico.com/noticias/analisis/financiero-cambiario-y-seguros/ 5. DIAN Oficio 901700/2022 (Diferencia en Cambio — Fiscal vs. Contable): https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_901700_2022.htm 6. DIAN Concepto 1509/2024 (Facturación en Moneda Extranjera): https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_1509_2024.htm 7. DIAN Concepto 13711/2021 Banco de la República (Operaciones de Cambio): https://normograma.dian.gov.co/dian/compilacion/docs/concepto_banrepublica_0013711_2021.htm 8. Banco de la República — Circular DCIP-83 Capítulo 3 (Cuentas de Compensación): https://www.banrep.gov.co/es/normatividad/regulacion-operaciones-cambiarias/compendios-dcin-83-dcip-83 9. Banco de la República — Guía Diligenciar Formulario 4 (Inversión Extranjera): https://www.banrep.gov.co/sites/default/files/guia-diligenciar-declaracion-de-registro-de-inversiones-internacionales.pdf 10. Decreto 572 de 2025 (Modificación Bases Mínimas Retención): https://normograma.dian.gov.co/dian/compilacion/docs/decreto_0572_2025.htm 11. OCH Group Colombia — NIIF para Pymes y Efectos Fiscales (2026): https://www.ochgroup.co/en/cual-es-el-efecto-fiscal-en-colombia-de-la-diferencia-en-cambio-por-transacciones-en-moneda-extranjera-registrados-bajo-niif/ 12. Consejo de Estado — Jurisprudencia sobre Retención en la Fuente Pagos Exterior (2015-2022): Citadas en análisis de Legis, disponibles en jurisprudencia.jca.gov.co\n\n**Fecha de cierre**: 20 de marzo de 2026. **Nota**: Este documento refleja interpretaciones de expertos consolidadas a partir de fuentes secundarias verificadas. En casos de conflicto normativo, prevalece la interpretación oficial de DIAN y Banco de la República.\n\n### Norma Base\n\n- Ley 9/1991 (Marco General del Régimen Cambiario)\n\n- Decreto 1068/2015 Arts. 2.17.1.1 a 2.17.1.5 (Definiciones y obligaciones de canalización)\n\n- Resolución Externa 1/2018 Banco de la República (Procedimientos operativos)\n\n- Circular Reglamentaria DCIP-83 (Formularios y requisitos técnicos)\n\n- Estatuto Tributario Arts. 406-411 (Retención en la fuente pagos exterior)\n\n- Decreto 572/2025 (Bases mínimas retención modificadas)\n\n### T1 — Operaciones Canalizables vs. No Canalizables: ¿Cuándo una PYME Realmente Debe Usar Intermediario Cambiario?\n\n#### Norma Base Interpretada\n\nArt. 2.17.1.2 Decreto 1068/2015; Resolución Externa 1/2018 Arts. 7-25.\n\n#### Posiciones de Expertos\n\n**Big Four (Deloitte, EY, Colombia 2025)**\n\nEl Decreto 1068/2015 lista operaciones \"obligatoriamente canalizables\", pero la práctica muestra que no todas requieren intermediario: Deloitte: \"Importación de bienes necesita canalización; pero operación interna entre residentes en moneda extranjera, si se paga en COP según TRM, no necesita canal.\" Esto genera confusión en PYMEs pequeñas que reciben facturas en dólares de proveedores colombianos.\n\n**Actualícese (Interpreaciones 2025)**\n\nActualícese subraya que el concepto clave es \"operación de cambio\" vs. \"transacción en moneda extranjera\". No toda transacción en divisa es operación de cambio exigible de canalización: \"Operación de cambio = acto por el cual se adquiere o enajena moneda extranjera en el mercado cambiario. Si la PYME importa, debe comprar divisas (operación de cambio canalizable). Si una PYME cliente recibe factura en USD de proveedor colombiano, pero paga en pesos al TRM, no hay compra de divisa en mercado cambiario, luego no es canalizable\" (Actualícese, Artículo de Interpretación, 2025).\n\n**Legis Ámbito Jurídico (2025)**\n\nLegis advierte: \"La jurisprudencia del Consejo de Estado ha diferenciado operaciones de cambio 'puras' (adquisición/enajenación de divisas en mercado) de transacciones 'nominadas en moneda extranjera' (que se liquidan en moneda nacional). Ejemplo: una PYME de manufactura que vende a cliente extranjero recibe USD, pero el pago llega a cuenta en banco colombiano en COP automaticamente (el banco hace la conversión). Para la PYME, ello es exportación (canalizable), pero no hay 'compra manual' de divisa; el banco lo hace de facto\" (Legis, Análisis Jurisprudencial, 2025).\n\n**DIAN Conceptos Oficiales (2021-2024)**\n\nConcepto 13711/2021 BR: \"Operación de cambio es acto por el cual residente o no residente adquiere o enajena divisas en el mercado internacional de cambios. Las operaciones de exportación/importación de bienes son obligatoriamente canalizables, incluso si el intermediario es el banco de la PYME.\"",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Contexto complementario para la consulta.",
+        "core_ref_matches": [],
+        "panel_rank": 2,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T10-PES-presencia-economica-significativa-interpretaciones.md",
+        "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T10-PES-presencia-economica-significativa-interpretaciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T10-PES-presencia-economica-significativa-interpretaciones.md",
+        "authority": "secondary_official_authority",
+        "title": "Iva (secondary_official_authority)",
+        "snippet": "2.1 EY — Tres Tax Alerts sobre PES (2023–2024) Tesis central: EY fue la primera firma Big 4 en analizar integralmente el régimen PES a través de tres alertas sucesivas que cubren el Decreto 2039/2023, el Concepto DIAN 305(008717) de abril 2024 y el Concepto DIAN 890(007929) de octubre 2024.",
+        "position_signal": "neutral",
+        "relevance_score": 0.2466,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://www.ey.com/en_gl/technical/tax-alerts/colombia-issues-regulations-on-significant-economic-presence",
+            "label": "EY — \"Colombia issues regulations on Significant Economic Presence\" (2023)",
+            "provider": "EY",
+            "domain": "ey.com"
+          },
+          {
+            "url": "https://www.ey.com/en_gl/technical/tax-alerts/colombian-tax-authority-issues-new-ruling-on-significant-economic-presence",
+            "label": "EY — \"Colombian Tax Authority issues new ruling on SEP\" (2024)",
+            "provider": "EY",
+            "domain": "ey.com"
+          },
+          {
+            "url": "https://www.ey.com/en_gl/technical/tax-alerts/colombian-tax-authority-clarifies-aspects-of-significant-economic-presence",
+            "label": "EY — \"Colombian Tax Authority clarifies aspects of SEP\" (2024)",
+            "provider": "EY",
+            "domain": "ey.com"
+          },
+          {
+            "url": "https://www.hklaw.com/en/insights/publications/2026/01/revision-del-regimen-presencia-economica-significativa-en-colombia",
+            "label": "Holland & Knight — \"Revisión del Régimen PES en Colombia\" (enero 2026)",
+            "provider": "Holland & Knight",
+            "domain": "hklaw.com"
+          },
+          {
+            "url": "https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=3966",
+            "label": "PwC — \"La PES también puede afectar a residentes colombianos\"",
+            "provider": "PwC",
+            "domain": "legalytributarioenlinea.co.pwc.com"
+          },
+          {
+            "url": "https://www.pwc.com/co/es/pwc-insights/reforma-tributaria-2026-ley-de-financiamiento.html",
+            "label": "PwC — \"Reforma tributaria 2026: Ley de financiamiento\"",
+            "provider": "PwC",
+            "domain": "pwc.com"
+          },
+          {
+            "url": "https://www.gerencie.com/tributacion-por-presencia-economica-significativa.html",
+            "label": "Gerencie — \"Tributación por presencia económica significativa\"",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://actualicese.com/nueva-tributacion-por-presencia-economica-significativa-impacta-a-empresas-extranjeras-en-colombia/",
+            "label": "Actualícese / BDO — \"Nueva tributación por PES impacta a empresas extranjeras en Colombia\"",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/tributacion-por-presencia-economica-significativa-en-colombia-en-que-consiste/",
+            "label": "Actualícese — \"Tributación por PES en Colombia: ¿en qué consiste?\"",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/el-gobierno-exigira-pago-de-impuestos-a-las-plataformas-digitales-multinacionales/",
+            "label": "Actualícese — \"PES: impuesto a las plataformas digitales multinacionales\"",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://rioconsultores.com/2025/03/27/documento-soporte-en-adquisiciones-a-proveedores-del-exterior-servicios-digitales/",
+            "label": "Río Consultores — \"Documento Soporte en Adquisiciones a Proveedores del Exterior — Servicios Digitales\" (marzo 2025)",
+            "provider": "Río Consultores",
+            "domain": "rioconsultores.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/en_gl/technical/tax-alerts/colombia-issues-regulations-on-significant-economic-presence"
+          },
+          {
+            "name": "Holland & Knight",
+            "url": "https://www.hklaw.com/en/insights/publications/2026/01/revision-del-regimen-presencia-economica-significativa-en-colombia"
+          },
+          {
+            "name": "PwC",
+            "url": "https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=3966"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/tributacion-por-presencia-economica-significativa.html"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/nueva-tributacion-por-presencia-economica-significativa-impacta-a-empresas-extranjeras-en-colombia/"
+          },
+          {
+            "name": "BDO",
+            "url": "https://actualicese.com/nueva-tributacion-por-presencia-economica-significativa-impacta-a-empresas-extranjeras-en-colombia/"
+          },
+          {
+            "name": "Río Consultores",
+            "url": "https://rioconsultores.com/2025/03/27/documento-soporte-en-adquisiciones-a-proveedores-del-exterior-servicios-digitales/"
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T10-PES-presencia-economica-significativa-interpretaciones.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T10-PES-presencia-economica-significativa-interpretaciones.md",
+        "card_summary": "2.1 EY — Tres Tax Alerts sobre PES (2023–2024) Tesis central: EY fue la primera firma Big 4 en analizar integralmente el régimen PES a través de tres alertas sucesivas que cubren el Decreto 2039/2023, el Concepto DIAN.",
+        "extended_excerpt": "### 1. Norma Base\n\nEl artículo 20-3 del Estatuto Tributario, adicionado por el artículo 57 de la **Ley 2277 de 2022**, introdujo la tributación por **Presencia Económica Significativa (PES)** en Colombia. El **Decreto 2039 de noviembre 27 de 2023** reglamentó la disposición, que entró en vigencia el **1.º de enero de 2024**.\n\n#### Elementos esenciales del régimen PES\n\n| Elemento | Detalle |\n| **Sujeto pasivo** | Personas no residentes o entidades no domiciliadas en Colombia que vendan bienes y/o presten servicios digitales a clientes/usuarios en territorio nacional |\n| **Efecto jurídico** | Los ingresos se consideran de **fuente nacional**, creando obligación sustancial de renta |\n| **Tarifa dual** | (a) Retención del **10%** sobre el valor total del pago (impuesto final), o (b) Declaración al **3%** sobre ingresos brutos, con anticipos bimestrales del **2%** |\n| **Prevalencia de CDI** | Los Convenios para Evitar la Doble Imposición prevalecen sobre la PES |\n\n**Relevancia para PYMEs:** La PES no grava directamente a las PYMEs colombianas, pero crea **obligaciones instrumentales** para ellas como agentes de retención (primer nivel en la jerarquía del art. 1.2.4.39 DUR 1625/2016) y como pagadores que deben documentar correctamente los pagos al exterior para sostener la deducibilidad.\n\n### 2. Posiciones de Expertos\n\n#### 2.1 EY — Tres Tax Alerts sobre PES (2023–2024)\n\n**Tesis central:** EY fue la primera firma Big 4 en analizar integralmente el régimen PES a través de tres alertas sucesivas que cubren el Decreto 2039/2023, el Concepto DIAN 305(008717) de abril 2024 y el Concepto DIAN 890(007929) de octubre 2024.\n\n**Posiciones clave:**\n\n- La definición de \"servicios digitales\" es amplia y cubre prácticamente cualquier servicio prestado por medios electrónicos, con exclusión expresa de servicios técnicos, consultoría, asistencia técnica y educación.\n\n- El umbral de 31.300 UVT se calcula respecto del no residente **y sus vinculados económicos** en conjunto, lo que impide la fragmentación de ingresos a través de filiales.\n\n- Los pagos a no residentes con PES que presenten declaración en Colombia y soliciten exención de retención **no están sujetos a la limitación de deducibilidad** del art. 122 ET.\n\n- La PES aplica también a la **venta de bienes físicos importados** cuando se canaliza a través de plataformas digitales.\n\n- Los no residentes que eligen declarar al 3% deben reportar **todos los ingresos** del período enero 1 a diciembre 31 del año de registro, independientemente de cuándo se inscribieron en el RUT.\n\n#### 2.2 Holland & Knight — Balance de Dos Años de PES (Enero 2026)\n\n**Tesis central:** Primer balance de una firma grande tras dos años de vigencia del régimen. Holland & Knight destaca que la implementación ha sido compleja, con **baja inscripción voluntaria** de no residentes al RUT (responsabilidad 65), lo que ha obligado a la mayoría de pagadores colombianos a aplicar la retención del 10% por defecto.\n\n**Posiciones clave:**\n\n- Identifica **seis acciones esenciales** para empresas colombianas: (i) calificar si el pago configura PES, (ii) verificar CDI vigente, (iii) determinar quién es el agente de retención en la cadena de pagos, (iv) conservar documentación de exenciones, (v) seguir la jerarquía de agentes de retención, (vi) ajustar procesos internos antes de pagar.\n\n- Énfasis en el riesgo de **rechazo de deducciones** por documentación incompleta — la carga recae sobre el pagador colombiano.\n\n- Interpretación amplia del concepto de \"servicios automatizados\": cualquier servicio digital que no requiera intervención humana significativa.\n\n#### 2.3 PwC — Impacto en Residentes Colombianos (2024)\n\n**Tesis central:** PwC alerta sobre un ángulo frecuentemente ignorado: la PES **carga significativamente al pagador colombiano**, no solo al no residente. El residente debe verificar si el proveedor configura PES, solicitar RUT con responsabilidad 65, practicar retención del 10% si no puede verificar la exención, y emitir Documento Soporte electrónico. El incumplimiento genera sanciones, intereses moratorios y **rechazo de la deducción**.\n\n**Posiciones clave:**\n\n- La PES podría interactuar con precios de transferencia cuando hay operaciones entre vinculados económicos.\n\n- La carga administrativa recae primordialmente sobre el comprador colombiano (la PYME), no sobre el vendedor extranjero.\n\n#### 2.4 PwC — Reforma Tributaria 2026 (Ley de Financiamiento — NO Aprobada)\n\n**Tesis central:** El Proyecto de Ley 300/2024 propuso incrementar la tarifa PES del **3% al 5%** sobre ingresos brutos. La propuesta **no fue aprobada** por el Congreso. PwC analizó integralmente la propuesta, incluyendo ampliación de la definición de servicios digitales y reducción del umbral de ingresos — ninguno de estos cambios entró en vigor.",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Contexto complementario para la consulta.",
+        "core_ref_matches": [],
+        "panel_rank": 3,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      }
+    ],
+    "total_available": 3,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Tengo pagos a un proveedor en Panamá y el cliente pregunta si son deducibles. ¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-2 ET y la documentación de precios de transferencia para flujos a paraísos fiscales?",
+        "assistant_answer": "### Respuestas directas * **¿Son deducibles los pagos a un proveedor en Panamá?** La deducibilidad de pagos a proveedores en Panamá depende de si Panamá es considerada una jurisdicción no cooperante o de baja o nula imposición. Si lo es, los pagos no serán deducibles (art. 124-2 ET). * **¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-**2** ET?** El (art. 124-2 ET) establece que los pagos o abonos en cuenta a personas naturales o jurídicas en jurisdicciones no cooperantes, de baja o nula imposición, o a entidades de regímenes tributarios preferenciales, no son deducibles. * **¿Qué dicen los expertos sobre la documentación de precios de transferencia para flujos a paraísos fiscales?** La cobertura quedó parcial. ### Ruta sugerida * Primero, hay que verificar si Panamá está en la lista de jurisdicciones no cooperantes o de baja o nula imposición. Esto es clave para aplicar el (art. 124-2 ET). * Si Panamá figura en dicha lista, los pagos no serán deducibles. * Si no figura, se deben revisar las reglas generales de deducibilidad de gastos en el exterior (art. 121 ET), incluyendo la retención en la fuente si aplica (art. 408 ET). ### Riesgos y condiciones * El principal riesgo es la no deducibilidad de los pagos si Panamá se considera una jurisdicción no cooperante, lo que impactaría directamente la base gravable del impuesto sobre la renta. * Es fundamental tener claridad sobre la clasificación de Panamá para evitar ajustes en una eventual fiscalización. * La carga de la prueba recae en el contribuyente para demostrar que los pagos cumplen con los requisitos de deducibilidad. ### Soportes clave * (art. 124-2 ET) sobre pagos a jurisdicciones no cooperantes. * (art. 121 ET) para la deducibilidad de gastos en el exterior. * (art. 260-7 ET) que define jurisdicciones no cooperantes y regímenes tributarios preferenciales.",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_124_2",
+          "et_art_124",
+          "et_art_121",
+          "et_art_408",
+          "et_art_260_7"
+        ],
+        "form_entities": [],
+        "detected_topic": "retencion_fuente_general",
+        "keyword_cluster": [
+          "preferenciales,",
+          "preferenciales.",
+          "jurisdicciones",
+          "deducibilidad.",
+          "fiscalizacion.",
+          "deducibilidad",
+          "clasificacion",
+          "transferencia",
+          "documentacion",
+          "contribuyente"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 3,
+      "filtered_out_candidates": 15,
+      "grouped_items": 0,
+      "ungrouped_items": 3,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "precios_de_transferencia",
+      "interpretation_anchor_eligible_docs": 6,
+      "interpretation_anchor_boosted_chunks": 12,
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 3,
+        "medium": 15,
+        "low": 0
+      },
+      "expert_query_seed": "Tengo pagos a un proveedor en Panamá y el cliente pregunta si son deducibles. ¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-2 ET y la documentación de precios de transferencia para flujos a paraísos fiscales? art. 124-2 Art. 124 art. 121 art. 408",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "lexical_only",
+        "judge": {
+          "mode": "llm_error",
+          "reason": "too many values to unpack (expected 2, got 4)"
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 0
+        },
+        "graph_scored_count": 12
+      }
+    },
+    "trace_id": "0c9b524c-86d3-4a77-95c2-80d3246e6256"
+  }
+}

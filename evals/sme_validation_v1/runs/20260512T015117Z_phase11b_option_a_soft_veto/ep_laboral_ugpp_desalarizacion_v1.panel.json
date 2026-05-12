@@ -1,0 +1,766 @@
+{
+  "qid": "ep_laboral_ugpp_desalarizacion_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "3ef74cba-c03d-48b6-ae3d-ab99feadb1d3",
+    "message": "Una PYME paga el 35% del salario como bonos no constitutivos de salario. ¿Cuál es el límite del 40% no salarial según el Art. 30 de la Ley 1393/2010 y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?",
+    "assistant_answer": "**Respuestas directas**\n- **¿Cuál es el límite del **40%** no salarial según el Art. 30 de la Ley **1393**/**2010** y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?**\n\n**Anclaje legal**\n- Art. 3 — 1. OBLIGACIONES DEL INTERMEDIARIO\n- Art. 127-132 — Definición de salario\n- Art. 16-19 — Nuevo Capítulo sobre Uso Adecuado de Tercerización",
+    "normative_article_refs": [],
+    "topic": "laboral",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_160",
+        "classification": "concordancia",
+        "summary_signal": "Este documento lista fuentes y referencias sobre la Ley 2466 de 2025 y el Código Sustantivo del Trabajo, sin abordar el límite del 40% no salarial ni riesgos UGPP.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/rutas/books/reforma-laboral-herramientas-practicas-para-implementar-la-ley-2466-de-2025/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co"
+          },
+          {
+            "name": "Deloitte",
+            "url": "https://www.deloitte.com/latam/es/our-thinking/dnoticias-colombia/co-cambios-de-reforma-laboral-para-2026.html"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co/insights/tax/reforma-laboral-2025-colombia-cambios-obligaciones-empresas"
+          },
+          {
+            "name": "PHR (Posse Herrera Ruiz)",
+            "url": "https://phrlegal.com/novedades-categoria/reforma-laboral-2025-en-colombia-lo-que-si-cambia-y-lo-que-no/"
+          },
+          {
+            "name": "Brigard Urrutia",
+            "url": null
+          },
+          {
+            "name": "Holland & Knight",
+            "url": null
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/laboral/los-cambios-que-trajo-la-reforma-laboral-y-como-prepararse-para-los-retos-del-2026"
+          },
+          {
+            "name": "Legis",
+            "url": null
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Interpretacion_Expertos_lab_expertos_reforma_laboral.md",
+            "source_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Interpretacion_Expertos_lab_expertos_reforma_laboral.md",
+            "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Interpretacion_Expertos_lab_expertos_reforma_laboral.md",
+            "authority": "secondary_official_authority",
+            "title": "Laboral (secondary_official_authority)",
+            "snippet": "7. Actualícese — Guías prácticas sobre Ley 2466, impacto sectorial, liquidadores — https://actualicese.com",
+            "position_signal": "neutral",
+            "relevance_score": 0.10177599999999999,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.phr.com.co",
+                "label": "phr.com.co",
+                "provider": "PHR (Posse Herrera Ruiz)",
+                "domain": "phr.com.co"
+              },
+              {
+                "url": "https://www.pwc.com/co",
+                "label": "pwc.com",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://www2.deloitte.com/co/es.html",
+                "label": "www2.deloitte.com",
+                "provider": "Deloitte",
+                "domain": "www2.deloitte.com"
+              },
+              {
+                "url": "https://www.ey.com/es_co",
+                "label": "ey.com",
+                "provider": "EY",
+                "domain": "ey.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com"
+              },
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co"
+              },
+              {
+                "name": "Deloitte",
+                "url": "https://www2.deloitte.com/co/es.html"
+              },
+              {
+                "name": "EY",
+                "url": "https://www.ey.com/es_co"
+              },
+              {
+                "name": "PHR (Posse Herrera Ruiz)",
+                "url": null
+              },
+              {
+                "name": "Brigard Urrutia",
+                "url": null
+              },
+              {
+                "name": "Holland & Knight",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Interpretacion_Expertos_lab_expertos_reforma_laboral.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Interpretacion_Expertos_lab_expertos_reforma_laboral.md",
+            "card_summary": "Este documento lista fuentes y referencias sobre la Ley 2466 de 2025 y el Código Sustantivo del Trabajo, sin abordar el límite del 40% no salarial ni riesgos UGPP.",
+            "extended_excerpt": "### Fuentes y referencias\n\n1. **Ley 2466 de 2025** (Reforma Laboral, 11 de febrero de 2025) — https://www.secretariasenado.gov.co/ley-2466-de-2025\n\n2. **Código Sustantivo del Trabajo (CST)** — Estatuto Laboral Colombiano compilado — https://www.secretariasenado.gov.co/ley-101-de-1993\n\n3. **Ministerio del Trabajo y Economía Social** — Comunicados y regulaciones sobre Ley 2466 — https://www.mintrabajo.gov.co\n\n4. **Asociación Nacional de Industriales (ANDI)** — Estudios de impacto laboral Ley 2466 — https://www.andi.com.co\n\n5. **Fedesarrollo** — Centro de Investigación Económica y Social — Análisis de productividad y jornada laboral — https://www.fedesarrollo.org.co\n\n6. **CTCP (Consejo Técnico de la Contaduría Pública)** — Orientaciones contables sobre cambios laborales — https://www.ctcp.gov.co\n\n7. **Actualícese** — Guías prácticas sobre Ley 2466, impacto sectorial, liquidadores — https://actualicese.com\n\n8. **Gerencie.com** — Artículos de profundidad sobre jornada laboral, recargos, indemnización — https://www.gerencie.com\n\n9. **Brigard Urrutia Abogados** — Análisis legal de tercerización y estabilidad laboral — https://www.brigard.com.co\n\n10. **Posse Herrera Ruiz Abogados** — Publicaciones sobre retroactividad normativa y contratos laborales — https://www.phr.com.co\n\n11. **Baker McKenzie Colombia** — Guías de cumplimiento laboral y tercerización — https://www.bakermckenzie.com/es/locations/colombia\n\n12. **PwC Colombia** — Alertas sobre impacto en provisiones y balance laboral — https://www.pwc.com/co\n\n13. **Deloitte Colombia** — Análisis de indemnización y nuevas tablas — https://www2.deloitte.com/co/es.html\n\n14. **EY Colombia** — Impacto en provisiones NIIF y reportes auditados — https://www.ey.com/es_co\n\n15. **RSM Colombia** — Guías para PYMEs sobre Ley 2466 — https://rsm.global/colombia\n\n16. **Planilla APORTES (Plataforma Integrada de Liquidación de Aportes)** — Verificación de cotización a SSPP para terceristas — https://www.planilla.gov.co\n\n17. **Corte Constitucional de Colombia** — Jurisprudencia sobre estabilidad laboral reforzada (Sentencias C-091/2023, SU-720/2022) — https://www.corteconstitucional.gov.co\n\n18. **Consejo de Estado (Sala de lo Contencioso Administrativo)** — Jurisprudencia sobre tercerización y solidaridad laboral — https://www.consejodeestado.gov.co\n\n**Nota de cierre:** Esta interpretación refleja el estado de conocimiento experto al 27 de marzo de 2026. Los decretos reglamentarios pendientes (Q2-Q3 2026) pueden clarificar o modificar las posiciones aquí descritas. Contador debe monitorear regularmente fuentes oficiales (DIAN, MinTrabajo) y fuentes secundarias confiables (Actualícese, Big Four) para actualizaciones antes de asesorar al cliente sobre Ley 2466.\n\n### Norma base\n\nLa **Ley 2466 de 2025** (Reforma Laboral), sancionada el 11 de febrero de 2025, modificó sustancialmente el Código Sustantivo del Trabajo (CST) e impactó directamente el cálculo de costos laborales, reservas contables y provisiones de pasivos para PYMEs. Los cambios más relevantes:\n\n- **Art. 158 CST (mod):** Reducción de jornada ordinaria a 42 horas semanales (antes 48).\n\n- **Art. 160 CST (mod):** Jornada nocturna comienza desde las 19:00 (antes 22:00).\n\n- **Arts. 40-1 CST (mod):** Contrato a término fijo máximo 4 años (antes sin límite).\n\n- **Art. 181 CST (mod):** Recargo dominical escalonado: 75% años 1-2, 85% años 3-4, 100% año 5+ (antes fijo 100%).\n\n- **Arts. 24-30 CST (new):** Trabajadores en plataformas digitales — régimen de afiliación 60/40 (empresa 60%, trabajador 40%).\n\n- **Art. 239 CST (mod):** Estabilidad laboral reforzada ampliada a causales adicionales.\n\n- **Arts. 16-19 CST (mod):** Tercerización — solidaridad del contratante por incumplimientos del contratista.\n\n- **Arts. 57-58 CST (new):** Licencias nuevas: citas médicas (4 horas/mes), calamidad doméstica (3 días/año).\n\n- **Tabla de indemnización:** Nuevas escalas por años de servicio (más generosas que antes).\n\n### Posiciones de expertos\n\n#### 1. Jornada de 42 horas: Impacto productivo vs. costo\n\n##### ANDI (Asociación Nacional de Industriales) — Posición crítica\n\n\"La reducción de 48 a 42 horas generará para PYMEs un costo adicional del 12.5% en nómina por hora trabajada si no hay restructuración operativa. Para empresas de comercio y servicios, la presión es mayor: necesitarán contratar personal adicional o aumentar jornada nocturna (más cara).\"\n\n**Cálculo ANDI:** Una PYME con 20 empleados en jornada diurna pasa de 960 horas/mes a 840 horas/mes disponibles. Para mantener cobertura, debe contratar +2.5 empleados equivalentes.\n\n##### Fedesarrollo — Posición académica moderada\n\n\"La evidencia internacional (España, Portugal, Uruguay) muestra que la productividad **no cae en línea 1:1** con la reducción de horas. En 3-6 meses, reorganización operativa recupera el 30-40% de la 'pérdida'. Para PYMEs ya en regímenes restrictivos (industriales), el impacto es menor.\"",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (laboral).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_EXPERTOS_REF-E01-interpretaciones-reforma-laboral-ley-2466-impacto-PYME.md",
+            "source_doc_id": "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_EXPERTOS_REF-E01-interpretaciones-reforma-laboral-ley-2466-impacto-PYME.md",
+            "logical_doc_id": "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_EXPERTOS_REF-E01-interpretaciones-reforma-laboral-ley-2466-impacto-PYME.md",
+            "authority": "secondary_official_authority",
+            "title": "Laboral (secondary_official_authority)",
+            "snippet": "(2) Buk Blog — Nuevo recargo nocturno con reforma laboral (3) Nexia Montes — Recargo nocturno desde las 7:00 p.m. Ley 2466",
+            "position_signal": "neutral",
+            "relevance_score": 0.071904,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/rutas/books/reforma-laboral-herramientas-practicas-para-implementar-la-ley-2466-de-2025/",
+                "label": "Actualícese — Cálculo recargos nocturnos post Ley 2466/2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/",
+                "label": "Gerencie.com — Jornada nocturna 7PM Ley 2466",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/como-quedan-los-recargos-nocturnos-dominicales-y-festivos-con-la-reforma-laboral-ley-2466-de-2025/",
+                "label": "¿Cómo quedan los recargos nocturnos, dominicales y festivos con la Ley de reforma laboral 2466 de 2025?",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/calendario-de-aplicacion-reforma-laboral-ley-2466-de-2025/",
+                "label": "Calendario de aplicación de la reforma laboral – Ley 2466 de 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/ley-de-reforma-laboral-2466-de-2025-ventajas-y-desventajas-para-trabajadores-y-empleadores-en-colombia/",
+                "label": "Reforma laboral Ley 2466 de 2025: ventajas y desventajas para trabajadores y empleadores en Colombia",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/liquidador-calculo-de-los-recargos-nocturnos-luego-de-la-reforma-laboral-2025/",
+                "label": "Liquidador: Cálculo de los recargos nocturnos luego de la reforma laboral 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/laboral/los-cambios-que-trajo-la-reforma-laboral-y-como-prepararse-para-los-retos-del-2026",
+                "label": "Los cambios que trajo la reforma laboral y cómo prepararse para los retos del 2026",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/laboral/laboral-y-seguridad-social/especial-reforma-laboral",
+                "label": "Especial reforma laboral",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/derecho-empresarial/nuevas-reglas-laborales-en-colombia-lo-que-todo-empleador-debe-tener",
+                "label": "Nuevas reglas laborales en Colombia: lo que todo empleador debe tener en cuenta",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/laboral/la-mutacion-de-los-contratos-laborales-la-luz-de-la-ley-2466-de-2025",
+                "label": "La mutación de los contratos laborales, a la luz de la Ley 2466 de 2025",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.deloitte.com/latam/es/our-thinking/dnoticias-colombia/co-cambios-de-reforma-laboral-para-2026.html",
+                "label": "Los cambios que trajo la Reforma Laboral y cómo prepararse para los retos del 2026",
+                "provider": "Deloitte",
+                "domain": "deloitte.com"
+              },
+              {
+                "url": "https://www2.deloitte.com/content/dam/Deloitte/co/Documents/finance/Diagnostico_macro_impacto_reforma_laboral2025.pdf",
+                "label": "Diagnóstico macro: Impacto de la reforma laboral (PDF)",
+                "provider": "Deloitte",
+                "domain": "www2.deloitte.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/rutas/books/reforma-laboral-herramientas-practicas-para-implementar-la-ley-2466-de-2025/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/laboral/los-cambios-que-trajo-la-reforma-laboral-y-como-prepararse-para-los-retos-del-2026"
+              },
+              {
+                "name": "Deloitte",
+                "url": "https://www.deloitte.com/latam/es/our-thinking/dnoticias-colombia/co-cambios-de-reforma-laboral-para-2026.html"
+              },
+              {
+                "name": "PHR (Posse Herrera Ruiz)",
+                "url": "https://phrlegal.com/novedades-categoria/reforma-laboral-2025-en-colombia-lo-que-si-cambia-y-lo-que-no/"
+              },
+              {
+                "name": "EY",
+                "url": "https://www.ey.com/es_co/insights/tax/reforma-laboral-2025-colombia-cambios-obligaciones-empresas"
+              },
+              {
+                "name": "Legis",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_EXPERTOS_REF-E01-interpretaciones-reforma-laboral-ley-2466-impacto-PYME.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_EXPERTOS_REF-E01-interpretaciones-reforma-laboral-ley-2466-impacto-PYME.md",
+            "card_summary": "Este documento se centra en la Ley 2466/2025 y sus cambios en la jornada y recargos nocturnos, sin abordar el límite del 40% no salarial ni riesgos UGPP.",
+            "extended_excerpt": "### Actualización Integrada — Recargo nocturno 7PM: interpretaciones de expertos\n\n_Material editorial consolidado el 2026-04-15 desde `REF-E01-PATCH-recargo-nocturno-interpretaciones.md`._\n\n#### Posiciones de Actualícese, MinTrabajo, Big Four, y análisis de impacto operativo en nómina para PYMEs\n\n**Fecha de última verificación**: 09 de abril de 2026 **Fuentes**: Actualícese, Buk, Nexia Montes, Gerencie, MinTrabajo, CETA **SMLMV 2026**: $1.523.416 COP\n\n#### 1. Norma Base: Ley 2466/2025 — CST Art. 160\n\n**Cambio central:**\n\n- Jornada nocturna: antes 9PM-6AM, ahora **7PM-6AM**.\n\n- Recargo nocturno: **35%** (sin cambio en porcentaje).\n\n- Horas extras nocturnas: **75%** (sin cambio en porcentaje).\n\n**Vigencia:** 25 de diciembre de 2025 (6 meses después de sanción el 25/06/2025).\n\n#### 2. Posiciones de Expertos por Fuente\n\n##### 2.1 Actualícese (Referencia Obligatoria en Nómina)\n\n**Posición general:** La reforma de la jornada nocturna es \"de impacto inmediato y obligatorio\". No hay período de transición: desde 25/12/2025, toda empresa debe aplicar.\n\n##### 2.1.1 Cálculo Paso a Paso según Actualícese\n\n**Antes (hasta 24/12/2025) — Ejemplo Actualícese:**\n\nEmpleado en turno 2PM-10PM, salario $1.523.416/mes:\n\n``` Hora ordinaria = $1.523.416 / 240 horas = $6.347/hora\n\nTurno diario (8 horas):\n\n- 2PM-9PM: 7 horas ordinarias = 7 × $6.347 = $44.429\n\n- 9PM-10PM: 1 hora nocturna = 1 × $6.347 × 1.35 = $8.569\n\nCosto diario: $52.998 Costo mensual (22 días lab.): $1.165.956 ```\n\n**Después (desde 25/12/2025) — Mismo empleado:**\n\n``` Hora ordinaria: $6.347/hora (sin cambios en tarifa base)\n\nTurno diario (8 horas):\n\n- 2PM-7PM: 5 horas ordinarias = 5 × $6.347 = $31.735\n\n- 7PM-10PM: 3 horas nocturnas = 3 × $6.347 × 1.35 = $25.706\n\nCosto diario: $57.441 Costo mensual (22 días): $1.263.702\n\nINCREMENTO ABSOLUTO: $97.746/mes (8.4%) INCREMENTO POR EMPLEADO/AÑO: $97.746 × 12 = $1.172.952 ```\n\n##### 2.1.2 Impacto en Empresas con Múltiples Turnos\n\n**Restaurante de comidas rápidas — Actualícese analiza:**\n\n| Turno | Empleados | Costo Antes | Costo Después | Incremento |\n| Mañana 7AM-3PM | 4 | $18.548.000 | $18.548.000 | $0 |\n| Tarde 2PM-10PM | 6 | $6.995.736 | $7.582.212 | $586.476 |\n| Noche 10PM-6AM | 2 | $3.045.472 | $3.045.472 | $0 |\n| **TOTAL MENSUAL** | **12** | **$28.589.208** | **$29.175.684** | **$586.476 (2%)** |\n\n**Conclusión Actualícese:** Aunque el incremento parece pequeño en porcentaje (2%), es **creciente mes a mes y se acumula en el año** ($7.037.712 de sobrecosto anual).\n\n##### 2.2 Buk (Plataforma Nómina — Operativa)\n\n**Posición:** \"La reforma exige actualizar el software de nómina antes del 25/12/2025. Las empresas que no lo hagan corren riesgo de pagar incorrectamente.\"\n\n##### 2.2.1 Configuración en Sistemas de Nómina\n\nBuk recomienda:\n\n1. **Crear nuevo concepto:** \"Recargo Nocturno 7PM\" (distinto del anterior \"Recargo Nocturno 9PM\"). 2. **Especificar en contrato:** Si empleado trabaja 7PM-10PM, es automáticamente \"nocturno\". 3. **Ajustar fórmulas:** Sistema debe validar que horas 7PM-6AM reciben 35% sin excepción. 4. **Audit trail:** Guardar histórico de cambios (para inspección MinTrabajo).\n\n**Caso que Buk cita como error común:**\n\nUna empresa configuró mal su nómina y aplicó la vieja regla (9PM-6AM recibe recargo) hasta marzo 2026. MinTrabajo inspeccionó y encontró diferencia de $15.000.000 de recargos no pagados (4 meses × 6 empleados × error).\n\n**Sanción:** $15M de diferencia + interés laboral (12% anual) + multa administrativa (500-1.000 SMLMV).\n\n##### 2.3 Nexia Montes (Big Four — Análisis Estratégico)\n\n**Posición:** La reforma es \"regresiva\" para PYMEs sin capacidad operativa de ajuste rápido.\n\n##### 2.3.1 Alternativas Operacionales Nexia\n\nNexia propone 3 estrategias post-reforma:\n\n**Estrategia 1 — Mantener turnos, absorber costo:**\n\n- Ventaja: Cero cambio organizacional.\n\n- Desventaja: Costo +2-8% en nómina (según turnos).\n\n- Recomendado para: Empresas con márgenes de ganancia >15%.\n\n**Estrategia 2 — Ajustar horarios:**\n\n| Antes | Después | Beneficio |\n| Turno 2PM-10PM | 2PM-7PM (ordinario) + 7PM-2AM (nocturno, otro empleado) | Dispersa horas nocturnas, reduce concentración de costo |\n| Turno 9AM-5PM | 9AM-7PM (7 ordinarias + 1 nocturna) | Costo similar al anterior sistema |\n\n- Ventaja: Reduce sobrecosto nómina.\n\n- Desventaja: Requiere reorganización de producción, posible rotación de personal.\n\n- Recomendado para: Empresas con procesos que pueden fragmentarse (ej. retail, servicio al cliente).\n\n**Estrategia 3 — Negociar aumento salarial base, reducir horas nocturnas:**\n\n- Ejemplo: Aumentar salario base 5%, pero reducir horas nocturnas (empleados trabajan 2PM-7:30PM en lugar de 2PM-10PM).\n\n- Ventaja: Alineado con \"dignidad laboral\" que Ley 2466 promueve.\n\n- Desventaja: Requiere consenso trabajador, posible conflicto laboral si se percibe como \"rebaja\".\n\n##### 2.4 Gerencie (Asesoría Contable-Laboral)\n\n**Posición:** No hay \"opción\": la reforma es obligatoria y se aplica a todos sin excepción.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (laboral).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.10177599999999999,
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (laboral).",
+        "panel_rank": 1
+      }
+    ],
+    "ungrouped": [
+      {
+        "doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_EXPERTOS_NOM-E01-interpretaciones-costos-laborales-UGPP-fiscalizacion.md",
+        "source_doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_EXPERTOS_NOM-E01-interpretaciones-costos-laborales-UGPP-fiscalizacion.md",
+        "logical_doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_EXPERTOS_NOM-E01-interpretaciones-costos-laborales-UGPP-fiscalizacion.md",
+        "authority": "secondary_official_authority",
+        "title": "Laboral (secondary_official_authority)",
+        "snippet": "Actualícese documenta que la UGPP ha adoptado un enfoque de \"sustancia sobre forma\": no basta con que exista un pacto escrito de desalarización — la UGPP evalúa si los pagos son verdaderamente no retributivos del servicio. Citan sentencias del Consejo de Estado (Sección Segunda) que respaldan esta posición (3).",
+        "position_signal": "permite",
+        "relevance_score": 0.8489999999999999,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/pactos-de-desalarizacion-aspectos-que-se-deben-tener-en-cuenta/",
+            "label": "Actualícese — Pactos de desalarización: aspectos que se deben tener en cuenta",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/regimen-simple-de-tributacion-aportes-seguridad-social/",
+            "label": "Actualícese — Régimen Simple: aportes a seguridad social y parafiscales",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/ugpp-fiscalizacion-aportes-seguridad-social/",
+            "label": "Actualícese — UGPP fiscalización: lo que debe saber el empleador",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/que-es-el-factor-prestacional-para-el-empleador.html",
+            "label": "Gerencie.com — Factor prestacional del empleador",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/reduccion-de-la-jornada-laboral.html",
+            "label": "Gerencie.com — Reducción de la jornada laboral Ley 2101",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/recargos-nocturnos-dominicales-y-festivos.html",
+            "label": "Gerencie.com — Recargo nocturno, dominical y festivo 2026",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/contrato-de-servicios-vs-contrato-de-trabajo.html",
+            "label": "Gerencie.com — Contrato de prestación de servicios vs contrato laboral",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/laboral/laboral-y-seguridad-social/",
+            "label": "Legis Ámbito Jurídico — Pactos de exclusión salarial: límites jurisprudenciales",
+            "provider": "Legis",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/laboral/",
+            "label": "Legis Ámbito Jurídico — Ley 2466 de 2025: impacto en costos laborales",
+            "provider": "Legis",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www2.deloitte.com/co/es/pages/tax/articles/tax-legal-alerts.html",
+            "label": "Deloitte Colombia — Tax & Legal Alert: costos laborales 2026",
+            "provider": "Deloitte",
+            "domain": "www2.deloitte.com"
+          },
+          {
+            "url": "https://kpmg.com/co/es/home/insights.html",
+            "label": "KPMG Colombia — Régimen Simple vs. Ordinario: análisis integral",
+            "provider": "KPMG",
+            "domain": "kpmg.com"
+          },
+          {
+            "url": "https://www.ey.com/es_co/tax",
+            "label": "EY Colombia — Guía de defensa ante fiscalización UGPP",
+            "provider": "EY",
+            "domain": "ey.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/pactos-de-desalarizacion-aspectos-que-se-deben-tener-en-cuenta/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/que-es-el-factor-prestacional-para-el-empleador.html"
+          },
+          {
+            "name": "Legis",
+            "url": "https://www.ambitojuridico.com/noticias/laboral/laboral-y-seguridad-social/"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/laboral/laboral-y-seguridad-social/"
+          },
+          {
+            "name": "Deloitte",
+            "url": "https://www2.deloitte.com/co/es/pages/tax/articles/tax-legal-alerts.html"
+          },
+          {
+            "name": "KPMG",
+            "url": "https://kpmg.com/co/es/home/insights.html"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co/tax"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co/es/publicaciones.html"
+          },
+          {
+            "name": "PHR (Posse Herrera Ruiz)",
+            "url": "https://www.phrlegal.com/publicaciones/"
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_EXPERTOS_NOM-E01-interpretaciones-costos-laborales-UGPP-fiscalizacion.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_EXPERTOS_NOM-E01-interpretaciones-costos-laborales-UGPP-fiscalizacion.md",
+        "card_summary": "Este documento recopila interpretaciones de expertos sobre el tope del 40% no salarial del Art. 30 de la Ley 1393/2010 y la fiscalización de la UGPP, incluyendo riesgos y criterios judiciales.",
+        "extended_excerpt": "### 1. Norma Base\n\nEste documento recopila interpretaciones de expertos sobre los siguientes temas normativos:\n\n1. **Pactos de desalarización** (Art. 128 CST): límites, riesgos y criterios judiciales. 2. **Tope del 40%** (Art. 30 Ley 1393/2010): aplicación práctica y zona gris. 3. **Exoneración Art. 114-1 ET**: dudas interpretativas frecuentes. 4. **Fiscalización UGPP**: modelo de fiscalización, criterios de selección, defensa del contribuyente. 5. **Impacto Ley 2101/2021 y Ley 2466/2025**: interpretaciones sobre costo de la reducción de jornada y nuevos recargos. 6. **Costos laborales como deducción en renta**: requisitos Art. 108 ET y riesgos.\n\n### 2. Posiciones de Expertos\n\n#### 2.1 ACTUALÍCESE (6 publicaciones)\n\n**Sobre pactos de desalarización y tope del 40%:**\n\nActualícese ha publicado extensamente sobre los pactos del Art. 128 CST, advirtiendo que la UGPP ha intensificado su fiscalización sobre estos pactos. La posición editorial es que los pactos son **legítimos pero no absolutos**: si la UGPP demuestra que los pagos son habituales, fijos y retributivos del servicio, puede reclasificarlos como salario independientemente de lo pactado. El tope del 40% del Art. 30 de la Ley 1393 solo aplica para efectos de aportes a seguridad social, no para efectos laborales (prima, cesantías), aunque en la práctica la UGPP lo usa como referencia general (1).\n\n**Sobre la exoneración Art. 114-1:**\n\nRespecto al RST, Actualícese destaca que la exoneración parcial (solo SENA) del Régimen Simple debe considerarse al comparar cargas tributarias con el régimen ordinario. Un empleador en el RST con 10 empleados en salario mínimo paga aproximadamente $1.379.000 COP adicionales por mes en ICBF y salud que no pagaría en el régimen ordinario (2).\n\n**Sobre la UGPP y la presunción de salarios:**\n\nLa UGPP ha adoptado un enfoque de **\"sustancia sobre forma\"**: no basta con que exista un pacto escrito de desalarización — la UGPP evalúa si los pagos son verdaderamente no retributivos del servicio. Citan sentencias del Consejo de Estado (Sección Segunda) que respaldan esta posición (3).\n\n> (1) [Actualícese — Pactos de desalarización: aspectos que se deben tener en cuenta](https://actualicese.com/pactos-de-desalarizacion-aspectos-que-se-deben-tener-en-cuenta/) > (2) [Actualícese — Régimen Simple: aportes a seguridad social y parafiscales](https://actualicese.com/regimen-simple-de-tributacion-aportes-seguridad-social/) > (3) [Actualícese — UGPP fiscalización: lo que debe saber el empleador](https://actualicese.com/ugpp-fiscalizacion-aportes-seguridad-social/)\n\n#### 2.2 GERENCIE.COM (4 publicaciones)\n\n**Sobre costos laborales y factor prestacional:**\n\nGerencie ofrece un análisis detallado del factor prestacional, señalando que con la exoneración del Art. 114-1 ET el factor baja de ~51,85% a ~38,35% para PYMEs. Advierte que muchos empleadores cometen el error de calcular el factor prestacional sin actualizar los parámetros cada año (SMLMV, UVT, porcentaje ARL). El factor debe recalcularse al inicio de cada vigencia (4).\n\n**Sobre la reducción de jornada (Ley 2101):**\n\nLa reducción de 48 a 42 horas semanales representa un incremento efectivo del **14,3%** en el costo por hora trabajada, sin aumento nominal de salario. Para PYMEs que operan con turnos, esto tiene impacto directo en la productividad y en el costo de horas extras. Recomienda a las empresas revisar sus esquemas de turnos y considerar la automatización de procesos repetitivos (5).\n\n**Sobre el recargo nocturno desde las 7:00 p.m. (Ley 2466):**\n\nGerencie es enfático en que el cambio de la jornada nocturna desde las 7:00 p.m. (antes 9:00 p.m.) impacta desproporcionadamente a PYMEs del sector comercio, restaurantes y servicios. Un empleado que trabaja de 2:00 p.m. a 10:00 p.m. antes solo generaba 1 hora de recargo nocturno; ahora genera **3 horas** de recargo. Para un trabajador en SMLMV, esto representa un costo adicional de ~$6.434 COP por turno (6).\n\n**Sobre la UGPP y contratistas disfrazados:**\n\nGerencie ha documentado extensamente los riesgos de vincular personas naturales por contrato de prestación de servicios cuando existe subordinación real. La UGPP presume relación laboral cuando detecta: horario fijo, exclusividad, herramientas del contratante, pagos mensuales fijos, y duración prolongada del contrato. La reclasificación genera liquidación de aportes retroactivos por hasta 5 años + sanción del 100% (7).\n\n> (4) [Gerencie.com — Factor prestacional del empleador](https://www.gerencie.com/que-es-el-factor-prestacional-para-el-empleador.html) > (5) [Gerencie.com — Reducción de la jornada laboral Ley 2101](https://www.gerencie.com/reduccion-de-la-jornada-laboral.html) > (6) [Gerencie.com — Recargo nocturno, dominical y festivo 2026](https://www.gerencie.com/recargos-nocturnos-dominicales-y-festivos.html) > (7) [Gerencie.com — Contrato de prestación de servicios vs contrato laboral](https://www.gerencie.com/contrato-de-servicios-vs-contrato-de-trabajo.html)",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (laboral).",
+        "core_ref_matches": [
+          "et_art_30"
+        ],
+        "panel_rank": 1,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Emergencia_Tributaria_Decreto_0240_Interpretacion_Expertos_eme_expertos_decreto_0240.md",
+        "source_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Emergencia_Tributaria_Decreto_0240_Interpretacion_Expertos_eme_expertos_decreto_0240.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Emergencia_Tributaria_Decreto_0240_Interpretacion_Expertos_eme_expertos_decreto_0240.md",
+        "authority": "expert_interpretive_authority",
+        "title": "Emergencia tributaria (expert_interpretive_authority)",
+        "snippet": "Actualícese (https://actualicese.com) — Alertas y análisis comparativo",
+        "position_signal": "neutral",
+        "relevance_score": 0.235936,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://www.pwc.com/co",
+            "label": "pwc.com",
+            "provider": "PwC",
+            "domain": "pwc.com"
+          },
+          {
+            "url": "https://www.ey.com/es_co",
+            "label": "ey.com",
+            "provider": "EY",
+            "domain": "ey.com"
+          },
+          {
+            "url": "https://www2.deloitte.com/co",
+            "label": "www2.deloitte.com",
+            "provider": "Deloitte",
+            "domain": "www2.deloitte.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co)"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co)"
+          },
+          {
+            "name": "Deloitte",
+            "url": "https://www2.deloitte.com/co)"
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Emergencia_Tributaria_Decreto_0240_Interpretacion_Expertos_eme_expertos_decreto_0240.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Emergencia_Tributaria_Decreto_0240_Interpretacion_Expertos_eme_expertos_decreto_0240.md",
+        "card_summary": "Este documento se enfoca en el Decreto Legislativo 0240 de 2026 y jurisprudencia constitucional, sin abordar el límite del 40% no salarial ni riesgos UGPP.",
+        "extended_excerpt": "### Fuentes y Referencias\n\n1. **Norma primaria base:**\n\n- Decreto Legislativo 0240 de 2026 (10 de febrero de 2026), DIAN normograma: https://normograma.dian.gov.co/\n\n2. **Jurisprudencia constitucional:**\n\n- C-077/2025 (7 de febrero de 2026) — Suspensión 18 artículos Decreto 1474/2025\n\n- C-181/94 — Efectos post-vigencia de decretos de excepción\n\n- C-635/13 — Inconstitucionalidad impuesto patrimonio neto\n\n- C-318/22 — Capacidad contributiva, gravamen patrimonio\n\n3. **Doctrina DIAN:**\n\n- Concepto 1.108.156 de 25 de febrero de 2026 — Deducción 130% adaptación climática\n\n- Comunicado 007 de 22 de marzo de 2026 — Alivio sancional normalización\n\n- Comunicado 006 de 2026 — Listado fondos certificados ANLA\n\n4. **Tier 1 — Organismos reguladores:**\n\n- DIAN (https://www.dian.gov.co) — Resoluciones, conceptos, calendario\n\n- CTCP (https://www.ctcp.gov.co) — Orientación contable normas ambientales\n\n- Superintendencia de Sociedades (https://www.supersociedades.gov.co)\n\n5. **Tier 2 — Portales especializados:**\n\n- Actualícese (https://actualicese.com) — Alertas y análisis comparativo\n\n- Gerencie.com (https://www.gerencie.com) — Artículos profundidad, análisis crítico\n\n- Accounter (https://accounter.co) — Guía vencimientos y plazos\n\n- CETA (https://www.ceta.org.co) — Análisis normalización tributaria\n\n6. **Tier 3 — Big Four y firmas consultoras:**\n\n- Holland & Knight (Bogotá) — Alertas Tributarias, \"Decretos de Emergencia: Análisis de Riesgos post-C-077/2025\" (marzo 2026)\n\n- Brigard Urrutia — \"Límites Constitucionales a Decretos de Emergencia\" (marzo 2026) y \"Decreto 0240 y Resolución de Controversias: Oportunidades de Transacción\"\n\n- PwC Colombia (https://www.pwc.com/co) — \"Decreto 0240: Oportunidades de Normalización Tributaria\" (22 de marzo de 2026)\n\n- EY Colombia (https://www.ey.com/es_co) — \"Análisis de Beneficios Transitorios\" (23 de marzo de 2026), \"Decreto 0240: Impacto sectorial diferenciado\"\n\n- Deloitte Colombia (https://www2.deloitte.com/co) — Flash Tributario 0240 (20 de marzo de 2026)\n\n- Forvis Mazars — \"Gestión de Contingencias Tributarias en Contexto Decreto 0240\" (24 de marzo de 2026)\n\n7. **Marco normativo conexo:**\n\n- Decreto 1474/2025 (medidas tributarias emergencia anterior) — Referencia para precedente\n\n- Decreto 0173/2026 — Impuesto Temporal Patrimonio (conexo)\n\n- Decreto 150/2026 — Declaración estado de excepción\n\n- Estatuto Tributario (ET) — Arts. 107, 191, 240, 383-386, 474-E (concordancias)\n\n- Código de Procedimiento Administrativo y Contencioso Administrativo (CPACA) — Arts. 107-110 (conciliación)\n\n**Documento elaborado**: 27 de marzo de 2026\n\n**Próxima actualización**: Esperada tras fallo de Corte Constitucional sobre exequibilidad/inexequibilidad de Decreto 0240 (estimado abril-junio 2026)\n\n### Norma base\n\nEl **Decreto Legislativo 0240 de 2026**, expedido el 10 de febrero de 2026 bajo estado de excepción por emergencia ambiental y calamidad pública (Decreto 150/2026), contiene **ocho artículos** de medidas tributarias, aduanales y cambiarias dirigidas a mitigar efectos de fenómenos climáticos extremos y sequías durante 2025-2026.\n\n**Artículos tributarios principales:**\n\n- **Art. 1**: Deducción incrementada 130% para gastos de adaptación climática (2026-2027)\n\n- **Art. 2**: Exclusión de IVA (tasa 0%) para bienes y servicios ambientales\n\n- **Art. 3**: Crédito fiscal 25% (máximo 30% anual) para inversión en fondos forestales certificados por ANLA\n\n- **Art. 4**: Deducción sin requisito de causalidad directa para gastos de reparación ambiental\n\n- **Art. 5**: Bonificación de retención en la fuente (4% en lugar de 10%) para servicios ambientales\n\n- **Arts. 6-8**: Medidas aduanales y cambiarias (fuera de scope tributario)\n\n**Vigencia normativa**: Decreto en trámite de revisión constitucional ante Corte Constitucional (control obligatorio Art. 241 CP). Al 27 de marzo de 2026, tres demandas de inconstitucionalidad presentadas; se estima fallo entre abril-junio 2026.\n\n**Interacción con Decreto 1474/2025**: Ambos decretos coexisten. El Decreto 240 **no deroga** medidas del Decreto 1474 (parcialmente suspendido por C-077/2025); se suman en vigencia.\n\n### Posiciones de expertos\n\n#### 1. Constitucionalidad del Decreto 0240 — Precedente de la C-077/2025\n\n**Posición de Holland & Knight (Alertas Tributarias, marzo 2026):**\n\nHolland & Knight, con presencia en Bogotá desde 2010, emite posición conservadora en su alerta \"Decretos de Emergencia Tributaria: Análisis de Riesgos post-C-077/2025\":\n\n*\"La Sentencia C-077/2025 (expedida 7 de febrero de 2026) marcó un hito al suspender 18 artículos del Decreto 1474/2025 por desproporción entre los beneficios fiscales autorizados y la duración de la emergencia declarada. Aunque el Decreto 240 es independiente del 1474, ambos comparten la misma estructura: justificación por estado de excepción + beneficios tributarios selectivos + vigencia temporal limitada.*",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Se ancla a una referencia normativa central del caso.",
+        "core_ref_matches": [
+          "et_art_3"
+        ],
+        "panel_rank": 2,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "analysis"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_EXPERTOS_TPR-E01-interpretaciones-cotizacion-prestaciones-tiempo-parcial.md",
+        "source_doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_EXPERTOS_TPR-E01-interpretaciones-cotizacion-prestaciones-tiempo-parcial.md",
+        "logical_doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_EXPERTOS_TPR-E01-interpretaciones-cotizacion-prestaciones-tiempo-parcial.md",
+        "authority": "secondary_official_authority",
+        "title": "Laboral (secondary_official_authority)",
+        "snippet": "Fuentes | # | Fuente | Enlace |",
+        "position_signal": "neutral",
+        "relevance_score": 0.101656,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/abc-de-los-trabajadores-a-tiempo-parcial/",
+            "label": "Actualícese",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/seguridad-social-de-trabajadores-de-medio-tiempo.html",
+            "label": "Gerencie",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www2.deloitte.com/co/es/pages/tax/articles/ugpp-fiscalizacion.html",
+            "label": "Deloitte",
+            "provider": "Deloitte",
+            "domain": "www2.deloitte.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/laboral",
+            "label": "Ámbito Jurídico",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www.ey.com/es_co/law/reforma-laboral-colombia",
+            "label": "EY",
+            "provider": "EY",
+            "domain": "ey.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/abc-de-los-trabajadores-a-tiempo-parcial/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/seguridad-social-de-trabajadores-de-medio-tiempo.html"
+          },
+          {
+            "name": "Deloitte",
+            "url": "https://www2.deloitte.com/co/es/pages/tax/articles/ugpp-fiscalizacion.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/laboral"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co/law/reforma-laboral-colombia"
+          },
+          {
+            "name": "Legis",
+            "url": null
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_EXPERTOS_TPR-E01-interpretaciones-cotizacion-prestaciones-tiempo-parcial.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_EXPERTOS_TPR-E01-interpretaciones-cotizacion-prestaciones-tiempo-parcial.md",
+        "card_summary": "Este documento lista fuentes sobre trabajadores a tiempo parcial, seguridad social y fiscalización UGPP, pero no aborda directamente el límite del 40% no salarial.",
+        "extended_excerpt": "### Fuentes\n\n| # | Fuente | Enlace |\n| (1) | Actualícese — ABC de los trabajadores a tiempo parcial | [Actualícese](https://actualicese.com/abc-de-los-trabajadores-a-tiempo-parcial/) |\n| (2) | Gerencie.com — Seguridad social de trabajadores a tiempo parcial | [Gerencie](https://www.gerencie.com/seguridad-social-de-trabajadores-de-medio-tiempo.html) |\n| (3) | ANDI — ABC de la Reforma Laboral Ley 2466/2025 | [ANDI](https://www.andi.com.co/Uploads/ANDI-CESLA.%20El%20ABC%20de%20la%20reforma%20laboral.%20Ley%202466%20de%202025.pdf) |\n| (4) | Deloitte Colombia — Fiscalización UGPP y esquemas de tiempo parcial | [Deloitte](https://www2.deloitte.com/co/es/pages/tax/articles/ugpp-fiscalizacion.html) |\n| (5) | Legis Ámbito Jurídico — Estabilidad laboral y tiempo parcial | [Ámbito Jurídico](https://www.ambitojuridico.com/noticias/laboral) |\n| (6) | EY Colombia — Reforma Laboral: servicio doméstico y cotización parcial | [EY](https://www.ey.com/es_co/law/reforma-laboral-colombia) |\n| (7) | MinTrabajo — Concepto auxilio de transporte trabajadores tiempo parcial | [MinTrabajo](https://www.mintrabajo.gov.co/normatividad/conceptos) |\n| (8) | Corte Suprema de Justicia — Sala Laboral — Jurisprudencia tiempo parcial | [CSJ](https://consultajurisprudencial.ramajudicial.gov.co/) |\n\n*Documento compilado para el corpus de Lia Contador. Última actualización: 17 de marzo de 2026.*\n\n### Norma Base\n\nEl CST Art. 197 establece que los trabajadores a tiempo parcial tienen derecho a salario y prestaciones proporcionales. El Decreto 2616/2013 permite cotizar por semanas cuando el ingreso es inferior a 1 SMLMV y el trabajador pertenece al régimen subsidiado. La Ley 2466/2025 (Reforma Laboral) Art. 34 introduce un mecanismo especial de cotización a tiempo parcial para microempresas y hogares. La UGPP fiscaliza activamente que los empleadores no usen esquemas de tiempo parcial para evadir cotizaciones a tiempo completo.\n\n### Posiciones de Expertos\n\n#### 1. Actualícese — \"El 80% de las PYMEs que contratan por horas cometen errores en la cotización a seguridad social\"\n\nActualícese ha publicado extensamente sobre los errores más frecuentes en la contratación a tiempo parcial, identificando que la mayoría de las PYMEs no cotizan correctamente.\n\n**Errores principales documentados:**\n\n- **Error #1: Cotizar sobre el salario pagado y no sobre el SMLMV**. Cuando el trabajador devenga $875.453 (medio tiempo), muchos empleadores cotizan sobre esa cifra. La regla general es que el IBC no puede ser inferior a 1 SMLMV ($1.750.905), salvo que aplique Decreto 2616/2013 (cotización por semanas — solo si el trabajador está en régimen subsidiado de salud).\n\n- **Error #2: Usar el Decreto 2616 cuando no aplica**. El Decreto 2616 tiene requisitos estrictos: el trabajador debe estar en régimen subsidiado de salud, su ingreso mensual debe ser inferior a 1 SMLMV, y el contrato debe ser genuinamente parcial. Si el trabajador está en régimen contributivo, el Decreto 2616 NO aplica y se debe cotizar sobre mínimo 1 SMLMV.\n\n- **Error #3: Confundir contrato por prestación de servicios con trabajo por horas**. Muchas PYMEs \"disfrazan\" relaciones laborales a tiempo parcial como contratos de prestación de servicios para evitar cargas prestacionales. La UGPP detecta esto con cruces de información (mismo horario, mismo lugar, subordinación) (1).\n\n**Recomendación Actualícese**: antes de contratar a tiempo parcial, defina con el contador si el trabajador cumple los requisitos del Decreto 2616. Si no los cumple, presupueste la cotización sobre 1 SMLMV completo.\n\n#### 2. Gerencie.com — \"El costo real de un trabajador a medio tiempo: no es la mitad del costo de tiempo completo\"\n\nGerencie.com ha publicado análisis detallados demostrando que el costo de un trabajador a medio tiempo es **proporcionalmente mayor** al de uno de tiempo completo, debido a la regla del IBC mínimo.\n\n**Análisis comparativo (cifras 2026):**\n\n| Concepto | Tiempo completo ($1.750.905) | Medio tiempo ($875.453) |\n| Salario | $1.750.905 | $875.453 |\n| Auxilio transporte | $249.095 | $249.095 (completo) |\n| Prestaciones (~21,6% del salario+AT) | ~$432.000 | ~$242.900 |\n| Seguridad social patronal (IBC) | Sobre $1.750.905 | Sobre **$1.750.905** (regla general) |\n| Costo seguridad social patronal (~20,5%) | ~$358.935 | ~$358.935 (¡IGUAL!) |\n| **Costo total mensual aprox.** | **~$2.790.935** | **~$1.726.383** |\n| **% del salario** | 159% | **197%** del salario |\n\n**Punto clave**: la seguridad social del trabajador a medio tiempo cuesta lo MISMO que la del tiempo completo (bajo regla general). Esto eleva el costo porcentual. Solo si aplica el Decreto 2616 o la Ley 2466/2025 Art. 34 el costo se reduce (2).\n\n#### 3. ANDI (CESLA) — \"Ley 2466/2025 Art. 34: oportunidad de formalización para microempresas\"\n\nLa ANDI, a través de su Centro de Estudios Sociales y Laborales (CESLA), ha analizado el impacto del Art. 34 de la Reforma Laboral como herramienta de formalización.\n\n**Puntos clave de la posición:**",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (laboral).",
+        "core_ref_matches": [],
+        "panel_rank": 3,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_03-REFORMA-LABORAL-LEY-2466_INTERPRETACION_T-REF-LABORAL-reforma-laboral-interpretaciones-expertos.md",
+        "source_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_03-REFORMA-LABORAL-LEY-2466_INTERPRETACION_T-REF-LABORAL-reforma-laboral-interpretaciones-expertos.md",
+        "logical_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_03-REFORMA-LABORAL-LEY-2466_INTERPRETACION_T-REF-LABORAL-reforma-laboral-interpretaciones-expertos.md",
+        "authority": "secondary_official_authority",
+        "title": "Laboral (secondary_official_authority)",
+        "snippet": "1. Norma base Ley 2466 de 2025 — \"Por la cual se modifica parcialmente normas laborales y se adopta una reforma laboral para el trabajo digno y decente en Colombia\" (sancionada el 25 de junio de 2025; D.O. 53.160).",
+        "position_signal": "neutral",
+        "relevance_score": 0.098768,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://www.ey.com/es_co/insights/tax/reforma-laboral-colombia",
+            "label": "Reforma Laboral 2025 en Colombia: cambios clave y obligaciones para las empresas",
+            "provider": "EY",
+            "domain": "ey.com"
+          },
+          {
+            "url": "https://www.pwc.com/co/es/pwc-insights/reforma-laboral-2025-en-colombia-principales-cambios.html",
+            "label": "Reforma Laboral 2025 en Colombia: principales cambios",
+            "provider": "PwC",
+            "domain": "pwc.com"
+          },
+          {
+            "url": "https://www.infobae.com/colombia/2025/12/26/asi-puede-calcular-cuanto-le-deben-pagar-por-la-jornada-nocturna-desde-las-700-de-la-noche-con-el-nuevo-recargo-del-35/",
+            "label": "Estos son los costos que generará la reforma laboral para las empresas en Colombia",
+            "provider": "Infobae",
+            "domain": "infobae.com"
+          },
+          {
+            "url": "https://actualicese.com/horas-extra-diurnas-nocturnas-dominicales-y-festivas/",
+            "label": "Horas extra, recargos nocturnos, dominicales y festivos — Liquidador",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://siemprealdia.co/colombia/derecho-laboral/horas-extra-y-recargos-nocturnos/",
+            "label": "Horas extra y recargos nocturnos 2026",
+            "provider": "Alegra",
+            "domain": "siemprealdia.co"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/laboral/la-mutacion-de-los-contratos-laborales-la-luz-de-la-ley-2466-de-2025",
+            "label": "La mutación de los contratos laborales a la luz de la Ley 2466 de 2025",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co/insights/tax/reforma-laboral-colombia"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co/es/pwc-insights/reforma-laboral-2025-en-colombia-principales-cambios.html"
+          },
+          {
+            "name": "Infobae",
+            "url": "https://www.infobae.com/colombia/2025/12/26/asi-puede-calcular-cuanto-le-deben-pagar-por-la-jornada-nocturna-desde-las-700-de-la-noche-con-el-nuevo-recargo-del-35/"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/horas-extra-diurnas-nocturnas-dominicales-y-festivas/"
+          },
+          {
+            "name": "Alegra",
+            "url": "https://siemprealdia.co/colombia/derecho-laboral/horas-extra-y-recargos-nocturnos/"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/laboral/la-mutacion-de-los-contratos-laborales-la-luz-de-la-ley-2466-de-2025"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": null
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_03-REFORMA-LABORAL-LEY-2466_INTERPRETACION_T-REF-LABORAL-reforma-laboral-interpretaciones-expertos.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_03-REFORMA-LABORAL-LEY-2466_INTERPRETACION_T-REF-LABORAL-reforma-laboral-interpretaciones-expertos.md",
+        "card_summary": "Norma base Ley 2466 de 2025 — \"Por la cual se modifica parcialmente normas laborales y se adopta una reforma laboral para el trabajo digno y decente en Colombia\" (sancionada el 25 de junio de 2025; D.O.",
+        "extended_excerpt": "### 1. Norma base\n\n**Ley 2466 de 2025** — \"Por la cual se modifica parcialmente normas laborales y se adopta una reforma laboral para el trabajo digno y decente en Colombia\" (sancionada el 25 de junio de 2025; D.O. 53.160).\n\n**Normas relacionadas:**\n\n- Código Sustantivo del Trabajo (CST)\n\n- Ley 50 de 1990\n\n- Ley 789 de 2002\n\n- Ley 2101 de 2021 (jornada laboral progresiva)\n\n- Decretos reglamentarios vigentes (especialmente en tercerización, plataformas, aprendizaje)\n\n### 10. Fuentes y Referencias\n\n(1) Ley 2466 de 2025 — [Función Pública — Normograma](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=260676)\n\n(2) Ministerio del Trabajo — [La reforma laboral ya es la Ley 2466 del 25 de junio](https://www.mintrabajo.gov.co/la-reforma-laboral-ya-es-la-ley-2466-del-25-de-junio)\n\n(3) Ministerio del Trabajo — [Circular Interna 0120 — Estabilidad Laboral Reforzada (17 de noviembre de 2025)](https://asosec.co/estabilidad-laboral-reforzada-2025-nuevos-lineamientos-mintrabajo/)\n\n(4) EY Colombia — [Reforma Laboral 2025 en Colombia: cambios clave y obligaciones para las empresas](https://www.ey.com/es_co/insights/tax/reforma-laboral-colombia)\n\n(5) PwC Colombia — [Reforma Laboral 2025 en Colombia: principales cambios](https://www.pwc.com/co/es/pwc-insights/reforma-laboral-2025-en-colombia-principales-cambios.html)\n\n(6) ANDI (Asociación Nacional de Empresarios) & CESLA — [ABC de la Reforma Laboral — Ley 2466 de 2025](https://www.andi.com.co/Uploads/ANDI-CESLA.%20El%20ABC%20de%20la%20reforma%20laboral.%20Ley%202466%20de%202025.pdf)\n\n(7) Deel — [Reforma Laboral en Colombia 2025: Guía Completa y Análisis de Impacto](https://www.deel.com/es/blog/reforma-laboral-colombia-ley-2466/)\n\n(8) Infobea — [Estos son los costos que generará la reforma laboral para las empresas en Colombia](https://www.infobae.com/colombia/2025/12/26/asi-puede-calcular-cuanto-le-deben-pagar-por-la-jornada-nocturna-desde-las-700-de-la-noche-con-el-nuevo-recargo-del-35/)\n\n(9) Buk — [Recargo dominical y festivo 2026: cómo se paga con la nueva reforma laboral](https://www.buk.co/blog/recargo-dominical-y-festivo-reforma-laboral)\n\n(10) La República — [Reducción de jornada ordinaria laboral](https://www.larepublica.co/economia/la-reforma-laboral-ya-es-ley-de-la-republica-y-el-recargo-nocturno-comenzara-en-2026-4166041)\n\n(11) Cuenti — [Reforma Laboral Colombia 2026: Nuevos Costos de Nómina](https://cuenti.com/nomina-electronica/reforma-laboral-2026-impacto-pymes/)\n\n(12) Actualícese — [Horas extra, recargos nocturnos, dominicales y festivos — Liquidador](https://actualicese.com/horas-extra-diurnas-nocturnas-dominicales-y-festivas/)\n\n(13) Siempre al Día — [Horas extra y recargos nocturnos 2026](https://siemprealdia.co/colombia/derecho-laboral/horas-extra-y-recargos-nocturnos/)\n\n(14) El Colombiano — [ABC de la reforma laboral: estos son los puntos clave aprobados que cambiarán las reglas para los trabajadores](https://www.elcolombiano.com/negocios/reforma-laboral-cambios-para-trabajadores-y-empresas-recargo-nocturno-dominicales-LD27538627)\n\n(15) Ámbito Jurídico — [La mutación de los contratos laborales a la luz de la Ley 2466 de 2025](https://www.ambitojuridico.com/noticias/laboral/la-mutacion-de-los-contratos-laborales-la-luz-de-la-ley-2466-de-2025)\n\n(16) Economista Colombia — [Estudio revela los 5 costos ocultos de la reforma laboral que harían desaparecer al 15% de las pymes](https://economistacolombia.com/economia/estudio-revela-los-5-costos-ocultos-de-la-reforma-laboral-que-harian-desaparecer-al-15-de-las-pymes/)\n\n### 2. Posiciones de expertos\n\n#### 2.1 EY Colombia\n\n**Publicación principal:** [Reforma Laboral 2025 en Colombia: cambios clave y obligaciones para las empresas](https://www.ey.com/es_co/insights/tax/reforma-laboral-colombia)\n\n**Posición central:** EY caracteriza la reforma como un punto de quiebre que amplía el margen de interpretación judicial \"en favor del trabajador\", exigiendo una mayor trazabilidad documental de las decisiones laborales. La firma advierte que las empresas enfrentarán *aumento significativo en costos laborales*, con necesidad de actualización de software de nómina, revisión de reglamentos internos y auditoría de todas las prácticas de contratación.\n\n**Recomendaciones concretas:** 1. Prioridad inmediata: revisar contratos a término fijo existentes; determinar cuántos vencerán antes del 25 de junio de 2029 (fecha tope para que contratos vigentes mantengan naturaleza fija). 2. Adoptar de inmediato registro de horas extras (ya no requiere permiso del MinTrabajo, pero debe documentarse). 3. Recalcular nómina con recargos escalonados (80%→90%→100%) y jornada nocturna desde las 7pm con recargo del 35%. 4. Implementar procesos disciplinarios más rigurosos (debido proceso reforzado: cualquier despido será cuestionado judicialmente con mayor probabilidad). 5. Proyectar impacto presupuestal para 2026-2027 (fecha de recargos al 100%).",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (laboral).",
+        "core_ref_matches": [],
+        "panel_rank": 4,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      }
+    ],
+    "total_available": 5,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Una PYME paga el 35% del salario como bonos no constitutivos de salario. ¿Cuál es el límite del 40% no salarial según el Art. 30 de la Ley 1393/2010 y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?",
+        "assistant_answer": "**Respuestas directas** - **¿Cuál es el límite del **40%** no salarial según el Art. 30 de la Ley **1393**/**2010** y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?** **Anclaje legal** - Art. 3 — 1. OBLIGACIONES DEL INTERMEDIARIO - Art. 127-132 — Definición de salario - Art. 16-19 — Nuevo Capítulo sobre Uso Adecuado de Tercerización",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_30",
+          "et_art_3",
+          "et_art_127_132",
+          "et_art_16_19"
+        ],
+        "form_entities": [],
+        "detected_topic": "laboral",
+        "keyword_cluster": [
+          "**1393**/**2010**",
+          "fiscalizacion",
+          "constitutivos",
+          "intermediario",
+          "tercerizacion",
+          "obligaciones",
+          "**respuestas",
+          "realidad?**",
+          "definicion",
+          "directas**"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 6,
+      "filtered_out_candidates": 12,
+      "off_topic_penalized_count": 12,
+      "off_topic_penalized_kept": 2,
+      "grouped_items": 1,
+      "ungrouped_items": 4,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "laboral",
+      "interpretation_anchor_eligible_docs": 5,
+      "interpretation_anchor_boosted_chunks": 9,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 3,
+        "medium": 15,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 4,
+        "resolved_numbers": 4,
+        "matched_articles": 2,
+        "matched_doc_ids": 5
+      },
+      "expert_query_seed": "Una PYME paga el 35% del salario como bonos no constitutivos de salario. ¿Cuál es el límite del 40% no salarial según el Art. 30 de la Ley 1393/2010 y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad? Art. 30 Art. 3 Art. 127-132 Art. 16-19",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "rerank",
+        "judge": {
+          "mode": "llm",
+          "model": "gemini-2.5-flash",
+          "token_usage": {},
+          "scored_count": 11,
+          "candidate_count": 12
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 0
+        },
+        "graph_scored_count": 12,
+        "candidate_count": 12,
+        "summarized_count": 11
+      }
+    },
+    "trace_id": "3ef74cba-c03d-48b6-ae3d-ab99feadb1d3"
+  }
+}

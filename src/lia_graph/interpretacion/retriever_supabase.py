@@ -29,12 +29,40 @@ that may pick the filesystem fallback, and only when
 
 from __future__ import annotations
 
+import json
 import os
 import re
+from pathlib import Path
 from typing import Any
 
 from ..contracts.document import DocumentRecord
 from ..supabase_client import get_supabase_client
+
+
+# fix_v11_may §2.A — trust-tier prioritization. Tier-bonus multipliers
+# applied as `score *= (1.0 + tier_weight * tier_bonus)` inside
+# `_group_chunks_by_doc`. Default tier weight 0.30 produces:
+#   high   → ×1.6  (tier_bonus 2.0 × 0.30 = 0.60 over baseline)
+#   medium → ×1.3  (tier_bonus 1.0 × 0.30 = 0.30 over baseline)
+#   low    → ×1.0  (tier_bonus 0.0 → no-op, preserves recall)
+# Tuned to break ties inside crowded article-anchor sets without
+# crushing low-tier recall when the anchor index lacks coverage.
+_TRUST_TIER_BONUS: dict[str, float] = {
+    "high": 2.0,
+    "medium": 1.0,
+    "low": 0.0,
+}
+_DEFAULT_TRUST_TIER_WEIGHT = 0.30
+
+
+def _normalize_trust_tier(value: str | None) -> str:
+    s = str(value or "").strip().lower()
+    return s if s in _TRUST_TIER_BONUS else "medium"
+
+
+def _trust_tier_score_multiplier(tier: str | None, weight: float) -> float:
+    bonus = _TRUST_TIER_BONUS.get(_normalize_trust_tier(tier), 1.0)
+    return 1.0 + float(weight) * bonus
 
 
 _FTS_TOKEN_RE = re.compile(r"[A-Za-zÁÉÍÓÚáéíóúñÑ0-9_-]{2,}")
@@ -186,6 +214,7 @@ def _group_chunks_by_doc(
     top_k: int,
     article_refs: tuple[str, ...] = (),
     lexical_ref_boost: float = 0.25,
+    trust_tier_weight: float = _DEFAULT_TRUST_TIER_WEIGHT,
 ) -> list[tuple[str, dict[str, Any], float]]:
     """Pick one representative chunk per doc (the highest-scoring),
     return them ordered by score descending and truncated to `top_k`.
@@ -204,6 +233,15 @@ def _group_chunks_by_doc(
     ZOMAC/IVA-proporcionalidad cards on the ICA-deduccion-in-renta
     query without over-boosting article-mention-heavy normative
     fragments that happen to land in interpretation docs.
+
+    fix_v11_may Phase 11A — trust-tier prioritization. Each chunk's
+    score is further multiplied by `(1.0 + trust_tier_weight *
+    tier_bonus)` where `tier_bonus` is 2.0/1.0/0.0 for high/medium/low.
+    The chunk's `trust_tier` is read directly off the row (already
+    populated by the cloud backfill at scripts/diagnostics/
+    backfill_v11_trust_tiers.py). Default weight 0.30 produces a
+    ×1.6/×1.3/×1.0 spread; pass `trust_tier_weight=0.0` to disable
+    the lever cleanly (e.g. for diagnostic A/B comparisons).
     """
     best: dict[str, tuple[float, dict[str, Any]]] = {}
     for row in chunk_rows:
@@ -211,13 +249,16 @@ def _group_chunks_by_doc(
         if not doc_id:
             continue
         base = float(row.get("rrf_score") or row.get("fts_rank") or 0.0)
+        score = base
         if article_refs:
             hits = _chunk_article_ref_hits(
                 str(row.get("chunk_text") or ""), article_refs
             )
-            score = base * (1.0 + lexical_ref_boost * hits)
-        else:
-            score = base
+            score = score * (1.0 + lexical_ref_boost * hits)
+        if trust_tier_weight:
+            score = score * _trust_tier_score_multiplier(
+                row.get("trust_tier"), trust_tier_weight
+            )
         prev = best.get(doc_id)
         if prev is None or score > prev[0]:
             best[doc_id] = (score, row)
@@ -311,6 +352,8 @@ def fetch_interpretation_candidates(
     pais: str = "colombia",
     top_k: int = 8,
     client: Any | None = None,
+    planner_anchor_doc_ids: tuple[str, ...] | None = None,
+    planner_anchor_diagnostic: dict[str, Any] | None = None,
 ) -> Any:
     """Supabase-backed counterpart to
     `orchestrator._retrieve_interpretation_docs`.
@@ -320,6 +363,16 @@ def fetch_interpretation_candidates(
     `interpretation_backend = 'supabase'` so callers can confirm
     which path served the panel (parallels the chat retriever's
     `retrieval_backend`).
+
+    fix_v11_may Phase 11B — when `planner_anchor_doc_ids` is non-empty,
+    it takes precedence over the Python-side `article_index` lookup as
+    the anchor set for the ×4 multiplicative boost. The Python
+    `article_index` path remains as fallback for the case where the
+    Falkor anchor returned nothing (loader hasn't run, Falkor
+    unavailable, or no INTERPRETS edges for the queried articles).
+    `planner_anchor_diagnostic`, when provided, is merged into the
+    bundle's `retrieval_diagnostics` so the operator can confirm which
+    anchor source supplied the boost set at trace-inspection time.
     """
     db = client if client is not None else get_supabase_client()
     pais_clean = _normalize_pais(pais)
@@ -352,7 +405,7 @@ def fetch_interpretation_candidates(
     chunk_rows = _call_hybrid_search(db, payload)
 
     # fix_v10_may Phase 10C — anchor BOOST (not filter). When the
-    # planner has resolved article refs, consult the article→doc index;
+    # planner has resolved article refs, consult an article→doc index;
     # chunks whose parent doc actually interprets one of those articles
     # get a multiplicative score boost. We deliberately do NOT
     # hard-filter the candidate set: an earlier hard-filter version
@@ -363,12 +416,32 @@ def fetch_interpretation_candidates(
     # questions, where the corpus uses `art_260-1/2/5` instead).
     # Boost-only keeps recall intact — when the index has hits the right
     # doc rises, when it doesn't we degrade to lever (a)+(b) behavior.
+    #
+    # fix_v11_may Phase 11B — the anchor set now comes from one of two
+    # sources, in priority order:
+    #   1. `planner_anchor_doc_ids` supplied by the dispatcher (resolved
+    #      via Falkor `INTERPRETS` edges, ordered by trust_tier DESC).
+    #      This is the load-bearing fix for Cluster-A misses where the
+    #      Python index returned many docs of similar weight.
+    #   2. Python `article_index.doc_ids_for_article_refs(article_refs)`
+    #      fallback, kept for the case where the Falkor anchor returned
+    #      nothing (loader hasn't run, Falkor unavailable, or no
+    #      INTERPRETS edges for the queried articles).
     anchor_boosted_count = 0
     anchor_eligible_doc_ids: frozenset[str] = frozenset()
-    if article_refs:
+    anchor_source = "none"
+    if planner_anchor_doc_ids:
+        anchor_eligible_doc_ids = frozenset(
+            str(d).strip() for d in planner_anchor_doc_ids if str(d).strip()
+        )
+        if anchor_eligible_doc_ids:
+            anchor_source = "planner_falkor"
+    if not anchor_eligible_doc_ids and article_refs:
         try:
             from .article_index import doc_ids_for_article_refs
             anchor_eligible_doc_ids = doc_ids_for_article_refs(article_refs)
+            if anchor_eligible_doc_ids:
+                anchor_source = "python_article_index"
         except Exception:  # pragma: no cover — never break retrieval
             anchor_eligible_doc_ids = frozenset()
     if anchor_eligible_doc_ids:
@@ -382,6 +455,9 @@ def fetch_interpretation_candidates(
     grouped = _group_chunks_by_doc(
         chunk_rows, top_k=top_k, article_refs=tuple(article_refs)
     )
+    selected_tier_mix: dict[str, int] = {"high": 0, "medium": 0, "low": 0}
+    for _doc_id, row, _score in grouped:
+        selected_tier_mix[_normalize_trust_tier(row.get("trust_tier"))] += 1
     if not grouped:
         bundle_docs: list[DocumentRecord] = []
         diagnostics = {
@@ -394,6 +470,9 @@ def fetch_interpretation_candidates(
             "topic_boost": topic if topic else None,
             "interpretation_anchor_eligible_docs": len(anchor_eligible_doc_ids),
             "interpretation_anchor_boosted_chunks": anchor_boosted_count,
+            "interpretation_anchor_source": anchor_source,
+            "trust_tier_weight": _DEFAULT_TRUST_TIER_WEIGHT,
+            "selected_trust_tier_mix": selected_tier_mix,
         }
     else:
         doc_ids = [doc_id for doc_id, _row, _score in grouped]
@@ -419,7 +498,12 @@ def fetch_interpretation_candidates(
             "topic_boost": topic if topic else None,
             "interpretation_anchor_eligible_docs": len(anchor_eligible_doc_ids),
             "interpretation_anchor_boosted_chunks": anchor_boosted_count,
+            "interpretation_anchor_source": anchor_source,
+            "trust_tier_weight": _DEFAULT_TRUST_TIER_WEIGHT,
+            "selected_trust_tier_mix": selected_tier_mix,
         }
+    if planner_anchor_diagnostic:
+        diagnostics["interpretation_anchor_planner"] = dict(planner_anchor_diagnostic)
     return type(
         "InterpretationKnowledgeBundle",
         (),

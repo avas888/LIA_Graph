@@ -1,0 +1,851 @@
+{
+  "qid": "ep_retencion_decreto_572_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "35088d4f-219a-4698-bfa4-205d7d9866c0",
+    "message": "El Decreto 572/2025 cambió la tabla de retención en la fuente sobre salarios. ¿Qué interpretaciones tienen los expertos sobre los nuevos rangos UVT vs el Art. 383 ET y cómo aplicarlo a procedimientos 1 y 2?",
+    "assistant_answer": "**Respuestas directas**\n- **¿Qué interpretaciones tienen los expertos sobre los nuevos rangos UVT vs el Art. 383 ET y cómo aplicarlo a procedimientos **1** y **2**?**\n\n**Anclaje legal**\n- Art. 383 — TARIFA\n- Art. 366-1 — FACULTAD PARA ESTABLECER RETENCIÓN EN LA FUENTE POR INGRESOS DEL EXTERIOR\n- Art. 366-2 — NORMAS APLICABLES EN MATERIA DE RETENCIÓN EN LA FUENTE",
+    "normative_article_refs": [],
+    "topic": "retencion_en_la_fuente",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_401",
+        "classification": "concordancia",
+        "summary_signal": "Este experto explica la fijación anual de la UVT y los topes para la obligación de declarar renta de personas naturales, pero no detalla la aplicación de los nuevos rangos UVT a los procedimientos 1 y 2 de retención en la fuente sobre salarios.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/responsabilidad-penal-agente-retenedor/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/procedimientos-para-la-retencion-en-la-fuente-sobre-ingresos-laborales.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/"
+          },
+          {
+            "name": "Legis",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/"
+          },
+          {
+            "name": "Deloitte",
+            "url": "https://www2.deloitte.com/co/es/pages/tax/articles/tax-legal-alerts.html"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co/tax"
+          },
+          {
+            "name": "KPMG",
+            "url": "https://kpmg.com/co/es/home/insights.html"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Uvt y topes declaracion de renta (secondary_official_authority)",
+            "snippet": "1. Norma Base El valor de la UVT se fija anualmente conforme al art. 868 ET, con base en la variación del IPC para ingresos medios entre octubre del año anterior y octubre del año inmediatamente anterior a ese. La variación IPC ingresos medios oct 2024 – oct 2025 fue de 5,17% (DANE), lo que elevó la UVT de $49.799 (2025) a $52.374 (2026).",
+            "position_signal": "neutral",
+            "relevance_score": 0.542072,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/uvt/",
+                "label": "Actualícese — UVT 2026: conoce todos los detalles",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/dian-fijo-el-nuevo-valor-de-la-uvt-para-2026/",
+                "label": "Actualícese — DIAN fijó el nuevo valor de la UVT para 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/retencion-en-la-fuente-por-servicios-2026/",
+                "label": "Actualícese — Retención en la fuente por servicios 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/tablas-en-word-de-retencion-en-la-fuente-a-titulo-de-impuestos-nacionales-durante-el-ano-fiscal-2026/",
+                "label": "Actualícese — Retención en la fuente 2026: tarifas y cuantías mínimas",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/contribuyentes-no-obligados-declaracion-de-renta-2026-colombia/",
+                "label": "Actualícese — Contribuyentes no obligados a declarar renta 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/indicadores-basicos-a-tener-en-cuenta-en-2026/",
+                "label": "Actualícese — Indicadores básicos a tener en cuenta en 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/retencion-en-la-fuente-para-asalariados-2026/",
+                "label": "Actualícese — Retención en la fuente para asalariados 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/guia-de-referencia-2026/",
+                "label": "Actualícese — Guía de referencia contable, laboral y tributaria 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/tabla-de-retencion-en-la-fuente-2026.html",
+                "label": "Gerencie — Tabla de retención en la fuente 2026",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/uvt.html",
+                "label": "Gerencie — UVT: qué es y su valor histórico a 2026",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/personas-naturales-que-deben-declarar-renta.html",
+                "label": "Gerencie — Obligados a declarar renta",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/topes-y-fechas-fijadas-para-declarar-renta-en-2025",
+                "label": "Ámbito Jurídico — Topes y fechas fijadas para declarar renta en 2025",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/uvt/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/tabla-de-retencion-en-la-fuente-2026.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/topes-y-fechas-fijadas-para-declarar-renta-en-2025"
+              },
+              {
+                "name": "Legis",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "card_summary": "Este experto explica la fijación anual de la UVT y los topes para la obligación de declarar renta de personas naturales, pero no detalla la aplicación de los nuevos rangos UVT a los procedimientos 1 y 2 de retención en la fuente sobre salarios.",
+            "extended_excerpt": "### 1. Norma Base\n\nEl valor de la UVT se fija anualmente conforme al **art. 868 ET**, con base en la variación del IPC para ingresos medios entre octubre del año anterior y octubre del año inmediatamente anterior a ese. La variación IPC ingresos medios oct 2024 – oct 2025 fue de **5,17%** (DANE), lo que elevó la UVT de $49.799 (2025) a **$52.374** (2026).\n\nLos topes para obligación de declarar renta de personas naturales se encuentran en los **arts. 592, 593 y 594-3 ET**.\n\n### 2. Punto Crítico: ¿UVT 2025 o UVT 2026 para Topes AG 2025?\n\nEste es el matiz interpretativo más importante. Las fuentes lo aclaran de forma unánime:\n\n- **Para evaluar la obligación de declarar AG 2025** (que se presenta en 2026): se usa **UVT 2025 ($49.799)**.\n\n- **Para cálculos de retención, sanciones y obligaciones causadas durante 2026**: se usa **UVT 2026 ($52.374)**.\n\n- **Para evaluar la obligación de declarar AG 2026** (que se presentará en 2027): se usa **UVT 2026 ($52.374)**.\n\n**Error frecuente:** usar la UVT del año de presentación en lugar de la UVT del año gravable.\n\n### 3. Tabla de Topes AG 2025 — Obligación de Declarar (UVT 2025)\n\n| Concepto | UVT | Valor COP 2025 | Base legal |\n| Patrimonio bruto dic 31/2025 | ≥ 4.500 | ≥ $224.095.500 | Art. 592 ET |\n| Ingresos brutos anuales | ≥ 1.400 | ≥ $69.718.600 | Art. 593 ET |\n| Consumos tarjeta de crédito | ≥ 1.400 | ≥ $69.718.600 | Art. 594-3 ET |\n| Compras y consumos totales | ≥ 1.400 | ≥ $69.718.600 | Art. 594-3 ET |\n| Consignaciones/depósitos/inversiones | ≥ 1.400 | ≥ $69.718.600 | Art. 594-3 ET |\n\n**Regla:** Basta superar **UNO SOLO** de estos topes para quedar obligado a declarar.\n\n### 4. Topes Clave UVT 2026 (Cálculos Durante 2026)\n\n| Concepto | UVT | Valor COP 2026 | Base legal |\n| Sanción mínima | 10 | $523.740 | Art. 639 ET |\n| Retención salarios — piso | 95 | $4.975.530/mes | Art. 383 ET |\n| No responsable IVA | 3.500 | $183.309.000 | Art. 437 par. 3 ET |\n| Medios de pago financieros | 100 | $5.237.400 | Art. 771-5 par. 2 ET |\n| Tope ingresos RST | 100.000 | $5.237.400.000 | Art. 905 ET |\n| Activos en el exterior | 2.000 | $104.748.000 | Art. 607 ET |\n| Pago único cuota mínima renta | 41 | $2.147.334 | Art. 1.6.1.13.2.47 DUR |\n| Cuantía mínima retención servicios | 2 | $104.748 | Art. 392 ET, mod. D. 572/2025 |\n| Cuantía mínima retención compras | 27 | $1.414.098 | Art. 401 ET |\n| Sanción máxima exógena | 7.500 | $392.805.000 | Art. 651 ET |\n\n### 5. Posiciones de Expertos\n\n#### 5.1. Actualícese\n\nCobertura más completa de UVT y topes, con múltiples artículos especializados por concepto (1)(2)(3)(4)(5):\n\n**Retención salarios:** Ingreso mensual depurado ≤ 95 UVT ($4.975.530 con UVT 2026) = sin retención. Destacan que el Decreto 572 de mayo 28, 2025 redujo la cuantía mínima para servicios de 4 UVT a 2 UVT, lo que amplía el universo de operaciones sujetas a retención (3).\n\n**No responsables de IVA:** Ingresos 2025 gravados ≤ 3.500 UVT 2025 ($174.296.500). Para contratistas del Estado: 4.000 UVT (par. 4, art. 437 ET).\n\n**Medios de pago financieros:** Gastos > 100 UVT = $5.237.400 deben pagarse por canal financiero (art. 771-5 par. 2 ET). Pagos en efectivo por encima de este monto no son deducibles.\n\n**No obligados a declarar AG 2025:** Actualícese detalla las condiciones bajo las cuales ciertas personas naturales del régimen ordinario quedan exceptuadas de presentar declaración de renta por AG 2025, siempre que cumplan **todos** los criterios simultáneamente (no superar ninguno de los cinco topes) (5).\n\n**Indicadores básicos 2026:** Publican una guía consolidada de referencia contable, laboral y tributaria para 2026 con todos los valores en UVT y pesos (6).\n\n#### 5.2. Gerencie.com\n\nGerencie mantiene su tabla de retención en la fuente 2026 actualizada con todas las cuantías mínimas y tarifas por concepto (7)(8)(9):\n\n**UVT como referencia transversal:** Gerencie mantiene actualizado el valor UVT histórico y enfatiza que el cálculo de la UVT se basa en la variación del IPC para ingresos medios, no el IPC general — una confusión frecuente.\n\n**Obligados a declarar AG 2025:** Detalla que las consignaciones superiores a 1.400 UVT generan obligación de declarar **aunque no constituyan ingreso fiscal**. El mero movimiento financiero activa la obligación (9).\n\n**Tabla de retención 2026:** Incluye todos los conceptos con la cuantía mínima actualizada al Decreto 572/2025: servicios en 2 UVT ($104.748), compras en 27 UVT ($1.414.098), arrendamientos en 27 UVT (7).\n\n#### 5.3. Ámbito Jurídico (Legis)\n\nÁmbito Jurídico encuadra los topes dentro del contexto normativo completo, vinculando la obligación de declarar con los plazos del calendario tributario (10)(11):\n\n**Topes y fechas integrados:** Presenta los topes de declaración junto con las fechas de vencimiento según los dos últimos dígitos del NIT, lo que permite al contador verificar simultáneamente si el cliente debe declarar y cuándo.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_383"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_EXPERTOS_RET-E01-interpretaciones-retencion-riesgos-sanciones.md",
+            "source_doc_id": "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_EXPERTOS_RET-E01-interpretaciones-retencion-riesgos-sanciones.md",
+            "logical_doc_id": "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_EXPERTOS_RET-E01-interpretaciones-retencion-riesgos-sanciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Retencion en la fuente (secondary_official_authority)",
+            "snippet": "Actualícese ha publicado múltiples alertas recordando que retener y no consignar dentro de los 2 meses siguientes configura delito penal (peculado por apropiación). Señalan que la DIAN ha remitido a la Fiscalía más de 800 casos en los últimos 3 años, y que el delito se configura objetivamente — no requiere que la DIAN demuestre intención dolosa del agente retenedor. La simple omisión de la consignación es suficiente. Recomiendan que el contador advierta por escrito a los administradores de la PYME sobre este riesg…",
+            "position_signal": "neutral",
+            "relevance_score": 0.6175839999999999,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/responsabilidad-penal-agente-retenedor/",
+                "label": "Actualícese — Responsabilidad penal del agente retenedor Art. 665 ET",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/limite-40-rentas-exentas-deducciones-cedula-general/",
+                "label": "Actualícese — Límite 40% rentas exentas y deducciones en retención laboral",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/dependientes-retencion-fuente-salarios/",
+                "label": "Actualícese — Deducción por dependientes en retención fuente salarios",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/procedimientos-para-la-retencion-en-la-fuente-sobre-ingresos-laborales.html",
+                "label": "Gerencie.com — Procedimientos retención en la fuente salarios",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/retencion-en-la-fuente-por-servicios.html",
+                "label": "Gerencie.com — Retención por servicios vs. honorarios",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/decreto-572-de-2023-retencion-en-la-fuente.html",
+                "label": "Gerencie.com — Decreto 0572 de 2023 retención en la fuente",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/retencion-en-la-fuente-por-compras-con-tarjeta.html",
+                "label": "Gerencie.com — Retención compras con tarjeta Art. 401-1",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www2.deloitte.com/co/es/pages/tax/articles/tax-legal-alerts.html",
+                "label": "Deloitte Colombia — Tax Alert: autorretención especial renta",
+                "provider": "Deloitte",
+                "domain": "www2.deloitte.com"
+              },
+              {
+                "url": "https://www.ey.com/es_co/tax",
+                "label": "EY Colombia — Retención pagos al exterior y CDIs",
+                "provider": "EY",
+                "domain": "ey.com"
+              },
+              {
+                "url": "https://kpmg.com/co/es/home/insights.html",
+                "label": "KPMG Colombia — Corrección declaraciones retención",
+                "provider": "KPMG",
+                "domain": "kpmg.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/",
+                "label": "Legis Ámbito Jurídico — Responsabilidad solidaria del contador",
+                "provider": "Legis",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/responsabilidad-penal-agente-retenedor/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/procedimientos-para-la-retencion-en-la-fuente-sobre-ingresos-laborales.html"
+              },
+              {
+                "name": "Deloitte",
+                "url": "https://www2.deloitte.com/co/es/pages/tax/articles/tax-legal-alerts.html"
+              },
+              {
+                "name": "EY",
+                "url": "https://www.ey.com/es_co/tax"
+              },
+              {
+                "name": "KPMG",
+                "url": "https://kpmg.com/co/es/home/insights.html"
+              },
+              {
+                "name": "Legis",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_EXPERTOS_RET-E01-interpretaciones-retencion-riesgos-sanciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_EXPERTOS_RET-E01-interpretaciones-retencion-riesgos-sanciones.md",
+            "card_summary": "Este experto aborda las problemáticas de la retención sobre salarios, incluyendo el tope del 40%, los dependientes y la elección del procedimiento a aplicar, lo cual es relevante para la consulta.",
+            "extended_excerpt": "### 1. Norma Base\n\nEste documento recopila interpretaciones sobre: 1. Riesgos del agente retenedor: no retener, retener mal, retener y no consignar. 2. Problemáticas de la retención sobre salarios: tope del 40%, dependientes, procedimiento a elegir. 3. Autorretención especial y su interacción con el Formulario 350. 4. Corrección de declaraciones de retención y consecuencias. 5. Retención a contratistas vs. empleados: zona gris.\n\n### 2. Posiciones de Expertos\n\n#### 2.1 ACTUALÍCESE (5 publicaciones)\n\n**Sobre el riesgo penal del Art. 665 ET:**\n\nActualícese ha publicado múltiples alertas recordando que retener y no consignar dentro de los 2 meses siguientes configura **delito penal** (peculado por apropiación). Señalan que la DIAN ha remitido a la Fiscalía más de 800 casos en los últimos 3 años, y que el delito se configura objetivamente — no requiere que la DIAN demuestre intención dolosa del agente retenedor. La simple omisión de la consignación es suficiente. Recomiendan que el contador advierta por escrito a los administradores de la PYME sobre este riesgo, documentando la advertencia (1).\n\n**Sobre el tope del 40% en retención sobre salarios:**\n\nEl tope del 40% (Art. 336 Par. 2, aplicable a retención vía Art. 388) genera confusión en la práctica. Muchos empleadores no saben cómo ordenar las deducciones y rentas exentas cuando el tope se activa. La posición es que el empleador debe respetar el orden: primero INCRNGO, luego deducciones, luego rentas exentas, y aplicar el tope al total de deducciones + rentas exentas. Si el tope se activa, se recorta proporcionalmente cada concepto (2).\n\n**Sobre dependientes económicos (Art. 387):**\n\nLa DIAN ha endurecido los requisitos de documentación para la deducción por dependientes. El trabajador debe entregar al empleador una declaración juramentada indicando los dependientes, y el empleador debe conservarla. Si la DIAN fiscaliza y no hay soporte, la deducción se rechaza y la retención se recalcula retroactivamente — con sanción para el agente retenedor por retención deficiente (3).\n\n> (1) [Actualícese — Responsabilidad penal del agente retenedor Art. 665 ET](https://actualicese.com/responsabilidad-penal-agente-retenedor/) > (2) [Actualícese — Límite 40% rentas exentas y deducciones en retención laboral](https://actualicese.com/limite-40-rentas-exentas-deducciones-cedula-general/) > (3) [Actualícese — Deducción por dependientes en retención fuente salarios](https://actualicese.com/dependientes-retencion-fuente-salarios/)\n\n#### 2.2 GERENCIE.COM (4 publicaciones)\n\n**Sobre la elección entre Procedimiento 1 y 2:**\n\nAnálisis comparativos con ejemplos numéricos. Su posición es que el Procedimiento 2 beneficia a trabajadores con ingresos variables (comisiones, bonificaciones esporádicas) porque promedia los ingresos y suaviza la retención. Sin embargo, advierten que si los ingresos del semestre actual son significativamente mayores que los 12 meses base, el Procedimiento 2 puede generar subretención que el trabajador sentirá al momento de declarar renta (mayor impuesto a cargo). Recomiendan hacer simulaciones antes de elegir (4).\n\n**Sobre retención a contratistas personas naturales:**\n\nGerencie identifica uno de los errores más comunes en PYMEs: aplicar la tarifa de retención por servicios (4% o 6%) a contratistas cuando debería aplicarse la tarifa de honorarios (10% u 11%). La diferencia depende de si el contratista presta servicios personales (honorarios) o servicios empresariales/generales. Si la DIAN reclasifica el concepto, la diferencia de retención se cobra al agente retenedor + sanción (5).\n\n**Sobre el Decreto 0572 de 2023 y actualización de bases mínimas:**\n\nEl Decreto 0572 actualizó algunas bases mínimas de retención pero no modificó las tarifas. Advierte que muchos sistemas de contabilidad no se actualizaron oportunamente y PYMEs estuvieron varios meses aplicando bases mínimas anteriores. Recomiendan verificar al inicio de cada año que las bases y tarifas del software estén actualizadas (6).\n\n**Sobre retención en compras con tarjeta (Art. 401-1):**\n\nLa retención del 1,5% sobre compras con tarjeta débito/crédito aplica cuando el comprador paga con tarjeta y la operación está sujeta a retención. Sin embargo, hay confusión cuando la venta ya está sujeta a retención por otro concepto (ej. compras generales al 2,5%). La posición es que **no hay doble retención**: si el agente retenedor practica retención por compras generales, la retención del 1,5% por tarjeta no aplica adicionalmente (7).",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.6175839999999999,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Se ancla a una referencia normativa central del caso.",
+        "panel_rank": 1
+      },
+      {
+        "article_ref": "et_art_1",
+        "classification": "concordancia",
+        "summary_signal": "Este experto explica la fijación anual de la UVT y los topes para la obligación de declarar renta de personas naturales, pero no detalla la aplicación de los nuevos rangos UVT a los procedimientos 1 y 2 de retención en la fuente sobre salarios.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": null
+          },
+          {
+            "name": "Legis",
+            "url": null
+          },
+          {
+            "name": "INCP",
+            "url": null
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co"
+          },
+          {
+            "name": "EY",
+            "url": "https://www.ey.com/es_co"
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Uvt y topes declaracion de renta (secondary_official_authority)",
+            "snippet": "1. Norma Base El valor de la UVT se fija anualmente conforme al art. 868 ET, con base en la variación del IPC para ingresos medios entre octubre del año anterior y octubre del año inmediatamente anterior a ese. La variación IPC ingresos medios oct 2024 – oct 2025 fue de 5,17% (DANE), lo que elevó la UVT de $49.799 (2025) a $52.374 (2026).",
+            "position_signal": "neutral",
+            "relevance_score": 0.542072,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/uvt/",
+                "label": "Actualícese — UVT 2026: conoce todos los detalles",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/dian-fijo-el-nuevo-valor-de-la-uvt-para-2026/",
+                "label": "Actualícese — DIAN fijó el nuevo valor de la UVT para 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/retencion-en-la-fuente-por-servicios-2026/",
+                "label": "Actualícese — Retención en la fuente por servicios 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/tablas-en-word-de-retencion-en-la-fuente-a-titulo-de-impuestos-nacionales-durante-el-ano-fiscal-2026/",
+                "label": "Actualícese — Retención en la fuente 2026: tarifas y cuantías mínimas",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/contribuyentes-no-obligados-declaracion-de-renta-2026-colombia/",
+                "label": "Actualícese — Contribuyentes no obligados a declarar renta 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/indicadores-basicos-a-tener-en-cuenta-en-2026/",
+                "label": "Actualícese — Indicadores básicos a tener en cuenta en 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/retencion-en-la-fuente-para-asalariados-2026/",
+                "label": "Actualícese — Retención en la fuente para asalariados 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/guia-de-referencia-2026/",
+                "label": "Actualícese — Guía de referencia contable, laboral y tributaria 2026",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/tabla-de-retencion-en-la-fuente-2026.html",
+                "label": "Gerencie — Tabla de retención en la fuente 2026",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/uvt.html",
+                "label": "Gerencie — UVT: qué es y su valor histórico a 2026",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/personas-naturales-que-deben-declarar-renta.html",
+                "label": "Gerencie — Obligados a declarar renta",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/topes-y-fechas-fijadas-para-declarar-renta-en-2025",
+                "label": "Ámbito Jurídico — Topes y fechas fijadas para declarar renta en 2025",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/uvt/"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/tabla-de-retencion-en-la-fuente-2026.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/topes-y-fechas-fijadas-para-declarar-renta-en-2025"
+              },
+              {
+                "name": "Legis",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T02-uvt-topes-declaracion-2026-interpretaciones.md",
+            "card_summary": "Este experto explica la fijación anual de la UVT y los topes para la obligación de declarar renta de personas naturales, pero no detalla la aplicación de los nuevos rangos UVT a los procedimientos 1 y 2 de retención en la fuente sobre salarios.",
+            "extended_excerpt": "### 1. Norma Base\n\nEl valor de la UVT se fija anualmente conforme al **art. 868 ET**, con base en la variación del IPC para ingresos medios entre octubre del año anterior y octubre del año inmediatamente anterior a ese. La variación IPC ingresos medios oct 2024 – oct 2025 fue de **5,17%** (DANE), lo que elevó la UVT de $49.799 (2025) a **$52.374** (2026).\n\nLos topes para obligación de declarar renta de personas naturales se encuentran en los **arts. 592, 593 y 594-3 ET**.\n\n### 2. Punto Crítico: ¿UVT 2025 o UVT 2026 para Topes AG 2025?\n\nEste es el matiz interpretativo más importante. Las fuentes lo aclaran de forma unánime:\n\n- **Para evaluar la obligación de declarar AG 2025** (que se presenta en 2026): se usa **UVT 2025 ($49.799)**.\n\n- **Para cálculos de retención, sanciones y obligaciones causadas durante 2026**: se usa **UVT 2026 ($52.374)**.\n\n- **Para evaluar la obligación de declarar AG 2026** (que se presentará en 2027): se usa **UVT 2026 ($52.374)**.\n\n**Error frecuente:** usar la UVT del año de presentación en lugar de la UVT del año gravable.\n\n### 3. Tabla de Topes AG 2025 — Obligación de Declarar (UVT 2025)\n\n| Concepto | UVT | Valor COP 2025 | Base legal |\n| Patrimonio bruto dic 31/2025 | ≥ 4.500 | ≥ $224.095.500 | Art. 592 ET |\n| Ingresos brutos anuales | ≥ 1.400 | ≥ $69.718.600 | Art. 593 ET |\n| Consumos tarjeta de crédito | ≥ 1.400 | ≥ $69.718.600 | Art. 594-3 ET |\n| Compras y consumos totales | ≥ 1.400 | ≥ $69.718.600 | Art. 594-3 ET |\n| Consignaciones/depósitos/inversiones | ≥ 1.400 | ≥ $69.718.600 | Art. 594-3 ET |\n\n**Regla:** Basta superar **UNO SOLO** de estos topes para quedar obligado a declarar.\n\n### 4. Topes Clave UVT 2026 (Cálculos Durante 2026)\n\n| Concepto | UVT | Valor COP 2026 | Base legal |\n| Sanción mínima | 10 | $523.740 | Art. 639 ET |\n| Retención salarios — piso | 95 | $4.975.530/mes | Art. 383 ET |\n| No responsable IVA | 3.500 | $183.309.000 | Art. 437 par. 3 ET |\n| Medios de pago financieros | 100 | $5.237.400 | Art. 771-5 par. 2 ET |\n| Tope ingresos RST | 100.000 | $5.237.400.000 | Art. 905 ET |\n| Activos en el exterior | 2.000 | $104.748.000 | Art. 607 ET |\n| Pago único cuota mínima renta | 41 | $2.147.334 | Art. 1.6.1.13.2.47 DUR |\n| Cuantía mínima retención servicios | 2 | $104.748 | Art. 392 ET, mod. D. 572/2025 |\n| Cuantía mínima retención compras | 27 | $1.414.098 | Art. 401 ET |\n| Sanción máxima exógena | 7.500 | $392.805.000 | Art. 651 ET |\n\n### 5. Posiciones de Expertos\n\n#### 5.1. Actualícese\n\nCobertura más completa de UVT y topes, con múltiples artículos especializados por concepto (1)(2)(3)(4)(5):\n\n**Retención salarios:** Ingreso mensual depurado ≤ 95 UVT ($4.975.530 con UVT 2026) = sin retención. Destacan que el Decreto 572 de mayo 28, 2025 redujo la cuantía mínima para servicios de 4 UVT a 2 UVT, lo que amplía el universo de operaciones sujetas a retención (3).\n\n**No responsables de IVA:** Ingresos 2025 gravados ≤ 3.500 UVT 2025 ($174.296.500). Para contratistas del Estado: 4.000 UVT (par. 4, art. 437 ET).\n\n**Medios de pago financieros:** Gastos > 100 UVT = $5.237.400 deben pagarse por canal financiero (art. 771-5 par. 2 ET). Pagos en efectivo por encima de este monto no son deducibles.\n\n**No obligados a declarar AG 2025:** Actualícese detalla las condiciones bajo las cuales ciertas personas naturales del régimen ordinario quedan exceptuadas de presentar declaración de renta por AG 2025, siempre que cumplan **todos** los criterios simultáneamente (no superar ninguno de los cinco topes) (5).\n\n**Indicadores básicos 2026:** Publican una guía consolidada de referencia contable, laboral y tributaria para 2026 con todos los valores en UVT y pesos (6).\n\n#### 5.2. Gerencie.com\n\nGerencie mantiene su tabla de retención en la fuente 2026 actualizada con todas las cuantías mínimas y tarifas por concepto (7)(8)(9):\n\n**UVT como referencia transversal:** Gerencie mantiene actualizado el valor UVT histórico y enfatiza que el cálculo de la UVT se basa en la variación del IPC para ingresos medios, no el IPC general — una confusión frecuente.\n\n**Obligados a declarar AG 2025:** Detalla que las consignaciones superiores a 1.400 UVT generan obligación de declarar **aunque no constituyan ingreso fiscal**. El mero movimiento financiero activa la obligación (9).\n\n**Tabla de retención 2026:** Incluye todos los conceptos con la cuantía mínima actualizada al Decreto 572/2025: servicios en 2 UVT ($104.748), compras en 27 UVT ($1.414.098), arrendamientos en 27 UVT (7).\n\n#### 5.3. Ámbito Jurídico (Legis)\n\nÁmbito Jurídico encuadra los topes dentro del contexto normativo completo, vinculando la obligación de declarar con los plazos del calendario tributario (10)(11):\n\n**Topes y fechas integrados:** Presenta los topes de declaración junto con las fechas de vencimiento según los dos últimos dígitos del NIT, lo que permite al contador verificar simultáneamente si el cliente debe declarar y cuándo.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_383"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_EXPERTOS_RET-E02-decreto-572-vs-art368-interpretaciones.md",
+            "source_doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_EXPERTOS_RET-E02-decreto-572-vs-art368-interpretaciones.md",
+            "logical_doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_EXPERTOS_RET-E02-decreto-572-vs-art368-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Retencion en la fuente (secondary_official_authority)",
+            "snippet": "Recomendación INCP: \"Los contadores deben mantener un checklist anual de parámetros de retención, no asumir continuidad automática de 2024 a 2025.\"(2) Posición: \"Decreto 572 es derecho tributario sustancial (modifica bases y tarifas) no meramente formal. Genera consecuencias en liquidación de impuestos, certificados de retención, y declaración exógena.\"",
+            "position_signal": "neutral",
+            "relevance_score": 0.50256,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.pwc.com/co",
+                "label": "pwc.com",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://www.ey.com/es_co",
+                "label": "ey.com",
+                "provider": "EY",
+                "domain": "ey.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com"
+              },
+              {
+                "name": "INCP",
+                "url": null
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com"
+              },
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co"
+              },
+              {
+                "name": "EY",
+                "url": "https://www.ey.com/es_co"
+              },
+              {
+                "name": "KPMG",
+                "url": null
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              },
+              {
+                "name": "Legis",
+                "url": null
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_EXPERTOS_RET-E02-decreto-572-vs-art368-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_EXPERTOS_RET-E02-decreto-572-vs-art368-interpretaciones.md",
+            "card_summary": "Este experto menciona que el Decreto 572 de 2025 establece bases mínimas de ingresos y tarifas de retención aplicables desde el 1 de junio de 2025, modificando el DUR 1625/2016 para ajustar parámetros de retención sobre servicios y honorarios.",
+            "extended_excerpt": "### 1. Norma base interpretada\n\n- **Art. 368 ET**: Define quiénes son agentes de retención — responsables de practicar descuentos en origen sobre ingresos de terceros.\n\n- **Art. 368-1 y 368-2 ET**: Límites de ingresos y categorías de agentes de retención.\n\n- **Arts. 375-376 ET**: Procedimiento de retención y efectos.\n\n- **Arts. 370 ET y modificaciones**: Conceptos sujetos a retención.\n\n- **Decreto 572 de 2025**: Establece bases mínimas de ingresos y tarifas de retención aplicables en 2025 (vigencia desde el 1 de junio de 2025).\n\n- **DUR 1625/2016 Arts. 10, 11, 12**: Modificados por Decreto 572 para ajustar parámetros de retención sobre servicios, honorarios y otros conceptos.\n\nLa confusión frecuente en asesores: creer que Decreto 572 modificó **a quién le toca retener** (Art. 368) cuando en realidad solo ajustó **cuánto y sobre qué base** retener.\n\n### 2. La distinción fundamental: \"quién retiene\" vs. \"cuánto retiene\"\n\n#### 2.1 Quién retiene (Art. 368 ET — ESTABLE)\n\nEl Art. 368 ET enumera las categorías de agentes de retención. Esta lista **no fue modificada por Decreto 572/2025**:\n\n- Entidades financieras, aseguradoras y fondos de pensiones.\n\n- Entidades públicas.\n\n- Empresas de servicios públicos.\n\n- Personas naturales o jurídicas con ingresos brutos iguales o superiores al tope establecido en Art. 368-1 (ajustable anualmente por UVT).\n\n- Otros agentes específicos por resolución DIAN.\n\n**Consecuencia práctica**: Si su cliente no figuraba como agente de retención en 2024, no lo hace en 2025 por Decreto 572 solamente. Si lo era, continúa siéndolo bajo la misma categoría.\n\n#### 2.2 Cuánto y sobre qué retiene (Decreto 572/2025 — CAMBIA ANUALMENTE)\n\nEl Decreto 572 ajusta:\n\n1. **Bases mínimas de ingresos**: montos a partir de los cuales aplica retención (expresados en UVT). 2. **Tarifas de retención**: porcentajes aplicables según concepto (servicios, honorarios, arrendamiento, etc.). 3. **Exclusiones temporales**: conceptos que salen o entran de la obligación.\n\nEstos parámetros se **renuevan cada año** mediante decreto presidencial (antes: por resolución DIAN). Decreto 572 es el correspondiente a 2025.\n\n**Línea roja**: Confundir \"categoría de agente\" (Art. 368 — estructura) con \"obligación y tarifa\" (Decreto 572 — parámetro anual) genera error en:\n\n- Determinación de quién debe retener.\n\n- Cálculo correcto de cuotas de retención.\n\n- Presentación de declaración exógena de retenciones practicadas.\n\n### 3. Posiciones de expertos — Decreto 572/2025\n\n#### 3.1 Actualícese\n\n**Posición**: \"Decreto 572 reformuló AMBAS dimensiones: bases mínimas de ingresos brutos y tarifas aplicables para 2025. La modificación es integral, no apenas tarifaria.\"\n\nEl decreto:\n\n- Elevó las bases mínimas de ingresos brutos para que el agente esté obligado (por ejemplo: servicios profesionales pasó de X UVT a Y UVT).\n\n- Modificó tarifas para ciertos conceptos (autoretención por renta, servicios diversos).\n\n- Excluyó temporalmente otros conceptos (ej: exportación de servicios bajo ciertas condiciones).\n\n**Citación**: Artículos 1-3 del Decreto 572, que modifican Arts. 10-12 del DUR 1625.\n\n**Énfasis práctico**: \"El contador debe verificar tanto la base mínima de ingresos de su cliente contra UVT 2025 ($52.374) como la tarifa vigente para cada concepto, no aplicar 2024.\"(1)\n\n#### 3.2 INCP (Instituto Nacional de Contadores Públicos)\n\n**Posición**: \"La modificación del Decreto 572 es de naturaleza tributaria anual. Refuerza el principio de que parámetros de retención NO son estructurales sino coyunturales, sujetos a ajuste fiscal cada año.\"\n\nEl INCP distingue:\n\n- **Estructura**: Art. 368 ET (quién retiene) → normatividad estable, requeriría reforma tributaria para cambiar.\n\n- **Operatividad**: Decreto 572 (cuánto y qué) → ajuste administrativo anual.\n\n**Recomendación INCP**: \"Los contadores deben mantener un checklist anual de parámetros de retención, no asumir continuidad automática de 2024 a 2025.\"(2)\n\n#### 3.3 Gerencie.com\n\n**Posición**: \"Decreto 572 es derecho tributario sustancial (modifica bases y tarifas) no meramente formal. Genera consecuencias en liquidación de impuestos, certificados de retención, y declaración exógena.\"\n\nCasos de transición:\n\n- PYME con ingresos de $49 millones COP en 2024 (bajo la base 2024) que sube a $52 millones en 2025: ¿cuándo activa obligación de retener sobre terceros? Respuesta: cuando la base mínima vigente (2025) se alcanza, no retroactivamente.\n\n- Pagos de junio 2025 (mes en que entró vigencia D.572): aplica tarifa nueva, no 2024.\n\n**Énfasis práctico**: \"Decreto 572 crea un **punto de quiebre operacional**, no normativo. La obligación de retener ya existía; cambian los términos.\"(3)\n\n#### 3.4 Big Four Colombia\n\n##### PwC Colombia\n\n**Posición**: \"El Decreto 572 es un ajuste paramétrico dentro del marco de Art. 368 ET. No modifica el deber de retener (Art. 368) sino la cuantía y el rango de aplicación.\"\n\nPwC resalta:\n\n- Decreto 572 Art. 1 modifica explícitamente DUR 1625 Art. 10 (bases mínimas).",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.542072,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Se ancla a una referencia normativa central del caso.",
+        "panel_rank": 2
+      }
+    ],
+    "ungrouped": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-H-retencion-fuente-agente-retenedor-decreto-572-fuentes-secundarias.md",
+        "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-H-retencion-fuente-agente-retenedor-decreto-572-fuentes-secundarias.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-H-retencion-fuente-agente-retenedor-decreto-572-fuentes-secundarias.md",
+        "authority": "secondary_official_authority",
+        "title": "Retencion en la fuente (secondary_official_authority)",
+        "snippet": "1.4. Obligaciones del agente retenedor (arts. 375–382 ET) Un agente retenedor tiene 5 obligaciones que el Decreto 572/2025 no modifica pero que se vuelven mas onerosas dado el mayor universo de operaciones sujetas a retencion",
+        "position_signal": "neutral",
+        "relevance_score": 0.540976,
+        "trust_tier": "high",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/tabla-automatizada-con-las-tarifas-de-autorretencion-especial-en-renta/",
+            "label": "Actualícese — Tabla automatizada con tarifas de autorretencion especial (Decreto 572)",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/blog-contable-yo-tributario/tributario-y-contable/decreto-572-de-2025-cambios-en-retencion",
+            "label": "Ambito Juridico — Decreto 572 de 2025: cambios en retención en la fuente",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://actualicese.com/cambios-en-la-retencion-en-la-fuente-en-colombia-2025-tarifas-bases-y-autorretencion/",
+            "label": "https://actualicese.com/cambios-en-la-retencion-en-la-fuente-en-colombia-2025-tarifas-bases-y-autorretencion/",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/tabla-automatizada-con-las-tarifas-de-autorretencion-especial-en-renta/](https://actualicese.com/tabla-automatizada-con-las-tarifas-de-autorretencion-especial-en-renta/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/cambios-en-la-retencion-en-la-fuente-en-colombia-2025-tarifas-bases-y-autorretencion/](https://actualicese.com/cambios-en-la-retencion-en-la-fuente-en-colombia-2025-tarifas-bases-y-autorretencion/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/blog-contable-yo-tributario/tributario-y-contable/decreto-572-de-2025-cambios-en-retencion](https://www.ambitojuridico.com/noticias/blog-contable-yo-tributario/tributario-y-contable/decreto-572-de-2025-cambios-en-retencion",
+            "label": "ambitojuridico.com",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/tabla-automatizada-con-las-tarifas-de-autorretencion-especial-en-renta/"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/blog-contable-yo-tributario/tributario-y-contable/decreto-572-de-2025-cambios-en-retencion"
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-H-retencion-fuente-agente-retenedor-decreto-572-fuentes-secundarias.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-H-retencion-fuente-agente-retenedor-decreto-572-fuentes-secundarias.md",
+        "card_summary": "Este experto indica que el Decreto 572/2025 modificó las tarifas de retención en la fuente, entrando en vigencia el 1 de junio de 2025, y su lógica fiscal para anticipar el recaudo del impuesto de renta.",
+        "extended_excerpt": "### 1. Posicion Normativa — El Decreto 572/2025 y lo que Cambio\n\n#### 1.1. Contexto y motivacion del decreto\n\nEl Gobierno Nacional expidio el Decreto 572 el 28 de mayo de 2025, bajo las facultades del art. 365 ET y los numerales 11 y 20 del art. 189 de la Constitucion. Las nuevas tarifas entraron en vigencia el **1 de junio de 2025** — las tarifas anteriores (Decreto 242 de 2024) siguieron aplicando hasta el 31 de mayo de 2025.\n\n**La logica fiscal del decreto:** Al aumentar la autorretencion en la fuente durante el AG 2025, el Gobierno anticipa recaudo del impuesto de renta de ese mismo ano. Como consecuencia directa, el **anticipo del impuesto de renta para el AG 2026** (calculado bajo el art. 807 ET, que descuenta las retenciones sufridas) sera menor — aliviando el flujo de caja de los contribuyentes en 2026 a expensas de un mayor recaudo durante 2025.\n\n#### 1.2. Resumen de los cambios en bases minimas (vigente desde junio 1 de 2025)\n\n| Concepto | Base minima ANTES (Decreto 242/2024) | Base minima AHORA (Decreto 572/2025) | Reduccion |\n| **Servicios generales** | 4 UVT ($199.196 en 2025) | **2 UVT ($99.598 en 2025)** | 50% |\n| **Compras (otros ingresos tributarios)** | 27 UVT ($1.344.573 en 2025) | **10 UVT ($497.990 en 2025)** | 63% |\n| **Emolumentos eclesiasticos** | 27 UVT | **10 UVT** | 63% |\n| **Vivienda de habitacion** | 20.000 UVT ($995.980.000) | **10.000 UVT ($497.990.000)** | 50% |\n| **Productos agricolas sin proceso industrial** | 92 UVT | **70 UVT** (a opcion del agente) | 24% |\n| **Retencion IVA por servicios** | 4 UVT (por remision al concepto renta) | **2 UVT** (idem) | 50% |\n| **Retencion IVA por otros ingresos** | 27 UVT | **10 UVT** | 63% |\n\n**Nota UVT:** Las bases minimas del Decreto 572/2025 se expresan en UVT. Para el 2 semestre del AG 2025 (jun-dic), la UVT era $49.799 (UVT 2025). Para enero-diciembre 2026, la UVT es $52.374. Las cuantias en pesos cambian cada 1 de enero.\n\n**Consecuencia practica:** Una reduccion del 50-63% en los umbrales minimos significa que **aproximadamente el 50% mas de operaciones generan retencion automatica** a partir de junio 1 de 2025. Una empresa que antes pagaba servicios por $120.000 sin retener (porque no superaba los 4 UVT = $199.196), ahora debe retener porque $120.000 supera los 2 UVT = $99.598.\n\n#### 1.3. Nuevas tarifas de autorretencion especial (vigente desde junio 1 de 2025)\n\nEl art. 8 del Decreto 572/2025 establece un esquema de 10 rangos de tarifas de autorretencion (frente a las 7 que habia antes), segun el CIIU de la actividad economica principal del contribuyente:\n\n| Rango de tarifa | Actividades tipicas | Tarifa vigente |\n| 0,55% | Comercio al por mayor y por menor, actividades con margenes bajos | 0,55% |\n| 0,80% | Transporte terrestre de carga, logistica | 0,80% |\n| 1,10% | Industria manufacturera diversa, construccion residencial | 1,10% |\n| 1,60% | Actividades de tecnologia de la informacion (algunas) | 1,60% |\n| 1,80% | Servicios financieros, seguros | 1,80% |\n| 2,20% | Industria extractiva liviana | 2,20% |\n| 3,00% | Servicios profesionales, consultorias, actividades administrativas | 3,00% |\n| 3,50% | Hospitales, clinicas con internacion (CIIU 8610), actividades de apoyo diagnostico | 3,50% |\n| 4,00% | CDAT y rendimientos financieros especificos | 4,00% |\n| 4,50% | Actividades de extraccion de petroleo y gas; mineria | 4,50% |\n\n**Importante:** La autorretencion especial aplica **unicamente** para sociedades que: (a) pertenecen al regimen ordinario; (b) hacen uso de la exoneracion de aportes de nomina del art. 114-1 ET (es decir, tienen empleados con salarios de hasta 10 SMMLV); y (c) no estan en el RST. Sociedades sin empleados o con empleados que devengan mas de 10 SMMLV no estan obligadas a la autorretencion especial.\n\n#### 1.4. Obligaciones del agente retenedor (arts. 375–382 ET)\n\nUn agente retenedor tiene 5 obligaciones que el Decreto 572/2025 no modifica pero que se vuelven mas onerosas dado el mayor universo de operaciones sujetas a retencion:\n\n1. **Practicar la retencion** en el momento del pago o abono en cuenta (art. 375 ET). 2. **Declarar mensualmente** en el Formulario 350 (art. 382 ET) — vencimiento segun el ultimo digito del NIT del agente retenedor. 3. **Consignar lo retenido** en las entidades autorizadas, en los mismos plazos de la declaracion (arts. 376–377 ET). 4. **Expedir certificados** de retencion al beneficiario cuando este lo solicite, y anualmente (art. 381 ET) — para AG 2025, los certificados se expiden en el periodo marzo 2026. 5. **Presentar informacion exogena** de retenciones practicadas (Formato 1001) segun los plazos de la Res. 000233/2025.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Contexto complementario para la consulta.",
+        "core_ref_matches": [],
+        "panel_rank": 1,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T11-retencion-fuente-decreto-572-2025-interpretaciones.md",
+        "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T11-retencion-fuente-decreto-572-2025-interpretaciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T11-retencion-fuente-decreto-572-2025-interpretaciones.md",
+        "authority": "expert_interpretive_authority",
+        "title": "Retencion en la fuente (expert_interpretive_authority)",
+        "snippet": "2.1 Deloitte — Boletín Impuestos Corporativos (Mayo 29, 2025) Tesis central: Deloitte fue la primera Big 4 en publicar análisis técnico el mismo día de publicación del decreto. Presenta resumen artículo por artículo de las modificaciones. Destaca la reducción de bases mínimas como el cambio de mayor impacto volumétrico (millones de transacciones adicionales sujetas a retención) y la nueva tabla de autorretención por CIIU como el cambio de mayor impacto financiero.",
+        "position_signal": "neutral",
+        "relevance_score": 0.49981600000000004,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://www.deloitte.com/latam/es/services/tax/perspectives/co-29mayo2025-boletin-impuestos-corporativos.html",
+            "label": "Deloitte — Boletín Impuestos Corporativos, 29 mayo 2025",
+            "provider": "Deloitte",
+            "domain": "deloitte.com"
+          },
+          {
+            "url": "https://www.deloitte.com/latam/es/our-thinking/dnoticias-colombia/co-decreto-572-2025.html",
+            "label": "Deloitte — \"Decreto 572: ¿es la autorretención únicamente un problema de flujo de caja?\"",
+            "provider": "Deloitte",
+            "domain": "deloitte.com"
+          },
+          {
+            "url": "https://actualicese.com/cambios-en-la-retencion-en-la-fuente-en-colombia-2025-tarifas-bases-y-autorretencion/",
+            "label": "Actualícese — \"Cambios clave en retención con el Decreto 572 de 2025\"",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/retenciones-a-titulo-de-renta-2025-decreto-572-cambios-impacto/",
+            "label": "Actualícese — \"Retenciones fuertemente ajustadas con el Decreto 572\"",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/5-casos-practicos-de-retencion-en-la-fuente-con-el-decreto-572-de-2025/",
+            "label": "Actualícese — \"5 casos prácticos de retención con el Decreto 572\"",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/decreto-572-de-2025-aumento-las-autorretenciones-consejo-de-estado-nego-su-suspension-provisional/",
+            "label": "Actualícese — \"Consejo de Estado negó suspensión provisional del Decreto 572\"",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/decreto-572-de-2025-entre-la-urgencia-fiscal-y-la",
+            "label": "Ámbito Jurídico — \"Decreto 572: entre la urgencia fiscal y la inconstitucionalidad\"",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/blog-contable-yo-tributario/tributario-y-contable/decreto-572-de-2025-cambios-en-retencion",
+            "label": "Ámbito Jurídico — \"Cambios en retención y autorretención que impactan a contribuyentes\"",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/demandan-decreto-que-modifico-retefuente-para-anticipar",
+            "label": "Ámbito Jurídico — \"Demandan decreto que modificó retefuente\"",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www.infobae.com/colombia/2025/05/29/decreto-0572-de-2025-que-modifica-la-retencion-en-la-fuente-alerta-al-transporte-asusta-la-subida-del-valor-del-impuesto/",
+            "label": "Infobae — \"Decreto 0572 alerta al transporte: asusta la subida del impuesto\"",
+            "provider": "Infobae",
+            "domain": "infobae.com"
+          },
+          {
+            "url": "https://www.infobae.com/colombia/2025/05/30/centro-democratico-presento-una-demanda-contra-el-decreto-que-modifica-y-anticipa-el-pago-de-las-tarifas-de-retencion-en-la-fuente/",
+            "label": "Infobae — \"Centro Democrático presentó demanda contra el decreto\"",
+            "provider": "Infobae",
+            "domain": "infobae.com"
+          },
+          {
+            "url": "https://www.infobae.com/colombia/2025/06/04/consejo-de-estado-evalua-cinco-demandas-para-suspender-decreto-de-anticipo-de-retefuente-y-tambien-se-espera-medida-cautelar/",
+            "label": "Infobae — \"Consejo de Estado evalúa cinco demandas para suspender decreto\"",
+            "provider": "Infobae",
+            "domain": "infobae.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Deloitte",
+            "url": "https://www.deloitte.com/latam/es/services/tax/perspectives/co-29mayo2025-boletin-impuestos-corporativos.html"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/cambios-en-la-retencion-en-la-fuente-en-colombia-2025-tarifas-bases-y-autorretencion/"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/decreto-572-de-2025-entre-la-urgencia-fiscal-y-la"
+          },
+          {
+            "name": "Legis",
+            "url": null
+          },
+          {
+            "name": "Infobae",
+            "url": "https://www.infobae.com/colombia/2025/05/29/decreto-0572-de-2025-que-modifica-la-retencion-en-la-fuente-alerta-al-transporte-asusta-la-subida-del-valor-del-impuesto/"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/06/el-decreto-572-de-2025-no-modifica-reglas-de-retencion-minima-en-bogota/"
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T11-retencion-fuente-decreto-572-2025-interpretaciones.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T11-retencion-fuente-decreto-572-2025-interpretaciones.md",
+        "card_summary": "Este experto señala que el Decreto 572 de 2025 modifica el DUR 1625 de 2016 en relación con las bases mínimas y tarifas de retención y autorretención especial en la fuente.",
+        "extended_excerpt": "### 1. Norma Base\n\nEl **Decreto 572 de 2025** (mayo 28, publicado en Diario Oficial No. 53.132 de mayo 29) modifica múltiples artículos del **DUR 1625 de 2016** relacionados con las bases mínimas, tarifas de retención en la fuente y tarifas de autorretención especial a título de renta y complementarios.\n\n#### Elementos esenciales\n\n| Elemento | Detalle |\n| **Fundamento legal** | Arts. 189, 363, 365 y 367 Constitución; arts. 392, 395, 401 y concordantes del ET |\n| **Vigencia** | Desde el 1.º de junio de 2025 |\n| **Objetivo** | Adelantar el recaudo de renta para aliviar déficit fiscal (~$13,9 billones según Fedesarrollo) |\n| **Artículos DUR modificados** | Arts. 1.2.4.2.83, 1.2.4.4.1, 1.2.4.6.7, 1.2.4.6.8, 1.2.4.6.9, 1.2.4.9.1, 1.2.4.10.8, 1.2.6.8 |\n| **Controversia** | Calificado como \"reforma tributaria encubierta\"; cinco demandas de nulidad; suspensión provisional negada |\n\n### 2. Posiciones de Expertos\n\n#### 2.1 Deloitte — Boletín Impuestos Corporativos (Mayo 29, 2025)\n\n**Tesis central:** Deloitte fue la primera Big 4 en publicar análisis técnico el mismo día de publicación del decreto. Presenta resumen artículo por artículo de las modificaciones. Destaca la reducción de bases mínimas como el cambio de mayor impacto volumétrico (millones de transacciones adicionales sujetas a retención) y la nueva tabla de autorretención por CIIU como el cambio de mayor impacto financiero.\n\n**Posiciones clave:**\n\n- La interacción entre la nueva base de servicios (2 UVT) y la retención de IVA (misma base) crea un **efecto multiplicador** sobre el flujo de caja de los prestadores de servicios.\n\n- Efecto neto a mediano plazo es **neutro**: lo que se paga anticipadamente se recupera vía saldo a favor o menor anticipo.\n\n- Publicó análisis adicional profundizando en si la autorretención es \"únicamente un problema de flujo de caja\" — concluye que el impacto trasciende la liquidez.\n\n#### 2.2 Actualícese — Análisis Integral del Decreto 572 (2025)\n\n**Tesis central:** Actualícese publicó la cobertura más extensa del decreto, con múltiples artículos que cubren cambios en bases, tarifas, autorretención, cinco casos prácticos, y el desarrollo jurisprudencial ante el Consejo de Estado.\n\n**Posiciones clave:**\n\n- Califica el decreto como un ajuste \"fuerte\" cuyo objetivo real es **adelantar el recaudo** para cubrir el déficit fiscal, más que mejorar la equidad.\n\n- Las PYMEs como agentes de retención enfrentan mayor carga administrativa al practicar retención sobre un universo mucho mayor de transacciones (servicios desde $99.598, compras desde $497.990).\n\n- El Consejo de Estado **negó la suspensión provisional** del decreto el 22 de agosto de 2025 (Expediente 30229), concluyendo que el MinHacienda cumplió con la publicación previa del proyecto (10 de abril de 2025). Sin embargo, el proceso de nulidad continúa.\n\n- Los sujetos del **RST no deben aplicar** las nuevas bases mínimas ni los incrementos de autorretención del Decreto 572.\n\n#### 2.3 Ámbito Jurídico (Legis) — Análisis Constitucional (2025)\n\n**Tesis central:** Ámbito Jurídico publica el análisis jurídico más crítico del decreto. Argumenta que el Gobierno excedió la potestad reglamentaria al modificar sustancialmente la carga tributaria sin trámite legislativo. El decreto desconoce los principios de equidad, progresividad, legalidad y capacidad contributiva (art. 338 CP) al imponer cargas uniformes sin considerar la realidad financiera sectorial.\n\n**Posiciones clave:**\n\n- Distinción entre potestad reglamentaria legítima (fijar tarifas dentro de rangos legales) y **creación de nuevos hechos generadores** (que requiere ley del Congreso).\n\n- Los contribuyentes que se abstengan de practicar o declarar retenciones invocando la excepción de inconstitucionalidad se exponen a **sanciones de la DIAN** (intereses moratorios y sanción por inexactitud).\n\n- También cubre la demanda ante el Consejo de Estado y los cambios específicos en retención de arrendamientos tras el D.572.\n\n#### 2.4 Morand — Análisis Orientado a PYMEs (Junio 2025)\n\n**Tesis central:** Morand presenta análisis con enfoque práctico para PYMEs. Destaca que la reducción de bases mínimas significa que transacciones desde $99.598 (servicios) y $497.990 (compras) ahora están sujetas a retención. Califica el decreto como \"reforma tributaria encubierta\".\n\n**Posiciones clave:**\n\n- Cuatro acciones inmediatas: (a) auditoría de cumplimiento de nuevos umbrales, (b) análisis sectorial de autorretención por CIIU, (c) consulta profesional para modelar escenarios de flujo de caja, (d) actualización de software contable.\n\n- Tabla comparativa de bases mínimas antes/después con valores en COP 2025.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Contexto complementario para la consulta.",
+        "core_ref_matches": [],
+        "panel_rank": 2,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "analysis"
+      }
+    ],
+    "total_available": 4,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "El Decreto 572/2025 cambió la tabla de retención en la fuente sobre salarios. ¿Qué interpretaciones tienen los expertos sobre los nuevos rangos UVT vs el Art. 383 ET y cómo aplicarlo a procedimientos 1 y 2?",
+        "assistant_answer": "**Respuestas directas** - **¿Qué interpretaciones tienen los expertos sobre los nuevos rangos UVT vs el Art. 383 ET y cómo aplicarlo a procedimientos **1** y **2**?** **Anclaje legal** - Art. 383 — TARIFA - Art. 366-1 — FACULTAD PARA ESTABLECER RETENCIÓN EN LA FUENTE POR INGRESOS DEL EXTERIOR - Art. 366-2 — NORMAS APLICABLES EN MATERIA DE RETENCIÓN EN LA FUENTE",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_383",
+          "et_art_366_1",
+          "et_art_366_2"
+        ],
+        "form_entities": [],
+        "detected_topic": "retencion_fuente_general",
+        "keyword_cluster": [
+          "interpretaciones",
+          "procedimientos",
+          "**respuestas",
+          "aplicables",
+          "directas**",
+          "establecer",
+          "aplicarlo",
+          "retencion",
+          "salarios.",
+          "**anclaje"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 5,
+      "filtered_out_candidates": 13,
+      "off_topic_penalized_count": 2,
+      "off_topic_penalized_kept": 1,
+      "grouped_items": 2,
+      "ungrouped_items": 2,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "retencion_en_la_fuente",
+      "interpretation_anchor_eligible_docs": 2,
+      "interpretation_anchor_boosted_chunks": 7,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 3,
+        "medium": 15,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 3,
+        "resolved_numbers": 3,
+        "matched_articles": 1,
+        "matched_doc_ids": 2
+      },
+      "expert_query_seed": "El Decreto 572/2025 cambió la tabla de retención en la fuente sobre salarios. ¿Qué interpretaciones tienen los expertos sobre los nuevos rangos UVT vs el Art. 383 ET y cómo aplicarlo a procedimientos 1 y 2? Art. 383 Art. 366-1 Art. 366-2",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "rerank",
+        "judge": {
+          "mode": "llm",
+          "model": "gemini-2.5-flash",
+          "token_usage": {},
+          "scored_count": 12,
+          "candidate_count": 12
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 0
+        },
+        "graph_scored_count": 11,
+        "candidate_count": 12,
+        "summarized_count": 12
+      }
+    },
+    "trace_id": "35088d4f-219a-4698-bfa4-205d7d9866c0"
+  }
+}

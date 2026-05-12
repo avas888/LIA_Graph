@@ -1,0 +1,158 @@
+{
+  "qid": "ep_renta_patrimonio_niif_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "82b6225d-bfb0-48ce-b9f4-2a4500002a59",
+    "message": "Tengo divergencias entre patrimonio contable bajo NIIF y patrimonio fiscal. ¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles?",
+    "assistant_answer": "**Respuestas directas**\n- **¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles?**\n    *   Para el patrimonio fiscal, se debe partir del concepto de patrimonio bruto, que incluye todos los bienes y derechos apreciables en dinero poseídos al último día del año gravable (art. 261 ET). Esto implica un aprovechamiento económico, potencial o real, en beneficio del contribuyente (art. 263 ET).\n    *   Las diferencias entre el patrimonio contable bajo NIIF y el patrimonio fiscal se gestionan mediante la conciliación fiscal. Esta conciliación es clave para identificar y ajustar las divergencias, asegurando que la base fiscal refleje lo establecido en el Estatuto Tributario.\n    *   En el caso de activos como propiedad, planta y equipo o intangibles, las diferencias temporales y permanentes surgen principalmente por los distintos criterios de reconocimiento, medición y depreciación/amortización entre NIIF y la normativa fiscal. Es fundamental documentar estas diferencias para el Formato **2516**.\n\n**Ruta sugerida**\n*   Identificar las bases fiscales de los activos: Determinar el costo fiscal de propiedad, planta y equipo e intangibles, que puede diferir del valor en libros NIIF debido a ajustes por inflación, revaluaciones o métodos de depreciación/amortización no aceptados fiscalmente.\n*   Clasificar las diferencias: Distinguir entre diferencias permanentes (que no se revierten en el tiempo, como gastos no deducibles) y temporales (que sí se revierten, como la depreciación acelerada fiscalmente).\n*   Realizar la conciliación fiscal: Utilizar el Formato **2516** para conciliar el patrimonio contable con el patrimonio fiscal, ajustando las partidas que generan diferencias. Este formato es el soporte principal para la DIAN.\n\n**Riesgos y condiciones**\n*   Riesgo de inexactitud: No conciliar adecuadamente las diferencias puede llevar a errores en la declaración de renta y patrimonio, resultando en sanciones por inexactitud.\n*   Soporte documental: Es crucial mantener soportes detallados de todos los ajustes realizados, incluyendo los cálculos de depreciación fiscal y las justificaciones de las diferencias permanentes.\n*   Impacto en la base gravable: Las diferencias en el patrimonio pueden afectar la base para el cálculo de la renta presuntiva o el impuesto al patrimonio, si aplica.\n\n**Soportes clave**\n*   Libros contables bajo NIIF: Registros que muestran el valor en libros de los activos.\n*   Cálculos de depreciación/amortización fiscal: Documentación que respalda los valores deducidos fiscalmente, conforme a las tasas y métodos permitidos.\n*   Formato **2516**: Documento oficial de conciliación fiscal que detalla las diferencias entre la contabilidad y la fiscalidad.",
+    "normative_article_refs": [],
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [],
+    "ungrouped": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+        "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+        "authority": "secondary_official_authority",
+        "title": "Declaracion renta (secondary_official_authority)",
+        "snippet": "(7) Gerencie.com — \"Formato 2516 de conciliación fiscal: Obligados a presentarlo\" 🔗 https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+        "position_signal": "neutral",
+        "relevance_score": 0.5455,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/renta-por-comparacion-patrimonial.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/",
+            "label": "incp.org.co",
+            "provider": "INCP",
+            "domain": "incp.org.co"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+        "card_summary": "(7) Gerencie.com — \"Formato 2516 de conciliación fiscal: Obligados a presentarlo\" 🔗 https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html.",
+        "extended_excerpt": "### 1. La Brecha Fundamental: Dos Marcos que Miden Diferente\n\nDesde la adopción de las NIIF en Colombia (Ley 1314/2009), coexisten dos sistemas de medición del patrimonio de una misma empresa:\n\n**Sistema contable (NIIF):** Mide el valor razonable o costo amortizado de los activos; reconoce deterioros, provisiones estimadas, activos por derecho de uso (NIIF 16), instrumentos financieros complejos, etc.\n\n**Sistema fiscal (ET arts. 261-283):** Mide el costo fiscal de los activos (generalmente el costo histórico ajustado); desconoce la mayoría de los ajustes NIIF que no tengan base legal tributaria expresa.\n\nEl **art. 21-1 ET** establece la regla de oro: para efectos tributarios, los activos, pasivos, patrimonios, ingresos, costos y gastos solo se reconocen cuando lo dispone el ET, con independencia de lo que digan las NIIF. Cuando el ET no regula expresamente un elemento, sí aplican las NIIF como criterio supletorio. (1)\n\nEl **art. 772-1 ET** (Ley 1819/2016) convierte esta diferencia en obligación formal: todos los contribuyentes obligados a llevar contabilidad deben conciliar formalmente las diferencias entre el balance contable y el fiscal, y reportarlas en los Formatos 2516 (F.110) o 2517 (F.210). (2)\n\n### 2. Las 10 Diferencias Sistemáticas más Frecuentes en PYMEs\n\n#### 2.1. Activos fijos (propiedad, planta y equipo)\n\n| Aspecto | NIIF | Fiscal ET | Diferencia |\n| Depreciación | Vida útil estimada + revisión periódica (NIC 16) | Tablas art. 137 ET: edificios 20 años; maquinaria 10; vehículos 5; computadores 5 | Diferencia temporaria muy frecuente |\n| Deterioro (impairment) | Reconocido conforme NIC 36 — gasto contable | NO deducible salvo cartera (art. 145 ET) | Diferencia permanente o temporaria |\n| Revaluó (modelo revaluación NIC 16) | Incrementa activo contable | Activo sigue al costo fiscal — el revaluó no tiene efecto fiscal | Patrimonio contable > fiscal |\n\n#### 2.2. Inventarios\n\nEl deterioro de inventarios bajo NIC 2 (cuando el Valor Neto Realizable < costo) es un gasto contable que NO es deducible fiscalmente hasta que el deterioro sea definitivo. Esta diferencia temporaria puede ser material en empresas con inventarios de baja rotación. (3)\n\n#### 2.3. Cuentas por cobrar y provisión de cartera\n\n| Aspecto | NIIF 9 / Sección 11 NIIF Pymes | Fiscal art. 145 ET | Diferencia |\n| Modelo de deterioro | Pérdidas esperadas — reconocimiento anticipado | 33% de la deuda con más de un año de vencida (declarante) | La provisión NIIF suele ser MAYOR que el 33% fiscal |\n| Intereses implícitos | NIIF 15 reconoce ingreso financiero en financiación implícita | Art. 28 num. 3 ET: solo se considera el valor nominal — los intereses implícitos NO tienen efecto fiscal | Diferencia permanente de ingreso |\n\n#### 2.4. Arrendamientos (NIIF 16 / Sección 20 NIIF Pymes)\n\nEsta es una de las diferencias más discutidas en el Formato 2516 para PYMEs:\n\n- **Contablemente (NIIF 16):** Se reconoce un Activo por Derecho de Uso (ADU) y un pasivo financiero de arrendamiento.\n\n- **Fiscalmente (art. 107 ET):** El canon de arrendamiento es una deducción cuando se paga. No existe el concepto de ADU en el ET.\n\n**Impacto en la conciliación patrimonial:** El ADU incrementa el activo contable; el pasivo de arrendamiento incrementa el pasivo contable. La diferencia neta depende de la relación entre ADU y pasivo. En la conciliación fiscal, el contador debe excluir ambos del balance fiscal. (4)\n\n#### 2.5. Activos intangibles y goodwill\n\nEl goodwill adquirido reconocido bajo NIIF 3 NO es un activo fiscal reconocido en el ET (art. 74 num. 4). No se deprecia ni amortiza fiscalmente. Si la PYME adquirió otra empresa generando goodwill, el patrimonio contable puede ser materialmente mayor que el fiscal. Los intangibles generados internamente tampoco son activos fiscales (son gastos del período).\n\n#### 2.6. Pasivos contingentes y provisiones\n\nLas provisiones contables (demandas, garantías, etc.) bajo NIC 37 NO son deducibles fiscalmente hasta que la obligación sea real y cierta (art. 107 ET — principio de causación fiscal). Esta diferencia temporaria reduce el patrimonio contable sin reducir el fiscal — el patrimonio fiscal puede ser MAYOR que el contable.\n\n#### 2.7. Diferencia en cambio al cierre\n\nLos activos y pasivos en moneda extranjera se convierten a la TRM al cierre. El ET art. 288 permite el mismo tratamiento. La diferencia surge cuando la empresa usa una tasa de conversión diferente a la TRM SFC a diciembre 31. La solución: siempre usar la TRM certificada por la SFC a diciembre 31 del período tanto para el balance contable como para el fiscal. (5)",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Contexto complementario para la consulta.",
+        "core_ref_matches": [],
+        "panel_rank": 1,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      }
+    ],
+    "total_available": 1,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Tengo divergencias entre patrimonio contable bajo NIIF y patrimonio fiscal. ¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles?",
+        "assistant_answer": "**Respuestas directas** - **¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles?** * Para el patrimonio fiscal, se debe partir del concepto de patrimonio bruto, que incluye todos los bienes y derechos apreciables en dinero poseídos al último día del año gravable (art. 261 ET). Esto implica un aprovechamiento económico, potencial o real, en beneficio del contribuyente (art. 263 ET). * Las diferencias entre el patrimonio contable bajo NIIF y el patrimonio fiscal se gestionan mediante la conciliación fiscal. Esta conciliación es clave para identificar y ajustar las divergencias, asegurando que la base fiscal refleje lo establecido en el Estatuto Tributario. * En el caso de activos como propiedad, planta y equipo o intangibles, las diferencias temporales y permanentes surgen principalmente por los distintos criterios de reconocimiento, medición y depreciación/amortización entre NIIF y la normativa fiscal. Es fundamental documentar estas diferencias para el Formato **2516**. **Ruta sugerida** * Identificar las bases fiscales de los activos: Determinar el costo fiscal de propiedad, planta y equipo e intangibles, que puede diferir del valor en libros NIIF debido a ajustes por inflación, revaluaciones o métodos de depreciación/amortización no aceptados fiscalmente. * Clasificar las diferencias: Distinguir entre diferencias permanentes (que no se revierten en el tiempo, como gastos no deducibles) y temporales (que sí se revierten, como la depreciación acelerada fiscalmente). * Realizar la conciliación fiscal: Utilizar el Formato **2516** para conciliar el patrimonio contable con el patrimonio fiscal, ajustando las partidas que generan diferencias. Este formato es el soporte principal para la DIAN. **Riesgos y condiciones** * Riesgo de inexactitud: No conciliar adecuadamente las diferencias puede llevar a errores en la declaración de renta y patrimonio, resultando en sanciones por inexactitud. * Soporte documental: Es crucial mantener soportes detallados de todos los ajustes realizados, incluyendo los cálculos de depreciación fiscal y las justificaciones de las diferencias permanentes. * Impacto en la base gravable: Las diferencias en el patrimonio pueden afectar la base para el cálculo de la renta presuntiva o el impuesto al patrimonio, si aplica. **Soportes clave** * Libros contables bajo NIIF: Registros que muestran el valor en libros de los activos. * Cálculos de depreciación/amortización fiscal: Documentación que respalda los valores deducidos fiscalmente, conforme a las tasas y métodos permitidos. * Formato **2516**: Documento oficial de conciliación fiscal que detalla las diferencias entre la contabilidad y la fiscalidad.",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_261",
+          "et_art_263"
+        ],
+        "form_entities": [],
+        "detected_topic": "conciliacion_fiscal",
+        "keyword_cluster": [
+          "depreciacion/amortizacion",
+          "aprovechamiento",
+          "reconocimiento,",
+          "justificaciones",
+          "principalmente",
+          "intangibles?**",
+          "contribuyente",
+          "condiciones**",
+          "documentacion",
+          "adecuadamente"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 1,
+      "filtered_out_candidates": 17,
+      "grouped_items": 0,
+      "ungrouped_items": 1,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "declaracion_renta",
+      "interpretation_anchor_eligible_docs": 1,
+      "interpretation_anchor_boosted_chunks": 8,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 2,
+        "medium": 16,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 2,
+        "resolved_numbers": 2,
+        "matched_articles": 1,
+        "matched_doc_ids": 1
+      },
+      "expert_query_seed": "Tengo divergencias entre patrimonio contable bajo NIIF y patrimonio fiscal. ¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles? art. 261 art. 263",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "lexical_only",
+        "judge": {
+          "mode": "llm_error",
+          "reason": "too many values to unpack (expected 2, got 4)"
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 3
+        },
+        "graph_scored_count": 12
+      }
+    },
+    "trace_id": "82b6225d-bfb0-48ce-b9f4-2a4500002a59"
+  }
+}

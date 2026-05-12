@@ -1,0 +1,1447 @@
+{
+  "qid": "ep_fe_cufe_contingencia_v1",
+  "topic_key_expected": "facturacion_electronica",
+  "profile": "expert_panel_v1",
+  "message": "Mi cliente tuvo caída del sistema de facturación electrónica el último día del mes. ¿Cómo manejar la contingencia ante la DIAN sin perder validez? ¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?",
+  "http_status": 200,
+  "latency_ms": 47970,
+  "captured_utc": "2026-05-12T01:28:44.557181+00:00",
+  "response": {
+    "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+    "run_id": "pd_e63ff22578644fac9a659fdbb98f654c",
+    "answer_markdown": "**Respuestas directas**\n- **¿Cómo manejar la contingencia ante la DIAN sin perder validez?**\n  - Primero, confirma si el emisor estaba obligado a facturar electrónicamente y si la contingencia fue válida antes de aceptar el soporte.\n  - Si la contingencia fue válida, documenta el evento y la posterior normalización de la factura. Esto es clave para cumplir con los requisitos de los (arts. 616, 616-1 y 616-2 ET).\n  - Asegúrate de que el documento de contingencia cumpla con los requisitos para ser un soporte válido, evitando rechazos futuros.\n- **¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?**\n  - No reemplaces la factura electrónica con otro tipo de soporte si la obligación de facturar electrónicamente existía.\n  - La sanción por incumplimiento puede ser una multa de hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, con un tope de **12** meses (máximo el **12%** del valor de la factura).\n  - Una factura rechazada por CUFE inválido no es un soporte válido, por lo que cualquier nota crédito asociada carecería de un documento base electrónico válido.\n\n**Ruta sugerida**\n1. Verifica la obligación de facturación electrónica del emisor y la validez de la contingencia antes de aceptar cualquier soporte (arts. 616-1 y 616 ET).\n2. Si hubo contingencia, guarda evidencia del evento y de la normalización posterior de la factura. Esto es fundamental para la validez del soporte (arts. 616-1 y 616 ET).\n3. Realiza una revisión operativa detallada del soporte de contingencia antes de considerarlo fiscalmente válido (arts. 616 y 616-1 ET).\n\n**Riesgos y condiciones**\n- No sustituyas la factura electrónica por un documento diferente cuando la obligación de facturar electrónicamente ya existía (arts. 616-1 y 616-2 ET).\n- El incumplimiento en la transmisión electrónica puede acarrear sanciones significativas.\n- La falta de un soporte válido puede llevar al desconocimiento de costos, deducciones o impuestos descontables.\n\n**Soportes clave**\n- La multa por retraso en la transmisión electrónica es de hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, sin exceder los **12** meses (máximo el **12%** del valor de la factura) (arts. 616 y 2 ET).\n- Es crucial documentar adecuadamente el evento de contingencia y la posterior normalización para evitar sanciones.\n- La validez del soporte de contingencia depende de la correcta aplicación de los procedimientos establecidos para estos casos.",
+    "answer_concise": "**Respuestas directas**\n- **¿Cómo manejar la contingencia ante la DIAN sin perder validez?**\n  - Primero, confirma si el emisor estaba obligado a facturar electrónicamente y si la contingencia fue válida antes de aceptar el soporte.\n  - Si la contingencia fue válida, documenta el evento y la posterior normalización de la factura. Esto es clave para cumplir con los requisitos de los (arts. 616, 616-1 y 616-2 ET).\n  - Asegúrate de que el documento de contingencia cumpla con los requisitos para ser un soporte válido, evitando rechazos futuros.\n- **¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?**\n  - No reemplaces la factura electrónica con otro tipo de soporte si la obligación de facturar electrónicamente existía.\n  - La sanción por incumplimiento puede ser una multa de hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, con un tope de **12** meses (máximo el **12%** del valor de la factura).\n  - Una factura rechazada por CUFE inválido no es un soporte válido, por lo que cualquier nota crédito asociada carecería de un documento base electrónico válido.\n\n**Ruta sugerida**\n1. Verifica la obligación de facturación electrónica del emisor y la validez de la contingencia antes de aceptar cualquier soporte (arts. 616-1 y 616 ET).\n2. Si hubo contingencia, guarda evidencia del evento y de la normalización posterior de la factura. Esto es fundamental para la validez del soporte (arts. 616-1 y 616 ET).\n3. Realiza una revisión operativa detallada del soporte de contingencia antes de considerarlo fiscalmente válido (arts. 616 y 616-1 ET).\n\n**Riesgos y condiciones**\n- No sustituyas la factura electrónica por un documento diferente cuando la obligación de facturar electrónicamente ya existía (arts. 616-1 y 616-2 ET).\n- El incumplimiento en la transmisión electrónica puede acarrear sanciones significativas.\n- La falta de un soporte válido puede llevar al desconocimiento de costos, deducciones o impuestos descontables.\n\n**Soportes clave**\n- La multa por retraso en la transmisión electrónica es de hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, sin exceder los **12** meses (máximo el **12%** del valor de la factura) (arts. 616 y 2 ET).\n- Es crucial documentar adecuadamente el evento de contingencia y la posterior normalización para evitar sanciones.\n- La validez del soporte de contingencia depende de la correcta aplicación de los procedimientos establecidos para estos casos.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "logical_doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretaciones-CUFE-contingencia-notas-credito.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "FE E01 — Facturación Electrónica: Interpretaciones de Expertos sobre CUFE, Contingencia, Nota...",
+        "legal_reference": "FE E01 — Facturación Electrónica: Interpretaciones de Expertos sobre CUFE, Contingencia, Notas Crédito/Débito y Documento Soporte",
+        "search_query": "FE E01 — Facturación Electrónica: Interpretaciones de Expertos sobre CUFE, Contingencia, Notas Crédito/Débito y Documento Soporte DIAN / fuente oficial colombia FE E01 — Facturación Electrónica: Interpretaciones de Exper",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?** No reemplaces la factura electrónica con otro tipo de soporte si la obligación de facturar electrónicamente existía.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md",
+        "logical_doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "FE N01 — Marco Legal: Facturación Electrónica, Documento Soporte y Ecosistema de Documentos E...",
+        "legal_reference": "FE N01 — Marco Legal: Facturación Electrónica, Documento Soporte y Ecosistema de Documentos Electrónicos",
+        "search_query": "FE N01 — Marco Legal: Facturación Electrónica, Documento Soporte y Ecosistema de Documentos Electrónicos DIAN / fuente oficial colombia FE N01 — Marco Legal: Facturación Electrónica, Documento Soporte y Ecosistema de Doc",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Verifica la obligación de facturación electrónica del emisor y la validez de la contingencia antes de aceptar cualquier soporte (arts. 616-1 y 616 ET).",
+        "usage_intents": [
+          "requisitos",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+        "logical_doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+        "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md",
+        "download_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-contingencia-radian-interpretaciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "FE E02 — Habilitación, Contingencia y RADIAN: Interpretaciones de Expertos",
+        "legal_reference": "FE E02 — Habilitación, Contingencia y RADIAN: Interpretaciones de Expertos",
+        "search_query": "FE E02 — Habilitación, Contingencia y RADIAN: Interpretaciones de Expertos DIAN / fuente oficial colombia FE E02 — Habilitación, Contingencia y RADIAN: Interpretaciones de Expertos",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo manejar la contingencia ante la DIAN sin perder validez?** Primero, confirma si el emisor estaba obligado a facturar electrónicamente y si la contingencia fue válida antes de aceptar el",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_NORMATIVA_FE-N02-habilitacion-contingencia-radian-marco-legal.md",
+        "logical_doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_NORMATIVA_FE-N02-habilitacion-contingencia-radian-marco-legal.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_NORMATIVA_FE-N02-habilitacion-contingencia-radian-marco-legal.md",
+        "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_NORMATIVA_FE-N02-habilitacion-contingencia-radian-marco-legal.md",
+        "download_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_NORMATIVA_FE-N02-habilitacion-contingencia-radian-marco-legal.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_NORMATIVA_FE-N02-habilitacion-contingencia-radian-marco-legal.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "FE N02 — Habilitación, Contingencia y RADIAN: Marco Legal",
+        "legal_reference": "FE N02 — Habilitación, Contingencia y RADIAN: Marco Legal",
+        "search_query": "FE N02 — Habilitación, Contingencia y RADIAN: Marco Legal DIAN / fuente oficial colombia FE N02 — Habilitación, Contingencia y RADIAN: Marco Legal",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo manejar la contingencia ante la DIAN sin perder validez?** Primero, confirma si el emisor estaba obligado a facturar electrónicamente y si la contingencia fue válida antes de aceptar el",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-facturacion-electronica-operativa-2026.md",
+        "logical_doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-facturacion-electronica-operativa-2026.md",
+        "authority": "Loggro",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-facturacion-electronica-operativa-2026.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-facturacion-electronica-operativa-2026.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-facturacion-electronica-operativa-2026.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-facturacion-electronica-operativa-2026.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Facturacion electronica (Loggro)",
+        "legal_reference": "Facturacion electronica (Loggro)",
+        "search_query": "Facturacion electronica (Loggro) Loggro colombia FE L01 — Guía Práctica: Facturación Electrónica Operativa para PYMEs — 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo manejar la contingencia ante la DIAN sin perder validez?** Primero, confirma si el emisor estaba obligado a facturar electrónicamente y si la contingencia fue válida antes de aceptar el",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_LOGGRO_FE-L08-radian-titulo-valor-rechazos.md",
+        "logical_doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_LOGGRO_FE-L08-radian-titulo-valor-rechazos.md",
+        "authority": "Loggro",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_LOGGRO_FE-L08-radian-titulo-valor-rechazos.md",
+        "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_LOGGRO_FE-L08-radian-titulo-valor-rechazos.md",
+        "download_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_LOGGRO_FE-L08-radian-titulo-valor-rechazos.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_LOGGRO_FE-L08-radian-titulo-valor-rechazos.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Factura como titulo valor (Loggro)",
+        "legal_reference": "Factura como titulo valor (Loggro)",
+        "search_query": "Factura como titulo valor (Loggro) Loggro colombia FE L08 — Guía Práctica: RADIAN Operativo y Manejo de Rechazos",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "La sanción por incumplimiento puede ser una multa de hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, con un tope de **12** meses (máximo el **12%** del valor de la factura).",
+        "usage_intents": [
+          "riesgos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+        "authority": "Loggro",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Facturacion electronica (Loggro)",
+        "legal_reference": "Facturacion electronica (Loggro)",
+        "search_query": "Facturacion electronica (Loggro) Loggro colombia FE 03 — Documentos del Ecosistema Electrónico — Régimen de Cada Tipo de Documento",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo manejar la contingencia ante la DIAN sin perder validez?** Primero, confirma si el emisor estaba obligado a facturar electrónicamente y si la contingencia fue válida antes de aceptar el",
+        "usage_intents": [
+          "procedimiento",
+          "riesgos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "**Sanción**: Multa equivalente a **hasta el 1% del valor total de la factura por cada mes o fracción de mes de retraso**, sin exceder 12 meses (máximo 12% del valor de la factura)(1).\n\n**Ejemplo numérico** (UVT 2026 = $52.374):\n- Factura no",
+      "**Texto vigente** (modificado por Ley 2277 de 2022, Art. 45):\n\n> Los comerciantes obligados a llevar contabilidad, las personas jurídicas y asimiladas, y las sucursales o establecimientos permanentes de empresas extranjeras, están obligados",
+      "**Texto vigente** (modificado por Ley 2277 de 2022, Art. 46):\n\n> Sin perjuicio de las infracciones establecidas en el Libro Noveno del Estatuto Tributario y de conformidad con lo dispuesto en los artículos 642 a 656 del mismo, el contribuye"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 5,
+        "support_document_count": 7,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "616",
+          "616-1",
+          "616-2"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 7,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "computation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-12T01:27:56.588065+00:00",
+        "total_ms": 42419.25,
+        "step_count": 48,
+        "steps": [
+          {
+            "ts_utc": "2026-05-12T01:27:56.588085+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-12T01:27:56.588065+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:27:56.588293+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.21,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 234,
+              "message_preview": "Mi cliente tuvo caída del sistema de facturación electrónica el último día del mes. ¿Cómo manejar la contingencia ante la DIAN sin perder validez? ¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:27:56.621132+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 33.05,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T01:27:56.621527+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 33.45,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:27:56.641463+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 53.39,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 234,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:27:58.225727+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1637.63,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "facturacion_electronica",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en el manejo de contingencias del sistema de facturación electrónica y la validez de documentos electrónicos (factura, nota crédito) relacionados con el CUFE, lo cual encaja directamente con la definición de facturacio",
+              "elapsed_ms_call": 1584.88,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:27:58.226412+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1638.33,
+            "message": null,
+            "details": {
+              "effective_topic": "facturacion_electronica",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.133067+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 3544.97,
+            "message": null,
+            "details": {
+              "owner_trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+              "requested_trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.133415+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 3545.33,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "facturacion_electronica",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en el manejo de contingencias del sistema de facturación electrónica y la validez de documentos electrónicos (factura, nota crédito) relacionados con el CUFE, lo cual encaja directamente con la definición de facturacion_electronica.",
+              "topic_notice": "Tu pregunta es de facturacion electronica, por lo cual utilizaremos nuestra base de datos facturacion electronica.",
+              "message_preview": "Mi cliente tuvo caída del sistema de facturación electrónica el último día del mes. ¿Cómo manejar la contingencia ante la DIAN sin perder validez? ¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?",
+              "message_chars": 234
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.133618+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 3545.54,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Cómo manejar la contingencia ante la DIAN sin perder validez?",
+                "¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.133738+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 3545.65,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 62,
+              "message_preview": "¿Cómo manejar la contingencia ante la DIAN sin perder validez?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.162656+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 3574.55,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.164058+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 3575.96,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.164242+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 3576.16,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.182715+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 3594.63,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.183030+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 3594.95,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Cómo manejar la contingencia ante la DIAN sin perder validez?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "facturacion_electronica"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.183112+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 3595.03,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Cómo manejar la contingencia ante la DIAN sin perder validez?",
+              "effective_topic": "facturacion_electronica",
+              "secondary_topics": [],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.198501+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 3610.41,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.198906+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 3610.82,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "facturacion_electronica ¿Cómo manejar la contingencia ante la DIAN sin perder validez?",
+              "query_text_chars": 86
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.199620+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 3611.53,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "facturacion_electronica",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "facturacion_electronica",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.862083+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 4273.96,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretacione",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-fa",
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-c",
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_NORMATIVA_FE-N02-habilitacion-",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretacione",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretacione",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretacione",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-fa",
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_EXPERTOS_FE-E02-habilitacion-c",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-fac"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.862667+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 4274.58,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:00.862814+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 4274.73,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:01.055109+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 4466.97,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.533296+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 21945.15,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.533590+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 21945.46,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 87,
+              "message_preview": "¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.548993+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 21960.86,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.549270+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 21961.14,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.549333+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 21961.21,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.563451+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 21975.32,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "facturacion_electronica",
+              "top_score": 4,
+              "confidence": 0.42,
+              "ranked_top_3": [
+                [
+                  "facturacion_electronica",
+                  4
+                ],
+                [
+                  "sector_financiero",
+                  3
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.564293+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 21976.16,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?",
+              "effective_topic": "facturacion_electronica",
+              "secondary_topics": [],
+              "confidence": 0.42,
+              "mode": "fallback",
+              "reason": "fallback:auto_detected_from_keywords",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.577384+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 21989.25,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.577579+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 21989.45,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "facturacion_electronica sector_financiero ¿Y qué pasa con la nota crédito si la factura original fue rechazada por CUFE inválido?",
+              "query_text_chars": 129
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:18.578010+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 21989.88,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "facturacion_electronica",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "facturacion_electronica",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:19.323246+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 22735.1,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretacione",
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_FE_OPERATIVA_LOGGRO_FE-L08-radian-titulo-va",
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md::2-notas-",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-fa",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-fa",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_EXPERTOS_FE-E01-interpretacione",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-fa",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-fac",
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_LOGGRO_FE-L01-guia-practica-fac",
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md::3-era-iv-e"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:19.323660+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 22735.52,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:19.323813+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 22735.68,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:19.520851+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 22932.69,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:35.007129+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 38418.91,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:35.007662+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 38419.48,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                3,
+                7
+              ],
+              "after": [
+                3,
+                3,
+                7
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "616",
+                  "616-1",
+                  "616-2",
+                  "2",
+                  "5",
+                  "616-5"
+                ],
+                "candidate_count": 6,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:35.050784+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 38462.6,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "facturacion_electronica",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "facturacion_electronica",
+                "articles_top_topic": "facturacion_electronica",
+                "router_score_on_articles": 9,
+                "top_score_on_articles": 9,
+                "ranked_article_topics": [
+                  [
+                    "facturacion_electronica",
+                    9
+                  ],
+                  [
+                    "estatuto_tributario",
+                    5
+                  ],
+                  [
+                    "declaracion_renta",
+                    1
+                  ],
+                  [
+                    "sector_emprendimiento",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:35.096809+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 38508.63,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "facturacion_electronica",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:35.097055+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 38508.88,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:35.101028+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 38512.86,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "facturacion_electronica"
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:35.101093+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 38512.93,
+            "message": null,
+            "details": {
+              "template_chars": 1466
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:39.005927+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 42417.73,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2515,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:39.006968+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 42418.78,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "facturacion_electronica",
+              "citations_in": 7,
+              "citations_out": 7,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-12T01:28:39.007267+00:00",
+            "trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 42419.09,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 7
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 40,
+        "output_tokens": 404,
+        "total_tokens": 444,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "facturacion_electronica",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de facturacion electronica, por lo cual utilizaremos nuestra base de datos facturacion electronica.",
+    "topic_adjustment_reason": "La consulta se centra en el manejo de contingencias del sistema de facturación electrónica y la validez de documentos electrónicos (factura, nota crédito) relacionados con el CUFE, lo cual encaja directamente con la definición de facturacion_electronica.",
+    "coverage_notice": null,
+    "topic": "facturacion_electronica",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778549218,
+      "expires_at": 1778552818,
+      "token_id": "63138b4f372d40ad811b1c1c27ecc7de"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_d00d2199eb79",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 40,
+        "output_tokens": 404,
+        "total_tokens": 444
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+      "last_run_id": "pd_e63ff22578644fac9a659fdbb98f654c",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_d00d2199eb79",
+    "chat_run_id": "cr_20260512_012758_ef98b748",
+    "metrics": {
+      "latency_ms": 45039.9,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 40,
+          "output_tokens": 404,
+          "total_tokens": 444,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_d00d2199eb79",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 40,
+          "output_tokens": 404,
+          "total_tokens": 444
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "d5e8bef5-5779-48c8-ab2f-7daa9647c0c1",
+        "last_run_id": "pd_e63ff22578644fac9a659fdbb98f654c",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 9.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "facturacion_electronica",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "02f6bb04095141198d20b960ac47515f"
+  }
+}

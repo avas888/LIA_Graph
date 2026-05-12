@@ -1,0 +1,1244 @@
+{
+  "qid": "ep_renta_beneficio_auditoria_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "2d14f54b-64bf-47aa-b087-7534439e1480",
+    "message": "Mi cliente PYME quiere acceder al beneficio de auditoría del Art. 689-3 ET para el AG2025 incrementando el impuesto neto de renta frente al año anterior. ¿Qué dicen los expertos sobre los porcentajes de incremento requeridos para firmeza en 6 o 12 meses, los requisitos formales (presentación oportuna, pago oportuno) y los riesgos si la DIAN cuestiona la genuinidad del incremento o detecta inconsistencias en exógena?",
+    "assistant_answer": "**Ruta sugerida**\n1. Antes de firmar cualquier corrección, evaluá el impacto en el beneficio de auditoría (art. 689-3 ET).\n2. Simulá si la corrección mantiene o anula la firmeza acelerada de **6** o **12** meses antes de presentarla (arts. 147 y 260 ET).\n3. Tené presente que la sociedad compensa las pérdidas fiscales con rentas líquidas ordinarias futuras; no se trasladan a los socios ni se tratan como saldo a favor (art. 147 ET).\n4. La firmeza de la declaración que origina o compensa pérdidas fiscales tiene un término de revisión distinto al de la firmeza ordinaria. Es clave medirla por separado (arts. 147 y 260 ET).\n\n**Riesgos y condiciones**\n- Una corrección que disminuya el incremento requerido puede resultar en la pérdida del beneficio de auditoría, extendiendo el término de firmeza (arts. 689-3 y 147 ET).\n- Enfocate en la naturaleza de las pérdidas fiscales en renta, no en la devolución o compensación de saldos a favor, al hablar de \"compensación\" (arts. 147 y 588 ET).\n- Si la declaración origina o compensa pérdidas fiscales, el término de firmeza no es el ordinario de **3** años; el expediente debe considerarse a **6** años (arts. 147 y 260 ET).\n- No apliques la lógica del art. 588 ET si la corrección aumenta el saldo a favor o disminuye el valor a pagar.",
+    "normative_article_refs": [],
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_689",
+        "classification": "concordancia",
+        "summary_signal": "Este experto explica que la firmeza general de las declaraciones es de 3 años, pero se reduce a 6 o 12 meses con el beneficio de auditoría, y se extiende a 5 años para declaraciones con pérdidas fiscales.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+          },
+          {
+            "name": "ConsultorContable",
+            "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+          },
+          {
+            "name": "CR Consultores",
+            "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+          },
+          {
+            "name": "Alegra",
+            "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "source_doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "logical_doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "authority": "secondary_official_authority",
+            "title": "Obligaciones profesionales contador (secondary_official_authority)",
+            "snippet": "1. Firmeza General — Art. 714 ET 1.1. Plazo de 3 Años Gerencie documenta que el Art. 714 ET establece la regla general: la declaración tributaria queda en firme si dentro de los 3 años siguientes a la fecha de vencimiento del plazo para declarar, la DIAN no ha notificado requerimiento especial.",
+            "position_signal": "neutral",
+            "relevance_score": 0.7489600000000001,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html",
+                "label": "Firmeza de las declaraciones tributarias — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/",
+                "label": "Firmeza de la declaración de renta: lo que necesitas saber — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/periodo-de-firmeza-para-las-declaraciones-de-renta-iva-o-del-regimen-simple-con-saldos-a-favor/",
+                "label": "Periodo de firmeza para declaraciones con saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-de-personas-naturales/",
+                "label": "Firmeza de declaración de renta de personas naturales — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/beneficio-de-auditoria.html",
+                "label": "Beneficio de auditoría — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/beneficio-de-auditoria-conoce-los-detalles-para-los-periodos-gravables-2022-y-2023/",
+                "label": "Beneficio de auditoría: detalles para AG 2022 y 2023 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/",
+                "label": "Beneficio de auditoría para entidades del régimen especial — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-las-declaraciones-tributarias-vs-beneficio-de-auditoria/",
+                "label": "Firmeza de declaraciones tributarias vs. beneficio de auditoría — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-las-declaraciones-del-iva-y-retenciones-ante-beneficio-de-auditoria/",
+                "label": "Firmeza de declaraciones de IVA y retenciones ante beneficio de auditoría — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de",
+                "label": "Emplazamiento a contribuyentes con beneficio de auditoría permite término general — Ámbito Jurídico",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/beneficio-de-auditoria-y-causales-para-su-perdida",
+                "label": "Beneficio de auditoría y causales para su pérdida — Ámbito Jurídico",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "card_summary": "Este experto explica que la firmeza general de las declaraciones es de 3 años, pero se reduce a 6 o 12 meses con el beneficio de auditoría, y se extiende a 5 años para declaraciones con pérdidas fiscales.",
+            "extended_excerpt": "### 1. Firmeza General — Art. 714 ET\n\n#### 1.1. Plazo de 3 Años\n\nEl Art. 714 ET establece la regla general: la declaración tributaria queda en firme si dentro de los **3 años siguientes** a la fecha de vencimiento del plazo para declarar, la DIAN no ha notificado requerimiento especial.\n\nDiferentes plazos de firmeza según el tipo de declaración y circunstancias:\n\n- **3 años**: plazo general para declaraciones sin circunstancias especiales.\n\n- **5 años**: declaraciones que liquiden o compensen pérdidas fiscales.\n\n- **6 o 12 meses**: declaraciones con beneficio de auditoría.\n\n- Plazos especiales cuando se solicita devolución de saldos a favor.\n\n#### 1.2. Plazos Especiales por Tipo de Declaración\n\nGuía completa sobre firmeza de la declaración de renta, documentando que una vez presentada, la declaración tardará 3 o 5 años para adquirir firmeza, o 6 o 12 meses si se accede al beneficio de auditoría.\n\nPlazos específicos:\n\n- **Renta PJ sin circunstancias especiales**: 3 años desde vencimiento.\n\n- **Renta PJ con pérdidas o compensaciones**: 5 años.\n\n- **Renta con saldo a favor devuelto**: 3 años, pero la firmeza se suspende mientras se procesa la devolución.\n\n- **IVA y retención**: 3 años del plazo general.\n\n- **Declaraciones con beneficio de auditoría**: 6 meses (si incremento del 35% en impuesto neto) o 12 meses (si incremento del 25%).\n\n### 2. Beneficio de Auditoría — Art. 689-3 ET\n\n#### 2.1. Mecánica del Beneficio\n\nGuía integral del beneficio de auditoría, explicando que permite reducir el plazo de firmeza de la declaración de renta a **6 o 12 meses** (vs. 3 años general), a cambio de incrementar el impuesto neto de renta respecto al año anterior.\n\nRequisitos:\n\n- **Firmeza en 6 meses**: incrementar el impuesto neto de renta en al menos **35%** respecto al año anterior.\n\n- **Firmeza en 12 meses**: incrementar en al menos **25%**.\n\n- Presentar la declaración dentro del plazo legal.\n\n- No tener deudas tributarias exigibles.\n\nEl beneficio de auditoría fue prorrogado por Ley 2294/2023 Art. 69 para los años gravables **2024, 2025 y 2026**. Actualícese detalla las condiciones específicas para cada período gravable.\n\n#### 2.2. Firmeza del Beneficio vs. Firmeza General\n\nInteracción entre firmeza del beneficio de auditoría y firmeza general, documentando que si el contribuyente no cumple los requisitos del beneficio (por ejemplo, si la DIAN demuestra que el incremento fue artificial), la declaración pierde el beneficio y vuelve al plazo general de 3 o 5 años.\n\n#### 2.3. Firmeza de IVA y Retención ante Beneficio de Auditoría\n\nPunto técnico relevante: el beneficio de auditoría aplica a la **declaración de renta**. Las declaraciones de IVA y retención del mismo período **no necesariamente** adquieren firmeza acelerada por el solo hecho de que la renta tenga beneficio de auditoría. Cada declaración tiene su propio plazo de firmeza.\n\n#### 2.4. Causales de Pérdida del Beneficio\n\n**Ámbito Jurídico:**\n\nÁmbito Jurídico documenta las causales de pérdida del beneficio de auditoría:\n\n- Corrección de la declaración que reduzca el impuesto neto por debajo del incremento requerido.\n\n- Emplazamiento de la DIAN al contribuyente permite la aplicación del término general de firmeza.\n\n- Corrección de la declaración del año anterior que modifique la base de comparación.\n\n### 3. Puntos de Convergencia Entre Expertos\n\n**1. Firmeza general es de 3 años:** Gerencie, Actualícese y Ámbito Jurídico coinciden.\n\n**2. Beneficio de auditoría reduce a 6 o 12 meses:** Gerencie y Actualícese coinciden: con incremento del 35% (6 meses) o 25% (12 meses).\n\n**3. Declaraciones con pérdidas tienen firmeza de 5 años:** Gerencie y Actualícese coinciden: el plazo extendido aplica automáticamente.\n\n**4. El beneficio no se extiende automáticamente a IVA y retención:** Actualícese documenta que cada declaración tiene su propio plazo.\n\n**5. Beneficio vigente para AG 2024, 2025 y 2026:** Actualícese y Gerencie coinciden: Ley 2294/2023 prorrogó el beneficio.\n\n### 4. Puntos de Divergencia\n\n**1. ¿El emplazamiento de DIAN anula automáticamente el beneficio?**\n\n- **Posición A (Ámbito Jurídico, jurisprudencia):** Sí. El emplazamiento interrumpe el beneficio y permite la aplicación del término general de firmeza.\n\n- **Posición B (Actualícese, análisis técnico):** El emplazamiento solo es relevante si se notifica dentro del plazo de firmeza especial (6 o 12 meses). Si la DIAN emplaza después de que la firmeza ya se alcanzó, es extemporáneo.\n\n**Nuestra evaluación:** Posición B es más precisa técnicamente. Lo determinante es la **notificación dentro del plazo** de firmeza especial.\n\n**2. ¿Conviene siempre el beneficio de auditoría?**\n\n- **Posición A (enfoque agresivo):** Sí, si se puede incrementar el impuesto neto naturalmente (por crecimiento del negocio). Firmeza rápida protege contra auditorías.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_689_3"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "CR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art. 588 no amplía el término de firmeza general del art. 714. Si la declaración original tenía firmeza a los 3 años (art. 714 ET), corregirla aumentando el impuesto no \"reinicia\" el reloj de firmeza. La DIAN sigue teniendo el mismo término original para auditar. Sin embargo, la corrección bajo art. 589 (que disminuye el impuesto) sí…",
+            "position_signal": "permite",
+            "relevance_score": 0.6567999999999999,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/",
+                "label": "consultorcontable.com",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              },
+              {
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/"
+              },
+              {
+                "name": "ConsultorContable",
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "card_summary": "Este experto detalla los escenarios de corrección de declaraciones tributarias según el efecto en el impuesto o saldo a favor y el momento de la corrección, mencionando los artículos 588 y 589 del ET.",
+            "extended_excerpt": "### 1. Posición Normativa — El Mapa Completo de Correcciones\n\nEl régimen de correcciones del ET establece tres escenarios distintos según el efecto de la corrección y el momento en que se realiza:\n\n| Tipo de corrección | Artículo ET | Plazo del contribuyente | Sanción por corrección |\n| Aumenta impuesto o disminuye saldo a favor | Art. 588 | 3 años desde vencimiento plazo para declarar | Sí — art. 644 ET (10% ó 20% según momento) |\n| Disminuye impuesto o aumenta saldo a favor | Art. 589 | 1 año desde vencimiento plazo para declarar | No (pero DIAN puede revisar desde la corrección) |\n| No varía impuesto ni saldo a favor | Art. 588 inc. 4 | 3 años desde vencimiento (o sin límite en algunos casos — ver Sentencia CE 23854/2022) | No |\n| Provocada por requerimiento especial | Arts. 709, 713 | Dentro del término de firmeza vigente | Reducida según respuesta al RE |\n\nLa **firmeza general** (art. 714 ET) es de **3 años** desde el vencimiento del plazo para declarar. Hay firmezas especiales: 6 o 12 meses bajo el beneficio de auditoría (art. 689-3 ET), y 5 años para declaraciones con pérdidas fiscales compensables (art. 147 ET).\n\n### 2. Convergencias — En qué Están de Acuerdo Todas las Fuentes\n\n**Convergencia 1 — El plazo del art. 588 es de 3 años (no 2).** Existe una confusión histórica porque antes de la Ley 2010 de 2019 el plazo era de 2 años. Desde el art. 107 de la Ley 2010/2019, el plazo para corregir aumentando el impuesto es de **3 años**. Consultor Contable, Actualicese y CR Consultores lo confirman: el Concepto DIAN 8344 de 2025 también lo ratifica para declaraciones afectadas por contingencias técnicas.\n\n### 3. Divergencias y Zonas Grises — La Tabla de Riesgo\n\n| # | Cuestión en disputa | Posición dominante | Posición alternativa / riesgo | Nivel de riesgo |\n| **D-1** | Corrección después de la firmeza del beneficio de auditoría — pérdida del beneficio | DIAN (Oficio 608/2021): si se corrige después del vencimiento del término especial de firmeza, el beneficio se pierde y la firmeza regresa al término ordinario (3 años) | Norma: el beneficio no tiene este efecto expresamente; algunos tributaristas cuestionan la interpretación DIAN | **ALTO** |\n| **D-2** | Correcciones sin variación de impuesto — ¿tienen límite de tiempo? | Sentencia CE 23854/2022: algunos errores puramente formales (nombre, dirección, NIT) pueden corregirse sin límite de tiempo porque no afectan la obligación | Posición general: el art. 588 inc. 4 limita estas correcciones a 3 años; la sentencia es de unificación pero su alcance exacto no está completamente claro | **MEDIO** |\n| **D-3** | Diferencia de criterio — corrección sin sanción | Si el mayor impuesto obedece a una diferencia de criterio o apreciación jurídica entre DIAN y contribuyente, no hay sanción (art. 588 inc. 2 ET) | La DIAN tiende a calificar como \"error\" del contribuyente lo que él considera \"diferencia de criterio\"; la carga de probar la diferencia de criterio es del contribuyente | **MEDIO** |\n| **D-4** | Impacto de la corrección sobre el beneficio de auditoría ya adquirido | Si se corrige antes de que venza el término especial (6 o 12 meses) y se mantiene el incremento del impuesto, el beneficio no se pierde | Si la corrección reduce el impuesto neto por debajo del umbral de incremento requerido, el beneficio se pierde y aplica la firmeza ordinaria | **ALTO** |\n\n### 4. Análisis Detallado de Cada Divergencia\n\n#### 4.1. Divergencia D-1: Corrección Después de la Firmeza del Beneficio de Auditoría\n\n**El escenario crítico:** Un contribuyente presentó oportunamente la declaración AG 2024 acogida al beneficio de auditoría con incremento del 25% del impuesto neto — lo que genera firmeza especial a los 12 meses (agosto de 2025 para una declaración presentada en agosto de 2024). La declaración quedó en firme en agosto de 2025.\n\nEn enero de 2026, el contador detecta un error que aumentaría el impuesto y quiere corregir. Dentro del término ordinario del art. 588 (3 años desde el vencimiento para declarar), estaría en tiempo. Pero la firmeza especial del beneficio ya venció.\n\n**Posición DIAN (Oficio 915594 de 2021, interno 608):** Si la declaración ya quedó en firme bajo el término especial del beneficio de auditoría y se presenta una corrección después de ese vencimiento, el beneficio se **pierde retroactivamente** y la declaración queda sujeta al término general de firmeza ordinaria (3 años). La DIAN podría entonces auditar la declaración dentro del plazo ordinario pendiente.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_689_3",
+              "et_art_147",
+              "et_art_588"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.7489600000000001,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Se ancla a una referencia normativa central del caso.",
+        "panel_rank": 1
+      },
+      {
+        "article_ref": "et_art_69",
+        "classification": "concordancia",
+        "summary_signal": "Este experto explica que la firmeza general de las declaraciones es de 3 años, pero se reduce a 6 o 12 meses con el beneficio de auditoría, y se extiende a 5 años para declaraciones con pérdidas fiscales.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+          },
+          {
+            "name": "ConsultorContable",
+            "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+          },
+          {
+            "name": "CR Consultores",
+            "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+          },
+          {
+            "name": "Alegra",
+            "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "source_doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "logical_doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "authority": "secondary_official_authority",
+            "title": "Obligaciones profesionales contador (secondary_official_authority)",
+            "snippet": "1. Firmeza General — Art. 714 ET 1.1. Plazo de 3 Años Gerencie documenta que el Art. 714 ET establece la regla general: la declaración tributaria queda en firme si dentro de los 3 años siguientes a la fecha de vencimiento del plazo para declarar, la DIAN no ha notificado requerimiento especial.",
+            "position_signal": "neutral",
+            "relevance_score": 0.7489600000000001,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html",
+                "label": "Firmeza de las declaraciones tributarias — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/",
+                "label": "Firmeza de la declaración de renta: lo que necesitas saber — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/periodo-de-firmeza-para-las-declaraciones-de-renta-iva-o-del-regimen-simple-con-saldos-a-favor/",
+                "label": "Periodo de firmeza para declaraciones con saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-de-personas-naturales/",
+                "label": "Firmeza de declaración de renta de personas naturales — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/beneficio-de-auditoria.html",
+                "label": "Beneficio de auditoría — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/beneficio-de-auditoria-conoce-los-detalles-para-los-periodos-gravables-2022-y-2023/",
+                "label": "Beneficio de auditoría: detalles para AG 2022 y 2023 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/",
+                "label": "Beneficio de auditoría para entidades del régimen especial — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-las-declaraciones-tributarias-vs-beneficio-de-auditoria/",
+                "label": "Firmeza de declaraciones tributarias vs. beneficio de auditoría — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-las-declaraciones-del-iva-y-retenciones-ante-beneficio-de-auditoria/",
+                "label": "Firmeza de declaraciones de IVA y retenciones ante beneficio de auditoría — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de",
+                "label": "Emplazamiento a contribuyentes con beneficio de auditoría permite término general — Ámbito Jurídico",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/beneficio-de-auditoria-y-causales-para-su-perdida",
+                "label": "Beneficio de auditoría y causales para su pérdida — Ámbito Jurídico",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "card_summary": "Este experto explica que la firmeza general de las declaraciones es de 3 años, pero se reduce a 6 o 12 meses con el beneficio de auditoría, y se extiende a 5 años para declaraciones con pérdidas fiscales.",
+            "extended_excerpt": "### 1. Firmeza General — Art. 714 ET\n\n#### 1.1. Plazo de 3 Años\n\nEl Art. 714 ET establece la regla general: la declaración tributaria queda en firme si dentro de los **3 años siguientes** a la fecha de vencimiento del plazo para declarar, la DIAN no ha notificado requerimiento especial.\n\nDiferentes plazos de firmeza según el tipo de declaración y circunstancias:\n\n- **3 años**: plazo general para declaraciones sin circunstancias especiales.\n\n- **5 años**: declaraciones que liquiden o compensen pérdidas fiscales.\n\n- **6 o 12 meses**: declaraciones con beneficio de auditoría.\n\n- Plazos especiales cuando se solicita devolución de saldos a favor.\n\n#### 1.2. Plazos Especiales por Tipo de Declaración\n\nGuía completa sobre firmeza de la declaración de renta, documentando que una vez presentada, la declaración tardará 3 o 5 años para adquirir firmeza, o 6 o 12 meses si se accede al beneficio de auditoría.\n\nPlazos específicos:\n\n- **Renta PJ sin circunstancias especiales**: 3 años desde vencimiento.\n\n- **Renta PJ con pérdidas o compensaciones**: 5 años.\n\n- **Renta con saldo a favor devuelto**: 3 años, pero la firmeza se suspende mientras se procesa la devolución.\n\n- **IVA y retención**: 3 años del plazo general.\n\n- **Declaraciones con beneficio de auditoría**: 6 meses (si incremento del 35% en impuesto neto) o 12 meses (si incremento del 25%).\n\n### 2. Beneficio de Auditoría — Art. 689-3 ET\n\n#### 2.1. Mecánica del Beneficio\n\nGuía integral del beneficio de auditoría, explicando que permite reducir el plazo de firmeza de la declaración de renta a **6 o 12 meses** (vs. 3 años general), a cambio de incrementar el impuesto neto de renta respecto al año anterior.\n\nRequisitos:\n\n- **Firmeza en 6 meses**: incrementar el impuesto neto de renta en al menos **35%** respecto al año anterior.\n\n- **Firmeza en 12 meses**: incrementar en al menos **25%**.\n\n- Presentar la declaración dentro del plazo legal.\n\n- No tener deudas tributarias exigibles.\n\nEl beneficio de auditoría fue prorrogado por Ley 2294/2023 Art. 69 para los años gravables **2024, 2025 y 2026**. Actualícese detalla las condiciones específicas para cada período gravable.\n\n#### 2.2. Firmeza del Beneficio vs. Firmeza General\n\nInteracción entre firmeza del beneficio de auditoría y firmeza general, documentando que si el contribuyente no cumple los requisitos del beneficio (por ejemplo, si la DIAN demuestra que el incremento fue artificial), la declaración pierde el beneficio y vuelve al plazo general de 3 o 5 años.\n\n#### 2.3. Firmeza de IVA y Retención ante Beneficio de Auditoría\n\nPunto técnico relevante: el beneficio de auditoría aplica a la **declaración de renta**. Las declaraciones de IVA y retención del mismo período **no necesariamente** adquieren firmeza acelerada por el solo hecho de que la renta tenga beneficio de auditoría. Cada declaración tiene su propio plazo de firmeza.\n\n#### 2.4. Causales de Pérdida del Beneficio\n\n**Ámbito Jurídico:**\n\nÁmbito Jurídico documenta las causales de pérdida del beneficio de auditoría:\n\n- Corrección de la declaración que reduzca el impuesto neto por debajo del incremento requerido.\n\n- Emplazamiento de la DIAN al contribuyente permite la aplicación del término general de firmeza.\n\n- Corrección de la declaración del año anterior que modifique la base de comparación.\n\n### 3. Puntos de Convergencia Entre Expertos\n\n**1. Firmeza general es de 3 años:** Gerencie, Actualícese y Ámbito Jurídico coinciden.\n\n**2. Beneficio de auditoría reduce a 6 o 12 meses:** Gerencie y Actualícese coinciden: con incremento del 35% (6 meses) o 25% (12 meses).\n\n**3. Declaraciones con pérdidas tienen firmeza de 5 años:** Gerencie y Actualícese coinciden: el plazo extendido aplica automáticamente.\n\n**4. El beneficio no se extiende automáticamente a IVA y retención:** Actualícese documenta que cada declaración tiene su propio plazo.\n\n**5. Beneficio vigente para AG 2024, 2025 y 2026:** Actualícese y Gerencie coinciden: Ley 2294/2023 prorrogó el beneficio.\n\n### 4. Puntos de Divergencia\n\n**1. ¿El emplazamiento de DIAN anula automáticamente el beneficio?**\n\n- **Posición A (Ámbito Jurídico, jurisprudencia):** Sí. El emplazamiento interrumpe el beneficio y permite la aplicación del término general de firmeza.\n\n- **Posición B (Actualícese, análisis técnico):** El emplazamiento solo es relevante si se notifica dentro del plazo de firmeza especial (6 o 12 meses). Si la DIAN emplaza después de que la firmeza ya se alcanzó, es extemporáneo.\n\n**Nuestra evaluación:** Posición B es más precisa técnicamente. Lo determinante es la **notificación dentro del plazo** de firmeza especial.\n\n**2. ¿Conviene siempre el beneficio de auditoría?**\n\n- **Posición A (enfoque agresivo):** Sí, si se puede incrementar el impuesto neto naturalmente (por crecimiento del negocio). Firmeza rápida protege contra auditorías.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_689_3"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "CR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art. 588 no amplía el término de firmeza general del art. 714. Si la declaración original tenía firmeza a los 3 años (art. 714 ET), corregirla aumentando el impuesto no \"reinicia\" el reloj de firmeza. La DIAN sigue teniendo el mismo término original para auditar. Sin embargo, la corrección bajo art. 589 (que disminuye el impuesto) sí…",
+            "position_signal": "permite",
+            "relevance_score": 0.6567999999999999,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/",
+                "label": "consultorcontable.com",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              },
+              {
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/"
+              },
+              {
+                "name": "ConsultorContable",
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "card_summary": "Este experto detalla los escenarios de corrección de declaraciones tributarias según el efecto en el impuesto o saldo a favor y el momento de la corrección, mencionando los artículos 588 y 589 del ET.",
+            "extended_excerpt": "### 1. Posición Normativa — El Mapa Completo de Correcciones\n\nEl régimen de correcciones del ET establece tres escenarios distintos según el efecto de la corrección y el momento en que se realiza:\n\n| Tipo de corrección | Artículo ET | Plazo del contribuyente | Sanción por corrección |\n| Aumenta impuesto o disminuye saldo a favor | Art. 588 | 3 años desde vencimiento plazo para declarar | Sí — art. 644 ET (10% ó 20% según momento) |\n| Disminuye impuesto o aumenta saldo a favor | Art. 589 | 1 año desde vencimiento plazo para declarar | No (pero DIAN puede revisar desde la corrección) |\n| No varía impuesto ni saldo a favor | Art. 588 inc. 4 | 3 años desde vencimiento (o sin límite en algunos casos — ver Sentencia CE 23854/2022) | No |\n| Provocada por requerimiento especial | Arts. 709, 713 | Dentro del término de firmeza vigente | Reducida según respuesta al RE |\n\nLa **firmeza general** (art. 714 ET) es de **3 años** desde el vencimiento del plazo para declarar. Hay firmezas especiales: 6 o 12 meses bajo el beneficio de auditoría (art. 689-3 ET), y 5 años para declaraciones con pérdidas fiscales compensables (art. 147 ET).\n\n### 2. Convergencias — En qué Están de Acuerdo Todas las Fuentes\n\n**Convergencia 1 — El plazo del art. 588 es de 3 años (no 2).** Existe una confusión histórica porque antes de la Ley 2010 de 2019 el plazo era de 2 años. Desde el art. 107 de la Ley 2010/2019, el plazo para corregir aumentando el impuesto es de **3 años**. Consultor Contable, Actualicese y CR Consultores lo confirman: el Concepto DIAN 8344 de 2025 también lo ratifica para declaraciones afectadas por contingencias técnicas.\n\n### 3. Divergencias y Zonas Grises — La Tabla de Riesgo\n\n| # | Cuestión en disputa | Posición dominante | Posición alternativa / riesgo | Nivel de riesgo |\n| **D-1** | Corrección después de la firmeza del beneficio de auditoría — pérdida del beneficio | DIAN (Oficio 608/2021): si se corrige después del vencimiento del término especial de firmeza, el beneficio se pierde y la firmeza regresa al término ordinario (3 años) | Norma: el beneficio no tiene este efecto expresamente; algunos tributaristas cuestionan la interpretación DIAN | **ALTO** |\n| **D-2** | Correcciones sin variación de impuesto — ¿tienen límite de tiempo? | Sentencia CE 23854/2022: algunos errores puramente formales (nombre, dirección, NIT) pueden corregirse sin límite de tiempo porque no afectan la obligación | Posición general: el art. 588 inc. 4 limita estas correcciones a 3 años; la sentencia es de unificación pero su alcance exacto no está completamente claro | **MEDIO** |\n| **D-3** | Diferencia de criterio — corrección sin sanción | Si el mayor impuesto obedece a una diferencia de criterio o apreciación jurídica entre DIAN y contribuyente, no hay sanción (art. 588 inc. 2 ET) | La DIAN tiende a calificar como \"error\" del contribuyente lo que él considera \"diferencia de criterio\"; la carga de probar la diferencia de criterio es del contribuyente | **MEDIO** |\n| **D-4** | Impacto de la corrección sobre el beneficio de auditoría ya adquirido | Si se corrige antes de que venza el término especial (6 o 12 meses) y se mantiene el incremento del impuesto, el beneficio no se pierde | Si la corrección reduce el impuesto neto por debajo del umbral de incremento requerido, el beneficio se pierde y aplica la firmeza ordinaria | **ALTO** |\n\n### 4. Análisis Detallado de Cada Divergencia\n\n#### 4.1. Divergencia D-1: Corrección Después de la Firmeza del Beneficio de Auditoría\n\n**El escenario crítico:** Un contribuyente presentó oportunamente la declaración AG 2024 acogida al beneficio de auditoría con incremento del 25% del impuesto neto — lo que genera firmeza especial a los 12 meses (agosto de 2025 para una declaración presentada en agosto de 2024). La declaración quedó en firme en agosto de 2025.\n\nEn enero de 2026, el contador detecta un error que aumentaría el impuesto y quiere corregir. Dentro del término ordinario del art. 588 (3 años desde el vencimiento para declarar), estaría en tiempo. Pero la firmeza especial del beneficio ya venció.\n\n**Posición DIAN (Oficio 915594 de 2021, interno 608):** Si la declaración ya quedó en firme bajo el término especial del beneficio de auditoría y se presenta una corrección después de ese vencimiento, el beneficio se **pierde retroactivamente** y la declaración queda sujeta al término general de firmeza ordinaria (3 años). La DIAN podría entonces auditar la declaración dentro del plazo ordinario pendiente.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_689_3",
+              "et_art_147",
+              "et_art_588"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.7489600000000001,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Se ancla a una referencia normativa central del caso.",
+        "panel_rank": 2
+      },
+      {
+        "article_ref": "et_art_714",
+        "classification": "concordancia",
+        "summary_signal": "Este experto explica que la firmeza general de las declaraciones es de 3 años, pero se reduce a 6 o 12 meses con el beneficio de auditoría, y se extiende a 5 años para declaraciones con pérdidas fiscales.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+          },
+          {
+            "name": "Accounter",
+            "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html"
+          },
+          {
+            "name": "CR Consultores",
+            "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html"
+          },
+          {
+            "name": "Alegra",
+            "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+          },
+          {
+            "name": "Legis",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "ConsultorContable",
+            "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "source_doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "logical_doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "authority": "secondary_official_authority",
+            "title": "Obligaciones profesionales contador (secondary_official_authority)",
+            "snippet": "1. Firmeza General — Art. 714 ET 1.1. Plazo de 3 Años Gerencie documenta que el Art. 714 ET establece la regla general: la declaración tributaria queda en firme si dentro de los 3 años siguientes a la fecha de vencimiento del plazo para declarar, la DIAN no ha notificado requerimiento especial.",
+            "position_signal": "neutral",
+            "relevance_score": 0.7489600000000001,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html",
+                "label": "Firmeza de las declaraciones tributarias — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/",
+                "label": "Firmeza de la declaración de renta: lo que necesitas saber — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/periodo-de-firmeza-para-las-declaraciones-de-renta-iva-o-del-regimen-simple-con-saldos-a-favor/",
+                "label": "Periodo de firmeza para declaraciones con saldos a favor — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-de-personas-naturales/",
+                "label": "Firmeza de declaración de renta de personas naturales — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/beneficio-de-auditoria.html",
+                "label": "Beneficio de auditoría — Gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/beneficio-de-auditoria-conoce-los-detalles-para-los-periodos-gravables-2022-y-2023/",
+                "label": "Beneficio de auditoría: detalles para AG 2022 y 2023 — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/",
+                "label": "Beneficio de auditoría para entidades del régimen especial — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-las-declaraciones-tributarias-vs-beneficio-de-auditoria/",
+                "label": "Firmeza de declaraciones tributarias vs. beneficio de auditoría — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/firmeza-de-las-declaraciones-del-iva-y-retenciones-ante-beneficio-de-auditoria/",
+                "label": "Firmeza de declaraciones de IVA y retenciones ante beneficio de auditoría — Actualícese",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de",
+                "label": "Emplazamiento a contribuyentes con beneficio de auditoría permite término general — Ámbito Jurídico",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/beneficio-de-auditoria-y-causales-para-su-perdida",
+                "label": "Beneficio de auditoría y causales para su pérdida — Ámbito Jurídico",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/emplazamiento-contribuyentes-con-el-beneficio-de"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-firmeza-plazos-especiales-top-firmas.md",
+            "card_summary": "Este experto explica que la firmeza general de las declaraciones es de 3 años, pero se reduce a 6 o 12 meses con el beneficio de auditoría, y se extiende a 5 años para declaraciones con pérdidas fiscales.",
+            "extended_excerpt": "### 1. Firmeza General — Art. 714 ET\n\n#### 1.1. Plazo de 3 Años\n\nEl Art. 714 ET establece la regla general: la declaración tributaria queda en firme si dentro de los **3 años siguientes** a la fecha de vencimiento del plazo para declarar, la DIAN no ha notificado requerimiento especial.\n\nDiferentes plazos de firmeza según el tipo de declaración y circunstancias:\n\n- **3 años**: plazo general para declaraciones sin circunstancias especiales.\n\n- **5 años**: declaraciones que liquiden o compensen pérdidas fiscales.\n\n- **6 o 12 meses**: declaraciones con beneficio de auditoría.\n\n- Plazos especiales cuando se solicita devolución de saldos a favor.\n\n#### 1.2. Plazos Especiales por Tipo de Declaración\n\nGuía completa sobre firmeza de la declaración de renta, documentando que una vez presentada, la declaración tardará 3 o 5 años para adquirir firmeza, o 6 o 12 meses si se accede al beneficio de auditoría.\n\nPlazos específicos:\n\n- **Renta PJ sin circunstancias especiales**: 3 años desde vencimiento.\n\n- **Renta PJ con pérdidas o compensaciones**: 5 años.\n\n- **Renta con saldo a favor devuelto**: 3 años, pero la firmeza se suspende mientras se procesa la devolución.\n\n- **IVA y retención**: 3 años del plazo general.\n\n- **Declaraciones con beneficio de auditoría**: 6 meses (si incremento del 35% en impuesto neto) o 12 meses (si incremento del 25%).\n\n### 2. Beneficio de Auditoría — Art. 689-3 ET\n\n#### 2.1. Mecánica del Beneficio\n\nGuía integral del beneficio de auditoría, explicando que permite reducir el plazo de firmeza de la declaración de renta a **6 o 12 meses** (vs. 3 años general), a cambio de incrementar el impuesto neto de renta respecto al año anterior.\n\nRequisitos:\n\n- **Firmeza en 6 meses**: incrementar el impuesto neto de renta en al menos **35%** respecto al año anterior.\n\n- **Firmeza en 12 meses**: incrementar en al menos **25%**.\n\n- Presentar la declaración dentro del plazo legal.\n\n- No tener deudas tributarias exigibles.\n\nEl beneficio de auditoría fue prorrogado por Ley 2294/2023 Art. 69 para los años gravables **2024, 2025 y 2026**. Actualícese detalla las condiciones específicas para cada período gravable.\n\n#### 2.2. Firmeza del Beneficio vs. Firmeza General\n\nInteracción entre firmeza del beneficio de auditoría y firmeza general, documentando que si el contribuyente no cumple los requisitos del beneficio (por ejemplo, si la DIAN demuestra que el incremento fue artificial), la declaración pierde el beneficio y vuelve al plazo general de 3 o 5 años.\n\n#### 2.3. Firmeza de IVA y Retención ante Beneficio de Auditoría\n\nPunto técnico relevante: el beneficio de auditoría aplica a la **declaración de renta**. Las declaraciones de IVA y retención del mismo período **no necesariamente** adquieren firmeza acelerada por el solo hecho de que la renta tenga beneficio de auditoría. Cada declaración tiene su propio plazo de firmeza.\n\n#### 2.4. Causales de Pérdida del Beneficio\n\n**Ámbito Jurídico:**\n\nÁmbito Jurídico documenta las causales de pérdida del beneficio de auditoría:\n\n- Corrección de la declaración que reduzca el impuesto neto por debajo del incremento requerido.\n\n- Emplazamiento de la DIAN al contribuyente permite la aplicación del término general de firmeza.\n\n- Corrección de la declaración del año anterior que modifique la base de comparación.\n\n### 3. Puntos de Convergencia Entre Expertos\n\n**1. Firmeza general es de 3 años:** Gerencie, Actualícese y Ámbito Jurídico coinciden.\n\n**2. Beneficio de auditoría reduce a 6 o 12 meses:** Gerencie y Actualícese coinciden: con incremento del 35% (6 meses) o 25% (12 meses).\n\n**3. Declaraciones con pérdidas tienen firmeza de 5 años:** Gerencie y Actualícese coinciden: el plazo extendido aplica automáticamente.\n\n**4. El beneficio no se extiende automáticamente a IVA y retención:** Actualícese documenta que cada declaración tiene su propio plazo.\n\n**5. Beneficio vigente para AG 2024, 2025 y 2026:** Actualícese y Gerencie coinciden: Ley 2294/2023 prorrogó el beneficio.\n\n### 4. Puntos de Divergencia\n\n**1. ¿El emplazamiento de DIAN anula automáticamente el beneficio?**\n\n- **Posición A (Ámbito Jurídico, jurisprudencia):** Sí. El emplazamiento interrumpe el beneficio y permite la aplicación del término general de firmeza.\n\n- **Posición B (Actualícese, análisis técnico):** El emplazamiento solo es relevante si se notifica dentro del plazo de firmeza especial (6 o 12 meses). Si la DIAN emplaza después de que la firmeza ya se alcanzó, es extemporáneo.\n\n**Nuestra evaluación:** Posición B es más precisa técnicamente. Lo determinante es la **notificación dentro del plazo** de firmeza especial.\n\n**2. ¿Conviene siempre el beneficio de auditoría?**\n\n- **Posición A (enfoque agresivo):** Sí, si se puede incrementar el impuesto neto naturalmente (por crecimiento del negocio). Firmeza rápida protege contra auditorías.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_689_3"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "CR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art. 588 no amplía el término de firmeza general del art. 714. Si la declaración original tenía firmeza a los 3 años (art. 714 ET), corregirla aumentando el impuesto no \"reinicia\" el reloj de firmeza. La DIAN sigue teniendo el mismo término original para auditar. Sin embargo, la corrección bajo art. 589 (que disminuye el impuesto) sí…",
+            "position_signal": "permite",
+            "relevance_score": 0.6567999999999999,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/",
+                "label": "consultorcontable.com",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              },
+              {
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/"
+              },
+              {
+                "name": "ConsultorContable",
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "card_summary": "Este experto detalla los escenarios de corrección de declaraciones tributarias según el efecto en el impuesto o saldo a favor y el momento de la corrección, mencionando los artículos 588 y 589 del ET.",
+            "extended_excerpt": "### 1. Posición Normativa — El Mapa Completo de Correcciones\n\nEl régimen de correcciones del ET establece tres escenarios distintos según el efecto de la corrección y el momento en que se realiza:\n\n| Tipo de corrección | Artículo ET | Plazo del contribuyente | Sanción por corrección |\n| Aumenta impuesto o disminuye saldo a favor | Art. 588 | 3 años desde vencimiento plazo para declarar | Sí — art. 644 ET (10% ó 20% según momento) |\n| Disminuye impuesto o aumenta saldo a favor | Art. 589 | 1 año desde vencimiento plazo para declarar | No (pero DIAN puede revisar desde la corrección) |\n| No varía impuesto ni saldo a favor | Art. 588 inc. 4 | 3 años desde vencimiento (o sin límite en algunos casos — ver Sentencia CE 23854/2022) | No |\n| Provocada por requerimiento especial | Arts. 709, 713 | Dentro del término de firmeza vigente | Reducida según respuesta al RE |\n\nLa **firmeza general** (art. 714 ET) es de **3 años** desde el vencimiento del plazo para declarar. Hay firmezas especiales: 6 o 12 meses bajo el beneficio de auditoría (art. 689-3 ET), y 5 años para declaraciones con pérdidas fiscales compensables (art. 147 ET).\n\n### 2. Convergencias — En qué Están de Acuerdo Todas las Fuentes\n\n**Convergencia 1 — El plazo del art. 588 es de 3 años (no 2).** Existe una confusión histórica porque antes de la Ley 2010 de 2019 el plazo era de 2 años. Desde el art. 107 de la Ley 2010/2019, el plazo para corregir aumentando el impuesto es de **3 años**. Consultor Contable, Actualicese y CR Consultores lo confirman: el Concepto DIAN 8344 de 2025 también lo ratifica para declaraciones afectadas por contingencias técnicas.\n\n### 3. Divergencias y Zonas Grises — La Tabla de Riesgo\n\n| # | Cuestión en disputa | Posición dominante | Posición alternativa / riesgo | Nivel de riesgo |\n| **D-1** | Corrección después de la firmeza del beneficio de auditoría — pérdida del beneficio | DIAN (Oficio 608/2021): si se corrige después del vencimiento del término especial de firmeza, el beneficio se pierde y la firmeza regresa al término ordinario (3 años) | Norma: el beneficio no tiene este efecto expresamente; algunos tributaristas cuestionan la interpretación DIAN | **ALTO** |\n| **D-2** | Correcciones sin variación de impuesto — ¿tienen límite de tiempo? | Sentencia CE 23854/2022: algunos errores puramente formales (nombre, dirección, NIT) pueden corregirse sin límite de tiempo porque no afectan la obligación | Posición general: el art. 588 inc. 4 limita estas correcciones a 3 años; la sentencia es de unificación pero su alcance exacto no está completamente claro | **MEDIO** |\n| **D-3** | Diferencia de criterio — corrección sin sanción | Si el mayor impuesto obedece a una diferencia de criterio o apreciación jurídica entre DIAN y contribuyente, no hay sanción (art. 588 inc. 2 ET) | La DIAN tiende a calificar como \"error\" del contribuyente lo que él considera \"diferencia de criterio\"; la carga de probar la diferencia de criterio es del contribuyente | **MEDIO** |\n| **D-4** | Impacto de la corrección sobre el beneficio de auditoría ya adquirido | Si se corrige antes de que venza el término especial (6 o 12 meses) y se mantiene el incremento del impuesto, el beneficio no se pierde | Si la corrección reduce el impuesto neto por debajo del umbral de incremento requerido, el beneficio se pierde y aplica la firmeza ordinaria | **ALTO** |\n\n### 4. Análisis Detallado de Cada Divergencia\n\n#### 4.1. Divergencia D-1: Corrección Después de la Firmeza del Beneficio de Auditoría\n\n**El escenario crítico:** Un contribuyente presentó oportunamente la declaración AG 2024 acogida al beneficio de auditoría con incremento del 25% del impuesto neto — lo que genera firmeza especial a los 12 meses (agosto de 2025 para una declaración presentada en agosto de 2024). La declaración quedó en firme en agosto de 2025.\n\nEn enero de 2026, el contador detecta un error que aumentaría el impuesto y quiere corregir. Dentro del término ordinario del art. 588 (3 años desde el vencimiento para declarar), estaría en tiempo. Pero la firmeza especial del beneficio ya venció.\n\n**Posición DIAN (Oficio 915594 de 2021, interno 608):** Si la declaración ya quedó en firme bajo el término especial del beneficio de auditoría y se presenta una corrección después de ese vencimiento, el beneficio se **pierde retroactivamente** y la declaración queda sujeta al término general de firmeza ordinaria (3 años). La DIAN podría entonces auditar la declaración dentro del plazo ordinario pendiente.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_689_3",
+              "et_art_147",
+              "et_art_588"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "source_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "logical_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "authority": "secondary_official_authority",
+            "title": "Firmeza declaraciones (secondary_official_authority)",
+            "snippet": "(5) Accounter, \"Concepto 645 — Art. 147 ET — Corrección en el mismo término de firmeza (5) años\". https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html",
+            "position_signal": "permite",
+            "relevance_score": 0.43712,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/claves-para-acceder-al-beneficio-de-auditoria-en-la-declaracion-de-renta-persona-natural-ano-2025/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html",
+                "label": "accounter.co",
+                "provider": "Accounter",
+                "domain": "accounter.co"
+              },
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/beneficio-de-auditoria.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/02/correccion-a-declaraciones-de-renta-que-elimine-perdidas-fiscales-reduce-plazo-de-firmeza-a-tres-anos/",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida",
+                "label": "ambitojuridico.com",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html",
+                "label": "pwc.com",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+              },
+              {
+                "name": "Accounter",
+                "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida"
+              },
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/"
+              },
+              {
+                "name": "Legis",
+                "url": null
+              },
+              {
+                "name": "EY",
+                "url": null
+              },
+              {
+                "name": "KPMG",
+                "url": null
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "card_summary": "Este experto hace referencia a otros documentos del corpus relacionados con la normativa base de firmeza, sanciones, devoluciones y fiscalización de la DIAN.",
+            "extended_excerpt": "### Cross-references con otros documentos del corpus\n\n- **NORMATIVA base**: `FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md` (este doc interpreta los artículos allí compilados).\n\n- **Tema conexo — sanciones**: `SAN-N01-marco-legal-regimen-sancionatorio-ET-arts-634-672.md` (para sanción por extemporaneidad, que no invalida firmeza pero afecta su cómputo).\n\n- **Tema conexo — devoluciones**: `DEV-N01` / `N-DEV-devoluciones-saldos-a-favor.md` (interacción firmeza con solicitud de devolución).\n\n- **Tema conexo — fiscalización DIAN**: sección 25 (fiscalización) y sección 23 (corrección declaraciones) del índice LOGGRO de renta.\n\n- **Tema conexo — pérdidas fiscales**: `PER-N01-marco-legal-compensacion-perdidas-fiscales-art-147-ET.md`.\n\n### Fuentes\n\n**Tier 2 — Actualícese, Gerencie, Accounter, INCP, Siempre al Día, Ámbito Jurídico:**\n\n(1) Actualícese, \"Firmeza de la declaración de renta: esto es lo que necesitas saber para entenderla\". https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/\n\n(2) Actualícese, \"Claves para acceder al beneficio de auditoría en la declaración de renta persona natural año 2025\". https://actualicese.com/claves-para-acceder-al-beneficio-de-auditoria-en-la-declaracion-de-renta-persona-natural-ano-2025/\n\n(3) Actualícese, reporte sobre Sentencia del Consejo de Estado 23074 de 2020.\n\n(4) Actualícese, \"Beneficio de auditoría para entidades del régimen tributario especial\". https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/\n\n(5) Accounter, \"Concepto 645 — Art. 147 ET — Corrección en el mismo término de firmeza (5) años\". https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html\n\n(6) Accounter — CR Consultores, \"Corrección de las Declaraciones Tributarias — DIAN Oficio 23297\". https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php\n\n(7) Gerencie.com, \"Firmeza de las declaraciones tributarias\". https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html\n\n(8) Gerencie.com, \"Beneficio de auditoría\". https://www.gerencie.com/beneficio-de-auditoria.html\n\n(9) INCP, \"El beneficio de auditoría es improcedente cuando se declaran retenciones inexistentes\" (marzo de 2026). https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes\n\n(10) INCP, \"Corrección a declaraciones de renta que elimine pérdidas fiscales reduce plazo de firmeza a tres años\" (febrero de 2025). https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/02/correccion-a-declaraciones-de-renta-que-elimine-perdidas-fiscales-reduce-plazo-de-firmeza-a-tres-anos/\n\n(11) Ámbito Jurídico, \"Beneficio de auditoría y causales para su pérdida\". https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida\n\n(12) Ámbito Jurídico, análisis sobre firmeza conciliatoria Art. 714-1.\n\n**Tier 3 — Big Four y firmas medianas:**\n\n(13) PwC Colombia, \"Aplicación temporal de normas procesales sobre firmeza de declaraciones tributarias\". https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html\n\n(14) PwC Colombia, alertas tax & legal 2026 sobre beneficio de auditoría.\n\n(15) EY Colombia, materiales tributarios sobre devoluciones con beneficio de auditoría.\n\n(16) KPMG Colombia, guías NIIF-tributario sobre conciliación 2516 / 2517 y firmeza.\n\n(17) Deloitte Colombia, publicaciones técnicas sobre fusiones y firmeza fiscal.\n\n(18) Russell Bedford Colombia, \"Beneficio de Auditoría: Una Oportunidad Estratégica para tu Empresa\". https://russellbedford.com.co/condiciones-beneficio-de-auditoria/\n\n(19) Siempre al Día, \"Requisitos para aplicar el beneficio de auditoría\". https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/\n\n**Fuentes DIAN y jurisprudencia (Tier 1):**\n\n(20) Concepto DIAN 10074 de 2025 sobre inspecciones tributarias y suspensión de firmeza. Referenciado por GyD Consulting. https://www.gydconsulting.com/firmeza-declaracion-renta-inspecciones-tributarias-dian-10074-2025/\n\n(21) Consejo de Estado, Sección Cuarta, Sentencia 30.036 del 5 de marzo de 2026.\n\n(22) Consejo de Estado, Sección Cuarta, Sentencia CE-SUJ-4-001 (expediente 11001-03-27-000-2018-00050-00(24226)) de 2021. https://normograma.dian.gov.co/dian/compilacion/docs/11001-03-27-000-2018-00050-00(24226)ce-suj-4-001.htm\n\n(23) Consejo de Estado, Sección Cuarta, Sentencia 23074 de 2020.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (firmeza_declaraciones).",
+            "core_ref_matches": [
+              "et_art_147"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.7489600000000001,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (firmeza_declaraciones).",
+        "panel_rank": 3
+      },
+      {
+        "article_ref": "et_art_147",
+        "classification": "concordancia",
+        "summary_signal": "Este experto detalla los escenarios de corrección de declaraciones tributarias según el efecto en el impuesto o saldo a favor y el momento de la corrección, mencionando los artículos 588 y 589 del ET.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/"
+          },
+          {
+            "name": "Accounter",
+            "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html"
+          },
+          {
+            "name": "CR Consultores",
+            "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html"
+          },
+          {
+            "name": "Alegra",
+            "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+          },
+          {
+            "name": "Legis",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "ConsultorContable",
+            "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "CR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art. 588 no amplía el término de firmeza general del art. 714. Si la declaración original tenía firmeza a los 3 años (art. 714 ET), corregirla aumentando el impuesto no \"reinicia\" el reloj de firmeza. La DIAN sigue teniendo el mismo término original para auditar. Sin embargo, la corrección bajo art. 589 (que disminuye el impuesto) sí…",
+            "position_signal": "permite",
+            "relevance_score": 0.6567999999999999,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/",
+                "label": "consultorcontable.com",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              },
+              {
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/"
+              },
+              {
+                "name": "ConsultorContable",
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "card_summary": "Este experto detalla los escenarios de corrección de declaraciones tributarias según el efecto en el impuesto o saldo a favor y el momento de la corrección, mencionando los artículos 588 y 589 del ET.",
+            "extended_excerpt": "### 1. Posición Normativa — El Mapa Completo de Correcciones\n\nEl régimen de correcciones del ET establece tres escenarios distintos según el efecto de la corrección y el momento en que se realiza:\n\n| Tipo de corrección | Artículo ET | Plazo del contribuyente | Sanción por corrección |\n| Aumenta impuesto o disminuye saldo a favor | Art. 588 | 3 años desde vencimiento plazo para declarar | Sí — art. 644 ET (10% ó 20% según momento) |\n| Disminuye impuesto o aumenta saldo a favor | Art. 589 | 1 año desde vencimiento plazo para declarar | No (pero DIAN puede revisar desde la corrección) |\n| No varía impuesto ni saldo a favor | Art. 588 inc. 4 | 3 años desde vencimiento (o sin límite en algunos casos — ver Sentencia CE 23854/2022) | No |\n| Provocada por requerimiento especial | Arts. 709, 713 | Dentro del término de firmeza vigente | Reducida según respuesta al RE |\n\nLa **firmeza general** (art. 714 ET) es de **3 años** desde el vencimiento del plazo para declarar. Hay firmezas especiales: 6 o 12 meses bajo el beneficio de auditoría (art. 689-3 ET), y 5 años para declaraciones con pérdidas fiscales compensables (art. 147 ET).\n\n### 2. Convergencias — En qué Están de Acuerdo Todas las Fuentes\n\n**Convergencia 1 — El plazo del art. 588 es de 3 años (no 2).** Existe una confusión histórica porque antes de la Ley 2010 de 2019 el plazo era de 2 años. Desde el art. 107 de la Ley 2010/2019, el plazo para corregir aumentando el impuesto es de **3 años**. Consultor Contable, Actualicese y CR Consultores lo confirman: el Concepto DIAN 8344 de 2025 también lo ratifica para declaraciones afectadas por contingencias técnicas.\n\n### 3. Divergencias y Zonas Grises — La Tabla de Riesgo\n\n| # | Cuestión en disputa | Posición dominante | Posición alternativa / riesgo | Nivel de riesgo |\n| **D-1** | Corrección después de la firmeza del beneficio de auditoría — pérdida del beneficio | DIAN (Oficio 608/2021): si se corrige después del vencimiento del término especial de firmeza, el beneficio se pierde y la firmeza regresa al término ordinario (3 años) | Norma: el beneficio no tiene este efecto expresamente; algunos tributaristas cuestionan la interpretación DIAN | **ALTO** |\n| **D-2** | Correcciones sin variación de impuesto — ¿tienen límite de tiempo? | Sentencia CE 23854/2022: algunos errores puramente formales (nombre, dirección, NIT) pueden corregirse sin límite de tiempo porque no afectan la obligación | Posición general: el art. 588 inc. 4 limita estas correcciones a 3 años; la sentencia es de unificación pero su alcance exacto no está completamente claro | **MEDIO** |\n| **D-3** | Diferencia de criterio — corrección sin sanción | Si el mayor impuesto obedece a una diferencia de criterio o apreciación jurídica entre DIAN y contribuyente, no hay sanción (art. 588 inc. 2 ET) | La DIAN tiende a calificar como \"error\" del contribuyente lo que él considera \"diferencia de criterio\"; la carga de probar la diferencia de criterio es del contribuyente | **MEDIO** |\n| **D-4** | Impacto de la corrección sobre el beneficio de auditoría ya adquirido | Si se corrige antes de que venza el término especial (6 o 12 meses) y se mantiene el incremento del impuesto, el beneficio no se pierde | Si la corrección reduce el impuesto neto por debajo del umbral de incremento requerido, el beneficio se pierde y aplica la firmeza ordinaria | **ALTO** |\n\n### 4. Análisis Detallado de Cada Divergencia\n\n#### 4.1. Divergencia D-1: Corrección Después de la Firmeza del Beneficio de Auditoría\n\n**El escenario crítico:** Un contribuyente presentó oportunamente la declaración AG 2024 acogida al beneficio de auditoría con incremento del 25% del impuesto neto — lo que genera firmeza especial a los 12 meses (agosto de 2025 para una declaración presentada en agosto de 2024). La declaración quedó en firme en agosto de 2025.\n\nEn enero de 2026, el contador detecta un error que aumentaría el impuesto y quiere corregir. Dentro del término ordinario del art. 588 (3 años desde el vencimiento para declarar), estaría en tiempo. Pero la firmeza especial del beneficio ya venció.\n\n**Posición DIAN (Oficio 915594 de 2021, interno 608):** Si la declaración ya quedó en firme bajo el término especial del beneficio de auditoría y se presenta una corrección después de ese vencimiento, el beneficio se **pierde retroactivamente** y la declaración queda sujeta al término general de firmeza ordinaria (3 años). La DIAN podría entonces auditar la declaración dentro del plazo ordinario pendiente.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Se ancla a una referencia normativa central del caso.",
+            "core_ref_matches": [
+              "et_art_689_3",
+              "et_art_147",
+              "et_art_588"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "source_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "logical_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "authority": "secondary_official_authority",
+            "title": "Firmeza declaraciones (secondary_official_authority)",
+            "snippet": "(5) Accounter, \"Concepto 645 — Art. 147 ET — Corrección en el mismo término de firmeza (5) años\". https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html",
+            "position_signal": "permite",
+            "relevance_score": 0.43712,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/claves-para-acceder-al-beneficio-de-auditoria-en-la-declaracion-de-renta-persona-natural-ano-2025/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html",
+                "label": "accounter.co",
+                "provider": "Accounter",
+                "domain": "accounter.co"
+              },
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/beneficio-de-auditoria.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/02/correccion-a-declaraciones-de-renta-que-elimine-perdidas-fiscales-reduce-plazo-de-firmeza-a-tres-anos/",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida",
+                "label": "ambitojuridico.com",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html",
+                "label": "pwc.com",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+              },
+              {
+                "name": "Accounter",
+                "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida"
+              },
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/"
+              },
+              {
+                "name": "Legis",
+                "url": null
+              },
+              {
+                "name": "EY",
+                "url": null
+              },
+              {
+                "name": "KPMG",
+                "url": null
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "card_summary": "Este experto hace referencia a otros documentos del corpus relacionados con la normativa base de firmeza, sanciones, devoluciones y fiscalización de la DIAN.",
+            "extended_excerpt": "### Cross-references con otros documentos del corpus\n\n- **NORMATIVA base**: `FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md` (este doc interpreta los artículos allí compilados).\n\n- **Tema conexo — sanciones**: `SAN-N01-marco-legal-regimen-sancionatorio-ET-arts-634-672.md` (para sanción por extemporaneidad, que no invalida firmeza pero afecta su cómputo).\n\n- **Tema conexo — devoluciones**: `DEV-N01` / `N-DEV-devoluciones-saldos-a-favor.md` (interacción firmeza con solicitud de devolución).\n\n- **Tema conexo — fiscalización DIAN**: sección 25 (fiscalización) y sección 23 (corrección declaraciones) del índice LOGGRO de renta.\n\n- **Tema conexo — pérdidas fiscales**: `PER-N01-marco-legal-compensacion-perdidas-fiscales-art-147-ET.md`.\n\n### Fuentes\n\n**Tier 2 — Actualícese, Gerencie, Accounter, INCP, Siempre al Día, Ámbito Jurídico:**\n\n(1) Actualícese, \"Firmeza de la declaración de renta: esto es lo que necesitas saber para entenderla\". https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/\n\n(2) Actualícese, \"Claves para acceder al beneficio de auditoría en la declaración de renta persona natural año 2025\". https://actualicese.com/claves-para-acceder-al-beneficio-de-auditoria-en-la-declaracion-de-renta-persona-natural-ano-2025/\n\n(3) Actualícese, reporte sobre Sentencia del Consejo de Estado 23074 de 2020.\n\n(4) Actualícese, \"Beneficio de auditoría para entidades del régimen tributario especial\". https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/\n\n(5) Accounter, \"Concepto 645 — Art. 147 ET — Corrección en el mismo término de firmeza (5) años\". https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html\n\n(6) Accounter — CR Consultores, \"Corrección de las Declaraciones Tributarias — DIAN Oficio 23297\". https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php\n\n(7) Gerencie.com, \"Firmeza de las declaraciones tributarias\". https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html\n\n(8) Gerencie.com, \"Beneficio de auditoría\". https://www.gerencie.com/beneficio-de-auditoria.html\n\n(9) INCP, \"El beneficio de auditoría es improcedente cuando se declaran retenciones inexistentes\" (marzo de 2026). https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes\n\n(10) INCP, \"Corrección a declaraciones de renta que elimine pérdidas fiscales reduce plazo de firmeza a tres años\" (febrero de 2025). https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/02/correccion-a-declaraciones-de-renta-que-elimine-perdidas-fiscales-reduce-plazo-de-firmeza-a-tres-anos/\n\n(11) Ámbito Jurídico, \"Beneficio de auditoría y causales para su pérdida\". https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida\n\n(12) Ámbito Jurídico, análisis sobre firmeza conciliatoria Art. 714-1.\n\n**Tier 3 — Big Four y firmas medianas:**\n\n(13) PwC Colombia, \"Aplicación temporal de normas procesales sobre firmeza de declaraciones tributarias\". https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html\n\n(14) PwC Colombia, alertas tax & legal 2026 sobre beneficio de auditoría.\n\n(15) EY Colombia, materiales tributarios sobre devoluciones con beneficio de auditoría.\n\n(16) KPMG Colombia, guías NIIF-tributario sobre conciliación 2516 / 2517 y firmeza.\n\n(17) Deloitte Colombia, publicaciones técnicas sobre fusiones y firmeza fiscal.\n\n(18) Russell Bedford Colombia, \"Beneficio de Auditoría: Una Oportunidad Estratégica para tu Empresa\". https://russellbedford.com.co/condiciones-beneficio-de-auditoria/\n\n(19) Siempre al Día, \"Requisitos para aplicar el beneficio de auditoría\". https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/\n\n**Fuentes DIAN y jurisprudencia (Tier 1):**\n\n(20) Concepto DIAN 10074 de 2025 sobre inspecciones tributarias y suspensión de firmeza. Referenciado por GyD Consulting. https://www.gydconsulting.com/firmeza-declaracion-renta-inspecciones-tributarias-dian-10074-2025/\n\n(21) Consejo de Estado, Sección Cuarta, Sentencia 30.036 del 5 de marzo de 2026.\n\n(22) Consejo de Estado, Sección Cuarta, Sentencia CE-SUJ-4-001 (expediente 11001-03-27-000-2018-00050-00(24226)) de 2021. https://normograma.dian.gov.co/dian/compilacion/docs/11001-03-27-000-2018-00050-00(24226)ce-suj-4-001.htm\n\n(23) Consejo de Estado, Sección Cuarta, Sentencia 23074 de 2020.",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": true,
+            "selection_reason": "Cubre el tema de la consulta (firmeza_declaraciones).",
+            "core_ref_matches": [
+              "et_art_147"
+            ],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.6567999999999999,
+        "coverage_axes": [],
+        "requested_match": true,
+        "selection_reason": "Cubre el tema de la consulta (firmeza_declaraciones).",
+        "panel_rank": 4
+      }
+    ],
+    "ungrouped": [],
+    "total_available": 4,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Mi cliente PYME quiere acceder al beneficio de auditoría del Art. 689-3 ET para el AG2025 incrementando el impuesto neto de renta frente al año anterior. ¿Qué dicen los expertos sobre los porcentajes de incremento requeridos para firmeza en 6 o 12 meses, los requisitos formales (presentación oportuna, pago oportuno) y los riesgos si la DIAN cuestiona la genuinidad del incremento o detecta inconsistencias en exógena?",
+        "assistant_answer": "**Ruta sugerida** 1. Antes de firmar cualquier corrección, evaluá el impacto en el beneficio de auditoría (art. 689-3 ET). 2. Simulá si la corrección mantiene o anula la firmeza acelerada de **6** o **12** meses antes de presentarla (arts. 147 y 260 ET). 3. Tené presente que la sociedad compensa las pérdidas fiscales con rentas líquidas ordinarias futuras; no se trasladan a los socios ni se tratan como saldo a favor (art. 147 ET). 4. La firmeza de la declaración que origina o compensa pérdidas fiscales tiene un término de revisión distinto al de la firmeza ordinaria. Es clave medirla por separado (arts. 147 y 260 ET). **Riesgos y condiciones** - Una corrección que disminuya el incremento requerido puede resultar en la pérdida del beneficio de auditoría, extendiendo el término de firmeza (arts. 689-3 y 147 ET). - Enfocate en la naturaleza de las pérdidas fiscales en renta, no en la devolución o compensación de saldos a favor, al hablar de \"compensación\" (arts. 147 y 588 ET). - Si la declaración origina o compensa pérdidas fiscales, el término de firmeza no es el ordinario de **3** años; el expediente debe considerarse a **6** años (arts. 147 y 260 ET). - No apliques la lógica del art. 588 ET si la corrección aumenta el saldo a favor o disminuye el valor a pagar.",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_689_3",
+          "et_art_147",
+          "et_art_588"
+        ],
+        "form_entities": [],
+        "detected_topic": "firmeza_declaraciones",
+        "keyword_cluster": [
+          "inconsistencias",
+          "\"compensacion\"",
+          "incrementando",
+          "(presentacion",
+          "condiciones**",
+          "considerarse",
+          "compensacion",
+          "presentarla",
+          "extendiendo",
+          "porcentajes"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 3,
+      "filtered_out_candidates": 15,
+      "grouped_items": 4,
+      "ungrouped_items": 0,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "declaracion_renta",
+      "interpretation_anchor_eligible_docs": 15,
+      "interpretation_anchor_boosted_chunks": 36,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 1,
+        "medium": 17,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 3,
+        "resolved_numbers": 3,
+        "matched_articles": 3,
+        "matched_doc_ids": 15
+      },
+      "expert_query_seed": "Mi cliente PYME quiere acceder al beneficio de auditoría del Art. 689-3 ET para el AG2025 incrementando el impuesto neto de renta frente al año anterior. ¿Qué dicen los expertos sobre los porcentajes de incremento requeridos para firmeza en 6 o 12 meses, los requisitos formales (presentación oportuna, pago oportuno) y los riesgos si la DIAN cuestiona la genuinidad del incremento o detecta inconsistencias en exógena? art. 689-3 art. 147 art. 588",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "rerank",
+        "judge": {
+          "mode": "llm",
+          "model": "gemini-2.5-flash",
+          "token_usage": {},
+          "scored_count": 12,
+          "candidate_count": 12
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 0
+        },
+        "graph_scored_count": 12,
+        "candidate_count": 12,
+        "summarized_count": 12
+      }
+    },
+    "trace_id": "2d14f54b-64bf-47aa-b087-7534439e1480"
+  }
+}

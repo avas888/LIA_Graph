@@ -1,0 +1,938 @@
+{
+  "qid": "ep_proc_devoluciones_riesgo_auditoria_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "34543782-1a3a-45c6-af46-9addebe5f0e5",
+    "message": "Mi cliente quiere solicitar devolución de saldo a favor en renta por $180 millones. ¿Qué riesgos de auditoría post-devolución señalan los expertos y cuándo conviene más solicitar compensación con otros impuestos?",
+    "assistant_answer": "**Ruta sugerida**\n1.  Enfocá el caso como una solicitud de devolución o compensación de saldo a favor, no como un problema de facturación electrónica (arts. 850 y 589 ET).\n2.  Antes de radicar, revisá la declaración que generó el saldo a favor. Asegurate de que los soportes, anexos y datos del contribuyente estén alineados (arts. 589 y 850 ET).\n3.  Validá que el saldo a favor esté correctamente determinado en la declaración base antes de iniciar el proceso de devolución (arts. 850 y 589 ET).\n4.  Si el expediente está completo, tené en cuenta los términos de **50**, **30** o **20** días hábiles para la devolución, según el tipo de soporte que acompañe la solicitud (arts. 850 y 855 ET).\n\n**Riesgos y condiciones**\n*   Evitá radicar la solicitud con cifras o soportes inconsistentes, ya que esto puede llevar a la inadmisión o a revisiones posteriores por parte de la administración (arts. 850 y 857 ET).\n*   No tramites una devolución si la declaración aún presenta inconsistencias o requiere corrección (arts. 850 y 857 ET).\n*   Tené presente que una corrección que aumente el saldo a favor o disminuya el valor a pagar reinicia el término de fiscalización de la DIAN a partir de la fecha de la corrección (arts. 589 y 850 ET).\n*   Un trámite incompleto o con errores puede resultar en el rechazo de la solicitud, obligando al cliente a reiniciar el proceso (arts. 850 y 857 ET).",
+    "normative_article_refs": [],
+    "topic": "procedimiento_tributario",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_107",
+        "classification": "concordancia",
+        "summary_signal": "cR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art.",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/dian-expidio-concepto-unificado-con-preguntas-y-respuestas-sobre-criptoactivos"
+          },
+          {
+            "name": "ConsultorContable",
+            "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+          },
+          {
+            "name": "CR Consultores",
+            "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+          },
+          {
+            "name": "Alegra",
+            "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+          },
+          {
+            "name": "PwC",
+            "url": "https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=3846"
+          },
+          {
+            "name": "Holland & Knight",
+            "url": "https://www.hklaw.com/en/insights/publications/2026/01/la-dian-busca-regular-el-reporte-de-informacion-sobre-criptoactivos"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/impuesto-de-renta-en-las-criptomonedas.html"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/boletin-virtual/contenido-de-interes-profesional-boletin-virtual/tributario/2025/09/tratamiento-tributario-de-los-criptoactivos-en-la-declaracion-de-renta-de-personas-naturales/"
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "CR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art. 588 no amplía el término de firmeza general del art. 714. Si la declaración original tenía firmeza a los 3 años (art. 714 ET), corregirla aumentando el impuesto no \"reinicia\" el reloj de firmeza. La DIAN sigue teniendo el mismo término original para auditar. Sin embargo, la corrección bajo art. 589 (que disminuye el impuesto) sí…",
+            "position_signal": "permite",
+            "relevance_score": 0.5917,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/",
+                "label": "consultorcontable.com",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              },
+              {
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/"
+              },
+              {
+                "name": "ConsultorContable",
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "card_summary": "CR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art.",
+            "extended_excerpt": "### 1. Posición Normativa — El Mapa Completo de Correcciones\n\nEl régimen de correcciones del ET establece tres escenarios distintos según el efecto de la corrección y el momento en que se realiza:\n\n| Tipo de corrección | Artículo ET | Plazo del contribuyente | Sanción por corrección |\n| Aumenta impuesto o disminuye saldo a favor | Art. 588 | 3 años desde vencimiento plazo para declarar | Sí — art. 644 ET (10% ó 20% según momento) |\n| Disminuye impuesto o aumenta saldo a favor | Art. 589 | 1 año desde vencimiento plazo para declarar | No (pero DIAN puede revisar desde la corrección) |\n| No varía impuesto ni saldo a favor | Art. 588 inc. 4 | 3 años desde vencimiento (o sin límite en algunos casos — ver Sentencia CE 23854/2022) | No |\n| Provocada por requerimiento especial | Arts. 709, 713 | Dentro del término de firmeza vigente | Reducida según respuesta al RE |\n\nLa **firmeza general** (art. 714 ET) es de **3 años** desde el vencimiento del plazo para declarar. Hay firmezas especiales: 6 o 12 meses bajo el beneficio de auditoría (art. 689-3 ET), y 5 años para declaraciones con pérdidas fiscales compensables (art. 147 ET).\n\n### 2. Convergencias — En qué Están de Acuerdo Todas las Fuentes\n\n**Convergencia 1 — El plazo del art. 588 es de 3 años (no 2).** Existe una confusión histórica porque antes de la Ley 2010 de 2019 el plazo era de 2 años. Desde el art. 107 de la Ley 2010/2019, el plazo para corregir aumentando el impuesto es de **3 años**. Consultor Contable, Actualicese y CR Consultores lo confirman: el Concepto DIAN 8344 de 2025 también lo ratifica para declaraciones afectadas por contingencias técnicas.\n\n### 3. Divergencias y Zonas Grises — La Tabla de Riesgo\n\n| # | Cuestión en disputa | Posición dominante | Posición alternativa / riesgo | Nivel de riesgo |\n| **D-1** | Corrección después de la firmeza del beneficio de auditoría — pérdida del beneficio | DIAN (Oficio 608/2021): si se corrige después del vencimiento del término especial de firmeza, el beneficio se pierde y la firmeza regresa al término ordinario (3 años) | Norma: el beneficio no tiene este efecto expresamente; algunos tributaristas cuestionan la interpretación DIAN | **ALTO** |\n| **D-2** | Correcciones sin variación de impuesto — ¿tienen límite de tiempo? | Sentencia CE 23854/2022: algunos errores puramente formales (nombre, dirección, NIT) pueden corregirse sin límite de tiempo porque no afectan la obligación | Posición general: el art. 588 inc. 4 limita estas correcciones a 3 años; la sentencia es de unificación pero su alcance exacto no está completamente claro | **MEDIO** |\n| **D-3** | Diferencia de criterio — corrección sin sanción | Si el mayor impuesto obedece a una diferencia de criterio o apreciación jurídica entre DIAN y contribuyente, no hay sanción (art. 588 inc. 2 ET) | La DIAN tiende a calificar como \"error\" del contribuyente lo que él considera \"diferencia de criterio\"; la carga de probar la diferencia de criterio es del contribuyente | **MEDIO** |\n| **D-4** | Impacto de la corrección sobre el beneficio de auditoría ya adquirido | Si se corrige antes de que venza el término especial (6 o 12 meses) y se mantiene el incremento del impuesto, el beneficio no se pierde | Si la corrección reduce el impuesto neto por debajo del umbral de incremento requerido, el beneficio se pierde y aplica la firmeza ordinaria | **ALTO** |\n\n### 4. Análisis Detallado de Cada Divergencia\n\n#### 4.1. Divergencia D-1: Corrección Después de la Firmeza del Beneficio de Auditoría\n\n**El escenario crítico:** Un contribuyente presentó oportunamente la declaración AG 2024 acogida al beneficio de auditoría con incremento del 25% del impuesto neto — lo que genera firmeza especial a los 12 meses (agosto de 2025 para una declaración presentada en agosto de 2024). La declaración quedó en firme en agosto de 2025.\n\nEn enero de 2026, el contador detecta un error que aumentaría el impuesto y quiere corregir. Dentro del término ordinario del art. 588 (3 años desde el vencimiento para declarar), estaría en tiempo. Pero la firmeza especial del beneficio ya venció.\n\n**Posición DIAN (Oficio 915594 de 2021, interno 608):** Si la declaración ya quedó en firme bajo el término especial del beneficio de auditoría y se presenta una corrección después de ese vencimiento, el beneficio se **pierde retroactivamente** y la declaración queda sujeta al término general de firmeza ordinaria (3 años). La DIAN podría entonces auditar la declaración dentro del plazo ordinario pendiente.",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_06-CRIPTOACTIVOS-ACTIVOS-DIGITALES_INTERPRETACION_T-CRI-criptoactivos-interpretaciones-expertos.md",
+            "source_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_06-CRIPTOACTIVOS-ACTIVOS-DIGITALES_INTERPRETACION_T-CRI-criptoactivos-interpretaciones-expertos.md",
+            "logical_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_06-CRIPTOACTIVOS-ACTIVOS-DIGITALES_INTERPRETACION_T-CRI-criptoactivos-interpretaciones-expertos.md",
+            "authority": "secondary_official_authority",
+            "title": "Economia digital criptoactivos (secondary_official_authority)",
+            "snippet": "Sección de Patrimonio: incluir criptoactivos en línea de \"Otros intangibles\" o crear línea \"Criptoactivos\". Valor: costo histórico en COP, no valor de mercado. Ejemplo: Concepto: Bitcoin (BTC). Cantidad: 0.5 unidades. Valor unitario: $2.500.000. Valor total: $1.250.000. Para personas naturales (Formulario 210): La mayoría de plataformas digitales de declaración (RDT-DIAN) tienen campo específico para \"Criptoactivos\" en patrimonio. Algunos clientes de régimen simplificado (UPCs) pueden estar exentos de declaración,…",
+            "position_signal": "neutral",
+            "relevance_score": 0.2323,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=3846",
+                "label": "legalytributarioenlinea.co.pwc.com",
+                "provider": "PwC",
+                "domain": "legalytributarioenlinea.co.pwc.com"
+              },
+              {
+                "url": "https://www.hklaw.com/en/insights/publications/2026/01/la-dian-busca-regular-el-reporte-de-informacion-sobre-criptoactivos",
+                "label": "hklaw.com",
+                "provider": "Holland & Knight",
+                "domain": "hklaw.com"
+              },
+              {
+                "url": "https://actualicese.com/dian-expidio-concepto-unificado-con-preguntas-y-respuestas-sobre-criptoactivos",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/impuesto-de-renta-en-las-criptomonedas.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/boletin-virtual/contenido-de-interes-profesional-boletin-virtual/tributario/2025/09/tratamiento-tributario-de-los-criptoactivos-en-la-declaracion-de-renta-de-personas-naturales/",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "PwC",
+                "url": "https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=3846"
+              },
+              {
+                "name": "Holland & Knight",
+                "url": "https://www.hklaw.com/en/insights/publications/2026/01/la-dian-busca-regular-el-reporte-de-informacion-sobre-criptoactivos"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/dian-expidio-concepto-unificado-con-preguntas-y-respuestas-sobre-criptoactivos"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/impuesto-de-renta-en-las-criptomonedas.html"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/boletin-virtual/contenido-de-interes-profesional-boletin-virtual/tributario/2025/09/tratamiento-tributario-de-los-criptoactivos-en-la-declaracion-de-renta-de-personas-naturales/"
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              },
+              {
+                "name": "EY",
+                "url": null
+              },
+              {
+                "name": "KPMG",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_06-CRIPTOACTIVOS-ACTIVOS-DIGITALES_INTERPRETACION_T-CRI-criptoactivos-interpretaciones-expertos.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_06-CRIPTOACTIVOS-ACTIVOS-DIGITALES_INTERPRETACION_T-CRI-criptoactivos-interpretaciones-expertos.md",
+            "card_summary": "Sección de Patrimonio: incluir criptoactivos en línea de \"Otros intangibles\" o crear línea \"Criptoactivos\".",
+            "extended_excerpt": "### Fuentes y referencias\n\n(1) **Concepto Unificado DIAN 100202208-1621**, octubre 17 de 2023. Disponible en: https://www.dian.gov.co/normatividad/Documents/100202208-1621-Concepto-Unificado-Criptoactivos-17102023.pdf — Doctrina oficial de la DIAN sobre clasificación, valoración, y obligaciones de declaración de criptoactivos.\n\n(2) **Resolución DIAN 000240**, diciembre 24 de 2025. Establece obligaciones de reporte de Proveedores de Servicios de Criptoactivos (PSCA). Disponible en normograma DIAN: https://normograma.dian.gov.co — Requisitos de información a reportar: usuarios reportables, transacciones, saldos. Plazo: antes del 31 de mayo de 2027 para año gravable 2026.\n\n(3) **Estatuto Tributario — Arts. 9, 73-74, 107, 268-310, 380-384, 587, 658, 662 ET** — Normas sobre patrimonio, renta ordinaria vs. ganancia ocasional, deducciones, patrimonio tributario, ganancias ocasionales, deberes formales, sanciones.\n\n(4) **Art. 384 ET** — \"Se presume, salvo prueba en contrario, que constituyen ganancia ocasional...\" para bienes no-depreciables enajenados después de dos años.\n\n(5) **Oficio DIAN 915014-2022** — Doctrina sobre ingresos por staking y mining como \"pagos en especie\" tributables al momento de recepción. Disponible en normograma: https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_915014_2022.htm\n\n(6) **PwC Colombia**, \"Criptoactivos: Tratamiento tributario en Colombia,\" análisis de 2025-2026. Portal Legal y Tributario en línea: https://legalytributarioenlinea.co.pwc.com/taxandlegal/vistanoticia?id=3846 — Análisis de posiciones de expertos internacionales y aproximación conservadora recomendada.\n\n(7) **Holland & Knight LLP**, \"La DIAN busca regular el reporte de información sobre criptoactivos en Colombia,\" enero 2026. Publicación: https://www.hklaw.com/en/insights/publications/2026/01/la-dian-busca-regular-el-reporte-de-informacion-sobre-criptoactivos — Análisis de implicaciones de la Resolución 240/2025 y cambio de paradigma de transparencia.\n\n(8) **Actualícese**, \"DIAN expidió concepto unificado con preguntas y respuestas sobre criptoactivos,\" 2023-2024. Disponible en: https://actualicese.com/dian-expidio-concepto-unificado-con-preguntas-y-respuestas-sobre-criptoactivos — Interpretación literal de regla de 2 años; ejemplos de clasificación ordinaria vs. ocasional.\n\n(9) **Gerencie.com**, \"Impuesto de renta en las criptomonedas,\" 2024-2025. Disponible en: https://www.gerencie.com/impuesto-de-renta-en-las-criptomonedas.html — Énfasis en documentación, métodos de costo (FIFO/LIFO), y riesgos de falta de trazabilidad.\n\n(10) **INCP — Instituto Nacional de Contadores Públicos de Colombia**, \"Tratamiento tributario de los criptoactivos en la declaración de renta,\" 2025. Publicación en: https://incp.org.co/publicaciones/boletin-virtual/contenido-de-interes-profesional-boletin-virtual/tributario/2025/09/tratamiento-tributario-de-los-criptoactivos-en-la-declaracion-de-renta-de-personas-naturales/ — Orientación sobre responsabilidad del contador y sanciones por omisión.\n\n(11) **AbogadoBlockchain**, \"Regulación de criptomonedas en Colombia,\" 2026. Disponible en: https://abogadoblockchain.com/regulacion-criptomonedas-colombia/ — Análisis de zonas grises (NFTs, DeFi, gas fees, derivados); argumentos alternativas a posición DIAN.\n\n(12) **Big Four (Deloitte, EY, KPMG)** — Publicaciones compiladas de 2025-2026 sobre tratamiento contable y tributario de criptoactivos bajo estándares IFRS y OCDE/FATF. Referencias parciales en PwC, observatorios blockchain.\n\n(13) **Art. 645 ET** — Sanción por omisión patrimonial: 5% del patrimonio no declarado, mínimo 1 UVT.\n\n(14) **Art. 658 ET** — Sanción por omisión de renta: multa entre 50% y 200% de la renta no declarada, según circunstancias.\n\n### Norma base\n\n#### Marco normativo primario\n\n1. **Concepto Unificado DIAN 100202208-1621** (17 de octubre de 2023) Documento de autorregulación de la DIAN que compila su doctrina sobre criptoactivos desde 2018 hasta 2023. Define que criptoactivos son bienes inmateriales/incorporales, sujetos a valoración y declaración patrimonial. (1)\n\n2. **Resolución DIAN 000240** (24 de diciembre de 2025) Establece obligaciones de reporte de Proveedores de Servicios de Criptoactivos (PSCA) sujetos a reporte. Proveedores de exchanges, wallets custodiales y plataformas de trading deben reportar a la DIAN información sobre usuarios reportables e información de transacciones a partir del año gravable 2026. Plazo: antes del 31 de mayo de 2027 para datos de 2026. (2)\n\n3. **Estatuto Tributario — Artículos aplicables:**\n\n- **Art. 9 ET:** Define patrimonio tributario e incluye bienes inmateriales.\n\n- **Arts. 73-74 ET:** Diferenciación entre ingresos ordinarios (renta) e ingresos extraordinarios (ganancias ocasionales). Plazo de 2 años para determinar naturaleza. (3)\n\n- **Art. 107 ET:** Deducciones. No hay precedente DIAN sobre deductibilidad de pérdidas en criptoactivos.\n\n- **Arts. 268-310 ET:** Patrimonio tributario y su valoración.",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.5917,
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "panel_rank": 1
+      },
+      {
+        "article_ref": "et_art_147",
+        "classification": "concordancia",
+        "summary_signal": "cR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art.",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+          },
+          {
+            "name": "ConsultorContable",
+            "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+          },
+          {
+            "name": "CR Consultores",
+            "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+          },
+          {
+            "name": "Alegra",
+            "url": "https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/"
+          },
+          {
+            "name": "Accounter",
+            "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida"
+          },
+          {
+            "name": "PwC",
+            "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html"
+          },
+          {
+            "name": "Legis",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "authority": "secondary_official_authority",
+            "title": "Procedimiento tributario (secondary_official_authority)",
+            "snippet": "CR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art. 588 no amplía el término de firmeza general del art. 714. Si la declaración original tenía firmeza a los 3 años (art. 714 ET), corregirla aumentando el impuesto no \"reinicia\" el reloj de firmeza. La DIAN sigue teniendo el mismo término original para auditar. Sin embargo, la corrección bajo art. 589 (que disminuye el impuesto) sí…",
+            "position_signal": "permite",
+            "relevance_score": 0.5917,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/",
+                "label": "consultorcontable.com",
+                "provider": "ConsultorContable",
+                "domain": "consultorcontable.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              },
+              {
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/plazos-para-la-correccion-voluntaria-de-las-declaraciones-tributarias/"
+              },
+              {
+                "name": "ConsultorContable",
+                "url": "https://www.consultorcontable.com/beneficio-de-auditoria/"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/correccion-en-la-declaracion-de-renta/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-D-correccion-declaraciones-firmeza-fuentes-secundarias.md",
+            "card_summary": "CR Consultores — Corrección de declaraciones: https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php Convergencia 2 — Una corrección bajo art.",
+            "extended_excerpt": "### 1. Posición Normativa — El Mapa Completo de Correcciones\n\nEl régimen de correcciones del ET establece tres escenarios distintos según el efecto de la corrección y el momento en que se realiza:\n\n| Tipo de corrección | Artículo ET | Plazo del contribuyente | Sanción por corrección |\n| Aumenta impuesto o disminuye saldo a favor | Art. 588 | 3 años desde vencimiento plazo para declarar | Sí — art. 644 ET (10% ó 20% según momento) |\n| Disminuye impuesto o aumenta saldo a favor | Art. 589 | 1 año desde vencimiento plazo para declarar | No (pero DIAN puede revisar desde la corrección) |\n| No varía impuesto ni saldo a favor | Art. 588 inc. 4 | 3 años desde vencimiento (o sin límite en algunos casos — ver Sentencia CE 23854/2022) | No |\n| Provocada por requerimiento especial | Arts. 709, 713 | Dentro del término de firmeza vigente | Reducida según respuesta al RE |\n\nLa **firmeza general** (art. 714 ET) es de **3 años** desde el vencimiento del plazo para declarar. Hay firmezas especiales: 6 o 12 meses bajo el beneficio de auditoría (art. 689-3 ET), y 5 años para declaraciones con pérdidas fiscales compensables (art. 147 ET).\n\n### 2. Convergencias — En qué Están de Acuerdo Todas las Fuentes\n\n**Convergencia 1 — El plazo del art. 588 es de 3 años (no 2).** Existe una confusión histórica porque antes de la Ley 2010 de 2019 el plazo era de 2 años. Desde el art. 107 de la Ley 2010/2019, el plazo para corregir aumentando el impuesto es de **3 años**. Consultor Contable, Actualicese y CR Consultores lo confirman: el Concepto DIAN 8344 de 2025 también lo ratifica para declaraciones afectadas por contingencias técnicas.\n\n### 3. Divergencias y Zonas Grises — La Tabla de Riesgo\n\n| # | Cuestión en disputa | Posición dominante | Posición alternativa / riesgo | Nivel de riesgo |\n| **D-1** | Corrección después de la firmeza del beneficio de auditoría — pérdida del beneficio | DIAN (Oficio 608/2021): si se corrige después del vencimiento del término especial de firmeza, el beneficio se pierde y la firmeza regresa al término ordinario (3 años) | Norma: el beneficio no tiene este efecto expresamente; algunos tributaristas cuestionan la interpretación DIAN | **ALTO** |\n| **D-2** | Correcciones sin variación de impuesto — ¿tienen límite de tiempo? | Sentencia CE 23854/2022: algunos errores puramente formales (nombre, dirección, NIT) pueden corregirse sin límite de tiempo porque no afectan la obligación | Posición general: el art. 588 inc. 4 limita estas correcciones a 3 años; la sentencia es de unificación pero su alcance exacto no está completamente claro | **MEDIO** |\n| **D-3** | Diferencia de criterio — corrección sin sanción | Si el mayor impuesto obedece a una diferencia de criterio o apreciación jurídica entre DIAN y contribuyente, no hay sanción (art. 588 inc. 2 ET) | La DIAN tiende a calificar como \"error\" del contribuyente lo que él considera \"diferencia de criterio\"; la carga de probar la diferencia de criterio es del contribuyente | **MEDIO** |\n| **D-4** | Impacto de la corrección sobre el beneficio de auditoría ya adquirido | Si se corrige antes de que venza el término especial (6 o 12 meses) y se mantiene el incremento del impuesto, el beneficio no se pierde | Si la corrección reduce el impuesto neto por debajo del umbral de incremento requerido, el beneficio se pierde y aplica la firmeza ordinaria | **ALTO** |\n\n### 4. Análisis Detallado de Cada Divergencia\n\n#### 4.1. Divergencia D-1: Corrección Después de la Firmeza del Beneficio de Auditoría\n\n**El escenario crítico:** Un contribuyente presentó oportunamente la declaración AG 2024 acogida al beneficio de auditoría con incremento del 25% del impuesto neto — lo que genera firmeza especial a los 12 meses (agosto de 2025 para una declaración presentada en agosto de 2024). La declaración quedó en firme en agosto de 2025.\n\nEn enero de 2026, el contador detecta un error que aumentaría el impuesto y quiere corregir. Dentro del término ordinario del art. 588 (3 años desde el vencimiento para declarar), estaría en tiempo. Pero la firmeza especial del beneficio ya venció.\n\n**Posición DIAN (Oficio 915594 de 2021, interno 608):** Si la declaración ya quedó en firme bajo el término especial del beneficio de auditoría y se presenta una corrección después de ese vencimiento, el beneficio se **pierde retroactivamente** y la declaración queda sujeta al término general de firmeza ordinaria (3 años). La DIAN podría entonces auditar la declaración dentro del plazo ordinario pendiente.",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "source_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "logical_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "authority": "secondary_official_authority",
+            "title": "Firmeza declaraciones (secondary_official_authority)",
+            "snippet": "(5) Accounter, \"Concepto 645 — Art. 147 ET — Corrección en el mismo término de firmeza (5) años\". https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html",
+            "position_signal": "permite",
+            "relevance_score": 0.2307,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/claves-para-acceder-al-beneficio-de-auditoria-en-la-declaracion-de-renta-persona-natural-ano-2025/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html",
+                "label": "accounter.co",
+                "provider": "Accounter",
+                "domain": "accounter.co"
+              },
+              {
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php",
+                "label": "crconsultorescolombia.com",
+                "provider": "CR Consultores",
+                "domain": "crconsultorescolombia.com"
+              },
+              {
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/beneficio-de-auditoria.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/02/correccion-a-declaraciones-de-renta-que-elimine-perdidas-fiscales-reduce-plazo-de-firmeza-a-tres-anos/",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida",
+                "label": "ambitojuridico.com",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html",
+                "label": "pwc.com",
+                "provider": "PwC",
+                "domain": "pwc.com"
+              },
+              {
+                "url": "https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/",
+                "label": "siemprealdia.co",
+                "provider": "Alegra",
+                "domain": "siemprealdia.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/"
+              },
+              {
+                "name": "Accounter",
+                "url": "https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html"
+              },
+              {
+                "name": "CR Consultores",
+                "url": "https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida"
+              },
+              {
+                "name": "PwC",
+                "url": "https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html"
+              },
+              {
+                "name": "Alegra",
+                "url": "https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/"
+              },
+              {
+                "name": "Legis",
+                "url": null
+              },
+              {
+                "name": "EY",
+                "url": null
+              },
+              {
+                "name": "KPMG",
+                "url": null
+              },
+              {
+                "name": "Deloitte",
+                "url": null
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_EXPERTOS_EXPERTOS_FIR-E01-interpretaciones-firmeza-beneficio-auditoria.md",
+            "card_summary": "(5) Accounter, \"Concepto 645 — Art. 147 ET — Corrección en el mismo término de firmeza (5) años\".",
+            "extended_excerpt": "### Cross-references con otros documentos del corpus\n\n- **NORMATIVA base**: `FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md` (este doc interpreta los artículos allí compilados).\n\n- **Tema conexo — sanciones**: `SAN-N01-marco-legal-regimen-sancionatorio-ET-arts-634-672.md` (para sanción por extemporaneidad, que no invalida firmeza pero afecta su cómputo).\n\n- **Tema conexo — devoluciones**: `DEV-N01` / `N-DEV-devoluciones-saldos-a-favor.md` (interacción firmeza con solicitud de devolución).\n\n- **Tema conexo — fiscalización DIAN**: sección 25 (fiscalización) y sección 23 (corrección declaraciones) del índice LOGGRO de renta.\n\n- **Tema conexo — pérdidas fiscales**: `PER-N01-marco-legal-compensacion-perdidas-fiscales-art-147-ET.md`.\n\n### Fuentes\n\n**Tier 2 — Actualícese, Gerencie, Accounter, INCP, Siempre al Día, Ámbito Jurídico:**\n\n(1) Actualícese, \"Firmeza de la declaración de renta: esto es lo que necesitas saber para entenderla\". https://actualicese.com/firmeza-de-la-declaracion-de-renta-esto-es-lo-que-necesitas-saber-para-entenderla/\n\n(2) Actualícese, \"Claves para acceder al beneficio de auditoría en la declaración de renta persona natural año 2025\". https://actualicese.com/claves-para-acceder-al-beneficio-de-auditoria-en-la-declaracion-de-renta-persona-natural-ano-2025/\n\n(3) Actualícese, reporte sobre Sentencia del Consejo de Estado 23074 de 2020.\n\n(4) Actualícese, \"Beneficio de auditoría para entidades del régimen tributario especial\". https://actualicese.com/las-declaraciones-de-renta-de-las-entidades-del-regimen-especial-tambien-pueden-obtener-beneficio-de-auditoria/\n\n(5) Accounter, \"Concepto 645 — Art. 147 ET — Corrección en el mismo término de firmeza (5) años\". https://accounter.co/normatividad/conceptos/concepto-645-art-147-e-t-procede-para-el-contribuyente-la-correccion-de-sus-declaraciones-renta-en-las-que-se-determinen-o-compensen-perdidas-fiscales-dentro-del-mismo-termino-de-firmeza-5-anos-contad.html\n\n(6) Accounter — CR Consultores, \"Corrección de las Declaraciones Tributarias — DIAN Oficio 23297\". https://crconsultorescolombia.com/correccion-de-las-declaraciones-tributarias-dian-oficio-23297.php\n\n(7) Gerencie.com, \"Firmeza de las declaraciones tributarias\". https://www.gerencie.com/firmeza-de-las-declaraciones-tributarias.html\n\n(8) Gerencie.com, \"Beneficio de auditoría\". https://www.gerencie.com/beneficio-de-auditoria.html\n\n(9) INCP, \"El beneficio de auditoría es improcedente cuando se declaran retenciones inexistentes\" (marzo de 2026). https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2026/03/el-beneficio-de-auditoria-es-improcedente-cuando-se-declaran-retenciones-inexistentes\n\n(10) INCP, \"Corrección a declaraciones de renta que elimine pérdidas fiscales reduce plazo de firmeza a tres años\" (febrero de 2025). https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/2025/02/correccion-a-declaraciones-de-renta-que-elimine-perdidas-fiscales-reduce-plazo-de-firmeza-a-tres-anos/\n\n(11) Ámbito Jurídico, \"Beneficio de auditoría y causales para su pérdida\". https://www.ambitojuridico.com/noticias/columnista-impreso/tributario-y-contable/beneficio-de-auditoria-y-causales-para-su-perdida\n\n(12) Ámbito Jurídico, análisis sobre firmeza conciliatoria Art. 714-1.\n\n**Tier 3 — Big Four y firmas medianas:**\n\n(13) PwC Colombia, \"Aplicación temporal de normas procesales sobre firmeza de declaraciones tributarias\". https://www.pwc.com/co/es/pwc-insights/aplicacion-temporal-de-normas-procesales-sobre-firmeza-de-declaraciones-tributarias.html\n\n(14) PwC Colombia, alertas tax & legal 2026 sobre beneficio de auditoría.\n\n(15) EY Colombia, materiales tributarios sobre devoluciones con beneficio de auditoría.\n\n(16) KPMG Colombia, guías NIIF-tributario sobre conciliación 2516 / 2517 y firmeza.\n\n(17) Deloitte Colombia, publicaciones técnicas sobre fusiones y firmeza fiscal.\n\n(18) Russell Bedford Colombia, \"Beneficio de Auditoría: Una Oportunidad Estratégica para tu Empresa\". https://russellbedford.com.co/condiciones-beneficio-de-auditoria/\n\n(19) Siempre al Día, \"Requisitos para aplicar el beneficio de auditoría\". https://siemprealdia.co/colombia/impuestos/beneficio-de-auditoria-en-declaraciones-de-renta/\n\n**Fuentes DIAN y jurisprudencia (Tier 1):**\n\n(20) Concepto DIAN 10074 de 2025 sobre inspecciones tributarias y suspensión de firmeza. Referenciado por GyD Consulting. https://www.gydconsulting.com/firmeza-declaracion-renta-inspecciones-tributarias-dian-10074-2025/\n\n(21) Consejo de Estado, Sección Cuarta, Sentencia 30.036 del 5 de marzo de 2026.\n\n(22) Consejo de Estado, Sección Cuarta, Sentencia CE-SUJ-4-001 (expediente 11001-03-27-000-2018-00050-00(24226)) de 2021. https://normograma.dian.gov.co/dian/compilacion/docs/11001-03-27-000-2018-00050-00(24226)ce-suj-4-001.htm\n\n(23) Consejo de Estado, Sección Cuarta, Sentencia 23074 de 2020.",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.5917,
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "panel_rank": 2
+      }
+    ],
+    "ungrouped": [
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+        "source_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+        "authority": "secondary_official_authority",
+        "title": "Procedimiento tributario (secondary_official_authority)",
+        "snippet": "(2) Actualícese. *Devoluciones automáticas de impuestos para PYMEs — Requisitos y plazo*. https://actualicese.com/devoluciones-automaticas-pyme/ (3) Gerencie.com. *Cómo calcular el porcentaje de facturación electrónica para devolución automática*. https://www.gerencie.com/devoluciones-automaticas.html",
+        "position_signal": "neutral",
+        "relevance_score": 0.7281,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/devoluciones-automaticas-pyme/",
+            "label": "Devoluciones automáticas: requisitos, pasos y plazos para PYMEs — Actualícese",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/devoluciones-automaticas.html",
+            "label": "Cómo calcular el porcentaje de facturación electrónica para devolución automática — Gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://actualicese.com/plazo-devoluciones-renta-impuesto-al-valor-agregado/",
+            "label": "https://actualicese.com/plazo-devoluciones-renta-impuesto-al-valor-agregado/",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/correccion-declaracion-dian.html",
+            "label": "https://www.gerencie.com/correccion-declaracion-dian.html",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://actualicese.com/sancion-art-670-moderada-corte-constitucional/",
+            "label": "https://actualicese.com/sancion-art-670-moderada-corte-constitucional/",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/devolucion-iva-exportadores/",
+            "label": "https://actualicese.com/devolucion-iva-exportadores/",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/devoluciones-automaticas-pyme/](https://actualicese.com/devoluciones-automaticas-pyme/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/devoluciones-automaticas.html](https://www.gerencie.com/devoluciones-automaticas.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://actualicese.com/plazo-devoluciones-renta-impuesto-al-valor-agregado/](https://actualicese.com/plazo-devoluciones-renta-impuesto-al-valor-agregado/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/correccion-declaracion-dian.html](https://www.gerencie.com/correccion-declaracion-dian.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://actualicese.com/sancion-art-670-moderada-corte-constitucional/](https://actualicese.com/sancion-art-670-moderada-corte-constitucional/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/devolucion-iva-exportadores/](https://actualicese.com/devolucion-iva-exportadores/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/devoluciones-automaticas-pyme/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/devoluciones-automaticas.html"
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Interpretacion_Expertos_dev_expertos_devoluciones.md",
+        "card_summary": "*Devoluciones automáticas de impuestos para PYMEs — Requisitos y plazo*.",
+        "extended_excerpt": "### 1. Devolución Automática vs. Ordinaria — La Barrera del 85% de Facturación Electrónica\n\n#### 1.1. Norma y Definición de Devolución Automática\n\n**DIAN (Concepto 001949/2023):**\n\nLa DIAN conceptúa que la devolución automática es un proceso administrativo expedito donde la Administración valida técnicamente la solicitud y autoriza el desembolso sin necesidad de que el contribuyente presente garantía bancaria. El requisito principal es que **mínimo el 85% de los ingresos declarados provengan de comprobantes de venta electrónicos** (factura electrónica, según Decreto 1457/2023 y Resolución 0000042/2023 DIAN).\n\nLa DIAN establece que la devolución automática es más rápida teóricamente (30–45 días versus 8–12 meses en ordinaria), pero en la práctica requiere que el 85% sea verificable electrónicamente. Para PYMEs que comiencen facturación electrónica a mediados del año, esto es prácticamente inalcanzable para devoluciones del mismo año.\n\n**Posición de Actualícese:**\n\nEl umbral del 85% es un obstáculo real para PYMEs. Expone que:\n\n- Si la PYME facturó electrónicamente solo desde julio (primer semestre facturación manual), el promedio anual es ~50%, disqualificando la devolución automática.\n\n- Muchas PYMEs tienen clientes que piden factura manual (personas naturales sin NIT, pequeños comercios informales), lo que reduce el porcentaje electrónico a 60–75%.\n\n- Exportadores que venden a clientes asiáticos sin sistemas integrados pueden estar debajo del 85%.\n\nPara un plan de devolución automática, el contador debe verificar mes a mes el acumulado porcentual de facturación electrónica y proyectar si cerrará el año por encima del 85%. Si no es probable, dirigirse directamente a devolución ordinaria (requiere garantía, pero no hay bloqueo por debajo del 85%).\n\nLa exigencia del 85% debe interpretarse sobre el **total de ingresos gravados** declarados, no solo los ingresos operacionales. Esto incluye ganancia ocasional, ingresos financieros y otros. Un error frecuente es excluir categorías de ingreso que no tengan comprobante electrónico, bajando artificialmente el porcentaje.\n\n**Riesgo DIAN:**\n\nActualícese y Gerencie coinciden en que si el contribuyente solicita devolución automática sin cumplir el 85% (lo declara erróneamente en el software de presentación), la DIAN rechaza la solicitud y el contribuyente pierde plazo para presentar ordinaria (2 años desde la presentación original). Este es un riesgo de **prescripción ejecutiva** que muchos contadores no prevén.\n\n#### 1.2. Posiciones Divergentes sobre Practicidad del 85% para PYMEs\n\n**Deloitte Colombia:**\n\nAnálisis crítico de la automatización de devoluciones, señalando que el 85% beneficia principalmente a: (i) grandes contribuyentes que ya tienen facturación 100% electrónica, (ii) exportadores especializados con sistemas integrados, (iii) plataformas de comercio electrónico. Para la PYME \"típica\" (comercio retail, servicios personales, fabricación pequeña), el 85% es un **estándar irreal**.\n\nLa DIAN considere un umbral escalonado: 70% para contribuyentes en primeros 3 años de régimen ordinario, 85% después. Esto facilitaría transición.\n\n**Brigard Urrutia:**\n\nBrigard Urrutia argumenta que la exigencia del 85% puede ser inconstitucional si se aplica rígidamente a sectores donde la facturación electrónica es técnicamente imposible (ej. venta a personas naturales informales en zonas rurales). Brigard recomienda que el contador documente por qué la PYME no alcanza 85% (no es incumplimiento voluntario) y presente ordinaria justificada.\n\n**PwC Colombia:**\n\nAunque la devolución automática es \"más rápida en teoría\", tiene un costo oculto: requiere que la facturación electrónica sea **perfecta** (sin inconsistencias entre RADIAN y declaración). Un error en facturación electrónica no solo rechaza la devolución automática, sino que puede generar sanción Art. 260 ET por inconsistencia de datos.\n\nPwC aconseja que la mayoría de PYMEs elijan devolución ordinaria (garantía pequeña, ~1–2% del saldo) para **evitar riesgo de rechazos** por tecnología.",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "core_ref_matches": [],
+        "panel_rank": 1,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_EXPERTOS_T-PT-procedimiento-tributario-interpretaciones-expertos.md",
+        "source_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_EXPERTOS_T-PT-procedimiento-tributario-interpretaciones-expertos.md",
+        "logical_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_EXPERTOS_T-PT-procedimiento-tributario-interpretaciones-expertos.md",
+        "authority": "secondary_official_authority",
+        "title": "Procedimiento tributario (secondary_official_authority)",
+        "snippet": "| D3 | Suspension del plazo de firmeza por inspecciones multiples | DIAN: cada inspeccion suspende independientemente; se acumulan | Gerencie / Ambito Juridico: la suspension total no puede exceder 3 meses de oficio, independientemente del numero de inspecciones | MEDIO — afecta calculo de firmeza | | D4 | Notificacion de la resolucion del recurso vs. solo expedicion dentro del ano | DIAN: basta con expedir la resolucion dentro del ano | Consejo de Estado (multiple jurisprudencia): debe estar NOTIFICADA dentro del…",
+        "position_signal": "restringe",
+        "relevance_score": 0.635,
+        "trust_tier": "high",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/sanciones-tributarias-cuando-no-procede-la-reduccion-del-articulo-640-del-et/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/guia-rapida-del-regimen-sancionatorio-dian-2025/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/silencio-administrativo-positivo-en-aspectos-tributarios.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/requerimiento-especial.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/tributario/aplican-silencio-administrativo-positivo-por-indebida-notificacion-de-la",
+            "label": "ambitojuridico.com",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/todo-sobre-el-termino-para-resolver-el-recurso-de",
+            "label": "ambitojuridico.com",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www.ambitojuridico.com/noticias/tributario/como-debe-notificar-la-dian-el-requerimiento-especial-al-contribuyente",
+            "label": "ambitojuridico.com",
+            "provider": "Ámbito Jurídico",
+            "domain": "ambitojuridico.com"
+          },
+          {
+            "url": "https://www.gerencie.com/protocolizacion-del-silencio-administrativo-positivo.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://actualicese.com/requerimientos-de-la-dian-tipos-que-hacer-y-como-defenderse-si-estos-llegan/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/proceso-sancionatorio-tributario-de-la-dian-como-defenderse/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/liquidacion-oficial-de-revision.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://actualicese.com/termino-para-responder-notificaciones-electronicas-de-la-dian/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/sanciones-tributarias-cuando-no-procede-la-reduccion-del-articulo-640-del-et/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/silencio-administrativo-positivo-en-aspectos-tributarios.html"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/aplican-silencio-administrativo-positivo-por-indebida-notificacion-de-la"
+          },
+          {
+            "name": "PwC",
+            "url": null
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          },
+          {
+            "name": "Brigard Urrutia",
+            "url": null
+          },
+          {
+            "name": "PHR (Posse Herrera Ruiz)",
+            "url": null
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_EXPERTOS_T-PT-procedimiento-tributario-interpretaciones-expertos.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_EXPERTOS_T-PT-procedimiento-tributario-interpretaciones-expertos.md",
+        "card_summary": "| D3 | Suspension del plazo de firmeza por inspecciones multiples | DIAN: cada inspeccion suspende independientemente; se acumulan | Gerencie / Ambito Juridico: la suspension total no puede exceder 3 meses de oficio,.",
+        "extended_excerpt": "### 1. Posicion Normativa — Lo que Dice la Ley (Referencia Rapida)\n\nEl procedimiento tributario colombiano esta regulado en el Libro Quinto del Estatuto Tributario (arts. 555 a 869-1) y establece un proceso escalonado de fiscalizacion:\n\n``` DECLARACION → FIRMEZA (3/5/12 anos) → FIN | ↓ (Si DIAN detecta inconsistencias) REQUERIMIENTO ORDINARIO (art. 686 — 15 dias) ↓ EMPLAZAMIENTO PARA CORREGIR (art. 685 — 1 mes, facultativo) ↓ REQUERIMIENTO ESPECIAL (art. 703 — plazo DIAN: 3 anos desde vto.) ↓ (3 meses para responder — art. 708) AMPLIACION REQ. ESPECIAL (art. 710 — opcional, 1 sola vez) ↓ LIQUIDACION DE REVISION (art. 702 — 6 meses desde vto. respuesta) ↓ (2 meses para recurso — art. 720) RECURSO DE RECONSIDERACION (art. 720) ↓ (1 ano para resolver — art. 732) SILENCIO ADMINISTRATIVO POSITIVO (art. 734) o RESOLUCION ↓ DEMANDA CONTENCIOSO-ADMINISTRATIVA (4 meses — art. 164 CPACA) ```\n\n**Para no declarantes:** ``` EMPLAZAMIENTO POR NO DECLARAR (art. 715 — 1 mes) ↓ SANCION POR NO DECLARAR (art. 643) ↓ LIQUIDACION DE AFORO (art. 717 — 5 anos desde vto.) ↓ RECURSO DE RECONSIDERACION ```\n\nLa sancion por inexactitud es del 100% de la diferencia (art. 647 ET), con reducciones escalonadas: 25% si se corrige en respuesta al requerimiento especial (art. 709), 50% si se corrige ante la liquidacion de revision (art. 713), y reduccion adicional por gradualidad (art. 640) al 50% o 75% segun reincidencia. (1)(2)(3)\n\n### 2. Convergencias — En que Estan de Acuerdo Todas las Fuentes\n\n**Convergencia 1 — Los plazos de la DIAN son perentorios y preclusivos.**\n\nActualicese, Gerencie, Ambito Juridico, y la totalidad de firmas consultadas (PwC, Deloitte, EY, KPMG, Brigard Urrutia) coinciden sin excepcion: si la DIAN no notifica el requerimiento especial dentro de los 3 anos (art. 705 ET), o la liquidacion de revision dentro de los 6 meses (art. 702 ET), **pierde competencia de pleno derecho**. No es necesaria declaracion judicial; la firmeza opera *ipso iure*. El Consejo de Estado (Seccion Cuarta, Exp. 15201/2008 y Exp. 23501/2020) ha ratificado esta posicion en multiples oportunidades. (4)(5)(6)\n\n**Implicacion practica para el contador:** Lleve un cuadro de control de firmeza por cada cliente y por cada periodo gravable. La fecha clave es: fecha de vencimiento del plazo para declarar + 3 anos = fecha maxima de notificacion del requerimiento especial.\n\n**Convergencia 2 — Las reducciones de sanciones de los arts. 709, 713 y 640 son acumulables.**\n\nEl Concepto DIAN 17524 de 2024 zanjó una divergencia historica al confirmar que las reducciones son acumulativas: primero se aplica la reduccion del art. 709 (al 25%) o del art. 713 (al 50%), y luego sobre ese resultado se aplica la reduccion del art. 640 (al 50% o 75%, segun gradualidad). Actualicese, Gerencie, PwC y Deloitte han avalado esta interpretacion. (7)(8)(9)\n\n**Ejemplo numerico:**\n\n- Sancion por inexactitud propuesta por la DIAN: $100.000.000\n\n- Contribuyente acepta en respuesta al requerimiento especial: $100M x 25% = $25.000.000 (art. 709)\n\n- Si no hay reincidencia en 2 anos y no hay actuacion previa (art. 640 — reduccion al 50%): $25M x 50% = $12.500.000\n\n- Resultado final: la sancion pasa de $100M a $12.5M — una reduccion del 87.5%.\n\n**Convergencia 3 — El requerimiento especial es requisito sine qua non de la liquidacion de revision.**\n\nTodas las fuentes coinciden: sin requerimiento especial previo (art. 703 ET), la liquidacion de revision es nula. Ademas, debe haber correspondencia estricta entre los puntos del requerimiento y los de la liquidacion (art. 711 ET). El Consejo de Estado (Exp. 21376/2018) ha anulado liquidaciones que incluyeron glosas no contempladas en el requerimiento. (10)(11)\n\n**Convergencia 4 — La notificacion electronica es ahora el medio principal y su validez depende del RUT.**\n\nTras las modificaciones de la Ley 2277/2022 (art. 100) al art. 566-1 ET, la notificacion electronica es el medio preferente. Todas las fuentes advierten que los terminos del contribuyente empiezan a correr **5 dias despues de la recepcion del correo** (no del envio). El Concepto DIAN 7165/2025 preciso que la notificacion se entiende surtida en la fecha de envio para efectos de la DIAN, pero el contribuyente tiene 5 dias adicionales. Concepto DIAN 3957/2025 establecio que la responsabilidad de mantener actualizado el correo en el RUT es del contribuyente. (12)(13)(14)\n\n**Convergencia 5 — El silencio administrativo positivo opera de pleno derecho, pero requiere gestion.**\n\nActualicese, Gerencie, Ambito Juridico, y el Consejo de Estado (Exp. 13096/2003) coinciden: si la DIAN no resuelve el recurso de reconsideracion dentro del ano (art. 732), el silencio positivo opera automaticamente. Sin embargo, en la practica el contribuyente debe: (a) solicitar a la DIAN que lo reconozca, y (b) si la DIAN se niega, demandar ante lo contencioso-administrativo. **No se requiere protocolizacion ante notaria** segun jurisprudencia vigente. (15)(16)",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "core_ref_matches": [],
+        "panel_rank": 2,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "source_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "logical_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "authority": "secondary_official_authority",
+        "title": "Procedimiento tributario (secondary_official_authority)",
+        "snippet": "(15) Accounter. \"Devolución con presentación de garantía - Art. 860 ET\". Requisitos póliza, vigencia, renuncia excusión. https://accounter.co/normatividad/oficios/oficio-13075-devolucion-con-presentacion-de-garantia.html",
+        "position_signal": "neutral",
+        "relevance_score": 0.6307,
+        "trust_tier": "medium",
+        "provider_links": [
+          {
+            "url": "https://actualicese.com/saldos-a-favor/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/",
+            "label": "actualicese.com",
+            "provider": "Actualícese",
+            "domain": "actualicese.com"
+          },
+          {
+            "url": "https://www.gerencie.com/que-hacer-si-la-dian-rechaza-la-devolucion-de-saldos-a-favor.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html",
+            "label": "gerencie.com",
+            "provider": "Gerencie.com",
+            "domain": "gerencie.com"
+          },
+          {
+            "url": "https://accounter.co/normatividad/oficios/oficio-13075-devolucion-con-presentacion-de-garantia.html",
+            "label": "accounter.co",
+            "provider": "Accounter",
+            "domain": "accounter.co"
+          }
+        ],
+        "providers": [
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/saldos-a-favor/"
+          },
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/que-hacer-si-la-dian-rechaza-la-devolucion-de-saldos-a-favor.html"
+          },
+          {
+            "name": "Accounter",
+            "url": "https://accounter.co/normatividad/oficios/oficio-13075-devolucion-con-presentacion-de-garantia.html"
+          },
+          {
+            "name": "Deloitte",
+            "url": null
+          },
+          {
+            "name": "EY",
+            "url": null
+          },
+          {
+            "name": "PwC",
+            "url": null
+          },
+          {
+            "name": "KPMG",
+            "url": null
+          }
+        ],
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "official_url": "None",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_INTERPRETACION_T-DEV-devoluciones-interpretaciones-expertos.md",
+        "card_summary": "\"Devolución con presentación de garantía - Art. 860 ET\".",
+        "extended_excerpt": "### Fuentes y Referencias\n\n(1) ET Arts. 857-860. Compilado en Decreto 1625 de 2016. Disponible en: https://normograma.dian.gov.co\n\n(2) Art. 857-859 ET. Causales de rechazo, plazo de prescripción, procedimiento. https://www.dian.gov.co/tramitesservicios/tramites-y-servicios/tributarios/Paginas/devoluciones-compensaciones.aspx\n\n(3) Art. 860 ET. Devolución con presentación de garantía. Detalle en: https://estatuto.co/860\n\n(4) Decreto 2685 de 1991 (Código de Aduanas). Regulación de devolución IVA para exportadores. Oficio DIAN 344 de 2020 reglamentario. Disponible en: https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_0344_2020.htm\n\n(5) Actualícese. \"ABC de la devolución y compensación de saldos a favor\" y \"Devolución de saldos a favor: requisitos y trámites clave en 2025\". https://actualicese.com/saldos-a-favor/ y https://actualicese.com/devolucion-de-saldos-a-favor-requisitos-y-tramites-clave-en-2025/\n\n(6) Gerencie.com. \"Qué hacer si la DIAN rechaza la devolución de saldos a favor\" y \"Devolución o compensación de saldos a favor en impuestos\". https://www.gerencie.com/que-hacer-si-la-dian-rechaza-la-devolucion-de-saldos-a-favor.html y https://www.gerencie.com/devolucion-o-compensacion-de-saldos-a-favor-en-impuestos.html\n\n(7) DIAN. Oficio 31476 de 2015. Requisitos garantía bancaria devolución. Compilación jurídica DIAN: https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_31476_2015.htm\n\n(8) DIAN. Oficio 344 de 2020. Requisito inscripción Registro Nacional de Exportadores previo a operaciones exportación. https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_0344_2020.htm\n\n(9) DIAN. Resolución 000013 de 2020. Devoluciones automáticas criterios: sin riesgo alto, 85% proveedores con facturación electrónica. https://www.dian.gov.co/tramitesservicios/Tramites_Impuestos/Devoluciones/Paginas/Tramite-y-requisitos.aspx\n\n(10) DIAN. Manual del Usuario Devoluciones y/o Compensaciones - Saldo a Favor en Renta V3. Plataforma RUT consulta en línea. https://www.dian.gov.co/Transaccional/DevolucionesCompensacin/Devoluciones-y-o-Compensaciones-Saldo-a-Favor-en-Renta-V3.pdf\n\n(11) Big Four Colombia. Análisis de garantías bancarias en devoluciones (análisis de mercado, costo estimado 0,3%-0,8% anual, escala beneficia montos >$50M). Fuente compilada de publicaciones Deloitte, EY, PwC Colombia 2025-2026.\n\n(12) CTCP (Consejo Técnico de la Contaduría Pública). Pronunciamientos sobre reconocimiento contable de saldos a favor contingentes. https://www.ctcp.gov.co\n\n(13) Consejo de Estado, Sección Cuarta. Providencia sentencia 2016-00897-01 (2020). Reiteración plazo prescripción 2 años inmodificable. https://normograma.dian.gov.co/dian/compilacion/docs/25000-23-37-000-2016-00897-01(24249).htm\n\n(14) DIAN. TIDIS (Títulos de Devolución de Impuestos Saldos). Regulación para saldos > 420 UVT (~$22.054.000 en 2026). Procedimiento discrecional DIAN. Manual Devoluciones V3, sección TIDIS.\n\n(15) Accounter. \"Devolución con presentación de garantía - Art. 860 ET\". Requisitos póliza, vigencia, renuncia excusión. https://accounter.co/normatividad/oficios/oficio-13075-devolucion-con-presentacion-de-garantia.html\n\n**Nota de actualización:** Documento verificado contra normograma DIAN, pronunciamientos Big Four y Actualícese a fecha 23 de marzo de 2026. Vigencia: año gravable 2025, presentación 2026.\n\n### Norma Base\n\nLas devoluciones y saldos a favor encuentran su fundamento normativo en los artículos 857-860 del Estatuto Tributario (ET)(1), que regulan:\n\n- **Art. 857 ET**: Causales de rechazo de solicitudes de devolución (2).\n\n- **Art. 858 ET**: Plazos para solicitar devolución (2 años después del vencimiento de la declaración sin beneficio de auditoría) (2).\n\n- **Art. 859 ET**: Procedimiento automático vs. ordinario (2).\n\n- **Art. 860 ET**: Devolución con presentación de garantía bancaria a favor de la Nación (3).\n\nAdicionalmente, el **Decreto 1625 de 2016** (Estatuto Tributario compilado) y las **Resoluciones DIAN 000013 de 2020** (devoluciones automáticas IVA) regulan el procedimiento.\n\nPara exportadores, rige especialmente el **Decreto 2685 de 1991** (Código de Aduanas) sobre devolución de IVA en operaciones de exportación (4).\n\n### Posiciones de Expertos\n\n#### 1. ACTUALÍCESE (Portal de Referencia Tributaria)\n\n**Posición general:** Las devoluciones son un derecho del contribuyente cuando hay saldo a favor, pero exigen cumplimiento riguroso de requisitos formales. Actualícese enfatiza que:\n\n- La solicitud debe presentarse dentro del plazo de prescripción (2 años) (5).\n\n- El contribuyente debe acreditar con certificación bancaria su domicilio bancario en Colombia (5).\n\n- Si la solicitud se presenta sin requisitos formales, será **inadmitida** (no rechazada), permitiendo una nueva presentación dentro del mes siguiente (5).\n\n- La garantía bancaria no es obligatoria pero permite acelerar a 20 días (5).",
+        "summary_origin": "deterministic",
+        "summary_quality": "medium",
+        "source_hash": "",
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Cubre el tema de la consulta (procedimiento_tributario).",
+        "core_ref_matches": [],
+        "panel_rank": 3,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary"
+      }
+    ],
+    "total_available": 7,
+    "has_more": true,
+    "next_offset": 5,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Mi cliente quiere solicitar devolución de saldo a favor en renta por $180 millones. ¿Qué riesgos de auditoría post-devolución señalan los expertos y cuándo conviene más solicitar compensación con otros impuestos?",
+        "assistant_answer": "**Ruta sugerida** 1. Enfocá el caso como una solicitud de devolución o compensación de saldo a favor, no como un problema de facturación electrónica (arts. 850 y 589 ET). 2. Antes de radicar, revisá la declaración que generó el saldo a favor. Asegurate de que los soportes, anexos y datos del contribuyente estén alineados (arts. 589 y 850 ET). 3. Validá que el saldo a favor esté correctamente determinado en la declaración base antes de iniciar el proceso de devolución (arts. 850 y 589 ET). 4. Si el expediente está completo, tené en cuenta los términos de **50**, **30** o **20** días hábiles para la devolución, según el tipo de soporte que acompañe la solicitud (arts. 850 y 855 ET). **Riesgos y condiciones** * Evitá radicar la solicitud con cifras o soportes inconsistentes, ya que esto puede llevar a la inadmisión o a revisiones posteriores por parte de la administración (arts. 850 y 857 ET). * No tramites una devolución si la declaración aún presenta inconsistencias o requiere corrección (arts. 850 y 857 ET). * Tené presente que una corrección que aumente el saldo a favor o disminuya el valor a pagar reinicia el término de fiscalización de la DIAN a partir de la fecha de la corrección (arts. 589 y 850 ET). * Un trámite incompleto o con errores puede resultar en el rechazo de la solicitud, obligando al cliente a reiniciar el proceso (arts. 850 y 857 ET).",
+        "citation_label": "",
+        "core_refs": [],
+        "form_entities": [],
+        "detected_topic": "procedimiento_tributario",
+        "keyword_cluster": [
+          "post-devolucion",
+          "inconsistencias",
+          "inconsistentes,",
+          "administracion",
+          "contribuyente",
+          "correctamente",
+          "condiciones**",
+          "fiscalizacion",
+          "compensacion",
+          "declaracion"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 7,
+      "filtered_out_candidates": 11,
+      "grouped_items": 3,
+      "ungrouped_items": 4,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "procedimiento_tributario",
+      "interpretation_anchor_eligible_docs": 0,
+      "interpretation_anchor_boosted_chunks": 0,
+      "interpretation_anchor_source": "none",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 2,
+        "medium": 16,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "skipped",
+        "reason": "no_article_refs",
+        "requested_refs": 0
+      },
+      "expert_query_seed": "Mi cliente quiere solicitar devolución de saldo a favor en renta por $180 millones. ¿Qué riesgos de auditoría post-devolución señalan los expertos y cuándo conviene más solicitar compensación con otros impuestos?",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "lexical_only",
+        "judge": {
+          "mode": "llm_error",
+          "reason": "too many values to unpack (expected 2, got 4)"
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 0
+        },
+        "graph_scored_count": 0
+      }
+    },
+    "trace_id": "34543782-1a3a-45c6-af46-9addebe5f0e5"
+  }
+}

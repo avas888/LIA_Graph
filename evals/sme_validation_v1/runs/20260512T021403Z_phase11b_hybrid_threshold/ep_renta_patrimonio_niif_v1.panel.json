@@ -1,0 +1,807 @@
+{
+  "qid": "ep_renta_patrimonio_niif_v1",
+  "http_status": 200,
+  "request_payload": {
+    "trace_id": "a3bc3c0e-2d9f-44d6-b5ba-a9f1b6e9f61e",
+    "message": "Tengo divergencias entre patrimonio contable bajo NIIF y patrimonio fiscal. ¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles?",
+    "assistant_answer": "**Respuestas directas**\n- **¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles?**\n    *   Para el patrimonio fiscal, se debe partir del concepto de patrimonio bruto, que incluye todos los bienes y derechos apreciables en dinero poseídos al último día del año gravable (art. 261 ET). Esto implica un aprovechamiento económico, potencial o real, en beneficio del contribuyente (art. 263 ET).\n    *   Las diferencias entre el patrimonio contable bajo NIIF y el patrimonio fiscal se gestionan mediante la conciliación fiscal. Esta conciliación es clave para identificar y ajustar las divergencias, asegurando que la base fiscal refleje lo establecido en el Estatuto Tributario.\n    *   En el caso de activos como propiedad, planta y equipo o intangibles, las diferencias temporales y permanentes surgen principalmente por los distintos criterios de reconocimiento, medición y depreciación/amortización entre NIIF y la normativa fiscal. Es fundamental documentar estas diferencias para el Formato **2516**.\n\n**Ruta sugerida**\n*   Identificar las bases fiscales de los activos: Determinar el costo fiscal de propiedad, planta y equipo e intangibles, que puede diferir del valor en libros NIIF debido a ajustes por inflación, revaluaciones o métodos de depreciación/amortización no aceptados fiscalmente.\n*   Clasificar las diferencias: Distinguir entre diferencias permanentes (que no se revierten en el tiempo, como gastos no deducibles) y temporales (que sí se revierten, como la depreciación acelerada fiscalmente).\n*   Realizar la conciliación fiscal: Utilizar el Formato **2516** para conciliar el patrimonio contable con el patrimonio fiscal, ajustando las partidas que generan diferencias. Este formato es el soporte principal para la DIAN.\n\n**Riesgos y condiciones**\n*   Riesgo de inexactitud: No conciliar adecuadamente las diferencias puede llevar a errores en la declaración de renta y patrimonio, resultando en sanciones por inexactitud.\n*   Soporte documental: Es crucial mantener soportes detallados de todos los ajustes realizados, incluyendo los cálculos de depreciación fiscal y las justificaciones de las diferencias permanentes.\n*   Impacto en la base gravable: Las diferencias en el patrimonio pueden afectar la base para el cálculo de la renta presuntiva o el impuesto al patrimonio, si aplica.\n\n**Soportes clave**\n*   Libros contables bajo NIIF: Registros que muestran el valor en libros de los activos.\n*   Cálculos de depreciación/amortización fiscal: Documentación que respalda los valores deducidos fiscalmente, conforme a las tasas y métodos permitidos.\n*   Formato **2516**: Documento oficial de conciliación fiscal que detalla las diferencias entre la contabilidad y la fiscalidad.",
+    "normative_article_refs": [],
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "top_k": 8
+  },
+  "response": {
+    "ok": true,
+    "groups": [
+      {
+        "article_ref": "et_art_137",
+        "classification": "concordancia",
+        "summary_signal": "Los expertos manejan las diferencias entre patrimonio contable NIIF y fiscal mediante la conciliación fiscal, reconociendo que el sistema contable mide valor razonable y el fiscal el costo histórico, lo cual genera divergencias en activos como propiedad, planta y equipo o intangibles.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas"
+          },
+          {
+            "name": "Legis",
+            "url": "https://www.legis.com.co/guia-legis-para-declaracion-de-renta-2025-libro-digital/p"
+          },
+          {
+            "name": "Río Consultores",
+            "url": "https://rioconsultores.com/2026/02/25/novedades-para-la-declaracion-de-renta-2025-de-personas-juridicas-y-regimen-simple-14-cambios-clave-2024-2026-boletin-15/"
+          },
+          {
+            "name": "GlobalContable",
+            "url": "https://globalcontable.com/formato-de-conciliacion-fiscal-2516-y-2517-debloqueado/"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "(7) Gerencie.com — \"Formato 2516 de conciliación fiscal: Obligados a presentarlo\" 🔗 https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+            "position_signal": "neutral",
+            "relevance_score": 0.9530122230710466,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/renta-por-comparacion-patrimonial.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "card_summary": "Los expertos manejan las diferencias entre patrimonio contable NIIF y fiscal mediante la conciliación fiscal, reconociendo que el sistema contable mide valor razonable y el fiscal el costo histórico, lo cual genera divergencias en activos como propiedad, planta y equipo o intangibles.",
+            "extended_excerpt": "### 1. La Brecha Fundamental: Dos Marcos que Miden Diferente\n\nDesde la adopción de las NIIF en Colombia (Ley 1314/2009), coexisten dos sistemas de medición del patrimonio de una misma empresa:\n\n**Sistema contable (NIIF):** Mide el valor razonable o costo amortizado de los activos; reconoce deterioros, provisiones estimadas, activos por derecho de uso (NIIF 16), instrumentos financieros complejos, etc.\n\n**Sistema fiscal (ET arts. 261-283):** Mide el costo fiscal de los activos (generalmente el costo histórico ajustado); desconoce la mayoría de los ajustes NIIF que no tengan base legal tributaria expresa.\n\nEl **art. 21-1 ET** establece la regla de oro: para efectos tributarios, los activos, pasivos, patrimonios, ingresos, costos y gastos solo se reconocen cuando lo dispone el ET, con independencia de lo que digan las NIIF. Cuando el ET no regula expresamente un elemento, sí aplican las NIIF como criterio supletorio. (1)\n\nEl **art. 772-1 ET** (Ley 1819/2016) convierte esta diferencia en obligación formal: todos los contribuyentes obligados a llevar contabilidad deben conciliar formalmente las diferencias entre el balance contable y el fiscal, y reportarlas en los Formatos 2516 (F.110) o 2517 (F.210). (2)\n\n### 2. Las 10 Diferencias Sistemáticas más Frecuentes en PYMEs\n\n#### 2.1. Activos fijos (propiedad, planta y equipo)\n\n| Aspecto | NIIF | Fiscal ET | Diferencia |\n| Depreciación | Vida útil estimada + revisión periódica (NIC 16) | Tablas art. 137 ET: edificios 20 años; maquinaria 10; vehículos 5; computadores 5 | Diferencia temporaria muy frecuente |\n| Deterioro (impairment) | Reconocido conforme NIC 36 — gasto contable | NO deducible salvo cartera (art. 145 ET) | Diferencia permanente o temporaria |\n| Revaluó (modelo revaluación NIC 16) | Incrementa activo contable | Activo sigue al costo fiscal — el revaluó no tiene efecto fiscal | Patrimonio contable > fiscal |\n\n#### 2.2. Inventarios\n\nEl deterioro de inventarios bajo NIC 2 (cuando el Valor Neto Realizable < costo) es un gasto contable que NO es deducible fiscalmente hasta que el deterioro sea definitivo. Esta diferencia temporaria puede ser material en empresas con inventarios de baja rotación. (3)\n\n#### 2.3. Cuentas por cobrar y provisión de cartera\n\n| Aspecto | NIIF 9 / Sección 11 NIIF Pymes | Fiscal art. 145 ET | Diferencia |\n| Modelo de deterioro | Pérdidas esperadas — reconocimiento anticipado | 33% de la deuda con más de un año de vencida (declarante) | La provisión NIIF suele ser MAYOR que el 33% fiscal |\n| Intereses implícitos | NIIF 15 reconoce ingreso financiero en financiación implícita | Art. 28 num. 3 ET: solo se considera el valor nominal — los intereses implícitos NO tienen efecto fiscal | Diferencia permanente de ingreso |\n\n#### 2.4. Arrendamientos (NIIF 16 / Sección 20 NIIF Pymes)\n\nEsta es una de las diferencias más discutidas en el Formato 2516 para PYMEs:\n\n- **Contablemente (NIIF 16):** Se reconoce un Activo por Derecho de Uso (ADU) y un pasivo financiero de arrendamiento.\n\n- **Fiscalmente (art. 107 ET):** El canon de arrendamiento es una deducción cuando se paga. No existe el concepto de ADU en el ET.\n\n**Impacto en la conciliación patrimonial:** El ADU incrementa el activo contable; el pasivo de arrendamiento incrementa el pasivo contable. La diferencia neta depende de la relación entre ADU y pasivo. En la conciliación fiscal, el contador debe excluir ambos del balance fiscal. (4)\n\n#### 2.5. Activos intangibles y goodwill\n\nEl goodwill adquirido reconocido bajo NIIF 3 NO es un activo fiscal reconocido en el ET (art. 74 num. 4). No se deprecia ni amortiza fiscalmente. Si la PYME adquirió otra empresa generando goodwill, el patrimonio contable puede ser materialmente mayor que el fiscal. Los intangibles generados internamente tampoco son activos fiscales (son gastos del período).\n\n#### 2.6. Pasivos contingentes y provisiones\n\nLas provisiones contables (demandas, garantías, etc.) bajo NIC 37 NO son deducibles fiscalmente hasta que la obligación sea real y cierta (art. 107 ET — principio de causación fiscal). Esta diferencia temporaria reduce el patrimonio contable sin reducir el fiscal — el patrimonio fiscal puede ser MAYOR que el contable.\n\n#### 2.7. Diferencia en cambio al cierre\n\nLos activos y pasivos en moneda extranjera se convierten a la TRM al cierre. El ET art. 288 permite el mismo tratamiento. La diferencia surge cuando la empresa usa una tasa de conversión diferente a la TRM SFC a diciembre 31. La solución: siempre usar la TRM certificada por la SFC a diciembre 31 del período tanto para el balance contable como para el fiscal. (5)",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Conciliacion fiscal (secondary_official_authority)",
+            "snippet": "(1) Actualícese — Cap. 4: Conciliación fiscal AG 2025",
+            "position_signal": "neutral",
+            "relevance_score": 0.3134,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025",
+                "label": "Actualícese — Cap. 4: Conciliación fiscal AG 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/guia-en-excel-para-auditar-el-formato-2516-conciliacion-fiscal-de-las-personas-juridicas/",
+                "label": "Actualícese — Guía Excel para auditar F.2516",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/liquidador-de-topes-de-ingresos-para-presentar-formatos-de-conciliacion-fiscal-2516-y-2517/",
+                "label": "Actualícese — Liquidador topes F.2516/2517",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/cuando-elaborar-los-formatos-2516-y-2517/",
+                "label": "Actualícese — Cuándo elaborar F.2516 y F.2517",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/conciliacion-fiscal-formato-2516-nuevos-obligados-segun-la-resolucion-000246-de-2025/",
+                "label": "Actualícese — Conciliación fiscal F.2516: nuevos obligados según Resolución 000246",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/dian-ajusta-formatos-2516-y-2517-de-conciliacion-fiscal-para-contribuyentes-ag-2024/",
+                "label": "Actualícese — DIAN ajusta formatos 2516 y 2517 para AG 2024",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/conciliacion-fiscal-respuestas-importantes/",
+                "label": "Actualícese — Conciliación fiscal: 6 respuestas importantes",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/formatos-2516-y-2517-por-fraccion-de-ano-quienes-se-liquiden-deben-elaborarlos-pero-no-presentarlos/",
+                "label": "Actualícese — F.2516 y F.2517 por fracción de año 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+                "label": "Gerencie — Formato 2516 de conciliación fiscal: obligados a presentarlo",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas",
+                "label": "Ámbito Jurídico — Entidades no contribuyentes no están obligadas al reporte de conciliación fiscal",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/novedades-en-el-reporte-de-conciliacion-fiscal",
+                "label": "Ámbito Jurídico — Novedades en el reporte de conciliación fiscal",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/descargue-el-prevalidador-de-conciliacion-fiscal-del-ano",
+                "label": "Ámbito Jurídico — Descargue el prevalidador de conciliación fiscal AG 2024",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas"
+              },
+              {
+                "name": "Legis",
+                "url": "https://www.legis.com.co/guia-legis-para-declaracion-de-renta-2025-libro-digital/p"
+              },
+              {
+                "name": "Río Consultores",
+                "url": "https://rioconsultores.com/2026/02/25/novedades-para-la-declaracion-de-renta-2025-de-personas-juridicas-y-regimen-simple-14-cambios-clave-2024-2026-boletin-15/"
+              },
+              {
+                "name": "GlobalContable",
+                "url": "https://globalcontable.com/formato-de-conciliacion-fiscal-2516-y-2517-debloqueado/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "card_summary": "(1) Actualícese — Cap. 4: Conciliación fiscal AG 2025.",
+            "extended_excerpt": "### 1. Norma Base\n\n**Artículo 772-1 ET** (adicionado por art. 137, Ley 1819/2016), reglamentado por **Decreto 1998/2017** (compilado en DUR 1625/2016, arts. 1.7.1 a 1.7.5). La conciliación fiscal consolida y explica las diferencias entre los marcos contables (NIIF) y las disposiciones del ET.\n\n- **F.2516:** Conciliación para declarantes del Formulario 110 (PJ, PN no residentes).\n\n- **F.2517:** Conciliación para declarantes del Formulario 210 (PN residentes).\n\n- **Resolución vigente:** DIAN 11147 del 22/12/2023 — primera resolución formal con instrucciones de diligenciamiento.\n\n- **Resolución complementaria:** DIAN 000246 del 30/12/2025 — ajustes para AG 2024 y siguientes. Incluye renglones para TTD, PES y beneficio de auditoría.\n\n- **Versión actual F.2516:** Versión 8 (prevalidador AG 2024, publicado 25/03/2025).\n\n### 2. Obligados y Topes\n\n#### 2.1. ¿Quién elabora?\n\n**Todos los contribuyentes obligados a llevar contabilidad**, sin excepción de monto (régimen ordinario o especial). Incluye la totalidad de PYMEs bajo NIIF (Grupos 1, 2 o 3).\n\n#### 2.2. ¿Quién presenta virtualmente ante DIAN?\n\nSolo quienes obtengan ingresos brutos fiscales **≥ 45.000 UVT** en el AG objeto de conciliación:\n\n| Año gravable | UVT | Tope presentación virtual |\n| AG 2025 | $49.799 | **$2.240.955.000** |\n| AG 2026 | $52.374 | $2.356.830.000 |\n\n**Novedad Resolución 000246/2025:** Si se consolidan estados financieros, tanto matriz como subordinadas quedan obligadas a presentar el F.2516, **sin considerar el tope de 45.000 UVT** (1).\n\n#### 2.3. Contribuyentes bajo el tope\n\nNo presentan virtualmente pero **deben elaborar y conservar** el formato por el término de firmeza (3 años ordinario, 6-12 meses con beneficio de auditoría). DIAN puede exigirlo en fiscalización.\n\n#### 2.4. Casos especiales\n\n| Caso | ¿Elabora? | ¿Presenta? |\n| PJ régimen ordinario ≥ 45.000 UVT | ✅ | ✅ (F.2516) |\n| PJ régimen ordinario < 45.000 UVT | ✅ | ❌ (conserva) |\n| PJ en RST | ❌ | ❌ — declaran F.260 |\n| PN obligada a contabilidad | ✅ | Depende del tope (F.2517) |\n| Entidades no contribuyentes de renta | ❌ | ❌ |\n\n### 3. Estructura del Formato 2516 (7 Hojas)\n\n| Hoja | Nombre | Contenido |\n| **H1** | Carátula | NIT, razón social, grupo NIIF, actividad económica |\n| **H2** | ESF/Patrimonio | Activos/pasivos NIIF vs. fiscales |\n| **H3** | ERI/Renta Líquida | Ingresos, costos, gastos NIIF vs. fiscales. Incluye TTD |\n| **H4** | Detalle de Control | Documentación de diferencias consistentes entre períodos |\n| **H5** | Ingresos y Facturación | Ingreso devengado vs. facturado |\n| **H6** | Activos Fijos | PPE, propiedades de inversión, intangibles. Depreciación contable vs. fiscal |\n| **H7** | Resumen ESF-ERI | Consolidación de H2 y H3 |\n\n#### Diferencias NIIF vs. Fiscal más comunes en PYMEs\n\n| Partida | NIIF | Fiscal (ET) | Hoja |\n| Depreciación | Vida útil según política empresa | Art. 137 ET — vida útil fiscal | H6 |\n| Deterioro cartera | NIIF 9 — pérdida esperada | Art. 145 ET — provisión individual/general | H2 |\n| Propiedades inversión | NIC 40 — valor razonable | Art. 69 ET — costo fiscal | H6 |\n| Beneficios empleados | NIC 19 — provisiones actuariales | Arts. 108-109 ET — deducción al pago | H3 |\n| Leasing financiero | NIIF 16 — derecho de uso | Art. 127-1 ET — diferencias en tasa/plazos | H2, H3 |\n\n### 4. Plazos y Sanciones\n\nEl F.2516 debe presentarse **antes** de la declaración de renta (no simultáneamente). Para AG 2025: antes de mayo 12–26, 2026 (PJ no grandes).\n\n| Infracción | Sanción | Base |\n| No elaborar | Art. 655 ET — 0,5% del mayor valor entre patrimonio e ingresos, máx. 20.000 UVT ($1.047.480.000) | Art. 655 ET |\n| No presentar virtualmente (≥ 45.000 UVT) | Art. 651 ET — hasta 5% de sumas no reportadas, máx. 15.000 UVT ($785.610.000) | Art. 651 ET |\n| RUT sin grupo NIIF | Art. 658-3 ET | Art. 658-3 ET |\n\n**Corrección del F.2516:** Puede corregirse ilimitadamente sin sanción directa. Pero si la corrección afecta la renta líquida, debe corregirse también el F.110 → sanción art. 644 ET.\n\n### 5. Posiciones de Expertos\n\n#### 5.1. Actualícese\n\nActualícese es la fuente más prolífica sobre conciliación fiscal, con múltiples recursos complementarios: capítulo de libro con casos prácticos ilustrados para AG 2025, guía Excel para auditar el F.2516, liquidador de topes, y artículos explicativos sobre la obligación (1)(2)(3)(4)(5)(6).\n\n**Guía Excel para auditar F.2516:** Herramienta de checklist que permite verificar cada sección antes de presentar. Incluye puntos de control para las diferencias más frecuentes (2).\n\n**Liquidador de topes:** Calcula automáticamente si el contribuyente está obligado a presentar virtualmente, usando la UVT correcta del año gravable (3).\n\n**Capítulo 4 Cierre Contable AG 2025:** Ejercicios resueltos incluyendo depreciación diferenciada, deterioro de cartera (pérdida esperada vs. provisión individual) y leasing financiero (1).",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (conciliacion_fiscal).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.9530122230710466,
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Contexto complementario para la consulta.",
+        "panel_rank": 1
+      },
+      {
+        "article_ref": "et_art_145",
+        "classification": "concordancia",
+        "summary_signal": "Los expertos manejan las diferencias entre patrimonio contable NIIF y fiscal mediante la conciliación fiscal, reconociendo que el sistema contable mide valor razonable y el fiscal el costo histórico, lo cual genera divergencias en activos como propiedad, planta y equipo o intangibles.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas"
+          },
+          {
+            "name": "Legis",
+            "url": "https://www.legis.com.co/guia-legis-para-declaracion-de-renta-2025-libro-digital/p"
+          },
+          {
+            "name": "Río Consultores",
+            "url": "https://rioconsultores.com/2026/02/25/novedades-para-la-declaracion-de-renta-2025-de-personas-juridicas-y-regimen-simple-14-cambios-clave-2024-2026-boletin-15/"
+          },
+          {
+            "name": "GlobalContable",
+            "url": "https://globalcontable.com/formato-de-conciliacion-fiscal-2516-y-2517-debloqueado/"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "(7) Gerencie.com — \"Formato 2516 de conciliación fiscal: Obligados a presentarlo\" 🔗 https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+            "position_signal": "neutral",
+            "relevance_score": 0.9530122230710466,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/renta-por-comparacion-patrimonial.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "card_summary": "Los expertos manejan las diferencias entre patrimonio contable NIIF y fiscal mediante la conciliación fiscal, reconociendo que el sistema contable mide valor razonable y el fiscal el costo histórico, lo cual genera divergencias en activos como propiedad, planta y equipo o intangibles.",
+            "extended_excerpt": "### 1. La Brecha Fundamental: Dos Marcos que Miden Diferente\n\nDesde la adopción de las NIIF en Colombia (Ley 1314/2009), coexisten dos sistemas de medición del patrimonio de una misma empresa:\n\n**Sistema contable (NIIF):** Mide el valor razonable o costo amortizado de los activos; reconoce deterioros, provisiones estimadas, activos por derecho de uso (NIIF 16), instrumentos financieros complejos, etc.\n\n**Sistema fiscal (ET arts. 261-283):** Mide el costo fiscal de los activos (generalmente el costo histórico ajustado); desconoce la mayoría de los ajustes NIIF que no tengan base legal tributaria expresa.\n\nEl **art. 21-1 ET** establece la regla de oro: para efectos tributarios, los activos, pasivos, patrimonios, ingresos, costos y gastos solo se reconocen cuando lo dispone el ET, con independencia de lo que digan las NIIF. Cuando el ET no regula expresamente un elemento, sí aplican las NIIF como criterio supletorio. (1)\n\nEl **art. 772-1 ET** (Ley 1819/2016) convierte esta diferencia en obligación formal: todos los contribuyentes obligados a llevar contabilidad deben conciliar formalmente las diferencias entre el balance contable y el fiscal, y reportarlas en los Formatos 2516 (F.110) o 2517 (F.210). (2)\n\n### 2. Las 10 Diferencias Sistemáticas más Frecuentes en PYMEs\n\n#### 2.1. Activos fijos (propiedad, planta y equipo)\n\n| Aspecto | NIIF | Fiscal ET | Diferencia |\n| Depreciación | Vida útil estimada + revisión periódica (NIC 16) | Tablas art. 137 ET: edificios 20 años; maquinaria 10; vehículos 5; computadores 5 | Diferencia temporaria muy frecuente |\n| Deterioro (impairment) | Reconocido conforme NIC 36 — gasto contable | NO deducible salvo cartera (art. 145 ET) | Diferencia permanente o temporaria |\n| Revaluó (modelo revaluación NIC 16) | Incrementa activo contable | Activo sigue al costo fiscal — el revaluó no tiene efecto fiscal | Patrimonio contable > fiscal |\n\n#### 2.2. Inventarios\n\nEl deterioro de inventarios bajo NIC 2 (cuando el Valor Neto Realizable < costo) es un gasto contable que NO es deducible fiscalmente hasta que el deterioro sea definitivo. Esta diferencia temporaria puede ser material en empresas con inventarios de baja rotación. (3)\n\n#### 2.3. Cuentas por cobrar y provisión de cartera\n\n| Aspecto | NIIF 9 / Sección 11 NIIF Pymes | Fiscal art. 145 ET | Diferencia |\n| Modelo de deterioro | Pérdidas esperadas — reconocimiento anticipado | 33% de la deuda con más de un año de vencida (declarante) | La provisión NIIF suele ser MAYOR que el 33% fiscal |\n| Intereses implícitos | NIIF 15 reconoce ingreso financiero en financiación implícita | Art. 28 num. 3 ET: solo se considera el valor nominal — los intereses implícitos NO tienen efecto fiscal | Diferencia permanente de ingreso |\n\n#### 2.4. Arrendamientos (NIIF 16 / Sección 20 NIIF Pymes)\n\nEsta es una de las diferencias más discutidas en el Formato 2516 para PYMEs:\n\n- **Contablemente (NIIF 16):** Se reconoce un Activo por Derecho de Uso (ADU) y un pasivo financiero de arrendamiento.\n\n- **Fiscalmente (art. 107 ET):** El canon de arrendamiento es una deducción cuando se paga. No existe el concepto de ADU en el ET.\n\n**Impacto en la conciliación patrimonial:** El ADU incrementa el activo contable; el pasivo de arrendamiento incrementa el pasivo contable. La diferencia neta depende de la relación entre ADU y pasivo. En la conciliación fiscal, el contador debe excluir ambos del balance fiscal. (4)\n\n#### 2.5. Activos intangibles y goodwill\n\nEl goodwill adquirido reconocido bajo NIIF 3 NO es un activo fiscal reconocido en el ET (art. 74 num. 4). No se deprecia ni amortiza fiscalmente. Si la PYME adquirió otra empresa generando goodwill, el patrimonio contable puede ser materialmente mayor que el fiscal. Los intangibles generados internamente tampoco son activos fiscales (son gastos del período).\n\n#### 2.6. Pasivos contingentes y provisiones\n\nLas provisiones contables (demandas, garantías, etc.) bajo NIC 37 NO son deducibles fiscalmente hasta que la obligación sea real y cierta (art. 107 ET — principio de causación fiscal). Esta diferencia temporaria reduce el patrimonio contable sin reducir el fiscal — el patrimonio fiscal puede ser MAYOR que el contable.\n\n#### 2.7. Diferencia en cambio al cierre\n\nLos activos y pasivos en moneda extranjera se convierten a la TRM al cierre. El ET art. 288 permite el mismo tratamiento. La diferencia surge cuando la empresa usa una tasa de conversión diferente a la TRM SFC a diciembre 31. La solución: siempre usar la TRM certificada por la SFC a diciembre 31 del período tanto para el balance contable como para el fiscal. (5)",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Conciliacion fiscal (secondary_official_authority)",
+            "snippet": "(1) Actualícese — Cap. 4: Conciliación fiscal AG 2025",
+            "position_signal": "neutral",
+            "relevance_score": 0.3134,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025",
+                "label": "Actualícese — Cap. 4: Conciliación fiscal AG 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/guia-en-excel-para-auditar-el-formato-2516-conciliacion-fiscal-de-las-personas-juridicas/",
+                "label": "Actualícese — Guía Excel para auditar F.2516",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/liquidador-de-topes-de-ingresos-para-presentar-formatos-de-conciliacion-fiscal-2516-y-2517/",
+                "label": "Actualícese — Liquidador topes F.2516/2517",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/cuando-elaborar-los-formatos-2516-y-2517/",
+                "label": "Actualícese — Cuándo elaborar F.2516 y F.2517",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/conciliacion-fiscal-formato-2516-nuevos-obligados-segun-la-resolucion-000246-de-2025/",
+                "label": "Actualícese — Conciliación fiscal F.2516: nuevos obligados según Resolución 000246",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/dian-ajusta-formatos-2516-y-2517-de-conciliacion-fiscal-para-contribuyentes-ag-2024/",
+                "label": "Actualícese — DIAN ajusta formatos 2516 y 2517 para AG 2024",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/conciliacion-fiscal-respuestas-importantes/",
+                "label": "Actualícese — Conciliación fiscal: 6 respuestas importantes",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/formatos-2516-y-2517-por-fraccion-de-ano-quienes-se-liquiden-deben-elaborarlos-pero-no-presentarlos/",
+                "label": "Actualícese — F.2516 y F.2517 por fracción de año 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+                "label": "Gerencie — Formato 2516 de conciliación fiscal: obligados a presentarlo",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas",
+                "label": "Ámbito Jurídico — Entidades no contribuyentes no están obligadas al reporte de conciliación fiscal",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/novedades-en-el-reporte-de-conciliacion-fiscal",
+                "label": "Ámbito Jurídico — Novedades en el reporte de conciliación fiscal",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/descargue-el-prevalidador-de-conciliacion-fiscal-del-ano",
+                "label": "Ámbito Jurídico — Descargue el prevalidador de conciliación fiscal AG 2024",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas"
+              },
+              {
+                "name": "Legis",
+                "url": "https://www.legis.com.co/guia-legis-para-declaracion-de-renta-2025-libro-digital/p"
+              },
+              {
+                "name": "Río Consultores",
+                "url": "https://rioconsultores.com/2026/02/25/novedades-para-la-declaracion-de-renta-2025-de-personas-juridicas-y-regimen-simple-14-cambios-clave-2024-2026-boletin-15/"
+              },
+              {
+                "name": "GlobalContable",
+                "url": "https://globalcontable.com/formato-de-conciliacion-fiscal-2516-y-2517-debloqueado/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "card_summary": "(1) Actualícese — Cap. 4: Conciliación fiscal AG 2025.",
+            "extended_excerpt": "### 1. Norma Base\n\n**Artículo 772-1 ET** (adicionado por art. 137, Ley 1819/2016), reglamentado por **Decreto 1998/2017** (compilado en DUR 1625/2016, arts. 1.7.1 a 1.7.5). La conciliación fiscal consolida y explica las diferencias entre los marcos contables (NIIF) y las disposiciones del ET.\n\n- **F.2516:** Conciliación para declarantes del Formulario 110 (PJ, PN no residentes).\n\n- **F.2517:** Conciliación para declarantes del Formulario 210 (PN residentes).\n\n- **Resolución vigente:** DIAN 11147 del 22/12/2023 — primera resolución formal con instrucciones de diligenciamiento.\n\n- **Resolución complementaria:** DIAN 000246 del 30/12/2025 — ajustes para AG 2024 y siguientes. Incluye renglones para TTD, PES y beneficio de auditoría.\n\n- **Versión actual F.2516:** Versión 8 (prevalidador AG 2024, publicado 25/03/2025).\n\n### 2. Obligados y Topes\n\n#### 2.1. ¿Quién elabora?\n\n**Todos los contribuyentes obligados a llevar contabilidad**, sin excepción de monto (régimen ordinario o especial). Incluye la totalidad de PYMEs bajo NIIF (Grupos 1, 2 o 3).\n\n#### 2.2. ¿Quién presenta virtualmente ante DIAN?\n\nSolo quienes obtengan ingresos brutos fiscales **≥ 45.000 UVT** en el AG objeto de conciliación:\n\n| Año gravable | UVT | Tope presentación virtual |\n| AG 2025 | $49.799 | **$2.240.955.000** |\n| AG 2026 | $52.374 | $2.356.830.000 |\n\n**Novedad Resolución 000246/2025:** Si se consolidan estados financieros, tanto matriz como subordinadas quedan obligadas a presentar el F.2516, **sin considerar el tope de 45.000 UVT** (1).\n\n#### 2.3. Contribuyentes bajo el tope\n\nNo presentan virtualmente pero **deben elaborar y conservar** el formato por el término de firmeza (3 años ordinario, 6-12 meses con beneficio de auditoría). DIAN puede exigirlo en fiscalización.\n\n#### 2.4. Casos especiales\n\n| Caso | ¿Elabora? | ¿Presenta? |\n| PJ régimen ordinario ≥ 45.000 UVT | ✅ | ✅ (F.2516) |\n| PJ régimen ordinario < 45.000 UVT | ✅ | ❌ (conserva) |\n| PJ en RST | ❌ | ❌ — declaran F.260 |\n| PN obligada a contabilidad | ✅ | Depende del tope (F.2517) |\n| Entidades no contribuyentes de renta | ❌ | ❌ |\n\n### 3. Estructura del Formato 2516 (7 Hojas)\n\n| Hoja | Nombre | Contenido |\n| **H1** | Carátula | NIT, razón social, grupo NIIF, actividad económica |\n| **H2** | ESF/Patrimonio | Activos/pasivos NIIF vs. fiscales |\n| **H3** | ERI/Renta Líquida | Ingresos, costos, gastos NIIF vs. fiscales. Incluye TTD |\n| **H4** | Detalle de Control | Documentación de diferencias consistentes entre períodos |\n| **H5** | Ingresos y Facturación | Ingreso devengado vs. facturado |\n| **H6** | Activos Fijos | PPE, propiedades de inversión, intangibles. Depreciación contable vs. fiscal |\n| **H7** | Resumen ESF-ERI | Consolidación de H2 y H3 |\n\n#### Diferencias NIIF vs. Fiscal más comunes en PYMEs\n\n| Partida | NIIF | Fiscal (ET) | Hoja |\n| Depreciación | Vida útil según política empresa | Art. 137 ET — vida útil fiscal | H6 |\n| Deterioro cartera | NIIF 9 — pérdida esperada | Art. 145 ET — provisión individual/general | H2 |\n| Propiedades inversión | NIC 40 — valor razonable | Art. 69 ET — costo fiscal | H6 |\n| Beneficios empleados | NIC 19 — provisiones actuariales | Arts. 108-109 ET — deducción al pago | H3 |\n| Leasing financiero | NIIF 16 — derecho de uso | Art. 127-1 ET — diferencias en tasa/plazos | H2, H3 |\n\n### 4. Plazos y Sanciones\n\nEl F.2516 debe presentarse **antes** de la declaración de renta (no simultáneamente). Para AG 2025: antes de mayo 12–26, 2026 (PJ no grandes).\n\n| Infracción | Sanción | Base |\n| No elaborar | Art. 655 ET — 0,5% del mayor valor entre patrimonio e ingresos, máx. 20.000 UVT ($1.047.480.000) | Art. 655 ET |\n| No presentar virtualmente (≥ 45.000 UVT) | Art. 651 ET — hasta 5% de sumas no reportadas, máx. 15.000 UVT ($785.610.000) | Art. 651 ET |\n| RUT sin grupo NIIF | Art. 658-3 ET | Art. 658-3 ET |\n\n**Corrección del F.2516:** Puede corregirse ilimitadamente sin sanción directa. Pero si la corrección afecta la renta líquida, debe corregirse también el F.110 → sanción art. 644 ET.\n\n### 5. Posiciones de Expertos\n\n#### 5.1. Actualícese\n\nActualícese es la fuente más prolífica sobre conciliación fiscal, con múltiples recursos complementarios: capítulo de libro con casos prácticos ilustrados para AG 2025, guía Excel para auditar el F.2516, liquidador de topes, y artículos explicativos sobre la obligación (1)(2)(3)(4)(5)(6).\n\n**Guía Excel para auditar F.2516:** Herramienta de checklist que permite verificar cada sección antes de presentar. Incluye puntos de control para las diferencias más frecuentes (2).\n\n**Liquidador de topes:** Calcula automáticamente si el contribuyente está obligado a presentar virtualmente, usando la UVT correcta del año gravable (3).\n\n**Capítulo 4 Cierre Contable AG 2025:** Ejercicios resueltos incluyendo depreciación diferenciada, deterioro de cartera (pérdida esperada vs. provisión individual) y leasing financiero (1).",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (conciliacion_fiscal).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.9530122230710466,
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Contexto complementario para la consulta.",
+        "panel_rank": 2
+      },
+      {
+        "article_ref": "et_art_772",
+        "classification": "concordancia",
+        "summary_signal": "Los expertos manejan las diferencias entre patrimonio contable NIIF y fiscal mediante la conciliación fiscal, reconociendo que el sistema contable mide valor razonable y el fiscal el costo histórico, lo cual genera divergencias en activos como propiedad, planta y equipo o intangibles.",
+        "summary_origin": "llm_rerank",
+        "summary_quality": "high",
+        "providers": [
+          {
+            "name": "Gerencie.com",
+            "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+          },
+          {
+            "name": "Actualícese",
+            "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+          },
+          {
+            "name": "INCP",
+            "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+          },
+          {
+            "name": "Ámbito Jurídico",
+            "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas"
+          },
+          {
+            "name": "Legis",
+            "url": "https://www.legis.com.co/guia-legis-para-declaracion-de-renta-2025-libro-digital/p"
+          },
+          {
+            "name": "Río Consultores",
+            "url": "https://rioconsultores.com/2026/02/25/novedades-para-la-declaracion-de-renta-2025-de-personas-juridicas-y-regimen-simple-14-cambios-clave-2024-2026-boletin-15/"
+          },
+          {
+            "name": "GlobalContable",
+            "url": "https://globalcontable.com/formato-de-conciliacion-fiscal-2516-y-2517-debloqueado/"
+          }
+        ],
+        "snippets": [
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "authority": "secondary_official_authority",
+            "title": "Declaracion renta (secondary_official_authority)",
+            "snippet": "(7) Gerencie.com — \"Formato 2516 de conciliación fiscal: Obligados a presentarlo\" 🔗 https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+            "position_signal": "neutral",
+            "relevance_score": 0.9530122230710466,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.gerencie.com/renta-por-comparacion-patrimonial.html",
+                "label": "gerencie.com",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025",
+                "label": "actualicese.com",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/",
+                "label": "incp.org.co",
+                "provider": "INCP",
+                "domain": "incp.org.co"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+              },
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+              },
+              {
+                "name": "INCP",
+                "url": "https://incp.org.co/publicaciones/infoincp-publicaciones/impuestos/nacionales/2024/01/la-dian-ajusto-los-formatos-2516-y-2517-para-la-conciliacion-fiscal-del-ano-gravable-2023/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T-J-patrimonio-fiscal-niif-vs-fiscal-conciliacion-2516.md",
+            "card_summary": "Los expertos manejan las diferencias entre patrimonio contable NIIF y fiscal mediante la conciliación fiscal, reconociendo que el sistema contable mide valor razonable y el fiscal el costo histórico, lo cual genera divergencias en activos como propiedad, planta y equipo o intangibles.",
+            "extended_excerpt": "### 1. La Brecha Fundamental: Dos Marcos que Miden Diferente\n\nDesde la adopción de las NIIF en Colombia (Ley 1314/2009), coexisten dos sistemas de medición del patrimonio de una misma empresa:\n\n**Sistema contable (NIIF):** Mide el valor razonable o costo amortizado de los activos; reconoce deterioros, provisiones estimadas, activos por derecho de uso (NIIF 16), instrumentos financieros complejos, etc.\n\n**Sistema fiscal (ET arts. 261-283):** Mide el costo fiscal de los activos (generalmente el costo histórico ajustado); desconoce la mayoría de los ajustes NIIF que no tengan base legal tributaria expresa.\n\nEl **art. 21-1 ET** establece la regla de oro: para efectos tributarios, los activos, pasivos, patrimonios, ingresos, costos y gastos solo se reconocen cuando lo dispone el ET, con independencia de lo que digan las NIIF. Cuando el ET no regula expresamente un elemento, sí aplican las NIIF como criterio supletorio. (1)\n\nEl **art. 772-1 ET** (Ley 1819/2016) convierte esta diferencia en obligación formal: todos los contribuyentes obligados a llevar contabilidad deben conciliar formalmente las diferencias entre el balance contable y el fiscal, y reportarlas en los Formatos 2516 (F.110) o 2517 (F.210). (2)\n\n### 2. Las 10 Diferencias Sistemáticas más Frecuentes en PYMEs\n\n#### 2.1. Activos fijos (propiedad, planta y equipo)\n\n| Aspecto | NIIF | Fiscal ET | Diferencia |\n| Depreciación | Vida útil estimada + revisión periódica (NIC 16) | Tablas art. 137 ET: edificios 20 años; maquinaria 10; vehículos 5; computadores 5 | Diferencia temporaria muy frecuente |\n| Deterioro (impairment) | Reconocido conforme NIC 36 — gasto contable | NO deducible salvo cartera (art. 145 ET) | Diferencia permanente o temporaria |\n| Revaluó (modelo revaluación NIC 16) | Incrementa activo contable | Activo sigue al costo fiscal — el revaluó no tiene efecto fiscal | Patrimonio contable > fiscal |\n\n#### 2.2. Inventarios\n\nEl deterioro de inventarios bajo NIC 2 (cuando el Valor Neto Realizable < costo) es un gasto contable que NO es deducible fiscalmente hasta que el deterioro sea definitivo. Esta diferencia temporaria puede ser material en empresas con inventarios de baja rotación. (3)\n\n#### 2.3. Cuentas por cobrar y provisión de cartera\n\n| Aspecto | NIIF 9 / Sección 11 NIIF Pymes | Fiscal art. 145 ET | Diferencia |\n| Modelo de deterioro | Pérdidas esperadas — reconocimiento anticipado | 33% de la deuda con más de un año de vencida (declarante) | La provisión NIIF suele ser MAYOR que el 33% fiscal |\n| Intereses implícitos | NIIF 15 reconoce ingreso financiero en financiación implícita | Art. 28 num. 3 ET: solo se considera el valor nominal — los intereses implícitos NO tienen efecto fiscal | Diferencia permanente de ingreso |\n\n#### 2.4. Arrendamientos (NIIF 16 / Sección 20 NIIF Pymes)\n\nEsta es una de las diferencias más discutidas en el Formato 2516 para PYMEs:\n\n- **Contablemente (NIIF 16):** Se reconoce un Activo por Derecho de Uso (ADU) y un pasivo financiero de arrendamiento.\n\n- **Fiscalmente (art. 107 ET):** El canon de arrendamiento es una deducción cuando se paga. No existe el concepto de ADU en el ET.\n\n**Impacto en la conciliación patrimonial:** El ADU incrementa el activo contable; el pasivo de arrendamiento incrementa el pasivo contable. La diferencia neta depende de la relación entre ADU y pasivo. En la conciliación fiscal, el contador debe excluir ambos del balance fiscal. (4)\n\n#### 2.5. Activos intangibles y goodwill\n\nEl goodwill adquirido reconocido bajo NIIF 3 NO es un activo fiscal reconocido en el ET (art. 74 num. 4). No se deprecia ni amortiza fiscalmente. Si la PYME adquirió otra empresa generando goodwill, el patrimonio contable puede ser materialmente mayor que el fiscal. Los intangibles generados internamente tampoco son activos fiscales (son gastos del período).\n\n#### 2.6. Pasivos contingentes y provisiones\n\nLas provisiones contables (demandas, garantías, etc.) bajo NIC 37 NO son deducibles fiscalmente hasta que la obligación sea real y cierta (art. 107 ET — principio de causación fiscal). Esta diferencia temporaria reduce el patrimonio contable sin reducir el fiscal — el patrimonio fiscal puede ser MAYOR que el contable.\n\n#### 2.7. Diferencia en cambio al cierre\n\nLos activos y pasivos en moneda extranjera se convierten a la TRM al cierre. El ET art. 288 permite el mismo tratamiento. La diferencia surge cuando la empresa usa una tasa de conversión diferente a la TRM SFC a diciembre 31. La solución: siempre usar la TRM certificada por la SFC a diciembre 31 del período tanto para el balance contable como para el fiscal. (5)",
+            "summary_origin": "llm_rerank",
+            "summary_quality": "high",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Contexto complementario para la consulta.",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          },
+          {
+            "doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "source_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "logical_doc_id": "CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "authority": "secondary_official_authority",
+            "title": "Conciliacion fiscal (secondary_official_authority)",
+            "snippet": "(1) Actualícese — Cap. 4: Conciliación fiscal AG 2025",
+            "position_signal": "neutral",
+            "relevance_score": 0.3134,
+            "trust_tier": "medium",
+            "provider_links": [
+              {
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025",
+                "label": "Actualícese — Cap. 4: Conciliación fiscal AG 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/guia-en-excel-para-auditar-el-formato-2516-conciliacion-fiscal-de-las-personas-juridicas/",
+                "label": "Actualícese — Guía Excel para auditar F.2516",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/liquidador-de-topes-de-ingresos-para-presentar-formatos-de-conciliacion-fiscal-2516-y-2517/",
+                "label": "Actualícese — Liquidador topes F.2516/2517",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/cuando-elaborar-los-formatos-2516-y-2517/",
+                "label": "Actualícese — Cuándo elaborar F.2516 y F.2517",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/conciliacion-fiscal-formato-2516-nuevos-obligados-segun-la-resolucion-000246-de-2025/",
+                "label": "Actualícese — Conciliación fiscal F.2516: nuevos obligados según Resolución 000246",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/dian-ajusta-formatos-2516-y-2517-de-conciliacion-fiscal-para-contribuyentes-ag-2024/",
+                "label": "Actualícese — DIAN ajusta formatos 2516 y 2517 para AG 2024",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/conciliacion-fiscal-respuestas-importantes/",
+                "label": "Actualícese — Conciliación fiscal: 6 respuestas importantes",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://actualicese.com/formatos-2516-y-2517-por-fraccion-de-ano-quienes-se-liquiden-deben-elaborarlos-pero-no-presentarlos/",
+                "label": "Actualícese — F.2516 y F.2517 por fracción de año 2025",
+                "provider": "Actualícese",
+                "domain": "actualicese.com"
+              },
+              {
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html",
+                "label": "Gerencie — Formato 2516 de conciliación fiscal: obligados a presentarlo",
+                "provider": "Gerencie.com",
+                "domain": "gerencie.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas",
+                "label": "Ámbito Jurídico — Entidades no contribuyentes no están obligadas al reporte de conciliación fiscal",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/novedades-en-el-reporte-de-conciliacion-fiscal",
+                "label": "Ámbito Jurídico — Novedades en el reporte de conciliación fiscal",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              },
+              {
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/descargue-el-prevalidador-de-conciliacion-fiscal-del-ano",
+                "label": "Ámbito Jurídico — Descargue el prevalidador de conciliación fiscal AG 2024",
+                "provider": "Ámbito Jurídico",
+                "domain": "ambitojuridico.com"
+              }
+            ],
+            "providers": [
+              {
+                "name": "Actualícese",
+                "url": "https://actualicese.com/rutas/books/cierre-contable-y-conciliacion-fiscal-2025-guia-ilustrada-casos-practicos-y-ejercicios/page/capitulo-4-conciliacion-fiscal-ano-gravable-2025"
+              },
+              {
+                "name": "Gerencie.com",
+                "url": "https://www.gerencie.com/formato-dian-2516-de-conciliacion-fiscal.html"
+              },
+              {
+                "name": "Ámbito Jurídico",
+                "url": "https://www.ambitojuridico.com/noticias/tributario/tributario-y-contable/entidades-no-contribuyentes-de-renta-no-estan-obligadas"
+              },
+              {
+                "name": "Legis",
+                "url": "https://www.legis.com.co/guia-legis-para-declaracion-de-renta-2025-libro-digital/p"
+              },
+              {
+                "name": "Río Consultores",
+                "url": "https://rioconsultores.com/2026/02/25/novedades-para-la-declaracion-de-renta-2025-de-personas-juridicas-y-regimen-simple-14-cambios-clave-2024-2026-boletin-15/"
+              },
+              {
+                "name": "GlobalContable",
+                "url": "https://globalcontable.com/formato-de-conciliacion-fiscal-2516-y-2517-debloqueado/"
+              }
+            ],
+            "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "official_url": "None",
+            "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_EXPERTOS_T05-conciliacion-fiscal-F2516-F2517-interpretaciones.md",
+            "card_summary": "(1) Actualícese — Cap. 4: Conciliación fiscal AG 2025.",
+            "extended_excerpt": "### 1. Norma Base\n\n**Artículo 772-1 ET** (adicionado por art. 137, Ley 1819/2016), reglamentado por **Decreto 1998/2017** (compilado en DUR 1625/2016, arts. 1.7.1 a 1.7.5). La conciliación fiscal consolida y explica las diferencias entre los marcos contables (NIIF) y las disposiciones del ET.\n\n- **F.2516:** Conciliación para declarantes del Formulario 110 (PJ, PN no residentes).\n\n- **F.2517:** Conciliación para declarantes del Formulario 210 (PN residentes).\n\n- **Resolución vigente:** DIAN 11147 del 22/12/2023 — primera resolución formal con instrucciones de diligenciamiento.\n\n- **Resolución complementaria:** DIAN 000246 del 30/12/2025 — ajustes para AG 2024 y siguientes. Incluye renglones para TTD, PES y beneficio de auditoría.\n\n- **Versión actual F.2516:** Versión 8 (prevalidador AG 2024, publicado 25/03/2025).\n\n### 2. Obligados y Topes\n\n#### 2.1. ¿Quién elabora?\n\n**Todos los contribuyentes obligados a llevar contabilidad**, sin excepción de monto (régimen ordinario o especial). Incluye la totalidad de PYMEs bajo NIIF (Grupos 1, 2 o 3).\n\n#### 2.2. ¿Quién presenta virtualmente ante DIAN?\n\nSolo quienes obtengan ingresos brutos fiscales **≥ 45.000 UVT** en el AG objeto de conciliación:\n\n| Año gravable | UVT | Tope presentación virtual |\n| AG 2025 | $49.799 | **$2.240.955.000** |\n| AG 2026 | $52.374 | $2.356.830.000 |\n\n**Novedad Resolución 000246/2025:** Si se consolidan estados financieros, tanto matriz como subordinadas quedan obligadas a presentar el F.2516, **sin considerar el tope de 45.000 UVT** (1).\n\n#### 2.3. Contribuyentes bajo el tope\n\nNo presentan virtualmente pero **deben elaborar y conservar** el formato por el término de firmeza (3 años ordinario, 6-12 meses con beneficio de auditoría). DIAN puede exigirlo en fiscalización.\n\n#### 2.4. Casos especiales\n\n| Caso | ¿Elabora? | ¿Presenta? |\n| PJ régimen ordinario ≥ 45.000 UVT | ✅ | ✅ (F.2516) |\n| PJ régimen ordinario < 45.000 UVT | ✅ | ❌ (conserva) |\n| PJ en RST | ❌ | ❌ — declaran F.260 |\n| PN obligada a contabilidad | ✅ | Depende del tope (F.2517) |\n| Entidades no contribuyentes de renta | ❌ | ❌ |\n\n### 3. Estructura del Formato 2516 (7 Hojas)\n\n| Hoja | Nombre | Contenido |\n| **H1** | Carátula | NIT, razón social, grupo NIIF, actividad económica |\n| **H2** | ESF/Patrimonio | Activos/pasivos NIIF vs. fiscales |\n| **H3** | ERI/Renta Líquida | Ingresos, costos, gastos NIIF vs. fiscales. Incluye TTD |\n| **H4** | Detalle de Control | Documentación de diferencias consistentes entre períodos |\n| **H5** | Ingresos y Facturación | Ingreso devengado vs. facturado |\n| **H6** | Activos Fijos | PPE, propiedades de inversión, intangibles. Depreciación contable vs. fiscal |\n| **H7** | Resumen ESF-ERI | Consolidación de H2 y H3 |\n\n#### Diferencias NIIF vs. Fiscal más comunes en PYMEs\n\n| Partida | NIIF | Fiscal (ET) | Hoja |\n| Depreciación | Vida útil según política empresa | Art. 137 ET — vida útil fiscal | H6 |\n| Deterioro cartera | NIIF 9 — pérdida esperada | Art. 145 ET — provisión individual/general | H2 |\n| Propiedades inversión | NIC 40 — valor razonable | Art. 69 ET — costo fiscal | H6 |\n| Beneficios empleados | NIC 19 — provisiones actuariales | Arts. 108-109 ET — deducción al pago | H3 |\n| Leasing financiero | NIIF 16 — derecho de uso | Art. 127-1 ET — diferencias en tasa/plazos | H2, H3 |\n\n### 4. Plazos y Sanciones\n\nEl F.2516 debe presentarse **antes** de la declaración de renta (no simultáneamente). Para AG 2025: antes de mayo 12–26, 2026 (PJ no grandes).\n\n| Infracción | Sanción | Base |\n| No elaborar | Art. 655 ET — 0,5% del mayor valor entre patrimonio e ingresos, máx. 20.000 UVT ($1.047.480.000) | Art. 655 ET |\n| No presentar virtualmente (≥ 45.000 UVT) | Art. 651 ET — hasta 5% de sumas no reportadas, máx. 15.000 UVT ($785.610.000) | Art. 651 ET |\n| RUT sin grupo NIIF | Art. 658-3 ET | Art. 658-3 ET |\n\n**Corrección del F.2516:** Puede corregirse ilimitadamente sin sanción directa. Pero si la corrección afecta la renta líquida, debe corregirse también el F.110 → sanción art. 644 ET.\n\n### 5. Posiciones de Expertos\n\n#### 5.1. Actualícese\n\nActualícese es la fuente más prolífica sobre conciliación fiscal, con múltiples recursos complementarios: capítulo de libro con casos prácticos ilustrados para AG 2025, guía Excel para auditar el F.2516, liquidador de topes, y artículos explicativos sobre la obligación (1)(2)(3)(4)(5)(6).\n\n**Guía Excel para auditar F.2516:** Herramienta de checklist que permite verificar cada sección antes de presentar. Incluye puntos de control para las diferencias más frecuentes (2).\n\n**Liquidador de topes:** Calcula automáticamente si el contribuyente está obligado a presentar virtualmente, usando la UVT correcta del año gravable (3).\n\n**Capítulo 4 Cierre Contable AG 2025:** Ejercicios resueltos incluyendo depreciación diferenciada, deterioro de cartera (pérdida esperada vs. provisión individual) y leasing financiero (1).",
+            "summary_origin": "deterministic",
+            "summary_quality": "medium",
+            "source_hash": "",
+            "coverage_axes": [],
+            "requested_match": false,
+            "selection_reason": "Cubre el tema de la consulta (conciliacion_fiscal).",
+            "core_ref_matches": [],
+            "panel_rank": null,
+            "knowledge_class": "interpretative_guidance",
+            "source_type": "official_secondary"
+          }
+        ],
+        "relevance_score": 0.9530122230710466,
+        "coverage_axes": [],
+        "requested_match": false,
+        "selection_reason": "Contexto complementario para la consulta.",
+        "panel_rank": 3
+      }
+    ],
+    "ungrouped": [],
+    "total_available": 3,
+    "has_more": false,
+    "next_offset": null,
+    "retrieval_diagnostics": {
+      "decision_frame": {
+        "question": "Tengo divergencias entre patrimonio contable bajo NIIF y patrimonio fiscal. ¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles?",
+        "assistant_answer": "**Respuestas directas** - **¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles?** * Para el patrimonio fiscal, se debe partir del concepto de patrimonio bruto, que incluye todos los bienes y derechos apreciables en dinero poseídos al último día del año gravable (art. 261 ET). Esto implica un aprovechamiento económico, potencial o real, en beneficio del contribuyente (art. 263 ET). * Las diferencias entre el patrimonio contable bajo NIIF y el patrimonio fiscal se gestionan mediante la conciliación fiscal. Esta conciliación es clave para identificar y ajustar las divergencias, asegurando que la base fiscal refleje lo establecido en el Estatuto Tributario. * En el caso de activos como propiedad, planta y equipo o intangibles, las diferencias temporales y permanentes surgen principalmente por los distintos criterios de reconocimiento, medición y depreciación/amortización entre NIIF y la normativa fiscal. Es fundamental documentar estas diferencias para el Formato **2516**. **Ruta sugerida** * Identificar las bases fiscales de los activos: Determinar el costo fiscal de propiedad, planta y equipo e intangibles, que puede diferir del valor en libros NIIF debido a ajustes por inflación, revaluaciones o métodos de depreciación/amortización no aceptados fiscalmente. * Clasificar las diferencias: Distinguir entre diferencias permanentes (que no se revierten en el tiempo, como gastos no deducibles) y temporales (que sí se revierten, como la depreciación acelerada fiscalmente). * Realizar la conciliación fiscal: Utilizar el Formato **2516** para conciliar el patrimonio contable con el patrimonio fiscal, ajustando las partidas que generan diferencias. Este formato es el soporte principal para la DIAN. **Riesgos y condiciones** * Riesgo de inexactitud: No conciliar adecuadamente las diferencias puede llevar a errores en la declaración de renta y patrimonio, resultando en sanciones por inexactitud. * Soporte documental: Es crucial mantener soportes detallados de todos los ajustes realizados, incluyendo los cálculos de depreciación fiscal y las justificaciones de las diferencias permanentes. * Impacto en la base gravable: Las diferencias en el patrimonio pueden afectar la base para el cálculo de la renta presuntiva o el impuesto al patrimonio, si aplica. **Soportes clave** * Libros contables bajo NIIF: Registros que muestran el valor en libros de los activos. * Cálculos de depreciación/amortización fiscal: Documentación que respalda los valores deducidos fiscalmente, conforme a las tasas y métodos permitidos. * Formato **2516**: Documento oficial de conciliación fiscal que detalla las diferencias entre la contabilidad y la fiscalidad.",
+        "citation_label": "",
+        "core_refs": [
+          "et_art_261",
+          "et_art_263"
+        ],
+        "form_entities": [],
+        "detected_topic": "conciliacion_fiscal",
+        "keyword_cluster": [
+          "depreciacion/amortizacion",
+          "reconocimiento,",
+          "justificaciones",
+          "aprovechamiento",
+          "principalmente",
+          "intangibles?**",
+          "divergencias,",
+          "condiciones**",
+          "fiscalmente).",
+          "contribuyente"
+        ]
+      },
+      "retrieved_candidates": 18,
+      "eligible_candidates": 2,
+      "filtered_out_candidates": 16,
+      "off_topic_penalized_count": 6,
+      "off_topic_penalized_kept": 0,
+      "grouped_items": 3,
+      "ungrouped_items": 0,
+      "mode": "supabase_hybrid_search",
+      "interpretation_backend": "supabase",
+      "candidate_rows": 72,
+      "selected_docs": 18,
+      "embedding_mode": "ok",
+      "fts_query_present": true,
+      "topic_boost": "declaracion_renta",
+      "interpretation_anchor_eligible_docs": 1,
+      "interpretation_anchor_boosted_chunks": 8,
+      "interpretation_anchor_source": "planner_falkor",
+      "trust_tier_weight": 0.3,
+      "selected_trust_tier_mix": {
+        "high": 2,
+        "medium": 16,
+        "low": 0
+      },
+      "interpretation_anchor_planner": {
+        "anchor_source": "falkor",
+        "requested_refs": 2,
+        "resolved_numbers": 2,
+        "matched_articles": 1,
+        "matched_doc_ids": 1
+      },
+      "expert_query_seed": "Tengo divergencias entre patrimonio contable bajo NIIF y patrimonio fiscal. ¿Cómo manejan los expertos las diferencias permanentes y temporales en activos como propiedad, planta y equipo o intangibles? art. 261 art. 263",
+      "expert_query_seed_origin": "enriched",
+      "expert_search_top_k": 18,
+      "expert_rerank": {
+        "mode": "rerank",
+        "judge": {
+          "mode": "llm",
+          "model": "gemini-2.5-flash",
+          "token_usage": {},
+          "scored_count": 12,
+          "candidate_count": 12
+        },
+        "supabase": {
+          "mode": "supabase_hybrid_search",
+          "rows_returned": 48,
+          "candidates_matched": 3
+        },
+        "graph_scored_count": 12,
+        "candidate_count": 12,
+        "summarized_count": 12
+      }
+    },
+    "trace_id": "a3bc3c0e-2d9f-44d6-b5ba-a9f1b6e9f61e"
+  }
+}

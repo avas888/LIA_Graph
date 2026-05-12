@@ -1,0 +1,1390 @@
+{
+  "qid": "descuentos_tributarios_renta_P3",
+  "topic_key_expected": "descuentos_tributarios_renta",
+  "profile": "P3_borde",
+  "message": "Un cliente hizo donaciones a una fundación calificada en el RTE por $20 millones, además compró maquinaria con IVA de $30 millones, e invirtió $50 millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de $200 millones. ¿Cómo manejo los topes? Entiendo que el del 25% del artículo 258 aplica para algunos pero no para todos, y no tengo claro cuáles entran y cuáles no.",
+  "http_status": 200,
+  "latency_ms": 15970,
+  "captured_utc": "2026-05-11T18:45:56.253240+00:00",
+  "response": {
+    "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+    "run_id": "pd_6acb8a7b053641b79526f8a6e7f9a804",
+    "answer_markdown": "**Respuestas directas**\n- **Un cliente hizo donaciones a una fundación calificada en el RTE por **$20** millones, además compró maquinaria con IVA de **$30** millones, e invirtió **$50** millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de **$200** millones. ¿Cómo manejo los topes?**\n  - El descuento por donaciones a entidades del RTE se rige por el (art. 257 ET). Este descuento, junto con los de los (arts. 255 y 256 ET), está sujeto a la limitación general del (art. 258 ET).\n  - El IVA pagado en la compra de maquinaria, al ser un activo fijo real productivo, puede descontarse del impuesto de renta a cargo según el (art. 258-1 ET). Este descuento no está sujeto a la limitación del (art. 258 ET).\n  - Las inversiones en proyectos de innovación calificados por el CNBT se manejaban bajo el (art. 158-1 ET), que fue derogado. Por lo tanto, esta inversión no genera un descuento tributario aplicable para el impuesto de renta.\n- **Entiendo que el del **25%** del artículo **258** aplica para algunos pero no para todos, y no tengo claro cuáles entran y cuáles no?**\n  - La limitación del **25%** del impuesto a cargo, establecida en el (art. 258 ET), aplica específicamente a los descuentos tributarios de los (arts. 255, 256 y 257 ET).\n  - Esto significa que el descuento por donaciones (art. 257 ET) sí está limitado al **25%** del impuesto a cargo.\n  - Por otro lado, el descuento por IVA pagado en la adquisición de activos fijos reales productivos (art. 258-1 ET) no está sujeto a esta limitación del **25%**.",
+    "answer_concise": "**Respuestas directas**\n- **Un cliente hizo donaciones a una fundación calificada en el RTE por **$20** millones, además compró maquinaria con IVA de **$30** millones, e invirtió **$50** millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de **$200** millones. ¿Cómo manejo los topes?**\n  - El descuento por donaciones a entidades del RTE se rige por el (art. 257 ET). Este descuento, junto con los de los (arts. 255 y 256 ET), está sujeto a la limitación general del (art. 258 ET).\n  - El IVA pagado en la compra de maquinaria, al ser un activo fijo real productivo, puede descontarse del impuesto de renta a cargo según el (art. 258-1 ET). Este descuento no está sujeto a la limitación del (art. 258 ET).\n  - Las inversiones en proyectos de innovación calificados por el CNBT se manejaban bajo el (art. 158-1 ET), que fue derogado. Por lo tanto, esta inversión no genera un descuento tributario aplicable para el impuesto de renta.\n- **Entiendo que el del **25%** del artículo **258** aplica para algunos pero no para todos, y no tengo claro cuáles entran y cuáles no?**\n  - La limitación del **25%** del impuesto a cargo, establecida en el (art. 258 ET), aplica específicamente a los descuentos tributarios de los (arts. 255, 256 y 257 ET).\n  - Esto significa que el descuento por donaciones (art. 257 ET) sí está limitado al **25%** del impuesto a cargo.\n  - Por otro lado, el descuento por IVA pagado en la adquisición de activos fijos reales productivos (art. 258-1 ET) no está sujeto a esta limitación del **25%**.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **Un cliente hizo donaciones a una fundación calificada en el RTE por **$20** millones, además compró maquinaria con IVA de **$30** millones, e invirtió **$50** millones en un proyecto de",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **Un cliente hizo donaciones a una fundación calificada en el RTE por **$20** millones, además compró maquinaria con IVA de **$30** millones, e invirtió **$50** millones en un proyecto de",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **Un cliente hizo donaciones a una fundación calificada en el RTE por **$20** millones, además compró maquinaria con IVA de **$30** millones, e invirtió **$50** millones en un proyecto de",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **Un cliente hizo donaciones a una fundación calificada en el RTE por **$20** millones, además compró maquinaria con IVA de **$30** millones, e invirtió **$50** millones en un proyecto de",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Artículo 256. 1. Para liquidar el auxilio de cesantía se toma como base el promedio mensual de lo devengado por el trabajador como salario, en el último año de servicio o en todo el tiempo de trabajo si fuere menor. 2. C",
+      "Artículo 257. Se prohíbe a los patronos efectuar pagos parciales del auxilio de cesantía antes de la terminación del contrato de trabajo, salvo en los casos expresamente autorizados, y si los efectuaren perderán las suma",
+      "Artículo 258-1 . IMPUESTO SOBRE LAS VENTAS EN LA IMPORTACIÓN, FORMACIÓN, CONSTRUCCIÓN O ADQUISICIÓN DE ACTIVOS FIJOS REALES PRODUCTIVO. Los responsables del impuesto sobre las ventas (IVA) podrán descontar del impuesto s"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 1,
+        "connected_article_count": 3,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "258"
+        ],
+        "chunk_row_count": 27,
+        "document_row_count": 9,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "article_lookup"
+      },
+      "pipeline_trace": {
+        "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-11T18:45:40.285171+00:00",
+        "total_ms": 13066.09,
+        "step_count": 49,
+        "steps": [
+          {
+            "ts_utc": "2026-05-11T18:45:40.285185+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-11T18:45:40.285171+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:40.285361+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.18,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 398,
+              "message_preview": "Un cliente hizo donaciones a una fundación calificada en el RTE por $20 millones, además compró maquinaria con IVA de $30 millones, e invirtió $50 millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de $200 ",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:40.308289+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 23.11,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:40.308511+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 23.33,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:40.325085+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 39.9,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 398,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:42.395388+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2110.18,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "descuentos_tributarios_renta",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en cómo aplicar y manejar los topes de diferentes beneficios tributarios (donaciones, IVA en maquinaria, inversión en innovación) que afectan el impuesto de renta. Aunque menciona donaciones (que pueden ser deducciones",
+              "elapsed_ms_call": 2070.39,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:42.396051+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2110.86,
+            "message": null,
+            "details": {
+              "effective_topic": "descuentos_tributarios_renta",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "rentas_exentas",
+                "costos_deducciones_renta"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.140236+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 4855.05,
+            "message": null,
+            "details": {
+              "owner_trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+              "requested_trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.141228+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 4856.04,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "descuentos_tributarios_renta",
+              "secondary_topics": [
+                "rentas_exentas",
+                "costos_deducciones_renta"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en cómo aplicar y manejar los topes de diferentes beneficios tributarios (donaciones, IVA en maquinaria, inversión en innovación) que afectan el impuesto de renta. Aunque menciona donaciones (que pueden ser deducciones o descuentos) y el IVA (que se convierte en descuento), el núcleo de la pregunta es la aplicación de los límites y topes a estos beneficios para reducir el impuesto de renta, lo que encaja directamente con el tema de descuentos tributarios. La regla 8 (descuento IVA bienes de capital) es relevante aquí, ya que el IVA en maquinaria se recupera como descuento del impuesto de renta. La pregunta sobre 'cómo manejo los topes' y el '25% del artículo 258' (que es un límite para descuentos) refuerza que el tema principal es descuentos tributarios.",
+              "topic_notice": "Tu pregunta es de descuentos tributarios renta, por lo cual utilizaremos nuestra base de datos descuentos tributarios renta.",
+              "message_preview": "Un cliente hizo donaciones a una fundación calificada en el RTE por $20 millones, además compró maquinaria con IVA de $30 millones, e invirtió $50 millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de $200 ",
+              "message_chars": 398
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.142399+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 4857.21,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "Un cliente hizo donaciones a una fundación calificada en el RTE por $20 millones, además compró maquinaria con IVA de $30 millones, e invirtió $50 millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de $200 millones. ¿Cómo manejo los topes?",
+                "Entiendo que el del 25% del artículo 258 aplica para algunos pero no para todos, y no tengo claro cuáles entran y cuáles no?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.142775+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 4857.59,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 273,
+              "message_preview": "Un cliente hizo donaciones a una fundación calificada en el RTE por $20 millones, además compró maquinaria con IVA de $30 millones, e invirtió $50 millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de $200 ",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.171264+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 4886.08,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.171615+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 4886.43,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.171709+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 4886.53,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.192541+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 4907.36,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "regimen_tributario_especial_esal",
+              "top_score": 9,
+              "confidence": 0.55,
+              "ranked_top_3": [
+                [
+                  "regimen_tributario_especial_esal",
+                  9
+                ],
+                [
+                  "iva",
+                  3
+                ],
+                [
+                  "sector_ciencia",
+                  3
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.192636+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 4907.46,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "Un cliente hizo donaciones a una fundación calificada en el RTE por $20 millones, además compró maquinaria con IVA de $30 millones, e invirtió $50 millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de $200 millones. ¿Cómo manejo los topes?",
+              "original_effective_topic": "regimen_tributario_especial_esal",
+              "original_mode": "fallback",
+              "original_confidence": 0.55,
+              "parent_topic": "descuentos_tributarios_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.192698+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 4907.52,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "Un cliente hizo donaciones a una fundación calificada en el RTE por $20 millones, además compró maquinaria con IVA de $30 millones, e invirtió $50 millones en un proyecto de innovación calificado por el CNBT. Su impuesto a cargo es de $200 millones. ¿Cómo manejo los topes?",
+              "effective_topic": "descuentos_tributarios_renta",
+              "secondary_topics": [
+                "rentas_exentas",
+                "costos_deducciones_renta"
+              ],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.209971+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 4924.79,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.210305+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 4925.12,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "descuentos_tributarios_renta regimen_tributario_especial_esal Un cliente hizo donaciones a una fundación calificada en el RTE por $20 millones, además compró maquinaria con IVA de $30 millones, e invirtió $50 millones en un proyecto de inno",
+              "query_text_chars": 335
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:45.210925+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 4925.73,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "descuentos_tributarios_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "descuentos_tributarios_renta",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:46.211711+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 5926.51,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-15-descuentos-tributarios.md::15-3-donacione",
+                "suin_1132325::800-1",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_NORMATIVA_DON-N01-dona",
+                "suin_1132325::158-1",
+                "suin_1132325::240",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_LOGGRO_DON-L01-guia-pr",
+                "suin_1132325::235-2",
+                "CORE_ya_Arriba_LEYES_OTROS_SECTORIALES_consolidado_Ley-2130-2021.md::impacto-tri",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md::resumen-de-deduc"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:46.897900+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 6612.69,
+            "message": null,
+            "details": {
+              "anchor_row_count": 20,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:46.898504+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 6613.32,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 42,
+              "delta": 18
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.072596+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 6787.41,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 42,
+              "rows_out": 41,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 42,
+              "chunks_kept": 41,
+              "chunks_dropped": 1,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 41,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.463241+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 7178.04,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 42,
+                "chunks_kept": 41,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.463437+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 7178.26,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 124,
+              "message_preview": "Entiendo que el del 25% del artículo 258 aplica para algunos pero no para todos, y no tengo claro cuáles entran y cuáles no?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.491364+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 7206.18,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.491585+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 7206.41,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.491648+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 7206.47,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.510975+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.no_topic_detected",
+            "status": "fallback",
+            "elapsed_ms": 7225.79,
+            "message": "Router silent — no requested_topic, no lexical signal, no prior_topic.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.511141+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_inherited_parent",
+            "status": "fallback",
+            "elapsed_ms": 7225.96,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "Entiendo que el del 25% del artículo 258 aplica para algunos pero no para todos, y no tengo claro cuáles entran y cuáles no?",
+              "original_effective_topic": null,
+              "original_mode": "fallback",
+              "original_confidence": 0.0,
+              "parent_topic": "descuentos_tributarios_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.511213+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 7226.03,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "Entiendo que el del 25% del artículo 258 aplica para algunos pero no para todos, y no tengo claro cuáles entran y cuáles no?",
+              "effective_topic": "descuentos_tributarios_renta",
+              "secondary_topics": [
+                "rentas_exentas",
+                "costos_deducciones_renta"
+              ],
+              "confidence": 0.6,
+              "mode": "subquery_parent_inheritance",
+              "reason": "fix_v5_phase6b:subquery_inherited_parent",
+              "topic_adjusted": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.527660+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 7242.48,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "article_lookup",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.527799+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7242.62,
+            "message": null,
+            "details": {
+              "plan_query_mode": "article_lookup",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 258 descuentos_tributarios_renta",
+              "query_text_chars": 41
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:47.528256+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7243.07,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "descuentos_tributarios_renta",
+              "filter_topic_boost": 1.5,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "descuentos_tributarios_renta",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:48.358201+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 8073.0,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "suin_1132325::258",
+                "suin_1132325::235-2",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::258",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "suin_1132325::259",
+                "suin_30046753::2",
+                "suin_1132325::258-1",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::259",
+                "suin_1132325::240"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:48.511374+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 8226.17,
+            "message": null,
+            "details": {
+              "anchor_row_count": 5,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:48.511985+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 8226.8,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 27,
+              "delta": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:48.686651+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 8401.45,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 27,
+              "rows_out": 27,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-11"
+              },
+              "chunks_seen": 27,
+              "chunks_kept": 27,
+              "chunks_dropped": 0,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 27,
+                "chunks_kept": 27,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:50.051433+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 9766.2,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 1,
+              "connected_count": 3,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-11"
+                },
+                "chunks_seen": 27,
+                "chunks_kept": 27,
+                "chunks_dropped": 0,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:50.052042+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 9766.85,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                4,
+                5,
+                4
+              ],
+              "after": [
+                4,
+                5,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "256",
+                  "257",
+                  "258-1",
+                  "258",
+                  "15-3-donaciones-art-257-et",
+                  "800-1",
+                  "158-1",
+                  "240",
+                  "255"
+                ],
+                "candidate_count": 9,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:50.052173+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 9766.99,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "descuentos_tributarios_renta",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "descuentos_tributarios_renta",
+                "articles_top_topic": "descuentos_tributarios_renta",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "256",
+                  "257",
+                  "258-1"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:50.085810+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 9800.62,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "descuentos_tributarios_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:50.086159+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 9800.98,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "general_graph_research",
+              "sub_question_count": 2
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:50.092064+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 9806.88,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "descuentos_tributarios_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:50.092147+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 9806.97,
+            "message": null,
+            "details": {
+              "template_chars": 740
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:53.350234+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 13065.04,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 1554,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:53.350721+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 13065.53,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "descuentos_tributarios_renta",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-11T18:45:53.350980+00:00",
+            "trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 13065.79,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 4,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 71,
+        "output_tokens": 268,
+        "total_tokens": 339,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "descuentos_tributarios_renta",
+    "secondary_topics": [
+      "rentas_exentas",
+      "costos_deducciones_renta"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de descuentos tributarios renta, por lo cual utilizaremos nuestra base de datos descuentos tributarios renta.",
+    "topic_adjustment_reason": "La consulta se centra en cómo aplicar y manejar los topes de diferentes beneficios tributarios (donaciones, IVA en maquinaria, inversión en innovación) que afectan el impuesto de renta. Aunque menciona donaciones (que pueden ser deducciones o descuentos) y el IVA (que se convierte en descuento), el núcleo de la pregunta es la aplicación de los límites y topes a estos beneficios para reducir el impuesto de renta, lo que encaja directamente con el tema de descuentos tributarios. La regla 8 (descuento IVA bienes de capital) es relevante aquí, ya que el IVA en maquinaria se recupera como descuento del impuesto de renta. La pregunta sobre 'cómo manejo los topes' y el '25% del artículo 258' (que es un límite para descuentos) refuerza que el tema principal es descuentos tributarios.",
+    "coverage_notice": null,
+    "topic": "descuentos_tributarios_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778525140,
+      "expires_at": 1778528740,
+      "token_id": "832137d35c4e4e0a9996fc527e640ad1"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_be121b77d640",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 71,
+        "output_tokens": 268,
+        "total_tokens": 339
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+      "last_run_id": "pd_6acb8a7b053641b79526f8a6e7f9a804",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_be121b77d640",
+    "chat_run_id": "cr_20260511_184542_61184386",
+    "metrics": {
+      "latency_ms": 14640.85,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 71,
+          "output_tokens": 268,
+          "total_tokens": 339,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_be121b77d640",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 71,
+          "output_tokens": 268,
+          "total_tokens": 339
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "a9dc8e31-edd1-4094-a8f5-6c6f95dc95a6",
+        "last_run_id": "pd_6acb8a7b053641b79526f8a6e7f9a804",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 6,
+        "mentions_unique": 6,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 6,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 9.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "descuentos_tributarios_renta",
+        "secondary_topics": [
+          "rentas_exentas",
+          "costos_deducciones_renta"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "6166540d0cb14850bdf8cba2a4804fea"
+  }
+}

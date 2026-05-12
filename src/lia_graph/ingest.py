@@ -11,6 +11,11 @@ from typing import Any
 
 from .env_posture import EnvPostureError, assert_local_posture
 from .graph import GraphClient, GraphClientError, GraphQueryResult
+from .graph.interpretation_loader import (
+    build_interpretation_load_plan,
+    execute_interpretation_load_plan,
+    interpretation_loader_enabled,
+)
 from .graph.schema import NodeKind
 from .ingestion import (
     ClassifiedEdge,
@@ -466,6 +471,58 @@ def materialize_graph_artifacts(
     _write_json(graph_load_report_path, load_execution)
     _write_json(graph_validation_report_path, load_plan.validation.to_dict())
 
+    # fix_v11_may Phase 11B — InterpretationNode + INTERPRETS + COVERS_TOPIC
+    # load. Runs AFTER the article/reform/topic load so the INTERPRETS and
+    # COVERS_TOPIC edges' MATCH endpoints resolve. Eligible-key sets are
+    # derived from `load_plan.nodes` so we only emit edges whose endpoint
+    # nodes actually exist in this corpus snapshot; cross-corpus drift
+    # surfaces as `interprets_edges_dropped_unknown_article` in the
+    # diagnostics rather than as silent Cypher no-ops.
+    interpretation_load_report: dict[str, Any] | None = None
+    if interpretation_loader_enabled():
+        eligible_article_ids = {
+            str(node.key)
+            for node in load_plan.nodes
+            if node.kind is NodeKind.ARTICLE and str(node.key).strip()
+        }
+        eligible_topic_keys = {
+            str(node.key).lower()
+            for node in load_plan.nodes
+            if node.kind is NodeKind.TOPIC and str(node.key).strip()
+        }
+        interpretation_plan = build_interpretation_load_plan(
+            manifest_path=canonical_manifest_path,
+            graph_client=runtime_graph_client,
+            eligible_article_ids=eligible_article_ids,
+            eligible_topic_keys=eligible_topic_keys,
+        )
+        interpretation_results: tuple[GraphQueryResult, ...] = ()
+        if execute_load:
+            interpretation_results = execute_interpretation_load_plan(
+                interpretation_plan,
+                graph_client=runtime_graph_client,
+                strict=strict_falkordb,
+            )
+        success_count = sum(
+            1 for r in interpretation_results if r.ok and not r.skipped
+        )
+        failure_count = sum(1 for r in interpretation_results if not r.ok)
+        skipped_count = sum(1 for r in interpretation_results if r.skipped)
+        interpretation_load_report = {
+            **interpretation_plan.to_dict(),
+            "requested_execution": bool(execute_load),
+            "executed": any(
+                r.ok and not r.skipped for r in interpretation_results
+            ),
+            "success_count": success_count,
+            "failure_count": failure_count,
+            "skipped_count": skipped_count,
+        }
+        _write_json(
+            artifacts_root / "interpretation_load_report.json",
+            interpretation_load_report,
+        )
+
     supabase_sink_report: dict[str, Any] | None = None
     if supabase_sink:
         generation_id = str(supabase_generation_id or default_generation_id()).strip()
@@ -560,8 +617,12 @@ def materialize_graph_artifacts(
             "typed_edges": str(typed_edges_path),
             "graph_load_report": str(graph_load_report_path),
             "graph_validation_report": str(graph_validation_report_path),
+            "interpretation_load_report": str(
+                artifacts_root / "interpretation_load_report.json"
+            ) if interpretation_load_report is not None else None,
         },
         "graph_load_report": load_execution,
+        "interpretation_load_report": interpretation_load_report,
         "supabase_sink_report": supabase_sink_report,
         "suin_merge_report": suin_merge_report,
     }
