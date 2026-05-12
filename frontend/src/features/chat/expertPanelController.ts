@@ -20,6 +20,7 @@ import {
   sanitizeExpertText,
 } from "@/features/chat/expertSummaryText";
 import { applySplitTitle } from "@/features/chat/expertModalTitle";
+import { labelAuthority } from "@/features/chat/expertAuthorityLabels";
 
 export { extractArticleRefs } from "@/features/chat/expertPanelRefs";
 
@@ -154,7 +155,7 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
     // Reject slug-like titles: no spaces and longer than 30 chars (raw doc_id artifacts)
     const isSlug = raw.length > 30 && !/\s/.test(raw);
     if (raw && !isSlug) return raw;
-    return normalizeText(snippet.authority) || "Fuente profesional";
+    return labelAuthority(snippet.authority) || "Fuente profesional";
   }
 
   function renderSourceCard(snippet: ExpertSnippet): HTMLElement {
@@ -370,11 +371,11 @@ export function createExpertPanelController(options: ExpertPanelControllerOption
 
     const eyebrow = document.createElement("div");
     eyebrow.className = "expert-detail-tab-eyebrow";
-    const authorityName = normalizeText(snippet.authority);
-    if (authorityName) {
+    const authorityLabel = labelAuthority(snippet.authority);
+    if (authorityLabel) {
       const authorityChip = document.createElement("span");
-      authorityChip.className = `expert-detail-tab-authority ${authorityBadgeClass(authorityName)}`;
-      authorityChip.textContent = authorityName;
+      authorityChip.className = `expert-detail-tab-authority ${authorityBadgeClass(snippet.authority)}`;
+      authorityChip.textContent = authorityLabel;
       eyebrow.appendChild(authorityChip);
     }
     if (card.articleLabel) {

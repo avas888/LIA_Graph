@@ -13,6 +13,7 @@
  */
 
 import type { I18nRuntime } from "@/shared/i18n";
+import { labelAuthority } from "@/features/chat/expertAuthorityLabels";
 import { stripMarkdown } from "@/shared/utils/format";
 import {
   buildElevatorSummary,
@@ -131,7 +132,7 @@ export function uniqueAuthorities(snippets: ExpertSnippet[]): string[] {
   return Array.from(
     new Set(
       snippets
-        .map((snippet) => normalizeText(snippet.authority))
+        .map((snippet) => labelAuthority(snippet.authority))
         .filter(Boolean),
     ),
   );

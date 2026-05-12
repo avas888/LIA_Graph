@@ -6,6 +6,7 @@
  */
 
 import { stripMarkdown } from "@/shared/utils/format";
+import { labelAuthority } from "@/features/chat/expertAuthorityLabels";
 import type { AsyncTaskRunner, ChatModalState, NormativeModalDom } from "@/features/chat/normative/types";
 
 export interface InterpretationModalDeps {
@@ -210,7 +211,7 @@ export function createInterpretationModal(deps: InterpretationModalDeps) {
 
     const scoreText = [
       String(item.selection_reason || "").trim(),
-      providers.join(", ") || String(item.authority || "").trim(),
+      providers.join(", ") || labelAuthority(item.authority as string),
     ].filter(Boolean).join(" · ");
     if (scoreText) {
       const score = document.createElement("p");
