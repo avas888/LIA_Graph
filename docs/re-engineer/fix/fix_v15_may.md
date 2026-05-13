@@ -638,7 +638,20 @@ Each phase advances only when the prior is signed off. Do not jump
 ## §12. Status (as of this doc landing)
 
 - 💡 idea — written.
-- 🛠 code landed — **pending.**
-- 🧪 verified locally — pending.
-- ✅ verified in target environment — pending (operator-authorized panel).
+- 🛠 code landed — **done 2026-05-13.** Validator `_no_invented_uvt_ranges` + env knob `LIA_POLISH_UVT_VALIDATOR` (default `shadow`) + trace step + `_validate_against_rules` evidence plumbing landed in `src/lia_graph/pipeline_d/answer_llm_polish.py`. New `PromptRule` registered between `no_invented_periods` and `neutral_spanish`. Launcher default added in `scripts/dev-launcher.mjs`. Docs bumped to `v2026-05-13-fix-v15-uvt-validator` across `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`, `CLAUDE.md`, `frontend/src/features/orchestration/orchestrationApp.ts`.
+- 🧪 verified locally — **done 2026-05-13.** `PYTHONPATH=src:. uv run pytest tests/test_answer_llm_polish.py` → `31 passed in 0.09s` (12 v15 cases + 1 REFINE regression case for question-text false positive).
+- 🛠 REFINE landed (2026-05-13, post first shadow panel) — first shadow panel surfaced 1 false positive on `ep_gmf_exencion_350uvt_v1` (validator flagged `350uvt` + `50%` even though both values appear verbatim in the user's question). Plan §3.4 explicitly listed "question text from the polish prompt's context" in the allowed set; initial implementation missed it. Threaded `request.message` through `_validate_against_rules` → `_invoke_validator` → `_no_invented_uvt_ranges(template, polished, evidence, question)`. Sibling validators dispatch through narrowing-signature TypeError fallback (no API breakage). New regression test `test_uvt_validator_accepts_value_present_in_question`.
+- 🧪 shadow panel rerun (2026-05-13, post-REFINE) — 42-turn panel against `dev:staging` cloud Supabase + cloud Falkor with `LIA_POLISH_UVT_VALIDATOR=shadow`. Polish modes: 25 rejected (existing validators) / 17 llm / 1 skipped. Validator events on the 17 polish-llm turns: 13 `noop_no_cue` + 4 `pass` + **0 `fail_shadow`**. **Zero false positives.** Anchor turn `pr_rst_anticipo_bimestral_v1` polished cleanly without inventing `3,5%` (cue matched → `pass`).
+- 🧪 anchor amplifier rerun (2026-05-13) — restarted with `LIA_POLISH_NUMERIC_DIRECTIVE=on` (the kill-switched A3 helper) + `LIA_POLISH_UVT_VALIDATOR=shadow`; re-ran 21-turn practica panel. Anchor turn STILL polished cleanly without inventing tarifa values (`pass` outcome). The v14.2 §17 hallucination is stochastic — Gemini at temp=0 still varies on long structured-output prompts; we couldn't reliably reproduce on demand. Architectural correctness of the validator is established by `test_uvt_validator_enforce_mode_rejects_invented_tarifa` which deterministically simulates the exact `3,5%` pattern with a mocked adapter.
+- 🧪 enforce panel (2026-05-13) — 42-turn panel against `dev:staging` with `LIA_POLISH_UVT_VALIDATOR=enforce`. Polish modes: 25 rejected / 16 llm / 1 skipped. **Zero turns rejected with `skip_reason="invented_uvt_ranges"`.** Existing skip reasons unchanged (`invented_periods` 13, `invented_norm_lineage` 10, `anchors_stripped` 2, `topic_safety_abstention` 1). Validator's enforce-mode side effect on this 42-turn corpus: nil. Safe to promote.
+- ✅ verified in target environment — **partial.** Zero false positives in shadow + zero new rejections in enforce confirm the validator is safe to ship. The strict §5.4 INCLUDE clause "validator flags `pr_rst_anticipo_bimestral_v1`" was not satisfied IN production (LLM didn't reproduce the v14.2 hallucination across 3 panel runs); architectural correctness covered by deterministic unit test. **Recommendation:** promote `LIA_POLISH_UVT_VALIDATOR=shadow → enforce` per the operator's risk-forward beta-flag stance — zero downside on the 42-turn baseline + structural safety net for when the regression returns.
 - ↩ regressed-discarded — N/A.
+
+### Panel run artifacts
+
+| Phase | Run dir |
+|---|---|
+| First shadow (pre-REFINE) | `evals/sme_validation_v1/runs/20260513T1721_v15_uvt_shadow_practica`, `…_v15_uvt_shadow_general` |
+| Shadow rerun (post-REFINE) | `evals/sme_validation_v1/runs/20260513T1733_v15_uvt_shadow_r2_practica`, `…_v15_uvt_shadow_r2_general` |
+| Anchor amplifier (A3 on) | `evals/sme_validation_v1/runs/20260513T1740_v15_uvt_shadow_amp_practica` |
+| Enforce panel | `evals/sme_validation_v1/runs/20260513T1745_v15_uvt_enforce_practica`, `…_v15_uvt_enforce_general` |

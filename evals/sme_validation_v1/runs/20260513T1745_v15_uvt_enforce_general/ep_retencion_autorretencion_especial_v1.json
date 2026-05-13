@@ -1,0 +1,1294 @@
+{
+  "qid": "ep_retencion_autorretencion_especial_v1",
+  "topic_key_expected": "retencion_en_la_fuente",
+  "profile": "expert_panel_v1",
+  "message": "Mi cliente es autorretenedor especial bajo Decreto 2201/2016 con actividad de comercio al por mayor. ¿Cómo manejan los expertos la concurrencia con las retenciones tradicionales del Art. 365 ET cuando un cliente también pretende practicarle retención, y qué errores frecuentes hay con la base de autorretención especial (ingresos brutos vs depurados, exclusiones de ciertos conceptos)?",
+  "http_status": 200,
+  "latency_ms": 46161,
+  "captured_utc": "2026-05-13T22:49:29.467537+00:00",
+  "response": {
+    "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+    "run_id": "pd_225057281f7e4fb4bbd12228c18806cc",
+    "answer_markdown": "**Respuestas directas**\n- **¿Cómo manejan los expertos la concurrencia con las retenciones tradicionales del Art. 365 ET cuando un cliente también pretende practicarle retención, y qué errores frecuentes hay con la base de autorretención especial (ingresos brutos vs depurados, exclusiones de ciertos conceptos)?**\n\n**Recomendaciones Prácticas**\n- ¿Quiénes deben practicar la autorretención especial? El art. 1.2.6.6 del DUR 1625/2016 establece dos condiciones acumulativas.\n- No incluir la autorretención del Decreto 2201: muchas PYMEs olvidan la autorretención especial de renta (concepto 72 / renglón 39). La omisión genera sanción por inexactitud.\n\n**Anclaje legal**\n- Art. 365 — REQUISITOS PARA ENTIDADES SIN ÁNIMO DE LUCRO\n- Art. 366-1 — FACULTAD PARA ESTABLECER RETENCIÓN EN LA FUENTE POR INGRESOS DEL EXTERIOR\n- Art. 366-2 — NORMAS APLICABLES EN MATERIA DE RETENCIÓN EN LA FUENTE",
+    "answer_concise": "**Respuestas directas**\n- **¿Cómo manejan los expertos la concurrencia con las retenciones tradicionales del Art. 365 ET cuando un cliente también pretende practicarle retención, y qué errores frecuentes hay con la base de autorretención especial (ingresos brutos vs depurados, exclusiones de ciertos conceptos)?**\n\n**Recomendaciones Prácticas**\n- ¿Quiénes deben practicar la autorretención especial? El art. 1.2.6.6 del DUR 1625/2016 establece dos condiciones acumulativas.\n- No incluir la autorretención del Decreto 2201: muchas PYMEs olvidan la autorretención especial de renta (concepto 72 / renglón 39). La omisión genera sanción por inexactitud.\n\n**Anclaje legal**\n- Art. 365 — REQUISITOS PARA ENTIDADES SIN ÁNIMO DE LUCRO\n- Art. 366-1 — FACULTAD PARA ESTABLECER RETENCIÓN EN LA FUENTE POR INGRESOS DEL EXTERIOR\n- Art. 366-2 — NORMAS APLICABLES EN MATERIA DE RETENCIÓN EN LA FUENTE",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "No incluir la autorretención del Decreto 2201: muchas PYMEs olvidan la autorretención especial de renta (concepto 72 / renglón 39).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Anclaje legal** Art. 365 — REQUISITOS PARA ENTIDADES SIN ÁNIMO DE LUCRO Art. 366-1 — FACULTAD PARA ESTABLECER RETENCIÓN EN LA FUENTE POR INGRESOS DEL EXTERIOR Art.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "No incluir la autorretención del Decreto 2201: muchas PYMEs olvidan la autorretención especial de renta (concepto 72 / renglón 39).",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_NORMATIVA_DON-N01-donaciones-arts-125-257-ET.md",
+        "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_NORMATIVA_DON-N01-donaciones-arts-125-257-ET.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_NORMATIVA_DON-N01-donaciones-arts-125-257-ET.md",
+        "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_NORMATIVA_DON-N01-donaciones-arts-125-257-ET.md",
+        "download_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_NORMATIVA_DON-N01-donaciones-arts-125-257-ET.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DONACIONES_DESCUENTOS_NORMATIVA_DON-N01-donaciones-arts-125-257-ET.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DON N01 — Donaciones y Descuentos Tributarios: Artículos 125, 257 y Régimen Especial",
+        "legal_reference": "DON N01 — Donaciones y Descuentos Tributarios: Artículos 125, 257 y Régimen Especial",
+        "search_query": "DON N01 — Donaciones y Descuentos Tributarios: Artículos 125, 257 y Régimen Especial DIAN / fuente oficial colombia DON N01 — Donaciones y Descuentos Tributarios: Artículos 125, 257 y Régimen Especial",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 125",
+          "locator_kind": "articles",
+          "locator_start": "125",
+          "locator_end": null
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Para que una entidad sin ánimo de lucro pueda ser calificada en el Régimen Tributario Especial, deberá cumplir los siguientes requisitos:\n\n1. Estar constituida y autorizada conforme a la ley;\n2. Estar sujeta a inspección, vigilancia y contr",
+      "*Artículo adicionado por el artículo 7 de la Ley 6 de 1992. El nuevo texto es el siguiente:*\n\nSin perjuicio de las retenciones en la fuente consagradas en las disposiciones vigentes, el Gobierno Nacional podrá señalar porcentajes de retenci",
+      "*Artículo adicionado por el artículo 121 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nA falta de normas específicas al respecto, a las retenciones en la fuente que se establezcan de acuerdo con las autorizaciones consagradas en "
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "365",
+          "366-1",
+          "366-2",
+          "367"
+        ],
+        "chunk_row_count": 26,
+        "document_row_count": 14,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "reform_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T22:48:43.307122+00:00",
+        "total_ms": 34292.58,
+        "step_count": 40,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T22:48:43.307140+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T22:48:43.307122+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:43.307299+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.17,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 385,
+              "message_preview": "Mi cliente es autorretenedor especial bajo Decreto 2201/2016 con actividad de comercio al por mayor. ¿Cómo manejan los expertos la concurrencia con las retenciones tradicionales del Art. 365 ET cuando un cliente también pretende practicarle",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:43.340319+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 33.19,
+            "message": null,
+            "details": {
+              "effective_topic": "retencion_fuente_general",
+              "confidence": 0.99,
+              "reason": "rule:retencion_fuente_general matched autorretencion, autorretención, autorretenedor, retencion, retención, retenciones",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:50.084539+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 6777.41,
+            "message": null,
+            "details": {
+              "owner_trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+              "requested_trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:50.084740+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 6777.61,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "retencion_fuente_general",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:retencion_fuente_general matched autorretencion, autorretención, autorretenedor, retencion, retención, retenciones",
+              "topic_notice": "Tu pregunta es de retencion fuente general, por lo cual utilizaremos nuestra base de datos retencion fuente general.",
+              "message_preview": "Mi cliente es autorretenedor especial bajo Decreto 2201/2016 con actividad de comercio al por mayor. ¿Cómo manejan los expertos la concurrencia con las retenciones tradicionales del Art. 365 ET cuando un cliente también pretende practicarle",
+              "message_chars": 385
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:50.101926+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 6794.79,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [
+                  "DECRETO-2201-s_f"
+                ],
+                "anchor_reform_labels": [
+                  "Decreto 2201"
+                ],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:50.102155+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 6795.03,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 365 Decreto 2201 retencion_fuente_general",
+              "query_text_chars": 50
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:50.102764+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 6795.63,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "retencion_fuente_general",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "retencion_fuente_general",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:51.061320+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7754.17,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::365",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::395",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::390",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::366-2",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::392",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::369",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::367",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::401-2",
+                "suin_30046753::2",
+                "suin_1132325::365"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 1
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:51.212630+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7905.49,
+            "message": null,
+            "details": {
+              "anchor_row_count": 5,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:51.213019+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7905.89,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 27,
+              "delta": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:51.236136+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 7929.0,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 27,
+              "rows_out": 27,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "retencion_fuente_general"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:48:51.410307+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 8103.16,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 27,
+              "rows_out": 26,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 27,
+              "chunks_kept": 26,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 27,
+                "chunks_kept": 26,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:12.837627+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 29530.48,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 27,
+                "chunks_kept": 26,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "365",
+                "366-1",
+                "366-2",
+                "367"
+              ],
+              "tema_first_topic_key": "retencion_fuente_general",
+              "planner_query_mode": "reform_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:12.838018+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 29530.89,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "365",
+                  "366-1",
+                  "366-2",
+                  "105",
+                  "121",
+                  "125",
+                  "174"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:12.899187+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 29592.04,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "retencion_fuente_general",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "retencion_fuente_general",
+                "articles_top_topic": "retencion_fuente_general",
+                "router_score_on_articles": 9,
+                "top_score_on_articles": 9,
+                "ranked_article_topics": [
+                  [
+                    "retencion_fuente_general",
+                    9
+                  ],
+                  [
+                    "regimen_tributario_especial_esal",
+                    8
+                  ],
+                  [
+                    "procedimiento_tributario",
+                    1
+                  ],
+                  [
+                    "impuesto_nacional_consumo",
+                    1
+                  ],
+                  [
+                    "normas_internacionales_auditoria",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:12.901000+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 29593.87,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "retencion_fuente_general",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:12.901676+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 29594.55,
+            "message": null,
+            "details": {
+              "query_preview": "Mi cliente es autorretenedor especial bajo Decreto 2201/2016 con actividad de comercio al por mayor. ¿Cómo manejan los expertos la concurrencia con las retencio",
+              "topic": "retencion_fuente_general",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:12.902563+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 29595.44,
+            "message": null,
+            "details": {
+              "query_chars": 385,
+              "query_preview": "Mi cliente es autorretenedor especial bajo Decreto 2201/2016 con actividad de comercio al por mayor. ¿Cómo manejan los expertos la concurrencia con las retencio",
+              "topic": "retencion_fuente_general",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "cliente | autorretenedor | especial | bajo | decreto | 2201 | 2016 | actividad | comercio | mayor | manejan | expertos | concurrencia | retenciones | tradicionales | 365 | cuando | también | pretende ",
+              "fts_query_token_count": 33,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:12.905201+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 29598.07,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "retencion_fuente_general",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.436188+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 30129.06,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 530.76,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                "CORE_ya_Arriba_OBLIGACIONES_PROFESIONALES_CONTADOR_LOGGRO_L01-guia-practica-obligaciones-profesionales-contador.md",
+                "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L01-guia-practica-declaracion-retencion-formulario-350.md",
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_LOGGRO_RET-L03-decreto-572-disambiguador-guia-practica.md",
+                "CORE_ya_Arriba_ZOMAC_INCENTIVOS_LOGGRO_L01-guia-practica-ZOMAC-incentivos-regionales.md",
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_LOGGRO_RET-L03-decreto-572-disambiguador-guia-practica.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-05-rst-vs-ordinario.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Emergencia_Tributaria_Decreto_0240_Practica_LOGGRO_eme_practica_decreto_0240.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.591530+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 30284.4,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.591746+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 30284.62,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 155.13,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.591820+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 30284.69,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                  "score": 0.032522
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_OBLIGACIONES_PROFESIONALES_CONTADOR_LOGGRO_L01-guia-practica-obligaciones-profesionales-contador.md",
+                  "score": 0.028158
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L01-guia-practica-declaracion-retencion-formulario-350.md",
+                  "score": 0.027894
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.722211+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 30415.08,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 819.72,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                "CORE_ya_Arriba_OBLIGACIONES_PROFESIONALES_CONTADOR_LOGGRO_L01-guia-practica-obligaciones-profesionales-contador.md",
+                "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L01-guia-practica-declaracion-retencion-formulario-350.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.722405+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 30415.28,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.722469+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 30415.35,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.722552+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 30415.43,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.722586+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 30415.46,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "reform_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.728573+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 30421.43,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 2,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "¿Quiénes deben practicar la autorretención especial? El art. 1.2.6.6 del DUR 1625/2016 establece dos condiciones acumula"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_OBLIGACIONES_PROFESIONALES_CONTADOR_LOGGRO_L01-guia-practica-obligaciones-profesionales-contador.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 148,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Inicie sesión con su número de cédula y contraseña asociada a su registro. Si olvidó la contraseña, use la opción \"Recup"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L01-guia-practica-declaracion-retencion-formulario-350.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 2,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "No incluir la autorretención del Decreto 2201: muchas PYMEs olvidan la autorretención especial de renta (concepto 72 / r"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.729531+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 30422.4,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "retencion_fuente_general",
+              "allowed_prefix_count": 61,
+              "kept_count": 3,
+              "dropped_count": 0,
+              "dropped_keys_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.731612+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 30424.48,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "retencion_fuente_general",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "declaracion_renta",
+                "laboral",
+                "dividendos_y_distribucion_utilidades"
+              ],
+              "allowed_prefix_count": 61,
+              "kept_count": 1,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.731767+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 30424.64,
+            "message": null,
+            "details": {
+              "template_chars": 314
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:17.598590+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "info",
+            "elapsed_ms": 34291.46,
+            "message": null,
+            "details": {
+              "mode": "rejected",
+              "skip_reason": "invented_norm_lineage",
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 314,
+              "polish_changed": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:17.599071+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_filter",
+            "status": "ok",
+            "elapsed_ms": 34291.94,
+            "message": null,
+            "details": {
+              "filter_mode": "clean",
+              "routed_topic": "retencion_fuente_general",
+              "allowed_prefix_count": 61,
+              "heuristics_on": true,
+              "sections_dropped_empty": [],
+              "bullets_dropped_total": 1,
+              "drop_reasons": {
+                "chunk_quality:portal_login_boilerplate": 1
+              },
+              "evidence_chars": 469,
+              "min_evidence_chars": 300,
+              "outcome": "substantive_fallback",
+              "sections_rendered": 2
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:17.599189+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_composed",
+            "status": "ok",
+            "elapsed_ms": 34292.06,
+            "message": null,
+            "details": {
+              "polish_skip_reason": "invented_norm_lineage",
+              "template_chars": 314,
+              "fallback_chars": 887,
+              "fallback_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:17.599359+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 34292.23,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "retencion_fuente_general",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "declaracion_renta",
+                "laboral",
+                "dividendos_y_distribucion_utilidades"
+              ],
+              "allowed_prefix_count": 61,
+              "kept_count": 6,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:17.599440+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.gate_applied",
+            "status": "ok",
+            "elapsed_ms": 34292.32,
+            "message": null,
+            "details": {
+              "primary_topic": "retencion_fuente_general",
+              "gate_mode": "applied",
+              "dropped_count": 0,
+              "kept_count": 6
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:17.599541+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 34292.42,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "retencion_fuente_general",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:17.599612+00:00",
+            "trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 34292.49,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "rejected",
+      "polish_skip_reason": "invented_norm_lineage",
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 55,
+        "output_tokens": 130,
+        "total_tokens": 185,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "retencion_fuente_general",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de retencion fuente general, por lo cual utilizaremos nuestra base de datos retencion fuente general.",
+    "topic_adjustment_reason": "rule:retencion_fuente_general matched autorretencion, autorretención, autorretenedor, retencion, retención, retenciones",
+    "coverage_notice": null,
+    "topic": "retencion_fuente_general",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778712347,
+      "expires_at": 1778715947,
+      "token_id": "e4b74a223ee04214bf7dfec1f1752107"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_8d025a06702c",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 55,
+        "output_tokens": 130,
+        "total_tokens": 185
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+      "last_run_id": "pd_225057281f7e4fb4bbd12228c18806cc",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_8d025a06702c",
+    "chat_run_id": "cr_20260513_224844_f56e1dbf",
+    "metrics": {
+      "latency_ms": 41604.37,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 55,
+          "output_tokens": 130,
+          "total_tokens": 185,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_8d025a06702c",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 55,
+          "output_tokens": 130,
+          "total_tokens": 185
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "bfaed653-8053-40fe-a5f4-a38024477ae1",
+        "last_run_id": "pd_225057281f7e4fb4bbd12228c18806cc",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 7,
+        "mentions_unique": 7,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 7,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "decreto:2201:2016",
+          "et",
+          "dur:1625:2016",
+          "decreto:2201",
+          "concepto:72",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 6.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "retencion_fuente_general",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "87dda9aa499c4fc9bde532baafa29594"
+  }
+}

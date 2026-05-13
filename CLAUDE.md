@@ -89,7 +89,7 @@ the same topology as staging/prod.
 - `evals/` — retrieval/gold benchmarks.
 - `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
 
-## Runtime Read Path (Env v2026-05-13-fix-v14-2-ship)
+## Runtime Read Path (Env v2026-05-13-fix-v15-uvt-validator-enforce)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -144,6 +144,15 @@ Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_bac
 - **`LIA_POLISH_REJECTED_FALLBACK_FILTER=clean`** (§6 A4) — default `clean` across all three modes. `pipeline_d/answer_polish_rejected_fallback.py::compose_polish_rejected_fallback` filters every bullet through A2 chunk-quality + A1 topic-allowlist before render, omits empty sections, and returns an honest-abstention text appended to the question-echo header when total appended evidence is < 300 substantive chars (refined from 500 after v14.2 first run hit 50 % abstention vs 30 % REVERT bar; post-refine: 8.7 %). Trace step `polish.rejected.fallback_filter` carries `filter_mode`, `routed_topic`, `bullets_dropped_total`, `drop_reasons`, `evidence_chars`, `outcome ∈ {substantive_fallback, honest_abstention}`. Rollback: `LIA_POLISH_REJECTED_FALLBACK_FILTER=legacy`.
 - **A2 catalog refinement (§16, no new flag)** — `chunk_quality_heuristics.py` gains `_TOC_SECTION_HEADING_RE` for table-of-contents-style chunk headers (`## SECCIÓN N:`, `### ENERO 2026`, `## ANEXO III`). New reason `toc_section_heading_dominant` with PENALTY_LIGHT. Closes the corpus-scaffolding leaks observed in v14.2 refine panel chunks.
 - **A3 conditional DIRECTIVA NUMÉRICA — REVERTED 2026-05-13 per §17.** Default `LIA_POLISH_NUMERIC_DIRECTIVE=off`. The 42-turn judge panel measured strict pass 38.1 % → 26.2 % (−11.9 pp) and one hard hallucination (invented Grupo 1 tarifa 3.5 % for Art. 908 on `pr_rst_anticipo_bimestral`). Polish validators do not catch invented UVT/% — only invented years — so the prompt-engineering approach cannot be made safe without a structural validator. Helper code + cue-gating retained behind the kill switch for diagnostic A/B against the validator-based approach planned in `docs/re-engineer/fix/fix_v15_may.md`. Re-enable via `LIA_POLISH_NUMERIC_DIRECTIVE=on` ONLY after the `_no_invented_uvt_ranges` validator lands.
+
+**fix_v15_may §3 (2026-05-13) — sprint v15 structural UVT/% invention validator (PROMOTED):**
+
+- **`LIA_POLISH_UVT_VALIDATOR=enforce`** (§3.6) — **promoted from `shadow` 2026-05-13** after the operator-authorized panel cycle. New polish-stage validator `_no_invented_uvt_ranges` in `pipeline_d/answer_llm_polish.py` closes the v14.2 §17 gap: rejects polished output whose tarifa-shaped UVT/% values are not present (verbatim or normalized) in the template, in the user's question, or in the evidence excerpts the polish prompt rendered.
+- Cue-gated to Art. 240 / 241 / 242 / 383 / 908 ET + `tarifa especial/progresiva/marginal/del` / `tabla de retención`. Outside cue: noop (returns True).
+- Allowed set built from template + question text + every `primary_articles + connected_articles + related_reforms` excerpt (title + body). Normalization: strip `**bold**`, lowercase, swap `,` ↔ `.` (`3,5%` ≡ `3.5%`).
+- `enforce` (default) → polish flips `mode=rejected`, `polish_skip_reason="invented_uvt_ranges"`; A4 substantive fallback composes the served answer. `shadow` → trace step `polish.uvt_validator.applied` with `outcome ∈ {pass, fail_shadow, noop_no_cue, noop_off}` + invented set (capped 6); polish output still ships. `off` → noop.
+- Panel cycle (2026-05-13): shadow #1 → 1 FP (`ep_gmf_exencion_350uvt_v1`, question-text gap) → REFINE landed (question text added to allowed set per plan §3.4) → shadow #2 → 0 FP across 17 polish-llm turns → enforce → 0 turns rejected with `invented_uvt_ranges` (no production effect on 42-turn baseline).
+- Rollback: `LIA_POLISH_UVT_VALIDATOR=off` (function noop) or `=shadow` (telemetry on, no production effect).
 
 **Ingest-pipeline knobs (next_v3 phases 2a/2b/2c):**
 

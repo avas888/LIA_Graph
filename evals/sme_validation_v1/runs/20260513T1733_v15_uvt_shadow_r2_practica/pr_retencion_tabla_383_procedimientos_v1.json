@@ -1,0 +1,1357 @@
+{
+  "qid": "pr_retencion_tabla_383_procedimientos_v1",
+  "topic_key_expected": "retencion_en_la_fuente",
+  "profile": "practica_v1",
+  "message": "Mi empleado tiene salario mensual de $8.500.000 en 2026. ¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto 572/2025, qué diferencia hay entre procedimiento 1 y procedimiento 2, y cómo calculo la retención mes a mes paso a paso?",
+  "http_status": 200,
+  "latency_ms": 105035,
+  "captured_utc": "2026-05-13T22:35:52.364881+00:00",
+  "response": {
+    "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+    "run_id": "pd_f20b7c03760a4c399d707c5d25bb1d47",
+    "answer_markdown": "**Respuestas directas**\n- **¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto **572**/**2025**, qué diferencia hay entre procedimiento **1** y procedimiento **2**, y cómo calculo la retención mes a mes paso a paso?**\n\nTengo evidencia parcial sobre este tema pero no alcanzó para una respuesta operativa confiable. Valida el expediente manualmente o reformula la consulta con un caso más específico.",
+    "answer_concise": "**Respuestas directas**\n- **¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto **572**/**2025**, qué diferencia hay entre procedimiento **1** y procedimiento **2**, y cómo calculo la retención mes a mes paso a paso?**\n\nTengo evidencia parcial sobre este tema pero no alcanzó para una respuesta operativa confiable. Valida el expediente manualmente o reformula la consulta con un caso más específico.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_CONTRATACION_ESTATAL_NORMATIVA_N01-contratacion-estatal-pyme-marco-legal.md",
+        "logical_doc_id": "CORE_ya_Arriba_CONTRATACION_ESTATAL_NORMATIVA_N01-contratacion-estatal-pyme-marco-legal.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "contratacion_estatal",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_CONTRATACION_ESTATAL_NORMATIVA_N01-contratacion-estatal-pyme-marco-legal.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_CONTRATACION_ESTATAL_NORMATIVA_N01-contratacion-estatal-pyme-marco-legal.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_CONTRATACION_ESTATAL_NORMATIVA_N01-contratacion-estatal-pyme-marco-legal.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_CONTRATACION_ESTATAL_NORMATIVA_N01-contratacion-estatal-pyme-marco-legal.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "NORMATIVA — Contratación Estatal para PYMEs: Marco Legal Colombia",
+        "legal_reference": "NORMATIVA — Contratación Estatal para PYMEs: Marco Legal Colombia",
+        "search_query": "NORMATIVA — Contratación Estatal para PYMEs: Marco Legal Colombia DIAN / fuente oficial colombia NORMATIVA — Contratación Estatal para PYMEs: Marco Legal Colombia",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto **572**/**2025**, qué diferencia hay entre procedimiento **1** y procedimiento **2**, y cómo calculo la retención mes a",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto **572**/**2025**, qué diferencia hay entre procedimiento **1** y procedimiento **2**, y cómo calculo la retención mes a",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto **572**/**2025**, qué diferencia hay entre procedimiento **1** y procedimiento **2**, y cómo calculo la retención mes a",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto **572**/**2025**, qué diferencia hay entre procedimiento **1** y procedimiento **2**, y cómo calculo la retención mes a",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "<Inciso 1o. y tabla de retención modificados por el artículo 42 de la Ley 2010 de 2019. El nuevo texto es el siguiente:> La retención en la fuente aplicable a los pagos gravables efectuados por las personas naturales o jurídicas, las socied",
+      "*Artículo adicionado por el artículo 7 de la Ley 6 de 1992. El nuevo texto es el siguiente:*\n\nSin perjuicio de las retenciones en la fuente consagradas en las disposiciones vigentes, el Gobierno Nacional podrá señalar porcentajes de retenci",
+      "*Artículo adicionado por el artículo 121 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nA falta de normas específicas al respecto, a las retenciones en la fuente que se establezcan de acuerdo con las autorizaciones consagradas en "
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "383",
+          "366-1",
+          "366-2",
+          "367"
+        ],
+        "chunk_row_count": 27,
+        "document_row_count": 18,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "reform_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T22:34:07.330930+00:00",
+        "total_ms": 94103.7,
+        "step_count": 44,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T22:34:07.330967+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T22:34:07.330930+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:07.331221+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.28,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 248,
+              "message_preview": "Mi empleado tiene salario mensual de $8.500.000 en 2026. ¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto 572/2025, qué diferencia hay entre procedimiento 1 y procedimiento 2, y cómo calculo la retención mes a mes paso",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:07.361378+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 30.44,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:07.361623+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 30.68,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:07.380234+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 49.29,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 248,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:09.138081+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1807.13,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "retencion_fuente_general",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en el cálculo de la retención en la fuente sobre salarios, específicamente la aplicación del Artículo 383 del ET y la diferencia entre los procedimientos 1 y 2, lo cual encaja directamente con la definición de retencio",
+              "elapsed_ms_call": 1757.82,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:09.138708+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1807.77,
+            "message": null,
+            "details": {
+              "effective_topic": "retencion_fuente_general",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:11.259835+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 3928.89,
+            "message": null,
+            "details": {
+              "owner_trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+              "requested_trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:11.262637+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 3931.7,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "retencion_fuente_general",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en el cálculo de la retención en la fuente sobre salarios, específicamente la aplicación del Artículo 383 del ET y la diferencia entre los procedimientos 1 y 2, lo cual encaja directamente con la definición de retencion_fuente_general.",
+              "topic_notice": "Tu pregunta es de retencion fuente general, por lo cual utilizaremos nuestra base de datos retencion fuente general.",
+              "message_preview": "Mi empleado tiene salario mensual de $8.500.000 en 2026. ¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto 572/2025, qué diferencia hay entre procedimiento 1 y procedimiento 2, y cómo calculo la retención mes a mes paso",
+              "message_chars": 248
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:11.281924+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 3950.98,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [
+                  "DECRETO-572-s_f"
+                ],
+                "anchor_reform_labels": [
+                  "Decreto 572"
+                ],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:11.282086+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 3951.15,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 383 Decreto 572 retencion_fuente_general",
+              "query_text_chars": 49
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:11.282592+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 3951.65,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "retencion_fuente_general",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "retencion_fuente_general",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:15.370418+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 8039.47,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::392",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_15_Libro2_Retencion_Fuente.md::395",
+                "suin_30046753::2",
+                "suin_1132325::383",
+                "suin_1132325::126-1",
+                "CORE_ya_Arriba_CONTRATACION_ESTATAL_NORMATIVA_N01-contratacion-estatal-pyme-marc",
+                "CORE_ya_Arriba_LEYES_REFORMAS_TRIBUTARIAS_consolidado_Ley-2277-2022.md::88",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "suin_30035137::2-2",
+                "CORE_ya_Arriba_LEYES_REFORMAS_TRIBUTARIAS_NORMATIVA_Ley-2277-2022.md::88"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 1
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:15.648195+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 8317.24,
+            "message": null,
+            "details": {
+              "anchor_row_count": 5,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:15.648688+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 8317.75,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 27,
+              "delta": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:15.679773+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 8348.82,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 27,
+              "rows_out": 27,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "retencion_fuente_general"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:34:15.857970+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 8527.01,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 27,
+              "rows_out": 27,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 27,
+              "chunks_kept": 27,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 27,
+                "chunks_kept": 27,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.026362+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 87695.44,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 27,
+                "chunks_kept": 27,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "383",
+                "366-1",
+                "366-2",
+                "367"
+              ],
+              "tema_first_topic_key": "retencion_fuente_general",
+              "planner_query_mode": "reform_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.026876+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 87695.97,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "383",
+                  "366-1",
+                  "366-2",
+                  "105",
+                  "121",
+                  "123",
+                  "13"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.067439+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 87736.54,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "retencion_fuente_general",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "retencion_fuente_general",
+                "articles_top_topic": "retencion_fuente_general",
+                "router_score_on_articles": 9,
+                "top_score_on_articles": 9,
+                "ranked_article_topics": [
+                  [
+                    "retencion_fuente_general",
+                    9
+                  ],
+                  [
+                    "impuesto_nacional_consumo",
+                    1
+                  ],
+                  [
+                    "normas_internacionales_auditoria",
+                    1
+                  ],
+                  [
+                    "activos_exterior",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.067869+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 87736.98,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "retencion_fuente_general",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.068263+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 87737.37,
+            "message": null,
+            "details": {
+              "query_preview": "Mi empleado tiene salario mensual de $8.500.000 en 2026. ¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto 572/2025, qué diferencia hay ent",
+              "topic": "retencion_fuente_general",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.068467+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 87737.58,
+            "message": null,
+            "details": {
+              "query_chars": 248,
+              "query_preview": "Mi empleado tiene salario mensual de $8.500.000 en 2026. ¿Cómo aplico la tabla del Art. 383 ET con la actualización del Decreto 572/2025, qué diferencia hay ent",
+              "topic": "retencion_fuente_general",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "empleado | tiene | salario | mensual | 500 | 000 | 2026 | aplico | tabla | 383 | actualización | decreto | 572 | 2025 | diferencia | hay | entre | procedimiento | calculo | retención | mes | paso",
+              "fts_query_token_count": 22,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.075007+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 87744.12,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "retencion_fuente_general",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.633468+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 88302.57,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 556.1,
+              "top_doc_ids": [
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_LOGGRO_RET-L03-decreto-572-disambiguador-guia-practica.md",
+                "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L02-guia-practica-tablas-retencion-2026-procedimientos.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L02-guia-practica-tablas-retencion-2026-procedimientos.md",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+                "CORE_ya_Arriba_CALENDARIO_TRIBUTARIO_CONSOLIDADO_LOGGRO_CAL-L01-guia-practica-calendario-tributario-consolidado-2026.md",
+                "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L02-guia-practica-tablas-retencion-2026-procedimientos.md",
+                "CORE_ya_Arriba_ZOMAC_INCENTIVOS_LOGGRO_L01-guia-practica-ZOMAC-incentivos-regionales.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.835714+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 88504.82,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.836071+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 88505.18,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 171.08,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.836334+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 88505.44,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_LOGGRO_RET-L03-decreto-572-disambiguador-guia-practica.md",
+                  "score": 0.031025
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L02-guia-practica-tablas-retencion-2026-procedimientos.md",
+                  "score": 0.028158
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                  "score": 0.028158
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.979593+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 88648.7,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 911.13,
+              "selected_doc_ids": [
+                "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_LOGGRO_RET-L03-decreto-572-disambiguador-guia-practica.md",
+                "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L02-guia-practica-tablas-retencion-2026-procedimientos.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.979887+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 88649.0,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.979986+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 88649.1,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.980059+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 88649.17,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.980164+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 88649.28,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "reform_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.989635+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 88658.73,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 2,
+              "per_chunk": [
+                {
+                  "doc_id": "to_upload_BRECHAS-SEMANA1-ABRIL-2026_RETENCION_D572_LOGGRO_RET-L03-decreto-572-disambiguador-guia-practica.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 41,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "UVT 2025: $49.799 | UVT 2026: $52.374."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RETENCION_FUENTE_AGENTE_LOGGRO_RET-L02-guia-practica-tablas-retencion-2026-procedimientos.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 0,
+                  "bullets_emitted": 0,
+                  "first_bullet_preview": null
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 161,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Descripción: La jornada nocturna comienza a las 7:00 p.m. (no a las 10:00 p.m. como antes) y se extiende hasta las 6:00 "
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.990964+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 88660.07,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "retencion_fuente_general",
+              "allowed_prefix_count": 61,
+              "kept_count": 3,
+              "dropped_count": 0,
+              "dropped_keys_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.992909+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 88662.01,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "retencion_fuente_general",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "declaracion_renta",
+                "laboral",
+                "dividendos_y_distribucion_utilidades"
+              ],
+              "allowed_prefix_count": 61,
+              "kept_count": 1,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:35.993150+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 88662.26,
+            "message": null,
+            "details": {
+              "template_chars": 221
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:41.433501+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "info",
+            "elapsed_ms": 94102.6,
+            "message": null,
+            "details": {
+              "mode": "rejected",
+              "skip_reason": "invented_norm_lineage",
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 237,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:41.434010+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_filter",
+            "status": "ok",
+            "elapsed_ms": 94103.12,
+            "message": null,
+            "details": {
+              "filter_mode": "clean",
+              "routed_topic": "retencion_fuente_general",
+              "allowed_prefix_count": 61,
+              "heuristics_on": true,
+              "sections_dropped_empty": [],
+              "bullets_dropped_total": 1,
+              "drop_reasons": {
+                "chunk_quality:cross_topic_operational_leak": 1
+              },
+              "evidence_chars": 209,
+              "min_evidence_chars": 300,
+              "outcome": "honest_abstention"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:41.434136+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_composed",
+            "status": "ok",
+            "elapsed_ms": 94103.25,
+            "message": null,
+            "details": {
+              "polish_skip_reason": "invented_norm_lineage",
+              "template_chars": 237,
+              "fallback_chars": 419,
+              "fallback_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:41.434268+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 94103.38,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "retencion_fuente_general",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "declaracion_renta",
+                "laboral",
+                "dividendos_y_distribucion_utilidades"
+              ],
+              "allowed_prefix_count": 61,
+              "kept_count": 1,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:41.434353+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.gate_applied",
+            "status": "ok",
+            "elapsed_ms": 94103.47,
+            "message": null,
+            "details": {
+              "primary_topic": "retencion_fuente_general",
+              "gate_mode": "applied",
+              "dropped_count": 0,
+              "kept_count": 1
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:41.434435+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 94103.55,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "retencion_fuente_general",
+              "citations_in": 4,
+              "citations_out": 4,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:35:41.434507+00:00",
+            "trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 94103.62,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "rejected",
+      "polish_skip_reason": "invented_norm_lineage",
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 43,
+        "output_tokens": 64,
+        "total_tokens": 107,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "retencion_fuente_general",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de retencion fuente general, por lo cual utilizaremos nuestra base de datos retencion fuente general.",
+    "topic_adjustment_reason": "La consulta se centra en el cálculo de la retención en la fuente sobre salarios, específicamente la aplicación del Artículo 383 del ET y la diferencia entre los procedimientos 1 y 2, lo cual encaja directamente con la definición de retencion_fuente_general.",
+    "coverage_notice": null,
+    "topic": "retencion_fuente_general",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778711631,
+      "expires_at": 1778715231,
+      "token_id": "d8210b11974243a3bc403d72ec73a3cd"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_e4573c66961c",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 43,
+        "output_tokens": 64,
+        "total_tokens": 107
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+      "last_run_id": "pd_f20b7c03760a4c399d707c5d25bb1d47",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_e4573c66961c",
+    "chat_run_id": "cr_20260513_223409_6ad99495",
+    "metrics": {
+      "latency_ms": 99378.36,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 43,
+          "output_tokens": 64,
+          "total_tokens": 107,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_e4573c66961c",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 43,
+          "output_tokens": 64,
+          "total_tokens": 107
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "66d26591-4686-4bb5-8c6c-ee1951c520ac",
+        "last_run_id": "pd_f20b7c03760a4c399d707c5d25bb1d47",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "decreto:572:2025"
+        ],
+        "normative_scaffolding_ms": 3.3
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "retencion_fuente_general",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "7e8877be18e8459987bd762ae4095e0e"
+  }
+}

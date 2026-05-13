@@ -1,0 +1,1292 @@
+{
+  "qid": "ep_pt_paraisos_panama_v1",
+  "topic_key_expected": "precios_de_transferencia",
+  "profile": "expert_panel_v1",
+  "message": "Tengo pagos a un proveedor en Panamá y el cliente pregunta si son deducibles. ¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-2 ET y la documentación de precios de transferencia para flujos a paraísos fiscales?",
+  "http_status": 200,
+  "latency_ms": 24353,
+  "captured_utc": "2026-05-13T22:26:30.607773+00:00",
+  "response": {
+    "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+    "run_id": "pd_35ddebbdfb76404c933989040745e2c1",
+    "answer_markdown": "**Recomendaciones Prácticas**\n1. Art. 260-**7** par. **2** ET — operaciones con jurisdicciones no cooperantes sujetas al régimen de precios de transferencia sin importar umbrales de patrimonio o ingresos. Texto del artículo: Estatuto.co — art. 260-**7**.\n2. R: Debe hacer una corrección de declaración ante la DIAN con documentación que justifique el ajuste. Esto limita la base imponible para sanciones si lo hace proactivamente (beneficio de auditoría voluntaria) (art. 124-2 ET).\n3. Problema práctico: Confusión sobre cuándo se deduce un gasto: ¿cuando se causa (obligación nace) o cuando se paga (dinero sale)? (art. 124-2 ET).\n\n**Recomendaciones Prácticas**\n- Art. 260-7 par. 2 ET — operaciones con jurisdicciones no cooperantes sujetas al régimen de precios de transferencia sin importar umbrales de patrimonio o ingresos. Texto del artículo: Estatuto.co — art. 260-7.\n- R: Debe hacer una corrección de declaración ante la DIAN con documentación que justifique el ajuste. Esto limita la base imponible para sanciones si lo hace proactivamente (beneficio de auditoría voluntaria).\n\n**Anclaje legal**\n- Art. 124-2 — PAGOS A JURISDICCIONES NO COOPERANTES, DE BAJA O NULA IMPOSICIÓN Y A ENTIDADES PERTENECIENTES A REGÍMENES TRIBUTARIOS PREFERENCIALES",
+    "answer_concise": "**Recomendaciones Prácticas**\n1. Art. 260-**7** par. **2** ET — operaciones con jurisdicciones no cooperantes sujetas al régimen de precios de transferencia sin importar umbrales de patrimonio o ingresos. Texto del artículo: Estatuto.co — art. 260-**7**.\n2. R: Debe hacer una corrección de declaración ante la DIAN con documentación que justifique el ajuste. Esto limita la base imponible para sanciones si lo hace proactivamente (beneficio de auditoría voluntaria) (art. 124-2 ET).\n3. Problema práctico: Confusión sobre cuándo se deduce un gasto: ¿cuando se causa (obligación nace) o cuando se paga (dinero sale)? (art. 124-2 ET).\n\n**Recomendaciones Prácticas**\n- Art. 260-7 par. 2 ET — operaciones con jurisdicciones no cooperantes sujetas al régimen de precios de transferencia sin importar umbrales de patrimonio o ingresos. Texto del artículo: Estatuto.co — art. 260-7.\n- R: Debe hacer una corrección de declaración ante la DIAN con documentación que justifique el ajuste. Esto limita la base imponible para sanciones si lo hace proactivamente (beneficio de auditoría voluntaria).\n\n**Anclaje legal**\n- Art. 124-2 — PAGOS A JURISDICCIONES NO COOPERANTES, DE BAJA O NULA IMPOSICIÓN Y A ENTIDADES PERTENECIENTES A REGÍMENES TRIBUTARIOS PREFERENCIALES",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "R: Debe hacer una corrección de declaración ante la DIAN con documentación que justifique el ajuste.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "costos_deducciones_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulo V Deducciones (Arts. 121 177 2)",
+        "legal_reference": "Capítulo V Deducciones (Arts. 121 177 2)",
+        "search_query": "Capítulo V Deducciones (Arts. 121 177 2) DIAN / fuente oficial colombia Capítulo V Deducciones (Arts. 121 177 2)",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 121",
+          "locator_kind": "articles",
+          "locator_start": "121",
+          "locator_end": null
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+        "logical_doc_id": "CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "precios_de_transferencia",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretaciones-precios-transferencia-simplificado-PYME.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "PRT E01 — Precios de Transferencia Simplificado: Interpretaciones de Expertos sobre Obligacio...",
+        "legal_reference": "PRT E01 — Precios de Transferencia Simplificado: Interpretaciones de Expertos sobre Obligaciones Mínimas para PYMEs",
+        "search_query": "PRT E01 — Precios de Transferencia Simplificado: Interpretaciones de Expertos sobre Obligaciones Mínimas para PYMEs DIAN / fuente oficial colombia PRT E01 — Precios de Transferencia Simplificado: Interpretaciones de Expe",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Art. 260-**7** par. **2** ET — operaciones con jurisdicciones no cooperantes sujetas al régimen de precios de transferencia sin importar umbrales de patrimonio o ingresos.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+        "authority": "Loggro",
+        "topic": "precios_de_transferencia",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Documentacion y obligaciones de precios de transferencia (Loggro)",
+        "legal_reference": "Documentacion y obligaciones de precios de transferencia (Loggro)",
+        "search_query": "Documentacion y obligaciones de precios de transferencia (Loggro) Loggro colombia Precios de Transferencia — Guía Práctica para el Contador",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "Art. 260-**7** par. **2** ET — operaciones con jurisdicciones no cooperantes sujetas al régimen de precios de transferencia sin importar umbrales de patrimonio o ingresos.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+        "authority": "Loggro",
+        "topic": "precios_de_transferencia",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Documentacion y obligaciones de precios de transferencia (Loggro)",
+        "legal_reference": "Documentacion y obligaciones de precios de transferencia (Loggro)",
+        "search_query": "Documentacion y obligaciones de precios de transferencia (Loggro) Loggro colombia Sección 20 — Precios de Transferencia — Lo Básico para PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "Art. 260-**7** par. **2** ET — operaciones con jurisdicciones no cooperantes sujetas al régimen de precios de transferencia sin importar umbrales de patrimonio o ingresos.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Artículo modificado por el artículo 74 de la Ley 1819 de 2016. El nuevo texto es el siguiente:*\n\nNo serán constitutivos de costo o deducción los pagos o abonos en cuenta que se realicen a personas naturales, personas jurídicas o a cualquie"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 1,
+        "connected_article_count": 5,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "124-2"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 11,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "computation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T22:26:06.254933+00:00",
+        "total_ms": 20002.65,
+        "step_count": 40,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T22:26:06.254944+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T22:26:06.254933+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:06.255055+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.12,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 235,
+              "message_preview": "Tengo pagos a un proveedor en Panamá y el cliente pregunta si son deducibles. ¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-2 ET y la documentación de precios de transferencia para flujos a paraísos fiscales?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:06.276129+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 21.19,
+            "message": null,
+            "details": {
+              "effective_topic": "precios_de_transferencia",
+              "confidence": 0.92,
+              "reason": "rule:precios_de_transferencia matched precios de transferencia, precios, transferencia",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:15.005806+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 8750.86,
+            "message": null,
+            "details": {
+              "owner_trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+              "requested_trace_id": "98e9a885-d664-4732-8da4-be66adbf756c"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:15.006298+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 8751.35,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "precios_de_transferencia",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:precios_de_transferencia matched precios de transferencia, precios, transferencia",
+              "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+              "message_preview": "Tengo pagos a un proveedor en Panamá y el cliente pregunta si son deducibles. ¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-2 ET y la documentación de precios de transferencia para flujos a paraísos fiscales?",
+              "message_chars": 235
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:15.040460+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 8785.51,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:15.040856+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 8785.92,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 124-2 precios_de_transferencia",
+              "query_text_chars": 39
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:15.041545+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 8786.61,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "precios_de_transferencia",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "precios_de_transferencia",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:15.937247+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 9682.29,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_PRECIOS_TRANSFERENCIA_SIMPLIFICADO_EXPERTOS_PRT-E01-interpretacio",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LO",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md::introducci-n",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LO",
+                "suin_30046753::2",
+                "suin_1132325::124-2",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-2",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md::124-2",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879"
+              ],
+              "top_chunk_classes": [
+                "interpretative_guidance",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:16.084079+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 9829.14,
+            "message": null,
+            "details": {
+              "anchor_row_count": 2,
+              "anchor_article_keys": [
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:16.084344+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 9829.41,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:16.125543+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 9870.58,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 24,
+              "rows_out": 24,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "precios_de_transferencia"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:16.288574+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 10033.63,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.191761+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 15936.81,
+            "message": null,
+            "details": {
+              "primary_count": 1,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "124-2"
+              ],
+              "tema_first_topic_key": "precios_de_transferencia",
+              "planner_query_mode": "computation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.192116+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 15937.18,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                5,
+                5
+              ],
+              "after": [
+                1,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "124-2",
+                  "121",
+                  "124-1",
+                  "260-6",
+                  "260-7",
+                  "408"
+                ],
+                "candidate_count": 6,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.218583+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 15963.65,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "precios_de_transferencia",
+                "articles_top_topic": "costos_deducciones_renta",
+                "router_score_on_articles": 0,
+                "top_score_on_articles": 2,
+                "ranked_article_topics": [
+                  [
+                    "costos_deducciones_renta",
+                    2
+                  ],
+                  [
+                    "gravamen_movimiento_financiero_4x1000",
+                    1
+                  ]
+                ],
+                "reason": "lexical_aligned"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.218744+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 15963.81,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "precios_de_transferencia",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.218811+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 15963.88,
+            "message": null,
+            "details": {
+              "query_preview": "Tengo pagos a un proveedor en Panamá y el cliente pregunta si son deducibles. ¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-2 ET y la",
+              "topic": "precios_de_transferencia",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.218931+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 15964.0,
+            "message": null,
+            "details": {
+              "query_chars": 235,
+              "query_preview": "Tengo pagos a un proveedor en Panamá y el cliente pregunta si son deducibles. ¿Qué dicen los expertos sobre jurisdicciones no cooperantes del Art. 124-2 ET y la",
+              "topic": "precios_de_transferencia",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "tengo | pagos | proveedor | panamá | cliente | pregunta | si | deducibles | dicen | expertos | sobre | jurisdicciones | no | cooperantes | 124-2 | documentación | precios | transferencia | flujos | pa",
+              "fts_query_token_count": 21,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.219610+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 15964.68,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "precios_de_transferencia",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.741915+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 16486.96,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 522.16,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.899850+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16644.9,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.900482+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 16645.55,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 157.87,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:22.900687+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 16645.75,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+                  "score": 0.044866
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+                  "score": 0.042237
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md",
+                  "score": 0.028158
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.028035+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 16773.09,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 809.1,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.028759+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 16773.82,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.029025+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 16774.09,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.029158+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 16774.23,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.029268+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 16774.34,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.040888+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 16785.94,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-20-precios-de-transferencia.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 5,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Art. 260-7 par. 2 ET — operaciones con jurisdicciones no cooperantes sujetas al régimen de precios de transferencia sin "
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Precios_Transferencia_Practica_LOGGRO_pt_practica_precios_transferencia.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 2,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "R: Debe hacer una corrección de declaración ante la DIAN con documentación que justifique el ajuste. Esto limita la base"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 129,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Problema práctico: Confusión sobre cuándo se deduce un gasto: ¿cuando se causa (obligación nace) o cuando se paga (diner"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.042656+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16787.72,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "precios_de_transferencia",
+              "allowed_prefix_count": 13,
+              "kept_count": 1,
+              "dropped_count": 1,
+              "dropped_keys_sample": [
+                "124-1 — OTROS PAGOS NO DEDUCIBLES"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.044710+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16789.77,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "precios_de_transferencia",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "declaracion_renta"
+              ],
+              "allowed_prefix_count": 13,
+              "kept_count": 3,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:23.044895+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 16789.97,
+            "message": null,
+            "details": {
+              "template_chars": 619
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:26.256487+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "info",
+            "elapsed_ms": 20001.54,
+            "message": null,
+            "details": {
+              "mode": "rejected",
+              "skip_reason": "invented_norm_lineage",
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 631,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:26.257072+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_filter",
+            "status": "ok",
+            "elapsed_ms": 20002.14,
+            "message": null,
+            "details": {
+              "filter_mode": "clean",
+              "routed_topic": "precios_de_transferencia",
+              "allowed_prefix_count": 13,
+              "heuristics_on": true,
+              "sections_dropped_empty": [],
+              "bullets_dropped_total": 1,
+              "drop_reasons": {
+                "chunk_quality:question_dominant_caption": 1
+              },
+              "evidence_chars": 514,
+              "min_evidence_chars": 300,
+              "outcome": "substantive_fallback",
+              "sections_rendered": 2
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:26.257217+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_composed",
+            "status": "ok",
+            "elapsed_ms": 20002.29,
+            "message": null,
+            "details": {
+              "polish_skip_reason": "invented_norm_lineage",
+              "template_chars": 631,
+              "fallback_chars": 1252,
+              "fallback_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:26.257348+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 20002.42,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "precios_de_transferencia",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "declaracion_renta"
+              ],
+              "allowed_prefix_count": 13,
+              "kept_count": 6,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:26.257422+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.gate_applied",
+            "status": "ok",
+            "elapsed_ms": 20002.5,
+            "message": null,
+            "details": {
+              "primary_topic": "precios_de_transferencia",
+              "gate_mode": "applied",
+              "dropped_count": 0,
+              "kept_count": 6
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:26.257474+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 20002.55,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "precios_de_transferencia",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:26:26.257512+00:00",
+            "trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 20002.59,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 1,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "rejected",
+      "polish_skip_reason": "invented_norm_lineage",
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 38,
+        "output_tokens": 185,
+        "total_tokens": 223,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "precios_de_transferencia",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de precios de transferencia, por lo cual utilizaremos nuestra base de datos precios de transferencia.",
+    "topic_adjustment_reason": "rule:precios_de_transferencia matched precios de transferencia, precios, transferencia",
+    "coverage_notice": null,
+    "topic": "precios_de_transferencia",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778710910,
+      "expires_at": 1778714510,
+      "token_id": "c0e65084d9c94c0ba3dbe77d148d497e"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_117e3a0b02c2",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 38,
+        "output_tokens": 185,
+        "total_tokens": 223
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+      "last_run_id": "pd_35ddebbdfb76404c933989040745e2c1",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_117e3a0b02c2",
+    "chat_run_id": "cr_20260513_222607_221e057e",
+    "metrics": {
+      "latency_ms": 23115.68,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 38,
+          "output_tokens": 185,
+          "total_tokens": 223,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_117e3a0b02c2",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 38,
+          "output_tokens": 185,
+          "total_tokens": 223
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "98e9a885-d664-4732-8da4-be66adbf756c",
+        "last_run_id": "pd_35ddebbdfb76404c933989040745e2c1",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 5.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "precios_de_transferencia",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "bed2e21963e14171bde190d74a0084fa"
+  }
+}

@@ -1,6 +1,26 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-05-13-fix-v14-2-ship`.**
+> **Env matrix version: `v2026-05-13-fix-v15-uvt-validator-enforce`.**
+>
+> **2026-05-13 fix_v15_may promotion (today, post-panel cycle):**
+>
+> - **`LIA_POLISH_UVT_VALIDATOR=enforce`** (promoted from `shadow`). Default `enforce` across all three modes after the operator-authorized 3-run panel cycle: shadow #1 → 1 FP (`ep_gmf_exencion_350uvt_v1`, question-text gap), REFINE landed (question text added to allowed set per plan §3.4), shadow #2 → 0 FP across 17 polish-llm turns, enforce → 0 turns rejected with `invented_uvt_ranges` (no production effect on 42-turn baseline).
+> - REFINE code change: threaded `request.message` through `_validate_against_rules → _invoke_validator → _no_invented_uvt_ranges(template, polished, evidence, question)`. Sibling validators dispatch via narrowing-signature TypeError fallback (no API breakage). Tests 30 → 31 green.
+> - Rollback: `LIA_POLISH_UVT_VALIDATOR=off` (function noop) or `=shadow` (telemetry on, no production effect).
+>
+> **Predecessor `v2026-05-13-fix-v15-uvt-validator`:**
+>
+> - **`LIA_POLISH_UVT_VALIDATOR=shadow`** (new). Default `shadow` across all three modes. Adds polish-stage validator `_no_invented_uvt_ranges` in `src/lia_graph/pipeline_d/answer_llm_polish.py`.
+> - Cue-gated: only fires when polished output references Art. 240 / 241 / 242 / 383 / 908 ET or `tarifa especial/progresiva/marginal/del` / `tabla de retención`. Outside cue: noop.
+> - Allowed-set built from template + every primary/connected/reform evidence excerpt. Decimal-separator normalized (`3,5%` ≡ `3.5%`); `**bold**` stripped.
+> - `enforce` → polish flips to `rejected`, `polish_skip_reason="invented_uvt_ranges"`, A4 substantive fallback composes served answer.
+> - `shadow` → trace step `polish.uvt_validator.applied` carries `outcome="fail_shadow"` + invented set; polish output still ships.
+> - `off` → function is a complete noop.
+> - 12 new unit tests in `tests/test_answer_llm_polish.py` (30/30 green); covers cue gate, decimal normalization, bold stripping, end-to-end shadow + enforce.
+> - Promotion gate (operator-authorized): 42-turn judge panel must flag `pr_rst_anticipo_bimestral_v1` with zero false positives across the other 41 before flipping to `enforce`.
+> - Rollback: `LIA_POLISH_UVT_VALIDATOR=off` (one flag, no redeploy).
+>
+> **Predecessor `v2026-05-13-fix-v14-2-ship`:**
 >
 > **2026-05-13 fix_v14_may §17 — A3 REVERTED, A2 + A4 ship state:**
 >
@@ -71,7 +91,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-05-13-fix-v14-2-ship)
+## Runtime Retrieval Flags (v2026-05-13-fix-v15-uvt-validator-enforce)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -95,6 +115,7 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_POLISH_REJECTED_FALLBACK_MODE` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/answer_polish_rejected_fallback.py` — fix_v8 §3a. Default `enforce`: when polish returns `mode=rejected`, orchestrator assembles a substantive answer from `GraphNativeAnswerParts` instead of returning the bare question-echo template; cross-topic gate re-applied to the fallback output. Set `off` for incident-rollback only. |
 | `LIA_POLISH_REJECTED_FALLBACK_FILTER` | **`clean`** | **`clean`** | **`clean`** | `pipeline_d/answer_polish_rejected_fallback.py` — fix_v14_may §6 (A4). Default `clean`: filters every bullet through A2 chunk-quality + A1 topic-allowlist before render, omits empty sections, emits honest-abstention text when total evidence < 300 substantive chars (refined from 500 on 2026-05-13). Set `legacy` to revert to fix_v8 §3a render-everything (rollback only). |
 | `LIA_POLISH_NUMERIC_DIRECTIVE` | **`off`** | **`off`** | **`off`** | `pipeline_d/answer_llm_polish.py::_build_numeric_directive` — fix_v14_may §5 + §16 (A3 REVERTED per §17). Default `off`: helper returns `""` regardless of question. Reason: 42-turn judge showed −11.9 pp strict pass and one hard hallucination (invented Grupo 1 tarifa). Helper retained behind switch for A/B once `_no_invented_uvt_ranges` (fix_v15_may.md) lands. Re-enable via `=on` ONLY after v15 validator ships. |
+| `LIA_POLISH_UVT_VALIDATOR` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/answer_llm_polish.py::_no_invented_uvt_ranges` — fix_v15_may §3. Structural validator that closes the v14.2 §17 gap (LLM invented `3,5%` Grupo 1 tarifa for Art. 908 ET; neither lineage nor period validator catches it). Cue-gated to Art. 240/241/242/383/908 ET + tarifa/tabla-UVT mentions. Allowed set built from template + question text + every primary/connected/reform excerpt (decimal-separator normalized; `**bold**` stripped). **Promoted to `enforce` 2026-05-13** after a three-run panel cycle hit 0 FP in shadow #2 (post REFINE) and 0 turns rejected with `invented_uvt_ranges` in enforce. `enforce` → polish rejects with `polish_skip_reason="invented_uvt_ranges"` (A4 fallback composes served answer); `shadow` → trace step `polish.uvt_validator.applied` only, polish ships; `off` → noop. Rollback: `LIA_POLISH_UVT_VALIDATOR=off` or `=shadow`. |
 | `LIA_RERANKER_ENDPOINT` | unset | unset | unset | `pipeline_d/reranker.py` — base URL of the bge-reranker-v2-m3 sidecar (`POST {url}/rerank`). Unset until the sidecar is deployed. |
 | `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 

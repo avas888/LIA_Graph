@@ -25,6 +25,8 @@ import pytest
 from lia_graph.pipeline_c.contracts import PipelineCRequest
 from lia_graph.pipeline_d.answer_llm_polish import (
     _apply_post_hoc_transformers,
+    _no_invented_uvt_ranges,
+    _uvt_validator_mode,
     polish_graph_native_answer,
 )
 from lia_graph.pipeline_d.contracts import GraphEvidenceBundle, GraphEvidenceItem
@@ -572,3 +574,231 @@ def test_polish_prompt_includes_primary_article_excerpts() -> None:
     assert "COMPENSACIÓN DE PÉRDIDAS FISCALES DE SOCIEDADES" in prompt
     assert "senior" in prompt.lower() or "contador" in prompt.lower()
     assert "(art. X ET)" in prompt or "(art." in prompt  # anchor preservation instruction
+
+
+# ---------------------------------------------------------------------------
+# fix_v15_may §5.1 — UVT validator unit tests
+#
+# Cover the structural validator that closes the fix_v14_may §17 gap.
+# Function-level cases call `_no_invented_uvt_ranges` directly (no polish
+# pipeline). The shadow-mode end-to-end case exercises the full
+# `polish_graph_native_answer` path with a monkeypatched adapter.
+# ---------------------------------------------------------------------------
+
+
+def _evidence_with_excerpt_substring(substring: str) -> GraphEvidenceBundle:
+    """Build a single-primary-article evidence bundle whose excerpt
+    contains ``substring`` verbatim. Used to assert that polished values
+    present in real excerpts pass the validator."""
+    excerpt = (
+        "Tarifa aplicable: "
+        f"{substring}"
+        " sobre los ingresos brutos del bimestre."
+    )
+    return GraphEvidenceBundle(
+        primary_articles=(
+            GraphEvidenceItem(
+                node_kind="ArticleNode",
+                node_key="908",
+                title="TARIFA RST",
+                excerpt=excerpt,
+                source_path="renta/et_art_908.md",
+                score=1.0,
+                hop_distance=0,
+                why=None,
+                relation_path=(),
+            ),
+        ),
+        connected_articles=(),
+        related_reforms=(),
+        support_documents=(),
+        citations=(),
+        diagnostics={},
+    )
+
+
+@pytest.fixture
+def _uvt_validator_enforce(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LIA_POLISH_UVT_VALIDATOR", "enforce")
+
+
+def test_uvt_validator_noop_outside_tarifa_context(
+    _uvt_validator_enforce: None,
+) -> None:
+    """No Art. 240/241/242/383/908 or 'tarifa' reference → validator is
+    a noop even if the polished text contains percentages."""
+    template = "**Recomendaciones**\n- Verifica el gasto."
+    polished = "**Recomendaciones**\n- Verifica el gasto. Margen: 5%."
+    assert _no_invented_uvt_ranges(template, polished, None) is True
+
+
+def test_uvt_validator_rejects_invented_tarifa_pct(
+    _uvt_validator_enforce: None,
+) -> None:
+    """Reproduces pr_rst_anticipo_bimestral_v1: polished asserts a Grupo
+    1 tarifa of 3.5 % that is not in the template or excerpts."""
+    template = "**Recomendaciones**\n- Aplica la tarifa del Art. 908 ET."
+    polished = (
+        "**Recomendaciones**\n- Aplica la tarifa del 3,5% según Art. 908 ET."
+    )
+    evidence = _evidence()  # no 3.5% in any excerpt
+    assert _no_invented_uvt_ranges(template, polished, evidence) is False
+
+
+def test_uvt_validator_accepts_pct_present_in_template(
+    _uvt_validator_enforce: None,
+) -> None:
+    template = "**Recomendaciones**\n- Tarifa Art. 908 ET: 1,2%."
+    polished = (
+        "**Recomendaciones**\n- Aplica la tarifa del **1,2%** del Art. 908 ET."
+    )
+    assert _no_invented_uvt_ranges(template, polished, None) is True
+
+
+def test_uvt_validator_accepts_pct_present_in_evidence_excerpt(
+    _uvt_validator_enforce: None,
+) -> None:
+    """The excerpt the polish prompt rendered counts as ground truth.
+    Bold markers must be stripped before comparing."""
+    template = "**Recomendaciones**\n- Aplica la tarifa Art. 908 ET."
+    polished = "**Recomendaciones**\n- Aplica **2,8%** del Art. 908 ET."
+    evidence = _evidence_with_excerpt_substring("2,8%")
+    assert _no_invented_uvt_ranges(template, polished, evidence) is True
+
+
+def test_uvt_validator_decimal_separator_normalization(
+    _uvt_validator_enforce: None,
+) -> None:
+    """3,5% in template must match 3.5% in polished and vice versa."""
+    template = "**Recomendaciones**\n- Tarifa Art. 242 ET de 3,5%."
+    polished = "**Recomendaciones**\n- Aplica el 3.5% según Art. 242 ET."
+    assert _no_invented_uvt_ranges(template, polished, None) is True
+
+
+def test_uvt_validator_uvt_value_invented(
+    _uvt_validator_enforce: None,
+) -> None:
+    template = "**Recomendaciones**\n- Tabla Art. 383 ET."
+    polished = (
+        "**Recomendaciones**\n- Rango 95 UVT a tarifa 19% (Art. 383 ET)."
+    )
+    evidence = _evidence()  # excerpts do NOT include "95 UVT"
+    assert _no_invented_uvt_ranges(template, polished, evidence) is False
+
+
+def test_uvt_validator_uvt_value_present_in_excerpt(
+    _uvt_validator_enforce: None,
+) -> None:
+    template = "**Recomendaciones**\n- Tabla Art. 383 ET."
+    polished = "**Recomendaciones**\n- Rango 95 UVT (Art. 383 ET)."
+    evidence = _evidence_with_excerpt_substring("95 UVT")
+    assert _no_invented_uvt_ranges(template, polished, evidence) is True
+
+
+def test_uvt_validator_accepts_value_present_in_question(
+    _uvt_validator_enforce: None,
+) -> None:
+    """fix_v15_may §3.4 + post-shadow-panel REFINE: a polished value
+    that echoes the user's question is grounded in user input, not
+    invented from LLM memory. Regression guard for the
+    `ep_gmf_exencion_350uvt_v1` false positive observed in the first
+    shadow run on 2026-05-13 (question: "...excede los 350 UVT
+    mensuales... deducción del 50% del Art. 115 ET")."""
+    template = "**Recomendaciones**\n- Aplica la exención del Art. 872 ET."
+    polished = (
+        "**Recomendaciones**\n"
+        "- La exención de GMF cubre hasta 350 UVT mensuales por cuenta (Art. 872 ET).\n"
+        "- Deducción del 50% del GMF pagado (Art. 115 ET)."
+    )
+    question = (
+        "Mi cliente excede los 350 UVT mensuales en retiros marcados como exentos. "
+        "¿Cómo aplicar la deducción del 50% del Art. 115 ET?"
+    )
+    assert (
+        _no_invented_uvt_ranges(template, polished, None, question) is True
+    )
+
+
+def test_uvt_validator_mode_default_shadow(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delenv("LIA_POLISH_UVT_VALIDATOR", raising=False)
+    assert _uvt_validator_mode() == "shadow"
+
+
+def test_uvt_validator_mode_enforce(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LIA_POLISH_UVT_VALIDATOR", "enforce")
+    assert _uvt_validator_mode() == "enforce"
+
+
+def test_uvt_validator_mode_off(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LIA_POLISH_UVT_VALIDATOR", "off")
+    assert _uvt_validator_mode() == "off"
+
+
+def test_uvt_validator_shadow_mode_does_not_fail_polish(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """In shadow mode the validator records the invented set but the
+    full polish pipeline still returns mode=llm (not rejected). Anchor:
+    the §5.4 promotion gate keeps shadow until panel telemetry confirms
+    zero false positives — production polish must not flip until then."""
+    monkeypatch.setenv("LIA_POLISH_UVT_VALIDATOR", "shadow")
+
+    template = "**Recomendaciones**\n- Aplica la tarifa del Art. 908 ET (art. 908 ET)."
+    invented_pct = "3,5%"
+
+    class _UVTInventingAdapter:
+        def generate(self, prompt: str) -> str:
+            return (
+                "**Recomendaciones**\n"
+                f"- Aplica la tarifa del {invented_pct} según Art. 908 ET (art. 908 ET).\n"
+            )
+
+    resolution = {"selected_provider": "gemini-flash", "model": "gemini-2.5-flash"}
+    with patch(
+        "lia_graph.pipeline_d.answer_llm_polish.resolve_llm_adapter",
+        return_value=(_UVTInventingAdapter(), resolution),
+    ):
+        answer, diag = polish_graph_native_answer(
+            request=_request(),
+            template_answer=template,
+            evidence=_evidence(),  # no 3.5% anywhere
+        )
+    # Shadow mode: polish still ships the LLM output, validator did NOT reject.
+    assert diag["mode"] == "llm", f"expected accept under shadow, got: {diag}"
+    assert "3,5" in answer or "3.5" in answer
+
+
+def test_uvt_validator_enforce_mode_rejects_invented_tarifa(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """End-to-end: in enforce mode the same invented-3,5%-on-Art.-908
+    polish must be rejected and the template returned with
+    ``skip_reason="invented_uvt_ranges"``. This is the v15 INCLUDE
+    target for `pr_rst_anticipo_bimestral_v1`."""
+    monkeypatch.setenv("LIA_POLISH_UVT_VALIDATOR", "enforce")
+
+    template = "**Recomendaciones**\n- Aplica la tarifa del Art. 908 ET (art. 908 ET)."
+
+    class _UVTInventingAdapter:
+        def generate(self, prompt: str) -> str:
+            return (
+                "**Recomendaciones**\n"
+                "- Aplica la tarifa del 3,5% según Art. 908 ET (art. 908 ET).\n"
+            )
+
+    resolution = {"selected_provider": "gemini-flash", "model": "gemini-2.5-flash"}
+    with patch(
+        "lia_graph.pipeline_d.answer_llm_polish.resolve_llm_adapter",
+        return_value=(_UVTInventingAdapter(), resolution),
+    ):
+        answer, diag = polish_graph_native_answer(
+            request=_request(),
+            template_answer=template,
+            evidence=_evidence(),
+        )
+    assert diag["mode"] == "rejected"
+    assert diag["skip_reason"] == "invented_uvt_ranges"
+    assert answer == _expected_unpolished(template)
+

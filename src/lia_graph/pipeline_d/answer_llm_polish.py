@@ -46,7 +46,11 @@ class PromptRule:
     category: str  # "structural" | "semantic" | "presentational" | "tonal"
     prompt_text: str
     post_apply: Callable[[str], str] | None = None
-    validate: Callable[[str, str], bool] | None = None
+    # fix_v15_may §3.5 — validators may optionally read the evidence
+    # bundle the polish prompt rendered. Existing validators ignore the
+    # third arg; `_no_invented_uvt_ranges` uses it to build its allowed
+    # set from real excerpts.
+    validate: Callable[..., bool] | None = None
     rejection_reason: str | None = None
     surfaces: tuple[str, ...] = field(default=("main_chat",))
 
@@ -173,6 +177,24 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         rejection_reason="invented_periods",
     ),
     PromptRule(
+        # fix_v15_may §3 — UVT/% invention validator. Closes the gap
+        # fix_v14_may §17 surfaced (LLM cited "3,5 %" for Art. 908 ET
+        # Grupo 1; not in the article). Cue-gated to tarifa-anchored
+        # articles + UVT references; env-gated via
+        # `LIA_POLISH_UVT_VALIDATOR` (`shadow` default at landing).
+        id="no_invented_uvt_ranges",
+        category="semantic",
+        prompt_text=(
+            "No inventés porcentajes ni rangos UVT específicos para artículos con "
+            "tarifa (Art. 240 / 241 / 242 / 383 / 908 ET). Si la cifra exacta no "
+            "está en el BORRADOR o en los EXCERPTS, no la nombres."
+        ),
+        validate=lambda template, polished, evidence=None, question=None: _no_invented_uvt_ranges(
+            template, polished, evidence, question
+        ),
+        rejection_reason="invented_uvt_ranges",
+    ),
+    PromptRule(
         id="neutral_spanish",
         category="tonal",
         prompt_text="Respondé en español neutro profesional, sin muletillas.",
@@ -204,19 +226,54 @@ def _validate_against_rules(
     polished: str,
     *,
     surface: str = "main_chat",
+    evidence: GraphEvidenceBundle | None = None,
+    question: str | None = None,
 ) -> tuple[bool, str | None]:
     """Run every rule's ``validate`` predicate. Returns ``(ok, reason)``.
 
     ``ok`` is False if any rule rejected the polished text. ``reason``
     is the failed rule's ``rejection_reason`` (or a generic
     ``rule_violated:<id>`` if the rule didn't declare one).
+
+    fix_v15_may §3.5 — validators may opt into reading the evidence
+    bundle the polish prompt rendered AND the user's question text.
+    The dispatcher tries the widest signature
+    ``(template, polished, evidence, question)`` first and falls back
+    to narrower signatures so existing 2-arg lambdas keep functioning
+    unchanged.
     """
     for rule in POLISH_RULES:
         if rule.validate is None or surface not in rule.surfaces:
             continue
-        if not rule.validate(template, polished):
+        ok = _invoke_validator(rule.validate, template, polished, evidence, question)
+        if not ok:
             return False, rule.rejection_reason or f"rule_violated:{rule.id}"
     return True, None
+
+
+def _invoke_validator(
+    fn: Callable[..., bool],
+    template: str,
+    polished: str,
+    evidence: GraphEvidenceBundle | None,
+    question: str | None,
+) -> bool:
+    """Try the widest validator signature first, narrow on TypeError.
+
+    Order: ``(t, p, ev, q)`` → ``(t, p, ev)`` → ``(t, p)``. Existing
+    norm-lineage / period validators take the 2-arg form; the v15 UVT
+    validator takes the 4-arg form.
+    """
+    for args in (
+        (template, polished, evidence, question),
+        (template, polished, evidence),
+        (template, polished),
+    ):
+        try:
+            return fn(*args)
+        except TypeError:
+            continue
+    return fn(template, polished)
 
 
 def _polish_enabled() -> bool:
@@ -306,7 +363,12 @@ def polish_graph_native_answer(
         base_diag["skip_reason"] = "empty_llm_output"
         return _apply_post_hoc_transformers(template_answer), base_diag
 
-    ok, reason = _validate_against_rules(template_answer, polished)
+    ok, reason = _validate_against_rules(
+        template_answer,
+        polished,
+        evidence=evidence,
+        question=request.message if request else None,
+    )
     if not ok:
         base_diag.update(_runtime_diag_from_resolution(resolution))
         base_diag["mode"] = "rejected"
@@ -433,6 +495,207 @@ def _no_invented_periods(template: str, polished: str) -> bool:
 
     invented = _years(polished) - _years(template)
     return not invented
+
+
+# ---------------------------------------------------------------------------
+# fix_v15_may §3 — UVT/% invention validator.
+#
+# Closes the gap fix_v14_may §17 surfaced: the LLM can hallucinate
+# specific UVT ranges, tarifa percentages, and Grupo-1 rates inside
+# polished answers and neither `_no_invented_norm_lineage` nor
+# `_no_invented_periods` catches them. The validator scans tarifa-shaped
+# numeric values in the polished output and rejects polish when at least
+# one is NOT present (verbatim or normalized) in the template or in the
+# evidence excerpts the polish prompt rendered. Cue-gated: only fires on
+# answers anchored to Art. 240 / 241 / 242 / 383 / 908 ET or that mention
+# a UVT-shaped tabla/tarifa — outside that context the validator is a
+# noop (passes) to avoid blocking polish on plain monetary mentions.
+# ---------------------------------------------------------------------------
+
+# Percentage value: "3,5 %" / "3.5%" / "35 %" / "0,5 %". Always with %.
+_UVT_PERCENTAGE_RE = re.compile(
+    r"(?<![\w.,])\d{1,2}(?:[.,]\d{1,2})?\s*%",
+)
+
+# UVT-range expression: "1090 UVT", "1.090 UVT", "95 UVT".
+_UVT_VALUE_RE = re.compile(
+    r"(?<![\w.,])\d{1,3}(?:[.,]\d{3})*\s*UVT\b",
+    re.IGNORECASE,
+)
+
+# Tarifa-context anchor: only fire the validator when the polished
+# text references a tarifa-progressive article OR mentions "tarifa"
+# alongside a percentage / UVT.
+_TARIFA_CONTEXT_RE = re.compile(
+    r"\b(?:art(?:[ií]culo)?\.?\s*(?:240|241|242|383|908)"
+    r"|tarifa\s+(?:especial|progresiva|marginal|del?)"
+    r"|tabla\s+de\s+retenci[oó]n)\b",
+    re.IGNORECASE,
+)
+
+
+_UVT_VALIDATOR_ENV = "LIA_POLISH_UVT_VALIDATOR"
+
+
+def _uvt_validator_mode() -> str:
+    """fix_v15_may §3.6 — ``enforce | shadow | off``.
+
+    * ``enforce`` — validator failure routes to fallback (production safety).
+    * ``shadow``  — validator runs and emits a diagnostic but does NOT
+                    fail the polish (calibration mode, default at landing).
+    * ``off``     — validator is a noop.
+    """
+    raw = str(os.getenv(_UVT_VALIDATOR_ENV, "shadow") or "").strip().lower()
+    if raw in {"enforce", "on", "1", "true"}:
+        return "enforce"
+    if raw in {"off", "0", "false", "no", "disabled"}:
+        return "off"
+    return "shadow"
+
+
+# Trace seam — no-op when the tracer isn't loaded (e.g. unit-test harness).
+try:
+    from tracers_and_logs import pipeline_trace as _trace  # type: ignore
+except ImportError:  # pragma: no cover - tracer always present in served runtime
+    _trace = None  # type: ignore[assignment]
+
+
+def _trace_step(step_name: str, *, status: str = "ok", **details: Any) -> None:
+    if _trace is None:
+        return
+    try:
+        _trace.step(step_name, status=status, **details)
+    except Exception:  # noqa: BLE001 - trace failures must never break polish
+        return
+
+
+def _normalize_uvt_token(token: str) -> str:
+    """Normalize a UVT/% match so "3,5 %", "3.5%", "3,5%" all collapse to
+    the same canonical key. Strips whitespace, swaps `,` → `.` decimal
+    separator, lowercases."""
+    cleaned = token.strip().lower().replace(" ", "")
+    # Treat `,` and `.` as interchangeable decimal separators — Spanish
+    # uses comma, English uses dot, and excerpts mix the two.
+    cleaned = cleaned.replace(",", ".")
+    return cleaned
+
+
+def _extract_uvt_tokens(text: str) -> set[str]:
+    if not text:
+        return set()
+    cleaned = text.replace("**", "")
+    out: set[str] = set()
+    for m in _UVT_PERCENTAGE_RE.finditer(cleaned):
+        out.add(_normalize_uvt_token(m.group(0)))
+    for m in _UVT_VALUE_RE.finditer(cleaned):
+        out.add(_normalize_uvt_token(m.group(0)))
+    return out
+
+
+def _no_invented_uvt_ranges(
+    template: str,
+    polished: str,
+    evidence: GraphEvidenceBundle | None = None,
+    question: str | None = None,
+) -> bool:
+    """Reject polish that introduces a specific numeric tarifa or UVT
+    range value not present in the template, in the evidence excerpts
+    the polish prompt rendered, OR in the user's question text.
+
+    Cue-gated: only runs when the polished answer contains
+    ``_TARIFA_CONTEXT_RE`` (Art. 240/241/242/383/908 or a tarifa/UVT
+    table reference). Outside those contexts the validator is a noop.
+
+    Behavior is env-gated via ``LIA_POLISH_UVT_VALIDATOR``:
+
+    * ``enforce`` — returns False on at least one invented value.
+    * ``shadow``  — emits a ``polish.uvt_validator.applied`` trace step
+                    with ``outcome="fail_shadow"`` but still returns True.
+    * ``off``     — function is a noop (always returns True).
+
+    Question text is part of the allowed set per fix_v15_may §3.4 — when
+    a user asks "exencion 350 UVT" or "deducción 50 % Art. 115 ET", a
+    polished answer that echoes those values is grounded in user input,
+    not invented from LLM memory. This was missed in the initial v15
+    landing and surfaced as a false positive on
+    ``ep_gmf_exencion_350uvt_v1`` in the first shadow-panel run.
+    """
+    mode = _uvt_validator_mode()
+    if mode == "off":
+        _trace_step(
+            "polish.uvt_validator.applied",
+            mode=mode,
+            cue_matched=False,
+            polished_value_count=0,
+            allowed_value_count=0,
+            invented_values=[],
+            outcome="noop_off",
+        )
+        return True
+
+    polished_text = polished or ""
+    if _TARIFA_CONTEXT_RE.search(polished_text) is None:
+        _trace_step(
+            "polish.uvt_validator.applied",
+            mode=mode,
+            cue_matched=False,
+            polished_value_count=0,
+            allowed_value_count=0,
+            invented_values=[],
+            outcome="noop_no_cue",
+        )
+        return True
+
+    allowed: set[str] = _extract_uvt_tokens(template or "")
+    allowed |= _extract_uvt_tokens(question or "")
+    if evidence is not None:
+        for bucket in (
+            evidence.primary_articles,
+            evidence.connected_articles,
+            evidence.related_reforms,
+        ):
+            for item in bucket or ():
+                allowed |= _extract_uvt_tokens(item.excerpt or "")
+                allowed |= _extract_uvt_tokens(item.title or "")
+
+    polished_values = _extract_uvt_tokens(polished_text)
+    invented = sorted(polished_values - allowed)
+
+    if not invented:
+        _trace_step(
+            "polish.uvt_validator.applied",
+            mode=mode,
+            cue_matched=True,
+            polished_value_count=len(polished_values),
+            allowed_value_count=len(allowed),
+            invented_values=[],
+            outcome="pass",
+        )
+        return True
+
+    capped = invented[:6]
+    if mode == "shadow":
+        _trace_step(
+            "polish.uvt_validator.applied",
+            mode=mode,
+            cue_matched=True,
+            polished_value_count=len(polished_values),
+            allowed_value_count=len(allowed),
+            invented_values=capped,
+            outcome="fail_shadow",
+        )
+        return True
+
+    _trace_step(
+        "polish.uvt_validator.applied",
+        mode=mode,
+        cue_matched=True,
+        polished_value_count=len(polished_values),
+        allowed_value_count=len(allowed),
+        invented_values=capped,
+        outcome="fail_enforce",
+    )
+    return False
 
 
 # fix_v14_may §5 + §16 (A3) — DIRECTIVA NUMÉRICA.

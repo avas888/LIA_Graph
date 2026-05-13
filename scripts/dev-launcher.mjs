@@ -478,6 +478,21 @@ function buildRuntimeEnv(mode) {
     env.LIA_POLISH_REJECTED_FALLBACK_FILTER = "clean";
   }
 
+  // fix_v15_may §3 — UVT/% invention validator. Promoted to `enforce`
+  // 2026-05-13 after the operator-authorized 42-turn panel cycle:
+  //   * shadow run #1 → 1 false positive (`ep_gmf_exencion_350uvt_v1`,
+  //     350 UVT + 50 % present in question text not in template).
+  //   * REFINE: question text added to allowed set per plan §3.4;
+  //     unit tests 30 → 31 green.
+  //   * shadow run #2 → 0 false positives across 17 polish-llm turns.
+  //   * enforce run → 0 turns rejected with `invented_uvt_ranges`
+  //     (no new production effect on the 42-turn baseline).
+  // Rollback: `LIA_POLISH_UVT_VALIDATOR=off` (function noop) or
+  // `=shadow` (telemetry on, no production effect).
+  if (!String(env.LIA_POLISH_UVT_VALIDATOR || "").trim()) {
+    env.LIA_POLISH_UVT_VALIDATOR = "enforce";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

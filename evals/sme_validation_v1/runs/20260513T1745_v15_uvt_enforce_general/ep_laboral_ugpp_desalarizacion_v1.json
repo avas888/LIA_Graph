@@ -1,0 +1,1262 @@
+{
+  "qid": "ep_laboral_ugpp_desalarizacion_v1",
+  "topic_key_expected": "laboral",
+  "profile": "expert_panel_v1",
+  "message": "Una PYME paga el 35% del salario como bonos no constitutivos de salario. ¿Cuál es el límite del 40% no salarial según el Art. 30 de la Ley 1393/2010 y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?",
+  "http_status": 200,
+  "latency_ms": 46073,
+  "captured_utc": "2026-05-13T22:49:46.240256+00:00",
+  "response": {
+    "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+    "run_id": "pd_c83ff2113f6740e1937367aa103ca8ef",
+    "answer_markdown": "**Respuestas directas**\n- **¿Cuál es el límite del **40%** no salarial según el Art. 30 de la Ley **1393**/**2010** y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?**\n\n**Recomendaciones Prácticas**\n- \"Cotizo sobre el salario que pago, no sobre el SMLMV\": sin Decreto 2616 o Ley 2466 Art. 34, el IBC mínimo es 1 SMLMV. La UGPP cobra la diferencia + intereses + sanción.\n- Auditoría de nóminas: Verifican que recargos estén calculados correctamente.\n- Descripción: La jornada nocturna comienza a las 7:00 p.m. (no a las 10:00 p.m. como antes) y se extiende hasta las 6:00 a.m. Todo trabajo en este horario genera un recargo del 35% sobre el salario ordinario.\n\n**Anclaje legal**\n- Art. 127-132 — Definición de salario",
+    "answer_concise": "**Respuestas directas**\n- **¿Cuál es el límite del **40%** no salarial según el Art. 30 de la Ley **1393**/**2010** y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?**\n\n**Recomendaciones Prácticas**\n- \"Cotizo sobre el salario que pago, no sobre el SMLMV\": sin Decreto 2616 o Ley 2466 Art. 34, el IBC mínimo es 1 SMLMV. La UGPP cobra la diferencia + intereses + sanción.\n- Auditoría de nóminas: Verifican que recargos estén calculados correctamente.\n- Descripción: La jornada nocturna comienza a las 7:00 p.m. (no a las 10:00 p.m. como antes) y se extiende hasta las 6:00 a.m. Todo trabajo en este horario genera un recargo del 35% sobre el salario ordinario.\n\n**Anclaje legal**\n- Art. 127-132 — Definición de salario",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Todo banco o IMC que ejecute una operación de cambio tiene obligación de:\n\n1. **Verificar identidad del cliente**: Solicitar cédula, NIT, registro mercantil, verificar en RUES (Registro Único de Personas Jurídicas).\n\n2. **Capturar informaci",
+      "El salario ordinario es la remuneración ordinaria, fija o variable, pagada al trabajador por su trabajo. El salario integral debe cumplir:\n\nPara trabajador que devengue 10 o más salarios mínimos mensuales vigentes, el empleador y trabajador",
+      "**Nombre de la disposición (conceptual):** \"Medidas para el uso adecuado de la tercerización y la intermediación laboral\"\n\n**Cambios principales introducidos por Ley 2466:**\n\n1. **Limitación del alcance de tercerización:** Solo pueden terci"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 4,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "3",
+          "127-132",
+          "16-19",
+          "186"
+        ],
+        "chunk_row_count": 30,
+        "document_row_count": 22,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "reform_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T22:49:00.168339+00:00",
+        "total_ms": 35989.07,
+        "step_count": 44,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T22:49:00.168352+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T22:49:00.168339+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:00.168488+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.14,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 228,
+              "message_preview": "Una PYME paga el 35% del salario como bonos no constitutivos de salario. ¿Cuál es el límite del 40% no salarial según el Art. 30 de la Ley 1393/2010 y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:00.188699+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 20.35,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:00.188931+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 20.58,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:00.203163+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 34.81,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 228,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:01.896174+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1727.82,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "laboral",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la naturaleza salarial de los bonos y el límite del 40% no salarial, que son conceptos directamente relacionados con el régimen laboral y la definición de salario. Aunque menciona riesgos UGPP, la pregunta principal",
+              "elapsed_ms_call": 1693.08,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:01.896610+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1728.26,
+            "message": null,
+            "details": {
+              "effective_topic": "laboral",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.443473+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 13275.05,
+            "message": null,
+            "details": {
+              "owner_trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+              "requested_trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.443887+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 13275.49,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "laboral",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la naturaleza salarial de los bonos y el límite del 40% no salarial, que son conceptos directamente relacionados con el régimen laboral y la definición de salario. Aunque menciona riesgos UGPP, la pregunta principal es sobre la aplicación de la ley laboral para determinar la naturaleza de los pagos. La UGPP es una consecuencia de una mala aplicación de la ley laboral.",
+              "topic_notice": "Tu pregunta es de laboral, por lo cual utilizaremos nuestra base de datos laboral.",
+              "message_preview": "Una PYME paga el 35% del salario como bonos no constitutivos de salario. ¿Cuál es el límite del 40% no salarial según el Art. 30 de la Ley 1393/2010 y qué riesgos UGPP tiene si la fiscalización argumenta primacía de la realidad?",
+              "message_chars": 228
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.502996+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 13334.64,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [
+                  "LEY-1393-s_f"
+                ],
+                "anchor_reform_labels": [
+                  "Ley 1393"
+                ],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.503452+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 13335.1,
+            "message": null,
+            "details": {
+              "plan_query_mode": "reform_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 3 Ley 1393 laboral parafiscales_seguridad_social",
+              "query_text_chars": 57
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:13.504218+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 13335.87,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "laboral",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "laboral",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:14.362936+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 14194.57,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-pres",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N02-parafiscales-exoneracio",
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_NORMATIVA_TPR-N01-marco-legal-trabajo-tiem",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_NORMATIVA_Ley-21-1982.md::12",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_consolidado_Ley-21-1982.md::12",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_consolidado_Ley-27-1974.md::12",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_NORMATIVA_Ley-27-1974.md::12",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_NORMATIVA_Ley-27-1974.md::2",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Normativ"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "practica_erp",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 1
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:14.499689+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 14331.33,
+            "message": null,
+            "details": {
+              "anchor_row_count": 8,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:14.500098+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 14331.75,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 32,
+              "delta": 8
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:14.527752+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 14359.39,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 32,
+              "rows_out": 32,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "laboral"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:14.696875+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 14528.51,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 32,
+              "rows_out": 30,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 32,
+              "chunks_kept": 30,
+              "chunks_dropped": 2,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 32,
+                "chunks_kept": 30,
+                "chunks_dropped": 2,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:30.904094+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 30735.7,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 32,
+                "chunks_kept": 30,
+                "chunks_dropped": 2,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "3",
+                "127-132",
+                "16-19",
+                "186"
+              ],
+              "tema_first_topic_key": "laboral",
+              "planner_query_mode": "reform_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:30.904745+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 30736.38,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                4,
+                4
+              ],
+              "after": [
+                3,
+                4,
+                4
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "3",
+                  "127-132",
+                  "16-19",
+                  "108",
+                  "124-2",
+                  "125-1",
+                  "125-2"
+                ],
+                "candidate_count": 7,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:30.947427+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 30779.07,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "laboral",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "laboral",
+                "articles_top_topic": "laboral",
+                "router_score_on_articles": 7,
+                "top_score_on_articles": 7,
+                "ranked_article_topics": [
+                  [
+                    "laboral",
+                    7
+                  ],
+                  [
+                    "reforma_laboral_ley_2466",
+                    3
+                  ],
+                  [
+                    "calendario_obligaciones",
+                    1
+                  ],
+                  [
+                    "comercial_societario",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:30.947805+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 30779.46,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "laboral",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:30.947899+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 30779.56,
+            "message": null,
+            "details": {
+              "query_preview": "Una PYME paga el 35% del salario como bonos no constitutivos de salario. ¿Cuál es el límite del 40% no salarial según el Art. 30 de la Ley 1393/2010 y qué riesg",
+              "topic": "laboral",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:30.948026+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 30779.68,
+            "message": null,
+            "details": {
+              "query_chars": 228,
+              "query_preview": "Una PYME paga el 35% del salario como bonos no constitutivos de salario. ¿Cuál es el límite del 40% no salarial según el Art. 30 de la Ley 1393/2010 y qué riesg",
+              "topic": "laboral",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "pyme | paga | 35 | salario | bonos | no | constitutivos | cuál | límite | 40 | salarial | según | 30 | ley | 1393 | 2010 | riesgos | ugpp | tiene | si | fiscalización | argumenta | primacía | realidad",
+              "fts_query_token_count": 24,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:30.948688+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 30780.34,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "laboral",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.357389+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 31189.03,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 408.52,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+                "to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.521176+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 31352.82,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.521591+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 31353.25,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 163.74,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.521903+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 31353.56,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                  "score": 0.042237
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+                  "score": 0.041841
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                  "score": 0.041841
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.654643+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 31486.3,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 706.63,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.654992+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 31486.65,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.655236+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 31486.9,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.655300+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 31486.96,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.655359+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 31487.02,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "reform_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.660941+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 31492.59,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 5,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "\"Cotizo sobre el salario que pago, no sobre el SMLMV\": sin Decreto 2616 o Ley 2466 Art. 34, el IBC mínimo es 1 SMLMV. La"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 4,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Auditoría de nóminas: Verifican que recargos estén calculados correctamente."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 161,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Descripción: La jornada nocturna comienza a las 7:00 p.m. (no a las 10:00 p.m. como antes) y se extiende hasta las 6:00 "
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.661949+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 31493.61,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "laboral",
+              "allowed_prefix_count": 30,
+              "kept_count": 1,
+              "dropped_count": 2,
+              "dropped_keys_sample": [
+                "3 — 1. OBLIGACIONES DEL INTERMEDIARIO",
+                "16-19 — Nuevo Capítulo sobre Uso Adecuado de Tercerización"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.663521+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 31495.18,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "laboral",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "parafiscales_seguridad_social",
+                "retencion_fuente_general",
+                "reforma_pensional"
+              ],
+              "allowed_prefix_count": 30,
+              "kept_count": 1,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:31.663607+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 31495.27,
+            "message": null,
+            "details": {
+              "template_chars": 185
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:36.155404+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "info",
+            "elapsed_ms": 35987.05,
+            "message": null,
+            "details": {
+              "mode": "rejected",
+              "skip_reason": "invented_norm_lineage",
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 197,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:36.156178+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_filter",
+            "status": "ok",
+            "elapsed_ms": 35987.82,
+            "message": null,
+            "details": {
+              "filter_mode": "clean",
+              "routed_topic": "laboral",
+              "allowed_prefix_count": 30,
+              "heuristics_on": true,
+              "sections_dropped_empty": [],
+              "bullets_dropped_total": 0,
+              "drop_reasons": {},
+              "evidence_chars": 441,
+              "min_evidence_chars": 300,
+              "outcome": "substantive_fallback",
+              "sections_rendered": 2
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:36.156395+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_composed",
+            "status": "ok",
+            "elapsed_ms": 35988.05,
+            "message": null,
+            "details": {
+              "polish_skip_reason": "invented_norm_lineage",
+              "template_chars": 197,
+              "fallback_chars": 746,
+              "fallback_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:36.156661+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 35988.31,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "laboral",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "parafiscales_seguridad_social",
+                "retencion_fuente_general",
+                "reforma_pensional"
+              ],
+              "allowed_prefix_count": 30,
+              "kept_count": 5,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:36.156816+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.gate_applied",
+            "status": "ok",
+            "elapsed_ms": 35988.47,
+            "message": null,
+            "details": {
+              "primary_topic": "laboral",
+              "gate_mode": "applied",
+              "dropped_count": 0,
+              "kept_count": 5
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:36.157101+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 35988.74,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "laboral",
+              "citations_in": 4,
+              "citations_out": 0,
+              "dropped_count": 4,
+              "dropped_by_allowlist": [
+                {
+                  "article": null,
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "laboral",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "SENTENCIA 1100103270002001038001(12829 de 2003"
+                },
+                {
+                  "article": null,
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "laboral",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "SENTENCIA de 1994"
+                },
+                {
+                  "article": null,
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "laboral",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "AUTO 11001 03 24 000 2022 00441 00 de 2023"
+                },
+                {
+                  "article": null,
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "laboral",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "SENTENCIA de 1997"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T22:49:36.157253+00:00",
+            "trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 35988.91,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 0
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "rejected",
+      "polish_skip_reason": "invented_norm_lineage",
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 42,
+        "output_tokens": 125,
+        "total_tokens": 167,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "laboral",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de laboral, por lo cual utilizaremos nuestra base de datos laboral.",
+    "topic_adjustment_reason": "La consulta se centra en la naturaleza salarial de los bonos y el límite del 40% no salarial, que son conceptos directamente relacionados con el régimen laboral y la definición de salario. Aunque menciona riesgos UGPP, la pregunta principal es sobre la aplicación de la ley laboral para determinar la naturaleza de los pagos. La UGPP es una consecuencia de una mala aplicación de la ley laboral.",
+    "coverage_notice": null,
+    "topic": "laboral",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778712347,
+      "expires_at": 1778715947,
+      "token_id": "e4b74a223ee04214bf7dfec1f1752107"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_f2ab830efe5a",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 42,
+        "output_tokens": 125,
+        "total_tokens": 167
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+      "last_run_id": "pd_c83ff2113f6740e1937367aa103ca8ef",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_f2ab830efe5a",
+    "chat_run_id": "cr_20260513_224903_e41cfa92",
+    "metrics": {
+      "latency_ms": 39912.42,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 42,
+          "output_tokens": 125,
+          "total_tokens": 167,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_f2ab830efe5a",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 42,
+          "output_tokens": 125,
+          "total_tokens": 167
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "3b515b01-4939-4f95-b8b3-655ca3b9bd89",
+        "last_run_id": "pd_c83ff2113f6740e1937367aa103ca8ef",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 6,
+        "mentions_unique": 6,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 6,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "ley:1393:2010",
+          "decreto:2616",
+          "ley:2466",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 6.0
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "laboral",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "a908e07671204b57892c5cf0603fdfb6"
+  }
+}
