@@ -46,6 +46,8 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 
 `make supabase-start` / `supabase-stop` / `supabase-reset` / `supabase-status`. After a fresh `db reset`, run `PYTHONPATH=src:. uv run python scripts/seed_local_passwords.py` (every `@lia.dev` user → password `Test123!`).
 
+For full local↔cloud parity of the **canonical-norms catalog** (`norms`, `norm_vigencia_history`, `norm_citations`, `sub_topic_taxonomy`), use `scripts/cloud_promotion/sync_norms_cloud_to_local.py` (mirrors the four tables cloud→local via PostgREST upsert; idempotent on natural keys) followed by `scripts/cloud_promotion/project_norms_to_falkor.py` + `scripts/canonicalizer/sync_vigencia_to_falkor.py --target production` (projects the local Supabase rows into local Falkor as `:Norm` nodes + `IS_SUB_UNIT_OF` / `MODIFIED_BY` / `DEROGATED_BY` / `INEXEQUIBLE_BY` / `CONDITIONALLY_EXEQUIBLE_BY` edges). The `vigencia_to_falkor` sync's reported edge count is `len(statements)`, not actual writes — pass `strict=True` through `GraphClient.execute` or verify per-rel-type with `MATCH ()-[r:KIND]->() RETURN count(r)` after the run. Local docker corpus tables (`documents`, `document_chunks`) stay empty by design — `LIA_CORPUS_SOURCE=artifacts` reads chunks from the filesystem bundle in `artifacts/`. The catalog backbone (Norm nodes + vigencia edges + sub-topic taxonomy) IS expected in local Postgres + Falkor so dev work that traverses the regulatory graph reflects the same topology as staging/prod.
+
 ## Repository Layout
 
 - `src/lia_graph/` — Python backend. Entrypoints via `pyproject.toml`: `lia-ui` (`ui_server.py`), `lia-graph-artifacts` (`ingest.py`), `lia-deps-check` (`dependency_smoke.py`).
