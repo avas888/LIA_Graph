@@ -56,6 +56,168 @@ _GRAPH_MODE_ENV = "LIA_GRAPH_MODE"
 _VALID_CORPUS_SOURCES = {"artifacts", "supabase"}
 _VALID_GRAPH_MODES = {"artifacts", "falkor_live"}
 
+# fix_v13_may — dedicated práctica lane env knob.
+_PRACTICA_SOURCE_ENV = "LIA_PRACTICA_SOURCE"
+_VALID_PRACTICA_SOURCES = {"supabase", "disabled", "filesystem"}
+
+
+def _current_practica_source() -> str:
+    """`supabase` for staging/production, `disabled` for offline dev,
+    `filesystem` reserved for a future offline fallback (fix_v13_may §7)."""
+    raw = str(os.getenv(_PRACTICA_SOURCE_ENV, "supabase") or "").strip().lower()
+    return raw if raw in _VALID_PRACTICA_SOURCES else "supabase"
+
+
+import logging as _logging
+_PRACTICA_LOGGER = _logging.getLogger("lia_graph.pipeline_d.orchestrator.practica")
+
+
+def _retrieve_practica_chunks(
+    *,
+    query: str,
+    topic: str | None,
+    pais: str,
+    plan: GraphRetrievalPlan,
+):
+    """fix_v13_may §4 — dispatcher for the dedicated práctica lane.
+
+    Mirrors `interpretacion._retrieve_interpretation_docs`'s contract:
+    returns a bundle with `chunks_selected` + `retrieval_diagnostics`.
+
+    Behavior:
+      * `supabase` (default for staging + production) — call the dedicated
+        RPC adapter; errors propagate per the no-silent-fallback rule.
+      * `disabled` (default for `npm run dev`) — return an empty bundle.
+      * `filesystem` — explicitly deferred (fix_v13_may §7); raise so an
+        operator that flips this on without shipping the fallback finds
+        out immediately instead of getting silent degradation.
+
+    The vigencia v3 demotion is applied row-level through a closure so
+    chunks tied to inexequible / derogated / suspended anchors drop to
+    score 0.0 → filtered out before they reach `build_recommendations`.
+    Topic-gate + citation-allow-list run downstream during template
+    assembly (`answer_assembly.filter_template_bullets`) so any práctica
+    bullet that cites an off-topic norm is gated alongside the unified
+    pool's bullets.
+    """
+    from ..practica.policy import resolve_reserved_slots
+    from ..practica.shared import PracticaKnowledgeBundle
+
+    source = _current_practica_source()
+    top_k = resolve_reserved_slots()
+
+    _PRACTICA_LOGGER.info(
+        "practica.dispatcher.entry source=%s top_k=%d topic=%s query_chars=%d",
+        source,
+        top_k,
+        topic,
+        len(query or ""),
+    )
+
+    if source == "disabled" or top_k <= 0:
+        reason = "source_disabled" if source == "disabled" else "top_k_zero"
+        _PRACTICA_LOGGER.info(
+            "practica.dispatcher.skip reason=%s source=%s top_k=%d",
+            reason,
+            source,
+            top_k,
+        )
+        return PracticaKnowledgeBundle(
+            chunks_selected=(),
+            retrieval_diagnostics={
+                "practica_backend": "disabled",
+                "selected_chunks": 0,
+                "reason": reason,
+            },
+        )
+    if source == "filesystem":
+        # fix_v13_may §7 — deferred fallback. Per the no-silent-fallback
+        # invariant, surface a hard error instead of degrading to empty.
+        _PRACTICA_LOGGER.error(
+            "practica.dispatcher.unsupported_source filesystem fallback not shipped"
+        )
+        raise NotImplementedError(
+            "LIA_PRACTICA_SOURCE='filesystem' is reserved for a future"
+            " offline fallback (fix_v13_may §7); ship the adapter before"
+            " enabling this flag."
+        )
+
+    # source == "supabase"
+    from ..practica.retriever_supabase import fetch_practica_candidates
+    from ..supabase_client import get_supabase_client
+
+    db = get_supabase_client()
+
+    def _vigencia_filter(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Apply the v3 vigencia gate. Wraps the chat-retriever's helper
+        so práctica chunks pinned to inexequible / derogated / suspended
+        anchors drop before grouping. Returns the input unchanged on
+        RPC error so a vigencia outage cannot block the new lane."""
+        from .retriever_supabase import _apply_v3_vigencia_demotion as _v3
+        filtered, gate_diag = _v3(db, plan, rows)
+        _PRACTICA_LOGGER.info(
+            "practica.vigencia_gate status=%s chunks_in=%d chunks_kept=%s chunks_dropped=%s chunks_demoted=%s",
+            gate_diag.get("status"),
+            len(rows),
+            gate_diag.get("chunks_kept"),
+            gate_diag.get("chunks_dropped"),
+            gate_diag.get("chunks_demoted"),
+        )
+        _trace.step(
+            "practica.vigencia_gate.applied",
+            status="ok" if gate_diag.get("status") == "ok" else "skipped",
+            chunks_in=len(rows),
+            chunks_out=len(filtered),
+            rpc_kind=gate_diag.get("rpc_kind"),
+            chunks_seen=gate_diag.get("chunks_seen"),
+            chunks_kept=gate_diag.get("chunks_kept"),
+            chunks_dropped=gate_diag.get("chunks_dropped"),
+            chunks_demoted=gate_diag.get("chunks_demoted"),
+            gate_status=gate_diag.get("status"),
+        )
+        return filtered
+
+    try:
+        bundle = fetch_practica_candidates(
+            query_seed=query,
+            topic=topic,
+            pais=pais,
+            top_k=top_k,
+            client=db,
+            chunk_filter=_vigencia_filter,
+        )
+    except Exception as exc:  # propagate as observable "error" backend
+        _PRACTICA_LOGGER.warning(
+            "practica.dispatcher.error kind=%s msg=%s",
+            type(exc).__name__,
+            repr(exc)[:240],
+            exc_info=True,
+        )
+        _trace.step(
+            "practica.dispatcher.error",
+            status="error",
+            error_kind=type(exc).__name__,
+            error=repr(exc)[:240],
+        )
+        return PracticaKnowledgeBundle(
+            chunks_selected=(),
+            retrieval_diagnostics={
+                "practica_backend": "error",
+                "practica_error_kind": type(exc).__name__,
+                "selected_chunks": 0,
+            },
+        )
+    diag = dict(getattr(bundle, "retrieval_diagnostics", {}) or {})
+    _PRACTICA_LOGGER.info(
+        "practica.dispatcher.exit backend=%s selected=%d candidate=%s gate_dropped=%s elapsed_ms=%s",
+        diag.get("practica_backend"),
+        len(getattr(bundle, "chunks_selected", ()) or ()),
+        diag.get("candidate_rows"),
+        diag.get("gate_dropped"),
+        diag.get("total_elapsed_ms"),
+    )
+    return bundle
+
 
 def _current_corpus_source() -> str:
     raw = str(os.getenv(_CORPUS_SOURCE_ENV, "artifacts") or "").strip().lower()
@@ -171,12 +333,19 @@ def _compose_graph_native_answer(
     temporal_context: dict[str, object],
     evidence: GraphEvidenceBundle,
     sub_questions: tuple[str, ...] = (),
+    practica_chunks: tuple = (),
 ):
     """Return ``(answer_markdown, answer_parts)``.
 
     fix_v8 §3a — ``answer_parts`` is surfaced back to the caller so the
     polish-rejected fallback can re-render a substantive answer from the
     same deterministic parts when ``polish_graph_native_answer`` rejects.
+
+    fix_v13_may §4 — ``practica_chunks`` from the dedicated lane is
+    threaded into ``build_graph_native_answer_parts`` so the
+    `**Recomendaciones Prácticas**` section is fed by real
+    `knowledge_class='practica_erp'` content before falling through to
+    article-derived bullets.
     """
     answer_parts = build_graph_native_answer_parts(
         request=request,
@@ -185,6 +354,7 @@ def _compose_graph_native_answer(
         temporal_context=temporal_context,
         evidence=evidence,
         sub_questions=sub_questions,
+        practica_chunks=practica_chunks,
     )
     answer = _compose_main_chat_answer(
         request=request,
@@ -791,12 +961,60 @@ def run_pipeline_d(
     # ¿…? splits), so reusing it would suppress the Respuestas directas
     # section that build_direct_answers needs len(sub_questions) >= 2 to emit.
     effective_sub_questions = sub_queries if sub_queries else plan.sub_questions
+
+    # fix_v13_may §4 — dedicated práctica retrieval lane. Fetches
+    # `knowledge_class='practica_erp'` chunks into a reserved-slot
+    # budget that feeds `build_recommendations` ahead of the
+    # article-derived fallbacks. Errors degrade to `practica_backend=
+    # "error"` (the section falls through to v12 behavior); never
+    # silently masks as filesystem.
+    _trace.step(
+        "practica_retrieve.in",
+        status="info",
+        query_preview=str(request.message)[:160],
+        topic=request.topic,
+        source=_current_practica_source(),
+    )
+    practica_bundle = _retrieve_practica_chunks(
+        query=request.message,
+        topic=request.topic,
+        pais=request.pais,
+        plan=plan,
+    )
+    practica_chunks = tuple(getattr(practica_bundle, "chunks_selected", ()) or ())
+    practica_retrieval_diag = dict(
+        getattr(practica_bundle, "retrieval_diagnostics", {}) or {}
+    )
+    _trace.step(
+        "practica_retrieve.out",
+        status="ok",
+        practica_backend=practica_retrieval_diag.get("practica_backend"),
+        candidate_rows=practica_retrieval_diag.get("candidate_rows"),
+        selected_chunks=practica_retrieval_diag.get("selected_chunks"),
+        embedding_mode=practica_retrieval_diag.get("embedding_mode"),
+    )
+    _trace.step(
+        "practica_quality_gate",
+        status="ok",
+        gate_dropped=practica_retrieval_diag.get("gate_dropped"),
+        candidate_rows=practica_retrieval_diag.get("candidate_rows"),
+        candidate_rows_after_gate=practica_retrieval_diag.get(
+            "candidate_rows_after_gate"
+        ),
+    )
+    _trace.step(
+        "practica_merge",
+        status="ok",
+        reserved_count=len(practica_chunks),
+    )
+
     _trace.step(
         "synthesis.compose_template",
         status="ok",
         answer_mode=answer_mode,
         planner_query_mode=plan.query_mode,
         sub_question_count=len(effective_sub_questions or ()),
+        practica_reserved_count=len(practica_chunks),
     )
     answer, answer_parts = _compose_graph_native_answer(
         request=request,
@@ -805,6 +1023,7 @@ def run_pipeline_d(
         temporal_context=plan.temporal_context.to_dict(),
         evidence=evidence,
         sub_questions=effective_sub_questions,
+        practica_chunks=practica_chunks,
     )
     _trace.step(
         "synthesis.template_built",
@@ -993,6 +1212,22 @@ def run_pipeline_d(
             # the panel; empty list in ``off`` mode.
             "citation_allowlist_mode": citation_allow_mode,
             "dropped_by_allowlist": dropped_by_allowlist,
+            # fix_v13_may §5 — dedicated práctica lane visibility. These
+            # four keys let an operator confirm at trace-inspection time
+            # that the `**Recomendaciones Prácticas**` section was fed by
+            # real `practica_erp` chunks (backend=supabase,
+            # reserved_count>=1) vs the article-derived fallback (any
+            # other combination).
+            "practica_backend": practica_retrieval_diag.get(
+                "practica_backend"
+            ),
+            "practica_candidate_count": practica_retrieval_diag.get(
+                "candidate_rows"
+            ),
+            "practica_reserved_count": len(practica_chunks),
+            "practica_error_kind": practica_retrieval_diag.get(
+                "practica_error_kind"
+            ),
             # fix_v1.md hand-off — full deep trace of every retrieval-stage
             # decision. Survives the public-response strip via the
             # whitelist in ui_chat_payload.filter_diagnostics_for_public_response.

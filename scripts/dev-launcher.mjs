@@ -419,8 +419,25 @@ function buildRuntimeEnv(mode) {
   // applied to the target Supabase; the retriever degrades to
   // unboosted ranking via the strip-and-retry recovery if the
   // RPC rejects the new params.
+  // fix_v13_may §5 — default flipped 1.5 → 1.0. The dedicated práctica
+  // retrieval lane (`practica/retriever_supabase.py`) feeds the
+  // Recomendaciones Prácticas section with real `practica_erp` chunks
+  // through a reserved-slot budget, so the v12 soft-boost mechanism is
+  // no longer needed by default. Kept wired (the SQL parameter +
+  // Python plumbing stay in retriever_supabase.py) as emergency
+  // rollback: setting LIA_PRACTICA_BOOST_FACTOR=1.5 in shell env
+  // restores the v12 mechanism while LIA_PRACTICA_SOURCE=disabled
+  // turns off the new lane.
   if (!String(env.LIA_PRACTICA_BOOST_FACTOR || "").trim()) {
-    env.LIA_PRACTICA_BOOST_FACTOR = "1.5";
+    env.LIA_PRACTICA_BOOST_FACTOR = "1.0";
+  }
+
+  // fix_v13_may §5 — reserved slot budget for the dedicated práctica
+  // lane. 3 matches `build_recommendations`'s natural `tuple(lines[:3])`
+  // cap. Raise via shell env only after SME validation flags follow-up
+  // bubbles as still normative-voiced (fix_v13_may §7 deferred item).
+  if (!String(env.LIA_PRACTICA_RESERVED_SLOTS || "").trim()) {
+    env.LIA_PRACTICA_RESERVED_SLOTS = "3";
   }
 
   if (mode === "local") {
@@ -435,6 +452,15 @@ function buildRuntimeEnv(mode) {
     // for the local-but-cloud-experts dev case.
     if (!String(env.LIA_INTERPRETATION_SOURCE || "").trim()) {
       env.LIA_INTERPRETATION_SOURCE = "filesystem";
+    }
+    // fix_v13_may §5 — dedicated práctica lane reads through
+    // hybrid_search against Supabase; there is no filesystem fallback
+    // yet (§7 deferred). Local dev defaults to `disabled` so chats
+    // work fully offline; matches the LIA_CORPUS_SOURCE=artifacts
+    // pattern. Shell override wins; flip to `supabase` against a
+    // cloud Supabase to exercise the new lane from local dev.
+    if (!String(env.LIA_PRACTICA_SOURCE || "").trim()) {
+      env.LIA_PRACTICA_SOURCE = "disabled";
     }
     // Fallbacks if .env.dev.local is missing — safe demo keys shipped with every local Supabase CLI install.
     if (!String(env.SUPABASE_URL || "").trim()) {
@@ -461,6 +487,15 @@ function buildRuntimeEnv(mode) {
     if (!String(env.LIA_INTERPRETATION_SOURCE || "").trim()) {
       env.LIA_INTERPRETATION_SOURCE = "supabase";
     }
+    // fix_v13_may §5 — staging defaults the dedicated práctica lane
+    // ON. Reads the 1,463-row cloud `practica_erp` chunk population
+    // through the hybrid_search RPC and reserves slots for the
+    // Recomendaciones Prácticas section. Shell override wins; set
+    // `LIA_PRACTICA_SOURCE=disabled` to bypass the new lane (the
+    // section then falls through to v12 behavior).
+    if (!String(env.LIA_PRACTICA_SOURCE || "").trim()) {
+      env.LIA_PRACTICA_SOURCE = "supabase";
+    }
   } else if (mode === "production") {
     env.LIA_STORAGE_BACKEND = "supabase";
     // fix_v10_may Phase 10B → flipped to supabase on 2026-05-12 per
@@ -473,6 +508,13 @@ function buildRuntimeEnv(mode) {
     // topic boost + trust tier + embeddings) clears that case.
     if (!String(env.LIA_INTERPRETATION_SOURCE || "").trim()) {
       env.LIA_INTERPRETATION_SOURCE = "supabase";
+    }
+    // fix_v13_may §5 — production mirrors staging. Dedicated lane ON
+    // by default; rollback via shell env (`LIA_PRACTICA_SOURCE=disabled`
+    // + optional `LIA_PRACTICA_BOOST_FACTOR=1.5` to reinstate the v12
+    // soft-boost mechanism, one-flag-flip, no redeploy).
+    if (!String(env.LIA_PRACTICA_SOURCE || "").trim()) {
+      env.LIA_PRACTICA_SOURCE = "supabase";
     }
   } else {
     fail(`Unsupported mode: ${mode}`);

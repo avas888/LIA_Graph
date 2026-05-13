@@ -1,0 +1,1194 @@
+{
+  "qid": "pr_firmeza_calendario_defensivo_v1",
+  "topic_key_expected": "procedimiento_tributario",
+  "profile": "practica_v1",
+  "message": "Mi cliente PYME presentó renta AG2024 en mayo 2025 y la corrigió en agosto 2025. ¿Cómo calculo el término de firmeza operativamente según los distintos escenarios (ordinario 3 años, beneficio de auditoría 6 o 12 meses, declaración con pérdidas 6 años), qué fecha exacta de firmeza tengo para cada caso, y qué papel de trabajo dejo para defender el cálculo?",
+  "http_status": 200,
+  "latency_ms": 34086,
+  "captured_utc": "2026-05-13T15:23:01.353578+00:00",
+  "response": {
+    "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+    "run_id": "pd_495df847049a439196f74c25d9d93032",
+    "answer_markdown": "**Recomendaciones Prácticas**\n1.  Para el cliente PYME con ingresos de **$950.000.000** en **2025**, es crucial considerar los umbrales de patrimonio bruto para el beneficio de auditoría (art. 260 ET) y las reglas de compensación de pérdidas (art. 147 ET).\n2.  Las pérdidas fiscales sujetas al régimen actual pueden compensarse con rentas líquidas ordinarias en los **12** períodos gravables siguientes, sin un tope porcentual anual (arts. 147 y 647-1 ET).\n3.  Para cada declaración, siga este árbol de decisión para determinar la firmeza (arts. 147 y 260 ET).\n4.  Si el saldo de pérdidas proviene de años anteriores a **2017**, valide primero el régimen transitorio del art. 290 ET antes de aplicar la regla de los **12** años.\n5.  Asegúrese de que la declaración de renta AG**2024** presentada en mayo de **2025** y corregida en agosto de **2025** cumpla con los requisitos para el beneficio de auditoría, si aplica, o para la firmeza ordinaria.\n6.  Prepare un papel de trabajo detallado que justifique la fecha de firmeza calculada para cada escenario, incluyendo las bases normativas y los cálculos específicos.\n\n**Procedimiento Sugerido**\nPara determinar la firmeza de la declaración de renta AG**2024** (presentada en mayo de **2025** y corregida en agosto de **2025**), siga estos pasos:\n\n*   **Escenario Ordinario (**3** años):**\n    *   La firmeza se cuenta a partir del vencimiento del plazo para declarar.\n    *   Si la declaración se corrigió en agosto de **2025** para aumentar el impuesto o disminuir el saldo a favor, el término de firmeza se mantiene desde la declaración inicial (art. 588 ET).\n    *   Si la corrección disminuyó el valor a pagar o aumentó el saldo a favor, el término de firmeza para esa corrección es de **1** año desde la presentación de la corrección (art. 589 ET).\n*   **Escenario Beneficio de Auditoría (**6** o **12** meses):**\n    *   Verifique si la declaración AG**2024** cumple con los requisitos del art. 689-**3** ET para acceder al beneficio de auditoría.\n    *   Calcule el incremento porcentual del impuesto neto de renta respecto al año gravable anterior.\n    *   Si cumple, la firmeza será de **6** o **12** meses, según el porcentaje de incremento.\n    *   La corrección de agosto de **2025** no debe afectar el cumplimiento de los requisitos para el beneficio de auditoría.\n*   **Escenario Declaración con Pérdidas Fiscales (**6** años):**\n    *   Si la declaración AG**2024** arroja o compensa pérdidas fiscales, el término de firmeza es de **6** años contados a partir del vencimiento del plazo para declarar (art. 147 ET).\n    *   Este término aplica específicamente a la determinación de la pérdida fiscal.\n    *   La corrección de agosto de **2025** no altera este término de firmeza de **6** años para las pérdidas.\n\n**Precauciones**\n*   No confunda la compensación de pérdidas fiscales con la devolución o compensación de saldos a favor (arts. 147 y 857 ET). Son procedimientos distintos con reglas de firmeza diferentes.\n*   Evite aplicar la regla ordinaria de **3** años de firmeza si la declaración de renta genera o compensa pérdidas fiscales. En estos casos, el término es de **6** años (arts. 147 y 260 ET).\n*   No utilice la lógica del art. 588 ET (correcciones que aumentan el impuesto o disminuyen el saldo a favor) cuando la corrección realmente disminuye el valor a pagar o aumenta el saldo a favor, ya que esta última tiene un término de corrección diferente (art. 589 ET).\n*   Asegúrese de que cualquier solicitud de devolución no se base en una declaración inconsistente o pendiente de corregir, para evitar rechazos (arts. 857 y 588 ET).\n\n**Soportes**\nPara cada escenario de firmeza, prepare un papel de trabajo que incluya:\n\n*   **Cálculo de la fecha de firmeza:** Detalle la fecha de vencimiento de la declaración inicial, la fecha de presentación de la corrección y el cálculo del término de firmeza según el escenario aplicable.\n*   **Análisis de cumplimiento de requisitos:** Si aplica el beneficio de auditoría, documente el cumplimiento de los porcentajes de incremento del impuesto neto de renta (art. 689-3 ET).\n*   **Soporte normativo:** Cite los artículos del Estatuto Tributario que sustentan el cálculo de la firmeza para cada caso (arts. 147, 260, 588, 589, 689-3 ET).\n*   **Historial de declaraciones:** Incluya copias de la declaración inicial y la declaración corregida.\n\n**Anclaje Legal**\n*   La firmeza de las declaraciones tributarias se rige por el Estatuto Tributario, específicamente en lo referente a las correcciones (arts. 588 y 589 ET), el beneficio de auditoría (art. 689-3 ET) y la compensación de pérdidas fiscales (art. 147 ET).\n*   El art. 147 ET establece el término de firmeza de **6** años para las declaraciones que determinen o compensen pérdidas fiscales.\n*   El art. 260 ET, aunque no directamente de firmeza, es relevante para el cálculo de patrimonio bruto en relación con otros beneficios.\n*   El art. 588 ET regula las correcciones que aumentan el impuesto o disminuyen el saldo a favor, estableciendo un término de **2** años.\n*   El art. 589 ET regula las correcciones que disminuyen el valor a pagar o aumentan el saldo a favor, con un término de **1** año.\n*   El art. 689-**3** ET establece los términos especiales de firmeza de **6** o **12** meses para las declaraciones que cumplen con los requisitos del beneficio de auditoría.",
+    "answer_concise": "**Recomendaciones Prácticas**\n1.  Para el cliente PYME con ingresos de **$950.000.000** en **2025**, es crucial considerar los umbrales de patrimonio bruto para el beneficio de auditoría (art. 260 ET) y las reglas de compensación de pérdidas (art. 147 ET).\n2.  Las pérdidas fiscales sujetas al régimen actual pueden compensarse con rentas líquidas ordinarias en los **12** períodos gravables siguientes, sin un tope porcentual anual (arts. 147 y 647-1 ET).\n3.  Para cada declaración, siga este árbol de decisión para determinar la firmeza (arts. 147 y 260 ET).\n4.  Si el saldo de pérdidas proviene de años anteriores a **2017**, valide primero el régimen transitorio del art. 290 ET antes de aplicar la regla de los **12** años.\n5.  Asegúrese de que la declaración de renta AG**2024** presentada en mayo de **2025** y corregida en agosto de **2025** cumpla con los requisitos para el beneficio de auditoría, si aplica, o para la firmeza ordinaria.\n6.  Prepare un papel de trabajo detallado que justifique la fecha de firmeza calculada para cada escenario, incluyendo las bases normativas y los cálculos específicos.\n\n**Procedimiento Sugerido**\nPara determinar la firmeza de la declaración de renta AG**2024** (presentada en mayo de **2025** y corregida en agosto de **2025**), siga estos pasos:\n\n*   **Escenario Ordinario (**3** años):**\n    *   La firmeza se cuenta a partir del vencimiento del plazo para declarar.\n    *   Si la declaración se corrigió en agosto de **2025** para aumentar el impuesto o disminuir el saldo a favor, el término de firmeza se mantiene desde la declaración inicial (art. 588 ET).\n    *   Si la corrección disminuyó el valor a pagar o aumentó el saldo a favor, el término de firmeza para esa corrección es de **1** año desde la presentación de la corrección (art. 589 ET).\n*   **Escenario Beneficio de Auditoría (**6** o **12** meses):**\n    *   Verifique si la declaración AG**2024** cumple con los requisitos del art. 689-**3** ET para acceder al beneficio de auditoría.\n    *   Calcule el incremento porcentual del impuesto neto de renta respecto al año gravable anterior.\n    *   Si cumple, la firmeza será de **6** o **12** meses, según el porcentaje de incremento.\n    *   La corrección de agosto de **2025** no debe afectar el cumplimiento de los requisitos para el beneficio de auditoría.\n*   **Escenario Declaración con Pérdidas Fiscales (**6** años):**\n    *   Si la declaración AG**2024** arroja o compensa pérdidas fiscales, el término de firmeza es de **6** años contados a partir del vencimiento del plazo para declarar (art. 147 ET).\n    *   Este término aplica específicamente a la determinación de la pérdida fiscal.\n    *   La corrección de agosto de **2025** no altera este término de firmeza de **6** años para las pérdidas.\n\n**Precauciones**\n*   No confunda la compensación de pérdidas fiscales con la devolución o compensación de saldos a favor (arts. 147 y 857 ET). Son procedimientos distintos con reglas de firmeza diferentes.\n*   Evite aplicar la regla ordinaria de **3** años de firmeza si la declaración de renta genera o compensa pérdidas fiscales. En estos casos, el término es de **6** años (arts. 147 y 260 ET).\n*   No utilice la lógica del art. 588 ET (correcciones que aumentan el impuesto o disminuyen el saldo a favor) cuando la corrección realmente disminuye el valor a pagar o aumenta el saldo a favor, ya que esta última tiene un término de corrección diferente (art. 589 ET).\n*   Asegúrese de que cualquier solicitud de devolución no se base en una declaración inconsistente o pendiente de corregir, para evitar rechazos (arts. 857 y 588 ET).\n\n**Soportes**\nPara cada escenario de firmeza, prepare un papel de trabajo que incluya:\n\n*   **Cálculo de la fecha de firmeza:** Detalle la fecha de vencimiento de la declaración inicial, la fecha de presentación de la corrección y el cálculo del término de firmeza según el escenario aplicable.\n*   **Análisis de cumplimiento de requisitos:** Si aplica el beneficio de auditoría, documente el cumplimiento de los porcentajes de incremento del impuesto neto de renta (art. 689-3 ET).\n*   **Soporte normativo:** Cite los artículos del Estatuto Tributario que sustentan el cálculo de la firmeza para cada caso (arts. 147, 260, 588, 589, 689-3 ET).\n*   **Historial de declaraciones:** Incluya copias de la declaración inicial y la declaración corregida.\n\n**Anclaje Legal**\n*   La firmeza de las declaraciones tributarias se rige por el Estatuto Tributario, específicamente en lo referente a las correcciones (arts. 588 y 589 ET), el beneficio de auditoría (art. 689-3 ET) y la compensación de pérdidas fiscales (art. 147 ET).\n*   El art. 147 ET establece el término de firmeza de **6** años para las declaraciones que determinen o compensen pérdidas fiscales.\n*   El art. 260 ET, aunque no directamente de firmeza, es relevante para el cálculo de patrimonio bruto en relación con otros beneficios.\n*   El art. 588 ET regula las correcciones que aumentan el impuesto o disminuyen el saldo a favor, estableciendo un término de **2** años.\n*   El art. 589 ET regula las correcciones que disminuyen el valor a pagar o aumentan el saldo a favor, con un término de **1** año.\n*   El art. 689-**3** ET establece los términos especiales de firmeza de **6** o **12** meses para las declaraciones que cumplen con los requisitos del beneficio de auditoría.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Para el cliente PYME con ingresos de **$950.000.000** en **2025**, es crucial considerar los umbrales de patrimonio bruto para el beneficio de auditoría (art. 260 ET) y las reglas de compensación de pérdidas (art.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_19_Libro5_Procedimiento_P2.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "legal_reference": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "search_query": "Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2) DIAN / fuente oficial colombia Libro Quinto — Procedimiento Tributario, Sanciones y Estructura de la DIAN (Parte 2)",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Procedimiento Sugerido** Para determinar la firmeza de la declaración de renta AG**2024** (presentada en mayo de **2025** y corregida en agosto de **2025**), siga estos pasos: **Escenario Ordinario (**3** años):** La",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "logical_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "firmeza_declaraciones",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "download_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "legal_reference": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "search_query": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026 DIAN / fuente oficial colombia FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Asegúrese de que la declaración de renta AG**2024** presentada en mayo de **2025** y corregida en agosto de **2025** cumpla con los requisitos para el beneficio de auditoría, si aplica, o para la firmeza ordinaria.",
+        "usage_intents": [
+          "procedimiento",
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "logical_doc_id": "CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Corpus_de_Contabilidad_NORMATIVA_N-PT-procedimiento-tributario-fiscalizacion-dian.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "legal_reference": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "search_query": "N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN DIAN / fuente oficial colombia N PT — Procedimiento Tributario: Fiscalización, Liquidación Oficial y Recursos ante la DIAN",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "decreto",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Procedimiento Sugerido** Para determinar la firmeza de la declaración de renta AG**2024** (presentada en mayo de **2025** y corregida en agosto de **2025**), siga estos pasos: **Escenario Ordinario (**3** años):** La",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Para el cliente PYME con ingresos de **$950.000.000** en **2025**, es crucial considerar los umbrales de patrimonio bruto para el beneficio de auditoría (art. 260 ET) y las reglas de compensación de pérdidas (art.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*(Modificado por Ley 1819 de 2016 Art. 88 y Ley 2010 de 2019 Art. 117. Texto vigente aplicable a AG 2025.)*\n\nLas sociedades podrán compensar las pérdidas fiscales, con las rentas líquidas ordinarias que obtuvieren en los doce (12) períodos ",
+      "Los contribuyentes del impuesto sobre la renta y complementarios, cuyo patrimonio bruto en el último día del año o período gravable sea igual o superior al equivalente a cien mil (100.000) UVT (para 2025: 100.000 × $49.799 = $4.979.900.000)",
+      "Sin perjuicio de lo dispuesto en los artículos 709 y 713, los contribuyentes, responsables o agentes retenedores, podrán corregir sus declaraciones tributarias dentro de los dos (2) años siguientes al vencimiento del plazo para declarar y a"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 5,
+        "connected_article_count": 3,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "147",
+          "260",
+          "588",
+          "589",
+          "689-3"
+        ],
+        "chunk_row_count": 48,
+        "document_row_count": 16,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T15:22:27.268708+00:00",
+        "total_ms": 30195.55,
+        "step_count": 34,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T15:22:27.268720+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T15:22:27.268708+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:27.268838+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.12,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 356,
+              "message_preview": "Mi cliente PYME presentó renta AG2024 en mayo 2025 y la corrigió en agosto 2025. ¿Cómo calculo el término de firmeza operativamente según los distintos escenarios (ordinario 3 años, beneficio de auditoría 6 o 12 meses, declaración con pérdi",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:27.269014+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 0.3,
+            "message": null,
+            "details": {
+              "effective_topic": "firmeza_declaraciones",
+              "confidence": 0.98,
+              "reason": "rule:firmeza_declaraciones matched subtopic_override:firmeza_declaraciones",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:34.709072+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 7440.58,
+            "message": null,
+            "details": {
+              "owner_trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+              "requested_trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:34.710930+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 7442.44,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "firmeza_declaraciones",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:firmeza_declaraciones matched subtopic_override:firmeza_declaraciones",
+              "topic_notice": "Tu pregunta es de firmeza declaraciones, por lo cual utilizaremos nuestra base de datos firmeza declaraciones.",
+              "message_preview": "Mi cliente PYME presentó renta AG2024 en mayo 2025 y la corrigió en agosto 2025. ¿Cómo calculo el término de firmeza operativamente según los distintos escenarios (ordinario 3 años, beneficio de auditoría 6 o 12 meses, declaración con pérdi",
+              "message_chars": 356
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:34.747861+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 7479.37,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": "AG 2024",
+                "requested_period_source": "message_ag",
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": [
+                  "Requested period resolved as AG 2024 via message_ag."
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:34.748139+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7479.66,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "firmeza_declaraciones declaracion_renta procedimiento_tributario beneficio_auditoria correcciones que disminuyan el valor a pagar o aumenten el saldo a favor correcciones que aumentan el impuesto o disminuyen el saldo a favor correccion dec",
+              "query_text_chars": 780
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:35.551653+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 8283.18,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "firmeza_declaraciones",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "firmeza_declaraciones",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:37.537859+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 10269.44,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR",
+                "CORE_ya_Arriba_RENTA_EXPERTOS_T08-beneficio-auditoria-interpretaciones.md::7-t-r",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "suin_1132325::879",
+                "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_EXPERTOS_FIR-E01-interpretaciones-fi",
+                "suin_1132325::235-2"
+              ],
+              "top_chunk_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "interpretative_guidance",
+                "normative_base",
+                "normative_base",
+                "interpretative_guidance",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 8
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:38.941735+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 11673.34,
+            "message": null,
+            "details": {
+              "anchor_row_count": 28,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:38.942190+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 11673.81,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 51,
+              "delta": 27
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:39.150068+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 11881.66,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 51,
+              "rows_out": 48,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 51,
+              "chunks_kept": 48,
+              "chunks_dropped": 3,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 51,
+                "chunks_kept": 48,
+                "chunks_dropped": 3,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:48.022029+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 20753.76,
+            "message": null,
+            "details": {
+              "primary_count": 5,
+              "connected_count": 3,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 51,
+                "chunks_kept": 48,
+                "chunks_dropped": 3,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "147",
+                "260",
+                "588",
+                "589",
+                "689-3"
+              ],
+              "tema_first_topic_key": "firmeza_declaraciones",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:48.022540+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 20754.29,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                5,
+                3,
+                5
+              ],
+              "after": [
+                5,
+                3,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "147",
+                  "260",
+                  "588",
+                  "589",
+                  "689-3",
+                  "580",
+                  "647-1",
+                  "857"
+                ],
+                "candidate_count": 8,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:48.022845+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 20754.6,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "firmeza_declaraciones",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "firmeza_declaraciones",
+                "articles_top_topic": "firmeza_declaraciones",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "147"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:48.022961+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 20754.72,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "firmeza_declaraciones",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:48.023065+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 20754.82,
+            "message": null,
+            "details": {
+              "query_preview": "Mi cliente PYME presentó renta AG2024 en mayo 2025 y la corrigió en agosto 2025. ¿Cómo calculo el término de firmeza operativamente según los distintos escenari",
+              "topic": "firmeza_declaraciones",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:48.023230+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 20754.99,
+            "message": null,
+            "details": {
+              "query_chars": 356,
+              "query_preview": "Mi cliente PYME presentó renta AG2024 en mayo 2025 y la corrigió en agosto 2025. ¿Cómo calculo el término de firmeza operativamente según los distintos escenari",
+              "topic": "firmeza_declaraciones",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "cliente | pyme | presentó | renta | ag2024 | mayo | 2025 | corrigió | agosto | calculo | término | firmeza | operativamente | según | distintos | escenarios | ordinario | años | beneficio | auditoría ",
+              "fts_query_token_count": 34,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:48.410508+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 21142.25,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "firmeza_declaraciones",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.179843+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 21911.6,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 769.02,
+              "top_doc_ids": [
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.389998+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 22121.76,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.390404+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 22122.17,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 210.11,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.390697+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 22122.46,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                  "score": 0.042237
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_LOGGRO_FIR-L01-guia-practica-firmeza-calendario-defensivo-PYME-2026.md",
+                  "score": 0.031498
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-26-fiscalizacion-y-defensa-ante-la-dian.md",
+                  "score": 0.02901
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.572810+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 22304.57,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 1549.61,
+              "selected_doc_ids": [
+                "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_LOGGRO_FIR-L01-guia-practica-firmeza-calendario-defensivo-PYME-2026.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-26-fiscalizacion-y-defensa-ante-la-dian.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.573395+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 22305.17,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.573617+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 22305.39,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.573830+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 22305.6,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.574023+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 22305.79,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.582773+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 22314.53,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_PRACTICA_PRACTICA_FIR-L01-guia-practica-calcular-firmeza-estrategia-PYME.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 7,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "PYME manufactura, ingresos 2025 = $950.000.000."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_FIRMEZA_DECLARACIONES_ART714_LOGGRO_FIR-L01-guia-practica-firmeza-calendario-defensivo-PYME-2026.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 32,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Para cada declaración, siga este árbol."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-26-fiscalizacion-y-defensa-ante-la-dian.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 10,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "SAS con 20 empleados, comercio al por menor, NIT terminado en 1."
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.591479+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 22323.25,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "firmeza_declaraciones"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:49.591777+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 22323.55,
+            "message": null,
+            "details": {
+              "template_chars": 1075
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:57.463228+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 30195.06,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 5354,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:57.463529+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 30195.37,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "firmeza_declaraciones",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:22:57.463625+00:00",
+            "trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 30195.47,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 5,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null,
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 60,
+        "output_tokens": 861,
+        "total_tokens": 921,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "firmeza_declaraciones",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de firmeza declaraciones, por lo cual utilizaremos nuestra base de datos firmeza declaraciones.",
+    "topic_adjustment_reason": "rule:firmeza_declaraciones matched subtopic_override:firmeza_declaraciones",
+    "coverage_notice": null,
+    "topic": "firmeza_declaraciones",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778685556,
+      "expires_at": 1778689156,
+      "token_id": "ed2c8261dc784ce4983ce4d1899d6cd2"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_0e1a8b0bc29e",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 60,
+        "output_tokens": 861,
+        "total_tokens": 921
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+      "last_run_id": "pd_495df847049a439196f74c25d9d93032",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_0e1a8b0bc29e",
+    "chat_run_id": "cr_20260513_152228_7a7faf0f",
+    "metrics": {
+      "latency_ms": 32375.75,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 60,
+          "output_tokens": 861,
+          "total_tokens": 921,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_0e1a8b0bc29e",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 60,
+          "output_tokens": 861,
+          "total_tokens": 921
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "66acdb26-5b76-46ae-8bfd-40fee7cbd6ae",
+        "last_run_id": "pd_495df847049a439196f74c25d9d93032",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 9,
+        "mentions_unique": 9,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 9,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et",
+          "et",
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 18.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "firmeza_declaraciones",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "d64ce4ee5ea54549a81a0563b62280f5"
+  }
+}

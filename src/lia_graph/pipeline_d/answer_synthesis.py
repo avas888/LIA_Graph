@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 from ..pipeline_c.contracts import PipelineCRequest
+
+if TYPE_CHECKING:
+    from ..practica.shared import PracticaChunkRuntime
 from .answer_shared import (
     filter_published_lines,
     normalize_text,
@@ -52,6 +56,7 @@ def build_graph_native_answer_parts(
     temporal_context: dict[str, object],
     evidence: GraphEvidenceBundle,
     sub_questions: tuple[str, ...] = (),
+    practica_chunks: tuple["PracticaChunkRuntime", ...] = (),
 ) -> GraphNativeAnswerParts:
     allow_change_context = should_surface_change_context(
         normalized_message=normalize_text(request.message),
@@ -75,6 +80,7 @@ def build_graph_native_answer_parts(
             temporal_context=temporal_context,
             primary_articles=evidence.primary_articles,
             connected_articles=evidence.connected_articles,
+            practica_chunks=practica_chunks,
         ),
         allow_change_lines=allow_change_context,
     )

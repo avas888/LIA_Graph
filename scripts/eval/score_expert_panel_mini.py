@@ -8,8 +8,10 @@ For each chat response already captured by `run_sme_parallel.py` in the
     interpretation file in the top-3 panel cards.
 
 The expected files per question live in
-`evals/sme_validation_v1/questions_expert_panel_v1.jsonl` under the
-`expected_interpretation_files` key.
+`evals/sme_validation_v1/21q_retriever_General.jsonl` (renamed from
+`questions_expert_panel_v1.jsonl` on 2026-05-13 alongside the new
+`21q_retriever_Practica.jsonl` fixture for the v13 práctica lane)
+under the `expected_interpretation_files` key.
 
 Writes one `<qid>.panel.json` per question into the run_dir plus a
 markdown `panel_report.md` summary (PASS / REFINE / DISCARD).
@@ -172,7 +174,7 @@ def main() -> int:
     p.add_argument("--server", default="http://127.0.0.1:8787")
     p.add_argument(
         "--questions",
-        default="evals/sme_validation_v1/questions_expert_panel_v1.jsonl",
+        default="evals/sme_validation_v1/21q_retriever_General.jsonl",
     )
     p.add_argument("--timeout-seconds", type=int, default=90)
     args = p.parse_args()

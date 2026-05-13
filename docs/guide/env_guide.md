@@ -1,6 +1,15 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-05-12-fix-v12-practica-boost`.**
+> **Env matrix version: `v2026-05-13-fix-v13-practica-lane`.**
+> **2026-05-13 fix_v13_may landings (today):**
+> - **`LIA_PRACTICA_SOURCE=supabase`** (Phase 13B+13C). Dedicated retrieval lane for `knowledge_class='practica_erp'` chunks in `src/lia_graph/practica/retriever_supabase.py`. Runs in parallel to the unified `hybrid_search` call; the top-K práctica chunks are reserved for `build_recommendations` so the **Recomendaciones Prácticas** section is fed by real operational-guidance chunks before the v12 article-derived fallback. Default `supabase` for `dev:staging` + `dev:production`; `disabled` for `npm run dev` (no filesystem fallback shipped yet — fix_v13_may §7 deferred). RPC errors surface as `practica_backend="error"` with `practica_error_kind=<class name>`; never silent fallback. `filesystem` value reserved and currently raises `NotImplementedError`.
+> - **`LIA_PRACTICA_RESERVED_SLOTS=3`** (Phase 13C). Top-K práctica chunks reserved for the section. Matches `build_recommendations`'s natural `tuple(lines[:3])` cap. Floors at 0 (disable), caps at 8.
+> - **`LIA_PRACTICA_BOOST_FACTOR=1.0`** (default flipped 2026-05-13; was `1.5` in v12). The v12 soft-boost mechanism stays wired as a one-flag rollback path; set to `1.5` in shell env to reinstate v12 behavior on top of v13 disabled.
+> - **Four new diagnostic keys** lifted to top-level `response.diagnostics` and whitelisted in `ui_chat_payload.filter_diagnostics_for_public_response`: `practica_backend ∈ {supabase, disabled, error}`, `practica_candidate_count`, `practica_reserved_count`, `practica_error_kind`.
+> - **Detailed pipeline-trace coverage.** Twelve new stages cover every step: `practica_retrieve.in` / `.out` / `.quality_gate` / `.merge` (orchestrator-level), `practica.retriever.entry` / `.hybrid_search.in` / `.hybrid_search.out` / `.hybrid_search.error` / `.quality_gate` / `.group` / `.exit` (retriever-internal), `practica.synthesis.extend`, `practica.vigencia_gate.applied`. Each carries elapsed timings (`hybrid_search_elapsed_ms`, `gate_elapsed_ms`, `total_elapsed_ms`), top doc ids, authorities, embedding mode. Structured logs at INFO under `lia_graph.practica.*` and `lia_graph.pipeline_d.orchestrator.practica`.
+> - **Rollback recipe (one flag flip, no redeploy):** `LIA_PRACTICA_SOURCE=disabled` + `LIA_PRACTICA_BOOST_FACTOR=1.5` reverts the runtime to v12 behavior. Code stays in repo.
+>
+> **2026-05-12 fix_v12 landings (yesterday):**
 > This file is the operational short view. The authoritative per-mode matrix + change log lives in [`docs/orchestration/orchestration.md`](./orchestration.md#runtime-env-matrix-versioned). If the tables disagree, the orchestration guide wins — reconcile this file to match.
 >
 > **2026-05-12 fix_v12 landings (today):**
@@ -43,7 +52,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-05-12-fix-v12-practica-boost)
+## Runtime Retrieval Flags (v2026-05-13-fix-v13-practica-lane)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -53,7 +62,9 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_GRAPH_MODE` | `artifacts` | `falkor_live` | inherits Railway | `retriever.py` vs `retriever_falkor.py` |
 | `LIA_LLM_POLISH_ENABLED` | `1` | `1` | `1` | `answer_llm_polish.py` — set to `0` to compare template vs polished |
 | `LIA_SUBTOPIC_BOOST_FACTOR` | `1.5` default (unused in dev) | `1.5` default | inherits Railway | `retriever_supabase.py` + `retriever_falkor.py` when planner detects subtopic intent |
-| `LIA_PRACTICA_BOOST_FACTOR` | `1.5` default (unused in dev — local Falkor BFS, not Supabase RPC) | `1.5` default | inherits Railway | `retriever_supabase.py::_resolve_practica_boost_factor` + `hybrid_search` RPC `boost_knowledge_class='practica_erp'`. fix_v12 §2.C. Floored to 1.0 per Invariant I5. Set to `1.0` to disable. Requires migration `20260513000001_knowledge_class_boost.sql`. |
+| `LIA_PRACTICA_BOOST_FACTOR` | `1.0` default (off; v13 lane supersedes) | `1.0` default | inherits Railway | `retriever_supabase.py::_resolve_practica_boost_factor` + `hybrid_search` RPC `boost_knowledge_class='practica_erp'`. fix_v12 §2.C, default flipped 1.5 → 1.0 in fix_v13_may §5. Set to `1.5` in shell env to reinstate the v12 soft-boost mechanism as a rollback path on top of `LIA_PRACTICA_SOURCE=disabled`. Floored to 1.0 per Invariant I5. |
+| `LIA_PRACTICA_SOURCE` | `disabled` default (no offline fallback yet — §7 deferred) | **`supabase`** default | inherits Railway | `pipeline_d/orchestrator.py::_retrieve_practica_chunks` → `practica/retriever_supabase.py::fetch_practica_candidates`. fix_v13_may §5. Dedicated lane reads `knowledge_class='practica_erp'` chunks (1,463 cloud) into a reserved-slot budget for `build_recommendations`. Errors propagate as `practica_backend="error"`; never silent filesystem fallback. `filesystem` value raises `NotImplementedError`. |
+| `LIA_PRACTICA_RESERVED_SLOTS` | `3` default | `3` default | inherits Railway | `practica/policy.py::resolve_reserved_slots`. fix_v13_may §5. Top-K práctica chunks reserved for the section; matches `build_recommendations`'s `tuple(lines[:3])` cap. Floors at 0 (disable), caps at 8. |
 | `LIA_RERANKER_MODE` | **`live`** | **`live`** | **`live`** | `pipeline_d/reranker.py` — all modes flipped `live` on 2026-04-22 (internal-beta risk-forward). Adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset; served answers unchanged until the sidecar lands. |
 | `LIA_QUERY_DECOMPOSE` | **`on`** | **`on`** | **`on`** | `pipeline_d/query_decomposer.py` — multi-`¿…?` queries fan out per sub-question; evidence merges at synthesis. |
 | `LIA_TEMA_FIRST_RETRIEVAL` | **`on`** | **`on`** | **`on`** | `pipeline_d/retriever_falkor.py` — **re-flipped `shadow` → `on` 2026-04-25** after taxonomy v2 + K2 path-veto + SME 30Q at 30/30 + qualitative-pass on §8.4 gate 9 (`docs/aa_next/gate_9_threshold_decision.md`). The 2026-04-24 contamination regression is no longer reproducible (Q11/Q16/Q22/Q27 are 4/4 clean in v10 A/B). |

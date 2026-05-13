@@ -83,6 +83,19 @@ def filter_diagnostics_for_public_response(
         public["interpretation_backend"] = orchestrator_diagnostics[
             "interpretation_backend"
         ]
+    # fix_v13_may §5 — surface the dedicated práctica lane's four
+    # diagnostic keys so eval traces + probe tooling can tell whether
+    # the `**Recomendaciones Prácticas**` section was fed by real
+    # `practica_erp` chunks (backend=supabase, reserved_count>=1) or
+    # by the article-derived fallback. All four are PII-safe scalars.
+    for key in (
+        "practica_backend",
+        "practica_candidate_count",
+        "practica_reserved_count",
+        "practica_error_kind",
+    ):
+        if key in orchestrator_diagnostics:
+            public[key] = orchestrator_diagnostics[key]
     return public or None
 
 

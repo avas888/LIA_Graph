@@ -1,0 +1,1367 @@
+{
+  "qid": "pr_depreciacion_maquinaria_2516_v1",
+  "topic_key_expected": "declaracion_renta",
+  "profile": "practica_v1",
+  "message": "Mi cliente compró maquinaria industrial por $200M en marzo 2025. ¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato 2516 de conciliación fiscal?",
+  "http_status": 200,
+  "latency_ms": 45583,
+  "captured_utc": "2026-05-13T15:32:12.476293+00:00",
+  "response": {
+    "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+    "run_id": "pd_5253d0204d124250936d7987346bc01e",
+    "answer_markdown": "**Respuestas directas**\n- **¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato **2516** de conciliación fiscal?**\n\n**Recomendaciones Prácticas**\n- Costo de adquisición = Precio de compra + gastos directos de adecuación.\n- Abra hoja de cálculo con columnas: Descripción, Fecha Adquisición, Categoría, Costo Original, Valor Residual, Vida Útil Fiscal.\n- Componentes del costo fiscal de un activo fijo.\n\n**Anclaje legal**\n- Art. 121 — DEDUCCIÓN DE GASTOS EN EL EXTERIOR\n- Art. 122 — LIMITACIÓN A LAS DEDUCCIONES DE LOS COSTOS Y GASTOS EN EL EXTERIOR\n- Art. 123 — REQUISITOS PARA SU PROCEDENCIA\n- Art. 124 — LOS PAGOS A LA CASA MATRIZ SON DEDUCIBLES\n- Art. 124-1 — OTROS PAGOS NO DEDUCIBLES\n- Art. 245 — TARIFA ESPECIAL PARA DIVIDENDOS O PARTICIPACIONES RECIBIDOS POR SOCIEDADES Y ENTIDADES EXTRANJERAS Y POR PERSONAS NATURALES NO RESIDENTES",
+    "answer_concise": "**Respuestas directas**\n- **¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato **2516** de conciliación fiscal?**\n\n**Recomendaciones Prácticas**\n- Costo de adquisición = Precio de compra + gastos directos de adecuación.\n- Abra hoja de cálculo con columnas: Descripción, Fecha Adquisición, Categoría, Costo Original, Valor Residual, Vida Útil Fiscal.\n- Componentes del costo fiscal de un activo fijo.\n\n**Anclaje legal**\n- Art. 121 — DEDUCCIÓN DE GASTOS EN EL EXTERIOR\n- Art. 122 — LIMITACIÓN A LAS DEDUCCIONES DE LOS COSTOS Y GASTOS EN EL EXTERIOR\n- Art. 123 — REQUISITOS PARA SU PROCEDENCIA\n- Art. 124 — LOS PAGOS A LA CASA MATRIZ SON DEDUCIBLES\n- Art. 124-1 — OTROS PAGOS NO DEDUCIBLES\n- Art. 245 — TARIFA ESPECIAL PARA DIVIDENDOS O PARTICIPACIONES RECIBIDOS POR SOCIEDADES Y ENTIDADES EXTRANJERAS Y POR PERSONAS NATURALES NO RESIDENTES",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "costos_deducciones_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulo V Deducciones (Arts. 121 177 2)",
+        "legal_reference": "Capítulo V Deducciones (Arts. 121 177 2)",
+        "search_query": "Capítulo V Deducciones (Arts. 121 177 2) DIAN / fuente oficial colombia Capítulo V Deducciones (Arts. 121 177 2)",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 121",
+          "locator_kind": "articles",
+          "locator_start": "121",
+          "locator_end": null
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      },
+      {
+        "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+        "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+        "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md",
+        "download_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreciacion-fiscal-vs-NIIF-interpretaciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DEP E01 — Depreciación Fiscal vs. NIIF: Interpretaciones de Expertos",
+        "legal_reference": "DEP E01 — Depreciación Fiscal vs. NIIF: Interpretaciones de Expertos",
+        "search_query": "DEP E01 — Depreciación Fiscal vs. NIIF: Interpretaciones de Expertos DIAN / fuente oficial colombia DEP E01 — Depreciación Fiscal vs. NIIF: Interpretaciones de Expertos",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato **2516** de conciliación",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "declaracion_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impues...",
+        "legal_reference": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia",
+        "search_query": "Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales Exentas, Tarifas del Impuesto y Precios de Transferencia DIAN / fuente oficial colombia Capítulos VIII XI — Descuentos Tributarios, Ganancias Ocasionales ",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato **2516** de conciliación",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+        "logical_doc_id": "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+        "authority": "Loggro",
+        "topic": "estados_financieros_niif",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Estados financieros niif (Loggro)",
+        "legal_reference": "Estados financieros niif (Loggro)",
+        "search_query": "Estados financieros niif (Loggro) Loggro colombia NIIF L02 — Depreciación y Amortización: Cálculo Fiscal vs. NIIF para PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato **2516** de conciliación",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato **2516** de conciliación",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "Los contribuyentes podrán deducir los gastos efectuados en el exterior, que tengan relación de causalidad con rentas de fuente dentro del país, siempre y cuando se haya efectuado la retención en la fuente si lo pagado constituye para su ben",
+      "*Artículo modificado por el artículo 71 de la Ley 1819 de 2016. El nuevo texto es el siguiente:*\n\nLos costos o deducciones por expensas en el exterior para la obtención de rentas de fuente dentro del país, no pueden exceder del quince por c",
+      "*Fuente original compilada: D.2053/74 Art. 55 Inciso 3o.*\n\nSi el beneficiario de la renta fuere una persona natural extranjera o una sucesión de extranjeros sin residencia en el país, o una sociedad u otra entidad extranjera sin domicilio e"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 5,
+        "connected_article_count": 5,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "121",
+          "122",
+          "123",
+          "124",
+          "124-1"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 9,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T15:31:26.894698+00:00",
+        "total_ms": 31719.47,
+        "step_count": 41,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T15:31:26.894714+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T15:31:26.894698+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:26.894875+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.17,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 261,
+              "message_preview": "Mi cliente compró maquinaria industrial por $200M en marzo 2025. ¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato 2516 de",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:26.927538+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 32.83,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:26.927863+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 33.16,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:26.947096+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 52.39,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 261,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:28.942263+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 2047.55,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "costos_deducciones_renta",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en el cálculo de la depreciación fiscal como un costo/deducción para la declaración de renta, incluyendo los pasos para su determinación (vida útil, método, valor residual). Aunque menciona NIIF y el Formato 2516, el n",
+              "elapsed_ms_call": 1995.24,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:28.942848+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 2048.15,
+            "message": null,
+            "details": {
+              "effective_topic": "costos_deducciones_renta",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "niif_pymes",
+                "conciliacion_fiscal"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:37.007447+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 10112.74,
+            "message": null,
+            "details": {
+              "owner_trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+              "requested_trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:37.008157+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 10113.45,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "costos_deducciones_renta",
+              "secondary_topics": [
+                "niif_pymes",
+                "conciliacion_fiscal"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en el cálculo de la depreciación fiscal como un costo/deducción para la declaración de renta, incluyendo los pasos para su determinación (vida útil, método, valor residual). Aunque menciona NIIF y el Formato 2516, el núcleo operativo es la deducción fiscal. La heurística meta indica que el tema es el que opera, y aquí la operación principal es la deducción fiscal. Las NIIF y la conciliación fiscal son secundarias porque se utilizan para contrastar o registrar la depreciación fiscal.",
+              "topic_notice": "Tu pregunta es de costos deducciones renta, por lo cual utilizaremos nuestra base de datos costos deducciones renta.",
+              "message_preview": "Mi cliente compró maquinaria industrial por $200M en marzo 2025. ¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo registro la diferencia en el Formato 2516 de",
+              "message_chars": 261
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:37.043549+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 10148.85,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:37.044596+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 10149.91,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "costos_deducciones_renta conciliacion_fiscal Mi cliente compró maquinaria industrial por $200M en marzo 2025. ¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difiere de la depreciación NIIF, y cómo",
+              "query_text_chars": 306
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:37.045453+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 10150.76,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "costos_deducciones_renta",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "costos_deducciones_renta",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:38.288097+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 11393.39,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md::128",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_EXPERTOS_DEP-E01-depreci",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amor",
+                "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amor",
+                "suin_1132325::771-5",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_14-DEPRECIACION-AMORTIZACION-FISC",
+                "suin_1132325::127-1",
+                "suin_1132325::240",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_14-DEPRECIACION-AMORTIZACION-FISC"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "interpretative_guidance",
+                "normative_base",
+                "practica_erp",
+                "practica_erp",
+                "normative_base",
+                "practica_erp",
+                "normative_base",
+                "normative_base",
+                "practica_erp"
+              ],
+              "practica_count_in_top_20": 10
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:38.288654+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 11393.97,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:38.288773+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 11394.09,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:38.571389+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 11676.69,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:51.523801+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 24629.12,
+            "message": null,
+            "details": {
+              "primary_count": 5,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "121",
+                "122",
+                "123",
+                "124",
+                "124-1"
+              ],
+              "tema_first_topic_key": "costos_deducciones_renta",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:51.524260+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 24629.59,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                5,
+                5,
+                5
+              ],
+              "after": [
+                5,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "121",
+                  "122",
+                  "123",
+                  "124",
+                  "124-1",
+                  "209",
+                  "245",
+                  "275",
+                  "408",
+                  "1"
+                ],
+                "candidate_count": 10,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:51.572625+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 24677.96,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "costos_deducciones_renta",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "costos_deducciones_renta",
+                "articles_top_topic": "costos_deducciones_renta",
+                "router_score_on_articles": 11,
+                "top_score_on_articles": 11,
+                "ranked_article_topics": [
+                  [
+                    "costos_deducciones_renta",
+                    11
+                  ],
+                  [
+                    "retencion_fuente_general",
+                    8
+                  ],
+                  [
+                    "declaracion_renta",
+                    1
+                  ],
+                  [
+                    "procedimiento_tributario",
+                    1
+                  ],
+                  [
+                    "otros_sectoriales",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:51.572911+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 24678.25,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "costos_deducciones_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:51.572983+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 24678.33,
+            "message": null,
+            "details": {
+              "query_preview": "Mi cliente compró maquinaria industrial por $200M en marzo 2025. ¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difi",
+              "topic": "costos_deducciones_renta",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:51.573078+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 24678.42,
+            "message": null,
+            "details": {
+              "query_chars": 261,
+              "query_preview": "Mi cliente compró maquinaria industrial por $200M en marzo 2025. ¿Cómo calculo la depreciación fiscal paso a paso (vida útil, método, valor residual), cómo difi",
+              "topic": "costos_deducciones_renta",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "cliente | compró | maquinaria | industrial | 200m | marzo | 2025 | calculo | depreciación | fiscal | paso | vida | útil | método | valor | residual | difiere | niif | registro | diferencia | formato |",
+              "fts_query_token_count": 23,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:51.573484+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 24678.82,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "costos_deducciones_renta",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.230676+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 25336.0,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 657.02,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+                "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_LOGGRO_DEP-L01-guia-practica-depreciacion-fiscal-PYME.md",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_LOGGRO_DEP-L01-guia-practica-depreciacion-fiscal-PYME.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-10-patrimonio-fiscal.md",
+                "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_14-DEPRECIACION-AMORTIZACION-FISCAL-NIIF_PRACTICA_L-DEP-depreciacion-fiscal-niif-guia-practica.md",
+                "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.434708+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 25540.04,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.435056+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 25540.4,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 203.63,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.435289+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 25540.63,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+                  "score": 0.031514
+                },
+                {
+                  "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_LOGGRO_DEP-L01-guia-practica-depreciacion-fiscal-PYME.md",
+                  "score": 0.029437
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-10-patrimonio-fiscal.md",
+                  "score": 0.028158
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.614998+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 25720.33,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 1041.9,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_LOGGRO_DEP-L01-guia-practica-depreciacion-fiscal-PYME.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-10-patrimonio-fiscal.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.615713+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 25721.05,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.615898+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 25721.24,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.616002+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 25721.35,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.616091+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 25721.44,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.625362+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 25730.68,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_NIIF_PYMES_GRUPO2_LOGGRO_NIIF-L02-guia-practica-depreciacion-amortizacion-fiscal-vs-NIIF.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 38,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Costo de adquisición = Precio de compra + gastos directos de adecuación."
+                },
+                {
+                  "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_DEPRECIACION_FISCAL_LOGGRO_DEP-L01-guia-practica-depreciacion-fiscal-PYME.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 48,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Abra hoja de cálculo con columnas: Descripción, Fecha Adquisición, Categoría, Costo Original, Valor Residual, Vida Útil "
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-10-patrimonio-fiscal.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 15,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Componentes del costo fiscal de un activo fijo."
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.630303+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 25735.64,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "costos_deducciones_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:52.630612+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 25735.96,
+            "message": null,
+            "details": {
+              "template_chars": 226
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:58.613460+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "info",
+            "elapsed_ms": 31718.81,
+            "message": null,
+            "details": {
+              "mode": "rejected",
+              "skip_reason": "invented_periods",
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 230,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:58.613690+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_composed",
+            "status": "ok",
+            "elapsed_ms": 31719.05,
+            "message": null,
+            "details": {
+              "polish_skip_reason": "invented_periods",
+              "template_chars": 230,
+              "fallback_chars": 954,
+              "fallback_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:58.613908+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 31719.27,
+            "message": null,
+            "details": {
+              "gate_mode": "noop_no_topic_entry",
+              "primary_topic": "costos_deducciones_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:58.613963+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.gate_applied",
+            "status": "ok",
+            "elapsed_ms": 31719.32,
+            "message": null,
+            "details": {
+              "primary_topic": "costos_deducciones_renta",
+              "gate_mode": "noop_no_topic_entry",
+              "dropped_count": null,
+              "kept_count": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:58.614013+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 31719.37,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "costos_deducciones_renta",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T15:31:58.614058+00:00",
+            "trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 31719.42,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 5,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "rejected",
+      "polish_skip_reason": "invented_periods",
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 41,
+        "output_tokens": 154,
+        "total_tokens": 195,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "costos_deducciones_renta",
+    "secondary_topics": [
+      "niif_pymes",
+      "conciliacion_fiscal"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de costos deducciones renta, por lo cual utilizaremos nuestra base de datos costos deducciones renta.",
+    "topic_adjustment_reason": "La consulta se centra en el cálculo de la depreciación fiscal como un costo/deducción para la declaración de renta, incluyendo los pasos para su determinación (vida útil, método, valor residual). Aunque menciona NIIF y el Formato 2516, el núcleo operativo es la deducción fiscal. La heurística meta indica que el tema es el que opera, y aquí la operación principal es la deducción fiscal. Las NIIF y la conciliación fiscal son secundarias porque se utilizan para contrastar o registrar la depreciación fiscal.",
+    "coverage_notice": null,
+    "topic": "costos_deducciones_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "costos_deducciones_renta",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_06_Libro1_T1_Cap5_Deducciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Capítulo V Deducciones (Arts. 121 177 2)",
+        "legal_reference": "Capítulo V Deducciones (Arts. 121 177 2)",
+        "search_query": "Capítulo V Deducciones (Arts. 121 177 2) DIAN / fuente oficial colombia Capítulo V Deducciones (Arts. 121 177 2)",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 121",
+          "locator_kind": "articles",
+          "locator_start": "121",
+          "locator_end": null
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Referencia normativa de soporte",
+        "usage_intents": null,
+        "locator_text": "Artículos 121",
+        "locator_kind": "articles",
+        "locator_start": "121"
+      }
+    ],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778686157,
+      "expires_at": 1778689757,
+      "token_id": "90f07f76c3a24936a8f2d13597c2cda1"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_cf7ff86c0312",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 41,
+        "output_tokens": 154,
+        "total_tokens": 195
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+      "last_run_id": "pd_5253d0204d124250936d7987346bc01e",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_cf7ff86c0312",
+    "chat_run_id": "cr_20260513_153130_bb20c89a",
+    "metrics": {
+      "latency_ms": 42119.01,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 41,
+          "output_tokens": 154,
+          "total_tokens": 195,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_cf7ff86c0312",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 41,
+          "output_tokens": 154,
+          "total_tokens": 195
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "d606ed26-489a-47dd-b631-7cae845a3e13",
+        "last_run_id": "pd_5253d0204d124250936d7987346bc01e",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 7,
+        "mentions_unique": 7,
+        "mentions_already_covered": 1,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 6,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "formulario:2516",
+          "et",
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 181.0
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "costos_deducciones_renta",
+        "secondary_topics": [
+          "niif_pymes",
+          "conciliacion_fiscal"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "36c5e0ba81794d3088b554010c76d0d8"
+  }
+}

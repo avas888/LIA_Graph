@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 from ..pipeline_c.contracts import PipelineCRequest
 from .answer_policy import (
@@ -16,7 +17,11 @@ from .answer_shared import (
     published_context_lines,
     should_surface_change_context,
 )
+from .answer_synthesis_practica import extend_from_practica_chunks
 from .contracts import GraphEvidenceItem
+
+if TYPE_CHECKING:
+    from ..practica.shared import PracticaChunkRuntime
 from .answer_synthesis_helpers import (
     build_followup_focus,
     classify_followup_question_shape,
@@ -40,9 +45,17 @@ def build_recommendations(
     temporal_context: dict[str, object],
     primary_articles: tuple[GraphEvidenceItem, ...],
     connected_articles: tuple[GraphEvidenceItem, ...],
+    practica_chunks: tuple["PracticaChunkRuntime", ...] = (),
 ) -> tuple[str, ...]:
     lines: list[str] = []
     normalized_message = normalize_text(request.message)
+    # fix_v13_may §4 — práctica chunks from the dedicated retrieval
+    # lane take precedence at the head of the chain. When the lane
+    # surfaces real `knowledge_class='practica_erp'` content, those
+    # bullets fill the section before the article-derived fallbacks
+    # below run. When the lane returned empty (disabled / RPC error /
+    # no candidates), this is a no-op and behavior matches v12.
+    extend_from_practica_chunks(lines, practica_chunks)
     extend_from_support_insights(
         lines,
         _build_direct_position_lines(
