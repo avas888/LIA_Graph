@@ -53,6 +53,24 @@
 
 ---
 
+### ⚠️ RULE AMENDED 2026-05-13 — read this before §3-§8 decision rules
+
+The original decision rule below ("zero PASS→REJECT regressions" hard
+veto) was **replaced mid-sprint v14.1** with a softer rule:
+
+> **PASS** if (a) judge-pass-rate moves up on the combined 42-turn
+> panel AND (b) zero new invented facts in any regressed turn
+> (degradations to less-complete answers or chunk-fragment leaks are
+> ACCEPTABLE; only fabricated norms / cifras / plazos / casillas are
+> a hard fail).
+
+Apply this rule to **every phase decision (§3-§8) and to v14.2
+phases (§5 A3, §6 A4) when those land**. The original "zero
+PASS→REJECT" wording in the §3-§8 phase blocks is preserved for
+audit but is SUPERSEDED. Full rationale + audit example: §15.
+
+---
+
 ### §0. Inheritance from v13
 
 Carry forward intact, do not touch:

@@ -1,6 +1,74 @@
 # Orchestration Guide
 
-> **Env matrix version: `v2026-05-13-fix-v14-1-anchor-gate-and-cq-heuristics`.** Bump from `v2026-05-13-fix-v13-practica-lane` covers sprint v14.1 from `docs/re-engineer/fix/fix_v14_may.md`: four synthesis/polish-layer fixes landed under the operator-amended decision rule (net improvement + zero new hallucinations = PASS; the original "zero PASS→REJECT" hard veto was replaced mid-sprint after inspection of the 3 degraded turns confirmed they carry corpus-fragment leaks but no invented facts). **(A1)** `pipeline_d/answer_synthesis_sections.py::build_legal_anchor_lines` gains a topic-allowlist filter via new helper `_legal_anchor_node_key_passes` operating on `GraphEvidenceItem.node_key` (structured) instead of regex-parsing the rendered text. New env `LIA_LEGAL_ANCHOR_GATE_MODE ∈ {off, shadow, enforce}`, **default flipped `shadow` → `enforce`** after sprint v14.1 panel-judge confirmed INCLUDE. New trace step `synthesis.legal_anchor_gate.applied` per turn with `gate_mode` / `primary_topic` / `kept_count` / `dropped_count` / `dropped_keys_sample`. `config/topic_norm_allowlist.json` expanded from 2 to 26 topics covering the panel topics (declaracion_renta, iva, retencion_fuente_general, facturacion_electronica, laboral, parafiscales_seguridad_social, dividendos_y_distribucion_utilidades, informacion_exogena, precios_de_transferencia, procedimiento_tributario, firmeza_declaraciones, beneficio_auditoria, conciliacion_fiscal, estados_financieros_niif, patrimonio_fiscal_renta, gravamen_movimiento_financiero_4x1000, regimen_simple, ica, calendario_obligaciones, devoluciones_saldos_a_favor, regimen_sancionatorio, regimen_sancionatorio_extemporaneidad, tarifas_renta_y_ttd, impuesto_patrimonio_personas_naturales, costos_deducciones_renta — each curated to include canonical articles and exclude wrong-anchor cases observed in the panel). 16 unit tests in `tests/test_legal_anchor_allowlist.py` (verbatim panel-rejection cases + false-positive guards). **(A2)** New `pipeline_d/chunk_quality_heuristics.py` with `score_chunk_quality` (regex deny-list: portal-login boilerplate, cross-topic operational leaks for Matrícula Mercantil + Jornada Nocturna, normative-key + fragmento-relevante + case-study captions, section-heading numerals as dominant content, question-dominant chunks) returning `(penalty ∈ [0.1, 1.0], reason)`. Wired into `retriever_supabase.py` between `_hybrid_search` and `_apply_v3_vigencia_demotion` via new `apply_heuristics()` call. New env `LIA_CHUNK_QUALITY_HEURISTIC_MODE ∈ {off, shadow, enforce}`, **default flipped `shadow` → `enforce`**. New trace step `retriever.chunk_quality_heuristics.applied` with rows_in / rows_out / rows_demoted / reasons / samples. 23 unit tests in `tests/test_chunk_quality_heuristics.py` (each panel-leak pattern verbatim + 4 false-positive guards for legit operational bullets in the same topics). v14.1 fired only 8 demotions across 42 turns (5 in Práctica, 3 in General — all `cross_topic_operational_leak`); pattern catalog refinement deferred to v14.2 §4. **(A5)** `scripts/eval/sme_validation_report.py::_build_retrieval_signal_check` extended to (a) escalate polish-rejection rate to 🔴 at ≥ 30 %, (b) emit per-`polish_skip_reason` action hints (top-3 by count) that map to the v14 phase that would address each pattern, (c) audit the A1 `synthesis.legal_anchor_gate.applied` trace events with mode distribution + total items dropped + sample of dropped keys. Always-on observability; no behavior change. **(A6)** `config/compatible_doc_topics.json` adds `reforma_laboral_ley_2466` → `{laboral, parafiscales_seguridad_social, reforma_pensional}` mapping. Closes the 2 panel abstentions (Práctica `pr_reforma_laboral_recargos_v1` + General `ep_laboral_reforma_2466_v1`) — both transitioned from `topic_safety_abstention` to `graph_native` BORDERLINE serving content. Regression-asserted by new test in `tests/test_compatible_doc_topics.py::test_v14_a6_reforma_laboral_ley_2466_mapping_present`. **Sprint v14.1 panel-judge result on combined 42-turn panel (Práctica + General)**: strict pass 26 % → **31 %** (+4.8 pp); reject rate 48 % → 55 % (+7.2 pp). 9 turn-class improvements, 3 degradations, 30 no-change. Per amended decision rule: **PASS** (net positive + audit confirmed zero new invented facts in the 3 degraded turns; degradations are corpus-leak fragments, not hallucinations). Target ≥ 40 % strict pass was missed by 9 pp; v14.2 (polish-stage A3 + A4) targets the polish-rejection cascade that is the dominant remaining bottleneck. v14.1 evidence runs at `evals/sme_validation_v1/runs/20260513T1314_v14_1_enforce_{practica,general}/`. **Rollback recipes (one flag flip, no redeploy):** `LIA_LEGAL_ANCHOR_GATE_MODE=shadow` (gate runs but does not alter output) OR `=off`. `LIA_CHUNK_QUALITY_HEURISTIC_MODE=shadow` OR `=off`. A6 mapping is config-driven — revert by removing the JSON entry. Original 2026-05-13 fix_v13 entry below stays for reference.
+> **Env matrix version: `v2026-05-13-fix-v14-1-anchor-gate-and-cq-heuristics`.**
+>
+> Bump from `v2026-05-13-fix-v13-practica-lane`. Sprint v14.1 from
+> `docs/re-engineer/fix/fix_v14_may.md` lands four synthesis/polish-layer
+> fixes under an **operator-amended decision rule** (net improvement +
+> zero new hallucinations = PASS; the original "zero PASS→REJECT" hard
+> veto was replaced mid-sprint after the 3 degraded turns were audited
+> and shown to carry corpus-fragment leaks but no invented facts).
+>
+> **What landed:**
+>
+> - **A1 — legal-anchor topic allowlist** (`LIA_LEGAL_ANCHOR_GATE_MODE`,
+>   default `shadow` → `enforce`). New helper
+>   `_legal_anchor_node_key_passes` filters `build_legal_anchor_lines`
+>   output by `GraphEvidenceItem.node_key` against per-topic
+>   `allowed_prefixes` in `config/topic_norm_allowlist.json` (schema
+>   v2; 2 → 26 topics curated). Trace step
+>   `synthesis.legal_anchor_gate.applied`. 16 unit tests in
+>   `tests/test_legal_anchor_allowlist.py`. v14.1 measurement: gate
+>   fired 41/42 turns; 41 items dropped.
+> - **A2 — unified chunk-quality heuristics**
+>   (`LIA_CHUNK_QUALITY_HEURISTIC_MODE`, default `shadow` → `enforce`).
+>   New `pipeline_d/chunk_quality_heuristics.py` with regex deny-list
+>   (portal-login boilerplate, cross-topic operational leaks, captions,
+>   section-numeral headings, question-dominant chunks). Floored at 0.1
+>   per Invariant I5. Wired between `_hybrid_search` and
+>   `_apply_v3_vigencia_demotion`. Trace step
+>   `retriever.chunk_quality_heuristics.applied`. 23 unit tests in
+>   `tests/test_chunk_quality_heuristics.py`. v14.1 fired 8 demotions
+>   across 42 turns (low volume — catalog refinement deferred to v14.2
+>   §4 for the portal-login cases that survived).
+> - **A5 — polish rejection diagnostic instrumentation** (always-on, no
+>   behavior change).
+>   `scripts/eval/sme_validation_report.py::_build_retrieval_signal_check`
+>   adds rejection-rate escalation (🔴 at ≥ 30 %) + per-`polish_skip_reason`
+>   action hints + A1 legal-anchor gate audit summary.
+> - **A6 — Ley 2466 coherence-gate vocabulary patch**.
+>   `config/compatible_doc_topics.json` maps `reforma_laboral_ley_2466`
+>   → `{laboral, parafiscales_seguridad_social, reforma_pensional}`.
+>   Closes the 2 panel abstentions
+>   (`pr_reforma_laboral_recargos_v1` + `ep_laboral_reforma_2466_v1`).
+>
+> **Sprint v14.1 panel-judge result** (combined 42-turn panel,
+> Práctica + General):
+>
+> | Class       | v13 baseline | v14.1 enforce | Δ      |
+> |-------------|--------------|---------------|--------|
+> | STRONG      | 5            | 5             | 0      |
+> | ACCEPTABLE  | 6            | 8             | +2     |
+> | BORDERLINE  | 11           | 6             | −5     |
+> | REJECT      | 20           | 23            | +3     |
+> | Strict pass | 26.2 %       | **31.0 %**    | +4.8pp |
+>
+> 9 turn-class improvements, 3 degradations, 30 no-change.
+> Hallucination audit on the 3 degradations confirmed ZERO new
+> invented facts. **PASS** per amended rule. Target ≥ 40 % strict
+> pass missed by 9 pp; v14.2 (polish-stage A3 + A4) targets the
+> polish-rejection cascade that is the dominant remaining bottleneck.
+>
+> **Evidence runs**: `evals/sme_validation_v1/runs/20260513T1314_v14_1_enforce_{practica,general}/`.
+>
+> **Rollback** (one flag flip, no redeploy):
+> ```
+> LIA_LEGAL_ANCHOR_GATE_MODE=shadow      # gate runs but doesn't alter output
+> LIA_CHUNK_QUALITY_HEURISTIC_MODE=shadow
+> ```
+> A6 mapping is config-driven — revert by removing the JSON entry.
+>
+> Original 2026-05-13 fix_v13 entry below stays for reference.
 
 > **Predecessor: `v2026-05-13-fix-v13-practica-lane`.** Bump from `v2026-05-12-fix-v12-practica-boost` covers the structural lift from a soft-boost on `practica_erp` chunks (v12) to a dedicated retrieval lane with its own reserved-slot budget (v13). New package `src/lia_graph/practica/` mirrors `interpretacion/` (smaller — no side-panel surface; chat-only consumer): `practica/shared.py` (`PracticaChunkRuntime`, `PracticaKnowledgeBundle`), `practica/policy.py` (`DEFAULT_RESERVED_SLOTS=3`, `MATCH_COUNT_MULTIPLIER=4`, `MIN_MATCH_COUNT=24`, `resolve_reserved_slots()` reading `LIA_PRACTICA_RESERVED_SLOTS`), `practica/retriever_supabase.py` (`fetch_practica_candidates` — hard `filter_knowledge_class='practica_erp'`, `boost_topic` when topic resolved, no `knowledge_class_boost` parameter since the pool is already class-filtered, no trust-tier weighting per the v11A 0pt finding, exposes a `chunk_filter` hook for vigencia gating). New `pipeline_d/answer_synthesis_practica.py::extend_from_practica_chunks` extracts one operational bullet per chunk using the existing `_support_doc_candidate_lines` + `clean_support_line_for_answer` helpers (no new prose-synthesis logic). `pipeline_d/answer_synthesis_sections.py::build_recommendations` gains a `practica_chunks` parameter prepended at the head of the bullet chain (before `_build_direct_position_lines`); when fewer than 3 práctica chunks survive the gates, the v12 fallback chain (`extend_from_guidance(primary_articles)` → `extend_from_guidance(connected_articles)` → `fallback_recommendation`) fills the rest, so empty-corpus turns degrade to v12 behavior exactly. New dispatcher `pipeline_d/orchestrator._retrieve_practica_chunks(query, topic, pais, plan)` mirrors `interpretacion._retrieve_interpretation_docs`: reads `LIA_PRACTICA_SOURCE ∈ {supabase, disabled, filesystem}`; `supabase` calls `fetch_practica_candidates` with a closure that runs the v3 vigencia gate (`_apply_v3_vigencia_demotion`) over the raw RPC rows so chunks tied to inexequible / derogated / suspended anchors drop before grouping; `disabled` returns an empty bundle; `filesystem` raises `NotImplementedError` (§7 deferred). RPC exceptions degrade to `practica_backend="error"` with `practica_error_kind=<class name>` — never silent fallback to filesystem. Four new diagnostic keys lifted to top-level `response.diagnostics` + whitelisted in `ui_chat_payload.filter_diagnostics_for_public_response`: `practica_backend ∈ {supabase, disabled, error}`, `practica_candidate_count`, `practica_reserved_count`, `practica_error_kind`. Eight new pipeline-trace stages (every step logged): `practica_retrieve.in` / `.out` / `.quality_gate` / `.merge` (orchestrator-level summaries) plus `practica.retriever.entry` / `.hybrid_search.in` / `.hybrid_search.out` / `.hybrid_search.error` / `.quality_gate` / `.group` / `.exit` (retriever-internal detail) and `practica.synthesis.extend` + `practica.vigencia_gate.applied`. Each stage carries per-step elapsed timings (`hybrid_search_elapsed_ms`, `gate_elapsed_ms`, `total_elapsed_ms`), top doc ids, and PII-safe previews. Structured logs under `lia_graph.practica.retriever_supabase`, `lia_graph.pipeline_d.answer_synthesis_practica`, and `lia_graph.pipeline_d.orchestrator.practica` mirror the trace at INFO. Launcher defaults in `scripts/dev-launcher.mjs`: `LIA_PRACTICA_SOURCE=supabase` for `dev:staging` + `dev:production`, `disabled` for `npm run dev` (no filesystem fallback shipped yet per §7); `LIA_PRACTICA_RESERVED_SLOTS=3` across all modes; **`LIA_PRACTICA_BOOST_FACTOR` default flipped 1.5 → 1.0** across all modes (the v12 soft-boost mechanism stays wired as a one-flag rollback path — set to `1.5` in shell env to reinstate). Rollback recipe (one flag flip, no redeploy): `LIA_PRACTICA_SOURCE=disabled` + `LIA_PRACTICA_BOOST_FACTOR=1.5` reverts the runtime to v12 behavior; code stays in repo. 20 new unit tests in `tests/test_practica_retriever_supabase.py` cover payload shape (hard kc filter, conditional topic boost, no `knowledge_class_boost`), chunk grouping, runtime shape, error propagation (no silent fallback), and `resolve_reserved_slots` env override + clamping. Scope guard: ≥ 80 % of answers carry `practica_backend=supabase` AND `practica_reserved_count ≥ 1`; 21-Q expert-panel ≥ 12/21 floor; 36-Q regression ≥ 21/36 floor; 5/5 SME manual probes read Recomendaciones Prácticas as operational guidance, not normative voice. SME panel run is operator-triggered per `feedback_sme_panel_explicit_request_only`. Original 2026-05-12 fix_v12 entry below stays for reference.
 
