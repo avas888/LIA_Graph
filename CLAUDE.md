@@ -64,7 +64,7 @@ For full local↔cloud parity of the **canonical-norms catalog** (`norms`, `norm
 - `evals/` — retrieval/gold benchmarks.
 - `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
 
-## Runtime Read Path (Env v2026-05-13-fix-v13-practica-lane)
+## Runtime Read Path (Env v2026-05-13-fix-v14-1-anchor-gate-and-cq-heuristics)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -74,7 +74,98 @@ For full local↔cloud parity of the **canonical-norms catalog** (`norms`, `norm
 
 Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_backend` — use them to confirm which adapters served a turn. If staging ever returns `retrieval_backend=artifacts`, the launcher flags drifted.
 
-Additional retrieval-tuning flags the launcher defaults to ON across all three modes (shell override still wins): `LIA_LLM_POLISH_ENABLED=1`, `LIA_RERANKER_MODE=live` (flipped from `shadow` on 2026-04-22 — internal-beta risk-forward; adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset), `LIA_QUERY_DECOMPOSE=on` (multi-`¿…?` fan-out), `LIA_SUBTOPIC_BOOST_FACTOR=1.5`, **`LIA_TEMA_FIRST_RETRIEVAL=on` (re-flipped 2026-04-25 — see `docs/aa_next/gate_9_threshold_decision.md` + `docs/aa_next/next_done.md`)**, **`LIA_EVIDENCE_COHERENCE_GATE=enforce` (flipped 2026-04-25 — operator's "no off flags" directive)**, **`LIA_POLICY_CITATION_ALLOWLIST=enforce` (flipped 2026-04-25 — same directive)**, **`LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce` (default 2026-04-25 — next_v3 §7 path-veto + 6 mutex rules)**, **`LIA_QUERY_EMBEDDINGS_ENABLED=1` (default 2026-05-11, fix_v7 §3b — replaces the legacy zero-vector with `gemini-embedding-001` so the vector half of RRF is live; rollback by setting to `0`)**, **`LIA_TOPIC_GATE_MODE=enforce` (default 2026-05-11, fix_v7 §3c — synthesis-time cross-topic content gate; rollback by setting to `off`)**, **`LIA_POLISH_REJECTED_FALLBACK_MODE=enforce` (default 2026-05-11, fix_v8 §3a — when polish returns `mode=rejected`, the orchestrator assembles a substantive answer from `GraphNativeAnswerParts` via `pipeline_d/answer_polish_rejected_fallback.py` instead of returning the bare question-echo template; rollback by setting to `off`)**, **`LIA_INTERPRETATION_SOURCE=supabase` for `dev:staging` and `production`, `filesystem` for `npm run dev` (default 2026-05-11, fix_v10_may Phase 10B — Interpretación de Expertos panel routes through `hybrid_search(filter_knowledge_class='interpretative_guidance')` via `interpretacion/retriever_supabase.py` instead of the legacy `catalog.py` markdown-scan; filesystem path stays as the safety floor; errors propagate per the no-silent-fallback non-negotiable; diagnostic `response.diagnostics.interpretation_backend ∈ {supabase, filesystem}` is whitelisted in `ui_chat_payload.py`)**, **`LIA_PRACTICA_BOOST_FACTOR=1.0` (default flipped 2026-05-13, fix_v13_may §5 — was 1.5 default in v12; the v13 dedicated práctica retrieval lane supersedes the soft-boost mechanism, but the SQL parameter + Python plumbing stay wired as a one-flag rollback path: setting to `1.5` reinstates v12 behavior on top of v13 disabled)**, **`LIA_PRACTICA_SOURCE=supabase` for `dev:staging` + `dev:production`, `disabled` for `npm run dev` (default 2026-05-13, fix_v13_may §5 — dedicated `practica_erp` retrieval lane in `src/lia_graph/practica/retriever_supabase.py` that runs in parallel to the unified `hybrid_search` call; reserves the top-K `practica_erp` chunks for `build_recommendations` so the **Recomendaciones Prácticas** section is fed by real operational-guidance chunks before the v12 article-derived fallback runs; errors propagate as `practica_backend="error"`, never silent filesystem fallback per the no-silent-fallback non-negotiable; `filesystem` value reserved for a future offline fallback (§7 deferred) and currently raises `NotImplementedError`)**, **`LIA_PRACTICA_RESERVED_SLOTS=3` (default 2026-05-13, fix_v13_may §5 — top-K práctica chunks reserved for the section; matches `build_recommendations`'s natural `tuple(lines[:3])` cap; floors at 0 (disable), caps at 8; raise via shell only after SME validation flags follow-up bubbles as still normative-voiced — §7 deferred item)**. Ingest-pipeline knobs: `LIA_INGEST_CLASSIFIER_WORKERS=4` (held at 4 until `TokenBudget` primitive ships per next_v4 §10.1), `LIA_INGEST_CLASSIFIER_RPM=300`, `LIA_SUPABASE_SINK_WORKERS=4`, `FALKORDB_QUERY_TIMEOUT_SECONDS=30`, `FALKORDB_BATCH_NODES=500`, `FALKORDB_BATCH_EDGES=1000` (phases 2a/2b/2c). Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (phase 1). **2026-04-25 runtime-shape additions (no env flag):** conversational-memory staircase Levels 1+2 (`ConversationState.prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`; classifier soft-tiebreaker on `prior_topic`) per `next_v4 §3 + §4`; `comparative_regime_chain` query mode (`config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py`) per `next_v4 §5`. **2026-05-11 runtime-shape additions (fix_v7 §3a + §3c, no env flag for the SQL/wire-up):** new migration `supabase/migrations/20260512000000_topic_filter_soft.sql` adds `boost_topic` to `hybrid_search` so the topic boost is decoupled from `filter_topic` (chat path passes `filter_topic=None` always); `pipeline_d/answer_topic_gate.py` + `config/topic_norm_allowlist.json` filter off-topic-norm bullets out of the template before polish runs. **2026-05-11 fix_v8 additions:** (§3a) substantive polish-rejected fallback (`pipeline_d/answer_polish_rejected_fallback.py`) — when polish rejects, orchestrator assembles a real answer from `GraphNativeAnswerParts` instead of stranding the user with a question-echo template; gate re-applied to fallback output. (§3b) polish observability — `polish.applied` trace step + `response.diagnostics.polish_mode` / `polish_skip_reason` (both whitelisted in the public-response strip via `ui_chat_payload.py`). (§3e) polish prompt rewrite — explicit DIRECTIVA PRIMARIA + `ARTÍCULOS PERMITIDOS` / `REFORMAS Y NORMAS PERMITIDAS` allowlists in `_build_polish_prompt`. (§3f) `gemini-flash` temperature 0.1 → 0.0 in `config/llm_runtime.json` (chat-polish path only; canonicalizer DeepSeek stays at 0.1). (§3g) `planner.py` anchors Art. 115 ET explicitly for ICA-deduction queries (tax-treatment case + `_looks_like_tax_treatment_case` matching "ica" or "industria y comercio"). **2026-05-11 fix_v10_may additions:** (10A) `supabase_sink.write_chunks` inherits `knowledge_class` from parent doc captured during `write_documents` instead of hardcoding `"normative_base"`. Cloud Supabase backfill applied to LIA_Graph (`utjndyxgfhkfcrjmtdqz`) — 2,275 chunks retagged (812 interpretative_guidance + 1,463 practica_erp). G2 sink-level parity invariant tracks `chunks_default_class_count` + emits `ingest.sink.chunk_class_default_used` at finalize. SME §1.G 36-Q post-backfill panel was byte-identical to baseline (34/36 acc+, 26 strong, 0 per-question deltas). (10B) Interpretación de Expertos panel routes through `hybrid_search` via new `interpretacion/retriever_supabase.py`; `orchestrator._retrieve_interpretation_docs` is a thin dispatcher on `LIA_INTERPRETATION_SOURCE`; filesystem path stays as safety floor and never silently fires on RPC errors. (§9.3) New `documents.provider_labels (text[])` column + GIN index via migration `supabase/migrations/20260513000000_documents_provider_labels.sql` (applied to cloud + local). Sink wire-up reads `document["provider_labels"]`, strips/dedupes, writes the cleaned list. Producer side (manifest builder emitting providers) lands inside Phase 10B proper. **2026-05-11 fix_v11_may Phase 11A additions:** trust-tier prioritization in `interpretacion/retriever_supabase.py::_group_chunks_by_doc` — `trust_tier_weight` defaults to `0.30`; score becomes `base * (1 + ref_boost·hits) * (1 + tier_weight·tier_bonus)` with `tier_bonus ∈ {high:2.0, medium:1.0, low:0.0}`. New `config/provider_trust_tiers.json` (52 entries). Backfill `scripts/diagnostics/backfill_v11_trust_tiers.py` doubles as the v10C-deferred provider-extraction step (parses `> Fuentes secundarias consultadas:` from local markdown → writes `documents.provider_labels`). Cloud backfill applied: 65 chunks/8 docs → high tier, 747 chunks/97 docs → medium, 0 → low. **Mini-panel net effect: 0pt (12/21 = 57.1% — identical to v10 baseline; one swap with one regression on `retencion_autorretencion_especial`).** Diagnosis: lever operates at chunk-grouping but downstream `synthesize_expert_panel` rerank+filter dominates final surface. Code stays shipped (data is correct + Phase 11B will consume `trust_tier` via `INTERPRETS ORDER BY trust_tier DESC LIMIT 8`). Per gate-6 refine-or-discard: skip 11A's two refinement levers (wrong layer); jump to Phase 11B which targets the actual assembly-layer dilution. SME runner hardened against the `/api/public/session` 429 burst that surfaced during the §1.G run: single shared ChatClient (1 mint per run instead of N), `_RateLimit429Feeler` aborts at 2nd 429 (configurable via `--max-429`), `engine.ensure_session()` one-shot 429 retry with 2-s backoff. 21-Q expert-panel mini-panel curated at `evals/sme_validation_v1/questions_expert_panel_v1.jsonl` (every `expected_interpretation_files` verified to exist on disk). **2026-05-11 fix_v11_may Phase 11B additions (DISCARDED per gate-6):** `LIA_INGEST_INTERPRETATION_NODES=enforce` (kept default; loader is idempotent and runs as part of `materialize_graph_artifacts`). **`LIA_PLANNER_INTERPRETATION_ANCHOR=off` (2026-05-11 ↩ default flipped from `on` → `off` per gate-6 DISCARD)** — three attempted refinements (§15 judge fix, §16 Option A soft veto, §17 hybrid count threshold) all landed at or below the v10/v11A 12/21 baseline on the 21-Q expert-panel mini-panel; the assembly-layer off_topic-pattern veto resists tuning along the pattern-matching axis (every variant shuffles which 10-12 questions win). Path to ≥ 70 % needs a semantic relevance signal at the assembly layer (embedding cosine, learned ranker), not pattern matching — fresh-plan task. The cloud Falkor InterpretationNode subgraph (105 nodes + 586 INTERPRETS + 105 COVERS_TOPIC edges) stays in place — harmless, ready for future re-attempts. `graph/interpretation_loader.py` + `interpretacion/anchor_resolver.py` modules stay in repo behind the off flag. Set `LIA_PLANNER_INTERPRETATION_ANCHOR=on` to re-enable for diagnostic A/B work; the Python `article_index` fallback (Phase 10C v0) serves while the flag is `off`. **Kept (real correctness improvements, independent):** §15 `pipeline_c.orchestrator.generate_llm_strict` tuple-contract fix — pre-fix stub returned a 4-key dict; every caller did `text, diag = ...` unpacking; silently crashed `expert_rerank.judge` + 3 other LLM call sites for months. Verified 21/21 `judge.mode = 'llm'` post-fix. 12 regression tests at `tests/test_pipeline_c_generate_llm_strict.py`. Full landing report at `docs/re-engineer/fix/fix_v11_may.md §17`.
+### Active runtime flags (launcher defaults across all three modes; shell override still wins)
+
+**Long-standing flags:**
+
+- `LIA_LLM_POLISH_ENABLED=1` — polish on.
+- `LIA_RERANKER_MODE=live` — flipped from `shadow` on 2026-04-22 (internal-beta risk-forward). Adapter falls back to hybrid when `LIA_RERANKER_ENDPOINT` is unset.
+- `LIA_QUERY_DECOMPOSE=on` — multi-`¿…?` fan-out.
+- `LIA_SUBTOPIC_BOOST_FACTOR=1.5`.
+
+**Promoted to enforce 2026-04-25 ("no off flags" directive):**
+
+- **`LIA_TEMA_FIRST_RETRIEVAL=on`** — re-flipped after taxonomy v2 + K2 path-veto cleared SME 30Q gate (`docs/aa_next/gate_9_threshold_decision.md`, `next_done.md`).
+- **`LIA_EVIDENCE_COHERENCE_GATE=enforce`** — coherence gate refuses on cross-topic contamination.
+- **`LIA_POLICY_CITATION_ALLOWLIST=enforce`** — per-topic citation allow-list.
+- **`LIA_INGEST_CLASSIFIER_TAXONOMY_AWARE=enforce`** — next_v3 §7 path-veto + 6 mutex rules.
+
+**fix_v7 (2026-05-11):**
+
+- **`LIA_QUERY_EMBEDDINGS_ENABLED=1`** (§3b) — `gemini-embedding-001` replaces the legacy zero-vector so the vector half of RRF is live. Rollback: `=0`.
+- **`LIA_TOPIC_GATE_MODE=enforce`** (§3c) — synthesis-time cross-topic content gate. Rollback: `=off`.
+
+**fix_v8 (2026-05-11):**
+
+- **`LIA_POLISH_REJECTED_FALLBACK_MODE=enforce`** (§3a) — when polish returns `mode=rejected`, the orchestrator assembles a substantive answer from `GraphNativeAnswerParts` via `pipeline_d/answer_polish_rejected_fallback.py` instead of returning the bare question-echo template. Rollback: `=off`.
+
+**fix_v10_may Phase 10B (2026-05-11):**
+
+- **`LIA_INTERPRETATION_SOURCE=supabase`** for `dev:staging` + `dev:production`, **`filesystem`** for `npm run dev` — Interpretación de Expertos panel routes through `hybrid_search(filter_knowledge_class='interpretative_guidance')` via `interpretacion/retriever_supabase.py`. Filesystem path stays as safety floor for offline dev; errors propagate per the no-silent-fallback non-negotiable. Diagnostic `interpretation_backend ∈ {supabase, filesystem}` is whitelisted in `ui_chat_payload.py`.
+
+**fix_v13_may (2026-05-13) — dedicated práctica retrieval lane:**
+
+- **`LIA_PRACTICA_SOURCE=supabase`** for `dev:staging` + `dev:production`, **`disabled`** for `npm run dev` (§5) — dedicated `practica_erp` retrieval lane in `src/lia_graph/practica/retriever_supabase.py` runs in parallel to the unified `hybrid_search` call. Reserves the top-K `practica_erp` chunks for `build_recommendations` so the **Recomendaciones Prácticas** section is fed by real operational-guidance chunks before the v12 article-derived fallback. Errors propagate as `practica_backend="error"`, never silent filesystem fallback. `filesystem` value reserved for a future offline fallback (§7 deferred) and currently raises `NotImplementedError`.
+- **`LIA_PRACTICA_RESERVED_SLOTS=3`** (§5) — top-K práctica chunks reserved for the section. Matches `build_recommendations`'s `tuple(lines[:3])` cap. Floors at 0 (disable), caps at 8.
+- **`LIA_PRACTICA_BOOST_FACTOR=1.0`** (§5) — default flipped from `1.5` in v12; the v13 dedicated práctica lane supersedes the soft-boost mechanism. SQL parameter + Python plumbing stay wired as a one-flag rollback path: setting to `1.5` reinstates v12 behavior on top of v13 disabled.
+
+**fix_v14_may §3 + §4 (2026-05-13) — sprint v14.1 anchor gate + chunk-quality heuristics:**
+
+- **`LIA_LEGAL_ANCHOR_GATE_MODE=enforce`** (§3) — flipped from `shadow` after sprint v14.1 panel-judge (operator-amended decision rule: net improvement + zero new hallucinations). Topic-allowlist filter applied to `build_legal_anchor_lines` output; drops items whose `art:<num>` form is not in the primary topic's `allowed_prefixes` from `config/topic_norm_allowlist.json`. v14.1 measurement: 41/42 turns gate fired, 41 items dropped, 0 new hallucinations in 3 regressed turns. Rollback: `=shadow` (runs but does not alter output) or `=off`.
+- **`LIA_CHUNK_QUALITY_HEURISTIC_MODE=enforce`** (§4) — flipped from `shadow`. Unified heuristics in `pipeline_d/chunk_quality_heuristics.py` demote chunk rows carrying corpus-build artifacts (portal-login boilerplate, cross-topic operational leaks, captions, section-heading numerals). Floored at 0.1 per Invariant I5. Rollback: `=shadow` or `=off`.
+
+**Ingest-pipeline knobs (next_v3 phases 2a/2b/2c):**
+
+- `LIA_INGEST_CLASSIFIER_WORKERS=4` (held at 4 until `TokenBudget` primitive ships per next_v4 §10.1).
+- `LIA_INGEST_CLASSIFIER_RPM=300`.
+- `LIA_SUPABASE_SINK_WORKERS=4`.
+- `FALKORDB_QUERY_TIMEOUT_SECONDS=30`.
+- `FALKORDB_BATCH_NODES=500`.
+- `FALKORDB_BATCH_EDGES=1000`.
+
+### Runtime-shape additions (no env flag)
+
+**2026-04-25 (next_v4 §3 + §4 + §5):**
+
+- Conversational-memory staircase Levels 1+2: `ConversationState.prior_topic` / `prior_subtopic` / `topic_trajectory` / `prior_secondary_topics`; classifier soft-tiebreaker on `prior_topic`.
+- `comparative_regime_chain` query mode: `config/comparative_regime_pairs.json` + `pipeline_d/answer_comparative_regime.py`.
+
+**2026-05-11 (fix_v7 §3a + §3c, SQL/wire-up):**
+
+- Migration `supabase/migrations/20260512000000_topic_filter_soft.sql` adds `boost_topic` to `hybrid_search` so the topic boost is decoupled from `filter_topic` (chat path passes `filter_topic=None` always).
+- `pipeline_d/answer_topic_gate.py` + `config/topic_norm_allowlist.json` filter off-topic-norm bullets out of the template before polish runs.
+
+**2026-05-11 fix_v8 — five surgical fixes:**
+
+- (§3a) Substantive polish-rejected fallback (`pipeline_d/answer_polish_rejected_fallback.py`) — when polish rejects, orchestrator assembles a real answer from `GraphNativeAnswerParts`. Gate re-applied to fallback output.
+- (§3b) Polish observability — `polish.applied` trace step + `response.diagnostics.polish_mode` / `polish_skip_reason` (whitelisted in `ui_chat_payload.py`).
+- (§3e) Polish prompt rewrite — explicit DIRECTIVA PRIMARIA + `ARTÍCULOS PERMITIDOS` / `REFORMAS Y NORMAS PERMITIDAS` allowlists in `_build_polish_prompt`.
+- (§3f) `gemini-flash` temperature `0.1 → 0.0` in `config/llm_runtime.json` (chat-polish path only; canonicalizer DeepSeek stays at 0.1).
+- (§3g) `planner.py` anchors Art. 115 ET explicitly for ICA-deduction queries.
+
+**2026-05-11 fix_v10_may:**
+
+- (10A) `supabase_sink.write_chunks` inherits `knowledge_class` from parent doc captured during `write_documents` instead of hardcoding `"normative_base"`. Cloud backfill applied to LIA_Graph: 2,275 chunks retagged (812 interpretative_guidance + 1,463 practica_erp). G2 sink-level parity invariant tracks `chunks_default_class_count`. SME §1.G 36-Q post-backfill panel byte-identical to baseline (34/36 acc+, 26 strong, 0 per-question deltas).
+- (10B) Interpretación de Expertos panel routes through `hybrid_search` via new `interpretacion/retriever_supabase.py`; `orchestrator._retrieve_interpretation_docs` is a thin dispatcher on `LIA_INTERPRETATION_SOURCE`.
+- (§9.3) New `documents.provider_labels (text[])` column + GIN index via migration `20260513000000_documents_provider_labels.sql`. Sink reads `document["provider_labels"]`, strips/dedupes, writes the cleaned list.
+
+**2026-05-11 fix_v11_may Phase 11A:**
+
+- Trust-tier prioritization in `interpretacion/retriever_supabase.py::_group_chunks_by_doc` — `trust_tier_weight=0.30`. Score = `base * (1 + ref_boost·hits) * (1 + tier_weight·tier_bonus)` with `tier_bonus ∈ {high:2.0, medium:1.0, low:0.0}`.
+- New `config/provider_trust_tiers.json` (52 entries). Backfill `scripts/diagnostics/backfill_v11_trust_tiers.py` also writes `documents.provider_labels` from local markdown `> Fuentes secundarias consultadas:`.
+- Cloud backfill: 65 chunks/8 docs → high tier; 747 chunks/97 docs → medium.
+- Mini-panel net effect: 0pt (12/21 = 57.1%, identical to v10 baseline). Diagnosis: lever operates at chunk-grouping but downstream `synthesize_expert_panel` rerank+filter dominates final surface. Code stays shipped — Phase 11B will consume `trust_tier` via `INTERPRETS ORDER BY trust_tier DESC LIMIT 8`.
+- SME runner hardened (single shared ChatClient + `_RateLimit429Feeler`) against the `/api/public/session` 429 burst.
+
+**2026-05-11 fix_v11_may Phase 11B (DISCARDED per gate-6):**
+
+- `LIA_INGEST_INTERPRETATION_NODES=enforce` (loader idempotent, kept).
+- **`LIA_PLANNER_INTERPRETATION_ANCHOR=off`** — default flipped `on → off`. Three refinement attempts (§15 judge fix, §16 Option A soft veto, §17 hybrid count threshold) all landed at or below the 12/21 baseline. Cloud Falkor InterpretationNode subgraph (105 nodes + 586 INTERPRETS + 105 COVERS_TOPIC) stays in place; modules `graph/interpretation_loader.py` + `interpretacion/anchor_resolver.py` stay in repo behind the off flag.
+- **Kept (independent correctness fix):** §15 `pipeline_c.orchestrator.generate_llm_strict` tuple-contract fix — pre-fix returned a 4-key dict; every caller did `text, diag = ...` unpacking; silently crashed `expert_rerank.judge` + 3 other LLM call sites for months. Verified 21/21 `judge.mode = 'llm'` post-fix. 12 regression tests at `tests/test_pipeline_c_generate_llm_strict.py`. Full record at `docs/re-engineer/fix/fix_v11_may.md §17`.
+
+### Diagnostic surface
+
+Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (next_v3 phase 1).
 
 ## LLM provider split — chat vs canonicalizer (2026-04-29)
 

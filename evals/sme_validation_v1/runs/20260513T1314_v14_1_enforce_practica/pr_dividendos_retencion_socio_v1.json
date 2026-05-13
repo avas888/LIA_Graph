@@ -1,0 +1,1288 @@
+{
+  "qid": "pr_dividendos_retencion_socio_v1",
+  "topic_key_expected": "declaracion_renta",
+  "profile": "practica_v1",
+  "message": "Mi SAS va a distribuir $300M de dividendos a un socio persona natural residente, con utilidades 2024 no gravadas en cabeza de la sociedad. ¿Cómo calculo la retención en la fuente que practica la sociedad, qué tarifa aplico (Art. 242 ET), qué soportes preparo para el socio, y cómo declara el socio el dividendo en su renta personal?",
+  "http_status": 200,
+  "latency_ms": 34420,
+  "captured_utc": "2026-05-13T18:17:10.378688+00:00",
+  "response": {
+    "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+    "run_id": "pd_febeadb4568a40728ec4cf4609bda1ef",
+    "answer_markdown": "**Recomendaciones Prácticas**\n1.  Asegurate de que la utilidad a distribuir, por **$300.000.000**, sea efectivamente no gravada en cabeza de la sociedad. Esto significa que la sociedad ya pagó el impuesto de renta correspondiente sobre esa utilidad.\n2.  Calculá la retención en la fuente aplicando la tarifa del (art. 242 ET) sobre el monto del dividendo.\n3.  Prepará los soportes necesarios para el socio persona natural residente, detallando el monto del dividendo y la retención practicada.\n\n**Procedimiento Sugerido**\n1.  Verificá la naturaleza de la utilidad distribuida. Para que sea no gravada en cabeza del socio, la sociedad debe haber pagado el impuesto de renta sobre ella.\n2.  Aplicá la fórmula simplificada del (art. 49 ET) para determinar la parte no gravada.\n3.  Calculá el impuesto a retener en la fuente según el tipo y monto del dividendo de cada accionista, conforme al (art. 242 ET).\n\n**Precauciones**\n*   La calificación de la utilidad como \"no gravada en cabeza de la sociedad\" es crucial. Si la utilidad no cumple con esta condición, el tratamiento fiscal para el socio cambia.\n*   Asegurate de aplicar correctamente la tarifa de retención en la fuente establecida en el (art. 242 ET), ya que esta puede variar según el monto del dividendo.\n*   La responsabilidad de la retención en la fuente recae en la sociedad que distribuye los dividendos.\n\n**Soportes**\n*   La sociedad debe emitir un certificado de retención en la fuente al socio, indicando el valor del dividendo distribuido y el monto de la retención practicada.\n*   El socio persona natural residente utilizará este certificado para su declaración de renta personal.\n\n**Anclaje Legal**\n*   (Art. 242 ET) — TARIFA ESPECIAL PARA DIVIDENDOS O PARTICIPACIONES RECIBIDAS POR PERSONAS NATURALES RESIDENTES.\n*   (Art. 49 ET) — Determinación de la utilidad no gravada.",
+    "answer_concise": "**Recomendaciones Prácticas**\n1.  Asegurate de que la utilidad a distribuir, por **$300.000.000**, sea efectivamente no gravada en cabeza de la sociedad. Esto significa que la sociedad ya pagó el impuesto de renta correspondiente sobre esa utilidad.\n2.  Calculá la retención en la fuente aplicando la tarifa del (art. 242 ET) sobre el monto del dividendo.\n3.  Prepará los soportes necesarios para el socio persona natural residente, detallando el monto del dividendo y la retención practicada.\n\n**Procedimiento Sugerido**\n1.  Verificá la naturaleza de la utilidad distribuida. Para que sea no gravada en cabeza del socio, la sociedad debe haber pagado el impuesto de renta sobre ella.\n2.  Aplicá la fórmula simplificada del (art. 49 ET) para determinar la parte no gravada.\n3.  Calculá el impuesto a retener en la fuente según el tipo y monto del dividendo de cada accionista, conforme al (art. 242 ET).\n\n**Precauciones**\n*   La calificación de la utilidad como \"no gravada en cabeza de la sociedad\" es crucial. Si la utilidad no cumple con esta condición, el tratamiento fiscal para el socio cambia.\n*   Asegurate de aplicar correctamente la tarifa de retención en la fuente establecida en el (art. 242 ET), ya que esta puede variar según el monto del dividendo.\n*   La responsabilidad de la retención en la fuente recae en la sociedad que distribuye los dividendos.\n\n**Soportes**\n*   La sociedad debe emitir un certificado de retención en la fuente al socio, indicando el valor del dividendo distribuido y el monto de la retención practicada.\n*   El socio persona natural residente utilizará este certificado para su declaración de renta personal.\n\n**Anclaje Legal**\n*   (Art. 242 ET) — TARIFA ESPECIAL PARA DIVIDENDOS O PARTICIPACIONES RECIBIDAS POR PERSONAS NATURALES RESIDENTES.\n*   (Art. 49 ET) — Determinación de la utilidad no gravada.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Calculá la retención en la fuente aplicando la tarifa del (art. 242 ET) sobre el monto del dividendo.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Calculá la retención en la fuente aplicando la tarifa del (art. 242 ET) sobre el monto del dividendo.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Calculá la retención en la fuente aplicando la tarifa del (art. 242 ET) sobre el monto del dividendo.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Calculá la retención en la fuente aplicando la tarifa del (art. 242 ET) sobre el monto del dividendo.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_30030361",
+        "logical_doc_id": "suin_30030361",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30030361",
+        "open_url": "/source-view?doc_id=suin_30030361",
+        "download_url": "/source-download?doc_id=suin_30030361&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30030361&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 30030361",
+        "legal_reference": "SUIN stub 30030361",
+        "search_query": "SUIN stub 30030361 DIAN / fuente oficial colombia SUIN stub 30030361",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Calculá la retención en la fuente aplicando la tarifa del (art. 242 ET) sobre el monto del dividendo.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "3\n\n49\n\n241\n\n\n**Notas de Vigencia:**\n> * [- Artículo modificado por el artículo 3 de la Ley 2277 de 2022, 'por medio de la cual se adopta una reforma tributaria para la igualdad y la justicia social y se dictan otras disposiciones', publicad"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 1,
+        "connected_article_count": 5,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "242"
+        ],
+        "chunk_row_count": 27,
+        "document_row_count": 17,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "computation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T18:16:35.959784+00:00",
+        "total_ms": 20704.37,
+        "step_count": 40,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T18:16:35.959799+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T18:16:35.959784+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:35.959979+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.19,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 332,
+              "message_preview": "Mi SAS va a distribuir $300M de dividendos a un socio persona natural residente, con utilidades 2024 no gravadas en cabeza de la sociedad. ¿Cómo calculo la retención en la fuente que practica la sociedad, qué tarifa aplico (Art. 242 ET), qu",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:35.992593+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 32.8,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:35.993008+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 33.22,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:36.012694+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 52.9,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 332,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:37.867790+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1908.0,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "dividendos_y_distribucion_utilidades",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la distribución de dividendos, el cálculo de la retención en la fuente asociada y la declaración por parte del socio, lo cual encaja directamente con la definición de dividendos_y_distribucion_utilidades. Se mencion",
+              "elapsed_ms_call": 1855.25,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:37.868008+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1908.22,
+            "message": null,
+            "details": {
+              "effective_topic": "dividendos_y_distribucion_utilidades",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "retencion_fuente_general",
+                "declaracion_renta"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:43.571728+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 7611.93,
+            "message": null,
+            "details": {
+              "owner_trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+              "requested_trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:43.572616+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 7612.82,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "dividendos_y_distribucion_utilidades",
+              "secondary_topics": [
+                "retencion_fuente_general",
+                "declaracion_renta"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la distribución de dividendos, el cálculo de la retención en la fuente asociada y la declaración por parte del socio, lo cual encaja directamente con la definición de dividendos_y_distribucion_utilidades. Se mencionan explícitamente las tarifas del Art. 242 ET y la mecánica de la retención y declaración.",
+              "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+              "message_preview": "Mi SAS va a distribuir $300M de dividendos a un socio persona natural residente, con utilidades 2024 no gravadas en cabeza de la sociedad. ¿Cómo calculo la retención en la fuente que practica la sociedad, qué tarifa aplico (Art. 242 ET), qu",
+              "message_chars": 332
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:43.604158+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 7644.36,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:43.604531+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7644.74,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "Articulo 242 dividendos_y_distribucion_utilidades retencion_fuente_general",
+              "query_text_chars": 74
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:43.605090+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7645.3,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "dividendos_y_distribucion_utilidades",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "dividendos_y_distribucion_utilidades",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:44.637174+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 8677.37,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Interpreta",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Normativa_",
+                "suin_1132325::242",
+                "suin_30046753::2",
+                "CORE_ya_Arriba_DIVIDENDOS_UTILIDADES_NORMATIVA_DIV-N01-marco-legal-dividendos-ut",
+                "suin_1132325::126-1",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::245",
+                "suin_1132325::18-1",
+                "suin_30045028::3"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "interpretative_guidance",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:44.838051+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 8878.23,
+            "message": null,
+            "details": {
+              "anchor_row_count": 8,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:44.838726+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 8878.94,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 29,
+              "delta": 5
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:44.874298+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 8914.5,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 29,
+              "rows_out": 29,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "dividendos_y_distribucion_utilidades"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:45.095157+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 9135.35,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 29,
+              "rows_out": 27,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 29,
+              "chunks_kept": 27,
+              "chunks_dropped": 2,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 29,
+                "chunks_kept": 27,
+                "chunks_dropped": 2,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:51.423640+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 15463.84,
+            "message": null,
+            "details": {
+              "primary_count": 1,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 29,
+                "chunks_kept": 27,
+                "chunks_dropped": 2,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [
+                "242"
+              ],
+              "tema_first_topic_key": "dividendos_y_distribucion_utilidades",
+              "planner_query_mode": "computation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:51.423991+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 15464.2,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                1,
+                5,
+                5
+              ],
+              "after": [
+                1,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "242",
+                  "1",
+                  "240",
+                  "242-1",
+                  "246-1",
+                  "364"
+                ],
+                "candidate_count": 6,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:51.424124+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 15464.34,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "dividendos_y_distribucion_utilidades",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "dividendos_y_distribucion_utilidades",
+                "articles_top_topic": "dividendos_y_distribucion_utilidades",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "242"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:51.424231+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 15464.45,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "dividendos_y_distribucion_utilidades",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:51.424338+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 15464.56,
+            "message": null,
+            "details": {
+              "query_preview": "Mi SAS va a distribuir $300M de dividendos a un socio persona natural residente, con utilidades 2024 no gravadas en cabeza de la sociedad. ¿Cómo calculo la rete",
+              "topic": "dividendos_y_distribucion_utilidades",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:51.424508+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 15464.73,
+            "message": null,
+            "details": {
+              "query_chars": 332,
+              "query_preview": "Mi SAS va a distribuir $300M de dividendos a un socio persona natural residente, con utilidades 2024 no gravadas en cabeza de la sociedad. ¿Cómo calculo la rete",
+              "topic": "dividendos_y_distribucion_utilidades",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "sas | va | distribuir | 300m | dividendos | socio | persona | natural | residente | utilidades | 2024 | no | gravadas | cabeza | sociedad | calculo | retención | fuente | practica | tarifa | aplico | ",
+              "fts_query_token_count": 28,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:51.425258+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 15465.47,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "dividendos_y_distribucion_utilidades",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.138193+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 16178.4,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 712.69,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-legitimas.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.336936+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16377.15,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.337124+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 16377.34,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 198.44,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.337236+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 16377.45,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                  "score": 0.046329
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-legitimas.md",
+                  "score": 0.032002
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_DIVIDENDOS_UTILIDADES_LOGGRO_DIV-L01-guia-practica-distribucion-dividendos-retencion-PYME.md",
+                  "score": 0.028298
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.521072+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 16561.29,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 1096.6,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-legitimas.md",
+                "CORE_ya_Arriba_DIVIDENDOS_UTILIDADES_LOGGRO_DIV-L01-guia-practica-distribucion-dividendos-retencion-PYME.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.521325+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 16561.55,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.521416+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 16561.64,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.521491+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 16561.71,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.521565+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 16561.79,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.526235+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 16566.45,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Tributacion_Dividendos_Practica_LOGGRO_div_practica_dividendos.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 85,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "¿Qué es? Es la porción de la utilidad que la sociedad puede distribuir SIN que genere renta gravada en manos del socio P"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-legitimas.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 14,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Fórmula simplificada del art. 49 ET."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_DIVIDENDOS_UTILIDADES_LOGGRO_DIV-L01-guia-practica-distribucion-dividendos-retencion-PYME.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 29,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Determinar el impuesto a retener en la fuente según el tipo y monto del dividendo de cada accionista."
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.526841+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16567.06,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "dividendos_y_distribucion_utilidades",
+              "allowed_prefix_count": 13,
+              "kept_count": 2,
+              "dropped_count": 0,
+              "dropped_keys_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.528469+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16568.69,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "dividendos_y_distribucion_utilidades",
+              "secondary_topics": [
+                "retencion_fuente_general",
+                "declaracion_renta"
+              ],
+              "cross_topic_allowed": [
+                "declaracion_renta",
+                "retencion_fuente_general",
+                "tarifas_renta_y_ttd"
+              ],
+              "allowed_prefix_count": 13,
+              "kept_count": 3,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:52.528581+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 16568.8,
+            "message": null,
+            "details": {
+              "template_chars": 405
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:56.663633+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 20703.85,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 1843,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:56.663924+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 20704.15,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "dividendos_y_distribucion_utilidades",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:16:56.664029+00:00",
+            "trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 20704.25,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 1,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null,
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 58,
+        "output_tokens": 293,
+        "total_tokens": 351,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "dividendos_y_distribucion_utilidades",
+    "secondary_topics": [
+      "retencion_fuente_general",
+      "declaracion_renta"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de dividendos y distribucion utilidades, por lo cual utilizaremos nuestra base de datos dividendos y distribucion utilidades.",
+    "topic_adjustment_reason": "La consulta se centra en la distribución de dividendos, el cálculo de la retención en la fuente asociada y la declaración por parte del socio, lo cual encaja directamente con la definición de dividendos_y_distribucion_utilidades. Se mencionan explícitamente las tarifas del Art. 242 ET y la mecánica de la retención y declaración.",
+    "coverage_notice": null,
+    "topic": "dividendos_y_distribucion_utilidades",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778696055,
+      "expires_at": 1778699655,
+      "token_id": "a8f654cdbff34a878246c0d1200e73d1"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_573bea260ed8",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 58,
+        "output_tokens": 293,
+        "total_tokens": 351
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+      "last_run_id": "pd_febeadb4568a40728ec4cf4609bda1ef",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_573bea260ed8",
+    "chat_run_id": "cr_20260513_181638_f3f404de",
+    "metrics": {
+      "latency_ms": 25353.4,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 58,
+          "output_tokens": 293,
+          "total_tokens": 351,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_573bea260ed8",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 58,
+          "output_tokens": 293,
+          "total_tokens": 351
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "ad3b0063-98a5-4242-a38b-47970553aaef",
+        "last_run_id": "pd_febeadb4568a40728ec4cf4609bda1ef",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 7.5
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "dividendos_y_distribucion_utilidades",
+        "secondary_topics": [
+          "retencion_fuente_general",
+          "declaracion_renta"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "9cf726a8cd1e43fd965fabd181e6231d"
+  }
+}

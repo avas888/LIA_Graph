@@ -56,6 +56,33 @@ def test_well_formed_config_returns_compatible_set(
     assert cdt.get_compatible_topics("unknown_topic") == frozenset()
 
 
+def test_v14_a6_reforma_laboral_ley_2466_mapping_present() -> None:
+    """fix_v14_may §8 (A6) — the 21Q panel-judge of 2026-05-13 surfaced
+    two abstentions (`pr_reforma_laboral_recargos_v1` +
+    `ep_laboral_reforma_2466_v1`) because the coherence gate refused
+    when the router classified to `reforma_laboral_ley_2466` but the
+    support chunks were tagged `laboral` / `parafiscales_seguridad_social`.
+    A6 unblocks this by mapping `reforma_laboral_ley_2466` to those
+    three compatible topics. Regression-asserts the mapping ships in
+    the default config.
+    """
+    from lia_graph.pipeline_d.compatible_doc_topics import (
+        get_compatible_topics,
+        reset_lookup_cache_for_tests,
+    )
+
+    reset_lookup_cache_for_tests()
+    compatible = get_compatible_topics("reforma_laboral_ley_2466")
+    assert "laboral" in compatible, "A6 mapping must accept laboral chunks"
+    assert "parafiscales_seguridad_social" in compatible, (
+        "A6 mapping must accept parafiscales chunks (CST recargos + PILA)"
+    )
+    assert "reforma_pensional" in compatible, (
+        "A6 mapping must accept pension-reform chunks "
+        "(Ley 2466 intersects with pension reform)"
+    )
+
+
 def test_default_seed_topics_all_in_canonical_taxonomy() -> None:
     """Same discipline as path-veto + secondary_topics — every narrow AND
     every compatible topic in `config/compatible_doc_topics.json` MUST be

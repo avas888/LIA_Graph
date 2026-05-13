@@ -1,13 +1,15 @@
 {
-  "_schema_version": 1,
-  "_doc": "fix_v7 §3c — per-topic allowlist of canonical norm `article_key` prefixes that the synthesis layer is allowed to surface inside bullets. A bullet with NO norm anchor always passes; a bullet that cites an article WHOSE `art:<number>` form does not start with any allowed prefix is dropped before the polish LLM ever sees the template. Cross-topic carve-outs (`cross_topic_allowed`) document the sibling topics whose bullets should still be allowed once per-bullet provenance lands in synthesis — today they are informational only, the gate matches on `allowed_prefixes` alone. SAFETY: the gate is a NO-OP for any primary_topic not listed here. This file ships with a deliberately minimal scaffold of high-signal topics; the operator must expand it after verifying the prefix list against real chunks. Per `feedback_no_hallucinated_examples`, every prefix in this file is a real ET article number that resolves to at least one chunk in the served corpus. fix_v8 §3c attempted a six-topic expansion (`beneficio_auditoria`, `costos_deducciones_renta`, `declaracion_renta`, `procedimiento_tributario`, `facturacion_electronica`) but the candidate `allowed_prefixes` did not cover the full set of ET articles synthesis legitimately surfaces for those topics today (e.g. `declaracion_renta` answers cite Arts. 869/869-1/869-2 abuso, 115 ICA, 147 pérdidas, 850 devolución), so the expansion over-fired and dropped bullets the existing phase3 tests assert MUST be present. The expansion is therefore drafted but NOT shipped — it is blocked on a cloud-chunks-probe + over-firing-diagnosis cycle the operator must run separately. See `docs/re-engineer/fix/fix_v8_may.md §3c — status: 🛠 drafted, ↩ over-fire-blocked`.",
+  "_schema_version": 2,
+  "_doc": "fix_v14_may §3 — per-topic allowlist of canonical norm `article_key` prefixes that the synthesis layer is allowed to surface inside BULLETS (via `answer_topic_gate.filter_template_bullets`) AND in the LEGAL-ANCHOR block (via `answer_synthesis_sections.build_legal_anchor_lines`). A bullet/anchor item with NO norm anchor always passes; one whose `art:<number>` form does not start with any allowed prefix is dropped. SAFETY: the gate is a NO-OP for any primary_topic not listed here. fix_v14_may schema bump: each topic entry MAY include `cross_topic_allowed` (informational, future per-bullet provenance) and `_notes` (operator commentary). Per `feedback_no_hallucinated_examples`, every prefix in this file is a real article number that resolves to at least one chunk in the served corpus and corresponds to a real ET / law article. The 14 new entries below were curated to address the wrong-anchor citation pattern observed in 11 / 42 panel-judge rejections of 2026-05-13 (e.g. depreciación → 121-124 gastos exterior; anticipo → 100-102 renta vitalicia; PT → 240+235-2; UGPP → 124-2). Curation principle: include articles a senior contador would expect to see for ANY question within that topic; exclude articles that are tangential or cross-topic noise.",
   "_topic_keys_source": "src/lia_graph/topic_router_keywords.py::_TOPIC_KEYWORDS",
   "_validation_rule": "every key must appear in `_TOPIC_KEYWORDS`; tests/test_topic_norm_allowlist.py enforces this on every CI run.",
+
   "perdidas_fiscales_art147": {
     "allowed_prefixes": ["art:147", "art:290", "art:714", "art:689"],
     "cross_topic_allowed": ["declaracion_renta", "procedimiento_tributario"],
     "_notes": "Pérdidas fiscales (Art. 147 ET) is the canonical anchor; Art. 290 covers transitional adjustments; Art. 714 firmeza and Art. 689-3 beneficio de auditoría are the two firmeza-related carve-outs accountants legitimately reference alongside compensación."
   },
+
   "regimen_simple": {
     "allowed_prefixes": [
       "art:903", "art:904", "art:905", "art:906", "art:907",
@@ -16,5 +18,364 @@
     ],
     "cross_topic_allowed": ["iva", "ica"],
     "_notes": "Régimen Simple is articles 903–916 ET. ICA/IVA carve-outs because the régimen integrates municipal ICA and substitutes the IVA general-régimen for some categories."
+  },
+
+  "declaracion_renta": {
+    "allowed_prefixes": [
+      "art:26", "art:27", "art:28", "art:29",
+      "art:39", "art:40", "art:41", "art:42", "art:44", "art:45", "art:46", "art:47", "art:48", "art:49",
+      "art:69", "art:70", "art:71", "art:72", "art:73",
+      "art:74", "art:75", "art:76", "art:77",
+      "art:103", "art:107", "art:108", "art:109", "art:110", "art:111", "art:112", "art:113", "art:114", "art:115",
+      "art:121", "art:122", "art:123", "art:124", "art:124-1", "art:124-2",
+      "art:127", "art:128",
+      "art:131", "art:135", "art:137", "art:138", "art:139", "art:140", "art:141", "art:142", "art:143", "art:144", "art:145",
+      "art:147",
+      "art:158-1", "art:158-2",
+      "art:188",
+      "art:235-2",
+      "art:240", "art:240-1", "art:240-2", "art:240-par",
+      "art:241", "art:242", "art:242-1", "art:243", "art:245", "art:246", "art:246-1", "art:247",
+      "art:260", "art:260-1", "art:260-2", "art:260-3", "art:260-4", "art:260-5",
+      "art:261", "art:262", "art:263", "art:264", "art:265", "art:266", "art:267",
+      "art:290",
+      "art:336", "art:340", "art:341",
+      "art:383",
+      "art:588", "art:589", "art:590", "art:596",
+      "art:647", "art:647-1", "art:651",
+      "art:689", "art:689-3",
+      "art:706", "art:714",
+      "art:771-2", "art:771-5",
+      "art:772-1",
+      "art:807", "art:809",
+      "art:815", "art:816",
+      "art:850", "art:855", "art:855-1", "art:856", "art:857", "art:858", "art:859", "art:863",
+      "art:869", "art:869-1", "art:869-2"
+    ],
+    "cross_topic_allowed": [
+      "costos_deducciones_renta", "patrimonio_fiscal_renta", "rentas_exentas",
+      "dividendos_y_distribucion_utilidades", "tarifas_renta_y_ttd",
+      "procedimiento_tributario", "firmeza_declaraciones", "beneficio_auditoria",
+      "devoluciones_saldos_a_favor"
+    ],
+    "_notes": "Broad declaration-of-income topic. Includes ingresos, costos, deducciones, depreciación, pérdidas, tarifa, dividendos, patrimonio, retención laboral, correcciones, firmeza, anticipo, devolución, abuso. EXCLUDED arts. that surfaced wrongly in panel: 100/101/102 (renta vitalicia + fiducia mercantil — esoteric, rarely relevant), 4/5 (TRM/unidades). 121-124 gastos exterior INCLUDED because some renta sub-cases legitimately need them (servicios técnicos, regalías)."
+  },
+
+  "costos_deducciones_renta": {
+    "allowed_prefixes": [
+      "art:26", "art:27", "art:28",
+      "art:58", "art:59",
+      "art:62", "art:63", "art:64", "art:65", "art:66", "art:67",
+      "art:69", "art:70", "art:71", "art:72", "art:73", "art:74", "art:75", "art:76", "art:77",
+      "art:87", "art:87-1",
+      "art:103", "art:104", "art:105",
+      "art:107", "art:108", "art:109", "art:110", "art:111", "art:112", "art:113", "art:114", "art:115", "art:116", "art:117",
+      "art:118", "art:119", "art:120",
+      "art:121", "art:122", "art:123", "art:124", "art:124-1", "art:124-2",
+      "art:127", "art:127-1",
+      "art:131", "art:134", "art:135",
+      "art:137", "art:138", "art:139", "art:140", "art:141", "art:142", "art:143", "art:144", "art:145",
+      "art:147",
+      "art:158-1", "art:158-2",
+      "art:178",
+      "art:240",
+      "art:647-1",
+      "art:771-2", "art:771-5",
+      "art:772-1"
+    ],
+    "cross_topic_allowed": ["declaracion_renta", "facturacion_electronica", "ica", "precios_de_transferencia"],
+    "_notes": "Costos y deducciones renta. INCLUDED: Art. 115 ICA deducible, 121-124 gastos exterior, 127-1 leasing, 137-145 depreciación + amortización, 147 pérdidas, 771-2/771-5 soportes/limitación pagos efectivo. EXCLUDED for panel-rejection examples: 100-102 (renta vitalicia + fiducia)."
+  },
+
+  "iva": {
+    "allowed_prefixes": [
+      "art:420", "art:420-1", "art:421", "art:422", "art:423", "art:424",
+      "art:425", "art:426", "art:427", "art:428",
+      "art:429", "art:430", "art:431", "art:432", "art:433", "art:434", "art:435", "art:436",
+      "art:437", "art:437-1", "art:437-2", "art:437-3",
+      "art:438", "art:439", "art:440", "art:441", "art:442", "art:443", "art:444", "art:445", "art:446", "art:447",
+      "art:448", "art:449",
+      "art:458", "art:459", "art:460", "art:461",
+      "art:462-1", "art:462-2",
+      "art:463", "art:464", "art:465", "art:466", "art:467", "art:468", "art:468-1", "art:468-3",
+      "art:469", "art:470", "art:471", "art:472", "art:473", "art:474",
+      "art:476", "art:477", "art:478", "art:479", "art:480", "art:481", "art:482", "art:483",
+      "art:484", "art:485", "art:485-1", "art:485-2",
+      "art:486", "art:486-1", "art:486-2",
+      "art:487", "art:488", "art:489", "art:490", "art:491", "art:492", "art:493",
+      "art:496", "art:498",
+      "art:600", "art:601", "art:602",
+      "art:850", "art:855", "art:855-1", "art:856", "art:857"
+    ],
+    "cross_topic_allowed": ["devoluciones_saldos_a_favor", "facturacion_electronica", "regimen_simple"],
+    "_notes": "IVA general. INCLUDED: hechos generadores 420-422, exentos/excluidos 424-426/477-481, responsables 437, base 446-449, descontable 485-489, proporcionalidad 490, F.300 declaración 600. Devolución saldo a favor 850-857 INCLUDED para preguntas IVA-saldo-a-favor. EXCLUDED de panel: Art. 1 ET (FORMULARIO 7 — was mis-cited as IVA anchor in G6)."
+  },
+
+  "facturacion_electronica": {
+    "allowed_prefixes": [
+      "art:615",
+      "art:616", "art:616-1", "art:616-2", "art:616-3", "art:616-4", "art:616-5",
+      "art:617", "art:618", "art:618-2", "art:618-3",
+      "art:771-2"
+    ],
+    "cross_topic_allowed": ["declaracion_renta", "iva", "procedimiento_tributario"],
+    "_notes": "Factura electrónica + sanciones + documento equivalente. 616 / 616-1 / 616-2 son los anchors críticos. 617 requisitos, 618 obligaciones, 771-2 deducción contra factura electrónica. EXCLUDED: Art. 2 / Art. 1 / Art. 5 ET que no son sobre FE pero aparecieron mal-citados en G2 DAV."
+  },
+
+  "retencion_fuente_general": {
+    "allowed_prefixes": [
+      "art:365", "art:366", "art:366-1", "art:366-2",
+      "art:367", "art:368", "art:368-1", "art:368-2",
+      "art:369", "art:370", "art:371", "art:372", "art:373", "art:374",
+      "art:375", "art:376", "art:377", "art:378", "art:379", "art:380", "art:381",
+      "art:383", "art:384", "art:385",
+      "art:386", "art:387", "art:387-1", "art:388",
+      "art:389", "art:390", "art:391", "art:392", "art:393", "art:394", "art:395",
+      "art:396", "art:397", "art:398", "art:399", "art:400", "art:401", "art:401-2", "art:401-3",
+      "art:402", "art:403", "art:404", "art:404-1", "art:406", "art:407", "art:408", "art:409", "art:410", "art:411", "art:412",
+      "art:413", "art:414", "art:415", "art:416", "art:417", "art:418", "art:419"
+    ],
+    "cross_topic_allowed": ["declaracion_renta", "laboral", "dividendos_y_distribucion_utilidades"],
+    "_notes": "Retención en la fuente. INCLUDED: tabla 383 ET + procedimientos 1 y 2 (386-388), retención por concepto 392-419. EXCLUDED de panel: causación-vs-pago noise (no ET arts. concretos), jornada nocturna (no ET)."
+  },
+
+  "laboral": {
+    "allowed_prefixes": [
+      "art:108",
+      "art:127-128", "art:127-132", "art:127", "art:128", "art:129", "art:130", "art:131", "art:132",
+      "art:142", "art:143", "art:144", "art:145",
+      "art:158", "art:159", "art:160",
+      "art:179", "art:180", "art:186", "art:189", "art:192", "art:193", "art:194", "art:206", "art:218",
+      "art:230",
+      "art:249", "art:250",
+      "art:306",
+      "art:383"
+    ],
+    "cross_topic_allowed": ["parafiscales_seguridad_social", "retencion_fuente_general", "reforma_pensional"],
+    "_notes": "Laboral CST + ET donde aplica. Art. 108 ET parafiscales requisito deducción. CST 127-132 salario, 142-145 jornada/recargos, 249-250 cesantías, 306 prima de servicios, 218 vacaciones. EXCLUDED: Arts. 16-19, 3 (intermediario) que aparecieron mal-citados."
+  },
+
+  "parafiscales_seguridad_social": {
+    "allowed_prefixes": [
+      "art:108",
+      "art:114-1",
+      "art:127-132", "art:127", "art:128",
+      "art:204",
+      "art:240",
+      "art:30"
+    ],
+    "cross_topic_allowed": ["laboral", "declaracion_renta"],
+    "_notes": "Parafiscales + seguridad social. Art. 108 ET (deducción aportes), 114-1 (exoneración SENA/ICBF/Salud), 204 (cotización salud), 240 (tarifa renta para exoneración). Art. 30 Ley 1393/2010 (40% no salarial — preguntado en G9 UGPP). EXCLUDED: Art. 124-2 jurisdicciones no cooperantes (mal-citado en G7 parafiscales)."
+  },
+
+  "dividendos_y_distribucion_utilidades": {
+    "allowed_prefixes": [
+      "art:48", "art:49",
+      "art:240", "art:240-1", "art:240-2",
+      "art:241",
+      "art:242", "art:242-1",
+      "art:245", "art:246", "art:246-1",
+      "art:247",
+      "art:391"
+    ],
+    "cross_topic_allowed": ["declaracion_renta", "retencion_fuente_general", "tarifas_renta_y_ttd"],
+    "_notes": "Dividendos PN residentes (242), PJ nacionales (242-1), PN/PJ extranjeros (245), transición (246-1). Art. 48-49 utilidades no gravadas. Art. 240 tarifa sociedades base. Art. 391 retención dividendos. Cubrió G16 dividendos 242."
+  },
+
+  "informacion_exogena": {
+    "allowed_prefixes": [
+      "art:631", "art:631-1", "art:631-2", "art:631-3",
+      "art:632", "art:633", "art:634",
+      "art:651",
+      "art:684", "art:684-1", "art:684-2", "art:684-3"
+    ],
+    "cross_topic_allowed": ["procedimiento_tributario", "regimen_sancionatorio"],
+    "_notes": "Exógena: 631-633 obligación y facultad, 651 sanción por no enviar. Resoluciones DIAN específicas (000227/2025, 000233/2025) NO son artículos ET y pasan el gate via no-norm-anchor path."
+  },
+
+  "precios_de_transferencia": {
+    "allowed_prefixes": [
+      "art:260", "art:260-1", "art:260-2", "art:260-3", "art:260-4", "art:260-5",
+      "art:260-6", "art:260-7", "art:260-8", "art:260-9", "art:260-10", "art:260-11",
+      "art:124-2"
+    ],
+    "cross_topic_allowed": ["declaracion_renta"],
+    "_notes": "Precios de transferencia: SOLO Arts. 260-* + 124-2 (pagos a jurisdicciones no cooperantes). EXCLUDED: 240/235-2/100-102 que aparecieron mal-citados en G12 PT umbrales."
+  },
+
+  "procedimiento_tributario": {
+    "allowed_prefixes": [
+      "art:588", "art:589", "art:590",
+      "art:596",
+      "art:638", "art:641", "art:642", "art:643", "art:644",
+      "art:647", "art:647-1", "art:648", "art:648-1", "art:648-2", "art:648-3",
+      "art:651", "art:654", "art:655",
+      "art:657", "art:658", "art:658-1", "art:658-2", "art:658-3",
+      "art:660", "art:669", "art:670", "art:671", "art:672", "art:673", "art:674",
+      "art:684", "art:689", "art:689-3",
+      "art:706", "art:707",
+      "art:714", "art:715", "art:716",
+      "art:771-2", "art:771-5",
+      "art:815", "art:816",
+      "art:850", "art:855", "art:855-1", "art:856", "art:857", "art:858", "art:859", "art:860", "art:863"
+    ],
+    "cross_topic_allowed": ["firmeza_declaraciones", "beneficio_auditoria", "devoluciones_saldos_a_favor", "regimen_sancionatorio"],
+    "_notes": "Procedimiento tributario amplio: correcciones 588-590, sanciones 638-651, beneficio auditoría 689-3, firmeza 714, devoluciones 850-863, compensación 815-816. EXCLUDED: Arts. 100-102 (renta vitalicia) que aparecieron mal-citados en Práctica Q2."
+  },
+
+  "firmeza_declaraciones": {
+    "allowed_prefixes": [
+      "art:588", "art:589", "art:590",
+      "art:638",
+      "art:689", "art:689-3",
+      "art:705", "art:706", "art:707",
+      "art:714", "art:715", "art:716",
+      "art:117-1",
+      "art:147"
+    ],
+    "cross_topic_allowed": ["procedimiento_tributario", "beneficio_auditoria", "declaracion_renta"],
+    "_notes": "Firmeza ordinaria 3 años (714), beneficio auditoría 6/12 meses (689-3), declaraciones con pérdidas 6 años (147), correcciones 588-589. EXCLUDED para Práctica Q9: Arts. 260, 100-102 mal-citados."
+  },
+
+  "beneficio_auditoria": {
+    "allowed_prefixes": [
+      "art:147",
+      "art:588", "art:589",
+      "art:647", "art:647-1",
+      "art:689", "art:689-1", "art:689-2", "art:689-3",
+      "art:706", "art:707",
+      "art:714"
+    ],
+    "cross_topic_allowed": ["firmeza_declaraciones", "procedimiento_tributario", "declaracion_renta"],
+    "_notes": "Art. 689-3 ET reformado por Ley 2155/2021 y Ley 2277/2022 — canonical. 588-589 correcciones que pueden invalidar el beneficio, 647 inexactitud, 714 firmeza ordinaria de comparación."
+  },
+
+  "conciliacion_fiscal": {
+    "allowed_prefixes": [
+      "art:21-1", "art:28",
+      "art:62", "art:69",
+      "art:137", "art:138", "art:139", "art:140",
+      "art:261", "art:267",
+      "art:589",
+      "art:647",
+      "art:772", "art:772-1",
+      "art:868"
+    ],
+    "cross_topic_allowed": ["declaracion_renta", "estados_financieros_niif", "patrimonio_fiscal_renta"],
+    "_notes": "F.2516 conciliación NIIF-fiscal. Art. 772-1 ET base normativa, 21-1 contable. EXCLUDED: 235-2 mal-citado en G14, 240 cuerpo."
+  },
+
+  "estados_financieros_niif": {
+    "allowed_prefixes": [
+      "art:21-1",
+      "art:261", "art:267",
+      "art:772", "art:772-1"
+    ],
+    "cross_topic_allowed": ["conciliacion_fiscal", "patrimonio_fiscal_renta", "declaracion_renta"],
+    "_notes": "NIIF base normativa ET es escasa — el grueso está en decretos. Allowlist mínima."
+  },
+
+  "patrimonio_fiscal_renta": {
+    "allowed_prefixes": [
+      "art:261", "art:262", "art:263", "art:264", "art:265", "art:266", "art:267",
+      "art:268", "art:269", "art:270", "art:271", "art:271-1",
+      "art:272", "art:273", "art:274", "art:275", "art:276", "art:277", "art:278",
+      "art:279", "art:280", "art:281", "art:282", "art:283", "art:284", "art:285",
+      "art:286", "art:287",
+      "art:292", "art:293", "art:294", "art:295", "art:296",
+      "art:298", "art:298-1", "art:298-2",
+      "art:772-1"
+    ],
+    "cross_topic_allowed": ["declaracion_renta", "impuesto_patrimonio_personas_naturales"],
+    "_notes": "Patrimonio fiscal: 261-287 valoración, 292-298 impuesto al patrimonio. F.2516 772-1. Cubrió G17 patrimonio NIIF."
+  },
+
+  "gravamen_movimiento_financiero_4x1000": {
+    "allowed_prefixes": [
+      "art:115",
+      "art:870", "art:871", "art:872", "art:873", "art:874",
+      "art:875", "art:876", "art:877", "art:878", "art:879",
+      "art:880", "art:881"
+    ],
+    "cross_topic_allowed": ["declaracion_renta"],
+    "_notes": "GMF 4x1000: 870-881 ET. Art. 115 incluido para la deducción del 50% del GMF en renta (pregunta G3 panel)."
+  },
+
+  "ica": {
+    "allowed_prefixes": [
+      "art:115",
+      "art:32", "art:33", "art:34", "art:35", "art:36", "art:37", "art:38", "art:39", "art:40", "art:41",
+      "art:42", "art:43", "art:44", "art:45"
+    ],
+    "cross_topic_allowed": ["declaracion_renta", "costos_deducciones_renta", "regimen_simple"],
+    "_notes": "ICA: Art. 115 ET deducible en renta (Ley 2277 eliminó descuento 50%). Arts. 32-45 son referencias a Ley 14/1983 (ICA) y Ley 75/1986. Mucho ICA es local, normas municipales — pasan via no-norm-anchor."
+  },
+
+  "calendario_obligaciones": {
+    "allowed_prefixes": [],
+    "cross_topic_allowed": [
+      "declaracion_renta", "iva", "retencion_fuente_general", "informacion_exogena",
+      "facturacion_electronica", "laboral", "ica", "regimen_simple",
+      "procedimiento_tributario"
+    ],
+    "_notes": "Calendario es un agregador: las preguntas tocan plazos de varios impuestos. Allowlist VACÍA = noop (safe-by-default). Las fechas concretas vienen de Decreto / Resolución DIAN específico, no de un Art. ET."
+  },
+
+  "devoluciones_saldos_a_favor": {
+    "allowed_prefixes": [
+      "art:589",
+      "art:670",
+      "art:815", "art:816",
+      "art:850", "art:851", "art:852", "art:853", "art:854",
+      "art:855", "art:855-1", "art:856", "art:857", "art:858", "art:859", "art:860",
+      "art:861", "art:862", "art:863", "art:864", "art:865"
+    ],
+    "cross_topic_allowed": ["iva", "declaracion_renta", "procedimiento_tributario"],
+    "_notes": "Devoluciones y compensación de saldos a favor. 850-865 régimen general, 589 corrección que aumenta saldo, 670 improcedencia."
+  },
+
+  "regimen_sancionatorio": {
+    "allowed_prefixes": [
+      "art:634", "art:635", "art:636", "art:637", "art:638", "art:639",
+      "art:640", "art:641", "art:642", "art:643", "art:644",
+      "art:647", "art:647-1", "art:648", "art:648-1", "art:648-2", "art:648-3",
+      "art:651", "art:652", "art:653", "art:654", "art:655",
+      "art:657", "art:658", "art:658-1", "art:658-2", "art:658-3",
+      "art:660", "art:661", "art:662", "art:663", "art:664", "art:665", "art:666",
+      "art:669", "art:670", "art:671", "art:672", "art:673", "art:674"
+    ],
+    "cross_topic_allowed": ["procedimiento_tributario", "informacion_exogena"],
+    "_notes": "Régimen sancionatorio general 634-674. Cubrió Q20 gold (sanción extemporaneidad 641/640)."
+  },
+
+  "regimen_sancionatorio_extemporaneidad": {
+    "allowed_prefixes": [
+      "art:640",
+      "art:641", "art:642",
+      "art:644",
+      "art:647", "art:647-1"
+    ],
+    "cross_topic_allowed": ["regimen_sancionatorio", "procedimiento_tributario"],
+    "_notes": "Sub-topic específico extemporaneidad: 641 (sanción presentación extemporánea), 642 (sanción menor), 640 (reducción)."
+  },
+
+  "tarifas_renta_y_ttd": {
+    "allowed_prefixes": [
+      "art:240", "art:240-1", "art:240-2", "art:240-par",
+      "art:241", "art:242", "art:242-1", "art:243", "art:245",
+      "art:246", "art:246-1", "art:247"
+    ],
+    "cross_topic_allowed": ["declaracion_renta", "dividendos_y_distribucion_utilidades"],
+    "_notes": "TTD parágrafo 6 Art. 240 ET. Tarifas sociedades 240, dividendos 242-247."
+  },
+
+  "impuesto_patrimonio_personas_naturales": {
+    "allowed_prefixes": [
+      "art:261", "art:267",
+      "art:292", "art:293", "art:294", "art:295", "art:296",
+      "art:298", "art:298-1", "art:298-2", "art:298-3", "art:298-4", "art:298-5", "art:298-6", "art:298-7", "art:298-8"
+    ],
+    "cross_topic_allowed": ["patrimonio_fiscal_renta", "declaracion_renta"],
+    "_notes": "Impuesto al patrimonio para PN: 292-298 régimen. 261/267 valoración patrimonio."
   }
 }

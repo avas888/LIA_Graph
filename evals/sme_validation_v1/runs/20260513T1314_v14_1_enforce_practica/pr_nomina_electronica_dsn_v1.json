@@ -1,0 +1,1277 @@
+{
+  "qid": "pr_nomina_electronica_dsn_v1",
+  "topic_key_expected": "laboral",
+  "profile": "practica_v1",
+  "message": "Mi cliente PYME de 25 empleados nunca ha emitido nómina electrónica. ¿Qué pasos operativos sigo para habilitarla en la DIAN, qué documento soporte uso, cómo cargo los empleados en el sistema, y qué reportes mensuales debo transmitir y antes de qué fechas?",
+  "http_status": 200,
+  "latency_ms": 35659,
+  "captured_utc": "2026-05-13T18:15:59.366317+00:00",
+  "response": {
+    "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+    "run_id": "pd_7ca357634a0c4434a56022a24f586411",
+    "answer_markdown": "**Recomendaciones Prácticas**\n1.  Para los valores deducidos, considera los aportes del empleado a salud, pensión y fondo de solidaridad pensional, retención en la fuente, libranzas, embargos judiciales, aportes voluntarios y otros descuentos autorizados (arts. 616 y 616-1 ET).\n2.  En caso de contingencia, documenta el evento y la posterior normalización de la factura (arts. 616-1 y 616 ET).\n3.  Asegúrate de que el documento soporte de nómina electrónica cumpla con los requisitos técnicos y de contenido establecidos para su validez.\n4.  Verifica que la transmisión de la nómina electrónica se realice dentro de los plazos definidos por la DIAN para evitar sanciones.\n\n**Precauciones**\n*   No reemplaces la factura electrónica con otro tipo de soporte cuando la obligación de emitirla exista (arts. 616-1 y 616-2 ET).\n\n**Anclaje Legal**\n*   El incumplimiento en la transmisión electrónica puede generar una multa de hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, con un tope de **12** meses (máximo **12%** del valor de la factura) (art. 616-2 ET).\n*   Los comerciantes obligados a llevar contabilidad, las personas jurídicas y asimiladas, y las sucursales o establecimientos permanentes de empresas extranjeras, están obligados a facturar electrónicamente (art. 616-1 ET).",
+    "answer_concise": "**Recomendaciones Prácticas**\n1.  Para los valores deducidos, considera los aportes del empleado a salud, pensión y fondo de solidaridad pensional, retención en la fuente, libranzas, embargos judiciales, aportes voluntarios y otros descuentos autorizados (arts. 616 y 616-1 ET).\n2.  En caso de contingencia, documenta el evento y la posterior normalización de la factura (arts. 616-1 y 616 ET).\n3.  Asegúrate de que el documento soporte de nómina electrónica cumpla con los requisitos técnicos y de contenido establecidos para su validez.\n4.  Verifica que la transmisión de la nómina electrónica se realice dentro de los plazos definidos por la DIAN para evitar sanciones.\n\n**Precauciones**\n*   No reemplaces la factura electrónica con otro tipo de soporte cuando la obligación de emitirla exista (arts. 616-1 y 616-2 ET).\n\n**Anclaje Legal**\n*   El incumplimiento en la transmisión electrónica puede generar una multa de hasta el **1%** del valor total de la factura por cada mes o fracción de mes de retraso, con un tope de **12** meses (máximo **12%** del valor de la factura) (art. 616-2 ET).\n*   Los comerciantes obligados a llevar contabilidad, las personas jurídicas y asimiladas, y las sucursales o establecimientos permanentes de empresas extranjeras, están obligados a facturar electrónicamente (art. 616-1 ET).",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md",
+        "logical_doc_id": "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-facturacion-electronica-documento-soporte.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "FE N01 — Marco Legal: Facturación Electrónica, Documento Soporte y Ecosistema de Documentos E...",
+        "legal_reference": "FE N01 — Marco Legal: Facturación Electrónica, Documento Soporte y Ecosistema de Documentos Electrónicos",
+        "search_query": "FE N01 — Marco Legal: Facturación Electrónica, Documento Soporte y Ecosistema de Documentos Electrónicos DIAN / fuente oficial colombia FE N01 — Marco Legal: Facturación Electrónica, Documento Soporte y Ecosistema de Doc",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Asegúrate de que el documento soporte de nómina electrónica cumpla con los requisitos técnicos y de contenido establecidos para su validez.",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+        "authority": "Loggro",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Facturacion electronica (Loggro)",
+        "legal_reference": "Facturacion electronica (Loggro)",
+        "search_query": "Facturacion electronica (Loggro) Loggro colombia FE 03 — Documentos del Ecosistema Electrónico — Régimen de Cada Tipo de Documento",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "Para los valores deducidos, considera los aportes del empleado a salud, pensión y fondo de solidaridad pensional, retención en la fuente, libranzas, embargos judiciales, aportes voluntarios y otros descuentos",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md",
+        "logical_doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md",
+        "authority": "Loggro",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Facturacion electronica (Loggro)",
+        "legal_reference": "Facturacion electronica (Loggro)",
+        "search_query": "Facturacion electronica (Loggro) Loggro colombia FE 01 — Marco Legal y Evolución Histórica de la Facturación Electrónica en Colombia",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "Para los valores deducidos, considera los aportes del empleado a salud, pensión y fondo de solidaridad pensional, retención en la fuente, libranzas, embargos judiciales, aportes voluntarios y otros descuentos",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+        "logical_doc_id": "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+        "authority": "Loggro",
+        "topic": "facturacion_electronica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Cronograma documentos electronicos dian (Loggro)",
+        "legal_reference": "Cronograma documentos electronicos dian (Loggro)",
+        "search_query": "Cronograma documentos electronicos dian (Loggro) Loggro colombia FE 06 — Roadmap del Ecosistema de Documentos Electrónicos DIAN: Estado Actual y Proyección 2026 2027",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "calendario",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "Verifica que la transmisión de la nómina electrónica se realice dentro de los plazos definidos por la DIAN para evitar sanciones.",
+        "usage_intents": [
+          "plazos",
+          "riesgos"
+        ]
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "**Sanción**: Multa equivalente a **hasta el 1% del valor total de la factura por cada mes o fracción de mes de retraso**, sin exceder 12 meses (máximo 12% del valor de la factura)(1).\n\n**Ejemplo numérico** (UVT 2026 = $52.374):\n- Factura no",
+      "**Texto vigente** (modificado por Ley 2277 de 2022, Art. 45):\n\n> Los comerciantes obligados a llevar contabilidad, las personas jurídicas y asimiladas, y las sucursales o establecimientos permanentes de empresas extranjeras, están obligados",
+      "**Texto vigente** (modificado por Ley 2277 de 2022, Art. 46):\n\n> Sin perjuicio de las infracciones establecidas en el Libro Noveno del Estatuto Tributario y de conformidad con lo dispuesto en los artículos 642 a 656 del mismo, el contribuye"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 5,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "616",
+          "616-1",
+          "616-2"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 16,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "computation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T18:15:23.707821+00:00",
+        "total_ms": 18525.12,
+        "step_count": 40,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T18:15:23.707837+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T18:15:23.707821+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:23.708198+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.37,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 255,
+              "message_preview": "Mi cliente PYME de 25 empleados nunca ha emitido nómina electrónica. ¿Qué pasos operativos sigo para habilitarla en la DIAN, qué documento soporte uso, cómo cargo los empleados en el sistema, y qué reportes mensuales debo transmitir y antes",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:23.737682+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 29.85,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:23.737962+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 30.13,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:23.757375+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 49.54,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 255,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:25.480114+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1772.26,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "facturacion_electronica",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en los pasos operativos para habilitar la nómina electrónica en la DIAN, el uso del documento soporte, la carga de empleados y los reportes mensuales, todos ellos aspectos directamente relacionados con la facturación e",
+              "elapsed_ms_call": 1722.67,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:25.480838+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1773.0,
+            "message": null,
+            "details": {
+              "effective_topic": "facturacion_electronica",
+              "confidence": 0.9,
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:31.294304+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 7586.47,
+            "message": null,
+            "details": {
+              "owner_trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+              "requested_trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:31.294584+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 7586.75,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "facturacion_electronica",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en los pasos operativos para habilitar la nómina electrónica en la DIAN, el uso del documento soporte, la carga de empleados y los reportes mensuales, todos ellos aspectos directamente relacionados con la facturación electrónica y sus documentos asociados, como la nómina electrónica.",
+              "topic_notice": "Tu pregunta es de facturacion electronica, por lo cual utilizaremos nuestra base de datos facturacion electronica.",
+              "message_preview": "Mi cliente PYME de 25 empleados nunca ha emitido nómina electrónica. ¿Qué pasos operativos sigo para habilitarla en la DIAN, qué documento soporte uso, cómo cargo los empleados en el sistema, y qué reportes mensuales debo transmitir y antes",
+              "message_chars": 255
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:31.314234+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 7606.41,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:31.314400+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 7606.58,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "facturacion_electronica laboral Mi cliente PYME de 25 empleados nunca ha emitido nómina electrónica. ¿Qué pasos operativos sigo para habilitarla en la DIAN, qué documento soporte uso, cómo cargo los empleados en el sistema, y qué reportes m",
+              "query_text_chars": 287
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:31.314754+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 7606.93,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "facturacion_electronica",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "facturacion_electronica",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:32.583028+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 8875.18,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_FACTURACION_ELECTRONICA_OPERATIVA_NORMATIVA_FE-N01-marco-legal-fa",
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md::4-docume",
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md::3-era-iv-e",
+                "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-",
+                "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L02-guia-practica-nomina-elect",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "suin_1132325::879",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L02-guia-practica-nomina-elect",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::616-1"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "normative_base",
+                "normative_base",
+                "practica_erp",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 9
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:32.583636+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 8875.81,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:32.583762+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 8875.94,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:32.617612+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 8909.78,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 24,
+              "rows_out": 24,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "facturacion_electronica"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:32.838077+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 9130.23,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:38.293776+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 14585.94,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [
+                "616",
+                "616-1",
+                "616-2"
+              ],
+              "tema_first_topic_key": "facturacion_electronica",
+              "planner_query_mode": "computation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:38.294318+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 14586.49,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                5,
+                5
+              ],
+              "after": [
+                3,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "616",
+                  "616-1",
+                  "616-2",
+                  "2",
+                  "5",
+                  "616-5",
+                  "2",
+                  "5"
+                ],
+                "candidate_count": 8,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:38.325167+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 14617.34,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "facturacion_electronica",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "facturacion_electronica",
+                "articles_top_topic": "facturacion_electronica",
+                "router_score_on_articles": 9,
+                "top_score_on_articles": 9,
+                "ranked_article_topics": [
+                  [
+                    "facturacion_electronica",
+                    9
+                  ],
+                  [
+                    "estatuto_tributario",
+                    5
+                  ],
+                  [
+                    "declaracion_renta",
+                    1
+                  ],
+                  [
+                    "sector_emprendimiento",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:38.325286+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 14617.47,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "facturacion_electronica",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:38.325350+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 14617.53,
+            "message": null,
+            "details": {
+              "query_preview": "Mi cliente PYME de 25 empleados nunca ha emitido nómina electrónica. ¿Qué pasos operativos sigo para habilitarla en la DIAN, qué documento soporte uso, cómo car",
+              "topic": "facturacion_electronica",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:38.325432+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 14617.62,
+            "message": null,
+            "details": {
+              "query_chars": 255,
+              "query_preview": "Mi cliente PYME de 25 empleados nunca ha emitido nómina electrónica. ¿Qué pasos operativos sigo para habilitarla en la DIAN, qué documento soporte uso, cómo car",
+              "topic": "facturacion_electronica",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "cliente | pyme | 25 | empleados | nunca | ha | emitido | nómina | electrónica | pasos | operativos | sigo | habilitarla | dian | documento | soporte | uso | cargo | sistema | reportes | mensuales | de",
+              "fts_query_token_count": 25,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:38.325833+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 14618.01,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "facturacion_electronica",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.002453+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 15294.62,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 676.49,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md",
+                "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+                "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+                "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L02-guia-practica-nomina-electronica-documento-soporte.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-19-facturacion-electronica-documento-soporte-nomina-electronica.md",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L02-guia-practica-nomina-electronica-documento-soporte.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.257002+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 15549.18,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.257312+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 15549.49,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 254.42,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.257445+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 15549.62,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+                  "score": 0.043168
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md",
+                  "score": 0.042237
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+                  "score": 0.03848
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.445365+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 15737.54,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 1119.92,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md",
+                "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.445834+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 15738.02,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.445946+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 15738.13,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.446042+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 15738.23,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.446127+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 15738.31,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.454137+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 15746.31,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-03-documentos-ecosistema-electronico.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 9,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Valores deducidos: Aportes del empleado a salud, pensión y fondo de solidaridad pensional, retención en la fuente, libra"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_FE-01-marco-legal-evolucion-historica.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 29,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "El año 2021 marcó la expansión del ecosistema de facturación electrónica de un solo documento (la factura) a un sistema "
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_to_update_FE-ROADMAP-NUEVOS-DOCS-2026_FASE-1-CONTENIDO_LOGGRO_FE-06-roadmap-ecosistema-electronico-DIAN-2026-2027.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 1,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Calendario de Nómina Electrónica 2026 La nómina electrónica se transmite mensualmente, dentro de los 10 primeros días há"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.455936+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 15748.12,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "facturacion_electronica",
+              "allowed_prefix_count": 12,
+              "kept_count": 3,
+              "dropped_count": 1,
+              "dropped_keys_sample": [
+                "5 — DOCUMENTO CONSTITUTIVO"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.459311+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 15751.48,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "facturacion_electronica",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "declaracion_renta",
+                "iva",
+                "procedimiento_tributario"
+              ],
+              "allowed_prefix_count": 12,
+              "kept_count": 3,
+              "dropped_count": 2,
+              "dropped_excerpts": [
+                "3. El año 2021 marcó la expansión del ecosistema de facturación electrónica de un solo documento (la factura) a un siste",
+                "4. Calendario de Nómina Electrónica 2026 La nómina electrónica se transmite mensualmente, dentro de los 10 primeros días"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:39.459536+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 15751.72,
+            "message": null,
+            "details": {
+              "template_chars": 520
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:42.232185+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 18524.36,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 1320,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:42.232624+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 18524.8,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "facturacion_electronica",
+              "citations_in": 5,
+              "citations_out": 4,
+              "dropped_count": 1,
+              "dropped_by_allowlist": [
+                {
+                  "article": null,
+                  "family": "LOGGRO",
+                  "topic": "facturacion_electronica",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "Laboral (Loggro)"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:15:42.232832+00:00",
+            "trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 18525.02,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 4
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null,
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 42,
+        "output_tokens": 202,
+        "total_tokens": 244,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "facturacion_electronica",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de facturacion electronica, por lo cual utilizaremos nuestra base de datos facturacion electronica.",
+    "topic_adjustment_reason": "La consulta se centra en los pasos operativos para habilitar la nómina electrónica en la DIAN, el uso del documento soporte, la carga de empleados y los reportes mensuales, todos ellos aspectos directamente relacionados con la facturación electrónica y sus documentos asociados, como la nómina electrónica.",
+    "coverage_notice": null,
+    "topic": "facturacion_electronica",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778696055,
+      "expires_at": 1778699655,
+      "token_id": "a8f654cdbff34a878246c0d1200e73d1"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_1a997093934d",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 42,
+        "output_tokens": 202,
+        "total_tokens": 244
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+      "last_run_id": "pd_7ca357634a0c4434a56022a24f586411",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_1a997093934d",
+    "chat_run_id": "cr_20260513_181526_f814c3eb",
+    "metrics": {
+      "latency_ms": 26302.04,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 42,
+          "output_tokens": 202,
+          "total_tokens": 244,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_1a997093934d",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 42,
+          "output_tokens": 202,
+          "total_tokens": 244
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "934839f9-286f-4bcd-b6e1-c4e0cfe5cc89",
+        "last_run_id": "pd_7ca357634a0c4434a56022a24f586411",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 3,
+        "mentions_unique": 3,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 3,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 6.1
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "facturacion_electronica",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "b14c877cdb364d65ab4fa7f9c78c01ff"
+  }
+}

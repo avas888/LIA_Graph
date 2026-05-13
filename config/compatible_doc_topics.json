@@ -25,6 +25,11 @@
       "compatible_topics": ["declaracion_renta", "renta_liquida_gravable"],
       "rationale": "Precios de transferencia es sub-régimen de declaracion_renta (Art. 260 ss del ET). Phase-2 measured declaracion_renta as 111 mentions (76% de cross-topic refs), renta_liquida_gravable 21. Aceptamos ambos como evidence compatible.",
       "evidence_source": "Phase-2 §6.2"
+    },
+    "reforma_laboral_ley_2466": {
+      "compatible_topics": ["laboral", "parafiscales_seguridad_social", "reforma_pensional"],
+      "rationale": "fix_v14_may §8 (A6) — 21Q panel-judge 2026-05-13 surfaced two abstentions (Práctica `pr_reforma_laboral_recargos_v1`, General `ep_laboral_reforma_2466_v1`) because the coherence gate refused: the router classifies the question to `reforma_laboral_ley_2466` (correct) but the available support chunks are tagged `laboral` (also correct — the corpus covers reform content under the broader laboral topic). A senior contador would consider any laboral chunk, parafiscales chunk, or pension-reform chunk legitimate evidence for a Ley 2466 question, since the reform itself modifies CST recargos, parafiscales requisitos, and intersects with pension reform. Accept all three as on-topic. NON_RELAXATION: the 2-doc match threshold (_SUPPORT_DOC_TOPIC_KEY_MATCH_MIN) is unchanged; we widen WHAT counts, not HOW MANY.",
+      "evidence_source": "fix_v14_may §8 — panel-judge 2026-05-13 (Práctica `pr_reforma_laboral_recargos_v1` + General `ep_laboral_reforma_2466_v1` both abstained as `topic_safety_abstention`)"
     }
   }
 }

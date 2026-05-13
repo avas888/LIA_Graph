@@ -440,6 +440,30 @@ function buildRuntimeEnv(mode) {
     env.LIA_PRACTICA_RESERVED_SLOTS = "3";
   }
 
+  // fix_v14_may §3 (A1) — legal-anchor topic-allowlist gate.
+  // Promoted to `enforce` 2026-05-13 after sprint v14.1 panel-judge
+  // confirmed INCLUDE under the operator-amended decision rule (net
+  // improvement + zero new hallucinations; replaces the original
+  // "zero PASS→REJECT" hard veto). v14.1 measurement: combined 42-Q
+  // judge-pass-rate 26 % → 31 % strict (+5 pp); 3 turns degraded
+  // BORDERLINE→REJECT but inspection confirmed zero new invented
+  // facts (degradations are corpus-leak fragments, not hallucinations).
+  // Rollback: set `LIA_LEGAL_ANCHOR_GATE_MODE=shadow` (gate runs but
+  // does not alter output) or `=off`.
+  if (!String(env.LIA_LEGAL_ANCHOR_GATE_MODE || "").trim()) {
+    env.LIA_LEGAL_ANCHOR_GATE_MODE = "enforce";
+  }
+
+  // fix_v14_may §4 (A2) — unified chunk-quality heuristics. Promoted
+  // to `enforce` 2026-05-13 alongside A1 (same v14.1 sprint;
+  // operator-amended rule). v14.1 fired only 8 demotions across 42
+  // turns (mostly `cross_topic_operational_leak`); refinement of
+  // pattern catalog deferred to v14.2 §4. Rollback: set
+  // `LIA_CHUNK_QUALITY_HEURISTIC_MODE=shadow` or `=off`.
+  if (!String(env.LIA_CHUNK_QUALITY_HEURISTIC_MODE || "").trim()) {
+    env.LIA_CHUNK_QUALITY_HEURISTIC_MODE = "enforce";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

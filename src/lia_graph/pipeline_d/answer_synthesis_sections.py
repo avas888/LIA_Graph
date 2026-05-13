@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 from typing import TYPE_CHECKING
 
@@ -18,6 +19,9 @@ from .answer_shared import (
     should_surface_change_context,
 )
 from .answer_synthesis_practica import extend_from_practica_chunks
+from .answer_topic_gate import (
+    _topic_entry as _legal_anchor_topic_entry,
+)
 from .contracts import GraphEvidenceItem
 
 if TYPE_CHECKING:
@@ -177,16 +181,139 @@ def build_paperwork_lines(
     return tuple(lines[:4])
 
 
+_LEGAL_ANCHOR_GATE_ENV = "LIA_LEGAL_ANCHOR_GATE_MODE"
+
+
+def _legal_anchor_gate_mode() -> str:
+    """fix_v14_may §3 — operator-controlled mode for the topic-allowlist
+    filter on legal-anchor rendering.
+
+    Values:
+      * ``off``      — gate disabled, identical to v13 behavior.
+      * ``shadow``   — gate runs and reports dropped keys via the trace
+                       step but does NOT filter the rendered output.
+                       Default at landing (safe-by-default).
+      * ``enforce``  — gate filters items whose ``art:<num>`` form is
+                       not allowed by the topic's allowed_prefixes.
+
+    Promotion path: ship in shadow, measure per-turn `legal_anchor_gate`
+    diagnostic across the 42-turn panel-judge, then flip to enforce per
+    the INCLUDE / REVERT rules in fix_v14_may §3.
+    """
+    raw = str(os.getenv(_LEGAL_ANCHOR_GATE_ENV, "shadow") or "").strip().lower()
+    if raw in {"enforce", "on", "1", "true"}:
+        return "enforce"
+    if raw in {"off", "0", "false", "no", "disabled"}:
+        return "off"
+    return "shadow"
+
+
+def _legal_anchor_node_key_passes(
+    node_key: str,
+    allowed_prefixes: tuple[str, ...],
+) -> bool:
+    """Decide whether a legal-anchor item (identified by `node_key` like
+    `"147"`, `"260-5"`, `"260-par-6"`, `"107A"`) is allowed by the
+    topic's `allowed_prefixes`.
+
+    The structured `node_key` from `GraphEvidenceItem` is the canonical
+    article reference and is normalized to `art:<lowercased-node_key>`.
+    Each prefix in `allowed_prefixes` is matched either as an exact
+    equality or as a startswith — same semantics as
+    `answer_topic_gate._bullet_passes` but operating on the structured
+    field rather than regex-parsing the rendered text.
+
+    Empty `allowed_prefixes` → pass everything (noop, safe-by-default
+    for topics without curation; Invariant I5).
+    Empty `node_key` → pass (defensive — we never drop an item we can't
+    classify).
+    """
+    if not allowed_prefixes:
+        return True
+    key_clean = str(node_key or "").strip().lower()
+    if not key_clean:
+        return True
+    article_key = f"art:{key_clean}"
+    return any(
+        article_key.startswith(prefix) or article_key == prefix
+        for prefix in allowed_prefixes
+    )
+
+
+def _legal_anchor_topic_for_request(request: PipelineCRequest) -> str | None:
+    """Resolve the primary topic for allowlist lookup.
+
+    Mirrors `answer_topic_gate.filter_template_bullets`'s expectation
+    that the topic comes from `request.topic` (the router's effective
+    topic). Returns None when the request has no resolved topic — gate
+    becomes noop in that case.
+    """
+    topic = getattr(request, "topic", None)
+    if isinstance(topic, str) and topic.strip():
+        return topic.strip()
+    return None
+
+
 def build_legal_anchor_lines(
     *,
     request: PipelineCRequest,
     primary_articles: tuple[GraphEvidenceItem, ...],
     connected_articles: tuple[GraphEvidenceItem, ...],
 ) -> tuple[str, ...]:
+    """Render the legal-anchor block; optionally filter by topic-allowlist.
+
+    fix_v14_may §3 — `LIA_LEGAL_ANCHOR_GATE_MODE` (shadow|enforce|off)
+    controls a topic-aware filter that drops items whose `node_key`
+    falls outside the primary topic's `allowed_prefixes` in
+    `config/topic_norm_allowlist.json`. Shadow mode emits diagnostics
+    via the existing trace step but does not reorder; enforce filters
+    before render. Both modes are noop for topics without an allowlist
+    entry (safe-by-default; Invariant I5).
+    """
     lines: list[str] = []
     normalized_message = normalize_text(request.message)
     query_tokens = anchor_query_tokens(normalized_message)
+
+    # fix_v14_may §3 — resolve gate mode + topic-allowlist entry once.
+    gate_mode = _legal_anchor_gate_mode()
+    primary_topic = _legal_anchor_topic_for_request(request)
+    topic_entry = (
+        _legal_anchor_topic_entry(primary_topic)
+        if (gate_mode != "off" and primary_topic)
+        else None
+    )
+    allowed_prefixes: tuple[str, ...] = ()
+    if topic_entry is not None:
+        allowed_prefixes = tuple(topic_entry.get("allowed_prefixes") or ())
+
+    dropped_in_shadow: list[str] = []
+    kept_count = 0
+    dropped_count = 0
+
+    def _gate_decision(item: GraphEvidenceItem) -> bool:
+        """Return True to keep the item, False to drop. Always True when
+        the gate is disabled or the topic has no allowlist (noop).
+        Records into the shadow / counters in the enclosing scope.
+        """
+        nonlocal kept_count, dropped_count
+        if gate_mode == "off" or not allowed_prefixes:
+            kept_count += 1
+            return True
+        if _legal_anchor_node_key_passes(str(item.node_key), allowed_prefixes):
+            kept_count += 1
+            return True
+        dropped_count += 1
+        # Cap the shadow sample to keep diagnostics PII-safe and bounded.
+        if len(dropped_in_shadow) < 8:
+            dropped_in_shadow.append(
+                f"{item.node_key} — {clean_title(item.title)[:80]}"
+            )
+        # In shadow mode we record but do NOT actually drop.
+        return gate_mode != "enforce"
+
     for item in primary_articles[:5]:
+        if not _gate_decision(item):
+            continue
         append_unique(lines, f"Art. {item.node_key} — {clean_title(item.title)}")
     for item in connected_articles[:2]:
         if not should_surface_connected_anchor(
@@ -195,7 +322,27 @@ def build_legal_anchor_lines(
             query_tokens=query_tokens,
         ):
             continue
+        if not _gate_decision(item):
+            continue
         append_unique(lines, f"Art. {item.node_key} — {clean_title(item.title)}")
+
+    # Best-effort trace emission — falls back to silent no-op if the
+    # tracer is unavailable in the current import context.
+    try:
+        from tracers_and_logs import pipeline_trace as _trace
+        _trace.step(
+            "synthesis.legal_anchor_gate.applied",
+            status="ok",
+            gate_mode=gate_mode,
+            primary_topic=primary_topic,
+            allowed_prefix_count=len(allowed_prefixes),
+            kept_count=kept_count,
+            dropped_count=dropped_count,
+            dropped_keys_sample=dropped_in_shadow,
+        )
+    except Exception:  # pragma: no cover — never break synthesis on trace failure
+        pass
+
     return tuple(lines)
 
 

@@ -1,0 +1,1282 @@
+{
+  "qid": "pr_ica_multimunicipio_v1",
+  "topic_key_expected": "ica",
+  "profile": "practica_v1",
+  "message": "Mi cliente factura en 4 ciudades distintas (Bogotá, Medellín, Cali, Barranquilla) sin establecimientos físicos permanentes en todas. ¿Cómo determino la base gravable de ICA en cada municipio para evitar doble pago, qué tarifa aplico en cada ciudad, cómo presento las declaraciones territoriales y qué soportes guardo de la facturación por jurisdicción?",
+  "http_status": 200,
+  "latency_ms": 25406,
+  "captured_utc": "2026-05-13T18:17:27.108853+00:00",
+  "response": {
+    "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+    "run_id": "pd_643fa85f949a40fbb4f289f0112f05a2",
+    "answer_markdown": "**Recomendaciones Prácticas**\n\n*   Para evitar doble tributación, es clave identificar el municipio donde se genera el ingreso. Esto se logra asignando los ingresos a la jurisdicción donde se presta el servicio o se realiza la venta, incluso si no hay establecimiento físico.\n*   Mantén un registro detallado de la facturación por cada jurisdicción. Esto es fundamental para la correcta asignación de ingresos y para soportar las declaraciones ante las autoridades municipales.\n*   Verifica las tarifas específicas de ICA en Bogotá, Medellín, Cali y Barranquilla, ya que estas varían por municipio y por actividad económica. La aplicación de la tarifa incorrecta puede generar sanciones o pagos en exceso.\n\n**Procedimiento Sugerido**\n\n*   **Acumulación y Validación de Ingresos:** Extrae del sistema contable los ingresos del período (bimestre o año, según corresponda) para cada una de las ciudades donde tu cliente factura (Bogotá, Medellín, Cali, Barranquilla). (Art. paso-a-paso-pr-ctico-declaraci-n-de-ica-en-cualquier-ciudad)\n*   **Determinación de la Base Gravable:** Asigna los ingresos a cada municipio según el lugar donde se prestó el servicio o se entregó el bien. Esto es crucial para evitar la doble tributación y para cumplir con la territorialidad del ICA.\n*   **Aplicación de Tarifas:** Una vez determinada la base gravable por municipio, aplica la tarifa de ICA vigente para la actividad económica de tu cliente en cada una de las ciudades.\n*   **Presentación de Declaraciones:** Presenta las declaraciones de ICA de forma independiente en cada municipio, utilizando los formularios y siguiendo los plazos establecidos por cada administración tributaria local.\n\n**Precauciones**\n\n*   La falta de soportes claros sobre la asignación de ingresos por jurisdicción puede llevar a controversias con las administraciones municipales y a posibles sanciones.\n*   Asegúrate de que la actividad económica declarada en cada municipio corresponda con la actividad real y con la tarifa aplicada, para evitar inconsistencias.\n*   El incumplimiento en la presentación de las declaraciones o el pago del ICA en cada jurisdicción puede acarrear sanciones por extemporaneidad e intereses moratorios.\n\n**Soportes**\n\n*   Guarda los balances y mayores auxiliares de ingresos que demuestren la acumulación y validación de los ingresos por período. (Art. paso-a-paso-pr-ctico-declaraci-n-de-ica-en-cualquier-ciudad)\n*   Conserva la facturación detallada que permita identificar el origen geográfico de cada ingreso, es decir, a qué municipio corresponde la venta o prestación del servicio.\n*   Mantén un archivo de las declaraciones de ICA presentadas en cada municipio y los respectivos comprobantes de pago.\n\n**Anclaje Legal**\n\n*   La territorialidad del ICA es un eje crítico para contadores que asesoran PYMEs que operan en múltiples ciudades. (Art. 1-norma-base)\n*   La documentación comprobatoria es fundamental para evitar sanciones. (Art. 260-11)",
+    "answer_concise": "**Recomendaciones Prácticas**\n\n*   Para evitar doble tributación, es clave identificar el municipio donde se genera el ingreso. Esto se logra asignando los ingresos a la jurisdicción donde se presta el servicio o se realiza la venta, incluso si no hay establecimiento físico.\n*   Mantén un registro detallado de la facturación por cada jurisdicción. Esto es fundamental para la correcta asignación de ingresos y para soportar las declaraciones ante las autoridades municipales.\n*   Verifica las tarifas específicas de ICA en Bogotá, Medellín, Cali y Barranquilla, ya que estas varían por municipio y por actividad económica. La aplicación de la tarifa incorrecta puede generar sanciones o pagos en exceso.\n\n**Procedimiento Sugerido**\n\n*   **Acumulación y Validación de Ingresos:** Extrae del sistema contable los ingresos del período (bimestre o año, según corresponda) para cada una de las ciudades donde tu cliente factura (Bogotá, Medellín, Cali, Barranquilla). (Art. paso-a-paso-pr-ctico-declaraci-n-de-ica-en-cualquier-ciudad)\n*   **Determinación de la Base Gravable:** Asigna los ingresos a cada municipio según el lugar donde se prestó el servicio o se entregó el bien. Esto es crucial para evitar la doble tributación y para cumplir con la territorialidad del ICA.\n*   **Aplicación de Tarifas:** Una vez determinada la base gravable por municipio, aplica la tarifa de ICA vigente para la actividad económica de tu cliente en cada una de las ciudades.\n*   **Presentación de Declaraciones:** Presenta las declaraciones de ICA de forma independiente en cada municipio, utilizando los formularios y siguiendo los plazos establecidos por cada administración tributaria local.\n\n**Precauciones**\n\n*   La falta de soportes claros sobre la asignación de ingresos por jurisdicción puede llevar a controversias con las administraciones municipales y a posibles sanciones.\n*   Asegúrate de que la actividad económica declarada en cada municipio corresponda con la actividad real y con la tarifa aplicada, para evitar inconsistencias.\n*   El incumplimiento en la presentación de las declaraciones o el pago del ICA en cada jurisdicción puede acarrear sanciones por extemporaneidad e intereses moratorios.\n\n**Soportes**\n\n*   Guarda los balances y mayores auxiliares de ingresos que demuestren la acumulación y validación de los ingresos por período. (Art. paso-a-paso-pr-ctico-declaraci-n-de-ica-en-cualquier-ciudad)\n*   Conserva la facturación detallada que permita identificar el origen geográfico de cada ingreso, es decir, a qué municipio corresponde la venta o prestación del servicio.\n*   Mantén un archivo de las declaraciones de ICA presentadas en cada municipio y los respectivos comprobantes de pago.\n\n**Anclaje Legal**\n\n*   La territorialidad del ICA es un eje crítico para contadores que asesoran PYMEs que operan en múltiples ciudades. (Art. 1-norma-base)\n*   La documentación comprobatoria es fundamental para evitar sanciones. (Art. 260-11)",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-L01-guia-practica-ICA-20-ciudades-colombia.md",
+        "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-L01-guia-practica-ICA-20-ciudades-colombia.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "ica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-L01-guia-practica-ICA-20-ciudades-colombia.md",
+        "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-L01-guia-practica-ICA-20-ciudades-colombia.md",
+        "download_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-L01-guia-practica-ICA-20-ciudades-colombia.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-L01-guia-practica-ICA-20-ciudades-colombia.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "ICA L01 — Guía Práctica Integral: Impuesto de Industria y Comercio en las 20 Ciudades Princip...",
+        "legal_reference": "ICA L01 — Guía Práctica Integral: Impuesto de Industria y Comercio en las 20 Ciudades Principales de Colombia",
+        "search_query": "ICA L01 — Guía Práctica Integral: Impuesto de Industria y Comercio en las 20 Ciudades Principales de Colombia DIAN / fuente oficial colombia ICA L01 — Guía Práctica Integral: Impuesto de Industria y Comercio en las 20 Ci",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "formulario_oficial",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Aplicación de Tarifas:** Una vez determinada la base gravable por municipio, aplica la tarifa de ICA vigente para la actividad económica de tu cliente en cada una de las ciudades.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+        "logical_doc_id": "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+        "authority": "Loggro",
+        "topic": "ica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ica (Loggro)",
+        "legal_reference": "Ica (Loggro)",
+        "search_query": "Ica (Loggro) Loggro colombia ICA L01 — Guía Práctica: Impuesto de Industria y Comercio en las Principales Ciudades de Colombia",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "calendario",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "Verifica las tarifas específicas de ICA en Bogotá, Medellín, Cali y Barranquilla, ya que estas varían por municipio y por actividad económica.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-E01-interpretaciones-ICA-20-ciudades-multi-municipio.md",
+        "logical_doc_id": "to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-E01-interpretaciones-ICA-20-ciudades-multi-municipio.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "ica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-E01-interpretaciones-ICA-20-ciudades-multi-municipio.md",
+        "open_url": "/source-view?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-E01-interpretaciones-ICA-20-ciudades-multi-municipio.md",
+        "download_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-E01-interpretaciones-ICA-20-ciudades-multi-municipio.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-E01-interpretaciones-ICA-20-ciudades-multi-municipio.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "ICA E01 — Interpretaciones de Expertos: ICA en las 20 Ciudades Principales de Colombia",
+        "legal_reference": "ICA E01 — Interpretaciones de Expertos: ICA en las 20 Ciudades Principales de Colombia",
+        "search_query": "ICA E01 — Interpretaciones de Expertos: ICA en las 20 Ciudades Principales de Colombia DIAN / fuente oficial colombia ICA E01 — Interpretaciones de Expertos: ICA en las 20 Ciudades Principales de Colombia",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Aplicación de Tarifas:** Una vez determinada la base gravable por municipio, aplica la tarifa de ICA vigente para la actividad económica de tu cliente en cada una de las ciudades.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_EXPERTOS_ICA-E01-interpretaciones-ICA-RST-conflictos-territoriales.md",
+        "logical_doc_id": "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_EXPERTOS_ICA-E01-interpretaciones-ICA-RST-conflictos-territoriales.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "ica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_EXPERTOS_ICA-E01-interpretaciones-ICA-RST-conflictos-territoriales.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_EXPERTOS_ICA-E01-interpretaciones-ICA-RST-conflictos-territoriales.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_EXPERTOS_ICA-E01-interpretaciones-ICA-RST-conflictos-territoriales.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_EXPERTOS_ICA-E01-interpretaciones-ICA-RST-conflictos-territoriales.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "ICA E01 — Impuesto de Industria y Comercio: Interpretaciones de Expertos sobre RST, Conflicto...",
+        "legal_reference": "ICA E01 — Impuesto de Industria y Comercio: Interpretaciones de Expertos sobre RST, Conflictos Territoriales y Casos Problemáticos",
+        "search_query": "ICA E01 — Impuesto de Industria y Comercio: Interpretaciones de Expertos sobre RST, Conflictos Territoriales y Casos Problemáticos DIAN / fuente oficial colombia ICA E01 — Impuesto de Industria y Comercio: Interpretacion",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "interpretative_guidance",
+        "source_type": "official_secondary",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "interpretacion",
+        "source_tier": "Fuente Expertos",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Verifica las tarifas específicas de ICA en Bogotá, Medellín, Cali y Barranquilla, ya que estas varían por municipio y por actividad económica.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_NORMATIVA_ICA-N01-marco-legal-ley-14-1983-territorialidad.md",
+        "logical_doc_id": "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_NORMATIVA_ICA-N01-marco-legal-ley-14-1983-territorialidad.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "ica",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_NORMATIVA_ICA-N01-marco-legal-ley-14-1983-territorialidad.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_NORMATIVA_ICA-N01-marco-legal-ley-14-1983-territorialidad.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_NORMATIVA_ICA-N01-marco-legal-ley-14-1983-territorialidad.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_NORMATIVA_ICA-N01-marco-legal-ley-14-1983-territorialidad.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "ICA N01 — Marco Legal: Impuesto de Industria y Comercio (ICA), Ley 14 de 1983 y Territorialidad",
+        "legal_reference": "ICA N01 — Marco Legal: Impuesto de Industria y Comercio (ICA), Ley 14 de 1983 y Territorialidad",
+        "search_query": "ICA N01 — Marco Legal: Impuesto de Industria y Comercio (ICA), Ley 14 de 1983 y Territorialidad DIAN / fuente oficial colombia ICA N01 — Marco Legal: Impuesto de Industria y Comercio (ICA), Ley 14 de 1983 y Territorialid",
+        "reference_key": "ley:14:1983",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Anclaje Legal** La territorialidad del ICA es un eje crítico para contadores que asesoran PYMEs que operan en múltiples ciudades.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "## PASO A PASO PRÁCTICO — DECLARACIÓN DE ICA EN CUALQUIER CIUDAD\n### PASO 1 — ACUMULE Y VALIDE INGRESOS DEL PERÍODO\n\n**Acciones**:\n1. Extraiga del sistema contable (balances, mayores auxiliares de ingresos) los ingresos del bimestre o año g",
+      "## Alcance y Aplicabilidad\nEsta guía aplica a PYMEs que operan en las cuatro principales ciudades de Colombia y necesitan cumplir con el ICA. Cubre tarifas vigentes, períodos gravables, formularios, plazos y procedimiento de declaración par",
+      "## 1. NORMA BASE\nEste documento recopila posiciones de expertos sobre cinco ejes críticos para contadores que asesoran PYMEs operando en dos o más de las 20 ciudades principales:\n\n1. **Territorialidad del ICA**: ¿En cuál municipio se declar"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 0,
+        "connected_article_count": 0,
+        "support_document_count": 5,
+        "empty_reason": "no_explicit_article_keys_in_plan",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "no_explicit_article_keys_in_plan",
+        "seed_article_keys": [],
+        "chunk_row_count": 24,
+        "document_row_count": 9,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "computation_chain",
+        "empty_reason_hint": "el planner no pudo anclar articulos explicitos para esta consulta"
+      },
+      "pipeline_trace": {
+        "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T18:17:01.704341+00:00",
+        "total_ms": 21163.26,
+        "step_count": 40,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T18:17:01.704358+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T18:17:01.704341+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:01.704581+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.23,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 352,
+              "message_preview": "Mi cliente factura en 4 ciudades distintas (Bogotá, Medellín, Cali, Barranquilla) sin establecimientos físicos permanentes en todas. ¿Cómo determino la base gravable de ICA en cada municipio para evitar doble pago, qué tarifa aplico en cada",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:01.728195+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 23.85,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:01.728274+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 23.93,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:01.745482+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 41.13,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 352,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:03.693888+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1989.53,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "ica",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la determinación de la base gravable, tarifas y presentación de declaraciones del ICA en múltiples municipios, lo cual es el núcleo del impuesto de ICA. Aunque menciona la presentación de declaraciones (procedimient",
+              "elapsed_ms_call": 1948.42,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:03.700611+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1996.26,
+            "message": null,
+            "details": {
+              "effective_topic": "ica",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "procedimiento_tributario",
+                "facturacion_electronica"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:15.459467+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 13755.12,
+            "message": null,
+            "details": {
+              "owner_trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+              "requested_trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:15.459871+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 13755.53,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "ica",
+              "secondary_topics": [
+                "procedimiento_tributario",
+                "facturacion_electronica"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la determinación de la base gravable, tarifas y presentación de declaraciones del ICA en múltiples municipios, lo cual es el núcleo del impuesto de ICA. Aunque menciona la presentación de declaraciones (procedimiento_tributario) y soportes de facturación (facturacion_electronica), el tema principal es la mecánica del ICA en un contexto multijurisdiccional.",
+              "topic_notice": "Tu pregunta es de ica, por lo cual utilizaremos nuestra base de datos ica.",
+              "message_preview": "Mi cliente factura en 4 ciudades distintas (Bogotá, Medellín, Cali, Barranquilla) sin establecimientos físicos permanentes en todas. ¿Cómo determino la base gravable de ICA en cada municipio para evitar doble pago, qué tarifa aplico en cada",
+              "message_chars": 352
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:15.490177+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 13785.83,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:15.490737+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 13786.39,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "ica facturacion_electronica Mi cliente factura en 4 ciudades distintas (Bogotá, Medellín, Cali, Barranquilla) sin establecimientos físicos permanentes en todas. ¿Cómo determino la base gravable de ICA en cada municipio para evitar doble pag",
+              "query_text_chars": 380
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:15.491249+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 13786.91,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "ica",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "ica",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:16.635538+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 14931.19,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-L01-guia-practica-ICA-20",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principal",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-E01-interpretaciones-ICA",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-L01-guia-practica-ICA-20",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principal",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principal",
+                "to_upload_AGGRANDIZEMENT-ABRIL-2026_ICA_20_CIUDADES_ICA-E01-interpretaciones-ICA",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_EXPERTOS_ICA-E01-interpretaciones-ICA-RST-",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_EXPERTOS_ICA-E01-interpretaciones-ICA-RST-",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_NORMATIVA_ICA-N01-marco-legal-ley-14-1983-"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "practica_erp",
+                "normative_base",
+                "normative_base",
+                "practica_erp",
+                "practica_erp",
+                "normative_base",
+                "interpretative_guidance",
+                "interpretative_guidance",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 5
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:16.635826+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 14931.49,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:16.635932+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 14931.59,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:16.643475+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 14939.13,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 24,
+              "rows_out": 24,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "ica"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:16.862512+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 15158.15,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:17.297565+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 15593.2,
+            "message": null,
+            "details": {
+              "primary_count": 3,
+              "connected_count": 1,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "ica",
+              "planner_query_mode": "computation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:17.297822+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 15593.47,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                1,
+                5
+              ],
+              "after": [
+                3,
+                1,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "paso-a-paso-pr-ctico-declaraci-n-de-ica-en-cualquier-ciudad",
+                  "alcance-y-aplicabilidad",
+                  "1-norma-base",
+                  "260-11"
+                ],
+                "candidate_count": 4,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:17.297952+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 15593.61,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "ica",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "ica",
+                "articles_top_topic": "ica",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "paso-a-paso-pr-ctico-declaraci-n-de-ica-en-cualquier-ciudad",
+                  "alcance-y-aplicabilidad",
+                  "1-norma-base"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:17.298052+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 15593.71,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "ica",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:17.298144+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 15593.81,
+            "message": null,
+            "details": {
+              "query_preview": "Mi cliente factura en 4 ciudades distintas (Bogotá, Medellín, Cali, Barranquilla) sin establecimientos físicos permanentes en todas. ¿Cómo determino la base gra",
+              "topic": "ica",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:17.298312+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 15593.97,
+            "message": null,
+            "details": {
+              "query_chars": 352,
+              "query_preview": "Mi cliente factura en 4 ciudades distintas (Bogotá, Medellín, Cali, Barranquilla) sin establecimientos físicos permanentes en todas. ¿Cómo determino la base gra",
+              "topic": "ica",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "cliente | factura | ciudades | distintas | bogotá | medellín | cali | barranquilla | establecimientos | físicos | permanentes | todas | determino | base | gravable | ica | cada | municipio | evitar | ",
+              "fts_query_token_count": 31,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:17.300261+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 15595.9,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "ica",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:17.866567+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 16162.2,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 565.89,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_04-RST-REGIMEN-SIMPLE-TRIBUTACION_PRACTICA_L-RST-regimen-simple-guia-practica.md",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.074421+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16370.07,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.074849+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 16370.51,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 207.66,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.075018+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 16370.68,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                  "score": 0.042237
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_04-RST-REGIMEN-SIMPLE-TRIBUTACION_PRACTICA_L-RST-regimen-simple-guia-practica.md",
+                  "score": 0.040724
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_PARAFISCAL_ESPECIAL_LOGGRO_L01-guia-practica-contribuciones-parafiscales-especiales.md",
+                  "score": 0.03848
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.348626+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 16644.28,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 1050.35,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_04-RST-REGIMEN-SIMPLE-TRIBUTACION_PRACTICA_L-RST-regimen-simple-guia-practica.md",
+                "CORE_ya_Arriba_PARAFISCAL_ESPECIAL_LOGGRO_L01-guia-practica-contribuciones-parafiscales-especiales.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.349175+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 16644.83,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.349349+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 16645.01,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.349443+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 16645.11,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.349521+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 16645.19,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.355215+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 16650.87,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_ICA_INDUSTRIA_COMERCIO_LOGGRO_ICA-L01-guia-practica-ICA-principales-ciudades.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 1,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "No cubre: municipios menores (consultar acuerdos municipales locales), ni contribuyentes del RST (quienes no presentan I"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_04-RST-REGIMEN-SIMPLE-TRIBUTACION_PRACTICA_L-RST-regimen-simple-guia-practica.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 16,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "El ICA (Impuesto de Industria y Comercio) es un gravamen municipal. En RST, el ICA se integra en los anticipos bimestral"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_PARAFISCAL_ESPECIAL_LOGGRO_L01-guia-practica-contribuciones-parafiscales-especiales.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 89,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Institutos públicos (educativos, de salud, investigación)."
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.356432+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16652.09,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "ica",
+              "allowed_prefix_count": 15,
+              "kept_count": 0,
+              "dropped_count": 3,
+              "dropped_keys_sample": [
+                "paso-a-paso-pr-ctico-declaraci-n-de-ica-en-cualquier-ciudad — PASO A PASO PRÁCTICO — DECLARACIÓN DE ICA EN CUALQUIER CIUDAD",
+                "alcance-y-aplicabilidad — Alcance y Aplicabilidad",
+                "1-norma-base — 1. NORMA BASE"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.358526+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 16654.19,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "ica",
+              "secondary_topics": [
+                "procedimiento_tributario",
+                "facturacion_electronica"
+              ],
+              "cross_topic_allowed": [
+                "declaracion_renta",
+                "costos_deducciones_renta",
+                "regimen_simple"
+              ],
+              "allowed_prefix_count": 15,
+              "kept_count": 1,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:18.358605+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 16654.27,
+            "message": null,
+            "details": {
+              "template_chars": 249
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:22.866670+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 21162.32,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2949,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:22.867108+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 21162.77,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "ica",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T18:17:22.867392+00:00",
+            "trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 21163.05,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null,
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 51,
+        "output_tokens": 421,
+        "total_tokens": 472,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "ica",
+    "secondary_topics": [
+      "procedimiento_tributario",
+      "facturacion_electronica"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de ica, por lo cual utilizaremos nuestra base de datos ica.",
+    "topic_adjustment_reason": "La consulta se centra en la determinación de la base gravable, tarifas y presentación de declaraciones del ICA en múltiples municipios, lo cual es el núcleo del impuesto de ICA. Aunque menciona la presentación de declaraciones (procedimiento_tributario) y soportes de facturación (facturacion_electronica), el tema principal es la mecánica del ICA en un contexto multijurisdiccional.",
+    "coverage_notice": null,
+    "topic": "ica",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778696055,
+      "expires_at": 1778699655,
+      "token_id": "a8f654cdbff34a878246c0d1200e73d1"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_e91272b4adb8",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 51,
+        "output_tokens": 421,
+        "total_tokens": 472
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+      "last_run_id": "pd_643fa85f949a40fbb4f289f0112f05a2",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_e91272b4adb8",
+    "chat_run_id": "cr_20260513_181705_d8ce77d9",
+    "metrics": {
+      "latency_ms": 23494.8,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 51,
+          "output_tokens": 421,
+          "total_tokens": 472,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_e91272b4adb8",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 51,
+          "output_tokens": 421,
+          "total_tokens": 472
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "28984fa9-8feb-4372-8c48-cc3519b129de",
+        "last_run_id": "pd_643fa85f949a40fbb4f289f0112f05a2",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 4.7
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "ica",
+        "secondary_topics": [
+          "procedimiento_tributario",
+          "facturacion_electronica"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "54f5133a5bea46a1b78207a0ff98cd96"
+  }
+}

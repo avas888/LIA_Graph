@@ -261,6 +261,15 @@ def _build_retrieval_signal_check(rows: list[dict[str, Any]], run_dir: Path) -> 
     missing_trace: list[str] = []
     polish_rejected: list[str] = []
     polish_rejected_reasons: dict[str, int] = defaultdict(int)
+    # fix_v14_may §7 (A5) — instrument the legal-anchor topic-allowlist
+    # gate so the report can audit, per run, which fixes fired:
+    #   * `legal_anchor_gate_modes_seen` — counts of off/shadow/enforce
+    #   * `legal_anchor_dropped_total` — items the gate would-have or
+    #     did drop (shadow counts in shadow mode; enforce counts when
+    #     enforcing). Aggregated for trend tracking across runs.
+    legal_anchor_modes_seen: dict[str, int] = defaultdict(int)
+    legal_anchor_dropped_total = 0
+    legal_anchor_dropped_examples: list[str] = []
 
     for r in rows:
         qid = r.get("qid", "(unknown)")
@@ -293,6 +302,17 @@ def _build_retrieval_signal_check(rows: list[dict[str, Any]], run_dir: Path) -> 
                 gate_modes_seen.add(mode)
                 if mode and mode not in expected_gate_modes:
                     gate_non_expected[mode] += 1
+            # fix_v14_may §7 (A5) — surface the legal-anchor gate.
+            if name == "synthesis.legal_anchor_gate.applied":
+                gmode = str(details.get("gate_mode") or "unknown")
+                legal_anchor_modes_seen[gmode] += 1
+                dropped = int(details.get("dropped_count") or 0)
+                legal_anchor_dropped_total += dropped
+                if dropped and len(legal_anchor_dropped_examples) < 6:
+                    sample = details.get("dropped_keys_sample") or []
+                    legal_anchor_dropped_examples.append(
+                        f"{qid}: {sample[:3]}"
+                    )
         # A run with NO topic-gate trace step at all is fine (the gate
         # is wired post-template emission and a turn may bail before
         # then), so we do not report missing gate-steps here.
@@ -338,18 +358,92 @@ def _build_retrieval_signal_check(rows: list[dict[str, Any]], run_dir: Path) -> 
             f"{k}={v}" for k, v in sorted(polish_rejected_reasons.items())
         )
         sample = ", ".join(polish_rejected[:10])
+        # fix_v14_may §7 (A5) — escalation: > 30 % rejection rate is a
+        # quality signal even if the fallback recovers. Surface it as 🔴.
+        denom = len(rows) or 1
+        rej_pct = 100.0 * len(polish_rejected) / denom
+        severity = "🔴" if rej_pct >= 30.0 else "🟠"
         lines.append(
-            f"- 🟠 **Polish rejected on {len(polish_rejected)} qid(s)** "
-            f"(`polish_mode=rejected`): {sample}"
+            f"- {severity} **Polish rejected on {len(polish_rejected)} qid(s) "
+            f"({rej_pct:.1f}% of run)** (`polish_mode=rejected`): {sample}"
             f"{' …' if len(polish_rejected) > 10 else ''} — "
-            f"`polish_skip_reason` distribution: {breakdown}. The fix_v8 §3a "
-            f"substantive fallback should keep the answer useful when this "
-            f"fires; if the visible answers regressed, check the "
-            f"`polish.rejected.fallback_composed` trace step."
+            f"`polish_skip_reason` distribution: {breakdown}."
+        )
+        # Per-reason actionable hints (fix_v14_may §7 action-mapping).
+        action_hints: dict[str, str] = {
+            "invented_norm_lineage": (
+                "fix_v14_may §5 (A3) polish directive may be pushing "
+                "invention — check if the directive injection is "
+                "operating on cases without supporting evidence"
+            ),
+            "invented_periods": (
+                "same as `invented_norm_lineage` — A3 directive "
+                "interaction; verify per-turn template carries the "
+                "real period from the question"
+            ),
+            "anchors_stripped": (
+                "fix_v14_may §3 (A1) legal-anchor allowlist may be "
+                "too tight for this topic; check "
+                "`synthesis.legal_anchor_gate.applied` dropped_count "
+                "on these qids before relaxing"
+            ),
+            "empty_llm_output": (
+                "input template may be over-stripped by fix_v14_may "
+                "§4 (A2) chunk-quality heuristics OR the bullet "
+                "pipeline emitted nothing — inspect template chars"
+            ),
+            "no_adapter_available": (
+                "polish adapter unconfigured — environment issue, "
+                "not a model-quality failure"
+            ),
+            "polish_disabled_by_env": (
+                "`LIA_LLM_POLISH_ENABLED=0` in env — intentional or "
+                "drift?"
+            ),
+        }
+        action_lines = []
+        for reason, count in sorted(
+            polish_rejected_reasons.items(), key=lambda kv: -kv[1]
+        )[:3]:
+            hint = action_hints.get(reason)
+            if hint:
+                action_lines.append(f"    * `{reason}` ({count}): {hint}")
+        if action_lines:
+            lines.append(
+                "  - **Per-reason action hints** (top-3 by count):"
+            )
+            lines.extend(action_lines)
+        lines.append(
+            f"  - The fix_v8 §3a substantive fallback should keep the "
+            f"answer useful when polish rejects; if visible answers "
+            f"regressed, check the `polish.rejected.fallback_composed` "
+            f"trace step."
         )
     else:
         lines.append(
             "- ✅ No polish rejections this run (`polish_mode=rejected` count = 0)"
+        )
+    # fix_v14_may §7 (A5) — legal-anchor gate audit.
+    if legal_anchor_modes_seen:
+        modes_breakdown = ", ".join(
+            f"{k}={v}" for k, v in sorted(legal_anchor_modes_seen.items())
+        )
+        lines.append(
+            f"- ℹ️ **A1 legal-anchor gate**: mode distribution "
+            f"{modes_breakdown}; total items "
+            f"{'would-be ' if 'shadow' in legal_anchor_modes_seen else ''}"
+            f"dropped: **{legal_anchor_dropped_total}**."
+        )
+        if legal_anchor_dropped_examples:
+            lines.append(
+                "  - Sample of dropped keys (qid: top-3 node_keys): "
+                + "; ".join(legal_anchor_dropped_examples)
+            )
+    else:
+        lines.append(
+            "- ℹ️ A1 legal-anchor gate: no `synthesis.legal_anchor_gate.applied` "
+            "trace events observed — gate either disabled (`off`) or chat "
+            "did not reach the legal_anchor synthesis step on any turn."
         )
     return "\n".join(lines)
 

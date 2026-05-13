@@ -156,6 +156,31 @@ def retrieve_graph_evidence(
         delta=len(chunk_rows) - chunk_rows_before_merge,
     )
 
+    # fix_v14_may §4 (A2) — chunk-quality heuristics. Demote rows
+    # carrying corpus-build artifacts (portal-login boilerplate,
+    # cross-topic operational leaks, chunk captions, section-numeral
+    # headings, question-dominant text). Shadow by default at landing
+    # — emits diagnostic but does NOT alter rrf_score; flip
+    # `LIA_CHUNK_QUALITY_HEURISTIC_MODE=enforce` after panel-judge
+    # INCLUDE per fix_v14_may §4 decision rule.
+    from .chunk_quality_heuristics import apply_heuristics as _apply_cq_heuristics
+    _routed_topic = next(iter(getattr(plan, "topic_hints", ()) or ()), None)
+    _cq_rows_in = len(chunk_rows)
+    chunk_rows, _cq_diag = _apply_cq_heuristics(
+        chunk_rows, routed_topic=_routed_topic
+    )
+    _trace_step(
+        "retriever.chunk_quality_heuristics.applied",
+        status="ok",
+        gate_mode=_cq_diag.get("gate_mode"),
+        rows_in=_cq_rows_in,
+        rows_out=len(chunk_rows),
+        rows_demoted=_cq_diag.get("rows_demoted"),
+        reasons=_cq_diag.get("reasons"),
+        samples=_cq_diag.get("samples"),
+        routed_topic=_routed_topic,
+    )
+
     # fixplan_v3 sub-fix 1B-ε — apply the v3 vigencia gate as a post-pass.
     # Drops chunks whose anchor citation is in {DE,SP,IE,VL}; demotes
     # contested-DT (factor 0.3); annotates kept chunks with `vigencia_v3`
