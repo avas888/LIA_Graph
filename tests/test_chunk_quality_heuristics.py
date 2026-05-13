@@ -194,6 +194,50 @@ def test_drops_section_heading_dominant_chunk() -> None:
 
 
 # ---------------------------------------------------------------------------
+# fix_v14_may §16 A2 refinement — TOC-style section headings
+# ---------------------------------------------------------------------------
+
+
+def test_drops_toc_seccion_header_dominant_chunk() -> None:
+    """v14.2 refine panel case: chunk dominated by SECCIÓN N / MES YYYY
+    headers reads as corpus table-of-contents, not guidance."""
+    row = {
+        "chunk_text": (
+            "## SECCIÓN 2: CALENDARIO MENSUAL 2026\n"
+            "### ENERO 2026\n"
+            "Resumen breve."
+        ),
+        "rrf_score": 0.4,
+    }
+    penalty, reason = score_chunk_quality(row)
+    assert penalty == PENALTY_LIGHT
+    assert reason == "toc_section_heading_dominant"
+
+
+def test_drops_toc_anexo_capitulo_headers() -> None:
+    row = {
+        "chunk_text": "## ANEXO III: ALCANCE\n## CAPÍTULO IV\n",
+        "rrf_score": 0.4,
+    }
+    penalty, reason = score_chunk_quality(row)
+    assert penalty == PENALTY_LIGHT
+    assert reason == "toc_section_heading_dominant"
+
+
+def test_toc_pattern_does_not_fire_on_substantive_chunk_with_one_header() -> None:
+    """False-positive guard: a long substantive chunk that happens to
+    have ONE SECCIÓN header in it should pass (header is < 30 % of lines)."""
+    body_lines = [f"Línea {i} de contenido sustantivo del corpus." for i in range(15)]
+    row = {
+        "chunk_text": "## SECCIÓN 2: NORMATIVO\n" + "\n".join(body_lines),
+        "rrf_score": 0.5,
+    }
+    penalty, reason = score_chunk_quality(row)
+    assert penalty == 1.0
+    assert reason is None
+
+
+# ---------------------------------------------------------------------------
 # Pattern: question-dominant chunk
 # ---------------------------------------------------------------------------
 

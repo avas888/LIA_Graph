@@ -432,6 +432,118 @@ def test_polish_accepts_periods_already_in_template() -> None:
 # --- Contract 4: prompt contains real evidence --------------------------
 
 
+# ---------------------------------------------------------------------------
+# fix_v14_may §5 + §16 + §17 (A3) — DIRECTIVA NUMÉRICA, REVERTED default OFF
+#
+# A3 was REVERTED 2026-05-13 per fix_v14_may §17 after a 42-turn judge
+# panel found it introduces invented UVT/% values (one HARD hallucination
+# on pr_rst_anticipo_bimestral). Default `LIA_POLISH_NUMERIC_DIRECTIVE=off`.
+# Tests below force `=on` to exercise the helper for future A/B work
+# behind the kill switch. The default-off path is covered by
+# `test_a3_numeric_directive_off_by_default`.
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def numeric_directive_on(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LIA_POLISH_NUMERIC_DIRECTIVE", "on")
+
+
+def _capture_prompt(request: PipelineCRequest) -> str:
+    captured: dict[str, str] = {}
+
+    class _CaptureAdapter:
+        def generate(self, prompt: str) -> str:
+            captured["prompt"] = prompt
+            return _template_answer()
+
+    with patch(
+        "lia_graph.pipeline_d.answer_llm_polish.resolve_llm_adapter",
+        return_value=(_CaptureAdapter(), {"selected_provider": "x", "model": "x"}),
+    ):
+        polish_graph_native_answer(
+            request=request,
+            template_answer=_template_answer(),
+            evidence=_evidence(),
+        )
+    return captured["prompt"]
+
+
+def test_a3_numeric_directive_off_by_default(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """fix_v14_may §17 REVERT — when `LIA_POLISH_NUMERIC_DIRECTIVE` is
+    unset, the directive must NOT be injected even on a question with
+    a clear numeric cue. This is the shipped default after the
+    2026-05-13 judge found A3 introduced an invented UVT tarifa."""
+    monkeypatch.delenv("LIA_POLISH_NUMERIC_DIRECTIVE", raising=False)
+    req = PipelineCRequest(
+        message="Mi cliente PYME recibió $35 millones de dividendos; Art. 242 ET.",
+        topic="dividendos_y_distribucion_utilidades",
+        requested_topic="dividendos_y_distribucion_utilidades",
+    )
+    prompt = _capture_prompt(req)
+    assert "DIRECTIVA NUMÉRICA" not in prompt
+
+
+def test_a3_numeric_directive_fires_on_money_figure(numeric_directive_on: None) -> None:
+    req = PipelineCRequest(
+        message="Mi cliente PYME recibió $35 millones de dividendos en 2024; ¿cuánto retiene?",
+        topic="declaracion_renta",
+        requested_topic="declaracion_renta",
+    )
+    prompt = _capture_prompt(req)
+    assert "DIRECTIVA NUMÉRICA" in prompt
+    assert "cifras del cliente" in prompt
+    # Guard: directive must instruct against inventing numbers from outside
+    # the EXCERPTS — A5 telemetry showed `invented_periods` was the
+    # dominant rejection mode and this is the explicit mitigation.
+    assert "no inventes" in prompt.lower()
+
+
+def test_a3_numeric_directive_fires_on_tarifa_progressive_article(
+    numeric_directive_on: None,
+) -> None:
+    req = PipelineCRequest(
+        message="¿Cómo aplico el Art. 242 ET para dividendos a un socio persona natural?",
+        topic="dividendos_y_distribucion_utilidades",
+        requested_topic="dividendos_y_distribucion_utilidades",
+    )
+    prompt = _capture_prompt(req)
+    assert "DIRECTIVA NUMÉRICA" in prompt
+    assert "tarifa progresiva" in prompt
+    assert "rangos UVT" in prompt
+
+
+def test_a3_numeric_directive_fires_on_nit_by_digit(
+    numeric_directive_on: None,
+) -> None:
+    req = PipelineCRequest(
+        message="¿Cuándo vence renta para un NIT terminado en 5 en el AG 2024?",
+        topic="calendario_obligaciones",
+        requested_topic="calendario_obligaciones",
+    )
+    prompt = _capture_prompt(req)
+    assert "DIRECTIVA NUMÉRICA" in prompt
+    assert "calendario DIAN por dígito de NIT" in prompt
+    # Critical safety clause: when the calendar isn't in evidence, the
+    # directive must instruct abstention, not invention.
+    assert "consulta el calendario DIAN vigente" in prompt
+
+
+def test_a3_numeric_directive_does_NOT_fire_on_general_question(
+    numeric_directive_on: None,
+) -> None:
+    """Control case: even with the kill switch ON, a question without
+    any numeric cue must NOT carry the DIRECTIVA NUMÉRICA block.
+    Unconditional inclusion risked amplifying `invented_periods` per
+    the A5 telemetry; cue-gating is the explicit mitigation that
+    survives the §17 revert as the helper's internal gate."""
+    req = _request()  # "¿Cuál es el régimen de compensación de pérdidas fiscales?"
+    prompt = _capture_prompt(req)
+    assert "DIRECTIVA NUMÉRICA" not in prompt
+
+
 def test_polish_prompt_includes_primary_article_excerpts() -> None:
     """Regression guard: the prompt the adapter receives MUST include the
     retrieved article text and the user's question, not just the template.

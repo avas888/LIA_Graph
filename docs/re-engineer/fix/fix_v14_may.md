@@ -796,3 +796,100 @@ chunk-leak strings that survived A2-shadow) folds into v14.2.
 **v14.1 evidence runs** (committed alongside this plan):
 * `evals/sme_validation_v1/runs/20260513T1314_v14_1_enforce_practica/` (21 JSONs)
 * `evals/sme_validation_v1/runs/20260513T1314_v14_1_enforce_general/` (21 JSONs)
+
+
+### §16. Sprint v14.2 — A4 landed 2026-05-13
+
+**Sequencing change vs §10 plan order:** A4 ships BEFORE A3 (plan had A3 → A4).
+
+**Why A4 first:**
+
+- A5 telemetry from v14.1 panels: 15/42 turns hit polish-rejected fallback.
+- Dominant skip reasons across 32 rejection events: `invented_periods` ~20, `invented_norm_lineage` ~20.
+- Zero hits on `anchors_stripped` and `empty_llm_output`.
+- A3 DIRECTIVA NUMÉRICA risks amplifying `invented_periods` — A4 lands first as safety net so any A3-induced regressions hit a filtered fallback, not the raw render-everything path.
+
+**Code landed:**
+
+- `pipeline_d/answer_polish_rejected_fallback.py` rewritten — `compose_polish_rejected_fallback` filters every bullet through A2 + A1 in `clean` mode; legacy path preserved verbatim for one-flag rollback.
+- New env knob `LIA_POLISH_REJECTED_FALLBACK_FILTER ∈ {clean, legacy}` (default `clean`).
+- New trace step `polish.rejected.fallback_filter` (`filter_mode`, `routed_topic`, `allowed_prefix_count`, `heuristics_on`, `sections_dropped_empty`, `bullets_dropped_total`, `drop_reasons`, `evidence_chars`, `min_evidence_chars`, `outcome ∈ {substantive_fallback, honest_abstention}`).
+- Honest-abstention text fires when total appended evidence < 500 substantive chars (markdown markers stripped).
+- Launcher default added in `scripts/dev-launcher.mjs` (all three modes).
+- 17 unit tests in `tests/test_answer_polish_rejected_fallback.py`; 70/70 green across A1/A2/polish adjacent suites.
+- Docs synced: orchestration matrix + change-log + CLAUDE.md + env_guide.md.
+
+**Status:** 🛠 code + tests landed; ⏳ SME panel re-run operator-authorized per `feedback_sme_panel_explicit_request_only`. Decision rule per §6 still applies — INCLUDE / REVERT / REFINE based on the 15-turn polish-rejected sub-population.
+
+**Still pending in v14.2:**
+
+- A2 catalog refinement (portal-login + chunk-leak patterns that survived shadow → enforce in v14.1; §4 of this plan).
+- A3 polish prompt DIRECTIVA NUMÉRICA (§5 of this plan) — sequenced last as dominant `invented_periods` mitigation, with A4 as safety net.
+
+**Sprint close target:** strict pass ≥ 55 %, reject ≤ 25 % on combined 42-turn panel.
+
+**Rollback recipe (one flag flip, no redeploy):**
+
+```
+LIA_POLISH_REJECTED_FALLBACK_FILTER=legacy
+```
+
+Reverts the bullet filter + empty-section omission + honest abstention without touching the assembler or v14.1 gates.
+
+
+### §17. A3 REVERTED 2026-05-13 — judge panel verdict
+
+**42-turn Claude-as-judge run on v14.2 full (A2 + A3 + A4) vs v14.1 baseline:**
+
+| Class | v14.1 baseline | v14.2 full | Δ |
+|---|---|---|---|
+| STRONG | 4 | 5 | +1 |
+| ACCEPTABLE | 12 | 6 | −6 |
+| BORDERLINE | 5 | 9 | +4 |
+| REJECT | 21 | 22 | +1 |
+| **Strict pass** | **16/42 = 38.1 %** | **11/42 = 26.2 %** | **−11.9 pp** |
+
+**Class transitions (7 turns):**
+
+- ↑ ep_renta_deduccion_ica: ACCEPTABLE → STRONG (A3 win — explicit $24M deducibles calc)
+- ↑ pr_ica_multimunicipio: ACCEPTABLE → STRONG (natural, not A3-triggered)
+- ↓ ep_iva_regimen_responsables: ACCEPTABLE → BORDERLINE (A3 polish reject)
+- ↓ ep_rst_elegibilidad_sectores: ACCEPTABLE → BORDERLINE (A3 polish reject)
+- ↓ pr_correccion_renta_saldo_favor: **STRONG → BORDERLINE** (A3 polish reject; 2-grade drop)
+- ↓ pr_dividendos_retencion_socio: ACCEPTABLE → BORDERLINE (A3 polish reject)
+- ↓↓ **pr_rst_anticipo_bimestral: ACCEPTABLE → REJECT** (A3 introduced HARD HALLUCINATION — LLM cited "3.5 %" tarifa for Grupo 1 Art. 908 ET which does not exist in the article; real Grupo 1 rates per Ley 2277/2022 are 1.2 / 2.8 / 4.4 / 5.4 % by UVT bracket)
+
+**Decision rule (operator-amended v14.1):**
+
+> "Net improvement + zero new hallucinations = PASS. A new hallucination is the only hard fail."
+
+A3 violated both:
+
+- Net delta is −11.9 pp strict pass (regression).
+- One new invented numeric value (3.5 % tarifa) reached the user via polish=llm with no validator catch.
+
+**Verdict: REVERT A3. Hard fail per amended rule.**
+
+**Root cause:** the polish validators catch invented `norm_lineage` (laws/decrees/sentencias outside allowlist) and invented `periods` (4-digit years outside template) but DO NOT catch invented UVT ranges, percentages, or specific tarifa values. A3's prompt-engineering pushes the LLM toward numeric specificity without a structural guardrail — exactly the failure mode A5 telemetry predicted ("invented_periods dominates"). The fix is structural, not prompt-level.
+
+**Reverted:**
+
+- Kill switch `LIA_POLISH_NUMERIC_DIRECTIVE` added; default `off` across all modes; `on` only for diagnostic A/B once the v15 validator lands.
+- Helper `_build_numeric_directive` retained behind the kill switch (no code deletion — supports future A/B once the validator from `docs/re-engineer/fix/fix_v15_may.md` is in place).
+- Tests updated: `test_a3_numeric_directive_off_by_default` (verifies kill-switch default); existing A3 helper tests now force `LIA_POLISH_NUMERIC_DIRECTIVE=on` via a fixture to exercise the helper code path.
+
+**Kept from v14.2:**
+
+- A2 catalog refinement (§16 — `_TOC_SECTION_HEADING_RE`). Zero regressions on judge panel, marginal positive.
+- A4 polish-rejected fallback filter (§6 with threshold 300). Confirmed gains: 9 turns flipped honest_abstention → substantive_fallback at threshold 300 vs 500; 16 bullets dropped across the panel (all real artifacts: portal_login, question_dominant, cross_topic, case_study, topic_allowlist). Abstention rate 7.7 %, well below 30 % REVERT bar.
+
+**Sprint v14.2 ship state:** A2 + A4 land enforced. A3 reverted with kill switch. Strict pass target ≥ 55 % missed (final state ≈ baseline). Next sprint (v15) attacks the structural gap A3 surfaced — a `_no_invented_uvt_ranges` validator that catches the failure mode at the polish-validator layer instead of the prompt layer. See `docs/re-engineer/fix/fix_v15_may.md`.
+
+**Rollback recipe** (one flag flip, no redeploy):
+
+```
+LIA_POLISH_REJECTED_FALLBACK_FILTER=legacy   # rolls back A4
+LIA_CHUNK_QUALITY_HEURISTIC_MODE=off         # rolls back A2
+```
+
+A3 already reverted; toggling `LIA_POLISH_NUMERIC_DIRECTIVE=on` is the FORWARD path (re-enable for A/B), not a rollback.

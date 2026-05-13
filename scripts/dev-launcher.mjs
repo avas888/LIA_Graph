@@ -464,6 +464,20 @@ function buildRuntimeEnv(mode) {
     env.LIA_CHUNK_QUALITY_HEURISTIC_MODE = "enforce";
   }
 
+  // fix_v14_may §6 (A4) — polish-rejected fallback bullet filter.
+  // `clean` mode runs every bullet through the A2 chunk-quality
+  // heuristics + the A1 topic-allowlist before render, omits empty
+  // sections, and emits an honest-abstention text when surviving
+  // evidence is < 500 substantive chars. v14.1 telemetry showed
+  // 15/42 turns hit the fallback path and most leaked chunk
+  // artifacts to the user — `clean` mode is the v14.2 fix.
+  // Rollback: `LIA_POLISH_REJECTED_FALLBACK_FILTER=legacy` reverts
+  // to the fix_v8 §3a render-everything behavior without touching
+  // the fallback assembler.
+  if (!String(env.LIA_POLISH_REJECTED_FALLBACK_FILTER || "").trim()) {
+    env.LIA_POLISH_REJECTED_FALLBACK_FILTER = "clean";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

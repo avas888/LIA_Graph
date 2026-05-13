@@ -1,0 +1,1778 @@
+{
+  "qid": "pr_nomina_liquidacion_pila_v1",
+  "topic_key_expected": "laboral",
+  "profile": "practica_v1",
+  "message": "Liquido la nómina mensual de un empleado con salario $4.500.000 en 2026. ¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente? ¿Qué pago en PILA y qué casillas uso?",
+  "http_status": 200,
+  "latency_ms": 80383,
+  "captured_utc": "2026-05-13T20:47:34.326118+00:00",
+  "response": {
+    "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+    "run_id": "pd_e6071f16a4cf4686b6878eb068217363",
+    "answer_markdown": "**Respuestas directas**\n- **¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n- **¿Qué pago en PILA y qué casillas uso?**\n  - \"Medidas para el uso adecuado de la tercerización y la intermediación laboral\" Cambios principales introducidos por Ley **2466**.\n\n**Recomendaciones Prácticas**\n\n**Recomendaciones Prácticas**\n- SMLMV 2026: $1.750.905 COP | Auxilio de transporte: $249.095 COP.\n- SMLMV 2026: $1.750.905 COP | Auxilio de transporte 2026: $249.095 COP.\n- Descripción: La jornada nocturna comienza a las 7:00 p.m. (no a las 10:00 p.m. como antes) y se extiende hasta las 6:00 a.m. Todo trabajo en este horario genera un recargo del 35% sobre el salario ordinario.\n\n**Anclaje legal**\n- Art. 127-132 — Definición de salario\n- Art. 186 — DERECHO AL DESCANSO REMUNERADO",
+    "answer_concise": "**Respuestas directas**\n- **¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente?**\n  - Cobertura pendiente para esta sub-pregunta; valida el expediente antes de cerrarla con el cliente.\n- **¿Qué pago en PILA y qué casillas uso?**\n  - \"Medidas para el uso adecuado de la tercerización y la intermediación laboral\" Cambios principales introducidos por Ley **2466**.\n\n**Recomendaciones Prácticas**\n\n**Recomendaciones Prácticas**\n- SMLMV 2026: $1.750.905 COP | Auxilio de transporte: $249.095 COP.\n- SMLMV 2026: $1.750.905 COP | Auxilio de transporte 2026: $249.095 COP.\n- Descripción: La jornada nocturna comienza a las 7:00 p.m. (no a las 10:00 p.m. como antes) y se extiende hasta las 6:00 a.m. Todo trabajo en este horario genera un recargo del 35% sobre el salario ordinario.\n\n**Anclaje legal**\n- Art. 127-132 — Definición de salario\n- Art. 186 — DERECHO AL DESCANSO REMUNERADO",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+        "logical_doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+        "authority": "Loggro",
+        "topic": "laboral",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Laboral (Loggro)",
+        "legal_reference": "Laboral (Loggro)",
+        "search_query": "Laboral (Loggro) Loggro colombia NOM L01 — Guía Práctica: Liquidación de Nómina y PILA 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**¿Qué pago en PILA y qué casillas uso?** \"Medidas para el uso adecuado de la tercerización y la intermediación laboral\" Cambios principales introducidos por Ley **2466**.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+        "logical_doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+        "authority": "Loggro",
+        "topic": "laboral",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Laboral (Loggro)",
+        "legal_reference": "Laboral (Loggro)",
+        "search_query": "Laboral (Loggro) Loggro colombia TPR L01 — Guía Práctica: Contratación de Trabajadores a Tiempo Parcial y por Horas en PYMEs — 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**¿Qué pago en PILA y qué casillas uso?** \"Medidas para el uso adecuado de la tercerización y la intermediación laboral\" Cambios principales introducidos por Ley **2466**.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-prestaciones-seguridad-social.md",
+        "logical_doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-prestaciones-seguridad-social.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "laboral",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-prestaciones-seguridad-social.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-prestaciones-seguridad-social.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-prestaciones-seguridad-social.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-prestaciones-seguridad-social.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "NOM N01 — Marco Legal: Nómina, Prestaciones Sociales y Seguridad Social",
+        "legal_reference": "NOM N01 — Marco Legal: Nómina, Prestaciones Sociales y Seguridad Social",
+        "search_query": "NOM N01 — Marco Legal: Nómina, Prestaciones Sociales y Seguridad Social DIAN / fuente oficial colombia NOM N01 — Marco Legal: Nómina, Prestaciones Sociales y Seguridad Social",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente?",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_EXPERTOS_EXPERTOS_Ley-100-1993.md",
+        "logical_doc_id": "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_EXPERTOS_EXPERTOS_Ley-100-1993.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "laboral",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_EXPERTOS_EXPERTOS_Ley-100-1993.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_EXPERTOS_EXPERTOS_Ley-100-1993.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_EXPERTOS_EXPERTOS_Ley-100-1993.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_EXPERTOS_EXPERTOS_Ley-100-1993.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Ley 100 de 1993 — Sistema de seguridad social integral: Interpretaciones",
+        "legal_reference": "Ley 100 de 1993 — Sistema de seguridad social integral: Interpretaciones",
+        "search_query": "Ley 100 de 1993 — Sistema de seguridad social integral: Interpretaciones DIAN / fuente oficial colombia Ley 100 de 1993 — Sistema de seguridad social integral: Interpretaciones",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "**Respuestas directas** **¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente?",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+        "logical_doc_id": "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+        "authority": "Loggro",
+        "topic": "laboral",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Laboral (Loggro)",
+        "legal_reference": "Laboral (Loggro)",
+        "search_query": "Laboral (Loggro) Loggro colombia REF L01 — Guía Práctica: Implementación de la Reforma Laboral (Ley 2466/2025) en PYMEs",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**¿Qué pago en PILA y qué casillas uso?** \"Medidas para el uso adecuado de la tercerización y la intermediación laboral\" Cambios principales introducidos por Ley **2466**.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md",
+        "logical_doc_id": "to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md",
+        "authority": "Loggro",
+        "topic": "laboral",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md",
+        "open_url": "/source-view?doc_id=to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md",
+        "download_url": "/source-download?doc_id=to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Laboral (Loggro)",
+        "legal_reference": "Laboral (Loggro)",
+        "search_query": "Laboral (Loggro) Loggro colombia TPR L02 — Guía Práctica: Pago y Formalización del Trabajo Doméstico Remunerado por Días — 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "practica_erp",
+        "source_type": "guia_operativa",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "practica",
+        "source_tier": "Fuente Loggro",
+        "source_provider": "Fuente Loggro",
+        "source_provider_url": null,
+        "usage_context": "**¿Qué pago en PILA y qué casillas uso?** \"Medidas para el uso adecuado de la tercerización y la intermediación laboral\" Cambios principales introducidos por Ley **2466**.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "El salario ordinario es la remuneración ordinaria, fija o variable, pagada al trabajador por su trabajo. El salario integral debe cumplir:\n\nPara trabajador que devengue 10 o más salarios mínimos mensuales vigentes, el empleador y trabajador",
+      "**Nombre de la disposición (conceptual):** \"Medidas para el uso adecuado de la tercerización y la intermediación laboral\"\n\n**Cambios principales introducidos por Ley 2466:**\n\n1. **Limitación del alcance de tercerización:** Solo pueden terci",
+      "**Texto vigente completo**:\n\n\"Todo trabajador tiene derecho a que anualmente se le conceda un período mínimo de descanso remunerado de quince (15) días hábiles, que puede ser disfrutado por el trabajador en los términos que convengan con su"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 3,
+        "connected_article_count": 4,
+        "support_document_count": 7,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "127-132",
+          "16-19",
+          "186"
+        ],
+        "chunk_row_count": 24,
+        "document_row_count": 12,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "general_graph_research"
+      },
+      "pipeline_trace": {
+        "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T20:46:13.944309+00:00",
+        "total_ms": 69998.82,
+        "step_count": 62,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T20:46:13.944316+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T20:46:13.944309+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:13.944989+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.68,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 272,
+              "message_preview": "Liquido la nómina mensual de un empleado con salario $4.500.000 en 2026. ¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente? ¿Qué ",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:13.945184+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 0.87,
+            "message": null,
+            "details": {
+              "effective_topic": "laboral",
+              "confidence": 0.98,
+              "reason": "rule:laboral matched subtopic_override:laboral",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.140476+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 5196.16,
+            "message": null,
+            "details": {
+              "owner_trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+              "requested_trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.140731+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 5196.42,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "laboral",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:laboral matched subtopic_override:laboral",
+              "topic_notice": "Tu pregunta es de laboral, por lo cual utilizaremos nuestra base de datos laboral.",
+              "message_preview": "Liquido la nómina mensual de un empleado con salario $4.500.000 en 2026. ¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente? ¿Qué ",
+              "message_chars": 272
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.140912+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "decomposer.fanout",
+            "status": "info",
+            "elapsed_ms": 5196.6,
+            "message": null,
+            "details": {
+              "fanout_count": 2,
+              "sub_queries": [
+                "¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente?",
+                "¿Qué pago en PILA y qué casillas uso?"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.141004+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 5196.69,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 161,
+              "message_preview": "¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.160729+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 5216.42,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.160917+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 5216.61,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.160974+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 5216.66,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.176246+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 5231.93,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "laboral",
+              "top_score": 17,
+              "confidence": 0.55,
+              "ranked_top_3": [
+                [
+                  "laboral",
+                  17
+                ],
+                [
+                  "parafiscales_seguridad_social",
+                  13
+                ],
+                [
+                  "retencion_fuente_general",
+                  8
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.176364+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 5232.05,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "sub_query": "¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente?",
+              "effective_topic": "laboral",
+              "secondary_topics": [],
+              "confidence": 0.55,
+              "mode": "fallback",
+              "reason": "fallback:auto_detected_from_keywords",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.192186+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 5247.87,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "plan_query_mode": "computation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.192283+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 5247.97,
+            "message": null,
+            "details": {
+              "plan_query_mode": "computation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "laboral parafiscales_seguridad_social retencion_fuente_general ¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, ICBF, Caja), provisiones de prestaciones sociales y retención en la fuente?",
+              "query_text_chars": 224
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:19.193396+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 5249.08,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "laboral",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "laboral",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:21.372021+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 7427.68,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-",
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-pres",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_EXPERTOS_EXPERTOS_Ley-100-1993.md:",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-lab",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N02-parafiscales-exoneracio",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-pres",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_NORMATIVA_Ley-100-1993.md::12",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_EXPERTOS_REF-E01-interpretaciones-reform"
+              ],
+              "top_chunk_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "normative_base",
+                "normative_base",
+                "practica_erp",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "interpretative_guidance"
+              ],
+              "practica_count_in_top_20": 8
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:21.373250+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 7428.93,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:21.373468+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 7429.16,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:21.389512+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 7445.19,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 24,
+              "rows_out": 24,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "laboral"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:21.593358+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 7649.04,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 23,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 23,
+              "chunks_dropped": 1,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.017413+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 22073.09,
+            "message": null,
+            "details": {
+              "sub_query_index": 0,
+              "primary_count": 3,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 23,
+                "chunks_dropped": 1,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.017732+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 22073.43,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 37,
+              "message_preview": "¿Qué pago en PILA y qué casillas uso?",
+              "runtime_config_path": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.039440+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 22095.13,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.040504+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 22096.2,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.040800+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.skipped",
+            "status": "info",
+            "elapsed_ms": 22096.49,
+            "message": "LLM path skipped — runtime_config_path missing or _should_attempt_llm=False.",
+            "details": {
+              "runtime_config_path_present": false,
+              "should_attempt_llm": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.058661+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.keyword_fallback",
+            "status": "fallback",
+            "elapsed_ms": 22114.35,
+            "message": "LLM path skipped/failed AND no requested_topic; auto-detecting from keyword scores.",
+            "details": {
+              "effective_topic": "laboral",
+              "top_score": 3,
+              "confidence": 0.36,
+              "ranked_top_3": [
+                [
+                  "laboral",
+                  3
+                ],
+                [
+                  "parafiscales_seguridad_social",
+                  3
+                ]
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.059097+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.subquery_resolved",
+            "status": "ok",
+            "elapsed_ms": 22114.79,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "sub_query": "¿Qué pago en PILA y qué casillas uso?",
+              "effective_topic": "laboral",
+              "secondary_topics": [],
+              "confidence": 0.36,
+              "mode": "fallback",
+              "reason": "fallback:auto_detected_from_keywords",
+              "topic_adjusted": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.074060+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.subquery_built",
+            "status": "ok",
+            "elapsed_ms": 22129.75,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "plan_query_mode": "general_graph_research",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.075422+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 22131.12,
+            "message": null,
+            "details": {
+              "plan_query_mode": "general_graph_research",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "laboral parafiscales_seguridad_social ¿Qué pago en PILA y qué casillas uso?",
+              "query_text_chars": 75
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.076320+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 22132.02,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "laboral",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "laboral",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.684372+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 22740.04,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N01-marco-legal-nomina-pres",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N02-parafiscales-exoneracio",
+                "to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-",
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N02-parafiscales-exoneracio",
+                "to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-"
+              ],
+              "top_chunk_classes": [
+                "practica_erp",
+                "normative_base",
+                "normative_base",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "normative_base",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "practica_count_in_top_20": 8
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.684921+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 22740.61,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.685237+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 22740.93,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.698713+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 22754.38,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 24,
+              "rows_out": 24,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "laboral"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:46:36.856419+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 22912.1,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:17.891117+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.subquery_evidence",
+            "status": "ok",
+            "elapsed_ms": 63946.81,
+            "message": null,
+            "details": {
+              "sub_query_index": 1,
+              "primary_count": 3,
+              "connected_count": 4,
+              "support_count": 4,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:17.891617+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 63947.32,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                3,
+                5,
+                7
+              ],
+              "after": [
+                3,
+                5,
+                7
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "127-132",
+                  "16-19",
+                  "186",
+                  "4",
+                  "1",
+                  "110",
+                  "158",
+                  "159"
+                ],
+                "candidate_count": 8,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:17.930586+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 63986.29,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "laboral",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "laboral",
+                "articles_top_topic": "laboral",
+                "router_score_on_articles": 7,
+                "top_score_on_articles": 7,
+                "ranked_article_topics": [
+                  [
+                    "laboral",
+                    7
+                  ],
+                  [
+                    "reforma_laboral_ley_2466",
+                    3
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:17.973370+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 64029.09,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "laboral",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": true,
+              "fanout_any_coherent": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:17.973569+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 64029.29,
+            "message": null,
+            "details": {
+              "query_preview": "Liquido la nómina mensual de un empleado con salario $4.500.000 en 2026. ¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, I",
+              "topic": "laboral",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:17.973740+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 64029.46,
+            "message": null,
+            "details": {
+              "query_chars": 272,
+              "query_preview": "Liquido la nómina mensual de un empleado con salario $4.500.000 en 2026. ¿Cómo calculo paso a paso seguridad social (salud, pensión, ARL), parafiscales (SENA, I",
+              "topic": "laboral",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "liquido | nómina | mensual | empleado | salario | 500 | 000 | 2026 | calculo | paso | seguridad | social | salud | pensión | arl | parafiscales | sena | icbf | caja | provisiones | prestaciones | soci",
+              "fts_query_token_count": 28,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:17.974110+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 64029.83,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "laboral",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.477954+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 64533.66,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 503.76,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+                "to_upload_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L02-guia-practica-trabajo-domestico-remunerado-por-dias.md",
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                "CORE_ya_Arriba_REFORMA_LABORAL_LEY_2466_LOGGRO_REF-L01-guia-practica-reforma-laboral-ley-2466-implementacion-PYME.md",
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.630673+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 64686.39,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.631416+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 64687.13,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 153.09,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.632179+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 64687.89,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+                  "score": 0.042237
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                  "score": 0.041841
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                  "score": 0.041841
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.768830+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 64824.54,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 795.09,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.769160+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 64824.88,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.769263+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 64824.98,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.769344+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 64825.06,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.769422+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 64825.14,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "computation_chain",
+              "sub_question_count": 2,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.777271+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 64832.97,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-nomina-PILA-2026.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 2,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "SMLMV 2026: $1.750.905 COP | Auxilio de transporte: $249.095 COP."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_LOGGRO_TPR-L01-guia-practica-contratacion-tiempo-parcial-PYME.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 2,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "SMLMV 2026: $1.750.905 COP | Auxilio de transporte 2026: $249.095 COP."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Reforma_Laboral_Ley_2466_Practica_LOGGRO_lab_practica_reforma_laboral.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 161,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Descripción: La jornada nocturna comienza a las 7:00 p.m. (no a las 10:00 p.m. como antes) y se extiende hasta las 6:00 "
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.778115+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 64833.83,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "laboral",
+              "allowed_prefix_count": 30,
+              "kept_count": 2,
+              "dropped_count": 2,
+              "dropped_keys_sample": [
+                "16-19 — Nuevo Capítulo sobre Uso Adecuado de Tercerización",
+                "4 — 1. DEFINICIÓN Y CÁLCULO"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.779342+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 64835.06,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "laboral",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "parafiscales_seguridad_social",
+                "retencion_fuente_general",
+                "reforma_pensional"
+              ],
+              "allowed_prefix_count": 30,
+              "kept_count": 4,
+              "dropped_count": 3,
+              "dropped_excerpts": [
+                "1. SMLMV 2026: $1.750.905 COP | Auxilio de transporte: $249.095 COP (arts. 1 y 4 ET).",
+                "2. SMLMV 2026: $1.750.905 COP | Auxilio de transporte 2026: $249.095 COP (arts. 1 y 4 ET).",
+                "3. Descripción: La jornada nocturna comienza a las 7:00 p.m. (no a las 10:00 p.m. como antes) y se extiende hasta las 6:"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:18.779397+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 64835.12,
+            "message": null,
+            "details": {
+              "template_chars": 500
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:23.941257+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "info",
+            "elapsed_ms": 69996.96,
+            "message": null,
+            "details": {
+              "mode": "rejected",
+              "skip_reason": "invented_norm_lineage",
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 504,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:23.941923+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_filter",
+            "status": "ok",
+            "elapsed_ms": 69997.63,
+            "message": null,
+            "details": {
+              "filter_mode": "clean",
+              "routed_topic": "laboral",
+              "allowed_prefix_count": 30,
+              "heuristics_on": true,
+              "sections_dropped_empty": [],
+              "bullets_dropped_total": 0,
+              "drop_reasons": {},
+              "evidence_chars": 388,
+              "min_evidence_chars": 300,
+              "outcome": "substantive_fallback",
+              "sections_rendered": 2
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:23.942095+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.fallback_composed",
+            "status": "ok",
+            "elapsed_ms": 69997.81,
+            "message": null,
+            "details": {
+              "polish_skip_reason": "invented_norm_lineage",
+              "template_chars": 504,
+              "fallback_chars": 987,
+              "fallback_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:23.942366+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 69998.08,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "laboral",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "parafiscales_seguridad_social",
+                "retencion_fuente_general",
+                "reforma_pensional"
+              ],
+              "allowed_prefix_count": 30,
+              "kept_count": 9,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:23.942500+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.rejected.gate_applied",
+            "status": "ok",
+            "elapsed_ms": 69998.22,
+            "message": null,
+            "details": {
+              "primary_topic": "laboral",
+              "gate_mode": "applied",
+              "dropped_count": 0,
+              "kept_count": 9
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:23.942808+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 69998.52,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "laboral",
+              "citations_in": 7,
+              "citations_out": 6,
+              "dropped_count": 1,
+              "dropped_by_allowlist": [
+                {
+                  "article": "114",
+                  "family": "DIAN_/_FUENTE_OFICIAL",
+                  "topic": "laboral",
+                  "reason": "not_in_allow_list",
+                  "legal_reference": "NOM N02 — Parafiscales, Exoneración Art. 114 1 ET y Jornada Laboral"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T20:47:23.942943+00:00",
+            "trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 69998.66,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 3,
+              "citations_emitted": 6
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "rejected",
+      "polish_skip_reason": "invented_norm_lineage",
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 43,
+        "output_tokens": 151,
+        "total_tokens": 194,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "laboral",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de laboral, por lo cual utilizaremos nuestra base de datos laboral.",
+    "topic_adjustment_reason": "rule:laboral matched subtopic_override:laboral",
+    "coverage_notice": null,
+    "topic": "laboral",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778705173,
+      "expires_at": 1778708773,
+      "token_id": "fd97cfde785944aeb760dc42733f8746"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_1fb6ee82365e",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 43,
+        "output_tokens": 151,
+        "total_tokens": 194
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+      "last_run_id": "pd_e6071f16a4cf4686b6878eb068217363",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_1fb6ee82365e",
+    "chat_run_id": "cr_20260513_204614_b9e7183c",
+    "metrics": {
+      "latency_ms": 73821.37,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 43,
+          "output_tokens": 151,
+          "total_tokens": 194,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_1fb6ee82365e",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 43,
+          "output_tokens": 151,
+          "total_tokens": 194
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "766f9def-a2c8-45e8-b4fa-5bda60997ef8",
+        "last_run_id": "pd_e6071f16a4cf4686b6878eb068217363",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 2,
+        "mentions_unique": 2,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 2,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 3.0
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "laboral",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "4b9fec3507124cec872262929b571d9e"
+  }
+}

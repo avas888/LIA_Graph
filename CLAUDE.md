@@ -89,7 +89,7 @@ the same topology as staging/prod.
 - `evals/` — retrieval/gold benchmarks.
 - `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
 
-## Runtime Read Path (Env v2026-05-13-fix-v14-1-anchor-gate-and-cq-heuristics)
+## Runtime Read Path (Env v2026-05-13-fix-v14-2-ship)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -138,6 +138,12 @@ Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_bac
 
 - **`LIA_LEGAL_ANCHOR_GATE_MODE=enforce`** (§3) — flipped from `shadow` after sprint v14.1 panel-judge (operator-amended decision rule: net improvement + zero new hallucinations). Topic-allowlist filter applied to `build_legal_anchor_lines` output; drops items whose `art:<num>` form is not in the primary topic's `allowed_prefixes` from `config/topic_norm_allowlist.json`. v14.1 measurement: 41/42 turns gate fired, 41 items dropped, 0 new hallucinations in 3 regressed turns. Rollback: `=shadow` (runs but does not alter output) or `=off`.
 - **`LIA_CHUNK_QUALITY_HEURISTIC_MODE=enforce`** (§4) — flipped from `shadow`. Unified heuristics in `pipeline_d/chunk_quality_heuristics.py` demote chunk rows carrying corpus-build artifacts (portal-login boilerplate, cross-topic operational leaks, captions, section-heading numerals). Floored at 0.1 per Invariant I5. Rollback: `=shadow` or `=off`.
+
+**fix_v14_may §§4-§6 + §16 (2026-05-13) — sprint v14.2 polish-rejected fallback + catalog + numeric directive:**
+
+- **`LIA_POLISH_REJECTED_FALLBACK_FILTER=clean`** (§6 A4) — default `clean` across all three modes. `pipeline_d/answer_polish_rejected_fallback.py::compose_polish_rejected_fallback` filters every bullet through A2 chunk-quality + A1 topic-allowlist before render, omits empty sections, and returns an honest-abstention text appended to the question-echo header when total appended evidence is < 300 substantive chars (refined from 500 after v14.2 first run hit 50 % abstention vs 30 % REVERT bar; post-refine: 8.7 %). Trace step `polish.rejected.fallback_filter` carries `filter_mode`, `routed_topic`, `bullets_dropped_total`, `drop_reasons`, `evidence_chars`, `outcome ∈ {substantive_fallback, honest_abstention}`. Rollback: `LIA_POLISH_REJECTED_FALLBACK_FILTER=legacy`.
+- **A2 catalog refinement (§16, no new flag)** — `chunk_quality_heuristics.py` gains `_TOC_SECTION_HEADING_RE` for table-of-contents-style chunk headers (`## SECCIÓN N:`, `### ENERO 2026`, `## ANEXO III`). New reason `toc_section_heading_dominant` with PENALTY_LIGHT. Closes the corpus-scaffolding leaks observed in v14.2 refine panel chunks.
+- **A3 conditional DIRECTIVA NUMÉRICA — REVERTED 2026-05-13 per §17.** Default `LIA_POLISH_NUMERIC_DIRECTIVE=off`. The 42-turn judge panel measured strict pass 38.1 % → 26.2 % (−11.9 pp) and one hard hallucination (invented Grupo 1 tarifa 3.5 % for Art. 908 on `pr_rst_anticipo_bimestral`). Polish validators do not catch invented UVT/% — only invented years — so the prompt-engineering approach cannot be made safe without a structural validator. Helper code + cue-gating retained behind the kill switch for diagnostic A/B against the validator-based approach planned in `docs/re-engineer/fix/fix_v15_may.md`. Re-enable via `LIA_POLISH_NUMERIC_DIRECTIVE=on` ONLY after the `_no_invented_uvt_ranges` validator lands.
 
 **Ingest-pipeline knobs (next_v3 phases 2a/2b/2c):**
 
@@ -266,6 +272,7 @@ Facade implementation modules (edit the narrow one that owns the behavior):
 
 ## Non-Negotiables
 
+- **No text walls in docs.** Every doc / change-log / banner / fix-plan entry is bullets, lists, or tables — never multi-sentence prose paragraphs. Lead each entry with a 1-line headline, then `-`-bulleted sub-points (≤ 2 short sentences each). Tables for "what / why / rollback" trios; code blocks for rollback recipes. Applies to CLAUDE.md, `docs/orchestration/orchestration.md`, `docs/guide/env_guide.md`, `docs/re-engineer/fix/*.md`, `docs/aa_next/*.md`, and every other markdown file in the repo.
 - Keep docs, code, and the `/orchestration` HTML map (`frontend/src/app/orchestration/shell.ts`, `frontend/src/features/orchestration/orchestrationApp.ts`) aligned.
 - Prefer focused module edits over monolithic rewrites. Make changes in the narrowest module that owns the behavior.
 - If architecture changes, update `docs/orchestration/orchestration.md` (including the versioned env matrix) **in the same task** as the code change.

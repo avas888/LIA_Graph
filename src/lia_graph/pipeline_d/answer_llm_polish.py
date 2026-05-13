@@ -435,6 +435,101 @@ def _no_invented_periods(template: str, polished: str) -> bool:
     return not invented
 
 
+# fix_v14_may §5 + §16 (A3) — DIRECTIVA NUMÉRICA.
+#
+# REVERTED 2026-05-13 per fix_v14_may §17 (judge panel result):
+#   * 42-turn judge measured strict pass 38.1 % → 26.2 % (−11.9 pp).
+#   * Five class regressions (4 × ACCEPTABLE→BORDERLINE, 1 × STRONG→BORDERLINE).
+#   * One HARD HALLUCINATION introduced (pr_rst_anticipo_bimestral):
+#     A3 fired on Art. 908 cue, LLM gave "3.5 %" tarifa for Grupo 1
+#     which does not exist in the article (real rates 1.2/2.8/4.4/5.4 %).
+#     Polish validators don't catch invented UVT/% — only invented years.
+#   * Operator-amended decision rule says new hallucination is hard fail.
+#
+# Helper code retained behind kill switch for future A/B against the
+# validator-based approach planned in fix_v15_may.md. Default OFF.
+# Re-enable for diagnostic A/B only via
+# `LIA_POLISH_NUMERIC_DIRECTIVE=on` AND only after the
+# `_no_invented_uvt_ranges` validator from fix_v15 lands and catches
+# the failure mode A3 introduces structurally.
+_NUMERIC_MONEY_RE = re.compile(
+    r"(?:\$\s*\d|\d[\d.,]*\s*(?:millones?|m\b|MM\b|UVT))",
+    re.IGNORECASE,
+)
+_NUMERIC_PERCENTAGE_RE = re.compile(r"\d+(?:[.,]\d+)?\s*%")
+_NUMERIC_CONTEXT_RE = re.compile(
+    r"\b(?:salario|ingresos?|antig[uü]edad|honorarios|patrimonio|utilidad|"
+    r"dividendos?|aportes?|comisi[oó]n)\b.{0,40}\d",
+    re.IGNORECASE,
+)
+_TARIFA_PROGRESSIVE_ARTICLES = (
+    re.compile(r"\bart(?:[ií]culo?)?\.?\s*242\b", re.IGNORECASE),   # dividendos
+    re.compile(r"\bart(?:[ií]culo?)?\.?\s*383\b", re.IGNORECASE),   # retención laboral
+    re.compile(r"\bart(?:[ií]culo?)?\.?\s*908\b", re.IGNORECASE),   # RST tarifas
+    re.compile(r"\bart(?:[ií]culo?)?\.?\s*241\b", re.IGNORECASE),   # tabla renta natural
+)
+_NIT_BY_DIGIT_RE = re.compile(
+    r"NIT(?:\s+(?:terminado|acabado))?\s+(?:en|que\s+termina\s+en)\s+\d",
+    re.IGNORECASE,
+)
+
+
+_NUMERIC_DIRECTIVE_ENV = "LIA_POLISH_NUMERIC_DIRECTIVE"
+
+
+def _numeric_directive_enabled() -> bool:
+    """Kill switch for the A3 DIRECTIVA NUMÉRICA. Default OFF after the
+    2026-05-13 judge panel showed A3 introduces invented UVT/% values
+    that the polish validators don't catch (fix_v14_may §17). Re-enable
+    only for diagnostic A/B once a `_no_invented_uvt_ranges` validator
+    lands per fix_v15_may.md."""
+    raw = str(os.getenv(_NUMERIC_DIRECTIVE_ENV, "off") or "").strip().lower()
+    return raw in {"on", "1", "true", "yes", "enforce"}
+
+
+def _build_numeric_directive(question_text: str) -> str:
+    """Return the DIRECTIVA NUMÉRICA block to splice into the primary
+    directive, or empty string when (a) the kill switch is OFF (default
+    after fix_v14_may §17 revert), or (b) no numeric cue is present in
+    the question.
+    """
+    if not _numeric_directive_enabled():
+        return ""
+    if not question_text:
+        return ""
+    cues: list[str] = []
+    if _NUMERIC_MONEY_RE.search(question_text) or _NUMERIC_CONTEXT_RE.search(question_text):
+        cues.append("cifras del cliente")
+    if _NUMERIC_PERCENTAGE_RE.search(question_text):
+        cues.append("porcentaje en la pregunta")
+    if any(rx.search(question_text) for rx in _TARIFA_PROGRESSIVE_ARTICLES):
+        cues.append("artículo con tarifa progresiva")
+    if _NIT_BY_DIGIT_RE.search(question_text):
+        cues.append("calendario DIAN por dígito de NIT")
+    if not cues:
+        return ""
+    return (
+        "\n"
+        "0.5) DIRECTIVA NUMÉRICA — la pregunta del usuario anclá "
+        "cues numéricos (" + ", ".join(cues) + "). Obedecé esto:\n"
+        "   * Si la pregunta menciona una cifra del cliente (monto en "
+        "pesos, porcentaje, salario, ingresos, antigüedad), presentá "
+        "el cálculo numérico explícito que conteste la pregunta. "
+        "USÁ ÚNICAMENTE las cifras que ya están en la PREGUNTA o en "
+        "los EXCERPTS — no inventes UVT, años, ni montos de afuera.\n"
+        "   * Si la pregunta menciona un artículo con tarifas "
+        "progresivas (Art. 242 ET dividendos, Art. 383 ET retención "
+        "laboral, Art. 908 ET RST, Art. 241 ET tabla renta natural), "
+        "nombrá los rangos UVT y los porcentajes concretos que estén "
+        "en los EXCERPTS de ese artículo — no parafrasees \"según la "
+        "tarifa\".\n"
+        "   * Si la pregunta pide plazos por dígito de NIT, dá los "
+        "días específicos por dígito SI el calendario está en los "
+        "EXCERPTS; si no está, decí \"consulta el calendario DIAN "
+        "vigente\" en vez de inventar fechas.\n"
+    )
+
+
 def _build_polish_prompt(
     *,
     request: PipelineCRequest,
@@ -511,6 +606,8 @@ def _build_polish_prompt(
         or "(ninguna — no introduzcas Leyes, Decretos, Resoluciones, Sentencias o Conceptos)"
     )
 
+    numeric_directive = _build_numeric_directive(request.message or "")
+
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
         "por encima de cualquier otra cosa:\n"
@@ -519,6 +616,7 @@ def _build_polish_prompt(
         "contador colombiano senior — claro, operativo, sin relleno, sin "
         "disclaimers. Lo que NO podés hacer es inventar contenido. "
         "Específicamente:\n"
+        f"{numeric_directive}"
         "\n"
         "0) ORDEN OBLIGATORIO de las secciones — exactamente este, de "
         "arriba hacia abajo:\n"

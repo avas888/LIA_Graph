@@ -1,7 +1,26 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-05-13-fix-v13-practica-lane`.**
-> **2026-05-13 fix_v13_may landings (today):**
+> **Env matrix version: `v2026-05-13-fix-v14-2-ship`.**
+>
+> **2026-05-13 fix_v14_may §17 — A3 REVERTED, A2 + A4 ship state:**
+>
+> - **`LIA_POLISH_NUMERIC_DIRECTIVE=off`** (new kill switch, default `off`). 42-turn judge measured strict pass 38.1 % → 26.2 % and one hard hallucination (`pr_rst_anticipo_bimestral_v1`, invented Grupo 1 tarifa 3.5 % Art. 908). Polish validators don't catch invented UVT/% — only invented years. Helper retained behind switch for A/B against the v15 validator.
+> - A2 catalog refinement (`toc_section_heading_dominant` pattern) and A4 (threshold 300 chars) confirmed clean — zero regressions, 16 chunk-artifact bullets dropped across panel.
+> - Next sprint plan: `docs/re-engineer/fix/fix_v15_may.md` (zero-agent-context) — adds `_no_invented_uvt_ranges` polish validator.
+>
+> **Predecessor `v2026-05-13-fix-v14-2-fallback-filter`:**
+>
+> **2026-05-13 fix_v14_may §6 landings (today — Sprint v14.2 A4):**
+>
+> - **`LIA_POLISH_REJECTED_FALLBACK_FILTER=clean`** (new). Default `clean` across all three modes. `pipeline_d/answer_polish_rejected_fallback.py::compose_polish_rejected_fallback` filters every bullet through A2 chunk-quality heuristics + A1 topic-allowlist before render.
+> - Sections whose surviving tuple is empty are OMITTED — no empty headers reach the user.
+> - Total appended evidence < 500 substantive chars → returns honest-abstention text appended to the question-echo header.
+> - New trace step `polish.rejected.fallback_filter` (filter mode, drop counts, drop reasons, evidence chars, outcome).
+> - 17 unit tests in `tests/test_answer_polish_rejected_fallback.py`; 70/70 green across A1/A2/polish adjacent suites.
+> - Rollback: `LIA_POLISH_REJECTED_FALLBACK_FILTER=legacy` reverts to fix_v8 §3a render-everything (no redeploy).
+> - Still pending in v14.2: A2 catalog refinement + A3 polish prompt DIRECTIVA NUMÉRICA. Combined sprint target: strict pass ≥ 55 %, reject ≤ 25 %.
+>
+> **2026-05-13 fix_v13_may landings (yesterday):**
 > - **`LIA_PRACTICA_SOURCE=supabase`** (Phase 13B+13C). Dedicated retrieval lane for `knowledge_class='practica_erp'` chunks in `src/lia_graph/practica/retriever_supabase.py`. Runs in parallel to the unified `hybrid_search` call; the top-K práctica chunks are reserved for `build_recommendations` so the **Recomendaciones Prácticas** section is fed by real operational-guidance chunks before the v12 article-derived fallback. Default `supabase` for `dev:staging` + `dev:production`; `disabled` for `npm run dev` (no filesystem fallback shipped yet — fix_v13_may §7 deferred). RPC errors surface as `practica_backend="error"` with `practica_error_kind=<class name>`; never silent fallback. `filesystem` value reserved and currently raises `NotImplementedError`.
 > - **`LIA_PRACTICA_RESERVED_SLOTS=3`** (Phase 13C). Top-K práctica chunks reserved for the section. Matches `build_recommendations`'s natural `tuple(lines[:3])` cap. Floors at 0 (disable), caps at 8.
 > - **`LIA_PRACTICA_BOOST_FACTOR=1.0`** (default flipped 2026-05-13; was `1.5` in v12). The v12 soft-boost mechanism stays wired as a one-flag rollback path; set to `1.5` in shell env to reinstate v12 behavior on top of v13 disabled.
@@ -52,7 +71,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-05-13-fix-v13-practica-lane)
+## Runtime Retrieval Flags (v2026-05-13-fix-v14-2-ship)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -74,6 +93,8 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_QUERY_EMBEDDINGS_ENABLED` | **`1`** | **`1`** | **`1`** | `pipeline_d/retriever_supabase.py::_query_embedding` — fix_v7 §3b. Default `1`: gemini-embedding-001 powers the vector half of RRF. Set `0` for emergency rollback (FTS-only). |
 | `LIA_TOPIC_GATE_MODE` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/answer_topic_gate.py` — fix_v7 §3c. Default `enforce`: drops template bullets citing norms outside the primary topic's `allowed_prefixes` BEFORE polish runs. Set `off` to disable without removing the config. |
 | `LIA_POLISH_REJECTED_FALLBACK_MODE` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/answer_polish_rejected_fallback.py` — fix_v8 §3a. Default `enforce`: when polish returns `mode=rejected`, orchestrator assembles a substantive answer from `GraphNativeAnswerParts` instead of returning the bare question-echo template; cross-topic gate re-applied to the fallback output. Set `off` for incident-rollback only. |
+| `LIA_POLISH_REJECTED_FALLBACK_FILTER` | **`clean`** | **`clean`** | **`clean`** | `pipeline_d/answer_polish_rejected_fallback.py` — fix_v14_may §6 (A4). Default `clean`: filters every bullet through A2 chunk-quality + A1 topic-allowlist before render, omits empty sections, emits honest-abstention text when total evidence < 300 substantive chars (refined from 500 on 2026-05-13). Set `legacy` to revert to fix_v8 §3a render-everything (rollback only). |
+| `LIA_POLISH_NUMERIC_DIRECTIVE` | **`off`** | **`off`** | **`off`** | `pipeline_d/answer_llm_polish.py::_build_numeric_directive` — fix_v14_may §5 + §16 (A3 REVERTED per §17). Default `off`: helper returns `""` regardless of question. Reason: 42-turn judge showed −11.9 pp strict pass and one hard hallucination (invented Grupo 1 tarifa). Helper retained behind switch for A/B once `_no_invented_uvt_ranges` (fix_v15_may.md) lands. Re-enable via `=on` ONLY after v15 validator ships. |
 | `LIA_RERANKER_ENDPOINT` | unset | unset | unset | `pipeline_d/reranker.py` — base URL of the bge-reranker-v2-m3 sidecar (`POST {url}/rerank`). Unset until the sidecar is deployed. |
 | `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 

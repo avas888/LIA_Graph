@@ -1,0 +1,1217 @@
+{
+  "qid": "ep_proc_devoluciones_riesgo_auditoria_v1",
+  "topic_key_expected": "procedimiento_tributario",
+  "profile": "expert_panel_v1",
+  "message": "Mi cliente quiere solicitar devolución de saldo a favor en renta por $180 millones. ¿Qué riesgos de auditoría post-devolución señalan los expertos y cuándo conviene más solicitar compensación con otros impuestos?",
+  "http_status": 200,
+  "latency_ms": 35133,
+  "captured_utc": "2026-05-13T19:10:34.017212+00:00",
+  "response": {
+    "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+    "run_id": "pd_a169d0cf27ca41bba5d34906b0b0a159",
+    "answer_markdown": "### Recomendaciones Prácticas\n\n1.  Verificá la existencia y exigibilidad del saldo a favor (arts. 589 y 850 ET). Asegurate de que el saldo no haya sido objeto de compensación previa o que no existan deudas tributarias pendientes que puedan afectarlo.\n2.  Antes de radicar la solicitud, revisá la declaración que originó el saldo a favor. Es crucial alinear todos los soportes, anexos y datos del contribuyente con la información declarada (arts. 589 y 850 ET).\n3.  Utilizá la siguiente matriz para cada línea de saldo identificado:\n\n    | Concepto del Saldo a Favor | Monto | Soportes Requeridos | Observaciones |\n    | :------------------------- | :---- | :------------------ | :------------ |\n    | Retenciones en la fuente   |       | Certificados de retención, extractos bancarios | Verificar que los certificados estén a nombre del contribuyente y correspondan al período. |\n    | Pagos en exceso            |       | Recibos de pago, conciliaciones bancarias | Confirmar que el pago en exceso no se deba a un error de imputación. |\n    | Otros                      |       | Documentos específicos según el origen del saldo | Asegurar la trazabilidad y validez de los soportes. |\n4.  Si el expediente está completo y cumple con todos los requisitos, tené en cuenta los términos de **50**, **30** o **20** días hábiles como referencia operativa para la devolución, según el tipo de soporte con el que se presente la solicitud (arts. 850 y 589 ET).\n5.  Considerá la opción de compensación con otros impuestos si el cliente tiene obligaciones tributarias pendientes. Esto puede agilizar el proceso y reducir el riesgo de auditoría post-devolución (art. 850 ET).\n\n### Precauciones\n\n*   No radiqués la solicitud con cifras o soportes inconsistentes, ya que esto puede generar inadmisiones o revisiones posteriores por parte de la DIAN (arts. 850 y 589 ET).\n*   Evitá mezclar una solicitud de devolución con una declaración que aún presente inconsistencias o esté pendiente de corregir (arts. 850 y 857 ET).\n*   Recordá que una corrección a favor reinicia el término de revisión de la DIAN desde la fecha de la corrección (arts. 850 y 589 ET).\n*   Un trámite incompleto o con errores puede resultar en el rechazo de la solicitud, obligando al cliente a reiniciar el proceso (arts. 850 y 859 ET).\n\n### Anclaje Legal\n\n*   **Art. 850 ET**: Regula la devolución de saldos a favor.\n*   **Art. 589 ET**: Establece el procedimiento para correcciones que disminuyan el valor a pagar o aumenten el saldo a favor.\n*   **Art. 857 ET**: Detalla las causales de rechazo e inadmisión de las solicitudes de devolución o compensación.",
+    "answer_concise": "### Recomendaciones Prácticas\n\n1.  Verificá la existencia y exigibilidad del saldo a favor (arts. 589 y 850 ET). Asegurate de que el saldo no haya sido objeto de compensación previa o que no existan deudas tributarias pendientes que puedan afectarlo.\n2.  Antes de radicar la solicitud, revisá la declaración que originó el saldo a favor. Es crucial alinear todos los soportes, anexos y datos del contribuyente con la información declarada (arts. 589 y 850 ET).\n3.  Utilizá la siguiente matriz para cada línea de saldo identificado:\n\n    | Concepto del Saldo a Favor | Monto | Soportes Requeridos | Observaciones |\n    | :------------------------- | :---- | :------------------ | :------------ |\n    | Retenciones en la fuente   |       | Certificados de retención, extractos bancarios | Verificar que los certificados estén a nombre del contribuyente y correspondan al período. |\n    | Pagos en exceso            |       | Recibos de pago, conciliaciones bancarias | Confirmar que el pago en exceso no se deba a un error de imputación. |\n    | Otros                      |       | Documentos específicos según el origen del saldo | Asegurar la trazabilidad y validez de los soportes. |\n4.  Si el expediente está completo y cumple con todos los requisitos, tené en cuenta los términos de **50**, **30** o **20** días hábiles como referencia operativa para la devolución, según el tipo de soporte con el que se presente la solicitud (arts. 850 y 589 ET).\n5.  Considerá la opción de compensación con otros impuestos si el cliente tiene obligaciones tributarias pendientes. Esto puede agilizar el proceso y reducir el riesgo de auditoría post-devolución (art. 850 ET).\n\n### Precauciones\n\n*   No radiqués la solicitud con cifras o soportes inconsistentes, ya que esto puede generar inadmisiones o revisiones posteriores por parte de la DIAN (arts. 850 y 589 ET).\n*   Evitá mezclar una solicitud de devolución con una declaración que aún presente inconsistencias o esté pendiente de corregir (arts. 850 y 857 ET).\n*   Recordá que una corrección a favor reinicia el término de revisión de la DIAN desde la fecha de la corrección (arts. 850 y 589 ET).\n*   Un trámite incompleto o con errores puede resultar en el rechazo de la solicitud, obligando al cliente a reiniciar el proceso (arts. 850 y 859 ET).\n\n### Anclaje Legal\n\n*   **Art. 850 ET**: Regula la devolución de saldos a favor.\n*   **Art. 589 ET**: Establece el procedimiento para correcciones que disminuyan el valor a pagar o aumenten el saldo a favor.\n*   **Art. 857 ET**: Detalla las causales de rechazo e inadmisión de las solicitudes de devolución o compensación.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md",
+        "logical_doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_NORMATIVA_N-DEV-devoluciones-saldos-a-favor.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LIBRO SÉPTIMO — Devoluciones, Compensaciones y Saldos a Favor (Arts. 815–865)",
+        "legal_reference": "LIBRO SÉPTIMO — Devoluciones, Compensaciones y Saldos a Favor (Arts. 815–865)",
+        "search_query": "LIBRO SÉPTIMO — Devoluciones, Compensaciones y Saldos a Favor (Arts. 815–865) DIAN / fuente oficial colombia LIBRO SÉPTIMO — Devoluciones, Compensaciones y Saldos a Favor (Arts. 815–865)",
+        "reference_key": "et",
+        "reference_type": "et",
+        "reference_detail": {
+          "locator_text": "Artículos 815 a 865",
+          "locator_kind": "articles",
+          "locator_start": "815",
+          "locator_end": "865"
+        },
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": null,
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Precauciones No radiqués la solicitud con cifras o soportes inconsistentes, ya que esto puede generar inadmisiones o revisiones posteriores por parte de la DIAN (arts. 850 y 589 ET).",
+        "usage_intents": [
+          "requisitos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "logical_doc_id": "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "iva",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-saldos-favor.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "legal_reference": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "search_query": "IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor DIAN / fuente oficial colombia IVA N02 — IVA Descontable, Proporcionalidad, Prorrateo y Saldos a Favor",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "resolucion",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recordá que una corrección a favor reinicia el término de revisión de la DIAN desde la fecha de la corrección (arts. 850 y 589 ET).",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md",
+        "logical_doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "procedimiento_tributario",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md",
+        "open_url": "/source-view?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md",
+        "download_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normativa_Base_dev_normativa_devoluciones.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "Devoluciones y Compensaciones de Saldos a Favor — Marco Normativo",
+        "legal_reference": "Devoluciones y Compensaciones de Saldos a Favor — Marco Normativo",
+        "search_query": "Devoluciones y Compensaciones de Saldos a Favor — Marco Normativo DIAN / fuente oficial colombia Devoluciones y Compensaciones de Saldos a Favor — Marco Normativo",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recordá que una corrección a favor reinicia el término de revisión de la DIAN desde la fecha de la corrección (arts. 850 y 589 ET).",
+        "usage_intents": [
+          "plazos"
+        ]
+      },
+      {
+        "doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "logical_doc_id": "to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "authority": "DIAN / fuente oficial",
+        "topic": "firmeza_declaraciones",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "open_url": "/source-view?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md",
+        "download_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=to_upload_BRECHAS-SEMANA4-ABRIL-2026_FIRMEZA_DECLARACIONES_NORMATIVA_NORMATIVA_FIR-N02-marco-legal-firmeza-AG2025-declaracion-2026.md&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "legal_reference": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "search_query": "FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026 DIAN / fuente oficial colombia FIR N02 — Marco Legal: Firmeza de las Declaraciones Tributarias — AG 2025 / Declaración 2026",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "ley",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Asegurate de que el saldo no haya sido objeto de compensación previa o que no existan deudas tributarias pendientes que puedan afectarlo.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Artículo modificado por el artículo 49 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nLos contribuyentes o responsables que liquiden saldos a favor en sus declaraciones tributarias podrán solicitar su devolución.\n\nLa Dirección de",
+      "Para corregir las declaraciones tributarias, disminuyendo el valor a pagar o aumentando el saldo a favor, se deberá presentar la respectiva declaración por el medio al cual se encuentra obligado el contribuyente, dentro del año siguiente al"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 2,
+        "connected_article_count": 4,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "850",
+          "589"
+        ],
+        "chunk_row_count": 28,
+        "document_row_count": 15,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T19:09:58.884826+00:00",
+        "total_ms": 28155.2,
+        "step_count": 36,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T19:09:58.884843+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T19:09:58.884826+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:09:58.884981+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.15,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 212,
+              "message_preview": "Mi cliente quiere solicitar devolución de saldo a favor en renta por $180 millones. ¿Qué riesgos de auditoría post-devolución señalan los expertos y cuándo conviene más solicitar compensación con otros impuestos?",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:09:58.885178+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 0.34,
+            "message": null,
+            "details": {
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "confidence": 0.98,
+              "reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:11.845691+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 12960.86,
+            "message": null,
+            "details": {
+              "owner_trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+              "requested_trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:11.846247+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 12961.42,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "devoluciones_saldos_a_favor",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+              "topic_notice": "Tu pregunta es de devoluciones saldos a favor, por lo cual utilizaremos nuestra base de datos devoluciones saldos a favor.",
+              "message_preview": "Mi cliente quiere solicitar devolución de saldo a favor en renta por $180 millones. ¿Qué riesgos de auditoría post-devolución señalan los expertos y cuándo conviene más solicitar compensación con otros impuestos?",
+              "message_chars": 212
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:11.878143+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 12993.31,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:11.878429+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 12993.61,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "devoluciones_saldos_a_favor procedimiento_tributario calendario_obligaciones declaracion_renta Articulo 850 Articulo 589 devolucion saldo a favor requisitos procedimiento dian termino solicitar devolucion saldo a favor plazos radicacion aut",
+              "query_text_chars": 782
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:11.879143+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 12994.32,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "devoluciones_saldos_a_favor",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "devoluciones_saldos_a_favor",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:14.439036+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 15554.2,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_EXPERTOS_DEV-E01-interpretaciones-devol",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Normati",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_20_Libro6_GMF.md::879",
+                "suin_1132325::235-2",
+                "CORE_ya_Arriba_IVA_COMPLETO_NORMATIVA_IVA-N02-IVA-descontable-proporcionalidad-s",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_18_Libro5_Procedimiento_P1.md::631",
+                "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_LOGGRO_DEV-L01-guia-practica-devolucion",
+                "suin_1132325::240",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_PR"
+              ],
+              "top_chunk_classes": [
+                "interpretative_guidance",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "practica_erp",
+                "normative_base",
+                "practica_erp"
+              ],
+              "practica_count_in_top_20": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:14.924122+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 16039.28,
+            "message": null,
+            "details": {
+              "anchor_row_count": 8,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:14.924750+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 16039.93,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 29,
+              "delta": 5
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:14.969400+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 16084.58,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 29,
+              "rows_out": 29,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "devoluciones_saldos_a_favor"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:15.188813+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 16303.98,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 29,
+              "rows_out": 28,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 29,
+              "chunks_kept": 28,
+              "chunks_dropped": 1,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 29,
+                "chunks_kept": 28,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:21.444245+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 22559.38,
+            "message": null,
+            "details": {
+              "primary_count": 2,
+              "connected_count": 4,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 29,
+                "chunks_kept": 28,
+                "chunks_dropped": 1,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [
+                "850",
+                "589"
+              ],
+              "tema_first_topic_key": "devoluciones_saldos_a_favor",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:21.444943+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 22560.1,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                2,
+                4,
+                5
+              ],
+              "after": [
+                2,
+                4,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "850",
+                  "589",
+                  "647-1",
+                  "855",
+                  "857",
+                  "1"
+                ],
+                "candidate_count": 6,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:21.445231+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 22560.41,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "devoluciones_saldos_a_favor",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "devoluciones_saldos_a_favor",
+                "articles_top_topic": "devoluciones_saldos_a_favor",
+                "reason": "secondary_topic_match",
+                "secondary_topic_matches": [
+                  "850"
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:21.445477+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 22560.66,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "devoluciones_saldos_a_favor",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:21.445681+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 22560.88,
+            "message": null,
+            "details": {
+              "query_preview": "Mi cliente quiere solicitar devolución de saldo a favor en renta por $180 millones. ¿Qué riesgos de auditoría post-devolución señalan los expertos y cuándo conv",
+              "topic": "devoluciones_saldos_a_favor",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:21.445827+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 22561.02,
+            "message": null,
+            "details": {
+              "query_chars": 212,
+              "query_preview": "Mi cliente quiere solicitar devolución de saldo a favor en renta por $180 millones. ¿Qué riesgos de auditoría post-devolución señalan los expertos y cuándo conv",
+              "topic": "devoluciones_saldos_a_favor",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "cliente | quiere | solicitar | devolución | saldo | favor | renta | 180 | millones | riesgos | auditoría | post-devolución | señalan | expertos | cuándo | conviene | más | compensación | otros | impue",
+              "fts_query_token_count": 20,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:21.446459+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 22561.65,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "devoluciones_saldos_a_favor",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.079475+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 23194.67,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 632.88,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Practica_LOGGRO_dev_practica_devoluciones.md",
+                "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_LOGGRO_DEV-L01-guia-practica-devoluciones-saldos-favor-cross-impuesto.md",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_PRACTICA_L-DEV-devoluciones-guia-practica.md",
+                "CORE_ya_Arriba_OBLIGACIONES_PROFESIONALES_CONTADOR_LOGGRO_L01-guia-practica-obligaciones-profesionales-contador.md",
+                "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_LOGGRO_DEV-L01-guia-practica-devoluciones-saldos-favor-cross-impuesto.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-22-saldos-a-favor-y-devoluciones.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-12-determinacion-renta-liquida-gravable.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-22-saldos-a-favor-y-devoluciones.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.294405+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 23409.59,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.294889+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 23410.08,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 215.2,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.295073+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 23410.26,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Practica_LOGGRO_dev_practica_devoluciones.md",
+                  "score": 0.030415
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_LOGGRO_DEV-L01-guia-practica-devoluciones-saldos-favor-cross-impuesto.md",
+                  "score": 0.030366
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_PRACTICA_L-DEV-devoluciones-guia-practica.md",
+                  "score": 0.029116
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.481317+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 23596.51,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 1035.51,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Practica_LOGGRO_dev_practica_devoluciones.md",
+                "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_LOGGRO_DEV-L01-guia-practica-devoluciones-saldos-favor-cross-impuesto.md",
+                "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_PRACTICA_L-DEV-devoluciones-guia-practica.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.481770+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 23596.96,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.482013+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 23597.2,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.482216+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 23597.41,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.482430+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 23597.62,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.493195+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 23608.38,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_Documents_to_branch_and_improve_Devoluciones_Saldos_Favor_Practica_LOGGRO_dev_practica_devoluciones.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 62,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Verificar que existe saldo a favor exigible."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_DEVOLUCIONES_SALDOS_FAVOR_LOGGRO_DEV-L01-guia-practica-devoluciones-saldos-favor-cross-impuesto.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 77,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Use esta matriz para cada línea de saldo identificado en Paso 1."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_NUEVOS-DATOS-BRECHAS-MARZO-2026_07-DEVOLUCIONES-SALDOS-A-FAVOR_PRACTICA_L-DEV-devoluciones-guia-practica.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 17,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Una vez identificado el saldo, tiene 3 opciones. Cada una tiene implicaciones de flujo, plazo, costo y riesgo."
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.495526+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 23610.71,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "devoluciones_saldos_a_favor",
+              "allowed_prefix_count": 21,
+              "kept_count": 3,
+              "dropped_count": 0,
+              "dropped_keys_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.500248+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 23615.44,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "devoluciones_saldos_a_favor",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "iva",
+                "declaracion_renta",
+                "procedimiento_tributario"
+              ],
+              "allowed_prefix_count": 21,
+              "kept_count": 8,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:22.500365+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 23615.56,
+            "message": null,
+            "details": {
+              "template_chars": 1028
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:27.039297+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 28154.48,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2618,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:27.039711+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 28154.91,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "devoluciones_saldos_a_favor",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:10:27.039863+00:00",
+            "trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 28155.06,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 2,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null,
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 31,
+        "output_tokens": 423,
+        "total_tokens": 454,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "devoluciones_saldos_a_favor",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de devoluciones saldos a favor, por lo cual utilizaremos nuestra base de datos devoluciones saldos a favor.",
+    "topic_adjustment_reason": "rule:devoluciones_saldos_a_favor matched subtopic_override:devoluciones_saldos_a_favor",
+    "coverage_notice": null,
+    "topic": "devoluciones_saldos_a_favor",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778699091,
+      "expires_at": 1778702691,
+      "token_id": "23317eeba0714de7a9bfa6262f6c3659"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_c90637694871",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 31,
+        "output_tokens": 423,
+        "total_tokens": 454
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+      "last_run_id": "pd_a169d0cf27ca41bba5d34906b0b0a159",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_c90637694871",
+    "chat_run_id": "cr_20260513_191000_88e716b7",
+    "metrics": {
+      "latency_ms": 31590.94,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 31,
+          "output_tokens": 423,
+          "total_tokens": 454,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_c90637694871",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 31,
+          "output_tokens": 423,
+          "total_tokens": 454
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "5c0d8c8b-4209-4518-b342-c4fca9e3967f",
+        "last_run_id": "pd_a169d0cf27ca41bba5d34906b0b0a159",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 4,
+        "mentions_unique": 4,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 4,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 12.2
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "devoluciones_saldos_a_favor",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "812dedf79fc843c6917a1e4b853609c3"
+  }
+}

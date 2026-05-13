@@ -116,6 +116,21 @@ _SECTION_HEADING_NUMERAL_RE = re.compile(
     re.MULTILINE,
 )
 
+# fix_v14_may §16 A2 catalog refinement — table-of-contents headers in
+# corpus chunks: "## SECCIÓN 2: CALENDARIO MENSUAL 2026", "### ENERO 2026",
+# "## ANEXO III", "### CAPÍTULO IV — ...". When these are the dominant
+# content (chunk is mostly TOC scaffolding), the chunk reads as navigation
+# not guidance. Verified verbatim against v14.2 refine panel chunks
+# (pr_calendario_obligaciones_pyme_v1 + ep_iva_regimen_responsables_v1).
+_TOC_SECTION_HEADING_RE = re.compile(
+    r"^\s*#{1,6}\s+"
+    r"(?:SECCI[OÓ]N|ANEXO|CAP[IÍ]TULO|PARTE|VOLUMEN|"
+    r"ENERO|FEBRERO|MARZO|ABRIL|MAYO|JUNIO|JULIO|AGOSTO|"
+    r"SEPTIEMBRE|OCTUBRE|NOVIEMBRE|DICIEMBRE)"
+    r"(?:\s+[IVX\d]+)?[:\s]",
+    re.MULTILINE,
+)
+
 # Bullet-or-paragraph that is itself a question echo (`¿…?`). When the
 # chunk_text is dominated by interrogatives, it's a section index
 # pretending to be content.
@@ -189,6 +204,15 @@ def score_chunk_quality(
         total_lines = max(1, text.count("\n") + 1)
         if len(heading_matches) / total_lines >= 0.5 and len(text) < 400:
             return PENALTY_LIGHT, "section_heading_dominant"
+
+    # fix_v14_may §16 A2 refinement — table-of-contents-style headers
+    # (SECCIÓN N, ANEXO N, MES YYYY) that dominate a short chunk are
+    # corpus navigation scaffolding, not guidance.
+    toc_matches = _TOC_SECTION_HEADING_RE.findall(text)
+    if toc_matches:
+        total_lines = max(1, text.count("\n") + 1)
+        if len(toc_matches) / total_lines >= 0.3 and len(text) < 600:
+            return PENALTY_LIGHT, "toc_section_heading_dominant"
 
     # Question-dominant text — when > 50 % of the substance is `¿…?`
     # echoes of section subtitles.

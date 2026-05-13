@@ -1,0 +1,708 @@
+{
+  "qid": "pr_parafiscales_especiales_transporte_v1",
+  "topic_key_expected": "laboral",
+  "profile": "practica_v1",
+  "message": "Una empresa de transporte de carga liquidó nómina de marzo. Debe parafiscales ordinarios (SENA, ICBF, Caja de Compensación) más contribuciones especiales del sector. ¿Cómo liquido cada concepto operativamente, en qué formulario los pago, con qué periodicidad y qué soportes guardo para defender la base ante UGPP?",
+  "http_status": 200,
+  "latency_ms": 56402,
+  "captured_utc": "2026-05-13T19:33:59.238819+00:00",
+  "response": {
+    "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+    "run_id": "pd_e66e2b9e03a0416592f746a23a556335",
+    "answer_markdown": "Evidencia insuficiente para responder con respaldo normativo en el tema **parafiscales_seguridad_social**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "answer_concise": "Evidencia insuficiente para responder con respaldo normativo en el tema **parafiscales_seguridad_social**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "followup_queries": [],
+    "citations": [],
+    "confidence": {
+      "score": 0.05,
+      "mode": "evidence_coherence_refusal"
+    },
+    "answer_mode": "topic_safety_abstention",
+    "compose_quality": 0.0,
+    "fallback_reason": "pipeline_d_coherence_zero_evidence_for_router_topic",
+    "evidence_snippets": [],
+    "diagnostics": {
+      "pipeline_trace": {
+        "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T19:33:02.837775+00:00",
+        "total_ms": 17348.0,
+        "step_count": 22,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T19:33:02.837791+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.01,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T19:33:02.837775+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:02.837965+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 0.18,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 313,
+              "message_preview": "Una empresa de transporte de carga liquidó nómina de marzo. Debe parafiscales ordinarios (SENA, ICBF, Caja de Compensación) más contribuciones especiales del sector. ¿Cómo liquido cada concepto operativamente, en qué formulario los pago, co",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:02.869442+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.miss",
+            "status": "info",
+            "elapsed_ms": 31.65,
+            "message": "Rule-based router did not produce a result; falling through to LLM/keyword path.",
+            "details": {}
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:02.869737+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.prior_topic",
+            "status": "info",
+            "elapsed_ms": 31.95,
+            "message": null,
+            "details": {
+              "prior_topic": null,
+              "conversation_state_present": false
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:02.889587+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.attempt",
+            "status": "info",
+            "elapsed_ms": 51.8,
+            "message": null,
+            "details": {
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              },
+              "requested_topic": null,
+              "message_chars": 313,
+              "threshold": 0.75,
+              "timeout_seconds": 8.0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:04.631264+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm.success",
+            "status": "ok",
+            "elapsed_ms": 1793.45,
+            "message": null,
+            "details": {
+              "llm_primary_topic": "parafiscales_seguridad_social",
+              "confidence": 0.9,
+              "threshold": 0.75,
+              "reason": "La consulta se centra en la liquidación y pago de parafiscales ordinarios y contribuciones especiales, así como la defensa de la base ante la UGPP. Esto encaja directamente con la definición de 'parafiscales_seguridad_social' que incluye ap",
+              "elapsed_ms_call": 1741.64,
+              "runtime": {
+                "selected_provider": "gemini-flash",
+                "model": "gemini-2.5-flash",
+                "selected_type": "gemini",
+                "selected_transport": "openai_compat",
+                "adapter_class": "GeminiChatAdapter",
+                "attempts": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:04.631913+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.llm_route.return",
+            "status": "ok",
+            "elapsed_ms": 1794.13,
+            "message": null,
+            "details": {
+              "effective_topic": "parafiscales_seguridad_social",
+              "confidence": 0.9,
+              "secondary_topics": [
+                "laboral",
+                "sector_transporte"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:17.825072+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 14987.29,
+            "message": null,
+            "details": {
+              "owner_trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+              "requested_trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:17.825506+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 14987.72,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "parafiscales_seguridad_social",
+              "secondary_topics": [
+                "laboral",
+                "sector_transporte"
+              ],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "La consulta se centra en la liquidación y pago de parafiscales ordinarios y contribuciones especiales, así como la defensa de la base ante la UGPP. Esto encaja directamente con la definición de 'parafiscales_seguridad_social' que incluye aportes parafiscales y seguridad social para empleadores, PILA y fiscalización UGPP. Aunque menciona nómina, el foco operativo es la liquidación y pago de los aportes, no la nómina en sí misma. El sector transporte es un detalle contextual pero no el tema principal de la operación.",
+              "topic_notice": "Tu pregunta es de parafiscales seguridad social, por lo cual utilizaremos nuestra base de datos parafiscales seguridad social.",
+              "message_preview": "Una empresa de transporte de carga liquidó nómina de marzo. Debe parafiscales ordinarios (SENA, ICBF, Caja de Compensación) más contribuciones especiales del sector. ¿Cómo liquido cada concepto operativamente, en qué formulario los pago, co",
+              "message_chars": 313
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:17.859484+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 15021.7,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": null,
+                "requested_period_source": null,
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": []
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:17.860226+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 15022.45,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "parafiscales_seguridad_social laboral Una empresa de transporte de carga liquidó nómina de marzo. Debe parafiscales ordinarios (SENA, ICBF, Caja de Compensación) más contribuciones especiales del sector. ¿Cómo liquido cada concepto operativ",
+              "query_text_chars": 351
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:17.860893+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 15023.12,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "parafiscales_seguridad_social",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "parafiscales_seguridad_social",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:19.444794+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 16607.0,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_NORMATIVA_Ley-21-1982.md::12",
+                "suin_1132325::879",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_LEYES_LABORAL_SEGURIDAD_SOCIAL_consolidado_Ley-21-1982.md::12",
+                "suin_1132325::476",
+                "CORE_ya_Arriba_TRABAJO_TIEMPO_PARCIAL_NORMATIVA_TPR-N01-marco-legal-trabajo-tiem",
+                "suin_1132325::235-2",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_LOGGRO_NOM-L01-guia-practica-liquidacion-",
+                "CORE_ya_Arriba_NOMINA_SEGURIDAD_SOCIAL_NORMATIVA_NOM-N02-parafiscales-exoneracio",
+                "suin_1132325::126-1"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "normative_base",
+                "practica_erp",
+                "normative_base",
+                "normative_base"
+              ],
+              "practica_count_in_top_20": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:19.445224+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 16607.45,
+            "message": null,
+            "details": {
+              "anchor_row_count": 0,
+              "anchor_article_keys": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:19.445547+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 16607.77,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 24,
+              "delta": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:19.490563+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 16652.78,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 24,
+              "rows_out": 24,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "parafiscales_seguridad_social"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:19.726523+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 16888.73,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:20.163710+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 17325.92,
+            "message": null,
+            "details": {
+              "primary_count": 0,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "no_explicit_article_keys_in_plan",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 24,
+                "chunks_kept": 24,
+                "chunks_dropped": 0,
+                "chunks_demoted": 0
+              },
+              "seed_article_keys": [],
+              "tema_first_topic_key": "parafiscales_seguridad_social",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:20.164424+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 17326.63,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                0,
+                5,
+                5
+              ],
+              "after": [
+                0,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "12",
+                  "879",
+                  "260-11",
+                  "476",
+                  "6-parafiscales-del-trabajador-a-tiempo-parcial"
+                ],
+                "candidate_count": 5,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:20.164570+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 17326.8,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "parafiscales_seguridad_social",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "parafiscales_seguridad_social",
+                "articles_top_topic": null,
+                "reason": "no_primary_articles"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:20.185091+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 17347.32,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": true,
+              "reason": "zero_evidence_for_router_topic",
+              "source": "no_evidence",
+              "router_topic": "parafiscales_seguridad_social",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:33:20.185650+00:00",
+            "trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.abstention",
+            "status": "fallback",
+            "elapsed_ms": 17347.88,
+            "message": "Evidence-coherence gate refused (enforce mode).",
+            "details": {
+              "refusal_reason": "zero_evidence_for_router_topic",
+              "refusal_source": "no_evidence"
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "skipped",
+      "polish_skip_reason": "topic_safety_abstention"
+    },
+    "llm_runtime": {
+      "selected_provider": null,
+      "selected_type": null,
+      "selected_transport": null,
+      "adapter_class": null,
+      "model": null,
+      "runtime_config_path": null,
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 46,
+        "output_tokens": 22,
+        "total_tokens": 68,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "parafiscales_seguridad_social",
+    "secondary_topics": [
+      "laboral",
+      "sector_transporte"
+    ],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de parafiscales seguridad social, por lo cual utilizaremos nuestra base de datos parafiscales seguridad social.",
+    "topic_adjustment_reason": "La consulta se centra en la liquidación y pago de parafiscales ordinarios y contribuciones especiales, así como la defensa de la base ante la UGPP. Esto encaja directamente con la definición de 'parafiscales_seguridad_social' que incluye aportes parafiscales y seguridad social para empleadores, PILA y fiscalización UGPP. Aunque menciona nómina, el foco operativo es la liquidación y pago de los aportes, no la nómina en sí misma. El sector transporte es un detalle contextual pero no el tema principal de la operación.",
+    "coverage_notice": "Evidencia insuficiente para responder con respaldo normativo en el tema **parafiscales_seguridad_social**. Reformula la consulta o revisa manualmente antes de responder al cliente.",
+    "topic": "parafiscales_seguridad_social",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778700678,
+      "expires_at": 1778704278,
+      "token_id": "c0b5f9519b4f4cc1b7fc36fe627d2540"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_e45367930579",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 46,
+        "output_tokens": 22,
+        "total_tokens": 68
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+      "last_run_id": "pd_e66e2b9e03a0416592f746a23a556335",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_e45367930579",
+    "chat_run_id": "cr_20260513_193305_fcc47600",
+    "metrics": {
+      "latency_ms": 36457.09,
+      "llm_runtime": {
+        "selected_provider": null,
+        "selected_type": null,
+        "selected_transport": null,
+        "adapter_class": null,
+        "model": null,
+        "runtime_config_path": null,
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 46,
+          "output_tokens": 22,
+          "total_tokens": 68,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "topic_safety_abstention",
+      "compose_quality": 0.0,
+      "fallback_reason": "pipeline_d_coherence_zero_evidence_for_router_topic",
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_e45367930579",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 46,
+          "output_tokens": 22,
+          "total_tokens": 68
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "2366d935-2ba2-44b5-a4a8-420ce86e4c22",
+        "last_run_id": "pd_e66e2b9e03a0416592f746a23a556335",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 0,
+        "mentions_unique": 0,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 0,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [],
+        "normative_scaffolding_ms": 0.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "parafiscales_seguridad_social",
+        "secondary_topics": [
+          "laboral",
+          "sector_transporte"
+        ],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "a73fde25cf604a1180bca611789f1b5d"
+  }
+}

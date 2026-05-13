@@ -1,0 +1,1263 @@
+{
+  "qid": "pr_renta_anticipo_calculo_v1",
+  "topic_key_expected": "declaracion_renta",
+  "profile": "practica_v1",
+  "message": "Mi cliente PYME pagó $35M de impuesto neto de renta en AG2024 y es contribuyente con más de 3 años de antigüedad. ¿Cómo calculo el anticipo de renta para AG2025 paso a paso, qué porcentaje aplico (25%, 50% o 75%), y cómo lo registro en el F.110?",
+  "http_status": 200,
+  "latency_ms": 72290,
+  "captured_utc": "2026-05-13T19:15:09.124191+00:00",
+  "response": {
+    "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+    "run_id": "pd_901ec57c94f34c0ea13e5598b04ae0e8",
+    "answer_markdown": "### Recomendaciones Prácticas\n\n*   Para el AG**2025**, el anticipo de renta se calcula con base en el impuesto neto de renta del AG**2024**.\n*   Dado que tu cliente tiene más de **3** años de antigüedad, el porcentaje aplicable para el anticipo del AG**2025** es del **75%**.\n*   Asegurate de registrar correctamente el valor del anticipo en el Formulario **110** en la sección correspondiente al anticipo de renta para el siguiente período.\n\n### Procedimiento Sugerido\n\n1.  **Identificar el Impuesto Neto de Renta del AG**2024****: El cliente pagó **$35.000.000** de impuesto neto de renta en el AG**2024**.\n2.  **Determinar el Porcentaje Aplicable**: Como el cliente es contribuyente con más de **3** años de antigüedad, se aplica el **75%**.\n3.  **Calcular el Anticipo**: Multiplicar el impuesto neto de renta del AG**2024** por el porcentaje aplicable: **$35.000.000** \\* **75%** = **$26.250.000**.\n4.  **Registro en el Formulario **110****: El valor de **$26.250.000** se debe consignar en la casilla de anticipo de renta para el siguiente período gravable en el Formulario **110** del AG**2024**.\n\n### Precauciones\n\n*   Verificá siempre la antigüedad del contribuyente para aplicar el porcentaje correcto del anticipo.\n*   Asegurate de usar el impuesto neto de renta del período inmediatamente anterior para el cálculo.\n*   Cualquier cambio en la normativa fiscal podría afectar el cálculo del anticipo, por lo que es clave mantenerse actualizado.\n\n### Anclaje Legal\n\n*   El cálculo del anticipo de renta se fundamenta en las disposiciones del Estatuto Tributario.\n*   Las reglas para la determinación del impuesto sobre la renta en contratos de fiducia mercantil (art. 102 ET) y la distribución de ingresos en transporte terrestre automotor (art. 102-2 ET) son ejemplos de cómo se establecen las bases para la liquidación del impuesto.\n*   La determinación de la renta bruta en contratos de renta vitalicia (art. 100 ET) y la deducibilidad de las sumas pagadas como renta vitalicia (art. 101 ET) también son parte de las normas que inciden en la base gravable.",
+    "answer_concise": "### Recomendaciones Prácticas\n\n*   Para el AG**2025**, el anticipo de renta se calcula con base en el impuesto neto de renta del AG**2024**.\n*   Dado que tu cliente tiene más de **3** años de antigüedad, el porcentaje aplicable para el anticipo del AG**2025** es del **75%**.\n*   Asegurate de registrar correctamente el valor del anticipo en el Formulario **110** en la sección correspondiente al anticipo de renta para el siguiente período.\n\n### Procedimiento Sugerido\n\n1.  **Identificar el Impuesto Neto de Renta del AG**2024****: El cliente pagó **$35.000.000** de impuesto neto de renta en el AG**2024**.\n2.  **Determinar el Porcentaje Aplicable**: Como el cliente es contribuyente con más de **3** años de antigüedad, se aplica el **75%**.\n3.  **Calcular el Anticipo**: Multiplicar el impuesto neto de renta del AG**2024** por el porcentaje aplicable: **$35.000.000** \\* **75%** = **$26.250.000**.\n4.  **Registro en el Formulario **110****: El valor de **$26.250.000** se debe consignar en la casilla de anticipo de renta para el siguiente período gravable en el Formulario **110** del AG**2024**.\n\n### Precauciones\n\n*   Verificá siempre la antigüedad del contribuyente para aplicar el porcentaje correcto del anticipo.\n*   Asegurate de usar el impuesto neto de renta del período inmediatamente anterior para el cálculo.\n*   Cualquier cambio en la normativa fiscal podría afectar el cálculo del anticipo, por lo que es clave mantenerse actualizado.\n\n### Anclaje Legal\n\n*   El cálculo del anticipo de renta se fundamenta en las disposiciones del Estatuto Tributario.\n*   Las reglas para la determinación del impuesto sobre la renta en contratos de fiducia mercantil (art. 102 ET) y la distribución de ingresos en transporte terrestre automotor (art. 102-2 ET) son ejemplos de cómo se establecen las bases para la liquidación del impuesto.\n*   La determinación de la renta bruta en contratos de renta vitalicia (art. 100 ET) y la deducibilidad de las sumas pagadas como renta vitalicia (art. 101 ET) también son parte de las normas que inciden en la base gravable.",
+    "followup_queries": [
+      "¿Quieres que traduzca esta ruta en una checklist operativa para el contador?",
+      "¿Quieres que priorice solo cambios de vigencia o solo requisitos probatorios?"
+    ],
+    "citations": [
+      {
+        "doc_id": "suin_30019323",
+        "logical_doc_id": "suin_30019323",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30019323",
+        "open_url": "/source-view?doc_id=suin_30019323",
+        "download_url": "/source-download?doc_id=suin_30019323&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30019323&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "legal_reference": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "search_query": "CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol DIAN / fuente oficial colombia CODIGO SUSTANTIVO DEL TRABAJO Colombia | SUIN Juriscol",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Para el AG**2025**, el anticipo de renta se calcula con base en el impuesto neto de renta del AG**2024**.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1132325",
+        "logical_doc_id": "suin_1132325",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1132325",
+        "open_url": "/source-view?doc_id=suin_1132325",
+        "download_url": "/source-download?doc_id=suin_1132325&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1132325&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 624 DE 1989 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 624 DE 1989 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:624:1989",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Para el AG**2025**, el anticipo de renta se calcula con base en el impuesto neto de renta del AG**2024**.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1874133",
+        "logical_doc_id": "suin_1874133",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1874133",
+        "open_url": "/source-view?doc_id=suin_1874133",
+        "download_url": "/source-download?doc_id=suin_1874133&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1874133&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "legal_reference": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "search_query": "DECRETO 2663 DE 1950 Colombia | SUIN Juriscol DIAN / fuente oficial colombia DECRETO 2663 DE 1950 Colombia | SUIN Juriscol",
+        "reference_key": "decreto:2663:1950",
+        "reference_type": "decreto",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Para el AG**2025**, el anticipo de renta se calcula con base en el impuesto neto de renta del AG**2024**.",
+        "usage_intents": null
+      },
+      {
+        "doc_id": "suin_1635955",
+        "logical_doc_id": "suin_1635955",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_1635955",
+        "open_url": "/source-view?doc_id=suin_1635955",
+        "download_url": "/source-download?doc_id=suin_1635955&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_1635955&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "legal_reference": "LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "search_query": "LEY 100 DE 1993 Colombia | SUIN Juriscol DIAN / fuente oficial colombia LEY 100 DE 1993 Colombia | SUIN Juriscol",
+        "reference_key": "ley:100:1993",
+        "reference_type": "ley",
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_norma",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "La determinación de la renta bruta en contratos de renta vitalicia (art. 100 ET) y la deducibilidad de las sumas pagadas como renta vitalicia (art. 101 ET) también son parte de las normas que inciden en la base gravable.",
+        "usage_intents": [
+          "procedimiento"
+        ]
+      },
+      {
+        "doc_id": "suin_30030361",
+        "logical_doc_id": "suin_30030361",
+        "authority": "DIAN / fuente oficial",
+        "topic": "unknown",
+        "pais": "colombia",
+        "url": null,
+        "official_url": null,
+        "source_view_url": "/source-view?doc_id=suin_30030361",
+        "open_url": "/source-view?doc_id=suin_30030361",
+        "download_url": "/source-download?doc_id=suin_30030361&view=normalized&format=pdf",
+        "download_md_url": "/source-download?doc_id=suin_30030361&view=normalized&format=md",
+        "download_original_url": null,
+        "is_local_upload": false,
+        "source_label": "SUIN stub 30030361",
+        "legal_reference": "SUIN stub 30030361",
+        "search_query": "SUIN stub 30030361 DIAN / fuente oficial colombia SUIN stub 30030361",
+        "reference_key": null,
+        "reference_type": null,
+        "reference_detail": null,
+        "knowledge_class": "normative_base",
+        "source_type": "suin_stub",
+        "cross_topic": false,
+        "topic_domains": [],
+        "primary_role": "normativa",
+        "source_tier": "Fuente Normativa",
+        "source_provider": "DIAN / fuente oficial",
+        "source_provider_url": null,
+        "usage_context": "Recomendaciones Prácticas Para el AG**2025**, el anticipo de renta se calcula con base en el impuesto neto de renta del AG**2024**.",
+        "usage_intents": null
+      }
+    ],
+    "confidence": {
+      "score": 0.82,
+      "mode": "graph_artifact_planner_v1"
+    },
+    "answer_mode": "graph_native",
+    "compose_quality": 0.82,
+    "fallback_reason": null,
+    "evidence_snippets": [
+      "*Fuente original compilada: D. 2053/74 Art. 34*\n\nEn los contratos de renta vitalicia, la renta bruta de los contratantes se determina así:\n\n1. El precio o capital que se pague por la renta vitalicia constituye renta bruta para quien lo reci",
+      "*Fuente original compilada: D. 2053/74 Art. 63*\n\nSon deducibles las sumas periódicas pagadas en el año o período gravable a título de renta vitalicia, hasta el total del reembolso del precio o capital. De allí en adelante sólo es deducible ",
+      "*Artículo modificado por el artículo 81 de la Ley 223 de 1995. El nuevo texto es el siguiente:*\n\nPara la determinación del impuesto sobre la renta en los contratos de fiducia mercantil se observarán las siguientes reglas:\n\n1. <Numeral modif"
+    ],
+    "diagnostics": {
+      "retrieval_health": {
+        "retrieval_backend": "supabase",
+        "graph_backend": "falkor_live",
+        "primary_article_count": 5,
+        "connected_article_count": 5,
+        "support_document_count": 5,
+        "empty_reason": "ok",
+        "chunks_empty_reason": "ok",
+        "graph_empty_reason": "ok",
+        "seed_article_keys": [
+          "100",
+          "101",
+          "102",
+          "102-1",
+          "102-2"
+        ],
+        "chunk_row_count": 70,
+        "document_row_count": 22,
+        "related_reform_count": 0,
+        "graph_name": "LIA_REGULATORY_GRAPH",
+        "planner_query_mode": "obligation_chain"
+      },
+      "pipeline_trace": {
+        "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+        "qid_hint": null,
+        "session_id": null,
+        "started_utc": "2026-05-13T19:13:56.835401+00:00",
+        "total_ms": 61314.71,
+        "step_count": 36,
+        "steps": [
+          {
+            "ts_utc": "2026-05-13T19:13:56.835408+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.start",
+            "status": "info",
+            "elapsed_ms": 0.0,
+            "message": null,
+            "details": {
+              "started_utc": "2026-05-13T19:13:56.835401+00:00",
+              "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:13:56.836553+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.entry",
+            "status": "info",
+            "elapsed_ms": 1.15,
+            "message": null,
+            "details": {
+              "requested_topic": null,
+              "normalized_requested": null,
+              "message_chars": 245,
+              "message_preview": "Mi cliente PYME pagó $35M de impuesto neto de renta en AG2024 y es contribuyente con más de 3 años de antigüedad. ¿Cómo calculo el anticipo de renta para AG2025 paso a paso, qué porcentaje aplico (25%, 50% o 75%), y cómo lo registro en el F",
+              "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:13:56.850773+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "topic_router.rule_route.hit",
+            "status": "ok",
+            "elapsed_ms": 15.37,
+            "message": null,
+            "details": {
+              "effective_topic": "declaracion_renta",
+              "confidence": 0.8,
+              "reason": "rule:declaracion_renta matched renta, anticipo, anticipo de renta",
+              "mode": "rule",
+              "secondary_topics": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:06.699894+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "trace.reuse",
+            "status": "info",
+            "elapsed_ms": 9864.49,
+            "message": null,
+            "details": {
+              "owner_trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+              "requested_trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:06.700386+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.entry",
+            "status": "info",
+            "elapsed_ms": 9864.99,
+            "message": null,
+            "details": {
+              "retrieval_backend": "supabase",
+              "graph_backend": "falkor_live",
+              "requested_topic": null,
+              "effective_topic": "declaracion_renta",
+              "secondary_topics": [],
+              "topic_adjusted": true,
+              "topic_adjustment_reason": "rule:declaracion_renta matched renta, anticipo, anticipo de renta",
+              "topic_notice": "Tu pregunta es de declaracion renta, por lo cual utilizaremos nuestra base de datos declaracion renta.",
+              "message_preview": "Mi cliente PYME pagó $35M de impuesto neto de renta en AG2024 y es contribuyente con más de 3 años de antigüedad. ¿Cómo calculo el anticipo de renta para AG2025 paso a paso, qué porcentaje aplico (25%, 50% o 75%), y cómo lo registro en el F",
+              "message_chars": 245
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:06.733941+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "planner.built",
+            "status": "ok",
+            "elapsed_ms": 9898.54,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "plan_anchor_count": 0,
+              "plan_subtopic_intent": null,
+              "plan_temporal_context": {
+                "consulta_date": null,
+                "operation_date": null,
+                "cutoff_date": null,
+                "cutoff_source": null,
+                "scope_mode": "current",
+                "historical_query_intent": false,
+                "requested_period_label": "AG 2024",
+                "requested_period_source": "message_ag",
+                "anchor_reform_keys": [],
+                "anchor_reform_labels": [],
+                "notes": [
+                  "Requested period resolved as AG 2024 via message_ag."
+                ]
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:06.734219+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.supabase.entry",
+            "status": "info",
+            "elapsed_ms": 9898.83,
+            "message": null,
+            "details": {
+              "plan_query_mode": "obligation_chain",
+              "anchor_article_count": 0,
+              "topic": null,
+              "sub_topic_intent": null,
+              "query_text_preview": "declaracion_renta Mi cliente PYME pagó $35M de impuesto neto de renta en AG2024 y es contribuyente con más de 3 años de antigüedad. ¿Cómo calculo el anticipo de renta para AG2025 paso a paso, qué porcentaje aplico (25%, 50% o 75%), y cómo l",
+              "query_text_chars": 263
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:06.734805+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 9899.41,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_topic": null,
+              "boost_topic": "declaracion_renta",
+              "filter_topic_boost": 1.5,
+              "boost_knowledge_class": null,
+              "knowledge_class_boost": null,
+              "filter_subtopic": null,
+              "subtopic_boost": null,
+              "filter_effective_date_max": null,
+              "fts_query_present": true,
+              "sub_topic_intent": null,
+              "router_topic": "declaracion_renta",
+              "embedding_mode": "ok",
+              "embedding_model": "gemini-embedding-001"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:08.050152+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 11214.74,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "top_chunk_ids": [
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::260-11",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md::introd",
+                "CORE_ya_Arriba_RENTA_NORMATIVA_Normativa_09_Libro1_T1_Caps8a11.md::254",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-l",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md::16-5-r",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md::16-1-c",
+                "CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presun",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-18-beneficio-de-auditoria.md::18-10-ejemplo-",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md::notas-",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-03-uvt-y-parametros-clave.md::checklist-del-"
+              ],
+              "top_chunk_classes": [
+                "normative_base",
+                "practica_erp",
+                "normative_base",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "practica_count_in_top_20": 11
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:10.577968+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.anchor_articles",
+            "status": "ok",
+            "elapsed_ms": 13742.56,
+            "message": null,
+            "details": {
+              "anchor_row_count": 50,
+              "anchor_article_keys": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:10.578416+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.merge_anchors",
+            "status": "ok",
+            "elapsed_ms": 13743.03,
+            "message": null,
+            "details": {
+              "before": 24,
+              "after": 73,
+              "delta": 49
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:10.622208+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.chunk_quality_heuristics.applied",
+            "status": "ok",
+            "elapsed_ms": 13786.81,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "rows_in": 73,
+              "rows_out": 73,
+              "rows_demoted": 0,
+              "reasons": {},
+              "samples": [],
+              "routed_topic": "declaracion_renta"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:11.062881+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.vigencia_v3.applied",
+            "status": "ok",
+            "elapsed_ms": 14227.48,
+            "message": "vigencia_v3 status=ok",
+            "details": {
+              "rows_in": 73,
+              "rows_out": 70,
+              "rpc_kind": "at_date",
+              "rpc_payload": {
+                "as_of_date": "2026-05-13"
+              },
+              "chunks_seen": 73,
+              "chunks_kept": 70,
+              "chunks_dropped": 3,
+              "chunks_demoted": 1,
+              "full_demotion_diagnostics": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 70,
+                "chunks_dropped": 3,
+                "chunks_demoted": 1
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:53.320520+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "retriever.evidence",
+            "status": "ok",
+            "elapsed_ms": 56485.16,
+            "message": null,
+            "details": {
+              "primary_count": 5,
+              "connected_count": 5,
+              "support_count": 5,
+              "backend_diagnostics": {
+                "retrieval_backend": "supabase",
+                "graph_backend": "falkor_live"
+              },
+              "evidence_diagnostics_keys": [
+                "artifacts_dir",
+                "chunk_row_count",
+                "chunks_empty_reason",
+                "connected_article_count",
+                "document_row_count",
+                "empty_reason",
+                "graph_backend",
+                "graph_empty_reason",
+                "graph_name",
+                "planner_query_mode",
+                "primary_article_count",
+                "related_reform_count",
+                "resolved_entry_count",
+                "retrieval_backend",
+                "retrieval_sub_topic_intent",
+                "seed_article_keys",
+                "subtopic_anchor_keys",
+                "tema_first_anchor_count",
+                "tema_first_mode",
+                "tema_first_topic_key",
+                "temporal_context",
+                "vigencia_v3_demotion"
+              ],
+              "empty_reason": "ok",
+              "vigencia_v3_demotion": {
+                "status": "ok",
+                "rpc_kind": "at_date",
+                "rpc_payload": {
+                  "as_of_date": "2026-05-13"
+                },
+                "chunks_seen": 73,
+                "chunks_kept": 70,
+                "chunks_dropped": 3,
+                "chunks_demoted": 1
+              },
+              "seed_article_keys": [
+                "100",
+                "101",
+                "102",
+                "102-1",
+                "102-2"
+              ],
+              "tema_first_topic_key": "declaracion_renta",
+              "planner_query_mode": "obligation_chain"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:53.320786+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "rerank.applied",
+            "status": "ok",
+            "elapsed_ms": 56485.44,
+            "message": null,
+            "details": {
+              "mode": "live",
+              "adapter": null,
+              "before": [
+                5,
+                5,
+                5
+              ],
+              "after": [
+                5,
+                5,
+                5
+              ],
+              "reranker_diagnostics": {
+                "mode": "live",
+                "hybrid_top_keys": [
+                  "100",
+                  "101",
+                  "102",
+                  "102-1",
+                  "102-2",
+                  "207-2",
+                  "23-1",
+                  "240-1",
+                  "27",
+                  "1"
+                ],
+                "candidate_count": 10,
+                "reranker_fallback": true,
+                "reason": "endpoint_not_configured"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:53.369344+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "safety.misalignment.detect",
+            "status": "ok",
+            "elapsed_ms": 56534.0,
+            "message": null,
+            "details": {
+              "misaligned": false,
+              "kind": null,
+              "router_topic": "declaracion_renta",
+              "evidence_topic": null,
+              "details": {
+                "misaligned": false,
+                "router_topic": "declaracion_renta",
+                "articles_top_topic": "declaracion_renta",
+                "router_score_on_articles": 7,
+                "top_score_on_articles": 7,
+                "ranked_article_topics": [
+                  [
+                    "declaracion_renta",
+                    7
+                  ],
+                  [
+                    "sector_transporte",
+                    3
+                  ],
+                  [
+                    "impuesto_nacional_consumo",
+                    1
+                  ],
+                  [
+                    "costos_deducciones_renta",
+                    1
+                  ]
+                ],
+                "reason": "parent_child_compatible"
+              }
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:53.369568+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "coherence.detect",
+            "status": "ok",
+            "elapsed_ms": 56534.23,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "misaligned": false,
+              "reason": "primary_on_topic",
+              "source": "primary",
+              "router_topic": "declaracion_renta",
+              "evidence_topic_distribution": null,
+              "bypass_reason": null,
+              "fanout_evaluated": null,
+              "fanout_any_coherent": null
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:53.369672+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.in",
+            "status": "info",
+            "elapsed_ms": 56534.34,
+            "message": null,
+            "details": {
+              "query_preview": "Mi cliente PYME pagó $35M de impuesto neto de renta en AG2024 y es contribuyente con más de 3 años de antigüedad. ¿Cómo calculo el anticipo de renta para AG2025",
+              "topic": "declaracion_renta",
+              "source": "supabase"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:53.369780+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.entry",
+            "status": "info",
+            "elapsed_ms": 56534.45,
+            "message": null,
+            "details": {
+              "query_chars": 245,
+              "query_preview": "Mi cliente PYME pagó $35M de impuesto neto de renta en AG2024 y es contribuyente con más de 3 años de antigüedad. ¿Cómo calculo el anticipo de renta para AG2025",
+              "topic": "declaracion_renta",
+              "pais": "colombia",
+              "top_k": 3,
+              "fts_query": "cliente | pyme | pagó | 35m | impuesto | neto | renta | ag2024 | contribuyente | más | años | antig | edad | calculo | anticipo | ag2025 | paso | porcentaje | aplico | 25 | 50 | 75 | registro | 110",
+              "fts_query_token_count": 24,
+              "chunk_filter_present": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:53.370229+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.in",
+            "status": "info",
+            "elapsed_ms": 56534.9,
+            "message": null,
+            "details": {
+              "match_count": 24,
+              "filter_knowledge_class": "practica_erp",
+              "filter_topic": null,
+              "boost_topic": "declaracion_renta",
+              "filter_topic_boost": 1.5,
+              "fts_query_present": true,
+              "embedding_mode": "ok",
+              "embedding_dim": 768
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.289251+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.hybrid_search.out",
+            "status": "ok",
+            "elapsed_ms": 57453.91,
+            "message": null,
+            "details": {
+              "row_count": 24,
+              "elapsed_ms": 918.9,
+              "top_doc_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-legitimas.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-18-beneficio-de-auditoria.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-05-rst-vs-ordinario.md",
+                "CORE_ya_Arriba_RENTA_PRESUNTIVA_ART189_LOGGRO_RPR-L01-guia-practica-renta-presuntiva-exceso-compensacion-PYME-2026.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md"
+              ],
+              "top_knowledge_classes": [
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp",
+                "practica_erp"
+              ],
+              "non_practica_top": 0
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.596520+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.vigencia_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 57761.18,
+            "message": null,
+            "details": {
+              "chunks_in": 24,
+              "chunks_out": 24,
+              "rpc_kind": "at_date",
+              "chunks_seen": 24,
+              "chunks_kept": 24,
+              "chunks_dropped": 0,
+              "chunks_demoted": 0,
+              "gate_status": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.597018+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.quality_gate",
+            "status": "ok",
+            "elapsed_ms": 57761.68,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "rows_out": 24,
+              "dropped_count": 0,
+              "elapsed_ms": 307.28,
+              "error_kind": null,
+              "dropped_doc_id_sample": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.597231+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.group",
+            "status": "ok",
+            "elapsed_ms": 57761.89,
+            "message": null,
+            "details": {
+              "rows_in": 24,
+              "groups_out": 3,
+              "top_k": 3,
+              "top_groups": [
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                  "score": 0.046019
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md",
+                  "score": 0.041841
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-legitimas.md",
+                  "score": 0.040724
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.816359+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.retriever.exit",
+            "status": "ok",
+            "elapsed_ms": 57981.02,
+            "message": null,
+            "details": {
+              "selected_chunks": 3,
+              "elapsed_ms": 1446.57,
+              "selected_doc_ids": [
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md",
+                "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-legitimas.md"
+              ],
+              "selected_authorities": [
+                "operational_practice_authority",
+                "operational_practice_authority",
+                "operational_practice_authority"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.816872+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_retrieve.out",
+            "status": "ok",
+            "elapsed_ms": 57981.54,
+            "message": null,
+            "details": {
+              "practica_backend": "supabase",
+              "candidate_rows": 24,
+              "selected_chunks": 3,
+              "embedding_mode": "ok"
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.817178+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_quality_gate",
+            "status": "ok",
+            "elapsed_ms": 57981.83,
+            "message": null,
+            "details": {
+              "gate_dropped": 0,
+              "candidate_rows": 24,
+              "candidate_rows_after_gate": 24
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.817521+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica_merge",
+            "status": "ok",
+            "elapsed_ms": 57982.19,
+            "message": null,
+            "details": {
+              "reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.817766+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.compose_template",
+            "status": "ok",
+            "elapsed_ms": 57982.43,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "planner_query_mode": "obligation_chain",
+              "sub_question_count": 0,
+              "practica_reserved_count": 3
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.825949+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "practica.synthesis.extend",
+            "status": "ok",
+            "elapsed_ms": 57990.6,
+            "message": null,
+            "details": {
+              "chunk_count": 3,
+              "bullets_emitted": 3,
+              "per_chunk": [
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-16-anticipo-del-impuesto-de-renta.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 11,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Procedimiento 1 — Base: impuesto neto de renta del año gravable actual."
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-09-costos-y-deducciones.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 129,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Problema práctico: Confusión sobre cuándo se deduce un gasto: ¿cuando se causa (obligación nace) o cuando se paga (diner"
+                },
+                {
+                  "doc_id": "CORE_ya_Arriba_RENTA_LOGGRO_seccion-24-planeacion-tributaria-pymes-estrategias-legitimas.md",
+                  "authority": "operational_practice_authority",
+                  "candidates_found": 1,
+                  "bullets_emitted": 1,
+                  "first_bullet_preview": "Prepare el soporte. Reúna los libros de contabilidad, las facturas electrónicas y los extractos bancarios que soporten l"
+                }
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.826691+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.legal_anchor_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 57991.36,
+            "message": null,
+            "details": {
+              "gate_mode": "enforce",
+              "primary_topic": "declaracion_renta",
+              "allowed_prefix_count": 116,
+              "kept_count": 0,
+              "dropped_count": 5,
+              "dropped_keys_sample": [
+                "100 — DETERMINACIÓN DE LA RENTA BRUTA EN CONTRATOS DE RENTA VITALICIA",
+                "101 — LAS SUMAS PAGADAS COMO RENTA VITALICIA SON DEDUCIBLES",
+                "102 — CONTRATOS DE FIDUCIA MERCANTIL",
+                "102-1 — TITULARIZACIÓN",
+                "102-2 — DISTRIBUCIÓN DE LOS INGRESOS EN EL TRANSPORTE TERRESTRE AUTOMOTOR"
+              ]
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.829018+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.topic_gate.applied",
+            "status": "ok",
+            "elapsed_ms": 57993.68,
+            "message": null,
+            "details": {
+              "gate_mode": "applied",
+              "primary_topic": "declaracion_renta",
+              "secondary_topics": [],
+              "cross_topic_allowed": [
+                "costos_deducciones_renta",
+                "patrimonio_fiscal_renta",
+                "rentas_exentas",
+                "dividendos_y_distribucion_utilidades",
+                "tarifas_renta_y_ttd",
+                "procedimiento_tributario",
+                "firmeza_declaraciones",
+                "beneficio_auditoria",
+                "devoluciones_saldos_a_favor"
+              ],
+              "allowed_prefix_count": 116,
+              "kept_count": 1,
+              "dropped_count": 0,
+              "dropped_excerpts": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:54.829165+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "synthesis.template_built",
+            "status": "ok",
+            "elapsed_ms": 57993.84,
+            "message": null,
+            "details": {
+              "template_chars": 161
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:58.149130+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "polish.applied",
+            "status": "ok",
+            "elapsed_ms": 61313.79,
+            "message": null,
+            "details": {
+              "mode": "llm",
+              "skip_reason": null,
+              "adapter_class": "GeminiChatAdapter",
+              "model": "gemini-2.5-flash",
+              "selected_provider": "gemini-flash",
+              "selected_type": "gemini",
+              "selected_transport": "openai_compat",
+              "attempts_count": 0,
+              "polished_chars": 2067,
+              "polish_changed": true
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:58.149565+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "citations.allowlist",
+            "status": "ok",
+            "elapsed_ms": 61314.23,
+            "message": null,
+            "details": {
+              "mode": "enforce",
+              "topic": "declaracion_renta",
+              "citations_in": 5,
+              "citations_out": 5,
+              "dropped_count": 0,
+              "dropped_by_allowlist": []
+            }
+          },
+          {
+            "ts_utc": "2026-05-13T19:14:58.149702+00:00",
+            "trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+            "qid_hint": null,
+            "session_id": null,
+            "step": "orchestrator.exit",
+            "status": "ok",
+            "elapsed_ms": 61314.37,
+            "message": null,
+            "details": {
+              "answer_mode": "graph_native",
+              "confidence_mode": "graph_artifact_planner_v1",
+              "confidence": 0.82,
+              "primary_articles": 5,
+              "citations_emitted": 5
+            }
+          }
+        ],
+        "log_path": "/Users/ava-sensas/Developer/Lia_Graph/tracers_and_logs/logs/pipeline_trace.jsonl"
+      },
+      "polish_mode": "llm",
+      "polish_skip_reason": null,
+      "practica_backend": "supabase",
+      "practica_candidate_count": 24,
+      "practica_reserved_count": 3,
+      "practica_error_kind": null
+    },
+    "llm_runtime": {
+      "selected_provider": "gemini-flash",
+      "selected_type": "gemini",
+      "selected_transport": "openai_compat",
+      "adapter_class": "GeminiChatAdapter",
+      "model": "gemini-2.5-flash",
+      "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+      "attempts": []
+    },
+    "token_usage": {
+      "turn": {
+        "input_tokens": 47,
+        "output_tokens": 322,
+        "total_tokens": 369,
+        "source": "estimated",
+        "estimator": "whitespace_v1",
+        "raw_usage": null
+      },
+      "llm": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "source": "none",
+        "estimator": null,
+        "raw_usage": null
+      }
+    },
+    "timing": {},
+    "requested_topic": null,
+    "effective_topic": "declaracion_renta",
+    "secondary_topics": [],
+    "topic_adjusted": true,
+    "topic_notice": "Tu pregunta es de declaracion renta, por lo cual utilizaremos nuestra base de datos declaracion renta.",
+    "topic_adjustment_reason": "rule:declaracion_renta matched renta, anticipo, anticipo de renta",
+    "coverage_notice": null,
+    "topic": "declaracion_renta",
+    "pais": "colombia",
+    "pipeline_variant": "pipeline_d",
+    "pipeline_route": "pipeline_d",
+    "shadow_pipeline_variant": null,
+    "support_citations": [],
+    "actor_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "role": "public_visitor",
+      "allowed_company_ids": [],
+      "active_company_id": "",
+      "integration_id": "lia_public",
+      "host_session_id": "None",
+      "external_user_id": "None",
+      "claims_source": "lia_access_token",
+      "issued_at": 1778699636,
+      "expires_at": 1778703236,
+      "token_id": "938d09ea2a2b42f5bb961db64069a012"
+    },
+    "billing_context": {
+      "tenant_id": "public_anon",
+      "user_id": "pub_9b059d70fd4caae1",
+      "company_id": null,
+      "integration_id": "lia_public",
+      "endpoint": "/api/chat",
+      "billable": false
+    },
+    "session": {
+      "session_id": "chat_50fb2b4f696c",
+      "turn_count": 1,
+      "token_usage_total": {
+        "input_tokens": 47,
+        "output_tokens": 322,
+        "total_tokens": 369
+      },
+      "llm_token_usage_total": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0
+      },
+      "last_trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+      "last_run_id": "pd_901ec57c94f34c0ea13e5598b04ae0e8",
+      "updated_at": null,
+      "pending": true
+    },
+    "session_id": "chat_50fb2b4f696c",
+    "chat_run_id": "cr_20260513_191358_3db28692",
+    "metrics": {
+      "latency_ms": 66369.07,
+      "llm_runtime": {
+        "selected_provider": "gemini-flash",
+        "selected_type": "gemini",
+        "selected_transport": "openai_compat",
+        "adapter_class": "GeminiChatAdapter",
+        "model": "gemini-2.5-flash",
+        "runtime_config_path": "/Users/ava-sensas/Developer/Lia_Graph/config/llm_runtime.json",
+        "attempts": []
+      },
+      "token_usage": {
+        "turn": {
+          "input_tokens": 47,
+          "output_tokens": 322,
+          "total_tokens": 369,
+          "source": "estimated",
+          "estimator": "whitespace_v1",
+          "raw_usage": null
+        },
+        "llm": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0,
+          "source": "none",
+          "estimator": null,
+          "raw_usage": null
+        }
+      },
+      "timing": {},
+      "answer_mode": "graph_native",
+      "compose_quality": 0.82,
+      "fallback_reason": null,
+      "pipeline_variant": "pipeline_d",
+      "pipeline_route": "pipeline_d",
+      "shadow_pipeline_variant": null,
+      "conversation": {
+        "session_id": "chat_50fb2b4f696c",
+        "turn_count": 1,
+        "token_usage_total": {
+          "input_tokens": 47,
+          "output_tokens": 322,
+          "total_tokens": 369
+        },
+        "llm_token_usage_total": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "total_tokens": 0
+        },
+        "last_trace_id": "cec30a79-f1dc-44ce-a279-e01ef7e68b81",
+        "last_run_id": "pd_901ec57c94f34c0ea13e5598b04ae0e8",
+        "updated_at": null,
+        "pending": true
+      },
+      "mention_resolution": {
+        "mentions_detected": 5,
+        "mentions_unique": 5,
+        "mentions_already_covered": 0,
+        "mentions_resolved_to_doc": 0,
+        "mentions_unresolved": 5,
+        "resolved_reference_keys": [],
+        "unresolved_reference_keys": [
+          "formulario:110",
+          "et",
+          "et",
+          "et",
+          "et"
+        ],
+        "normative_scaffolding_ms": 7.8
+      },
+      "primary_scope_mode": "global_overlay",
+      "primary_overlay": {},
+      "topic_routing": {
+        "requested_topic": null,
+        "effective_topic": "declaracion_renta",
+        "secondary_topics": [],
+        "topic_adjusted": true
+      }
+    },
+    "persistence_job_id": "35a051a59ed44aa29e62a704954982d4"
+  }
+}
