@@ -46,7 +46,32 @@ The launcher (`scripts/dev-launcher.mjs`) owns the per-mode env flags — **do n
 
 `make supabase-start` / `supabase-stop` / `supabase-reset` / `supabase-status`. After a fresh `db reset`, run `PYTHONPATH=src:. uv run python scripts/seed_local_passwords.py` (every `@lia.dev` user → password `Test123!`).
 
-For full local↔cloud parity of the **canonical-norms catalog** (`norms`, `norm_vigencia_history`, `norm_citations`, `sub_topic_taxonomy`), use `scripts/cloud_promotion/sync_norms_cloud_to_local.py` (mirrors the four tables cloud→local via PostgREST upsert; idempotent on natural keys) followed by `scripts/cloud_promotion/project_norms_to_falkor.py` + `scripts/canonicalizer/sync_vigencia_to_falkor.py --target production` (projects the local Supabase rows into local Falkor as `:Norm` nodes + `IS_SUB_UNIT_OF` / `MODIFIED_BY` / `DEROGATED_BY` / `INEXEQUIBLE_BY` / `CONDITIONALLY_EXEQUIBLE_BY` edges). The `vigencia_to_falkor` sync's reported edge count is `len(statements)`, not actual writes — pass `strict=True` through `GraphClient.execute` or verify per-rel-type with `MATCH ()-[r:KIND]->() RETURN count(r)` after the run. Local docker corpus tables (`documents`, `document_chunks`) stay empty by design — `LIA_CORPUS_SOURCE=artifacts` reads chunks from the filesystem bundle in `artifacts/`. The catalog backbone (Norm nodes + vigencia edges + sub-topic taxonomy) IS expected in local Postgres + Falkor so dev work that traverses the regulatory graph reflects the same topology as staging/prod.
+**Local↔cloud parity of the canonical-norms catalog**
+(`norms`, `norm_vigencia_history`, `norm_citations`, `sub_topic_taxonomy`):
+
+1. `scripts/cloud_promotion/sync_norms_cloud_to_local.py` — mirrors
+   the four tables cloud→local via PostgREST upsert. Idempotent on
+   natural keys.
+2. `scripts/cloud_promotion/project_norms_to_falkor.py` — writes
+   local Supabase rows into local Falkor as `:Norm` nodes +
+   `IS_SUB_UNIT_OF` edges.
+3. `scripts/canonicalizer/sync_vigencia_to_falkor.py --target production`
+   — writes `MODIFIED_BY` / `DEROGATED_BY` / `INEXEQUIBLE_BY` /
+   `CONDITIONALLY_EXEQUIBLE_BY` edges into local Falkor.
+
+**Gotcha**: the `vigencia_to_falkor` sync's reported edge count is
+`len(statements)`, not actual writes. To verify real writes, pass
+`strict=True` through `GraphClient.execute` OR run a Cypher count
+per rel-type after the sync:
+`MATCH ()-[r:KIND]->() RETURN count(r)`.
+
+**Why local catalog parity matters**: local docker corpus tables
+(`documents`, `document_chunks`) stay empty by design —
+`LIA_CORPUS_SOURCE=artifacts` reads chunks from the filesystem
+bundle in `artifacts/`. But the catalog backbone (Norm nodes +
+vigencia edges + sub-topic taxonomy) IS expected in local Postgres
++ Falkor so dev work that traverses the regulatory graph reflects
+the same topology as staging/prod.
 
 ## Repository Layout
 
@@ -176,7 +201,23 @@ Nine retrieval-diagnostic keys lifted to top-level `response.diagnostics` (next_
 
 **The default `provider_order` in `config/llm_runtime.json` puts `gemini-flash` first** so chat works correctly. The canonicalizer keeps DeepSeek by overriding via the existing `LIA_VIGENCIA_PROVIDER=deepseek-v4-flash` env knob (set explicitly by every canonicalizer launch script). 
 
-The reason for this split: DeepSeek-v4-pro is a *reasoning model* that returns `reasoning_content` (chain-of-thought) but often empty `message.content` for short structured-output prompts. The adapter at `llm_runtime.py:198` raises `RuntimeError("DeepSeek response missing message content.")`; the topic resolver swallowed the exception and silently fell through to the keyword fallback, mis-routing every multi-domain SME query to the parent topic `declaracion_renta`. This caused the §1.G 36-Q SME panel to drop from 21/36 to 8/36 acc+ on 2026-04-29. After flipping providers back, the panel returned to 22/36 acc+ with zero ok→zero regressions. Full diagnosis: `docs/re-engineer/fix/fix_v1_diagnosis.md`. Ongoing work to push 22 → 24/36: `docs/re-engineer/fix/fix_v1.md` (sub-query LLM-skipped path).
+**Why the split is necessary** (don't flip provider order without
+reading this):
+
+- DeepSeek-v4-pro is a *reasoning model*: returns `reasoning_content`
+  (chain-of-thought) but often empty `message.content` for short
+  structured-output prompts.
+- The adapter at `llm_runtime.py:198` raises
+  `RuntimeError("DeepSeek response missing message content.")`.
+- The topic resolver SWALLOWED that exception and silently fell
+  through to the keyword fallback, mis-routing every multi-domain
+  SME query to the parent topic `declaracion_renta`.
+- Concrete damage: §1.G 36-Q SME panel dropped 21/36 → **8/36 acc+**
+  on 2026-04-29. After flipping providers back: 22/36 acc+, zero
+  regressions.
+- Full diagnosis: `docs/re-engineer/fix/fix_v1_diagnosis.md`.
+  Ongoing work 22 → 24/36: `docs/re-engineer/fix/fix_v1.md`
+  (sub-query LLM-skipped path).
 
 **If you flip provider order again, re-run the §1.G panel** (`scripts/eval/run_sme_parallel.py --workers 4`, ~5 min wall) before merging.
 
@@ -230,11 +271,48 @@ Facade implementation modules (edit the narrow one that owns the behavior):
 - If architecture changes, update `docs/orchestration/orchestration.md` (including the versioned env matrix) **in the same task** as the code change.
 - If a `LIA_*` env or launcher flag changes, bump the env matrix version in the orchestration guide, add a change-log row, and update the mirror tables in `docs/guide/env_guide.md`, this file, and the `/orchestration` status card.
 - The Falkor adapter must keep propagating cloud outages — **no silent artifact fallback** on staging.
-- **Cloud retirements are CLI-explicit only.** Once a doc lives in cloud Supabase + Falkor, removing it requires `lia-graph-artifacts --additive --allow-retirements` from a CLI typed by an operator. The GUI additive flow (`/api/ingest/additive/preview` + `/apply`) and any non-explicit CLI invocation MUST pass `allow_retirements=False` (the default). Adding to the corpus is the friendly path; deletion is the deliberate one. Out-of-sync local `knowledge_base/`, partial Dropbox sync, machine swaps and similar local-disk drift must NEVER silently retire production docs. The disk-vs-baseline `removed` bucket surfaces as a yellow diagnostic in the preview, not as a delete action. Enforced at `src/lia_graph/ingestion/delta_runtime.py::materialize_delta` (parameter `allow_retirements`, defaults to False; strips `delta.removed` to `()` before sink + Falkor when False).
+- **Cloud retirements are CLI-explicit only.** Adding to the corpus
+  is the friendly path; deletion is the deliberate one.
+    - Removing a doc from cloud Supabase + Falkor REQUIRES
+      `lia-graph-artifacts --additive --allow-retirements` typed by
+      an operator at the CLI.
+    - The GUI additive flow (`/api/ingest/additive/preview` +
+      `/apply`) and any non-explicit CLI invocation MUST pass
+      `allow_retirements=False` (the default).
+    - Out-of-sync local `knowledge_base/`, partial Dropbox sync,
+      machine swaps, etc. must NEVER silently retire production docs.
+    - The disk-vs-baseline `removed` bucket surfaces as a yellow
+      diagnostic in the preview, NOT as a delete action.
+    - Enforced at `src/lia_graph/ingestion/delta_runtime.py::materialize_delta`
+      (parameter `allow_retirements`, defaults to False; strips
+      `delta.removed` to `()` before sink + Falkor when False).
 - `PipelineCResponse.diagnostics` must always carry `retrieval_backend` and `graph_backend`.
 - Never run the full pytest suite in one process — use `make test-batched`. The `tests/` conftest guard aborts without `LIA_BATCHED_RUNNER=1`.
 - Do not inherit old-RAG assumptions (indexing, tagging, vocab design, reranking, chunk orchestration, cache strategy). Old-RAG docs under `docs/deprecated/` are archaeology, not active steering.
-- **Idea vs. verified improvement — mandatory six-gate lifecycle for every `docs/aa_next/**` step.** RAG is complex science; "improvements" misbehave and regress all the time. Unit tests green ≠ improvement. Every pipeline change must pass all six gates in the plan doc **before any code is written**: (1) describe the good idea in one sentence; (2) plan the implementation in the narrowest module; (3) define a measurable minimum success criterion with numbers; (4) define HOW to test the criterion — including development needed, conceptualization, running environment, actors/interventions required (engineer / operator / SME / end user), and the numeric decision rule; (5) greenlight requires BOTH technical tests AND end-user validation against real data at the layer an accountant experiences; (6) refine-or-discard — if validation fails, either iterate or explicitly discard (kept in record, never silently rolled back). Status lifecycle: 💡 idea → 🛠 code landed → 🧪 verified locally → ✅ verified in target environment → ↩ regressed-discarded. When target-env verification is infeasible locally, mark 🧪 and name the specific run still needed. Full policy in `docs/aa_next/README.md`.
+- **Idea vs. verified improvement — mandatory six-gate lifecycle for every `docs/aa_next/**` step.** RAG is complex science;
+  "improvements" misbehave and regress all the time. Unit tests
+  green ≠ improvement. Every pipeline change must pass all six
+  gates in the plan doc **before any code is written**:
+    1. **Idea** — describe the good idea in one sentence.
+    2. **Plan** — plan the implementation in the narrowest module.
+    3. **Success criterion** — define a measurable minimum with
+       numbers.
+    4. **Test plan** — define HOW to test: development needed,
+       conceptualization, running environment, actors/interventions
+       required (engineer / operator / SME / end user), and the
+       numeric decision rule.
+    5. **Greenlight** — requires BOTH technical tests AND end-user
+       validation against real data at the layer an accountant
+       experiences.
+    6. **Refine-or-discard** — if validation fails, either iterate
+       or explicitly discard (kept in record, never silently rolled
+       back).
+
+  Status lifecycle: 💡 idea → 🛠 code landed → 🧪 verified locally →
+  ✅ verified in target environment → ↩ regressed-discarded. When
+  target-env verification is infeasible locally, mark 🧪 and name
+  the specific run still needed. Full policy in
+  `docs/aa_next/README.md`.
 
 ## Fail Fast, Fix Fast — operations canon
 
