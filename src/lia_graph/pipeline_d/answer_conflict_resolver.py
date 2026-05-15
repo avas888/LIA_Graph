@@ -325,11 +325,21 @@ EXCERPTS DE LA NORMA (estas son las fuentes autoritativas que debés consultar):
 
 {excerpts}
 
-Reglas de decisión:
-1. Elegí la opción cuya cifra/valor aparezca en los excerpts como la regla actual.
+Reglas de decisión (aplicalas EN ORDEN — la primera que te permita decidir gana):
+
+1. Si los excerpts muestran claramente cuál cifra es la vigente hoy, elegí esa.
 2. Si los excerpts muestran que una opción era válida en el pasado pero fue \
-modificada o derogada, esa opción NO es la vigente.
-3. Si los excerpts no permiten decidir, respondé "NINGUNA".
+modificada o derogada (ej. "antes era…", "modificado por Ley NNN/AAAA", \
+"derogado por…"), descartá esa opción y elegí la otra.
+3. Si los excerpts mencionan ambas cifras sin marcador explícito de cuál es la \
+vigente PERO tu conocimiento del derecho colombiano vigente te permite \
+identificar con ALTA CONFIANZA cuál cifra rige hoy (por ejemplo, recordás que \
+una reforma de cierta ley reemplazó una cifra por otra), elegí la cifra \
+vigente. Este caso aplica especialmente a reformas laborales conocidas \
+(Ley 50/1990, Ley 789/2002, Ley 1010/2006, Ley 1429/2010, Ley 1607/2012, \
+Ley 1819/2016, Ley 2010/2019, Ley 2277/2022) y a reformas tributarias del ET.
+4. Solo respondé "NINGUNA" si NI los excerpts NI tu conocimiento del derecho \
+colombiano vigente permiten decidir con seguridad cuál cifra es la actual.
 
 Respondé con UNA sola palabra: "A", "B" o "NINGUNA" (sin explicación, sin \
 puntuación adicional)."""

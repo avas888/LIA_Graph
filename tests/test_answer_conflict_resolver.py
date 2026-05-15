@@ -266,6 +266,31 @@ def test_a2_handles_ninguna_response() -> None:
     assert result.winner_line_index is None
 
 
+def test_a2_prompt_authorizes_llm_knowledge_fallback() -> None:
+    """fix_v18 b2.2 refine — the A2 prompt must let the LLM use its
+    knowledge of Colombian law when the excerpts are ambiguous, instead
+    of defaulting to NINGUNA.
+
+    The §4.1 shadow probe on 2026-05-15 evening showed the LLM returning
+    NINGUNA because the corpus excerpts contained BOTH the post-Ley-789
+    "30 días" and the pre-Ley-789 "45 días" without an explicit "vigente"
+    marker. The strengthened prompt explicitly names known labor + tax
+    reforms so the LLM can apply its training (e.g. it knows Ley 789/2002
+    reduced the indemnization).
+    """
+    group = _make_group(["30 días", "45 días"])
+    adapter = _StubAdapterChooseA()
+    excerpts = [_StubEvidenceItem(title="Art. 64 CST", excerpt="30 y 45 días")]
+    resolve_via_a2(group, excerpts, adapter)
+    prompt = adapter.calls[0]
+    # New rule 3 — LLM training-knowledge fallback authorized.
+    assert "ALTA CONFIANZA" in prompt
+    assert "Ley 789/2002" in prompt
+    # NINGUNA is now rule 4, gated on BOTH excerpts AND knowledge failing.
+    assert "Solo respondé \"NINGUNA\"" in prompt
+    assert "NI los excerpts NI tu conocimiento" in prompt
+
+
 def test_a2_handles_adapter_error() -> None:
     group = _make_group(["30 días", "45 días"])
     result = resolve_via_a2(group, [], _StubAdapterRaises())
@@ -418,15 +443,25 @@ def test_resolve_enforce_a1_ambiguous_a2_resolves_with_adapter(
 def test_resolve_enforce_a1_ambiguous_no_adapter_keeps_both(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """A1 ambiguous + no LLM adapter → both bullets survive (safe default)."""
+    """A1 ambiguous + no LLM adapter → both bullets survive (safe default).
+
+    Force the no-adapter case explicitly by monkeypatching the safe
+    resolver helper. Without this monkeypatch, the test was depending on
+    the production runtime config silently failing in test env — which
+    became flaky after the b2.2 prompt strengthen (the real LLM now
+    decides on ambiguous excerpts instead of returning NINGUNA, so the
+    "no adapter" assumption only held by accident).
+    """
     monkeypatch.setenv("LIA_CONFLICT_RESOLVER_MODE", "enforce")
+    monkeypatch.setattr(
+        "lia_graph.pipeline_d.answer_conflict_resolver._resolve_llm_adapter_safe",
+        lambda _: None,
+    )
     md = (
         "- **Plazo de pago de obligación:** 30 días.\n"
         "- **Plazo de pago de obligación:** 60 días.\n"
     )
     bundle = _StubEvidenceBundle(primary_articles=())
-    # adapter=None and no runtime_config_path: resolver tries to resolve
-    # via default path, gets None, records "a2_no_adapter".
     out, diag = resolve_answer_conflicts(md, evidence=bundle, adapter=None)
     assert "30 días" in out
     assert "60 días" in out

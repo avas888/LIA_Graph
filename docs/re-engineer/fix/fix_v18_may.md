@@ -209,7 +209,7 @@ batch: b3 = Issue B (codigo ET/CST aliasing validator).
 | B — codigo ET/CST aliasing validator | 🛠 plan ready, no code | — | mismas probes (`Art. 127-132 ET` debería ser CST) | §1.2 plan |
 | C — SPEC bullet preservation | 🛠 plan ready, no code | — | `liquidacion_terminacion` probe (CST 65 moratoria intermitente — dropped en una corrida, presente en la siguiente; confirma que es estocástico) | §1.3 plan |
 | D — donaciones substring fix | 🧪 surgical, pending operator re-probe | `26bf04b` | observado durante v17 b2 — `is_donaciones_case` keys on bare `esal` → colisiona con `desalarizacion` | §1.4 plan + §7.1 landing |
-| E — conflict resolver (A+A1+A2) | 🧪 shadow default; b2.1 refine landed (wiring moved post-polish after §4.1 shadow miss); pending operator re-probe | `bdc6adf` + b2.1 | probe §4.1 (30 vs 45 días) — operator-confirmed gap: vigencia v3 opera a nivel norma, no valor; b2 shadow trace returned `no_conflicts` because polish normalizes predicate phrasing — fix moved wiring post-polish | §1.5 plan + §7.2 landing + §7.5 refine |
+| E — conflict resolver (A+A1+A2) | 🧪 shadow default; b2.1 wiring refine + b2.2 A2 prompt strengthen landed; pending operator re-probe | `bdc6adf` + `cea1337` + b2.2 | b2 shadow trace returned `no_conflicts` (wiring wrong) → b2.1 fixed wiring, shadow now detects but A2 returns NINGUNA on ambiguous excerpts → b2.2 strengthens A2 prompt to allow LLM training-knowledge fallback for known reformas (Ley 50/789/1010/1429/1607/1819/2010/2277) | §1.5 plan + §7.2 + §7.5 + §7.6 |
 
 **Aggregate counts:** 3 🧪 + 2 🛠 + 0 ✅. Próximo batch = **v18 b3 = Issue B** (validator only, patrón fix_v15).
 
@@ -225,6 +225,7 @@ Status legend (heredado de fix_v17_may §12):
 - `bdc6adf` — v18 b2: Issue E (conflict resolver A+A1+A2, shadow)
 - `4487c33` — orchestration.md cleanup (retire predecessor banner pile-up + collapse April LOC-refactor rows)
 - `cea1337` — v18 b2.1: Issue E refine — resolver wiring moved pre-polish → post-polish after §4.1 shadow miss (300 tests verdes)
+- v18 b2.2 — Issue E refine — A2 prompt strengthen authorizing LLM training-knowledge fallback when corpus excerpts are ambiguous (301 tests verdes; commit ref pending end-of-session)
 
 Reference doc creado en el mismo ciclo: `docs/re-engineer/fix/fix_locos.md` (catálogo de ideas ambiciosas, NO plan ejecutable).
 
@@ -661,6 +662,7 @@ back to shadow. Después de 2 iteraciones sin convergencia →
 | v18 b1 | A (chunk-noise filter) + D (donaciones substring fix) | ✅ shipped 2026-05-15 evening | `26bf04b` | A más visible para el contador; D trivial e independiente colado en el mismo commit. Shadow validation pendiente. |
 | v18 b2 | E (conflict resolver A+A1+A2) | ✅ shipped 2026-05-15 evening | `bdc6adf` | Surgió reactivo durante validación de b1: el §4.1 fixture mostró que A no cubre la regla pre-Ley-789. Operador ordenó "implementa YA" Enfoque A + A1 + A2 sobre Enfoque B (SPEC-as-truth). |
 | v18 b2.1 | E refine — wiring post-polish | ✅ shipped 2026-05-15 evening | `cea1337` | §4.1 shadow probe regresó `no_conflicts` aunque el answer servido mostraba 30 vs 45 días bullets. Diagnóstico: el resolver corría pre-polish; polish es el productor que normaliza los predicados a la misma forma. Fix: mover llamada a post-polish + 1 test pinning la shape polished. Plan en §7.5. |
+| v18 b2.2 | E refine — A2 prompt strengthen | ✅ shipped 2026-05-15 evening | (pending commit ref) | Re-probe post-b2.1 mostró que el detector ya funciona (`groups_detected: 1`) pero A2 LLM responde `NINGUNA` porque los excerpts mencionan ambas cifras (30 y 45 días) sin marcador explícito de cuál es la vigente. Fix: reescribir A2 prompt para autorizar al LLM a usar su conocimiento de derecho colombiano vigente cuando los excerpts son ambiguos; nombra las reformas conocidas (Ley 50/789/1010/1429/1607/1819/2010/2277). Plan en §7.6. |
 | v18 b3 | B (codigo ET/CST aliasing validator) | 🛠 next | — | Validator-only, patrón fix_v15 UVT ya probado. ~½ día. Plan en §1.2. Independiente de A/D/E. |
 | v18 b4 | C (SPEC bullet preservation) | 🛠 después de b3 | — | El más invasivo (toca polish prompt + nuevo validator). Última en el orden para tener feedback de A+B+E en shadow→enforce loop. ~1 día. Plan en §1.3. |
 | v18 b5+ | F, G… si surgen | reserva | — | Cada nuevo issue se evalúa con §2 lifecycle antes de batch. |
@@ -907,6 +909,36 @@ Current totals (2026-05-15 evening): **0 ✅, 3 🧪, 2 🛠** (de 5
 - **Trace impact.** Mismo trace step `synthesis.conflict_resolver.applied`, mismo schema de details. Solo cambia el momento en que se emite (después de `polish.applied` en lugar de antes).
 - **Riesgo del cambio de wiring.** Mínimo. El resolver sigue siendo idempotente sobre su input; el wrapping `try/except` sigue garantizando que no bloquea el pipeline. El único cambio observable en `enforce` es que ahora puede dropear bullets que polish acabó de escribir — mismo safety profile que en b2.
 - **Próximo paso (operator):** re-probe §4.1 en shadow → confirmar `outcome: shadow_hit`, `groups_detected: 1`, `decisions[0].path: a1_article_match`. Si limpio, flip A + E a enforce per §7.4.
+
+### §7.6 v18 b2.2 refine record — A2 prompt strengthen (2026-05-15 evening, after §4.1 post-b2.1 shadow re-probe)
+
+- **Trigger.** Operator re-probó §4.1 después del b2.1 wiring fix. Server restart confirmado (PID nuevo a las 12:36 PM Bogotá, log nuevo a las 12:37 PM). Trace post-restart:
+  - `practica.noise_filter.applied` → `shadow_hit` (Issue A funcionando).
+  - `synthesis.conflict_resolver.applied` → **`outcome: unresolved`**, `groups_detected: 1`, `groups_resolved_a1: 0`, `groups_resolved_a2: 0`, `groups_unresolved: 1`, `decisions[0]: { predicate: "despido injustificado en año 1", path: "a2_no_decision", a2_response_preview: "NINGUNA" }`.
+  - `polish.applied` → `mode: rejected` (segundo issue ortogonal, fuera de scope b2.2).
+- **Diagnóstico.** El detector ya funciona post-b2.1 ✅. Pero:
+  - A1 falla porque ambos valores (`30 días` y `45 días`) aparecen en los `primary_articles[*].excerpt` blob — el chunk de CST 64 cita la cifra actual Y la histórica derogada → A1 retorna `a1_ambiguous`.
+  - A2 corre con el LLM real (no es problema de adapter), pero responde `NINGUNA` porque sigue las reglas del prompt al pie de la letra: "si los excerpts no permiten decidir, NINGUNA". El LLM tiene conocimiento de la reforma Ley 789/2002 pero el prompt no lo autoriza a usarlo.
+- **Fix.** Reescribir `_A2_PROMPT_TEMPLATE` para autorizar explícitamente el fallback a conocimiento del LLM cuando los excerpts son ambiguos:
+  - Rule 1 (reordenada): elegí la cifra que los excerpts marcan como vigente.
+  - Rule 2 (reordenada): si los excerpts muestran una opción modificada/derogada, descartala.
+  - **Rule 3 (NUEVA):** si los excerpts son ambiguos PERO el LLM puede identificar con ALTA CONFIANZA cuál cifra rige hoy (especialmente para reformas conocidas — Ley 50/1990, 789/2002, 1010/2006, 1429/2010, 1607/2012, 1819/2016, 2010/2019, 2277/2022), elegí esa.
+  - Rule 4 (NUEVA): NINGUNA solo si NI los excerpts NI el conocimiento permiten decidir.
+- **Files touched (1 + 1 test):**
+  - `src/lia_graph/pipeline_d/answer_conflict_resolver.py` — solo el `_A2_PROMPT_TEMPLATE` literal (~25 LOC), cero cambios al algoritmo, cero cambios a `_parse_a2_response` ni a `resolve_via_a2`.
+  - `tests/test_answer_conflict_resolver.py` — `test_a2_prompt_authorizes_llm_knowledge_fallback` (+25 LOC) pin las nuevas reglas (`"ALTA CONFIANZA"`, `"Ley 789/2002"`, `"NI los excerpts NI tu conocimiento"`).
+  - Mismo file, fix colateral en `test_resolve_enforce_a1_ambiguous_no_adapter_keeps_both`: monkeypatch explícito de `_resolve_llm_adapter_safe` → `None`. Sin el monkeypatch, el test era flaky — funcionaba "por suerte" porque el LLM real respondía NINGUNA al input ambiguo. Con el nuevo prompt el LLM decide, así que el test ahora declara su intención (no-adapter) en lugar de depender de un side effect del prompt anterior.
+- **Tests:** v18 baseline 300 → **301** (29 → 30 in `test_answer_conflict_resolver.py`).
+- **Riesgo del cambio.** Medio. Allows LLM training to drive the decision when corpus is ambiguous — there's a real but bounded risk of hallucination. Mitigation:
+  - Stays in `shadow` until operator validates ≥30 turns of A2 decisions (trace's `a2_response_preview` makes every call auditable).
+  - Per gate-6: if FP rate > 5 % after this iteration → discard Issue E (current arquitectura) y promover Enfoque B (SPEC-as-truth) catalogado en `fix_locos.md`.
+- **Próximo paso (operator):** re-probe §4.1 en shadow → confirmar:
+  - `outcome: shadow_hit` (no más `unresolved`).
+  - `decisions[0].path: "a2_llm_choice"`.
+  - `decisions[0].winner_line_index` = índice del bullet de 30 días.
+  - `decisions[0].a2_response_preview: "A"` o `"B"` (no `"NINGUNA"`).
+  - Si confirmado limpio → flip A + E a enforce per §7.4. Si A2 sigue respondiendo NINGUNA → discard Issue E + promover Enfoque B.
+- **Polish-rejected como issue ortogonal.** El `polish.applied mode: rejected` observado en la misma probe es un segundo signal — el answer servido viene del `_compose_polish_rejected_fallback` path. Fuera de scope de b2.2. Si después de b2.2 el A2 decide pero el answer servido no cambia, hay que diagnosticar el `_polish_skip_reason` (registrado en trace `polish.applied.skip_reason`) — eso es Issue G futuro.
 
 ### §7.4 Operator probe + flip-to-enforce recipe (próximo paso real)
 
