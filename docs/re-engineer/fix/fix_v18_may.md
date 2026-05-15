@@ -15,6 +15,51 @@
 > "continúa fix_v18". Esta sección es tu único punto de entrada.
 > Cada paso es load-bearing.
 
+### Paso 0 — TU PRIMERA RESPUESTA AL OPERATOR (mandatoria)
+
+**Regla:** la primera respuesta del agente al operator al retomar
+v18 DEBE seguir exactamente este shape de 3 secciones. No saltees,
+no parafrasees, no agregues prosa antes de las secciones.
+
+```markdown
+**Dónde estamos:**
+
+- v18 status: <X 🧪 / Y 🛠 / Z ✅> sobre los 5 issues iniciales.
+- Último commit shipped: `<sha7>` — <una frase de qué hizo>.
+- Branch state: <N> commits ahead of `origin/main`; <pushed | unpushed>.
+- Flags actuales: <lista flags v18 + su default + qué hacen en una frase>.
+- Lo que ya está en producción (post-merge si aplica): <lista>.
+- Lo que está en shadow esperando validación: <lista>.
+
+**Qué necesito de vos:**
+
+- <1 a 3 acciones del operator, ordenadas por bloqueo. Concretas. Cada
+  una debe ser ejecutable sin más contexto, e.g.:>
+- 1. Reiniciar `dev:staging` y re-probe el §4.1 fixture (texto literal en §4.1).
+- 2. Pegarme el trace JSONL de `practica.noise_filter.applied` +
+     `synthesis.conflict_resolver.applied` desde
+     `tracers_and_logs/logs/pipeline_trace.jsonl`.
+- 3. Decidir: ¿flip A + E a `enforce` ahora, o esperás más turnos shadow?
+
+**Próximos pasos en código (engineer queue):**
+
+- <Lista ordenada de lo que YO haré si el operator da greenlight a cada item.>
+- 1. Si shadow limpio → editar `scripts/dev-launcher.mjs` defaults
+     (`LIA_PRACTICA_NOISE_FILTER=enforce`, `LIA_CONFLICT_RESOLVER_MODE=enforce`)
+     + bump env-matrix version + Change Log row. 1 commit.
+- 2. Arrancar v18 b3 = Issue B (codigo ET/CST aliasing validator, §1.2).
+     Patrón fix_v15 UVT. ~½ día. Independiente de (1).
+- 3. v18 b4 = Issue C (SPEC bullet preservation). ~1 día. Después de b3
+     para ganar feedback del shadow→enforce loop.
+- 4. (Si push pendiente) `git push origin main`.
+
+¿Por dónde empezamos?
+```
+
+Llenar cada placeholder `<...>` con el estado real del doc (leés §0.1
++ §7 antes de responder). Si un valor no se puede verificar desde el
+filesystem, marcalo `<desconocido — pregunto>` en lugar de inventar.
+
 ### Paso 1 — verificá que el sistema de archivos coincide
 
 ```bash
@@ -43,27 +88,38 @@ PYTHONPATH=src:. uv run pytest \
     tests/test_classifier_playbook_override.py \
     tests/test_classifier_path_veto.py \
     tests/test_answer_polish_rejected_fallback.py \
-    tests/test_answer_synthesis_practica.py -q
+    tests/test_answer_synthesis_practica.py \
+    tests/test_chunk_quality_heuristics.py \
+    tests/test_answer_conflict_resolver.py -q
 ```
 
-**Esperado:** `226 passed`. Si es menor, algo cambió desde el último
-commit; investigá antes de actuar.
+**Esperado (post-v18-b2):** `299 passed`. Si es menor, algo cambió
+desde el último commit; investigá antes de actuar. Si es 226 estás
+mirando un checkout anterior a b1 — `git pull` y vuelve a contar.
 
 ### Paso 3 — leé estas secciones EN ESTE ORDEN
 
 1. **§0** TL;DR — qué es v18 y por qué existe.
-2. **§1** Issues en scope — los 5 ítems iniciales + slot para nuevos.
-3. **§2** Six-gate lifecycle (no se salta ninguna gate).
-4. **§4** Casos capturados — los fixtures de regresión reales.
+2. **§0.1** Status snapshot — qué ya shipped vs qué falta.
+3. **§1** Issues en scope — los 5 ítems (A/B/C/D/E) + slot para nuevos.
+4. **§2** Six-gate lifecycle (no se salta ninguna gate).
+5. **§3** Batch order — qué batch sigue.
+6. **§4** Fixtures de regresión.
+7. **§7** Ship-state + landing records — qué exactamente quedó en cada commit.
+8. `docs/re-engineer/fix/fix_locos.md` — ideas ambiciosas catalogadas;
+   leer ANTES de proponer un fix grande, NO es plan ejecutable.
 
 ### Paso 4 — identificá tu escenario
 
 | Operador dice… | Escenario | Acción |
 |---|---|---|
-| *"empezá v18"* / *"land v18 Issue A"* | Ejecutás Issue A (chunk-noise) | §1.1 + §2 lifecycle |
-| *"shadow promote Issue B"* | Flip shadow → enforce del validator B | §1.2 paso 5 |
-| *"agregá un fixture, fallé esta pregunta"* | Capturá failure case nuevo | §4.6 (slot vacío) |
-| *"qué sigue después de Issue A"* | Listá residuos abiertos | §1 + §0.1 status |
+| *"retomá v18"* / *"continúa v18"* | Estado actual + próximo paso | Leé §0.1 + §7 + §3; respondé con próximo batch (b3 = Issue B) |
+| *"shadow probe trae estos resultados"* | Operator pegó un trace del trace JSONL | Diagnose con la guía de §7.2 / §7.3 (operator-side probe). Si limpio → flip enforce |
+| *"flip A a enforce"* / *"flip E a enforce"* | Operator validó shadow | Edit `scripts/dev-launcher.mjs`: el default que toque (A: `LIA_PRACTICA_NOISE_FILTER`; E: `LIA_CONFLICT_RESOLVER_MODE`). Commit + bump env-matrix |
+| *"empezá b3"* / *"land Issue B"* | Validator ET/CST aliasing | §1.2 + §2 lifecycle. Patrón fix_v15 UVT validator. ~½ día |
+| *"empezá Issue C"* | SPEC bullet preservation | §1.3 + §2 lifecycle. El más invasivo (toca polish prompt) |
+| *"agregá un fixture, fallé esta pregunta"* | Capturá failure case nuevo | §4.5 slot. Si necesita módulo nuevo → §1.6 slot Issue F |
+| *"qué sigue después de v18"* | Lookup F+ residuos / próximas ideas | `fix_locos.md` + §1.6 slot |
 
 ### Paso 5 — trampas conocidas (leelas una vez)
 
@@ -82,6 +138,24 @@ commit; investigá antes de actuar.
 4. **El polish-LLM tiene latitud creativa explícita** ("podés
    reescribir la prosa"). Las reglas del prompt no son hard rules
    para él. Los validators son la red de seguridad.
+5. **Issue A NO atrapa la regla derogada sin marcador.** El filtro
+   per-line (`pre_ley_lead` / `software_code_tail` / `orphan_numeric_calc`)
+   catches bullets con marcadores explícitos. La regla pre-Ley-789
+   "45 días" del §4.1 NO matchea ninguno de esos patrones — la
+   catches Issue E (conflict resolver) que compara contra el
+   excerpt del artículo vigente.
+6. **Vigencia v3 opera a nivel norma, no a nivel valor dentro del
+   chunk.** Cuando CST 64 está VM (vigente modificada), el gate
+   deja pasar el chunk completo incluso si el texto adentro
+   menciona la regla pre-2002. Por eso necesitamos Issue E como
+   capa post-template. Ver §1.5 para la explicación arquitectural.
+7. **El conflict resolver corre EN TODO TURNO**, no solo cuando
+   hay conflicto. En shadow mode con cero conflictos el `outcome`
+   es `no_conflicts` (no `shadow_hit`). Eso es esperado, no es
+   un bug.
+8. **`resolve_llm_adapter` puede devolver `None`** en tests sin
+   `GEMINI_API_KEY`. El conflict resolver maneja eso como
+   `a2_no_adapter` → ambos bullets sobreviven. Safe-default.
 
 ### Paso 6 — reglas de comunicación
 
@@ -107,36 +181,58 @@ hacer que la respuesta que ve el contador en pantalla **se vea
 limpia** y **no tenga fragmentos contradictorios** mezclados con el
 contenido autoritativo.
 
-**Alcance.** 4 issues iniciales (A-D) + slot para issues nuevos
-(E+) que aparezcan a medida que el operador siga probando. Cada uno
-es un fix narrow + un validator nuevo o un filtro narrow. Sin
-cambios de schema, sin cambios de retrieval.
+**Alcance.** 5 issues (A/B/C/D/E). A + D shipped en b1 (commit
+`26bf04b`); E shipped en b2 (commit `bdc6adf`). B + C pendientes
+(plan listo, sin código). Slot abierto para F+ si el operator
+captura nuevas fallas. Cada uno es un fix narrow + un validator/filtro
+nuevo. Sin cambios de schema, sin cambios de retrieval.
 
-**Riesgo.** Bajo. Validators arrancan en `shadow` (telemetría sin
-efecto). El filter de practica corre detrás de un flag con default
-`legacy` hasta que el panel valide.
+**Riesgo.** Bajo. Todos los validators arrancan en `shadow`
+(telemetría sin efecto). Issue D es surgical y sin flag (anti-test
+guarda la regresión).
 
-**Esfuerzo.** Issue A (~1 día). Issue B (~½ día). Issue C (~1 día).
-Issue D (~30 min). Total ~3 días si se hacen serial; ~2 días si se
-paraleliza.
+**Esfuerzo.** Issue A (~1 día) ✅. Issue D (~30 min) ✅. Issue E
+(~½ día reactivo) ✅. Issue B (~½ día) 🛠. Issue C (~1 día) 🛠.
+Restante para cerrar v18: ~1.5 días eng + operator shadow probes.
+
+**Estado al 2026-05-15 evening:** 3 🧪 (A/D/E shipped, pending
+operator validation), 2 🛠 (B/C plan ready). 0 ✅ aún. Próximo
+batch: b3 = Issue B (codigo ET/CST aliasing validator).
 
 ---
 
-## §0.1 Status snapshot — 2026-05-15 (evening)
+## §0.1 Status snapshot — 2026-05-15 (evening, post-b2 + cleanup)
 
-| Issue | Estado | Capturado por | Plan |
-|---|---|---|---|
-| A | 🧪 código + unit tests verdes (shadow default) | probe `liquidacion_terminacion` (2026-05-15 PM) + probe `aportes_proporcionales_tiempo_parcial` (2026-05-15 PM) | §1.1 |
-| B | 🛠 idea | mismas probes | §1.2 |
-| C | 🛠 idea (intermitente — CST 65 sí apareció en probe 2026-05-15 evening) | probe `liquidacion_terminacion` (CST 65 moratoria bullet dropped en una corrida, presente en la siguiente) | §1.3 |
-| D | 🧪 código + anti-test verde (sin flag, surgical) | observado durante v17 b2 — `is_donaciones_case` keys on bare `esal` → colisiona con `desalarizacion` | §1.4 |
-| E | 🧪 código + 28 unit tests verdes (shadow default) | probe §4.1 `liquidacion_terminacion` (30 vs 45 días) — operator-confirmed structural gap: vigencia v3 opera a nivel norma, no a nivel valor | §1.5 |
+| Issue | Estado | Commit | Capturado por | Plan / Landing record |
+|---|---|---|---|---|
+| A — práctica chunk-noise filter | 🧪 shadow default; pending operator validation | `26bf04b` | probe `liquidacion_terminacion` (2026-05-15 PM) + probe `aportes_proporcionales_tiempo_parcial` (2026-05-15 PM) | §1.1 plan + §7.1 landing |
+| B — codigo ET/CST aliasing validator | 🛠 plan ready, no code | — | mismas probes (`Art. 127-132 ET` debería ser CST) | §1.2 plan |
+| C — SPEC bullet preservation | 🛠 plan ready, no code | — | `liquidacion_terminacion` probe (CST 65 moratoria intermitente — dropped en una corrida, presente en la siguiente; confirma que es estocástico) | §1.3 plan |
+| D — donaciones substring fix | 🧪 surgical, pending operator re-probe | `26bf04b` | observado durante v17 b2 — `is_donaciones_case` keys on bare `esal` → colisiona con `desalarizacion` | §1.4 plan + §7.1 landing |
+| E — conflict resolver (A+A1+A2) | 🧪 shadow default; pending operator validation | `bdc6adf` | probe §4.1 (30 vs 45 días) — operator-confirmed gap: vigencia v3 opera a nivel norma, no valor | §1.5 plan + §7.2 landing |
+
+**Aggregate counts:** 3 🧪 + 2 🛠 + 0 ✅. Próximo batch = **v18 b3 = Issue B** (validator only, patrón fix_v15).
 
 Status legend (heredado de fix_v17_may §12):
 - 🛠 — idea + plan, sin código
-- 🧪 — código + tests verdes locales
-- ✅ — verificado en dev:staging con probe del operador
-- ↩ — regresó y se descartó con razón
+- 🧪 — código + tests verdes locales, shadow no corrido aún por operator
+- 🛡 — shadow telemetría corriendo en `dev:staging`, panel pendiente
+- ✅ — enforce + operator-validated en `dev:staging`
+- ↩ — regresó y se descartó con razón en `docs/aa_next/playbook_regressions.md`
+
+**Commits shipped en v18 (en orden):**
+- `26bf04b` — v18 b1: Issue A (práctica noise filter, shadow) + Issue D (donaciones substring fix, surgical)
+- `bdc6adf` — v18 b2: Issue E (conflict resolver A+A1+A2, shadow)
+- `4487c33` — orchestration.md cleanup (retire predecessor banner pile-up + collapse April LOC-refactor rows)
+
+Reference doc creado en el mismo ciclo: `docs/re-engineer/fix/fix_locos.md` (catálogo de ideas ambiciosas, NO plan ejecutable).
+
+**Operator-side TODOs pendientes (no son código):**
+1. Re-probe §4.1 fixture en `dev:staging` shadow → verificar trace de `practica.noise_filter.applied` + `synthesis.conflict_resolver.applied`.
+2. Si shadow limpio → flip A + E a `enforce` (un commit; ver §7.4).
+3. Re-probe Issue D fixture (`¿qué es la desalarización UGPP?`) → verificar `donaciones_anchor` NO aparece en sources.
+4. Decidir si arrancar v18 b3 (Issue B) ahora o después de validar A/D/E en producción.
+5. Push del branch a `origin/main` (4 commits ahead al cierre de v18 b2).
 
 ---
 
@@ -553,17 +649,25 @@ back to shadow. Después de 2 iteraciones sin convergencia →
 
 ---
 
-## §3. Suggested batch order
+## §3. Batch order — historial y plan restante
 
-| Batch | Issues | Razón |
-|---|---|---|
-| v18 b1 | A (chunk-noise) + D (donaciones substring) | A es el más visible para el contador. D es trivial pero independiente — se puede colar en el mismo PR. |
-| v18 b2 | B (codigo aliasing validator) | Validator-only, patrón fix_v15 ya probado. Independiente de A. |
-| v18 b3 | C (SPEC bullet preservation) | El más invasivo (toca polish prompt + nuevo validator). Última en el orden para tener ya feedback de A + B sobre el shadow→enforce loop. |
-| v18 b4+ | E, F, G… si surgen | Cada nuevo issue se evalúa con §2 lifecycle antes de batch. |
+| Batch | Issues | Estado | Commit | Razón / notas |
+|---|---|---|---|---|
+| v18 b1 | A (chunk-noise filter) + D (donaciones substring fix) | ✅ shipped 2026-05-15 evening | `26bf04b` | A más visible para el contador; D trivial e independiente colado en el mismo commit. Shadow validation pendiente. |
+| v18 b2 | E (conflict resolver A+A1+A2) | ✅ shipped 2026-05-15 evening | `bdc6adf` | Surgió reactivo durante validación de b1: el §4.1 fixture mostró que A no cubre la regla pre-Ley-789. Operador ordenó "implementa YA" Enfoque A + A1 + A2 sobre Enfoque B (SPEC-as-truth). |
+| v18 b3 | B (codigo ET/CST aliasing validator) | 🛠 next | — | Validator-only, patrón fix_v15 UVT ya probado. ~½ día. Plan en §1.2. Independiente de A/D/E. |
+| v18 b4 | C (SPEC bullet preservation) | 🛠 después de b3 | — | El más invasivo (toca polish prompt + nuevo validator). Última en el orden para tener feedback de A+B+E en shadow→enforce loop. ~1 día. Plan en §1.3. |
+| v18 b5+ | F, G… si surgen | reserva | — | Cada nuevo issue se evalúa con §2 lifecycle antes de batch. |
 
-Estimado total: ~3 días engineer + ~2 horas operator probes
-(re-asks de los fixtures + sign-off).
+**Estimado restante:** ~1.5 días eng (b3 + b4) + operator shadow
+validation por batch.
+
+**Orchestration cleanup pass** (no es batch v18 pero shipeó en la
+misma sesión, commit `4487c33`): retiró 200+ líneas de banner
+pile-up en `docs/orchestration/orchestration.md` (predecessor
+sections duplicaban el Change Log) y colapsó 13 rows de
+LOC-refactor de abril en una row summary. File de 1233 → 1019
+líneas. Acción mecánica de housekeeping; cero impacto runtime.
 
 ---
 
@@ -573,22 +677,38 @@ Cada fixture es una pregunta literal del operador que reprodujo un
 issue. Sirven como tests de regresión cada vez que un fix se
 candidatea a flip a `enforce`.
 
-### §4.1 Fixture A — chunk-noise leak (Issue A)
+### §4.1 Fixture A — chunk-noise leak (Issue A) + value-conflict (Issue E)
+
+Esta pregunta única ejercita TRES issues a la vez: A (códigos + Antes:),
+E (30 vs 45 días), B (Art. 127-132 ET → CST). Es la fixture canónica
+de v18.
 
 - **Pregunta literal:** *"¿Cómo liquido a un empleado que despedí
   sin justa causa, salario $4.000.000, 4 años de antigüedad,
   contrato indefinido?"*
 - **Topic:** `liquidacion_terminacion` (v17 b1)
 - **Fecha de captura:** 2026-05-15 PM
+- **Fecha de probe shadow más reciente:** 2026-05-15 evening
+  (operator pegó el output completo; bullets noise + contradicción
+  + Art. 127-132 ET todos presentes — esperado en shadow).
 - **Bullets noise observados (verbatim):**
-  1. "Despido sin justa causa (...): código 55."
-  2. "Despido con justa causa (...): código 56."
-  3. "Despido injustificado en AÑO 1: 45 días de salario." (regla
-     pre-Ley 789, derogada 2002 — contradice al SPEC)
-  4. "Antes: 30 días × ($2.200.000 ÷ 30) = $2.200.000."
-  5. (más fragmentos según el día)
-- **Criterio pass post-fix:** ≤ 1 bullet noise antes del primer
-  SPEC bullet; cero contradicciones con el SPEC.
+  1. "Despido sin justa causa (...): código 55." → atrapa Issue A `software_code_tail`
+  2. "Despido con justa causa (...): código 56." → atrapa Issue A `software_code_tail`
+  3. "Despido injustificado en AÑO 1: 30 días de salario." → SPEC correcto (no se toca)
+  4. "Despido injustificado en AÑO 1: 45 días de salario." → atrapa Issue E (mismo predicado que #3, valor diferente)
+  5. "Antes: 30 días × ($2.200.000 ÷ 30) = $2.200.000." → atrapa Issue A `pre_ley_lead` + `orphan_numeric_calc`
+- **Anclaje Legal observado:**
+  - "Art. 127-132 ET — Definición de salario." → atrapa Issue B (deberían ser CST 127-132)
+  - "Art. 186 ET — Derecho al descanso." → atrapa Issue B (debería ser CST 186)
+- **Criterio pass post-fix (enforce de A + E + B):**
+  - 0 bullets `código NN` en `Recomendaciones Prácticas`
+  - 0 bullets que empiecen con `Antes:` / orphan-calc
+  - 0 contradicciones con el SPEC (solo "30 días" sobrevive, no "45 días")
+  - 0 referencias `Art. <N> ET` en Anclaje Legal que en realidad sean CST
+- **Estado actual (2026-05-15 evening):**
+  - Issue A: 🧪 shadow — bullets noise siguen visibles, trace debe mostrar `shadow_hit`
+  - Issue E: 🧪 shadow — contradicción 30 vs 45 días sigue visible, trace debe mostrar `groups_detected ≥ 1` + `groups_resolved_a1 ≥ 1`
+  - Issue B: 🛠 — bullet ET/CST sigue visible, sin código aún
 
 ### §4.2 Fixture B — codigo ET/CST aliasing (Issue B)
 
@@ -658,16 +778,19 @@ es surgical y se revierte con `git revert`).
 
 | Issue | Flag rollback | Efecto |
 |---|---|---|
-| A | `LIA_PRACTICA_NOISE_FILTER=off` | Filtro no corre; bullets pasan tal cual al draft. |
+| A | `LIA_PRACTICA_NOISE_FILTER=off` (o `=legacy`) | Filtro no corre; bullets pasan tal cual al draft. |
 | A | `LIA_PRACTICA_NOISE_FILTER=shadow` | Filtro corre + telemetría; output no cambia. |
-| B | `LIA_POLISH_CODIGO_VALIDATOR=off` | Validator no corre; polish output pasa sin chequear. |
-| B | `LIA_POLISH_CODIGO_VALIDATOR=shadow` | Validator corre + telemetría; polish output no se rechaza. |
-| C | `LIA_POLISH_SPEC_PRESERVATION=off` | Polish permissive — puede drop bullets. |
-| C | `LIA_POLISH_SPEC_PRESERVATION=shadow` | Validator corre + telemetría; polish output no se rechaza. |
-| D | `git revert <sha>` | Restaura la substring `"esal"` original. Anti-test desaparece con el revert. |
+| B | `LIA_POLISH_CODIGO_VALIDATOR=off` (planeado) | Validator no corre; polish output pasa sin chequear. |
+| B | `LIA_POLISH_CODIGO_VALIDATOR=shadow` (planeado) | Validator corre + telemetría; polish output no se rechaza. |
+| C | `LIA_POLISH_SPEC_PRESERVATION=off` (planeado) | Polish permissive — puede drop bullets. |
+| C | `LIA_POLISH_SPEC_PRESERVATION=shadow` (planeado) | Validator corre + telemetría; polish output no se rechaza. |
+| D | `git revert 26bf04b` | Restaura la substring `"esal"` original. Anti-tests desaparecen con el revert. |
+| E | `LIA_CONFLICT_RESOLVER_MODE=off` (o `=legacy`) | Conflict resolver no corre; ambos bullets sobreviven. |
+| E | `LIA_CONFLICT_RESOLVER_MODE=shadow` | Detect + log + run A1/A2 telemetría; output no cambia. |
 
-**Full v18 rollback** (improbable): `git revert` de los commits de
-v18 — sin efectos colaterales en v17 ni en versiones anteriores.
+**Full v18 rollback** (improbable): `git revert bdc6adf 26bf04b`
+revierte b2 + b1 sin efectos colaterales en v17 ni en versiones
+anteriores. Conservar `4487c33` (cleanup) — es cosmético del doc.
 
 ---
 
@@ -676,15 +799,34 @@ v18 — sin efectos colaterales en v17 ni en versiones anteriores.
 Cada batch de v18 requiere actualizar:
 
 1. **`docs/orchestration/orchestration.md`** — bump del env-matrix
-   version (`v2026-MM-DD-fix-v18-...`) + entry en `### Change Log`.
-2. **`docs/guide/env_guide.md`** sección "Runtime Retrieval Flags"
-   — añadir las nuevas flags A/B/C con su default `shadow`.
-3. **`CLAUDE.md`** sección "Active runtime flags" — añadir las
-   3 flags nuevas + su semántica.
+   version (`v2026-MM-DD-fix-v18-...`) + entry corto en `### Change Log`
+   (bullets, NO wall-of-text — el row de v18 b2 ya es el modelo).
+   También bumpear "Current version:" header del Env Matrix section.
+2. **`docs/guide/env_guide.md`** — banner top + section
+   "Runtime Retrieval Flags" — añadir la flag nueva con su default
+   `shadow` y descripción de qué hace.
+3. **`CLAUDE.md`** — bumpear `## Runtime Read Path (Env vXXX)` header
+   + agregar bullet a "Active runtime flags" con la flag nueva.
 4. **`frontend/src/app/orchestration/shell.ts` +
-   `orchestrationApp.ts`** — sin cambios (no afecta env-matrix
-   render, solo es content polish).
-5. **Este documento** (§0.1 status snapshot + §7 ship-state).
+   `frontend/src/features/orchestration/orchestrationApp.ts`** —
+   sin cambios necesarios para Issues A/B/C/D/E (no afectan
+   env-matrix render). Solo bumpear si agregás un query_mode nuevo.
+5. **Este documento** (`fix_v18_may.md`):
+   - §0.1 status snapshot — flip issue status + commit ref
+   - §3 batch order — marcar batch como ✅ shipped con commit
+   - §7 ship-state table — flip status + agregar §7.N landing record
+   - §-1 Paso 2 — bumpear count esperado si cambia
+   - §-1 Paso 4 — ajustar el escenario table si cambia el "next batch"
+
+**Mirror-surfaces shipping status para los commits ya en main:**
+
+- `26bf04b` (b1 = A+D) — ✅ todos los mirrors actualizados.
+- `bdc6adf` (b2 = E) — ✅ todos los mirrors actualizados.
+- `4487c33` (cleanup) — N/A (cosmético del doc).
+
+Si retomás y ves discrepancia entre `CLAUDE.md` / `orchestration.md` /
+`env_guide.md`, **`orchestration.md` gana** per CLAUDE.md
+Non-Negotiables. Reconciliar los otros dos hacia él.
 
 ---
 
@@ -701,9 +843,9 @@ Cada batch de v18 requiere actualizar:
 Current totals (2026-05-15 evening): **0 ✅, 3 🧪, 2 🛠** (de 5
 ítems; slot para F+ abierto).
 
-### §7.1 v18 b1 landing record (2026-05-15 evening)
+### §7.1 v18 b1 landing record — commit `26bf04b` (2026-05-15 evening)
 
-- **Files touched (4):**
+- **Files touched (4 + 3 test):**
   - `src/lia_graph/pipeline_d/case_detectors.py` — Issue D, ~15 LOC
   - `src/lia_graph/pipeline_d/answer_synthesis_practica.py` — Issue A per-line filter, ~110 LOC
   - `src/lia_graph/pipeline_d/chunk_quality_heuristics.py` — Issue A chunk-level patterns, ~50 LOC
@@ -715,18 +857,87 @@ Current totals (2026-05-15 evening): **0 ✅, 3 🧪, 2 🛠** (de 5
   - `tests/test_answer_synthesis_practica.py`: +14 (modo + per-line + integración con stubs)
   - `tests/test_chunk_quality_heuristics.py`: +4 (3 patrones nuevos + 1 negative-control para pre-ley)
 - **Trace step nuevo:** `practica.noise_filter.applied` con `filter_mode`, `outcome ∈ {pass, shadow_hit, suppressed, noop}`, `dropped_total`, `dropped_reasons`, `shadow_total`, `shadow_reasons`.
-- **Próximo paso (operator):** restart `dev:staging`, re-probe el fixture §4.1 (mismo texto literal), verificar:
-  - `retrieval_backend=supabase` en first response
-  - `pipeline_trace.steps[*].name == "practica.noise_filter.applied"` con `outcome ∈ {pass, shadow_hit}`
-  - Si shadow registra drops sin falsos positivos → flip `LIA_PRACTICA_NOISE_FILTER=enforce` y re-probe.
+- **Próximo paso (operator):** ver §7.4.
 
-Lifecycle (heredado de fix_v17_may §12):
-- 🛠 — plan + idea, sin código
-- 🧪 — código + unit tests verdes, shadow no corrido aún
-- 🛡 — shadow telemetría corriendo, panel pendiente
-- ✅ — enforce + operator-validated en dev:staging
-- ↩ — regresó y se descartó con razón en
-  `docs/aa_next/playbook_regressions.md`
+### §7.2 v18 b2 landing record — commit `bdc6adf` (2026-05-15 evening, después de §4.1 probe)
+
+- **Files touched (3 + 1 test):**
+  - `src/lia_graph/pipeline_d/answer_conflict_resolver.py` — Issue E, **NUEVO** módulo (~360 LOC)
+  - `src/lia_graph/pipeline_d/orchestrator.py` — wiring + módulo-level `LOGGER`, ~20 LOC
+  - `scripts/dev-launcher.mjs` — default `LIA_CONFLICT_RESOLVER_MODE=shadow`
+  - `tests/test_answer_conflict_resolver.py` — **NUEVO**, 28 tests
+- **Flags introduced:**
+  - `LIA_CONFLICT_RESOLVER_MODE` (`off | shadow | enforce`, default `shadow`). `legacy` alias de `off`.
+- **Algoritmo (referencia rápida — el detalle vive en §1.5):**
+  1. Detector: bullets con mismo predicado normalizado pero distinto `value_norm` → conflict group.
+  2. A1: chequear cada valor contra `evidence.primary_articles[*].title+.excerpt` blob normalizado; si exactamente 1 matches → ese gana.
+  3. A2: si A1 ambiguo (0 o ≥ 2 matches), llamar al adapter LLM polish-grade con prompt `A | B | NINGUNA`. Errores wrapped, nunca crash el pipeline.
+- **Wiring point:** entre `synthesis.template_built` y `polish_graph_native_answer` en `orchestrator.run_pipeline_d`. Polish recibe template saneado de contradicciones en enforce.
+- **Trace step nuevo:** `synthesis.conflict_resolver.applied` con `mode`, `outcome ∈ {off, no_conflicts, shadow_hit, applied, applied_no_drops, unresolved, noop_empty_input}`, `groups_detected`, `groups_resolved_a1`, `groups_resolved_a2`, `groups_unresolved`, `lines_dropped`, `decisions[]` (per-group `predicate`, `path ∈ {a1_article_match, a2_llm_choice, a1_ambiguous, a2_no_adapter, a2_no_decision, a2_unparseable, a2_error}`, `winner_line_index`, `loser_count`, `a2_response_preview`).
+- **Reuse, not new infra:** A1 reusa el bundle de evidencia existente (cero queries Falkor extra); A2 reusa el mismo `resolve_llm_adapter` que polish (cero infra nueva). Sin schema migration. Sin tabla nueva.
+- **Reference doc creado:** `docs/re-engineer/fix/fix_locos.md` — catálogo de Enfoque B (SPEC-as-truth) + 9 ideas ambiciosas más, como referencia de futuro path forward si Enfoque A no rinde.
+
+### §7.3 Orchestration doc cleanup — commit `4487c33` (2026-05-15 evening, post-b2)
+
+- **No es batch v18** — housekeeping mecánico per operator request "do a pass on orchestration.md to erase really old content".
+- **`docs/orchestration/orchestration.md`:** 1233 → 1019 líneas (−214).
+- **Cortes:**
+  - Retirado ~200 líneas de predecessor-banner pile-up al tope del file (todo lo que vivía como "Predecessor: v..." > blocks; duplicaba el Change Log table).
+  - Colapsadas 13 rows del Change Log de abril (`ui1-ui13` + `decouplingv1`) en una row summary (`v2026-04-18-thru-22-granularization-campaign`) — eran pure LOC-refactors sin runtime impact. Las rows `ui14` + `ui15` se mantienen separadas (real HTTP/feature work). Original per-round narratives preservadas en git history pre-2026-05-15.
+- **Fixed:** stale "Current version:" header del Env Matrix section (decía v15, ahora v18-b2).
+- **Cero impacto runtime** — solo docs.
+
+### §7.4 Operator probe + flip-to-enforce recipe (próximo paso real)
+
+**Paso 1 — restart staging:**
+
+```bash
+kill $(pgrep -f "lia_graph.ui_server") 2>/dev/null
+pkill -f "scripts/dev-launcher" 2>/dev/null; true
+npm run dev:staging
+```
+
+**Paso 2 — re-probe §4.1 (texto literal):**
+
+> ¿Cómo liquido a un empleado que despedí sin justa causa, salario $4.000.000, 4 años de antigüedad, contrato indefinido?
+
+**Paso 3 — verificar trace** (en la sección diagnostics del response, o en `tracers_and_logs/logs/pipeline_trace.jsonl`):
+
+```bash
+tail -200 tracers_and_logs/logs/pipeline_trace.jsonl \
+    | jq 'select(.step == "practica.noise_filter.applied" or .step == "synthesis.conflict_resolver.applied")'
+```
+
+Esperado en shadow:
+
+- `practica.noise_filter.applied` → `outcome: "shadow_hit"`, `shadow_reasons: {"software_code_tail": 2, "pre_ley_lead": 1, "orphan_numeric_calc": 1}` (o subset).
+- `synthesis.conflict_resolver.applied` → `outcome: "shadow_hit"`, `groups_detected: 1`, `groups_resolved_a1: 1`, `decisions[0].path: "a1_article_match"`, `winner_line_index = <índice del bullet 30 días>`.
+
+**Paso 4 — flip a enforce (si shadow limpio):**
+
+Editar `scripts/dev-launcher.mjs`, cambiar 2 defaults:
+
+```js
+env.LIA_PRACTICA_NOISE_FILTER = "enforce";    // (era "shadow")
+env.LIA_CONFLICT_RESOLVER_MODE = "enforce";   // (era "shadow")
+```
+
+Después: bump env-matrix version en orchestration.md / env_guide.md / CLAUDE.md a `v2026-MM-DD-fix-v18-enforce-A-E`. Agregar Change Log row corto. Commit. Restart staging. Re-probe.
+
+**Paso 5 — verificar enforce limpia el answer:**
+
+Esperado:
+
+- Bullets `código 55` / `código 56` AUSENTES de Recomendaciones Prácticas.
+- Bullet `Antes: 30 días × ...` AUSENTE.
+- Bullet `45 días de salario` AUSENTE (Issue E drop).
+- Bullet `30 días de salario` PRESENTE (SPEC correcto).
+- Bullet CST 65 moratoria PRESENTE si la corrida tiene suerte (Issue C es estocástico, queda pendiente).
+- `Art. 127-132 ET — Definición de salario` SIGUE PRESENTE (Issue B no shipped aún → ver §1.2 para arrancar v18 b3).
+
+Si hay falso positivo (un SPEC bullet legítimo se dropeó) → `feedback_thresholds_no_lower`: NO subir el threshold, refinar la heurística específica. Re-shadow, re-probe.
+
+(Status legend completo en §0.1.)
 
 ---
 
@@ -735,11 +946,15 @@ Lifecycle (heredado de fix_v17_may §12):
 - **Granularity.** Por `feedback_granular_edits`, no apilar fixes en
   módulos ≥ 1000 LOC. `answer_llm_polish.py` está en ~700 LOC; los
   nuevos validators caben. Si crece >1000 LOC, extraé los validators
-  a `pipeline_d/answer_polish_validators.py` sibling.
+  a `pipeline_d/answer_polish_validators.py` sibling. El conflict
+  resolver de Issue E ya está como sibling (`answer_conflict_resolver.py`,
+  ~360 LOC) — patrón a seguir.
 - **No money in status reports** (`feedback_no_money_quoting`).
   Tiempo + alcance + qué desbloquea — no dólares.
 - **No text walls** (CLAUDE.md Non-Negotiable). Bullets, listas,
-  tablas — nunca párrafos de prosa.
+  tablas — nunca párrafos de prosa. Aplica a este doc y a cualquier
+  Change Log row en `orchestration.md`. Verificá tu output antes de
+  commit — un row > 1 línea sin `<br>` o `•` ya es un wall.
 - **Update este doc en el MISMO commit que el código**
   (`feedback_recommendations_logged_in_canonical_plan`).
 - **Default run mode dev:staging** (`feedback_default_run_mode_staging`).
@@ -750,7 +965,26 @@ Lifecycle (heredado de fix_v17_may §12):
 - **Validators heredados del patrón fix_v15.** Leé
   `_no_invented_uvt_ranges` en `answer_llm_polish.py` antes de
   escribir el primer validator nuevo — la forma se copia 1:1
-  (cue-gating + trace step + shadow/enforce ramp).
+  (cue-gating + trace step + shadow/enforce ramp). Para v18 b3
+  (Issue B) ese es exactamente el patrón.
+- **Conflict resolver es estructuralmente distinto.** Issue E no
+  vive en `answer_llm_polish.py` porque NO es un polish-validator —
+  corre ANTES de polish (entre `synthesis.template_built` y
+  `polish_graph_native_answer`). Editar Issue E = editar
+  `pipeline_d/answer_conflict_resolver.py`, no `answer_llm_polish.py`.
+- **A2 LLM fallback puede fallar silencioso** si `GEMINI_API_KEY` no
+  está en el env (tests, local sin keys). El resolver wrapea como
+  `a2_no_adapter` y deja ambos bullets sobrevivir. Es safe-default
+  intencional — no "arreglar" tratando de propagar el error.
+- **Commit references a mano** (no `git log --oneline -1` cada vez):
+  - `26bf04b` = v18 b1 = Issue A + D
+  - `bdc6adf` = v18 b2 = Issue E
+  - `4487c33` = orchestration cleanup
+- **`fix_locos.md` no es plan, es referencia.** Si alguien (humano o
+  LLM) propone "deberíamos hacer X" y X es ambicioso, primero leé
+  `docs/re-engineer/fix/fix_locos.md` — probablemente ya está ahí
+  con su tradeoff documentado. No promover ideas de locos sin que
+  pasen los 3 criterios del header de ese doc.
 
 ---
 
