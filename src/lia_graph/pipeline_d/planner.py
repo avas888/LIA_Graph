@@ -26,6 +26,38 @@ from .answer_comparative_regime import (
     detect_comparative_regime_cue,
     match_regime_pair_for_request,
 )
+from .case_detectors import (
+    is_gmf_deduction_case,
+    is_ica_deduction_case,
+    is_intereses_deduction_case,
+    is_leasing_deduction_case,
+    is_predial_deduction_case,
+    is_primer_empleo_deduction_case,
+)
+from .case_bullets import CASE_REGISTRY
+
+
+# fix_v16 (2026-05-14) — case-anchor + search-queries registries now
+# derived from the single ``CASE_REGISTRY`` declared in
+# ``pipeline_d/case_bullets/``. The two tuples are kept as the planner's
+# public-ish read interface (downstream code in this file still iterates
+# them via the same shapes), so nothing inside ``build_graph_retrieval_plan``
+# had to change. Adding a topic = one new file in ``case_bullets/`` +
+# one import line in ``case_bullets/__init__.py``.
+#
+# v15.5 origin: replaced fix_v8 §3g's hardcoded `ica` if-block with a
+# generic detector→articles tuple so the planner emits explicit
+# ``kind="article"`` entry points the retriever's anchor-merge step
+# uses regardless of hybrid_search ranking.
+_CASE_ANCHOR_REGISTRY: tuple[tuple[object, tuple[str, ...], str], ...] = tuple(
+    (spec.detector, spec.anchor_articles, spec.source_label)
+    for spec in CASE_REGISTRY
+)
+
+
+_CASE_SEARCH_QUERIES: tuple[tuple[object, tuple[str, ...]], ...] = tuple(
+    (spec.detector, spec.search_queries) for spec in CASE_REGISTRY
+)
 from .planner_query_modes import (  # noqa: F401  — re-exported
     _CORRECTION_FIRMNESS_CONTEXT_MARKERS,
     _CORRECTION_FIRMNESS_MARKERS,
@@ -437,28 +469,36 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
                     resolved_key=article_key,
                 )
             )
-    # fix_v8 §3g — ICA-in-renta deduction anchor. Q01 trace showed the
-    # retriever drifting to gastos-exterior chunks (Arts. 121-123) for
-    # "¿Puedo deducir el ICA pagado en renta?" because the topic boost
-    # alone wasn't enough to surface Art. 115 (the actual ICA-as-descuento
-    # article). Explicit `kind="article"` anchor pulls Art. 115 via the
-    # retriever's anchor-merge step, independent of hybrid_search ranking.
-    if (
-        not article_refs
-        and not reform_refs
-        and _looks_like_tax_treatment_case(normalized_message)
-        and ("ica" in normalized_message or "industria y comercio" in normalized_message)
-    ):
-        entry_points.append(
-            PlannerEntryPoint(
-                kind="article",
-                lookup_value="115",
-                source="ica_deduction_anchor",
-                confidence=0.92,
-                label="Art. 115",
-                resolved_key="115",
-            )
-        )
+    # v15.5 (2026-05-14) — case-anchor registry walk. Replaces the
+    # fix_v8 §3g ICA-specific if-block with a generic loop over
+    # `_CASE_ANCHOR_REGISTRY`. Each detector binds a case to its anchor
+    # articles; when a detector fires, the corresponding articles are
+    # emitted as explicit `kind="article"` entry points so the
+    # retriever's anchor-merge step pulls the right chunk regardless of
+    # hybrid_search ranking.
+    #
+    # Root cause documented in fix_v8 §3g (ICA panel Q01): topic boost
+    # alone was not enough to surface Art. 115 ET (the deduction rule);
+    # retriever drifted to gastos-exterior chunks (Arts. 121-123). The
+    # 2026-05-14 deductions probe confirmed the same pattern hit predial
+    # (cited Art. 121 instead of Art. 115 inciso 1 everywhere). Single
+    # registry covers GMF / ICA / predial / intereses / leasing / primer
+    # empleo and any future case-bullet topic.
+    if not article_refs and not reform_refs:
+        for detector, lookup_values, source in _CASE_ANCHOR_REGISTRY:
+            if detector(normalized_message):
+                for lookup in lookup_values:
+                    entry_points.append(
+                        PlannerEntryPoint(
+                            kind="article",
+                            lookup_value=lookup,
+                            source=source,
+                            confidence=0.92,
+                            label=f"Art. {lookup}",
+                            resolved_key=lookup,
+                        )
+                    )
+                break  # one case at a time — earlier rows have precedence
 
     if not article_refs and not reform_refs:
         for article_search in _build_article_search_queries(
@@ -722,22 +762,18 @@ def _build_article_search_queries(
             queries.append("devolucion saldo a favor renta correccion firmeza declaracion")
         elif "iva" in normalized_message:
             queries.append("devolucion saldo a favor iva plazos compensacion")
-    # fix_v8 §3g — tax-treatment case. Q01 "¿Puedo deducir el ICA pagado en
-    # renta?" was producing plan_anchor_count=0 and the retriever drifted
-    # to gastos-exterior content (arts. 121/122/123) because the topic
-    # boost alone wasn't enough to surface Art. 115 ET. The phase3
-    # `test_phase3_pipeline_d_recovers_art_115_for_ica_deduction_prompt`
-    # test relies on a different topic route; this case anchors Art. 115
-    # explicitly via article-search regardless of routed topic.
+    # v15.5 (2026-05-14) — case-search-queries walk. Mirrors
+    # `_CASE_ANCHOR_REGISTRY`: when a case detector fires, its
+    # search queries augment the text-search half of retrieval so
+    # `hybrid_search` ranks the case's anchor chunks high enough to
+    # survive the top-K cut. Combined with the case-anchor registry
+    # walk in `build_anchor_seeds`, this gives the case bullets the
+    # right chunks AND the right primary anchors.
+    for detector, queries_tuple in _CASE_SEARCH_QUERIES:
+        if detector(normalized_message):
+            queries.extend(queries_tuple)
+            break
     if _looks_like_tax_treatment_case(normalized_message):
-        if "ica" in normalized_message or "industria y comercio" in normalized_message:
-            queries.extend(
-                (
-                    "deduccion del ica impuesto industria comercio descuento "
-                    "tributario en renta art 115",
-                    "ica pagado deducible renta descuento tributario art 115 ica",
-                )
-            )
         queries.extend(
             (
                 "requisitos generales de deduccion necesidad causalidad "
@@ -765,9 +801,13 @@ def _secondary_topic_hints_from_scores(
     }
     ordered_scores = sorted(
         (
-            (normalize_topic_key(topic), float(score))
-            for topic, score in topic_scores.items()
-            if str(topic or "").strip()
+            (normalized, float(score))
+            for normalized, score in (
+                (normalize_topic_key(topic), score)
+                for topic, score in topic_scores.items()
+                if str(topic or "").strip()
+            )
+            if normalized
         ),
         key=lambda item: (-item[1], item[0]),
     )

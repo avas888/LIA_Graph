@@ -69,8 +69,10 @@
       "art:69", "art:70", "art:71", "art:72", "art:73", "art:74", "art:75", "art:76", "art:77",
       "art:87", "art:87-1",
       "art:103", "art:104", "art:105",
-      "art:107", "art:108", "art:109", "art:110", "art:111", "art:112", "art:113", "art:114", "art:115", "art:116", "art:117",
-      "art:118", "art:119", "art:120",
+      "art:107", "art:107-1", "art:108", "art:108-5", "art:109", "art:110", "art:111", "art:112", "art:113", "art:114", "art:114-1", "art:115", "art:115-1", "art:116", "art:117", "art:117-1",
+      "art:118", "art:118-1", "art:119", "art:120",
+      "art:125",
+      "art:146",
       "art:121", "art:122", "art:123", "art:124", "art:124-1", "art:124-2",
       "art:127", "art:127-1",
       "art:131", "art:134", "art:135",
@@ -170,6 +172,7 @@
 
   "dividendos_y_distribucion_utilidades": {
     "allowed_prefixes": [
+      "art:36-3",
       "art:48", "art:49",
       "art:240", "art:240-1", "art:240-2",
       "art:241",
@@ -184,7 +187,7 @@
 
   "informacion_exogena": {
     "allowed_prefixes": [
-      "art:631", "art:631-1", "art:631-2", "art:631-3",
+      "art:631", "art:631-1", "art:631-2", "art:631-3", "art:631-4", "art:631-5",
       "art:632", "art:633", "art:634",
       "art:651",
       "art:684", "art:684-1", "art:684-2", "art:684-3"
@@ -205,6 +208,7 @@
 
   "procedimiento_tributario": {
     "allowed_prefixes": [
+      "art:565", "art:566", "art:566-1", "art:567", "art:568", "art:569",
       "art:588", "art:589", "art:590",
       "art:596",
       "art:638", "art:641", "art:642", "art:643", "art:644",
@@ -216,8 +220,10 @@
       "art:706", "art:707",
       "art:714", "art:715", "art:716",
       "art:771-2", "art:771-5",
+      "art:807", "art:809",
       "art:815", "art:816",
-      "art:850", "art:855", "art:855-1", "art:856", "art:857", "art:858", "art:859", "art:860", "art:863"
+      "art:850", "art:855", "art:855-1", "art:856", "art:857", "art:858", "art:859", "art:860", "art:863",
+      "art:869", "art:869-1", "art:869-2"
     ],
     "cross_topic_allowed": ["firmeza_declaraciones", "beneficio_auditoria", "devoluciones_saldos_a_favor", "regimen_sancionatorio"],
     "_notes": "Procedimiento tributario amplio: correcciones 588-590, sanciones 638-651, beneficio auditoría 689-3, firmeza 714, devoluciones 850-863, compensación 815-816. EXCLUDED: Arts. 100-102 (renta vitalicia) que aparecieron mal-citados en Práctica Q2."
@@ -268,11 +274,13 @@
   "estados_financieros_niif": {
     "allowed_prefixes": [
       "art:21-1",
+      "art:28", "art:28-1",
+      "art:240",
       "art:261", "art:267",
       "art:772", "art:772-1"
     ],
-    "cross_topic_allowed": ["conciliacion_fiscal", "patrimonio_fiscal_renta", "declaracion_renta"],
-    "_notes": "NIIF base normativa ET es escasa — el grueso está en decretos. Allowlist mínima."
+    "cross_topic_allowed": ["conciliacion_fiscal", "patrimonio_fiscal_renta", "declaracion_renta", "niif_pymes"],
+    "_notes": "NIIF base normativa ET es escasa — el grueso está en decretos. Allowlist mínima. corpusfix_v1: añadido 28 (realización ingresos NIIF), 240 (impuesto diferido), 28-1 (transición)."
   },
 
   "patrimonio_fiscal_renta": {

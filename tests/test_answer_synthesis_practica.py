@@ -78,6 +78,30 @@ def test_drops_dangling_paren_numeral() -> None:
     assert _is_practica_artifact_line("Aplica el factor a la base (7).") is True
 
 
+def test_drops_inline_markdown_heading_tail() -> None:
+    # v15.1: leaked Checklist line from GMF-4x1000 panel where the
+    # chunker joined a `## 27.1.` heading with the `### 27.1.1.` tail.
+    line = "Checklist Pre-Cierre Fiscal — Antes del 31 de Diciembre ### 27.1.1."
+    assert _is_practica_artifact_line(line) is True
+
+
+def test_drops_inline_markdown_heading_no_trailing_period() -> None:
+    line = "Algo introductorio relevante ### 4.2 Resumen operativo"
+    assert _is_practica_artifact_line(line) is True
+
+
+def test_drops_fragment_leader_de_diciembre() -> None:
+    # v15.1: chunker ate the leading "15 " from "15 de diciembre 2025: …"
+    line = "de diciembre 2025: PYME recibe factura de consultor por $2.000.000 (servicio ya prestado)."
+    assert _is_practica_artifact_line(line) is True
+
+
+def test_drops_fragment_leader_que_porque_donde() -> None:
+    assert _is_practica_artifact_line("que el contribuyente conserve los soportes durante cinco años.") is True
+    assert _is_practica_artifact_line("porque se causa en el momento de la enajenación.") is True
+    assert _is_practica_artifact_line("donde se reconoce el ingreso en el período en que se devenga.") is True
+
+
 def test_drops_empty_or_whitespace() -> None:
     assert _is_practica_artifact_line("") is True
     assert _is_practica_artifact_line("   ") is True
@@ -167,7 +191,21 @@ def test_extend_empty_chunks_no_crash() -> None:
     assert bucket == []
 
 
-def test_extend_caps_one_bullet_per_chunk_by_default() -> None:
+def test_extend_respects_explicit_per_chunk_cap() -> None:
+    chunk = _StubChunk(
+        chunk_text=(
+            "- Primera línea operativa concreta del cierre fiscal antes del vencimiento mensual.\n"
+            "- Segunda línea con detalle del paso siguiente del procedimiento operativo del cliente.\n"
+            "- Tercera línea con el soporte documental que se debe archivar siempre por seis años.\n"
+        ),
+        doc_id="doc_a",
+    )
+    bucket: list[str] = []
+    extend_from_practica_chunks(bucket, (chunk,), max_bullets_per_chunk=1)
+    assert len(bucket) == 1
+
+
+def test_extend_default_lets_chunk_emit_multiple_bullets() -> None:
     chunk = _StubChunk(
         chunk_text=(
             "- Primera línea operativa concreta del cierre fiscal antes del vencimiento mensual.\n"
@@ -178,5 +216,5 @@ def test_extend_caps_one_bullet_per_chunk_by_default() -> None:
     )
     bucket: list[str] = []
     extend_from_practica_chunks(bucket, (chunk,))
-    # Default max_bullets_per_chunk is 1 — only the first emits.
-    assert len(bucket) == 1
+    # v15.1: default per-chunk cap raised from 1 → 6; this chunk emits 3.
+    assert len(bucket) == 3

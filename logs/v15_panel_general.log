@@ -1,0 +1,24 @@
+2026-05-13 17:21:50,743 [INFO] loaded 21 questions from evals/sme_validation_v1/21q_retriever_General.jsonl
+2026-05-13 17:21:50,760 [INFO] todo=21  done=0/21  workers=4  server=http://127.0.0.1:8787  max_429=2
+2026-05-13 17:22:28,343 [INFO] [1/21] qid=ep_renta_conciliacion_2516_v1 status=200 mode=graph_native elapsed=37.6s
+2026-05-13 17:22:56,013 [INFO] [2/21] qid=ep_renta_patrimonio_niif_v1 status=200 mode=graph_native elapsed=65.3s
+2026-05-13 17:23:07,511 [INFO] [3/21] qid=ep_renta_deduccion_ica_v1 status=200 mode=graph_native elapsed=76.7s
+2026-05-13 17:23:14,292 [INFO] [4/21] qid=ep_renta_dividendos_242_v1 status=200 mode=graph_native elapsed=45.9s
+2026-05-13 17:23:36,774 [INFO] [5/21] qid=ep_renta_beneficio_auditoria_v1 status=200 mode=graph_native elapsed=40.8s
+2026-05-13 17:23:54,987 [INFO] [6/21] qid=ep_renta_ttd_paragrafo6_v1 status=200 mode=graph_native elapsed=124.2s
+2026-05-13 17:24:08,077 [INFO] [7/21] qid=ep_iva_regimen_responsables_v1 status=200 mode=graph_native elapsed=60.6s
+2026-05-13 17:24:19,256 [INFO] [8/21] qid=ep_iva_proporcionalidad_d1474_v1 status=200 mode=graph_native elapsed=65.0s
+2026-05-13 17:24:21,616 [INFO] [9/21] qid=ep_iva_exentos_vs_excluidos_v1 status=200 mode=graph_native elapsed=44.8s
+2026-05-13 17:24:46,004 [INFO] [10/21] qid=ep_fe_cufe_contingencia_v1 status=200 mode=graph_native elapsed=51.0s
+2026-05-13 17:24:46,591 [INFO] [11/21] qid=ep_fe_nuevos_documentos_dav_v1 status=200 mode=graph_native elapsed=38.5s
+2026-05-13 17:25:06,596 [INFO] [12/21] qid=ep_laboral_reforma_2466_v1 status=200 mode=graph_native elapsed=20.0s
+2026-05-13 17:25:08,225 [INFO] [13/21] qid=ep_retencion_autorretencion_especial_v1 status=200 mode=graph_native elapsed=46.6s
+2026-05-13 17:25:52,220 [INFO] [14/21] qid=ep_retencion_decreto_572_v1 status=200 mode=graph_native elapsed=93.0s
+2026-05-13 17:26:06,253 [INFO] [15/21] qid=ep_laboral_parafiscales_especiales_v1 status=200 mode=graph_native elapsed=59.7s
+2026-05-13 17:26:07,747 [INFO] [16/21] qid=ep_laboral_ugpp_desalarizacion_v1 status=200 mode=graph_native elapsed=81.7s
+2026-05-13 17:26:14,467 [INFO] [17/21] qid=ep_gmf_exencion_350uvt_v1 status=200 mode=graph_native elapsed=66.2s
+2026-05-13 17:26:25,820 [INFO] [18/21] qid=ep_pt_umbrales_pyme_v1 status=200 mode=graph_native elapsed=33.6s
+2026-05-13 17:26:30,610 [INFO] [19/21] qid=ep_pt_paraisos_panama_v1 status=200 mode=graph_native elapsed=24.4s
+2026-05-13 17:26:41,378 [INFO] [20/21] qid=ep_proc_devoluciones_riesgo_auditoria_v1 status=200 mode=graph_native elapsed=26.9s
+2026-05-13 17:26:49,307 [INFO] [21/21] qid=ep_rst_elegibilidad_sectores_v1 status=200 mode=graph_native elapsed=41.6s
+2026-05-13 17:26:49,307 [INFO] DONE 21 new responses in 298.5s (14.2s/Q wall, 4 workers)

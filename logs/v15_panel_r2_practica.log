@@ -1,0 +1,24 @@
+2026-05-13 17:33:51,962 [INFO] loaded 21 questions from evals/sme_validation_v1/21q_retriever_Practica.jsonl
+2026-05-13 17:33:51,984 [INFO] todo=21  done=0/21  workers=4  server=http://127.0.0.1:8787  max_429=2
+2026-05-13 17:34:07,329 [INFO] [1/21] qid=pr_iva_form300_diligenciamiento_v1 status=200 mode=graph_native elapsed=15.3s
+2026-05-13 17:34:46,518 [INFO] [2/21] qid=pr_renta_anticipo_calculo_v1 status=200 mode=graph_native elapsed=54.5s
+2026-05-13 17:34:52,084 [INFO] [3/21] qid=pr_retencion_form350_mensual_v1 status=200 mode=graph_native elapsed=60.1s
+2026-05-13 17:35:22,439 [INFO] [4/21] qid=pr_nomina_liquidacion_pila_v1 status=200 mode=graph_native elapsed=90.5s
+2026-05-13 17:35:41,226 [INFO] [5/21] qid=pr_fe_contingencia_operativa_v1 status=200 mode=graph_native elapsed=54.7s
+2026-05-13 17:35:52,367 [INFO] [6/21] qid=pr_retencion_tabla_383_procedimientos_v1 status=200 mode=graph_native elapsed=105.0s
+2026-05-13 17:35:55,199 [INFO] [7/21] qid=pr_fe_nota_credito_correccion_v1 status=200 mode=graph_native elapsed=63.1s
+2026-05-13 17:36:04,587 [INFO] [8/21] qid=pr_parafiscales_especiales_transporte_v1 status=200 mode=topic_safety_abstention elapsed=23.4s
+2026-05-13 17:36:10,164 [INFO] [9/21] qid=pr_nomina_electronica_dsn_v1 status=200 mode=graph_native elapsed=47.7s
+2026-05-13 17:36:20,451 [INFO] [10/21] qid=pr_reforma_laboral_recargos_v1 status=200 mode=graph_native elapsed=28.1s
+2026-05-13 17:36:37,675 [INFO] [11/21] qid=pr_gmf_marcacion_cuentas_v1 status=200 mode=graph_native elapsed=42.5s
+2026-05-13 17:36:40,093 [INFO] [12/21] qid=pr_rst_anticipo_bimestral_v1 status=200 mode=graph_native elapsed=35.5s
+2026-05-13 17:36:53,454 [INFO] [13/21] qid=pr_devolucion_saldo_favor_renta_v1 status=200 mode=graph_native elapsed=43.3s
+2026-05-13 17:36:55,574 [INFO] [14/21] qid=pr_exogena_formatos_prevalidador_v1 status=200 mode=graph_native elapsed=35.1s
+2026-05-13 17:37:15,752 [INFO] [15/21] qid=pr_calendario_obligaciones_pyme_v1 status=200 mode=graph_native elapsed=20.2s
+2026-05-13 17:37:55,280 [INFO] [16/21] qid=pr_correccion_renta_saldo_favor_v1 status=200 mode=graph_native elapsed=77.6s
+2026-05-13 17:37:57,200 [INFO] [17/21] qid=pr_pt_documentacion_comprobatoria_v1 status=200 mode=graph_native elapsed=41.4s
+2026-05-13 17:38:01,036 [INFO] [18/21] qid=pr_depreciacion_maquinaria_2516_v1 status=200 mode=graph_native elapsed=80.9s
+2026-05-13 17:38:05,395 [INFO] [19/21] qid=pr_dividendos_retencion_socio_v1 status=200 mode=graph_native elapsed=71.9s
+2026-05-13 17:38:23,739 [INFO] [20/21] qid=pr_ica_multimunicipio_v1 status=200 mode=graph_native elapsed=28.5s
+2026-05-13 17:38:56,046 [INFO] [21/21] qid=pr_firmeza_calendario_defensivo_v1 status=200 mode=graph_native elapsed=58.8s
+2026-05-13 17:38:56,047 [INFO] DONE 21 new responses in 304.1s (14.5s/Q wall, 4 workers)

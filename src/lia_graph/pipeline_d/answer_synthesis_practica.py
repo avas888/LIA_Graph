@@ -75,6 +75,25 @@ _PRACTICA_SECTION_HEADING_RE = re.compile(
     r"^\s*#{1,6}\s+[\d.]+",
 )
 
+# v15.1 (2026-05-14): inline `###` markdown heading markers anywhere in
+# the line. Catches chunks where the splitter joined a heading line
+# with a sub-heading: `Checklist Pre-Cierre Fiscal — Antes del 31 de
+# Diciembre ### 27.1.1.` — the leading text reads plausibly but the
+# `### N.N` tail betrays the corpus scaffold.
+_PRACTICA_INLINE_MARKDOWN_HEADING_RE = re.compile(
+    r"#{2,6}\s+\d+(?:\.\d+)*\.?",
+)
+
+# v15.1 (2026-05-14): line starts with a Spanish mid-sentence connector
+# — almost always a sign the chunker ate the leading "El 1 " / "En el
+# año " / etc. and the surviving fragment opens with a preposition or
+# subordinator. Well-formed operational guidance never begins this way.
+# Tokens chosen are unambiguous mid-sentence-only words in Spanish.
+_PRACTICA_FRAGMENT_LEADER_RE = re.compile(
+    r"^(?:de|del|al|que|donde|cuando|mientras|porque|según|sino|aunque|para|por|con|sin|sobre)\s+",
+    re.IGNORECASE,
+)
+
 # Truncated mid-thought endings (chunk got cut on a conjunction or
 # half-word): "aparece cuando.", "según ú.", "donde,"
 _PRACTICA_TRUNCATION_TAILS: tuple[str, ...] = (
@@ -127,6 +146,10 @@ def _is_practica_artifact_line(line: str) -> bool:
         return True
     if _PRACTICA_SECTION_HEADING_RE.search(stripped):
         return True
+    if _PRACTICA_INLINE_MARKDOWN_HEADING_RE.search(stripped):
+        return True
+    if _PRACTICA_FRAGMENT_LEADER_RE.match(stripped):
+        return True
     if _PRACTICA_QUESTION_BULLET_RE.match(stripped):
         return True
     if _PRACTICA_DANGLING_PAREN_RE.search(stripped):
@@ -175,15 +198,16 @@ def extend_from_practica_chunks(
     bucket: list[str],
     chunks: tuple["PracticaChunkRuntime", ...],
     *,
-    max_bullets_per_chunk: int = 1,
+    max_bullets_per_chunk: int = 6,
 ) -> None:
-    """Append one bullet per práctica chunk to `bucket` (de-duped).
+    """Append bullets from each práctica chunk to `bucket` (de-duped).
 
-    Caller (`build_recommendations`) already caps total recommendation
-    bullets at 3 via `tuple(lines[:3])` — the cap here is per-chunk so
-    the section can include one bullet from each of the reserved
-    práctica chunks (when fewer chunks pass the upstream gates, the
-    section's existing fallback chain naturally fills the rest).
+    v15.1 (2026-05-14): caps on Recomendaciones Prácticas lifted per
+    operator directive — the section can run as long as the chunk
+    content warrants. Per-chunk default raised from 1 to 6 so every
+    reserved `practica_erp` chunk can surface its full operational
+    detail; `build_recommendations` no longer truncates the merged
+    list.
     """
     if not chunks:
         _trace_step(

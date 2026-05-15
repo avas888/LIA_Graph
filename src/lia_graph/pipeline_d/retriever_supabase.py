@@ -38,6 +38,19 @@ from .contracts import (
 )
 from .planner import with_resolved_entry_points
 from .retrieval_support import derive_authority, manifest_doc_id
+from .retriever_supabase_search import (  # fix_v16 b5 carve-out — re-exported for tests
+    _QUERY_EMBED_DIM,
+    _QUERY_EMBED_ENV_FLAG,
+    _apply_client_side_subtopic_boost,
+    _build_fts_or_query,
+    _hybrid_search as _hybrid_search_impl,
+    _query_embedding,
+    _query_embeddings_enabled,
+    _resolve_practica_boost_factor,
+    _resolve_subtopic_boost_factor,
+    _resolve_topic_boost_factor,
+    _zero_embedding,
+)
 
 # fix_v1.md hand-off — deep-trace collector. No-op when no active trace.
 try:
@@ -117,7 +130,9 @@ def retrieve_graph_evidence(
         query_text_preview=query_text[:240],
         query_text_chars=len(query_text or ""),
     )
-    chunk_rows = _hybrid_search(db, plan=plan, query_text=query_text)
+    chunk_rows = _hybrid_search_impl(
+        db, plan=plan, query_text=query_text, trace_step=_trace_step
+    )
     _trace_step(
         "retriever.hybrid_search.out",
         status="ok" if chunk_rows else "fallback",
@@ -274,314 +289,6 @@ def _build_query_text(plan: GraphRetrievalPlan) -> str:
     if not parts:
         parts.extend(plan.topic_hints or ())
     return " ".join(dict.fromkeys(parts)).strip() or plan.query_mode
-
-
-def _hybrid_search(
-    db: Any,
-    *,
-    plan: GraphRetrievalPlan,
-    query_text: str,
-) -> list[dict[str, Any]]:
-    effective_date = plan.temporal_context.cutoff_date or None
-    match_count = max(
-        plan.evidence_bundle_shape.primary_article_limit
-        + plan.evidence_bundle_shape.connected_article_limit
-        + plan.evidence_bundle_shape.support_document_limit,
-        24,
-    )
-    # fix_v7 §3a — Topic is a ranking signal, NEVER a WHERE filter for the
-    # chat path. See `docs/orchestration/orchestration.md` §4.1 invariant
-    # ("Topic is ranking signal, not WHERE filter"). The retriever passes
-    # `filter_topic=None` so cross-topic anchors (e.g. Art. 147 ET catalogued
-    # under IVA, load-bearing for a `declaracion_renta` loss-compensation
-    # question) stay reachable. The soft boost rides on the separate
-    # `boost_topic` parameter introduced in migration
-    # `supabase/migrations/20260512000000_topic_filter_soft.sql` — chunks
-    # whose `topic` matches the routed topic get their RRF multiplied by
-    # `filter_topic_boost` without any chunks being excluded from recall.
-    # Pre-fix_v7 behavior was guarded by the `OR effective_topic_boost > 1.0`
-    # short-circuit inside the 0427 migration; v7 makes the decoupling
-    # explicit instead of inferred at the SQL layer.
-    sub_topic_intent = getattr(plan, "sub_topic_intent", None)
-    subtopic_boost = _resolve_subtopic_boost_factor()
-    router_topic = next(iter(plan.topic_hints), None) if plan.topic_hints else None
-    topic_boost = _resolve_topic_boost_factor()
-    practica_boost = _resolve_practica_boost_factor()
-    query_embedding, embedding_diag = _query_embedding(query_text)
-    payload: dict[str, Any] = {
-        "query_embedding": query_embedding,
-        "query_text": query_text,
-        # fix_v7 §3a — filter_topic stays None for the chat path so the
-        # WHERE clause cannot hard-exclude cross-topic chunks. Boost rides
-        # on `boost_topic` below.
-        "filter_topic": None,
-        "filter_pais": "colombia",
-        "match_count": match_count,
-        "filter_knowledge_class": None,
-        "filter_sync_generation": None,
-        "fts_query": _build_fts_or_query(query_text),
-        "filter_effective_date_max": effective_date,
-    }
-    # ingestfix-v2 Phase 6: pass subtopic filter so the RPC can apply the
-    # server-side boost directly. The client-side fallback below covers
-    # older DBs that haven't applied the migration yet (Invariant I5 —
-    # NULL subtemas never penalized).
-    if sub_topic_intent:
-        payload["filter_subtopic"] = sub_topic_intent
-        payload["subtopic_boost"] = subtopic_boost
-    # fix_v7 §3a — topic boost. `boost_topic` is the new soft-boost target
-    # (decoupled from filter_topic) introduced by migration
-    # 20260512000000_topic_filter_soft.sql. The try/except recovery below
-    # strips both `boost_topic` and `filter_topic_boost` for older
-    # deployments that do not yet have the migration applied.
-    if router_topic and topic_boost > 1.0:
-        payload["boost_topic"] = router_topic
-        payload["filter_topic_boost"] = topic_boost
-    # fix_v12 §2.C — knowledge_class boost. `practica_erp` chunks
-    # (fix_v10_may Phase 10A: 1,463 cloud chunks) compete with denser
-    # `normative_base` chunks for top-K; without a boost the chat
-    # assembler's `**Recomendaciones Prácticas**` lead section falls
-    # through to article-derived bullets in normative voice. Soft
-    # boost only — recall is unaffected. The recovery block below
-    # strips `boost_knowledge_class` + `knowledge_class_boost` on
-    # older deployments without migration 20260513000001.
-    if practica_boost > 1.0:
-        payload["boost_knowledge_class"] = "practica_erp"
-        payload["knowledge_class_boost"] = practica_boost
-    _trace_step(
-        "retriever.hybrid_search.in",
-        status="info",
-        match_count=match_count,
-        filter_topic=payload.get("filter_topic"),
-        boost_topic=payload.get("boost_topic"),
-        filter_topic_boost=payload.get("filter_topic_boost"),
-        boost_knowledge_class=payload.get("boost_knowledge_class"),
-        knowledge_class_boost=payload.get("knowledge_class_boost"),
-        filter_subtopic=payload.get("filter_subtopic"),
-        subtopic_boost=payload.get("subtopic_boost"),
-        filter_effective_date_max=str(payload.get("filter_effective_date_max")) if payload.get("filter_effective_date_max") else None,
-        fts_query_present=bool(payload.get("fts_query")),
-        sub_topic_intent=sub_topic_intent,
-        router_topic=router_topic,
-        embedding_mode=embedding_diag.get("embedding_mode"),
-        embedding_model=embedding_diag.get("model"),
-    )
-    _hybrid_recovery: str | None = None
-    try:
-        response = db.rpc("hybrid_search", payload).execute()
-    except Exception as exc:
-        # Older DBs reject unknown params. fix_v7 §3a adds `boost_topic`;
-        # 0427 added `filter_topic_boost`; pre-0427 deploys reject both.
-        # Strip them in order, then fall back to dropping the subtopic
-        # filter as a last resort. Each fallback degrades ranking quality
-        # but keeps retrieval alive.
-        recovered = False
-        _trace_step(
-            "retriever.hybrid_search.first_attempt_error",
-            status="error",
-            error=repr(exc)[:240],
-        )
-        if (
-            "boost_topic" in payload
-            or "filter_topic_boost" in payload
-            or "boost_knowledge_class" in payload
-            or "knowledge_class_boost" in payload
-        ):
-            payload.pop("boost_topic", None)
-            payload.pop("filter_topic_boost", None)
-            payload.pop("boost_knowledge_class", None)
-            payload.pop("knowledge_class_boost", None)
-            try:
-                response = db.rpc("hybrid_search", payload).execute()
-                recovered = True
-                _hybrid_recovery = "dropped_topic_and_class_boost_params"
-            except Exception:
-                pass
-        if not recovered and sub_topic_intent:
-            payload.pop("filter_subtopic", None)
-            payload.pop("subtopic_boost", None)
-            response = db.rpc("hybrid_search", payload).execute()
-            _hybrid_recovery = "dropped_subtopic_filter"
-        elif not recovered:
-            raise
-    if _hybrid_recovery:
-        _trace_step(
-            "retriever.hybrid_search.recovered",
-            status="fallback",
-            recovery=_hybrid_recovery,
-        )
-    rows = getattr(response, "data", None) or []
-    if not isinstance(rows, list):
-        _trace_step(
-            "retriever.hybrid_search.malformed_response",
-            status="error",
-            response_type=type(rows).__name__,
-        )
-        return []
-    typed_rows = [row for row in rows if isinstance(row, dict)]
-    boosted = _apply_client_side_subtopic_boost(
-        typed_rows,
-        sub_topic_intent=sub_topic_intent,
-        boost=subtopic_boost,
-    )
-    if sub_topic_intent and len(typed_rows) != len(boosted):
-        _trace_step(
-            "retriever.subtopic_boost.applied",
-            status="ok",
-            sub_topic_intent=sub_topic_intent,
-            boost=subtopic_boost,
-            rows_before=len(typed_rows),
-            rows_after=len(boosted),
-        )
-    return boosted
-
-
-def _resolve_subtopic_boost_factor() -> float:
-    """Read ``LIA_SUBTOPIC_BOOST_FACTOR`` env; default 1.5 (Decision G1+G3).
-
-    Coerces to float and floors at 1.0 so the boost can never penalize
-    (Invariant I5).
-    """
-    raw = os.getenv("LIA_SUBTOPIC_BOOST_FACTOR")
-    if raw is None or not str(raw).strip():
-        return 1.5
-    try:
-        parsed = float(raw)
-    except (TypeError, ValueError):
-        return 1.5
-    return max(parsed, 1.0)
-
-
-def _resolve_topic_boost_factor() -> float:
-    """v5 §1.D — Read ``LIA_TOPIC_BOOST_FACTOR`` env; default 1.5.
-
-    Mirrors `_resolve_subtopic_boost_factor` shape but applies to the
-    chunk-level topic match (not subtopic). Floors at 1.0 (Invariant I5,
-    never penalize). When the value is exactly 1.0, the boost is OFF and
-    `filter_topic` stays None in the RPC payload — preserving pre-§1.D
-    behavior. Set to 1.5+ to enable the boost.
-    """
-    raw = os.getenv("LIA_TOPIC_BOOST_FACTOR")
-    if raw is None or not str(raw).strip():
-        return 1.5
-    try:
-        parsed = float(raw)
-    except (TypeError, ValueError):
-        return 1.5
-    return max(parsed, 1.0)
-
-
-def _resolve_practica_boost_factor() -> float:
-    """fix_v12 §2.C — Read ``LIA_PRACTICA_BOOST_FACTOR`` env; default 1.5.
-
-    Mirrors `_resolve_topic_boost_factor` shape. Applies to chunks with
-    `knowledge_class='practica_erp'` so the chat path can surface
-    operational-guidance chunks above the denser `normative_base`
-    population. Floors at 1.0 (Invariant I5, never penalize). When the
-    value is exactly 1.0, the boost is OFF and `boost_knowledge_class`
-    stays absent from the RPC payload.
-    """
-    raw = os.getenv("LIA_PRACTICA_BOOST_FACTOR")
-    if raw is None or not str(raw).strip():
-        return 1.5
-    try:
-        parsed = float(raw)
-    except (TypeError, ValueError):
-        return 1.5
-    return max(parsed, 1.0)
-
-
-def _apply_client_side_subtopic_boost(
-    rows: list[dict[str, Any]],
-    *,
-    sub_topic_intent: str | None,
-    boost: float,
-) -> list[dict[str, Any]]:
-    """Client-side post-rerank boost (complements the server-side boost).
-
-    Safe to run when the RPC already applied the boost — a chunk whose
-    ``subtema`` matches ``sub_topic_intent`` simply gets multiplied once
-    more; for correctness we only apply client-side when the RPC does
-    NOT advertise it via the implicit contract (boost factor == 1.0
-    means "no client-side boost needed"). But since we cannot detect
-    which side applied, we trust ``boost > 1.0`` to mean "I want this
-    boost" and apply once client-side, then re-sort. The server-side
-    boost is designed to be idempotent with client-side reordering — the
-    absolute rrf_score magnitude does not matter, only the ranking.
-    """
-    if not sub_topic_intent or boost <= 1.0 or not rows:
-        return rows
-
-    boosted: list[tuple[float, dict[str, Any]]] = []
-    for row in rows:
-        score_raw = row.get("rrf_score", 0.0)
-        try:
-            score = float(score_raw or 0.0)
-        except (TypeError, ValueError):
-            score = 0.0
-        subtema = row.get("subtema")
-        applied_boost = 1.0
-        if subtema and subtema == sub_topic_intent:
-            applied_boost = boost
-        updated = dict(row)
-        updated["rrf_score"] = score * applied_boost
-        if applied_boost != 1.0:
-            try:
-                from ..instrumentation import emit_event as _emit
-
-                _emit(
-                    "subtopic.retrieval.boost_applied",
-                    {
-                        "chunk_id": row.get("chunk_id"),
-                        "sub_topic_intent": sub_topic_intent,
-                        "boost_factor": applied_boost,
-                        "original_rrf": score,
-                        "boosted_rrf": score * applied_boost,
-                    },
-                )
-            except Exception:  # noqa: BLE001 — observability never blocks
-                pass
-        boosted.append((score * applied_boost, updated))
-    boosted.sort(key=lambda item: item[0], reverse=True)
-    return [row for _score, row in boosted]
-
-
-_FTS_TOKEN_RE = re.compile(r"[a-záéíóúñ0-9][-a-záéíóúñ0-9]*", re.IGNORECASE)
-# Spanish stopwords that would either be dropped by to_tsquery or hurt recall
-# if kept. Kept short on purpose — aggressive filtering is handled by the
-# RPC's `to_tsquery('spanish', ...)` which applies the Spanish dictionary.
-_FTS_STOPWORDS = frozenset(
-    {
-        "a", "al", "de", "del", "en", "la", "el", "los", "las", "un", "una",
-        "unos", "unas", "o", "u", "y", "e", "que", "para", "por", "con", "sin",
-        "sobre", "se", "su", "sus", "mi", "mis", "tu", "tus", "lo", "le", "les",
-        "como", "si", "no", "ni", "es", "son", "ser", "ha", "he", "han", "haya",
-    }
-)
-
-
-def _build_fts_or_query(query_text: str) -> str | None:
-    """Turn the planner's concatenated `query_text` into an OR-connected
-    `to_tsquery` expression so FTS recall is not gated by term-AND.
-
-    Returns `None` when no usable tokens remain, which makes the RPC fall
-    back to its `plainto_tsquery(query_text)` default.
-    """
-    seen: set[str] = set()
-    ordered: list[str] = []
-    for raw in _FTS_TOKEN_RE.findall(query_text or ""):
-        token = raw.lower().strip("-")
-        if len(token) < 2:
-            continue
-        if token in _FTS_STOPWORDS:
-            continue
-        if token in seen:
-            continue
-        seen.add(token)
-        ordered.append(token)
-    if not ordered:
-        return None
-    return " | ".join(ordered)
 
 
 def _fetch_anchor_article_rows(
@@ -891,74 +598,6 @@ def _diagnose_empty_chunks(db: Any) -> dict[str, Any]:
     return probe
 
 
-_QUERY_EMBED_DIM = 768
-_QUERY_EMBED_ENV_FLAG = "LIA_QUERY_EMBEDDINGS_ENABLED"
-
-
-def _query_embeddings_enabled() -> bool:
-    raw = str(os.getenv(_QUERY_EMBED_ENV_FLAG, "1") or "").strip().lower()
-    return raw in {"1", "true", "yes", "on"}
-
-
-def _query_embedding(query_text: str) -> tuple[list[float], dict[str, Any]]:
-    """Return ``(embedding, diag)`` for the chat query.
-
-    fix_v7 §3b — replaces the static `_zero_embedding()` payload that
-    silently disabled the vector half of hybrid_search. Reuses the
-    existing `lia_graph.embeddings.get_query_embedding` helper (which
-    handles Gemini API, LRU cache, durable per-query store).
-
-    Fallback contract: ANY failure (env-disabled, empty query, missing
-    key, exception inside Gemini call) returns the 768-dim zero vector
-    so retrieval keeps serving. The returned ``diag`` dict carries
-    the outcome (``embedding_mode``) for trace surfacing — operators
-    reading the trace can tell whether real semantic ranking was live.
-    """
-    if not _query_embeddings_enabled():
-        return _zero_embedding(), {"embedding_mode": "disabled_by_env"}
-    text = (query_text or "").strip()
-    if not text:
-        return _zero_embedding(), {"embedding_mode": "empty_query"}
-    try:
-        from ..embeddings import get_query_embedding as _get_query_embedding
-    except Exception as exc:  # pragma: no cover — embeddings module always present
-        return _zero_embedding(), {
-            "embedding_mode": "import_error",
-            "error_kind": type(exc).__name__,
-            "error_message": str(exc)[:200],
-        }
-    try:
-        vec = _get_query_embedding(text)
-    except Exception as exc:  # noqa: BLE001
-        return _zero_embedding(), {
-            "embedding_mode": "error",
-            "error_kind": type(exc).__name__,
-            "error_message": str(exc)[:200],
-        }
-    if vec is None:
-        return _zero_embedding(), {"embedding_mode": "unavailable"}
-    materialized = list(vec)
-    if len(materialized) != _QUERY_EMBED_DIM:
-        return _zero_embedding(), {
-            "embedding_mode": "dimension_mismatch",
-            "got_dim": len(materialized),
-            "expected_dim": _QUERY_EMBED_DIM,
-        }
-    return materialized, {
-        "embedding_mode": "ok",
-        "model": "gemini-embedding-001",
-        "dim": _QUERY_EMBED_DIM,
-    }
-
-
-def _zero_embedding() -> list[float]:
-    # Safety-net: returned when the real query embedding is unavailable.
-    # Callers should go through `_query_embedding(query_text)` so the
-    # zero-vector path is reserved for genuine failure modes (no API key,
-    # disabled by env, dimension mismatch, exception). When this fires the
-    # FTS half of RRF dominates ranking. fix_v7 §3b for full context.
-    return [0.0] * _QUERY_EMBED_DIM
-
 
 # --- document + chunk -> evidence -------------------------------------------
 
@@ -1085,11 +724,23 @@ def _classify_article_rows(
             or (doc_topic != "" and doc_topic in compatible_doc_topics)
             or router_topic in article_topic_index.get(article_key, frozenset())
         )
-        secondary_topics_for_item: tuple[str, ...] = (
-            (router_topic,)
-            if (signals_router_topic and not is_explicit_anchor and router_topic)
-            else ()
+        # fix_v16 b5 (2026-05-14) — explicit anchors also need
+        # secondary_topics populated when the rescue config declares the
+        # article serves the router_topic. Without this, cross-domain
+        # anchors (e.g. art. 869 in renta, router=procedimiento_tributario)
+        # land in primary[] with empty secondary_topics, the misalignment
+        # detector falls through to lexical scoring against the article's
+        # canonical (renta) topic, and coherence-gate abstains. Pre-v16
+        # behavior preserved for non-anchor rows.
+        article_serves_router = bool(router_topic) and (
+            router_topic in article_topic_index.get(article_key, frozenset())
         )
+        if signals_router_topic and router_topic and (
+            not is_explicit_anchor or article_serves_router
+        ):
+            secondary_topics_for_item: tuple[str, ...] = (router_topic,)
+        else:
+            secondary_topics_for_item = ()
         item = GraphEvidenceItem(
             node_kind="ArticleNode",
             node_key=article_key,

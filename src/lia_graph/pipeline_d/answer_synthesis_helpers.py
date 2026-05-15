@@ -308,6 +308,65 @@ def is_loss_compensation_case(normalized_message: str) -> bool:
     return _looks_like_loss_compensation_case(normalized_message)
 
 
+# v15.5 (2026-05-14) — case detectors moved to `case_detectors.py` so
+# `planner.py` can consume them without creating a circular import
+# (`planner → helpers → support → planner`). The functions are
+# re-exported here so existing call sites in this module keep working.
+from .case_detectors import (
+    is_anticipo_renta_case,
+    is_aportes_voluntarios_pension_case,
+    is_atenciones_case,
+    is_beneficio_auditoria_case,
+    is_capitalizacion_utilidades_case,
+    is_cartera_dificil_recaudo_case,
+    is_clausula_antiabuso_case,
+    is_compensacion_perdidas_fiscales_case,
+    is_ctei_descuento_case,
+    is_depreciacion_case,
+    is_devolucion_saldos_favor_case,
+    is_dividendos_no_gravados_case,
+    is_dividendos_pn_case,
+    is_donaciones_case,
+    is_exogena_1001_case,
+    is_exogena_1003_case,
+    is_exogena_1005_case,
+    is_exogena_1007_case,
+    is_exogena_umbrales_case,
+    is_exoneracion_parafiscales_case,
+    is_firmeza_declaraciones_case,
+    is_gmf_deduction_case,
+    is_ica_deduction_case,
+    is_impuesto_diferido_case,
+    is_inc_consumo_case,
+    is_intereses_deduction_case,
+    is_iva_activos_fijos_case,
+    is_iva_descontable_case,
+    is_iva_devolucion_case,
+    is_iva_excluidos_exentos_case,
+    is_iva_hecho_generador_case,
+    is_iva_responsables_case,
+    is_leasing_deduction_case,
+    is_niif_conciliacion_fiscal_case,
+    is_niif_ingresos_case,
+    is_notificaciones_electronicas_case,
+    is_pagos_efectivo_case,
+    is_precios_transferencia_case,
+    is_predial_deduction_case,
+    is_primer_empleo_deduction_case,
+    is_renta_cedular_pn_case,
+    is_retencion_salarios_case,
+    is_retencion_servicios_case,
+    is_rst_tarifas_case,
+    is_rte_esal_case,
+    is_sancion_correccion_case,
+    is_sancion_extemporaneidad_case,
+    is_sancion_inexactitud_case,
+    is_soporte_factura_case,
+    is_tarifa_general_pj_case,
+    is_zona_franca_case,
+)
+
+
 def looks_like_tax_treatment_question(normalized_message: str) -> bool:
     has_treatment = any(
         marker in normalized_message

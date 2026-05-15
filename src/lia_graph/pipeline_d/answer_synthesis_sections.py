@@ -22,6 +22,7 @@ from .answer_synthesis_practica import extend_from_practica_chunks
 from .answer_topic_gate import (
     _topic_entry as _legal_anchor_topic_entry,
 )
+from .case_bullets import CASE_REGISTRY
 from .contracts import GraphEvidenceItem
 
 if TYPE_CHECKING:
@@ -34,7 +35,13 @@ from .answer_synthesis_helpers import (
     extend_from_support_insights,
     fallback_procedure_step,
     fallback_recommendation,
+    is_gmf_deduction_case,
+    is_ica_deduction_case,
+    is_intereses_deduction_case,
+    is_leasing_deduction_case,
     is_loss_compensation_case,
+    is_predial_deduction_case,
+    is_primer_empleo_deduction_case,
     is_refund_balance_case,
     looks_like_tax_treatment_question,
     pepper_legal_anchor_into_procedure,
@@ -73,6 +80,14 @@ def build_recommendations(
             lines,
             "Ordena el caso como devolución / compensación de saldo a favor y no como un problema principal de facturación electrónica.",
         )
+    # v16 (2026-05-14) — case-bullet branches replaced by registry walk.
+    # Each topic now lives in `pipeline_d/case_bullets/<topic>.py` with its
+    # bullets + whitelist + anchor articles + search queries co-located.
+    # See `case_bullets/__init__.py` for ordering rationale.
+    for spec in CASE_REGISTRY:
+        if spec.detector(normalized_message):
+            for bullet in spec.bullets:
+                append_unique(lines, bullet)
     if is_loss_compensation_case(normalized_message):
         append_unique(
             lines,
@@ -112,7 +127,110 @@ def build_recommendations(
         )
         if fallback:
             append_unique(lines, fallback)
-    return tuple(lines[:3])
+    # v15.2 (2026-05-14): tail polish. When a case detector fired (e.g.
+    # `is_gmf_deduction_case`), drop bullets that don't touch ANY
+    # case-relevant token — these are off-topic chunk leaks from the
+    # práctica lane (inventory, year-end calendar, etc.). Then merge
+    # adjacent question/answer bullet pairs so the answer reads as one
+    # complete thought instead of two split sentences.
+    # v15.3 (2026-05-14): same filter pattern for ICA + predial cases.
+    # When multiple cases fire on a mixed-topic query, the whitelists
+    # union — never narrow.
+    case_keywords = _active_case_keywords(normalized_message)
+    if case_keywords:
+        lines = _filter_offtopic_bullets_for_case(lines, case_keywords=case_keywords)
+    lines = _merge_question_answer_pairs(lines)
+    return tuple(lines)
+
+
+def _active_case_keywords(normalized_message: str) -> tuple[str, ...]:
+    """Union the whitelists of every case detector that fired.
+
+    A query that mentions both GMF and ICA gets the union of both
+    whitelists, so neither case's substantive bullets are dropped by
+    the off-topic filter when the other case fires.
+
+    fix_v16 — refactored to walk ``CASE_REGISTRY`` instead of an
+    if-chain. Adding a topic = adding a row in ``case_bullets/``;
+    this function does not change.
+    """
+    keywords: list[str] = []
+    for spec in CASE_REGISTRY:
+        if spec.detector(normalized_message):
+            keywords.extend(spec.keywords)
+    return tuple(keywords)
+
+
+def _filter_offtopic_bullets_for_case(
+    lines: list[str],
+    *,
+    case_keywords: tuple[str, ...],
+) -> list[str]:
+    if not case_keywords:
+        return list(lines)
+    kept: list[str] = []
+    for bullet in lines:
+        normalized = bullet.lower()
+        if any(kw in normalized for kw in case_keywords):
+            kept.append(bullet)
+    return kept
+
+
+# A bullet ends in a question — optionally followed by an inline anchor
+# in parens and/or a trailing period — when the trailing text matches
+# this pattern. Used to detect Q/A bullet pairs to merge.
+_QUESTION_END_RE = re.compile(r"\?(?:\s*\([^)]+\))?\s*\.?\s*$")
+
+
+# A bullet is a new top-level item — NOT an answer to the prior
+# question — when it starts with one of these subtitle markers
+# (with or without surrounding markdown bold).
+_SUBTITLE_PREFIX_RE = re.compile(
+    r"^\s*\*{0,2}"
+    r"(?:tip\b|soporte\b|razón conceptual|problema práctico|nota\b|ejemplo\b|"
+    r"importante\b|calcula\b|registra\b|verifica\b|identifica\b|toma\b|"
+    r"el \d|debito\b|débito\b|credito\b|crédito\b|art\.\s*\d)",
+    re.IGNORECASE,
+)
+
+
+def _merge_question_answer_pairs(lines: list[str]) -> list[str]:
+    """Collapse a Q-bullet followed by its A-bullet into one bullet.
+
+    Example: "Problema práctico: ... ¿se causa o se paga?" +
+    "La caja (dinero saliendo) es irrelevante..." →
+    "Problema práctico: ... ¿se causa o se paga? La caja ...
+    es irrelevante...".
+
+    Guardrails: only merges when the next bullet does NOT open a new
+    subtitle (Tip, Soporte, Razón, etc.) — those are independent items.
+    """
+    if len(lines) < 2:
+        return list(lines)
+    merged: list[str] = []
+    i = 0
+    while i < len(lines):
+        current = lines[i]
+        if i + 1 < len(lines):
+            nxt = lines[i + 1]
+            if _QUESTION_END_RE.search(current) and not _SUBTITLE_PREFIX_RE.match(nxt):
+                merged.append(_merge_two_bullets(current, nxt))
+                i += 2
+                continue
+        merged.append(current)
+        i += 1
+    return merged
+
+
+def _merge_two_bullets(first: str, second: str) -> str:
+    """Join two bullets with a single space.
+
+    Keeps both inline anchors if present. Strips the trailing period
+    of the first (the question mark already terminates the clause).
+    """
+    first_clean = first.rstrip(". ")
+    second_clean = second.strip()
+    return f"{first_clean} {second_clean}"
 
 
 def build_procedure_steps(
@@ -784,78 +902,16 @@ def _line_is_echoed_in_message(line: str, raw_message: str) -> bool:
     return normalized_line in normalized_message
 
 
-def build_direct_answers(
-    *,
-    sub_questions: tuple[str, ...],
-    recommendations: tuple[str, ...],
-    procedure: tuple[str, ...],
-    paperwork: tuple[str, ...],
-    precautions: tuple[str, ...],
-    context_lines: tuple[str, ...],
-    opportunities: tuple[str, ...],
-) -> tuple[tuple[str, tuple[str, ...]], ...]:
-    """Map each sub-question to bullets drawn from the already-built sections.
-
-    Each sub-question becomes its own visible block with up to
-    DIRECT_ANSWER_BULLETS_PER_QUESTION bullets selected by keyword overlap with
-    the sub-question itself. Sub-questions that match nothing get an explicit
-    coverage-pending marker so the reader never sees a silently empty block.
-    """
-    if len(sub_questions) < 2:
-        return ()
-
-    pool: tuple[str, ...] = tuple(
-        line
-        for bucket in (recommendations, procedure, precautions, paperwork, context_lines, opportunities)
-        for line in bucket
-        if line
-    )
-    if not pool:
-        return tuple(
-            (question, (DIRECT_ANSWER_COVERAGE_PENDING,))
-            for question in sub_questions
-        )
-
-    question_tokens: list[set[str]] = [
-        anchor_query_tokens(normalize_text(question)) for question in sub_questions
-    ]
-    assignments: list[list[str]] = [[] for _ in sub_questions]
-    used_lines: set[str] = set()
-    for line in pool:
-        if line in used_lines:
-            continue
-        line_tokens = anchor_query_tokens(normalize_text(line))
-        best_index = -1
-        best_overlap = 0
-        best_ratio = 0.0
-        for index, tokens in enumerate(question_tokens):
-            if not tokens:
-                continue
-            overlap = len(tokens & line_tokens)
-            if overlap < 1:
-                continue
-            # Proportional match: favor shorter sub-questions whose keywords are
-            # fully covered over longer ones that only incidentally share tokens.
-            ratio = overlap / len(tokens)
-            if ratio > best_ratio or (ratio == best_ratio and overlap > best_overlap):
-                best_ratio = ratio
-                best_overlap = overlap
-                best_index = index
-        if best_index < 0:
-            continue
-        bucket = assignments[best_index]
-        if len(bucket) >= DIRECT_ANSWER_BULLETS_PER_QUESTION:
-            continue
-        bucket.append(line)
-        used_lines.add(line)
-
-    result: list[tuple[str, tuple[str, ...]]] = []
-    for question, bullets in zip(sub_questions, assignments):
-        if bullets:
-            result.append((question, tuple(bullets)))
-        else:
-            result.append((question, (DIRECT_ANSWER_COVERAGE_PENDING,)))
-    return tuple(result)
+# v16 b3 (2026-05-14) — direct-answer matcher (including the limit-style /
+# numeric-range hot path) extracted to `answer_direct_answers.py` to keep
+# this module under the 1000-LOC ceiling per the divide-and-conquer rule.
+# The names are re-exported here so existing call sites continue to import
+# `build_direct_answers` from `answer_synthesis_sections`.
+from .answer_direct_answers import (  # noqa: F401  — re-exports
+    _bullet_has_numeric_range,
+    _is_limit_style_question,
+    build_direct_answers,
+)
 
 
 __all__ = [

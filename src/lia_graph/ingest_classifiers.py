@@ -783,6 +783,17 @@ def _infer_vocabulary_labels(
 ) -> tuple[str | None, str | None, str, str]:
     taxonomy_version = topic_taxonomy_version()
 
+    # corpusfix_v1 (2026-05-14) — explicit playbook stem → topic override.
+    # Applied before the prefix/alias heuristics so playbook files whose
+    # path implies the wrong topic (e.g. RENTA/PLAYBOOKS/ for a
+    # notificaciones-electronicas playbook) get the correct topic even
+    # on --skip-llm runs.
+    from .ingestion_classifier import _playbook_filename_topic_override
+
+    playbook_topic = _playbook_filename_topic_override(path.name)
+    if playbook_topic:
+        return playbook_topic, None, "ratified_v1_2", taxonomy_version
+
     # Static prefix lookup — takes precedence over the alias-score heuristic
     # below, which otherwise confuses numeric substrings in the path with
     # parent_topic keywords (e.g. "II-1429-2010" routed to "iva"). Rationale:

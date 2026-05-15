@@ -16,7 +16,7 @@ from .answer_polish_rejected_fallback import (
 )
 from .answer_synthesis import build_graph_native_answer_parts
 from .answer_topic_gate import filter_template_bullets as _filter_template_bullets
-from .contracts import GraphEvidenceBundle, GraphRetrievalPlan
+from .contracts import GraphEvidenceBundle, GraphEvidenceItem, GraphRetrievalPlan
 from .planner import build_graph_retrieval_plan
 from .answer_comparative_regime import (
     detect_comparative_regime_cue as _detect_comparative_regime_cue,
@@ -315,6 +315,16 @@ def _merge_graph_and_chunk_evidence(
     primary = graph_evidence.primary_articles or chunk_evidence.primary_articles
     connected = graph_evidence.connected_articles or chunk_evidence.connected_articles
     related = graph_evidence.related_reforms or chunk_evidence.related_reforms
+    # fix_v16 b5 (2026-05-14) — Falkor's `secondary_topics` is loaded at
+    # ingest from `config/article_secondary_topics.json`; live edits to the
+    # JSON don't reach Falkor until re-ingest. Supabase's retriever reads
+    # the same JSON at request time. To keep the JSON authoritative for
+    # the coherence-gate's secondary-topic short-circuit (topic_safety.py
+    # line 145–157) without forcing a full Falkor re-ingest on every
+    # rescue-config update, augment the winning primary_articles with the
+    # JSON view here at the merge boundary.
+    primary = _augment_secondary_topics_from_json(primary)
+    connected = _augment_secondary_topics_from_json(connected)
     return GraphEvidenceBundle(
         primary_articles=primary,
         connected_articles=connected,
@@ -323,6 +333,29 @@ def _merge_graph_and_chunk_evidence(
         citations=chunk_evidence.citations,
         diagnostics=diagnostics,
     )
+
+
+def _augment_secondary_topics_from_json(
+    items: tuple[GraphEvidenceItem, ...],
+) -> tuple[GraphEvidenceItem, ...]:
+    if not items:
+        return items
+    from .retriever_supabase import _load_article_topic_index
+    import dataclasses
+    index = _load_article_topic_index()
+    if not index:
+        return items
+    augmented: list[GraphEvidenceItem] = []
+    for it in items:
+        json_topics = index.get(str(it.node_key or ""), frozenset())
+        if not json_topics:
+            augmented.append(it)
+            continue
+        existing = tuple(it.secondary_topics or ())
+        # Union; preserve item topics first so any item-specific tags survive.
+        merged = tuple(dict.fromkeys((*existing, *json_topics)))
+        augmented.append(dataclasses.replace(it, secondary_topics=merged))
+    return tuple(augmented)
 
 
 def _compose_graph_native_answer(

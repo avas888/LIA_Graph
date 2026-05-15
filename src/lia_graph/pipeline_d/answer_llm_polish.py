@@ -21,6 +21,7 @@ from typing import Any, Callable
 
 from ..llm_runtime import DEFAULT_RUNTIME_CONFIG_PATH, resolve_llm_adapter
 from ..pipeline_c.contracts import PipelineCRequest
+from .case_bullets import CASE_REGISTRY
 from .contracts import GraphEvidenceBundle
 from .presentation import format_numbers_with_bold
 
@@ -523,15 +524,50 @@ _UVT_VALUE_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Tarifa-context anchor: only fire the validator when the polished
-# text references a tarifa-progressive article OR mentions "tarifa"
-# alongside a percentage / UVT.
-_TARIFA_CONTEXT_RE = re.compile(
-    r"\b(?:art(?:[ií]culo)?\.?\s*(?:240|241|242|383|908)"
-    r"|tarifa\s+(?:especial|progresiva|marginal|del?)"
-    r"|tabla\s+de\s+retenci[oó]n)\b",
-    re.IGNORECASE,
+# Tarifa-context anchor: fire the validator when the polished text
+# references either:
+#   - a tarifa-progressive ET article from the original v15 cue list
+#     (240/241/242/383/908), OR
+#   - any case-anchor ET article registered in ``CASE_REGISTRY`` — every
+#     playbook with concrete numerics (tasas, topes, porcentajes, UVT)
+#     should be guarded against polish hallucination, OR
+#   - a "tarifa especial/progresiva/marginal" / "tabla de retención"
+#     phrase the LLM tends to attach invented numbers to.
+#
+# fix_v16 (2026-05-14): widened from the original v15 5-article list to
+# include all v16 case-anchor articles after q05_pagos_efectivo fabricated
+# "80% / 100.000 UVT" for Art. 771-5 (real norm: 35% / 40% / 100 UVT).
+# The 771-5 cue wasn't in the v15 list so the validator was noop'd. Auto-
+# derive from CASE_REGISTRY so future case-anchored topics inherit the
+# guard without manual cue-list edits.
+_HISTORICAL_TARIFA_CUE_ARTICLES: tuple[str, ...] = (
+    "240", "241", "242", "383", "908",
 )
+
+
+def _build_tarifa_context_regex() -> re.Pattern[str]:
+    case_anchor_articles: set[str] = set(_HISTORICAL_TARIFA_CUE_ARTICLES)
+    for spec in CASE_REGISTRY:
+        for anchor in spec.anchor_articles:
+            article = str(anchor or "").strip()
+            if article:
+                case_anchor_articles.add(article)
+    # Sort longest-first so multi-character article keys ("115-1", "118-1",
+    # "771-5") match before their numeric prefixes ("115", "118", "771").
+    sorted_articles = sorted(
+        case_anchor_articles,
+        key=lambda value: (-len(value), value),
+    )
+    article_alternation = "|".join(re.escape(a) for a in sorted_articles)
+    pattern = (
+        r"\b(?:art(?:[ií]culo)?\.?\s*(?:" + article_alternation + r")"
+        r"|tarifa\s+(?:especial|progresiva|marginal|del?)"
+        r"|tabla\s+de\s+retenci[oó]n)\b"
+    )
+    return re.compile(pattern, re.IGNORECASE)
+
+
+_TARIFA_CONTEXT_RE = _build_tarifa_context_regex()
 
 
 _UVT_VALIDATOR_ENV = "LIA_POLISH_UVT_VALIDATOR"
@@ -657,6 +693,28 @@ def _no_invented_uvt_ranges(
             for item in bucket or ():
                 allowed |= _extract_uvt_tokens(item.excerpt or "")
                 allowed |= _extract_uvt_tokens(item.title or "")
+    # fix_v16 (2026-05-14) — also seed the allowed set from every
+    # CASE_REGISTRY spec whose detector fires on the question. v16.2
+    # probe surfaced a false-positive on q09_beneficio_auditoria: our
+    # playbook bullet 1 carries "≥ 35 %" and "≥ 25 %", polish included
+    # "35%" in its output, but the validator's `template` argument
+    # didn't reflect the case-bullet content at the call site (the
+    # rendered Recomendaciones Prácticas section composes lazily and
+    # didn't reach this code path with the case bullets present).
+    # Seeding directly from the registry guarantees that any numeric
+    # value declared in a playbook's bullet text is trusted when its
+    # detector fires — same source of truth the synthesis layer uses.
+    if question:
+        normalized_question = question.lower()
+        for spec in CASE_REGISTRY:
+            try:
+                fires = bool(spec.detector(normalized_question))
+            except Exception:  # noqa: BLE001 — defensive; bad detector shouldn't break polish
+                fires = False
+            if not fires:
+                continue
+            for bullet in spec.bullets:
+                allowed |= _extract_uvt_tokens(bullet)
 
     polished_values = _extract_uvt_tokens(polished_text)
     invented = sorted(polished_values - allowed)

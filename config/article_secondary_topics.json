@@ -314,9 +314,37 @@
     {
       "article_id": "240",
       "primary_topic": "declaracion_renta",
-      "secondary_topics": ["tarifas_renta_y_ttd"],
-      "rationale": "Tarifa general renta personas jurídicas + parágrafo 6 TTD.",
+      "secondary_topics": ["tarifas_renta_y_ttd", "estados_financieros_niif", "niif_pymes", "niif_plenas", "niif_microempresas"],
+      "rationale": "Tarifa general renta personas jurídicas + parágrafo 6 TTD. NIIF secondary added 2026-05-14 (fix_v16 b5 §clausula + corpusfix_v1 §11): consultas de impuesto diferido NIC 12 anclan en art. 240 (tasa aplicable) y el clasificador rutea esas consultas a 'niif_pymes' / 'estados_financieros_niif' / 'niif_plenas'. Sin los tres secondary, coherence-gate abstiene cuando router escoge cualquiera de los marcos NIIF.",
       "sme_source": "taxonomy_v2_sme_response.md line 185"
+    },
+    {
+      "article_id": "28",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["estados_financieros_niif", "niif_pymes", "niif_plenas", "niif_microempresas"],
+      "rationale": "Realización del ingreso para obligados a llevar contabilidad. Los seis numerales del par. 1 son el puente fiscal-NIIF (dividendos no decretados, venta inmueble sin escritura, valor razonable, participación patrimonial, reversiones, ingresos diferidos). Consultas de NIIF 15 anclan en este artículo; el clasificador rutea entre los tres marcos. fix_v16 b5 §niif_ingresos + corpusfix_v1 §11.",
+      "sme_source": "fix_v16_may b5 NIIF — 2026-05-14"
+    },
+    {
+      "article_id": "869",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Cláusula antiabuso — vive en Libro V del ET pero su aplicación es procedimental (DIAN recaracteriza). Consultas tipo '¿cuándo la DIAN puede recaracterizar?' clasifican en procedimiento_tributario; sin el secondary, coherence-gate abstiene. fix_v16 b5 §clausula_antiabuso.",
+      "sme_source": "fix_v16_may b5 cláusula antiabuso — 2026-05-14"
+    },
+    {
+      "article_id": "869-1",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Supuestos de aplicación de la cláusula antiabuso. Mismo razonamiento que art. 869.",
+      "sme_source": "fix_v16_may b5 cláusula antiabuso — 2026-05-14"
+    },
+    {
+      "article_id": "869-2",
+      "primary_topic": "declaracion_renta",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Procedimiento de la cláusula antiabuso — Comité de Fiscalización, emplazamiento, plazos. Núcleo procedimental.",
+      "sme_source": "fix_v16_may b5 cláusula antiabuso — 2026-05-14"
     },
     {
       "article_id": "240-1",
@@ -338,6 +366,127 @@
       "secondary_topics": ["tarifas_renta_y_ttd"],
       "rationale": "Aportes para subsidio de educación + nivelación tarifa renta.",
       "sme_source": "taxonomy_v2_sme_response.md line 185"
+    },
+
+    {
+      "article_id": "555",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Capacidad y representación tributaria. Lexical: el texto menciona 'menores de edad' lo que dispara `sector_infancia` en el scoring de keywords; auto-secondary fuerza el corto-circuito del coherence-gate cuando el router classify la query como procedimiento_tributario. fix corpusfix_v1 §10c — q01 notificaciones probe (2026-05-14).",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "555-1",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "NIT/Identificación tributaria — referente del RUT. Mismo problema lexical que 555.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "555-2",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Registro Único Tributario (RUT) — pieza central para la notificación electrónica (buzón). Auto-secondary previene falso positivo del coherence-gate.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "565",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Formas de notificación — anchor procedimental. La auto-secondary asegura que el §1.A short-circuit dispare incluso cuando el texto contiene 'menores' u otra keyword que active falsos positivos.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "566-1",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Notificación electrónica DIAN — anchor canónico del playbook notificaciones. Auto-secondary fuerza el corto-circuito del coherence-gate.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "568",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Subsidiariedad de la notificación — relacionado a 566-1.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "807",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Anticipo de renta — playbook procedimental.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "809",
+      "primary_topic": "procedimiento_tributario",
+      "secondary_topics": ["procedimiento_tributario"],
+      "rationale": "Anticipo de renta — referencia complementaria.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+
+    {
+      "article_id": "631",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Art. 631 ET — facultad amplia DIAN para solicitar información exógena. El texto contiene 'beneficiario' y 'beneficiarios finales' (parágrafo 4 incorporado por Ley 2155), lo que dispara `beneficiario_final_rub` en el scoring de keywords. La auto-secondary fuerza el corto-circuito del coherence-gate. corpusfix_v1 §10b.1.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "631-1",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Información exógena por consorcios y uniones temporales. Hermano de 631.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "631-2",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Información exógena para precios de transferencia.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "631-3",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Información exógena cambiaria.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "631-4",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Información exógena para implementación de estándares OCDE (CRS / FATCA / BEPS).",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "631-5",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Información exógena del beneficiario final — núcleo del RUB pero la consulta de exógena debe seguir tratándose como informacion_exogena para responder el playbook correcto.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "632",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Conservación de información — anchor exógena complementario.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "633",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Información exógena para el sector financiero (entidades vigiladas).",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
+    },
+    {
+      "article_id": "634",
+      "primary_topic": "informacion_exogena",
+      "secondary_topics": ["informacion_exogena"],
+      "rationale": "Información de operaciones — exógena.",
+      "sme_source": "fix corpusfix_v1 — 2026-05-14"
     }
   ]
 }

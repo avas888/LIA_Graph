@@ -403,3 +403,102 @@ def test_legacy_mode_renders_dirty_bullets_unchanged(
     assert "Valida el gasto" in out
     assert "Inicie sesión" in out
     assert _HONEST_ABSTENTION_TEXT not in out
+
+
+# ---------------------------------------------------------------------------
+# v15.1 (2026-05-14) — first-bubble template dedupe.
+# ---------------------------------------------------------------------------
+
+
+_FIRST_BUBBLE_TEMPLATE = (
+    "**Respuestas directas**\n"
+    "- **¿Cuál es el tratamiento fiscal del GMF (4×1000)?**\n"
+    "  - Bullet uno con contenido sustantivo de la primera sub-pregunta.\n"
+    "\n"
+    "**Recomendaciones Prácticas**\n"
+    "1. Débito: 530505 — Gravamen a los movimientos financieros (arts. 870 y 872 ET).\n"
+    "\n"
+    "**Riesgos y condiciones**\n"
+    "- No dupliques el mismo valor como descuento tributario y gasto deducible (arts. 870 y 871 ET).\n"
+    "\n"
+    "**Anclaje legal**\n"
+    "- Art. 870 — Gravamen a los movimientos financieros, GMF\n"
+    "- Art. 871 — Hecho generador del GMF\n"
+    "- Art. 872 — Tarifa del gravamen a los movimientos financieros\n"
+)
+
+
+def test_skips_recomendaciones_when_template_already_has_it() -> None:
+    # The first-bubble path emits a complete answer as the polish
+    # template. When polish is rejected on that template, naive
+    # appending duplicates every section. v15.1 skips appends whose
+    # heading already exists in the template.
+    parts = GraphNativeAnswerParts(
+        recommendations=(
+            "Verifica el soporte bancario del GMF antes de incluir la deducción.",
+            "Aplica el 50% del gravamen pagado al renglón de deducciones, no como descuento.",
+        ),
+        precautions=(
+            "El art. 115 ET limita la deducción al 50% del GMF efectivamente pagado.",
+        ),
+        legal_anchor=(
+            "Art. 115 — Deducción de impuestos pagados",
+        ),
+    )
+    out = compose_polish_rejected_fallback(
+        request=_req(),
+        template_answer=_FIRST_BUBBLE_TEMPLATE,
+        answer_parts=parts,
+    )
+    # Each section heading appears exactly once.
+    assert out.count("**Recomendaciones Prácticas**") == 1
+    assert out.count("**Riesgos y condiciones**") == 1
+    assert out.count("**Anclaje legal**") == 1
+    # And the template's original Recomendaciones content survived.
+    assert "Débito: 530505" in out
+
+
+def test_returns_template_when_every_section_duplicated() -> None:
+    # All three populated sections already exist in the template —
+    # nothing left to append. The fallback should return the template
+    # unchanged rather than dropping to honest-abstention (the template
+    # IS the substantive answer in this case).
+    parts = GraphNativeAnswerParts(
+        recommendations=("Verifica el soporte bancario del GMF.",),
+        precautions=("Limita la deducción al 50% del GMF.",),
+        legal_anchor=("Art. 115 — Deducción de impuestos pagados",),
+    )
+    out = compose_polish_rejected_fallback(
+        request=_req(),
+        template_answer=_FIRST_BUBBLE_TEMPLATE,
+        answer_parts=parts,
+    )
+    # Template (stripped) flows through verbatim — fallback didn't
+    # append anything because every section it would have rendered is
+    # already in the template.
+    assert out == _FIRST_BUBBLE_TEMPLATE.strip()
+    assert _HONEST_ABSTENTION_TEXT not in out
+    assert out.count("**Recomendaciones Prácticas**") == 1
+    assert out.count("**Riesgos y condiciones**") == 1
+    assert out.count("**Anclaje legal**") == 1
+
+
+def test_appends_sections_missing_from_template() -> None:
+    # `Soportes clave` is NOT in the first-bubble template; only the
+    # other four sections are. The fallback should still append Soportes
+    # even though the others get deduped.
+    parts = GraphNativeAnswerParts(
+        recommendations=("Ya está en plantilla, debe omitirse.",),
+        paperwork=(
+            "Conserva el extracto bancario que demuestre el pago efectivo del GMF.",
+            "Archiva el certificado de retención emitido por la entidad bancaria.",
+        ),
+    )
+    out = compose_polish_rejected_fallback(
+        request=_req(),
+        template_answer=_FIRST_BUBBLE_TEMPLATE,
+        answer_parts=parts,
+    )
+    assert out.count("**Recomendaciones Prácticas**") == 1
+    assert "**Soportes clave**" in out
+    assert "extracto bancario" in out

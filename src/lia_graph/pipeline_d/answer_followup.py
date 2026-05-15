@@ -275,7 +275,7 @@ def _compose_expanded_followup_answer(
     sections: list[str] = []
 
     if recommendations:
-        sections.append(render_bullet_section("Recomendaciones Prácticas", recommendations[:2]))
+        sections.append(render_bullet_section("Recomendaciones Prácticas", recommendations))
     if procedure:
         sections.append(render_numbered_section("Procedimiento Sugerido", procedure[:4]))
     if precautions:

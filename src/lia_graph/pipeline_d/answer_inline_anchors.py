@@ -137,23 +137,36 @@ def select_inline_anchors(
             continue
         title_tokens = anchor_query_tokens(normalize_text(item.title))
         excerpt_tokens = anchor_query_tokens(normalize_text(str(item.excerpt or ""))) or ()
+        title_overlap = len(line_tokens.intersection(title_tokens))
+        excerpt_overlap = len(line_tokens.intersection(excerpt_tokens))
+        article_in_line = article_key.lower() in normalized_line
+        # v15.3 (2026-05-14) — token-overlap floor for position bonuses.
+        # Previously the primary-position bonus (~0.9) plus hop-0 bonus
+        # (~0.4) totaled 1.3 by default, clearing the 0.75 ranking
+        # threshold even when the bullet had ZERO token overlap with the
+        # article. This mis-tagged off-axis bullets with the dominant
+        # primary anchors (e.g. a causación bullet inherited "(arts. 870
+        # y 871 ET)" on a GMF query, when causación is governed by art.
+        # 28 ET — not 870/871). The position bonuses now require some
+        # content signal (article number in line, or non-empty title /
+        # excerpt overlap) before applying.
+        has_content_signal = article_in_line or title_overlap > 0 or excerpt_overlap > 0
+
         score = 0.0
-        if article_key.lower() in normalized_line:
+        if article_in_line:
             score += 5.0
-        score += float(len(line_tokens.intersection(title_tokens)) * 2.2)
-        score += float(len(line_tokens.intersection(excerpt_tokens)) * 0.5)
-        if index < primary_limit:
+        score += float(title_overlap * 2.2)
+        score += float(excerpt_overlap * 0.5)
+        if index < primary_limit and has_content_signal:
             score += max(0.2, 0.9 - (index * 0.15))
-        if int(item.hop_distance or 0) == 0:
+        if int(item.hop_distance or 0) == 0 and has_content_signal:
             score += 0.4
         scored.append((score, anchor_label))
     ranked = [key for score, key in sorted(scored, key=lambda item: (-item[0], item[1])) if score > 0.75]
-    if not ranked:
-        ranked = [
-            _anchor_label_for_item(item)
-            for item in primary_articles[:max_refs]
-            if _anchor_label_for_item(item)
-        ]
+    # v15.3 (2026-05-14) — auto-fallback to primary[:max_refs] removed.
+    # Without token-overlap evidence the inline anchor is misleading
+    # (Anclaje Legal already carries the primary norms); render the
+    # bullet without an inline citation instead of attaching a wrong one.
     return tuple(dict.fromkeys(ranked[:max_refs]))
 
 

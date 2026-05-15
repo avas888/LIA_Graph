@@ -11,7 +11,7 @@ from .contracts import GraphEvidenceItem
 
 __all_appended_shims__ = ("filter_citations_by_allowlist", "citation_allowlist_mode")
 
-FIRST_BUBBLE_ROUTE_LIMIT = 4
+FIRST_BUBBLE_ROUTE_LIMIT = 20
 FIRST_BUBBLE_RISK_LIMIT = 4
 FIRST_BUBBLE_SUPPORT_LIMIT = 2
 FIRST_BUBBLE_RECAP_LIMIT = 3
@@ -174,12 +174,22 @@ ARTICLE_GUIDANCE: dict[str, dict[str, tuple[str, ...]]] = {
     "115": {
         "recommendation": (
             "Toma como punto de partida el texto vigente hoy del art. 115 ET para definir el tratamiento en renta del impuesto pagado.",
+            # v15.1 (2026-05-14) — explicit inciso map. The article carries
+            # two distinct deduction reglas: inciso 1 (100% para ICA/avisos
+            # y tableros/predial, requiere causalidad) e inciso 2 (50% del
+            # GMF efectivamente pagado, sin requerir causalidad). Verified
+            # against knowledge_base/.../05_Libro1_T1_Cap4_Renta_Liquida.md
+            # antes de landing.
+            "Art. 115 ET tiene dos reglas distintas según el tributo: inciso 1 cubre ICA, avisos y tableros y predial (100% deducible si hay causalidad con la actividad económica); inciso 2 cubre el GMF (50% deducible, sin requisito de causalidad).",
         ),
         "procedure": (
             "Verifica si el valor efectivamente pagado puede tratarse como descuento tributario sin duplicarlo como costo o gasto.",
         ),
         "precaution": (
             "No dupliques el mismo valor como descuento tributario y como costo o gasto dentro de la misma declaración.",
+            # v15.1 (2026-05-14) — surface the no-simultaneity rule
+            # straight from the article text.
+            "El art. 115 ET prohíbe que la deducción se trate simultáneamente como costo Y como gasto del contribuyente — escoge una sola vía contable.",
         ),
     },
     "147": {

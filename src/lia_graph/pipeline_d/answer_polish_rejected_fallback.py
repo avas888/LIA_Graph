@@ -160,26 +160,50 @@ def compose_polish_rejected_fallback(
     if base:
         sections.append(base)
 
+    # v15.1 (2026-05-14): when polish is rejected on a first-bubble
+    # template (which already carries Recomendaciones/Riesgos/Soportes/
+    # Anclaje as a *complete* answer), naive appending here produced two
+    # of every section in the GMF-4×1000 panel turn. Detect each section
+    # heading inside the template and skip the append when it's already
+    # there. The bare-echo case (template is just the question, no
+    # sections) is unaffected — none of the headings are present, so
+    # every fallback section appends as before.
     appended_sections: list[str] = []
+    diag["sections_skipped_duplicate"] = []
+
+    def _template_has_section(title: str) -> bool:
+        return bool(base) and f"**{title}**" in base
+
+    def _consider(title: str, content: str) -> None:
+        if _template_has_section(title):
+            diag["sections_skipped_duplicate"].append(title)
+            return
+        appended_sections.append(content)
+
     if recommendations:
-        appended_sections.append(
-            render_bullet_section("Recomendaciones Prácticas", recommendations)
+        _consider(
+            "Recomendaciones Prácticas",
+            render_bullet_section("Recomendaciones Prácticas", recommendations),
         )
     elif procedure:
-        appended_sections.append(
-            render_bullet_section("Procedimiento sugerido", procedure)
+        _consider(
+            "Procedimiento sugerido",
+            render_bullet_section("Procedimiento sugerido", procedure),
         )
     if precautions:
-        appended_sections.append(
-            render_bullet_section("Riesgos y condiciones", precautions)
+        _consider(
+            "Riesgos y condiciones",
+            render_bullet_section("Riesgos y condiciones", precautions),
         )
     if paperwork:
-        appended_sections.append(
-            render_bullet_section("Soportes clave", paperwork)
+        _consider(
+            "Soportes clave",
+            render_bullet_section("Soportes clave", paperwork),
         )
     if legal_anchor:
-        appended_sections.append(
-            render_bullet_section("Anclaje legal", legal_anchor)
+        _consider(
+            "Anclaje legal",
+            render_bullet_section("Anclaje legal", legal_anchor),
         )
 
     # Step 3 — measure substantive evidence chars across appended sections
@@ -187,6 +211,25 @@ def compose_polish_rejected_fallback(
     evidence_chars = sum(_count_substantive_chars(s) for s in appended_sections)
     diag["evidence_chars"] = evidence_chars
     diag["min_evidence_chars"] = _MIN_EVIDENCE_CHARS
+
+    # v15.1 (2026-05-14): when the template is a first-bubble answer
+    # (not a bare question echo), it already carries substantive content
+    # under at least one canonical heading — detectable via
+    # `sections_skipped_duplicate`. In that case the template IS the
+    # answer; never drop to honest-abstention, and skip the
+    # evidence-chars gate which would otherwise discard real content
+    # whenever the leftover appendage alone is small.
+    template_is_substantive = bool(diag["sections_skipped_duplicate"])
+    if template_is_substantive:
+        diag["outcome"] = (
+            "template_already_substantive"
+            if not appended_sections
+            else "substantive_fallback"
+        )
+        diag["sections_rendered"] = len(appended_sections)
+        _emit_trace(diag)
+        sections.extend(appended_sections)
+        return "\n\n".join(s for s in sections if s)
 
     if evidence_chars < _MIN_EVIDENCE_CHARS:
         diag["outcome"] = "honest_abstention"
