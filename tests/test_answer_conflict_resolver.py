@@ -433,6 +433,49 @@ def test_resolve_enforce_a1_ambiguous_no_adapter_keeps_both(
     assert diag["groups_unresolved"] == 1
 
 
+def test_resolve_catches_polished_section_4_1_shape(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """fix_v18 b2.1 refine — the §4.1 fixture as it appears POST-polish.
+
+    The shadow probe on 2026-05-15 evening showed `no_conflicts` for the
+    §4.1 fixture even though the served answer carried both `30 días`
+    and `45 días` bullets. Root cause: the resolver was wired pre-polish
+    and polish itself normalizes predicate phrasing — the contradictions
+    only converge to identical-predicate shape after rendering. The
+    wiring was moved post-polish; this test pins that the polished
+    shape (bullets with `•` lead, no markdown bold, simple `Predicate:
+    value` form) is detected and A1-resolved.
+    """
+    monkeypatch.setenv("LIA_CONFLICT_RESOLVER_MODE", "enforce")
+    md = (
+        "Recomendaciones Prácticas\n"
+        "• Despido sin justa causa (iniciativa del empleador): código 55.\n"
+        "• Despido con justa causa (causal disciplinaria): código 56.\n"
+        "• Despido injustificado en AÑO 1: 30 días de salario.\n"
+        "• Despido injustificado en AÑO 1: 45 días de salario.\n"
+        "• Antes: 30 días × ($2.200.000 ÷ 30) = $2.200.000.\n"
+    )
+    bundle = _StubEvidenceBundle(
+        primary_articles=(
+            _StubEvidenceItem(
+                title="Art. 64 CST — Terminación unilateral",
+                excerpt=(
+                    "En los contratos a término indefinido la indemnización "
+                    "comprende 30 días de salario por el primer año de servicios."
+                ),
+            ),
+        )
+    )
+    out, diag = resolve_answer_conflicts(md, evidence=bundle)
+    assert "30 días de salario" in out
+    assert "45 días de salario" not in out
+    assert diag["groups_detected"] == 1
+    assert diag["groups_resolved_a1"] == 1
+    assert diag["lines_dropped"] == 1
+    assert diag["decisions"][0]["path"] == "a1_article_match"
+
+
 def test_resolve_no_conflicts_returns_input_unchanged(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

@@ -209,7 +209,7 @@ batch: b3 = Issue B (codigo ET/CST aliasing validator).
 | B — codigo ET/CST aliasing validator | 🛠 plan ready, no code | — | mismas probes (`Art. 127-132 ET` debería ser CST) | §1.2 plan |
 | C — SPEC bullet preservation | 🛠 plan ready, no code | — | `liquidacion_terminacion` probe (CST 65 moratoria intermitente — dropped en una corrida, presente en la siguiente; confirma que es estocástico) | §1.3 plan |
 | D — donaciones substring fix | 🧪 surgical, pending operator re-probe | `26bf04b` | observado durante v17 b2 — `is_donaciones_case` keys on bare `esal` → colisiona con `desalarizacion` | §1.4 plan + §7.1 landing |
-| E — conflict resolver (A+A1+A2) | 🧪 shadow default; pending operator validation | `bdc6adf` | probe §4.1 (30 vs 45 días) — operator-confirmed gap: vigencia v3 opera a nivel norma, no valor | §1.5 plan + §7.2 landing |
+| E — conflict resolver (A+A1+A2) | 🧪 shadow default; b2.1 refine landed (wiring moved post-polish after §4.1 shadow miss); pending operator re-probe | `bdc6adf` + b2.1 | probe §4.1 (30 vs 45 días) — operator-confirmed gap: vigencia v3 opera a nivel norma, no valor; b2 shadow trace returned `no_conflicts` because polish normalizes predicate phrasing — fix moved wiring post-polish | §1.5 plan + §7.2 landing + §7.5 refine |
 
 **Aggregate counts:** 3 🧪 + 2 🛠 + 0 ✅. Próximo batch = **v18 b3 = Issue B** (validator only, patrón fix_v15).
 
@@ -224,6 +224,7 @@ Status legend (heredado de fix_v17_may §12):
 - `26bf04b` — v18 b1: Issue A (práctica noise filter, shadow) + Issue D (donaciones substring fix, surgical)
 - `bdc6adf` — v18 b2: Issue E (conflict resolver A+A1+A2, shadow)
 - `4487c33` — orchestration.md cleanup (retire predecessor banner pile-up + collapse April LOC-refactor rows)
+- v18 b2.1 — Issue E refine: resolver wiring moved pre-polish → post-polish after §4.1 shadow miss (300 tests verdes; commit pending at end of session)
 
 Reference doc creado en el mismo ciclo: `docs/re-engineer/fix/fix_locos.md` (catálogo de ideas ambiciosas, NO plan ejecutable).
 
@@ -513,7 +514,7 @@ pre-escritos.
 | File | Cambio |
 |---|---|
 | `pipeline_d/answer_conflict_resolver.py` | **Nuevo módulo.** ~360 LOC. Detector + A1 (article-match) + A2 (LLM fallback) + apply_resolutions. |
-| `pipeline_d/orchestrator.py` | Llamada a `resolve_answer_conflicts(answer, evidence, runtime_config_path)` **entre** `synthesis.template_built` y `polish_graph_native_answer`. Try/except envuelve la llamada — el resolver nunca bloquea el pipeline. |
+| `pipeline_d/orchestrator.py` | Llamada a `resolve_answer_conflicts(answer, evidence, runtime_config_path)` **después** de `polish_graph_native_answer` + del `polish_rejected fallback` block, antes de `on_llm_delta`. (Refined post-polish en b2.1, 2026-05-15 evening; ver §7.5 para el rationale.) Try/except envuelve la llamada — el resolver nunca bloquea el pipeline. |
 | `scripts/dev-launcher.mjs` | Default `LIA_CONFLICT_RESOLVER_MODE=shadow` para los 3 modos. |
 
 **Algoritmo.**
@@ -587,8 +588,12 @@ en el repo behind the flag.
 - A1 reusa `primary_articles` que ya están en el bundle de
   evidencia — cero queries Falkor extra.
 - A2 reusa el mismo adapter LLM que polish — cero infra nueva.
-- Wiring point está ANTES de polish para que polish reciba un
-  template ya saneado (sin contradicciones).
+- Wiring point está DESPUÉS de polish (refined en b2.1, 2026-05-15
+  evening; antes era pre-polish). Polish normaliza el phrasing de
+  los predicados, así que las contradicciones recién convergen a
+  predicado idéntico post-render. El §4.1 shadow probe expuso el
+  bug del wiring original (`outcome: no_conflicts` con bullets
+  contradictorios visibles); el fix está en §7.5.
 - El resolver nunca raises hacia arriba — try/except en el caller
   garantiza que un bug aquí no rompe el chat.
 - Por qué NO Enfoque B (SPEC-as-truth) ahora: B solo cubre los ~40
@@ -655,6 +660,7 @@ back to shadow. Después de 2 iteraciones sin convergencia →
 |---|---|---|---|---|
 | v18 b1 | A (chunk-noise filter) + D (donaciones substring fix) | ✅ shipped 2026-05-15 evening | `26bf04b` | A más visible para el contador; D trivial e independiente colado en el mismo commit. Shadow validation pendiente. |
 | v18 b2 | E (conflict resolver A+A1+A2) | ✅ shipped 2026-05-15 evening | `bdc6adf` | Surgió reactivo durante validación de b1: el §4.1 fixture mostró que A no cubre la regla pre-Ley-789. Operador ordenó "implementa YA" Enfoque A + A1 + A2 sobre Enfoque B (SPEC-as-truth). |
+| v18 b2.1 | E refine — wiring post-polish | 🧪 code landed, commit pending end-of-session | — | §4.1 shadow probe regresó `no_conflicts` aunque el answer servido mostraba 30 vs 45 días bullets. Diagnóstico: el resolver corría pre-polish; polish es el productor que normaliza los predicados a la misma forma. Fix: mover llamada a post-polish + 1 test pinning la shape polished. Plan en §7.5. |
 | v18 b3 | B (codigo ET/CST aliasing validator) | 🛠 next | — | Validator-only, patrón fix_v15 UVT ya probado. ~½ día. Plan en §1.2. Independiente de A/D/E. |
 | v18 b4 | C (SPEC bullet preservation) | 🛠 después de b3 | — | El más invasivo (toca polish prompt + nuevo validator). Última en el orden para tener feedback de A+B+E en shadow→enforce loop. ~1 día. Plan en §1.3. |
 | v18 b5+ | F, G… si surgen | reserva | — | Cada nuevo issue se evalúa con §2 lifecycle antes de batch. |
@@ -838,7 +844,7 @@ Non-Negotiables. Reconciliar los otros dos hacia él.
 | B — codigo aliasing validator | 🛠 | — | Captured 2026-05-15 PM same probe. Plan ready. |
 | C — SPEC bullet preservation | 🛠 | — | Captured 2026-05-15 PM same probe + §0.2.1 v17 reference. Plan ready. Intermitencia confirmada — CST 65 moratoria presente en probe del 2026-05-15 evening. |
 | D — donaciones substring | 🧪 | pending operator re-probe | Code landed 2026-05-15 evening. `is_donaciones_case`: bare `"esal"` substring → word-boundary regex (`\besal\b`). 2 anti-tests verdes (`test_donaciones_does_not_fire_on_desalarizacion_ugpp`, `test_donaciones_still_fires_on_bare_esal_token`). Patrón hereda fix_v16 `is_rte_esal_case`. |
-| E — conflict resolver (A+A1+A2) | 🧪 | pending shadow run on dev:staging | Code landed 2026-05-15 evening (b2 batch). `LIA_CONFLICT_RESOLVER_MODE=shadow` default. 28 unit tests verdes. Nuevo módulo `pipeline_d/answer_conflict_resolver.py` (~360 LOC). Wired al orchestrator entre `synthesis.template_built` y polish — polish recibe template saneado de contradicciones. A1 reusa primary_articles (cero queries Falkor extra); A2 reusa adapter polish (cero infra nueva). |
+| E — conflict resolver (A+A1+A2) | 🧪 | pending shadow re-probe on dev:staging post-b2.1 | Code landed 2026-05-15 evening (b2 batch); wiring refined post-polish in b2.1 same evening after §4.1 shadow miss (see §7.5). `LIA_CONFLICT_RESOLVER_MODE=shadow` default. 29 unit tests verdes. Nuevo módulo `pipeline_d/answer_conflict_resolver.py` (~360 LOC). Wired post-polish (después del polish-rejected fallback block, antes del `on_llm_delta` callback) — polish normaliza predicados así que las contradicciones recién convergen a misma forma post-render. A1 reusa primary_articles (cero queries Falkor extra); A2 reusa adapter polish (cero infra nueva). |
 
 Current totals (2026-05-15 evening): **0 ✅, 3 🧪, 2 🛠** (de 5
 ítems; slot para F+ abierto).
@@ -886,6 +892,21 @@ Current totals (2026-05-15 evening): **0 ✅, 3 🧪, 2 🛠** (de 5
   - Colapsadas 13 rows del Change Log de abril (`ui1-ui13` + `decouplingv1`) en una row summary (`v2026-04-18-thru-22-granularization-campaign`) — eran pure LOC-refactors sin runtime impact. Las rows `ui14` + `ui15` se mantienen separadas (real HTTP/feature work). Original per-round narratives preservadas en git history pre-2026-05-15.
 - **Fixed:** stale "Current version:" header del Env Matrix section (decía v15, ahora v18-b2).
 - **Cero impacto runtime** — solo docs.
+
+### §7.5 v18 b2.1 refine record — Issue E wiring post-polish (2026-05-15 evening, after §4.1 shadow miss)
+
+- **Trigger.** Operator pegó el §4.1 probe + trace después de b2 merge. Trace mostró:
+  - `practica.noise_filter.applied` → `shadow_hit`, `shadow_total: 6`, `shadow_reasons: {software_code_tail: 5, pre_ley_lead: 1}` — Issue A funcionando como diseñado.
+  - `synthesis.conflict_resolver.applied` → `outcome: no_conflicts` — Issue E **NO** detectó el caso 30 vs 45 días aunque ambos bullets aparecían en el answer servido.
+- **Diagnóstico.** Test directo: `detect_conflicts(answer_post_polish)` retorna 1 group correctamente; pero la wiring del orchestrator llamaba al resolver **entre `synthesis.template_built` y `polish_graph_native_answer`** — es decir, sobre el template pre-polish. Polish reescribe los predicados a una forma normalizada (`Despido injustificado en AÑO 1:` para ambos bullets) que solo converge a misma `predicate` después de rendering. En el template los dos bullets tenían shapes distintas (presumiblemente sub-bullets de chunks distintos con phrasings distintos) → detector no los agrupaba.
+- **Fix.** Mover la llamada `resolve_answer_conflicts(...)` en `orchestrator.run_pipeline_d` desde **pre-polish** (post-`synthesis.template_built`) a **post-polish** (después del `polish_rejected fallback` block, antes del `on_llm_delta` callback). Cero cambios al módulo del resolver, cero nuevos flags, cero cambios de schema.
+- **Files touched (2 + 1 test):**
+  - `src/lia_graph/pipeline_d/orchestrator.py` — remove pre-polish call (-20 LOC), insert post-polish call (+25 LOC con comment explicativo de por qué post-polish). Net: ~+5 LOC.
+  - `tests/test_answer_conflict_resolver.py` — `test_resolve_catches_polished_section_4_1_shape` (+45 LOC) pinning el shape post-polish (`•` lead, sin markdown bold, `Predicate: value` simple) → `groups_detected == 1`, `groups_resolved_a1 == 1`, A1 path `a1_article_match`, drop del 45-días bullet.
+- **Tests:** v18 baseline 299 → **300** (28 → 29 in `test_answer_conflict_resolver.py`).
+- **Trace impact.** Mismo trace step `synthesis.conflict_resolver.applied`, mismo schema de details. Solo cambia el momento en que se emite (después de `polish.applied` en lugar de antes).
+- **Riesgo del cambio de wiring.** Mínimo. El resolver sigue siendo idempotente sobre su input; el wrapping `try/except` sigue garantizando que no bloquea el pipeline. El único cambio observable en `enforce` es que ahora puede dropear bullets que polish acabó de escribir — mismo safety profile que en b2.
+- **Próximo paso (operator):** re-probe §4.1 en shadow → confirmar `outcome: shadow_hit`, `groups_detected: 1`, `decisions[0].path: a1_article_match`. Si limpio, flip A + E a enforce per §7.4.
 
 ### §7.4 Operator probe + flip-to-enforce recipe (próximo paso real)
 

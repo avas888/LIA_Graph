@@ -1064,25 +1064,6 @@ def run_pipeline_d(
         status="ok",
         template_chars=len(answer or ""),
     )
-    # fix_v18_may §1.5 Issue E — conflict resolver. Detects bullets
-    # that share a normalized predicate but disagree on numeric value
-    # (e.g. "30 días" vs "45 días" for despido sin justa causa AÑO 1
-    # captured at the §4.1 fixture). A1 resolves by matching candidate
-    # values against `primary_articles` excerpts already on hand; A2
-    # falls back to the polish-grade LLM when A1 is ambiguous. Mode
-    # `LIA_CONFLICT_RESOLVER_MODE` defaults `shadow` — telemetry on,
-    # output unchanged — until operator promotes via the standard
-    # shadow→enforce ramp.
-    try:
-        from .answer_conflict_resolver import resolve_answer_conflicts
-
-        answer, _conflict_diag = resolve_answer_conflicts(
-            answer or "",
-            evidence=evidence,
-            runtime_config_path=runtime_config_path,
-        )
-    except Exception:  # noqa: BLE001 — never block the pipeline on the resolver
-        LOGGER.exception("conflict_resolver crashed; continuing without modification")
     polished_answer, llm_runtime_diag = polish_graph_native_answer(
         request=request,
         template_answer=answer,
@@ -1155,6 +1136,35 @@ def run_pipeline_d(
                 kept_count=_gate_diag.get("kept_count"),
             )
             answer = filtered_fallback
+
+    # fix_v18_may §1.5 Issue E — conflict resolver (refined wiring per
+    # b2.1, 2026-05-15). Detects bullets that share a normalized
+    # predicate but disagree on numeric value (e.g. "30 días" vs
+    # "45 días" for despido sin justa causa AÑO 1 captured at the §4.1
+    # fixture). A1 resolves by matching candidate values against
+    # `primary_articles` excerpts already on hand; A2 falls back to the
+    # polish-grade LLM when A1 is ambiguous. Mode
+    # `LIA_CONFLICT_RESOLVER_MODE` defaults `shadow` — telemetry on,
+    # output unchanged — until operator promotes via the standard
+    # shadow→enforce ramp.
+    #
+    # Wiring is POST-polish (was pre-polish in b2): polish itself
+    # normalizes predicate phrasing across two differently-shaped
+    # template bullets, so contradictions only converge to identical
+    # predicates after rendering. Running pre-polish missed the §4.1
+    # case in shadow (`no_conflicts` despite visible 30-vs-45-días
+    # bullets in the served answer). See `fix_v18_may.md §7.5`.
+    try:
+        from .answer_conflict_resolver import resolve_answer_conflicts
+
+        answer, _conflict_diag = resolve_answer_conflicts(
+            answer or "",
+            evidence=evidence,
+            runtime_config_path=runtime_config_path,
+        )
+    except Exception:  # noqa: BLE001 — never block the pipeline on the resolver
+        LOGGER.exception("conflict_resolver crashed; continuing without modification")
+
     if callable(on_llm_delta):
         on_llm_delta(answer)
 
