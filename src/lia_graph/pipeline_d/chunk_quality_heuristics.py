@@ -138,6 +138,46 @@ _QUESTION_DOMINANT_RE = re.compile(
     r"¿[^?]{10,200}\?",
 )
 
+# fix_v18 b1 §1.1 Issue A — patterns capturing chunk-level noise that
+# leaks into Recomendaciones Prácticas. Each pattern needs to DOMINATE
+# the chunk for PENALTY_LIGHT to fire (we keep the chunk reachable if
+# it's the only source; we just down-rank it).
+
+# Pre-Ley / derogada / histórica temporal markers — the chunk talks
+# about a regla anterior side-by-side with the current one without
+# clearly labelling which is which.
+_PRE_LEY_MARKER_RE = re.compile(
+    r"\b(?:antes\s+de\s+(?:la\s+)?ley|antes\s+de\s+\d{4}|"
+    r"pre[\s\-]?ley|"
+    r"regla\s+anterior|r[eé]gimen\s+anterior|"
+    r"versi[oó]n\s+anterior|"
+    r"hist[oó]ric[ao](?:mente)?|"
+    r"derogad[ao]s?|"
+    r"anteriormente\s+(?:se|el|la|los|las|era|fue))\b",
+    re.IGNORECASE,
+)
+
+# Orphan numeric example — calculation strings without topic anchors:
+# "30 días × ($2.200.000 ÷ 30) = $2.200.000". Pattern: number + an
+# optional short unit word (días/meses/años) + operator (×/÷/x) +
+# parenthesized currency calculation. The unit-word slot stays narrow
+# so substantive prose ("30 contribuyentes adicionales × ...") does
+# not match.
+_ORPHAN_NUMERIC_CALC_RE = re.compile(
+    r"\d[\d.,]*\s*(?:d[ií]as?|meses?|a[nñ]os?)?\s*"
+    r"(?:×|÷|x|\*|/)\s*"
+    r"\(\s*\$?\d",
+    re.IGNORECASE,
+)
+
+# Software-code isolated reference — "código 55", "código 56", "cód. 41"
+# (DSPNE / PILA codes) without operational context. Standalone token
+# followed by an integer 1-99.
+_SOFTWARE_CODE_ISOLATED_RE = re.compile(
+    r"\bc[oó]d(?:igo|\.)\s+\d{1,3}\b",
+    re.IGNORECASE,
+)
+
 
 # Cross-topic markers — keyed by trigger pattern → list of topics for
 # which the trigger is LEGITIMATE. Outside those topics, the trigger
@@ -221,6 +261,26 @@ def score_chunk_quality(
         q_chars = sum(len(m) for m in q_matches)
         if q_chars / max(1, len(text)) >= 0.5:
             return PENALTY_LIGHT, "question_dominant_caption"
+
+    # fix_v18 b1 §1.1 — pre-Ley temporal markers as dominant content.
+    # Multiple hits in a short chunk mean the chunk is mostly comparing
+    # an old vs new rule without clearly anchoring which is current.
+    pre_ley_hits = _PRE_LEY_MARKER_RE.findall(text)
+    if len(pre_ley_hits) >= 2 and len(text) < 600:
+        return PENALTY_LIGHT, "pre_ley_marker_dominant"
+
+    # fix_v18 b1 §1.1 — orphan numeric calculation strings dominating
+    # the chunk (worked-example fragments without operational context).
+    calc_hits = _ORPHAN_NUMERIC_CALC_RE.findall(text)
+    if len(calc_hits) >= 2 and len(text) < 500:
+        return PENALTY_LIGHT, "orphan_numeric_example_dominant"
+
+    # fix_v18 b1 §1.1 — DSPNE / PILA software codes (código 55, código
+    # 56, cód. 41) when they dominate a short chunk without surrounding
+    # operational guidance.
+    code_hits = _SOFTWARE_CODE_ISOLATED_RE.findall(text)
+    if len(code_hits) >= 2 and len(text) < 400:
+        return PENALTY_LIGHT, "software_code_isolated_dominant"
 
     return 1.0, None
 

@@ -305,6 +305,75 @@ def test_keeps_normative_key_caption_when_followed_by_long_prose() -> None:
     assert reason is None
 
 
+# ---------------------------------------------------------------------------
+# fix_v18 b1 §1.1 Issue A — new chunk-level patterns
+# ---------------------------------------------------------------------------
+
+
+def test_drops_pre_ley_marker_dominant_chunk() -> None:
+    row = {
+        "chunk_text": (
+            "Antes de la Ley 789 de 2002, la indemnización era de 45 días "
+            "por el primer año. Anteriormente se calculaba sobre el salario "
+            "promedio del último año. Régimen anterior derogado por Ley 789."
+        ),
+        "rrf_score": 0.7,
+    }
+    penalty, reason = score_chunk_quality(row, routed_topic="liquidacion_terminacion")
+    assert reason == "pre_ley_marker_dominant"
+    assert penalty < 1.0
+
+
+def test_keeps_chunk_with_single_pre_ley_reference() -> None:
+    # A single historical reference inside a long substantive chunk
+    # is not dominant — should pass through.
+    row = {
+        "chunk_text": (
+            "La indemnización por despido sin justa causa para salarios "
+            "inferiores a 10 SMMLV es de 30 días por el primer año y "
+            "20 días por cada año adicional. Antes de la Ley 789 de 2002 "
+            "el cálculo era distinto, pero la regla vigente para todos "
+            "los contratos posteriores a esa fecha es la del CST art. 64. "
+            "El empleador debe pagar dentro de los términos legales "
+            "establecidos en el Código Sustantivo del Trabajo."
+        ),
+        "rrf_score": 0.8,
+    }
+    penalty, reason = score_chunk_quality(row, routed_topic="liquidacion_terminacion")
+    # One pre-ley marker + 600+ char chunk → should not fire.
+    assert reason is None
+    assert penalty == 1.0
+
+
+def test_drops_orphan_numeric_example_dominant_chunk() -> None:
+    row = {
+        "chunk_text": (
+            "30 días × ($2.200.000 ÷ 30) = $2.200.000\n"
+            "20 días × ($2.200.000 ÷ 30) = $1.466.667\n"
+            "15 días × ($2.200.000 ÷ 30) = $1.100.000\n"
+            "10 días × ($2.200.000 ÷ 30) = $733.333"
+        ),
+        "rrf_score": 0.5,
+    }
+    penalty, reason = score_chunk_quality(row, routed_topic="liquidacion_terminacion")
+    assert reason == "orphan_numeric_example_dominant"
+    assert penalty < 1.0
+
+
+def test_drops_software_code_isolated_dominant_chunk() -> None:
+    row = {
+        "chunk_text": (
+            "Despido sin justa causa: código 55.\n"
+            "Despido con justa causa: código 56.\n"
+            "Renuncia voluntaria: código 41."
+        ),
+        "rrf_score": 0.6,
+    }
+    penalty, reason = score_chunk_quality(row, routed_topic="liquidacion_terminacion")
+    assert reason == "software_code_isolated_dominant"
+    assert penalty < 1.0
+
+
 def test_empty_chunk_passes_through() -> None:
     row = {"chunk_text": "", "rrf_score": 0.5}
     penalty, reason = score_chunk_quality(row)

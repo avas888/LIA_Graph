@@ -1,8 +1,19 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-05-13-fix-v15-uvt-validator-enforce`.**
+> **Env matrix version: `v2026-05-15-fix-v18-b1-practica-noise-shadow`.**
 >
-> **2026-05-13 fix_v15_may promotion (today, post-panel cycle):**
+> **2026-05-15 fix_v18_may b1 (today):**
+>
+> - **`LIA_PRACTICA_NOISE_FILTER=shadow`** (new, default `shadow` across all three modes). Per-line noise filter in `pipeline_d/answer_synthesis_practica.py::_is_practica_noise_line`. Drops 3 pattern classes from `practica_erp` bullets before they reach `Recomendaciones Prácticas`: `pre_ley_lead` (Antes:, Anteriormente, etc.), `software_code_tail` (`: código 55`, DSPNE codes), `orphan_numeric_calc` (≤ 160-char pure-calc bullets). Trace step `practica.noise_filter.applied` with `outcome ∈ {pass, shadow_hit, suppressed, noop}`.
+> - **`LIA_CHUNK_QUALITY_HEURISTIC_MODE` extended** (no new flag — already `enforce`). 3 new motivos added in `pipeline_d/chunk_quality_heuristics.py`: `pre_ley_marker_dominant`, `orphan_numeric_example_dominant`, `software_code_isolated_dominant`, all `PENALTY_LIGHT` (0.6).
+> - **`is_donaciones_case` substring fix** (Issue D, surgical, no flag). `pipeline_d/case_detectors.py`: bare `"esal"` substring → word-boundary regex `\besal\b`. Closes the `desalarización`/UGPP misroute. 2 anti-tests in `tests/test_planner_case_anchor_registry.py`.
+> - 21 new unit tests across `tests/test_answer_synthesis_practica.py` (+14), `tests/test_chunk_quality_heuristics.py` (+4), `tests/test_planner_case_anchor_registry.py` (+2). All green.
+> - Promotion gate (Issue A): operator re-probes §4.1 `liquidacion_terminacion` fixture on `dev:staging`; on clean shadow → flip `LIA_PRACTICA_NOISE_FILTER=enforce`.
+> - Rollback: `LIA_PRACTICA_NOISE_FILTER=off` (or `=legacy`). Issue D: `git revert <sha>`.
+>
+> **Predecessor `v2026-05-13-fix-v15-uvt-validator-enforce`:**
+>
+> **2026-05-13 fix_v15_may promotion (post-panel cycle):**
 >
 > - **`LIA_POLISH_UVT_VALIDATOR=enforce`** (promoted from `shadow`). Default `enforce` across all three modes after the operator-authorized 3-run panel cycle: shadow #1 → 1 FP (`ep_gmf_exencion_350uvt_v1`, question-text gap), REFINE landed (question text added to allowed set per plan §3.4), shadow #2 → 0 FP across 17 polish-llm turns, enforce → 0 turns rejected with `invented_uvt_ranges` (no production effect on 42-turn baseline).
 > - REFINE code change: threaded `request.message` through `_validate_against_rules → _invoke_validator → _no_invented_uvt_ranges(template, polished, evidence, question)`. Sibling validators dispatch via narrowing-signature TypeError fallback (no API breakage). Tests 30 → 31 green.
@@ -91,7 +102,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-05-13-fix-v15-uvt-validator-enforce)
+## Runtime Retrieval Flags (v2026-05-15-fix-v18-b1-practica-noise-shadow)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -116,6 +127,7 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_POLISH_REJECTED_FALLBACK_FILTER` | **`clean`** | **`clean`** | **`clean`** | `pipeline_d/answer_polish_rejected_fallback.py` — fix_v14_may §6 (A4). Default `clean`: filters every bullet through A2 chunk-quality + A1 topic-allowlist before render, omits empty sections, emits honest-abstention text when total evidence < 300 substantive chars (refined from 500 on 2026-05-13). Set `legacy` to revert to fix_v8 §3a render-everything (rollback only). |
 | `LIA_POLISH_NUMERIC_DIRECTIVE` | **`off`** | **`off`** | **`off`** | `pipeline_d/answer_llm_polish.py::_build_numeric_directive` — fix_v14_may §5 + §16 (A3 REVERTED per §17). Default `off`: helper returns `""` regardless of question. Reason: 42-turn judge showed −11.9 pp strict pass and one hard hallucination (invented Grupo 1 tarifa). Helper retained behind switch for A/B once `_no_invented_uvt_ranges` (fix_v15_may.md) lands. Re-enable via `=on` ONLY after v15 validator ships. |
 | `LIA_POLISH_UVT_VALIDATOR` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/answer_llm_polish.py::_no_invented_uvt_ranges` — fix_v15_may §3. Structural validator that closes the v14.2 §17 gap (LLM invented `3,5%` Grupo 1 tarifa for Art. 908 ET; neither lineage nor period validator catches it). Cue-gated to Art. 240/241/242/383/908 ET + tarifa/tabla-UVT mentions. Allowed set built from template + question text + every primary/connected/reform excerpt (decimal-separator normalized; `**bold**` stripped). **Promoted to `enforce` 2026-05-13** after a three-run panel cycle hit 0 FP in shadow #2 (post REFINE) and 0 turns rejected with `invented_uvt_ranges` in enforce. `enforce` → polish rejects with `polish_skip_reason="invented_uvt_ranges"` (A4 fallback composes served answer); `shadow` → trace step `polish.uvt_validator.applied` only, polish ships; `off` → noop. Rollback: `LIA_POLISH_UVT_VALIDATOR=off` or `=shadow`. |
+| `LIA_PRACTICA_NOISE_FILTER` | **`shadow`** | **`shadow`** | **`shadow`** | `pipeline_d/answer_synthesis_practica.py::_is_practica_noise_line` — fix_v18_may §1.1 Issue A. Per-line noise filter for `Recomendaciones Prácticas` bullets derived from `practica_erp` chunks. Drops three pattern classes: `pre_ley_lead` (lines opening with `Antes:`, `Anteriormente`, `Pre-Ley`, `Históricamente`, `Versión anterior`, `Régimen anterior`, `Regla anterior`), `software_code_tail` (lines ending in `: código <NN>` / `cód. <NN>` — DSPNE/PILA isolated codes), `orphan_numeric_calc` (≤ 160-char bullets dominated by `<n> días × ($...)` calc shape without operational context). Default `shadow` at landing 2026-05-15 — telemetry on, output unchanged; trace step `practica.noise_filter.applied` carries `outcome ∈ {pass, shadow_hit, suppressed, noop}` + reason counters. Promote to `enforce` after operator re-probes the §4.1 `liquidacion_terminacion` fixture in `dev:staging` and confirms clean noise drop without SPEC bullet loss. Rollback: `=off` or `=legacy` alias. |
 | `LIA_RERANKER_ENDPOINT` | unset | unset | unset | `pipeline_d/reranker.py` — base URL of the bge-reranker-v2-m3 sidecar (`POST {url}/rerank`). Unset until the sidecar is deployed. |
 | `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 

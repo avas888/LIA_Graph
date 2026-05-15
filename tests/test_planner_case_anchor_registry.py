@@ -158,6 +158,32 @@ def test_donaciones_case_anchors_arts_257_and_125() -> None:
     assert "125" in keys
 
 
+def test_donaciones_does_not_fire_on_desalarizacion_ugpp() -> None:
+    """v18 b1 Issue D — "desalarización" contains substring "esal"
+    but must NOT trigger donaciones (regression: bare "esal" marker
+    collided with UGPP-desalarización queries).
+    """
+    sources = _planner_anchor_sources(
+        "¿qué es la desalarización en una fiscalización UGPP?"
+    )
+    assert "donaciones_anchor" not in sources
+    sources2 = _planner_anchor_sources(
+        "¿la desalarizacion de pagos no constitutivos de salario es legal?"
+    )
+    assert "donaciones_anchor" not in sources2
+
+
+def test_donaciones_still_fires_on_bare_esal_token() -> None:
+    """v18 b1 Issue D — word-boundary regex must still match the
+    standalone token "esal" so legitimate ESAL questions surface
+    the donaciones anchor.
+    """
+    sources = _planner_anchor_sources(
+        "¿la donación a una esal es deducible o descuento?"
+    )
+    assert "donaciones_anchor" in sources
+
+
 def test_exoneracion_parafiscales_case_anchors_art_114_1() -> None:
     # Phrase WITHOUT explicit "art 114-1" so the explicit-reference path
     # doesn't preempt the case-anchor path.

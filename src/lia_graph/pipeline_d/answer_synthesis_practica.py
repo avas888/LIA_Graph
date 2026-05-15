@@ -15,6 +15,7 @@ not appended to that already-large module.
 from __future__ import annotations
 
 import logging
+import os
 import re
 from typing import TYPE_CHECKING
 
@@ -29,6 +30,22 @@ if TYPE_CHECKING:
 
 
 LOGGER = logging.getLogger(__name__)
+
+
+# fix_v18 b1 §1.1 Issue A — per-line noise filter gate.
+_NOISE_FILTER_ENV_FLAG = "LIA_PRACTICA_NOISE_FILTER"
+
+
+def _noise_filter_mode() -> str:
+    """Return ``off | shadow | enforce``. Default ``shadow`` at landing
+    per fix_v18 b1 §1.1 — telemetry without altering output until
+    operator promotes after panel review."""
+    raw = str(os.getenv(_NOISE_FILTER_ENV_FLAG, "shadow") or "").strip().lower()
+    if raw in {"enforce", "on", "1", "true"}:
+        return "enforce"
+    if raw in {"off", "0", "false", "no", "disabled", "legacy"}:
+        return "off"
+    return "shadow"
 
 
 def _trace_step(name: str, **payload: object) -> None:
@@ -120,6 +137,69 @@ _PRACTICA_DANGLING_PAREN_RE = re.compile(r"\(\s*\d+\s*\)\s*\.?\s*$")
 _PRACTICA_QUESTION_BULLET_RE = re.compile(
     r"^\s*¿.*\?\.?\s*$",
 )
+
+
+# fix_v18 b1 §1.1 — per-line noise patterns. These fire on INDIVIDUAL
+# bullet candidates (after _support_doc_candidate_lines splits the
+# chunk), to drop noise that the chunk-level heuristics in
+# `chunk_quality_heuristics.py` cannot catch because the chunk as a
+# whole still has substantive content.
+
+# Pre-Ley / temporal contrast lead: line starts with "Antes:", "Antes,",
+# "Anteriormente,", "Pre-Ley", "Históricamente,", "Versión anterior:".
+# These are the headers of "before-and-after" comparisons; the current
+# rule belongs in a SPEC bullet, the "before" half is noise.
+_PRACTICA_NOISE_PRE_LEY_LEAD_RE = re.compile(
+    r"^\s*(?:antes\s*[:,]|anteriormente\s*[:,]|"
+    r"pre[\s\-]?ley|"
+    r"hist[oó]ric[ao]mente\s*[:,]|"
+    r"versi[oó]n\s+anterior\s*[:,]|"
+    r"r[eé]gimen\s+anterior\s*[:,]|"
+    r"regla\s+anterior\s*[:,])",
+    re.IGNORECASE,
+)
+
+# Orphan numeric calculation as the entire bullet body. Example caught
+# at the 2026-05-15 PM probe: "Antes: 30 días × ($2.200.000 ÷ 30) =
+# $2.200.000." — even without the "Antes:" lead, the pure-calculation
+# shape is a worked-example fragment that lost its caller question.
+_PRACTICA_NOISE_ORPHAN_CALC_RE = re.compile(
+    r"\d[\d.,]*\s*(?:d[ií]as?|meses?|a[nñ]os?)?\s*"
+    r"(?:×|÷|x|\*|/)\s*"
+    r"\(?\s*\$?\d[\d.,]*\s*"
+    r"(?:×|÷|x|\*|/|\)|\.)",
+    re.IGNORECASE,
+)
+
+# DSPNE / PILA software codes referenced as standalone bullets:
+# "Despido sin justa causa (...): código 55." Pattern: bullet ends with
+# ": código <NN>." or "código <NN>." dominates a short bullet.
+_PRACTICA_NOISE_SOFTWARE_CODE_RE = re.compile(
+    r":\s*c[oó]d(?:igo|\.)\s+\d{1,3}\s*\.?\s*$",
+    re.IGNORECASE,
+)
+
+
+def _is_practica_noise_line(line: str) -> tuple[bool, str | None]:
+    """Return ``(is_noise, reason)``.
+
+    fix_v18 b1 §1.1 Issue A — per-line noise filter for práctica
+    chunks. Returns ``(False, None)`` for clean lines and
+    ``(True, "<reason>")`` for noise. The CALLER decides whether to
+    drop or shadow-log based on ``_noise_filter_mode()``.
+    """
+    if not line:
+        return False, None
+    stripped = str(line).strip()
+    if not stripped:
+        return False, None
+    if _PRACTICA_NOISE_PRE_LEY_LEAD_RE.match(stripped):
+        return True, "pre_ley_lead"
+    if _PRACTICA_NOISE_SOFTWARE_CODE_RE.search(stripped):
+        return True, "software_code_tail"
+    if _PRACTICA_NOISE_ORPHAN_CALC_RE.search(stripped) and len(stripped) <= 160:
+        return True, "orphan_numeric_calc"
+    return False, None
 
 
 def _is_practica_artifact_line(line: str) -> bool:
@@ -217,6 +297,9 @@ def extend_from_practica_chunks(
             bullets_emitted=0,
         )
         return
+    noise_mode = _noise_filter_mode()
+    noise_dropped_reasons: dict[str, int] = {}
+    noise_shadow_reasons: dict[str, int] = {}
     per_chunk_emitted: list[dict[str, object]] = []
     bucket_size_before = len(bucket)
     for chunk in chunks:
@@ -234,6 +317,18 @@ def extend_from_practica_chunks(
             # period appended to a `cuando` mid-thought).
             if _is_practica_artifact_line(cleaned):
                 continue
+            # fix_v18 b1 §1.1 Issue A — noise filter (shadow/enforce).
+            is_noise, noise_reason = _is_practica_noise_line(cleaned)
+            if is_noise:
+                if noise_mode == "enforce":
+                    noise_dropped_reasons[noise_reason or "unknown"] = (
+                        noise_dropped_reasons.get(noise_reason or "unknown", 0) + 1
+                    )
+                    continue
+                if noise_mode == "shadow":
+                    noise_shadow_reasons[noise_reason or "unknown"] = (
+                        noise_shadow_reasons.get(noise_reason or "unknown", 0) + 1
+                    )
             append_unique(bucket, cleaned)
             emitted += 1
             emitted_lines.append(cleaned[:120])
@@ -261,9 +356,33 @@ def extend_from_practica_chunks(
         bullets_emitted=total_emitted,
         per_chunk=per_chunk_emitted,
     )
+    # fix_v18 b1 §1.1 Issue A — emit noise-filter outcome separately so
+    # the dev:staging shadow run can be queried via `jq` against
+    # `tracers_and_logs/logs/pipeline_trace.jsonl` to count drop/shadow
+    # rates and reasons before promoting to enforce.
+    noise_outcome: str
+    if noise_mode == "off":
+        noise_outcome = "noop"
+    elif noise_mode == "enforce" and noise_dropped_reasons:
+        noise_outcome = "suppressed"
+    elif noise_mode == "shadow" and noise_shadow_reasons:
+        noise_outcome = "shadow_hit"
+    else:
+        noise_outcome = "pass"
+    _trace_step(
+        "practica.noise_filter.applied",
+        filter_mode=noise_mode,
+        outcome=noise_outcome,
+        dropped_total=sum(noise_dropped_reasons.values()),
+        dropped_reasons=dict(noise_dropped_reasons),
+        shadow_total=sum(noise_shadow_reasons.values()),
+        shadow_reasons=dict(noise_shadow_reasons),
+    )
 
 
 __all__ = [
     "extend_from_practica_chunks",
     "_is_practica_artifact_line",
+    "_is_practica_noise_line",
+    "_noise_filter_mode",
 ]

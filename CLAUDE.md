@@ -89,7 +89,7 @@ the same topology as staging/prod.
 - `evals/` — retrieval/gold benchmarks.
 - `docs/` — `guide/` (canonical runtime docs), `architecture/FORK-BOUNDARY.md`, `build/buildv1/` (ingestion/graph-build docs), `state/` (task state ledgers), `deprecated/old-RAG/` (historical, not active steering).
 
-## Runtime Read Path (Env v2026-05-13-fix-v15-uvt-validator-enforce)
+## Runtime Read Path (Env v2026-05-15-fix-v18-b1-practica-noise-shadow)
 
 | Mode | `LIA_CORPUS_SOURCE` | `LIA_GRAPH_MODE` | Where chunks come from | Where graph traversal runs |
 |---|---|---|---|---|
@@ -153,6 +153,12 @@ Every `PipelineCResponse.diagnostics` carries `retrieval_backend` and `graph_bac
 - `enforce` (default) → polish flips `mode=rejected`, `polish_skip_reason="invented_uvt_ranges"`; A4 substantive fallback composes the served answer. `shadow` → trace step `polish.uvt_validator.applied` with `outcome ∈ {pass, fail_shadow, noop_no_cue, noop_off}` + invented set (capped 6); polish output still ships. `off` → noop.
 - Panel cycle (2026-05-13): shadow #1 → 1 FP (`ep_gmf_exencion_350uvt_v1`, question-text gap) → REFINE landed (question text added to allowed set per plan §3.4) → shadow #2 → 0 FP across 17 polish-llm turns → enforce → 0 turns rejected with `invented_uvt_ranges` (no production effect on 42-turn baseline).
 - Rollback: `LIA_POLISH_UVT_VALIDATOR=off` (function noop) or `=shadow` (telemetry on, no production effect).
+
+**fix_v18_may b1 (2026-05-15) — práctica chunk-noise filter + donaciones substring fix:**
+
+- **`LIA_PRACTICA_NOISE_FILTER=shadow`** (§1.1 Issue A) — per-line noise filter in `pipeline_d/answer_synthesis_practica.py::_is_practica_noise_line`. Drops bullets matching one of three patterns: (a) `pre_ley_lead` — lines opening with `Antes:`, `Anteriormente`, `Pre-Ley`, `Históricamente`, `Versión anterior`, `Régimen anterior`, `Regla anterior`; (b) `software_code_tail` — lines ending in `: código <NN>` (DSPNE / PILA isolated codes); (c) `orphan_numeric_calc` — bullets ≤ 160 chars dominated by a calculation `<n> días × ($... )` without operational context. Default `shadow` at landing — telemetry on, output unchanged. Trace step `practica.noise_filter.applied` with `outcome ∈ {pass, shadow_hit, suppressed, noop}` + `dropped_reasons` / `shadow_reasons` counters. Rollback: `=off` or `=legacy` (alias). Promote to `enforce` ONLY after panel-judge confirms < 5% false-positive rate on SPEC bullets.
+- **`LIA_CHUNK_QUALITY_HEURISTIC_MODE` extended** (§1.1 Issue A, no new flag) — 3 new motivos added to `pipeline_d/chunk_quality_heuristics.py` with `PENALTY_LIGHT` (0.6): `pre_ley_marker_dominant` (≥ 2 pre-Ley markers in < 600-char chunk), `orphan_numeric_example_dominant` (≥ 2 calc expressions in < 500-char chunk), `software_code_isolated_dominant` (≥ 2 `código <NN>` refs in < 400-char chunk). Inherits the existing `enforce` flag setting (already promoted in fix_v14_may §4).
+- **Issue D — `is_donaciones_case` "esal" substring → word-boundary regex** (§1.4, surgical, no flag). `pipeline_d/case_detectors.py::is_donaciones_case` previously fired on `"esal" in normalized_message`, which collided with `"desalarización"` / `"desalarizacion"` UGPP queries. Now uses `re.search(r"\besal\b", ...)`, same pattern as fix_v16 `is_rte_esal_case`. 2 regression anti-tests in `tests/test_planner_case_anchor_registry.py`: `test_donaciones_does_not_fire_on_desalarizacion_ugpp` + `test_donaciones_still_fires_on_bare_esal_token`. Rollback: `git revert <sha>`.
 
 **Ingest-pipeline knobs (next_v3 phases 2a/2b/2c):**
 

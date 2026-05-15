@@ -14,9 +14,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+import os
+
+import pytest
+
 from lia_graph.pipeline_d.answer_synthesis_practica import (
     _candidate_lines_from_chunk,
     _is_practica_artifact_line,
+    _is_practica_noise_line,
+    _noise_filter_mode,
     extend_from_practica_chunks,
 )
 
@@ -218,3 +224,187 @@ def test_extend_default_lets_chunk_emit_multiple_bullets() -> None:
     extend_from_practica_chunks(bucket, (chunk,))
     # v15.1: default per-chunk cap raised from 1 → 6; this chunk emits 3.
     assert len(bucket) == 3
+
+
+# ---------------------------------------------------------------------------
+# fix_v18 b1 §1.1 Issue A — per-line noise filter
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def _noise_filter_off(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setenv("LIA_PRACTICA_NOISE_FILTER", "off")
+    yield
+
+
+@pytest.fixture
+def _noise_filter_shadow(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setenv("LIA_PRACTICA_NOISE_FILTER", "shadow")
+    yield
+
+
+@pytest.fixture
+def _noise_filter_enforce(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setenv("LIA_PRACTICA_NOISE_FILTER", "enforce")
+    yield
+
+
+def test_noise_filter_mode_default_is_shadow(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("LIA_PRACTICA_NOISE_FILTER", raising=False)
+    assert _noise_filter_mode() == "shadow"
+
+
+def test_noise_filter_mode_legacy_alias_is_off(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LIA_PRACTICA_NOISE_FILTER", "legacy")
+    assert _noise_filter_mode() == "off"
+
+
+def test_noise_filter_drops_pre_ley_antes_lead() -> None:
+    # §4.1 fixture bullet 5 (verbatim).
+    is_noise, reason = _is_practica_noise_line(
+        "Antes: 30 días × ($2.200.000 ÷ 30) = $2.200.000."
+    )
+    assert is_noise is True
+    assert reason == "pre_ley_lead"
+
+
+def test_noise_filter_drops_anteriormente_lead() -> None:
+    is_noise, reason = _is_practica_noise_line(
+        "Anteriormente, la indemnización se liquidaba a 45 días."
+    )
+    assert is_noise is True
+    assert reason == "pre_ley_lead"
+
+
+def test_noise_filter_drops_software_code_tail_55() -> None:
+    # §4.1 fixture bullet 1.
+    is_noise, reason = _is_practica_noise_line(
+        "Despido sin justa causa (terminación unilateral del empleador): código 55."
+    )
+    assert is_noise is True
+    assert reason == "software_code_tail"
+
+
+def test_noise_filter_drops_software_code_tail_56() -> None:
+    # §4.1 fixture bullet 2.
+    is_noise, reason = _is_practica_noise_line(
+        "Despido con justa causa (incumplimiento del trabajador): código 56."
+    )
+    assert is_noise is True
+    assert reason == "software_code_tail"
+
+
+def test_noise_filter_drops_orphan_numeric_calc() -> None:
+    is_noise, reason = _is_practica_noise_line(
+        "30 días × ($2.200.000 ÷ 30) = $2.200.000."
+    )
+    assert is_noise is True
+    assert reason == "orphan_numeric_calc"
+
+
+def test_noise_filter_preserves_legitimate_spec_bullet() -> None:
+    # SPEC bullet from liquidacion_terminacion — must NOT fire as noise.
+    spec_bullet = (
+        "**Indemnización moratoria — CST art. 65:** durante los primeros "
+        "24 meses después del retiro = 1 día de salario por cada día de "
+        "mora. A partir del mes 25 = intereses moratorios."
+    )
+    is_noise, reason = _is_practica_noise_line(spec_bullet)
+    assert is_noise is False
+    assert reason is None
+
+
+def test_noise_filter_preserves_calc_inside_operational_context() -> None:
+    # A calc embedded in a long operational bullet is NOT noise.
+    operational = (
+        "Para liquidar la indemnización por años posteriores al primero, "
+        "aplica la fórmula del CST art. 64: 20 días × $133.333 = $2.666.660 "
+        "por cada año adicional al primero, según la tabla del numeral 2."
+    )
+    is_noise, reason = _is_practica_noise_line(operational)
+    # Long line should not trigger orphan-calc (> 160 chars).
+    assert is_noise is False
+    assert reason is None
+
+
+def test_noise_filter_preserves_descuento_25pct_bullet() -> None:
+    # Donaciones SPEC bullet uses "25 %" and "Antes:..." would be wrong
+    # match — make sure clean phrasing does not regress.
+    clean = (
+        "Tratamiento general — descuento art. 257 ET: 25 % del valor "
+        "donado contra el impuesto sobre la renta."
+    )
+    is_noise, reason = _is_practica_noise_line(clean)
+    assert is_noise is False
+    assert reason is None
+
+
+def test_extend_enforce_drops_noise_bullets(
+    _noise_filter_enforce, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Simulate the §4.1 captured chunk: noise interleaved with SPEC.
+    chunk = _StubChunk(
+        chunk_text=(
+            "- Despido sin justa causa (terminación unilateral): código 55.\n"
+            "- Despido con justa causa (incumplimiento): código 56.\n"
+            "- Antes: 30 días × ($2.200.000 ÷ 30) = $2.200.000.\n"
+            "- En terminación sin justa causa, año 1: el empleador "
+            "debe pagar 30 días de salario adicionales a las "
+            "prestaciones sociales liquidadas al corte.\n"
+            "- Conserva los soportes de pago bancarizado y el "
+            "paz y salvo firmado por el trabajador durante 10 años.\n"
+        ),
+        doc_id="doc_terminacion",
+    )
+    bucket: list[str] = []
+    extend_from_practica_chunks(bucket, (chunk,))
+    joined = "\n".join(bucket).lower()
+    # Noise dropped.
+    assert "código 55" not in joined
+    assert "código 56" not in joined
+    assert not any(line.lstrip().lower().startswith("antes:") for line in bucket)
+    # SPEC content preserved.
+    assert "30 días de salario adicionales" in joined
+    assert "paz y salvo" in joined
+
+
+def test_extend_shadow_does_not_drop_anything(
+    _noise_filter_shadow, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Same chunk as above — under shadow, output is identical to off
+    # (bullets surface, telemetry logs separately).
+    chunk = _StubChunk(
+        chunk_text=(
+            "- Despido sin justa causa: código 55.\n"
+            "- En terminación sin justa causa, año 1: el empleador "
+            "debe pagar 30 días de salario adicionales a las "
+            "prestaciones sociales liquidadas al corte.\n"
+        ),
+        doc_id="doc_terminacion",
+    )
+    bucket: list[str] = []
+    extend_from_practica_chunks(bucket, (chunk,))
+    joined = "\n".join(bucket).lower()
+    # Shadow mode: noise still appears in output.
+    assert "código 55" in joined
+    assert "30 días de salario adicionales" in joined
+
+
+def test_extend_off_mode_emits_everything(
+    _noise_filter_off, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    chunk = _StubChunk(
+        chunk_text=(
+            "- Despido sin justa causa: código 55.\n"
+            "- Antes: 30 días × ($2.200.000 ÷ 30) = $2.200.000.\n"
+            "- En terminación sin justa causa, año 1: el empleador "
+            "paga 30 días de salario adicionales a las prestaciones.\n"
+        ),
+        doc_id="doc_terminacion",
+    )
+    bucket: list[str] = []
+    extend_from_practica_chunks(bucket, (chunk,))
+    joined = "\n".join(bucket).lower()
+    assert "código 55" in joined
+    assert "antes:" in joined
+    assert "30 días de salario adicionales" in joined

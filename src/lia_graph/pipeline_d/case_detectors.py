@@ -248,10 +248,15 @@ def is_donaciones_case(normalized_message: str) -> bool:
 
     Source playbook: knowledge_base/CORE ya Arriba/RENTA/PLAYBOOKS/
     playbook_renta_donaciones_deducibles.md.
+
+    v18 b1 Issue D (2026-05-15): "esal" demoted to word-boundary
+    regex so "desalarización" / "desalarizacion" UGPP-related
+    questions stop misfiring this detector (same pattern as
+    is_rte_esal_case in case_detectors_b5.py).
     """
     if not normalized_message:
         return False
-    markers = (
+    long_markers = (
         "donación",
         "donacion",
         "donaciones",
@@ -265,7 +270,6 @@ def is_donaciones_case(normalized_message: str) -> bool:
         "art. 125-1",
         "art. 125-2",
         "art. 125-3",
-        "esal",
         "régimen tributario especial",
         "regimen tributario especial",
         "entidad sin ánimo de lucro",
@@ -273,7 +277,9 @@ def is_donaciones_case(normalized_message: str) -> bool:
         "fundación",
         "fundacion",
     )
-    return any(marker in normalized_message for marker in markers)
+    if any(marker in normalized_message for marker in long_markers):
+        return True
+    return bool(re.search(r"\besal\b", normalized_message))
 
 
 def is_exoneracion_parafiscales_case(normalized_message: str) -> bool:

@@ -493,6 +493,16 @@ function buildRuntimeEnv(mode) {
     env.LIA_POLISH_UVT_VALIDATOR = "enforce";
   }
 
+  // fix_v18_may §1.1 Issue A — práctica per-line noise filter. Default
+  // `shadow` at landing 2026-05-15 — telemetry on, output unchanged.
+  // Promote to `enforce` only after operator re-probes the §4.1
+  // `liquidacion_terminacion` fixture in dev:staging and confirms
+  // clean noise drop without SPEC bullet loss.
+  // Rollback: `LIA_PRACTICA_NOISE_FILTER=off` (or `=legacy` alias).
+  if (!String(env.LIA_PRACTICA_NOISE_FILTER || "").trim()) {
+    env.LIA_PRACTICA_NOISE_FILTER = "shadow";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;
