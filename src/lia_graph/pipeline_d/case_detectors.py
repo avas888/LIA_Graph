@@ -582,17 +582,29 @@ from .case_detectors_extensions import (  # noqa: F401  — b3 + b4 detectors
     is_sancion_inexactitud_case,
     is_soporte_factura_case,
 )
-from .case_detectors_b5 import (  # noqa: F401  — b5 detectors (Tier 2 + NIIF)
+from .case_detectors_b5 import (  # noqa: F401  — b5 + v17 b1/b2/b3 detectors
     is_aportes_voluntarios_pension_case,
     is_capitalizacion_utilidades_case,
     is_clausula_antiabuso_case,
+    is_contrato_aprendizaje_sena_case,
+    is_contrato_prestacion_vs_laboral_case,
     is_dividendos_no_gravados_case,
     is_impuesto_diferido_case,
     is_inc_consumo_case,
+    is_liquidacion_mensual_nomina_case,
+    is_liquidacion_terminacion_case,
     is_niif_ingresos_case,
+    is_nomina_electronica_dspne_case,
+    is_pila_aportes_case,
     is_precios_transferencia_case,
+    is_prestaciones_sociales_case,
     is_renta_cedular_pn_case,
     is_rte_esal_case,
+    is_salario_integral_case,
+    is_ugpp_fiscalizacion_case,
+)
+from .case_detectors_b6 import (  # noqa: F401  — v17 b3+ tail (tiempo parcial)
+    is_aportes_proporcionales_tiempo_parcial_case,
 )
 
 
@@ -642,10 +654,13 @@ def is_pagos_efectivo_case(normalized_message: str) -> bool:
 
 __all__ = [
     "is_anticipo_renta_case",
+    "is_aportes_proporcionales_tiempo_parcial_case",
     "is_atenciones_case",
     "is_beneficio_auditoria_case",
     "is_cartera_dificil_recaudo_case",
     "is_compensacion_perdidas_fiscales_case",
+    "is_contrato_aprendizaje_sena_case",
+    "is_contrato_prestacion_vs_laboral_case",
     "is_ctei_descuento_case",
     "is_depreciacion_case",
     "is_devolucion_saldos_favor_case",
@@ -668,18 +683,25 @@ __all__ = [
     "is_iva_hecho_generador_case",
     "is_iva_responsables_case",
     "is_leasing_deduction_case",
+    "is_liquidacion_mensual_nomina_case",
+    "is_liquidacion_terminacion_case",
     "is_niif_conciliacion_fiscal_case",
+    "is_nomina_electronica_dspne_case",
     "is_notificaciones_electronicas_case",
     "is_pagos_efectivo_case",
+    "is_pila_aportes_case",
     "is_predial_deduction_case",
+    "is_prestaciones_sociales_case",
     "is_primer_empleo_deduction_case",
     "is_retencion_salarios_case",
     "is_retencion_servicios_case",
     "is_rst_tarifas_case",
+    "is_salario_integral_case",
     "is_sancion_correccion_case",
     "is_sancion_extemporaneidad_case",
     "is_sancion_inexactitud_case",
     "is_soporte_factura_case",
     "is_tarifa_general_pj_case",
+    "is_ugpp_fiscalizacion_case",
     "is_zona_franca_case",
 ]

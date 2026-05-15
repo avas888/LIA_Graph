@@ -18,6 +18,41 @@ A :class:`CaseSpec` collects everything one case topic needs to wire:
   ``hybrid_search`` when ``detector`` fires.
 * ``source_label`` — diagnostic source tag, surfaces in
   ``planner.diagnostics.anchor_sources``.
+
+Authoring sub-bullets (v17 follow-up, 2026-05-15)
+-------------------------------------------------
+The synthesis pipeline collapses any newline in a bullet to a single
+space via ``answer_shared.append_unique`` and
+``neutralize_non_imputative_language``. So a bullet containing
+literal ``\\n  - sub`` will not render as nested markdown.
+
+To author nested bullets, use the helper from
+``pipeline_d.presentation``::
+
+    from ..presentation import with_sub_bullets
+
+    SPEC = CaseSpec(
+        ...,
+        bullets=(
+            with_sub_bullets(
+                "**Recargos (CST 159, 168, 179):**",
+                (
+                    "nocturno (21:00–06:00) **+ 35 %**",
+                    "extra diurna **+ 25 %**",
+                    "extra nocturna **+ 75 %**",
+                ),
+            ),
+            "Single-line bullet without sub-items stays a plain string.",
+        ),
+        ...,
+    )
+
+Under the hood, ``with_sub_bullets`` joins the lead and the items with
+``SUB_BULLET_TOKEN`` (a non-whitespace sentinel) so the bullet survives
+every whitespace-collapse in the pipeline. ``render_bullet_section``
+expands the token to ``\\n  - `` at the very last render step. Polish
+is instructed to preserve the nested structure (point 5 of the
+primary directive in ``answer_llm_polish._build_polish_prompt``).
 """
 from __future__ import annotations
 

@@ -108,6 +108,23 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         ),
     ),
     PromptRule(
+        id="anclaje_legal_explanatory_lines",
+        category="structural",
+        prompt_text=(
+            "EN EL BLOQUE **Anclaje Legal**: cada viñeta debe quedar como una oración "
+            "completa que explique POR QUÉ se cita ese artículo. Formas aceptables: "
+            "`Art. N ET — <qué regula el artículo>.` (preservando el encabezado del "
+            "BORRADOR) o en prosa `<Qué regula el artículo> en el (art. N ET).` "
+            "(por ej.: `La definición de salario se encuentra en los (arts. 127-132 ET).`). "
+            "NUNCA dejes una viñeta como sólo `(art. N ET)` ni como sólo `Art. N ET` sin "
+            "descripción al lado — la sección entera deja de tener sentido. Tomá la "
+            "descripción del encabezado del artículo en ARTÍCULOS ANCLA DEL GRAFO o del "
+            "EXCERPT; no inventes contenido fuera de la evidencia. Si el BORRADOR ya "
+            "trae el encabezado en cada viñeta (`Art. N ET — <heading>.`), preservalo "
+            "o reescribilo en prosa, pero no lo borres."
+        ),
+    ),
+    PromptRule(
         id="partial_coverage_warning_preserve",
         category="semantic",
         prompt_text=(
@@ -966,6 +983,14 @@ def _build_polish_prompt(
         "\n"
         "4) NO inventes cifras, plazos, topes ni porcentajes que no estén "
         "en el BORRADOR o en los EXCERPTS de la evidencia abajo.\n"
+        "\n"
+        "5) PRESERVÁ la estructura de listas anidadas tal cual aparezca "
+        "en el BORRADOR. Si una viñeta contiene sub-viñetas indentadas "
+        "(líneas que empiezan con dos espacios + `- `), mantenelas como "
+        "sub-viñetas — no las concatenes en un solo párrafo, no las "
+        "promovas a viñetas de nivel superior, no cambies su indentación. "
+        "Podés reescribir el texto DE cada sub-viñeta, pero no su "
+        "jerarquía visual.\n"
         "\n"
         "Consecuencia: tu salida pasa por un validador automático. Si "
         "violás cualquiera de los puntos 1–4, tu reescritura se descarta "

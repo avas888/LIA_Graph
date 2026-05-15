@@ -144,6 +144,7 @@
   "laboral": {
     "allowed_prefixes": [
       "art:108",
+      "art:114-1",
       "art:127-128", "art:127-132", "art:127", "art:128", "art:129", "art:130", "art:131", "art:132",
       "art:142", "art:143", "art:144", "art:145",
       "art:158", "art:159", "art:160",
@@ -151,10 +152,11 @@
       "art:230",
       "art:249", "art:250",
       "art:306",
-      "art:383"
+      "art:383", "art:387", "art:388", "art:401-3",
+      "art:617", "art:651", "art:771-2"
     ],
-    "cross_topic_allowed": ["parafiscales_seguridad_social", "retencion_fuente_general", "reforma_pensional"],
-    "_notes": "Laboral CST + ET donde aplica. Art. 108 ET parafiscales requisito deducción. CST 127-132 salario, 142-145 jornada/recargos, 249-250 cesantías, 306 prima de servicios, 218 vacaciones. EXCLUDED: Arts. 16-19, 3 (intermediario) que aparecieron mal-citados."
+    "cross_topic_allowed": ["parafiscales_seguridad_social", "retencion_fuente_general", "reforma_pensional", "facturacion_electronica"],
+    "_notes": "Laboral CST + ET donde aplica. Art. 108 ET parafiscales requisito deducción. CST 127-132 salario, 142-145 jornada/recargos, 249-250 cesantías, 306 prima de servicios, 218 vacaciones. v17 b1/b2/b3 (2026-05-15): Art. 114-1 (exoneración) + art. 387/388 (depuración retención) + art. 401-3 (retención indemnización) habilitan los nuevos case anchors de salario_integral / liquidación_mensual / prestaciones / terminación. Art. 617 + 651 + 771-2 (FE + sanción por no enviar + soporte FE) habilitan el case anchor DSPNE (Resolución 000013/2021). EXCLUDED: Arts. 16-19, 3 (intermediario) que aparecieron mal-citados."
   },
 
   "parafiscales_seguridad_social": {

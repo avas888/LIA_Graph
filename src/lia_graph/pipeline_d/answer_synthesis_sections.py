@@ -372,6 +372,31 @@ def _legal_anchor_topic_for_request(request: PipelineCRequest) -> str | None:
     return None
 
 
+def _format_anchor_line(item: GraphEvidenceItem) -> str:
+    """Render one Anclaje Legal bullet as an explanatory sentence.
+
+    Pre-fix output was `Art. {N} — {HEADING}`. Polish often collapsed
+    this to a bare `(art. N ET)` because the heading looked like a
+    titlecard rather than a sentence, so the LLM treated it as
+    droppable noise. New deterministic form is a full sentence:
+    `Art. {N} ET — {heading}.` so:
+
+    - it reads as a complete one-line description even when polish
+      is bypassed (rejected fallback, polish disabled);
+    - the trailing period plus `ET` suffix matches the prose pattern
+      polish prefers when it does enrich the line (cesantías-style:
+      `La definición de salario se encuentra en los (arts. 127-132
+      ET).`), making it less likely to be stripped.
+
+    Tests assert substrings like `"Art. 100"` / `"Art. 260-5"`,
+    which remain present after this change.
+    """
+    title = clean_title(item.title)
+    if not title:
+        return f"Art. {item.node_key} ET."
+    return f"Art. {item.node_key} ET — {title}."
+
+
 def build_legal_anchor_lines(
     *,
     request: PipelineCRequest,
@@ -432,7 +457,7 @@ def build_legal_anchor_lines(
     for item in primary_articles[:5]:
         if not _gate_decision(item):
             continue
-        append_unique(lines, f"Art. {item.node_key} — {clean_title(item.title)}")
+        append_unique(lines, _format_anchor_line(item))
     for item in connected_articles[:2]:
         if not should_surface_connected_anchor(
             title=item.title,
@@ -442,7 +467,7 @@ def build_legal_anchor_lines(
             continue
         if not _gate_decision(item):
             continue
-        append_unique(lines, f"Art. {item.node_key} — {clean_title(item.title)}")
+        append_unique(lines, _format_anchor_line(item))
 
     # Best-effort trace emission — falls back to silent no-op if the
     # tracer is unavailable in the current import context.

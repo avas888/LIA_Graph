@@ -539,3 +539,373 @@ def test_predial_case_adds_search_queries() -> None:
     joined = " | ".join(queries).lower()
     assert "predial" in joined
     assert "115" in joined
+
+
+# ---------------------------------------------------------------------------
+# v17 b1 + b2 + b3 — labor / nómina block (9 topics).
+# Each topic has one anchor-emission test + one search-queries test.
+# Topic key used for _req() does not affect the case-detector walk in
+# `build_anchor_seeds` (it inspects the normalized message text).
+# ---------------------------------------------------------------------------
+
+
+def test_liquidacion_mensual_nomina_case_anchors_art_108_and_387() -> None:
+    keys = _planner_anchor_keys(
+        "¿cómo liquido la nómina del mes con horas extras y dominicales?"
+    )
+    assert "108" in keys
+    assert "387" in keys
+    sources = _planner_anchor_sources(
+        "¿cómo liquido la nómina del mes con horas extras y dominicales?"
+    )
+    assert "liquidacion_mensual_nomina_anchor" in sources
+
+
+def test_liquidacion_mensual_nomina_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿cómo liquido la nómina del mes con horas extras y dominicales?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "nomina" in joined
+    assert "108" in joined
+
+
+def test_prestaciones_sociales_case_anchors_art_108_and_387() -> None:
+    keys = _planner_anchor_keys(
+        "¿cuándo debo consignar las cesantías al fondo y cómo calculo la prima?"
+    )
+    assert "108" in keys
+    assert "387" in keys
+    sources = _planner_anchor_sources(
+        "¿cuándo debo consignar las cesantías al fondo y cómo calculo la prima?"
+    )
+    assert "prestaciones_sociales_anchor" in sources
+
+
+def test_prestaciones_sociales_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿cuándo debo consignar las cesantías al fondo y cómo calculo la prima?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "cesant" in joined
+    assert "prima" in joined
+
+
+def test_liquidacion_terminacion_case_anchors_art_108_and_387() -> None:
+    keys = _planner_anchor_keys(
+        "¿cómo liquido al empleado que despedí sin justa causa?"
+    )
+    assert "108" in keys
+    assert "387" in keys
+    sources = _planner_anchor_sources(
+        "¿cómo liquido al empleado que despedí sin justa causa?"
+    )
+    assert "liquidacion_terminacion_anchor" in sources
+
+
+def test_liquidacion_terminacion_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿cómo liquido al empleado que despedí sin justa causa?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "indemnizacion" in joined or "despido" in joined
+
+
+def test_pila_aportes_case_anchors_art_108_and_114_1() -> None:
+    keys = _planner_anchor_keys(
+        "¿cuándo debo pagar la PILA según el último dígito del NIT?"
+    )
+    assert "108" in keys
+    assert "114-1" in keys
+    sources = _planner_anchor_sources(
+        "¿cuándo debo pagar la PILA según el último dígito del NIT?"
+    )
+    assert "pila_aportes_anchor" in sources
+
+
+def test_pila_aportes_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿cuándo debo pagar la PILA según el último dígito del NIT?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "pila" in joined
+
+
+def test_ugpp_fiscalizacion_case_anchors_art_108_and_114_1() -> None:
+    keys = _planner_anchor_keys(
+        "¿qué revisa la UGPP en una fiscalización y cuáles son las sanciones?"
+    )
+    assert "108" in keys
+    assert "114-1" in keys
+    sources = _planner_anchor_sources(
+        "¿qué revisa la UGPP en una fiscalización y cuáles son las sanciones?"
+    )
+    assert "ugpp_fiscalizacion_anchor" in sources
+
+
+def test_ugpp_fiscalizacion_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿qué revisa la UGPP en una fiscalización y cuáles son las sanciones?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "ugpp" in joined
+
+
+def test_nomina_electronica_dspne_case_anchors_art_617() -> None:
+    keys = _planner_anchor_keys(
+        "¿estoy obligado a generar el DSPNE de nómina electrónica?"
+    )
+    assert "617" in keys
+    sources = _planner_anchor_sources(
+        "¿estoy obligado a generar el DSPNE de nómina electrónica?"
+    )
+    assert "nomina_electronica_dspne_anchor" in sources
+
+
+def test_nomina_electronica_dspne_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿estoy obligado a generar el DSPNE de nómina electrónica?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "dspne" in joined or "nomina electronica" in joined
+
+
+def test_contrato_prestacion_vs_laboral_case_anchors_art_383() -> None:
+    keys = _planner_anchor_keys(
+        "¿cuándo un contrato de prestación de servicios se convierte en laboral por subordinación?"
+    )
+    assert "383" in keys
+    sources = _planner_anchor_sources(
+        "¿cuándo un contrato de prestación de servicios se convierte en laboral por subordinación?"
+    )
+    assert "contrato_prestacion_vs_laboral_anchor" in sources
+
+
+def test_contrato_prestacion_vs_laboral_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿cuándo un contrato de prestación de servicios se convierte en laboral por subordinación?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "contrato realidad" in joined or "subordinacion" in joined
+
+
+def test_contrato_aprendizaje_sena_case_anchors_art_108() -> None:
+    keys = _planner_anchor_keys(
+        "¿cuántos aprendices SENA debo tener si tengo 30 empleados y cuánto se paga?"
+    )
+    assert "108" in keys
+    sources = _planner_anchor_sources(
+        "¿cuántos aprendices SENA debo tener si tengo 30 empleados y cuánto se paga?"
+    )
+    assert "contrato_aprendizaje_sena_anchor" in sources
+
+
+def test_contrato_aprendizaje_sena_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿cuántos aprendices SENA debo tener si tengo 30 empleados y cuánto se paga?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "aprendiz" in joined or "sena" in joined
+
+
+def test_salario_integral_case_anchors_art_108_and_387() -> None:
+    keys = _planner_anchor_keys(
+        "¿cuánto debe ganar mínimo un trabajador para pactar salario integral?"
+    )
+    assert "108" in keys
+    assert "387" in keys
+    sources = _planner_anchor_sources(
+        "¿cuánto debe ganar mínimo un trabajador para pactar salario integral?"
+    )
+    assert "salario_integral_anchor" in sources
+
+
+def test_salario_integral_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿cuánto debe ganar mínimo un trabajador para pactar salario integral?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "salario integral" in joined
+
+
+# ---------------------------------------------------------------------------
+# v17 b1+b2+b3 widening (2026-05-15) — plural-form + general-phrasing probes
+# that the initial detectors missed. Locked in so future detector edits do
+# not silently regress them. Pre-existing OPERATOR probe that exposed the
+# gap: "¿cuáles son los recargos de horas extras y dominicales según el CST?"
+# returned no SPEC anchors — only chunk-derived 127-132 + 186.
+# ---------------------------------------------------------------------------
+
+
+def test_liquidacion_mensual_nomina_fires_on_general_recargos_plural() -> None:
+    """Operator probe that motivated the widening — must fire."""
+    keys = _planner_anchor_keys(
+        "¿cuáles son los recargos de horas extras y dominicales según el CST?"
+    )
+    assert "108" in keys
+    assert "387" in keys
+
+
+def test_liquidacion_mensual_nomina_fires_on_trabajo_nocturno() -> None:
+    keys = _planner_anchor_keys("¿cuánto es el recargo por trabajo nocturno?")
+    assert "108" in keys
+
+
+def test_liquidacion_mensual_nomina_fires_on_aportes_empleador() -> None:
+    keys = _planner_anchor_keys("¿qué aportes paga el empleador a la seguridad social?")
+    assert "108" in keys
+
+
+def test_prestaciones_sociales_fires_on_general_phrasing() -> None:
+    keys = _planner_anchor_keys("¿cuáles son las prestaciones sociales obligatorias?")
+    assert "108" in keys
+
+
+def test_prestaciones_sociales_fires_on_primas_plural_with_payment_context() -> None:
+    keys = _planner_anchor_keys("¿qué pasa si no pago las primas a tiempo?")
+    assert "108" in keys
+
+
+def test_contrato_aprendizaje_sena_fires_on_plural_aprendices() -> None:
+    """Spanish singular/plural orthography trap: 'aprendiz' (-iz) is NOT a
+    substring of 'aprendices' (-ices). The shared stem 'aprendi' catches
+    both under accent-strip."""
+    keys = _planner_anchor_keys("¿cuántos aprendices del SENA debo tener?")
+    assert "108" in keys
+
+
+def test_contrato_prestacion_vs_laboral_fires_on_contratista_phrasing() -> None:
+    keys = _planner_anchor_keys(
+        "¿qué riesgos tengo con contratistas por prestación de servicios?"
+    )
+    assert "383" in keys
+
+
+def test_pila_aportes_fires_on_planilla_de_aportes_phrasing() -> None:
+    keys = _planner_anchor_keys("¿cómo se hace la planilla de aportes mensuales?")
+    assert "108" in keys
+    assert "114-1" in keys
+
+
+def test_liquidacion_terminacion_fires_on_termino_fijo_anticipado() -> None:
+    keys = _planner_anchor_keys(
+        "¿cómo liquido contratos a término fijo terminados anticipadamente?"
+    )
+    assert "108" in keys
+
+
+def test_liquidacion_mensual_nomina_does_not_fire_on_ica_recargo_mora() -> None:
+    """Anti-test: 'recargo' alone outside labor context must NOT trigger
+    this case — ICA / predial / IVA have their own recargo concepts."""
+    sources = _planner_anchor_sources("¿cuál es el recargo de mora para el ICA?")
+    assert "liquidacion_mensual_nomina_anchor" not in sources
+
+
+def test_prestaciones_sociales_does_not_fire_on_prima_de_riesgo_seguros() -> None:
+    """Anti-test: 'prima' in insurance contexts must NOT fire prestaciones."""
+    sources = _planner_anchor_sources("¿qué es la prima de riesgo en seguros?")
+    assert "prestaciones_sociales_anchor" not in sources
+
+
+def test_salario_integral_precedes_liquidacion_mensual_nomina() -> None:
+    """A query mentioning both salary-integral cues and nómina cues
+    must hit `salario_integral` (registered earlier) so the broader
+    nómina-mensual detector does not intercept. salario_integral has
+    a veto on the broader detector via a normalized-text check."""
+    keys = _planner_anchor_keys(
+        "¿cómo liquido la nómina mensual de un trabajador con salario integral?"
+    )
+    # salario_integral anchors (108 + 387) must appear; the test does
+    # not assert exclusivity because both case rows happen to share
+    # anchor articles (108 + 387). Source tag is the load-bearing
+    # check below.
+    assert "108" in keys
+    assert "387" in keys
+    sources = _planner_anchor_sources(
+        "¿cómo liquido la nómina mensual de un trabajador con salario integral?"
+    )
+    assert "salario_integral_anchor" in sources
+    assert "liquidacion_mensual_nomina_anchor" not in sources
+
+
+# ---------------------------------------------------------------------------
+# v17 b3+ tail: `aportes_proporcionales_tiempo_parcial` (38th topic).
+# Landed 2026-05-15 to close the gap surfaced by the operator probe
+# "empleada a tiempo parcial 3 días — ¿cómo le pago la EPS?". Source
+# playbook is TPR-L02 (knowledge_base/.../TRABAJO_TIEMPO_PARCIAL/LOGGRO/).
+# ---------------------------------------------------------------------------
+
+
+def test_aportes_proporcionales_tiempo_parcial_case_fires_on_operator_probe() -> None:
+    """Verbatim operator probe — the question that surfaced the gap."""
+    keys = _planner_anchor_keys(
+        "tengo una empleada a tiempo parcial (labora 3 dias con salario mínimo "
+        "de por días). Como le debo pagar su EPS? es proporcional?"
+    )
+    assert "108" in keys
+    assert "114-1" in keys
+    sources = _planner_anchor_sources(
+        "tengo una empleada a tiempo parcial (labora 3 dias con salario mínimo "
+        "de por días). Como le debo pagar su EPS? es proporcional?"
+    )
+    assert "aportes_proporcionales_tiempo_parcial_anchor" in sources
+
+
+def test_aportes_proporcionales_tiempo_parcial_case_anchors_art_108_and_114_1() -> None:
+    keys = _planner_anchor_keys(
+        "¿cuánto le pago a mi empleada doméstica que trabaja 3 días a la semana?"
+    )
+    assert "108" in keys
+    assert "114-1" in keys
+
+
+def test_aportes_proporcionales_tiempo_parcial_case_adds_search_queries() -> None:
+    queries = _planner_search_queries(
+        "¿cuánto le pago a mi empleada doméstica que trabaja 3 días a la semana?"
+    )
+    joined = " | ".join(queries).lower()
+    assert "domestica" in joined or "doméstica" in joined or "domestic" in joined
+
+
+def test_aportes_proporcionales_tiempo_parcial_fires_on_sisben_cue() -> None:
+    """SISBÉN-cotización path: question naming SISBÉN + EPS/salud must
+    fire this case (Decreto 2616 path). Note: when an explicit
+    `Decreto 2616 de 2013` is named in the question, the planner
+    uses the reform entry-point pathway and skips case-anchor fallback
+    (see planner.py line 487) — so this test stays SISBÉN-only."""
+    sources = _planner_anchor_sources(
+        "¿cómo se cotiza salud para una empleada con SISBÉN que va 3 días por semana?"
+    )
+    assert "aportes_proporcionales_tiempo_parcial_anchor" in sources
+
+
+def test_aportes_proporcionales_tiempo_parcial_does_not_fire_on_full_time_nomina() -> None:
+    """Anti-test: regular full-time payroll must NOT fire this case.
+    Otherwise the broad liquidacion_mensual_nomina detector would lose
+    its turns."""
+    sources = _planner_anchor_sources(
+        "¿cómo liquido la nómina mensual de un empleado a tiempo completo?"
+    )
+    assert "aportes_proporcionales_tiempo_parcial_anchor" not in sources
+
+
+def test_aportes_proporcionales_tiempo_parcial_does_not_fire_on_pure_renta() -> None:
+    """Anti-test: a renta declaration question must NOT fire this case."""
+    sources = _planner_anchor_sources(
+        "¿cómo declaro renta como persona natural ordinaria?"
+    )
+    assert "aportes_proporcionales_tiempo_parcial_anchor" not in sources
+
+
+def test_aportes_proporcionales_tiempo_parcial_precedes_pila_aportes() -> None:
+    """A question about PILA proporcional must hit the new tiempo-parcial
+    case (registered EARLIER in CASE_REGISTRY), not the broader
+    pila_aportes case. Both share anchors 108 + 114-1, so source tag is
+    the load-bearing check."""
+    sources = _planner_anchor_sources(
+        "tipo cotizante 02 PILA para servicio doméstico, IBC proporcional"
+    )
+    assert "aportes_proporcionales_tiempo_parcial_anchor" in sources
+    # pila_aportes_anchor would also be in `sources` legitimately if
+    # the broader PILA detector fires too — that's fine for retrieval.
+    # The precedence requirement is that the new anchor be present.

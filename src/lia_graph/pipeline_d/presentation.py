@@ -8,6 +8,21 @@ NESTED_BULLET_PREFIX = "  - "
 NUMBERED_PREFIX_FORMAT = "{idx}. "
 BOLD_MARK = "**"
 
+# v17 follow-up (2026-05-15) — Sub-bullet sentinel.
+#
+# Problem: `answer_shared.append_unique` and `neutralize_non_imputative_language`
+# both call `re.sub(r"\s+", " ", ...)` on every bullet before it reaches
+# the renderer. Embedded "\n  - " in a SPEC bullet gets squashed into a
+# single space, killing any author-authored nested markdown.
+#
+# Fix: SPEC authors mark sub-bullet boundaries with `SUB_BULLET_TOKEN`
+# (a sequence of non-whitespace characters, so the whitespace collapse
+# leaves it intact). At final render time, `expand_sub_bullets` rewrites
+# the token into proper nested-bullet markdown ("\n  - "). The token is
+# chosen to be a sequence no real Spanish / legal text would type: a
+# U+23F5 right-pointing triangle wrapped in pipe characters.
+SUB_BULLET_TOKEN = "|⏵|"
+
 
 def bullet(line: str) -> str:
     return f"{BULLET_PREFIX}{line}"
@@ -29,8 +44,47 @@ def section_heading(title: str) -> str:
     return bold(title)
 
 
+def with_sub_bullets(lead: str, items: tuple[str, ...]) -> str:
+    """Compose a single-string bullet that the renderer will expand to a
+    parent line plus nested-bullet children.
+
+    The output is one string with `SUB_BULLET_TOKEN` separating the lead
+    from each sub-bullet. The token survives every whitespace-collapse
+    in the synthesis pipeline because it contains no whitespace; the
+    renderer's `expand_sub_bullets` step swaps it for real markdown.
+
+    Example:
+        with_sub_bullets(
+            "**Recargos (CST 159, 168, 179):**",
+            ("nocturno **+ 35 %**", "extra diurna **+ 25 %**"),
+        )
+        # ->
+        # "**Recargos (CST 159, 168, 179):**|⏵|nocturno **+ 35 %**|⏵|extra diurna **+ 25 %**"
+
+    After expansion in `render_bullet_section`:
+
+        - **Recargos (CST 159, 168, 179):**
+          - nocturno **+ 35 %**
+          - extra diurna **+ 25 %**
+    """
+    if not items:
+        return lead
+    return lead + "".join(f"{SUB_BULLET_TOKEN}{item}" for item in items if item)
+
+
+def expand_sub_bullets(line: str) -> str:
+    """Replace every `SUB_BULLET_TOKEN` in a rendered bullet line with a
+    newline + nested-bullet prefix so markdown shows nested sub-bullets.
+
+    Idempotent: a line that has no token is returned unchanged.
+    """
+    if SUB_BULLET_TOKEN not in line:
+        return line
+    return line.replace(SUB_BULLET_TOKEN, f"\n{NESTED_BULLET_PREFIX}")
+
+
 def render_bullet_section(title: str, lines: tuple[str, ...]) -> str:
-    body = "\n".join(bullet(line) for line in lines if line)
+    body = "\n".join(expand_sub_bullets(bullet(line)) for line in lines if line)
     return f"{section_heading(title)}\n{body}"
 
 
@@ -175,11 +229,14 @@ __all__ = [
     "NESTED_BULLET_PREFIX",
     "NUMBERED_PREFIX_FORMAT",
     "BOLD_MARK",
+    "SUB_BULLET_TOKEN",
     "bullet",
     "nested_bullet",
     "numbered",
     "bold",
     "section_heading",
+    "with_sub_bullets",
+    "expand_sub_bullets",
     "render_bullet_section",
     "render_numbered_section",
     "format_numbers_with_bold",

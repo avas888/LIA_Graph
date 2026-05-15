@@ -25,8 +25,18 @@ from __future__ import annotations
 
 from ._registry import CaseSpec
 from .anticipo_renta import SPEC as _ANTICIPO_RENTA_SPEC
+from .aportes_proporcionales_tiempo_parcial import SPEC as _APORTES_PROPORCIONALES_TIEMPO_PARCIAL_SPEC
 from .aportes_voluntarios_pension import SPEC as _APORTES_VOLUNTARIOS_PENSION_SPEC
 from .atenciones import SPEC as _ATENCIONES_SPEC
+from .contrato_aprendizaje_sena import SPEC as _CONTRATO_APRENDIZAJE_SENA_SPEC
+from .contrato_prestacion_vs_laboral import SPEC as _CONTRATO_PRESTACION_VS_LABORAL_SPEC
+from .liquidacion_mensual_nomina import SPEC as _LIQUIDACION_MENSUAL_NOMINA_SPEC
+from .liquidacion_terminacion import SPEC as _LIQUIDACION_TERMINACION_SPEC
+from .nomina_electronica_dspne import SPEC as _NOMINA_ELECTRONICA_DSPNE_SPEC
+from .pila_aportes import SPEC as _PILA_APORTES_SPEC
+from .prestaciones_sociales import SPEC as _PRESTACIONES_SOCIALES_SPEC
+from .salario_integral import SPEC as _SALARIO_INTEGRAL_SPEC
+from .ugpp_fiscalizacion import SPEC as _UGPP_FISCALIZACION_SPEC
 from .beneficio_auditoria import SPEC as _BENEFICIO_AUDITORIA_SPEC
 from .capitalizacion_utilidades import SPEC as _CAPITALIZACION_UTILIDADES_SPEC
 from .cartera_dificil_recaudo import SPEC as _CARTERA_SPEC
@@ -158,6 +168,26 @@ CASE_REGISTRY: tuple[CaseSpec, ...] = (
     _RENTA_CEDULAR_PN_SPEC,
     _CLAUSULA_ANTIABUSO_SPEC,
     _NIIF_INGRESOS_SPEC,
+    # v17 b1+b2+b3 (2026-05-15) — labor / nómina block (9 topics) + b3+
+    # tail addition `aportes_proporcionales_tiempo_parcial` (38th topic).
+    # Order: specific anchors BEFORE the broad liquidacion_mensual_nomina.
+    # Per fix_v17_may §3.1 step 5: salario_integral, DSPNE, PILA, UGPP,
+    # contratos, prestaciones, terminación must precede liquidacion_mensual
+    # so their queries are not intercepted by the broader nómina detector.
+    # `aportes_proporcionales_tiempo_parcial` is the most niche labor case
+    # (empleada doméstica por días) and is registered FIRST in the v17 block
+    # so it wins over PILA, salario_integral and mensual nómina when a
+    # tiempo-parcial / por-días marker fires.
+    _APORTES_PROPORCIONALES_TIEMPO_PARCIAL_SPEC,
+    _SALARIO_INTEGRAL_SPEC,
+    _NOMINA_ELECTRONICA_DSPNE_SPEC,
+    _PILA_APORTES_SPEC,
+    _UGPP_FISCALIZACION_SPEC,
+    _CONTRATO_APRENDIZAJE_SENA_SPEC,
+    _CONTRATO_PRESTACION_VS_LABORAL_SPEC,
+    _PRESTACIONES_SOCIALES_SPEC,
+    _LIQUIDACION_TERMINACION_SPEC,
+    _LIQUIDACION_MENSUAL_NOMINA_SPEC,
 )
 
 
