@@ -128,8 +128,9 @@ paraleliza.
 |---|---|---|---|
 | A | 🧪 código + unit tests verdes (shadow default) | probe `liquidacion_terminacion` (2026-05-15 PM) + probe `aportes_proporcionales_tiempo_parcial` (2026-05-15 PM) | §1.1 |
 | B | 🛠 idea | mismas probes | §1.2 |
-| C | 🛠 idea | probe `liquidacion_terminacion` (CST 65 moratoria bullet dropped) | §1.3 |
+| C | 🛠 idea (intermitente — CST 65 sí apareció en probe 2026-05-15 evening) | probe `liquidacion_terminacion` (CST 65 moratoria bullet dropped en una corrida, presente en la siguiente) | §1.3 |
 | D | 🧪 código + anti-test verde (sin flag, surgical) | observado durante v17 b2 — `is_donaciones_case` keys on bare `esal` → colisiona con `desalarizacion` | §1.4 |
+| E | 🧪 código + 28 unit tests verdes (shadow default) | probe §4.1 `liquidacion_terminacion` (30 vs 45 días) — operator-confirmed structural gap: vigencia v3 opera a nivel norma, no a nivel valor | §1.5 |
 
 Status legend (heredado de fix_v17_may §12):
 - 🛠 — idea + plan, sin código
@@ -381,7 +382,127 @@ grep -n '"esal"' src/lia_graph/pipeline_d/case_detectors*.py \
 
 ---
 
-### §1.5+ Issues E, F, G… — slot for next-discovered
+### §1.5 Issue E — value-conflict resolver (A + A1 + A2 fallback)
+
+**Síntoma para el contador.** Dos viñetas con el mismo predicado
+afirman valores numéricos distintos. Ejemplo de la §4.1 (probe
+2026-05-15 PM):
+
+```
+- Despido injustificado en AÑO 1: 30 días de salario.   ← regla vigente
+- Despido injustificado en AÑO 1: 45 días de salario.   ← pre-Ley 789/2002, derogada
+```
+
+Issue A no atrapa el caso porque ninguno de los dos bullets tiene
+marcador `Antes:`, `código NN` ni shape de calc-orphan. La vigencia
+v3 tampoco lo atrapa porque CST art. 64 está VM (vigente modificada)
+— el gate ve el ancla como vigente y deja pasar el chunk; el texto
+adentro del chunk no se audita.
+
+**Root cause arquitectural.** El gate de vigencia opera a nivel
+**norma**, no a nivel **valor dentro del párrafo de un chunk**.
+Una práctica chunk puede legítimamente citar CST 64 (vigente) y
+en el mismo párrafo describir el régimen anterior a 2002 con sus
+cifras propias — el sistema no distingue cuál cifra es la vigente
+porque el chunk no está etiquetado a ese nivel de granularidad.
+
+**Decisión de operador (2026-05-15).** Implementar **Enfoque A
+(detector) + A1 (article-match) con fallback a A2 (LLM)**, NO
+Enfoque B (SPEC-as-truth) — A funciona en cualquier topic con
+artículos vigentes en el bundle de evidencia, sin requerir SPECs
+pre-escritos.
+
+**Module donde aterriza el fix.**
+
+| File | Cambio |
+|---|---|
+| `pipeline_d/answer_conflict_resolver.py` | **Nuevo módulo.** ~360 LOC. Detector + A1 (article-match) + A2 (LLM fallback) + apply_resolutions. |
+| `pipeline_d/orchestrator.py` | Llamada a `resolve_answer_conflicts(answer, evidence, runtime_config_path)` **entre** `synthesis.template_built` y `polish_graph_native_answer`. Try/except envuelve la llamada — el resolver nunca bloquea el pipeline. |
+| `scripts/dev-launcher.mjs` | Default `LIA_CONFLICT_RESOLVER_MODE=shadow` para los 3 modos. |
+
+**Algoritmo.**
+
+1. **Detector.** Parsea cada bullet line (regex `^\s*[\-\*•]\s+`).
+   Extrae predicado = texto antes del primer `:`, normalizado
+   (strip markdown, lowercase, strip acentos, collapse whitespace).
+   Skip predicados de < 2 palabras (demasiado genéricos). Extrae
+   valor numérico = primer match de `{currency, UVT, SMMLV, %, días/meses/años}`
+   en el texto después del `:`. Agrupa bullets por predicado. Un
+   grupo es conflicto si tiene ≥ 2 bullets con `value_norm` distintos.
+2. **A1 — article-match.** Concatena `evidence.primary_articles[*].title + .excerpt`,
+   normaliza. Para cada valor candidato, busca su forma normalizada
+   en el blob. Si **exactamente uno** aparece → ese gana, el otro se
+   descarta. Si 0 o ≥ 2 aparecen → `a1_ambiguous`, intenta A2.
+3. **A2 — LLM fallback.** Prompt acotado: "Tenés dos afirmaciones
+   sobre la misma regla. Cuál es la vigente hoy? Respondé A o B o
+   NINGUNA". Usa el mismo adapter que polish (`resolve_llm_adapter`).
+   Errores del LLM se capturan como `a2_error` — pipeline continúa
+   sin modificar el answer.
+4. **Apply.** Solo en `enforce`: drop loser bullet lines del markdown.
+   En `shadow`: telemetría únicamente.
+
+**Flag.** `LIA_CONFLICT_RESOLVER_MODE ∈ {off, shadow, enforce}`.
+Default `shadow` al merge. `legacy` es alias de `off`.
+
+**Trace step.** `synthesis.conflict_resolver.applied` con
+`mode`, `outcome ∈ {off, no_conflicts, shadow_hit, applied, applied_no_drops, unresolved, noop_empty_input}`,
+`groups_detected`, `groups_resolved_a1`, `groups_resolved_a2`,
+`groups_unresolved`, `lines_dropped`, `decisions[]` (por grupo:
+`predicate`, `path`, `winner_line_index`, `loser_count`,
+`a2_response_preview`).
+
+**Gate 3 — success criterion.**
+
+| Métrica | Antes (probe §4.1 / 2026-05-15) | Meta `enforce` |
+|---|---|---|
+| Bullets contradictorios al SPEC en `Recomendaciones Prácticas` | 1 (45 días vs 30 días) | 0 |
+| Casos resueltos por A1 vs A2 sobre 50 probes shadow | n/a | A1 ≥ 70 %, A2 ≤ 30 %, unresolved ≤ 10 % |
+| Falsos positivos (SPEC bullet legítimo dropeado) | n/a | 0 en 50 probes |
+| Latencia adicional por turno | 0 | ≤ +500 ms cuando A2 corre; 0 ms cuando solo A1 |
+
+**Gate 4 — test plan.**
+
+| Stage | Actor | Environment | Pass condition |
+|---|---|---|---|
+| 1. Unit tests | Engineer | local | 28 cases verdes en `tests/test_answer_conflict_resolver.py` (detector + A1 + A2 + modes + §4.1 fixture e2e) |
+| 2. Shadow telemetría 1-2 días | Operator | dev:staging | Trace step `synthesis.conflict_resolver.applied` con `outcome ∈ {shadow_hit, no_conflicts}` ≥ 30 turnos |
+| 3. Análisis de FP | Engineer | local sobre traces | < 5 % decisiones de A1 marcan un SPEC bullet legítimo como loser |
+| 4. Operator re-probe | Operator | dev:staging enforce | Misma §4.1 sale con 30 días + sin 45 días |
+| 5. Sign-off | Operator | dev:staging | "lo mandaría a un contador as-is" |
+
+**Gate 5 — greenlight.** Operator re-pregunta §4.1 con
+`LIA_CONFLICT_RESOLVER_MODE=enforce` → un solo bullet de
+indemnización año 1 (30 días), CST 65 moratoria intacto, SPEC
+tables intactas.
+
+**Gate 6 — refine-or-discard.**
+- Refine: si shadow muestra FP > 5 %, afinar `_extract_value` o
+  `_normalize_predicate` (qué shape colisiona indebidamente).
+- Discard: si después de 2 iteraciones la tasa de FP no baja del 5 %
+  → revertir a `LIA_CONFLICT_RESOLVER_MODE=off` y promover Enfoque B
+  (SPEC-as-truth, Issue E v2) como reemplazo.
+
+**Rollback.** `LIA_CONFLICT_RESOLVER_MODE=off` (o `=legacy`)
+revierte al comportamiento pre-Issue-E. El módulo + tests quedan
+en el repo behind the flag.
+
+**Notas arquitectónicas.**
+
+- A1 reusa `primary_articles` que ya están en el bundle de
+  evidencia — cero queries Falkor extra.
+- A2 reusa el mismo adapter LLM que polish — cero infra nueva.
+- Wiring point está ANTES de polish para que polish reciba un
+  template ya saneado (sin contradicciones).
+- El resolver nunca raises hacia arriba — try/except en el caller
+  garantiza que un bug aquí no rompe el chat.
+- Por qué NO Enfoque B (SPEC-as-truth) ahora: B solo cubre los ~40
+  topics con SPECs escritos. A cubre cualquier topic con artículos
+  vigentes en el grafo — más generalizable. B queda registrado en
+  `fix_locos.md` como path forward si A no rinde.
+
+---
+
+### §1.6+ Issues F, G… — slot for next-discovered
 
 A medida que el operador siga probando y aparezcan nuevos
 síntomas, registrar aquí ANTES de editar código. Plantilla:
@@ -397,7 +518,7 @@ síntomas, registrar aquí ANTES de editar código. Plantilla:
 **Rollback.** <recipe>
 ```
 
-Slots reservados §1.5, §1.6, §1.7, §1.8. Si se necesita §1.9+,
+Slots reservados §1.6, §1.7, §1.8. Si se necesita §1.9+,
 considerar si v18 está sobrecargado y abrir fix_v19.
 
 ---
@@ -573,11 +694,12 @@ Cada batch de v18 requiere actualizar:
 |---|---|---|---|
 | A — chunk-noise filter | 🧪 | pending shadow run on dev:staging | Code landed 2026-05-15 evening. `LIA_PRACTICA_NOISE_FILTER=shadow` default. 14 new unit tests verdes. Chunk-level patterns also landed en `chunk_quality_heuristics.py` (3 nuevos motivos: `pre_ley_marker_dominant`, `orphan_numeric_example_dominant`, `software_code_isolated_dominant`). |
 | B — codigo aliasing validator | 🛠 | — | Captured 2026-05-15 PM same probe. Plan ready. |
-| C — SPEC bullet preservation | 🛠 | — | Captured 2026-05-15 PM same probe + §0.2.1 v17 reference. Plan ready. |
+| C — SPEC bullet preservation | 🛠 | — | Captured 2026-05-15 PM same probe + §0.2.1 v17 reference. Plan ready. Intermitencia confirmada — CST 65 moratoria presente en probe del 2026-05-15 evening. |
 | D — donaciones substring | 🧪 | pending operator re-probe | Code landed 2026-05-15 evening. `is_donaciones_case`: bare `"esal"` substring → word-boundary regex (`\besal\b`). 2 anti-tests verdes (`test_donaciones_does_not_fire_on_desalarizacion_ugpp`, `test_donaciones_still_fires_on_bare_esal_token`). Patrón hereda fix_v16 `is_rte_esal_case`. |
+| E — conflict resolver (A+A1+A2) | 🧪 | pending shadow run on dev:staging | Code landed 2026-05-15 evening (b2 batch). `LIA_CONFLICT_RESOLVER_MODE=shadow` default. 28 unit tests verdes. Nuevo módulo `pipeline_d/answer_conflict_resolver.py` (~360 LOC). Wired al orchestrator entre `synthesis.template_built` y polish — polish recibe template saneado de contradicciones. A1 reusa primary_articles (cero queries Falkor extra); A2 reusa adapter polish (cero infra nueva). |
 
-Current totals (2026-05-15 evening): **0 ✅, 2 🧪, 2 🛠** (de 4
-ítems iniciales; slot para E+ abierto).
+Current totals (2026-05-15 evening): **0 ✅, 3 🧪, 2 🛠** (de 5
+ítems; slot para F+ abierto).
 
 ### §7.1 v18 b1 landing record (2026-05-15 evening)
 

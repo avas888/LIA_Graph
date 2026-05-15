@@ -1,8 +1,18 @@
 # Environment Guide
 
-> **Env matrix version: `v2026-05-15-fix-v18-b1-practica-noise-shadow`.**
+> **Env matrix version: `v2026-05-15-fix-v18-b2-conflict-resolver-shadow`.**
 >
-> **2026-05-15 fix_v18_may b1 (today):**
+> **2026-05-15 fix_v18_may b2 (evening):**
+>
+> - **`LIA_CONFLICT_RESOLVER_MODE=shadow`** (new, default `shadow` across all three modes). New module `pipeline_d/answer_conflict_resolver.py`. Detects bullets sharing a normalized predicate but disagreeing on numeric value (e.g. `30 días` vs `45 días` for indemnización año 1 in §4.1). Resolves via A1 (article-match against `primary_articles` excerpts already on hand) with A2 fallback (polish-grade LLM picks A|B|NINGUNA). Wired between `synthesis.template_built` and `polish_graph_native_answer` so polish receives a contradiction-free template.
+> - 28 new unit tests in `tests/test_answer_conflict_resolver.py` (detector + A1 + A2 + apply + modes + §4.1 e2e). Zero infra changes — A1 reuses evidence bundle; A2 reuses polish LLM adapter.
+> - Trace step `synthesis.conflict_resolver.applied` with `outcome ∈ {shadow_hit, no_conflicts, applied, ...}` + per-group decision path.
+> - Promotion gate: ≥ 30 shadow turns + A1-resolution rate ≥ 70 % + zero false positives on SPEC bullets → flip to `enforce`.
+> - Rollback: `LIA_CONFLICT_RESOLVER_MODE=off` (or `=legacy`).
+>
+> **Predecessor `v2026-05-15-fix-v18-b1-practica-noise-shadow`:**
+>
+> **2026-05-15 fix_v18_may b1:**
 >
 > - **`LIA_PRACTICA_NOISE_FILTER=shadow`** (new, default `shadow` across all three modes). Per-line noise filter in `pipeline_d/answer_synthesis_practica.py::_is_practica_noise_line`. Drops 3 pattern classes from `practica_erp` bullets before they reach `Recomendaciones Prácticas`: `pre_ley_lead` (Antes:, Anteriormente, etc.), `software_code_tail` (`: código 55`, DSPNE codes), `orphan_numeric_calc` (≤ 160-char pure-calc bullets). Trace step `practica.noise_filter.applied` with `outcome ∈ {pass, shadow_hit, suppressed, noop}`.
 > - **`LIA_CHUNK_QUALITY_HEURISTIC_MODE` extended** (no new flag — already `enforce`). 3 new motivos added in `pipeline_d/chunk_quality_heuristics.py`: `pre_ley_marker_dominant`, `orphan_numeric_example_dominant`, `software_code_isolated_dominant`, all `PENALTY_LIGHT` (0.6).
@@ -102,7 +112,7 @@ Rules:
 
 Storage backend is `supabase` in every mode (the `filesystem` backend has been removed — auth requires Supabase).
 
-## Runtime Retrieval Flags (v2026-05-15-fix-v18-b1-practica-noise-shadow)
+## Runtime Retrieval Flags (v2026-05-15-fix-v18-b2-conflict-resolver-shadow)
 
 `scripts/dev-launcher.mjs` sets these flags per mode; the orchestrator and downstream modules read them on every request:
 
@@ -128,6 +138,7 @@ Storage backend is `supabase` in every mode (the `filesystem` backend has been r
 | `LIA_POLISH_NUMERIC_DIRECTIVE` | **`off`** | **`off`** | **`off`** | `pipeline_d/answer_llm_polish.py::_build_numeric_directive` — fix_v14_may §5 + §16 (A3 REVERTED per §17). Default `off`: helper returns `""` regardless of question. Reason: 42-turn judge showed −11.9 pp strict pass and one hard hallucination (invented Grupo 1 tarifa). Helper retained behind switch for A/B once `_no_invented_uvt_ranges` (fix_v15_may.md) lands. Re-enable via `=on` ONLY after v15 validator ships. |
 | `LIA_POLISH_UVT_VALIDATOR` | **`enforce`** | **`enforce`** | **`enforce`** | `pipeline_d/answer_llm_polish.py::_no_invented_uvt_ranges` — fix_v15_may §3. Structural validator that closes the v14.2 §17 gap (LLM invented `3,5%` Grupo 1 tarifa for Art. 908 ET; neither lineage nor period validator catches it). Cue-gated to Art. 240/241/242/383/908 ET + tarifa/tabla-UVT mentions. Allowed set built from template + question text + every primary/connected/reform excerpt (decimal-separator normalized; `**bold**` stripped). **Promoted to `enforce` 2026-05-13** after a three-run panel cycle hit 0 FP in shadow #2 (post REFINE) and 0 turns rejected with `invented_uvt_ranges` in enforce. `enforce` → polish rejects with `polish_skip_reason="invented_uvt_ranges"` (A4 fallback composes served answer); `shadow` → trace step `polish.uvt_validator.applied` only, polish ships; `off` → noop. Rollback: `LIA_POLISH_UVT_VALIDATOR=off` or `=shadow`. |
 | `LIA_PRACTICA_NOISE_FILTER` | **`shadow`** | **`shadow`** | **`shadow`** | `pipeline_d/answer_synthesis_practica.py::_is_practica_noise_line` — fix_v18_may §1.1 Issue A. Per-line noise filter for `Recomendaciones Prácticas` bullets derived from `practica_erp` chunks. Drops three pattern classes: `pre_ley_lead` (lines opening with `Antes:`, `Anteriormente`, `Pre-Ley`, `Históricamente`, `Versión anterior`, `Régimen anterior`, `Regla anterior`), `software_code_tail` (lines ending in `: código <NN>` / `cód. <NN>` — DSPNE/PILA isolated codes), `orphan_numeric_calc` (≤ 160-char bullets dominated by `<n> días × ($...)` calc shape without operational context). Default `shadow` at landing 2026-05-15 — telemetry on, output unchanged; trace step `practica.noise_filter.applied` carries `outcome ∈ {pass, shadow_hit, suppressed, noop}` + reason counters. Promote to `enforce` after operator re-probes the §4.1 `liquidacion_terminacion` fixture in `dev:staging` and confirms clean noise drop without SPEC bullet loss. Rollback: `=off` or `=legacy` alias. |
+| `LIA_CONFLICT_RESOLVER_MODE` | **`shadow`** | **`shadow`** | **`shadow`** | `pipeline_d/answer_conflict_resolver.py::resolve_answer_conflicts` — fix_v18_may §1.5 Issue E. Detects bullets sharing a normalized predicate (text before first `:`, lowercased, accent-stripped) but disagreeing on the first numeric value extracted (currency / UVT / SMMLV / % / días-meses-años). Resolves via A1 (article-match against `evidence.primary_articles` excerpts already in the bundle — no new Falkor query) with A2 fallback (polish-grade `resolve_llm_adapter` call returns A / B / NINGUNA when A1 is ambiguous). Wired into `orchestrator.run_pipeline_d` between `synthesis.template_built` and `polish_graph_native_answer` so polish receives a contradiction-free template. `shadow` (default) → detect + log decisions via `synthesis.conflict_resolver.applied` trace step (outcome ∈ {`pass`, `shadow_hit`, `no_conflicts`, ...} + per-group decision path); output unchanged. `enforce` → drop loser bullet lines from markdown before polish. `off` (or `legacy`) → noop. Closes the structural gap from §4.1 fixture where vigencia v3 lets `45 días` (pre-Ley 789, derogated) leak alongside `30 días` (post-Ley 789, vigente) because the v3 gate operates at the **norm** level (CST 64 is `VM` — vigente modificada), not at the **value-inside-chunk** level. Rollback: `LIA_CONFLICT_RESOLVER_MODE=off`. |
 | `LIA_RERANKER_ENDPOINT` | unset | unset | unset | `pipeline_d/reranker.py` — base URL of the bge-reranker-v2-m3 sidecar (`POST {url}/rerank`). Unset until the sidecar is deployed. |
 | `LIA_FALKOR_MIN_NODES` | unset (smoke skipped) | `500` default | required | `dependency_smoke.py` — boots-block when cloud graph is empty |
 

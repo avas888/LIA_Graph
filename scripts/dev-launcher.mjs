@@ -503,6 +503,20 @@ function buildRuntimeEnv(mode) {
     env.LIA_PRACTICA_NOISE_FILTER = "shadow";
   }
 
+  // fix_v18_may §1.5 Issue E — conflict resolver (A + A1 + A2 fallback).
+  // Detects bullets that share a normalized predicate but disagree on
+  // numeric value (e.g. `30 días` vs `45 días` for indemnización año 1
+  // post-Ley-789 vs pre-Ley-789 in the §4.1 fixture). A1 resolves by
+  // matching candidate values against primary_articles excerpts already
+  // on hand; A2 falls back to polish-grade LLM when A1 is ambiguous.
+  // Default `shadow` at landing — telemetry on, output unchanged.
+  // Promote to `enforce` only after shadow telemetry confirms < 5 %
+  // false-positive rate on legitimate SPEC bullets.
+  // Rollback: `LIA_CONFLICT_RESOLVER_MODE=off` (or `=legacy`).
+  if (!String(env.LIA_CONFLICT_RESOLVER_MODE || "").trim()) {
+    env.LIA_CONFLICT_RESOLVER_MODE = "shadow";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

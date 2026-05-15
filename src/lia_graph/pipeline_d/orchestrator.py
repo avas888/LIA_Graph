@@ -70,6 +70,7 @@ def _current_practica_source() -> str:
 
 import logging as _logging
 _PRACTICA_LOGGER = _logging.getLogger("lia_graph.pipeline_d.orchestrator.practica")
+LOGGER = _logging.getLogger("lia_graph.pipeline_d.orchestrator")
 
 
 def _retrieve_practica_chunks(
@@ -1063,6 +1064,25 @@ def run_pipeline_d(
         status="ok",
         template_chars=len(answer or ""),
     )
+    # fix_v18_may §1.5 Issue E — conflict resolver. Detects bullets
+    # that share a normalized predicate but disagree on numeric value
+    # (e.g. "30 días" vs "45 días" for despido sin justa causa AÑO 1
+    # captured at the §4.1 fixture). A1 resolves by matching candidate
+    # values against `primary_articles` excerpts already on hand; A2
+    # falls back to the polish-grade LLM when A1 is ambiguous. Mode
+    # `LIA_CONFLICT_RESOLVER_MODE` defaults `shadow` — telemetry on,
+    # output unchanged — until operator promotes via the standard
+    # shadow→enforce ramp.
+    try:
+        from .answer_conflict_resolver import resolve_answer_conflicts
+
+        answer, _conflict_diag = resolve_answer_conflicts(
+            answer or "",
+            evidence=evidence,
+            runtime_config_path=runtime_config_path,
+        )
+    except Exception:  # noqa: BLE001 — never block the pipeline on the resolver
+        LOGGER.exception("conflict_resolver crashed; continuing without modification")
     polished_answer, llm_runtime_diag = polish_graph_native_answer(
         request=request,
         template_answer=answer,
