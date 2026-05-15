@@ -225,7 +225,7 @@ Status legend (heredado de fix_v17_may §12):
 - `bdc6adf` — v18 b2: Issue E (conflict resolver A+A1+A2, shadow)
 - `4487c33` — orchestration.md cleanup (retire predecessor banner pile-up + collapse April LOC-refactor rows)
 - `cea1337` — v18 b2.1: Issue E refine — resolver wiring moved pre-polish → post-polish after §4.1 shadow miss (300 tests verdes)
-- v18 b2.2 — Issue E refine — A2 prompt strengthen authorizing LLM training-knowledge fallback when corpus excerpts are ambiguous (301 tests verdes; commit ref pending end-of-session)
+- `abd3292` — v18 b2.2: Issue E refine — A2 prompt strengthen authorizing LLM training-knowledge fallback when corpus excerpts are ambiguous (301 tests verdes)
 
 Reference doc creado en el mismo ciclo: `docs/re-engineer/fix/fix_locos.md` (catálogo de ideas ambiciosas, NO plan ejecutable).
 
@@ -662,7 +662,7 @@ back to shadow. Después de 2 iteraciones sin convergencia →
 | v18 b1 | A (chunk-noise filter) + D (donaciones substring fix) | ✅ shipped 2026-05-15 evening | `26bf04b` | A más visible para el contador; D trivial e independiente colado en el mismo commit. Shadow validation pendiente. |
 | v18 b2 | E (conflict resolver A+A1+A2) | ✅ shipped 2026-05-15 evening | `bdc6adf` | Surgió reactivo durante validación de b1: el §4.1 fixture mostró que A no cubre la regla pre-Ley-789. Operador ordenó "implementa YA" Enfoque A + A1 + A2 sobre Enfoque B (SPEC-as-truth). |
 | v18 b2.1 | E refine — wiring post-polish | ✅ shipped 2026-05-15 evening | `cea1337` | §4.1 shadow probe regresó `no_conflicts` aunque el answer servido mostraba 30 vs 45 días bullets. Diagnóstico: el resolver corría pre-polish; polish es el productor que normaliza los predicados a la misma forma. Fix: mover llamada a post-polish + 1 test pinning la shape polished. Plan en §7.5. |
-| v18 b2.2 | E refine — A2 prompt strengthen | ✅ shipped 2026-05-15 evening | (pending commit ref) | Re-probe post-b2.1 mostró que el detector ya funciona (`groups_detected: 1`) pero A2 LLM responde `NINGUNA` porque los excerpts mencionan ambas cifras (30 y 45 días) sin marcador explícito de cuál es la vigente. Fix: reescribir A2 prompt para autorizar al LLM a usar su conocimiento de derecho colombiano vigente cuando los excerpts son ambiguos; nombra las reformas conocidas (Ley 50/789/1010/1429/1607/1819/2010/2277). Plan en §7.6. |
+| v18 b2.2 | E refine — A2 prompt strengthen | ✅ shipped 2026-05-15 evening | `abd3292` | Re-probe post-b2.1 mostró que el detector ya funciona (`groups_detected: 1`) pero A2 LLM responde `NINGUNA` porque los excerpts mencionan ambas cifras (30 y 45 días) sin marcador explícito de cuál es la vigente. Fix: reescribir A2 prompt para autorizar al LLM a usar su conocimiento de derecho colombiano vigente cuando los excerpts son ambiguos; nombra las reformas conocidas (Ley 50/789/1010/1429/1607/1819/2010/2277). Plan en §7.6. |
 | v18 b3 | B (codigo ET/CST aliasing validator) | 🛠 next | — | Validator-only, patrón fix_v15 UVT ya probado. ~½ día. Plan en §1.2. Independiente de A/D/E. |
 | v18 b4 | C (SPEC bullet preservation) | 🛠 después de b3 | — | El más invasivo (toca polish prompt + nuevo validator). Última en el orden para tener feedback de A+B+E en shadow→enforce loop. ~1 día. Plan en §1.3. |
 | v18 b5+ | F, G… si surgen | reserva | — | Cada nuevo issue se evalúa con §2 lifecycle antes de batch. |
