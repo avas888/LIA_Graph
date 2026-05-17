@@ -102,6 +102,13 @@ Launcher defaults across all three modes; shell override still wins. **Per-fix r
 | `LIA_POLISH_UVT_VALIDATOR` | `enforce` | Structural `_no_invented_uvt_ranges` validator on polished tarifa output (cue-gated to Art. 240/241/242/383/908 ET) | `=shadow`/`off` | fix_v15 §3 |
 | `LIA_PRACTICA_NOISE_FILTER` | `enforce` | Drops `pre_ley_lead` / `software_code_tail` / `orphan_numeric_calc` bullets in práctica section | `=shadow`/`off`/`legacy` | fix_v18 b1 §1.1; promoted fix_v21 §3.3 P3-T4 |
 | `LIA_CONFLICT_RESOLVER_MODE` | `enforce` | Detects + resolves bullets with same predicate / different numeric value via A1 article-match + A2 LLM fallback | `=shadow`/`off`/`legacy` | fix_v18 b2 §1.5; promoted fix_v21 §3.3 P3-T4 |
+| `LIA_TOPIC_DECOMPOSITION_MODE` | `enforce` | Bypass coherence-gate refusal on multi-domain Qs (router topic ≠ retrieved articles' dominant topic) — prepends framing line, lets synthesis+polish produce sectioned-ish answer | `=shadow`/`off` | fix_v23 §3.1 |
+| `LIA_YEAR_CONSTANTS_INJECTION` | `enforce` | Injects verified UVT/SMLMV/auxilio canonical values for the detected fiscal year into the polish prompt + seeds the `_no_invented_uvt_ranges` validator | `=shadow`/`off` | fix_v23 §3.2 |
+| `LIA_CITATION_SOURCE_CODE_AWARENESS` | `enforce` | Resolves cited articles to real source code (ET/CST/C.Co./Ley 43-1990/Res. DIAN/Decreto) + rejects pseudo-citations (`art. notas-y-fuentes`) at the renderer | `=off` | fix_v23 §3.3 |
+| `LIA_CHUNK_QUALITY_ENTITY_FILTER` | `shadow` | Demotes chunks matching named-entity / acta-template / formulario / verbatim-audit-string leak patterns. Stays `shadow` in v23 per D-S3; v24 retires source data + promotes to enforce | `=enforce`/`off` | fix_v23 §3.4 |
+| `LIA_POLISH_INPUT_PRESERVATION` | `enforce` | Two polish validators: user-stated numerics survive (catches Q10 `$3M→$2M` mutation); ≥2 distinct UVTs without explicit AG-year comparison rejected | `=shadow`/`off` | fix_v23 §3.5 |
+| `LIA_POLISH_LOCALE_STYLE_COLOMBIAN` | `enforce` | Voseo-verb + `\bvos\b` pronoun regex rejection on polished output; closed verb set | `=shadow`/`off` | fix_v23 §3.6 |
+| `LIA_ANCLAJE_TOPIC_GATE` | `enforce` | Anclaje Legal section filters primary+connected articles against `config/compatible_doc_topics.json` allowlist (body bullets untouched) — closes v22 P3 q01 finding | `=shadow`/`off` | fix_v23 §3.7 |
 | `LIA_PLANNER_INTERPRETATION_ANCHOR` | `off` | Falkor InterpretationNode anchor path (DISCARDED per fix_v11 gate-6; kept for diagnostic A/B) | `=on` | fix_v11 §17 |
 | `LIA_INGEST_INTERPRETATION_NODES` | `enforce` | Idempotent loader for InterpretationNode subgraph | `=off` | fix_v11 |
 
