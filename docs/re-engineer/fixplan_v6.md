@@ -828,3 +828,30 @@ fixplan_v5 cascade halt at E1a (step 2 of 8 trimmed) on operator
 directive. v6 supersedes v5 as the active forward plan. v5 stays in
 repo as historical context — its §3 blocker recipes + §4 cascade plan
 are still load-bearing references for the cascade.*
+
+---
+
+## §10. Post-closure addendum — v19 structural fix Fase 0 (2026-05-15 evening)
+
+- **Status of v6:** still CLOSED. v6's vigencia rewire stands; this addendum exists only so a fresh agent reading the current "active" plan knows where the v19 structural work lives.
+- **Canonical v19 plan:** [`docs/re-engineer/fix/fix_v19_may.md`](fix/fix_v19_may.md). Read v19 §2.0.1 → §2.0.5 before touching anything labeled "fix the graph anchor problem."
+- **Why v19 exists:** v18 b2.1/b2.2 (`conflict_resolver` A1+A2) shipped to `shadow` and revealed that polish / citation allow-list / conflict resolution are all working — but they receive bad data. Root cause is structural (graph + ingestion), not in the answer-shaping layer.
+- **v19 Fase 0 outcomes (three doc hypotheses refuted, three operator gates passed):**
+  - **Parser hypothesis refuted (§2.0.1).** `parse_articles()` already handles CST / Ley labor headings cleanly — 9/10 `consolidado/` markdowns parse without fallback, 323 ParsedArticle units across 44 labor files. No regex patch needed in `parser.py`.
+  - **TEMA-edge regression hypothesis refuted (§2.0.2).** No commit ever removed the feature. Both full-rebuild (`ingest.py:421-433`) and delta (`delta_runtime.py:564-583`) paths emit TEMA edges via `loader._build_article_tema_edges`. The only deletion is per-article-key on re-MERGE (`loader.py:487-504`). The 0-count in cloud is a data outcome of a specific run, not a code regression.
+  - **Embeddings keying clarified (§2.0.3 / §8.5).** Embedding text is pure content (`f"{summary}\n{chunk_text[:512]}"[:768]`, zero anchor metadata). But `chunk_id = f"{doc_id}::{article_key}"` (anchor-keyed business key). Conclusion: keep `article_key` and `chunk_id` untouched; add `norm_id` only as a new property + unique index on Falkor `:ArticleNode`. Avoids re-embedding ~20,154 chunks.
+  - **New structural gap discovered (§8.4).** `Codigo_Sustantivo_Trabajo.md` does not exist in `knowledge_base/`. CST articles only appear as embedded subsections inside Ley 50/789/etc. Decision: source the consolidated CST from `secretariasenado.gov.co` / `suin-juriscol.gov.co` and add it to `knowledge_base/CORE ya Arriba/LEYES/LABORAL_SEGURIDAD_SOCIAL/consolidado/`.
+- **v19 gate decisions locked in (§2.0.5):**
+  - **Fase 2 scope:** Falkor-only `norm_id` migration (no Supabase chunk_id change, no re-embedding).
+  - **CST source:** add the consolidated CST markdown to the corpus before Fase 3.
+  - **Fase 5 path:** Path B only (instrument `ingest.py:421` + `delta_runtime.py:564` with `ingest.tema.binding_summary`; reproduce on subset; fix the data root cause — likely classifier-degraded run).
+- **v19 next steps (concrete, in execution order):**
+  1. Fetch consolidated CST markdown (expert/research task; gov.co cascade; URL required per `feedback_expert_deliverables_require_url`).
+  2. Add TEMA diagnostic instrumentation (narrow code edit, ~30 min).
+  3. Write `scripts/migrate_falkor_norm_ids.py` (dry-run mode first) + tests, reusing `canon.canonicalize()`. (Fase 2.)
+  4. Re-ingest with `norm_id` emission once #1 is in `knowledge_base/`. (Fase 3.)
+  5. Migrate Falkor consumers (planner / retriever_falkor / case_bullets ~62 hits / topic_norm_allowlist / citation_allowlist) to dotted keys. (Fase 4a.)
+  6. Shadow period 3-5 days + flip flags + SME panel (operator-triggered). (Fase 6.)
+- **v18 conflict_resolver flags stay at `shadow`** until Fase 6c. v19 Fase 4a is what makes the resolver's A1 path receive correct `primary_articles` (CST/Ley keys instead of ET-only).
+
+*Addendum written 2026-05-15 evening by claude-opus-4-7 after operator-greenlit Fase 0 of v19 closed three hypotheses and three open questions. Body of v6 unchanged; this is a pointer, not a re-scoping.*

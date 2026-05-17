@@ -126,6 +126,98 @@ v19 **alinea ArticleNode al `norm_id` dotted** — NO inventa un cuarto formato.
 - Si TEMA regression identificable → planificar el revert antes de Fase 5.
 - En ambos casos: actualizar este doc con findings antes de Fase 2.
 
+---
+
+#### §2.0.1 Fase 0 findings — parser test (2026-05-15 evening, sin pares editoriales)
+
+- **Hipótesis del doc**: el regex de `parser.py:213` no matchea los headings CST/Ley laborales y los docs caen al `_whole_document_fallback`.
+- **Resultado empírico**: HIPÓTESIS REFUTADA.
+- **Cómo se midió**: ejecuté `parse_articles()` directo sobre los 10 markdowns de `knowledge_base/CORE ya Arriba/LEYES/LABORAL_SEGURIDAD_SOCIAL/consolidado/` + barrido completo del folder labor.
+- **Tabla (10 markdowns consolidados):**
+
+| Markdown | Articles parseados | Fallback? | Sample keys |
+|---|---|---|---|
+| Ley-50-1990.md | 6 | no | 23, 64, 249, 250, 251, 127-132 |
+| Ley-789-2002.md | 7 | no | 1, 2, 3, 8, 14, 20, 22 |
+| Ley-100-1993.md | 7 | no | 1, 2, 8, 9, 12, 15, 47 |
+| Ley-2466-2025.md | 8 | **sí (section)** | datos-generales, objeto-y-alcance, art-culos-del-et-... |
+| Ley-1822-2017.md | 9 | no | 1, 2, 3, 4, 5, 6, 7, 8 |
+| Ley-1010-2006.md | 9 | no | 2, 3, 4, 7, 9, 12, 13, 14 |
+| Ley-1468-2011.md | 8 | no | 1, 2, 3, 4, 5, 6, 7, 8 |
+| Ley-797-2003.md | 9 | no | 1, 9, 11, 12, 13, 14, 15, 16 |
+| Ley-2101-2021.md | 5 | no | 1, 2, 3, 4, 5 |
+| Ley-27-1974.md | 9 | no | 1, 2, 3, 4, 6, 7, 9, 10 |
+
+- **Barrido completo labor (44 archivos):** 323 unidades `ParsedArticle`, 50 pares únicos `(subdir, article_number)`, **0 docs caen a `_whole_document_fallback`**, 24 docs caen a `_section_fallback` (EXPERTOS / PRACTICA / NOMINA — comportamiento esperado y correcto: estos son guías sin `## Artículo N`).
+- **El regex actual ya cubre** `re.IGNORECASE` (matchea `ARTÍCULO`), composites con guion (`127-132`), y los formatos `### ARTÍCULO 64. Título`. No hay fix de parser necesario.
+- **El bug real es estructural, no de parser.** Dos problemas distintos:
+  1. **No existe un markdown del CST consolidado en `knowledge_base/`.** Las "CST art. 64", "CST art. 62", "CST art. 65" sólo aparecen dentro de `Ley-50-1990.md`, `Ley-789-2002.md` etc. — leyes que MODIFICAN al CST. Cuando el parser ve `### ARTÍCULO 64. Indemnización...` dentro de Ley-50, emite `article_key="64"` y `article_number="64"` — **sin provenance del código origen**. El graph hereda esa ambigüedad: `:ArticleNode {article_id: "64"}` puede ser CST 64, ET 64, o Ley 50/1990 art. 64 sin distinción. Esto valida §1.3.1 del doc pero invalida la hipótesis "parser bug".
+  2. **Los EXPERTOS / NORMATIVA / NOMINA / PLAYBOOKS labor son chunkeables pero no son `:ArticleNode`-able.** 24 de 44 archivos labor producen chunks slug-keyed que `_is_article_node_eligible()` filtra fuera del grafo (válido — son guías, no estatutos).
+
+- **Implicación para el plan:**
+  - **Fase 3 NO necesita un parser fix.** Su scope se reduce a "emit `norm_id` desde la ingesta y re-ingestar".
+  - **Pero abre un problema nuevo, NO listado en §1.3**: la fuente CST consolidado falta en el corpus. v19 no puede producir `:ArticleNode {norm_id: "cst.art.64"}` correctamente sin: (a) sumar `Codigo_Sustantivo_Trabajo.md` al `knowledge_base/`, o (b) cambiar la lógica de ingestión para que cuando Ley 50 art. 64 se vea, también emita un ArticleNode `cst.art.64` con `IS_MODIFIED_BY` apuntando a Ley 50. Opción (a) es más limpia; opción (b) abre una superficie de derivación nueva.
+  - Este descubrimiento **debe consolidarse en §8 (preguntas abiertas) como §8.4** antes de tocar Fase 2.
+
+#### §2.0.2 Fase 0 findings — TEMA git archaeology
+
+- **Hipótesis del doc**: hubo un commit que removió o rompió la emisión de TEMA edges.
+- **Resultado empírico**: HIPÓTESIS REFUTADA.
+- **Cómo se midió**:
+  - `git log -p -S "_build_article_tema_edges" -- src/lia_graph/ingestion/loader.py` → solo `6e5e842` (introducción) lo toca.
+  - `git log -p -S "EdgeKind.TEMA" -- src/lia_graph/ingestion/` → `6e5e842` (creación) + `eb3e901` (re-flip de flags, no toca TEMA en ingesta).
+  - `git log -p -S "article_topics" -- src/lia_graph/ingestion/` → un solo commit relevante (`6e5e842`).
+  - Grep global `DELETE.*TEMA` en `src/` y `scripts/` → solo aparece en `loader.py:487-504`, **per-article-key scoped** (no global wipe).
+- **El código de TEMA está intacto en ambos paths**:
+  - Full-rebuild: `ingest.py:421-433` → `build_graph_load_plan(article_topics=…)` → `loader.py:243` → `_build_article_tema_edges()` emite los edges.
+  - Delta: `delta_runtime.py:564-583` → `build_graph_delta_plan(article_topics=…)` → `loader.py:398` → mismo `_build_article_tema_edges()`.
+- **El única operación que borra TEMA edges**: `loader.py:487-504` (`stage_delete_outbound_edges_batch(NodeKind.ARTICLE, article_keys_being_merged, relation=EdgeKind.TEMA)`). Es **scoped** a los ArticleNodes que se están re-MERGEando en el run — no es un wipe global.
+- **Causa real del 0-count en cloud (mejor inferencia disponible sin examinar el último run log de cloud)**:
+  - El path full-rebuild reconstruye `article_topics` a partir de `_topic_by_source_path[article.source_path]` (`ingest.py:417-427`). Si el último full-rebuild de cloud corrió con classifier output donde la mayoría de docs salieron con `topic_key=None` (clasificador degradado, TPM backpressure, o cambio de taxonomía), la cleanup pass borró todos los TEMA edges existentes y la emisión nueva fue 0.
+  - Alternativa: el `article.source_path` no matcheó con la key de `_topic_by_source_path` (ej. paths cambiaron entre fingerprint y classifier output).
+  - No es un commit a revertir — es **un problema de datos de un run específico de ingesta**.
+- **Implicación para el plan:**
+  - **Fase 5 NO es Path A (`git revert`). Es Path B**: instrumentar el call site (`ingest.py:421-427` + `delta_runtime.py:564-574`) para que emita un evento con `len(article_topics)`, `len([v for v in values if v])`, y `len(article_topics & article_keys_being_merged)` ANTES de que la cleanup pass corra. Re-correr una ingesta de prueba sobre un subset de cloud. Si la causa es classifier-degraded, regenerar classifier output ANTES de ingestar. Si la causa es path-mismatch, fix narrow en el join.
+  - El target "≥ 1,000 TEMA edges, ≥ 30 para `laboral`" del §2.5 sigue válido como success criterion, pero el camino para llegar es diagnostic-first, no revert-first.
+
+#### §2.0.3 Fase 0 findings — embeddings keying (§8.1, operator pidió investigate-first)
+
+- **Pregunta**: ¿los chunk embeddings son content-keyed o anchor-keyed?
+- **Resultado**: **content-keyed semánticamente, anchor-keyed posicionalmente.** Match exact: cambiar `article_key` en `parsed_articles.jsonl` SÍ dispara re-embedding completo. Mantener `article_key` y agregar `norm_id` sólo en Falkor NO dispara re-embedding.
+- **Cómo se midió**:
+  - `embedding_ops.py:348-359` — el texto que se embedea es `f"{summary}\n{chunk_text[:512]}"[:768]`. **Cero metadata de anchor / norm_id / topic en el input.** Pura content.
+  - `embedding_ops.py:398` + `:401-411` — `client.table("document_chunks").upsert(batch_updates, on_conflict="id")` — el embedding se guarda en `document_chunks.embedding` keyed por la PK `id` (UUID auto).
+  - `supabase_sink.py:275-276` — `chunk_id = f"{doc_id}::{article_key}"`. Es el **business key** (UNIQUE) sobre el que upserta `write_chunks` (`:709-712`, `on_conflict="chunk_id"`).
+  - `supabase_sink.py:883-916` — en re-ingesta de modificados, calcula `stale = current_ids - written_chunk_ids` y `delete().eq("chunk_id", stale_id)`. **Si `article_key` cambia de `"64"` a `"cst.art.64"`, todos los chunks legacy se borran y se recrean con NULL embedding.**
+- **Implicación arquitectural (decisión nueva que el doc v1 no captura)**:
+  - **Opción A (lo que el doc v1 propone)**: cambiar `article_key` en parsed_articles.jsonl + chunk_id de Supabase al formato dotted. Costo: **re-embedding completo del corpus** (~20,154 chunks × Gemini API). Tiempo + costo significativo.
+  - **Opción B (recomendada por este finding)**: dejar `article_key="64"` y `chunk_id="<doc>::64"` intactos. Agregar `norm_id` SÓLO como property/index nuevo en `:ArticleNode` (Falkor) y como columna nueva en `documents` (Supabase, no en `document_chunks`). El retrieval traversal cambia (match by `norm_id`), pero los embeddings sobreviven sin recomputar. **Esta opción NO necesita re-embedding.**
+- **Esto es una pregunta de scope que afecta toda Fase 2.** Hay que decidir antes de escribir el migration script.
+
+---
+
+#### §2.0.4 Resumen ejecutivo de Fase 0 + revisiones recomendadas
+
+- ✅ **Parser**: no hay bug. Fase 3 ya no necesita un patch de regex.
+- ❌ **Parser hipótesis original** ("regex no matchea CST"): refutada.
+- 🚨 **Descubrimiento nuevo**: no existe markdown del CST consolidado en el corpus → toda CST art. 64 en el grafo viene transitivamente vía Ley 50/789 etc. **§8.4 (pregunta abierta nueva)**: ¿v19 agrega el CST consolidado al `knowledge_base/` o deriva `:ArticleNode` CST desde edges de modificación?
+- ✅ **TEMA**: no es regresión de código. La feature está intacta. Path A (`git revert`) descartado; Path B (instrumentar el call site + reproducir) es el único camino.
+- 🚨 **Descubrimiento nuevo**: la causa real del 0-count es un run específico de ingesta que produjo `article_topics` vacío (classifier degraded o source_path mismatch). Necesita diagnóstico ejecutándose sobre cloud, no archeology de código.
+- 🚨 **Embeddings (§8.1) tiene una opción C que el doc no contemplaba**: scope reducido — `norm_id` sólo en Falkor `:ArticleNode`, sin tocar `chunk_id` de Supabase. **Evita re-embedding completo.** Recomendación fuerte de adoptar este scope reducido.
+
+**Gate decision para avanzar a Fase 2 (operator):**
+- (1) Aceptar el scope reducido (§2.0.3 Opción B) y reformular Fase 2 como "norm_id sólo en Falkor"?
+- (2) Resolver §8.4 (CST consolidado) — ¿agregar el markdown o derivar via edges de modificación?
+- (3) Confirmar que Fase 5 se aborda como Path B (instrumentar + reproducir) en vez de Path A (revert)?
+
+#### §2.0.5 Operator gate decisions (2026-05-15 evening)
+
+- **Gate 1 — Fase 2 scope**: ✅ **adopted Opción B**. `norm_id` se agrega sólo como property + unique index en Falkor `:ArticleNode`. `parsed_articles.jsonl` y `document_chunks.chunk_id` quedan intactos. **Zero re-embedding.**
+- **Gate 2 — §8.4 CST source**: ✅ **agregar `Codigo_Sustantivo_Trabajo.md` al corpus**. Fuente: gov.co (secretariasenado / suin-juriscol). Drop bajo `knowledge_base/CORE ya Arriba/LEYES/LABORAL_SEGURIDAD_SOCIAL/consolidado/Codigo_Sustantivo_Trabajo.md`. El parser ya soporta el formato (Fase 0 §2.0.1). **Prerequisito de Fase 3**.
+- **Gate 3 — Fase 5**: ✅ **Path B confirmed**. Path A (revert) está descartado per §2.0.2. Instrumentación a agregarse en `ingest.py:421` + `delta_runtime.py:564` con evento `ingest.tema.binding_summary { article_topics_len, populated_count, intersection_with_merged }`. Subset re-ingest en cloud para diagnosticar.
+
+---
+
 ### §2.1 Fase 1 — Auditoría (½ día) ✅
 
 - Output en §1 de este doc. **STATUS**: ✅ done 2026-05-15.
@@ -360,19 +452,20 @@ Cada fase debe pasar los 6 gates de CLAUDE.md antes de ser declarada ✅:
 
 ## §7. Estado al cierre de Fase 1 + revisión (2026-05-15 evening)
 
-- Fase 0: 🛠 next — parser test + git archaeology TEMA. ~1.5 horas. Output pega aquí en §2.0.x.
+- Fase 0: ✅ done — findings + revisiones recomendadas en §2.0.1 / §2.0.2 / §2.0.3 / §2.0.4.
 - Fase 1: ✅ done. Audit numbers en §1.
-- Fase 2: 🛠 plan ready, no code.
-- Fase 3: 🛠 plan ready, condicional a Fase 0.
-- Fase 4a / 4b: 🛠 plan ready.
-- Fase 5: 🛠 plan ready, Path A / Path B condicional a Fase 0.
+- Fase 2: 🟡 plan **needs rework** (scope reducido §2.0.3 Opción B; §8.4 abierto).
+- Fase 3: 🟡 simplificada — no necesita parser fix, sólo emit `norm_id` + re-ingesta condicional a §2.0.3.
+- Fase 4a / 4b: 🟡 alcance se reduce si scope §2.0.3 Opción B se adopta.
+- Fase 5: 🟡 **Path A descartado** — sólo Path B (instrumentar + reproducir) per §2.0.2.
 - Fase 6a / 6b / 6c: 🛠 plan ready.
 - v18 b2.1 + b2.2 (conflict resolver): keep `LIA_CONFLICT_RESOLVER_MODE=shadow`. Re-evaluate flip-to-enforce en Fase 6c.
 
-**Próximo paso (operator decision):**
+**Próximo paso (operator decision)** — tres gates antes de Fase 2:
 
-- Greenlight para Fase 0 → empiezo con parser test (1 hora) + git archaeology TEMA (30 min). Output va a §2.0.x de este doc.
-- O bien, modificar el alcance / ordering antes de Fase 0.
+1. **Adoptar el scope reducido §2.0.3 Opción B** (`norm_id` sólo en Falkor `:ArticleNode`, sin tocar `chunk_id` de Supabase, sin re-embedding)?
+2. **Responder §8.4** — ¿v19 agrega `Codigo_Sustantivo_Trabajo.md` al `knowledge_base/` o deriva los ArticleNodes CST vía edges `IS_MODIFIED_BY` desde Ley 50/789/etc.?
+3. **Confirmar Fase 5 Path B** — instrumentar `ingest.py:421-427` + `delta_runtime.py:564-574` con un evento que reporte `(len(article_topics), populated_count, intersection_with_merged)`, correr una ingesta de prueba sobre subset de cloud, diagnosticar?
 
 ---
 
@@ -383,6 +476,8 @@ Cada fase debe pasar los 6 gates de CLAUDE.md antes de ser declarada ✅:
 | 8.1 | ¿Embeddings de chunks son content-keyed (no anchor-keyed)? | Si content-keyed → re-ingesta NO requiere re-embedding (ahorra horas). Si anchor-keyed → re-embedding obligatorio (costoso). |
 | 8.2 | Relación `:ArticleNode` (Falkor, hoy) vs `:Norm` (Falkor, vigencia) vs `public.norms.norm_id` (Supabase). Hoy son 3 cosas distintas. ¿v19 colapsa `:ArticleNode` y `:Norm` en un solo label compartiendo `norm_id`? | Decisión arquitectural — define el alcance de Fase 2. Si colapsamos, simplifica el grafo a futuro. Si no, mantenemos dos labels que comparten key → más complejidad pero menor riesgo de migración. |
 | 8.3 | ¿`artifacts/parsed_articles.jsonl` es regenerable por script o requiere ingestion run? | Define si Fase 4 pre-flight necesita 5 min o 1 hora de wall-clock. |
+| 8.4 ✅ | **NUEVA (Fase 0 §2.0.1)** — RESUELTA per §2.0.5 Gate 2 + EJECUTADA 2026-05-15. Delivery via `docs/re-engineer/corpus_population_for_experts/01b_cst_consolidado_v19.md` (Brief 01b). File landed at `knowledge_base/CORE ya Arriba/LEYES/LABORAL_SEGURIDAD_SOCIAL/consolidado/Codigo_Sustantivo_Trabajo.md` — 504 headings, 498 ParsedArticle units, 79 derogated, range 1-492, source Secretaría del Senado. Parser dry-run: zero whole-doc / section fallbacks. Reform anchors verified (art. 64 = Ley 789/2002, art. 161 = Ley 2466/2025 + Ley 2101/2021, art. 179 = Ley 2466/2025). | Prerequisito de Fase 3 — **cumplido**. |
+| 8.5 ✅ | **NUEVA (Fase 0 §2.0.3)** — RESUELTA per §2.0.5 Gate 1. Decisión: Opción B (Falkor sólo, sin tocar `chunk_id`, sin re-embedding). | Define el scope de Fase 2/3/4. |
 
 ---
 
