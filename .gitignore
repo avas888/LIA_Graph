@@ -12,6 +12,12 @@ dist/
 .claude/
 .DS_Store
 artifacts/temp/
+# Per-fix-version artifact bundles (iter rehearsals, replay reports, large
+# parsed_articles.jsonl + graph_load_report.json files). Regenerable via
+# `make phase2-graph-artifacts` and `scripts/cloud_promotion/replay_*`.
+artifacts/v[0-9]*/
+# v20 P2 logs from the local rehearsal + cloud replay runs (volatile).
+logs/v[0-9]*_*.log
 knowledge_base/
 knowledge_base_archive/
 cache/suin/
