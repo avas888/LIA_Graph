@@ -222,12 +222,115 @@ def clear_cache() -> None:
     _load_registry.cache_clear()
 
 
+# ---------------------------------------------------------------------------
+# v25 P6 — Compliance-deadline registry (G13).
+# ---------------------------------------------------------------------------
+
+
+def deadline_injection_mode() -> str:
+    raw = (os.getenv("LIA_DEADLINE_REGISTRY_INJECTION") or "enforce").strip().lower()
+    return raw if raw in ("off", "shadow", "enforce") else "enforce"
+
+
+@dataclass(frozen=True)
+class DeadlineFact:
+    key: str
+    deadline_label: str
+    source: str
+    verified: bool
+    applies_to_topics: tuple[str, ...]
+
+
+def get_deadlines_for_topic(topic: str | None) -> list[DeadlineFact]:
+    """Return verified deadlines that apply to ``topic``.
+
+    Unverified deadlines are skipped (silent — never inject a date you
+    cannot back up per `feedback_no_hallucinated_examples`).
+    """
+    if not topic:
+        return []
+    topic_norm = topic.strip().lower()
+    registry = _load_registry()
+    raw_block = registry.get("deadlines")
+    if not isinstance(raw_block, Mapping):
+        return []
+    out: list[DeadlineFact] = []
+    for key, raw in raw_block.items():
+        if not isinstance(raw, Mapping):
+            continue
+        if not raw.get("verified", False):
+            continue
+        applies = tuple(
+            str(t).strip().lower() for t in (raw.get("applies_to_topics") or ())
+        )
+        if topic_norm not in applies:
+            continue
+        out.append(
+            DeadlineFact(
+                key=str(key),
+                deadline_label=str(raw.get("deadline_label") or ""),
+                source=str(raw.get("source") or ""),
+                verified=True,
+                applies_to_topics=applies,
+            )
+        )
+    return out
+
+
+def build_deadline_directive(topic: str | None) -> str | None:
+    """Polish-prompt block listing the controlling deadlines for ``topic``.
+
+    Returns None when the flag is off, the topic is empty, or no verified
+    deadlines apply.
+    """
+    if deadline_injection_mode() == "off":
+        return None
+    facts = get_deadlines_for_topic(topic)
+    if not facts:
+        return None
+    bullets = "\n".join(
+        f"   - **{f.deadline_label}** — {f.source}" for f in facts
+    )
+    return (
+        f"DIRECTIVA DE PLAZOS CANÓNICOS para `{topic}`:\n"
+        f"{bullets}\n"
+        f"   Cita estos plazos EXACTAMENTE; no inventes ni redondees fechas. "
+        f"Si la evidencia no los confirma, mantenelos igual — son canon."
+    )
+
+
+def multi_uvt(n_uvt: int, year: int) -> int | None:
+    """Return precomputed COP value of ``n_uvt`` UVT for ``year``.
+
+    Falls back to ``n_uvt * UVT(year)`` when the helper table does not list
+    that multiple but UVT(year) is verified. Returns None when nothing
+    verifiable exists.
+    """
+    registry = _load_registry()
+    helpers = registry.get("multi_uvt_helpers") or {}
+    year_block = helpers.get(str(int(year))) if isinstance(helpers, Mapping) else None
+    if isinstance(year_block, Mapping):
+        raw = year_block.get(str(int(n_uvt)))
+        if isinstance(raw, int):
+            return raw
+    # Fallback: derive from UVT registry if verified.
+    facts = get_year_facts(year)
+    if facts and facts.uvt and facts.uvt.verified and facts.uvt.value_cop:
+        return int(n_uvt) * int(facts.uvt.value_cop)
+    return None
+
+
 __all__ = [
+    "DeadlineFact",
     "YearConstant",
     "YearFacts",
+    "build_deadline_directive",
     "build_directive_block",
     "clear_cache",
+    "deadline_injection_mode",
     "extract_fiscal_year",
+    "get_deadlines_for_topic",
     "get_year_facts",
     "injection_mode",
+    "multi_uvt",
 ]

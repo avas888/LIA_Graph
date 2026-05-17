@@ -1602,11 +1602,15 @@ def _build_polish_prompt(
     # ("granularize polish.py if over 1000 LOC per artifact"). Each builder
     # respects its own kill-switch flag and returns "" when not applicable.
     from .answer_polish_directives_v25 import build_v25_polish_blocks
-    _v25_blocks = build_v25_polish_blocks(request.message or "")
+    _v25_blocks = build_v25_polish_blocks(
+        request.message or "",
+        topic=getattr(request, "topic", None),
+    )
     norm_keyed_block = _v25_blocks["norm_keyed"]
     cross_border_block = _v25_blocks["cross_border"]
     municipal_block = _v25_blocks["municipal"]
     framework_block = _v25_blocks["framework"]
+    deadlines_block = _v25_blocks["deadlines"]
 
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
@@ -1687,6 +1691,9 @@ def _build_polish_prompt(
     framework_wrapped = (
         f"\n{framework_block}\n" if framework_block else ""
     )
+    deadlines_wrapped = (
+        f"\n{deadlines_block}\n" if deadlines_block else ""
+    )
 
     return (
         "Actuás como un contador colombiano senior revisando la respuesta "
@@ -1701,6 +1708,7 @@ def _build_polish_prompt(
         f"{cross_border_wrapped}"
         f"{municipal_wrapped}"
         f"{framework_wrapped}"
+        f"{deadlines_wrapped}"
         "\n"
         f"{allowlist_block}\n"
         "\n"

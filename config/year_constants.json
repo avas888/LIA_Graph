@@ -1,8 +1,59 @@
 {
   "_meta": {
-    "doc": "fix_v23_may.md §3.2 P2 — canonical fiscal-year constants",
+    "doc": "fix_v23_may.md §3.2 P2 — canonical fiscal-year constants. fix_v25_may.md §3.6 P6 — extended with deadlines + multi_uvt_helpers.",
     "verify": "every value must be verified against the cited Resolución/Decreto before commit per feedback_no_hallucinated_examples; values flagged verified=false are skipped at injection time",
-    "updated_utc": "2026-05-17T18:00:00Z"
+    "updated_utc": "2026-05-17T22:00:00Z"
+  },
+  "deadlines": {
+    "rte_annual_update": {
+      "deadline_iso": "03-31",
+      "deadline_label": "31 de marzo (cada año)",
+      "source": "DIAN — actualización de permanencia anual RTE; ver micrositio DIAN RTE",
+      "verified": true,
+      "applies_to_topics": [
+        "regimen_tributario_especial_esal",
+        "esal",
+        "rte"
+      ]
+    },
+    "exogena_ag_2025_window": {
+      "year": 2025,
+      "window_start_iso": "2026-04-28",
+      "window_end_iso": "2026-06-12",
+      "deadline_label": "Entre el 28 de abril y el 12 de junio de 2026, según NIT",
+      "source": "Calendario DIAN exógena AG 2025 (Resolución DIAN 000162/2023 modificada por 000188/2024)",
+      "verified": false,
+      "applies_to_topics": [
+        "informacion_exogena"
+      ]
+    }
+  },
+  "multi_uvt_helpers": {
+    "_doc": "Pre-computed pesos values for the multi-UVT thresholds the SME audit caught wrong (e.g. 4 UVT 2026 was quoted as $199,000 — real value is $209,496). Keyed by year then by UVT multiple.",
+    "2024": {
+      "4": 188260,
+      "10": 470650,
+      "27": 1270755,
+      "92000": 4329980000,
+      "100000": 4706500000,
+      "3300": 155314500
+    },
+    "2025": {
+      "4": 199196,
+      "10": 497990,
+      "27": 1344573,
+      "92000": 4581508000,
+      "100000": 4979900000,
+      "3300": 164336700
+    },
+    "2026": {
+      "4": 209496,
+      "10": 523740,
+      "27": 1414098,
+      "92000": 4818408000,
+      "100000": 5237400000,
+      "3300": 172834200
+    }
   },
   "years": {
     "2024": {

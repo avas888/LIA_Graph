@@ -12,6 +12,7 @@ detection helpers live in their dedicated modules.
 
 from __future__ import annotations
 
+from ..year_facts import build_deadline_directive
 from .accounting_framework import (
     awareness_enabled as framework_enabled,
     detect_framework_hint,
@@ -38,6 +39,7 @@ __all__ = [
     "build_cross_border_block",
     "build_municipal_block",
     "build_framework_block",
+    "build_deadline_block",
     "build_v25_polish_blocks",
 ]
 
@@ -48,6 +50,14 @@ def build_framework_block(question: str | None) -> str:
         return ""
     hint = detect_framework_hint(question or "")
     return framework_directive(hint)
+
+
+def build_deadline_block(topic: str | None) -> str:
+    """P6 / G13 — empty when LIA_DEADLINE_REGISTRY_INJECTION=off or no deadlines for topic."""
+    if not topic:
+        return ""
+    block = build_deadline_directive(topic)
+    return block or ""
 
 
 def build_norm_keyed_block(question: str | None) -> str:
@@ -74,17 +84,20 @@ def build_municipal_block(question: str | None) -> str:
     return municipal_directive(hint)
 
 
-def build_v25_polish_blocks(question: str | None) -> dict[str, str]:
-    """Return all v25 directive blocks for ``question``.
+def build_v25_polish_blocks(
+    question: str | None,
+    *,
+    topic: str | None = None,
+) -> dict[str, str]:
+    """Return all v25 directive blocks for ``question`` + ``topic``.
 
     Mapping: directive_id → text (may be empty). Caller wraps with surrounding
-    whitespace as needed. Order is fixed: norm_keyed → cross_border →
-    municipal — this order is intentional and matches the audit-priority
-    ranking (named norms strongest cue, municipal weakest).
+    whitespace as needed.
     """
     return {
         "norm_keyed": build_norm_keyed_block(question),
         "cross_border": build_cross_border_block(question),
         "municipal": build_municipal_block(question),
         "framework": build_framework_block(question),
+        "deadlines": build_deadline_block(topic),
     }
