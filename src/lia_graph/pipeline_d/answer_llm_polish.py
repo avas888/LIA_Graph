@@ -4,7 +4,11 @@ Sits between the template-driven composer and the streaming sink: the
 composer already wires inline legal anchors and picks the right sections
 for the case. The polish step takes that skeleton plus retrieved evidence
 and asks the LLM to rewrite the prose in senior-accountant voice while
-preserving every `(art. X ET)` anchor.
+preserving every legal anchor verbatim — including the code suffix
+(`ET` / `CST` / etc.) exactly as the BORRADOR writes it. Lia answers tax
+AND labor: the Estatuto Tributario governs `(art. N ET)` and the Código
+Sustantivo del Trabajo governs `(art. N CST)` — they are different codes
+and must never be swapped.
 
 Fails loudly in diagnostics, silently in output: if no adapter resolves
 (no API keys, no config, timeout), the template answer is returned
@@ -61,8 +65,15 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         id="anchor_preserve",
         category="semantic",
         prompt_text=(
-            "Preservá TODAS las referencias inline al Estatuto Tributario con la forma "
-            "(art. X ET) o (arts. X y Y ET). No inventés nuevas; no borrés las existentes."
+            "Preservá TODAS las referencias inline a artículos normativos con su SUFIJO DE CÓDIGO "
+            "exactamente como aparece en el BORRADOR. Dos códigos co-existen: `(art. N ET)` / "
+            "`(arts. N y M ET)` para el Estatuto Tributario (impuestos: renta, IVA, retención) y "
+            "`(art. N CST)` / `(arts. N y M CST)` para el Código Sustantivo del Trabajo (laboral: "
+            "contrato, salarios, prestaciones, indemnización, terminación). REGLA INVIOLABLE: NUNCA "
+            "reescribás `(art. N CST)` como `(art. N ET)` ni `(art. N ET)` como `(art. N CST)` — son "
+            "códigos legales distintos. Tampoco inventés ni borrés referencias existentes. Si el "
+            "BORRADOR escribe `(CST art. 64)` o `art. 65 CST` o `art. 401-3 ET`, preservalo letra por "
+            "letra. Si dudás del código, preferí dejarlo tal cual aparece en el BORRADOR."
         ),
         validate=lambda template, polished: _preserves_required_anchors(template, polished),
         rejection_reason="anchors_stripped",
@@ -83,7 +94,7 @@ POLISH_RULES: tuple[PromptRule, ...] = (
             "REGLA DE EXPANSIÓN: si CUALQUIER sección tiene un solo bullet (o un bullet muy corto, tipo encabezado de "
             "una guía práctica) Y hay al menos 2 ARTÍCULOS ANCLA o 3 DOCUMENTOS DE SOPORTE en la evidencia abajo, "
             "AMPLIÁ esa sección a 2-3 bullets adicionales construidos desde la evidencia. Preservá el bullet original "
-            "y TODAS las referencias inline al ET. No inventés normas, artículos, ni cifras que no estén en la "
+            "y TODAS las referencias inline a artículos (`(art. N ET)`, `(art. N CST)`, etc.) con su sufijo de código intacto. No inventés normas, artículos, ni cifras que no estén en la "
             "evidencia abajo o en el borrador. Si la evidencia no alcanza para 2-3 bullets reales, dejá el bullet "
             "original solo — preferible una sección breve verdadera que una expandida con relleno."
         ),
@@ -112,16 +123,19 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         category="structural",
         prompt_text=(
             "EN EL BLOQUE **Anclaje Legal**: cada viñeta debe quedar como una oración "
-            "completa que explique POR QUÉ se cita ese artículo. Formas aceptables: "
-            "`Art. N ET — <qué regula el artículo>.` (preservando el encabezado del "
-            "BORRADOR) o en prosa `<Qué regula el artículo> en el (art. N ET).` "
-            "(por ej.: `La definición de salario se encuentra en los (arts. 127-132 ET).`). "
-            "NUNCA dejes una viñeta como sólo `(art. N ET)` ni como sólo `Art. N ET` sin "
-            "descripción al lado — la sección entera deja de tener sentido. Tomá la "
-            "descripción del encabezado del artículo en ARTÍCULOS ANCLA DEL GRAFO o del "
-            "EXCERPT; no inventes contenido fuera de la evidencia. Si el BORRADOR ya "
-            "trae el encabezado en cada viñeta (`Art. N ET — <heading>.`), preservalo "
-            "o reescribilo en prosa, pero no lo borres."
+            "completa que explique POR QUÉ se cita ese artículo. Formas aceptables (donde "
+            "`CÓDIGO` es el sufijo legal real del BORRADOR — `ET` para Estatuto Tributario, "
+            "`CST` para Código Sustantivo del Trabajo, etc.): "
+            "`Art. N CÓDIGO — <qué regula el artículo>.` (preservando el encabezado del "
+            "BORRADOR) o en prosa `<Qué regula el artículo> en el (art. N CÓDIGO).` "
+            "Ejemplos válidos: `La definición de salario se encuentra en los (arts. 127-132 ET).`; "
+            "`La indemnización por despido sin justa causa se regula en el (art. 64 CST).`. "
+            "NUNCA dejes una viñeta como sólo `(art. N CÓDIGO)` ni como sólo `Art. N CÓDIGO` sin "
+            "descripción al lado — la sección entera deja de tener sentido. NUNCA cambies el "
+            "sufijo (`ET` por `CST` o viceversa). Tomá la descripción del encabezado del artículo "
+            "en ARTÍCULOS ANCLA DEL GRAFO o del EXCERPT; no inventes contenido fuera de la "
+            "evidencia. Si el BORRADOR ya trae el encabezado en cada viñeta (`Art. N CÓDIGO — "
+            "<heading>.`), preservalo o reescribilo en prosa, pero no lo borres ni le cambies el código."
         ),
     ),
     PromptRule(
@@ -147,9 +161,11 @@ POLISH_RULES: tuple[PromptRule, ...] = (
             "conteos (\"**12** períodos\" no \"doce períodos\"), plazos (\"**6** años\" no \"seis años\"), "
             "porcentajes (**25%**), montos en pesos (**$1.000.000**), años (**2025**) y ordinales numéricos. "
             "EXCEPCIÓN ESTRICTA: NO modifiqués ni envolvás en negrita los números dentro de referencias "
-            "legales inline — `(art. 147 ET)`, `(arts. 147 y 290 ET)`, `(Decreto 624 de 1989)`, "
-            "`(Ley 1819 de 2016)`, `(numeral 3 del art. 26 ET)` se preservan letra por letra como están en "
-            "el borrador. La negrita aplica a la cifra en prosa, no a la cita normativa."
+            "legales inline — `(art. 147 ET)`, `(arts. 147 y 290 ET)`, `(art. 64 CST)`, "
+            "`(arts. 186 a 197 CST)`, `(art. 401-3 ET)`, `(Decreto 624 de 1989)`, `(Ley 1819 de 2016)`, "
+            "`(Ley 50 de 1990 art. 99)`, `(numeral 3 del art. 26 ET)` se preservan letra por letra como "
+            "están en el borrador, incluyendo el sufijo de código (ET / CST / etc.). La negrita aplica "
+            "a la cifra en prosa, no a la cita normativa."
         ),
         post_apply=format_numbers_with_bold,
         surfaces=("main_chat", "normativa"),
@@ -158,11 +174,12 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         id="no_invented_article_descriptions",
         category="semantic",
         prompt_text=(
-            "No inventés descripciones cortas para los artículos citados (e.g., 'Art. 290 ET: Régimen de transición para X'). "
-            "Los artículos del ET tienen múltiples numerales con temas distintos; describir el artículo entero con una frase desde "
-            "tu memoria casi siempre se equivoca de numeral. Si necesitás caracterizar un artículo en una línea, usá literalmente "
-            "el encabezado del artículo tal como aparece en ARTÍCULOS ANCLA DEL GRAFO, o citá el numeral específico que aplica "
-            "según el borrador. Cuando dudés, dejá la cita sola — `(art. 290 ET)` sin descripción es preferible a una descripción inventada."
+            "No inventés descripciones cortas para los artículos citados (e.g., 'Art. 290 ET: Régimen de transición para X', "
+            "'Art. 64 CST: Indemnización por despido'). Los artículos del ET y del CST tienen múltiples numerales con temas "
+            "distintos; describir el artículo entero con una frase desde tu memoria casi siempre se equivoca de numeral. Si "
+            "necesitás caracterizar un artículo en una línea, usá literalmente el encabezado del artículo tal como aparece "
+            "en ARTÍCULOS ANCLA DEL GRAFO, o citá el numeral específico que aplica según el borrador. Cuando dudés, dejá la "
+            "cita sola — `(art. 290 ET)` o `(art. 64 CST)` sin descripción es preferible a una descripción inventada."
         ),
     ),
     PromptRule(
@@ -1027,7 +1044,7 @@ def _build_polish_prompt(
     # validators enforce.
     allowed_articles = ", ".join(
         f"Art. {k}" for k in (primary_keys + connected_keys) if k
-    ) or "(ninguno — no cites artículos del ET en la reescritura)"
+    ) or "(ninguno — no cites artículos del ET ni del CST en la reescritura)"
     allowed_reforms = (
         " | ".join(reform_labels)
         or "(ninguna — no introduzcas Leyes, Decretos, Resoluciones, Sentencias o Conceptos)"
@@ -1062,9 +1079,11 @@ def _build_polish_prompt(
         "REFORMAS Y NORMAS PERMITIDAS abajo. Si la norma no está listada, "
         "NO existe para esta respuesta — aunque la tengas memorizada.\n"
         "\n"
-        "2) NO cites artículos del ET cuyo número no aparezca en la lista "
-        "ARTÍCULOS PERMITIDOS abajo. Citar `(art. N ET)` con N fuera de "
-        "esa lista es invención y será rechazado.\n"
+        "2) NO cites artículos cuyo número no aparezca en la lista "
+        "ARTÍCULOS PERMITIDOS abajo. Citar `(art. N ET)`, `(art. N CST)` o "
+        "cualquier referencia inline con un número fuera de esa lista es "
+        "invención y será rechazado. PRESERVÁ el sufijo de código (ET / CST / "
+        "etc.) tal cual aparece en el BORRADOR — nunca lo cambies.\n"
         "\n"
         "3) NO introduzcas años, períodos gravables ni rangos temporales "
         "(\"AG 2024\", \"2022 y 2023\", \"ejercicio 2025\") que no aparezcan "

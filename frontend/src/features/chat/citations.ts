@@ -78,6 +78,40 @@ export function normalizeMentionReference(raw) {
   const clean = String(raw || "").replace(/\s+/g, " ").trim();
   if (!clean) return null;
 
+  // CST (Código Sustantivo del Trabajo) — labor code. Matched BEFORE the
+  // ET branch so `art. 64 CST` is not accidentally captured by ET fallbacks.
+  // Forms accepted: `CST` / `Código Sustantivo del Trabajo` (head or tail),
+  // `CST art. N`, `art. N CST`, `(CST art. N)`.
+  const cstDirectMatch =
+    /^(?:c[oó]digo sustantivo del trabajo|CST)(?:\s*[:,-]?\s*(art(?:[íi]culos?|s?)?\.?\s*\d+(?:[.\-]\d+)*(?:\s*(?:a|al|hasta|–)\s*\d+(?:[.\-]\d+)*)?))?$/i.exec(
+      clean
+    ) || /^(art(?:[íi]culos?|s?)?\.?\s*\d+(?:[.\-]\d+)*(?:\s*(?:a|al|hasta|–)\s*\d+(?:[.\-]\d+)*)?)(?:\s*(?:del?\s*)?(?:CST|c[oó]digo sustantivo del trabajo))$/i.exec(clean);
+  if (cstDirectMatch) {
+    const articleMatch = /art(?:[íi]culos?|s?)?\.?\s*(\d+(?:[.\-]\d+)*)(?:\s*(?:a|al|hasta|–)\s*(\d+(?:[.\-]\d+)*))?/i.exec(
+      String(cstDirectMatch[1] || clean)
+    );
+    if (articleMatch) {
+      const start = canonicalizeEtArticleNumber(String(articleMatch[1] || "").trim());
+      const end = canonicalizeEtArticleNumber(String(articleMatch[2] || "").trim());
+      const locatorText = end ? `Artículos ${start} a ${end}` : `Artículos ${start}`;
+      const sourceLabel = end ? `CST arts. ${start} a ${end}` : `CST art. ${start}`;
+      return {
+        reference_key: "cst",
+        reference_type: "cst",
+        source_label: sourceLabel,
+        locator_text: locatorText,
+        locator_kind: "articles",
+        locator_start: start,
+        locator_end: end || undefined,
+      };
+    }
+    return {
+      reference_key: "cst",
+      reference_type: "cst",
+      source_label: "Código Sustantivo del Trabajo",
+    };
+  }
+
   const etDirectMatch =
     /^(?:estatuto tributario(?:\s*\(ET\))?|ET)(?:\s*[:,-]?\s*(art(?:[íi]culos?|s?)?\.?\s*\d+(?:[.\-]\d+)*(?:\s*(?:a|al|hasta|–)\s*\d+(?:[.\-]\d+)*)?))?$/i.exec(
       clean
@@ -250,6 +284,14 @@ export function resolveExternalNormativeUrls(referenceKey, referenceType, locato
   if (key === "et") {
     const article = String(locatorStart || "").trim().replace(/\./g, "-");
     const path = article ? `estatuto_tributario.htm#${article}` : "estatuto_tributario.htm";
+    return { primary: `${_NORMOGRAMA_BASE}/${path}`, fallback: _mirrorUrl(path) };
+  }
+
+  if (key === "cst") {
+    const article = String(locatorStart || "").trim().replace(/\./g, "-");
+    const path = article
+      ? `codigo_sustantivo_trabajo.html#${article}`
+      : "codigo_sustantivo_trabajo.html";
     return { primary: `${_NORMOGRAMA_BASE}/${path}`, fallback: _mirrorUrl(path) };
   }
 

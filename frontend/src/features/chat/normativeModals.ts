@@ -264,7 +264,12 @@ export function createNormativeModalController({
           locator_kind: "article",
         };
         const requestId = ++state.activeNormaRequestId;
-        const articleTitle = `Estatuto Tributario, Artículo ${articleNum}`;
+        const refKey = String((baseCitation as Record<string, unknown>).reference_key || "").toLowerCase();
+        const refType = String((baseCitation as Record<string, unknown>).reference_type || "").toLowerCase();
+        const codeLabel = refKey === "cst" || refType === "cst"
+          ? "Código Sustantivo del Trabajo"
+          : "Estatuto Tributario";
+        const articleTitle = `${codeLabel}, Artículo ${articleNum}`;
         normaTitleNode.textContent = articleTitle;
         profileRenderer.resetNormaProfileCard();
         profileRenderer.setNormaModalStatus(i18n.t("chat.modal.norma.loading"), "loading");

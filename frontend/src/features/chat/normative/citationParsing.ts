@@ -240,13 +240,31 @@ export function expandArticleRange(startStr: string, endStr: string, maxCount = 
   return null;
 }
 
+// fix_v22 §9 D6: extracted code-aware helpers. `code` is the legal code
+// short name ("ET" / "CST" / etc.) and `longName` is the human label
+// rendered in the panel. Adding a new code is two constants + the two
+// dispatcher branches below.
+const CODE_LABELS: Record<string, string> = {
+  et: "Estatuto Tributario",
+  cst: "Código Sustantivo del Trabajo",
+};
+
+function articleLocatorTrimRe(code: string): RegExp {
+  if (code === "cst") return /\s*(?:del?\s*)?(?:CST|c[oó]digo sustantivo del trabajo)\b.*$/i;
+  return /\s*(?:del?\s*)?(?:ET|estatuto tributario)\b.*$/i;
+}
+
 export function parseEtLocatorText(value: unknown): ParsedEtLocator | null {
+  return parseLocatorText(value, "et");
+}
+
+export function parseLocatorText(value: unknown, code: string = "et"): ParsedEtLocator | null {
   let clean = String(value || "")
     .replace(/\s+/g, " ")
     .replace(/[–—]/g, "-")
     .trim()
     .replace(/^art(?:[íi]culos?|s?)\.?\s*/i, "")
-    .replace(/\s*(?:del?\s*)?(?:ET|estatuto tributario)\b.*$/i, "")
+    .replace(articleLocatorTrimRe(code), "")
     .replace(/^[,:;\-.\s]+|[,:;\-.\s]+$/g, "")
     .trim();
   if (!clean) return null;
@@ -269,31 +287,55 @@ export function parseEtLocatorText(value: unknown): ParsedEtLocator | null {
 }
 
 export function formatParsedEtLocator(locator: ParsedEtLocator | null): string {
-  if (!locator || locator.parts.length === 0) return "Estatuto Tributario";
+  return formatParsedLocator(locator, "et");
+}
+
+export function formatParsedLocator(
+  locator: ParsedEtLocator | null,
+  code: string = "et",
+): string {
+  const label = CODE_LABELS[code] || CODE_LABELS.et;
+  if (!locator || locator.parts.length === 0) return label;
   if (locator.kind === "single") {
-    return `Estatuto Tributario, Artículo ${locator.parts[0]}`;
+    return `${label}, Artículo ${locator.parts[0]}`;
   }
   if (locator.kind === "range") {
-    return `Estatuto Tributario, Artículos ${locator.parts[0]} - ${locator.parts[1]}`;
+    return `${label}, Artículos ${locator.parts[0]} - ${locator.parts[1]}`;
   }
-  return `Estatuto Tributario, Artículos ${locator.parts.join(", ")}`;
+  return `${label}, Artículos ${locator.parts.join(", ")}`;
 }
 
 export function parseEtTitle(rawTitle: unknown): string {
+  return parseLocatorTitle(rawTitle);
+}
+
+export function parseLocatorTitle(rawTitle: unknown): string {
   const clean = String(rawTitle || "").replace(/\s+/g, " ").trim();
   if (!clean) return "";
+
+  // CST first: head-match (`Código Sustantivo del Trabajo, art. N`) or
+  // tail-match (`art. N CST`).
+  const cstHead = /^(?:c[oó]digo sustantivo del trabajo|CST)\b\s*(?:,|:)?\s*(.*)$/i.exec(clean);
+  if (cstHead) {
+    const remainder = String(cstHead[1] || "").trim();
+    if (!remainder) return CODE_LABELS.cst;
+    return formatParsedLocator(parseLocatorText(remainder, "cst"), "cst");
+  }
+  const cstTail = /^(art(?:[íi]culos?|s?)\.?\s*.+?)\s*(?:del?\s*)?(?:CST|c[oó]digo sustantivo del trabajo)\b$/i.exec(clean);
+  if (cstTail) {
+    return formatParsedLocator(parseLocatorText(cstTail[1], "cst"), "cst");
+  }
 
   const headMatch = /^(?:estatuto tributario(?:\s*\(ET\))?|ET)\b\s*(?:,|:)?\s*(.*)$/i.exec(clean);
   if (headMatch) {
     const remainder = String(headMatch[1] || "").trim();
-    if (!remainder) return "Estatuto Tributario";
-    const locator = parseEtLocatorText(remainder);
-    return formatParsedEtLocator(locator);
+    if (!remainder) return CODE_LABELS.et;
+    return formatParsedLocator(parseLocatorText(remainder, "et"), "et");
   }
 
   const tailMatch = /^(art(?:[íi]culos?|s?)\.?\s*.+?)\s*(?:del?\s*)?(?:ET|estatuto tributario)\b$/i.exec(clean);
   if (tailMatch) {
-    return formatParsedEtLocator(parseEtLocatorText(tailMatch[1]));
+    return formatParsedLocator(parseLocatorText(tailMatch[1], "et"), "et");
   }
   return "";
 }
