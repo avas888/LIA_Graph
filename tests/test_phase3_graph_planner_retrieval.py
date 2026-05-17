@@ -58,9 +58,9 @@ def test_phase3_planner_contract_extracts_multi_hop_entry_points() -> None:
 
     assert plan.query_mode == "computation_chain"
     assert [entry.lookup_value for entry in plan.entry_points if entry.kind == "article"] == [
-        "771-2",
-        "616-1",
-        "617",
+        "et.art.771-2",
+        "et.art.616-1",
+        "et.art.617",
     ]
     assert any(
         entry.kind == "topic" and entry.lookup_value == "facturacion_electronica"
@@ -104,7 +104,7 @@ def test_phase3_planner_historical_query_builds_temporal_context() -> None:
     )
 
     assert plan.query_mode == "historical_reform_chain"
-    assert [entry.lookup_value for entry in plan.entry_points if entry.kind == "article"] == ["115"]
+    assert [entry.lookup_value for entry in plan.entry_points if entry.kind == "article"] == ["et.art.115"]
     assert [entry.lookup_value for entry in plan.entry_points if entry.kind == "reform"] == [
         "LEY-2277-2022"
     ]
@@ -278,7 +278,7 @@ def test_phase3_planner_anchors_tax_planning_prompt_on_antiabuse_articles() -> N
     assert plan.query_mode == "strategy_chain"
     assert "procedimiento_tributario" in plan.topic_hints
     anchored_articles = [entry.lookup_value for entry in plan.entry_points if entry.source == "tax_planning_anchor"]
-    assert anchored_articles[:3] == ["869", "869-1", "869-2"]
+    assert anchored_articles[:3] == ["et.art.869", "et.art.869-1", "et.art.869-2"]
     article_searches = [entry.lookup_value for entry in plan.entry_points if entry.kind == "article_search"]
     assert any("abuso en materia tributaria" in query for query in article_searches)
 
@@ -324,7 +324,7 @@ def test_phase3_planner_keeps_loss_compensation_prompt_out_of_saldo_a_favor_work
     anchored_articles = [entry.lookup_value for entry in plan.entry_points if entry.source == "loss_compensation_anchor"]
 
     assert plan.query_mode == "obligation_chain"
-    assert anchored_articles == ["147"]
+    assert anchored_articles == ["et.art.147"]
     assert "compensacion de perdidas fiscales renta liquida limite anual art 147" in article_searches
     assert "compensacion de perdidas fiscales firmeza declaracion termino de revision art 147 714 689-3" in article_searches
     assert "correccion declaracion renta saldo a favor plazo un ano firmeza" not in article_searches
@@ -550,6 +550,9 @@ def test_phase3_pipeline_d_tax_planning_prompt_uses_rich_advisory_first_bubble()
 
     primary_keys = {item.node_key for item in evidence.primary_articles}
 
+    # v20 P4 — node_key returns bare article_number; for primary_articles
+    # MATCHed by dotted norm_id, we still surface bare in node_key per
+    # the back-compat contract in retriever_falkor.py.
     assert {"869", "869-1", "869-2"}.issubset(primary_keys)
     assert response.diagnostics is not None
     assert response.diagnostics["planner"]["query_mode"] == "strategy_chain"
@@ -677,7 +680,7 @@ def test_phase3_planner_carries_forward_norm_anchors_for_focused_followup() -> N
     article_entries = [entry for entry in plan.entry_points if entry.kind == "article"]
 
     assert plan.query_mode == "article_lookup"
-    assert [entry.lookup_value for entry in article_entries] == ["589", "714"]
+    assert [entry.lookup_value for entry in article_entries] == ["et.art.589", "et.art.714"]
     assert all(entry.source == "conversation_state_anchor" for entry in article_entries)
     assert plan.temporal_context.requested_period_label == "AG 2025"
 
@@ -796,8 +799,10 @@ def test_phase3_planner_followup_with_numeric_period_echo_keeps_case_anchors() -
     # table instead of the prose-style article_lookup answer. The article
     # anchors themselves are preserved (carried forward from conversation state).
     assert plan.query_mode == "comparative_regime_chain"
-    assert "147" in anchored_articles
-    assert "290" in anchored_articles
+    # v20 P4 — planner emits dotted norm_ids (et.art.NNN) as lookup_value.
+    assert "et.art.147" in anchored_articles
+    assert "et.art.290" in anchored_articles
+    assert "et.art.12" not in anchored_articles
     assert "12" not in anchored_articles
 
 

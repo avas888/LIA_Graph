@@ -69,6 +69,14 @@ class CaseSpec:
     anchor_articles: tuple[str, ...]
     search_queries: tuple[str, ...]
     source_label: str
+    # v20 P4: explicit dotted norm_ids. When non-empty, supersedes
+    # `anchor_articles` → planner uses these verbatim. When empty
+    # (the default), the planner derives `et.art.<N>` from
+    # `anchor_articles` — preserves the historical assumption that
+    # every case_bullet anchors to the Estatuto Tributario. Set
+    # `anchor_norm_ids=("cst.art.64", "ley.50.1990.art.64")` etc.
+    # when a case needs to anchor outside the ET.
+    anchor_norm_ids: tuple[str, ...] = ()
 
 
 __all__ = ["CaseSpec"]

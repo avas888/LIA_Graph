@@ -90,8 +90,28 @@ def test_none_article_rejects():
 # ── Graph key ────────────────────────────────────────────────────────
 
 
-def test_numbered_article_graph_key_unchanged():
-    a = _make_article(article_number="5", article_key="5")
+def test_numbered_article_with_resolvable_path_keys_by_norm_id():
+    """v19 Fase 3 — numbered articles whose path resolves to a canonical
+    norm_id MERGE under the dotted key, NOT the bare article_number. This
+    is what makes CST 64 and Ley 50/1990 art 64 land on distinct nodes."""
+    a = _make_article(
+        article_number="5",
+        article_key="5",
+        source_path="CORE/Ley-100-2026.md",
+    )
+    # Pre-v19: returned "5". Post-v19: returns "ley.100.2026.art.5".
+    assert _graph_article_key(a) == "ley.100.2026.art.5"
+
+
+def test_numbered_article_with_unresolvable_path_falls_back_to_article_key():
+    """For SUIN nodes and the OTHER bucket (paths that don't match any
+    norm_id rule), the MERGE key falls back to `article.article_key` to
+    preserve their existing identity."""
+    a = _make_article(
+        article_number="5",
+        article_key="5",
+        source_path="some/path/not/in/any/rule.md",
+    )
     assert _graph_article_key(a) == "5"
 
 
@@ -153,14 +173,20 @@ def test_build_article_nodes_emits_is_prose_only_property():
         article_key="doc",
         source_path="CORE/Ley-109.md",
     )
-    numbered = _make_article(article_number="5", article_key="5")
+    numbered = _make_article(
+        article_number="5",
+        article_key="5",
+        source_path="CORE/Ley-100-2026.md",
+    )
     nodes = _build_article_nodes([prose, numbered])
     assert len(nodes) == 2
     by_key = {n.key: n for n in nodes}
+    # Prose-only: `whole::<source_path>` key. Numbered + resolvable path:
+    # canonical norm_id key per v19 Fase 3.
     assert "whole::CORE/Ley-109.md" in by_key
-    assert "5" in by_key
+    assert "ley.100.2026.art.5" in by_key
     assert by_key["whole::CORE/Ley-109.md"].properties["is_prose_only"] is True
-    assert by_key["5"].properties["is_prose_only"] is False
+    assert by_key["ley.100.2026.art.5"].properties["is_prose_only"] is False
 
 
 def test_build_article_nodes_distinct_keys_for_many_prose_docs():

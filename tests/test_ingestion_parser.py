@@ -158,3 +158,49 @@ def test_reference_docs_always_produce_at_least_one_chunk(path: Path):
     """Regression guard: any canonical corpus doc must yield >=1 retrievable chunk."""
     arts = parse_articles(_read(path), source_path=str(path))
     assert len(arts) >= 1, f"no chunks produced for {path.name}"
+
+
+def test_composite_article_numbers_preserve_suffix():
+    """Letter-suffix composites (e.g. CST art. 97-A) and digit-suffix composites
+    (e.g. ET art. 512-1) must parse with the suffix intact — otherwise they
+    collide with their bare-number parent under MERGE on article_number.
+
+    Locked in 2026-05-15 after the v19 CST consolidado delivery surfaced four
+    letter-suffix articles (97-A, 185-A, 235-A, 416-A) that previously
+    truncated to their parent number because the regex only matched
+    ``\\d+(?:-\\d+)?``.
+    """
+    md = (
+        "### ARTÍCULO 97. NORMA PADRE.\n"
+        "Cuerpo del padre.\n"
+        "\n"
+        "### ARTÍCULO 97-A. ADICIONADO.\n"
+        "Cuerpo del adicionado.\n"
+        "\n"
+        "### ARTÍCULO 185-A. SUBROGADO.\n"
+        "Cuerpo subrogado.\n"
+        "\n"
+        "### ARTÍCULO 391-1. SUFIJO NUMÉRICO.\n"
+        "Cuerpo numérico.\n"
+        "\n"
+        "### ARTÍCULO 416-A. OTRO ADICIONADO.\n"
+        "Otro cuerpo.\n"
+    )
+    arts = parse_articles(md, source_path="synthetic_cst.md")
+    numbers = [a.article_number for a in arts]
+    assert numbers == ["97", "97-A", "185-A", "391-1", "416-A"], (
+        f"composite suffix lost; got {numbers}"
+    )
+    # article_key follows article_number for statutory headers, so the
+    # downstream chunk_id (`<doc_id>::<article_key>`) won't collide.
+    keys = [a.article_key for a in arts]
+    assert keys == numbers
+    # Heading title preserved without the suffix bleeding in
+    titles = [a.heading for a in arts]
+    assert titles == [
+        "NORMA PADRE.",
+        "ADICIONADO.",
+        "SUBROGADO.",
+        "SUFIJO NUMÉRICO.",
+        "OTRO ADICIONADO.",
+    ]

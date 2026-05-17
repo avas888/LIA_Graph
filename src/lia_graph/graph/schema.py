@@ -217,6 +217,14 @@ def default_graph_schema() -> GraphSchema:
                 # coherence-gate accepts queries routed to either the canonical
                 # owner topic OR any of these secondary topics.
                 "secondary_topics",
+                # v19 Fase 3 — canonical norm_id (e.g. `cst.art.64`,
+                # `et.art.420`, `ley.50.1990.art.64`). Derived from
+                # `(source_path, article_number)` via `norm_id_rules.derive_norm_id`.
+                # Null on prose-only nodes (whole-doc-fallback), SUIN nodes (v6
+                # canonical via `:Norm`), and the small OTHER bucket pending
+                # path rules. Unique index in cloud Falkor; safe to query with
+                # `MATCH (a:ArticleNode {norm_id: ...})`.
+                "norm_id",
             ),
         ),
         NodeKind.REFORM: GraphNodeType(

@@ -581,14 +581,17 @@ def _rule_oficio(text: str) -> str | None:
 
 
 # Rule 10 — CST article (Código Sustantivo del Trabajo)
+# Number accepts letter-suffix composites (CST art. 97-A, 185-A, etc.) — see
+# the v19 Fase 2 CST consolidado delivery 2026-05-15 + parser fix in
+# parser.py:11 that lifted the same restriction at the parsing layer.
 _CST_ARTICLE_RE = re.compile(
-    r"\bart(?:[íi]culo|\.)?\s*(?P<num>\d+(?:-\d+)?)\b.{0,40}?"
+    r"\bart(?:[íi]culo|\.)?\s*(?P<num>\d+(?:-[\dA-Za-z]+)?)\b.{0,40}?"
     r"(?:c\.?\s*s\.?\s*t\.?|c[óo]digo\s+sustantivo\s+del\s+trabajo)\b",
     re.IGNORECASE,
 )
 _CST_ARTICLE_REVERSE_RE = re.compile(
     r"\b(?:c\.?\s*s\.?\s*t\.?|c[óo]digo\s+sustantivo\s+del\s+trabajo)\b[^a-z0-9]{0,30}?"
-    r"(?:art(?:[íi]culo|\.)?\s*)(?P<num>\d+(?:-\d+)?)\b",
+    r"(?:art(?:[íi]culo|\.)?\s*)(?P<num>\d+(?:-[\dA-Za-z]+)?)\b",
     re.IGNORECASE,
 )
 
@@ -736,8 +739,10 @@ _NORM_ID_PATTERNS = (
     # Auto CE
     r"^auto\.ce\.[0-9]+\.[0-9]{4}\.[0-9]{2}\.[0-9]{2}$",
     # CST (Código Sustantivo del Trabajo) — bare `cst` valid as a
-    # whole-code reference, mirroring the ET pattern.
-    rf"^cst(?:\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*)?$",
+    # whole-code reference, mirroring the ET pattern. Article number
+    # accepts letter-suffix composites (97-A, 185-A) per the 2026-05-15
+    # v19 corpus delivery.
+    rf"^cst(?:\.art\.[0-9]+(?:-[0-9A-Za-z]+)?{_SUB_UNIT_PART}*)?$",
     # Código de Comercio — bare `cco` valid for the same reason.
     rf"^cco(?:\.art\.[0-9]+(?:-[0-9]+)?{_SUB_UNIT_PART}*)?$",
     # DCIN (Manual Cambiario BanRep) — capítulo + numeral both required

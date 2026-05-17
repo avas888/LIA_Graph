@@ -46,27 +46,47 @@ def graph_article_key(article: ParsedArticle) -> str:
     Distinct from ``ParsedArticle.article_key`` (which scopes Supabase
     ``chunk_id`` and must stay stable across v4 to avoid chunk churn).
 
-    Behavior:
+    Behavior (post v19 Fase 3):
 
     * Prose-only articles (empty ``article_number``) — return
       ``f"whole::{source_path}"`` so each prose doc gets its own
       ArticleNode rather than colliding on the shared ``WHOLE_DOC_ARTICLE_KEY``
       ("doc") across the whole corpus.
-    * Numbered articles — return ``article.article_key`` unchanged to preserve
-      the existing 8,106 ArticleNodes' identity. Cross-doc collisions on
-      numbered articles (e.g. Article 5 of Ley 100 vs Ley 300) are a
-      separate pre-existing issue tracked as followup F8 in
-      ``docs/next/ingestionfix_v4.md §8``.
+    * Numbered articles whose ``(source_path, article_number)`` resolves to
+      a canonical norm_id via ``norm_id_rules.derive_norm_id`` — return
+      that dotted ``norm_id`` (e.g. ``cst.art.64``, ``ley.50.1990.art.64``,
+      ``et.art.420``). This is what fixes the cross-doc collision flagged
+      as a known issue in earlier comments: CST art. 64 and Ley 50/1990
+      art. 64 now MERGE onto DISTINCT nodes because their keys differ.
+      Confirmed empirically by the v19 Fase 3-2 local re-ingest 2026-05-15.
+    * Numbered articles whose path doesn't resolve to a norm_id (SUIN
+      ``suin://`` paths, unclassified OTHER paths) — fall back to
+      ``article.article_key`` so identity is preserved for v6's SUIN catalog
+      and for the small OTHER bucket pending path-rule additions.
 
-    Public from v5 §6.3 (2026-04-26) so the linker can emit edges using the
-    graph key form for prose-only sources, fixing the 99,1% of bucket-(a)
-    edge loss measured in v5 §6.2. The ``_graph_article_key`` alias below
-    keeps existing imports working without a churn refactor.
+    Public from v5 §6.3 (2026-04-26).
     """
     number = str(getattr(article, "article_number", "") or "").strip()
     if not number:
         source = str(getattr(article, "source_path", "") or "").strip() or "unknown"
         return f"whole::{source}"
+    # v19 Fase 3 — prefer canonical norm_id as MERGE key for numbered
+    # articles. Imported lazily because `norm_id_rules` and `loader` form a
+    # small module pair and we want to avoid import-cycle surprises.
+    try:
+        from ..norm_id_rules import derive_norm_id
+
+        outcome = derive_norm_id(
+            article_id=article.article_key or "",
+            article_number=number,
+            source_path=str(getattr(article, "source_path", "") or ""),
+        )
+        if outcome.norm_id:
+            return outcome.norm_id
+    except Exception:
+        # Fail-soft — never block ingest on a rule lookup. Falls through to
+        # the legacy bare-key path. The unit tests cover the normal path.
+        pass
     return article.article_key
 
 
@@ -580,30 +600,64 @@ def _build_article_nodes(
     # property is set to [] so consumers don't have to handle missing keys.
     from .article_secondary_topics import get_secondary_topics
 
-    return tuple(
-        GraphNodeRecord(
-            kind=NodeKind.ARTICLE,
-            key=_graph_article_key(article),
-            properties={
-                "article_number": article.article_number,
-                "heading": article.heading,
-                "text_current": article.body or article.full_text,
-                "status": article.status,
-                "source_path": article.source_path,
-                "paragraph_markers": list(article.paragraph_markers),
-                "reform_references": list(article.reform_references),
-                "annotations": list(article.annotations),
-                "is_prose_only": _is_prose_only(article),
-                # v5 §1.A — multi-topic metadata. Lookup is by article_id
-                # (matches how the SME edits the curation config). For
-                # prose-only articles where article_id is `whole::path`,
-                # the lookup falls through to () because no SME would
-                # curate by file-path.
-                "secondary_topics": list(get_secondary_topics(article.article_number or "")),
-            },
+    # v19 Fase 3 — stamp `norm_id` derived from (source_path, article_number).
+    # Migration script (Fase 2) and this loader path share `norm_id_rules` so
+    # the dotted-id format stays byte-identical across batch migration + new
+    # ingests. Numbered articles whose source_path matches a known rule get a
+    # `norm_id`; prose-only / SUIN / OTHER rows leave `norm_id` empty string
+    # (Falkor `SET` with None is awkward; "" is queryable as `IS NOT NULL = false`).
+    from ..norm_id_rules import derive_norm_id
+
+    nodes: list[GraphNodeRecord] = []
+    rule_counts: dict[str, int] = {}
+    stamped_count = 0
+    for article in eligible:
+        outcome = derive_norm_id(
+            article_id=article.article_key or "",
+            article_number=article.article_number or "",
+            source_path=str(article.source_path or ""),
         )
-        for article in eligible
+        rule_counts[outcome.rule_name] = rule_counts.get(outcome.rule_name, 0) + 1
+        if outcome.norm_id:
+            stamped_count += 1
+        nodes.append(
+            GraphNodeRecord(
+                kind=NodeKind.ARTICLE,
+                key=_graph_article_key(article),
+                properties={
+                    "article_number": article.article_number,
+                    "heading": article.heading,
+                    "text_current": article.body or article.full_text,
+                    "status": article.status,
+                    "source_path": article.source_path,
+                    "paragraph_markers": list(article.paragraph_markers),
+                    "reform_references": list(article.reform_references),
+                    "annotations": list(article.annotations),
+                    "is_prose_only": _is_prose_only(article),
+                    # v5 §1.A — multi-topic metadata. Lookup is by article_id
+                    # (matches how the SME edits the curation config). For
+                    # prose-only articles where article_id is `whole::path`,
+                    # the lookup falls through to () because no SME would
+                    # curate by file-path.
+                    "secondary_topics": list(get_secondary_topics(article.article_number or "")),
+                    # v19 Fase 3 — empty string when prose-only / SUIN / OTHER
+                    # (the post-Fase-2 cloud state uses the same convention:
+                    # `IS NOT NULL` filters out nodes lacking a derived id).
+                    "norm_id": outcome.norm_id or "",
+                },
+            )
+        )
+
+    _try_emit_event(
+        "ingest.norm_id.binding_summary",
+        {
+            "phase": "loader._build_article_nodes",
+            "eligible_count": len(eligible),
+            "stamped_count": stamped_count,
+            "by_rule": dict(sorted(rule_counts.items(), key=lambda kv: -kv[1])),
+        },
     )
+    return tuple(nodes)
 
 
 def _build_topic_nodes(

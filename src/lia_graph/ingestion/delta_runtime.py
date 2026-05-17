@@ -566,12 +566,38 @@ def materialize_delta(
     }
     # v4: key by graph-layer article key (unique-per-doc for prose-only) so
     # TEMA edges match ArticleNodes MERGEd in the loader.
-    from .loader import _graph_article_key
+    from .loader import _graph_article_key, _is_article_node_eligible
     _delta_article_topics = {
         _graph_article_key(a): _delta_topic_by_source_path[str(a.source_path or "")]
         for a in delta_articles
         if str(a.source_path or "") in _delta_topic_by_source_path
     }
+    # v19 Fase 5 Path B diagnostic — same shape as ingest.py's full-rebuild
+    # event. If a delta-only operator sees `populated_count = 0` here, the
+    # classifier did not propagate topic_key for the delta docs, NOT a loader
+    # regression. See fix_v19_may.md §2.0.2.
+    _delta_eligible_keys = {
+        _graph_article_key(a)
+        for a in delta_articles
+        if _is_article_node_eligible(a)
+    }
+    _delta_populated = [
+        k for k, v in _delta_article_topics.items() if v and str(v).strip()
+    ]
+    emit_event(
+        "ingest.tema.binding_summary",
+        {
+            "phase": "delta",
+            "delta_id": delta.delta_id,
+            "article_topics_len": len(_delta_article_topics),
+            "populated_count": len(_delta_populated),
+            "intersection_with_merged": len(
+                set(_delta_article_topics.keys()) & _delta_eligible_keys
+            ),
+            "eligible_article_count": len(_delta_eligible_keys),
+            "topic_by_source_path_len": len(_delta_topic_by_source_path),
+        },
+    )
     falkor_plan = build_graph_delta_plan(
         delta,
         delta_articles=list(delta_articles),

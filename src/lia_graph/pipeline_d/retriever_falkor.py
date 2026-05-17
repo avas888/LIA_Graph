@@ -30,6 +30,40 @@ from pathlib import Path
 from typing import Any
 
 from ..graph.client import GraphClient, GraphClientError, GraphWriteStatement
+# v20 P4 — dotted norm_id prefixes. Used by `_expand_lookup_keys` to detect
+# dotted-form lookup keys (e.g. `cst.art.64`) and synthesize the bare
+# article_number (`64`) so the MATCH catches both v20-stamped nodes and
+# pre-v20 nodes lacking norm_id.
+_DOTTED_NORM_ID_PREFIXES = ("cst.", "et.", "ley.", "decreto.", "res.", "sent.", "cco.")
+
+
+def _expand_lookup_keys(keys) -> list[str]:
+    """Return a deduped key list that includes both dotted + bare forms.
+
+    For each input key:
+      - If dotted (`et.art.115`): emit dotted + bare (`115`). MATCH OR-clause
+        finds the node whether or not its norm_id is stamped.
+      - If bare: emit as-is. MATCH falls back to article_number.
+      - SUIN-style article_numbers (no codec prefix) pass through unchanged.
+
+    Order is preserved; first occurrence wins on dedup.
+    """
+    out: list[str] = []
+    seen: set[str] = set()
+    for k in keys or ():
+        s = str(k or "").strip()
+        if not s or s in seen:
+            continue
+        seen.add(s)
+        out.append(s)
+        if "." in s and any(s.startswith(p) for p in _DOTTED_NORM_ID_PREFIXES):
+            bare = s.rsplit(".", 1)[-1]
+            if bare and bare not in seen:
+                seen.add(bare)
+                out.append(bare)
+    return out
+
+
 from .contracts import (
     GraphEvidenceBundle,
     GraphEvidenceItem,
@@ -407,24 +441,58 @@ def _retrieve_primary_articles(
     limit = plan.evidence_bundle_shape.primary_article_limit
     if not article_keys or limit <= 0:
         return ()
-    statement = GraphWriteStatement(
-        description=f"primary_articles limit={limit}",
-        query=(
-            "UNWIND $keys AS key\n"
-            # Canonical node property is `article_number` (see graph/schema.py).
-            # Historical code wrote `article_key` but no live graph carries that
-            # property — querying it was a silent no-op across the whole corpus.
-            "MATCH (node:ArticleNode {article_number: key})\n"
-            "RETURN key AS article_key, node.heading AS heading, node.text_current AS text_current,"
-            " node.source_path AS source_path, node.status AS status,"
-            # v5 §1.A — multi-topic metadata. Falkor returns NULL when the
-            # property hasn't been written (pre-§1.A nodes); the parser
-            # below normalises that to ().
-            " node.secondary_topics AS secondary_topics\n"
-        ),
-        parameters={"keys": list(article_keys[:limit])},
+    # v20 P4 — split into property-buckets so each MATCH hits its index.
+    # WHERE-with-OR triggers a label scan, which times out under load.
+    norm_id_keys, article_number_keys = _split_lookup_keys_by_property(article_keys[:limit])
+    common_return = (
+        # v20 P4 — return the node's bare article_number (when present) as
+        # article_key for back-compat with downstream consumers
+        # (allowlist filters, citation extractors, GraphEvidenceItem.node_key
+        # contract). Fall back to the input key for SUIN-style nodes that
+        # have only norm_id-like identifiers.
+        "RETURN coalesce(node.article_number, key) AS article_key, node.heading AS heading, node.text_current AS text_current,"
+        " node.source_path AS source_path, node.status AS status,"
+        # v5 §1.A — multi-topic metadata. Falkor returns NULL when the
+        # property hasn't been written (pre-§1.A nodes); the parser
+        # below normalises that to ().
+        " node.secondary_topics AS secondary_topics\n"
     )
-    rows = _execute(client, statement)
+    rows: list[dict[str, Any]] = []
+    if norm_id_keys:
+        statement = GraphWriteStatement(
+            description=f"primary_articles limit={limit} via norm_id",
+            query=(
+                "UNWIND $keys AS key\n"
+                "MATCH (node:ArticleNode {norm_id: key})\n"
+                + common_return
+            ),
+            parameters={"keys": norm_id_keys},
+        )
+        rows.extend(list(_execute(client, statement)))
+    if article_number_keys:
+        statement = GraphWriteStatement(
+            description=f"primary_articles limit={limit} via article_number",
+            query=(
+                "UNWIND $keys AS key\n"
+                "MATCH (node:ArticleNode {article_number: key})\n"
+                + common_return
+            ),
+            parameters={"keys": article_number_keys},
+        )
+        rows.extend(list(_execute(client, statement)))
+    # Dedup by returned article_key, preferring earlier (norm_id pass) rows.
+    if len(rows) > limit:
+        seen_keys: set[str] = set()
+        deduped: list[dict[str, Any]] = []
+        for row in rows:
+            ak = str(row.get("article_key") or "")
+            if not ak or ak in seen_keys:
+                continue
+            seen_keys.add(ak)
+            deduped.append(row)
+            if len(deduped) >= limit:
+                break
+        rows = deduped
     items: list[GraphEvidenceItem] = []
     for index, row in enumerate(rows):
         article_key = str(row.get("article_key") or "")
@@ -471,6 +539,41 @@ def _retrieve_primary_articles(
     return tuple(items)
 
 
+def _split_lookup_keys_by_property(article_keys) -> tuple[list[str], list[str]]:
+    """v20 P4 — split a key list into (norm_id_form, article_number_form).
+
+    Routing rule:
+      - Dotted input (`et.art.115`) → goes to norm_id_form only. NEVER
+        also expanded to a bare article_number, because bare-MATCH would
+        collide with siblings under the same number (e.g. cst.art.115 +
+        et.art.115 both have article_number='115'). The whole point of
+        v20 is to fix that collision.
+      - Bare input (`115`, SUIN `1003086`) → goes to article_number_form
+        only. Pre-v20 callers + SUIN catalog rely on this path.
+
+    Two-pass MATCH (one per property) lets Falkor use its single-property
+    indexes — `WHERE norm_id = key OR article_number = key` triggers a
+    full label scan and times out at multi-hop traversal depth.
+    """
+    norm_id_keys: list[str] = []
+    article_number_keys: list[str] = []
+    seen_n: set[str] = set()
+    seen_a: set[str] = set()
+    for raw in article_keys or ():
+        s = str(raw or "").strip()
+        if not s:
+            continue
+        if "." in s and any(s.startswith(p) for p in _DOTTED_NORM_ID_PREFIXES):
+            if s not in seen_n:
+                seen_n.add(s)
+                norm_id_keys.append(s)
+        else:
+            if s not in seen_a:
+                seen_a.add(s)
+                article_number_keys.append(s)
+    return norm_id_keys, article_number_keys
+
+
 def _retrieve_connected_articles(
     *,
     client: GraphClient,
@@ -482,35 +585,92 @@ def _retrieve_connected_articles(
         return ()
     max_hops = max(1, int(plan.traversal_budget.max_hops))
     edge_preference = list(_mode_edge_preference(plan))
-    statement = GraphWriteStatement(
-        description=f"connected_articles hops<={max_hops}",
-        query=(
-            "UNWIND $keys AS seed_key\n"
-            "MATCH (seed:ArticleNode {article_number: seed_key})\n"
-            f"MATCH path = (seed)-[rel*1..{max_hops}]-(other:ArticleNode)\n"
-            "WHERE other.article_number <> seed_key AND NOT other.article_number IN $keys\n"
-            "WITH other, relationships(path) AS rels, length(path) AS hop\n"
-            "WITH other, hop, [r IN rels | type(r)] AS edge_kinds\n"
-            "WITH other.article_number AS article_key,"
-            " other.heading AS heading,"
-            " other.text_current AS text_current,"
-            " other.source_path AS source_path,"
-            " min(hop) AS hop_distance,"
-            " head(edge_kinds) AS first_edge_kind\n"
-            "WITH article_key, heading, text_current, source_path, hop_distance, first_edge_kind,\n"
-            " CASE\n"
-            + "\n".join(
-                f"  WHEN first_edge_kind = '{edge}' THEN {index}"
-                for index, edge in enumerate(edge_preference)
-            )
-            + f"\n  ELSE {len(edge_preference) + 1}\n END AS edge_rank\n"
-            "ORDER BY hop_distance ASC, edge_rank ASC, article_key ASC\n"
-            "LIMIT $limit\n"
-            "RETURN article_key, heading, text_current, source_path, hop_distance, first_edge_kind\n"
-        ),
-        parameters={"keys": list(article_keys), "limit": int(limit)},
+    # v20 P4 — split into property-buckets so each MATCH hits its index.
+    # Without this, an OR-disjunction in WHERE prevents Falkor from
+    # using either index → label scan → query timeout on the multi-hop
+    # traversal. The two passes' results are merged + deduped in Python.
+    norm_id_keys, article_number_keys = _split_lookup_keys_by_property(article_keys)
+    # The exclusion list covers the bare article_numbers of every seed
+    # (norm_id form is not used in the filter — see common_traversal_body
+    # comment). `article_number_keys` already contains the bare form for
+    # both dotted-input and bare-input keys (per _split_lookup_keys_by_property).
+    all_seed_forms = list(article_number_keys)
+    case_lines = "\n".join(
+        f"  WHEN first_edge_kind = '{edge}' THEN {index}"
+        for index, edge in enumerate(edge_preference)
     )
-    rows = _execute(client, statement)
+    end_clause = f"\n  ELSE {len(edge_preference) + 1}\n END AS edge_rank\n"
+    # v20 P4 — exact-shape match of the pre-v20 WHERE filter (which Falkor
+    # could plan under its 30s timeout). `other.article_number <> seed_key`
+    # works because the article_number pass receives bare seed_keys, and
+    # the norm_id pass's seed_key never equals any other.article_number
+    # anyway (different shapes) — the exclusion list still catches seed forms.
+    common_traversal_body = (
+        f"MATCH path = (seed)-[rel*1..{max_hops}]-(other:ArticleNode)\n"
+        "WHERE other.article_number <> seed_key AND NOT other.article_number IN $exclude_keys\n"
+        "WITH other, relationships(path) AS rels, length(path) AS hop\n"
+        "WITH other, hop, [r IN rels | type(r)] AS edge_kinds\n"
+        # v20 P4 — emit bare article_number (back-compat). Pre-v20 used
+        # `other.article_number AS article_key` directly; keep that shape
+        # to avoid coalesce in the projection.
+        "WITH other.article_number AS article_key,"
+        " other.heading AS heading,"
+        " other.text_current AS text_current,"
+        " other.source_path AS source_path,"
+        " min(hop) AS hop_distance,"
+        " head(edge_kinds) AS first_edge_kind\n"
+        "WITH article_key, heading, text_current, source_path, hop_distance, first_edge_kind,\n"
+        " CASE\n"
+        + case_lines
+        + end_clause
+        + "ORDER BY hop_distance ASC, edge_rank ASC, article_key ASC\n"
+        "LIMIT $limit\n"
+        "RETURN article_key, heading, text_current, source_path, hop_distance, first_edge_kind\n"
+    )
+    rows: list[dict[str, Any]] = []
+    if norm_id_keys:
+        statement = GraphWriteStatement(
+            description=f"connected_articles hops<={max_hops} via norm_id",
+            query=(
+                "UNWIND $keys AS seed_key\n"
+                "MATCH (seed:ArticleNode {norm_id: seed_key})\n"
+                + common_traversal_body
+            ),
+            parameters={
+                "keys": norm_id_keys,
+                "exclude_keys": all_seed_forms,
+                "limit": int(limit),
+            },
+        )
+        rows.extend(list(_execute(client, statement)))
+    if article_number_keys:
+        statement = GraphWriteStatement(
+            description=f"connected_articles hops<={max_hops} via article_number",
+            query=(
+                "UNWIND $keys AS seed_key\n"
+                "MATCH (seed:ArticleNode {article_number: seed_key})\n"
+                + common_traversal_body
+            ),
+            parameters={
+                "keys": article_number_keys,
+                "exclude_keys": all_seed_forms,
+                "limit": int(limit),
+            },
+        )
+        rows.extend(list(_execute(client, statement)))
+    # Dedup by article_key, preferring earlier (norm_id pass) rows.
+    if len(rows) > limit:
+        seen_keys: set[str] = set()
+        deduped: list[dict[str, Any]] = []
+        for row in rows:
+            ak = str(row.get("article_key") or "")
+            if not ak or ak in seen_keys:
+                continue
+            seen_keys.add(ak)
+            deduped.append(row)
+            if len(deduped) >= limit:
+                break
+        rows = deduped
     items: list[GraphEvidenceItem] = []
     for row in rows:
         article_key = str(row.get("article_key") or "")
@@ -592,24 +752,48 @@ def _retrieve_reforms(
 
     remaining = limit - len(items)
     if remaining > 0 and article_keys:
-        statement = GraphWriteStatement(
-            description="related_reforms via article neighborhood",
-            query=(
-                "UNWIND $keys AS seed_key\n"
-                "MATCH (:ArticleNode {article_number: seed_key})-[rel]-(reform:ReformNode)\n"
-                "WHERE NOT reform.reform_key IN $seen_keys\n"
-                "RETURN reform.reform_key AS reform_key, reform.citation AS citation,"
-                " count(rel) AS hits\n"
-                "ORDER BY hits DESC, reform.reform_key ASC\n"
-                "LIMIT $limit\n"
-            ),
-            parameters={
-                "keys": list(article_keys),
-                "seen_keys": sorted(seen),
-                "limit": int(remaining),
-            },
-        )
-        for row in _execute(client, statement):
+        # v20 P4 — split keys so each MATCH uses its single-property index.
+        ref_norm_id_keys, ref_article_number_keys = _split_lookup_keys_by_property(article_keys)
+        reform_rows: list[dict[str, Any]] = []
+        if ref_norm_id_keys:
+            stmt = GraphWriteStatement(
+                description="related_reforms via norm_id",
+                query=(
+                    "UNWIND $keys AS seed_key\n"
+                    "MATCH (a:ArticleNode {norm_id: seed_key})-[rel]-(reform:ReformNode)\n"
+                    "WHERE NOT reform.reform_key IN $seen_keys\n"
+                    "RETURN reform.reform_key AS reform_key, reform.citation AS citation,"
+                    " count(rel) AS hits\n"
+                    "ORDER BY hits DESC, reform.reform_key ASC\n"
+                    "LIMIT $limit\n"
+                ),
+                parameters={
+                    "keys": ref_norm_id_keys,
+                    "seen_keys": sorted(seen),
+                    "limit": int(remaining),
+                },
+            )
+            reform_rows.extend(list(_execute(client, stmt)))
+        if ref_article_number_keys:
+            stmt = GraphWriteStatement(
+                description="related_reforms via article_number",
+                query=(
+                    "UNWIND $keys AS seed_key\n"
+                    "MATCH (a:ArticleNode {article_number: seed_key})-[rel]-(reform:ReformNode)\n"
+                    "WHERE NOT reform.reform_key IN $seen_keys\n"
+                    "RETURN reform.reform_key AS reform_key, reform.citation AS citation,"
+                    " count(rel) AS hits\n"
+                    "ORDER BY hits DESC, reform.reform_key ASC\n"
+                    "LIMIT $limit\n"
+                ),
+                parameters={
+                    "keys": ref_article_number_keys,
+                    "seen_keys": sorted(seen),
+                    "limit": int(remaining),
+                },
+            )
+            reform_rows.extend(list(_execute(client, stmt)))
+        for row in reform_rows:
             key = str(row.get("reform_key") or "")
             if not key or key in seen:
                 continue
@@ -635,10 +819,21 @@ def _hydrated_entries(
     plan: GraphRetrievalPlan,
     resolved_article_keys: set[str],
 ) -> tuple[PlannerEntryPoint, ...]:
+    # v20 P4 — resolved_article_keys are bare (item.node_key uses bare
+    # article_number per the back-compat contract). Entry lookup_values
+    # may be dotted norm_ids. Compare both forms so a dotted lookup
+    # resolves when its bare-form lands in the result.
     hydrated: list[PlannerEntryPoint] = []
     for entry in plan.entry_points:
         if entry.kind == "article" and entry.lookup_value:
-            resolved_key = entry.lookup_value if entry.lookup_value in resolved_article_keys else None
+            bare_form = entry.lookup_value
+            if "." in bare_form and any(bare_form.startswith(p) for p in _DOTTED_NORM_ID_PREFIXES):
+                bare_form = bare_form.rsplit(".", 1)[-1]
+            matched = (
+                entry.lookup_value in resolved_article_keys
+                or bare_form in resolved_article_keys
+            )
+            resolved_key = entry.lookup_value if matched else None
             hydrated.append(
                 PlannerEntryPoint(
                     kind=entry.kind,

@@ -232,19 +232,33 @@ def _resolve_entry_points(
     article_search_count = sum(1 for entry in plan.entry_points if entry.kind == "article_search")
 
     for entry in plan.entry_points:
-        if entry.kind == "article" and entry.lookup_value in snapshot.articles:
-            resolved_entry = _ResolvedEntry(
-                kind="ArticleNode",
-                key=entry.lookup_value,
-                label=entry.label or f"Art. {entry.lookup_value}",
-                source=entry.source,
-                confidence=entry.confidence,
-            )
-            if (resolved_entry.kind, resolved_entry.key) not in seen:
-                seen.add((resolved_entry.kind, resolved_entry.key))
-                resolved.append(resolved_entry)
-            hydrated.append(entry)
-            continue
+        if entry.kind == "article":
+            # v20 P4 — accept either dotted norm_id (`et.art.115`) OR bare
+            # article_key (`115`). The artifact snapshot keys articles by
+            # the bare form (graph_article_key). The planner emits dotted
+            # post-v20 P4-T1 — resolve by stripping the codec prefix when
+            # the dotted form misses.
+            lookup_value = entry.lookup_value
+            article_match_key: str | None = None
+            if lookup_value in snapshot.articles:
+                article_match_key = lookup_value
+            elif "." in lookup_value:
+                bare_candidate = lookup_value.rsplit(".", 1)[-1]
+                if bare_candidate in snapshot.articles:
+                    article_match_key = bare_candidate
+            if article_match_key:
+                resolved_entry = _ResolvedEntry(
+                    kind="ArticleNode",
+                    key=article_match_key,
+                    label=entry.label or f"Art. {article_match_key}",
+                    source=entry.source,
+                    confidence=entry.confidence,
+                )
+                if (resolved_entry.kind, resolved_entry.key) not in seen:
+                    seen.add((resolved_entry.kind, resolved_entry.key))
+                    resolved.append(resolved_entry)
+                hydrated.append(entry)
+                continue
         if entry.kind == "reform" and entry.lookup_value in snapshot.reforms:
             reform_label = str(snapshot.reforms[entry.lookup_value].get("citation") or entry.lookup_value)
             resolved_entry = _ResolvedEntry(

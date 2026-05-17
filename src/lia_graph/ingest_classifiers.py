@@ -268,7 +268,12 @@ def _classify_ingestion_decision(
             None,
             "gap_analysis",
         )
-    if _contains_any(content_norm, ("gap", "audit gap", "gap analysis", "analisis gap")):
+    # Multi-word gap-analysis signals only. The bare token "gap" was too
+    # broad — false-positive on canonical statutory texts whose coverage
+    # reports contain "Sin gaps." (e.g. CST consolidado per v19 Fase 3-2,
+    # 2026-05-15). Filename-stem check above at line 264 already catches
+    # files named `*analisis_gap*` / `*gap_analysis*`.
+    if _contains_any(content_norm, ("audit gap", "gap analysis", "analisis gap")):
         return (
             INGESTION_DECISION_EXCLUDE,
             "Excluded gap-analysis or audit-analysis working material.",

@@ -417,7 +417,7 @@ def materialize_graph_artifacts(
     # v4: key by the graph-layer article key (unique-per-doc for prose-only
     # articles) so TEMA edges land on the right ArticleNode. See
     # docs/next/ingestionfix_v4.md §5 Phase 1.
-    from .ingestion.loader import _graph_article_key
+    from .ingestion.loader import _graph_article_key, _is_article_node_eligible
     article_topics = {
         _graph_article_key(article): _topic_by_source_path[
             str(article.source_path or "")
@@ -425,6 +425,31 @@ def materialize_graph_artifacts(
         for article in articles
         if str(article.source_path or "") in _topic_by_source_path
     }
+    # v19 Fase 5 Path B diagnostic — surface the inputs that gate
+    # `_build_article_tema_edges`. If `populated_count` is small or
+    # `intersection_with_merged` is 0, no TEMA edges will land regardless of
+    # the loader being intact. Read this event in cloud run logs to root-cause
+    # the 0-TEMA-edge state documented in fix_v19_may.md §2.0.2.
+    from .instrumentation import emit_event as _emit_event
+    _eligible_keys = {
+        _graph_article_key(a) for a in articles if _is_article_node_eligible(a)
+    }
+    _populated = [
+        k for k, v in article_topics.items() if v and str(v).strip()
+    ]
+    _emit_event(
+        "ingest.tema.binding_summary",
+        {
+            "phase": "full_rebuild",
+            "article_topics_len": len(article_topics),
+            "populated_count": len(_populated),
+            "intersection_with_merged": len(
+                set(article_topics.keys()) & _eligible_keys
+            ),
+            "eligible_article_count": len(_eligible_keys),
+            "topic_by_source_path_len": len(_topic_by_source_path),
+        },
+    )
     load_plan = build_graph_load_plan(
         articles,
         classified_edges,

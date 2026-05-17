@@ -127,7 +127,8 @@ def test_falkor_retriever_returns_primary_and_connected_articles() -> None:
         for entry in hydrated_plan.entry_points
         if entry.kind == "article" and entry.resolved_key
     }
-    assert "771-2" in resolved_explicit_keys
+    # v20 P4 — planner emits dotted norm_id (et.art.771-2) as resolved_key.
+    assert "et.art.771-2" in resolved_explicit_keys
 
 
 def test_falkor_retriever_surfaces_planner_reforms() -> None:

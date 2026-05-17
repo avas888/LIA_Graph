@@ -67,7 +67,7 @@ def test_gmf_case_anchors_art_115() -> None:
     keys = _planner_anchor_keys(
         "¿qué porcentaje del gmf 4x1000 es deducible en renta?"
     )
-    assert "115" in keys
+    assert "et.art.115" in keys
     sources = _planner_anchor_sources(
         "¿qué porcentaje del gmf 4x1000 es deducible en renta?"
     )
@@ -80,8 +80,8 @@ def test_ica_case_anchors_art_115_and_115_1() -> None:
     )
     # Both the deducción rule (115) and the descuento-tributario
     # alternative (115-1) are anchored — the answer needs both.
-    assert "115" in keys
-    assert "115-1" in keys
+    assert "et.art.115" in keys
+    assert "et.art.115-1" in keys
 
 
 def test_predial_case_anchors_art_115() -> None:
@@ -91,7 +91,7 @@ def test_predial_case_anchors_art_115() -> None:
     keys = _planner_anchor_keys(
         "¿el predial pagado por la bodega es deducible en renta?"
     )
-    assert "115" in keys
+    assert "et.art.115" in keys
     sources = _planner_anchor_sources(
         "¿el predial pagado por la bodega es deducible en renta?"
     )
@@ -102,29 +102,29 @@ def test_intereses_case_anchors_art_117_and_118_1() -> None:
     keys = _planner_anchor_keys(
         "¿son deducibles los intereses del préstamo bancario?"
     )
-    assert "117" in keys
-    assert "118-1" in keys
+    assert "et.art.117" in keys
+    assert "et.art.118-1" in keys
 
 
 def test_leasing_case_anchors_art_127_1() -> None:
     keys = _planner_anchor_keys(
         "¿cómo se deduce el leasing financiero del vehículo?"
     )
-    assert "127-1" in keys
+    assert "et.art.127-1" in keys
 
 
 def test_primer_empleo_case_anchors_art_108_5() -> None:
     keys = _planner_anchor_keys(
         "¿procede la deducción del 120% por primer empleo?"
     )
-    assert "108-5" in keys
+    assert "et.art.108-5" in keys
 
 
 def test_depreciacion_case_anchors_art_137() -> None:
     keys = _planner_anchor_keys(
         "¿cuál es la vida útil fiscal de una camioneta?"
     )
-    assert "137" in keys
+    assert "et.art.137" in keys
     sources = _planner_anchor_sources(
         "¿cuál es la vida útil fiscal de una camioneta?"
     )
@@ -135,7 +135,7 @@ def test_atenciones_case_anchors_art_107_1() -> None:
     keys = _planner_anchor_keys(
         "¿cuánto puedo deducir en regalos a clientes en renta?"
     )
-    assert "107-1" in keys
+    assert "et.art.107-1" in keys
     sources = _planner_anchor_sources(
         "¿cuánto puedo deducir en regalos a clientes en renta?"
     )
@@ -146,16 +146,16 @@ def test_cartera_dificil_recaudo_case_anchors_arts_145_and_146() -> None:
     keys = _planner_anchor_keys(
         "¿qué porcentaje puedo provisionar de la cartera vencida?"
     )
-    assert "145" in keys
-    assert "146" in keys
+    assert "et.art.145" in keys
+    assert "et.art.146" in keys
 
 
 def test_donaciones_case_anchors_arts_257_and_125() -> None:
     keys = _planner_anchor_keys(
         "¿la donación a una fundación calificada en RTE da descuento?"
     )
-    assert "257" in keys
-    assert "125" in keys
+    assert "et.art.257" in keys
+    assert "et.art.125" in keys
 
 
 def test_donaciones_does_not_fire_on_desalarizacion_ugpp() -> None:
@@ -190,7 +190,7 @@ def test_exoneracion_parafiscales_case_anchors_art_114_1() -> None:
     keys = _planner_anchor_keys(
         "¿mi empresa califica para la exoneración de parafiscales del 13,5%?"
     )
-    assert "114-1" in keys
+    assert "et.art.114-1" in keys
     sources = _planner_anchor_sources(
         "¿mi empresa califica para la exoneración de parafiscales del 13,5%?"
     )
@@ -201,133 +201,133 @@ def test_iva_activos_fijos_case_anchors_art_258_1() -> None:
     keys = _planner_anchor_keys(
         "¿cómo recupero el iva de la maquinaria como descuento de renta?"
     )
-    assert "258-1" in keys
+    assert "et.art.258-1" in keys
 
 
 def test_ctei_descuento_case_anchors_art_256() -> None:
     keys = _planner_anchor_keys(
         "¿qué porcentaje de la inversion en ctei puedo descontar en renta?"
     )
-    assert "256" in keys
+    assert "et.art.256" in keys
 
 
 def test_tarifa_general_pj_case_anchors_art_240() -> None:
     keys = _planner_anchor_keys(
         "¿cual es la tarifa general de renta para una sas ag 2025?"
     )
-    assert "240" in keys
+    assert "et.art.240" in keys
 
 
 def test_dividendos_pn_case_anchors_art_242() -> None:
     keys = _planner_anchor_keys(
         "¿como se gravan los dividendos a una pn residente con la reforma 2022?"
     )
-    assert "242" in keys
+    assert "et.art.242" in keys
 
 
 def test_rst_tarifas_case_anchors_art_908() -> None:
     keys = _planner_anchor_keys(
         "¿que tarifas tiene el regimen simple para ag 2025?"
     )
-    assert "908" in keys
+    assert "et.art.908" in keys
 
 
 def test_zona_franca_case_anchors_art_240_1() -> None:
     keys = _planner_anchor_keys(
         "¿cual es la tarifa de renta de un usuario industrial de zona franca?"
     )
-    assert "240-1" in keys
+    assert "et.art.240-1" in keys
 
 
 def test_beneficio_auditoria_case_anchors_art_689_3() -> None:
     keys = _planner_anchor_keys(
         "¿cuando aplica el beneficio de auditoria en renta?"
     )
-    assert "689-3" in keys
+    assert "et.art.689-3" in keys
 
 
 def test_firmeza_declaraciones_case_anchors_art_714() -> None:
     keys = _planner_anchor_keys(
         "¿en cuantos anos queda en firme la declaracion de renta?"
     )
-    assert "714" in keys
+    assert "et.art.714" in keys
 
 
 def test_devolucion_saldos_favor_case_anchors_art_850() -> None:
     keys = _planner_anchor_keys(
         "¿como solicito la devolucion del saldo a favor en renta?"
     )
-    assert "850" in keys
+    assert "et.art.850" in keys
 
 
 def test_sancion_extemporaneidad_case_anchors_art_641() -> None:
     keys = _planner_anchor_keys(
         "¿cuánto cuesta presentar tarde la declaración de renta?"
     )
-    assert "641" in keys
+    assert "et.art.641" in keys
 
 
 def test_sancion_correccion_case_anchors_art_644() -> None:
     keys = _planner_anchor_keys(
         "¿cuánto cuesta corregir la declaración de renta voluntariamente?"
     )
-    assert "644" in keys
+    assert "et.art.644" in keys
 
 
 def test_sancion_inexactitud_case_anchors_art_647() -> None:
     keys = _planner_anchor_keys(
         "¿qué porcentaje es la sanción por inexactitud en renta?"
     )
-    assert "647" in keys
+    assert "et.art.647" in keys
 
 
 def test_notificaciones_electronicas_case_anchors_art_566_1() -> None:
     keys = _planner_anchor_keys(
         "¿cómo me notifica la DIAN por buzón electrónico hoy?"
     )
-    assert "566-1" in keys
+    assert "et.art.566-1" in keys
 
 
 def test_iva_hecho_generador_case_anchors_art_420() -> None:
     keys = _planner_anchor_keys(
         "¿cuáles son los hechos generadores del IVA en colombia?"
     )
-    assert "420" in keys
+    assert "et.art.420" in keys
 
 
 def test_iva_responsables_case_anchors_art_437() -> None:
     keys = _planner_anchor_keys(
         "¿cuándo se es responsable de IVA y cuál es el tope de no responsable?"
     )
-    assert "437" in keys
+    assert "et.art.437" in keys
 
 
 def test_iva_descontable_case_anchors_art_488() -> None:
     keys = _planner_anchor_keys(
         "¿cómo se calcula la proporcionalidad del IVA descontable?"
     )
-    assert "488" in keys
+    assert "et.art.488" in keys
 
 
 def test_iva_devolucion_case_anchors_art_481() -> None:
     keys = _planner_anchor_keys(
         "¿cómo solicito la devolución del IVA para un exportador?"
     )
-    assert "481" in keys
+    assert "et.art.481" in keys
 
 
 def test_iva_excluidos_exentos_case_anchors_art_424() -> None:
     keys = _planner_anchor_keys(
         "¿cuál es la diferencia entre bienes excluidos y exentos del IVA?"
     )
-    assert "424" in keys
+    assert "et.art.424" in keys
 
 
 def test_retencion_salarios_case_anchors_art_383() -> None:
     keys = _planner_anchor_keys(
         "¿procedimiento 1 o 2 para retener al empleado por salarios?"
     )
-    assert "383" in keys
+    assert "et.art.383" in keys
 
 
 # v16 batch 4
@@ -338,63 +338,63 @@ def test_retencion_servicios_case_anchors_art_392() -> None:
     keys = _planner_anchor_keys(
         "¿retención por honorarios a un consultor declarante?"
     )
-    assert "392" in keys
+    assert "et.art.392" in keys
 
 
 def test_anticipo_renta_case_anchors_art_807() -> None:
     keys = _planner_anchor_keys(
         "¿cómo se calcula el anticipo del impuesto de renta?"
     )
-    assert "807" in keys
+    assert "et.art.807" in keys
 
 
 def test_soporte_factura_case_anchors_art_771_2() -> None:
     keys = _planner_anchor_keys(
         "¿qué soporte necesito para deducir un gasto con factura electrónica?"
     )
-    assert "771-2" in keys
+    assert "et.art.771-2" in keys
 
 
 def test_compensacion_perdidas_case_anchors_art_147() -> None:
     keys = _planner_anchor_keys(
         "¿cuántos años tengo para compensar pérdidas fiscales?"
     )
-    assert "147" in keys
+    assert "et.art.147" in keys
 
 
 def test_exogena_1001_case_anchors_art_631() -> None:
     keys = _planner_anchor_keys(
         "¿qué reporto en el formato 1001 de pagos a terceros?"
     )
-    assert "631" in keys
+    assert "et.art.631" in keys
 
 
 def test_exogena_1003_case_anchors_art_365() -> None:
     keys = _planner_anchor_keys(
         "¿qué reporto en el formato 1003 de retenciones?"
     )
-    assert "365" in keys
+    assert "et.art.365" in keys
 
 
 def test_exogena_1005_case_anchors_art_488() -> None:
     keys = _planner_anchor_keys(
         "¿cómo cruza el formato 1005 con la declaración 300 de IVA?"
     )
-    assert "488" in keys
+    assert "et.art.488" in keys
 
 
 def test_exogena_1007_case_anchors_art_631() -> None:
     keys = _planner_anchor_keys(
         "¿cómo cruza el formato 1007 con la declaración de renta?"
     )
-    assert "631" in keys
+    assert "et.art.631" in keys
 
 
 def test_niif_conciliacion_fiscal_case_anchors_art_772_1() -> None:
     keys = _planner_anchor_keys(
         "¿quién presenta F2516 y quién F2517 de conciliación fiscal?"
     )
-    assert "772-1" in keys
+    assert "et.art.772-1" in keys
 
 
 # v16 batch 5
@@ -403,56 +403,56 @@ def test_inc_consumo_case_anchors_art_512_1() -> None:
     keys = _planner_anchor_keys(
         "¿el INC se descuenta como IVA o es mayor valor del costo?"
     )
-    assert "512-1" in keys
+    assert "et.art.512-1" in keys
 
 
 def test_precios_transferencia_case_anchors_art_260_1() -> None:
     keys = _planner_anchor_keys(
         "¿qué umbral activa la declaración informativa F120 de precios de transferencia?"
     )
-    assert "260-1" in keys
+    assert "et.art.260-1" in keys
 
 
 def test_dividendos_no_gravados_case_anchors_art_49() -> None:
     keys = _planner_anchor_keys(
         "¿cómo calculo el dividendo no gravado del art. 49 ET?"
     )
-    assert "49" in keys
+    assert "et.art.49" in keys
 
 
 def test_capitalizacion_utilidades_case_anchors_art_36_3() -> None:
     keys = _planner_anchor_keys(
         "¿la capitalización de utilidades genera renta para el socio?"
     )
-    assert "36-3" in keys
+    assert "et.art.36-3" in keys
 
 
 def test_aportes_voluntarios_pension_case_anchors_art_126_1() -> None:
     keys = _planner_anchor_keys(
         "¿qué tope conjunto aplica a aportes voluntarios de pensión y AFC?"
     )
-    assert "126-1" in keys
+    assert "et.art.126-1" in keys
 
 
 def test_renta_cedular_pn_case_anchors_art_336() -> None:
     keys = _planner_anchor_keys(
         "¿cómo se arma la cédula general de una persona natural?"
     )
-    assert "336" in keys
+    assert "et.art.336" in keys
 
 
 def test_rte_esal_case_anchors_art_19() -> None:
     keys = _planner_anchor_keys(
         "¿cómo califico una fundación al Régimen Tributario Especial?"
     )
-    assert "19" in keys
+    assert "et.art.19" in keys
 
 
 def test_clausula_antiabuso_case_anchors_art_869() -> None:
     keys = _planner_anchor_keys(
         "¿cuándo la DIAN puede recaracterizar una operación por abuso tributario?"
     )
-    assert "869" in keys
+    assert "et.art.869" in keys
 
 
 def test_impuesto_diferido_case_anchors_via_240() -> None:
@@ -460,14 +460,14 @@ def test_impuesto_diferido_case_anchors_via_240() -> None:
         "¿cómo calculo el impuesto diferido bajo NIC 12?"
     )
     # Anchor for impuesto_diferido = art. 240 (tarifa).
-    assert "240" in keys
+    assert "et.art.240" in keys
 
 
 def test_niif_ingresos_case_anchors_art_28() -> None:
     keys = _planner_anchor_keys(
         "¿cuándo NIIF 15 reconoce ingreso pero el ET no lo grava?"
     )
-    assert "28" in keys
+    assert "et.art.28" in keys
 
 
 def test_pagos_efectivo_case_anchors_art_771_5() -> None:
@@ -477,7 +477,7 @@ def test_pagos_efectivo_case_anchors_art_771_5() -> None:
     keys = _planner_anchor_keys(
         "¿cuánto puedo pagar en efectivo y deducir en renta — tope bancarización?"
     )
-    assert "771-5" in keys
+    assert "et.art.771-5" in keys
     sources = _planner_anchor_sources(
         "¿cuánto puedo pagar en efectivo y deducir en renta — tope bancarización?"
     )
@@ -544,7 +544,7 @@ def test_multi_keyword_query_picks_first_matching_case() -> None:
     keys = _planner_anchor_keys(
         "tratamiento del gmf y del ica en renta para una pyme"
     )
-    assert "115" in keys
+    assert "et.art.115" in keys
     # 115-1 (ICA-specific descuento) should NOT appear because ICA
     # row was skipped in favor of GMF row.
     assert "115-1" not in keys
@@ -579,8 +579,8 @@ def test_liquidacion_mensual_nomina_case_anchors_art_108_and_387() -> None:
     keys = _planner_anchor_keys(
         "¿cómo liquido la nómina del mes con horas extras y dominicales?"
     )
-    assert "108" in keys
-    assert "387" in keys
+    assert "et.art.108" in keys
+    assert "et.art.387" in keys
     sources = _planner_anchor_sources(
         "¿cómo liquido la nómina del mes con horas extras y dominicales?"
     )
@@ -600,8 +600,8 @@ def test_prestaciones_sociales_case_anchors_art_108_and_387() -> None:
     keys = _planner_anchor_keys(
         "¿cuándo debo consignar las cesantías al fondo y cómo calculo la prima?"
     )
-    assert "108" in keys
-    assert "387" in keys
+    assert "et.art.108" in keys
+    assert "et.art.387" in keys
     sources = _planner_anchor_sources(
         "¿cuándo debo consignar las cesantías al fondo y cómo calculo la prima?"
     )
@@ -621,8 +621,8 @@ def test_liquidacion_terminacion_case_anchors_art_108_and_387() -> None:
     keys = _planner_anchor_keys(
         "¿cómo liquido al empleado que despedí sin justa causa?"
     )
-    assert "108" in keys
-    assert "387" in keys
+    assert "et.art.108" in keys
+    assert "et.art.387" in keys
     sources = _planner_anchor_sources(
         "¿cómo liquido al empleado que despedí sin justa causa?"
     )
@@ -641,8 +641,8 @@ def test_pila_aportes_case_anchors_art_108_and_114_1() -> None:
     keys = _planner_anchor_keys(
         "¿cuándo debo pagar la PILA según el último dígito del NIT?"
     )
-    assert "108" in keys
-    assert "114-1" in keys
+    assert "et.art.108" in keys
+    assert "et.art.114-1" in keys
     sources = _planner_anchor_sources(
         "¿cuándo debo pagar la PILA según el último dígito del NIT?"
     )
@@ -661,8 +661,8 @@ def test_ugpp_fiscalizacion_case_anchors_art_108_and_114_1() -> None:
     keys = _planner_anchor_keys(
         "¿qué revisa la UGPP en una fiscalización y cuáles son las sanciones?"
     )
-    assert "108" in keys
-    assert "114-1" in keys
+    assert "et.art.108" in keys
+    assert "et.art.114-1" in keys
     sources = _planner_anchor_sources(
         "¿qué revisa la UGPP en una fiscalización y cuáles son las sanciones?"
     )
@@ -681,7 +681,7 @@ def test_nomina_electronica_dspne_case_anchors_art_617() -> None:
     keys = _planner_anchor_keys(
         "¿estoy obligado a generar el DSPNE de nómina electrónica?"
     )
-    assert "617" in keys
+    assert "et.art.617" in keys
     sources = _planner_anchor_sources(
         "¿estoy obligado a generar el DSPNE de nómina electrónica?"
     )
@@ -700,7 +700,7 @@ def test_contrato_prestacion_vs_laboral_case_anchors_art_383() -> None:
     keys = _planner_anchor_keys(
         "¿cuándo un contrato de prestación de servicios se convierte en laboral por subordinación?"
     )
-    assert "383" in keys
+    assert "et.art.383" in keys
     sources = _planner_anchor_sources(
         "¿cuándo un contrato de prestación de servicios se convierte en laboral por subordinación?"
     )
@@ -719,7 +719,7 @@ def test_contrato_aprendizaje_sena_case_anchors_art_108() -> None:
     keys = _planner_anchor_keys(
         "¿cuántos aprendices SENA debo tener si tengo 30 empleados y cuánto se paga?"
     )
-    assert "108" in keys
+    assert "et.art.108" in keys
     sources = _planner_anchor_sources(
         "¿cuántos aprendices SENA debo tener si tengo 30 empleados y cuánto se paga?"
     )
@@ -738,8 +738,8 @@ def test_salario_integral_case_anchors_art_108_and_387() -> None:
     keys = _planner_anchor_keys(
         "¿cuánto debe ganar mínimo un trabajador para pactar salario integral?"
     )
-    assert "108" in keys
-    assert "387" in keys
+    assert "et.art.108" in keys
+    assert "et.art.387" in keys
     sources = _planner_anchor_sources(
         "¿cuánto debe ganar mínimo un trabajador para pactar salario integral?"
     )
@@ -768,28 +768,28 @@ def test_liquidacion_mensual_nomina_fires_on_general_recargos_plural() -> None:
     keys = _planner_anchor_keys(
         "¿cuáles son los recargos de horas extras y dominicales según el CST?"
     )
-    assert "108" in keys
-    assert "387" in keys
+    assert "et.art.108" in keys
+    assert "et.art.387" in keys
 
 
 def test_liquidacion_mensual_nomina_fires_on_trabajo_nocturno() -> None:
     keys = _planner_anchor_keys("¿cuánto es el recargo por trabajo nocturno?")
-    assert "108" in keys
+    assert "et.art.108" in keys
 
 
 def test_liquidacion_mensual_nomina_fires_on_aportes_empleador() -> None:
     keys = _planner_anchor_keys("¿qué aportes paga el empleador a la seguridad social?")
-    assert "108" in keys
+    assert "et.art.108" in keys
 
 
 def test_prestaciones_sociales_fires_on_general_phrasing() -> None:
     keys = _planner_anchor_keys("¿cuáles son las prestaciones sociales obligatorias?")
-    assert "108" in keys
+    assert "et.art.108" in keys
 
 
 def test_prestaciones_sociales_fires_on_primas_plural_with_payment_context() -> None:
     keys = _planner_anchor_keys("¿qué pasa si no pago las primas a tiempo?")
-    assert "108" in keys
+    assert "et.art.108" in keys
 
 
 def test_contrato_aprendizaje_sena_fires_on_plural_aprendices() -> None:
@@ -797,27 +797,27 @@ def test_contrato_aprendizaje_sena_fires_on_plural_aprendices() -> None:
     substring of 'aprendices' (-ices). The shared stem 'aprendi' catches
     both under accent-strip."""
     keys = _planner_anchor_keys("¿cuántos aprendices del SENA debo tener?")
-    assert "108" in keys
+    assert "et.art.108" in keys
 
 
 def test_contrato_prestacion_vs_laboral_fires_on_contratista_phrasing() -> None:
     keys = _planner_anchor_keys(
         "¿qué riesgos tengo con contratistas por prestación de servicios?"
     )
-    assert "383" in keys
+    assert "et.art.383" in keys
 
 
 def test_pila_aportes_fires_on_planilla_de_aportes_phrasing() -> None:
     keys = _planner_anchor_keys("¿cómo se hace la planilla de aportes mensuales?")
-    assert "108" in keys
-    assert "114-1" in keys
+    assert "et.art.108" in keys
+    assert "et.art.114-1" in keys
 
 
 def test_liquidacion_terminacion_fires_on_termino_fijo_anticipado() -> None:
     keys = _planner_anchor_keys(
         "¿cómo liquido contratos a término fijo terminados anticipadamente?"
     )
-    assert "108" in keys
+    assert "et.art.108" in keys
 
 
 def test_liquidacion_mensual_nomina_does_not_fire_on_ica_recargo_mora() -> None:
@@ -845,8 +845,8 @@ def test_salario_integral_precedes_liquidacion_mensual_nomina() -> None:
     # not assert exclusivity because both case rows happen to share
     # anchor articles (108 + 387). Source tag is the load-bearing
     # check below.
-    assert "108" in keys
-    assert "387" in keys
+    assert "et.art.108" in keys
+    assert "et.art.387" in keys
     sources = _planner_anchor_sources(
         "¿cómo liquido la nómina mensual de un trabajador con salario integral?"
     )
@@ -868,8 +868,8 @@ def test_aportes_proporcionales_tiempo_parcial_case_fires_on_operator_probe() ->
         "tengo una empleada a tiempo parcial (labora 3 dias con salario mínimo "
         "de por días). Como le debo pagar su EPS? es proporcional?"
     )
-    assert "108" in keys
-    assert "114-1" in keys
+    assert "et.art.108" in keys
+    assert "et.art.114-1" in keys
     sources = _planner_anchor_sources(
         "tengo una empleada a tiempo parcial (labora 3 dias con salario mínimo "
         "de por días). Como le debo pagar su EPS? es proporcional?"
@@ -881,8 +881,8 @@ def test_aportes_proporcionales_tiempo_parcial_case_anchors_art_108_and_114_1() 
     keys = _planner_anchor_keys(
         "¿cuánto le pago a mi empleada doméstica que trabaja 3 días a la semana?"
     )
-    assert "108" in keys
-    assert "114-1" in keys
+    assert "et.art.108" in keys
+    assert "et.art.114-1" in keys
 
 
 def test_aportes_proporcionales_tiempo_parcial_case_adds_search_queries() -> None:

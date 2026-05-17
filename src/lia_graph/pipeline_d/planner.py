@@ -49,8 +49,77 @@ from .case_bullets import CASE_REGISTRY
 # generic detector→articles tuple so the planner emits explicit
 # ``kind="article"`` entry points the retriever's anchor-merge step
 # uses regardless of hybrid_search ranking.
+_DOTTED_NORM_ID_PREFIXES = ("cst.", "et.", "ley.", "decreto.", "res.", "sent.", "cco.")
+
+
+def _is_dotted_norm_id(value: str) -> bool:
+    """v20 P4 — quick predicate: does this look like a canonical dotted norm_id?"""
+    if not value or "." not in value:
+        return False
+    return any(value.startswith(p) for p in _DOTTED_NORM_ID_PREFIXES)
+
+
+def _case_anchor_lookups(spec) -> tuple[str, ...]:
+    """v20 P4: resolve a CaseSpec's anchor lookups to dotted norm_ids.
+
+    Priority: spec.anchor_norm_ids (explicit) wins. Otherwise fall back
+    to `et.art.<N>` derived from spec.anchor_articles — preserves the
+    historical convention that every case_bullet anchors to the ET.
+    Pass-through any anchor_articles entry that is already dotted
+    (e.g. someone gradually migrated a tuple in place).
+    """
+    explicit = getattr(spec, "anchor_norm_ids", ())
+    if explicit:
+        return tuple(explicit)
+    out: list[str] = []
+    for raw in spec.anchor_articles:
+        s = str(raw or "").strip()
+        if not s:
+            continue
+        if _is_dotted_norm_id(s):
+            out.append(s)
+        else:
+            out.append(f"et.art.{s}")
+    return tuple(out)
+
+
+# v20 P4: topic_keys whose user-typed article references default to a
+# labor codec (CST) rather than the Estatuto Tributario. Other topics
+# (declaracion_renta, iva, retencion_fuente_general, ica, etc.) default
+# to ET. This pairs with the dual-mode MATCH in retriever_falkor.
+_LABOR_TOPIC_KEYS_FOR_REF_DISAMBIGUATION = frozenset({"laboral"})
+
+
+def _topic_default_codec(topic_hints: tuple[str | None, ...]) -> str:
+    """v20 P4 — pick the codec prefix for bare article refs in a topic context.
+
+    Returns one of: `cst`, `et`. Default `et`. Labor topic flips to `cst`.
+    `nomina` / `parafiscales_seguridad_social` stay `et` because most of
+    their planner-relevant articles live in the Estatuto Tributario
+    (parafiscales-requisito-deducción etc.).
+    """
+    for hint in topic_hints:
+        if hint and str(hint).strip() in _LABOR_TOPIC_KEYS_FOR_REF_DISAMBIGUATION:
+            return "cst"
+    return "et"
+
+
+def _resolve_article_ref_to_norm_id(bare_ref: str, codec: str) -> str:
+    """v20 P4 — convert a bare user-typed article ref to a dotted norm_id.
+
+    Pass-through if the input already looks dotted (e.g. carried-forward
+    state already migrated). Otherwise format as `<codec>.art.<N>`.
+    """
+    s = str(bare_ref or "").strip()
+    if not s:
+        return ""
+    if _is_dotted_norm_id(s):
+        return s
+    return f"{codec}.art.{s}"
+
+
 _CASE_ANCHOR_REGISTRY: tuple[tuple[object, tuple[str, ...], str], ...] = tuple(
-    (spec.detector, spec.anchor_articles, spec.source_label)
+    (spec.detector, _case_anchor_lookups(spec), spec.source_label)
     for spec in CASE_REGISTRY
 )
 
@@ -359,12 +428,21 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
         )
     traversal_budget, evidence_shape = _BUDGETS[query_mode]
 
+    # v20 P4 — pick the codec for bare article refs based on topic context.
+    # `topic_hints` is built right after topic detection (see ~50 lines above)
+    # and carries the requested/detected/supplemental topic keys.
+    _article_ref_codec = _topic_default_codec(topic_hints)
+
     entry_points: list[PlannerEntryPoint] = []
     for article_ref in article_refs:
+        # v20 P4 — emit dotted norm_id for retriever_falkor lookup.
+        # `article_ref` itself stays bare downstream (carried_article_refs,
+        # query_mode classification, etc.) so backwards-compat is preserved.
+        dotted_ref = _resolve_article_ref_to_norm_id(article_ref, _article_ref_codec)
         entry_points.append(
             PlannerEntryPoint(
                 kind="article",
-                lookup_value=article_ref,
+                lookup_value=dotted_ref or article_ref,
                 source=(
                     "conversation_state_anchor"
                     if article_ref in carried_article_refs
@@ -372,7 +450,7 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
                 ),
                 confidence=0.98,
                 label=f"Art. {article_ref}",
-                resolved_key=article_ref,
+                resolved_key=dotted_ref or article_ref,
             )
         )
     for reform_key, label in reform_refs:
@@ -419,25 +497,29 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
             if not article_key_str or article_key_str in existing_article_keys:
                 continue
             existing_article_keys.add(article_key_str)
+            # v20 P4 — comparative_regime anchors are ET-only (pre/post-reform
+            # comparisons within the Estatuto Tributario).
+            dotted_key = _resolve_article_ref_to_norm_id(article_key_str, "et")
             entry_points.append(
                 PlannerEntryPoint(
                     kind="article",
-                    lookup_value=article_key_str,
+                    lookup_value=dotted_key or article_key_str,
                     source="comparative_regime_anchor",
                     confidence=0.94,
                     label=f"Art. {article_key_str}",
-                    resolved_key=article_key_str,
+                    resolved_key=dotted_key or article_key_str,
                 )
             )
     if not article_refs and not reform_refs and _looks_like_loss_compensation_case(normalized_message):
+        # v20 P4 — emit dotted norm_id; loss-compensation anchors are ET-only.
         entry_points.append(
             PlannerEntryPoint(
                 kind="article",
-                lookup_value="147",
+                lookup_value="et.art.147",
                 source="loss_compensation_anchor",
                 confidence=0.92,
                 label="Art. 147",
-                resolved_key="147",
+                resolved_key="et.art.147",
             )
         )
     if not article_refs and not reform_refs and _looks_like_refund_balance_case(normalized_message):
@@ -447,26 +529,30 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
         # retriever hits 854/815 and chunks but skips 850/589, leaving the
         # accountant without the timeframe anchor they actually need.
         for article_key in ("850", "589"):
+            # v20 P4 — refund-balance anchors are ET-only.
+            dotted_key = f"et.art.{article_key}"
             entry_points.append(
                 PlannerEntryPoint(
                     kind="article",
-                    lookup_value=article_key,
+                    lookup_value=dotted_key,
                     source="refund_balance_anchor",
                     confidence=0.9,
                     label=f"Art. {article_key}",
-                    resolved_key=article_key,
+                    resolved_key=dotted_key,
                 )
             )
     if not article_refs and not reform_refs and _looks_like_tax_planning_case(normalized_message):
         for article_key in ("869", "869-1", "869-2"):
+            # v20 P4 — tax-planning anchors (anti-abuse) are ET-only.
+            dotted_key = f"et.art.{article_key}"
             entry_points.append(
                 PlannerEntryPoint(
                     kind="article",
-                    lookup_value=article_key,
+                    lookup_value=dotted_key,
                     source="tax_planning_anchor",
                     confidence=0.9,
                     label=f"Art. {article_key}",
-                    resolved_key=article_key,
+                    resolved_key=dotted_key,
                 )
             )
     # v15.5 (2026-05-14) — case-anchor registry walk. Replaces the
