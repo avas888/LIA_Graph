@@ -36,6 +36,12 @@ from ._coherence_gate import (
     refusal_text as _coherence_refusal_text,
     should_refuse as _coherence_should_refuse,
 )
+from .answer_topic_decomposition import (
+    decomposition_mode as _decomp_mode,
+    diagnostics_payload as _decomp_diagnostics,
+    framing_line as _decomp_framing_line,
+    should_decompose as _decomp_should_decompose,
+)
 from .answer_policy import citation_allowlist_mode, filter_citations_by_allowlist
 from .topic_safety import (
     abstention_text_for_misalignment,
@@ -964,6 +970,45 @@ def run_pipeline_d(
         fanout_evaluated=coherence.get("fanout_evaluated"),
         fanout_any_coherent=coherence.get("fanout_any_coherent"),
     )
+    # v23 P1 — Topic-Gate Decomposition (G1). When the gate would refuse on
+    # a multi-domain question (router topic disagrees with retrieved articles'
+    # dominant topic), bypass the refusal so synthesis+polish produce a
+    # substantive answer with a framing line prepended after polish. The
+    # audit (2026-05-17) showed Q1/Q3/Q6/Q8 = 4 of 10 refused as topic
+    # mismatch when the retrieved evidence was real and accountant-useful.
+    # Flag-gated; `LIA_TOPIC_DECOMPOSITION_MODE=off` keeps v22 refusal.
+    _decomposition_state: dict[str, Any] = {"applied": False}
+    if (
+        coherence_gate_mode == "enforce"
+        and _coherence_should_refuse(coherence, coherence_gate_mode)
+        and _decomp_should_decompose(
+            coherence, evidence, (request.topic or "").strip()
+        )
+    ):
+        _decomposition_state = {
+            "applied": True,
+            "framing_line": _decomp_framing_line(
+                coherence, evidence, (request.topic or "").strip()
+            ),
+            "diagnostics": _decomp_diagnostics(
+                coherence, evidence, (request.topic or "").strip(), applied=True
+            ),
+        }
+        coherence = {
+            **coherence,
+            "bypass_reason": "topic_decomposition_v23",
+            "router_topic_observed": coherence.get("router_topic"),
+            "misaligned": False,
+        }
+        _trace.step(
+            "coherence.decomposition_bypass",
+            status="ok",
+            mode=_decomp_mode(),
+            router_topic=(request.topic or "").strip(),
+            section_count=_decomposition_state["diagnostics"][
+                "topic_decomposition_section_count"
+            ],
+        )
     if coherence_gate_mode == "enforce" and _coherence_should_refuse(
         coherence, coherence_gate_mode
     ):
@@ -1128,6 +1173,13 @@ def run_pipeline_d(
         polish_changed=bool((polished_answer or "") != (answer or "")),
     )
     answer = polished_answer
+
+    # v23 P1 — prepend framing line so the reader knows the answer spans
+    # multiple domains (topic-decomposition bypass fired earlier).
+    if _decomposition_state.get("applied") and answer:
+        _framing = _decomposition_state.get("framing_line") or ""
+        if _framing and not answer.lstrip().startswith(_framing[:40]):
+            answer = _framing + answer
 
     # fix_v8 §3a — substantive fallback when polish was rejected.
     # Without this, polish-rejected turns return the bare first-bubble
@@ -1304,6 +1356,10 @@ def run_pipeline_d(
             "reranker": reranker_diagnostics,
             "topic_safety": topic_safety_diag,
             "decomposer": decomposer_diag,
+            # v23 P1 — topic-decomposition bypass diagnostics.
+            **(
+                _decomposition_state.get("diagnostics") or {}
+            ),
             # v6 phase 4 — per-topic citation allow-list drops surfaced for
             # the panel; empty list in ``off`` mode.
             "citation_allowlist_mode": citation_allow_mode,

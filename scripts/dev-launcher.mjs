@@ -517,6 +517,64 @@ function buildRuntimeEnv(mode) {
     env.LIA_CONFLICT_RESOLVER_MODE = "enforce";
   }
 
+  // v23 P1 — Topic-Gate Decomposition (G1). When the coherence gate would
+  // refuse a multi-domain question (router topic ≠ retrieved articles'
+  // dominant topic), bypass refusal so synthesis+polish produce a
+  // substantive answer with a framing line prepended after polish.
+  // Rollback: `LIA_TOPIC_DECOMPOSITION_MODE=off` → v22 refusal behavior.
+  if (!String(env.LIA_TOPIC_DECOMPOSITION_MODE || "").trim()) {
+    env.LIA_TOPIC_DECOMPOSITION_MODE = "enforce";
+  }
+
+  // v23 P2 — Year-Constants Service (G2). Injects canonical year fiscal
+  // constants (UVT, SMLMV, auxilio transporte) into the polish prompt and
+  // validates polished output against the registry so stale evidence
+  // cannot mint stale answers (e.g. audit Q2: UVT 2026 quoted as 49,799
+  // instead of 52,374). Rollback: `LIA_YEAR_CONSTANTS_INJECTION=off`.
+  if (!String(env.LIA_YEAR_CONSTANTS_INJECTION || "").trim()) {
+    env.LIA_YEAR_CONSTANTS_INJECTION = "enforce";
+  }
+
+  // v23 P3 — Citation Source-Code Awareness (G3). Resolves every cited
+  // article to its actual source code (ET/CST/CCo/Ley 43-1990/Res. DIAN/
+  // Decreto) and rejects pseudo-citations (e.g. `art. notas-y-fuentes`).
+  // Rollback: `LIA_CITATION_SOURCE_CODE_AWARENESS=off` → legacy `art. X ET`.
+  if (!String(env.LIA_CITATION_SOURCE_CODE_AWARENESS || "").trim()) {
+    env.LIA_CITATION_SOURCE_CODE_AWARENESS = "enforce";
+  }
+
+  // v23 P4 — Cloud-corpus pollution entity filter (G4). Demotes chunks
+  // matching named-entity / acta-template / formulario leak patterns.
+  // Ships SHADOW per D-S3 — operator promotes after P4 audit + v24 plan.
+  // Rollback: `LIA_CHUNK_QUALITY_ENTITY_FILTER=off`.
+  if (!String(env.LIA_CHUNK_QUALITY_ENTITY_FILTER || "").trim()) {
+    env.LIA_CHUNK_QUALITY_ENTITY_FILTER = "shadow";
+  }
+
+  // v23 P5 — Numeric-Input Preservation + Contradiction Detection (G5).
+  // Two polish-time validators: user-stated numerics must survive in
+  // polished output; same-answer mixed-year UVT/SMLMV constants are
+  // rejected unless an explicit multi-year comparison is detected.
+  // Rollback: `LIA_POLISH_INPUT_PRESERVATION=off`.
+  if (!String(env.LIA_POLISH_INPUT_PRESERVATION || "").trim()) {
+    env.LIA_POLISH_INPUT_PRESERVATION = "enforce";
+  }
+
+  // v23 P6 — Colombian-Spanish style pass (G6). Polish prompt directive
+  // + post-polish voseo validator (rejects "verificá", "tené", etc.).
+  // Rollback: `LIA_POLISH_LOCALE_STYLE_COLOMBIAN=off`.
+  if (!String(env.LIA_POLISH_LOCALE_STYLE_COLOMBIAN || "").trim()) {
+    env.LIA_POLISH_LOCALE_STYLE_COLOMBIAN = "enforce";
+  }
+
+  // v23 P7 — Anclaje Legal topic-aware constraint (G7). Filters off-topic
+  // connected_articles out of the Anclaje Legal section using v22's
+  // `config/compatible_doc_topics.json` allowlist (body bullets untouched).
+  // Rollback: `LIA_ANCLAJE_TOPIC_GATE=off`.
+  if (!String(env.LIA_ANCLAJE_TOPIC_GATE || "").trim()) {
+    env.LIA_ANCLAJE_TOPIC_GATE = "enforce";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

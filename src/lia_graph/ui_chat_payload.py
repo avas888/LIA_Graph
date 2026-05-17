@@ -96,6 +96,27 @@ def filter_diagnostics_for_public_response(
     ):
         if key in orchestrator_diagnostics:
             public[key] = orchestrator_diagnostics[key]
+    # v23 P1+P2+P3+P5+P6+P7 — surface the v23-suite diagnostic keys so the
+    # operator probe digest can read them without walking pipeline_trace.
+    # All scalars or shallow dicts; PII-safe.
+    for key in (
+        "topic_decomposition_applied",
+        "topic_decomposition_mode",
+        "topic_decomposition_router_topic",
+        "topic_decomposition_groups",
+        "topic_decomposition_section_count",
+        "fiscal_year_detected",
+        "year_constants_injected",
+        "citation_source_codes_used",
+        "dropped_pseudo_citations",
+        "input_preservation_status",
+        "locale_style_status",
+        "anclaje_topic_gate_applied",
+        "anclaje_articles_kept",
+        "anclaje_articles_dropped",
+    ):
+        if key in orchestrator_diagnostics:
+            public[key] = orchestrator_diagnostics[key]
     return public or None
 
 
