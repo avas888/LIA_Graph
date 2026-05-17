@@ -1157,6 +1157,26 @@ def run_pipeline_d(
     # resolver_error:<Type>).
     _polish_diag = llm_runtime_diag or {}
     _polish_mode = _polish_diag.get("mode") or "unknown"
+    # v23 P2 — surface detected fiscal year + whether the year-constants
+    # directive was injected. Defaults to None / off when the question
+    # carries no year signal.
+    try:
+        from ..year_facts import extract_fiscal_year as _yc_extract
+        from ..year_facts import get_year_facts as _yc_facts
+        from ..year_facts import injection_mode as _yc_mode
+        _v23_fiscal_year = _yc_extract(
+            request.message,
+            planner_intent=None,
+            conversation_state=(getattr(request, "conversation_state", None) or {}),
+        )
+        _v23_year_injected = (
+            _yc_mode() != "off"
+            and _v23_fiscal_year is not None
+            and _yc_facts(_v23_fiscal_year) is not None
+        )
+    except Exception:  # noqa: BLE001
+        _v23_fiscal_year = None
+        _v23_year_injected = False
     _polish_skip = _polish_diag.get("skip_reason")
     _trace.step(
         "polish.applied",
@@ -1360,6 +1380,9 @@ def run_pipeline_d(
             **(
                 _decomposition_state.get("diagnostics") or {}
             ),
+            # v23 P2 — year-constants injection diagnostics.
+            "fiscal_year_detected": _v23_fiscal_year,
+            "year_constants_injected": bool(_v23_year_injected),
             # v6 phase 4 — per-topic citation allow-list drops surfaced for
             # the panel; empty list in ``off`` mode.
             "citation_allowlist_mode": citation_allow_mode,

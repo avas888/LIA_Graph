@@ -807,6 +807,24 @@ def _no_invented_uvt_ranges(
 
     allowed: set[str] = _extract_uvt_tokens(template or "")
     allowed |= _extract_uvt_tokens(question or "")
+
+    # v23 P2 — seed allowed set from year_facts registry when a fiscal year
+    # is detected. UVT 2026 (52,374) must be allowed even when not present
+    # in the (stale) evidence so the year-directive's corrective effect
+    # isn't validated away. Verified-only — unverified registry rows do
+    # not relax the validator.
+    try:
+        from ..year_facts import extract_fiscal_year as _yc_extract
+        from ..year_facts import get_year_facts as _yc_facts
+
+        _detected_year = _yc_extract(question or "")
+        if _detected_year is not None:
+            _facts = _yc_facts(_detected_year)
+            if _facts is not None:
+                allowed |= _facts.allowed_tokens()
+    except Exception:  # noqa: BLE001 — defensive; bad registry should not break polish
+        pass
+
     if evidence is not None:
         for bucket in (
             evidence.primary_articles,
@@ -1052,6 +1070,23 @@ def _build_polish_prompt(
 
     numeric_directive = _build_numeric_directive(request.message or "")
 
+    # v23 P2 — year-constants directive. When a fiscal year is detected in
+    # the question (or set on conversation_state), prepend a block naming
+    # the verified canonical UVT/SMLMV/auxilio for that year so the LLM
+    # cannot quote stale evidence. Skipped silently when no year detected
+    # or no verified facts for that year (per D10 — never inject default
+    # current-year on a generic question).
+    from ..year_facts import build_directive_block as _yc_block
+    from ..year_facts import extract_fiscal_year as _yc_extract
+    _detected_year = _yc_extract(
+        request.message,
+        planner_intent=None,
+        conversation_state=(getattr(request, "conversation_state", None) or {}),
+    )
+    year_constants_directive = (
+        _yc_block(_detected_year) if _detected_year is not None else None
+    )
+
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
         "por encima de cualquier otra cosa:\n"
@@ -1116,6 +1151,10 @@ def _build_polish_prompt(
         f"{allowed_reforms}"
     )
 
+    year_block = (
+        f"\n{year_constants_directive}\n" if year_constants_directive else ""
+    )
+
     return (
         "Actuás como un contador colombiano senior revisando la respuesta "
         "de un colega junior. Tu trabajo es reescribir la respuesta "
@@ -1124,6 +1163,7 @@ def _build_polish_prompt(
         "genéricos.\n"
         "\n"
         f"{primary_directive}\n"
+        f"{year_block}"
         "\n"
         f"{allowlist_block}\n"
         "\n"

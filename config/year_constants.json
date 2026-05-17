@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "doc": "fix_v23_may.md §3.2 P2 — canonical fiscal-year constants",
+    "verify": "every value must be verified against the cited Resolución/Decreto before commit per feedback_no_hallucinated_examples; values flagged verified=false are skipped at injection time",
+    "updated_utc": "2026-05-17T18:00:00Z"
+  },
+  "years": {
+    "2024": {
+      "uvt": {
+        "value_cop": 47065,
+        "source": "Resolución DIAN 000187 de 2023",
+        "verified": true
+      },
+      "smlmv": {
+        "value_cop": 1300000,
+        "source": "Decreto 2292 de 2023",
+        "verified": false
+      },
+      "auxilio_transporte": {
+        "value_cop": 162000,
+        "source": "Decreto 2292 de 2023",
+        "verified": false
+      }
+    },
+    "2025": {
+      "uvt": {
+        "value_cop": 49799,
+        "source": "Resolución DIAN 000193 de 2024",
+        "verified": true
+      },
+      "smlmv": {
+        "value_cop": 1423500,
+        "source": "Decreto 1572 de 2024",
+        "verified": true
+      },
+      "auxilio_transporte": {
+        "value_cop": 200000,
+        "source": "Decreto 1572 de 2024",
+        "verified": true
+      }
+    },
+    "2026": {
+      "uvt": {
+        "value_cop": 52374,
+        "source": "Resolución DIAN 000238 de 2025",
+        "verified": true
+      },
+      "smlmv": {
+        "value_cop": 1623500,
+        "source": "Decreto pendiente 2025 (cifra preliminar — verify before quoting)",
+        "verified": false
+      },
+      "auxilio_transporte": {
+        "value_cop": 200000,
+        "source": "Decreto pendiente 2025 (cifra preliminar — verify before quoting)",
+        "verified": false
+      },
+      "sancion_minima_uvt": {
+        "value_uvt": 10,
+        "value_cop": 523740,
+        "source": "ET art. 639 × UVT 2026",
+        "verified": true
+      }
+    }
+  }
+}
