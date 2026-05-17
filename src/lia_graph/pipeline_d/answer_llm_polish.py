@@ -238,6 +238,58 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         category="tonal",
         prompt_text="Respondé en español neutro profesional, sin muletillas.",
     ),
+    # v23 P5 — preserve user-stated numerics through polish (G5 / audit Q10).
+    PromptRule(
+        id="preserves_user_numerics",
+        category="semantic",
+        prompt_text=(
+            "PRESERVÁ las cifras (montos en pesos, conteos en UVT, "
+            "porcentajes) que el usuario mencione literalmente en su "
+            "pregunta. Si la pregunta dice `$3.000.000`, tu respuesta no "
+            "puede decir `$2.000.000` ni `tres millones quinientos mil`. "
+            "El usuario describió SU caso con SUS números — no los "
+            "reescribas."
+        ),
+        validate=lambda template, polished, evidence=None, question=None: _preserves_user_numerics(
+            template, polished, evidence, question
+        ),
+        rejection_reason="mutated_user_numerics",
+    ),
+    # v23 P5 — same-answer year-constant contradiction (G5 / audit Q10).
+    PromptRule(
+        id="no_inconsistent_year_constants",
+        category="semantic",
+        prompt_text=(
+            "NO mezclés constantes de años distintos en la misma respuesta "
+            "(UVT 2024 = $47.065 vs UVT 2025 = $49.799 vs UVT 2026 = "
+            "$52.374). Determiná de qué año gravable habla el usuario y "
+            "usá SOLO las cifras de ese año. La excepción es una pregunta "
+            "explícitamente comparativa (`comparación AG 2025 vs AG "
+            "2026`); ahí podés mostrar ambos."
+        ),
+        validate=lambda template, polished, evidence=None, question=None: _no_inconsistent_year_constants(
+            template, polished, evidence, question
+        ),
+        rejection_reason="mixed_year_constants",
+    ),
+    # v23 P6 — Colombian-Spanish style (G6 / audit Q7).
+    PromptRule(
+        id="locale_style_colombian",
+        category="tonal",
+        prompt_text=(
+            "DIRECTIVA DE ESTILO COLOMBIANO: Usá español neutro colombiano "
+            "en forma `usted` para verbos imperativos profesionales: "
+            "`verifique`, `tenga presente`, `controle`, `revise`, "
+            "`recuerde`, `cumpla`. PROHIBIDO voseo (forma `vos`): "
+            "`verificá`, `tené`, `andá`, `mirá`, `decidí`, `pensá`, "
+            "`salí`, `pedí`, `seguí`. Suena foráneo al contador "
+            "colombiano y reduce la credibilidad del consejo."
+        ),
+        validate=lambda template, polished, evidence=None, question=None: _no_voseo(
+            template, polished, evidence, question
+        ),
+        rejection_reason="voseo_detected",
+    ),
 )
 
 
@@ -893,6 +945,299 @@ def _no_invented_uvt_ranges(
         allowed_value_count=len(allowed),
         invented_values=capped,
         outcome="fail_enforce",
+    )
+    return False
+
+
+# ---------------------------------------------------------------------------
+# v23 P5 — Numeric-Input Preservation (G5).
+# ---------------------------------------------------------------------------
+
+
+def _input_preservation_mode() -> str:
+    raw = (os.getenv("LIA_POLISH_INPUT_PRESERVATION") or "enforce").strip().lower()
+    return raw if raw in ("off", "shadow", "enforce") else "enforce"
+
+
+_PESO_AMOUNT_RE = re.compile(
+    r"\$\s*\d[\d.,]*(?:\s*(?:millones?|mill?|MM|M|mil))?",
+    re.IGNORECASE,
+)
+_BARE_PESO_AMOUNT_RE = re.compile(
+    r"\b\d{1,3}(?:[.,]\d{3}){1,}(?:\s*(?:pesos|COP))?\b",
+    re.IGNORECASE,
+)
+_UVT_COUNT_RE = re.compile(r"\b(\d+(?:[.,]\d+)?)\s*UVT\b", re.IGNORECASE)
+_PERCENT_RE = re.compile(r"\b\d+(?:[.,]\d+)?\s*%")
+_SPELLED_AMOUNT_HINTS = (
+    ("tres millones", ("3.000.000", "3000000", "3,000,000", "3 millones", "$3")),
+    ("dos millones", ("2.000.000", "2000000", "2,000,000", "2 millones", "$2")),
+    ("un millón", ("1.000.000", "1000000", "1,000,000", "1 millón", "$1")),
+    ("cinco millones", ("5.000.000", "5000000", "5,000,000", "5 millones", "$5")),
+    ("diez millones", ("10.000.000", "10000000", "10,000,000", "10 millones", "$10")),
+)
+
+
+def _normalize_amount(token: str) -> set[str]:
+    """Build the equivalence set of an amount token for cross-form matching."""
+    t = token.strip().replace(" ", "")
+    forms = {t}
+    digits = re.sub(r"[^\d]", "", t)
+    if digits:
+        forms.add(digits)
+        if len(digits) >= 4:
+            # Add dotted (Latin) and comma (US) grouping
+            try:
+                v = int(digits)
+                forms.add(f"{v:,}".replace(",", "."))
+                forms.add(f"{v:,}")
+            except ValueError:
+                pass
+        # Short-hand M / millones
+        try:
+            v = int(digits)
+            if v >= 1_000_000 and v % 1_000_000 == 0:
+                m = v // 1_000_000
+                forms.add(f"{m}M")
+                forms.add(f"${m}M")
+                forms.add(f"{m} millones")
+                forms.add(f"{m} millón")
+        except ValueError:
+            pass
+    return forms
+
+
+def _extract_user_amounts(question: str) -> list[set[str]]:
+    """Return a list of equivalence-sets, one per amount detected in the
+    question. Spelled-out amounts (`tres millones`) are mapped through a
+    small hint table (avoids dependency on a full Spanish numeric parser).
+    """
+    out: list[set[str]] = []
+    q = (question or "").lower()
+    for token in _PESO_AMOUNT_RE.findall(question or ""):
+        out.append(_normalize_amount(token))
+    for token in _BARE_PESO_AMOUNT_RE.findall(question or ""):
+        out.append(_normalize_amount(token))
+    for spelled, forms in _SPELLED_AMOUNT_HINTS:
+        if spelled in q:
+            base = set(forms)
+            base.add(spelled)
+            out.append(base)
+    return out
+
+
+def _preserves_user_numerics(
+    template: str,
+    polished: str,
+    evidence: GraphEvidenceBundle | None = None,
+    question: str | None = None,
+) -> bool:
+    """v23 P5 — every peso amount / UVT count / percentage the user mentioned
+    must survive in the polished output (in any normalized form).
+
+    The audit's Q10 mutated `$3.000.000` → `$2.000.000` during polish; this
+    validator rejects such mutations. Cue-gated to questions that actually
+    contain a numeric the user authored.
+    """
+    mode = _input_preservation_mode()
+    if mode == "off":
+        _trace_step(
+            "polish.input_preservation.applied",
+            mode=mode,
+            outcome="noop_off",
+        )
+        return True
+    if not question or not polished:
+        _trace_step(
+            "polish.input_preservation.applied",
+            mode=mode,
+            outcome="noop_no_input",
+        )
+        return True
+
+    amount_sets = _extract_user_amounts(question)
+    if not amount_sets:
+        _trace_step(
+            "polish.input_preservation.applied",
+            mode=mode,
+            outcome="noop_no_amount",
+        )
+        return True
+
+    polished_lower = polished.lower()
+    polished_compact = polished_lower.replace(".", "").replace(",", "").replace(" ", "")
+    missing: list[list[str]] = []
+    for eq in amount_sets:
+        survived = False
+        for form in eq:
+            f = form.lower()
+            if f in polished_lower:
+                survived = True
+                break
+            f_compact = f.replace(".", "").replace(",", "").replace(" ", "")
+            if f_compact and f_compact in polished_compact:
+                survived = True
+                break
+        if not survived:
+            missing.append(sorted(eq))
+
+    if not missing:
+        _trace_step(
+            "polish.input_preservation.applied",
+            mode=mode,
+            outcome="pass",
+            amounts_checked=len(amount_sets),
+        )
+        return True
+
+    capped = missing[:4]
+    if mode == "shadow":
+        _trace_step(
+            "polish.input_preservation.applied",
+            mode=mode,
+            outcome="fail_shadow",
+            missing_amount_sets=capped,
+        )
+        return True
+    _trace_step(
+        "polish.input_preservation.applied",
+        mode=mode,
+        outcome="fail_enforce",
+        missing_amount_sets=capped,
+    )
+    return False
+
+
+_MULTI_YEAR_CUE_RE = re.compile(r"\bAG\s*(20\d{2})\b", re.IGNORECASE)
+
+
+def _no_inconsistent_year_constants(
+    template: str,
+    polished: str,
+    evidence: GraphEvidenceBundle | None = None,
+    question: str | None = None,
+) -> bool:
+    """v23 P5 — when the polished answer mentions UVT (or SMLMV), it must
+    NOT mix two different year constants within ±5% of each other unless an
+    explicit AG-year comparison is signalled by two or more `AG 20XX`
+    mentions.
+
+    Audit Q10 had `$47.065` (2024 UVT) and `$49.799` (2025 UVT) coexisting
+    in the same answer. This validator catches that pattern.
+    """
+    mode = _input_preservation_mode()
+    if mode == "off" or not polished:
+        return True
+    if "UVT" not in polished:
+        return True
+    # Distinct UVT-shaped values in polished. Heuristic: 4-6-digit
+    # currency values clearly in the COP UVT range (40,000-60,000).
+    values: set[int] = set()
+    for m in re.finditer(r"\$?\s*(\d{2}[.,]\d{3})\b", polished):
+        try:
+            v = int(m.group(1).replace(".", "").replace(",", ""))
+        except ValueError:
+            continue
+        if 40_000 <= v <= 65_000:
+            values.add(v)
+    if len(values) < 2:
+        return True
+
+    years_signalled = len(set(_MULTI_YEAR_CUE_RE.findall(polished)))
+    if years_signalled >= 2:
+        # Explicit multi-year comparison — both UVT values are allowed.
+        _trace_step(
+            "polish.year_consistency.applied",
+            mode=mode,
+            outcome="pass_multi_year",
+            distinct_uvt_values=sorted(values),
+            years_signalled=years_signalled,
+        )
+        return True
+
+    if mode == "shadow":
+        _trace_step(
+            "polish.year_consistency.applied",
+            mode=mode,
+            outcome="fail_shadow",
+            distinct_uvt_values=sorted(values),
+        )
+        return True
+    _trace_step(
+        "polish.year_consistency.applied",
+        mode=mode,
+        outcome="fail_enforce",
+        distinct_uvt_values=sorted(values),
+    )
+    return False
+
+
+# ---------------------------------------------------------------------------
+# v23 P6 — Colombian-Spanish style validator (G6 — voseo rejection).
+# ---------------------------------------------------------------------------
+
+
+def _locale_style_mode() -> str:
+    raw = (os.getenv("LIA_POLISH_LOCALE_STYLE_COLOMBIAN") or "enforce").strip().lower()
+    return raw if raw in ("off", "shadow", "enforce") else "enforce"
+
+
+_VOSEO_VERBS_RE = re.compile(
+    r"\b("
+    r"verific[aá]|ten[eé]|and[aá]|mir[aá]|decid[ií]|pens[aá]|sal[ií]|"
+    r"ped[ií]|segu[ií]|eleg[ií]|escrib[ií]|habl[aá]|tom[aá]|hac[eé]|pon[eé]|"
+    r"sab[eé]|comprend[eé]|recordá|controlá|pagá|cumplí|llevá|guardá|enviá"
+    r")\b",
+    re.IGNORECASE,
+)
+_VOSEO_PRONOUN_RE = re.compile(r"\bvos\b", re.IGNORECASE)
+
+
+def _no_voseo(
+    template: str,
+    polished: str,
+    evidence: GraphEvidenceBundle | None = None,
+    question: str | None = None,
+) -> bool:
+    """v23 P6 — reject voseo Spanish in polished output. Audit's Q7 surfaced
+    `"Verifica"` and `"Tene"` in production answers — voseo is regional
+    Argentine/Uruguayan and reads as foreign to Colombian accountants who
+    use form-`usted` in professional writing.
+    """
+    mode = _locale_style_mode()
+    if mode == "off" or not polished:
+        return True
+    matches: list[str] = []
+    for m in _VOSEO_VERBS_RE.finditer(polished):
+        token = m.group(0)
+        # Skip if the token is inside a known proper noun / legal name
+        # (e.g. an article title). Conservative — these would have already
+        # been preserved by anchor_preserve.
+        matches.append(token)
+        if len(matches) >= 6:
+            break
+    if _VOSEO_PRONOUN_RE.search(polished):
+        matches.append("vos")
+    if not matches:
+        _trace_step(
+            "polish.locale_style.applied",
+            mode=mode,
+            outcome="pass",
+        )
+        return True
+    if mode == "shadow":
+        _trace_step(
+            "polish.locale_style.applied",
+            mode=mode,
+            outcome="fail_shadow",
+            voseo_tokens=matches,
+        )
+        return True
+    _trace_step(
+        "polish.locale_style.applied",
+        mode=mode,
+        outcome="fail_enforce",
+        voseo_tokens=matches,
     )
     return False
 

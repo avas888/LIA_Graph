@@ -1387,6 +1387,18 @@ def run_pipeline_d(
             "citation_source_code_mode": os.getenv(
                 "LIA_CITATION_SOURCE_CODE_AWARENESS", "enforce"
             ).strip().lower(),
+            # v23 P5 — input-preservation + year-constant consistency mode.
+            "input_preservation_mode": os.getenv(
+                "LIA_POLISH_INPUT_PRESERVATION", "enforce"
+            ).strip().lower(),
+            # v23 P6 — Colombian-Spanish style enforcement.
+            "locale_style_mode": os.getenv(
+                "LIA_POLISH_LOCALE_STYLE_COLOMBIAN", "enforce"
+            ).strip().lower(),
+            # v23 P4 — entity-leak filter mode (shadow by default).
+            "chunk_entity_filter_mode": os.getenv(
+                "LIA_CHUNK_QUALITY_ENTITY_FILTER", "shadow"
+            ).strip().lower(),
             # v6 phase 4 — per-topic citation allow-list drops surfaced for
             # the panel; empty list in ``off`` mode.
             "citation_allowlist_mode": citation_allow_mode,
