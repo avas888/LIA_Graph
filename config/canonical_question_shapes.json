@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "doc": "Canonical question shapes for high-confidence routing. When a message (parent or sub-question) matches a shape, the topic-router upgrades the keyword-fallback result from `mode=fallback` to `mode=canonical_shape`, which prevents `fix_v5_phase6b:subquery_inherited_parent` from overriding it. The planner reads `evidence_shape_override` to pick a tabular_reference budget with a high snippet_char_limit so calendar/table data survives chunk truncation.",
+  "match_rule": "All trigger groups (question_words_any, subject_phrases_any, qualifier_phrases_any) must each have at least one phrase present in the normalized (lowercased + accents-stripped) message AND `topic` must equal the classifier's effective_topic. Any shape with empty trigger group counts that group as satisfied.",
+  "growth_pattern": "To add a new pattern: copy a shape, change `id`, list synonyms in `subject_phrases_any` and `qualifier_phrases_any`, set `topic` to the keyword-classifier topic the shape applies to. To extend an existing pattern, append synonyms to its phrase arrays.",
+  "shapes": [
+    {
+      "id": "plazos_renta_personas_juridicas",
+      "description": "Plazos / fechas de presentación de declaración de renta de personas jurídicas — calendario tributario por último dígito del NIT.",
+      "topic": "declaracion_renta",
+      "secondary_topics": ["calendario_obligaciones"],
+      "subtopic_hint": "plazos_personas_juridicas",
+      "trigger": {
+        "question_words_any": [
+          "cual", "cuales", "cuando", "donde", "que",
+          "cómo se consultan", "donde encuentro", "donde consulto"
+        ],
+        "subject_phrases_any": [
+          "fecha limite", "fechas limite",
+          "plazo", "plazos",
+          "vencimiento", "vencimientos",
+          "calendario tributario", "calendario de obligaciones", "calendario",
+          "decreto de plazos",
+          "fecha de presentacion", "fechas de presentacion",
+          "fecha de vencimiento", "fechas de vencimiento"
+        ],
+        "qualifier_phrases_any": [
+          "personas juridicas", "persona juridica",
+          "sociedades", "sociedad",
+          "nit", "ultimo digito", "ultimos digitos",
+          "renta", "declaracion de renta", "declaracion renta"
+        ]
+      },
+      "evidence_shape_override": {
+        "query_mode": "tabular_reference",
+        "snippet_char_limit": 600,
+        "primary_article_limit": 5,
+        "support_document_limit": 6
+      },
+      "render_hint": "table_friendly"
+    }
+  ]
+}

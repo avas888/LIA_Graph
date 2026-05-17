@@ -236,6 +236,23 @@ _BUDGETS: dict[str, tuple[TraversalBudget, EvidenceBundleShape]] = {
             snippet_char_limit=240,
         ),
     ),
+    # fix_v22 §9c P2-T-Orphan-1 — canonical-shape mode (original L14, orphan
+    # fix_v7 branch, 2026-04-30). Tabular / calendar / reference questions
+    # whose answer is data-dense (NIT-digit calendars, UVT tables,
+    # retention-rate matrices). Triggered exclusively from
+    # ``config/canonical_question_shapes.json`` when a shape matches.
+    # Higher snippet_char_limit so the chunk text carrying the table
+    # rows survives the truncation step and reaches LLM polish intact.
+    "tabular_reference": (
+        TraversalBudget(max_hops=2, max_nodes=10, max_edges=18, max_paths=5, max_support_documents=6),
+        EvidenceBundleShape(
+            primary_article_limit=5,
+            connected_article_limit=4,
+            related_reform_limit=2,
+            support_document_limit=6,
+            snippet_char_limit=600,
+        ),
+    ),
     "definition_chain": (
         TraversalBudget(max_hops=2, max_nodes=8, max_edges=14, max_paths=4, max_support_documents=4),
         EvidenceBundleShape(
@@ -426,6 +443,31 @@ def build_graph_retrieval_plan(request: PipelineCRequest) -> GraphRetrievalPlan:
             temporal_context=temporal_context,
             followup_focus=followup_focus,
         )
+
+    # fix_v22 §9c P2-T-Orphan-1 (orig L14) — canonical-shape override.
+    # When the message matches a curated shape
+    # (config/canonical_question_shapes.json), promote to the
+    # tabular_reference budget so calendar/table chunk text survives the
+    # snippet truncation and the answer can render rows. Gated by the
+    # shape's `topic` matching the request's effective topic so an
+    # unrelated message that happens to share keywords doesn't get
+    # promoted. Runs AFTER comparative_regime_chain so a comparative
+    # cue still wins (it has a dedicated renderer).
+    from ..canonical_question_shapes import match_canonical_shape as _match_canonical_shape
+    _canonical_topic_for_match = (
+        normalize_topic_key(request.topic)
+        or normalize_topic_key(request.requested_topic)
+    )
+    _canonical_shape = _match_canonical_shape(
+        message, classified_topic=_canonical_topic_for_match
+    )
+    if (
+        _canonical_shape is not None
+        and query_mode != "comparative_regime_chain"
+        and _canonical_shape.evidence_shape_override.get("query_mode") == "tabular_reference"
+    ):
+        query_mode = "tabular_reference"
+
     traversal_budget, evidence_shape = _BUDGETS[query_mode]
 
     # v20 P4 — pick the codec for bare article refs based on topic context.

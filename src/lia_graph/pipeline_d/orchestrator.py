@@ -619,6 +619,39 @@ def run_pipeline_d(
                 # disagrees with the parent, inherit the parent's topic. A
                 # confident rule-route hit on a different topic stays
                 # respected (multi-domain integrity, fix_v5.md §4 #16).
+                # fix_v22 §9c P2-T-Orphan-1 (orig L14) — canonical-shape escape
+                # hatch BEFORE the inherited-parent override. When the sub-Q
+                # matches a curated canonical shape, its keyword-fallback
+                # result is real (the shape vouches for the topic) and must
+                # NOT be steamrolled by the parent topic. Empty config = noop.
+                if getattr(sq_routing, "mode", None) == "fallback":
+                    try:
+                        from ..canonical_question_shapes import match_canonical_shape
+                        _sq_shape = match_canonical_shape(
+                            sq, classified_topic=sq_routing.effective_topic
+                        )
+                    except Exception:  # noqa: BLE001 — defensive; config errors must not block routing
+                        _sq_shape = None
+                    if _sq_shape is not None and _sq_shape.topic:
+                        _trace.step(
+                            "topic_router.subquery_canonical_shape",
+                            status="ok",
+                            sub_query_index=_sq_idx,
+                            sub_query=sq,
+                            shape_id=_sq_shape.id,
+                            shape_topic=_sq_shape.topic,
+                        )
+                        sq_routing = TopicRoutingResult(
+                            requested_topic=None,
+                            effective_topic=_sq_shape.topic,
+                            secondary_topics=tuple(_sq_shape.secondary_topics or ()),
+                            topic_adjusted=False,
+                            confidence=0.75,
+                            reason=f"fix_v22_orphan_L14:canonical_shape:{_sq_shape.id}",
+                            topic_notice=None,
+                            mode="canonical_shape",
+                        )
+
                 if (
                     parent_topic
                     and getattr(sq_routing, "mode", None) == "fallback"
