@@ -184,6 +184,18 @@ Facade implementations (edit the narrow one that owns the behavior): `answer_syn
 - `PipelineCResponse.diagnostics` must always carry `retrieval_backend` and `graph_backend`.
 - Never run the full pytest suite in one process — use `make test-batched`.
 - Do not inherit old-RAG assumptions (indexing, tagging, vocab, reranking, chunk orchestration, cache). `docs/deprecated/` is archaeology.
+- **Worktree + commit hygiene (fix_v22_may §9b).** Drift-prevention rules — every session, every commit, every fix doc.
+  - **Worktree session ends with one of three outcomes — no fourth option.**
+    - **Land** — commit, fast-forward main, push, `git worktree remove`, `git branch -D <branch>`. State ledger updated to ✅.
+    - **Snapshot + discard** — `git format-patch` (or `git diff > <name>.patch`) into `tracers_and_logs/snapshots/<UTC>_<slug>.patch`, commit the patch on main, then `worktree remove -f`.
+    - **Park with explicit ETA** — append a row to `docs/re-engineer/active_worktrees.md` naming worktree + branch + slug + operator-authorized return date + expiry behavior. No undated parks. Past-ETA parks are removed without further confirmation.
+  - **Lock semantics are advisory.** Locked worktrees owned by dead PIDs are stale; `ps -p <pid>` the lock owner, force-remove if dead. Live PID lock is honored.
+  - **A worktree branch only exists while the worktree exists.** `git worktree remove` and `git branch -D <its-branch>` run on the same command line. Orphan branches with no worktree are forbidden.
+  - **Every code change lands as 1 commit + 1 push within the operator session that wrote it.** Sessions ending mid-implementation snapshot the diff as a `.patch`. No bare `git commit` without a paired `git push`; exceptions documented in the run log.
+  - **Fast-forward-only main.** Rebase the worktree branch onto main first, then ff-merge into main. No merge commits on main.
+  - **Commit message includes the fix doc id.** Every commit on a `fix_vNN_may` worktree starts subject with `fix(vNN ...)` / `ship(vNN ...)` / `docs(vNN ...)`.
+  - **Fix-doc is closed only when §⏯ "Last completed step" reads "vNN closed ✅" AND every §2 phase row is `✅` or `↩`.** No partial closures. On closure, tag the closing commit `fix_vNN_closed`.
+  - **Stale-fix-doc audit runs at every v(NN+1) opening.** P1 includes `git worktree list` + `docs/re-engineer/active_worktrees.md` review; surface anything past ETA or older than 14 days.
 - **Six-gate lifecycle for every `docs/aa_next/**` step.** Unit tests green ≠ improvement. Every pipeline change passes all six gates BEFORE any code is written:
   1. **Idea** — one sentence.
   2. **Plan** — narrowest module.

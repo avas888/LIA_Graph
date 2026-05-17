@@ -277,6 +277,19 @@ This matters immediately for the `Normativa` port:
 - reuse shared retrieval and evidence contracts where they truly match
 - do not make `answer_synthesis.py` or `answer_assembly.py` the hidden backend for the Normativa modal
 
+## Worktree + Commit Hygiene (drift-prevention canon)
+
+Codified in `docs/re-engineer/fix/fix_v22_may.md §9b` after a 5-stale-worktree cleanup. Mirrors `CLAUDE.md` Non-Negotiables. Hard rules — every session, every commit, every fix doc:
+
+- **Worktree session ends with one of three outcomes — no fourth option.** Land (commit + ff main + push + `worktree remove` + `branch -D` in one go); snapshot+discard (`format-patch` into `tracers_and_logs/snapshots/<UTC>_<slug>.patch`, commit on main, `worktree remove -f`); or park with explicit ETA row in `docs/re-engineer/active_worktrees.md`. No undated parks.
+- **Lock semantics are advisory.** Dead-PID locks are stale — `ps -p <pid>` the lock owner; force-remove if dead.
+- **A worktree branch only exists while the worktree exists.** `git worktree remove` and `git branch -D <branch>` run together. Orphan branches with no worktree are forbidden.
+- **1 commit + 1 push per operator session.** No commit lives only in a worktree past session end. No bare `git commit` without a paired `git push`; exceptions documented in the run log.
+- **Fast-forward-only main.** Rebase the worktree branch onto main first, then ff-merge. No merge commits on main.
+- **Commit subject starts with the fix doc id** — `fix(vNN ...)` / `ship(vNN ...)` / `docs(vNN ...)` on `fix_vNN_may` worktrees.
+- **Fix doc is closed only when §⏯ reads "vNN closed ✅" AND every §2 phase row is `✅` or `↩`.** Tag the closing commit `fix_vNN_closed`.
+- **Stale-fix-doc audit at every v(NN+1) opening.** P1 runs `git worktree list` + reads `docs/re-engineer/active_worktrees.md`; surface anything past ETA or older than 14 days.
+
 ## Documentation Discipline
 
 If you change the runtime information architecture, update all three together in the same task:
