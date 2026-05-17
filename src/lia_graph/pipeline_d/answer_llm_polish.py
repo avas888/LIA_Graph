@@ -177,7 +177,9 @@ POLISH_RULES: tuple[PromptRule, ...] = (
             "omití la cita histórica. El contador prefiere una respuesta breve y exacta "
             "a una extensa con genealogía inventada."
         ),
-        validate=lambda template, polished: _no_invented_norm_lineage(template, polished),
+        validate=lambda template, polished, evidence=None: _no_invented_norm_lineage(
+            template, polished, evidence
+        ),
         rejection_reason="invented_norm_lineage",
     ),
     PromptRule(
@@ -191,7 +193,9 @@ POLISH_RULES: tuple[PromptRule, ...] = (
             "cometer la respuesta: el contador podría aplicar la regla en un año en que "
             "no aplica."
         ),
-        validate=lambda template, polished: _no_invented_periods(template, polished),
+        validate=lambda template, polished, evidence=None: _no_invented_periods(
+            template, polished, evidence
+        ),
         rejection_reason="invented_periods",
     ),
     PromptRule(
@@ -463,9 +467,14 @@ _NORM_LINEAGE_RE = re.compile(
 )
 
 
-def _no_invented_norm_lineage(template: str, polished: str) -> bool:
+def _no_invented_norm_lineage(
+    template: str,
+    polished: str,
+    evidence: "GraphEvidenceBundle | None" = None,
+) -> bool:
     """Reject polish that introduces a Ley/Decreto/Resolución/Sentencia
-    reference not present in the template.
+    reference not present in the template OR in the evidence excerpts
+    the polish prompt rendered.
 
     Comparison is on `(kind, number)` pairs and strips `**bold**` markers
     so `"Ley **1819** de 2016"` matches `"Ley 1819 de 2016"`. The year is
@@ -473,6 +482,15 @@ def _no_invented_norm_lineage(template: str, polished: str) -> bool:
     travels with the number, and matching on number alone keeps the
     validator robust to bolding around the year. Per-year invention is
     caught by `_no_invented_periods` instead.
+
+    fix_v21_may §3.2 P2-T1: ``evidence`` is honored when supplied. The
+    LLM is explicitly invited to cite the EXCERPTS / REFORMAS block via
+    the polish prompt — refs that appear in any evidence field (titles
+    and excerpts across primary_articles / connected_articles /
+    related_reforms / support_documents) count as grounded. This closes
+    the v20-q01 over-rejection where ``Ley 50 de 1990`` and ``Ley 2466
+    de 2025`` were dropped despite being primary citations on the
+    labor-article answer.
     """
 
     def _refs(text: str) -> set[tuple[str, str]]:
@@ -484,8 +502,42 @@ def _no_invented_norm_lineage(template: str, polished: str) -> bool:
             for m in _NORM_LINEAGE_RE.finditer(cleaned)
         }
 
-    invented = _refs(polished) - _refs(template)
+    allowed = _refs(template) | _refs_from_evidence(evidence)
+    invented = _refs(polished) - allowed
     return not invented
+
+
+def _refs_from_evidence(
+    evidence: "GraphEvidenceBundle | None",
+) -> set[tuple[str, str]]:
+    """Collect Ley/Decreto/Resolución/Sentencia refs from every evidence
+    field the polish prompt renders. Mirrors ``_build_polish_prompt``'s
+    iteration so the validator's "allowed" set matches what the LLM
+    actually saw."""
+
+    if evidence is None:
+        return set()
+
+    def _refs(text: str) -> set[tuple[str, str]]:
+        if not text:
+            return set()
+        cleaned = str(text).replace("**", "")
+        return {
+            (m.group(1).lower(), m.group(2))
+            for m in _NORM_LINEAGE_RE.finditer(cleaned)
+        }
+
+    found: set[tuple[str, str]] = set()
+    for item in (
+        list(getattr(evidence, "primary_articles", ()) or ())
+        + list(getattr(evidence, "connected_articles", ()) or ())
+        + list(getattr(evidence, "related_reforms", ()) or ())
+    ):
+        found |= _refs(getattr(item, "title", ""))
+        found |= _refs(getattr(item, "excerpt", ""))
+    for doc in getattr(evidence, "support_documents", ()) or ():
+        found |= _refs(getattr(doc, "title_hint", ""))
+    return found
 
 
 # Years 1900-2099. Polish hallucinations mostly invent the *recent* span
@@ -493,9 +545,13 @@ def _no_invented_norm_lineage(template: str, polished: str) -> bool:
 _YEAR_RE = re.compile(r"\b(19\d{2}|20\d{2})\b")
 
 
-def _no_invented_periods(template: str, polished: str) -> bool:
+def _no_invented_periods(
+    template: str,
+    polished: str,
+    evidence: "GraphEvidenceBundle | None" = None,
+) -> bool:
     """Reject polish that introduces a 4-digit year not present in the
-    template.
+    template OR in the evidence excerpts the polish prompt rendered.
 
     Strips `**bold**` markers so `"**2025**"` matches `"2025"`. The
     template is the authoritative source for which periods the answer
@@ -503,16 +559,49 @@ def _no_invented_periods(template: str, polished: str) -> bool:
     template, polish must not introduce one — that's how the engine
     ends up saying "AG 2024, 2025, 2026" for a benefit that only
     applied to AG 2022 and 2023.
+
+    fix_v21_may §3.2 P2-T1: ``evidence`` is honored when supplied. Year
+    tags travel with norm references (``Ley 50 de 1990``); the polish
+    prompt's REFORMAS / EXCERPTS block already carries those years, so
+    accepting them from evidence aligns the validator with what the LLM
+    was invited to cite. Pure year invention with no anchor — the
+    behavior this guard was built for — still rejects.
     """
 
     def _years(text: str) -> set[str]:
         if not text:
             return set()
-        cleaned = text.replace("**", "")
+        cleaned = str(text).replace("**", "")
         return set(_YEAR_RE.findall(cleaned))
 
-    invented = _years(polished) - _years(template)
+    allowed = _years(template) | _years_from_evidence(evidence)
+    invented = _years(polished) - allowed
     return not invented
+
+
+def _years_from_evidence(
+    evidence: "GraphEvidenceBundle | None",
+) -> set[str]:
+    """Collect 4-digit years from every evidence field the polish prompt
+    renders. Mirrors ``_build_polish_prompt`` field iteration."""
+
+    if evidence is None:
+        return set()
+    found: set[str] = set()
+    for item in (
+        list(getattr(evidence, "primary_articles", ()) or ())
+        + list(getattr(evidence, "connected_articles", ()) or ())
+        + list(getattr(evidence, "related_reforms", ()) or ())
+    ):
+        for field_name in ("title", "excerpt"):
+            text = getattr(item, field_name, "")
+            if text:
+                found |= set(_YEAR_RE.findall(str(text).replace("**", "")))
+    for doc in getattr(evidence, "support_documents", ()) or ():
+        text = getattr(doc, "title_hint", "")
+        if text:
+            found |= set(_YEAR_RE.findall(str(text).replace("**", "")))
+    return found
 
 
 # ---------------------------------------------------------------------------
