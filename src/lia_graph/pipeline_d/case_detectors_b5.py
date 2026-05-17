@@ -459,10 +459,31 @@ def is_prestaciones_sociales_case(normalized_message: str) -> bool:
     return False
 
 
+_CST_TERMINACION_ARTICLE_LOOKUP_RE = re.compile(
+    r"\b(?:art(?:iculo|\.|s\.?)?)\s*(62|64|65)\b"
+    r"(?:[^.?!]{0,40}?)"
+    r"\b(?:cst|c\.?s\.?t\.?|codigo\s+sustantivo\s+del\s+trabajo)\b",
+    re.IGNORECASE,
+)
+
+
 def is_liquidacion_terminacion_case(normalized_message: str) -> bool:
-    """v17 b1 — liquidación por terminación contrato laboral (CST 64 + 65)."""
+    """v17 b1 — liquidación por terminación contrato laboral (CST 64 + 65).
+
+    fix_v21_may §3.2 P2-T2 — also bind on the article-lookup form
+    (``¿qué dice el artículo 64 del cst?``, ``explícame el art 65 cst``,
+    etc.) for arts. 62/64/65 CST. Without this, an article-lookup
+    question routes to ``article_lookup`` planner mode but no case
+    fires, ``_active_case_keywords`` returns empty, and the off-topic
+    filter at the tail of ``build_recommendations`` becomes a no-op —
+    every práctica chunk bullet survives, including unrelated sub-
+    sections of the same playbook doc (cesación codes, recargos
+    nocturnos, valor hora).
+    """
     if not normalized_message:
         return False
+    if _CST_TERMINACION_ARTICLE_LOOKUP_RE.search(normalized_message):
+        return True
     markers = (
         "liquidación final",
         "liquidacion final",
