@@ -315,6 +315,67 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         ),
         rejection_reason="voseo_detected",
     ),
+    # v25 P4 — Framework coherence (G11 / audit Q19). Reject NIIF 16 /
+    # IFRS 16 / right-of-use leakage into a NIIF-Pymes question. Validator
+    # body lives in answer_polish_validators_v25.py per granularization.
+    PromptRule(
+        id="framework_coherence",
+        category="semantic",
+        prompt_text=(
+            "Si la pregunta menciona NIIF para las Pymes, NO uses NIIF 16, "
+            "IFRS 16 ni el modelo right-of-use; aplica Sección 20 de NIIF "
+            "para Pymes para arrendamientos."
+        ),
+        validate=lambda template, polished, evidence=None, question=None: (
+            __import__(
+                "lia_graph.pipeline_d.answer_polish_validators_v25",
+                fromlist=["framework_coherence"],
+            ).framework_coherence(template, polished, evidence, question)
+        ),
+        rejection_reason="framework_mismatch",
+    ),
+    # v25 P5 — Coverage-gap stub gate (G12 / audit Q3+Q12). Reject "Cobertura
+    # pendiente"-style non-answers from polished output.
+    PromptRule(
+        id="no_coverage_gap_phrase",
+        category="semantic",
+        prompt_text=(
+            "Si una sub-pregunta no se puede responder con la evidencia, "
+            "OMÍTELA en silencio. NO escribas `Cobertura pendiente`, "
+            "`valida el expediente`, ni frases equivalentes — al contador le "
+            "molesta más una respuesta con huecos visibles que una respuesta "
+            "corta y completa."
+        ),
+        validate=lambda template, polished, evidence=None, question=None: (
+            __import__(
+                "lia_graph.pipeline_d.answer_polish_validators_v25",
+                fromlist=["no_coverage_gap_phrase"],
+            ).no_coverage_gap_phrase(template, polished, evidence, question)
+        ),
+        rejection_reason="coverage_gap_phrase",
+    ),
+    # v25 P9 — Counterfactual-entity gate (G16 / audit Q8, Q16, Q17). Reject
+    # polished output that introduces named persons, companies, or monetary
+    # facts not present in the question or evidence.
+    PromptRule(
+        id="no_counterfactual_entities",
+        category="semantic",
+        prompt_text=(
+            "NO inventes nombres propios de personas, razones sociales (SAS, "
+            "LTDA, S.A.) ni cifras grandes en pesos (≥ COP 1.000.000) que no "
+            "estén en la PREGUNTA o en los EXCERPTS de la evidencia. Tu "
+            "ejemplo no puede tener `Carlos Pérez`, `Empresa XYZ SAS` ni "
+            "`$5.000 millones` si esos tokens no están en lo que el usuario "
+            "te dio."
+        ),
+        validate=lambda template, polished, evidence=None, question=None: (
+            __import__(
+                "lia_graph.pipeline_d.answer_polish_validators_v25",
+                fromlist=["no_counterfactual_entities"],
+            ).no_counterfactual_entities(template, polished, evidence, question)
+        ),
+        rejection_reason="counterfactual_entity",
+    ),
 )
 
 
@@ -1536,40 +1597,16 @@ def _build_polish_prompt(
         _yc_block(_detected_year) if _detected_year is not None else None
     )
 
-    # v25 P1 — norm-keyed retrieval boost directive (G8). When the question
-    # names a specific Resolución / Decreto / Ley / Acuerdo / Concepto /
-    # Sentencia, nudge the LLM to cite that norm directly in Anclaje Legal
-    # when the evidence carries it. Conditional injection — no block when
-    # the user did not name a norm.
-    from .norm_keyed_boost import boost_enabled as _nkb_enabled
-    from .norm_keyed_boost import extract_named_norms as _nkb_extract
-    from .norm_keyed_boost import norm_keyed_directive as _nkb_directive
-    norm_keyed_block = ""
-    if _nkb_enabled():
-        _norm_refs = _nkb_extract(request.message or "")
-        norm_keyed_block = _nkb_directive(_norm_refs)
-
-    # v25 P2 — cross-border lane (G9). Detects foreign-payment context and
-    # surfaces a canonical-articles directive so the LLM stops defaulting to
-    # domestic ET 392. Conditional injection — empty when no foreign cue.
-    from .cross_border_lane import cross_border_directive as _cb_directive
-    from .cross_border_lane import detect_cross_border_context as _cb_detect
-    from .cross_border_lane import lane_enabled as _cb_enabled
-    cross_border_block = ""
-    if _cb_enabled():
-        cross_border_block = _cb_directive(_cb_detect(request.message or ""))
-
-    # v25 P3 — municipal tax routing (G10). When the question is about ICA /
-    # reteICA in a Colombian municipality, inject a directive that keeps the
-    # LLM from drifting to national ET articles. The deterministic pointer
-    # block is appended at the synthesis layer (not here) — this directive
-    # only shapes the polish step.
-    from .municipal_tax_routing import detect_municipal_context as _mt_detect
-    from .municipal_tax_routing import municipal_directive as _mt_directive
-    from .municipal_tax_routing import routing_enabled as _mt_enabled
-    municipal_block = ""
-    if _mt_enabled():
-        municipal_block = _mt_directive(_mt_detect(request.message or ""))
+    # v25 directive builders extracted to sibling per
+    # `feedback_granular_edits` + operator directive 2026-05-17 PM
+    # ("granularize polish.py if over 1000 LOC per artifact"). Each builder
+    # respects its own kill-switch flag and returns "" when not applicable.
+    from .answer_polish_directives_v25 import build_v25_polish_blocks
+    _v25_blocks = build_v25_polish_blocks(request.message or "")
+    norm_keyed_block = _v25_blocks["norm_keyed"]
+    cross_border_block = _v25_blocks["cross_border"]
+    municipal_block = _v25_blocks["municipal"]
+    framework_block = _v25_blocks["framework"]
 
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
@@ -1647,6 +1684,9 @@ def _build_polish_prompt(
     municipal_wrapped = (
         f"\n{municipal_block}\n" if municipal_block else ""
     )
+    framework_wrapped = (
+        f"\n{framework_block}\n" if framework_block else ""
+    )
 
     return (
         "Actuás como un contador colombiano senior revisando la respuesta "
@@ -1660,6 +1700,7 @@ def _build_polish_prompt(
         f"{norm_keyed_block_wrapped}"
         f"{cross_border_wrapped}"
         f"{municipal_wrapped}"
+        f"{framework_wrapped}"
         "\n"
         f"{allowlist_block}\n"
         "\n"
