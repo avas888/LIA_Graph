@@ -1536,6 +1536,19 @@ def _build_polish_prompt(
         _yc_block(_detected_year) if _detected_year is not None else None
     )
 
+    # v25 P1 — norm-keyed retrieval boost directive (G8). When the question
+    # names a specific Resolución / Decreto / Ley / Acuerdo / Concepto /
+    # Sentencia, nudge the LLM to cite that norm directly in Anclaje Legal
+    # when the evidence carries it. Conditional injection — no block when
+    # the user did not name a norm.
+    from .norm_keyed_boost import boost_enabled as _nkb_enabled
+    from .norm_keyed_boost import extract_named_norms as _nkb_extract
+    from .norm_keyed_boost import norm_keyed_directive as _nkb_directive
+    norm_keyed_block = ""
+    if _nkb_enabled():
+        _norm_refs = _nkb_extract(request.message or "")
+        norm_keyed_block = _nkb_directive(_norm_refs)
+
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
         "por encima de cualquier otra cosa:\n"
@@ -1603,6 +1616,9 @@ def _build_polish_prompt(
     year_block = (
         f"\n{year_constants_directive}\n" if year_constants_directive else ""
     )
+    norm_keyed_block_wrapped = (
+        f"\n{norm_keyed_block}\n" if norm_keyed_block else ""
+    )
 
     return (
         "Actuás como un contador colombiano senior revisando la respuesta "
@@ -1613,6 +1629,7 @@ def _build_polish_prompt(
         "\n"
         f"{primary_directive}\n"
         f"{year_block}"
+        f"{norm_keyed_block_wrapped}"
         "\n"
         f"{allowlist_block}\n"
         "\n"

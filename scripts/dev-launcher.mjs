@@ -545,10 +545,11 @@ function buildRuntimeEnv(mode) {
 
   // v23 P4 — Cloud-corpus pollution entity filter (G4). Demotes chunks
   // matching named-entity / acta-template / formulario leak patterns.
-  // Ships SHADOW per D-S3 — operator promotes after P4 audit + v24 plan.
-  // Rollback: `LIA_CHUNK_QUALITY_ENTITY_FILTER=off`.
+  // v25 P8 promoted default shadow → enforce (G15). Operator can still
+  // set `shadow`/`off` explicitly via env to roll back.
+  // Rollback: `LIA_CHUNK_QUALITY_ENTITY_FILTER=off` or `shadow`.
   if (!String(env.LIA_CHUNK_QUALITY_ENTITY_FILTER || "").trim()) {
-    env.LIA_CHUNK_QUALITY_ENTITY_FILTER = "shadow";
+    env.LIA_CHUNK_QUALITY_ENTITY_FILTER = "enforce";
   }
 
   // v23 P5 — Numeric-Input Preservation + Contradiction Detection (G5).
@@ -574,6 +575,78 @@ function buildRuntimeEnv(mode) {
   if (!String(env.LIA_ANCLAJE_TOPIC_GATE || "").trim()) {
     env.LIA_ANCLAJE_TOPIC_GATE = "enforce";
   }
+
+  // v25 P1 — Norm-keyed retrieval boost (G8). Detects explicit Resolución/
+  // Decreto/Ley/Acuerdo/Concepto/Sentencia references in the question and
+  // (a) injects a polish-prompt directive nudging direct citation in
+  // Anclaje Legal, (b) exposes a rerank-time multiplier for matching
+  // norm_id chunks. Rollback: `LIA_NORM_KEYED_BOOST=off`.
+  if (!String(env.LIA_NORM_KEYED_BOOST || "").trim()) {
+    env.LIA_NORM_KEYED_BOOST = "enforce";
+  }
+
+  // v25 P2 — Cross-border / pagos al exterior lane (G9). Detects foreign-
+  // payment context (servicios desde el exterior, royalties, treaty) and
+  // surfaces a canonical-articles directive (ET 408/410/420 par.3/437-2/
+  // 124-1/124-2) so the LLM stops defaulting to domestic ET 392.
+  // Rollback: `LIA_CROSS_BORDER_LANE=off`.
+  if (!String(env.LIA_CROSS_BORDER_LANE || "").trim()) {
+    env.LIA_CROSS_BORDER_LANE = "enforce";
+  }
+
+  // v25 P3 — Municipal/local tax routing (G10). Detects municipal context
+  // (Bogotá, Medellín, reteICA, territorialidad) and prepends a canonical
+  // local-norm pointer block when corpus lacks SHD sources (Acuerdo 65/2002,
+  // Decreto Distrital 352/2002 for Bogotá). Rollback: `LIA_MUNICIPAL_TAX_ROUTING=off`.
+  if (!String(env.LIA_MUNICIPAL_TAX_ROUTING || "").trim()) {
+    env.LIA_MUNICIPAL_TAX_ROUTING = "enforce";
+  }
+
+  // v25 P4 — Accounting framework awareness (G11). Detects NIIF Pymes vs
+  // NIIF Plenas in the question; injects framework directive that constrains
+  // polish (e.g. Sección 20 for Pymes leasing, NOT IFRS 16/right-of-use).
+  // Validator rejects NIIF 16 leakage into a NIIF-Pymes answer.
+  // Rollback: `LIA_FRAMEWORK_AWARENESS=off`.
+  if (!String(env.LIA_FRAMEWORK_AWARENESS || "").trim()) {
+    env.LIA_FRAMEWORK_AWARENESS = "enforce";
+  }
+
+  // v25 P5 — Sub-question coverage gate (G12). Strips "Cobertura pendiente"
+  // and sibling non-answer stubs from polished output; rejects polish that
+  // emits the stub. Rollback: `LIA_COVERAGE_GAP_GATE=off`.
+  if (!String(env.LIA_COVERAGE_GAP_GATE || "").trim()) {
+    env.LIA_COVERAGE_GAP_GATE = "enforce";
+  }
+
+  // v25 P6 — Compliance-deadline registry injection (G13). Extends
+  // year_facts.py with per-norm deadlines (RTE March 31, exógena Apr 28–
+  // Jun 12 2026) + multi-UVT helpers (4/27/100/3300 UVT precomputed) and
+  // injects relevant deadlines into the polish prompt by topic.
+  // Rollback: `LIA_DEADLINE_REGISTRY_INJECTION=off`.
+  if (!String(env.LIA_DEADLINE_REGISTRY_INJECTION || "").trim()) {
+    env.LIA_DEADLINE_REGISTRY_INJECTION = "enforce";
+  }
+
+  // v25 P7 — Fallback-path numeric echo (G14). Pre-extracts user-stated
+  // peso amounts / UVT counts / percentages and threads them through to
+  // `compose_polish_rejected_fallback` so the fallback path cannot
+  // remutate values that the polish-time validator rejected.
+  // Rollback: `LIA_FALLBACK_NUMERIC_ECHO=off`.
+  if (!String(env.LIA_FALLBACK_NUMERIC_ECHO || "").trim()) {
+    env.LIA_FALLBACK_NUMERIC_ECHO = "enforce";
+  }
+
+  // v25 P9 — Counterfactual-example detector (G16). Polish validator that
+  // rejects polished output containing named persons, companies, or
+  // monetary facts NOT present in question OR evidence (e.g. "Carlos
+  // Moreno Pérez" Q8 RUB, "Panama 1,930M" Q16 transfer pricing,
+  // "InnovaLab" Q17 losses). Rollback: `LIA_COUNTERFACTUAL_DETECTOR=off`.
+  if (!String(env.LIA_COUNTERFACTUAL_DETECTOR || "").trim()) {
+    env.LIA_COUNTERFACTUAL_DETECTOR = "enforce";
+  }
+
+  // v25 P8 — promotion of LIA_CHUNK_QUALITY_ENTITY_FILTER shadow → enforce
+  // is applied at the v23 P4 block above (single point of default).
 
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";

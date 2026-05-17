@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "target": "production",
+  "generation": "gen_v20_20260516_172203",
+  "shard": null,
+  "total_chunks": 20701,
+  "null_embedding_chunks": 0,
+  "coverage_pct": 100.0,
+  "job_id": "ba3207dd4e2346f58bcf0c4805078d82",
+  "status": {
+    "target": "production",
+    "total_chunks": 20701,
+    "embedded_chunks": 20701,
+    "null_embedding_chunks": 0,
+    "coverage_pct": 100.0,
+    "current_operation": null,
+    "last_operation": null,
+    "api_health": {
+      "ok": true,
+      "detail": "768d, 805ms",
+      "latency_ms": 805
+    }
+  },
+  "finished_at": "20260517T021316Z"
+}
