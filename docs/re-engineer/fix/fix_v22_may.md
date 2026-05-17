@@ -93,8 +93,10 @@ You are picking up a **one-question-one-fix project**. v21 closed the answer-sha
 
 | Gap | Concretely | Evidence | Module path |
 |---|---|---|---|
-| Polish mislabels labor articles | Polish output renders `(art. 64 ET)` / `(art. 62 ET)` for CST articles. The polish prompt's `anchor_preserve` rule says "preserve all `(art. X ET)` references" — the LLM applies that rule to ALL article citations regardless of which code (ET or CST) actually governs them. | `tracers_and_logs/logs/probe_runs/20260517T161225Z_v21_t5_postfix/q01.digest.md` — "Anclaje Legal: (Art. 64 ET) — Regula la terminación unilateral del contrato de trabajo sin justa causa" | `src/lia_graph/pipeline_d/answer_llm_polish.py` — POLISH_RULES `anchor_preserve` (line ~60) + `numeric_format_bold` (line ~141) |
+| **(Primary)** Polish mislabels labor articles | Polish output renders `(art. 64 ET)` / `(art. 62 ET)` for CST articles. The polish prompt's `anchor_preserve` rule says "preserve all `(art. X ET)` references" — the LLM applies that rule to ALL article citations regardless of which code (ET or CST) actually governs them. | `tracers_and_logs/logs/probe_runs/20260517T161225Z_v21_t5_postfix/q01.digest.md` — "Anclaje Legal: (Art. 64 ET) — Regula la terminación unilateral del contrato de trabajo sin justa causa" | `src/lia_graph/pipeline_d/answer_llm_polish.py` — POLISH_RULES `anchor_preserve` (line ~60) + `numeric_format_bold` (line ~141) |
 | Polish inconsistency: same article cited two ways | In one answer body, `(art. 65 CST)` appears correctly AND `(art. 64 ET)` appears incorrectly. The LLM follows the prompt for some lines and the source bullet form for others. | Same q01 trace — search for `art. 65 CST` vs `art. 64 ET` | Same |
+| **(Cascade A) Interpretación de Expertos panel empty for labor.** | UI panel renders **0 cards** for q01 despite 7 labor expert docs in corpus. Backend retrieves 18 candidates, off-topic filter penalizes 12 to zero (`off_topic_penalized_count=12, off_topic_penalized_kept=0`), eligible drops to 4 → 1 group + 2 ungrouped → frontend ranking + classification filters all 3 out. Root cause = polish mislabel cascades: `extractArticleRefs` at `frontend/src/features/chat/expertPanelRefs.ts:1-14` parses the polished answer text and emits **code-agnostic refs** (`art_64` instead of `art_cst_64`); backend then treats `art_64` from the `(art. 64 ET)` polished line as a tax-article anchor; off-topic filter drops the labor expert candidates. | UI screenshot 2026-05-17 ~11:35 AM Bogotá. Curl probe of `/api/expert-panel` for q01 returns `groups=1 + ungrouped=2 + total_available=3`. | `frontend/src/features/chat/expertPanelRefs.ts::extractArticleRefs` (emit code-aware refs); also tied to the polish fix above |
+| **(Cascade B) Soporte Normativo panel: "0 referencias" + ET mislabel.** | UI screenshot shows the Soporte Normativo panel listing 5 labor articles (64/65/62/401-3/108) but labels them ALL as **"Estatuto Tributario"** and the header reports "Mostrando 0 referencias normativas detectadas en este turno." Both display issues: (1) counter doesn't match list length; (2) code-suffix renderer hardcodes "Estatuto Tributario" or has no laboral branch. | Same screenshot. | TBD — likely `frontend/src/features/chat/normative/` or `ui_chat_payload.py` citation rendering; needs P1-T4 grep |
 
 ### §1.3 The non-negotiable invariants v22 must preserve
 
@@ -132,6 +134,8 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 | P1-T1 | Read `answer_llm_polish.py` POLISH_RULES (esp. `anchor_preserve` + `numeric_format_bold`). Identify where the `(art. X ET)` form is enforced as canonical. | 1 | 🟡 | — | — | — |
 | P1-T2 | Verify case-bullet SPEC sources for labor topics use `CST art. N` / `art. N CST` form (sample: `case_bullets/liquidacion_terminacion.py`, `prestaciones_sociales.py`). If sources are correct, the bug is purely in polish; if sources are inconsistent, fix source first. | 1 | 🟡 | — | — | — |
 | P1-T3 | Decide approach: (a) widen polish prompt to honor both forms, (b) add post-polish transform `(art. <num> ET) → (art. <num> CST)` when topic=laboral AND num ∈ CST namespace, (c) both. Write decision to §9. | 1 | 🟡 | — | P1-T1, P1-T2 | — |
+| P1-T4 | Cascade A — locate `extractArticleRefs` at `frontend/src/features/chat/expertPanelRefs.ts:1-14` and decide whether to (a) emit code-aware refs (`cst_art_N` / `et_art_N`) when the surrounding text identifies the code, or (b) fix only via the polish side and rely on the polished text now saying CST. | 1 | 🟡 | — | P1-T1 | — |
+| P1-T5 | Cascade B — locate the Soporte Normativo panel renderer (probably `frontend/src/features/chat/normative/` or `ui_chat_payload.py` citation serializer). Document the two failures: hardcoded "Estatuto Tributario" string + the "0 referencias" counter divergence from the actual list count. | 1 | 🟡 | — | — | — |
 | P2-T1 | Implement chosen approach + unit test in `tests/test_polish_cst_form_preserved.py` | 2 | 🟡 | — | P1-T3 | — |
 | P2-T2 | Run focused test sweep (polish + détector + synthesis + per-case) — must stay 326/326 green | 2 | 🟡 | — | P2-T1 | — |
 | P3-T1 | Restart dev:staging server (kill + relaunch) | 3 | 🟡 | operator | P2 ✅ | — |
@@ -256,6 +260,17 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 ---
 
 ## §6. Run log (append-only, most recent on top, Bogotá local time)
+
+### 2026-05-17 ~11:45 AM Bogotá — scope widened to UI cascades
+
+- **Trigger.** Operator opened the chat UI for q01 (post-v21 ship) and reported (a) Interpretación de Expertos panel completely empty, (b) Soporte Normativo panel labels 5 labor articles as "Estatuto Tributario" + header says "0 referencias detectadas." Screenshot attached at 2026-05-17 ~11:35 AM Bogotá.
+- **Diagnosis (read-only, in-process):**
+  - `/api/expert-panel` returns 3 items (1 group + 2 ungrouped) for q01 — backend is NOT empty.
+  - Retrieval pulls 18 candidates; off_topic_penalized_count=12 (kept=0); 4 eligible after filter → 1 group + 2 ungrouped.
+  - `decision_frame.core_refs = ["et_art_62_cst", "et_art_65_cst", "et_art_64_cst", "et_art_64"]` — note the bare `et_art_64` (no `_cst`), traceable to the polished answer's `(art. 64 ET)` line.
+  - Frontend `extractArticleRefs` at `frontend/src/features/chat/expertPanelRefs.ts:1-14` is **code-agnostic** — emits `art_N` regardless of whether the surrounding text says ET or CST.
+- **Conclusion.** Cascade A (empty Interpretación panel) is downstream of the v22-primary polish mislabel: fix polish → polished text says `(art. 64 CST)` → backend interpretation lane has the right anchor → off-topic filter stops over-firing → panel populates. Cascade B (Soporte Normativo display) is a separate UI rendering bug, still v22-scoped because it surfaces the same wrong "Estatuto Tributario" label.
+- **Next.** P1-T1 + P1-T2 + P1-T4 + P1-T5 in parallel (read-only). Then P1-T3 scope decision covers all three cascades.
 
 ### 2026-05-17 ~11:30 AM Bogotá — v22 plan drafted
 
