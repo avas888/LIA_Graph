@@ -212,9 +212,67 @@ _FORMULARIO_LEAK_RE = re.compile(
     re.IGNORECASE,
 )
 _AUDIT_VERBATIM_LEAK_RE = re.compile(
-    r"\b(?:DISTRIBUIDORA\s+EL\s+SOL|ALEJANDRO\s+VASQUEZ)\b",
+    r"\b(?:DISTRIBUIDORA\s+EL\s+SOL|ALEJANDRO\s+VASQUEZ|InnovaLab|Carlos\s+Moreno\s+P[eé]rez)\b",
     re.IGNORECASE,
 )
+
+# v25 P8 — topic-aware pollution families surfaced by the 2026-05-17 audit.
+# Each pattern fires only when the *routed* topic disagrees with the
+# pattern's home topic, which keeps legitimate citations of these articles
+# in their proper context.
+_CONCEPTO_DIAN_DEPRECIACION_RE = re.compile(
+    r"\bConcepto\s+(?:DIAN\s+)?(?:N[º°ºo]\s*)?\d{1,5}\s*(?:de|/)\s*\d{4}\b.*"
+    r"\b(?:deprec(?:iaci[oó]n|iar)|amortizaci[oó]n|art(?:[ií]culo|\.)\s*137)\b",
+    re.IGNORECASE | re.DOTALL,
+)
+_INC_VEHICLE_RE = re.compile(
+    r"\bart(?:[ií]culo|\.)\s*512-(?:3|4|5)\b",
+    re.IGNORECASE,
+)
+_INCRNGO_DONATIONS_RE = re.compile(
+    r"\bINCRNGO\b.*\bdonac(?:i[oó]n|iones)\b",
+    re.IGNORECASE | re.DOTALL,
+)
+
+# Topic-hint allowlists: patterns above are LEGITIMATE only when the
+# routed_topic is in the corresponding allowlist. Anywhere else they're
+# pollution.
+_CONCEPTO_DEPRECIACION_HOMES = frozenset(
+    {"costos_deducciones_renta", "depreciacion", "activos_fijos", "conciliacion_fiscal"}
+)
+_INC_VEHICLE_HOMES = frozenset(
+    {"impuesto_consumo_vehiculos", "vehiculos", "automotores", "impuesto_consumo"}
+)
+_INCRNGO_DONATIONS_HOMES = frozenset(
+    {"donaciones", "incrngo", "rentas_exentas", "regimen_tributario_especial_esal"}
+)
+
+
+def score_topic_aware_pollution(
+    text: str, routed_topic: str | None
+) -> tuple[float, str | None]:
+    """v25 P8 — demote chunks that mention a topic-incompatible normative
+    artifact (Concepto DIAN N/YYYY about depreciación when topic ≠
+    deducciones; INC vehicle arts. 512-3/4/5 when topic ≠ vehiculos;
+    INCRNGO donations when topic ≠ donaciones).
+
+    Returns ``(penalty_factor, reason)`` like its sibling. Pure function —
+    caller multiplies into rrf_score and persists the reason.
+    """
+    if not text:
+        return 1.0, None
+    topic_norm = (routed_topic or "").strip().lower()
+
+    if _CONCEPTO_DIAN_DEPRECIACION_RE.search(text):
+        if topic_norm not in _CONCEPTO_DEPRECIACION_HOMES:
+            return PENALTY_MEDIUM, "concepto_dian_depreciacion_offtopic"
+    if _INC_VEHICLE_RE.search(text):
+        if topic_norm not in _INC_VEHICLE_HOMES:
+            return PENALTY_MEDIUM, "inc_vehicle_offtopic"
+    if _INCRNGO_DONATIONS_RE.search(text):
+        if topic_norm not in _INCRNGO_DONATIONS_HOMES:
+            return PENALTY_LIGHT, "incrngo_donations_offtopic"
+    return 1.0, None
 
 
 def score_entity_pollution(text: str) -> tuple[float, str | None]:
@@ -398,9 +456,18 @@ def apply_heuristics(
         # v23 P4 — run the entity-pollution filter alongside (not nested
         # inside) the v18 heuristics. Independent gate, independent diag.
         if entity_mode != "off":
-            ep_penalty, ep_reason = score_entity_pollution(
-                str(row.get("chunk_text") or "")
+            chunk_text = str(row.get("chunk_text") or "")
+            ep_penalty, ep_reason = score_entity_pollution(chunk_text)
+            # v25 P8 — topic-aware pollution families fire here too. If
+            # both fire we apply the lower (heavier) penalty.
+            tap_penalty, tap_reason = score_topic_aware_pollution(
+                chunk_text, routed_topic
             )
+            if ep_reason is None and tap_reason is not None:
+                ep_penalty, ep_reason = tap_penalty, tap_reason
+            elif ep_reason is not None and tap_reason is not None:
+                if tap_penalty < ep_penalty:
+                    ep_penalty, ep_reason = tap_penalty, tap_reason
             if ep_reason is not None:
                 row = dict(row)
                 row["chunk_entity_pollution_reason"] = ep_reason
