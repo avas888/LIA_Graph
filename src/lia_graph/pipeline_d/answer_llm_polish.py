@@ -1559,6 +1559,18 @@ def _build_polish_prompt(
     if _cb_enabled():
         cross_border_block = _cb_directive(_cb_detect(request.message or ""))
 
+    # v25 P3 — municipal tax routing (G10). When the question is about ICA /
+    # reteICA in a Colombian municipality, inject a directive that keeps the
+    # LLM from drifting to national ET articles. The deterministic pointer
+    # block is appended at the synthesis layer (not here) — this directive
+    # only shapes the polish step.
+    from .municipal_tax_routing import detect_municipal_context as _mt_detect
+    from .municipal_tax_routing import municipal_directive as _mt_directive
+    from .municipal_tax_routing import routing_enabled as _mt_enabled
+    municipal_block = ""
+    if _mt_enabled():
+        municipal_block = _mt_directive(_mt_detect(request.message or ""))
+
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
         "por encima de cualquier otra cosa:\n"
@@ -1629,6 +1641,12 @@ def _build_polish_prompt(
     norm_keyed_block_wrapped = (
         f"\n{norm_keyed_block}\n" if norm_keyed_block else ""
     )
+    cross_border_wrapped = (
+        f"\n{cross_border_block}\n" if cross_border_block else ""
+    )
+    municipal_wrapped = (
+        f"\n{municipal_block}\n" if municipal_block else ""
+    )
 
     return (
         "Actuás como un contador colombiano senior revisando la respuesta "
@@ -1640,6 +1658,8 @@ def _build_polish_prompt(
         f"{primary_directive}\n"
         f"{year_block}"
         f"{norm_keyed_block_wrapped}"
+        f"{cross_border_wrapped}"
+        f"{municipal_wrapped}"
         "\n"
         f"{allowlist_block}\n"
         "\n"

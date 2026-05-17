@@ -124,6 +124,26 @@ def compose_main_chat_answer(
         primary_topic=request.topic,
         secondary_topics=tuple(request.secondary_topics or ()),
     )
+
+    # v25 P3 — municipal tax routing (G10). When the question is about ICA /
+    # reteICA in a Colombian municipality and the corpus did not surface
+    # municipal-level evidence, prepend a deterministic pointer block so the
+    # accountant knows WHICH Acuerdo / Decreto Distrital to consult.
+    try:
+        from .municipal_tax_routing import (
+            detect_municipal_context as _mt_detect,
+            municipal_pointer_block as _mt_block,
+            routing_enabled as _mt_enabled,
+        )
+        if _mt_enabled():
+            hint = _mt_detect(getattr(request, "message", "") or "")
+            if hint.detected:
+                pointer = _mt_block(hint)
+                if pointer:
+                    filtered = pointer + "\n\n" + filtered
+    except Exception:  # noqa: BLE001 - routing must never raise into composer
+        pass
+
     return filtered
 
 __all__ = [
