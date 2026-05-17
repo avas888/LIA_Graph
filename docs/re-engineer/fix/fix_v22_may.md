@@ -261,6 +261,18 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 
 ## §6. Run log (append-only, most recent on top, Bogotá local time)
 
+### 2026-05-17 ~12:10 PM Bogotá — scope widened (#4): P2-T-Orphan-Land
+
+- **Trigger.** Operator directive: "Fold into v22" the `fix_v7-truncated-tail-and-canonical-shapes` branch revival.
+- **Branch findings.**
+  - HEAD `4b953ca` dated 2026-04-30; one commit; 681 LOC across 9 files.
+  - Self-labeled "fix_v7 phase 1+2" but main's actual `fix_v7_may.md` took the v7 slot for a different fix (retrieval / topic-filter softening); the branch's L13 + L14 work was never integrated under any namespace.
+  - L13 (truncated chunk-tail filter) absent from main — main's `_looks_truncated_line` is narrow (only catches `"..."` / `"[truncated]"`).
+  - L14 (canonical question shapes) entirely absent — no `canonical_question_shapes.py`, no `canonical_question_shapes.json`. The `subquery_inherited_parent` override at `orchestrator.py:628` still fires unconditionally.
+  - Compat-doc-topics adjacencies for `declaracion_renta ↔ calendario_obligaciones ↔ regimen_sancionatorio_extemporaneidad` absent from `config/compatible_doc_topics.json`.
+- **Codified.** New §9c with task table P2-T-Orphan-1..4 (rebase → tests → re-probe → delete original branch). Rationale + rollback documented per §9b.3 rules. Branch deletion is mandatory per §9b.1 #3 once landed.
+- **Status.** Tasks blocked on v22 P1 closure (need P1-T1..T5 first to lock primary scope before mass-landing P2). After P1: P2-T-Orphan-1 can run in parallel with the other P2 tracks since target files don't overlap heavily.
+
 ### 2026-05-17 ~12:00 PM Bogotá — scope widened (#3): git/github hygiene rules
 
 - **Trigger.** Operator directive: "make sure when we deploy fix_v22_may.md we incorporate procedures that make the git and github commits clean, and mandatory, and not leave them becoming stale so this does not happen in the future. incorporate this as part of the document."
@@ -364,6 +376,45 @@ Update this section as new questions surface during execution.
 | P2-T-Hygiene-4 | Optional but recommended: add a pre-merge `make worktrees-audit` target that runs `git worktree list` + `ps -p` for each lock owner + reports dead-PID locks. Wires into `make smoke-deps`. | 2 | 🟡 | claude (defer to v23 if time-bounded) |
 
 These tasks ship in the SAME commits as the polish + UI cascade fixes. v22 is not declared closed until P2-T-Hygiene-1, -2, -3 are ✅.
+
+---
+
+## §9c. P2-T-Orphan-Land — revive the fix_v7 truncated-tail + canonical-shapes work
+
+> **Operator directive (2026-05-17 ~12:05 PM Bogotá):** "Fold into v22." The `fix_v7-truncated-tail-and-canonical-shapes` branch (HEAD `4b953ca`, dated 2026-04-30) carries real unmerged improvements that lost their `fix_v7` namespace slot when main's actual `fix_v7_may.md` took it for a different fix (retrieval/topic-filter softening). Per `§9b` hygiene rules: orphan branches with verifiable value must be either landed or explicitly snapshotted-and-discarded — this branch goes the "land" path.
+
+### §9c.1 What the branch carries (681 LOC across 9 files)
+
+| Phase | Fix | Files (additions/changes) | Visible effect on answers |
+|---|---|---|---|
+| **L13** | Truncated chunk-tail filter | `src/lia_graph/pipeline_d/answer_support.py` — new `_ABBREVIATION_TOKENS`, `_TRUNCATED_TAIL_TOKEN_RE`, `_merge_abbreviation_splits`; truncated-tail drop before auto-period-add. | Kills bullets like `"...o fra."` (mid-word truncation from chunks ending in "fracción", "artículo", "art", etc.). Main's existing `_looks_truncated_line` only catches explicit `"..."` / `"[truncated]"` markers — doesn't catch the abbreviation-token mid-word break. Affects ~1–3% of bullets across sancionatorio / labor / procedimiento answers. |
+| **L14** | Canonical question shapes | `src/lia_graph/canonical_question_shapes.py` (new, 145 LOC); `config/canonical_question_shapes.json` (new, 43 LOC, single seed shape `plazos_renta_personas_juridicas`); `pipeline_d/orchestrator.py` (canonical-shape hookup before `subquery_inherited_parent` branch); `pipeline_d/planner.py` (new `tabular_reference` budget + query-mode override). | Sub-questions matching a declared shape get correct topic routing instead of inheriting the parent's wrong topic. Today the `subquery_inherited_parent` override at `orchestrator.py:628` fires unconditionally for fallback-classified sub-Qs — that's still reproducible on main. |
+| **L14 companion** | Compat-doc-topics wiring | `config/compatible_doc_topics.json` — three new mutual adjacencies: `declaracion_renta ↔ calendario_obligaciones ↔ regimen_sancionatorio_extemporaneidad`. | Calendar / deadline docs (`seccion-06-calendario-tributario.md`, topic_key `calendario_obligaciones`) can be promoted to primary under `declaracion_renta` queries. Today they can't — wrong-topic gate. |
+| **Docs** | L13 + L14 learnings + CLAUDE.md operating-instructions section | `CLAUDE.md` (canonical-question-shapes + paired-compat-wiring section); `docs/learnings/process/chat-runtime-hardening-fix_v1-to-v6-2026-04-29.md` (L13 + L14 entries + metrics table). | Knowledge-base hygiene; future agents know how to extend canonical shapes via JSON config. |
+
+### §9c.2 Staleness assessment (per `§9b.3` rules)
+
+- **Target files still exist on main** — `answer_support.py`, `orchestrator.py`, `planner.py`, both config files. ✅
+- **Trigger bugs still reproducible on main** — `_looks_truncated_line` is narrow; `subquery_inherited_parent` still fires unconditionally. ✅
+- **18 days since branch HEAD** — moderate, but no contradicting work has landed in the same code regions (verified via `git log --oneline 4b953ca..main -- <target-files>`).
+- **Conflict probability** — moderate. v18+ work touched `answer_support.py` (introduced `_support_doc_candidate_lines` for the dedicated práctica lane) and `orchestrator.py` (polish-rejected fallback wiring, conflict-resolver wiring). The L13/L14 hooks live BEFORE those v18+ additions in the flow, so the merge is layered, not collision-shaped. Expect manual reconciliation on a few hunks, not a full rebuild.
+
+### §9c.3 v22 P2-T-Orphan-Land tasks
+
+| ID | Task | Phase | Status | Owner |
+|---|---|---|---|---|
+| P2-T-Orphan-1 | Rebase `fix_v7-truncated-tail-and-canonical-shapes` onto current `main` HEAD. Resolve conflicts by porting the patch logic onto current shapes of `answer_support.py` + `orchestrator.py` + `planner.py`. NO cherry-pick of the original commit SHA — rewrite as a clean v22 commit with the original rationale preserved in the message body. | 2 | 🟡 | claude (with v22 P2) |
+| P2-T-Orphan-2 | New tests covering both L13 + L14 paths on current main shape. Existing 4 `answer_support` tests must stay green. Extend `tests/test_planner_query_modes.py` and `tests/test_orchestrator_polish_trace.py` if the canonical-shape hookup affects their assertions. | 2 | 🟡 | claude |
+| P2-T-Orphan-3 | Re-probe via `answer-engine-probe` for a SME-shaped sub-question that exercises both fixes (e.g. "¿Cuáles son las fechas límite para presentar renta por NIT? ¿Dónde encuentro el decreto de plazos vigente y qué consecuencias tiene la presentación extemporánea?") — confirm bullet `"...o fra."` disappears AND sub-Q #1 routes to `declaracion_renta` not `regimen_sancionatorio_extemporaneidad`. | 2 | 🟡 | claude |
+| P2-T-Orphan-4 | After P2-T-Orphan-1..3 ✅, **delete the original `fix_v7-truncated-tail-and-canonical-shapes` branch** per `§9b.1 #3` (no orphan branches once content has landed). Snapshot the patch to `tracers_and_logs/snapshots/<UTC>_fix_v7_orphan_revival.patch` first for audit. | 2 | 🟡 | claude |
+
+### §9c.4 Rollback
+
+- L13 sits behind no new env flag (the truncated-tail filter is deterministic). Rollback = `git revert` of the v22 P2-T-Orphan-1 commit.
+- L14 sits behind no new env flag but its canonical-shape JSON is opt-in (empty config = noop). Rollback = empty the JSON OR revert the commit.
+- Each landing commit references back to §9c for rationale, so a future agent reading `git log -p` sees the full context without scrolling 18 days back.
+
+---
 
 ---
 
