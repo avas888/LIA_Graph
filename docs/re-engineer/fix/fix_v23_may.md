@@ -18,9 +18,9 @@
 
 | Field | Value |
 |---|---|
-| Last completed step | **P0–P7 all landed on worktree `fix-v23-may`** (8 commits). 6 v23 flags default `enforce` (entity-filter `shadow` per D-S3). 217 unit tests green across affected suites. P8-T1 doc sync (CLAUDE.md flag table) ✅. Internal probes (P8-T2) + external SME (P8-T3) outstanding. |
-| Last touched UTC | 2026-05-17T19:30:00Z (~2:30 PM Bogotá) |
-| Next step | **P8-T2** — start `npm run dev:staging` server; run `answer-engine-probe` on all 10 audit Qs + v22-P3 q01 shape; archive probe outputs at `tests/fixtures/audit_q01_q10/<qid>.answer.txt`; flip xfail decorators in `tests/test_audit_regression_q01_q10.py`. Then **P8-T3** is operator-coordinated external SME re-run. |
+| Last completed step | **v23 internally closed on worktree `fix-v23-may` (9 commits)**. P0–P7 ✅; P8-T1 doc sync ✅; P8-T2 internal probes ✅ (0/11 refused vs 4/10 pre-v23; 0/11 voseo; v22-P3 Anclaje shape clean; pollution leak gone). 11 probe-output fixtures archived; 7 of 11 audit-regression tests now pass (Q1/Q3/Q6/Q7/Q8/Q9 + v22-handoff); 4 stay xfail as content-coverage gaps (Q2 UVT-figure quoting, Q4 explicit CST mention, Q5 Ley 43+CCo citation, Q10 user-numeric echo in fallback) requiring corpus enrichment beyond v23 scope. Outstanding: P8-T3 external SME re-run (operator-coordinated). |
+| Last touched UTC | 2026-05-17T20:30:00Z (~3:30 PM Bogotá) |
+| Next step | **P8-T3 (operator)** — coordinate external accountant re-run of same 10 Qs on production. Acceptance per D-S2: avg ≥ 4.0/5 + zero 1s. Internal probes give high confidence on "zero 1s" (refusals + voseo + pollution + UVT mutations all eliminated) but several questions are likely 3/5 instead of 5/5 due to corpus-coverage gaps that v24 will close (UVT registry → polish prompt threading; Anclaje source-code-coherence guarantees more substantive content). |
 | Working artifact | Audit archived at `docs/re-engineer/audits/2026-05-17_external_sme_audit_pre_v23.md` (operator-distilled from v23 §1.2 — verbatim replacement deferred per the operator decision in the v23 execution session). |
 | Cloud state | Inherits v22's: cloud Supabase `gen_v20_20260516_172203` is_active=true; cloud Falkor 10,217 ArticleNodes, 3,401 TEMA edges. **v23 P4 reads cloud Supabase for the pollution-scan audit (read-only); no v23 phase writes to cloud.** v24 (separate doc) handles retirement. |
 | Local state | Worktree `fix-v23-may` exists at `.claude/worktrees/fix-v23-may`; 8 commits ahead of main. Server `dev:staging` not yet started in this session. |
@@ -164,7 +164,7 @@ You are picking up a **multi-phase quality-floor project** triggered by an exter
 | P5 | Numeric-Input Preservation + Contradiction Detection (G5) | ✅ done | claude | 2026-05-17 ~2:15 PM |
 | P6 | Colombian-Spanish Style Pass (G6) | ✅ done | claude | 2026-05-17 ~2:20 PM |
 | P7 | Anclaje Legal Topic-Aware Constraint (G7) | ✅ done | claude | 2026-05-17 ~2:25 PM |
-| P8 | Internal close + doc sync + external SME closing gate | 🔵 in progress (P8-T1 ✅; P8-T2 pending) | claude (internal) + operator (SME) | 2026-05-17 ~2:30 PM |
+| P8 | Internal close + doc sync + external SME closing gate | 🔵 in progress (P8-T1 ✅; P8-T2 ✅; P8-T3 pending — operator) | claude (internal) + operator (SME) | 2026-05-17 ~3:30 PM |
 
 Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked · ↩ discarded.
 
@@ -614,6 +614,30 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
   - `LIA_ANCLAJE_TOPIC_GATE=enforce`
 - **Audit archival (P0-T1).** Synthesized from §1.2 of this fix doc into `docs/re-engineer/audits/2026-05-17_external_sme_audit_pre_v23.md`. Operator can paste verbatim text over it any time without rebaselining; question-topic + audit-weakness + phase mapping rows are load-bearing.
 - **Next.** P8-T2 internal close — start `npm run dev:staging`, run `answer-engine-probe` against all 10 audit Qs + v22-P3 q01 shape, archive probe outputs as fixtures, flip xfail decorators in the regression suite. Then P8-T3 is operator-coordinated external SME re-run.
+
+### 2026-05-17 ~3:30 PM Bogotá — P8-T2 internal probe sweep + regression fixtures archived
+
+- **Probe run.** All 10 audit Qs + v22-P3 q01 shape via direct `/api/chat` against `dev:staging` (cloud Supabase + cloud Falkor). 11 probe-output captures archived at `tests/fixtures/audit_q01_q10/<qid>.answer.txt`.
+- **Acceptance summary.**
+  - Refusals: 0/11 (was 4/10 in pre-v23 audit — Q1/Q3/Q6/Q8 all now substantive).
+  - Voseo: 0/11 (regex scan; was 1/10 — Q7 voseo eliminated).
+  - Anclaje off-topic on v22-P3 q01: GONE (Art. 102 / 102-2 / 103 ET not in answer; was 3 lines pre-v23).
+  - Audit pollution strings on Q5: GONE (DISTRIBUIDORA EL SOL / ALEJANDRO VASQUEZ absent).
+  - UVT mutation on Q10: GONE (no `$2.000.000`; user `$3.000.000` echoed in body or rejected polish → fallback).
+  - Mixed-year UVT in same answer: GONE (validator caught Q7, polish rejected, fallback used).
+- **Regression suite outcome.** `tests/test_audit_regression_q01_q10.py`: **7 pass + 4 xfail**. Lifted xfail on Q1, Q3, Q6, Q7, Q8, Q9, v22-handoff. Remaining xfails are content-coverage gaps tracked as v24 scope:
+  - Q2 — answer is substantive but doesn't quote `UVT 2026 = $52,374` explicitly (year_facts directive landed in polish prompt, but the polish output is descriptive without the figure).
+  - Q4 — answer mentions auxilio + retención correctly but doesn't explicitly mention "CST" or "Código Sustantivo del Trabajo".
+  - Q5 — pollution gone, but answer doesn't cite `Ley 43/1990` / `CCo` (corpus may not have those rows).
+  - Q10 — input-preservation validator works but the post-rejection fallback template doesn't echo `$3.000.000`.
+- **Method-level refinements landed.**
+  - P1 threshold lowered to ≥1 primary article (was ≥2) — audit reproductions had single-evidence cases.
+  - P1 effective router topic resolved from coherence dict when `request.topic` is empty (fan-out queries).
+  - P7 source-code-family fallback when `secondary_topics` is empty.
+  - P7 deterministic post-polish Anclaje filter scans markdown after LLM polish and drops bullets whose code doesn't match the answer's dominant family.
+  - P7 polish-prompt directive `anclaje_source_code_coherence` so the LLM stops adding off-family bullets in the first place.
+- **What remains.** P8-T3 — operator coordinates external accountant re-run of same 10 Qs on production. Per D-S2, pass = avg ≥ 4.0/5 + zero 1s.
+- **Likely SME outcome (forecast — not a guarantee).** Internal probes give high confidence on "zero 1s" target; "avg ≥ 4.0" target is at risk because Q2/Q4/Q5/Q10 are substantive-but-generic (likely 3/5 each) due to corpus-coverage gaps. v24 closes those by retiring polluted chunks + threading year_facts figures into synthesis template (not just polish prompt) so the canonical UVT value lands deterministically.
 
 ### 2026-05-17 ~12:55 PM Bogotá — G7 / P7 added (Anclaje Legal topic-aware constraint)
 

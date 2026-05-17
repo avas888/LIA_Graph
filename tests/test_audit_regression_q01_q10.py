@@ -132,7 +132,6 @@ def assert_correct_year_uvt(answer: str, year: int) -> None:
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.xfail(reason="P1 (topic-decomposition) not yet enabled in probe fixture", strict=False)
 def test_q01_documento_soporte_vs_deducibilidad() -> None:
     """Q1 (G1 / P1) — multi-domain refusal. Must be sectioned, not refused."""
     answer = _probe_or_skip("q01")
@@ -147,7 +146,6 @@ def test_q02_retencion_fuente_2026() -> None:
     assert_no_pseudo_citation(answer)
 
 
-@pytest.mark.xfail(reason="P1 not yet enabled", strict=False)
 def test_q03_iva_periodicidad_92000_uvt() -> None:
     """Q3 (G1 / P1)."""
     answer = _probe_or_skip("q03")
@@ -171,28 +169,24 @@ def test_q05_revisor_fiscal_sas_topes() -> None:
     assert_no_pollution_leak(answer)
 
 
-@pytest.mark.xfail(reason="P1 not yet enabled", strict=False)
 def test_q06_regimen_simple_restaurante() -> None:
     """Q6 (G1 / P1)."""
     answer = _probe_or_skip("q06")
     assert_no_refusal(answer)
 
 
-@pytest.mark.xfail(reason="P2+P6 not yet enabled", strict=False)
 def test_q07_informacion_exogena_2025() -> None:
     """Q7 (G6+G2cal / P2+P6) — no voseo."""
     answer = _probe_or_skip("q07")
     assert_no_voseo(answer)
 
 
-@pytest.mark.xfail(reason="P1 not yet enabled", strict=False)
 def test_q08_rub_beneficiarios_finales() -> None:
     """Q8 (G1 / P1)."""
     answer = _probe_or_skip("q08")
     assert_no_refusal(answer)
 
 
-@pytest.mark.xfail(reason="P3+P4 not yet enabled", strict=False)
 def test_q09_niif_pymes_deterioro_castigo() -> None:
     """Q9 (G3+G4 / P3+P4) — no pseudo-citations; mentions ET 145/146."""
     answer = _probe_or_skip("q09")
@@ -207,7 +201,6 @@ def test_q10_laptop_activo_fijo() -> None:
     assert_user_numerics_preserved(answer, ("3.000.000", "3000000", "tres millones", "$3M"))
 
 
-@pytest.mark.xfail(reason="P7 (Anclaje gate) not yet enabled", strict=False)
 def test_q01_v22_handoff_anclaje_cst_64() -> None:
     """v22-P3-handoff probe — CST 64 question. Anclaje Legal must NOT surface
     Art. 102 / 102-2 / 103 ET (G7 / P7).
