@@ -1399,6 +1399,10 @@ def run_pipeline_d(
             "chunk_entity_filter_mode": os.getenv(
                 "LIA_CHUNK_QUALITY_ENTITY_FILTER", "shadow"
             ).strip().lower(),
+            # v23 P7 — Anclaje Legal topic-aware gate mode.
+            "anclaje_topic_gate_mode": os.getenv(
+                "LIA_ANCLAJE_TOPIC_GATE", "enforce"
+            ).strip().lower(),
             # v6 phase 4 — per-topic citation allow-list drops surfaced for
             # the panel; empty list in ``off`` mode.
             "citation_allowlist_mode": citation_allow_mode,

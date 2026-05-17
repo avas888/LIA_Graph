@@ -22,6 +22,10 @@ from .answer_synthesis_practica import extend_from_practica_chunks
 from .answer_topic_gate import (
     _topic_entry as _legal_anchor_topic_entry,
 )
+from .answer_anclaje_topic_gate import (
+    filter_anclaje_articles as _v23_filter_anclaje_articles,
+    gate_mode as _v23_anclaje_gate_mode,
+)
 from .case_bullets import CASE_REGISTRY
 from .contracts import GraphEvidenceItem
 
@@ -454,11 +458,37 @@ def build_legal_anchor_lines(
         # In shadow mode we record but do NOT actually drop.
         return gate_mode != "enforce"
 
-    for item in primary_articles[:5]:
+    # v23 P7 — topic-aware Anclaje gate. Filter connected_articles against
+    # the active topic's compatibility allowlist (config/compatible_doc_topics.json)
+    # BEFORE the existing v14 norm-allowlist + content-overlap filters run.
+    # This drops off-topic ET expansions from a CST-rooted Anclaje (v22 P3
+    # probe surfaced this: CST 64 question, Anclaje surfaced Art. 102 / 102-2
+    # / 103 ET as "connected"). Body bullets and other sections are UNTOUCHED
+    # — this only narrows what feeds the Anclaje section.
+    _v23_effective_topic = (primary_topic or "").strip() or _legal_anchor_topic_for_request(request)
+    _v23_kept_connected, _v23_dropped_connected = _v23_filter_anclaje_articles(
+        connected_articles, _v23_effective_topic or ""
+    )
+    if _v23_anclaje_gate_mode() == "enforce":
+        connected_for_anclaje = _v23_kept_connected
+    else:
+        connected_for_anclaje = connected_articles
+    # Also gate primary_articles, but only for genuinely off-topic ones —
+    # the same secondary_topics check. Primary articles with no secondary
+    # topics are kept (graph gap → preserve evidence).
+    _v23_kept_primary, _v23_dropped_primary = _v23_filter_anclaje_articles(
+        primary_articles, _v23_effective_topic or ""
+    )
+    if _v23_anclaje_gate_mode() == "enforce":
+        primary_for_anclaje = _v23_kept_primary
+    else:
+        primary_for_anclaje = primary_articles
+
+    for item in primary_for_anclaje[:5]:
         if not _gate_decision(item):
             continue
         append_unique(lines, _format_anchor_line(item))
-    for item in connected_articles[:2]:
+    for item in connected_for_anclaje[:2]:
         if not should_surface_connected_anchor(
             title=item.title,
             normalized_message=normalized_message,
