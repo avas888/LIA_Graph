@@ -261,6 +261,14 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 
 ## §6. Run log (append-only, most recent on top, Bogotá local time)
 
+### 2026-05-17 ~12:00 PM Bogotá — scope widened (#3): git/github hygiene rules
+
+- **Trigger.** Operator directive: "make sure when we deploy fix_v22_may.md we incorporate procedures that make the git and github commits clean, and mandatory, and not leave them becoming stale so this does not happen in the future. incorporate this as part of the document."
+- **What happened first.** 2026-05-17 ~11:55 AM Bogotá cleanup found 5 `agent-*` worktrees, each carrying a single commit. All 5 turned out to be earlier drafts of work that landed on main as different SHAs (e.g. `e8ffa09` blocker #1, `c20b3ce` blocker #2, etc.). The agent sessions that created them died (PIDs 88430 + 94669 dead); locks stayed; branches stayed; the redundant code sat there for weeks. Nearly cost an hour of attempted cherry-picks before duplication was confirmed via `state_fixplan_v5.md` ledger lookup.
+- **Codified.** New §9b "MANDATORY git/github hygiene" — three rule families: per-session, per-commit, per-fix-doc. Plus P2-T-Hygiene-1..4 deliverable that mirrors the rules into `CLAUDE.md` + `AGENTS.md` + a new `active_worktrees.md` roster + a `make worktrees-audit` target (target may slip to v23 if time-bounded).
+- **Status.** v22 is **not closed until these tasks land** — they ride the SAME commits as the polish/UI fixes. P2-T-Hygiene-3 (worktree roster) is one of the entry-criterion docs for v23 onward.
+- **Also tracked.** Open question Q3: should the `fix_v7-truncated-tail-and-canonical-shapes` branch (which carries unique unmerged work: canonical_question_shapes config + 681 LOC of pipeline_d changes) be revived in v22 or left for separate triage? Surfaced 2026-05-17 ~12:00 PM during the worktree audit. Not yet decided.
+
 ### 2026-05-17 ~11:45 AM Bogotá — scope widened to UI cascades
 
 - **Trigger.** Operator opened the chat UI for q01 (post-v21 ship) and reported (a) Interpretación de Expertos panel completely empty, (b) Soporte Normativo panel labels 5 labor articles as "Estatuto Tributario" + header says "0 referencias detectadas." Screenshot attached at 2026-05-17 ~11:35 AM Bogotá.
@@ -312,6 +320,50 @@ Update this section as new questions surface during execution.
 | D3 | SME panel operator-triggered only; self-audit via `answer-engine-probe` | `feedback_sme_panel_explicit_request_only` | repo standing rule |
 | D4 | Diagnose-before-intervene applies to every v22 phase | `feedback_diagnose_before_intervene` | repo standing rule |
 | D5 | Server restart mandatory before every post-fix probe | `answer-engine-probe` skill non-negotiable | repo standing rule |
+
+---
+
+## §9b. MANDATORY git/github hygiene (v22 deliverable, deploy-blocking)
+
+> **Why this exists.** 2026-05-17 cleanup found 5 stale `agent-*` worktrees, each carrying a single commit that turned out to already be on main under a different SHA. The drafts had been left in place after the work was integrated; locks survived after the originating agent sessions died. Five branches and ~80 LOC of redundant code lived in the repo for weeks, blocked future cleanup, and nearly cost an hour of attempted cherry-picks before the duplication was confirmed. v22 ships these procedures alongside the polish/UI fixes so the same drift cannot recur.
+
+> **Status.** These rules are **part of v22's scope** — they MUST land in `CLAUDE.md` "Non-Negotiables" + `AGENTS.md` (mirror) before v22 is declared closed. P2-T-Hygiene below tracks the doc edit explicitly.
+
+### §9b.1 Per-session hygiene (the no-stale-branch rules)
+
+1. **Every worktree session ends with one of three outcomes — no fourth option:**
+   - **Land** — work is ready: commit, fast-forward main, push to GitHub, `git worktree remove`, `git branch -D <worktree-branch>`. State ledger updated to ✅.
+   - **Snapshot + discard** — work is interesting but not landing now: `git format-patch` (or `git diff > <name>.patch`) into `tracers_and_logs/snapshots/<UTC>_<slug>.patch`, commit the patch file on main, then `remove -f` the worktree.
+   - **Park with explicit ETA** — work is paused: append a row to `docs/re-engineer/active_worktrees.md` (new file v22 creates) naming the worktree + branch + slug + the **operator-authorized return date** + the **expiry behavior** (e.g. "auto-discard after 2026-06-01 if not landed"). No undated parks. A parked worktree past its ETA is treated as abandoned and removed without further confirmation.
+2. **Lock semantics are advisory only.** A locked worktree owned by a dead PID is a stale lock, not a signal to preserve. The cleanup routine MUST `ps -p <pid>` the lock owner; if dead, the worktree is force-removed regardless of original creator. Live PID lock is honored.
+3. **A worktree branch only exists while the worktree exists.** When `git worktree remove` runs, `git branch -D <its-branch>` runs in the same command line. Orphan branches with no worktree are forbidden — they invite the "I'll come back to it" pattern that produced the 5 stale worktrees.
+4. **No "I'll come back to it later" without the §9b.1 #1 ETA row.** That phrase IS the failure mode this section exists to prevent.
+
+### §9b.2 Per-commit hygiene (the no-stale-commit rules)
+
+1. **Every code change lands as 1 commit on the worktree branch + 1 push to GitHub within the same operator session that wrote it.** No commit lives only in a worktree past session end. Sessions that end mid-implementation MUST snapshot the diff as a `.patch` per §9b.1 #1.
+2. **No bare `git commit` without a paired `git push`.** The two-step rule: every `git commit` is followed by `git push origin <branch>` before the operator moves to the next task. Exceptions are documented in the run log with an explicit "delayed push because <reason>" note.
+3. **Fast-forward-only main.** `main` is never merged into via a non-ff merge. If the worktree branch has diverged, **rebase the worktree branch onto main first**, then ff-merge into main. No merge commits on main. This keeps history readable and bisect-friendly.
+4. **Commit message includes the fix doc id.** Every commit on a `fix_vNN_may` worktree starts its subject with `fix(vNN ...)` or `ship(vNN ...)` or `docs(vNN ...)`. The fix-doc id in the subject makes archaeology trivial.
+5. **Co-Authored-By footer is mandatory** when an LLM (Claude / GPT / DeepSeek / etc.) collaborated. Per CLAUDE.md commit-template canon.
+
+### §9b.3 Per-fix-doc hygiene (the no-zombie-plan rules)
+
+1. **A fix doc is closed when its §⏯ "Last completed step" reads "vNN closed ✅" AND every §2 phase row is `✅` or `↩`.** No partial closures. If a phase is parked, it gets `↩` (discarded) with a rationale, not left at `🔵` / `🟡`.
+2. **A closed fix doc's commits are tagged.** When the §⏯ flips to `✅`, the operator (or the closing commit's author) runs `git tag fix_vNN_closed` on the closing commit. Tags make "what landed for vNN?" answerable in one command.
+3. **Open fix docs declare their worktree, if any.** §⏯ row "Local state" names the worktree path explicitly. A fix doc without a named worktree is implicitly working on main directly (allowed for ≤ 3-commit fixes; otherwise spin a worktree).
+4. **Stale-fix-doc audit runs at every v(NN+1) opening.** When the next fix doc is drafted, P1 includes a `git worktree list` + `docs/re-engineer/active_worktrees.md` review. Any worktree past its ETA, any branch with no worktree, any fix doc with §⏯ not at `✅` older than 14 days — surfaced to operator before the new fix proceeds.
+
+### §9b.4 v22 P2-T-Hygiene deliverable
+
+| ID | Task | Phase | Status | Owner |
+|---|---|---|---|---|
+| P2-T-Hygiene-1 | Mirror §9b.1–§9b.3 rules into `CLAUDE.md` "Non-Negotiables" as a new bullet group titled "Worktree + commit hygiene" | 2 | 🟡 | claude (with this fix's other P2 tasks) |
+| P2-T-Hygiene-2 | Mirror the same rules into `AGENTS.md` so non-Claude agents see them too | 2 | 🟡 | claude |
+| P2-T-Hygiene-3 | Create `docs/re-engineer/active_worktrees.md` template (empty roster; rules at top) | 2 | 🟡 | claude |
+| P2-T-Hygiene-4 | Optional but recommended: add a pre-merge `make worktrees-audit` target that runs `git worktree list` + `ps -p` for each lock owner + reports dead-PID locks. Wires into `make smoke-deps`. | 2 | 🟡 | claude (defer to v23 if time-bounded) |
+
+These tasks ship in the SAME commits as the polish + UI cascade fixes. v22 is not declared closed until P2-T-Hygiene-1, -2, -3 are ✅.
 
 ---
 
