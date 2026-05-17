@@ -14,9 +14,9 @@
 
 | Field | Value |
 |---|---|
-| Last completed step | **v21 doc drafted (initial)** — plan + state-tracker scaffolded. No code edits yet. |
-| Last touched UTC | 2026-05-17T01:50:00Z (2026-05-16 ~08:50 PM Bogotá) |
-| Next step | **P1-T1** — open `q01.digest.md` + `q01.json` from `tracers_and_logs/logs/probe_runs/20260517T013419Z_v20_labor_collision/` and inspect the polish prompt + the `_no_invented_norm_lineage` validator decision. Decide whether the rejection is right-but-overreaching, or wrong-and-buggy. |
+| Last completed step | **P2 closed ✅** — code landed in worktree `.claude/worktrees/fix-v21-may`. Polish validators (lineage + periods) now consult evidence bundle. Liquidación-terminación detector widened with article-lookup regex for CST 62/64/65. 624/624 targeted tests pass. See §6 entry "09:55 PM Bogotá". |
+| Last touched UTC | 2026-05-17T02:55:00Z (2026-05-16 ~09:55 PM Bogotá) |
+| Next step | **OPERATOR-TRIGGERED P3.** (1) Operator confirms P2 commits should land (3 logical commits — polish / práctica-detector / docs). (2) Operator restarts dev:staging server — `! kill <pid> && npm run dev:staging` — so the new validator + detector load. (3) Re-probe q01 + q02 via `answer-engine-probe`. (4) If both pass: flip `LIA_PRACTICA_NOISE_FILTER` + `LIA_CONFLICT_RESOLVER_MODE` shadow→enforce per beta-stance + Q1/Q2 answers (Q1 defer subtopic-sidecar to v22, Q2 leave LIA_TOPIC_GATE_MODE at enforce). |
 | Working artifact | Probe run `tracers_and_logs/logs/probe_runs/20260517T013419Z_v20_labor_collision/` — the failing q01 trace is the input to diagnose the polish + práctica bugs. |
 | Cloud state | v20 active: cloud Supabase `gen_v20_20260516_172203` is_active=true; cloud Falkor 10,217 ArticleNodes (2,177 with norm_id, 0 duplicates), 3,401 TEMA edges. **v21 does NOT touch cloud data** — only the served-answer pipeline. |
 | Local state | iter2 bundle still frozen + chmod -w at `artifacts/v20/local_rehearsal_iter2/`. Local Falkor has the same iter2 graph state. |
@@ -114,9 +114,9 @@ You are picking up a **one-question-one-fix project**. v20 closed the whole-corp
 
 | Phase | Description | Status | Owner | Last touched |
 |---|---|---|---|---|
-| P1 | Diagnose (read probe trace + isolate paths) | 🟡 not started | — | — |
-| P2 | Fix (polish over-rejection + práctica chunk-selection + optional subtopic parity) | 🟡 not started | — | — |
-| P3 | Re-probe + flag promotion + commit | 🟡 not started | — | — |
+| P1 | Diagnose (read probe trace + isolate paths) | ✅ done | claude-opus-4-7 | 2026-05-16 ~09:20 PM |
+| P2 | Fix (polish over-rejection + práctica chunk-selection + optional subtopic parity) | ✅ done (subtopic deferred to v22 per Q1) | claude-opus-4-7 | 2026-05-16 ~09:55 PM |
+| P3 | Re-probe + flag promotion + commit | 🔵 awaiting operator (restart server + probe + commit) | operator | 2026-05-16 ~09:55 PM |
 
 Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked · ↩ discarded.
 
@@ -131,17 +131,17 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 
 | ID | Task | Phase | Status | Owner | Blockers | Last touched |
 |---|---|---|---|---|---|---|
-| P1-T1 | Read `q01.digest.md` + `q01.json` from the v20-closing probe; understand WHICH `invented_norm_lineage`-style validator fired and WHY | 1 | 🟡 | — | — | — |
-| P1-T2 | Trace the rejection-fallback path → identify which chunks the práctica-selector pulled and why those instead of terminación-indemnización bullets | 1 | 🟡 | — | P1-T1 | — |
-| P1-T3 | Decide scope: (a) just fix the polish over-reject, (b) just fix the práctica selector, (c) fix both. Write decision to §9. | 1 | 🟡 | — | P1-T1, P1-T2 | — |
-| P2-T1 | Polish over-rejection fix — narrow edit in `answer_llm_polish.py` + new unit test in `tests/test_polish_*.py` (or extend an existing one) | 2 | 🟡 | — | P1-T3 | — |
-| P2-T2 | Práctica chunk-selection fix — narrow edit in `answer_synthesis_practica.py::_candidate_lines_from_chunk` + unit test | 2 | 🟡 | — | P1-T3 | — |
-| P2-T3 | Optional: SubTopicNode parity fix — events.jsonl-based sidecar enrichment OR `_build_canonical_corpus_manifest` patch to include classifier-output subtopic_key | 2 | 🟡 | operator | P2-T1, P2-T2 | — |
-| P2-T4 | Re-run focused test subset (planner, retriever, polish, práctica) — must stay green | 2 | 🟡 | — | P2-T1, P2-T2 | — |
-| P3-T1 | Restart dev:staging server (kill + relaunch); confirm fresh PID + start-time | 3 | 🟡 | operator | P2 ✅ | — |
-| P3-T2 | Re-run `answer-engine-probe` skill with same q01 + a second labor case (q02 from v20 probe — indemnización days for 5-year contract) | 3 | 🟡 | — | P3-T1 | — |
-| P3-T3 | Judge verdicts vs rubric — both must pass. If pass → P3-T4. If fail → return to P1-T3. | 3 | 🟡 | — | P3-T2 | — |
-| P3-T4 | Flag promotion — flip `LIA_PRACTICA_NOISE_FILTER` + `LIA_CONFLICT_RESOLVER_MODE` from `shadow` to `enforce` per beta-stance (only if both probes pass) | 3 | 🟡 | — | P3-T3 ✅ | — |
+| P1-T1 | Read `q01.digest.md` + `q01.json` from the v20-closing probe; understand WHICH `invented_norm_lineage`-style validator fired and WHY | 1 | ✅ | claude | — | 2026-05-16 ~09:00 PM |
+| P1-T2 | Trace the rejection-fallback path → identify which chunks the práctica-selector pulled and why those instead of terminación-indemnización bullets | 1 | ✅ | claude | P1-T1 | 2026-05-16 ~09:15 PM |
+| P1-T3 | Decide scope: (a) just fix the polish over-reject, (b) just fix the práctica selector, (c) fix both. Write decision to §9. | 1 | ✅ | claude | P1-T1, P1-T2 | 2026-05-16 ~09:20 PM — D6: option (c) |
+| P2-T1 | Polish over-rejection fix — extend `_no_invented_norm_lineage` + `_no_invented_periods` to consult evidence bundle | 2 | ✅ | claude | P1-T3 | 2026-05-16 ~09:35 PM |
+| P2-T2 | Práctica chunk-selection fix — widen `is_liquidacion_terminacion_case` to fire on article-lookup form (cst 62/64/65) so existing tail filter kicks in | 2 | ✅ | claude | P1-T3 | 2026-05-16 ~09:45 PM |
+| P2-T3 | Optional: SubTopicNode parity fix — DEFERRED to v22 per operator answer to Q1 (2026-05-16 ~09:25 PM) | 2 | ↩ | operator | P2-T1, P2-T2 | 2026-05-16 ~09:25 PM |
+| P2-T4 | Re-run focused test subset (planner, retriever, polish, práctica) — must stay green | 2 | ✅ | claude | P2-T1, P2-T2 | 2026-05-16 ~09:55 PM — 624/624 pass |
+| P3-T1 | Restart dev:staging server (kill + relaunch); confirm fresh PID + start-time | 3 | 🔵 | operator | P2 ✅ | — |
+| P3-T2 | Re-run `answer-engine-probe` skill with same q01 + a second labor case (q02 from v20 probe — indemnización days for 5-year contract) | 3 | 🟡 | claude | P3-T1 | — |
+| P3-T3 | Judge verdicts vs rubric — both must pass. If pass → P3-T4. If fail → return to P1-T3. | 3 | 🟡 | claude | P3-T2 | — |
+| P3-T4 | Flag promotion — flip `LIA_PRACTICA_NOISE_FILTER` + `LIA_CONFLICT_RESOLVER_MODE` from `shadow` to `enforce` per beta-stance (only if both probes pass). `LIA_TOPIC_GATE_MODE` stays at `enforce` per Q2 answer. | 3 | 🟡 | claude | P3-T3 ✅ | — |
 | P3-T5 | Commit v21 work + update §⏯ "Last completed step" to "v21 closed ✅" | 3 | 🟡 | operator | P3-T4 | — |
 
 ---
@@ -282,6 +282,44 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 
 ## §6. Run log (append-only, most recent on top, Bogotá local time)
 
+### 2026-05-16 ~09:55 PM Bogotá — P2 code landed in worktree (T1+T2+T4)
+
+- **Worktree.** Spun `fix-v21-may` via native `EnterWorktree` (Step 1a of `using-git-worktrees` skill). Path `/Users/ava-sensas/Developer/Lia_Graph/.claude/worktrees/fix-v21-may`, branch `worktree-fix-v21-may`. Native tool branches from `origin/main`; rebased onto local `main` to pull v18/v19/v20 work in (`git stash` → `git rebase FETCH_HEAD` → `git stash pop`).
+- **P2-T1 — polish over-rejection.**
+  - Extended `_no_invented_norm_lineage(template, polished)` → `_no_invented_norm_lineage(template, polished, evidence=None)`. Allowed set = `_refs(template) | _refs_from_evidence(evidence)`. New helper `_refs_from_evidence` mirrors `_build_polish_prompt` field iteration (primary_articles + connected_articles + related_reforms titles/excerpts + support_documents.title_hint).
+  - Same widening applied to `_no_invented_periods` — sibling validator over-fires on the same q01 because cited Ley refs carry their year (1990, 2025) which the thin template omits. New helper `_years_from_evidence` mirrors the same field walk.
+  - Lambda wrappers at `answer_llm_polish.py:180` + `:196` updated to pass `evidence` through.
+  - Diagnosis-vs-plan delta: plan §3.2 hypothesized "narrow the regex to fire only for tax-context UVT/ET claims" but the actual root cause is that the validators ignored evidence the dispatcher already supplied. The fix is to honor the existing dispatcher contract, not to narrow the regex.
+  - Files: `src/lia_graph/pipeline_d/answer_llm_polish.py` (+98/-9), `tests/test_polish_invented_norm_lineage_labor.py` (new, 3 tests).
+- **P2-T2 — práctica chunk-selection.**
+  - Diagnosis revealed the real bug was in `case_detectors_b5.py::is_liquidacion_terminacion_case`, not in `answer_synthesis_practica.py`. The existing `_filter_offtopic_bullets_for_case` at `answer_synthesis_sections.py:139-141` already filters chunk bullets by active-case keywords — but for q01's article-lookup form ("¿qué dice el artículo 64 del CST…?"), the detector did not fire (verified via REPL: `is_liquidacion_terminacion_case('que dice el articulo 64 del cst sobre la terminacion…') → False`). With no active case, the tail filter became a no-op and every chunk bullet survived.
+  - Fix: added `_CST_TERMINACION_ARTICLE_LOOKUP_RE` matching `art(iculo|s)?(.)? (62|64|65) … (cst|codigo sustantivo del trabajo)`. Early-return True from the detector when the regex hits.
+  - Q02 operational form ("despido sin justa causa…") already fired pre-v21 — regression-guard test locks that behavior.
+  - Files: `src/lia_graph/pipeline_d/case_detectors_b5.py` (+19 lines incl. regex + new docstring), `tests/test_practica_terminacion_chunk_selection.py` (new, 6 tests).
+- **P2-T4 — test sweep.**
+  - Targeted regression sweep (polish + práctica + case-detector + planner + orchestrator + per-case synthesis + art-64-touching modules): **624/624 pass** across 13 test files.
+  - Known-failure verified pre-existing (not a v21 regression): `tests/test_phase3_graph_planner_retrieval.py::test_phase3_pipeline_d_tax_planning_prompt_uses_rich_advisory_first_bubble` asserts "RST" OR "ordinario" in markdown; polish generates a valid-but-different answer. Plan §1.1 documents this as the v20 known failure.
+  - Full `make test-batched`: 2259 passed / 82 failed / 4 skipped vs main baseline 2261 / 74 / 1. Failure-file diff against main pytest shows the 22 files that fail in worktree ALSO fail on main — pre-existing infra failures (env, corpus paths, DB seeds). No file in my changed code paths regressed.
+- **Next.** PAUSE for operator on P3. The plan's P3-T1 (server restart) and P3-T5 (commit) are operator-triggered. Proposal: commit P2 as 3 logical commits (polish fix / práctica fix / docs) inside the worktree first, push to operator's main when probes pass.
+
+### 2026-05-16 ~09:20 PM Bogotá — P1 diagnosis closed (T1+T2+T3)
+
+- **Preconditions §11.1.** All 5 pass: v20 P4 commit landed (`53eee7a ship(v19+v20)`); local docker stack up (Supabase + Falkor); `.env.staging` present with `FALKORDB_URL=redis…`; dev:staging server responding `200`; q01 probe artifact present at `tracers_and_logs/logs/probe_runs/20260517T013419Z_v20_labor_collision/q01.digest.md`.
+- **P1-T1 — polish validator path.**
+  - Validator: `_no_invented_norm_lineage` at `src/lia_graph/pipeline_d/answer_llm_polish.py:466`. Registered as `PromptRule(id="no_invented_norm_lineage", rejection_reason="invented_norm_lineage")` at lines 168–182.
+  - Dispatcher `_invoke_validator` at `answer_llm_polish.py:272` already tries the widest signature `(template, polished, evidence, question)` first — but `_no_invented_norm_lineage` is a 2-arg lambda, so `evidence` is silently dropped.
+  - Comparison: `set(_NORM_LINEAGE_RE.findall(polished)) - set(_NORM_LINEAGE_RE.findall(template))` — any Ley/Decreto/Resolución/Sentencia ref in polished NOT in template is flagged.
+  - Why q01 fired: `q01.json` `polish_skip_reason=invented_norm_lineage`, `polish_mode=rejected`, `polished_chars=128`. The `synthesis.template_built` step shows `template_chars=124` — a thin first-bubble template (mostly the question echo + a minimal Anclaje Legal). Polish output legitimately added a `Ley 50 de 1990` / `Ley 2466 de 2025` reference (both present in the 4 citations AND in evidence excerpts the polish prompt rendered). Validator over-fires because it ignores the evidence the LLM was explicitly invited to draw from.
+- **P1-T2 — práctica chunk-selection path.**
+  - `q01.json` diagnostics: `practica_backend=supabase`, `practica_candidate_count=24`, `practica_reserved_count=3`. Only 1 práctica doc citation surfaces (`playbook_laboral_liquidacion_terminacion.md`).
+  - `_group_chunks_by_doc` at `src/lia_graph/practica/retriever_supabase.py:145` picks ONE representative chunk per doc — so with 1 práctica doc winning, exactly 1 chunk surfaces. That single chunk contains multiple unrelated sub-sections (cesación-codes 54-58, recargos jornada nocturna, valor hora ordinaria, indemnización art. 64) — a coarse-chunking corpus artifact.
+  - `_candidate_lines_from_chunk` at `src/lia_graph/pipeline_d/answer_synthesis_practica.py:243` splits ALL bullets from the chunk via `_support_doc_candidate_lines` and emits up to `max_bullets_per_chunk=6` per chunk to the user, with no per-bullet topical filter for the active case.
+  - The `liquidacion_terminacion` SPEC at `src/lia_graph/pipeline_d/case_bullets/liquidacion_terminacion.py:26–57` already carries a rich `keywords` tuple (`indemnización`, `art. 64`, `30 días`, `sin justa causa`, `moratoria`, …). The práctica synthesis path doesn't consult it.
+  - Net effect: a single chunk's bullets pour into the answer wholesale, dominated by whatever sub-section happened to score best on lexical overlap with the question terms — not necessarily the sub-section that answers the case.
+- **P1-T3 — scope decision: option (c), both fixes.** Reasoning in §9 D6 below. The two bugs compound — polish-only leaves a thin template; práctica-only still triggers the fallback path with off-topic bullets.
+- **Open question on commit branch.** Per `executing-plans` skill: never start implementation on `main` without operator consent. Current branch = `main`. Will surface to operator alongside greenlight ask. Default proposal: spin a `fix-v21-may` worktree per `superpowers:using-git-worktrees`.
+- **Next.** PAUSE for operator greenlight (per §11.3) on (a) scope confirmation (option c) and (b) branch strategy (worktree vs main). After greenlight: P2-T1 (polish validator fix) → P2-T2 (práctica per-bullet filter) → P2-T4 (test sweep) → P3 (operator-triggered restart + probe + commit).
+
 ### 2026-05-16 ~08:50 PM Bogotá — v21 plan drafted
 
 - **What.** Drafted `docs/re-engineer/fix/fix_v21_may.md` v1 — full zero-agent-context plan with §⏯ crash-resume + 3 phases (P1 diagnose, P2 fix, P3 re-probe + promote + commit).
@@ -322,6 +360,7 @@ Update this section as new questions surface during execution.
 | D3 | SME panel is operator-triggered only — `answer-engine-probe` skill is the v21 self-audit mechanism | `feedback_sme_panel_explicit_request_only` + 2026-05-16 operator directive | repo standing rule |
 | D4 | Diagnose-before-intervene applies to every v21 phase | `feedback_diagnose_before_intervene` | repo standing rule |
 | D5 | Server restart is mandatory before every post-fix probe | `answer-engine-probe` skill non-negotiable; was burned by this in v20 | repo standing rule |
+| D6 | P1-T3 scope = option (c), BOTH polish over-rejection AND práctica per-bullet topical filter | The bugs compound. Polish-only: `_no_invented_norm_lineage` passes once it consults evidence, but the answer still pours unfiltered bullets into Recomendaciones Prácticas. Práctica-only: the polish path keeps rejecting, fallback fires, fallback renders filtered bullets — better than today but still slower (~21s probe) and never lets a successful polish surface for labor answers. Both edits land in narrow polish + práctica modules, ride existing kill-switch flags, and are independently rollback-able | 2026-05-16 ~09:20 PM Bogotá (P1-T3) |
 
 ---
 
