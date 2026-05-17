@@ -8,6 +8,7 @@ from lia_graph.pipeline_d.answer_topic_decomposition import (
     decomposition_mode,
     detect_topic_groups,
     diagnostics_payload,
+    effective_router_topic,
     framing_line,
     should_decompose,
 )
@@ -90,10 +91,34 @@ def test_should_decompose_skips_aligned_coherence():
     assert should_decompose(coherence, bundle, "deducibilidad_renta") is False
 
 
-def test_should_decompose_skips_single_primary():
+def test_effective_router_topic_falls_back_to_coherence_router():
+    coherence = {"router_topic": "iva", "misaligned": True}
+    assert effective_router_topic(coherence, "") == "iva"
+    assert effective_router_topic(coherence, "regimen_simple") == "regimen_simple"
+
+
+def test_should_decompose_fires_on_fanout_with_empty_request_topic():
+    """v23 P1 — fan-out queries leave request.topic empty; bypass must
+    still fire using the coherence dict's router_topic."""
+    bundle = _bundle((
+        _ev("art:600", secondaries=("iva_periodicidad",)),
+        _ev("art:107", secondaries=("deducibilidad_renta",)),
+    ))
+    coherence = {
+        "misaligned": True,
+        "reason": "primary_off_topic",
+        "router_topic": "iva",
+        "dominant_topic": "costos_deducciones_renta",
+    }
+    assert should_decompose(coherence, bundle, "") is True
+
+
+def test_should_decompose_fires_with_single_primary():
+    """v23 P1 threshold lowered to >=1 primary so audit-shape refusals
+    flip to substantive answers even when only one article anchored."""
     bundle = _bundle((_ev("art:107", secondaries=("deducibilidad_renta",)),))
     coherence = {"misaligned": True, "reason": "primary_off_topic"}
-    assert should_decompose(coherence, bundle, "facturacion_electronica") is False
+    assert should_decompose(coherence, bundle, "facturacion_electronica") is True
 
 
 def test_should_decompose_skips_unrelated_reason():

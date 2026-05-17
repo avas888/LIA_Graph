@@ -93,13 +93,37 @@ def detect_topic_groups(
     return counter.most_common()
 
 
+def effective_router_topic(
+    coherence: Mapping[str, Any],
+    router_topic_hint: str,
+) -> str:
+    """Pick the most authoritative router topic available.
+
+    `request.topic` is empty when query-decomposition fan-out is active
+    (the parent topic is unset; per-sub-question topics are set on the
+    fan-out children). The coherence dict's `router_topic` field is set
+    on every coherence detection — including the merged-fanout
+    `representative` shape — so it's the right source of truth for the
+    bypass / framing decision.
+    """
+    explicit = (router_topic_hint or "").strip()
+    if explicit:
+        return explicit
+    return str(coherence.get("router_topic") or "").strip()
+
+
 def should_decompose(
     coherence: Mapping[str, Any],
     evidence: GraphEvidenceBundle,
     router_topic: str,
 ) -> bool:
-    """True iff the gate would refuse AND we have enough primary articles to
-    plausibly cover ≥2 domains (raw count threshold = 2).
+    """True iff the coherence gate would refuse AND there is at least one
+    primary article to anchor a substantive answer. The audit's Q1/Q3/Q6/Q8
+    were refused on `primary_off_topic` even when the retrieved evidence
+    was real and accountant-useful — refusing helps no one. Threshold is
+    deliberately loose: 1 primary article + non-empty effective router
+    topic (resolved against the coherence dict so fan-out queries with
+    empty request.topic still trigger the bypass).
     """
     if decomposition_mode() == "off":
         return False
@@ -108,7 +132,8 @@ def should_decompose(
     reason = (coherence.get("reason") or "").strip()
     if reason not in {"primary_off_topic", "chunks_off_topic"}:
         return False
-    return len(evidence.primary_articles) >= 2 and bool(router_topic)
+    effective = effective_router_topic(coherence, router_topic)
+    return len(evidence.primary_articles) >= 1 and bool(effective)
 
 
 def framing_line(
@@ -117,15 +142,18 @@ def framing_line(
     router_topic: str,
 ) -> str:
     """One-line preface so the reader knows the answer spans multiple domains."""
-    groups = detect_topic_groups(evidence, router_topic)
+    effective = effective_router_topic(coherence, router_topic)
+    groups = detect_topic_groups(evidence, effective)
     distinct = [t for t, _ in groups][:3]
     if len(distinct) < 2:
         # Fall back to router + dominant from coherence diag.
         dominant = (coherence.get("dominant_topic") or "").strip()
-        if dominant and dominant != router_topic:
-            distinct = [router_topic, dominant]
+        if dominant and dominant != effective:
+            distinct = [effective, dominant]
         else:
-            distinct = [router_topic]
+            distinct = [effective] if effective else []
+    if not distinct:
+        return ""
     pretty = ", ".join(_display(t) for t in distinct)
     return (
         f"La consulta toca varios ámbitos ({pretty}). "

@@ -215,6 +215,31 @@ POLISH_RULES: tuple[PromptRule, ...] = (
         ),
         rejection_reason="invented_periods",
     ),
+    # v23 P7 — Anclaje Legal source-code coherence directive. Prevents the
+    # REGLA DE EXPANSIÓN from inflating Anclaje with off-topic source-code
+    # articles (e.g. ET articles in a CST-rooted labor answer). Mirrors the
+    # synthesis-time `answer_anclaje_topic_gate.filter_anclaje_articles`
+    # rule at the polish layer so LLM expansion stays family-coherent.
+    PromptRule(
+        id="anclaje_source_code_coherence",
+        category="semantic",
+        prompt_text=(
+            "ANCLAJE LEGAL — coherencia de código por familia: si el "
+            "BORRADOR cita en su mayoría artículos `CST` (familia laboral), "
+            "el bloque **Anclaje Legal** del resultado SOLO puede listar "
+            "artículos `CST` o `Ley` laboral (Ley 50/1990, Ley 789/2002, "
+            "Ley 2466). PROHIBIDO añadir artículos `ET` al Anclaje en una "
+            "respuesta laboral, aunque aparezcan en ARTÍCULOS ADYACENTES. "
+            "Lo simétrico aplica a respuestas tributarias: si el BORRADOR "
+            "cita en su mayoría `ET`, el Anclaje NO puede incluir "
+            "artículos `CST`. Si un artículo adyacente tiene un código "
+            "incompatible con la familia dominante del BORRADOR, déjalo "
+            "fuera del Anclaje — incluso si la REGLA DE EXPANSIÓN te "
+            "invita a llenar la sección. El usuario prefiere un Anclaje "
+            "breve y coherente a un Anclaje extenso con artículos "
+            "off-topic."
+        ),
+    ),
     PromptRule(
         # fix_v15_may §3 — UVT/% invention validator. Closes the gap
         # fix_v14_may §17 surfaced (LLM cited "3,5 %" for Art. 908 ET
@@ -1175,6 +1200,85 @@ def _no_inconsistent_year_constants(
 # ---------------------------------------------------------------------------
 # v23 P6 — Colombian-Spanish style validator (G6 — voseo rejection).
 # ---------------------------------------------------------------------------
+
+
+def _anclaje_post_polish_filter_mode() -> str:
+    """v23 P7 — post-polish Anclaje filter. Default `enforce` per beta stance."""
+    raw = (os.getenv("LIA_ANCLAJE_TOPIC_GATE") or "enforce").strip().lower()
+    return raw if raw in ("off", "shadow", "enforce") else "enforce"
+
+
+_ANCLAJE_HEADING_RE = re.compile(
+    r"(?im)^[\s*#]*\*?\*?Anclaje\s+Legal\*?\*?[\s:*]*$"
+)
+_NEXT_HEADING_RE = re.compile(r"(?m)^[\s*#]*\*?\*?[A-ZÁ][^*\n]{0,80}\*?\*?\s*$")
+_BULLET_CITATION_RE = re.compile(
+    r"\(art(?:[ií]culo?)?\.?\s*[\d-]+\s*(ET|CST|C\.Co\.|Ley\s*\d+(?:/\d+)?|Res\.?\s*DIAN[^)]*|Decreto[^)]*)\)",
+    re.IGNORECASE,
+)
+
+
+def filter_polished_anclaje_section(polished: str) -> str:
+    """v23 P7 — deterministic post-polish Anclaje filter.
+
+    Locates the **Anclaje Legal** block in the polished markdown. For each
+    bullet line, checks the cited article's source code; drops the bullet
+    when its code is incompatible with the family dominant elsewhere in
+    the polished answer.
+
+    Family detection (heuristic): count `(art. N CST)` vs `(art. N ET)`
+    style citations in the rest of the polished text. Whichever has more
+    is the dominant family; the Anclaje keeps only bullets whose citation
+    matches that family.
+    """
+    if _anclaje_post_polish_filter_mode() == "off" or not polished:
+        return polished
+
+    heading_match = _ANCLAJE_HEADING_RE.search(polished)
+    if heading_match is None:
+        return polished
+
+    body_before = polished[: heading_match.start()]
+    cst_hits = len(re.findall(r"\(art(?:[ií]culo?)?\.?\s*[\d-]+\s*CST\)", body_before, re.IGNORECASE))
+    et_hits = len(re.findall(r"\(art(?:[ií]culo?)?\.?\s*[\d-]+\s*ET\)", body_before, re.IGNORECASE))
+    if cst_hits == 0 and et_hits == 0:
+        return polished  # No signal — leave Anclaje alone.
+
+    dominant = "CST" if cst_hits > et_hits else "ET" if et_hits > cst_hits else None
+    if dominant is None:
+        return polished
+
+    section_start = heading_match.end()
+    next_heading = _NEXT_HEADING_RE.search(polished, pos=section_start)
+    section_end = next_heading.start() if next_heading else len(polished)
+    section = polished[section_start:section_end]
+
+    kept_lines: list[str] = []
+    for line in section.split("\n"):
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            kept_lines.append(line)
+            continue
+        if not (stripped.startswith("*") or stripped.startswith("-")):
+            kept_lines.append(line)
+            continue
+        # Bullet line — extract first citation.
+        cit = _BULLET_CITATION_RE.search(line)
+        if cit is None:
+            # Bullet with no citation — keep.
+            kept_lines.append(line)
+            continue
+        code = cit.group(1).strip().upper().replace(".", "").replace(" ", "")
+        if dominant == "CST":
+            keep = code.startswith("CST") or code.startswith("LEY")
+        else:  # dominant == "ET"
+            keep = code.startswith("ET") or code.startswith("LEY") or code.startswith("RES") or code.startswith("DECRETO") or code.startswith("CCO")
+        if keep:
+            kept_lines.append(line)
+        # else: drop silently.
+
+    new_section = "\n".join(kept_lines)
+    return polished[:section_start] + new_section + polished[section_end:]
 
 
 def _locale_style_mode() -> str:

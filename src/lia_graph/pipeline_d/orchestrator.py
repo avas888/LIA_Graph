@@ -39,6 +39,7 @@ from ._coherence_gate import (
 from .answer_topic_decomposition import (
     decomposition_mode as _decomp_mode,
     diagnostics_payload as _decomp_diagnostics,
+    effective_router_topic as _decomp_effective_topic,
     framing_line as _decomp_framing_line,
     should_decompose as _decomp_should_decompose,
 )
@@ -978,20 +979,40 @@ def run_pipeline_d(
     # mismatch when the retrieved evidence was real and accountant-useful.
     # Flag-gated; `LIA_TOPIC_DECOMPOSITION_MODE=off` keeps v22 refusal.
     _decomposition_state: dict[str, Any] = {"applied": False}
+    _decomp_check_router = _decomp_effective_topic(
+        coherence, (request.topic or "").strip()
+    )
+    _decomp_check_primary_count = len(evidence.primary_articles)
+    _decomp_check_should = _decomp_should_decompose(
+        coherence, evidence, _decomp_check_router
+    )
+    _decomp_check_should_refuse = _coherence_should_refuse(
+        coherence, coherence_gate_mode
+    )
+    _trace.step(
+        "coherence.decomposition_check",
+        status="info",
+        coherence_mode=coherence_gate_mode,
+        coherence_misaligned=bool(coherence.get("misaligned")),
+        coherence_reason=coherence.get("reason"),
+        should_refuse=_decomp_check_should_refuse,
+        should_decompose=_decomp_check_should,
+        primary_article_count=_decomp_check_primary_count,
+        router_topic=_decomp_check_router,
+        decomp_mode=_decomp_mode(),
+    )
     if (
         coherence_gate_mode == "enforce"
-        and _coherence_should_refuse(coherence, coherence_gate_mode)
-        and _decomp_should_decompose(
-            coherence, evidence, (request.topic or "").strip()
-        )
+        and _decomp_check_should_refuse
+        and _decomp_check_should
     ):
         _decomposition_state = {
             "applied": True,
             "framing_line": _decomp_framing_line(
-                coherence, evidence, (request.topic or "").strip()
+                coherence, evidence, _decomp_check_router
             ),
             "diagnostics": _decomp_diagnostics(
-                coherence, evidence, (request.topic or "").strip(), applied=True
+                coherence, evidence, _decomp_check_router, applied=True
             ),
         }
         coherence = {
@@ -1004,7 +1025,7 @@ def run_pipeline_d(
             "coherence.decomposition_bypass",
             status="ok",
             mode=_decomp_mode(),
-            router_topic=(request.topic or "").strip(),
+            router_topic=_decomp_check_router,
             section_count=_decomposition_state["diagnostics"][
                 "topic_decomposition_section_count"
             ],
@@ -1193,6 +1214,18 @@ def run_pipeline_d(
         polish_changed=bool((polished_answer or "") != (answer or "")),
     )
     answer = polished_answer
+
+    # v23 P7 — post-polish Anclaje Legal source-code coherence filter.
+    # Drops Anclaje bullets whose citation code (ET / CST / C.Co. / Ley)
+    # doesn't match the dominant family of the rest of the answer. This
+    # is the final guard against the polish LLM expanding Anclaje with
+    # off-topic source-code articles (v22 P3 q01 finding).
+    try:
+        from .answer_llm_polish import filter_polished_anclaje_section as _v23_anclaje_filter
+        if answer:
+            answer = _v23_anclaje_filter(answer)
+    except Exception:  # noqa: BLE001 — defensive; never break the answer on filter failure
+        pass
 
     # v23 P1 — prepend framing line so the reader knows the answer spans
     # multiple domains (topic-decomposition bypass fired earlier).

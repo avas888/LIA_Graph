@@ -24,8 +24,62 @@ from __future__ import annotations
 import os
 from typing import Iterable
 
+from .article_namespaces import resolve_source_code
 from .compatible_doc_topics import get_compatible_topics
 from .contracts import GraphEvidenceItem
+
+
+# Topic-family ↔ source-code mapping. When an article has empty
+# secondary_topics (graph gap), we fall back to source-code coherence:
+# a labor-family question must not surface ET articles in its Anclaje.
+_LABOR_FAMILY: frozenset[str] = frozenset({
+    "terminacion_contrato",
+    "contrato_trabajo",
+    "nomina",
+    "nomina_electronica",
+    "cesantias",
+    "auxilio_transporte",
+    "liquidacion_laboral",
+    "indemnizaciones_laborales",
+    "salario",
+    "aportes_seguridad_social",
+    "cst",
+    "labor",
+})
+_TAX_FAMILY: frozenset[str] = frozenset({
+    "declaracion_renta",
+    "costos_deducciones_renta",
+    "retencion_fuente",
+    "retencion_fuente_general",
+    "iva",
+    "iva_periodicidad",
+    "iva_descontable",
+    "regimen_simple",
+    "informacion_exogena",
+    "et",
+    "renta",
+})
+
+
+def _effective_family(effective_topic: str) -> str | None:
+    if effective_topic in _LABOR_FAMILY:
+        return "labor"
+    if effective_topic in _TAX_FAMILY:
+        return "tax"
+    return None
+
+
+def _source_code_compatible_with_family(source_code: str | None, family: str | None) -> bool:
+    """When the family is known, only source codes that belong to that
+    family pass. Unknown family or unknown source code → True (don't
+    over-block when signals are missing)."""
+    if family is None or source_code is None:
+        return True
+    if family == "labor":
+        return source_code in {"CST", "LEY_43_1990"} or source_code.startswith("LEY_")
+    if family == "tax":
+        return source_code in {"ET", "RES_DIAN", "DECRETO"} or source_code.startswith("LEY_")
+    return True
 
 
 def gate_mode() -> str:
@@ -68,14 +122,34 @@ def filter_anclaje_articles(
         items = tuple(articles)
         return items, ()
 
+    family = _effective_family(effective_topic)
+
     kept: list[GraphEvidenceItem] = []
     dropped: list[GraphEvidenceItem] = []
     for item in articles:
         topics = _article_topic_set(item)
-        if not topics:
-            kept.append(item)
+        if topics:
+            if set(topics) & allowed:
+                kept.append(item)
+            else:
+                dropped.append(item)
             continue
-        if set(topics) & allowed:
+        # secondary_topics is empty — fall back to source-code coherence.
+        article_num = str(item.node_key or "").strip()
+        # Best-effort title scan: if title contains "CST"/"ET" we trust it.
+        title = str(getattr(item, "title", "") or "").lower()
+        title_code = None
+        if " cst" in title or title.endswith("cst") or "cst -" in title or "cst —" in title:
+            title_code = "CST"
+        elif " et" in title or title.endswith("et") or "et -" in title or "et —" in title:
+            title_code = "ET"
+        resolved = title_code or resolve_source_code(
+            article_num,
+            node_key=item.node_key,
+            topic_hint=effective_topic,
+            legacy_default=None,
+        )
+        if _source_code_compatible_with_family(resolved, family):
             kept.append(item)
         else:
             dropped.append(item)

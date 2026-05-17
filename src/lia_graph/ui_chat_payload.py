@@ -112,8 +112,13 @@ def filter_diagnostics_for_public_response(
         "input_preservation_status",
         "locale_style_status",
         "anclaje_topic_gate_applied",
+        "anclaje_topic_gate_mode",
         "anclaje_articles_kept",
         "anclaje_articles_dropped",
+        "chunk_entity_filter_mode",
+        "citation_source_code_mode",
+        "input_preservation_mode",
+        "locale_style_mode",
     ):
         if key in orchestrator_diagnostics:
             public[key] = orchestrator_diagnostics[key]
