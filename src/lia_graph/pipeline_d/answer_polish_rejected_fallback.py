@@ -111,12 +111,36 @@ def compose_polish_rejected_fallback(
     (preserves the safety net).
     """
     del polish_skip_reason  # reserved for future per-skip-reason routing
+
+    # v25 P7 — user-numerics echo (G14). Pre-extract peso amounts / UVT
+    # counts / percentages from the question so the fallback path cannot
+    # silently drop the user's facts (audit Q10 surfaced COP 3,000,000 →
+    # 2,000,000 mutation surviving into fallback).
+    datos_block = ""
+    try:
+        from .user_numerics_capture import (
+            echo_enabled as _un_enabled,
+            extract_user_numerics as _un_extract,
+            format_datos_del_caso as _un_format,
+        )
+        if _un_enabled():
+            datos_block = _un_format(
+                _un_extract(getattr(request, "message", "") if request is not None else None)
+            )
+    except Exception:  # noqa: BLE001 - echo must never break fallback
+        datos_block = ""
+
     if _answer_parts_empty(answer_parts):
+        if datos_block:
+            return f"{datos_block}\n\n{template_answer}".strip()
         return template_answer
 
     filter_mode = fallback_filter_mode()
     if filter_mode == "legacy":
-        return _compose_legacy(template_answer=template_answer, answer_parts=answer_parts)
+        legacy_out = _compose_legacy(template_answer=template_answer, answer_parts=answer_parts)
+        if datos_block:
+            return f"{datos_block}\n\n{legacy_out}".strip()
+        return legacy_out
 
     topic = getattr(request, "topic", None) if request is not None else None
     routed_topic = topic.strip() if isinstance(topic, str) and topic.strip() else None
@@ -229,20 +253,30 @@ def compose_polish_rejected_fallback(
         diag["sections_rendered"] = len(appended_sections)
         _emit_trace(diag)
         sections.extend(appended_sections)
-        return "\n\n".join(s for s in sections if s)
+        combined = "\n\n".join(s for s in sections if s)
+        if datos_block:
+            return f"{datos_block}\n\n{combined}".strip()
+        return combined
 
     if evidence_chars < _MIN_EVIDENCE_CHARS:
         diag["outcome"] = "honest_abstention"
         _emit_trace(diag)
         if base:
-            return f"{base}\n\n{_HONEST_ABSTENTION_TEXT}"
-        return _HONEST_ABSTENTION_TEXT
+            out = f"{base}\n\n{_HONEST_ABSTENTION_TEXT}"
+        else:
+            out = _HONEST_ABSTENTION_TEXT
+        if datos_block:
+            return f"{datos_block}\n\n{out}".strip()
+        return out
 
     diag["outcome"] = "substantive_fallback"
     diag["sections_rendered"] = len(appended_sections)
     _emit_trace(diag)
     sections.extend(appended_sections)
-    return "\n\n".join(s for s in sections if s)
+    combined = "\n\n".join(s for s in sections if s)
+    if datos_block:
+        return f"{datos_block}\n\n{combined}".strip()
+    return combined
 
 
 def _compose_legacy(
