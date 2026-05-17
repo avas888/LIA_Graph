@@ -1549,6 +1549,16 @@ def _build_polish_prompt(
         _norm_refs = _nkb_extract(request.message or "")
         norm_keyed_block = _nkb_directive(_norm_refs)
 
+    # v25 P2 — cross-border lane (G9). Detects foreign-payment context and
+    # surfaces a canonical-articles directive so the LLM stops defaulting to
+    # domestic ET 392. Conditional injection — empty when no foreign cue.
+    from .cross_border_lane import cross_border_directive as _cb_directive
+    from .cross_border_lane import detect_cross_border_context as _cb_detect
+    from .cross_border_lane import lane_enabled as _cb_enabled
+    cross_border_block = ""
+    if _cb_enabled():
+        cross_border_block = _cb_directive(_cb_detect(request.message or ""))
+
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
         "por encima de cualquier otra cosa:\n"
