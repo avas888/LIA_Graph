@@ -25,6 +25,15 @@ from .contracts import GraphEvidenceItem, GraphSupportDocument
 from .planner import _looks_like_tax_planning_case
 
 
+# fix_v21_may §3.2 P2-T5 — bail-out threshold for the question-
+# reformulation fallback at the tail of ``compose_first_bubble_answer``.
+# See the comment above the trigger for the full rationale; in short,
+# bail out only when total assembled content is below this many chars
+# (the v4 panel's worst case was ~239 chars; a single rich case-bullet
+# Recomendaciones section is ~1900 chars).
+_BAILOUT_THIN_CONTENT_CHARS = 400
+
+
 def compose_first_bubble_answer(
     *,
     request: PipelineCRequest,
@@ -112,9 +121,30 @@ def compose_first_bubble_answer(
     if recap_lines:
         sections.append(render_bullet_section("Recap histórico", recap_lines))
 
+    # fix_v4 phase 5 added a bail-out: when Recomendaciones / Riesgos /
+    # Soportes ALL came back thin (no case detector fired, no rich
+    # article-derived bullets), the assembled template left polish with
+    # nothing to expand and panel runs surfaced ~239-char answers. Routing
+    # those turns through the question-reformulation shape let polish
+    # generate substantive prose from the bare question (+1/36 on the
+    # §1.G panel).
+    #
+    # fix_v21_may §3.2 P2-T5 — the original SECTION-COUNT trigger
+    # (``< 2`` substantive sections) over-fires for article-lookup forms
+    # where the P2-T2 détector widen now makes a single case produce a
+    # rich Recomendaciones Prácticas (~1900 chars) with no Riesgos /
+    # Soportes. The bail-out was discarding that rich section and
+    # returning the bare question echo — the v21 q01 symptom.
+    #
+    # Switch to a CONTENT-SIZE trigger: bail out only when assembled
+    # content is genuinely thin in absolute chars. ``400`` sits well
+    # above the v4 panel's worst case (~239) and well below a single
+    # rich case-bullet Recomendaciones section.
     substantive_sections = [s for s in sections if s and len(s.strip()) > 80]
+    total_content_chars = sum(len(s.strip()) for s in sections if s)
     if (
         len(substantive_sections) < 2
+        and total_content_chars < _BAILOUT_THIN_CONTENT_CHARS
         and len(primary_articles) >= 2
         and not direct_answers
         and answer_mode == "graph_native"
