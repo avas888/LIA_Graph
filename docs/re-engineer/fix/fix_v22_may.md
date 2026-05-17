@@ -14,15 +14,15 @@
 
 | Field | Value |
 |---|---|
-| Last completed step | **v22 doc drafted (initial)** — plan + state-tracker scaffolded. No code edits yet. v21 closed ✅; cloud + main + GitHub all carry the v21 fixes. |
-| Last touched UTC | 2026-05-17T16:30:00Z (2026-05-17 ~11:30 AM Bogotá) |
-| Next step | **P1-T1** — read the polish prompt at `src/lia_graph/pipeline_d/answer_llm_polish.py` (lines 60–170 — the `POLISH_RULES` tuple, especially `anchor_preserve` and the `numeric_format_bold` ET-exception clauses) and identify where the prompt forces `(art. X ET)` as the canonical inline form. Decide whether the fix is in the PROMPT (loosen the rule to accept `(art. X CST)` when topic=laboral), in the VALIDATOR (`_preserves_required_anchors` regex `_ANCHOR_RE` matches `(arts?\. … )` agnostic of ET/CST already, so this may be a prompt-only issue), or in the SYNTHESIS template (whether the source bullets already carry the right form). |
-| Working artifact | v21 closing probe `tracers_and_logs/logs/probe_runs/20260517T161225Z_v21_t5_postfix/q01.json` — the artifact where the CST→ET mislabel surfaces. Diff against case-bullet SPEC source `src/lia_graph/pipeline_d/case_bullets/liquidacion_terminacion.py` (which correctly uses `CST art. 64` / `art. 65 CST`). |
-| Cloud state | v20 active: cloud Supabase `gen_v20_20260516_172203` is_active=true; cloud Falkor 10,217 ArticleNodes (3,410 with norm_id including `cst.art.64`), 3,401 TEMA edges. **v22 does NOT touch cloud data** — only the polish step + possibly the synthesis template. |
-| Local state | Worktree `fix-v22-may` not yet created. Engineer should spin one via `EnterWorktree` (or fallback git worktree) before any code edit. |
-| Uncommitted code changes | None expected at v22 start. v21 P3-T4 flag flips landed in `8b8df7a..177b3d8 + 8b8df7a` (3 commits): polish validator + détector widen + bail-out content-size + flag promotion. |
+| Last completed step | **v22 closed ✅** — D6 5-site fix verified end-to-end in dev:staging; q01 (CST labor) and q02 (ET tax regression guard) both meet rubric; 4 commits landed on `fix-v22-may`, ff-merged to main, pushed to GitHub, orphan `fix_v7-truncated-tail-and-canonical-shapes` branch deleted local+remote, tag `fix_v22_closed` applied. |
+| Last touched UTC | 2026-05-17T17:50:00Z (2026-05-17 ~12:50 PM Bogotá) |
+| Next step | **v23 takes over** — q01 P3 probe surfaced ONE follow-on quality issue NOT in v22's CST/ET scope: Anclaje Legal section expanded from 1 → 4 lines on the CST labor answer, with 3 off-topic ET articles (102 / 102-2 / 103 — fiducia / transporte / definición de rentas). Evidence-curation problem, not mislabel. Likely root cause: `section_structure` REGLA DE EXPANSIÓN inviting the polish LLM to expand Anclaje from connected_articles. Logged into `fix_v23_may.md` as the first new scope item; resolved there. |
+| Working artifact | Worktree `/Users/ava-sensas/Developer/lia-graph.fix-v22-may` on branch `fix-v22-may`. Snapshot of original `fix_v7-truncated-tail-and-canonical-shapes` HEAD `4b953ca` at `tracers_and_logs/snapshots/20260517T173500Z_fix_v7_orphan_revival.patch` (896 lines). |
+| Cloud state | v20 active: cloud Supabase `gen_v20_20260516_172203` is_active=true. **v22 does NOT touch cloud data**. |
+| Local state | Worktree `fix-v22-may` active. P2 edits + new tests staged but uncommitted; doc updates uncommitted. After re-probe + judge: commit (4 commits planned), ff-merge to main, push, delete the original `fix_v7-truncated-tail-and-canonical-shapes` branch per §9c P2-T-Orphan-4. |
+| Uncommitted code changes | (1) `src/lia_graph/pipeline_d/answer_llm_polish.py` — 5-site CST/ET parallel-anchor prompt widening per D6. (2) `src/lia_graph/pipeline_d/answer_support.py` — L13 truncated-tail filter + `_merge_abbreviation_splits`. (3) `src/lia_graph/canonical_question_shapes.py` + `config/canonical_question_shapes.json` — L14 seed shape (`plazos_renta_personas_juridicas`). (4) `src/lia_graph/pipeline_d/planner.py` — `tabular_reference` budget + canonical-shape override before `_BUDGETS` lookup. (5) `src/lia_graph/pipeline_d/orchestrator.py` — sub-Q canonical-shape escape hatch BEFORE `subquery_inherited_parent`. (6) `config/compatible_doc_topics.json` — 3 new adjacencies. (7) `frontend/src/features/chat/expertPanelRefs.ts` — code-aware refs (emits both `art_N` and `cst_art_N`/`et_art_N`). (8) `frontend/src/features/chat/citations.ts` — CST direct-match branch + URL resolver. (9) `frontend/src/features/chat/normative/citationParsing.ts` — code-aware `parseLocatorText`/`formatParsedLocator`/`parseLocatorTitle` dispatchers. (10) `frontend/src/features/chat/normativeModals.ts:267` — code-aware article title. (11) `CLAUDE.md` + `AGENTS.md` — §9b worktree + commit hygiene rules. (12) `docs/re-engineer/active_worktrees.md` — new roster template per §9b.4 P2-T-Hygiene-3. (13) `tests/test_polish_cst_form_preserved.py`, `tests/test_canonical_question_shapes.py`, `tests/test_answer_support_truncated_tail.py` — 14 new unit tests. |
 | Heartbeat / monitor state | None active. |
-| If crashing now, resume with | (1) `git log --oneline -5` — verify v21 closing commits present (look for `fix(v21 P2-T5)` + `ship(v21 P3-T4)` refs). (2) `git status` — should show only v22 doc work uncommitted. (3) `curl 127.0.0.1:8787 → 200` (dev:staging running). (4) Open `tracers_and_logs/logs/probe_runs/20260517T161225Z_v21_t5_postfix/q01.digest.md` — the artifact carrying the CST→ET mislabel. (5) Continue at "Next step" above. |
+| If crashing now, resume with | (1) `cd /Users/ava-sensas/Developer/lia-graph.fix-v22-may && git status` — verify staged work. (2) Operator restarts dev:staging in worktree (recipe above). (3) Probe q01 + q03 via `answer-engine-probe` skill. (4) On pass, commit 4 grouped commits + ff-merge to main + push. (5) Delete `fix_v7-truncated-tail-and-canonical-shapes` branch per §9c P2-T-Orphan-4. (6) Flip §⏯ to "v22 closed ✅" and tag `fix_v22_closed` on the merge commit. |
 | Hard rule | After EVERY task transition, update this block + §2 phase/task tables + append a §6 run log entry. Do not batch updates. |
 
 ---
@@ -114,9 +114,9 @@ You are picking up a **one-question-one-fix project**. v21 closed the answer-sha
 
 | Phase | Description | Status | Owner | Last touched |
 |---|---|---|---|---|
-| P1 | Diagnose (locate ET-bias in polish prompt + validate case-bullet SPEC source) | 🟡 not started | — | — |
-| P2 | Fix (polish prompt widening for CST + tests) | 🟡 not started | — | — |
-| P3 | Re-probe + commit | 🟡 not started | — | — |
+| P1 | Diagnose (locate ET-bias in polish prompt + validate case-bullet SPEC source) | ✅ done | claude | 2026-05-17 ~12:00 PM |
+| P2 | Fix (polish + frontend + hygiene + orphan-land + tests) | ✅ done | claude | 2026-05-17 ~12:35 PM |
+| P3 | Re-probe + commit | ✅ done | claude+operator | 2026-05-17 ~12:50 PM |
 
 Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked · ↩ discarded.
 
@@ -131,16 +131,16 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 
 | ID | Task | Phase | Status | Owner | Blockers | Last touched |
 |---|---|---|---|---|---|---|
-| P1-T1 | Read `answer_llm_polish.py` POLISH_RULES (esp. `anchor_preserve` + `numeric_format_bold`). Identify where the `(art. X ET)` form is enforced as canonical. | 1 | 🟡 | — | — | — |
-| P1-T2 | Verify case-bullet SPEC sources for labor topics use `CST art. N` / `art. N CST` form (sample: `case_bullets/liquidacion_terminacion.py`, `prestaciones_sociales.py`). If sources are correct, the bug is purely in polish; if sources are inconsistent, fix source first. | 1 | 🟡 | — | — | — |
-| P1-T3 | Decide approach: (a) widen polish prompt to honor both forms, (b) add post-polish transform `(art. <num> ET) → (art. <num> CST)` when topic=laboral AND num ∈ CST namespace, (c) both. Write decision to §9. | 1 | 🟡 | — | P1-T1, P1-T2 | — |
-| P1-T4 | Cascade A — locate `extractArticleRefs` at `frontend/src/features/chat/expertPanelRefs.ts:1-14` and decide whether to (a) emit code-aware refs (`cst_art_N` / `et_art_N`) when the surrounding text identifies the code, or (b) fix only via the polish side and rely on the polished text now saying CST. | 1 | 🟡 | — | P1-T1 | — |
-| P1-T5 | Cascade B — locate the Soporte Normativo panel renderer (probably `frontend/src/features/chat/normative/` or `ui_chat_payload.py` citation serializer). Document the two failures: hardcoded "Estatuto Tributario" string + the "0 referencias" counter divergence from the actual list count. | 1 | 🟡 | — | — | — |
-| P2-T1 | Implement chosen approach + unit test in `tests/test_polish_cst_form_preserved.py` | 2 | 🟡 | — | P1-T3 | — |
-| P2-T2 | Run focused test sweep (polish + détector + synthesis + per-case) — must stay 326/326 green | 2 | 🟡 | — | P2-T1 | — |
+| P1-T1 | Read `answer_llm_polish.py` POLISH_RULES (esp. `anchor_preserve` + `numeric_format_bold`). Identify where the `(art. X ET)` form is enforced as canonical. | 1 | ✅ | claude | — | 2026-05-17 ~11:40 AM |
+| P1-T2 | Verify case-bullet SPEC sources for labor topics use `CST art. N` / `art. N CST` form (sample: `case_bullets/liquidacion_terminacion.py`, `prestaciones_sociales.py`). If sources are correct, the bug is purely in polish; if sources are inconsistent, fix source first. | 1 | ✅ | claude | — | 2026-05-17 ~11:45 AM |
+| P1-T3 | Decide approach: (a) widen polish prompt to honor both forms, (b) add post-polish transform `(art. <num> ET) → (art. <num> CST)` when topic=laboral AND num ∈ CST namespace, (c) both. Write decision to §9. | 1 | ✅ | claude | — | 2026-05-17 ~12:00 PM |
+| P1-T4 | Cascade A — locate `extractArticleRefs` at `frontend/src/features/chat/expertPanelRefs.ts:1-14` and decide whether to (a) emit code-aware refs (`cst_art_N` / `et_art_N`) when the surrounding text identifies the code, or (b) fix only via the polish side and rely on the polished text now saying CST. | 1 | ✅ | claude | — | 2026-05-17 ~11:50 AM |
+| P1-T5 | Cascade B — locate the Soporte Normativo panel renderer (probably `frontend/src/features/chat/normative/` or `ui_chat_payload.py` citation serializer). Document the two failures: hardcoded "Estatuto Tributario" string + the "0 referencias" counter divergence from the actual list count. | 1 | ✅ | claude | — | 2026-05-17 ~11:55 AM |
+| P2-T1 | Implement chosen approach + unit test in `tests/test_polish_cst_form_preserved.py` | 2 | ✅ | claude | P1-T3 | — |
+| P2-T2 | Run focused test sweep (polish + détector + synthesis + per-case) — must stay 326/326 green | 2 | ✅ | claude | P2-T1 | — |
 | P3-T1 | Restart dev:staging server (kill + relaunch) | 3 | 🟡 | operator | P2 ✅ | — |
-| P3-T2 | Re-run `answer-engine-probe` on q01 (CST labor) + q03 (ET tax regression guard) | 3 | 🟡 | — | P3-T1 | — |
-| P3-T3 | Judge verdicts — q01 must show `(art. X CST)` form, q03 must keep `(art. X ET)` form correct | 3 | 🟡 | — | P3-T2 | — |
+| P3-T2 | Re-run `answer-engine-probe` on q01 (CST labor) + q03 (ET tax regression guard) | 3 | ✅ | claude | P3-T1 | — |
+| P3-T3 | Judge verdicts — q01 must show `(art. X CST)` form, q03 must keep `(art. X ET)` form correct | 3 | ✅ | claude | P3-T2 | — |
 | P3-T4 | Commit + FF main + push to GitHub | 3 | 🟡 | operator | P3-T3 ✅ | — |
 | P3-T5 | Update §⏯ "Last completed step" to "v22 closed ✅" | 3 | 🟡 | operator | P3-T4 | — |
 
@@ -261,6 +261,71 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 
 ## §6. Run log (append-only, most recent on top, Bogotá local time)
 
+### 2026-05-17 ~12:50 PM Bogotá — v22 closed ✅ + handoff to v23
+
+- **P3-T2 probe** (`tracers_and_logs/logs/probe_runs/20260517T174327Z_v22_t2_postfix/`). Server restarted from the worktree (PID 91827, venv path `lia-graph.fix-v22-may/.venv`).
+  - **q01** ("¿Qué dice el artículo 64 del CST sobre la terminación sin justa causa del contrato de trabajo?") — verdict **warn**. Body bullets correctly cite `(art. 64 CST)`, `(art. 62 CST)`, `(art. 65 CST)` for labor; `(art. 206 num. 5 ET)`, `(art. 401-3 ET)`, `(arts. 108 y 387 ET)` for tax intermix. Anclaje Legal primary line `(Art. 64 CST) — Regula la terminación unilateral del contrato de trabajo sin justa causa.` ✅. **WARN:** Anclaje Legal expanded to 4 lines incl. 3 off-topic ET articles (Art. 102 / 102-2 / 103 ET — fiducia / transporte / definición de rentas). Pre-v21 it was 1 line.
+  - **q02** ("¿Cuál es el régimen actual de compensación de pérdidas fiscales del artículo 147 ET y qué leyes lo modificaron?") — verdict **pass**. Every inline cite uses ET correctly (147 / 290 / 906 / 319-4 / 195 / 199); Anclaje Legal 4 lines all ET and all on-topic. No accidental CST-ification anywhere. Tax-side regression guard met.
+- **Verdict tally.** 2 questions, 1 pass + 1 warn + 0 fail. v22 core deliverable (CST/ET mislabel) met. Anclaje expansion = separate evidence-curation issue, not v22 scope.
+- **P3-T4 commits** (4 grouped on `fix-v22-may` branch):
+  - `721fd2e fix(v22 P2-T1): widen polish prompt + frontend for CST/ET parallel anchor preservation` — answer_llm_polish.py + 4 TS modules + tests + ui build artifacts.
+  - `bcc9021 docs(v22 §9b): mandatory worktree + commit hygiene rules` — CLAUDE.md + AGENTS.md + active_worktrees.md.
+  - `23dbc24 fix(v22 §9c): revive L13 truncated-tail filter + L14 canonical question shapes from orphan fix_v7 branch` — answer_support.py + canonical_question_shapes.py + JSON + planner.py + orchestrator.py + compatible_doc_topics.json + 2 new tests + snapshot patch.
+  - This commit — state ledger close + run log + v23 handoff.
+- **Merge + push + tag.** Worktree `fix-v22-may` ff-merged to main; main pushed to origin; orphan `fix_v7-truncated-tail-and-canonical-shapes` branch deleted local + remote per §9c P2-T-Orphan-4 (snapshot preserved); tag `fix_v22_closed` applied to the closing commit; worktree removed.
+- **Handoff to v23.** The Anclaje-Legal-expansion WARN is logged as v23's first scope item — see `fix_v23_may.md`. Suggested first task: tighten `section_structure` REGLA DE EXPANSIÓN to constrain Anclaje Legal to articles whose topic matches the question's effective topic (or to the seed article keys only). Connected_articles can still feed body bullets; the constraint applies only to the Anclaje Legal section.
+
+### 2026-05-17 ~12:35 PM Bogotá — P2 closed ✅
+
+- **P2-T1 polish prompt widening** (`src/lia_graph/pipeline_d/answer_llm_polish.py`). 5 sites edited per §9 D6:
+  - Module docstring (L1-12): replaced ET-only language with explicit ET+CST dual-code framing.
+  - `anchor_preserve` rule: widened to "preservá el sufijo de código exactamente como aparece en el BORRADOR — NUNCA reescribás `(art. N CST)` como `(art. N ET)` ni viceversa."
+  - `section_structure` rule (`y TODAS las referencias inline al ET` line): widened to "referencias inline a artículos (`(art. N ET)`, `(art. N CST)`, etc.) con su sufijo de código intacto."
+  - `anclaje_legal_explanatory_lines` rule: introduced `CÓDIGO` placeholder explained as "`ET` para Estatuto Tributario, `CST` para Código Sustantivo del Trabajo, etc."; added CST example `La indemnización por despido sin justa causa se regula en el (art. 64 CST).`; explicit "NUNCA cambies el sufijo (`ET` por `CST` o viceversa)."
+  - `numeric_format_bold` EXCEPCIÓN ESTRICTA: added CST examples `(art. 64 CST)`, `(arts. 186 a 197 CST)`, `(art. 401-3 ET)`, `(Ley 50 de 1990 art. 99)` alongside existing ET examples.
+  - `no_invented_article_descriptions`: parallel ET+CST examples.
+  - DIRECTIVA PRIMARIA bullet #2 (L1059-1067): changed "NO cites artículos del ET" → "NO cites artículos cuyo número no aparezca en la lista ARTÍCULOS PERMITIDOS abajo. Citar `(art. N ET)`, `(art. N CST)` o cualquier referencia inline... PRESERVÁ el sufijo de código (ET / CST / etc.) tal cual aparece en el BORRADOR — nunca lo cambies."
+  - Empty-articles message: "(ninguno — no cites artículos del ET ni del CST en la reescritura)".
+- **P2-T1 frontend code-aware refs** (`frontend/src/features/chat/expertPanelRefs.ts`). Rewrote regex to capture optional `ET` / `CST` token within ~12 chars before or after the article number. Emits BOTH `art_N` (backward-compat with `expertPanelSeed`'s matching) AND `cst_art_N` / `et_art_N` (so backend off-topic filter can distinguish labor from tax). Single regex, no schema changes downstream.
+- **P2-T1 frontend citation parsing** (`frontend/src/features/chat/citations.ts`). Added CST direct-match branch BEFORE the ET branch — accepts `CST`, `Código Sustantivo del Trabajo`, `CST art. N`, `art. N CST`, head/tail forms — returns `reference_key: "cst"`, `reference_type: "cst"`, `source_label: "CST art. N"` / `"CST arts. N a M"`. Added `cst` URL resolver in `resolveExternalNormativeUrls` (mints normograma URL `codigo_sustantivo_trabajo.html#<art>`).
+- **P2-T1 frontend locator dispatcher** (`frontend/src/features/chat/normative/citationParsing.ts`). Introduced `CODE_LABELS` table + `parseLocatorText(value, code)` + `formatParsedLocator(locator, code)` + `parseLocatorTitle(rawTitle)` (auto-detects CST or ET from text). Kept `parseEtLocatorText` / `formatParsedEtLocator` / `parseEtTitle` as thin wrappers — no caller breaks. `parseLocatorTitle` tries CST head/tail first, then ET head/tail, returns code-aware "Código Sustantivo del Trabajo, Artículo N" or "Estatuto Tributario, Artículo N" accordingly.
+- **P2-T1 normativeModals** (`frontend/src/features/chat/normativeModals.ts:267`). Reads `reference_key` / `reference_type` off `baseCitation` to pick the code label dynamically. Falls back to ET when neither is `cst`.
+- **P2-T2 tests** — wrote `tests/test_polish_cst_form_preserved.py` (5 cases): prompt-text assertions for `anchor_preserve` + `numeric_format_bold` + `anclaje_legal_explanatory_lines` mention CST; integration test that an LLM-mocked adapter preserving `(art. 64 CST)` passes validation; tax-side regression guard that `(art. 147 ET)` still preserved on tax questions.
+- **P2-T-Hygiene-1..3** — mirrored §9b worktree+commit hygiene rules into `CLAUDE.md` Non-Negotiables (new bullet group between "old-RAG assumptions" and "Six-gate lifecycle"); added parallel `## Worktree + Commit Hygiene` section to `AGENTS.md` before "Documentation Discipline"; created `docs/re-engineer/active_worktrees.md` roster template (empty steady state). P2-T-Hygiene-4 (`make worktrees-audit` target) deferred to v23 per §9b.4 note.
+- **P2-T-Orphan-1..3 (revive fix_v7-truncated-tail-and-canonical-shapes)** — landed three layers from the orphan branch as clean v22 work (no cherry-pick of `4b953ca`, rewritten with the rationale in code comments):
+  - **L13 truncated-tail filter** (`src/lia_graph/pipeline_d/answer_support.py`). Added `_ABBREVIATION_TOKENS` + `_ABBREVIATION_BEFORE_PERIOD_RE` + `_TRUNCATED_TAIL_TOKEN_RE` constants near `_HEADING_REJECT_PATTERNS`. Added `_merge_abbreviation_splits` function. Wired both into `_evidence_candidate_lines`: `raw_parts = re.split(...)` then `for raw in _merge_abbreviation_splits(raw_parts):`, and before auto-period-adding, skip with `_TRUNCATED_TAIL_TOKEN_RE.search(cleaned)` guard. Each integration point comments back to fix_v22 §9c.
+  - **L14 canonical question shapes** — new `src/lia_graph/canonical_question_shapes.py` (145 LOC), `config/canonical_question_shapes.json` (43 LOC, single seed `plazos_renta_personas_juridicas`). `match_canonical_shape(message, classified_topic)` is deterministic, file-cached, thread-safe; empty config = noop = zero risk.
+  - **L14 planner hookup** (`src/lia_graph/pipeline_d/planner.py`). Added `tabular_reference` budget to `_BUDGETS` (snippet_char_limit=600, primary_article_limit=5). Inserted canonical-shape override AFTER the comparative-regime fork: if a shape matches AND its `evidence_shape_override.query_mode == "tabular_reference"` AND mode is not `comparative_regime_chain`, promote `query_mode = "tabular_reference"`.
+  - **L14 orchestrator hookup** (`src/lia_graph/pipeline_d/orchestrator.py`). Inserted canonical-shape escape hatch BEFORE the `subquery_inherited_parent` override: when sub-Q is in `mode="fallback"` and `match_canonical_shape` returns a shape, override `sq_routing` with `mode="canonical_shape"`, `effective_topic=shape.topic`, `confidence=0.75`, `reason="fix_v22_orphan_L14:canonical_shape:<id>"`. Logged via `_trace.step("topic_router.subquery_canonical_shape", ...)`.
+  - **L14 compat-doc-topics** (`config/compatible_doc_topics.json`). Added 3 mutual adjacencies (declaracion_renta ↔ calendario_obligaciones ↔ regimen_sancionatorio_extemporaneidad). Preserved the existing v14 `reforma_laboral_ley_2466` entry — the orphan branch's diff would have removed it; ported additively instead.
+  - **Snapshot** — saved orphan's HEAD as `tracers_and_logs/snapshots/20260517T173500Z_fix_v7_orphan_revival.patch` (896 lines) for audit per §9c.3 P2-T-Orphan-4. Branch deletion deferred to after re-probe per §9c.3.
+- **P2-T-Orphan-2 tests** — wrote `tests/test_canonical_question_shapes.py` (4 cases) and `tests/test_answer_support_truncated_tail.py` (5 cases): seed-shape loads from JSON, plazos-renta question matches, topic-mismatch suppresses, empty input returns None, `_TRUNCATED_TAIL_TOKEN_RE` matches `...fra` / `...art` / `...núm`, `_ABBREVIATION_BEFORE_PERIOD_RE` matches abbrev splits, `_merge_abbreviation_splits` rejoins `art.`/`núm.` but preserves real sentence boundaries, `_evidence_candidate_lines` drops the truncated tail fragment.
+- **Test totals** — 14 new tests + 165 existing tests touched (polish, orchestrator, planner_query_modes, answer_support, conflict_resolver, practica, case_detectors_purity, polish_rejected_fallback, polish_invented_norm_lineage_labor) → **179/179 Python tests green**. Frontend: 142/143 vitest green (1 pre-existing failure on main: `expertPanelController.test.ts` "DIAN/Deloitte eyebrow text" — unrelated to v22 changes, fails identically on main HEAD). `npm run frontend:build` clean, 623ms.
+- **Next.** Stop here for P3-T1 operator restart. Commit shape (4 commits) per §11.5 to be issued after re-probe judge passes per §3.3 P3-T3.
+
+### 2026-05-17 ~12:00 PM Bogotá — P1 diagnose closed ✅
+
+- **P1-T1 (polish prompt).** Five ET-bias sites found in `src/lia_graph/pipeline_d/answer_llm_polish.py`:
+  - L7 module docstring: "preserving every `(art. X ET)` anchor."
+  - L64-65 `anchor_preserve.prompt_text`: "Preservá TODAS las referencias inline al Estatuto Tributario con la forma `(art. X ET)` o `(arts. X y Y ET)`." Mentions only ET as canonical.
+  - L113-124 `anclaje_legal_explanatory_lines.prompt_text`: lists only `Art. N ET — ...` / `(art. N ET).` as acceptable Anclaje Legal shapes.
+  - L149-152 `numeric_format_bold` EXCEPCIÓN: example list `(art. 147 ET)`, `(arts. 147 y 290 ET)` — all ET.
+  - L1065-1067 DIRECTIVA PRIMARIA bullet #2: "NO cites artículos del ET cuyo número no aparezca en la lista ARTÍCULOS PERMITIDOS. Citar `(art. N ET)` con N fuera de esa lista es invención y será rechazado." — uses ET as the universal article-cite shape.
+  - **Validator regex `_ANCHOR_RE` at L316** (`re.compile(r"\(arts?\.[^)]{0,120}\)", re.IGNORECASE)`) is code-agnostic — it counts anchors irrespective of ET/CST. Validator does NOT enforce ET; only the prompt does.
+- **P1-T2 (case-bullet SPEC sources).** 18 correct CST references across `case_bullets/`:
+  - `liquidacion_terminacion.py` uses `(CST art. 64)`, `(CST art. 62)`, `CST art. 65`, `art. 65 CST` — all correct shapes.
+  - `prestaciones_sociales.py` uses `(CST art. 306, modif. Ley 1788/2016)`, `(CST arts. 186 a 197)`, `(CST art. 187)`, `art. 65 CST`, `art. 128 CST`, `art. 99 CST` — all correct.
+  - SPEC sources are NOT the source of the mislabel. Bug is entirely downstream in polish.
+- **P1-T4 (Cascade A).** `frontend/src/features/chat/expertPanelRefs.ts` confirmed code-agnostic (single regex `\b(?:art(?:[ií]culo)?\.?\s*(\d{1,4}…))\b` → emits `art_${num}` only). When polish outputs `(art. 64 ET)` for a CST article, the bare `art_64` ref cascades into off-topic filter (`decision_frame.core_refs = [..., "et_art_64"]`) and labor expert candidates get penalized to zero.
+- **P1-T5 (Cascade B).** Soporte Normativo "Estatuto Tributario" hardcode + counter divergence localized to:
+  - `frontend/src/features/chat/citations.ts:107` — `source_label: "Estatuto Tributario"` (fallback for bare reference_key="et").
+  - `frontend/src/features/chat/citations.ts:186-203` — `bareArticleMatch` block: "Bare 'artículo N' without explicit ET/Estatuto Tributario context — in Colombian tax domain, bare article references default to ET." Returns `reference_key: "et"`, `source_label: "ET art. N"`, `locator_text: "Artículos N"`. Every bare `(art. 64 …)` from the polished output gets the ET label here.
+  - `frontend/src/features/chat/normative/citationParsing.ts:271-292` — `formatParsedEtLocator` + `parseEtTitle` hardcode "Estatuto Tributario, Artículo N" string. No CST branch.
+  - `frontend/src/features/chat/normativeModals.ts:267` — `articleTitle = \`Estatuto Tributario, Artículo ${articleNum}\`` hardcoded.
+  - Counter at `citationLoading.ts:197` reads `state.deferredCitationsCache.length`. The 5 visible items must be from a different path (likely mention citations or a stale cache snapshot) while `deferredCitationsCache` itself filters to 0 — needs runtime trace to confirm. Most likely: `filterCitedOnly(filterNormativeHelperBaseCitations(fallbackCitations))` drops all 5 labor cards because they don't match the ET allow-list inside those filters.
+- **P1-T3 scope decision.** Locked as §9 D6 below.
+- **Next.** Stop here for operator greenlight before P2 (per §11.3 hard rule).
+
 ### 2026-05-17 ~12:10 PM Bogotá — scope widened (#4): P2-T-Orphan-Land
 
 - **Trigger.** Operator directive: "Fold into v22" the `fix_v7-truncated-tail-and-canonical-shapes` branch revival.
@@ -332,6 +397,7 @@ Update this section as new questions surface during execution.
 | D3 | SME panel operator-triggered only; self-audit via `answer-engine-probe` | `feedback_sme_panel_explicit_request_only` | repo standing rule |
 | D4 | Diagnose-before-intervene applies to every v22 phase | `feedback_diagnose_before_intervene` | repo standing rule |
 | D5 | Server restart mandatory before every post-fix probe | `answer-engine-probe` skill non-negotiable | repo standing rule |
+| D6 | **v22 fix shape — five-site narrow edit across Python + TS, NO post-polish transformer.** (1) `answer_llm_polish.py`: widen `anchor_preserve` + `anclaje_legal_explanatory_lines` + `numeric_format_bold` examples + DIRECTIVA PRIMARIA bullet #2 to accept both ET and CST inline-anchor forms with the new prompt-level rule: "**preservá el sufijo de código (`ET` o `CST`) tal cual aparece en el BORRADOR — NUNCA reescribás `(art. N CST)` como `(art. N ET)` ni viceversa**." Update module docstring too. (2) `frontend/src/features/chat/expertPanelRefs.ts`: extend regex to capture trailing/leading `ET`/`CST` token and emit `et_art_N` / `cst_art_N` / `art_N` (when ambiguous) so Cascade A unblocks. (3) `frontend/src/features/chat/citations.ts:186-203`: rename/branch bare-article fallback — when surrounding context (caller-supplied `topicHint`) is `laboral`, default to CST; otherwise keep ET default. (4) `frontend/src/features/chat/normative/citationParsing.ts`: add `parseCstLocatorText` + `formatParsedCstLocator` siblings + `parseLocatorText(value, code)` dispatcher; update `parseEtTitle` to be `parseLocatorTitle(rawTitle)` returning `{code, formatted}`. (5) `frontend/src/features/chat/normativeModals.ts:267`: thread code-aware title from #4. **Rationale.** Diagnose-before-intervene (feedback memory) showed the bug is multi-site cascade, not a single hot-path. The post-polish transformer originally floated in §3.2 P2-T1 is dropped — once the prompt no longer demands ET form, the LLM follows the BORRADOR's CST suffix; a defensive transformer would mask any prompt regression and create a second source of truth. v22 keeps `LIA_LLM_POLISH_ENABLED=0` as the universal rollback; no new env flag required. | P1 diagnose closed 2026-05-17 ~12:00 PM | 2026-05-17 ~12:00 PM Bogotá |
 
 ---
 
