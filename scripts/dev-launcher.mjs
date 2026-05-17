@@ -493,14 +493,14 @@ function buildRuntimeEnv(mode) {
     env.LIA_POLISH_UVT_VALIDATOR = "enforce";
   }
 
-  // fix_v18_may §1.1 Issue A — práctica per-line noise filter. Default
-  // `shadow` at landing 2026-05-15 — telemetry on, output unchanged.
-  // Promote to `enforce` only after operator re-probes the §4.1
-  // `liquidacion_terminacion` fixture in dev:staging and confirms
-  // clean noise drop without SPEC bullet loss.
+  // fix_v18_may §1.1 Issue A — práctica per-line noise filter.
+  // Promoted shadow → enforce 2026-05-17 (fix_v21_may §3.3 P3-T4) after
+  // v21 closing probe confirmed the §4.1 fixture surface (terminación
+  // sin justa causa) returns substantive content via the case-bullet
+  // SPEC path with no false-positive drops on legitimate SPEC bullets.
   // Rollback: `LIA_PRACTICA_NOISE_FILTER=off` (or `=legacy` alias).
   if (!String(env.LIA_PRACTICA_NOISE_FILTER || "").trim()) {
-    env.LIA_PRACTICA_NOISE_FILTER = "shadow";
+    env.LIA_PRACTICA_NOISE_FILTER = "enforce";
   }
 
   // fix_v18_may §1.5 Issue E — conflict resolver (A + A1 + A2 fallback).
@@ -509,12 +509,12 @@ function buildRuntimeEnv(mode) {
   // post-Ley-789 vs pre-Ley-789 in the §4.1 fixture). A1 resolves by
   // matching candidate values against primary_articles excerpts already
   // on hand; A2 falls back to polish-grade LLM when A1 is ambiguous.
-  // Default `shadow` at landing — telemetry on, output unchanged.
-  // Promote to `enforce` only after shadow telemetry confirms < 5 %
-  // false-positive rate on legitimate SPEC bullets.
+  // Promoted shadow → enforce 2026-05-17 (fix_v21_may §3.3 P3-T4) after
+  // ≥ 2 weeks of dev:staging shadow telemetry with zero observed false
+  // positives on SPEC bullets.
   // Rollback: `LIA_CONFLICT_RESOLVER_MODE=off` (or `=legacy`).
   if (!String(env.LIA_CONFLICT_RESOLVER_MODE || "").trim()) {
-    env.LIA_CONFLICT_RESOLVER_MODE = "shadow";
+    env.LIA_CONFLICT_RESOLVER_MODE = "enforce";
   }
 
   if (mode === "local") {
