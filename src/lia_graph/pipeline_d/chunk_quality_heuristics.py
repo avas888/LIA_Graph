@@ -41,12 +41,28 @@ LOGGER = logging.getLogger(__name__)
 
 _GATE_ENV_FLAG = "LIA_CHUNK_QUALITY_HEURISTIC_MODE"
 
+# v23 P4 — separate gate for the named-entity / acta-template / formulario
+# leak filter (Q5 audit pollution: "DISTRIBUIDORA EL SOL SAS",
+# "ALEJANDRO VASQUEZ ARANGO", "Formulario 7"). Ships SHADOW per D-S3 —
+# operator promotes after P4 corpus-audit report + v24 retirement plan.
+_ENTITY_FILTER_ENV_FLAG = "LIA_CHUNK_QUALITY_ENTITY_FILTER"
+
 
 def heuristic_mode() -> str:
     """Return the gate mode. Default ``shadow`` at landing — emit
     diagnostics, do NOT alter ranking. Promote to ``enforce`` only
     after panel-judge confirms INCLUDE per fix_v14_may §4."""
     raw = str(os.getenv(_GATE_ENV_FLAG, "shadow") or "").strip().lower()
+    if raw in {"enforce", "on", "1", "true"}:
+        return "enforce"
+    if raw in {"off", "0", "false", "no", "disabled"}:
+        return "off"
+    return "shadow"
+
+
+def entity_filter_mode() -> str:
+    """v23 P4 — entity-leak filter mode. Default ``shadow`` per D-S3."""
+    raw = str(os.getenv(_ENTITY_FILTER_ENV_FLAG, "shadow") or "").strip().lower()
     if raw in {"enforce", "on", "1", "true"}:
         return "enforce"
     if raw in {"off", "0", "false", "no", "disabled"}:
@@ -178,6 +194,55 @@ _SOFTWARE_CODE_ISOLATED_RE = re.compile(
     re.IGNORECASE,
 )
 
+# v23 P4 — entity-leak patterns. These are sensitive: they MUST be
+# conservative so legitimate mentions like "el contador firma" don't get
+# demoted. Heuristic-only — they flag chunks for v24 retirement review.
+_CORPORATE_SUFFIX_RE = re.compile(
+    r"\b(?:SAS|S\.A\.S\.|LTDA|L\.T\.D\.A\.|S\.A\.)\b",
+)
+_NAMED_ENTITY_LEAK_RE = re.compile(
+    r"\b[A-ZÁÉÍÓÚÑ]{2,}(?:\s+[A-ZÁÉÍÓÚÑ]{2,}){2,}\b"
+)
+_ACTA_TEMPLATE_LEAK_RE = re.compile(
+    r"\bACTA\s+No\.?\s*\d+\b|\bEn\s+Bogot[aá],?\s+a\s+los?\s+\d",
+    re.IGNORECASE,
+)
+_FORMULARIO_LEAK_RE = re.compile(
+    r"\bFormulario\s+\d{2,4}\s*[-—]",
+    re.IGNORECASE,
+)
+_AUDIT_VERBATIM_LEAK_RE = re.compile(
+    r"\b(?:DISTRIBUIDORA\s+EL\s+SOL|ALEJANDRO\s+VASQUEZ)\b",
+    re.IGNORECASE,
+)
+
+
+def score_entity_pollution(text: str) -> tuple[float, str | None]:
+    """v23 P4 — detect named-entity / acta / formulario / known-audit-string
+    leaks. Returns (penalty_factor, reason). Penalty MEDIUM (0.4) so the
+    chunk falls below the primary cut but stays available if it's the only
+    candidate (Invariant I5).
+
+    Patterns are conservative: corporate-suffix OR triple-cap proper-name
+    pattern alone is not a trigger — they must co-occur with a template
+    marker (acta/formulario/Bogotá date) or be the verbatim audit string.
+    """
+    if not text:
+        return 1.0, None
+    if _AUDIT_VERBATIM_LEAK_RE.search(text):
+        return PENALTY_HEAVY, "audit_verbatim_pollution_string"
+    has_corporate = bool(_CORPORATE_SUFFIX_RE.search(text))
+    has_proper_name = bool(_NAMED_ENTITY_LEAK_RE.search(text))
+    has_acta = bool(_ACTA_TEMPLATE_LEAK_RE.search(text))
+    has_formulario = bool(_FORMULARIO_LEAK_RE.search(text))
+    if has_acta and (has_corporate or has_proper_name):
+        return PENALTY_MEDIUM, "acta_template_with_entity"
+    if has_formulario and (has_corporate or has_proper_name):
+        return PENALTY_MEDIUM, "formulario_template_with_entity"
+    if has_corporate and has_proper_name and len(text) < 800:
+        return PENALTY_LIGHT, "entity_dominant_short_chunk"
+    return 1.0, None
+
 
 # Cross-topic markers — keyed by trigger pattern → list of topics for
 # which the trigger is LEGITIMATE. Outside those topics, the trigger
@@ -304,21 +369,59 @@ def apply_heuristics(
     input rows unmodified.
     """
     mode = heuristic_mode()
+    entity_mode = entity_filter_mode()
     diag: dict[str, Any] = {
         "gate_mode": mode,
+        "entity_filter_mode": entity_mode,
         "rows_seen": len(chunk_rows),
         "rows_demoted": 0,
+        "rows_entity_flagged": 0,
         "reasons": {},
+        "entity_reasons": {},
         "samples": [],
+        "entity_samples": [],
     }
-    if mode == "off" or not chunk_rows:
+    if mode == "off" and entity_mode == "off":
+        return list(chunk_rows), diag
+    if not chunk_rows:
         return list(chunk_rows), diag
 
     annotated: list[dict[str, Any]] = []
     reason_counts: dict[str, int] = {}
     sample: list[dict[str, Any]] = []
+    entity_reason_counts: dict[str, int] = {}
+    entity_sample: list[dict[str, Any]] = []
     for row in chunk_rows:
         if not isinstance(row, dict):
+            annotated.append(row)
+            continue
+        # v23 P4 — run the entity-pollution filter alongside (not nested
+        # inside) the v18 heuristics. Independent gate, independent diag.
+        if entity_mode != "off":
+            ep_penalty, ep_reason = score_entity_pollution(
+                str(row.get("chunk_text") or "")
+            )
+            if ep_reason is not None:
+                row = dict(row)
+                row["chunk_entity_pollution_reason"] = ep_reason
+                row["chunk_entity_pollution_penalty"] = round(ep_penalty, 3)
+                if entity_mode == "enforce":
+                    try:
+                        base = float(row.get("rrf_score") or row.get("fts_rank") or 0.0)
+                        row["rrf_score"] = max(0.0, base * ep_penalty)
+                    except (TypeError, ValueError):
+                        pass
+                diag["rows_entity_flagged"] += 1
+                entity_reason_counts[ep_reason] = entity_reason_counts.get(ep_reason, 0) + 1
+                if len(entity_sample) < 6:
+                    entity_sample.append({
+                        "chunk_id": str(row.get("chunk_id") or "")[:80],
+                        "doc_id": str(row.get("doc_id") or "")[:80],
+                        "reason": ep_reason,
+                        "penalty": round(ep_penalty, 3),
+                        "text_preview": (str(row.get("chunk_text") or "")[:120]),
+                    })
+        if mode == "off":
             annotated.append(row)
             continue
         penalty, reason = score_chunk_quality(row, routed_topic=routed_topic)
@@ -347,6 +450,8 @@ def apply_heuristics(
             })
     diag["reasons"] = reason_counts
     diag["samples"] = sample
+    diag["entity_reasons"] = entity_reason_counts
+    diag["entity_samples"] = entity_sample
 
     if mode != "off" and diag["rows_demoted"]:
         LOGGER.info(
