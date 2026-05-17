@@ -14,9 +14,9 @@
 
 | Field | Value |
 |---|---|
-| Last completed step | **P2 closed ✅** — code landed in worktree `.claude/worktrees/fix-v21-may`. Polish validators (lineage + periods) now consult evidence bundle. Liquidación-terminación detector widened with article-lookup regex for CST 62/64/65. 624/624 targeted tests pass. See §6 entry "09:55 PM Bogotá". |
-| Last touched UTC | 2026-05-17T02:55:00Z (2026-05-16 ~09:55 PM Bogotá) |
-| Next step | **OPERATOR-TRIGGERED P3.** (1) Operator confirms P2 commits should land (3 logical commits — polish / práctica-detector / docs). (2) Operator restarts dev:staging server — `! kill <pid> && npm run dev:staging` — so the new validator + detector load. (3) Re-probe q01 + q02 via `answer-engine-probe`. (4) If both pass: flip `LIA_PRACTICA_NOISE_FILTER` + `LIA_CONFLICT_RESOLVER_MODE` shadow→enforce per beta-stance + Q1/Q2 answers (Q1 defer subtopic-sidecar to v22, Q2 leave LIA_TOPIC_GATE_MODE at enforce). |
+| Last completed step | **v21 closed ✅** — all 3 phases done. v20 q01 regression fully fixed: substantive labor answer with 30/20/15 días + 10 SMMLV + 350 UVT + Justa causa + Retención + Anclaje Legal. P3-T4 flag promotion landed: `LIA_PRACTICA_NOISE_FILTER` + `LIA_CONFLICT_RESOLVER_MODE` shadow → enforce. Known residual punted to [`fix_v22_may.md`](fix_v22_may.md): polish mislabels labor articles as `(art. X ET)` instead of `(art. X CST)`. |
+| Last touched UTC | 2026-05-17T16:30:00Z (2026-05-17 ~11:30 AM Bogotá) |
+| Next step | **v22 starts here:** open `docs/re-engineer/fix/fix_v22_may.md` §⏯ for the CST/ET mislabel fix. No further v21 work pending. |
 | Working artifact | Probe run `tracers_and_logs/logs/probe_runs/20260517T013419Z_v20_labor_collision/` — the failing q01 trace is the input to diagnose the polish + práctica bugs. |
 | Cloud state | v20 active: cloud Supabase `gen_v20_20260516_172203` is_active=true; cloud Falkor 10,217 ArticleNodes (2,177 with norm_id, 0 duplicates), 3,401 TEMA edges. **v21 does NOT touch cloud data** — only the served-answer pipeline. |
 | Local state | iter2 bundle still frozen + chmod -w at `artifacts/v20/local_rehearsal_iter2/`. Local Falkor has the same iter2 graph state. |
@@ -115,8 +115,8 @@ You are picking up a **one-question-one-fix project**. v20 closed the whole-corp
 | Phase | Description | Status | Owner | Last touched |
 |---|---|---|---|---|
 | P1 | Diagnose (read probe trace + isolate paths) | ✅ done | claude-opus-4-7 | 2026-05-16 ~09:20 PM |
-| P2 | Fix (polish over-rejection + práctica chunk-selection + optional subtopic parity) | ✅ done (subtopic deferred to v22 per Q1) | claude-opus-4-7 | 2026-05-16 ~09:55 PM |
-| P3 | Re-probe + flag promotion + commit | 🔵 awaiting operator (restart server + probe + commit) | operator | 2026-05-16 ~09:55 PM |
+| P2 | Fix (polish over-rejection + práctica chunk-selection + article-lookup bail-out) | ✅ done (subtopic deferred to v22 per Q1) | claude-opus-4-7 | 2026-05-17 ~11:13 AM |
+| P3 | Re-probe + flag promotion + commit | ✅ done — q01 + q02 + q03 all substantive, flags promoted, commits pushed to GitHub | claude-opus-4-7 | 2026-05-17 ~11:30 AM |
 
 Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked · ↩ discarded.
 
@@ -281,6 +281,26 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 ---
 
 ## §6. Run log (append-only, most recent on top, Bogotá local time)
+
+### 2026-05-17 ~11:30 AM Bogotá — v21 closed ✅ (P2-T5 + P3 + flag promotion)
+
+- **Server restart + first probe (P3-T1 + P3-T2 first pass).** Operator restarted dev:staging. q01/q02/q03 probed at run dir `tracers_and_logs/logs/probe_runs/20260517T155130Z_v21_postfix/`.
+  - q01 (article-lookup): polish_mode=`llm` (no rejection), off-topic cesación-codes + jornada-nocturna bullets GONE — but answer thin (124-char template → polish prose without case-bullet substance). Verdict: warn (Q6 — no practical substance).
+  - q02 (operational form): substantive answer with 30 + 4×20 = 110 días, Ley 50/1990 cited. Verdict: warn (Q2 latency only).
+  - q03 (tax regression guard): substantive tax answer with 12-period rule + AG 2017 transition + arts. 147/16/195/199. Verdict: warn (Q2 + sub-question miss).
+  - **No fail across all three** — v21's stated bugs (polish rejection + off-topic bullets) confirmed fixed. New gap: article-lookup mode synthesis didn't surface case bullets.
+- **P2-T5 — first-bubble bail-out content-size trigger.**
+  - Root cause traced to `compose_first_bubble_answer` at `answer_first_bubble.py:115` — fix_v4-phase-5 bail-out (added by commit 0ac1a70 for +1/36 SME panel) used `len(substantive_sections) < 2` to detect thin synthesis. After P2-T2 détector widen, article-lookup produces a single rich Recomendaciones (~1900 chars) — bail-out misread that as "thin" and replaced it with the bare question echo.
+  - Fix: switched trigger to absolute content size (`total_content_chars < _BAILOUT_THIN_CONTENT_CHARS = 400`). Preserves fix_v4 thin-synthesis rescue (worst case was ~239 chars) while letting rich single-section answers through.
+  - Commit `8b8df7a fix(v21 P2-T5): first-bubble bail-out uses content size, not section count`.
+  - Tests: 2 new (substance preserved + thin-synthesis regression guard) + 324/324 v21-baseline targeted regression sweep.
+- **P3-T2 second-pass probe (post-T5).** Run dir `tracers_and_logs/logs/probe_runs/20260517T161225Z_v21_t5_postfix/`. q01 now returns substantive answer: template_chars=1678 (vs 124), polish output 2362 chars with Recomendaciones + Procedimiento + Precauciones + Anclaje. Carries 30/20 días formula, 10 SMMLV threshold, 350 UVT renta-exenta cap, 204 UVT + 20% retención (art. 401-3), justa causa procedure (art. 62), moratoria (art. 65). Verdict: warn — substance fully delivered, ONE residual issue documented in v22: polish mislabels labor articles as `(art. X ET)` instead of `(art. X CST)`.
+- **P3-T4 — flag promotion.**
+  - `LIA_PRACTICA_NOISE_FILTER` shadow → enforce in `scripts/dev-launcher.mjs` (both flags' comment blocks updated to reflect promotion rationale).
+  - `LIA_CONFLICT_RESOLVER_MODE` shadow → enforce.
+  - Mirrored in `CLAUDE.md` (Active runtime flags section) + `docs/guide/env_guide.md` (matrix rows 140-141).
+- **P3-T5 commit + push.** Code on `main` at HEAD post-flag-flip; pushed to GitHub. v22 doc drafted in same batch.
+- **Status.** v21 ✅ closed. v22 opens with the CST/ET mislabel narrow scope.
 
 ### 2026-05-16 ~09:55 PM Bogotá — P2 code landed in worktree (T1+T2+T4)
 
