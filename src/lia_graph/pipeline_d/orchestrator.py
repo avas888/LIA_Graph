@@ -1383,6 +1383,10 @@ def run_pipeline_d(
             # v23 P2 — year-constants injection diagnostics.
             "fiscal_year_detected": _v23_fiscal_year,
             "year_constants_injected": bool(_v23_year_injected),
+            # v23 P3 — citation source-code awareness mode.
+            "citation_source_code_mode": os.getenv(
+                "LIA_CITATION_SOURCE_CODE_AWARENESS", "enforce"
+            ).strip().lower(),
             # v6 phase 4 — per-topic citation allow-list drops surfaced for
             # the panel; empty list in ``off`` mode.
             "citation_allowlist_mode": citation_allow_mode,

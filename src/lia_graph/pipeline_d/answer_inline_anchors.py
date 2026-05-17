@@ -9,6 +9,12 @@ from .answer_shared import (
     neutralize_non_imputative_language,
     normalize_text,
 )
+from .article_namespaces import (
+    ResolvedAnchor,
+    is_real_article_number,
+    render_anchor_phrase,
+    resolve_source_code,
+)
 from .contracts import GraphEvidenceItem
 
 
@@ -24,6 +30,7 @@ def prepare_first_bubble_lines(
     primary_articles: tuple[GraphEvidenceItem, ...],
     connected_articles: tuple[GraphEvidenceItem, ...],
     limit: int,
+    topic_hint: str | None = None,
 ) -> tuple[PreparedAnswerLine, ...]:
     prepared: list[PreparedAnswerLine] = []
     seen: set[str] = set()
@@ -40,6 +47,7 @@ def prepare_first_bubble_lines(
             clean,
             primary_articles=primary_articles,
             connected_articles=connected_articles,
+            topic_hint=topic_hint,
         )
         rendered = append_inline_anchor(clean, anchors=anchors)
         if not rendered:
@@ -76,14 +84,22 @@ def append_inline_anchor(
         return ""
     if not anchors or line_has_legal_reference(line):
         return line
-    return line.rstrip(".") + f" ({render_article_anchor_phrase(anchors)})."
+    phrase = render_article_anchor_phrase(anchors)
+    if not phrase:
+        # v23 P3 — every anchor token was a pseudo-citation; render without
+        # an inline anchor instead of attaching an empty `()` suffix.
+        return line
+    return line.rstrip(".") + f" ({phrase})."
 
 
 _ARTICLE_NUMBER_RX = re.compile(r"^\d+(?:-\d+)?$")
 _TITLE_ARTICLE_RX = re.compile(r"art\.?\s*(\d+(?:-\d+)?)\s*et", re.IGNORECASE)
+_TITLE_ARTICLE_CST_RX = re.compile(r"art\.?\s*(\d+(?:-\d+)?)\s*cst", re.IGNORECASE)
 
 
-def _anchor_label_for_item(item: GraphEvidenceItem) -> str:
+def _anchor_label_for_item(
+    item: GraphEvidenceItem, *, topic_hint: str | None = None
+) -> str:
     """Resolve the inline-citation label for an evidence item.
 
     Real article nodes carry the article number directly in ``node_key``
@@ -105,12 +121,28 @@ def _anchor_label_for_item(item: GraphEvidenceItem) -> str:
     answer composer through the evidence bundle.
     """
     article_key = str(item.node_key or "").strip()
+    # Detect article + source code from node_key / title. The legacy contract
+    # is "return a string that downstream renderers treat as an article
+    # number"; v23 P3 enriches this with `"<article>|<CODE>"` form when a
+    # source code is resolved. Pure-numeric keys (legacy) still flow as-is
+    # so callers that hardcode ET keep working when no code is detected.
     if _ARTICLE_NUMBER_RX.match(article_key):
-        return article_key
+        code = resolve_source_code(
+            article_key,
+            node_key=article_key,
+            topic_hint=topic_hint,
+            norm_id=getattr(item, "source_path", None),
+            legacy_default=None,
+        )
+        return f"{article_key}|{code}" if code else article_key
     title = str(item.title or "")
+    match = _TITLE_ARTICLE_CST_RX.search(title)
+    if match:
+        return f"{match.group(1)}|CST"
     match = _TITLE_ARTICLE_RX.search(title)
     if match:
-        return match.group(1)
+        # ET match in title → render as ET unconditionally (legacy behavior).
+        return f"{match.group(1)}|ET"
     return ""
 
 
@@ -120,6 +152,7 @@ def select_inline_anchors(
     primary_articles: tuple[GraphEvidenceItem, ...],
     connected_articles: tuple[GraphEvidenceItem, ...],
     max_refs: int = 2,
+    topic_hint: str | None = None,
 ) -> tuple[str, ...]:
     candidate_rows = (*primary_articles[:5], *connected_articles[:3])
     if not candidate_rows:
@@ -132,14 +165,17 @@ def select_inline_anchors(
         article_key = str(item.node_key or "").strip()
         if not article_key:
             continue
-        anchor_label = _anchor_label_for_item(item)
+        anchor_label = _anchor_label_for_item(item, topic_hint=topic_hint)
         if not anchor_label:
             continue
+        # The label may be `"64"` or `"64|CST"`; use just the article number
+        # for content-overlap scoring below.
+        article_part = anchor_label.split("|", 1)[0]
         title_tokens = anchor_query_tokens(normalize_text(item.title))
         excerpt_tokens = anchor_query_tokens(normalize_text(str(item.excerpt or ""))) or ()
         title_overlap = len(line_tokens.intersection(title_tokens))
         excerpt_overlap = len(line_tokens.intersection(excerpt_tokens))
-        article_in_line = article_key.lower() in normalized_line
+        article_in_line = article_part.lower() in normalized_line
         # v15.3 (2026-05-14) — token-overlap floor for position bonuses.
         # Previously the primary-position bonus (~0.9) plus hop-0 bonus
         # (~0.4) totaled 1.3 by default, clearing the 0.75 ranking
@@ -171,14 +207,29 @@ def select_inline_anchors(
 
 
 def render_article_anchor_phrase(anchors: tuple[str, ...]) -> str:
-    values = [str(anchor).strip() for anchor in anchors if str(anchor or "").strip()]
-    if not values:
-        return ""
-    if len(values) == 1:
-        return f"art. {values[0]} ET"
-    if len(values) == 2:
-        return f"arts. {values[0]} y {values[1]} ET"
-    return f"arts. {', '.join(values[:-1])} y {values[-1]} ET"
+    """v23 P3 — source-code-aware anchor renderer.
+
+    Each anchor may be a plain article number (legacy: rendered as ET) or
+    a `"<article>|<CODE>"` encoded pair (v23: rendered with the resolved
+    code, e.g. ``art. 64 CST``, ``art. 203 C.Co.``). Non-numeric anchor
+    slots (audit's `notas-y-fuentes` pseudo-citation) are dropped silently.
+    """
+    resolved: list[ResolvedAnchor] = []
+    for raw in anchors:
+        text = str(raw or "").strip()
+        if not text:
+            continue
+        if "|" in text:
+            article, _, code = text.partition("|")
+            article = article.strip()
+            code = code.strip() or None
+        else:
+            article = text
+            code = "ET"  # legacy default — preserves pre-v23 behavior
+        if not is_real_article_number(article):
+            continue
+        resolved.append(ResolvedAnchor(article=article, source_code=code))
+    return render_anchor_phrase(resolved)
 
 
 __all__ = [

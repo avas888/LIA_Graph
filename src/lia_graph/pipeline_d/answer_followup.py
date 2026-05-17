@@ -156,6 +156,7 @@ def _compose_resolved_followup_answer(
         primary_articles=primary_articles,
         connected_articles=connected_articles,
         limit=1,
+        topic_hint=getattr(request, "topic", None),
     )
     if verdict_lines:
         parts.append(verdict_lines[0].text)
@@ -166,6 +167,7 @@ def _compose_resolved_followup_answer(
         primary_articles=primary_articles,
         connected_articles=connected_articles,
         limit=1,
+        topic_hint=getattr(request, "topic", None),
     )
     if exception_lines:
         parts.append(exception_lines[0].text)
