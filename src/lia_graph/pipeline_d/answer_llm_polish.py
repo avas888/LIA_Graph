@@ -1612,6 +1612,7 @@ def _build_polish_prompt(
     framework_block = _v25_blocks["framework"]
     deadlines_block = _v25_blocks["deadlines"]
     documento_soporte_block = _v25_blocks["documento_soporte"]
+    enum_list_block = _v25_blocks["enum_list"]
 
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
@@ -1698,6 +1699,9 @@ def _build_polish_prompt(
     documento_soporte_wrapped = (
         f"\n{documento_soporte_block}\n" if documento_soporte_block else ""
     )
+    enum_list_wrapped = (
+        f"\n{enum_list_block}\n" if enum_list_block else ""
+    )
 
     return (
         "Actuás como un contador colombiano senior revisando la respuesta "
@@ -1714,6 +1718,7 @@ def _build_polish_prompt(
         f"{framework_wrapped}"
         f"{deadlines_wrapped}"
         f"{documento_soporte_wrapped}"
+        f"{enum_list_wrapped}"
         "\n"
         f"{allowlist_block}\n"
         "\n"

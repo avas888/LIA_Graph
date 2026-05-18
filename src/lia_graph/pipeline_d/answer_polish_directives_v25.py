@@ -28,6 +28,9 @@ from .documento_soporte_lane import (
     documento_soporte_directive,
     lane_enabled as documento_soporte_enabled,
 )
+from .enum_list_extractor import (
+    build_enum_list_directive,
+)
 from .municipal_tax_routing import (
     detect_municipal_context,
     municipal_directive,
@@ -46,8 +49,14 @@ __all__ = [
     "build_framework_block",
     "build_deadline_block",
     "build_documento_soporte_block",
+    "build_enum_list_block",
     "build_v25_polish_blocks",
 ]
+
+
+def build_enum_list_block(question: str | None) -> str:
+    """P15 — empty when LIA_ENUM_LIST_EXTRACTION=off or no enum list found."""
+    return build_enum_list_directive(question)
 
 
 def build_documento_soporte_block(question: str | None) -> str:
@@ -115,4 +124,5 @@ def build_v25_polish_blocks(
         "framework": build_framework_block(question),
         "deadlines": build_deadline_block(topic),
         "documento_soporte": build_documento_soporte_block(question),
+        "enum_list": build_enum_list_block(question),
     }

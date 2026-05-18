@@ -674,6 +674,14 @@ function buildRuntimeEnv(mode) {
     env.LIA_YEAR_FACTS_SYNTHESIS_REWRITE = "enforce";
   }
 
+  // v25 P15 — enum-list decomposition. Detects "A, B y C" patterns inside
+  // a sub-question and surfaces each item as a must-cover target in the
+  // polish prompt. Closes Q2 'compras' / Q4 'parafiscales' / Q6 RST
+  // six-item / Q15 / Q16 patterns. Rollback: `LIA_ENUM_LIST_EXTRACTION=off`.
+  if (!String(env.LIA_ENUM_LIST_EXTRACTION || "").trim()) {
+    env.LIA_ENUM_LIST_EXTRACTION = "enforce";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;
