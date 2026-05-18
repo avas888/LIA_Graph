@@ -283,11 +283,42 @@ def filter_off_topic_articles(
     ]
     diag["dropped_keys"] = dropped_keys[:10]
 
+    # Filter connected_articles + support_documents to the same allowlist.
+    # Connected articles + support docs feed body bullets + Soportes clave +
+    # citation panel; leaving them un-filtered re-pollutes the answer even
+    # after primary_articles is cleaned.
+    connected_in = list(evidence.connected_articles or ())
+    connected_kept = []
+    connected_dropped = 0
+    for item in connected_in:
+        topic = _article_topic_or_router(item, router_topic)
+        if topic in allowed:
+            connected_kept.append(item)
+        else:
+            connected_dropped += 1
+    diag["connected_in"] = len(connected_in)
+    diag["connected_kept"] = len(connected_kept)
+    diag["connected_dropped"] = connected_dropped
+
+    support_in = list(evidence.support_documents or ())
+    support_kept = []
+    support_dropped = 0
+    for doc in support_in:
+        topic = (getattr(doc, "topic_key", None) or "").strip()
+        # Empty topic_key = unknown; keep (do not penalize gaps).
+        if not topic or topic in allowed:
+            support_kept.append(doc)
+        else:
+            support_dropped += 1
+    diag["support_in"] = len(support_in)
+    diag["support_kept"] = len(support_kept)
+    diag["support_dropped"] = support_dropped
+
     filtered = GraphEvidenceBundle(
         primary_articles=tuple(kept),
-        connected_articles=evidence.connected_articles,
+        connected_articles=tuple(connected_kept),
         related_reforms=evidence.related_reforms,
-        support_documents=evidence.support_documents,
+        support_documents=tuple(support_kept),
         citations=evidence.citations,
     )
     return filtered, diag
