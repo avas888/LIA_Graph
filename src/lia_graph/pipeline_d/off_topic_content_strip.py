@@ -60,11 +60,18 @@ _FAMILIES: tuple[OffTopicFamily, ...] = (
             r"\b(zona\s+franca|UIB\s*/?\s*UIS|usuari[oa]s?\s+industriales?|"
             r"plan\s+de\s+internacionalizaci[oó]n|MinCIT|Decreto\s+0?049/?2024|"
             r"Ley\s+2277/?2022\s+art\.\s*11|art\.\s*240-1\s+ET|"
-            r"doble\s+tarifa\s+(?:en\s+)?zona|exportaciones?\s+atribuibles?)\b",
+            r"doble\s+tarifa\s+(?:en\s+)?zona|"
+            r"atribuibles?\s+a\s+exportaciones?|exportaciones?\s+atribuibles?|"
+            r"base\s+atribuible\s+a\s+exportaciones?|"
+            r"renta\s+(?:atribuible|de\s+exportaciones))\b",
             flags=re.IGNORECASE,
         ),
         question_cues=(
-            re.compile(r"\b(zona\s+franca|UIB|UIS|MinCIT|240-1)\b", re.IGNORECASE),
+            re.compile(
+                r"\b(zona\s+franca|UIB|UIS|MinCIT|240-1|exportaci[oó]n|"
+                r"exportador(?:a|es)?)\b",
+                re.IGNORECASE,
+            ),
         ),
     ),
     OffTopicFamily(
