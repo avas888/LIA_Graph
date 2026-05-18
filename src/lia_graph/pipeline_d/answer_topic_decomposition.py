@@ -73,6 +73,8 @@ def _display(topic: str) -> str:
 def detect_topic_groups(
     evidence: GraphEvidenceBundle,
     router_topic: str,
+    *,
+    drop_off_topic: bool = True,
 ) -> list[tuple[str, int]]:
     """Return ranked list of (topic, article_count) for primary articles.
 
@@ -80,6 +82,14 @@ def detect_topic_groups(
     `secondary_topics`, else the first secondary topic, else the router topic
     as a fallback. Articles with no secondary topics contribute to a generic
     bucket keyed by the router topic.
+
+    fix_v25_may.md P11 — when ``drop_off_topic`` is True (default), groups
+    whose topic is neither the router topic nor in the
+    ``compatible_doc_topics`` allowlist for the router topic are dropped.
+    The audit Q1 was polluted because the decomposition rendered a
+    ``tarifas_renta_y_ttd`` section (Art. 240-1 ET zona franca) alongside
+    the legitimate ``costos_deducciones_renta`` content; the off-topic
+    group should never make it into the answer.
     """
     counter: Counter[str] = Counter()
     for item in evidence.primary_articles:
@@ -90,7 +100,22 @@ def detect_topic_groups(
             counter[secondaries[0]] += 1
         else:
             counter[router_topic] += 1
-    return counter.most_common()
+
+    if not drop_off_topic or not router_topic:
+        return counter.most_common()
+
+    try:
+        from .compatible_doc_topics import get_compatible_topics
+        allowed = {router_topic} | set(get_compatible_topics(router_topic) or ())
+    except Exception:  # noqa: BLE001 - allowlist must never break decomposition
+        return counter.most_common()
+
+    kept = Counter({t: c for t, c in counter.items() if t in allowed})
+    # If filtering wiped out every group (all primary articles are off-topic),
+    # fall back to the unfiltered set so we still produce *some* answer.
+    if not kept:
+        return counter.most_common()
+    return kept.most_common()
 
 
 def effective_router_topic(
@@ -182,10 +207,96 @@ def diagnostics_payload(
     }
 
 
+def _article_topic_or_router(item, router_topic: str) -> str:
+    """Apply the same topic-resolution rule detect_topic_groups uses."""
+    secondaries = tuple(getattr(item, "secondary_topics", ()) or ())
+    if router_topic in secondaries:
+        return router_topic
+    if secondaries:
+        return secondaries[0]
+    return router_topic
+
+
+def filter_off_topic_articles(
+    evidence: GraphEvidenceBundle,
+    router_topic: str,
+) -> tuple[GraphEvidenceBundle, dict[str, Any]]:
+    """fix_v25_may.md P11 — drop primary_articles whose resolved topic is
+    neither the router topic nor in the ``compatible_doc_topics`` allowlist.
+
+    Returns ``(filtered_evidence, diag)``. ``diag`` carries:
+      - ``primary_in`` / ``primary_kept`` / ``primary_dropped`` counts
+      - ``dropped_topics`` — Counter-style list of (topic, count) for the
+        topics that lost articles
+      - ``dropped_keys`` — first 10 node_keys of dropped items (diagnostic
+        only)
+
+    If filtering would wipe out every primary article, the function falls
+    back to the unfiltered evidence (we still need *some* anchor to answer).
+    """
+    primary = list(evidence.primary_articles or ())
+    diag: dict[str, Any] = {
+        "primary_in": len(primary),
+        "primary_kept": len(primary),
+        "primary_dropped": 0,
+        "dropped_topics": [],
+        "dropped_keys": [],
+    }
+    if not primary or not router_topic:
+        return evidence, diag
+
+    try:
+        from .compatible_doc_topics import get_compatible_topics
+        allowed = {router_topic} | set(get_compatible_topics(router_topic) or ())
+    except Exception:  # noqa: BLE001
+        return evidence, diag
+
+    kept: list = []
+    dropped_topic_counter: Counter[str] = Counter()
+    dropped_keys: list[str] = []
+    for item in primary:
+        topic = _article_topic_or_router(item, router_topic)
+        if topic in allowed:
+            kept.append(item)
+        else:
+            dropped_topic_counter[topic] += 1
+            key = str(getattr(item, "node_key", "") or "")[:80]
+            if key:
+                dropped_keys.append(key)
+
+    if not kept:
+        # Don't leave the answer without an anchor; degrade to the original
+        # set and let synthesis run on it. Caller sees the diag to know we
+        # would have filtered everything out.
+        diag["filter_skipped_reason"] = "would_drop_all"
+        diag["primary_dropped"] = 0
+        diag["dropped_topics"] = [
+            {"topic": t, "count": int(c)} for t, c in dropped_topic_counter.most_common()
+        ]
+        diag["dropped_keys"] = dropped_keys[:10]
+        return evidence, diag
+
+    diag["primary_kept"] = len(kept)
+    diag["primary_dropped"] = len(primary) - len(kept)
+    diag["dropped_topics"] = [
+        {"topic": t, "count": int(c)} for t, c in dropped_topic_counter.most_common()
+    ]
+    diag["dropped_keys"] = dropped_keys[:10]
+
+    filtered = GraphEvidenceBundle(
+        primary_articles=tuple(kept),
+        connected_articles=evidence.connected_articles,
+        related_reforms=evidence.related_reforms,
+        support_documents=evidence.support_documents,
+    )
+    return filtered, diag
+
+
 __all__ = [
     "decomposition_mode",
     "detect_topic_groups",
     "should_decompose",
     "framing_line",
+    "filter_off_topic_articles",
     "diagnostics_payload",
 ]

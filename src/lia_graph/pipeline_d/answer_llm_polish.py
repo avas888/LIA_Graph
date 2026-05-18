@@ -1611,6 +1611,7 @@ def _build_polish_prompt(
     municipal_block = _v25_blocks["municipal"]
     framework_block = _v25_blocks["framework"]
     deadlines_block = _v25_blocks["deadlines"]
+    documento_soporte_block = _v25_blocks["documento_soporte"]
 
     primary_directive = (
         "DIRECTIVA PRIMARIA — leé esto antes de las reglas, y obedecela "
@@ -1694,6 +1695,9 @@ def _build_polish_prompt(
     deadlines_wrapped = (
         f"\n{deadlines_block}\n" if deadlines_block else ""
     )
+    documento_soporte_wrapped = (
+        f"\n{documento_soporte_block}\n" if documento_soporte_block else ""
+    )
 
     return (
         "Actuás como un contador colombiano senior revisando la respuesta "
@@ -1709,6 +1713,7 @@ def _build_polish_prompt(
         f"{municipal_wrapped}"
         f"{framework_wrapped}"
         f"{deadlines_wrapped}"
+        f"{documento_soporte_wrapped}"
         "\n"
         f"{allowlist_block}\n"
         "\n"

@@ -40,6 +40,7 @@ from .answer_topic_decomposition import (
     decomposition_mode as _decomp_mode,
     diagnostics_payload as _decomp_diagnostics,
     effective_router_topic as _decomp_effective_topic,
+    filter_off_topic_articles as _decomp_filter_off_topic,
     framing_line as _decomp_framing_line,
     should_decompose as _decomp_should_decompose,
 )
@@ -1006,6 +1007,14 @@ def run_pipeline_d(
         and _decomp_check_should_refuse
         and _decomp_check_should
     ):
+        # fix_v25_may.md P11 — when decomposition fires on primary_off_topic,
+        # drop primary_articles whose topic is neither the router topic nor
+        # in the compatible_doc_topics allowlist BEFORE synthesis sees them.
+        # Audit Q1 was polluted by an Art. 240-1 ET zona-franca primary
+        # article surviving into synthesis even after decomposition framing.
+        evidence, _off_topic_filter_diag = _decomp_filter_off_topic(
+            evidence, _decomp_check_router
+        )
         _decomposition_state = {
             "applied": True,
             "framing_line": _decomp_framing_line(
@@ -1014,6 +1023,7 @@ def run_pipeline_d(
             "diagnostics": _decomp_diagnostics(
                 coherence, evidence, _decomp_check_router, applied=True
             ),
+            "off_topic_filter": _off_topic_filter_diag,
         }
         coherence = {
             **coherence,
@@ -1029,6 +1039,10 @@ def run_pipeline_d(
             section_count=_decomposition_state["diagnostics"][
                 "topic_decomposition_section_count"
             ],
+            primary_in=_off_topic_filter_diag.get("primary_in"),
+            primary_kept=_off_topic_filter_diag.get("primary_kept"),
+            primary_dropped=_off_topic_filter_diag.get("primary_dropped"),
+            dropped_topics=_off_topic_filter_diag.get("dropped_topics"),
         )
     if coherence_gate_mode == "enforce" and _coherence_should_refuse(
         coherence, coherence_gate_mode

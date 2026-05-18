@@ -23,6 +23,11 @@ from .cross_border_lane import (
     detect_cross_border_context,
     lane_enabled as cross_border_enabled,
 )
+from .documento_soporte_lane import (
+    detect_documento_soporte_context,
+    documento_soporte_directive,
+    lane_enabled as documento_soporte_enabled,
+)
 from .municipal_tax_routing import (
     detect_municipal_context,
     municipal_directive,
@@ -40,8 +45,17 @@ __all__ = [
     "build_municipal_block",
     "build_framework_block",
     "build_deadline_block",
+    "build_documento_soporte_block",
     "build_v25_polish_blocks",
 ]
+
+
+def build_documento_soporte_block(question: str | None) -> str:
+    """P12 / Fix 2 — empty when LIA_DOCUMENTO_SOPORTE_LANE=off or no cues."""
+    if not documento_soporte_enabled():
+        return ""
+    hint = detect_documento_soporte_context(question or "")
+    return documento_soporte_directive(hint)
 
 
 def build_framework_block(question: str | None) -> str:
@@ -100,4 +114,5 @@ def build_v25_polish_blocks(
         "municipal": build_municipal_block(question),
         "framework": build_framework_block(question),
         "deadlines": build_deadline_block(topic),
+        "documento_soporte": build_documento_soporte_block(question),
     }

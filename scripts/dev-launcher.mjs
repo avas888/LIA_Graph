@@ -648,6 +648,14 @@ function buildRuntimeEnv(mode) {
   // v25 P8 — promotion of LIA_CHUNK_QUALITY_ENTITY_FILTER shadow → enforce
   // is applied at the v23 P4 block above (single point of default).
 
+  // v25 P12 — Documento-soporte lane (Fix 2). Detects "documento soporte" +
+  // "no obligado a facturar" cues and surfaces canonical anchors
+  // (Art. 771-2 ET + Res. DIAN 000167/2021 + Decreto 358/2020 + ET 615/
+  // 616-1/617) via polish directive. Rollback: `LIA_DOCUMENTO_SOPORTE_LANE=off`.
+  if (!String(env.LIA_DOCUMENTO_SOPORTE_LANE || "").trim()) {
+    env.LIA_DOCUMENTO_SOPORTE_LANE = "enforce";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;
