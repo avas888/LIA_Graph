@@ -66,6 +66,293 @@
       ],
       "rationale": "FEV questions touch deducibility (771-2), IVA descontable (488-490), procedimiento (corrección, notas crédito), and retención (base de retención). Mirror of the costos_deducciones_renta entry — adjacency is symmetric in practice.",
       "evidence_source": "fix_v25_may.md P13 / Q1 re-probe trace 2026-05-17"
+    },
+    "retencion_en_la_fuente": {
+      "compatible_topics": [
+        "costos_deducciones_renta",
+        "iva",
+        "procedimiento_tributario",
+        "facturacion_electronica",
+        "calendario_obligaciones",
+        "laboral"
+      ],
+      "rationale": "Retención questions naturally touch deducibility (procedencia art. 771-2 + tabla de tarifas), IVA (IVA no incluido en la base), procedimiento (sanciones, plazos), FEV (documento soporte), calendario (vencimientos mensuales) y laboral (retención por salarios art. 383).",
+      "evidence_source": "fix_v25_may.md P13 batch — natural adjacencies for chat-time router topics"
+    },
+    "iva": {
+      "compatible_topics": [
+        "costos_deducciones_renta",
+        "facturacion_electronica",
+        "procedimiento_tributario",
+        "retencion_en_la_fuente",
+        "calendario_obligaciones",
+        "declaracion_renta"
+      ],
+      "rationale": "IVA questions span deducibility (IVA descontable + bienes de capital art. 258-1), FEV (FEV genera IVA), procedimiento (correcciones, sanciones), reteIVA, calendario (periodicidad bimestral/cuatrimestral) y conciliación con renta.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "procedimiento_tributario": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "iva",
+        "retencion_en_la_fuente",
+        "regimen_sancionatorio_extemporaneidad",
+        "facturacion_electronica",
+        "costos_deducciones_renta",
+        "calendario_obligaciones"
+      ],
+      "rationale": "Procedimiento es transversal — toca declaración (correcciones, firmeza), IVA (sanciones específicas), retención (sanciones y plazos), extemporaneidad (calendario y arts. 641/642), FEV (sanciones por no emitir/rechazar), deducciones (rechazos por costos sin soporte) y calendario.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "laboral": {
+      "compatible_topics": [
+        "parafiscales_seguridad_social",
+        "reforma_laboral_ley_2466",
+        "costos_deducciones_renta",
+        "facturacion_electronica",
+        "reforma_pensional"
+      ],
+      "rationale": "Laboral natural-mente cruza con seguridad social y parafiscales (aportes), reforma_laboral_ley_2466 (modificaciones al CST), deducibilidad de nómina (art. 108 ET), nómina electrónica (DSE) y reforma pensional (interacción con CST).",
+      "evidence_source": "fix_v25_may.md P13 batch + project_lia_scope_labor"
+    },
+    "parafiscales_seguridad_social": {
+      "compatible_topics": [
+        "laboral",
+        "reforma_pensional",
+        "reforma_laboral_ley_2466",
+        "costos_deducciones_renta",
+        "procedimiento_tributario"
+      ],
+      "rationale": "Aportes a seguridad social y parafiscales conectan con régimen laboral (CST), reforma pensional (Ley 2381/2024), reforma laboral (Ley 2466/2025), deducibilidad fiscal de aportes y procedimiento (sanciones UGPP).",
+      "evidence_source": "fix_v25_may.md P13 batch + project_lia_payroll_advisor_role"
+    },
+    "reforma_pensional": {
+      "compatible_topics": [
+        "laboral",
+        "parafiscales_seguridad_social",
+        "reforma_laboral_ley_2466"
+      ],
+      "rationale": "La reforma pensional (Ley 2381/2024) opera sobre el sistema de aportes (parafiscales_seguridad_social), modifica obligaciones del empleador (laboral) y comparte ventana legislativa con la reforma laboral (Ley 2466/2025).",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "comercial_societario": {
+      "compatible_topics": [
+        "procedimiento_tributario",
+        "declaracion_renta",
+        "rut_y_responsabilidades_tributarias",
+        "beneficiario_final_rub"
+      ],
+      "rationale": "Revisor fiscal, juntas, asambleas y libros conectan con procedimiento (libros oficiales, fiscalización), declaración de renta (representación legal, firma del contador), RUT (responsabilidades) y RUB (beneficiarios finales).",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q5 revisor fiscal"
+    },
+    "regimen_simple": {
+      "compatible_topics": [
+        "iva",
+        "retencion_en_la_fuente",
+        "calendario_obligaciones",
+        "declaracion_renta",
+        "ica",
+        "costos_deducciones_renta",
+        "impuesto_nacional_consumo"
+      ],
+      "rationale": "RST integra anticipos bimestrales (calendario), IVA (cuando el RST es responsable), retención (RST puede ser agente retenedor o sujeto), ICA (integrado en RST), declaración anual Form 260 y deducciones limitadas; INC se integra en RST cuando aplica.",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q6 restaurante RST"
+    },
+    "informacion_exogena": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "procedimiento_tributario",
+        "calendario_obligaciones"
+      ],
+      "rationale": "Exógena reporta sobre la base de la declaración de renta (datos de terceros), tiene plazos del calendario tributario y sanciones específicas (art. 651) en procedimiento.",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q7 exógena"
+    },
+    "estados_financieros_niif": {
+      "compatible_topics": [
+        "conciliacion_fiscal",
+        "costos_deducciones_renta",
+        "declaracion_renta",
+        "niif_pymes",
+        "niif_plenas"
+      ],
+      "rationale": "Estados financieros bajo NIIF conectan con conciliación fiscal (Form 2516), deducibilidad (diferencias permanentes/temporales), declaración (saldos contables vs fiscales) y los marcos NIIF Pymes / Plenas que los gobiernan.",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q9, Q19"
+    },
+    "niif_pymes": {
+      "compatible_topics": [
+        "estados_financieros_niif",
+        "conciliacion_fiscal",
+        "costos_deducciones_renta"
+      ],
+      "rationale": "NIIF para Pymes (Decreto 2420/2015 Anexo 2) es el marco técnico para la mayoría de SMB; sus secciones (20 arrendamientos, 11 deterioro, 29 impuesto diferido) alimentan los estados financieros, la conciliación fiscal y los criterios de deducibilidad.",
+      "evidence_source": "fix_v25_may.md P13 batch + P4 framework awareness"
+    },
+    "niif_plenas": {
+      "compatible_topics": [
+        "estados_financieros_niif",
+        "conciliacion_fiscal",
+        "costos_deducciones_renta"
+      ],
+      "rationale": "NIIF Plenas / IFRS Full (Grupo 1) — relación natural con estados financieros, conciliación y deducibilidad. Análoga a niif_pymes pero para Grupo 1.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "ica": {
+      "compatible_topics": [
+        "costos_deducciones_renta",
+        "declaracion_renta",
+        "regimen_simple",
+        "procedimiento_tributario"
+      ],
+      "rationale": "ICA conecta con renta por deducibilidad/discount (arts. 115, 115-1 ET), con la declaración de renta donde se concilia, con RST cuando el contribuyente está integrado, y con procedimiento (sanciones municipales, plazos).",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q11 ICA Bogotá"
+    },
+    "regimen_tributario_especial_esal": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "costos_deducciones_renta",
+        "informacion_exogena",
+        "procedimiento_tributario"
+      ],
+      "rationale": "RTE / ESAL declara renta con régimen especial, conserva control sobre deducibilidad del beneficio neto, reporta exógena con su numeral específico, y se rige por procedimiento (permanencia, sanciones, exclusión).",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q20 RTE/ESAL"
+    },
+    "dividendos_y_distribucion_utilidades": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "costos_deducciones_renta",
+        "comercial_societario",
+        "regimen_cambiario"
+      ],
+      "rationale": "Dividendos conectan con declaración (art. 49 depuración), comercial_societario (acta de asamblea, distribución), regimen_cambiario (giro a no residentes) y, por simetría, con la deducibilidad/no deducibilidad de pagos al exterior.",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q15 dividendos"
+    },
+    "impuesto_nacional_consumo": {
+      "compatible_topics": [
+        "iva",
+        "costos_deducciones_renta",
+        "regimen_simple"
+      ],
+      "rationale": "INC opera sobre la frontera de IVA (productos no gravados con IVA pero sí con INC); para sectores específicos (restaurantes) entra al RST; y es costo deducible cuando no es descontable.",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q6"
+    },
+    "ganancia_ocasional": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "costos_deducciones_renta",
+        "patrimonio_fiscal_renta"
+      ],
+      "rationale": "Ganancia ocasional se declara junto con renta, comparte reglas de costos (procedencia, art. 71/72 ET) y opera sobre el patrimonio (enajenación de activos fijos > 2 años).",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "rentas_exentas": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "costos_deducciones_renta",
+        "ingresos_fiscales_renta"
+      ],
+      "rationale": "Rentas exentas son una clasificación de ingresos en la declaración de renta; conectan con deducciones aplicables a la fuente exenta y con la clasificación general de ingresos.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "perdidas_fiscales_art147": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "conciliacion_fiscal",
+        "renta_liquida_gravable"
+      ],
+      "rationale": "Pérdidas fiscales (art. 147 ET) operan SOBRE la renta líquida gravable, requieren control en conciliación fiscal (Form 2516) y se compensan en la declaración de renta de años posteriores.",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q17 pérdidas fiscales"
+    },
+    "beneficiario_final_rub": {
+      "compatible_topics": [
+        "rut_y_responsabilidades_tributarias",
+        "comercial_societario",
+        "procedimiento_tributario"
+      ],
+      "rationale": "RUB beneficiarios finales conecta con RUT (registro tributario), comercial_societario (cadena de propiedad) y procedimiento (Resolución DIAN 000164/2021, sanciones por no actualizar).",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q8 RUB"
+    },
+    "regimen_cambiario": {
+      "compatible_topics": [
+        "dividendos_y_distribucion_utilidades",
+        "procedimiento_tributario"
+      ],
+      "rationale": "Régimen cambiario aplica a operaciones con el exterior (giros, dividendos a no residentes, importaciones) y comparte sanciones / procedimientos con el régimen tributario.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "rut_y_responsabilidades_tributarias": {
+      "compatible_topics": [
+        "procedimiento_tributario",
+        "comercial_societario",
+        "beneficiario_final_rub"
+      ],
+      "rationale": "RUT actualización / responsabilidades conectan con procedimiento (inscripción, sanciones por desactualización), comercial_societario (representante legal) y RUB (registro paralelo).",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "patrimonio_fiscal_renta": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "renta_liquida_gravable",
+        "impuesto_patrimonio_personas_naturales"
+      ],
+      "rationale": "Patrimonio fiscal entra en la declaración de renta (PJ), sirve de base para renta presuntiva / RLG, y es la misma base conceptual del impuesto al patrimonio para PN.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "renta_liquida_gravable": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "costos_deducciones_renta",
+        "ingresos_fiscales_renta",
+        "perdidas_fiscales_art147",
+        "rentas_exentas"
+      ],
+      "rationale": "RLG es la fórmula central de la declaración de renta — depende de ingresos, costos, deducciones, rentas exentas y compensación de pérdidas.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "ingresos_fiscales_renta": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "rentas_exentas",
+        "ganancia_ocasional",
+        "renta_liquida_gravable"
+      ],
+      "rationale": "Clasificación de ingresos opera sobre la declaración, incluye exentos y separa ganancia ocasional, y alimenta la RLG.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "descuentos_tributarios_renta": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "costos_deducciones_renta",
+        "iva"
+      ],
+      "rationale": "Descuentos tributarios (art. 254 exterior, 257 donaciones, 258-1 IVA bienes de capital) restan al impuesto en la declaración de renta; comparten frontera con deducciones y con IVA cuando el descuento es por IVA pagado.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "gravamen_movimiento_financiero_4x1000": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "costos_deducciones_renta",
+        "procedimiento_tributario"
+      ],
+      "rationale": "GMF / 4x1000 es deducible en renta al 50 % (art. 115 ET), se declara mensualmente y comparte procedimiento sancionatorio con el resto del régimen tributario.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "zonas_francas": {
+      "compatible_topics": [
+        "tarifas_renta_y_ttd",
+        "declaracion_renta",
+        "costos_deducciones_renta"
+      ],
+      "rationale": "Zona franca opera la tarifa renta (20%/35% doble), declara renta con reglas propias y mantiene deducibilidad bajo costos_deducciones_renta para gastos elegibles.",
+      "evidence_source": "fix_v25_may.md P13 batch"
+    },
+    "tarifas_renta_y_ttd": {
+      "compatible_topics": [
+        "declaracion_renta",
+        "costos_deducciones_renta",
+        "zonas_francas"
+      ],
+      "rationale": "Tarifas renta + TTD se aplican sobre la RLG en la declaración; las deducciones afectan la base; zonas francas opera tarifa diferencial. Esta adjacencia es la que el audit Q1 demostró NECESITAR el filtro topic-gate para evitar contaminación cruzada.",
+      "evidence_source": "fix_v25_may.md P13 batch — audit Q1 zona franca leakage"
     }
   }
 }
