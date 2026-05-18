@@ -54,21 +54,29 @@ def test_rewrites_stale_uvt_in_ag_2026_paragraph():
     assert len(out.rewrites) >= 3
 
 
-def test_corpus_q2_pollution_pattern_is_corrected():
-    """Locks the exact phrasing from the audit Q2 chunk — a regression test
-    against the corpus pollution that v23 P2 missed."""
+def test_corpus_q2_pollution_pattern_is_corrected_inline():
+    """The exact audit Q2 corpus pollution pattern — TWO AG cues in the
+    SAME paragraph, each with mislabeled UVT. The rewrite must split at
+    cue boundaries and apply the correct canonical to each segment."""
     text = (
         "Bases mínimas (AG 2025, UVT $47.065): 4 UVT = $188.260; "
         "27 UVT = $1.270.755. AG 2026 (UVT $49.799): 4 UVT = $199.196; "
         "27 UVT = $1.344.573."
     )
     out = rewrite_year_constants(text)
-    # AG 2025 + AG 2026 in the same paragraph → ambiguous → NO rewrite.
-    # (The window helper deliberately skips multi-year paragraphs.)
-    assert out.text == text or len(out.rewrites) == 0, (
-        "Multi-year paragraphs must be left untouched — too risky to "
-        "rewrite when two different AG cues coexist"
-    )
+    # AG 2025 segment must show canonical 2025 UVT.
+    assert "UVT $49.799" in out.text, "AG 2025 segment must be rewritten to canonical 2025 UVT"
+    # AG 2026 segment must show canonical 2026 UVT.
+    assert "UVT $52.374" in out.text
+    # Stale-year labels must be gone.
+    assert "$47.065" not in out.text
+    # The order of segments must be preserved (AG 2025 then AG 2026).
+    pos_2025 = out.text.find("AG 2025")
+    pos_2026 = out.text.find("AG 2026")
+    assert 0 <= pos_2025 < pos_2026
+    # Multi-UVT values for 2026 segment must be canonical.
+    assert "$209.496" in out.text
+    assert "$1.414.098" in out.text
 
 
 def test_corpus_q2_split_paragraphs_each_gets_rewritten():

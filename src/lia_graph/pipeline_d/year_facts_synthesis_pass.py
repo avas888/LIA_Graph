@@ -150,9 +150,11 @@ def rewrite_year_constants(text: str) -> RewriteResult:
         # same digit-grouping; we accept that downstream offsets may shift,
         # and process the entire text in one pass below.
 
-    # Single pass with per-paragraph context.
+    # Single pass with per-paragraph context. When a paragraph contains
+    # multiple year cues (e.g. "AG 2025... AG 2026..."), split it at each
+    # cue boundary so each segment has a single-year context — that's the
+    # audit Q2 shape and we must rewrite both halves correctly.
     new_chunks: list[str] = []
-    cursor = 0
     paragraphs: list[tuple[int, int]] = []
     para_starts = [0]
     for m in re.finditer(r"\n\s*\n", text):
@@ -161,72 +163,92 @@ def rewrite_year_constants(text: str) -> RewriteResult:
     for i in range(len(para_starts) - 1):
         paragraphs.append((para_starts[i], para_starts[i + 1]))
 
+    def _segments_with_year(para_text: str):
+        """Yield (segment_text, year) tuples. When ``para_text`` has
+        multiple year cues, slice at each cue boundary so each segment
+        carries its own year."""
+        cues = list(_YEAR_CUE_RX.finditer(para_text))
+        if not cues:
+            yield para_text, None
+            return
+        if len(cues) == 1:
+            yield para_text, int(cues[0].group(1))
+            return
+        # Multi-cue: each segment runs from the cue start up to the next
+        # cue start (or end of paragraph). Any leading text before the
+        # first cue is emitted with year=None (untouched).
+        if cues[0].start() > 0:
+            yield para_text[: cues[0].start()], None
+        for i, cue in enumerate(cues):
+            seg_start = cue.start()
+            seg_end = cues[i + 1].start() if i + 1 < len(cues) else len(para_text)
+            yield para_text[seg_start:seg_end], int(cue.group(1))
+
     for start, end in paragraphs:
         para = text[start:end]
-        years = [int(m.group(1)) for m in _YEAR_CUE_RX.finditer(para)]
-        if not years or len(set(years)) > 1:
-            new_chunks.append(para)
-            continue
-        year = years[0]
-        facts = get_year_facts(year)
-        if facts is None or facts.uvt is None or not facts.uvt.verified:
-            new_chunks.append(para)
-            continue
-        canonical_uvt = int(facts.uvt.value_cop or 0)
-        if canonical_uvt <= 0:
-            new_chunks.append(para)
-            continue
-        canonical_uvt_str = _format_amount(canonical_uvt)
-
-        # 1. Standalone UVT value rewrites.
-        def _rewrite_uvt(match: re.Match) -> str:
-            raw_amount = match.group(1)
-            actual = _amount_to_int(raw_amount)
-            if actual == canonical_uvt:
-                return match.group(0)
-            # Only rewrite when the actual is within 20 % of canonical
-            # (catches stale-year drift; avoids rewriting unrelated amounts).
-            if not _within_tolerance(actual, canonical_uvt, tolerance_pct=0.20):
-                return match.group(0)
-            rewrites.append(
-                {
-                    "kind": "uvt",
-                    "year": year,
-                    "old": raw_amount,
-                    "new": canonical_uvt_str,
-                }
-            )
-            # Preserve the "UVT " prefix and the $ formatting style.
-            return f"UVT {canonical_uvt_str}"
-
-        para_new = _UVT_VALUE_RX.sub(_rewrite_uvt, para)
-
-        # 2. Multi-UVT computation rewrites.
-        def _rewrite_multi(match: re.Match) -> str:
-            n_uvt = int(match.group(1))
-            raw_amount = match.group(2)
-            actual = _amount_to_int(raw_amount)
-            canonical_multi = multi_uvt(n_uvt, year)
-            if canonical_multi is None or canonical_multi <= 0:
-                return match.group(0)
-            if actual == canonical_multi:
-                return match.group(0)
-            if not _within_tolerance(actual, canonical_multi, tolerance_pct=0.20):
-                return match.group(0)
-            rewrites.append(
-                {
-                    "kind": "multi_uvt",
-                    "year": year,
-                    "n_uvt": n_uvt,
-                    "old": raw_amount,
-                    "new": _format_amount(canonical_multi),
-                }
-            )
-            # Preserve the original join (whatever connector was used).
-            connector = match.group(0)[len(match.group(1)) :].split(raw_amount, 1)[0]
-            return f"{n_uvt} UVT{connector}{_format_amount(canonical_multi)}"
-
-        para_new = _MULTI_UVT_RX.sub(_rewrite_multi, para_new)
-        new_chunks.append(para_new)
+        rebuilt: list[str] = []
+        for segment, year in _segments_with_year(para):
+            if year is None:
+                rebuilt.append(segment)
+                continue
+            facts = get_year_facts(year)
+            if facts is None or facts.uvt is None or not facts.uvt.verified:
+                rebuilt.append(segment)
+                continue
+            canonical_uvt = int(facts.uvt.value_cop or 0)
+            if canonical_uvt <= 0:
+                rebuilt.append(segment)
+                continue
+            rebuilt.append(_apply_rewrites(segment, year, canonical_uvt, rewrites))
+        new_chunks.append("".join(rebuilt))
 
     return RewriteResult(text="".join(new_chunks), rewrites=tuple(rewrites))
+
+
+def _apply_rewrites(
+    segment: str,
+    year: int,
+    canonical_uvt: int,
+    rewrites: list[dict],
+) -> str:
+    """Apply UVT + multi-UVT rewrites to a single-year segment."""
+    canonical_uvt_str = _format_amount(canonical_uvt)
+
+    def _rewrite_uvt(match: re.Match) -> str:
+        raw_amount = match.group(1)
+        actual = _amount_to_int(raw_amount)
+        if actual == canonical_uvt:
+            return match.group(0)
+        if not _within_tolerance(actual, canonical_uvt, tolerance_pct=0.20):
+            return match.group(0)
+        rewrites.append(
+            {"kind": "uvt", "year": year, "old": raw_amount, "new": canonical_uvt_str}
+        )
+        return f"UVT {canonical_uvt_str}"
+
+    segment = _UVT_VALUE_RX.sub(_rewrite_uvt, segment)
+
+    def _rewrite_multi(match: re.Match) -> str:
+        n_uvt = int(match.group(1))
+        raw_amount = match.group(2)
+        actual = _amount_to_int(raw_amount)
+        canonical_multi = multi_uvt(n_uvt, year)
+        if canonical_multi is None or canonical_multi <= 0:
+            return match.group(0)
+        if actual == canonical_multi:
+            return match.group(0)
+        if not _within_tolerance(actual, canonical_multi, tolerance_pct=0.20):
+            return match.group(0)
+        rewrites.append(
+            {
+                "kind": "multi_uvt",
+                "year": year,
+                "n_uvt": n_uvt,
+                "old": raw_amount,
+                "new": _format_amount(canonical_multi),
+            }
+        )
+        connector = match.group(0)[len(match.group(1)) :].split(raw_amount, 1)[0]
+        return f"{n_uvt} UVT{connector}{_format_amount(canonical_multi)}"
+
+    return _MULTI_UVT_RX.sub(_rewrite_multi, segment)
