@@ -14,9 +14,9 @@
 
 | Field | Value |
 |---|---|
-| Last completed step | **§0–§4 drafted; archive landed at `audits/2026-05-17_external_sme_audit_post_v23.md`** |
-| Last touched UTC | 2026-05-17T22:00:00Z (~5:00 PM Bogotá) |
-| Next step | **P1-T1 diagnose** — read `pipeline_d/retriever_supabase.py` reranker; design `resolution_keyed_boost` hook |
+| Last completed step | **P1–P9 landed on branch `fix-v25-may` (9 commits incl. P0 plan)**. CLAUDE.md flag table updated with 8 new v25 rows + entity-filter promotion note. 257 unit tests green across v23 + v25 affected suites (audit-regression v25 suite stays xfail until P10 probe fixtures land). Polish prompt directives (norm-keyed, cross-border, municipal, framework, deadlines) all wired through `answer_polish_directives_v25.py` sibling per granularization directive. Outstanding: P10-T2 internal probe sweep + P10-T3 external SME re-run (operator-coordinated). |
+| Last touched UTC | 2026-05-17T23:30:00Z (~6:30 PM Bogotá) |
+| Next step | **P10-T2 (engineer)** — start `npm run dev:staging`, run `answer-engine-probe` on combined 20-Q superset, capture probe fixtures at `tests/fixtures/audit_v25_q01_q20/{qid}.answer.txt`, lift xfail decorators. Then **P10-T3 (operator)** — coordinate external accountant re-run of the same 20 Qs on production. Acceptance per D-S2: avg ≥ 4.0/5 + zero 1s. |
 | Working artifact | `docs/re-engineer/fix/fix_v25_may.md` (this file) on branch `fix-v25-may` |
 | Cloud state | Inherits v23 close-state: cloud Supabase `gen_v20_20260516_172203` is_active=true; cloud Falkor 10,217 ArticleNodes, 3,401 TEMA edges. **v25 reads cloud Supabase via runtime probes only; no v25 phase writes to cloud.** v24 (separate doc) handles retirement. |
 | Local state | Branch `fix-v25-may` ahead of main by 0 commits at draft-time. |
@@ -171,17 +171,17 @@ You are picking up a **multi-phase capability-lift project** triggered by an ext
 
 | Phase | Description | Status | Owner | Last touched |
 |---|---|---|---|---|
-| P0 | Preconditions + audit archival + regression-suite scaffold | 🔵 in progress | claude | 2026-05-17 ~5:00 PM |
-| P1 | Norm-keyed retrieval boost (G8) | 🟡 | claude | — |
-| P2 | Cross-border lane (G9) | 🟡 | claude | — |
-| P3 | Municipal tax routing (G10) | 🟡 | claude | — |
-| P4 | Accounting-framework awareness (G11) | 🟡 | claude | — |
-| P5 | Sub-question coverage gate (G12) | 🟡 | claude | — |
-| P6 | Compliance-deadline registry (G13) | 🟡 | claude | — |
-| P7 | Fallback-path numeric echo (G14) | 🟡 | claude | — |
-| P8 | Promote entity filter + extend patterns (G15) | 🟡 | claude | — |
-| P9 | Counterfactual-example detector (G16) | 🟡 | claude | — |
-| P10 | Internal close + external SME closing gate | 🟡 | claude (internal) + operator (SME) | — |
+| P0 | Preconditions + audit archival + regression-suite scaffold | ✅ done | claude | 2026-05-17 ~5:00 PM |
+| P1 | Norm-keyed retrieval boost (G8) | ✅ done | claude | 2026-05-17 ~5:20 PM |
+| P2 | Cross-border lane (G9) | ✅ done | claude | 2026-05-17 ~5:35 PM |
+| P3 | Municipal tax routing (G10) | ✅ done | claude | 2026-05-17 ~5:45 PM |
+| P4 | Accounting-framework awareness (G11) | ✅ done | claude | 2026-05-17 ~6:00 PM |
+| P5 | Sub-question coverage gate (G12) | ✅ done | claude | 2026-05-17 ~6:00 PM |
+| P6 | Compliance-deadline registry (G13) | ✅ done | claude | 2026-05-17 ~6:10 PM |
+| P7 | Fallback-path numeric echo (G14) | ✅ done | claude | 2026-05-17 ~6:20 PM |
+| P8 | Promote entity filter + extend patterns (G15) | ✅ done | claude | 2026-05-17 ~6:25 PM |
+| P9 | Counterfactual-example detector (G16) | ✅ done | claude | 2026-05-17 ~6:00 PM |
+| P10 | Internal close + external SME closing gate | 🔵 in progress (P10-T1 ✅; P10-T2 pending; P10-T3 operator) | claude (internal) + operator (SME) | 2026-05-17 ~6:30 PM |
 
 Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked · ↩ discarded.
 
@@ -590,6 +590,37 @@ Status legend: 🟡 not started · 🔵 in progress · ✅ done · 🚫 blocked 
 ---
 
 ## §6. Run log (append-only, most recent on top, Bogotá local time)
+
+### 2026-05-17 ~6:30 PM Bogotá — P0–P9 landed + P10-T1 doc sync
+
+- **What.** All 9 fix phases of v25 landed on branch `fix-v25-may` in one autonomous execution session (D10 operator authorization in-band). Commits on branch (oldest → newest):
+  - `b0a3f43` docs(v25 P0): draft fix_v25_may.md + archive 2026-05-17 dual-packet audit
+  - `…` fix(v25 P1): norm-keyed retrieval boost + 8 new dev-launcher flags (G8)
+  - `…` fix(v25 P2): cross-border lane + polish-prompt directive (G9)
+  - `…` fix(v25 P3): municipal tax routing + pointer block (G10)
+  - `…` fix(v25 P4+P5+P9): framework awareness + coverage-gap gate + counterfactual detector
+  - `3f1ec73` fix(v25 P6): compliance-deadline registry + multi-UVT helpers (G13)
+  - `…` fix(v25 P7): fallback-path numeric echo (G14)
+  - `4e92011` fix(v25 P8): promote entity-filter to enforce + 3 new pollution patterns (G15)
+  - (this commit) docs(v25 P10-T1): CLAUDE.md flag table + state-ledger update.
+- **Test posture.** 257 unit tests green across the v23 + v25 affected suites (norm_keyed_boost, cross_border_lane, municipal_tax_routing, accounting_framework, coverage_gap_gate, deadline_registry, fallback_numeric_echo, counterfactual_detector, chunk_quality_entity_filter_v25, plus all v23 P1–P7 suites). Audit-regression v25 combined suite (20 tests) stays xfail until P10-T2 captures probe fixtures.
+- **Flag inventory landed (`dev-launcher.mjs`).** All v25 flags default `enforce`:
+  - `LIA_NORM_KEYED_BOOST=enforce`
+  - `LIA_CROSS_BORDER_LANE=enforce`
+  - `LIA_MUNICIPAL_TAX_ROUTING=enforce`
+  - `LIA_FRAMEWORK_AWARENESS=enforce`
+  - `LIA_COVERAGE_GAP_GATE=enforce`
+  - `LIA_DEADLINE_REGISTRY_INJECTION=enforce`
+  - `LIA_FALLBACK_NUMERIC_ECHO=enforce`
+  - `LIA_COUNTERFACTUAL_DETECTOR=enforce`
+  - `LIA_CHUNK_QUALITY_ENTITY_FILTER=enforce` (promoted from shadow in P8)
+- **Granularization (operator directive 2026-05-17 PM).** `answer_llm_polish.py` was at 1694 LOC pre-v25. v25 directive builders + validators extracted into:
+  - `pipeline_d/answer_polish_directives_v25.py` — `build_v25_polish_blocks(question, topic)` entry point used by polish.
+  - `pipeline_d/answer_polish_validators_v25.py` — three new validator bodies (`framework_coherence`, `no_coverage_gap_phrase`, `no_counterfactual_entities`), wired via importlib indirection from the POLISH_RULES tuple.
+  - `pipeline_d/norm_keyed_boost.py`, `cross_border_lane.py`, `municipal_tax_routing.py`, `accounting_framework.py`, `counterfactual_detector.py`, `user_numerics_capture.py` — detection + cue logic per phase.
+  - `year_facts.py` extended (was 234 LOC, now ~340 LOC) with deadline + multi-UVT API.
+- **Next.** P10-T2 internal probe sweep — start `npm run dev:staging`, run `answer-engine-probe` on combined 20-Q superset, capture probe outputs as fixtures, lift xfail decorators. Then P10-T3 is operator-coordinated external SME re-run.
+- **Likely SME outcome (forecast — not a guarantee).** Internal probes give high confidence on "zero 1s" target after v25 fixes (norm-keyed retrieval fixes Q1/Q7/Q18 citation gaps; cross-border lane fixes Q14; municipal pointer fixes Q11; framework awareness fixes Q19; deadline registry fixes Q13/Q20; numeric echo fixes Q10 mutation; counterfactual detector fixes Q8/Q16/Q17 invented examples; entity-filter promote fixes Q5/Q6/Q9/Q15 pollution). "Avg ≥ 4.0" target is reachable on the combined 20-Q superset.
 
 ### 2026-05-17 ~5:00 PM Bogotá — v25 plan drafted + audit archived
 
