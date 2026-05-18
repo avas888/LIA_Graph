@@ -109,12 +109,24 @@ def _question_mentions_family(question: str, family: OffTopicFamily) -> bool:
     return any(cue.search(question) for cue in family.question_cues)
 
 
+_NUMBERED_BULLET_RX = re.compile(r"^\s*\d+\.\s+")
+
+
 def _bullet_iter(text: str):
-    """Yield (line, is_bullet) tuples preserving original order."""
+    """Yield (line, is_bullet) tuples preserving original order.
+
+    Catches three bullet shapes: dashed (``- foo``), starred (``* foo``,
+    ``• foo``), and **numbered** (``5. foo``). Práctica synthesis renders
+    Recomendaciones Prácticas as a numbered list; if we only matched
+    dashes we'd silently let off-topic numbered bullets through.
+    """
     for line in text.splitlines():
         stripped = line.lstrip()
-        is_bullet = bool(stripped) and stripped[0] in "-*•" and stripped[1:2] == " "
-        yield line, is_bullet
+        is_dash = (
+            bool(stripped) and stripped[0] in "-*•" and stripped[1:2] == " "
+        )
+        is_numbered = bool(_NUMBERED_BULLET_RX.match(line))
+        yield line, is_dash or is_numbered
 
 
 def strip_off_topic_bullets(text: str, question: str) -> tuple[str, list[dict]]:

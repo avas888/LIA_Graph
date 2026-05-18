@@ -74,3 +74,18 @@ def test_strip_keeps_zona_franca_bullets_when_question_mentions_it():
     )
     assert "Zona franca" in cleaned
     assert drops == []
+
+
+def test_strip_drops_numbered_off_topic_bullets():
+    text = (
+        "**Recomendaciones Prácticas**\n"
+        "5. Verifique RUT del proveedor.\n"
+        "11. Tras la Ley 2277/2022 art. 11, los usuarios industriales (UIB/UIS) "
+        "de zona franca aplican doble tarifa.\n"
+        "13. Plan de internacionalización con MinCIT.\n"
+    )
+    cleaned, drops = strip_off_topic_bullets(text, "documento soporte deducible")
+    assert "Verifique RUT" in cleaned
+    assert "Ley 2277/2022 art. 11" not in cleaned
+    assert "MinCIT" not in cleaned
+    assert sum(1 for d in drops if d["family"] == "zona_franca") == 2
