@@ -656,6 +656,15 @@ function buildRuntimeEnv(mode) {
     env.LIA_DOCUMENTO_SOPORTE_LANE = "enforce";
   }
 
+  // v25 P13 — defense-in-depth post-template bullet strip. Drops bullets
+  // that anchor on off-topic families (zona-franca, dividendos, vehículos,
+  // INCRNGO donaciones) when the question does NOT mention that family.
+  // Sits behind the práctica topic_key filter (the proper fix); this catches
+  // chunks with NULL topic_key in Supabase. Rollback: `LIA_OFFTOPIC_CONTENT_STRIP=off`.
+  if (!String(env.LIA_OFFTOPIC_CONTENT_STRIP || "").trim()) {
+    env.LIA_OFFTOPIC_CONTENT_STRIP = "enforce";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;

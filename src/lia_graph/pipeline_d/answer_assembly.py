@@ -144,6 +144,23 @@ def compose_main_chat_answer(
     except Exception:  # noqa: BLE001 - routing must never raise into composer
         pass
 
+    # v25 P13 — defense-in-depth post-template strip. The práctica topic_key
+    # filter (orchestrator) catches most off-topic bullets, but chunks with
+    # NULL topic_key in Supabase sneak through. This regex-based strip drops
+    # bullets that anchor on zona-franca / dividendos / vehículos / etc.
+    # when the question does NOT mention those families. Safe no-op when
+    # the question DOES mention the family (e.g. a real zona-franca Q).
+    try:
+        from .off_topic_content_strip import strip_enabled, strip_off_topic_bullets
+        if strip_enabled():
+            filtered, _strip_drops = strip_off_topic_bullets(
+                filtered, getattr(request, "message", "") or ""
+            )
+            # Drops are logged for diagnostics but no exception path —
+            # downstream layers still see a well-formed answer string.
+    except Exception:  # noqa: BLE001 - strip must never raise
+        pass
+
     return filtered
 
 __all__ = [

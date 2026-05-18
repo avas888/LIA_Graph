@@ -237,6 +237,10 @@ def _row_to_runtime(
         for item in (chunk_row.get("concept_tags") or ())
         if str(item).strip()
     )
+    topic_key_raw = chunk_row.get("topic_key")
+    topic_key = str(topic_key_raw).strip() if topic_key_raw else None
+    subtopic_key_raw = chunk_row.get("subtopic_key")
+    subtopic_key = str(subtopic_key_raw).strip() if subtopic_key_raw else None
     return PracticaChunkRuntime(
         doc_id=doc_id,
         relative_path=relative_path,
@@ -246,6 +250,8 @@ def _row_to_runtime(
         retrieval_score=normalized_score,
         knowledge_class="practica_erp",
         normative_refs=normative_refs,
+        topic_key=topic_key,
+        subtopic_key=subtopic_key,
     )
 
 

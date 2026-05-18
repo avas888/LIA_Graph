@@ -380,8 +380,47 @@ def extend_from_practica_chunks(
     )
 
 
+def filter_practica_chunks_by_topic(
+    chunks: tuple["PracticaChunkRuntime", ...],
+    allowed_topics: frozenset[str] | set[str] | None,
+) -> tuple[tuple["PracticaChunkRuntime", ...], dict]:
+    """fix_v25_may.md P13 — drop práctica chunks whose ``topic_key`` is not
+    in ``allowed_topics``.
+
+    Chunks with no topic_key (``None`` / empty string) are kept — we don't
+    want to penalize gaps in tagging. When ``allowed_topics`` is None or
+    empty, the function is a no-op.
+
+    Returns ``(kept_chunks, diag)``.
+    """
+    diag = {
+        "chunks_in": len(chunks),
+        "chunks_kept": len(chunks),
+        "chunks_dropped": 0,
+        "dropped_topics": [],
+    }
+    if not chunks or not allowed_topics:
+        return chunks, diag
+    allowed = set(allowed_topics)
+    kept: list = []
+    dropped_topics: dict[str, int] = {}
+    for chunk in chunks:
+        tk = (getattr(chunk, "topic_key", None) or "").strip()
+        if not tk or tk in allowed:
+            kept.append(chunk)
+            continue
+        dropped_topics[tk] = dropped_topics.get(tk, 0) + 1
+    diag["chunks_kept"] = len(kept)
+    diag["chunks_dropped"] = len(chunks) - len(kept)
+    diag["dropped_topics"] = [
+        {"topic": t, "count": c} for t, c in sorted(dropped_topics.items(), key=lambda x: -x[1])
+    ]
+    return tuple(kept), diag
+
+
 __all__ = [
     "extend_from_practica_chunks",
+    "filter_practica_chunks_by_topic",
     "_is_practica_artifact_line",
     "_is_practica_noise_line",
     "_noise_filter_mode",

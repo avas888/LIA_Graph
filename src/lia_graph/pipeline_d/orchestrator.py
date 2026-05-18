@@ -1132,6 +1132,37 @@ def run_pipeline_d(
     practica_retrieval_diag = dict(
         getattr(practica_bundle, "retrieval_diagnostics", {}) or {}
     )
+
+    # fix_v25_may.md P13 — when decomposition fires on primary_off_topic,
+    # also gate práctica chunks by the same topic-allowlist that P11
+    # applied to primary / connected / support. Práctica chunks carry the
+    # Supabase `topic_key` (plumbed via PracticaChunkRuntime.topic_key) so
+    # we can filter without regex content matching. Chunks with no
+    # topic_key are kept (no penalty on tagging gaps).
+    if (
+        _decomposition_state.get("applied")
+        and _decomp_check_router
+    ):
+        try:
+            from .answer_synthesis_practica import filter_practica_chunks_by_topic
+            from .compatible_doc_topics import get_compatible_topics
+            _allowed_topics = {_decomp_check_router} | set(
+                get_compatible_topics(_decomp_check_router) or ()
+            )
+            practica_chunks, _practica_topic_diag = filter_practica_chunks_by_topic(
+                practica_chunks, frozenset(_allowed_topics)
+            )
+            _trace.step(
+                "practica.topic_filter",
+                status="ok",
+                **_practica_topic_diag,
+            )
+        except Exception as exc:  # noqa: BLE001 - filter must never raise
+            _trace.step(
+                "practica.topic_filter",
+                status="error",
+                error=str(exc),
+            )
     _trace.step(
         "practica_retrieve.out",
         status="ok",

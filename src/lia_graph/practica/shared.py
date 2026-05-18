@@ -31,6 +31,12 @@ class PracticaChunkRuntime:
     retrieval_score: float
     knowledge_class: str = "practica_erp"
     normative_refs: tuple[str, ...] = ()
+    # fix_v25_may.md P13 — topic_key (and subtopic_key) carry the
+    # document_chunks row's topic_key forward so the synthesis layer can
+    # gate bullets by topic-allowlist alongside the rest of retrieval.
+    # Optional with None default to keep older callers / fixtures working.
+    topic_key: str | None = None
+    subtopic_key: str | None = None
 
 
 @dataclass(frozen=True)
