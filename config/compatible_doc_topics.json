@@ -45,6 +45,27 @@
       "compatible_topics": ["calendario_obligaciones", "declaracion_renta"],
       "rationale": "Una pregunta de extemporaneidad cita los plazos que se incumplieron — calendario_obligaciones es la fuente normativa de esos plazos. Y la sanción opera sobre la declaración de renta del contribuyente, así que docs de declaracion_renta también son evidence compatible. Original L14 (orphan fix_v7 branch); revived by fix_v22_may §9c P2-T-Orphan-1.",
       "evidence_source": "SME confirmation 2026-04-30"
+    },
+    "costos_deducciones_renta": {
+      "compatible_topics": [
+        "facturacion_electronica",
+        "retencion_en_la_fuente",
+        "procedimiento_tributario",
+        "declaracion_renta",
+        "iva"
+      ],
+      "rationale": "Documento-soporte / deducibilidad questions naturally span FEV (art. 771-2 ET requires factura electrónica or documento soporte), retención en la fuente (the practical retention table for services/honorarios), procedimiento (firmeza, sanciones), and declaración de renta (where the deduction is taken). v25 Q1 re-probe showed that without these compat entries, the P11/P13 decomposition filter dropped legit FEV chunks while keeping zona-franca content that happened to share the costos_deducciones_renta tag.",
+      "evidence_source": "fix_v25_may.md P13 / Q1 re-probe trace 2026-05-17"
+    },
+    "facturacion_electronica": {
+      "compatible_topics": [
+        "costos_deducciones_renta",
+        "iva",
+        "procedimiento_tributario",
+        "retencion_en_la_fuente"
+      ],
+      "rationale": "FEV questions touch deducibility (771-2), IVA descontable (488-490), procedimiento (corrección, notas crédito), and retención (base de retención). Mirror of the costos_deducciones_renta entry — adjacency is symmetric in practice.",
+      "evidence_source": "fix_v25_may.md P13 / Q1 re-probe trace 2026-05-17"
     }
   }
 }
