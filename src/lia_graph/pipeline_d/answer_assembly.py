@@ -174,6 +174,19 @@ def compose_main_chat_answer(
     except Exception:  # noqa: BLE001 - rewrite must never raise
         pass
 
+    # v25 P5-T3 — coverage-gap stub strip. The v25 P5 polish validator
+    # rejects polish on "Cobertura pendiente" / "valida el expediente"
+    # stubs but the fallback uses the same synthesis template — the stub
+    # leaked through in audit Q3. This strip drops the gap-stub bullets
+    # and substitutes a compact "[brecha de evidencia]" notice so the
+    # sub-question header still has content.
+    try:
+        from .coverage_gap_strip import strip_coverage_gap_lines, strip_enabled
+        if strip_enabled():
+            filtered, _gap_drops = strip_coverage_gap_lines(filtered)
+    except Exception:  # noqa: BLE001 - strip must never raise
+        pass
+
     return filtered
 
 __all__ = [
