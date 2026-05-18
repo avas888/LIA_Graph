@@ -288,6 +288,7 @@ def filter_off_topic_articles(
         connected_articles=evidence.connected_articles,
         related_reforms=evidence.related_reforms,
         support_documents=evidence.support_documents,
+        citations=evidence.citations,
     )
     return filtered, diag
 
