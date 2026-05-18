@@ -224,7 +224,14 @@ def _apply_rewrites(
         rewrites.append(
             {"kind": "uvt", "year": year, "old": raw_amount, "new": canonical_uvt_str}
         )
-        return f"UVT {canonical_uvt_str}"
+        # In-place substitution at the amount span only — preserve "UVT"
+        # prefix, any markdown emphasis, and any "$" already in the text.
+        original = match.group(0)
+        new_amount_digits = canonical_uvt_str.lstrip("$")
+        match_start = match.start()
+        rel_start = match.start(1) - match_start
+        rel_end = match.end(1) - match_start
+        return original[:rel_start] + new_amount_digits + original[rel_end:]
 
     segment = _UVT_VALUE_RX.sub(_rewrite_uvt, segment)
 
@@ -248,7 +255,19 @@ def _apply_rewrites(
                 "new": _format_amount(canonical_multi),
             }
         )
-        connector = match.group(0)[len(match.group(1)) :].split(raw_amount, 1)[0]
-        return f"{n_uvt} UVT{connector}{_format_amount(canonical_multi)}"
+        # In-place amount substitution: replace ONLY the digit run, leave
+        # every other character (including the "UVT", "=", "$", "**"
+        # markdown) untouched. The original logic rebuilt a prefix and
+        # produced "4 UVT UVT = $$199.196" duplicates.
+        original = match.group(0)
+        # `_format_amount` returns "$XX.XXX"; strip the "$" so we don't
+        # double-add it when the original already has one.
+        new_amount_digits = _format_amount(canonical_multi).lstrip("$")
+        amount_span = match.span(2)
+        # Substring inside `original` corresponding to the amount group.
+        match_start = match.start()
+        rel_start = amount_span[0] - match_start
+        rel_end = amount_span[1] - match_start
+        return original[:rel_start] + new_amount_digits + original[rel_end:]
 
     return _MULTI_UVT_RX.sub(_rewrite_multi, segment)

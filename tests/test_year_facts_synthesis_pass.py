@@ -110,6 +110,39 @@ def test_correct_values_are_not_rewritten():
     assert out.rewrites == ()
 
 
+def test_no_token_duplication_on_rewrite():
+    """v25 P14 v1 had a connector-extraction bug that produced
+    `4 UVT UVT = $$209.496` — duplicating both "UVT" and "$". Lock the
+    invariant: rewritten text must never duplicate the UVT label or $
+    sign that the original already had."""
+    text = "AG 2026: UVT $49.799. 4 UVT = $199.196. 27 UVT = $1.344.573."
+    out = rewrite_year_constants(text)
+    assert "UVT UVT" not in out.text
+    assert "$$" not in out.text
+    # Canonical values present.
+    assert "UVT $52.374" in out.text
+    assert "4 UVT = $209.496" in out.text
+    assert "27 UVT = $1.414.098" in out.text
+
+
+def test_rewrite_preserves_simple_uvt_prefix():
+    text = "AG 2026: UVT $49.799."
+    out = rewrite_year_constants(text)
+    assert "UVT UVT" not in out.text
+    assert "UVT $52.374" in out.text
+
+
+def test_rewrite_preserves_in_place_amount_span_with_separators():
+    """The original chunk uses `;` and `:` as connectors; rewrites must
+    preserve the original punctuation exactly."""
+    text = "AG 2026 (UVT $49.799): 4 UVT = $199.196; 27 UVT = $1.344.573."
+    out = rewrite_year_constants(text)
+    # Punctuation preserved.
+    assert "(UVT $52.374):" in out.text
+    assert "4 UVT = $209.496;" in out.text
+    assert "27 UVT = $1.414.098." in out.text
+
+
 def test_no_year_cue_no_rewrite():
     text = "La base es UVT $49.799 según la resolución."
     out = rewrite_year_constants(text)
