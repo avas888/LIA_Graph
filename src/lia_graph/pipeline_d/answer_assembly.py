@@ -161,6 +161,19 @@ def compose_main_chat_answer(
     except Exception:  # noqa: BLE001 - strip must never raise
         pass
 
+    # v25 P14 — synthesis-layer year_facts rewrite. v23 P2 only injected
+    # canonical UVT into the polish prompt; when polish rejects on stale
+    # values the template falls through unchanged and the user sees stale
+    # UVT (audit Q2 regression). This pass rewrites stale UVT mentions in
+    # the composed template against year_facts BEFORE polish runs.
+    try:
+        from .year_facts_synthesis_pass import rewrite_enabled, rewrite_year_constants
+        if rewrite_enabled():
+            result = rewrite_year_constants(filtered)
+            filtered = result.text
+    except Exception:  # noqa: BLE001 - rewrite must never raise
+        pass
+
     return filtered
 
 __all__ = [

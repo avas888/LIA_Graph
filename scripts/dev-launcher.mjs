@@ -665,6 +665,15 @@ function buildRuntimeEnv(mode) {
     env.LIA_OFFTOPIC_CONTENT_STRIP = "enforce";
   }
 
+  // v25 P14 — synthesis-layer year_facts rewrite. Scans the composed
+  // template for `UVT $XX.XXX` + `N UVT = $YY.YYY` patterns near `AG YYYY`
+  // cues and rewrites stale values against year_facts BEFORE polish.
+  // Closes audit Q2 corpus mis-labeling (chunks tagging AG 2026 with
+  // 2025's UVT). Rollback: `LIA_YEAR_FACTS_SYNTHESIS_REWRITE=off`.
+  if (!String(env.LIA_YEAR_FACTS_SYNTHESIS_REWRITE || "").trim()) {
+    env.LIA_YEAR_FACTS_SYNTHESIS_REWRITE = "enforce";
+  }
+
   if (mode === "local") {
     env.LIA_STORAGE_BACKEND = "supabase";
     env.FALKORDB_URL = LOCAL_FALKOR_URL;
