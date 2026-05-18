@@ -237,9 +237,19 @@ def _row_to_runtime(
         for item in (chunk_row.get("concept_tags") or ())
         if str(item).strip()
     )
-    topic_key_raw = chunk_row.get("topic_key")
+    # fix_v25_may.md P13 — the hybrid_search RPC names the column ``topic``
+    # (not ``topic_key``). Older migrations / future renames may expose the
+    # column under either name, so read both and keep the first populated.
+    topic_key_raw = (
+        chunk_row.get("topic")
+        or chunk_row.get("topic_key")
+    )
     topic_key = str(topic_key_raw).strip() if topic_key_raw else None
-    subtopic_key_raw = chunk_row.get("subtopic_key")
+    subtopic_key_raw = (
+        chunk_row.get("subtema")
+        or chunk_row.get("subtopic_key")
+        or chunk_row.get("subtopic")
+    )
     subtopic_key = str(subtopic_key_raw).strip() if subtopic_key_raw else None
     return PracticaChunkRuntime(
         doc_id=doc_id,
